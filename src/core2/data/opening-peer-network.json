@@ -1,0 +1,36 @@
+{
+  "version": "p8-opening-school-peers-v1",
+  "stopgapId": "SG-P8-opening-peer-network",
+  "throughExclusive": "2021-01-01",
+  "peerGroupSizeParameter": "openingPeerGroupSize",
+  "contextKinds": ["school:cohort-estimate"],
+  "requiredContextFields": [
+    "stage",
+    "cohortYear",
+    "placeId",
+    "schoolName",
+    "campusIdentity",
+    "attendance"
+  ],
+  "optionalContextFields": [
+    "countyId",
+    "institutionSourceKey",
+    "institutionSourceId",
+    "directoryAsOf"
+  ],
+  "factKind": "social:generated-school-acquaintance",
+  "relationshipBasis": "generated-school-peer-group",
+  "relationship": "historical-acquaintance",
+  "attendanceStatus": "not-verified",
+  "closenessStatus": "not-inferred",
+  "recognitionStatus": "generated-remembered-name",
+  "factSummaryTemplate": "{otherName}: generated school acquaintance",
+  "sourceCitation": "Recorded school:cohort-estimate fact IDs identify a common generated school context. Their sources supply calendar and recent or generated school identities, not verified historical attendance, school existence, enrollment rosters, personal meetings, or remembered names. This module authors an explicit fictional peer-group prior among those existing named records.",
+  "sourceEstimate": "Deterministic seeded assignment of existing named cohort members to balanced generated peer groups, using an uncalibrated central roster-size parameter. Group peers are assumed to have become acquainted and to retain name recognition. No continued contact, current friendship strength, graduation, jobs, beliefs, or later decisions are inferred.",
+  "scopeGap": "Opening peer prior is expanded only for requested people and their generated peer groups; other cohorts remain unexpanded. Reciprocal historical acquaintance and name recognition are generated assumptions. Historical school attendance/existence, current closeness, and continued contact are not verified; no independent network calibration has been completed.",
+  "reports": {
+    "noContext": "No complete eligible dated school-context fact before the opening boundary; no acquaintance was generated.",
+    "singleMember": "The recorded school context has no other eligible named member; no filler acquaintance was generated.",
+    "filled": "Expanded one recorded school context into a generated reciprocal peer group; current closeness and continued contact remain unestablished."
+  }
+}

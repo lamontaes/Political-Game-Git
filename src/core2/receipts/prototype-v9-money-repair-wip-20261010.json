@@ -1,0 +1,1878 @@
+{
+  "schema": "p8-money-repair-wip-v9",
+  "status": "WORK_IN_PROGRESS_NOT_READY_NOT_ACCEPTED",
+  "createdAtUtc": "2026-10-10T01:00:16.295203+00:00",
+  "baseLocalCommit": "718142239291f85a153c301f3c46485e6bcd4e65",
+  "coreVersions": {
+    "api": "core2-api-v9",
+    "schema": "core2-schema-v9"
+  },
+  "openStopgapCount": 81,
+  "newAnnualResult": null,
+  "newAnnualDaysPerMinute": null,
+  "annualConditions": "flat national conditions, no national economy module yet",
+  "preservedAnnualBaseline": {
+    "evidence": "src/core2/receipts/prototype-v6-finance-year-audit-20261009.json",
+    "withoutFinanceMedianDaysPerMinute": 96.469205738,
+    "rejectedFinanceMedianDaysPerMinute": 124.510561475,
+    "rejectedFinanceClosures": 23,
+    "rejectedFinanceBookedEmployers": 27,
+    "rejectedFinanceEndedJobs": 1264,
+    "targetYearSecondsExclusive": 120
+  },
+  "freshOpening": {
+    "evidencePath": "/workspace/p8-benchmark-artifacts/p8-opening-due-flows-v9-20261010-0037.json",
+    "evidenceSha256": "f581484395bb87d9ac6e6396f37d6668a06855715475dcd05ec00962ee9938c7",
+    "seed": "p8-real-life-cost-2026-10-09",
+    "startedAt": "2021-01-01",
+    "place": {
+      "placeKey": "4840342",
+      "placeName": "La Homa, Texas",
+      "countyNames": "Hidalgo County, Texas"
+    },
+    "populationCounts": {
+      "people": 10002,
+      "households": 3955,
+      "jobs": 1433,
+      "organizations": 39
+    },
+    "focusPeople": 57,
+    "populationMilliseconds": 9519.626983,
+    "coreInitializeMilliseconds": 1296.7988600000026,
+    "simulatedDays": 0,
+    "preparedInputSha256": "99d6dff64f93f2ce8a00d24df33af52a8c02484e5289ec752e1a07124c6142c8",
+    "sourceHashAtFactory": "d934b246644bdd848c59f59467a30fcb141bcde61d6c1102b23131329e354eb8",
+    "limitation": "Opening includes no simulated days and is not an annual speed proof."
+  },
+  "executedGates": [
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-interim-gate-20261010-0045.json",
+      "sha256": "4a81df5d5dd512c35f5b3b820363fa88de64574592a6859800fa721b4ce60319",
+      "startTime": 1791593126422,
+      "totalTests": 665,
+      "passedTests": 658,
+      "failedTests": 7,
+      "success": false,
+      "scope": "Earlier combined admission before the final repairs; seven failures remain historical evidence, not a current pass."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-county-standing-coverage-v1-gate-20261010-0100.json",
+      "sha256": "262da0f437cb3226d58fc11fc3f04fdd0bff359109658b9cc67b3153abef2e78",
+      "startTime": 1791593597072,
+      "totalTests": 60,
+      "passedTests": 60,
+      "failedTests": 0,
+      "success": true,
+      "scope": "County original coverage and public pay, including later person admissions; conditional technical proof, not a full-year result."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-calendar-capital-fixture-repair-20261010-0059.json",
+      "sha256": "92b49283b24c8ba94caff10b049b9728196d490954809db4b77dff9e6a21fe11",
+      "startTime": 1791593942279,
+      "totalTests": 78,
+      "passedTests": 78,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Household recurrence and employer capital after two stale fixture repairs; existing assertions retained, conditional technical proof."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-final-gate-20261010-0113.json",
+      "sha256": "52ce5e197c7d62c93e44938e4df157225a0a22912cce60ba775b7f933545b177",
+      "startTime": 1791594798133,
+      "totalTests": 870,
+      "passedTests": 869,
+      "failedTests": 1,
+      "success": false,
+      "scope": "Combined 23 affected suites. All 50 supplied-invoice cases and 26 standing-county cases passed. Its sole malformed saved-data error case was repaired and is covered by the subsequent 191/191 gate; this historical result is not relabeled."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-final-boundary-gate-20261010-0125.json",
+      "sha256": "3ca371a2e9b5ae11c68f0effa50c725acb80988d26e3b8c8ac3ff1a82188fd8f",
+      "startTime": 1791595505327,
+      "totalTests": 191,
+      "passedTests": 191,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Latest three affected suites after the sole malformed saved-customer parse repair and real marker registration; all existing assertions retained."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-provenance-shape-gate-20261010-0250.json",
+      "sha256": "69e6f6c3220cbc1b3f972f3daa6b3bf76910cfdcc4e5aa9e4cb1935d11770ea0",
+      "totalTests": 597,
+      "passedTests": 595,
+      "failedTests": 2,
+      "success": false,
+      "scope": "Eight affected files: two retained reason assertions failed; historical 595/597 is not relabeled."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-provenance-shape-calendar-followup-20261010-0258.json",
+      "sha256": "c50dd39e8c842bc5c13461bdd47537f6e9140b3c314e13e383b064f9432f5d4a",
+      "totalTests": 39,
+      "passedTests": 38,
+      "failedTests": 1,
+      "success": false,
+      "scope": "First short-reason follow-up: work-calendar reason passed, own standing missing-income reason still failed; historical 38/39."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-provenance-shape-calendar-final-gate-20261010-0300.json",
+      "sha256": "8a5833f74332ed1810c4e235527e73de3526527cef88f1d0fbb47b82521229f6",
+      "totalTests": 39,
+      "passedTests": 39,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Final affected calendar file after restoring the own standing missing-income reason: 39/39. Other seven affected files passed in the earlier gate; no new annual result."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-household-basis-semantic-gate-20261010-0346.json",
+      "sha256": "054cc2ebb2d86115ac63baa5baf844578c0c55e0b5cb4937d5f0bb00b2c13f6c",
+      "totalTests": 607,
+      "passedTests": 489,
+      "failedTests": 118,
+      "success": false,
+      "scope": "Initial Source-basis gate, historical failures preserved."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-household-basis-repaired-semantic-gate-20261010-0401.json",
+      "sha256": "c4d614938c471ba95877ca9ddfd23794d9947e642730f2e2cc371ded17ab1951",
+      "totalTests": 211,
+      "passedTests": 209,
+      "failedTests": 2,
+      "success": false,
+      "scope": "Repaired calendar references: budget 11/11; historical customer/finance failures preserved."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-household-unused-parameter-semantic-gate-20261010-0415.json",
+      "sha256": "8ea9ad57e2d225bca4ad2a16300d12cf5ea2eac90b4047c433a5e7c24a7a8592",
+      "totalTests": 164,
+      "passedTests": 164,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Customer 153/153 and Source module 11/11 after dependency-only registry inspection."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-basis-sales-observer-semantic-gate-20261010-0437.json",
+      "sha256": "1211229ed35296b2c9873bb4e100f6eef11cb6b95bbbd9fc9b7db7c9397f6469",
+      "totalTests": 55,
+      "passedTests": 54,
+      "failedTests": 1,
+      "success": false,
+      "scope": "Observer 14/14; finance no-income rebuild failure remains historical."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-private-qualification-finance-capital-semantic-gate-20261010-0446.json",
+      "sha256": "cfed84aca0d59ee584d011594c8e32a673f034b45ea20f96e0b297cc3e457dbc",
+      "totalTests": 94,
+      "passedTests": 93,
+      "failedTests": 1,
+      "success": false,
+      "scope": "Product qualification predicate repaired; an invalid no-payroll capital fixture still failed."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-private-qualification-finance-capital-repaired-gate-20261010-0452.json",
+      "sha256": "673b46abc45dfe7be2da63f45e7c818461175e387fdf5bbf28c62e54d7745770",
+      "totalTests": 95,
+      "passedTests": 95,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Final finance 41/41 and capital 54/54 with genuine recorded-payroll fixture; original guards preserved."
+    }
+  ],
+  "inferredImplementation": {
+    "cash": "Cash writes use the atomic journal; supplied raw optional terms remain unchanged. Outside owners start with zero cash and require current source-owned obligations.",
+    "employerCapital": "Fresh private stocks use identity-keyed spread through JPMC observed quartile/median buffer anchors and recorded planned outflow proxies. Individual stocks and endpoints remain estimated.",
+    "householdDates": "Fresh generated monthly purchases keep nominal billing cadence and use an owned wage or qualified benefit opportunity only when eligible within the next billing period. Otherwise they keep the nominal date with an explicit estimated missing-income basis.",
+    "countyStandingCoverage": "Standing public obligations validate saved original count and geography without rebudgeting after later population changes.",
+    "limits": [
+      "Calendar renewal does not retroactively move an already indexed occurrence after an unexpected intervening job change.",
+      "Nine unsupported product classifications remain declared demand gaps; no buyers or deficit funding are invented.",
+      "Public and outside payments remain stopgaps for public-budget and national modules.",
+      "Latest affected customer, historical-owner and standing-county suites passed 191/191 after the sole malformed saved-customer boundary repair. Historical combined gate remains recorded as 869/870, not relabeled."
+    ]
+  },
+  "next": [
+    "Admit and check the reviewed filled input budget before any exports or world initialization.",
+    "Run one warmup and three fresh annual economy-after runs; report median days per minute and judge actual flagged customer sales, paid wages, closures and signed outside cash.",
+    "Then four accepted interfaces, PEOPLE, RENEWAL and SPEED."
+  ],
+  "publication": "Draft checkpoint only; no merge, READY or game integration.",
+  "bindingOrderEvidence": {
+    "document": "00q CODEX LOG",
+    "documentId": "1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M",
+    "entry": "OPUS CTO REVIEW 16, October 9, 2026, 7:01 p.m.; reaffirmed 7:11 p.m.",
+    "order": "money repair and judged full year, four remaining interfaces before PEOPLE, then PEOPLE, RENEWAL, SPEED"
+  },
+  "structuralAudit": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-tripwire-v9-streaming-20261010-0151.json",
+    "sha256": "f19a656d5779afca9acde6fe873c35880c767c41ac07f1617526b2b36ef5ec58",
+    "openStopgaps": 81,
+    "diagnostics": 0,
+    "calibrationReferences": 61,
+    "pendingCalibrationBlockers": 110,
+    "empiricalCalibrationPass": false
+  },
+  "sourceChecks": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-final-source-checks-20261010-0129.json",
+    "strictTypesExitCode": 0,
+    "eslintExitCode": 0,
+    "zeroDiceExitCode": 0,
+    "formatting": "69 owned source/check paths formatted successfully; no unowned receipt admitted."
+  },
+  "annualAttempts": [
+    {
+      "log": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-economy-year-after-20261010-0131.log",
+      "sha256": "042a7275087586e5fa418b598c90e82be40bb2a95a5947bb65dd5547b4a0122d",
+      "exitCode": 1,
+      "failure": "RangeError: Invalid string length",
+      "stage": "Finance input export preparation: aggregate JSON.stringify at finance-measure.ts:379:44. No warmup began and no annual run completed.",
+      "completedAnnualRuns": 0,
+      "measuredAnnualDaysPerMinute": null,
+      "diagnostic": {
+        "log": "/workspace/p8-benchmark-artifacts/p8-money-v9-preparation-stack-20261010-0136.log",
+        "sha256": "cc711b0a9d9c3070649bca59de4255e456c8b143c735298ed5d4884eb81c3be0",
+        "exitCode": 1,
+        "stackLocation": "src/core2/tooling/finance-measure.ts:379:44",
+        "purpose": "Repeat only preparation to locate the failure; not an annual run or rate."
+      }
+    }
+  ],
+  "exportToolingRepair": {
+    "scope": "Measurement exports and hashes only. Plain records and arrays stream through bounded chunks; no simulation handler, run count, timing window or outcome rule changed.",
+    "gate": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-measured-json-stream-final-gate-20261010-0149.json",
+      "sha256": "b1cbe6f986b71f2fe7c7385cded1b5894ff3c2096e4afb3aed109c23b3c1d670",
+      "totalTests": 2,
+      "passedTests": 2,
+      "failedTests": 0,
+      "success": true
+    },
+    "sourceChecks": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-measured-json-stream-final-checks-20261010-0149.json",
+      "sha256": "1ed47ebf600cee280d189165228c2e6f9fbba74ddce11ad7c8479a5ae91a83b9",
+      "formatExitCode": 0,
+      "strictTypesExitCode": 0,
+      "eslintExitCode": 0,
+      "zeroDiceExitCode": 0
+    },
+    "limits": [
+      "The above-string-limit regression streams to an incremental hash sink. File byte/hash oracles use smaller values; it is not an annual measurement.",
+      "The output buffer is one MiB; additional memory includes the largest scalar token, object keys and recursion depth. This is not a universal one-MiB memory bound.",
+      "Finance input bytes remain compact with no newline. Other export newline conventions and final two-space receipt formatting are preserved."
+    ]
+  },
+  "openingInputSizeRepair": {
+    "status": "MEASURED_DEFAULT_SOURCE_BASIS_REPAIR; REGISTERED_TECHNICAL_GUARD_ADMITTED_AND_CHECKED",
+    "scope": "Actual paired compact UTF-8 census and single build+final-freeze startup observation. No new annual result or warm-run median.",
+    "beforeEvidence": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-input-size-audit-before-20261010-0226-corrected.json",
+      "publishedPath": "src/core2/receipts/prototype-v9-opening-census-before-20261010.json",
+      "sha256": "cd5110fb4fcf5a97846d1803ead39bd5c6ec2c2c59cfed0d95c73bb6c2dec655"
+    },
+    "afterEvidence": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-input-size-audit-after-20261010-0504.json",
+      "publishedPath": "src/core2/receipts/prototype-v9-opening-census-after-20261010.json",
+      "sha256": "359a679de93ff168e7fdd7890ffc2dad6be3bf23ea410ed1b37823ad62ff79c2"
+    },
+    "before": {
+      "input": {
+        "bytes": 3247939016,
+        "sourceObjects": 395372,
+        "sourceBytes": 1113488938,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 1918582365
+      },
+      "finance": {
+        "bytes": 719334089,
+        "sourceObjects": 135405,
+        "sourceBytes": 665629500,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "people": {
+        "records": 10002,
+        "bytes": 2451648518,
+        "sourceObjects": 210751,
+        "sourceBytes": 406660792,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 1918582365
+      },
+      "producerReceipt": {
+        "bytes": 4634567301,
+        "sourceObjects": 934755,
+        "sourceBytes": 2457360174,
+        "qualificationStrings": 27687,
+        "qualificationStringBytes": 1918856522
+      },
+      "buildAndFinalFreezeSeconds": 75.34677302200001
+    },
+    "after": {
+      "input": {
+        "bytes": 732450615,
+        "sourceObjects": 395372,
+        "sourceBytes": 511194274,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 4904200
+      },
+      "finance": {
+        "bytes": 227058516,
+        "sourceObjects": 135405,
+        "sourceBytes": 173353927,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "people": {
+        "records": 10002,
+        "bytes": 427951262,
+        "sourceObjects": 210751,
+        "sourceBytes": 296641701,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 4904200
+      },
+      "producerReceipt": {
+        "bytes": 336151646,
+        "sourceObjects": 140001,
+        "sourceBytes": 200925188,
+        "qualificationStrings": 27687,
+        "qualificationStringBytes": 4904555
+      },
+      "buildAndFinalFreezeSeconds": 20.804735099
+    },
+    "inputReductionFraction": 0.7744875715363493,
+    "identicalOpeningInvariants": {
+      "contractTermsWithoutGeneratedSourceSha256": "3327a4851312f423e8c6049d05c0496ed028fa8d62749d79dc1b2fed05a522f9",
+      "originalCashMinor": 2776644905,
+      "addedCashMinor": 0,
+      "enrichedCashMinor": 2776644905,
+      "people": 10002,
+      "households": 3955,
+      "jobs": 1433,
+      "workCommitments": 1433,
+      "financeContracts": 68140,
+      "contractsByKind": {
+        "income.retirement": 896,
+        "funding.retirement-contribution": 1,
+        "household.food": 23730,
+        "household.apparelAndServices": 11865,
+        "household.maintenanceAndRepairs": 3955,
+        "business.sales-input": 6,
+        "household.customer.personal-care": 3955,
+        "household.customer.housekeeping": 3955,
+        "household.customer.lawn-care": 3955,
+        "household.customer.participant-sports": 3955,
+        "household.customer.legal-services": 3955,
+        "household.customer.accounting-services": 3955,
+        "household.customer.residential-telephone": 3955,
+        "public.customer.custodial-services": 1,
+        "outside.customer.visitor-lodging": 1
+      },
+      "completeProviderQualifications": [
+        {
+          "key": "[\"organization_044a892fcca65a23\",\"residential-telephone\"]",
+          "sha256": "63e60b443a43c12ec01d9c355cc5a2132f5de24453cce082186860238cb8a9f6",
+          "bytes": 80964,
+          "jobIds": [
+            "work-relationship_028ff5fd45bbd17f",
+            "work-relationship_074e6866c5ea6440",
+            "work-relationship_14677949bf8aad33",
+            "work-relationship_19ed46098f7bf122",
+            "work-relationship_24f8ddc6a4a2544f",
+            "work-relationship_28a4c9fc92803cab",
+            "work-relationship_2ac6cdf27f62832d",
+            "work-relationship_327c098d647cde68",
+            "work-relationship_3b7c17045220ad66",
+            "work-relationship_3d278e43a2669f46",
+            "work-relationship_474508dfcbd2cd9c",
+            "work-relationship_4b47c3133b49c4d9",
+            "work-relationship_6185e12a73774921",
+            "work-relationship_68085da877e7a85e",
+            "work-relationship_6a568bcc519c756e",
+            "work-relationship_7f4dbbdb31c43af9",
+            "work-relationship_853522388c36318a",
+            "work-relationship_8817439f522066a0",
+            "work-relationship_95d7cb98e00f443b",
+            "work-relationship_98098d6fe8169b19",
+            "work-relationship_981e06184e9c8a97",
+            "work-relationship_998dcb03a8acad1d",
+            "work-relationship_9da13e569259d5a5",
+            "work-relationship_a49b15c00db40878",
+            "work-relationship_af464f557e30ac88",
+            "work-relationship_b6b534e734161efd",
+            "work-relationship_bfb15c893258b281",
+            "work-relationship_c39ccc0c01c249dc",
+            "work-relationship_d0b7f6cec16a2664",
+            "work-relationship_db014994ae931f47",
+            "work-relationship_db45c953d077712c",
+            "work-relationship_e6b182cdb6cbc7c0",
+            "work-relationship_f1bd77134cb29158",
+            "work-relationship_f6793b3a0749950a"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_29bc269608f354c4\",\"accounting-services\"]",
+          "sha256": "9ee822e11f1f8b0be67684ff8e0036e1c162569cfc1c595e3764893f297d86ea",
+          "bytes": 1086,
+          "jobIds": ["work-relationship_2f11d884cfe99635"],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_29bc279608f35677\",\"legal-services\"]",
+          "sha256": "d3aececf1204692067289cc178ff020e76163e75f7e70f4efd1b98972785d052",
+          "bytes": 1077,
+          "jobIds": ["work-relationship_b3ca297dca3bd5db"],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_570dd52ac59a0647\",\"personal-care\"]",
+          "sha256": "a21c5e0413bff1c422abe8f3fc20c100c6b43d26483ee66fe6b8394a384d9d02",
+          "bytes": 1078,
+          "jobIds": ["work-relationship_ee2a4be37398b312"],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_dd65ae2f5e07164e\",\"housekeeping\"]",
+          "sha256": "15d9fcbfc311c20de69fdd6d4bbfe55eac67e3783451281a1e9c76d672ac7fce",
+          "bytes": 196428,
+          "jobIds": [
+            "work-relationship_0004341d62be0900",
+            "work-relationship_0176cf26ff20bac7",
+            "work-relationship_018f07775566ce14",
+            "work-relationship_0ac609f37abe1802",
+            "work-relationship_0eb0d697402605c9",
+            "work-relationship_130ac884251b8803",
+            "work-relationship_13ba7c5880fdc963",
+            "work-relationship_149b0292a542a247",
+            "work-relationship_15bb327c0449a58d",
+            "work-relationship_15dd7b797c099db8",
+            "work-relationship_18f50ee6d5abe41c",
+            "work-relationship_1e0b3f13069d6563",
+            "work-relationship_229f0794c562dbd2",
+            "work-relationship_2535992a452490bf",
+            "work-relationship_2bbb0fb613f9fe10",
+            "work-relationship_2d47ff48cbab1e4c",
+            "work-relationship_306f82d23401c243",
+            "work-relationship_34159afca2a02a10",
+            "work-relationship_343f1df360d283a9",
+            "work-relationship_34a05040fc0ff323",
+            "work-relationship_34da208a3e5abeee",
+            "work-relationship_37a9a4c653010199",
+            "work-relationship_38d2b439bef9a86e",
+            "work-relationship_4af78222701442fa",
+            "work-relationship_505987be1746e0fe",
+            "work-relationship_543e99ddc10e99a5",
+            "work-relationship_570690aaf28e6588",
+            "work-relationship_584913276516f933",
+            "work-relationship_59e206b59d145fbe",
+            "work-relationship_5b74c3fbb90e8a9a",
+            "work-relationship_5b75417bd24f50ba",
+            "work-relationship_62ab8b4a9e79db07",
+            "work-relationship_62bfd1f128ceae43",
+            "work-relationship_6317cfde6ed2d3ce",
+            "work-relationship_633a49e23af9991c",
+            "work-relationship_672bd734a25ae596",
+            "work-relationship_6b602bd5f09b2a73",
+            "work-relationship_741d595e6fff366e",
+            "work-relationship_7433d6a61201d323",
+            "work-relationship_74ec94306a730081",
+            "work-relationship_7749f92165967a5c",
+            "work-relationship_7b7f6e2e59fe294f",
+            "work-relationship_7e3c4cff2218cc2c",
+            "work-relationship_821a7a2cc12fa5aa",
+            "work-relationship_82763e0f650dfba0",
+            "work-relationship_8667dee31b2528dd",
+            "work-relationship_86cbe6cc10499978",
+            "work-relationship_87844709dab21590",
+            "work-relationship_8c1a62db1ccf60b0",
+            "work-relationship_952c4365117c19d1",
+            "work-relationship_9b879dc83a154407",
+            "work-relationship_9b88e6f9c5bb4f2c",
+            "work-relationship_9b980086c99f4990",
+            "work-relationship_a4153578a0d55fae",
+            "work-relationship_a9e2a9baf7f9edc9",
+            "work-relationship_aa50457bb30ada9d",
+            "work-relationship_adc35f7d1b1716ce",
+            "work-relationship_afc459b560adcbad",
+            "work-relationship_b8032386edf406db",
+            "work-relationship_b932c3676b139a6f",
+            "work-relationship_b949c7eddab1560b",
+            "work-relationship_b975d3bf7e64d0b8",
+            "work-relationship_bd64a600e3d609ad",
+            "work-relationship_befb9a66fc1a3762",
+            "work-relationship_c108c310ddd584a6",
+            "work-relationship_c55d8e6ce5656836",
+            "work-relationship_c5894624f84b902d",
+            "work-relationship_c98cc223792802ae",
+            "work-relationship_cb5f01ebbb37699b",
+            "work-relationship_ccb613e34fce4475",
+            "work-relationship_d0ea8d8e4eec8d11",
+            "work-relationship_d452cf51896e3ba0",
+            "work-relationship_da569bc99f7bc6cc",
+            "work-relationship_e01e1d6c4881e775",
+            "work-relationship_e08ac27171020880",
+            "work-relationship_e39e37b2ccaef4fe",
+            "work-relationship_ea7e9f3be1c8ebcb",
+            "work-relationship_f2a2362bef33bf3e",
+            "work-relationship_f740a726eb047adc",
+            "work-relationship_f93497eb24b67a79",
+            "work-relationship_fab0254ad857fd9e",
+            "work-relationship_fc5f0c83bd79eba0"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_dd65ae2f5e07164e\",\"lawn-care\"]",
+          "sha256": "5338b60735b58753b73222373cde12c0846055eb6f65c433faa2a7fe47e22dbc",
+          "bytes": 130343,
+          "jobIds": [
+            "work-relationship_07e28509ce24be7a",
+            "work-relationship_0d401a4df7979c41",
+            "work-relationship_14a2dbce2157ee65",
+            "work-relationship_23f25f6e737332f3",
+            "work-relationship_2fe76dc66c6add4f",
+            "work-relationship_300977050c69eb7c",
+            "work-relationship_3f3f06027ade24c0",
+            "work-relationship_4734b6f157223f1b",
+            "work-relationship_479713e31ef38583",
+            "work-relationship_4a1c797365726485",
+            "work-relationship_4a778ba00dd1dbb8",
+            "work-relationship_4c0b02963e9eeb22",
+            "work-relationship_518f9cdb2ce41543",
+            "work-relationship_5cc3b30bf549deb1",
+            "work-relationship_5d37be3f7bdab035",
+            "work-relationship_6259ee1188d64fde",
+            "work-relationship_6569e8937397f655",
+            "work-relationship_6679f74f241b7176",
+            "work-relationship_67d1fbcb0ba48533",
+            "work-relationship_704cd421c29c1759",
+            "work-relationship_72ede5448ef1933b",
+            "work-relationship_7afa5eb41ac2a71f",
+            "work-relationship_7d8d6d7309ae9805",
+            "work-relationship_9653bdd41b1bf30e",
+            "work-relationship_9954068285708058",
+            "work-relationship_9b1d34ce84675f50",
+            "work-relationship_9b3732860dbccf03",
+            "work-relationship_9ced00960faa4d3b",
+            "work-relationship_a1747cc0865839fa",
+            "work-relationship_a2267bd357f2219b",
+            "work-relationship_a35a20e12b711b1e",
+            "work-relationship_a55636b1f4e9b4f4",
+            "work-relationship_a86142bd8b848d3d",
+            "work-relationship_a9c99c5b992f7635",
+            "work-relationship_b1de3eac8109d4eb",
+            "work-relationship_b239702db551c36a",
+            "work-relationship_b3eecf177844005c",
+            "work-relationship_b463f23fcd159330",
+            "work-relationship_b62ee76f83b3ccdc",
+            "work-relationship_b88db3a615585a5f",
+            "work-relationship_c01eed29d7d0b070",
+            "work-relationship_c16b5a93f3efa52c",
+            "work-relationship_c4bd0e55d8c97a6f",
+            "work-relationship_c8b860b7301aa7cd",
+            "work-relationship_ced35dd3726d68c9",
+            "work-relationship_cf3673027d98d66f",
+            "work-relationship_d1c8ddb56e1944b1",
+            "work-relationship_db39edef8e95644a",
+            "work-relationship_dd15ca1ec584d971",
+            "work-relationship_e05163cbac6e1132",
+            "work-relationship_e5c7f6bd68f20af2",
+            "work-relationship_ee35cb5b3e702ea9",
+            "work-relationship_f02cc1ecdfdb34b8",
+            "work-relationship_feae1d38f1ac4371"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_dd65ae2f5e07164e\",\"public-custodial\"]",
+          "sha256": "5c85186d344a5575484c00233d05892c9dba7449fa6a70de7216da52f9a99a08",
+          "bytes": 196432,
+          "jobIds": [
+            "work-relationship_0004341d62be0900",
+            "work-relationship_0176cf26ff20bac7",
+            "work-relationship_018f07775566ce14",
+            "work-relationship_0ac609f37abe1802",
+            "work-relationship_0eb0d697402605c9",
+            "work-relationship_130ac884251b8803",
+            "work-relationship_13ba7c5880fdc963",
+            "work-relationship_149b0292a542a247",
+            "work-relationship_15bb327c0449a58d",
+            "work-relationship_15dd7b797c099db8",
+            "work-relationship_18f50ee6d5abe41c",
+            "work-relationship_1e0b3f13069d6563",
+            "work-relationship_229f0794c562dbd2",
+            "work-relationship_2535992a452490bf",
+            "work-relationship_2bbb0fb613f9fe10",
+            "work-relationship_2d47ff48cbab1e4c",
+            "work-relationship_306f82d23401c243",
+            "work-relationship_34159afca2a02a10",
+            "work-relationship_343f1df360d283a9",
+            "work-relationship_34a05040fc0ff323",
+            "work-relationship_34da208a3e5abeee",
+            "work-relationship_37a9a4c653010199",
+            "work-relationship_38d2b439bef9a86e",
+            "work-relationship_4af78222701442fa",
+            "work-relationship_505987be1746e0fe",
+            "work-relationship_543e99ddc10e99a5",
+            "work-relationship_570690aaf28e6588",
+            "work-relationship_584913276516f933",
+            "work-relationship_59e206b59d145fbe",
+            "work-relationship_5b74c3fbb90e8a9a",
+            "work-relationship_5b75417bd24f50ba",
+            "work-relationship_62ab8b4a9e79db07",
+            "work-relationship_62bfd1f128ceae43",
+            "work-relationship_6317cfde6ed2d3ce",
+            "work-relationship_633a49e23af9991c",
+            "work-relationship_672bd734a25ae596",
+            "work-relationship_6b602bd5f09b2a73",
+            "work-relationship_741d595e6fff366e",
+            "work-relationship_7433d6a61201d323",
+            "work-relationship_74ec94306a730081",
+            "work-relationship_7749f92165967a5c",
+            "work-relationship_7b7f6e2e59fe294f",
+            "work-relationship_7e3c4cff2218cc2c",
+            "work-relationship_821a7a2cc12fa5aa",
+            "work-relationship_82763e0f650dfba0",
+            "work-relationship_8667dee31b2528dd",
+            "work-relationship_86cbe6cc10499978",
+            "work-relationship_87844709dab21590",
+            "work-relationship_8c1a62db1ccf60b0",
+            "work-relationship_952c4365117c19d1",
+            "work-relationship_9b879dc83a154407",
+            "work-relationship_9b88e6f9c5bb4f2c",
+            "work-relationship_9b980086c99f4990",
+            "work-relationship_a4153578a0d55fae",
+            "work-relationship_a9e2a9baf7f9edc9",
+            "work-relationship_aa50457bb30ada9d",
+            "work-relationship_adc35f7d1b1716ce",
+            "work-relationship_afc459b560adcbad",
+            "work-relationship_b8032386edf406db",
+            "work-relationship_b932c3676b139a6f",
+            "work-relationship_b949c7eddab1560b",
+            "work-relationship_b975d3bf7e64d0b8",
+            "work-relationship_bd64a600e3d609ad",
+            "work-relationship_befb9a66fc1a3762",
+            "work-relationship_c108c310ddd584a6",
+            "work-relationship_c55d8e6ce5656836",
+            "work-relationship_c5894624f84b902d",
+            "work-relationship_c98cc223792802ae",
+            "work-relationship_cb5f01ebbb37699b",
+            "work-relationship_ccb613e34fce4475",
+            "work-relationship_d0ea8d8e4eec8d11",
+            "work-relationship_d452cf51896e3ba0",
+            "work-relationship_da569bc99f7bc6cc",
+            "work-relationship_e01e1d6c4881e775",
+            "work-relationship_e08ac27171020880",
+            "work-relationship_e39e37b2ccaef4fe",
+            "work-relationship_ea7e9f3be1c8ebcb",
+            "work-relationship_f2a2362bef33bf3e",
+            "work-relationship_f740a726eb047adc",
+            "work-relationship_f93497eb24b67a79",
+            "work-relationship_fab0254ad857fd9e",
+            "work-relationship_fc5f0c83bd79eba0"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_efbc8a3bc0e3156f\",\"participant-sports\"]",
+          "sha256": "67a5f18bf9b68e1af3ca856e106a9823d90c08192870ac4d38a5cb90037d81f0",
+          "bytes": 67569,
+          "jobIds": [
+            "work-relationship_0e54a7f5fcda6f72",
+            "work-relationship_35ac378aa1c8eac0",
+            "work-relationship_39e87bce0bace2f1",
+            "work-relationship_3f7f931fc23a140c",
+            "work-relationship_420f6c49b4aa2615",
+            "work-relationship_42e5c2f1958cc282",
+            "work-relationship_48b889918990342a",
+            "work-relationship_5e24fa9c2d24ada7",
+            "work-relationship_63d55f2007a05bb5",
+            "work-relationship_650a430749cb6a50",
+            "work-relationship_652675231d703b36",
+            "work-relationship_6bb8467e02fb14ba",
+            "work-relationship_6c2a6fdfa1a6b15b",
+            "work-relationship_73340b06a333a354",
+            "work-relationship_73a6773a04c932e7",
+            "work-relationship_85a864f5ed400f36",
+            "work-relationship_917174c681ac562a",
+            "work-relationship_97ab810033213640",
+            "work-relationship_98a758c5271dd071",
+            "work-relationship_a080faa39e242b2e",
+            "work-relationship_b7604440637f7893",
+            "work-relationship_bcc2ef80d38f5869",
+            "work-relationship_c0d2263390581c0c",
+            "work-relationship_c16c301c84898db5",
+            "work-relationship_c3297eb4e3d4d5c8",
+            "work-relationship_c4a0bd88d58abe62",
+            "work-relationship_ed0aef898e522753",
+            "work-relationship_ef34efc0e984be1e"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_f7da0df2eb4d1f5e\",\"visitor-lodging\"]",
+          "sha256": "28a4517c2f5511dfc1527c53f816c927635e8803d6097c8b78288ce8390f3b0c",
+          "bytes": 74073,
+          "jobIds": [
+            "work-relationship_0062706e9ce947c3",
+            "work-relationship_05b7263b4c1a89b8",
+            "work-relationship_0e1289d2b9115084",
+            "work-relationship_0e92245ef5cc0933",
+            "work-relationship_0ebe3874dbf1d30c",
+            "work-relationship_1063afd1119c56b6",
+            "work-relationship_1f2296457b2ec54d",
+            "work-relationship_2103e21226896f61",
+            "work-relationship_394d1611869b3234",
+            "work-relationship_403c9e5cf262a8be",
+            "work-relationship_41015cdd9c46887f",
+            "work-relationship_4bb7c9cb24fb6f3d",
+            "work-relationship_58b5936457946ccd",
+            "work-relationship_73abddeb68a11939",
+            "work-relationship_7b2b66d320fc253d",
+            "work-relationship_8fc85b9e3ed0fab0",
+            "work-relationship_991b95d07ef287bc",
+            "work-relationship_9b2fc733e08b9160",
+            "work-relationship_a1f05c4f348869f8",
+            "work-relationship_b1d9e333f1ec7252",
+            "work-relationship_b5b35d3740acc322",
+            "work-relationship_b8e0065756d81640",
+            "work-relationship_bb9170d90aa7fafe",
+            "work-relationship_bc66bece47c797ff",
+            "work-relationship_dcccd8627dd56b28",
+            "work-relationship_ec152a1d41cdf2b5",
+            "work-relationship_f17df762b6289a02",
+            "work-relationship_f1c7c43846612f2e",
+            "work-relationship_f314ddedd787ad67",
+            "work-relationship_f4d859b1e28bd16a",
+            "work-relationship_fddb4958c46a4c18"
+          ],
+          "providerRecordIds": []
+        }
+      ]
+    },
+    "invariantsComparison": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-invariants-comparison-20261010-0505.json",
+      "sha256": "d22132766c120e98b97571fad63ade972380d391581e0f94dde61562c41999b0",
+      "entireInvariantObjectMatchesBeforeAndFirstCheckpoint": true
+    },
+    "registeredCensus": {
+      "definition": "Exact standard compact JSON UTF-8 bytes; no trailing newline; repeated aliases counted per occurrence.",
+      "sourceDefinition": "direct nonoverlapping compact Source objects plus escaped-layer compact inner Source objects in canonical encoded JSON; all noncanonical encoded JSON object/array records use separately reported physical-token upper bounds, including records with unknown or discarded Source content",
+      "residents": 10002,
+      "bytes": 732450615,
+      "bytesPerResident": 73230.41541691661,
+      "directSourceBytes": 511194274,
+      "canonicalEncodedSourceBytes": 892679,
+      "noncanonicalEncodedRecordUpperBoundBytes": 0,
+      "sourceOccurrences": 395739,
+      "exactSourceByteShare": 0.6991419523895137,
+      "declaredConservativeSourceByteShare": 0.6991419523895137,
+      "sections": {
+        "seed": {
+          "bytes": 30,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "startedAt": {
+          "bytes": 12,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "people": {
+          "bytes": 427951262,
+          "directSourceBytes": 296641701,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 210751
+        },
+        "households": {
+          "bytes": 4677788,
+          "directSourceBytes": 4014325,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 3955
+        },
+        "jobs": {
+          "bytes": 3572162,
+          "directSourceBytes": 3161410,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 1433
+        },
+        "organizations": {
+          "bytes": 966915,
+          "directSourceBytes": 167019,
+          "encodedSourceBytes": 723711,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 368
+        },
+        "workCommitments": {
+          "bytes": 6487227,
+          "directSourceBytes": 4460932,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 2866
+        },
+        "familyLinks": {
+          "bytes": 886985,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "focusPersonIds": {
+          "bytes": 1483,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "focusPlaceIds": {
+          "bytes": 2,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "visiblePlaceIds": {
+          "bytes": 65,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "calendarDates": {
+          "bytes": 2,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "gaps": {
+          "bytes": 216268,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "placeMetadata": {
+          "bytes": 300802,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 168968,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 45
+        },
+        "priorFactsSource": {
+          "bytes": 60313403,
+          "directSourceBytes": 29383846,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 40907
+        },
+        "publicOrganizations": {
+          "bytes": 17401,
+          "directSourceBytes": 11114,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 9
+        },
+        "playerId": {
+          "bytes": 25,
+          "directSourceBytes": 0,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 0
+        },
+        "finance": {
+          "bytes": 227058516,
+          "directSourceBytes": 173353927,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 135405
+        }
+      },
+      "contractKinds": {
+        "income.retirement": {
+          "bytes": 2058112,
+          "directSourceBytes": 1589504,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 896,
+          "rows": 896,
+          "dueDates": {
+            "2021-02-01": 896
+          }
+        },
+        "funding.retirement-contribution": {
+          "bytes": 239841,
+          "directSourceBytes": 159520,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 2,
+          "rows": 1,
+          "dueDates": {
+            "2021-02-01": 1
+          }
+        },
+        "household.food": {
+          "bytes": 72034366,
+          "directSourceBytes": 55218228,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 47460,
+          "rows": 23730,
+          "dueDates": {
+            "2021-02-01": 16086,
+            "2021-01-04": 4692,
+            "2021-01-02": 2250,
+            "2021-01-05": 498,
+            "2021-01-06": 204
+          }
+        },
+        "household.apparelAndServices": {
+          "bytes": 36675927,
+          "directSourceBytes": 27941334,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 23730,
+          "rows": 11865,
+          "dueDates": {
+            "2021-02-01": 8043,
+            "2021-01-04": 2346,
+            "2021-01-02": 1125,
+            "2021-01-05": 249,
+            "2021-01-06": 102
+          }
+        },
+        "household.maintenanceAndRepairs": {
+          "bytes": 12272769,
+          "directSourceBytes": 9337508,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "business.sales-input": {
+          "bytes": 49424,
+          "directSourceBytes": 47082,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 6,
+          "rows": 6,
+          "dueDates": {
+            "2021-01-02": 6
+          }
+        },
+        "household.customer.personal-care": {
+          "bytes": 14666192,
+          "directSourceBytes": 11199569,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "household.customer.housekeeping": {
+          "bytes": 14765067,
+          "directSourceBytes": 11306354,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "household.customer.lawn-care": {
+          "bytes": 14689922,
+          "directSourceBytes": 11254939,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "household.customer.participant-sports": {
+          "bytes": 14805451,
+          "directSourceBytes": 11302399,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "household.customer.legal-services": {
+          "bytes": 14701787,
+          "directSourceBytes": 11227254,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "household.customer.accounting-services": {
+          "bytes": 14817551,
+          "directSourceBytes": 11306354,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "household.customer.residential-telephone": {
+          "bytes": 14817316,
+          "directSourceBytes": 11290534,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 7910,
+          "rows": 3955,
+          "dueDates": {
+            "2021-02-01": 2681,
+            "2021-01-04": 782,
+            "2021-01-02": 375,
+            "2021-01-05": 83,
+            "2021-01-06": 34
+          }
+        },
+        "public.customer.custodial-services": {
+          "bytes": 9318,
+          "directSourceBytes": 8382,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 2,
+          "rows": 1,
+          "dueDates": {
+            "2021-02-01": 1
+          }
+        },
+        "outside.customer.visitor-lodging": {
+          "bytes": 6724,
+          "directSourceBytes": 5830,
+          "encodedSourceBytes": 0,
+          "noncanonicalEncodedRecordUpperBoundBytes": 0,
+          "sourceOccurrences": 2,
+          "rows": 1,
+          "dueDates": {
+            "2021-02-01": 1
+          }
+        }
+      }
+    },
+    "registeredGuard": {
+      "status": "ADMITTED_AND_CHECKED_ON_ACTUAL_CENSUS; ANNUAL_RUN_PENDING",
+      "candidateManifest": "/tmp/p8-opening-input-budget-filled-20261010-0506/MANIFEST.json",
+      "candidateManifestSha256": "d5e43993c2232c26c360686f1eae450cc8cc192740822ee2e75c15391217868c",
+      "maxBytesPerResident": 80554,
+      "maxDeclaredConservativeSourceByteShare": 0.7491419523895138,
+      "headroom": "Chosen engineering margins: 10 percent bytes/resident rounded up to next whole byte, five percentage points Source share. Not measured empirical spreads.",
+      "gateBoundary": "Before exports, initialization or warmups; print full record-kind census before rejection.",
+      "actorParameterRegistryUnchanged": true
+    },
+    "basis": {
+      "schema": "p8-hh-source-basis/v1",
+      "paymentAuthority": false,
+      "fullOwnerSourcesRetained": true,
+      "fullQualificationCount": 9,
+      "customOrSuppliedEvidencePreserved": true,
+      "typedEvidenceResolvedAgainstActualOwners": true,
+      "noIncomeFinanceCalendarChainSupported": true,
+      "selfAndCyclicCalendarProvenanceRejected": true
+    },
+    "sourceAttribution": "Registered conservative share counts direct nonoverlapping Source bytes and actual escaped canonical Source bytes; any noncanonical encoded JSON record is a separately reported physical-token upper bound. It differs from the first checkpoint direct-only share.",
+    "cashGuardScope": "Original immutable read preflight remains final. The finance-cash function creditTrigger through EOF remains byte identical (SHA-256 7869bb70445307b1bcc6a06be25ead704f8833ba4fbdd714647e74c30a631383).",
+    "remaining": "Actual judged year, four shared interfaces, PEOPLE, RENEWAL, then SPEED. All 81 declared gaps remain open."
+  },
+  "annualPreparationAttempts": [
+    {
+      "startedAtUtc": "2026-10-10T01:55:41Z",
+      "endedBeforeWarmup": true,
+      "exitCode": 130,
+      "simulatedDays": 0,
+      "newDaysPerMinute": null,
+      "reason": "Interrupted after new CTO REVIEW18 to diagnose repeated evidence first; complete finance and incomplete economy exports retained as evidence."
+    }
+  ],
+  "latestUpdateUtc": "2026-10-10T05:22:29.564580+00:00",
+  "openingInputSizeRepairFirstCheckpoint": {
+    "status": "MEASURED_PARTIAL_REPAIR; remaining generated Source repetition and registered budget enforcement pending",
+    "scope": "Exact compact UTF-8 JSON byte census of the actual opening builder. No simulation; build timing is one preparation observation per variant, not a three-run median or annual rate.",
+    "beforeEvidence": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-input-size-audit-before-20261010-0226-corrected.json",
+      "sha256": "cd5110fb4fcf5a97846d1803ead39bd5c6ec2c2c59cfed0d95c73bb6c2dec655"
+    },
+    "afterEvidence": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-input-size-audit-after-20261010-0304.json",
+      "sha256": "3fac43ad28e4ce66c74419b8cadfcc07e4128d7d38e028cfdf26ca909672bd5c"
+    },
+    "before": {
+      "input": {
+        "bytes": 3247939016,
+        "sourceObjects": 395372,
+        "sourceBytes": 1113488938,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 1918582365
+      },
+      "finance": {
+        "bytes": 719334089,
+        "sourceObjects": 135405,
+        "sourceBytes": 665629500,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "people": {
+        "records": 10002,
+        "bytes": 2451648518,
+        "sourceObjects": 210751,
+        "sourceBytes": 406660792,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 1918582365
+      },
+      "producerReceipt": {
+        "bytes": 4634567301,
+        "sourceObjects": 934755,
+        "sourceBytes": 2457360174,
+        "qualificationStrings": 27687,
+        "qualificationStringBytes": 1918856522
+      },
+      "buildAndFinalFreezeSeconds": 75.34677302200001
+    },
+    "after": {
+      "input": {
+        "bytes": 752421531,
+        "sourceObjects": 395372,
+        "sourceBytes": 531165190,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 4904200
+      },
+      "finance": {
+        "bytes": 254050299,
+        "sourceObjects": 135405,
+        "sourceBytes": 200345710,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "people": {
+        "records": 10002,
+        "bytes": 420930395,
+        "sourceObjects": 210751,
+        "sourceBytes": 289620834,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 4904200
+      },
+      "producerReceipt": {
+        "bytes": 356122562,
+        "sourceObjects": 140001,
+        "sourceBytes": 220896104,
+        "qualificationStrings": 27687,
+        "qualificationStringBytes": 4904555
+      },
+      "buildAndFinalFreezeSeconds": 12.230740063999997
+    },
+    "inputReductionFraction": 0.7683387750529119,
+    "identicalOpeningInvariants": {
+      "contractTermsWithoutGeneratedSourceSha256": "3327a4851312f423e8c6049d05c0496ed028fa8d62749d79dc1b2fed05a522f9",
+      "originalCashMinor": 2776644905,
+      "addedCashMinor": 0,
+      "enrichedCashMinor": 2776644905,
+      "people": 10002,
+      "households": 3955,
+      "jobs": 1433,
+      "workCommitments": 1433,
+      "financeContracts": 68140,
+      "contractsByKind": {
+        "income.retirement": 896,
+        "funding.retirement-contribution": 1,
+        "household.food": 23730,
+        "household.apparelAndServices": 11865,
+        "household.maintenanceAndRepairs": 3955,
+        "business.sales-input": 6,
+        "household.customer.personal-care": 3955,
+        "household.customer.housekeeping": 3955,
+        "household.customer.lawn-care": 3955,
+        "household.customer.participant-sports": 3955,
+        "household.customer.legal-services": 3955,
+        "household.customer.accounting-services": 3955,
+        "household.customer.residential-telephone": 3955,
+        "public.customer.custodial-services": 1,
+        "outside.customer.visitor-lodging": 1
+      },
+      "completeProviderQualifications": [
+        {
+          "key": "[\"organization_044a892fcca65a23\",\"residential-telephone\"]",
+          "sha256": "63e60b443a43c12ec01d9c355cc5a2132f5de24453cce082186860238cb8a9f6",
+          "bytes": 80964,
+          "jobIds": [
+            "work-relationship_028ff5fd45bbd17f",
+            "work-relationship_074e6866c5ea6440",
+            "work-relationship_14677949bf8aad33",
+            "work-relationship_19ed46098f7bf122",
+            "work-relationship_24f8ddc6a4a2544f",
+            "work-relationship_28a4c9fc92803cab",
+            "work-relationship_2ac6cdf27f62832d",
+            "work-relationship_327c098d647cde68",
+            "work-relationship_3b7c17045220ad66",
+            "work-relationship_3d278e43a2669f46",
+            "work-relationship_474508dfcbd2cd9c",
+            "work-relationship_4b47c3133b49c4d9",
+            "work-relationship_6185e12a73774921",
+            "work-relationship_68085da877e7a85e",
+            "work-relationship_6a568bcc519c756e",
+            "work-relationship_7f4dbbdb31c43af9",
+            "work-relationship_853522388c36318a",
+            "work-relationship_8817439f522066a0",
+            "work-relationship_95d7cb98e00f443b",
+            "work-relationship_98098d6fe8169b19",
+            "work-relationship_981e06184e9c8a97",
+            "work-relationship_998dcb03a8acad1d",
+            "work-relationship_9da13e569259d5a5",
+            "work-relationship_a49b15c00db40878",
+            "work-relationship_af464f557e30ac88",
+            "work-relationship_b6b534e734161efd",
+            "work-relationship_bfb15c893258b281",
+            "work-relationship_c39ccc0c01c249dc",
+            "work-relationship_d0b7f6cec16a2664",
+            "work-relationship_db014994ae931f47",
+            "work-relationship_db45c953d077712c",
+            "work-relationship_e6b182cdb6cbc7c0",
+            "work-relationship_f1bd77134cb29158",
+            "work-relationship_f6793b3a0749950a"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_29bc269608f354c4\",\"accounting-services\"]",
+          "sha256": "9ee822e11f1f8b0be67684ff8e0036e1c162569cfc1c595e3764893f297d86ea",
+          "bytes": 1086,
+          "jobIds": ["work-relationship_2f11d884cfe99635"],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_29bc279608f35677\",\"legal-services\"]",
+          "sha256": "d3aececf1204692067289cc178ff020e76163e75f7e70f4efd1b98972785d052",
+          "bytes": 1077,
+          "jobIds": ["work-relationship_b3ca297dca3bd5db"],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_570dd52ac59a0647\",\"personal-care\"]",
+          "sha256": "a21c5e0413bff1c422abe8f3fc20c100c6b43d26483ee66fe6b8394a384d9d02",
+          "bytes": 1078,
+          "jobIds": ["work-relationship_ee2a4be37398b312"],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_dd65ae2f5e07164e\",\"housekeeping\"]",
+          "sha256": "15d9fcbfc311c20de69fdd6d4bbfe55eac67e3783451281a1e9c76d672ac7fce",
+          "bytes": 196428,
+          "jobIds": [
+            "work-relationship_0004341d62be0900",
+            "work-relationship_0176cf26ff20bac7",
+            "work-relationship_018f07775566ce14",
+            "work-relationship_0ac609f37abe1802",
+            "work-relationship_0eb0d697402605c9",
+            "work-relationship_130ac884251b8803",
+            "work-relationship_13ba7c5880fdc963",
+            "work-relationship_149b0292a542a247",
+            "work-relationship_15bb327c0449a58d",
+            "work-relationship_15dd7b797c099db8",
+            "work-relationship_18f50ee6d5abe41c",
+            "work-relationship_1e0b3f13069d6563",
+            "work-relationship_229f0794c562dbd2",
+            "work-relationship_2535992a452490bf",
+            "work-relationship_2bbb0fb613f9fe10",
+            "work-relationship_2d47ff48cbab1e4c",
+            "work-relationship_306f82d23401c243",
+            "work-relationship_34159afca2a02a10",
+            "work-relationship_343f1df360d283a9",
+            "work-relationship_34a05040fc0ff323",
+            "work-relationship_34da208a3e5abeee",
+            "work-relationship_37a9a4c653010199",
+            "work-relationship_38d2b439bef9a86e",
+            "work-relationship_4af78222701442fa",
+            "work-relationship_505987be1746e0fe",
+            "work-relationship_543e99ddc10e99a5",
+            "work-relationship_570690aaf28e6588",
+            "work-relationship_584913276516f933",
+            "work-relationship_59e206b59d145fbe",
+            "work-relationship_5b74c3fbb90e8a9a",
+            "work-relationship_5b75417bd24f50ba",
+            "work-relationship_62ab8b4a9e79db07",
+            "work-relationship_62bfd1f128ceae43",
+            "work-relationship_6317cfde6ed2d3ce",
+            "work-relationship_633a49e23af9991c",
+            "work-relationship_672bd734a25ae596",
+            "work-relationship_6b602bd5f09b2a73",
+            "work-relationship_741d595e6fff366e",
+            "work-relationship_7433d6a61201d323",
+            "work-relationship_74ec94306a730081",
+            "work-relationship_7749f92165967a5c",
+            "work-relationship_7b7f6e2e59fe294f",
+            "work-relationship_7e3c4cff2218cc2c",
+            "work-relationship_821a7a2cc12fa5aa",
+            "work-relationship_82763e0f650dfba0",
+            "work-relationship_8667dee31b2528dd",
+            "work-relationship_86cbe6cc10499978",
+            "work-relationship_87844709dab21590",
+            "work-relationship_8c1a62db1ccf60b0",
+            "work-relationship_952c4365117c19d1",
+            "work-relationship_9b879dc83a154407",
+            "work-relationship_9b88e6f9c5bb4f2c",
+            "work-relationship_9b980086c99f4990",
+            "work-relationship_a4153578a0d55fae",
+            "work-relationship_a9e2a9baf7f9edc9",
+            "work-relationship_aa50457bb30ada9d",
+            "work-relationship_adc35f7d1b1716ce",
+            "work-relationship_afc459b560adcbad",
+            "work-relationship_b8032386edf406db",
+            "work-relationship_b932c3676b139a6f",
+            "work-relationship_b949c7eddab1560b",
+            "work-relationship_b975d3bf7e64d0b8",
+            "work-relationship_bd64a600e3d609ad",
+            "work-relationship_befb9a66fc1a3762",
+            "work-relationship_c108c310ddd584a6",
+            "work-relationship_c55d8e6ce5656836",
+            "work-relationship_c5894624f84b902d",
+            "work-relationship_c98cc223792802ae",
+            "work-relationship_cb5f01ebbb37699b",
+            "work-relationship_ccb613e34fce4475",
+            "work-relationship_d0ea8d8e4eec8d11",
+            "work-relationship_d452cf51896e3ba0",
+            "work-relationship_da569bc99f7bc6cc",
+            "work-relationship_e01e1d6c4881e775",
+            "work-relationship_e08ac27171020880",
+            "work-relationship_e39e37b2ccaef4fe",
+            "work-relationship_ea7e9f3be1c8ebcb",
+            "work-relationship_f2a2362bef33bf3e",
+            "work-relationship_f740a726eb047adc",
+            "work-relationship_f93497eb24b67a79",
+            "work-relationship_fab0254ad857fd9e",
+            "work-relationship_fc5f0c83bd79eba0"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_dd65ae2f5e07164e\",\"lawn-care\"]",
+          "sha256": "5338b60735b58753b73222373cde12c0846055eb6f65c433faa2a7fe47e22dbc",
+          "bytes": 130343,
+          "jobIds": [
+            "work-relationship_07e28509ce24be7a",
+            "work-relationship_0d401a4df7979c41",
+            "work-relationship_14a2dbce2157ee65",
+            "work-relationship_23f25f6e737332f3",
+            "work-relationship_2fe76dc66c6add4f",
+            "work-relationship_300977050c69eb7c",
+            "work-relationship_3f3f06027ade24c0",
+            "work-relationship_4734b6f157223f1b",
+            "work-relationship_479713e31ef38583",
+            "work-relationship_4a1c797365726485",
+            "work-relationship_4a778ba00dd1dbb8",
+            "work-relationship_4c0b02963e9eeb22",
+            "work-relationship_518f9cdb2ce41543",
+            "work-relationship_5cc3b30bf549deb1",
+            "work-relationship_5d37be3f7bdab035",
+            "work-relationship_6259ee1188d64fde",
+            "work-relationship_6569e8937397f655",
+            "work-relationship_6679f74f241b7176",
+            "work-relationship_67d1fbcb0ba48533",
+            "work-relationship_704cd421c29c1759",
+            "work-relationship_72ede5448ef1933b",
+            "work-relationship_7afa5eb41ac2a71f",
+            "work-relationship_7d8d6d7309ae9805",
+            "work-relationship_9653bdd41b1bf30e",
+            "work-relationship_9954068285708058",
+            "work-relationship_9b1d34ce84675f50",
+            "work-relationship_9b3732860dbccf03",
+            "work-relationship_9ced00960faa4d3b",
+            "work-relationship_a1747cc0865839fa",
+            "work-relationship_a2267bd357f2219b",
+            "work-relationship_a35a20e12b711b1e",
+            "work-relationship_a55636b1f4e9b4f4",
+            "work-relationship_a86142bd8b848d3d",
+            "work-relationship_a9c99c5b992f7635",
+            "work-relationship_b1de3eac8109d4eb",
+            "work-relationship_b239702db551c36a",
+            "work-relationship_b3eecf177844005c",
+            "work-relationship_b463f23fcd159330",
+            "work-relationship_b62ee76f83b3ccdc",
+            "work-relationship_b88db3a615585a5f",
+            "work-relationship_c01eed29d7d0b070",
+            "work-relationship_c16b5a93f3efa52c",
+            "work-relationship_c4bd0e55d8c97a6f",
+            "work-relationship_c8b860b7301aa7cd",
+            "work-relationship_ced35dd3726d68c9",
+            "work-relationship_cf3673027d98d66f",
+            "work-relationship_d1c8ddb56e1944b1",
+            "work-relationship_db39edef8e95644a",
+            "work-relationship_dd15ca1ec584d971",
+            "work-relationship_e05163cbac6e1132",
+            "work-relationship_e5c7f6bd68f20af2",
+            "work-relationship_ee35cb5b3e702ea9",
+            "work-relationship_f02cc1ecdfdb34b8",
+            "work-relationship_feae1d38f1ac4371"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_dd65ae2f5e07164e\",\"public-custodial\"]",
+          "sha256": "5c85186d344a5575484c00233d05892c9dba7449fa6a70de7216da52f9a99a08",
+          "bytes": 196432,
+          "jobIds": [
+            "work-relationship_0004341d62be0900",
+            "work-relationship_0176cf26ff20bac7",
+            "work-relationship_018f07775566ce14",
+            "work-relationship_0ac609f37abe1802",
+            "work-relationship_0eb0d697402605c9",
+            "work-relationship_130ac884251b8803",
+            "work-relationship_13ba7c5880fdc963",
+            "work-relationship_149b0292a542a247",
+            "work-relationship_15bb327c0449a58d",
+            "work-relationship_15dd7b797c099db8",
+            "work-relationship_18f50ee6d5abe41c",
+            "work-relationship_1e0b3f13069d6563",
+            "work-relationship_229f0794c562dbd2",
+            "work-relationship_2535992a452490bf",
+            "work-relationship_2bbb0fb613f9fe10",
+            "work-relationship_2d47ff48cbab1e4c",
+            "work-relationship_306f82d23401c243",
+            "work-relationship_34159afca2a02a10",
+            "work-relationship_343f1df360d283a9",
+            "work-relationship_34a05040fc0ff323",
+            "work-relationship_34da208a3e5abeee",
+            "work-relationship_37a9a4c653010199",
+            "work-relationship_38d2b439bef9a86e",
+            "work-relationship_4af78222701442fa",
+            "work-relationship_505987be1746e0fe",
+            "work-relationship_543e99ddc10e99a5",
+            "work-relationship_570690aaf28e6588",
+            "work-relationship_584913276516f933",
+            "work-relationship_59e206b59d145fbe",
+            "work-relationship_5b74c3fbb90e8a9a",
+            "work-relationship_5b75417bd24f50ba",
+            "work-relationship_62ab8b4a9e79db07",
+            "work-relationship_62bfd1f128ceae43",
+            "work-relationship_6317cfde6ed2d3ce",
+            "work-relationship_633a49e23af9991c",
+            "work-relationship_672bd734a25ae596",
+            "work-relationship_6b602bd5f09b2a73",
+            "work-relationship_741d595e6fff366e",
+            "work-relationship_7433d6a61201d323",
+            "work-relationship_74ec94306a730081",
+            "work-relationship_7749f92165967a5c",
+            "work-relationship_7b7f6e2e59fe294f",
+            "work-relationship_7e3c4cff2218cc2c",
+            "work-relationship_821a7a2cc12fa5aa",
+            "work-relationship_82763e0f650dfba0",
+            "work-relationship_8667dee31b2528dd",
+            "work-relationship_86cbe6cc10499978",
+            "work-relationship_87844709dab21590",
+            "work-relationship_8c1a62db1ccf60b0",
+            "work-relationship_952c4365117c19d1",
+            "work-relationship_9b879dc83a154407",
+            "work-relationship_9b88e6f9c5bb4f2c",
+            "work-relationship_9b980086c99f4990",
+            "work-relationship_a4153578a0d55fae",
+            "work-relationship_a9e2a9baf7f9edc9",
+            "work-relationship_aa50457bb30ada9d",
+            "work-relationship_adc35f7d1b1716ce",
+            "work-relationship_afc459b560adcbad",
+            "work-relationship_b8032386edf406db",
+            "work-relationship_b932c3676b139a6f",
+            "work-relationship_b949c7eddab1560b",
+            "work-relationship_b975d3bf7e64d0b8",
+            "work-relationship_bd64a600e3d609ad",
+            "work-relationship_befb9a66fc1a3762",
+            "work-relationship_c108c310ddd584a6",
+            "work-relationship_c55d8e6ce5656836",
+            "work-relationship_c5894624f84b902d",
+            "work-relationship_c98cc223792802ae",
+            "work-relationship_cb5f01ebbb37699b",
+            "work-relationship_ccb613e34fce4475",
+            "work-relationship_d0ea8d8e4eec8d11",
+            "work-relationship_d452cf51896e3ba0",
+            "work-relationship_da569bc99f7bc6cc",
+            "work-relationship_e01e1d6c4881e775",
+            "work-relationship_e08ac27171020880",
+            "work-relationship_e39e37b2ccaef4fe",
+            "work-relationship_ea7e9f3be1c8ebcb",
+            "work-relationship_f2a2362bef33bf3e",
+            "work-relationship_f740a726eb047adc",
+            "work-relationship_f93497eb24b67a79",
+            "work-relationship_fab0254ad857fd9e",
+            "work-relationship_fc5f0c83bd79eba0"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_efbc8a3bc0e3156f\",\"participant-sports\"]",
+          "sha256": "67a5f18bf9b68e1af3ca856e106a9823d90c08192870ac4d38a5cb90037d81f0",
+          "bytes": 67569,
+          "jobIds": [
+            "work-relationship_0e54a7f5fcda6f72",
+            "work-relationship_35ac378aa1c8eac0",
+            "work-relationship_39e87bce0bace2f1",
+            "work-relationship_3f7f931fc23a140c",
+            "work-relationship_420f6c49b4aa2615",
+            "work-relationship_42e5c2f1958cc282",
+            "work-relationship_48b889918990342a",
+            "work-relationship_5e24fa9c2d24ada7",
+            "work-relationship_63d55f2007a05bb5",
+            "work-relationship_650a430749cb6a50",
+            "work-relationship_652675231d703b36",
+            "work-relationship_6bb8467e02fb14ba",
+            "work-relationship_6c2a6fdfa1a6b15b",
+            "work-relationship_73340b06a333a354",
+            "work-relationship_73a6773a04c932e7",
+            "work-relationship_85a864f5ed400f36",
+            "work-relationship_917174c681ac562a",
+            "work-relationship_97ab810033213640",
+            "work-relationship_98a758c5271dd071",
+            "work-relationship_a080faa39e242b2e",
+            "work-relationship_b7604440637f7893",
+            "work-relationship_bcc2ef80d38f5869",
+            "work-relationship_c0d2263390581c0c",
+            "work-relationship_c16c301c84898db5",
+            "work-relationship_c3297eb4e3d4d5c8",
+            "work-relationship_c4a0bd88d58abe62",
+            "work-relationship_ed0aef898e522753",
+            "work-relationship_ef34efc0e984be1e"
+          ],
+          "providerRecordIds": []
+        },
+        {
+          "key": "[\"organization_f7da0df2eb4d1f5e\",\"visitor-lodging\"]",
+          "sha256": "28a4517c2f5511dfc1527c53f816c927635e8803d6097c8b78288ce8390f3b0c",
+          "bytes": 74073,
+          "jobIds": [
+            "work-relationship_0062706e9ce947c3",
+            "work-relationship_05b7263b4c1a89b8",
+            "work-relationship_0e1289d2b9115084",
+            "work-relationship_0e92245ef5cc0933",
+            "work-relationship_0ebe3874dbf1d30c",
+            "work-relationship_1063afd1119c56b6",
+            "work-relationship_1f2296457b2ec54d",
+            "work-relationship_2103e21226896f61",
+            "work-relationship_394d1611869b3234",
+            "work-relationship_403c9e5cf262a8be",
+            "work-relationship_41015cdd9c46887f",
+            "work-relationship_4bb7c9cb24fb6f3d",
+            "work-relationship_58b5936457946ccd",
+            "work-relationship_73abddeb68a11939",
+            "work-relationship_7b2b66d320fc253d",
+            "work-relationship_8fc85b9e3ed0fab0",
+            "work-relationship_991b95d07ef287bc",
+            "work-relationship_9b2fc733e08b9160",
+            "work-relationship_a1f05c4f348869f8",
+            "work-relationship_b1d9e333f1ec7252",
+            "work-relationship_b5b35d3740acc322",
+            "work-relationship_b8e0065756d81640",
+            "work-relationship_bb9170d90aa7fafe",
+            "work-relationship_bc66bece47c797ff",
+            "work-relationship_dcccd8627dd56b28",
+            "work-relationship_ec152a1d41cdf2b5",
+            "work-relationship_f17df762b6289a02",
+            "work-relationship_f1c7c43846612f2e",
+            "work-relationship_f314ddedd787ad67",
+            "work-relationship_f4d859b1e28bd16a",
+            "work-relationship_fddb4958c46a4c18"
+          ],
+          "providerRecordIds": []
+        }
+      ]
+    },
+    "basis": {
+      "fullQualificationCount": 9,
+      "fullOriginalJobAndProviderSourcesRetained": true,
+      "qualificationRecordsStoredOnActualProviders": true,
+      "calendarRuleSourceRemainsFullInData": true,
+      "noExpandedPerDateRowsRemoved": "Calendars already stored recurrence rules. Current row histogram 17-19 per household; nominal 187-215 yearly occurrences are recurrence arithmetic, not stored or executed obligations."
+    },
+    "sourceAttribution": "Direct structured Source objects counted here. Escaped supplier-qualification strings are attributed separately, not double counted. Forthcoming enforcement also accounts for actual Sources inside encoded records.",
+    "sourceChecks": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-provenance-shape-source-checks-20261010-0303.json",
+      "sha256": "6e409f1884dc46cbefacf96c464ddf941ca20617cb0c317c4f11cec417797e7a",
+      "status": "PASS",
+      "checks": [
+        {
+          "command": [
+            "npx",
+            "tsc",
+            "--noEmit",
+            "--project",
+            "src/core2/tooling/tsconfig.json"
+          ],
+          "exitCode": 0,
+          "elapsedSeconds": 36.93597483634949
+        },
+        {
+          "command": [
+            "npx",
+            "eslint",
+            "src/core2/opening-customers.ts",
+            "src/core2/opening-customer-qualification.ts",
+            "src/core2/finance-cash.ts",
+            "src/core2/opening-purchase-calendar.ts",
+            "src/core2/opening-finance.ts",
+            "src/core2/opening-finance.test.ts",
+            "src/core2/opening-customers.test.ts",
+            "src/core2/finance-public-customer-cash.test.ts"
+          ],
+          "exitCode": 0,
+          "elapsedSeconds": 3.9209983348846436
+        },
+        {
+          "command": [
+            "npx",
+            "prettier",
+            "--check",
+            "src/core2/opening-customers.ts",
+            "src/core2/opening-customer-qualification.ts",
+            "src/core2/finance-cash.ts",
+            "src/core2/opening-purchase-calendar.ts",
+            "src/core2/opening-finance.ts",
+            "src/core2/opening-finance.test.ts",
+            "src/core2/opening-customers.test.ts",
+            "src/core2/finance-public-customer-cash.test.ts"
+          ],
+          "exitCode": 0,
+          "elapsedSeconds": 3.544884204864502
+        },
+        {
+          "command": ["npm", "run", "zero-dice"],
+          "exitCode": 0,
+          "elapsedSeconds": 3.589869499206543
+        }
+      ]
+    },
+    "cashGuardScope": "Current shared cash writer, original immutable ReadGuard, original standing Sources and raw optional terms retained. Qualification digest binds representation and is not authority.",
+    "remaining": "Finance still has 254,050,299 bytes, including 200,345,710 direct Source bytes. Further default-generated Source sharing and measured registered budgets are pending before annual admission.",
+    "ctoDirection": "REVIEW18: diagnose input shape before admitting buffered export. REVIEW19: TUNABLE budgets for bytes/resident and Source share, fail with per-kind census, report preparation before/after separately from year."
+  },
+  "latestSourceChecks": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-household-source-guard-checks-20261010-0504.json",
+    "sha256": "8906dd3e0ce9720ca934255a9d42bc708e4341d99e47e090ce0d3b1650e98771",
+    "status": "PASS",
+    "scope": "Strict types; 15 owned TS files lint and format; full zero-dice. Final technical guard runner is not included yet.",
+    "earlierLintFailure": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-household-source-guard-checks-20261010-0454.json",
+      "sha256": "a81091cfb8e17fe48b1a9a52abbba4732a04eeec6a59a0c4728a134c6486a8fd",
+      "status": "FAIL"
+    }
+  },
+  "filledGuardSourceReview": {
+    "path": "/tmp/p8-opening-input-budget-filled-review-0506/review.json",
+    "sha256": "f4b7ba5ed8ff760dc076779709b2c465c116ffba366cc7dc9a8f49dd3b793ed2",
+    "status": "PASS_SOURCE_ONLY_UNEXECUTED",
+    "runnerAdmission": "/tmp/p8-root-filled-input-budget-admission-20261010-0515.json",
+    "runOneFunctionOnlySha256": "9c7aef5444063c9734b4a164ee8ba47c8e1c125d0ad1c02127818591c7717198",
+    "actorParametersUnchanged": true
+  },
+  "finalOpeningSourceChecks": {
+    "status": "PASS_SOURCE_CHECKS_AND_ACTUAL_CENSUS_BUDGET_STRUCTURAL_ONLY",
+    "completedAtUtc": "2026-10-10T05:22:29.561464+00:00",
+    "precedingRunnerChecks": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-household-source-guard-checks-20261010-0516.json",
+      "sha256": "558b387b5c25c2359b899b67d18c9c2f4f6920b3a29beb4a7108437ec6389510",
+      "status": "FAIL_PRESERVED",
+      "checks": [
+        {
+          "command": [
+            "npx",
+            "tsc",
+            "--noEmit",
+            "--project",
+            "src/core2/tooling/tsconfig.json"
+          ],
+          "exitCode": 0,
+          "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-0.log",
+          "sha256": "76162e465989f3f070a9de8db711fbf358e53b74d09ce1bbdb57c727e4c4a16d"
+        },
+        {
+          "command": ["npx", "eslint", "src/core2/tooling/finance-measure.ts"],
+          "exitCode": 0,
+          "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-1.log",
+          "sha256": "76162e465989f3f070a9de8db711fbf358e53b74d09ce1bbdb57c727e4c4a16d"
+        },
+        {
+          "command": [
+            "npx",
+            "prettier",
+            "--check",
+            "src/core2/tooling/finance-measure.ts",
+            "src/core2/tooling/opening-input-budgets.json",
+            "src/core2/tooling/opening-input-budget-baseline.json"
+          ],
+          "exitCode": 0,
+          "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-2.log",
+          "sha256": "773cff305e1e384801ea09129135096bc71e0b5f6fa6c8fd66938c0de01cafbe"
+        },
+        {
+          "command": ["npm", "run", "zero-dice"],
+          "exitCode": 0,
+          "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-3.log",
+          "sha256": "29493b5418ee37857f14e618395ea4aa821264a7cad3a4386d8010cd90d95df6"
+        },
+        {
+          "command": [
+            "node",
+            "--import",
+            "tsx",
+            "/tmp/p8-final-budget-tripwire-check-0516.mts"
+          ],
+          "exitCode": 1,
+          "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-4.log",
+          "sha256": "293d46442da5d599c4a86b97ebe38490ff01cdde7eea01127b1f6958d82320ef"
+        }
+      ]
+    },
+    "registeredConstantsRepair": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-generated-source-registered-constants-repair-20261010-0520.json",
+      "sha256": "16effeb88e349374081474f04dc97c181d45e9c95efce63881bdbfbbc0c24e4d",
+      "status": "PASS_EXACT_SUBSTITUTION"
+    },
+    "finalStrictCheck": {
+      "command": [
+        "npx",
+        "tsc",
+        "--noEmit",
+        "--project",
+        "src/core2/tooling/tsconfig.json"
+      ],
+      "exitCode": 0,
+      "executionSession": 49714,
+      "sourceScope": "Final registered-constant repair; source otherwise frozen. No world or timing claim."
+    },
+    "actualBudgetAndAudit": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-filled-input-budget-tripwire-check-20261010-0521.json",
+      "sha256": "6e3831a16865f5aedd13c8b615178b017bae9c16d3e143ff68d2b67cef257e31",
+      "status": "PASS_STRUCTURAL_ONLY",
+      "actualRegisteredBudget": {
+        "passed": true,
+        "maxBytesPerResident": 80554,
+        "maxSourceByteShare": 0.7491419523895138,
+        "sourceShareUsed": "declaredConservativeSourceByteShare",
+        "violations": []
+      },
+      "diagnostics": [],
+      "openStopgapCount": 81,
+      "calibrationBlockers": 110,
+      "empiricalCalibrationPass": false
+    },
+    "ownedSources": [
+      {
+        "path": "src/core2/types.ts",
+        "sha256": "5b2d4a2bf3731dfcc7f6eb4e8bc097cb472d6c73b013e9e6fa5e45747831ddd9"
+      },
+      {
+        "path": "src/core2/finance-cash.ts",
+        "sha256": "535747a3b7017ecce92f7332b01ec9bfce46a8eb71b25885ecfc4fd4e81e5fdf"
+      },
+      {
+        "path": "src/core2/finance-plan.ts",
+        "sha256": "9e1b3d6110e97095e8a3a0f5b76ec0adbeb6feaa9091135c43362c744046153c"
+      },
+      {
+        "path": "src/core2/opening-capital.ts",
+        "sha256": "8c432ca39b41686ea0d7f3c4d29ce56e93dee00fd9a157fa2d01861bb36bc6b5"
+      },
+      {
+        "path": "src/core2/opening-capital.test.ts",
+        "sha256": "ee3be678f0e1e9576a12aab49ac5de3f8f1e741b42289a915b1574950f2dafc6"
+      },
+      {
+        "path": "src/core2/opening-customers.ts",
+        "sha256": "1e44efa9fd74a47b1fff8c2f83c4496a47124e81bc3122fcbf8a7c93ea36dbc5"
+      },
+      {
+        "path": "src/core2/opening-customers.test.ts",
+        "sha256": "cb71e89788db2029dfde01e24fdc46fd58d6b2faac1548a85c60dfda23946288"
+      },
+      {
+        "path": "src/core2/opening-finance.ts",
+        "sha256": "cf134408017cfb32d5b58a3b7260b16d5e5be930b97f62ea37134c0cb6eb3f0a"
+      },
+      {
+        "path": "src/core2/opening-finance.test.ts",
+        "sha256": "5f9a488802d2128a87b823b9d4803ec337730bc8809844229a03ad7acd90b269"
+      },
+      {
+        "path": "src/core2/generated-household-source.ts",
+        "sha256": "498f90b6922400f92dacb73f96677ede0c6e324abe0e493cbc1d8413dd44de72"
+      },
+      {
+        "path": "src/core2/generated-household-source.test.ts",
+        "sha256": "029be4b61473db226b8715d6447fb370056caf3ccece59f47314e7fdfe23aae7"
+      },
+      {
+        "path": "src/core2/tooling/opening-input-budget.ts",
+        "sha256": "ba53ead1d92cd0e0891f34d1804b2a0c23defdf3d393554b61b49d44562bfad6"
+      },
+      {
+        "path": "src/core2/tooling/opening-input-budget.test.ts",
+        "sha256": "5229d372fd50d0beb3428d4d348691a2bba8776e620b9f66ea333aaa7e00be45"
+      },
+      {
+        "path": "src/core2/tooling/finance-observables.ts",
+        "sha256": "8d8a8a621be37049c2685f2795d48a40d85525f05ba91337fb18ed8dd5c73750"
+      },
+      {
+        "path": "src/core2/tooling/finance-observables.test.ts",
+        "sha256": "e1b42f2aec0478d66f81a29a9400b907a05d2d303d7d5cbc4af0b40f6a3bc111"
+      },
+      {
+        "path": "src/core2/tooling/finance-measure.ts",
+        "sha256": "e99d38445872b00da5c7154a0549b34ab746274c6ff1acf731aecdfbe214dc80"
+      },
+      {
+        "path": "src/core2/tooling/opening-input-budgets.json",
+        "sha256": "185fd42c9c44c577160b788452ff3f6da7b2243fe66e4dc4059b57cb48942f3f"
+      },
+      {
+        "path": "src/core2/tooling/opening-input-budget-baseline.json",
+        "sha256": "09ec51690db9d4462923ed69dd2cb05d18b9c520242c3e3eef116a2f9d688de5"
+      }
+    ],
+    "annualResult": null
+  }
+}

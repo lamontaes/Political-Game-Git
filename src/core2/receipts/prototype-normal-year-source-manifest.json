@@ -1,0 +1,185 @@
+{
+  "schema": "p8-normal-year-source-manifest-v1",
+  "assembly": "Assembled after the measurement from unchanged source bytes; the complete 29-file digest exactly recomputes the before/after digest recorded during the run.",
+  "runtimeSourceDigest": "2035d81b610942b6cb8d9e8312b84c27e92d47b0da720dcd9d9a97bd9a727947",
+  "algorithm": "SHA-256 over sorted repository-relative UTF-8 file path, NUL, raw file bytes, NUL for each file.",
+  "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+  "fileCount": 29,
+  "files": [
+    {
+      "path": "src/core2/calendar.ts",
+      "bytes": 4840,
+      "sha256": "fceb544acc19638254861b7149b3535543e3a1b8ce352a7644806b42ffc94322"
+    },
+    {
+      "path": "src/core2/civic-inputs.ts",
+      "bytes": 12199,
+      "sha256": "5c87ca961b2bf19326c0caeb947441f69b42c8d7b500856c9506f382e777c27c"
+    },
+    {
+      "path": "src/core2/data.ts",
+      "bytes": 1819,
+      "sha256": "199a60d4a4595efa2e0d3878c02dfcf5185a92d87b6a8e074a48e54e442d32d6"
+    },
+    {
+      "path": "src/core2/data/civic-inputs.json",
+      "bytes": 6226,
+      "sha256": "c510e201628e5896a5b840b561cd2a96e2a998f9b21257f896609e19d0ed7bf3"
+    },
+    {
+      "path": "src/core2/data/content.json",
+      "bytes": 6270,
+      "sha256": "d999586197322f63b8077412fde89d33cb715b140dd18878eb5214de662b7cb3"
+    },
+    {
+      "path": "src/core2/data/deep-past.json",
+      "bytes": 5560,
+      "sha256": "a33a94a0f976d3a740845937defebf382eedc19092d2d2ae11cf036ef6426055"
+    },
+    {
+      "path": "src/core2/data/measurement.json",
+      "bytes": 355,
+      "sha256": "831a9f185f7dc01df56929ff3475ce75026c541012a656a4d2f0d12532746062"
+    },
+    {
+      "path": "src/core2/data/parameters.json",
+      "bytes": 22483,
+      "sha256": "6f93f4913bcd988e984480275f21f9e04b564396c171a45536b5352730f2d8d5"
+    },
+    {
+      "path": "src/core2/data/stopgaps.json",
+      "bytes": 20209,
+      "sha256": "ebdfdc875f348edd62762498cce85ce4d8327c79ba5e05613904fa883f340b8c"
+    },
+    {
+      "path": "src/core2/deep-past.ts",
+      "bytes": 18121,
+      "sha256": "0b958e3c1c9e091ec4fe05f3fa517235f9fabc030d1f2e3ad7b667832c942736"
+    },
+    {
+      "path": "src/core2/emotion.ts",
+      "bytes": 7422,
+      "sha256": "47c35783ad328ed9ae9561a008ef157331e3b22af7b185eca6f74e7dc4a6ddd4"
+    },
+    {
+      "path": "src/core2/focus.ts",
+      "bytes": 883,
+      "sha256": "b99fd64890366761df2aa8583a8a3c5b9dcd403a3d721aba8006e5b24b72de27"
+    },
+    {
+      "path": "src/core2/life.ts",
+      "bytes": 10218,
+      "sha256": "f65f2d1cfa188945696492b9eb729fa06a5bb2b0d728517c67d1100a87ece7fd"
+    },
+    {
+      "path": "src/core2/modules/life.ts",
+      "bytes": 11677,
+      "sha256": "bef00d400000892d4c1ad28abcc795b91899a49028c27b0eaaa781ad6971c8e9"
+    },
+    {
+      "path": "src/core2/parameters.ts",
+      "bytes": 1665,
+      "sha256": "d4c49c737c9165b8dc95fec7b1416f75c46324b09a3d680bd01ba0a84e9f9fc8"
+    },
+    {
+      "path": "src/core2/places.ts",
+      "bytes": 630,
+      "sha256": "80ccbeb5921aa2c1319168d60adb8fe6348233f6d1c82d05de96c39defb295f4"
+    },
+    {
+      "path": "src/core2/population.ts",
+      "bytes": 32119,
+      "sha256": "4fe175c7fd2696cc9845f5bad27d61bc7f089fb69b2fcb07ed84aed00e724faa"
+    },
+    {
+      "path": "src/core2/receipts/old-core-baseline.json",
+      "bytes": 2400,
+      "sha256": "b216e9578aa6ee5e1ba2553e02c52b6756c0dd9a34f9e564a9c6ace225743819"
+    },
+    {
+      "path": "src/core2/receipts/prototype-day-cache.json",
+      "bytes": 58154,
+      "sha256": "b363748c69fcf2d2a37dfba84c41cd7fb341a894235ce6293c9a4bb1fc61240f"
+    },
+    {
+      "path": "src/core2/state.ts",
+      "bytes": 26582,
+      "sha256": "bfc0f8c34f43dc0dbcbcd260c9001097f58d5a21d8abf5f09778beb6aef94f44"
+    },
+    {
+      "path": "src/core2/stopgaps.ts",
+      "bytes": 1411,
+      "sha256": "53d072c140c0508cd452e5fcddf6d4fc51acfe364cd64ae080487b160450192e"
+    },
+    {
+      "path": "src/core2/tooling/calibration-guard.ts",
+      "bytes": 24412,
+      "sha256": "0c5b435d78475ebdc15d8da69c5ddb63413f0f97172d4342bade115cec6c6578"
+    },
+    {
+      "path": "src/core2/tooling/calibration-targets.json",
+      "bytes": 121758,
+      "sha256": "30885759ea43b2d9eb52b01b8a67199c8e90ffe5c26a4ddf85a7092b2b75bad8"
+    },
+    {
+      "path": "src/core2/tooling/fixtures/event-inputs.json",
+      "bytes": 614,
+      "sha256": "34dedb7d0cb1727229b8222909e481466a4d958b02cc3decda82f0c11581603d"
+    },
+    {
+      "path": "src/core2/tooling/measure.ts",
+      "bytes": 36063,
+      "sha256": "27e9af6d19c3247ba53b231105c50e7663a24dd9f3ccb9b8472fd8b37ef9eabf"
+    },
+    {
+      "path": "src/core2/tooling/tripwires.ts",
+      "bytes": 38258,
+      "sha256": "78934ea55d0beba430214ab43310bd72456d288519a5f3e8021e37ac5380d415"
+    },
+    {
+      "path": "src/core2/tooling/tsconfig.json",
+      "bytes": 219,
+      "sha256": "0de414471df377a5d2606ee7d47c831efddc42b81c4b44b6a15e7da871fb6e15"
+    },
+    {
+      "path": "src/core2/tooling/vitest.config.ts",
+      "bytes": 470,
+      "sha256": "4c05ef8a0d06fc0f33088536d66ec3d049dab8bfdbef3436eac96f39324dd021"
+    },
+    {
+      "path": "src/core2/types.ts",
+      "bytes": 11873,
+      "sha256": "87a429b1a52b66ae807ba5b2b606f0158c31d046d8545a0f92d2806263821a0e"
+    }
+  ],
+  "excludedFromReconstruction": [
+    {
+      "path": "src/core2/receipts/prototype-normal-year.json",
+      "reason": "Added after the measured run as evidence; absent from the recorded 29-file source digest."
+    }
+  ],
+  "dependencies": "Transitive code and data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+  "unhashedDependencyGitBase": "e6bc9f6cbe97b99ce302aafad95864d91383e23f",
+  "preparedInputSha256": "32f217f04d3eafb94c6cffbbafd89de0678b539e65ec73caac76d6b47194f629",
+  "archives": [
+    {
+      "path": "src/core2/receipts/prototype-normal-year-full.json.gz",
+      "bytes": 3136132,
+      "sha256": "2360d2567b550e084b954e436b48e7f312454cd6886ea54c22e1db490762cb55",
+      "uncompressedBytes": 99293841,
+      "uncompressedSha256": "de207550fe174f1ab9676511bbe1557834c9d889da82bd1158e225fb3a05e164"
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-person-month-actions.csv.gz",
+      "bytes": 1074083,
+      "sha256": "6a5ef7efe24eff82253ce97a2f1fdd5a10ad6557bc804178d86523846235b441",
+      "uncompressedBytes": 9403196,
+      "uncompressedSha256": "a4b1d19a49fa23ea5623ceb3220f07b3f1df7e12862804300499a1ac65c1fc09"
+    }
+  ],
+  "processLog": {
+    "path": "src/core2/receipts/prototype-normal-year.log",
+    "sha256": "dcf44f6401e0e20cb0671ad5f5bf5c8e335d5c3bef56aea11edf0f57f479cc18"
+  },
+  "proofLimit": "This manifest verifies the named source scope. It does not retroactively hash outside-scope transitive dependencies or the installed toolchain."
+}

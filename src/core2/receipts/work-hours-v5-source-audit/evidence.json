@@ -1,0 +1,387 @@
+{
+  "status": "Read-only source audit and arithmetic from a preserved completed receipt. No source execution, simulation, new measurement, or empirical calibration.",
+  "readAt": "2026-10-09",
+  "observedReceipt": {
+    "path": "/workspace/p8-core-prototype/src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+    "sha256": "2e44c181526c7f7671ae0271608db0d0cb4bc72ca60ccd85e06234fff98b5322",
+    "seed": "p8-real-life-cost-2026-10-09",
+    "startedAt": "2021-01-01",
+    "throughDate": "2022-01-01",
+    "coreVersions": {
+      "apiVersion": "core2-api-v5",
+      "schemaVersion": "core2-schema-v5"
+    },
+    "sourceDigest": "b55af648dd79c8456ca3fb2f6accb0493817f290fcbdf242b4f4a02a0b658d20",
+    "preparedInputSha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+    "counts": {
+      "people": 10002,
+      "households": 3955,
+      "jobs": 1433,
+      "organizations": 39,
+      "husks": 0,
+      "durableRecords": 32043,
+      "peopleByTier": {
+        "calendar": 0,
+        "daily": 0,
+        "husk": 0,
+        "monthly": 0,
+        "weekly": 10002
+      },
+      "dailyCirclePeople": 57
+    },
+    "workCalendar": {
+      "unit": "dated calendar segment/diary participation; never whole-shift completion",
+      "plannedDatedSegments": 299199,
+      "attendedDatedSegments": 272610,
+      "absentDatedSegments": 26589,
+      "plannedMinutes": 99318540,
+      "attendedMinutes": 89964270,
+      "absentMinutesDerived": 9354270,
+      "workMinuteAggregationDifference": 0,
+      "sourceHours": 1499404.5,
+      "receiptHours": 1499404.5
+    },
+    "workMoney": {
+      "requestedMinor": 1783763800,
+      "paidMinor": 1007857551,
+      "shortfallMinor": 775906249,
+      "openingCashMinor": 1735313542,
+      "currentCashMinor": 1735313542,
+      "closedMoneyDeltaMinor": 0,
+      "closedMoneyConserved": true,
+      "latestCashReceiptFailures": 0,
+      "scope": "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested minus paid is arithmetic unpaid amount, not a manufactured event or legal arrears determination."
+    },
+    "byAge": [
+      {
+        "cohort": "below reference age",
+        "diaryDays": 1010346,
+        "attendedMinutes": 0,
+        "hoursPerResidentDiaryDay": 0,
+        "reference2025Hours": null
+      },
+      {
+        "cohort": "15 to 19 years",
+        "diaryDays": 171330,
+        "attendedMinutes": 435600,
+        "hoursPerResidentDiaryDay": 0.04237436526002451,
+        "reference2025Hours": 0.71
+      },
+      {
+        "cohort": "20 to 24 years",
+        "diaryDays": 171752,
+        "attendedMinutes": 7833870,
+        "hoursPerResidentDiaryDay": 0.7601920210536122,
+        "reference2025Hours": 3.85
+      },
+      {
+        "cohort": "25 to 34 years",
+        "diaryDays": 658846,
+        "attendedMinutes": 24985290,
+        "hoursPerResidentDiaryDay": 0.632046790904096,
+        "reference2025Hours": 4.58
+      },
+      {
+        "cohort": "35 to 44 years",
+        "diaryDays": 647757,
+        "attendedMinutes": 27619890,
+        "hoursPerResidentDiaryDay": 0.710654612763737,
+        "reference2025Hours": 4.83
+      },
+      {
+        "cohort": "45 to 54 years",
+        "diaryDays": 460827,
+        "attendedMinutes": 17936820,
+        "hoursPerResidentDiaryDay": 0.6487184995670826,
+        "reference2025Hours": 4.7
+      },
+      {
+        "cohort": "55 to 64 years",
+        "diaryDays": 167758,
+        "attendedMinutes": 7435890,
+        "hoursPerResidentDiaryDay": 0.7387516541685046,
+        "reference2025Hours": 3.83
+      },
+      {
+        "cohort": "65 to 74 years",
+        "diaryDays": 157827,
+        "attendedMinutes": 3716910,
+        "hoursPerResidentDiaryDay": 0.39250888631222797,
+        "reference2025Hours": 1.14
+      },
+      {
+        "cohort": "75 years and over",
+        "diaryDays": 204287,
+        "attendedMinutes": 0,
+        "hoursPerResidentDiaryDay": 0,
+        "reference2025Hours": 0.26
+      }
+    ],
+    "derived": {
+      "provenance": "Arithmetic from the preserved completed comparison receipt; no new engine or benchmark run.",
+      "counts": {
+        "people": 10002,
+        "households": 3955,
+        "jobs": 1433,
+        "organizations": 39,
+        "husks": 0,
+        "durableRecords": 32043,
+        "peopleByTier": {
+          "calendar": 0,
+          "daily": 0,
+          "husk": 0,
+          "monthly": 0,
+          "weekly": 10002
+        },
+        "dailyCirclePeople": 57
+      },
+      "disabledJobs": 64,
+      "unpaidRequestedFraction": 0.43498261877497457,
+      "attendedPlannedMinutesFraction": 0.9058154701025609,
+      "attendedPlannedSegmentsFraction": 0.9111327243740788,
+      "plannedHoursPerInitializedJobDiaryDay": 3.1647544666328904,
+      "attendedHoursPerInitializedJobDiaryDay": 2.866683554952251,
+      "plannedHoursPerInitializedJobMeanWeek": 22.153281266430234,
+      "plannedHoursPerPlannedDateSegment": 5.532468357180338,
+      "attendedHoursPerAttendedDateSegment": 5.500181578078574,
+      "modeledHoursPerAllResidentDiaryDay": 0.41071361070251705,
+      "fullAttendanceAggregateMultiplier": 1.103977612445474,
+      "globalJobCoverage": 0.14327134573085382,
+      "paidRequestedFraction": 0.5650173812250254,
+      "seed": "p8-real-life-cost-2026-10-09",
+      "startedAt": "2021-01-01",
+      "throughDate": "2022-01-01",
+      "coreVersions": {
+        "apiVersion": "core2-api-v5",
+        "schemaVersion": "core2-schema-v5"
+      },
+      "sourceDigest": "b55af648dd79c8456ca3fb2f6accb0493817f290fcbdf242b4f4a02a0b658d20"
+    }
+  },
+  "empiricalReferences": [
+    {
+      "id": "BLS-ATUS-2025-T3",
+      "url": "https://www.bls.gov/news.release/atus.t03.htm",
+      "checkedVia": "Read-only web open; original engine-source HTML digest independently retained in time-use-reference.json.",
+      "sourceHtmlSha256FromExistingData": "844ffb3b54721d0a936956c29014ba792b9e319aff139e0c7763f722553263a4",
+      "unit": "Unconditional primary activity hours per resident diary day; includes related travel.",
+      "population": "US civilian population ages15+; each age cohort includes workers and nonworkers.",
+      "selectedRows": [
+        {
+          "cohort": "Total, 15 years and over",
+          "hours": 3.32
+        },
+        {
+          "cohort": "15 to 19 years",
+          "hours": 0.71
+        },
+        {
+          "cohort": "20 to 24 years",
+          "hours": 3.85
+        },
+        {
+          "cohort": "25 to 34 years",
+          "hours": 4.58
+        },
+        {
+          "cohort": "35 to 44 years",
+          "hours": 4.83
+        },
+        {
+          "cohort": "45 to 54 years",
+          "hours": 4.7
+        },
+        {
+          "cohort": "55 to 64 years",
+          "hours": 3.83
+        },
+        {
+          "cohort": "65 to 74 years",
+          "hours": 1.14
+        },
+        {
+          "cohort": "75 years and over",
+          "hours": 0.26
+        }
+      ],
+      "applicability": "Contextual whole-category target only; modeled paid-job work is a subset and the national2025 population differs from a generated2021 local population."
+    },
+    {
+      "id": "BLS-ATUS-2025-T4",
+      "url": "https://www.bls.gov/news.release/atus.t04.htm",
+      "unit": "Percent of employed people doing work on a diary day; hours conditional on working that day.",
+      "rows": [
+        {
+          "status": "all",
+          "employedThousands": 167443,
+          "averageDayParticipationPercent": 65.5,
+          "workedDayHours": 7.66
+        },
+        {
+          "status": "full-time",
+          "employedThousands": 133133,
+          "averageDayParticipationPercent": 70,
+          "workedDayHours": 8.07,
+          "weekdayParticipationPercent": 87.3,
+          "weekdayWorkedHours": 8.45,
+          "weekendHolidayParticipationPercent": 29.6,
+          "weekendHolidayWorkedHours": 5.49
+        },
+        {
+          "status": "part-time",
+          "employedThousands": 34310,
+          "averageDayParticipationPercent": 48.1,
+          "workedDayHours": 5.36,
+          "weekdayParticipationPercent": 54.3,
+          "weekdayWorkedHours": 5.42,
+          "weekendHolidayParticipationPercent": 33,
+          "weekendHolidayWorkedHours": 5.11
+        }
+      ],
+      "applicability": "Includes main and other jobs, excludes work travel; status concerns usual weekly all-job hours. Attendance of a scheduled date is not this participation denominator."
+    },
+    {
+      "id": "BLS-CPS-2019-T8",
+      "url": "https://www.bls.gov/cps/aa2019/cpsaat08.htm",
+      "unit": "Employed persons in thousands; usual full/part-time status at all jobs.",
+      "fullTimeDefinitionWeeklyHoursMinimum": 35,
+      "rows": [
+        {
+          "cohort": "16+",
+          "fullTimeThousands": 130597,
+          "partTimeThousands": 26941
+        },
+        {
+          "cohort": "16-17",
+          "fullTimeThousands": 229,
+          "partTimeThousands": 1561
+        },
+        {
+          "cohort": "18-19",
+          "fullTimeThousands": 1296,
+          "partTimeThousands": 2064
+        },
+        {
+          "cohort": "20-24",
+          "fullTimeThousands": 9740,
+          "partTimeThousands": 4432
+        },
+        {
+          "cohort": "25-54",
+          "fullTimeThousands": 89893,
+          "partTimeThousands": 11083
+        },
+        {
+          "cohort": "55+",
+          "fullTimeThousands": 29439,
+          "partTimeThousands": 7801
+        }
+      ],
+      "applicability": "Pre-opening national employment mix reference, not county staffing, an individual assignment probability, source bound, or later attendance rule."
+    },
+    {
+      "id": "BLS-CPS-2019-T22",
+      "url": "https://www.bls.gov/cps/aa2019/cpsaat22.htm",
+      "unit": "Hours in survey reference week among nonagricultural persons actually at work.",
+      "rows": [
+        {
+          "cohort": "16+",
+          "allAtWorkHours": 38.9,
+          "usuallyFullTimeAtWorkHours": 42.5
+        },
+        {
+          "cohort": "20-24",
+          "allAtWorkHours": 34.8,
+          "usuallyFullTimeAtWorkHours": 40.7
+        },
+        {
+          "cohort": "25-54",
+          "allAtWorkHours": 40.5,
+          "usuallyFullTimeAtWorkHours": 42.7
+        },
+        {
+          "cohort": "55+",
+          "allAtWorkHours": 38.1,
+          "usuallyFullTimeAtWorkHours": 42.6
+        }
+      ],
+      "applicability": "Conditional weekly outcomes; not schedules per resident diary day or full-time commitment bounds."
+    },
+    {
+      "id": "BLS-ATUS-2019-T4-ARCHIVED",
+      "url": "https://www.bls.gov/news.release/archives/atus_06252020.htm",
+      "unit": "Day-work participation percent and conditional hours, by usual all-job status.",
+      "rows": [
+        {
+          "status": "full-time",
+          "averageDayParticipationPercent": 71.2,
+          "workedDayHours": 8.08
+        },
+        {
+          "status": "part-time",
+          "averageDayParticipationPercent": 55.5,
+          "workedDayHours": 5.48
+        }
+      ],
+      "applicability": "Already published before Jan2021, suitable for a declared opening prior/check; not a personal timetable."
+    },
+    {
+      "id": "BLS-ATUS-2021-T3-T4-ARCHIVED",
+      "url": "https://www.bls.gov/news.release/archives/atus_06232022.htm",
+      "unit": "Table3 resident diary hours; Table4 employed-person day-work participation and conditional hours.",
+      "rows": [
+        {
+          "table": 3,
+          "cohort": "35-44",
+          "workAndWorkRelatedHours": 5.11
+        },
+        {
+          "table": 4,
+          "status": "full-time",
+          "averageDayParticipationPercent": 71.4,
+          "workedDayHours": 8.18
+        },
+        {
+          "table": 4,
+          "status": "part-time",
+          "averageDayParticipationPercent": 53.3,
+          "workedDayHours": 5.45
+        }
+      ],
+      "applicability": "Retrospective2021 population outcome check published2022; never a Jan2021 personal future oracle or engine attendance input."
+    },
+    {
+      "id": "BLS-ATUS-2026-USERS-GUIDE",
+      "url": "https://www.bls.gov/tus/atususersguide.pdf",
+      "sections": "Concepts/definitions pages59-60; AppendixH page75.",
+      "classification": "Published working-and-work-related includes activity lexicon05 plus travel1805; working0501 is a subset.",
+      "missingMechanics": [
+        "main/other job primary time",
+        "job-related activities",
+        "informal income-generating activities",
+        "job search/interviewing",
+        "work travel"
+      ],
+      "applicability": "Classification and denominator guidance; no new individual activity minutes inferred."
+    }
+  ],
+  "sourceUnitAudit": {
+    "productionNumericSettingsUnchanged": true,
+    "jobHours": "weeklyHoursOf(role) returns the role weekly-range midpoint. population586 and opening-employment509 divide by central daysPerWeek into a calendar-day average.",
+    "fallbackSlots": "openingWorkCommitments74 multiplies by daysPerWeek and minutesPerHour, then multiplies periodDays/daysPerWeek and divides by configured slot count. Sum per period conserves the role weekly hours.",
+    "canonicalSlots": "opening-work copies workSchedulesFor.shift.minutes for each worksOn date across the full declared period. Supplied slots override fallback minutes.",
+    "hourlyPay": "Actual requested cents follow stored hourlyMinor times attendedMinutes/minutesPerHour, with carried fractional minor units; wageDailyMinor is not used as a weekday shift payment.",
+    "pureUnitBugFound": false,
+    "correctiveUnitPatch": null
+  },
+  "blockers": [
+    "Compact receipt does not contain openingAllocation age/role targets, job-hours/status histogram, per-age planned minutes, or feasibility-only refusals.",
+    "Added workers copy their template person's part-time hours and complete timetable; observed full/part-time distribution and roster staggering are absent.",
+    "Legacy townResidents filters to ages18-66, while reference rows include employed16-17 and67+; no actual retirement/legal-minor eligibility producer resolves that mismatch.",
+    "Only21 supported ordinary occupations are expandable; public/institutional and other unsupported source mass stays unfilled.",
+    "No observed employer headcount/capacity, sourced position funding, within-role hours dispersion, real holiday/leave/on-call calendar or complete daily diary.",
+    "Primary-job-only commitment contract excludes multiple-job accounting.",
+    "Current closed money lacks employer customer transactions, household bill transfers, borrowing/revenue/closure; unpaid fraction alone cannot prove any payroll-to-attendance causal response."
+  ],
+  "recommendation": "Diagnose coverage and template schedule mix first. No hours/attendance coefficient scaling or unit multiplier is justified. Any new numeric data rows need central tagged metadata and honest blocked calibration references."
+}

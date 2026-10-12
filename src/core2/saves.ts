@@ -1,0 +1,170 @@
+/**
+ * Saves that last (M7-02). A save is how the world was made (place, seed,
+ * custom settings) plus every command the player gave, with its date. The
+ * simulation is deterministic, so loading rebuilds the town and replays the
+ * commands. An update never breaks a save: the world simply runs under the
+ * new rules, and a command the new version can't replay is skipped and noted
+ * (a player choice that no longer exists falls back to the character's own).
+ *
+ * Every player action goes through `runCommand`, so it is recorded. Engines
+ * register their own command kinds with `registerCommand`.
+ */
+import { makeIsoDate } from "../simulation/dates";
+import { CORE_API_VERSION } from "./data";
+import { advanceCore, createLifeCore } from "./life";
+import { advancePlayerV1, resumePlayerV1 } from "./player-v1";
+import { fillInIdentity, fillInPerson } from "./state";
+import {
+  generatedOpening,
+  type WorldSettings,
+} from "./tooling/generated-world";
+import type { CoreData, CoreModule, CoreState, IsoDate } from "./types";
+
+export const SAVE_FORMAT = "core2-save-v1";
+
+export interface GameRecipe {
+  /** The drawn place: its generation seed and recorded locality key. */
+  place: { seed: string; key: string };
+  twoLevel: boolean;
+  settings?: WorldSettings;
+}
+
+export interface SaveCommand {
+  date: IsoDate;
+  kind: string;
+  payload: unknown;
+}
+
+export interface SaveV1 {
+  format: typeof SAVE_FORMAT;
+  coreApiVersion: string;
+  recipe: GameRecipe;
+  commands: readonly SaveCommand[];
+  savedAt: IsoDate;
+}
+
+export interface Game {
+  core: CoreState;
+  recipe: GameRecipe;
+  commands: SaveCommand[];
+  /** Commands a load could not replay under this version, with the reason. */
+  skipped: { command: SaveCommand; reason: string }[];
+}
+
+export interface GameOptions {
+  /** Engines to install, built fresh for each game (they may hold state). */
+  modules?: () => readonly CoreModule[];
+  data?: CoreData;
+  observer?: boolean;
+  /** Runs once after the core is created (e.g. engines' opening steps). */
+  afterCreate?: (core: CoreState) => void;
+}
+
+type CommandHandler = (core: CoreState, payload: never) => unknown;
+const handlers = new Map<string, CommandHandler>();
+
+/** An engine's player action, replayable from a save. */
+export function registerCommand<P>(
+  kind: string,
+  handler: (core: CoreState, payload: P) => unknown,
+): void {
+  if (handlers.has(kind) && handlers.get(kind) !== handler)
+    throw new Error(`Command already registered: ${kind}`);
+  handlers.set(kind, handler as CommandHandler);
+}
+
+registerCommand<{ through: string }>("advance", (core, payload) =>
+  advanceCore(core, payload.through),
+);
+registerCommand<Parameters<typeof advancePlayerV1>[1]>(
+  "player.advance",
+  (core, payload) => advancePlayerV1(core, payload),
+);
+registerCommand<Parameters<typeof resumePlayerV1>[1]>(
+  "player.resume",
+  (core, payload) => resumePlayerV1(core, payload),
+);
+registerCommand<{ personId: string }>("fill-in", (core, payload) =>
+  fillInPerson(core, payload.personId),
+);
+registerCommand<Parameters<typeof fillInIdentity>[1]>(
+  "fill-in.identity",
+  (core, payload) => fillInIdentity(core, payload),
+);
+
+export function newGame(recipe: GameRecipe, options: GameOptions = {}): Game {
+  const input = generatedOpening(recipe.place, {
+    twoLevel: recipe.twoLevel,
+    ...(recipe.settings ? { settings: recipe.settings } : {}),
+  });
+  const core = createLifeCore(input, {
+    ...(options.data ? { data: options.data } : {}),
+    ...(options.observer !== undefined ? { observer: options.observer } : {}),
+    ...(options.modules ? { modules: options.modules() } : {}),
+  });
+  options.afterCreate?.(core);
+  return { core, recipe, commands: [], skipped: [] };
+}
+
+/** Run a player action and record it for the save. */
+export function runCommand<R = unknown>(
+  game: Game,
+  kind: string,
+  payload: unknown,
+): R {
+  const handler = handlers.get(kind);
+  if (!handler) throw new Error(`Unregistered command: ${kind}`);
+  const command: SaveCommand = {
+    date: makeIsoDate(game.core.date),
+    kind,
+    payload: JSON.parse(JSON.stringify(payload ?? null)),
+  };
+  const result = handler(game.core, command.payload as never) as R;
+  game.commands.push(command);
+  return result;
+}
+
+export function saveGame(game: Game): SaveV1 {
+  return {
+    format: SAVE_FORMAT,
+    coreApiVersion: CORE_API_VERSION,
+    recipe: JSON.parse(JSON.stringify(game.recipe)),
+    commands: JSON.parse(JSON.stringify(game.commands)),
+    savedAt: makeIsoDate(game.core.date),
+  };
+}
+
+/** Rebuild the world and replay the player's commands, skipping what no longer applies. */
+export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
+  if (save.format !== SAVE_FORMAT)
+    throw new Error(`Unknown save format: ${String(save.format)}`);
+  const game = newGame(save.recipe, options);
+  for (const command of save.commands) {
+    try {
+      if (command.date > game.core.date)
+        runCommand(game, "advance", { through: command.date });
+      runCommand(game, command.kind, command.payload);
+    } catch (error) {
+      game.skipped.push({
+        command,
+        reason: error instanceof Error ? error.message : String(error),
+      });
+      // A choice that no longer exists: the character decides for itself.
+      if (command.kind === "player.resume") {
+        const payload = command.payload as { pauseId?: string };
+        try {
+          if (payload.pauseId)
+            runCommand(game, "player.resume", {
+              kind: "own-choice",
+              pauseId: payload.pauseId,
+            });
+        } catch {
+          // The pause itself no longer exists; replay continues.
+        }
+      }
+    }
+  }
+  if (save.savedAt > game.core.date)
+    runCommand(game, "advance", { through: save.savedAt });
+  return game;
+}

@@ -1,0 +1,50 @@
+{
+  "status": "Read-only source audit. No repository writes, runtime/test/compiler/world/benchmark runs, Git/Drive actions, or agents.",
+  "repo": "/workspace/p8-core-prototype",
+  "sourcePins": {
+    "src/core2/calendar.ts": "fceb544acc19638254861b7149b3535543e3a1b8ce352a7644806b42ffc94322",
+    "src/core2/opening-work.ts": "e3c5e0c4b7ccf6ccc7b4364f93d7b3b9f6a0817e33553d27d530ea1375113a66",
+    "src/core2/opening-employment.ts": "6ef46f4876476b3c86713fe0d0f14cbd04350709046617b21d47fcb293d1ddeb",
+    "src/core2/data/opening-employment.json": "0044dba987aa94956da09c156f9f052d94011854b8eaf097c390247126cf54e8",
+    "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
+    "src/core2/data/work.json": "908e55072882b8f0787882a9b96f333f5b12ceae7675f93ef6237308c3820931",
+    "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
+    "src/core2/data/parameters.json": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df",
+    "src/core2/modules/work.ts": "feba291192d3f099b1d27f1a209d76999468b821237a7e87b59af252fa631295",
+    "src/core2/modules/life.ts": "4f93c1a07f327bef3b1faab73ddfe30e02963ed470a9bf6dbb96918f4369686c",
+    "src/core2/work-state.ts": "62155c8d1a53f537336991d1178b533d3547cdbedbbc2c3b38dacf74e9c19834",
+    "src/core2/tooling/work-observables.ts": "d0f0a42f2fe835f9f7938c823308610e2e6dc93868d4c0498aca39dcd4ba0316",
+    "src/core2/population.ts": "b3d10f803ebd40eca6d8878934e7f8da7f99188104e8adb798ac099f68733e46",
+    "src/core2/types.ts": "631892904ee5edde707e6a45ab4961a3083852eaa0c45b447109fab92904c05b",
+    "src/core2/life.ts": "8858b9dd458ca5b73b3cdb4056317dbf048133b8d491f5dc307d60c1648c8df3",
+    "src/simulation/living-world/town-employment.ts": "27df918f4adb6a9a26f5ee10488b03886bfda36568bee4ac6e3cdae5308f1ce4",
+    "src/simulation/living-world/work-schedules.ts": "b2b12ddd4332822d9f7b3260f10b31005555d3f42a0d5e596556a6eba63a60ac",
+    "src/simulation/living-world/town-pay.ts": "d592a519b0d3f38ca6cdd40141989f5106fd39f07da4928af061370c3944a305"
+  },
+  "observedReceipt": {
+    "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+    "sha256": "2e44c181526c7f7671ae0271608db0d0cb4bc72ca60ccd85e06234fff98b5322",
+    "scope": "Root-authorized preserved compact completed v5 receipt; no huge receipt or prepared world was parsed."
+  },
+  "artifacts": [
+    {
+      "path": "/tmp/p8-work-hours-audit-20261009/review.md",
+      "sha256": "19e1421d5a65f8cbac4d922da1ad49d200895f5e174ee63d9d1c7e8184197239"
+    },
+    {
+      "path": "/tmp/p8-work-hours-audit-20261009/evidence.json",
+      "sha256": "b11f15bf731083ac5bd883aeb99121255cb760b31dc31f0c6f26872d40f42dad"
+    }
+  ],
+  "pureUnitCorrection": {
+    "needed": false,
+    "patch": null,
+    "reason": "Calendar-average hours are correctly reconstructed to weekly minutes; supplied canonical slots preserve actual recorded shift duration."
+  },
+  "calibration": {
+    "run": false,
+    "coefficientBoundsIdentified": false,
+    "empiricalValues": "National published contextual totals and category definitions; population/vintage/diary/primary-job gaps are explicit."
+  },
+  "priorArtifacts": "All earlier date-cache, knowledge-index, work overlays and harness candidates remain untouched; date cache deferred."
+}
