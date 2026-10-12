@@ -6,12 +6,15 @@
  * faster than the cap (a home bought since is assessed at its price).
  *
  * The rate, the cap and who's paid come from the law in force (OPUS-GOV's
- * `lawInForce(api, "property-tax")` and the county's treasury), registered
- * with `registerPropertyTax`. Until that's on this branch, each state's
- * average effective rate stands in, paid outside the town, where the core's
- * living cost already sent owners' taxes.
+ * `lawInForce(api, "property-tax")`: the county's recorded rate) wherever
+ * the laws are open; another source can be registered with
+ * `registerPropertyTax`. Without the laws, each state's average effective
+ * rate stands in. Either way it's paid outside the town, where the core's
+ * living cost already sent owners' taxes, until the county's treasury holds
+ * an account.
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
+import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
@@ -45,8 +48,36 @@ export function stateEffectiveRate(usps: string): number {
   return RATES[usps] ?? taxData.national;
 }
 
+/** The county's rate in force; before the recorded rate's date, the recorded row stands as the county's rate. */
+function fromLaw(api: CoreAPI): PropertyTaxTerms | undefined {
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return undefined;
+  let answer;
+  try {
+    answer = lawInForce(api, "property-tax");
+  } catch {
+    return undefined;
+  }
+  const row = answer.governing ?? answer.pending[0] ?? null;
+  const percent = row?.value;
+  if (typeof percent !== "number") return undefined;
+  return {
+    rate: percent / api.parameter("macroHundred"),
+    source: {
+      tag: row!.estimate || !answer.governing ? "ESTIMATED" : "SOURCED",
+      asOf: answer.governing ? row!.effectiveDate : api.state.date,
+      citation: [row!.source].flat().join(" "),
+      ...(row!.estimate || !answer.governing
+        ? {
+            estimatedFrom:
+              "The county's recorded effective rate on owner-occupied homes (median tax over median value).",
+          }
+        : {}),
+    },
+  };
+}
+
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
-  const registered = termsSource?.(api, placeId);
+  const registered = termsSource?.(api, placeId) ?? fromLaw(api);
   if (registered) return registered;
   stopgap("SG-WORLD-property-tax-rate");
   return {

@@ -6,8 +6,16 @@ import {
   registerPropertyTax,
   stateEffectiveRate,
 } from "./housing-property-tax";
+import { randomUUID } from "node:crypto";
+import { drawPlace } from "../../tests/golden-path/place";
 import { HOUSING_MODULE } from "./modules/housing";
-import { worldCoreData } from "./modules/world";
+import { lawInForce, openLaws } from "./modules/laws";
+import {
+  WORLD_MODULES,
+  withWorldEconomy,
+  worldCoreData,
+} from "./modules/world";
+import { generatedOpening } from "./tooling/generated-world";
 import { coreAPI } from "./state";
 import type { CoreInput, Source } from "./types";
 
@@ -124,4 +132,35 @@ describe("property tax bills", () => {
     expect(second).toBe(Math.round((40_800_000 * 0.02) / 12));
     expect(core.organizations.get(county)!.liquidMinor).toBe(first + second);
   });
+  it("with the laws open, an owner in a generated world pays the county's recorded rate", () => {
+    const drawn = drawPlace(randomUUID(), "property-tax");
+    console.log(
+      `property tax: ${drawn.name}, ${drawn.state}, seed ${drawn.seed}`,
+    );
+    const opening = withWorldEconomy(
+      generatedOpening(drawn, { twoLevel: true }),
+    );
+    const core = createLifeCore(opening, {
+      data: worldCoreData(),
+      modules: [...WORLD_MODULES],
+    });
+    advanceCore(core, opening.startedAt);
+    openLaws(core);
+    const api = coreAPI(core);
+    const answer = lawInForce(api, "property-tax");
+    const percent = (answer.governing ?? answer.pending[0])?.value;
+    const rate =
+      typeof percent === "number"
+        ? percent / 100
+        : stateEffectiveRate(opening.placeMetadata?.housingState ?? "");
+    const table = api.moduleState("housing").table("assessments");
+    const paid = billPropertyTax(api, table, [
+      {
+        householdId: opening.households[0]!.id,
+        placeId: opening.households[0]!.placeId,
+        valueMinor: 30_000_000,
+      },
+    ]);
+    expect(paid).toBe(Math.round((30_000_000 * rate) / 12));
+  }, 300_000);
 });
