@@ -44,7 +44,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): marriageReferenceAge = 25, ESTIMATED from U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://ww…",
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): marriageReferenceAge = 25, ESTIMATED from U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://ww\u2026",
     "status": "resolved"
   },
   {
@@ -56,7 +56,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): careHours = 2.23, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): careHours = 2.23, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng\u2026",
     "status": "resolved"
   },
   {
@@ -68,7 +68,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): civicHours = 2.18, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): civicHours = 2.18, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng\u2026",
     "status": "resolved"
   },
   {
@@ -104,7 +104,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): moodHalfLifeDays = 1, ESTIMATED from Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031…",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): moodHalfLifeDays = 1, ESTIMATED from Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119\u2013127, doi:10.1007/s11031\u2026",
     "status": "resolved"
   },
   {
@@ -236,7 +236,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): moneyBufferDays = 19, ESTIMATED from JPMorgan Chase Institute 2023 cash buffer days (spread 13–43).",
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): moneyBufferDays = 19, ESTIMATED from JPMorgan Chase Institute 2023 cash buffer days (spread 13\u201343).",
     "status": "resolved"
   },
   {
@@ -368,7 +368,7 @@
     "why": "Retain a real generated job while its occupation/local wage record is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source the same occupation and place wage for the relevant era. Done Oct 12 (OPUS-CORE): fallbackAnnualWageMinor = 4449120, ESTIMATED from BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_…",
+    "replacement": "Source the same occupation and place wage for the relevant era. Done Oct 12 (OPUS-CORE): fallbackAnnualWageMinor = 4449120, ESTIMATED from BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_\u2026",
     "status": "resolved"
   },
   {
@@ -628,11 +628,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/parameters.json",
     "line": 1616,
-    "whatItFakes": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "whatItFakes": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943\u20131954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementClaimAgeYears = 64, ESTIMATED from SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage d…",
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementClaimAgeYears = 64, ESTIMATED from SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage d\u2026",
     "status": "resolved"
   },
   {
@@ -680,7 +680,7 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementMinimumCoveredMonths = 120, SOURCED from Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for w…",
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementMinimumCoveredMonths = 120, SOURCED from Social Security Act \u00a7214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for w\u2026",
     "status": "resolved"
   },
   {
@@ -692,7 +692,7 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementBenefitReferenceCoveredMonths = 420, SOURCED from Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation…",
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementBenefitReferenceCoveredMonths = 420, SOURCED from Social Security Act \u00a7215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation\u2026",
     "status": "resolved"
   },
   {
@@ -833,7 +833,7 @@
     "file": "src/core2/deep-past.ts",
     "line": 116,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
-    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
+    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player\u2019s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
@@ -1176,15 +1176,15 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-jobs-benefits",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/jobs.ts",
-    "line": 240,
-    "whatItFakes": "A spell of unemployment pays no unemployment insurance.",
-    "why": "Benefits are paid from state budgets under each state's law (M1-07, OPUS-GOV).",
+    "id": "SG-WORLD-jobs-benefits-terms",
+    "kind": "assumed-data",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 60,
+    "whatItFakes": "Every state's unemployment insurance pays half the lost weekly pay up to $611 a week for 26 weeks after one waiting week, with a $2,775 base-period minimum (the states' medians).",
+    "why": "Each state's own terms are law in force on OPUS-GOV's branch (lawInForce(api, \"unemployment-insurance\")), not yet on this one.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
+    "replacement": "registerUnemploymentTerms with the state's terms from lawInForce once the laws module is on the same branch.",
     "status": "open"
   },
   {

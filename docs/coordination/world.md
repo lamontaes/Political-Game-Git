@@ -64,7 +64,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 - **OPUS-CORE: review `core2-api-v13` and `-v14`** (`attachBusinessCredit`, `endStandingContract`, both small, in `finance-state.ts`).
 - **OPUS-CORE: accounts.** Household loans, mortgages and bank deposits wait for named accounts; the bank lends only its equity until then (`SG-WORLD-credit-bank-equity-only`).
-- **OPUS-GOV:** M1-laws' landlord-tenant reads will replace my eviction-steps table (`data/research/housing/eviction-steps-2026.json`), and state unemployment insurance will replace `SG-WORLD-jobs-benefits`.
+- **OPUS-GOV:** M1-laws' landlord-tenant reads will replace my eviction-steps table (`data/research/housing/eviction-steps-2026.json`), and state unemployment insurance plugs into `registerUnemploymentTerms` (`src/core2/jobs-benefits.ts`), replacing `SG-WORLD-jobs-benefits-terms`.
 
 - **OPUS-CORE: founding seam, built on my side.** `shiftPurchaseShare` (`src/core2/residents-economy.ts`) moves a share of each residents' purchase flow paying a kind's incumbents to an equal new flow paying the entrant. The households' spending is unchanged. Please carry or replace it with the others in that file.
 - **OPUS-PLAY: panels.** `src/core2/modules/world-panels.ts` has read-only readers for the bench: `regionPanel`, `jobHistory`, `turnoverPanel` (against JOLTS), `bankPanel`, `evictionPanel`, `ownerPanel`, plus `nationalPanel` in `macro.ts`. One line adds the economy: `withWorldEconomy(input)`, `worldCoreData()`, `WORLD_MODULES`.
@@ -93,12 +93,15 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Questions for the owner
 
+- **Recessions in long games.** Real recessions start from shocks (oil, a pandemic, a financial crisis). Measured credit links alone don't make cycles. I'll let them come from causes in the game: the president's appointments to the central bank board, Congress's budgets and laws, and price changes in data. A self-starting credit cycle is possible at the edge of the measured ranges. Tell me if you want it.
+
 - **The first year's 12-month changes.** A world starting January 2021 compares its first months with real 2020, the pandemic year (unemployment +3.0 points, jobs −6.1% against the 1990–2026 bands). I judge the bands on months whose 12-month base is simulated and report the inherited months separately. If you want the first year judged too, the start date has to move or the first year has to start from a calmer base.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12: unemployment insurance. A worker laid off or put out by a closure files a claim; after the waiting week the state's fund (outside the town) pays half their lost weekly pay, up to the cap, until they're hired or 26 weeks run out. Quitters get none. National medians stand in for each state's terms until GOV's `lawInForce(api, "unemployment-insurance")` meets this branch (`registerUnemploymentTerms`). Absecon, three years: 20 claims, $131,445 paid, 11 exhausted and 4 ended by a hire, 47 s, every dollar balances. Also tried a self-generated credit cycle for recessions (Fed debt service, charge-off and loan officer survey data, 1990–2019): with measured coefficients it settles down, as estimated models do, and only edge-of-range values cycle; not shipped. Recessions will come from causes: the board's appointments, federal budgets and laws.
 - 2026-10-12: 20-year drift report (BOARD item) in Adrian, Missouri; Floyd, New Mexico; and Shumway, Illinois: 0 of 766 checks per town outside the 1990–2026 bands. The economy settles by 2027 (unemployment 4.16%, inflation 2.5%, rate 2.63%) with no cycles, because nothing causes shocks, and the board's quarter-point step leaves unemployment just under its natural rate. Town income growth now compares 12-month totals (it swung −22% to +41%). Next: cause-driven national shocks and small rate moves.
 - 2026-10-12: a fresh-eyes review found 12 issues; 11 fixed (hiring stuck on counted applicants, outside buyers' shares bouncing back, the bank's capital rising with repayments, past-due loans billed twice, owners drawing through losses, stale staff counts, a slow counted-jobs scan, and others). The 12th (filled-in households' housing) needs a fill-in hook from OPUS-CORE. Home values now follow FHFA's state house price index, and union locals use each state's 2025 membership rate. Absecon, three years: 473 hires, 295 quits for better pay, 51 s, every dollar balances. M1-02 still passes in Coventry, Vermont.
 - 2026-10-12: union locals live on members' dues (BLS membership rate, 1.3% of the median wage), so the union's worker is paid; the bank writes no loan under $1,000; a closure names its owner (`business.closed`) for M1-11's drives; `ownedHomes` for GOV's property tax. Absecon, three years: 3 household loans, none charged off, 55 s, every dollar balances.

@@ -17,6 +17,7 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
+import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import {
   addCountedJob,
   countedJobsOf,
@@ -42,6 +43,7 @@ export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
 export const JOBS_DATA = jobsData;
 const PULL = "jobs:pull";
 const MONDAY = 1;
+const DAYS_PER_WEEK = 7;
 
 type Kind = keyof typeof jobsData.actions;
 interface PositionRow {
@@ -236,8 +238,6 @@ function startSeeking(
     referenceHourlyMinor,
   });
   if (!employed) {
-    // Unemployment benefits come from the budgets engine (M1-07).
-    stopgap("SG-WORLD-jobs-benefits");
     store(api)
       .table("spells")
       .put({
@@ -251,6 +251,7 @@ function startSeeking(
 }
 
 function endSpell(api: CoreAPI, personId: string): void {
+  endClaim(api, store(api).table("claims"), personId);
   for (const row of store(api)
     .table("spells")
     .query("open", [personId, true])) {
@@ -546,6 +547,8 @@ function layOff(
   if (!job) return;
   const keepScore = keep(job);
   const counted = isCounted(api, job.personId);
+  const weeksWorked =
+    (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
   if (counted) endCountedJob(c, job.id);
   else api.endJob(job.id, `jobs:layoff:${api.state.date}`);
   // The owner decides; a business without a recorded owner decides as itself.
@@ -572,6 +575,14 @@ function layOff(
     publicRecord: false,
     topic: organizationId,
   });
+  // Laid off through no choice of their own: a claim under the state's program.
+  fileClaim(
+    api,
+    store(api).table("claims"),
+    job,
+    jobsData.reasons.layoff,
+    weeksWorked,
+  );
   if (counted)
     store(api)
       .table("countedSeekers")
@@ -980,6 +991,7 @@ function hireCounted(
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
   store(api).table("countedSeekers").remove(seeker.personId);
+  endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
     personId: seeker.personId,
     organizationId: position.organizationId,
@@ -1265,6 +1277,12 @@ export const JOBS_MODULE: CoreModule = {
       pay: {},
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
+      claims: {
+        indexes: {
+          open: { fields: ["open"] },
+          byPerson: { fields: ["personId", "open"] },
+        },
+      },
       changes: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -1296,6 +1314,20 @@ export const JOBS_MODULE: CoreModule = {
         decidedBy: ownerOf(api, organizationId) ?? organizationId,
       });
       startSeeking(api, personId, false, jobsData.reasons.closure, 0);
+      const lost = [
+        ...(core(api).finance.jobsByOrganization.get(organizationId) ?? []),
+      ]
+        .map((id) => core(api).jobs.get(id))
+        .find((job) => job?.personId === personId);
+      if (lost)
+        fileClaim(
+          api,
+          store(api).table("claims"),
+          lost,
+          jobsData.reasons.closure,
+          (tenureYears(api, lost) * api.parameter("jobsDaysPerYear")) /
+            DAYS_PER_WEEK,
+        );
     }
   },
   onCalendarWork(api, work) {
@@ -1306,6 +1338,7 @@ export const JOBS_MODULE: CoreModule = {
       reviewWorkers(api);
       scheduleReview(api);
     } else if (work.kind === "jobs-week") {
+      payClaims(api, store(api).table("claims"));
       runWeek(api);
       scheduleWeek(api);
     }
