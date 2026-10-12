@@ -1035,7 +1035,7 @@
     "id": "SG-GOV-voter-registration-assumed",
     "kind": "missing-record",
     "file": "src/core2/modules/elections.ts",
-    "line": 460,
+    "line": 462,
     "whatItFakes": "Every adult resident counts as a registered voter where filing or signing requires registration.",
     "why": "core2 has no voter registration record yet.",
     "addedBy": "OPUS-GOV",
@@ -1047,7 +1047,7 @@
     "id": "SG-GOV-signature-decision",
     "kind": "missing-engine",
     "file": "src/core2/modules/elections.ts",
-    "line": 674,
+    "line": 678,
     "whatItFakes": "A stranger asked to sign a petition signs when their own sociability outweighs their wariness of conflict, instead of weighing the candidate's platform.",
     "why": "PEOPLE's views engine isn't on core2 yet, so a signer can't compare the platform with their own views.",
     "addedBy": "OPUS-GOV",
@@ -1077,6 +1077,30 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-voter-groups-stand-in",
+    "kind": "missing-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 534,
+    "whatItFakes": "Voters the world doesn't name vote as lean bands around the place's lean, sized from the district's 2024 votes (state and federal races) or the town's population times the 2024 share of people who voted (local races), each band voting with its named people.",
+    "why": "CORE's voter groups exist as a table but generated worlds don't populate them yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "CORE's populated voter groups (counts by place, age, job and household, with lean and turnout), each voting as a group.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-who-runs-stand-in",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/voting.ts",
+    "line": 310,
+    "whatItFakes": "When filing closes, the incumbent stands again if alive, and each state or federal race gets a named challenger from the other major party.",
+    "why": "OPUS-PEOPLE's 'who runs' (M2-04) isn't built: people deciding to run from their drives, views and circumstances.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "PEOPLE's who-runs decisions file each candidate through fileCandidacy with recorded reasons; incumbents decide the same way.",
     "status": "open"
   }
 ]

@@ -9,6 +9,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -236,7 +237,7 @@ function checkPlace(placeKey: string) {
   for (const answer of lawHere(api))
     report[answer.series] =
       `${answer.value ?? "none recorded"} ${answer.unit ?? ""}${answer.estimate ? " (estimate)" : ""}`;
-  console.log(JSON.stringify(report));
+  govReport("laws", JSON.stringify(report));
   return { core, api, want };
 }
 
@@ -320,7 +321,8 @@ describe("M1-01 laws in force, every level", () => {
     const city = local[hash % local.length]!;
     const cityCore = world(city.censusGeoid);
     const cityWage = lawInForce(coreAPI(cityCore), "minimum-wage");
-    console.log(
+    govReport(
+      "laws",
       JSON.stringify({
         preemptingPlace: place.displayName,
         localOrdinance: lawChain(coreAPI(cityCore)).placeName,
@@ -398,7 +400,8 @@ describe("M1-01 laws in force, every level", () => {
       fromMinor: before.value,
       toMinor: after.value,
     });
-    console.log(
+    govReport(
+      "laws",
       JSON.stringify({
         place: place.displayName,
         seed,

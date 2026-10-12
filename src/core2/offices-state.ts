@@ -11,6 +11,7 @@
  * `data/research/offices/legislature-party-counts-2026.json`.
  */
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
+import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeDistrictJoin } from "../districts/place-membership";
@@ -94,6 +95,17 @@ const parties = partyCounts as unknown as {
   >;
   congress: Record<string, Record<string, string[]>>;
 };
+/** The party holding each governorship at the start (National Governors Association). */
+const governorParty = new Map(
+  (
+    calibration as unknown as {
+      governors: { stateUsps: string; party: string | null }[];
+    }
+  ).governors.map((g) => [
+    `US-${g.stateUsps}`,
+    g.party ? g.party[0]!.toUpperCase() + g.party.slice(1) : null,
+  ]),
+);
 const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
 
 const METHODS: Readonly<Record<string, VacancyRule["method"]>> = {
@@ -374,7 +386,10 @@ export function stateOffices(
           district: null,
           index: 0,
           coversTown: true,
-          party: null,
+          party:
+            executive.key === "governor"
+              ? (governorParty.get(stateKey) ?? null)
+              : null,
         },
       ],
     });

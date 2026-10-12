@@ -8,6 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -162,7 +163,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       );
     }
     // Money within the limit.
-    const limit = contributionLimit(api, you!.contestId).minor ?? Number.MAX_SAFE_INTEGER;
+    const limit =
+      contributionLimit(api, you!.contestId).minor ?? Number.MAX_SAFE_INTEGER;
     const warm = doors.filter((c) => c.warmthAfter > 0).map((c) => c.voterId);
     const before = new Map(
       warm.map((id) => [id, core.people.get(id)!.liquidMinor]),
@@ -216,7 +218,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     expect(none.contacted).toBe(0);
     expect(none.marginOfError).toBeNull();
     const voter = doors[0]!;
-    console.log(
+    govReport(
+      "campaigns",
       JSON.stringify({
         place,
         seed,

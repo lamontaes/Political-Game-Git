@@ -8,6 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -75,7 +76,8 @@ describe("M2-01 offices and seats, every level", () => {
       if (["city", "county", "township"].includes(office.level))
         expect(core.people.has(holder!.personId!)).toBe(true);
     }
-    console.log(
+    govReport(
+      "offices",
       JSON.stringify({
         placeKey,
         seed,
@@ -121,7 +123,8 @@ describe("M2-01 offices and seats, every level", () => {
     expect(now.personId).not.toBe(holder!.personId);
     if (office.vacancyRule.method === "appointment")
       expect(now.reached).toMatch(/^appointed by/);
-    console.log(
+    govReport(
+      "offices",
       JSON.stringify({
         office: office.title,
         died: `${holder!.identity.givenName} ${holder!.identity.familyName}`,
@@ -135,7 +138,11 @@ describe("M2-01 offices and seats, every level", () => {
   it("no generated official carries a real officeholder's name", () => {
     const core = world(randomPlace("names").key);
     const api = coreAPI(core);
-    for (const state of [pick(states, "n1"), pick(states, "n2"), pick(states, "n3")])
+    for (const state of [
+      pick(states, "n1"),
+      pick(states, "n2"),
+      pick(states, "n3"),
+    ])
       officesOfState(api, state);
     const terms = api
       .moduleState(OFFICES_MODULE_ID)

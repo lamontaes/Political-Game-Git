@@ -319,7 +319,7 @@ function reach(
   if (!voter?.alive || voterId === campaign.candidateId) return null;
   const date = api.state.date;
   const before = impressionOf(api, voterId, campaign.candidateId);
-  const lean = personLean(voter, townRow(api).lean);
+  const lean = personLean(api.state.people, voter, townRow(api).lean);
   const knowsPlatform =
     (before?.knowsPlatform ?? false) || options.carriesPlatform;
   const agreement = knowsPlatform
@@ -841,7 +841,7 @@ export function askForEndorsement(
   const campaign = campaignFor(api, filingId);
   const endorser = api.state.people.get(endorserId);
   if (!endorser?.alive) return false;
-  const lean = personLean(endorser, townRow(api).lean);
+  const lean = personLean(api.state.people, endorser, townRow(api).lean);
   const mine = platformAgreement(lean, campaign.platform);
   const rivals = (
     table(api, "campaigns").query("byContest", [

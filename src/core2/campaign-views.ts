@@ -71,21 +71,54 @@ function delegateShare(stateKey: string): number | undefined {
   );
 }
 
-/** A person's lean, in [-1, 1]: positive right, negative left. */
-export function personLean(
-  person: Readonly<PersonState>,
-  townLean: number,
-): number {
+/** How far a person's personality leans right, by the facets the research links to ideology. */
+function personalityLean(person: Readonly<PersonState>): number {
   const t = person.traits;
-  const lean =
-    townLean +
+  return (
     campaignParameter("leanPerDutyBound") *
       (t["personality-v1:facet-duty-bound"] ?? 0) +
     campaignParameter("leanPerGenerous") *
       (t["personality-v1:facet-generous"] ?? 0) +
     campaignParameter("leanPerPractical") *
-      (t["personality-v1:facet-practical"] ?? 0);
-  return Math.max(-1, Math.min(1, lean));
+      (t["personality-v1:facet-practical"] ?? 0)
+  );
+}
+
+const leans = new WeakMap<object, Map<string, number>>();
+
+/**
+ * A person's lean, in [-1, 1]: positive right, negative left. The town's
+ * adults are ordered by how far their personality leans right (generation
+ * order breaks ties); each one's lean is where they stand in that order
+ * against the share of the vote the right won in their area in 2024, so the
+ * town as a whole splits the way its area really voted.
+ */
+export function personLean(
+  people: ReadonlyMap<string, Readonly<PersonState>>,
+  person: Readonly<PersonState>,
+  townLean: number,
+): number {
+  let map = leans.get(people);
+  if (!map) {
+    const ordered = [...people.values()]
+      .filter((p) => p.alive)
+      .sort(
+        (a, b) =>
+          personalityLean(b) - personalityLean(a) || a.id.localeCompare(b.id),
+      );
+    const rightShare = (1 + townLean) / 2;
+    map = new Map(
+      ordered.map((p, rank) => [
+        p.id,
+        Math.max(
+          -1,
+          Math.min(1, 2 * (rightShare - (rank + 0.5) / ordered.length)),
+        ),
+      ]),
+    );
+    leans.set(people, map);
+  }
+  return map.get(person.id) ?? townLean + personalityLean(person);
 }
 
 /** How strongly a person supports a question's "yes", in [-1, 1]. */

@@ -328,7 +328,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; election night shows exit polls of real voters reporting what they told the pollster; the winner takes the seat on the real start date.",
-      "command": null,
+      "command": "npx vitest run src/core2/voting.test.ts --testTimeout=900000",
       "passes": false
     },
     {
