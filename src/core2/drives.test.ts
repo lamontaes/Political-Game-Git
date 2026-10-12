@@ -212,6 +212,42 @@ describe("P10 drives and causes", () => {
     ).toMatchObject({ kind: "change-condition", sourceDriveId: drive.id });
   });
 
+  it("a closure reaches only the workers it names, with its own sourced impact, and a grudge targets the business", () => {
+    const core = createLifeCore(bereavementInput(), {
+      data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
+      modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
+    });
+    const api = coreAPI(core);
+    const id = `organization.closed:${office}:${core.date}`;
+    // As the core's finance writer records it: no appraised impulse.
+    api.emit({
+      id,
+      date: core.date,
+      kind: "organization.closed",
+      personIds: [carerId, steadyId],
+      placeId: home,
+      publicRecord: true,
+      source,
+      facts: { [`organization:${office}:status`]: "closed" },
+    });
+    const report = drivesReport(core);
+    const decided = report.decisions.filter((row) => row.eventId === id);
+    expect(decided.map((row) => row.personId).sort()).toEqual(
+      [carerId, steadyId].sort(),
+    );
+    for (const row of decided) {
+      expect(row.attention).toBeGreaterThan(p("zero"));
+      expect(row.runnerUp).toBeDefined();
+    }
+    for (const drive of report.drives.filter((row) =>
+      [carerId, steadyId].includes(row.personId),
+    )) {
+      expect(drive.sourceEventId).toBe(id);
+      if (drive.kind === "grudge") expect(drive.targetId).toBe(office);
+    }
+    expect(core.people.get(friendId)!.drives.size).toBe(p("zero"));
+  });
+
   it("control: siblings with identical traits make the identical decision", () => {
     const base = bereavementInput();
     const carer = base.people.find((row) => row.id === carerId)!;

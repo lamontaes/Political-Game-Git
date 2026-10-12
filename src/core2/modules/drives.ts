@@ -73,9 +73,13 @@ export interface DrivesData {
     roles: readonly string[];
     channels: readonly string[];
     responses: readonly string[];
+    /** The impact used when the event's record holds no appraised impulse. */
+    impulseParameter?: string;
   }[];
   actions: readonly ActionDefinition[];
   gaps: readonly string[];
+  /** The fact key naming an institution an event's record holds responsible. */
+  institutionFact?: { prefix: string; suffix: string };
 }
 
 type EventKindKey =
@@ -352,7 +356,14 @@ type RequirementTest = (
 ) => boolean;
 
 function responsibleId(data: DrivesData, event: CoreEventInput) {
-  return event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
+  const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
+  if (named || !data.institutionFact) return named;
+  // An institution the event's own record names (a business that closed).
+  const { prefix, suffix } = data.institutionFact;
+  const key = Object.keys(event.facts ?? {}).find(
+    (row) => row.startsWith(prefix) && row.endsWith(suffix),
+  );
+  return key?.slice(prefix.length, key.length - suffix.length);
 }
 
 const requirementOperations: Readonly<Record<string, RequirementTest>> = {
@@ -360,7 +371,11 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
     const id = responsibleId(data, event);
-    return !!id && id !== actor.id && api.state.people.has(id);
+    return (
+      !!id &&
+      id !== actor.id &&
+      (api.state.people.has(id) || api.state.organizations.has(id))
+    );
   },
   "has-living-family": (api, _data, actor) =>
     [...actor.familyIds].some((id) => api.state.people.get(id)?.alive),
@@ -539,9 +554,15 @@ export function respond(
       params,
       api.state.data.appraisalTraits,
     );
-    const magnitude =
+    // An event recorded without an appraised impact (a closure) carries the
+    // rule's own sourced impact instead of none.
+    const appraised =
       Math.abs(appraisal.moodImpulse) +
       Math.max(p("zero"), appraisal.stressImpulse);
+    const magnitude =
+      appraised > p("zero") || !rule.impulseParameter
+        ? appraised
+        : p(rule.impulseParameter);
     const pressure = seen.attention * magnitude;
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =
