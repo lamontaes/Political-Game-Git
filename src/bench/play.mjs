@@ -214,8 +214,7 @@ async function refresh() {
     return;
   }
   // A law that took effect: what changed in town.
-  const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
-  if (laws.length > seenChanges) {
+  if (newChanges(await changeCount())) {
     await openSheet("changes");
     return;
   }
@@ -247,7 +246,16 @@ for (const mode of ["day", "week"])
 // it again stops after the current leg. A stop, choice or day's end that
 // needs you ends it at once.
 let skipping = false;
-let seenChanges = 0;
+// Laws enacted and laws taken effect so far: a new one of either opens What changed.
+let seenChanges = { ahead: 0, took: 0 };
+async function changeCount() {
+  const { ahead, took } = await api(
+    `/api/changes?id=${encodeURIComponent(me.id)}`,
+  );
+  return { ahead: ahead.length, took: took.length };
+}
+const newChanges = (now) =>
+  now.took > seenChanges.took || now.ahead > seenChanges.ahead;
 const SKIP_LEG_DAYS = 7;
 const SKIP_MAX_LEGS = 52;
 $("skip").addEventListener("click", async () => {
@@ -271,8 +279,7 @@ $("skip").addEventListener("click", async () => {
         break;
       }
       // A law taking effect is shown too: the town changes.
-      const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
-      if (laws.length > seenChanges) {
+      if (newChanges(await changeCount())) {
         $("card-why").textContent = controls.endedBy?.law ?? "";
         await openSheet("changes");
         break;
@@ -1228,22 +1235,38 @@ const sheets = {
     );
   },
   async changes() {
-    const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
-    seenChanges = laws.length;
-    return laws.map((law) =>
+    const { ahead, took } = await api(
+      `/api/changes?id=${encodeURIComponent(me.id)}`,
+    );
+    seenChanges = { ahead: ahead.length, took: took.length };
+    // Enacted, waiting for its date: the measure, what it sets, and when.
+    const coming = ahead.map((law) =>
       el(
         "div",
         { className: "row narrative" },
         el("b", {
-          textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
+          textContent: `${law.date} · ${policyLabel(law.series)} · ${amount(law.value, law.unit)}`,
         }),
-        [
-          `${law.jurisdiction} · ${law.reached}`,
-          ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
-          ...law.names.map((n) => `${n.name}: ${n.what}`),
-        ].join(" · "),
+        `${law.measure} · ${law.jurisdiction}`,
       ),
     );
+    return [
+      ...coming,
+      ...took.map((law) =>
+        el(
+          "div",
+          { className: "row narrative" },
+          el("b", {
+            textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
+          }),
+          [
+            `${law.jurisdiction} · ${law.reached}`,
+            ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
+            ...law.names.map((n) => `${n.name}: ${n.what}`),
+          ].join(" · "),
+        ),
+      ),
+    ];
   },
   async guide() {
     const search = el("input", {
@@ -1504,8 +1527,7 @@ $("new-life").addEventListener("click", async () => {
       names: life.names,
     };
     // What was already law at the start isn't news; only what changes after.
-    seenChanges = (await api(`/api/changes?id=${encodeURIComponent(me.id)}`))
-      .length;
+    seenChanges = await changeCount();
     show("front", false);
     await playOpening();
     for (const id of ["tabs", "stack", "card"]) show(id, true);
