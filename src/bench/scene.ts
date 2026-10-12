@@ -24,8 +24,11 @@ import type { Raster } from "../presentation/appearance-engine/raster";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
+import { dwellingKind } from "../core2/modules/housing";
+import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import { wholeFigureFor } from "./whole-figures";
 
 type Person = Parameters<typeof engineRecipeFor>[0];
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -56,8 +59,13 @@ export interface BenchScenePerson {
   personId: string;
   name: string;
   spotId: string;
-  figure: ReturnType<typeof spotFigure>;
+  figure: ReturnType<typeof spotFigure> & {
+    mirrored?: boolean;
+    shadow?: boolean;
+  };
   figureUrl: string;
+  /** "whole" for an owner-approved whole figure, "engine" for the layered people engine. */
+  art?: "whole" | "engine";
 }
 
 export function orgPlace(
@@ -92,9 +100,45 @@ function workplaceOf(core: CoreState, person: PersonState): string {
   );
 }
 
-// Stopgap SG-PLAY-home-dwelling-kind: new-core households record no dwelling
-// type, so every home shows the shared house interior.
-const homeOf = () => homePlaceFor(null);
+/** The person's home picture, from the kind of dwelling their household lives in (OPUS-WORLD housing). */
+const states = new Map<string, string>();
+/** The place's state (USPS code), from the core's place records. */
+function stateOf(placeKey: string): string {
+  let usps = states.get(placeKey);
+  if (usps === undefined) {
+    usps =
+      realLocalities()
+        .find((row) => row.key === placeKey)
+        ?.stateJurisdictionKey?.slice("US-".length) ?? "";
+    states.set(placeKey, usps);
+  }
+  return usps;
+}
+
+export function homeOf(core: CoreState, personId: string): string {
+  const household = core.people.get(personId)?.householdId ?? "";
+  // A household without a dwelling record reads as a house.
+  const kind = (household && dwellingKind(coreAPI(core), household)) || "house";
+  const places = scenePlaces.dwellingPlaces as unknown as Record<
+    string,
+    readonly string[]
+  >;
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  const regional = Object.entries(
+    scenePlaces.regionalHouses as unknown as Record<string, readonly string[]>,
+  )
+    .filter(([place, states]) => place !== "about" && states.includes(state))
+    .map(([place]) => place);
+  const options = [
+    ...(places[kind] ?? []),
+    ...(kind === "house" ? regional : []),
+  ].filter(hasBackdrop);
+  if (!options.length) return homePlaceFor(null);
+  // The same home always looks the same: chosen from the household's own id.
+  let hash = 0;
+  for (const char of household) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return options[hash % options.length]!;
+}
 
 /** What the person is doing right now, from the open pause or their last act. */
 function doing(
@@ -136,7 +180,7 @@ export function scenePlace(
   for (const step of tries) {
     const place =
       step === "@home"
-        ? homeOf()
+        ? homeOf(core, personId)
         : step === "@workplace"
           ? workplaceOf(core, person)
           : step === "@target"
@@ -149,7 +193,7 @@ export function scenePlace(
         ...(act?.targetId ? { targetId: act.targetId } : {}),
       };
   }
-  return { place: homeOf(), why: "at home" };
+  return { place: homeOf(core, personId), why: "at home" };
 }
 
 export function backdropFile(place: string, minuteOfDay: number) {
@@ -210,7 +254,7 @@ function presentIds(
     alive(targetId)
   )
     return [targetId];
-  if (place === homeOf())
+  if (place === homeOf(core, personId))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
       .filter(alive);
@@ -286,6 +330,18 @@ function recipeFor(
 
 const packFile = (file: string) => existsSync(new URL(file, PACK_DIR));
 
+/** Where the people engine stood in for a whole figure (place:pose), for the log. */
+export const wholeFallbacks = new Set<string>();
+
+/** An official: someone known only by their term, or a resident holding a seat. */
+function isOfficial(core: CoreState, id: string): boolean {
+  if (!core.people.has(id)) return true;
+  const terms = coreAPI(core).moduleState(OFFICES).table("terms");
+  return (
+    terms.query("byPerson", [id]) as unknown as { status: string }[]
+  ).some((row) => row.status === "serving");
+}
+
 /** Puts each id on the place's spots: the first on the hero spot, the rest behind. */
 export function stagePeople(
   core: CoreState,
@@ -313,18 +369,51 @@ export function stagePeople(
       unplaced.push({ personId: id, reason: "no-spot" });
       continue;
     }
+    const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
+    // The whole figure first (owner, Oct 12); the people engine where none fits.
+    const looks = looksOf(core, id);
+    const whole = looks
+      ? wholeFigureFor(
+          core,
+          {
+            id,
+            birthDate: looks.birthDate,
+            ...(looks.gender ? { gender: looks.gender } : {}),
+            official: isOfficial(core, id),
+          },
+          place,
+          stage,
+          spot,
+        )
+      : null;
+    if (whole) {
+      people.push({
+        personId: id,
+        name,
+        spotId,
+        figure: whole.figure,
+        figureUrl: whole.url,
+        art: "whole",
+      });
+      continue;
+    }
+    const fallback = `${place}:${spot.pose ?? "stand"}`;
+    if (!wholeFallbacks.has(fallback)) {
+      wholeFallbacks.add(fallback);
+      console.log(`whole figure: people engine stands in at ${fallback}`);
+    }
     const recipe = recipeFor(core, id, spot, place);
     if (!recipe) {
       unplaced.push({ personId: id, reason: "no-adult-artwork" });
       continue;
     }
-    const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
     people.push({
       personId: id,
       name,
       spotId,
+      art: "engine",
       figure: spotFigure(stage, spot, recipe),
-      figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}`,
+      figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}&date=${core.date}`,
     });
   }
   return { people, unplaced };
