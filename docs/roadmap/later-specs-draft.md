@@ -28,6 +28,7 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M2-04 · Other candidates choose to run
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-candidates-news.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** People decide to run, or not, from their drives, views, standing and circumstances, through the same choices as the player. Incumbents decide to run again or retire.
 - **Passes when:** In one election season, every candidate on the ballot filed through those choices, with recorded reasons; no one is placed on the ballot by script.
@@ -64,6 +65,7 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M2-09 · Basic news
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-candidates-news.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** Local outlets report results, laws and big events; news spreads by word of mouth through people's relationships, at each person's own news habits. The full press engine comes after early access.
 - **Passes when:** An election result reaches residents through outlets and people, with natural delays, and people who never hear it don't know it.

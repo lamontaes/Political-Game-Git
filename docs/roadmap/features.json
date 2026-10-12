@@ -356,6 +356,26 @@
       "test": "In a random place, at the following election an incumbent's record (votes, promises kept or broken, what changed, what surfaced) changes specific voters' choices, each with its reason, and rivals' attack ads draw on it.",
       "command": null,
       "passes": false
+    },
+    {
+      "id": "M2-04",
+      "milestone": "M2",
+      "title": "Other candidates choose to run",
+      "golden_path": "3",
+      "package": "M2-candidates-news",
+      "test": "In a random place, every candidate on the ballot filed through their own choice (drives, views, standing, circumstances) with recorded reasons; incumbents decide on another term the same way, with no trait forcing it; an incumbent with a weak record draws a primary challenger.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-09",
+      "milestone": "M2",
+      "title": "Basic news",
+      "golden_path": "10",
+      "package": "M2-candidates-news",
+      "test": "In a random place, local outlets report results, laws and big events in engine-written words with nothing invented; specific people hear each story at different times through their own news habits and word of mouth; news from other places arrives later; a story changes a view only where the person trusts the source.",
+      "command": null,
+      "passes": false
     }
   ]
 }
