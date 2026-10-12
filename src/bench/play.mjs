@@ -260,16 +260,18 @@ function renderTalk(value) {
   show("choices", !value && packet?.kind === "choice");
   if (!value) return;
   $("talk-lines").replaceChildren(
-    ...value.lines
-      .slice(-6)
-      .map((line) =>
-        el(
-          "li",
-          { title: line.sourceRecordIds.join(", ") },
-          el("b", { textContent: line.speaker }),
-          line.text,
-        ),
+    ...value.lines.slice(-6).map((line) =>
+      el(
+        "li",
+        {
+          title: line.sourceRecordIds.join(", "),
+          // A lie the player told glows soft red.
+          className: line.act === "lie" ? "lie" : "",
+        },
+        el("b", { textContent: line.speaker }),
+        line.text,
       ),
+    ),
   );
   // A lower third: the first six choices the engine offers.
   $("talk-choices").replaceChildren(
@@ -279,9 +281,12 @@ function renderTalk(value) {
       return b;
     }),
   );
+  // The scales dim when there is nothing false to say, and tip once you lie.
   $("talk-lie").disabled = !value.lie;
-  $("talk-lie").title = value.lie?.text ?? "Lie";
-  $("talk-lie").firstElementChild.src = value.lie
+  $("talk-lie").title = value.lie?.text ?? "";
+  $("talk-lie").firstElementChild.src = value.lines.some(
+    (line) => line.act === "lie",
+  )
     ? "/ui/kit12/scales-tipped.svg"
     : "/ui/kit12/scales-level.svg";
 }
@@ -368,6 +373,7 @@ function renderFiling(value) {
       ),
     );
   $("talk-lie").disabled = true;
+  $("talk-lie").firstElementChild.src = "/ui/kit12/scales-level.svg";
 }
 /** The named office's rules from its records, with the platform and party to file under. */
 function renderFilingOverlay(value) {
@@ -536,6 +542,7 @@ async function showStory(momentId) {
       : []),
   );
   $("talk-lie").disabled = true;
+  $("talk-lie").firstElementChild.src = "/ui/kit12/scales-level.svg";
 }
 function storyStop(value) {
   return value?.kind === "stop"
