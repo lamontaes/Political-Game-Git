@@ -285,6 +285,22 @@
       ]
     },
     {
+      "kindPrefix": "event:person-birth",
+      "turn": true,
+      "line": [
+        {
+          "key": "born",
+          "text": "{{other}} was born."
+        }
+      ],
+      "title": [
+        {
+          "key": "born",
+          "text": "{{other}}"
+        }
+      ]
+    },
+    {
       "kindPrefix": "event:person.moved-away",
       "turn": false,
       "line": [

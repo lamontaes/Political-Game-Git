@@ -300,6 +300,12 @@
       "tag": "ESTIMATED",
       "citation": "Starting a business, sized as the Social Readjustment Rating Scale's 'Business readjustment', 39 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.28 to 0.45"
+    },
+    "directorBirthImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "A child born into the family, sized as the Social Readjustment Rating Scale's 'Gain of new family member', 39 life-change units divided by 100 (Holmes and Rahe 1967), reaching the parents fully and others tied to them by how much they matter.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.45"
     }
   },
   "channels": [
@@ -485,6 +491,12 @@
       "eventKind": "organization.founded",
       "channel": "feeling",
       "impactParameter": "directorBusinessFoundedImpact"
+    },
+    {
+      "eventKind": "person-birth",
+      "channel": "feeling",
+      "impactParameter": "directorBirthImpact",
+      "counterpartFact": "childId"
     }
   ]
 }

@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
+import natality from "../../data/research/renewal/natality-2024.json" with { type: "json" };
+import { createRenewalCore } from "./births-setup";
+import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import rates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import { advanceCore, createLifeCore } from "./life";
+import { advanceCore } from "./life";
 import {
   departuresOf,
   holdsOf,
@@ -25,7 +31,7 @@ const input = generatedOpening(
   { seed, key },
   { economy: false, settings: { population: 700 } },
 );
-const core = createLifeCore(input, { modules: [movesModule] });
+const core = createRenewalCore(input, { modules: [movesModule] });
 const api = coreAPI(core);
 const cash = () =>
   [...core.people.values(), ...core.organizations.values()].reduce(
@@ -68,6 +74,38 @@ const parentsAtHome = new Set(
     )
     .map((link) => link.personIds[1]),
 );
+// Births: women in town by the natality table's age bands at the opening,
+// and their state's 2024 rates per 1,000 women (CDC NVSS, Table 6).
+const NATALITY = natality as unknown as {
+  areas: Record<string, { ageRates: Record<string, number | null> }>;
+};
+const stateName =
+  lifePlaceStateIdentities().find((row) => row.jurisdictionKey === state)
+    ?.name ?? "";
+const birthRates = (
+  NATALITY.areas[stateName] ?? NATALITY.areas["United States"]!
+).ageRates;
+const nationalRates = NATALITY.areas["United States"]!.ageRates;
+const motherBand = (birthDate: string) =>
+  Object.keys(birthRates).find((band) => {
+    const [low, high] = band.split("-").map(Number) as [number, number];
+    const age = ageOnDate(makeIsoDate(birthDate), opening);
+    return age >= low && age <= high;
+  });
+const expectedBirths =
+  ([...core.people.values()]
+    .filter(
+      (row) =>
+        row.alive && row.tier !== "husk" && row.looks?.gender === "female",
+    )
+    .reduce((sum, row) => {
+      const band = motherBand(row.birthDate);
+      if (!band) return sum;
+      const rate = birthRates[band] ?? nationalRates[band] ?? 0;
+      return sum + rate / 1000;
+    }, 0) *
+    MONTHS) /
+  12;
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCMonth(end.getUTCMonth() + MONTHS);
 advanceCore(core, end.toISOString().slice(0, 10));
@@ -75,6 +113,11 @@ const departures = departuresOf(api);
 const departedAdults = departures
   .flatMap((row) => row.withIds)
   .filter((id) => adults.some((row) => row.id === id));
+
+const births = api
+  .moduleState(RENEWAL_MODULE_ID)
+  .table("births")
+  .rows() as unknown as { motherId: string; date: string }[];
 
 describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("sends adults away at about the rate people their age in their state leave a county", () => {
@@ -205,5 +248,14 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
         ).some((row) => (row.causes[MOVED_AWAY_EVENT] ?? 0) > 0)
       : true;
     expect(followed).toBe(true);
+  });
+
+  it("brings births at about the state's 2024 rates for the women in town", () => {
+    // The same sampling allowance as departures, for a count with this mean.
+    const spread = 3 * Math.sqrt(expectedBirths);
+    expect(births.length).toBeGreaterThanOrEqual(0.7 * expectedBirths - spread);
+    expect(births.length).toBeLessThanOrEqual(1.3 * expectedBirths + spread);
+    for (const row of births)
+      expect(core.people.get(row.motherId)?.looks?.gender).toBe("female");
   });
 });

@@ -54,6 +54,7 @@ const KINDS = [
   "housing.eviction",
   "housing.purchase",
   "person.moved-away",
+  "person-birth",
 ];
 const recorded: CoreEventInput[] = [];
 const recorder: CoreModule = {
@@ -141,5 +142,24 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
     // A relative's line names them by relation and their recorded gender.
     for (const { line } of economy)
       expect(line.text).not.toMatch(/^My (father|son|brother) lost her job/);
+  });
+
+  it("tells parents of a baby born this year, by relation", () => {
+    const born = recorded.filter((event) => event.kind === "person-birth");
+    for (const event of born) {
+      const parents = event.personIds.filter(
+        (id) => watched.has(id) && id !== event.facts?.childId,
+      );
+      for (const parentId of parents) {
+        const text = composeJournal(core, director, parentId).flatMap(
+          (chapter) => chapter.lines.map((line) => line.text),
+        );
+        expect(
+          text.some((line) =>
+            /^My (son|daughter|child) was born\.$/.test(line),
+          ),
+        ).toBe(true);
+      }
+    }
   });
 });
