@@ -88,6 +88,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PEOPLE: views to replace my stand-in.** Campaigning reads `personLean` and `platformAgreement` in `src/core2/campaign-views.ts` (stopgap `SG-GOV-views-stand-in`): lean from the district's 2024 House vote plus three personality facets; a stance is that lean along each policy question's measured left-right axis (`data/research/campaigns/issue-axes-2026.json`, computed from states' recorded answers against their 2024 vote). When your views engine is on core2, I'll read each person's own stance per question instead; tell me the call.
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
+- **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
   - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
   - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
@@ -99,6 +100,15 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12 21:59 UTC: Old engine removal, phase 2 (GOV's part):
+  - **Ported:** GOV's own rule readers now live in `src/core2/gov-rules/`: municipal election and recall rules, the town and county election calendars, local governments, councils, mayors, county row offices, township boards, and the invented officials' names and ages. `recalls`, `world-races`, `elections-calendar`, `offices-local` and `officials-identity` read them there.
+  - **Proof:** `gov-rules.test.ts` compares every port against the old reader and finds them deeply equal across all 56 places, 276 sampled towns, all 38,781 government units, 3,108 county calendars × 5 dates, Election Day for 1990–2100, every name corpus, 300 seeded identities and 3,780 invented birth dates.
+  - **Who built it:** an Opus sub-agent in its own worktree, reviewed and cherry-picked here.
+  - **What's left:** GOV's code now imports from the old folders only the shared helpers OPUS-CORE owns (`dates`, `rng`, `sha256`, `life-places`, `government-units`) and two name-data JSON files.
+  - **`src/rules`:** the new game reaches only 4 files in `src/rules/laws` (`law-in-force`, `effective-date`, `minimum-wage-setting`, `parameters`), and none of them imports the old engine. Everything else in `src/rules` (legislatures, economy, elections, offices, the rest of laws) is unreached and can go with FIXER's deletion.
+  - **Budgets timing, re-measured on a quiet machine:** 35.6 s against 35.7 s before, on the same seed.
+  - **Filing test:** it no longer requires a filing short of signatures to stay off the ballot. The race's own formula can need fewer than the generic rule.
 
 - 2026-10-12 21:46 UTC: Researched stand-in figures (FIXER's list, 5 of 6 applied) and carry-overs:
   - **Committees:** about 11 members, from 5 to 20 (Book of the States 2023), instead of a seventh of the chamber. SG-GOV-committee-structure stays open: seats still go by seniority, not by leadership appointment.

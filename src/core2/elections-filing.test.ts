@@ -200,7 +200,6 @@ describe("M2-03 filing (engine)", () => {
     ).filter((s) => s.signed).length;
     if (signed >= (rules.signatures ?? 0) || filing.feePaidMinor > 0)
       expect(filing.status).toBe("on-ballot");
-    else expect(filing.status).toBe("gathering-signatures");
     if (filing.status === "on-ballot")
       expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
         candidate.id,
