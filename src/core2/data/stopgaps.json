@@ -1191,7 +1191,7 @@
     "id": "SG-WORLD-credit-business-applies",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",
-    "line": 322,
+    "line": 331,
     "whatItFakes": "A business applies for a line whenever its cash is below a few months of payroll, without an owner deciding.",
     "why": "Businesses have no recorded owners until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -1203,7 +1203,7 @@
     "id": "SG-WORLD-credit-bank-equity-only",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",
-    "line": 446,
+    "line": 455,
     "whatItFakes": "The town bank opens holding only its own equity as cash and lends from that; households' and businesses' money is not on deposit with it.",
     "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book.",
     "addedBy": "OPUS-WORLD",
@@ -1366,7 +1366,7 @@
     "id": "SG-WORLD-credit-island-deposits",
     "kind": "assumed-data",
     "file": "src/core2/modules/credit.ts",
-    "line": 106,
+    "line": 115,
     "whatItFakes": "Where no county deposit row covers a place (American Samoa, the Virgin Islands, places without a county), the town bank's deposits are the territory's FDIC deposits per resident (Guam, Northern Marianas) or the nation's, times the town's people.",
     "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
     "addedBy": "OPUS-WORLD",
@@ -1383,5 +1383,27 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
+  },
+  {
+    "id": "SG-WORLD-business-union-members",
+    "kind": "assumed-data",
+    "file": "src/core2/membership-dues.ts",
+    "line": 42,
+    "whatItFakes": "A union local's members are the place's employed at the national membership rate, paying dues from the wider population's pooled cash; nobody is recorded as a member.",
+    "why": "The opening records no memberships, and state union membership rates are not in the data yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Members recorded on people (by industry and state, BLS Union Members tables), each choosing to join or leave from their pay, job and views; dues from their own cash."
+  },
+  {
+    "id": "SG-WORLD-credit-minimum-loan",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/credit/parameters.json",
+    "line": 191,
+    "whatItFakes": "The town bank's smallest personal loan is a common published minimum ($1,000), not the bank's own product terms.",
+    "why": "Community banks' product terms are not in the data.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A sourced range of community-bank personal loan minimums (FDIC or call-report product data)."
   }
 ]

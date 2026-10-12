@@ -320,10 +320,52 @@ function succeed(api: CoreAPI): void {
   }
 }
 
+/** A union local keeps a cushion of its own payroll and sends the rest of its dues to its international, outside the town. */
+function membershipPayouts(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  for (const org of c.organizations.values()) {
+    if (
+      (org as { classification?: string }).classification !==
+      "membership:labor-union"
+    )
+      continue;
+    const outside = [...c.organizations.values()].find(
+      (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
+    );
+    if (!outside) continue;
+    let daily = 0;
+    for (const id of c.finance.jobsByOrganization.get(org.id) ?? []) {
+      const job = c.jobs.get(id);
+      if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
+    }
+    const cushion =
+      ((daily * p("jobsDaysPerYear")) / p("macroMonthsPerYear")) *
+      p("businessCushionMonths");
+    const excess = org.liquidMinor - cushion;
+    if (excess > 0)
+      transferCash(
+        api,
+        `per-capita:${org.id}:${c.date}`,
+        org.id,
+        outside.id,
+        excess,
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: businessData.source.citation,
+          estimatedFrom:
+            "Dues above the local's payroll cushion go to its international union as per-capita payments.",
+        },
+      );
+  }
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   succeed(api);
+  membershipPayouts(api);
   for (const row of store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {

@@ -16,6 +16,7 @@ import { JOBS_MODULE, JOBS_PARAMETERS } from "./jobs";
 import { MACRO_MODULE, MACRO_PARAMETERS, withCentralBank } from "./macro";
 import { REGIONAL_MODULE, REGIONAL_PARAMETERS } from "./regional";
 import { WORLD_METRICS_MODULE } from "./world-metrics";
+import { withMembershipDues } from "../membership-dues";
 
 export const WORLD_MODULES = [
   MACRO_MODULE,
@@ -28,7 +29,9 @@ export const WORLD_MODULES = [
 ] as const;
 
 export function withWorldEconomy(input: CoreInput): CoreInput {
-  const economy = withHousing(withTownBank(withCentralBank(input)));
+  const economy = withMembershipDues(
+    withHousing(withTownBank(withCentralBank(input))),
+  );
   // Owners draw their profit through the business module, so the core's stand-in payouts (SG-CORE-owner-distributions) are off.
   return economy.residents
     ? {

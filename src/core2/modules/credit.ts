@@ -693,7 +693,9 @@ function householdApplications(
           Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
         (1 + Math.exp(-p("creditDtiSlope") * residualPct))
       : 0;
-    const principal = Math.floor(Math.min(amount * yes, room));
+    // Below the smallest loan the bank writes, there is no loan.
+    const offered = Math.floor(Math.min(amount * yes, room));
+    const principal = offered >= p("creditMinimumLoanMinor") ? offered : 0;
     store(api)
       .table("applications")
       .put({

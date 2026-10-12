@@ -194,5 +194,21 @@
       "unit": "years of income",
       "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee)."
     }
+  },
+  "businessUnionMembershipShare": {
+    "value": 0.099,
+    "tag": "SOURCED",
+    "citation": "BLS, Union Members 2024 (news release, January 28, 2025): 9.9 percent of wage and salary workers were members of unions."
+  },
+  "businessUnionDuesShare": {
+    "value": 0.013,
+    "tag": "TUNABLE",
+    "citation": "Union dues run about one to two percent of a member's pay or a few hours' pay a month (union constitutions and LM-2 reports); applied to the place's median wage.",
+    "spread": {
+      "low": 0.008,
+      "high": 0.02,
+      "unit": "share of monthly pay",
+      "citation": "Union dues run about one to two percent of a member's pay or a few hours' pay a month (union constitutions and LM-2 reports); applied to the place's median wage."
+    }
   }
 }
