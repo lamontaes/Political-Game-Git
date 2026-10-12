@@ -3,7 +3,8 @@
   "milestones": {
     "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)",
     "M1": "The world runs (owner-approved Oct 10, 2026)",
-    "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)"
+    "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)",
+    "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)"
   },
   "features": [
     {
@@ -313,6 +314,46 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, a poll reports what the people it actually contacted told the pollster (including undecided and no opinion), with a computed margin of error; no contacts means no poll; true support is never shown on screen.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-07",
+      "milestone": "M2",
+      "title": "Elections",
+      "golden_path": "5",
+      "package": "M2-elections",
+      "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; the winner takes the seat on the real start date.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-08",
+      "milestone": "M2",
+      "title": "Parties",
+      "golden_path": "5",
+      "package": "M2-elections",
+      "test": "In a random place, parties are organizations with members, leaders and rules; each person's party tie comes from their views plus loyalty; no party and independent both exist; nothing assumes exactly two permanent parties.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-10",
+      "milestone": "M2",
+      "title": "State and federal races in the world",
+      "golden_path": "5",
+      "package": "M2-elections",
+      "test": "In a full election year, state legislative, governor, congressional and presidential races run on the same election engine with fictional candidates, and their winners take office on the real dates.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-06",
+      "milestone": "M4",
+      "title": "The record follows you",
+      "golden_path": "11",
+      "package": "M2-elections",
+      "test": "In a random place, at the following election an incumbent's record (votes, promises kept or broken, what changed, what surfaced) changes specific voters' choices, each with its reason, and rivals' attack ads draw on it.",
       "command": null,
       "passes": false
     }

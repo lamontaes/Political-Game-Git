@@ -50,12 +50,14 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M2-07 · Elections (step 5)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-elections.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Real voters in your area cast ballots from what they know and think; voter groups count everywhere else; turnout follows each person's circumstances. Primaries, runoffs, counting, automatic recounts where the law requires them, and the winner seated at the start of the term.
 - **Passes when:** In a random place, the result is the sum of individual ballots in the focus area plus voter groups elsewhere; the winner takes the seat on the right date and replaces the right person.
 
 ### M2-08 · Parties
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-elections.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Party organizations, registration and primaries by each place's party rules; party leaders are people who act. Party posts aren't playable until after early access.
 - **Passes when:** In a random place, primaries run by that party's real rules, and party leaders are named people with records.
@@ -68,6 +70,7 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M2-10 · State and federal races in the world
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-elections.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Legislature, governor, Congress and president races run with fictional candidates; presidential races are simulated in depth.
 - **Passes when:** In one election year, every state and federal race resolves from its candidates and voters, and the winners are seated on the right dates.
@@ -168,6 +171,7 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M4-06 · The record follows you (step 11)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-elections.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** The next election reads your votes, promises kept or broken, what changed, and anything that surfaced.
 - **Passes when:** An opponent and voters cite the player's real record in the next campaign.
