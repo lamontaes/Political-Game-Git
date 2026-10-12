@@ -15,6 +15,8 @@ import {
 import type { TermRow } from "../core2/modules/offices";
 import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
+import { backdropFile, stagePeople } from "./scene";
+import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const OFFICES = "core2-offices-v1";
 const LEGISLATURE = "core2-legislature-v1";
@@ -39,7 +41,14 @@ function bodiesOf(core: CoreState, personId: string) {
   ).filter((row) => row.status === "serving");
   return mine.flatMap((term) => {
     const office = offices.table("offices").get(term.officeId) as
-      { id: string; title: string; seats: number; level: string } | undefined;
+      | {
+          id: string;
+          title: string;
+          seats: number;
+          level: string;
+          kind: string;
+        }
+      | undefined;
     if (!office || office.seats < 2) return [];
     const members = (
       offices.table("seats").query("byOffice", [office.id]) as unknown as {
@@ -57,6 +66,7 @@ function bodiesOf(core: CoreState, personId: string) {
         officeId: office.id,
         title: office.title,
         level: office.level,
+        kind: office.kind,
         members: members.map((row) => ({
           key: memberKey(row),
           name: name(core, memberKey(row)),
@@ -153,4 +163,36 @@ export function seatAct(
     default:
       throw new Error("Unknown act from your seat.");
   }
+}
+
+/** The body in its meeting room: the player at the front, colleagues behind. */
+export function bodyScene(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  minute: number,
+) {
+  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  if (!body) throw new Error("You don't sit on that body.");
+  const places = scenePlaces.bodyPlaces as Record<string, string>;
+  const offices = coreAPI(core).moduleState(OFFICES).table("offices");
+  // A legislature with no upper chamber on record meets in a one-house chamber.
+  const kind =
+    body.kind === "legislature-lower" &&
+    !(offices.rows() as unknown as { kind: string }[]).some(
+      (row) => row.kind === "legislature-upper",
+    )
+      ? "legislature-unicameral"
+      : body.kind;
+  const place = places[kind] ?? places.default!;
+  const cast = [
+    ...body.members.filter((m) => m.you),
+    ...body.members.filter((m) => !m.you),
+  ].map((m) => ({ id: m.key.replace(/^official:/, ""), name: m.name }));
+  return {
+    title: body.title,
+    place,
+    backdrop: backdropFile(place, minute),
+    ...stagePeople(core, place, cast),
+  };
 }

@@ -98,5 +98,18 @@
     "venue": ["community-room", "union-hall"],
     "phone": ["@home"],
     "letter": ["@home"]
+  },
+  "bodyPlaces": {
+    "about": "Where each kind of elected body meets, by the office kind on its records; a legislature with no upper chamber meets in the one-house chamber.",
+    "council": "council-chamber",
+    "township-board": "public-meeting-room",
+    "county-board": "council-chamber",
+    "school-board": "school-board-room",
+    "legislature-upper": "state-legislative-chamber-bicameral",
+    "legislature-lower": "state-legislative-chamber-bicameral",
+    "legislature-unicameral": "state-legislative-chamber-unicameral",
+    "us-senate": "us-senate-floor",
+    "us-house": "us-house-floor",
+    "default": "public-meeting-room"
   }
 }

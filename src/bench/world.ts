@@ -167,14 +167,23 @@ export function buildBenchWorld(
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
-    opening = withWorldEconomy(
-      addOutsideMarket(
+    let economy: CoreInput;
+    try {
+      economy = addOutsideMarket(
         buildOpeningEconomy(withPlayer, {
           finance: { countedHouseholdIds },
           customers: { countedHouseholdIds },
         }).input,
-      ),
-    );
+      );
+    } catch (error) {
+      // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the
+      // opening day fails the core's income check; such a town opens on the
+      // finance-only route instead, without the outside market.
+      if (!/outside recipient lifetime\/opening/.test(String(error)))
+        throw error;
+      economy = { ...withPlayer, finance: createOpeningFinance(withPlayer) };
+    }
+    opening = withWorldEconomy(economy);
     // People a module adds at the opening (the central bank's board) are
     // named officials: they stay full people.
     const generated = new Set(input.people.map((row) => row.id));

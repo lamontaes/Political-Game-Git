@@ -10,7 +10,7 @@ import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults } from "./results";
-import { seatAct, seatView } from "./legislature";
+import { bodyScene, seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
@@ -337,6 +337,18 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "GET" && url.pathname === "/api/seat") {
       send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/seat/scene") {
+      send(
+        200,
+        bodyScene(
+          requireCore(),
+          url.searchParams.get("id") ?? "",
+          url.searchParams.get("officeId") ?? "",
+          player?.packet?.at.minuteOfDay ?? 12 * 60,
+        ),
+      );
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/seat/act") {

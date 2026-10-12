@@ -572,6 +572,22 @@ async function visit(organizationId) {
   $("card-place").textContent = v.name;
 }
 
+// ---- The body in its meeting room ----
+function chamberButton(officeId) {
+  const b = el("button", { type: "button", textContent: "Chamber" });
+  b.addEventListener("click", async () => {
+    closeSheet();
+    renderTalk(undefined);
+    const v = await api(
+      `/api/seat/scene?${new URLSearchParams({ id: me.id, officeId })}`,
+    );
+    $("backdrop").src = v.backdrop.url;
+    drawPeople(v.people);
+    $("card-place").textContent = v.title;
+  });
+  return b;
+}
+
 // ---- Play someone else: the one you leave finishes their day ----
 async function playAs(personId) {
   const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
@@ -643,7 +659,7 @@ async function seatRows() {
         { className: "row campaign" },
         el("b", { textContent: body.title }),
         body.members.map((m) => m.name).join(" · "),
-        el("div", {}, pick, value, draft),
+        el("div", {}, pick, value, draft, chamberButton(body.officeId)),
       ),
     );
   }
