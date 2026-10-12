@@ -929,3 +929,37 @@ export function enterResidentMarket(
   }
   return result;
 }
+
+/**
+ * A closing employer's counted workers' pay earned since their last payday:
+ * each wage flow's amount for the share of its period already worked.
+ */
+export function countedWagesEarned(
+  core: CoreState,
+  organizationId: string,
+): { residentsId: string; amountMinor: number }[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const out: { residentsId: string; amountMinor: number }[] = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "wages" || flow.endedAt) continue;
+    if (flow.payerId !== organizationId) continue;
+    const periodDays =
+      flow.cadence.kind === "days"
+        ? flow.cadence.every
+        : Math.round((DAYS_PER_YEAR * flow.cadence.every) / 12);
+    const remaining = Math.max(
+      0,
+      Math.round(
+        (Date.parse(`${flow.nextAt}T00:00:00Z`) -
+          Date.parse(`${core.date}T00:00:00Z`)) /
+          86_400_000,
+      ),
+    );
+    const worked = Math.max(0, periodDays - remaining);
+    const amount = Math.round((flow.amountMinor * worked) / periodDays);
+    if (amount > 0)
+      out.push({ residentsId: flow.payeeId, amountMinor: amount });
+  }
+  return out;
+}

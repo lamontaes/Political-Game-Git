@@ -42,6 +42,17 @@ describe(`custom world settings in ${place.name} (seed ${seed})`, () => {
     for (const row of outside(custom))
       if (baseOutside.has(row.id))
         expect(row.amountMinor).toBeGreaterThan(baseOutside.get(row.id)!);
+    // The counted electorate starts from the custom lean.
+    const leanOf = (input: typeof base) =>
+      new Map(
+        (input.voterGroups ?? []).map((row) => [row.id, row.lean] as const),
+      );
+    const baseLean = leanOf(base);
+    for (const [id, lean] of leanOf(custom))
+      expect(lean).toBeCloseTo(
+        Math.max(-1, Math.min(1, baseLean.get(id)! + 0.2)),
+        10,
+      );
   }, 600_000);
 
   it("refuses settings outside their range", () => {
