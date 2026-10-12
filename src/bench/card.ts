@@ -33,6 +33,13 @@ export function personCard(core: CoreState, personId: string) {
         level: row.level,
         lastContactDate: row.lastContactDate,
         recordId: row.id,
+        // Why the tie last changed, from its own record.
+        latestChange: row.latestChange && {
+          date: row.latestChange.date,
+          cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
+          before: row.latestChange.before.level,
+          after: row.latestChange.after.level,
+        },
       };
     })
     .sort((a, b) => b.level - a.level)
@@ -78,5 +85,14 @@ export function personCard(core: CoreState, personId: string) {
     needs: person.needs,
     ties,
     drives,
+    // The life so far: each dated fact from the person's records.
+    past: [...(person.pastFacts ?? [])]
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map((fact) => ({
+        id: fact.id,
+        date: fact.date,
+        kind: fact.kind,
+        summary: fact.summary,
+      })),
   };
 }

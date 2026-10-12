@@ -284,6 +284,7 @@ async function talkTo(otherId) {
 
 async function renderCard(id) {
   const card = await request(`/api/card?id=${encodeURIComponent(id)}`);
+  renderPast(card);
   const entries = [
     ["name", card.name],
     ["age", card.age],
@@ -335,6 +336,18 @@ async function renderCard(id) {
         value === undefined || value === null ? "" : String(value);
       return [dt, dd];
     }),
+  );
+}
+
+function renderPast(card) {
+  element("past").replaceChildren(
+    ...card.past.map((fact) =>
+      recordDetails(
+        `${fact.date} · ${fact.kind}: ${fact.summary}`,
+        fact,
+        fact.id,
+      ),
+    ),
   );
 }
 

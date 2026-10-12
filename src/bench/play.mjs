@@ -624,7 +624,10 @@ const sheets = {
           return b;
         }),
       ...me.card.ties.map((t) =>
-        row(t.name, `${t.relation ?? t.kind} · ${t.lastContactDate}`),
+        row(
+          t.name,
+          `${t.relation ?? t.kind} · ${t.lastContactDate}${t.latestChange ? ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}` : ""}`,
+        ),
       ),
     ];
   },
@@ -646,6 +649,9 @@ const sheets = {
       row("Mood", c.affect?.mood?.toFixed(2)),
       row("Stress", c.affect?.stress?.toFixed(2)),
       ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
+            f.summary,
+          ),
+        ),
     ];
   },
   async money() {
