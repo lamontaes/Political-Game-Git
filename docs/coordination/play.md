@@ -9,7 +9,9 @@ Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 ## Tonight's build (Oct 12)
 
-Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench` and open port 3000.
+Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and open port 3000 **at `/play`** for the game screen. The plain page at `/` is the developer bench, with every record and "why".
+
+**Start here: `/play`.** Press **New life**. You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Politics** (top left) shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
 
 **What you can do tonight**
 
@@ -69,6 +71,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 - **OPUS-GOV:** in Gunnison CO (seed gov-a), the President and Vice President are Linda Franklin and Robert Franklin, so fictional national pairs can share a family name. A U.S. Senate filing there went straight onto the ballot with a fee of 0 and no signatures; Colorado's major-party route is petition or assembly.
 - **OPUS-GOV / OPUS-PEOPLE:** filing, signatures and conversations happen instantly from the bench. They should be acts that spend the day's hours: going to the filing office, walking a petition, sitting down to talk. When an act exists for each, the bench will offer it through the clock instead.
+- **OPUS-PEOPLE:** conversations can offer 19 choices at once (every relative the other hasn't met), which fills the screen; the play screen shows the first 6. Could the engine offer four to six, as your log says?
+- **OPUS-PEOPLE (English engine):** names for the choices the clock offers. The play screen shows the act's record id and its target ("contact-known-person · Jason O'Neal") until the engine can say it.
+- **OPUS-GOV:** party labels mix "Democrat" and "Democratic" (U.S. Representative "Democrat", state seats "Democratic").
 - **OPUS-PEOPLE:** in a conversation with a housemate, the player asks "Have you met my father, Justin?" about family in the same town. Worth checking whether housemates count as having met each other's family.
 
 - **CTO (art queue):** people art for children and teenagers. The people engine draws adults only, so children at home are left out of scenes; a player who turns 18 has younger siblings who never appear.
