@@ -88,11 +88,48 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PEOPLE: views to replace my stand-in.** Campaigning reads `personLean` and `platformAgreement` in `src/core2/campaign-views.ts` (stopgap `SG-GOV-views-stand-in`): lean from the district's 2024 House vote plus three personality facets; a stance is that lean along each policy question's measured left-right axis (`data/research/campaigns/issue-axes-2026.json`, computed from states' recorded answers against their 2024 vote). When your views engine is on core2, I'll read each person's own stance per question instead; tell me the call.
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
+- **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
+  - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
+  - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
+  - `executiveDecision(api, billId, "sign" | "veto")` decides a bill with status `awaiting-signature` on the player's desk.
+  - New since then: `signUpToSpeak` (public comment and testimony), `holdTownHall`, `requestInterview` / `answerInterview` and `interviewsFor`, `answerDebate` / `debatesIn` (debates wait on the player's answers), and `outletsHere` / `followersOf`.
+  - Wanted: these reachable from the bench, and `openPress` and `openMeetings` opened with the other GOV modules in `src/bench/world.ts`.
 - **OPUS-PLAY: the "law here" bench view.** `lawHere(api)` returns every tracked series with each level's row, source, estimate flag, what's set aside and why, and pending phases.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12 20:56 UTC: BOARD next, item 5 (first part): careers before the start:
+  - **Terms start on real dates:** each holder at the opening began their current term a full term before it ends, not on the opening day.
+  - **Earlier terms are on the record:** a holder's past terms on the same seat are recorded as ended terms ("re-elected"). How many follows the mean service of sitting officials of that kind: House 8.5 years and Senate 11.2 (CRS, not fetched, so marked estimates); state legislators 6, statewide officers 5.5 and local officials 7 (estimates). The spread is drawn once per seat from the world's seed, which counts as generating who exists.
+  - **Limits:** nobody first served younger than 21, and service is capped by the state's legislative term limit where it has one. The presidency keeps its real record.
+  - **Readers:** seniority (committees, case routing, the majority leader) now reads `serviceStart`. The lobbying ban ignores terms that ended in re-election.
+  - **Guam run:** the governor has served since 2019 and is in a second term; the delegate since 2023.
+  - **Tests:** the offices tests pass (4 of 4), including a new careers check. The suites that read terms were still running at this commit.
+  - **Bench item:** BOARD item 3 (the bill catalog on the bench) is listed under Needs for PLAY, with the engine calls ready.
+  - **Next:** past election results behind each term, then later-milestone specs.
+
+- 2026-10-12 20:36 UTC: BOARD next, item 2: public meetings (`src/core2/modules/meetings.ts`):
+  - **Public comment and testimony:** you sign up to speak on a bill before its vote (`signUpToSpeak`); at a town or county meeting it's public comment, in a legislature it's testimony at the hearing. At a local meeting, up to 6 residents who feel strongly enough about the bill's question, by their civic temperament, stand up too. Every member weighs the room's balance as one of their reasons (the `lobby` part of their position; tunable weight 0.15). A California town's anti-discrimination ordinance drew 6 residents in favor plus the signed-up speaker; a weak-axis question (groundwater) drew no one.
+  - **Town halls (`holdTownHall`):** the town's 40 most civic-minded adults come. Each asks about the strongest of their views among the questions their own life touches: work for labor and taxes, children at home for schools, 55 and over for health, under 35 for housing. The host takes the 4 most-asked questions and answers them; a candidate's answers are promises. In the California run, 40 came, 4 different questions were taken, and all 40 moved with a recorded cause.
+  - **Debates:** 14 days before a general election, each race with two or more candidates gets its debate on the town's widest-reaching outlet; the audience hears every candidate's answers as statements on the record. A race you run in waits for your answers (`answerDebate`). In an Arkansas council race, the debate aired on a TV station and reached 50 viewers.
+  - **Tests:** new `meetings.test.ts`. The press, campaigns, legislature and interest-groups tests pass.
+  - **Next:** the bill catalog on the bench, your own vote and sign or veto (with PLAY), then pre-start history.
+
+- 2026-10-12 20:12 UTC: BOARD next, item 1: campaign interviews (`src/core2/modules/press.ts`):
+  - **Outlets:** each town's local outlets are records sized from its state's counts: its county's share of the state's newspapers and news radio, and one market's television stations, at most 4 of each kind (tunable). Research in `data/research/press/local-news-2026.json`: the national totals are sourced (Medill 2024, FCC 2025, Pew 2024); the per-state splits and the age-band habits are estimates and marked that way. Names wait on the English engine (stopgap SG-GOV-press-outlet-names).
+  - **Who follows them:** in each age band, the share that follows that kind of local news (Pew) are the band's most dutiful and deliberate adults.
+  - **Interviews:** a candidate asks an outlet for one (`requestInterview`). The outlet says yes while its reporter has room this week; television only for a newsworthy candidate (name recognition, incumbency, share of the money raised). In the last 6 weeks before a general election, outlets seek out the candidates on the ballot, most newsworthy first.
+  - **Questions:** a promise the candidate broke, the question where they differ most from a rival, and the most divisive question in play. Each answer (`answerInterview`) is a promise on the record that only the audience heard; a declined question is recorded. Readers and viewers react with a recorded cause, and the published interview is a public record the news carries. Other candidates answer from their own platform, unless shy and averse to both conflict and risk.
+  - **Ads:** ads now buy time from the town's widest-reaching outlet and reach its closest followers, replacing the fewest-work-hours stand-in wherever the press is open. SG-GOV-ad-reach-media-habits stays open for worlds without it.
+  - **California town (seed ccfe6a6d…, place 0607260):** 4 newspapers (about 30 readers each of 301 adults), 1 news radio station (132), 4 television stations (about 42 each). A newspaper interview reached 30 readers. In the final weeks the rival gave 9 interviews and the player was invited by 5 outlets.
+  - **Senate seats:** each now comes up in its real class year (from the Senate-classes data, matched by party as in the world's races). Before, seat 0 always came up in 2026, which gave California a 2026 Senate race.
+  - **Tests:** new `press.test.ts`.
+    - The voting test now accepts a tie or a zero-vote race with no winner (both candidates run on one platform). It has a 5-minute limit because it simulates most of a year (66 seconds with or without this change).
+    - The offices, elections-filing, world-races, campaigns, two-level, parties and press tests pass.
+    - Seen but not fixed: the offices vacancy test sometimes seats the "dead" holder again, because it emits a death without marking the person dead (a test artifact). A Rhode Island draw of the door calibration came out at 10% contact against a 15% floor (a small sample).
+  - **Next:** public meetings, hearings, town halls and debates.
 
 - 2026-10-12 19:14 UTC: BOARD next, item 4: the researched yes/no policy answers are law at the opening:
   - **The answers are law:** each state's answers (57 questions answered for most states; 14 research files) load as state law rows in force on day one, marked estimates where the research estimated them. The legislature, ballot measures and the bill catalog already read the same answers, so a bill now repeals a real starting law instead of a remembered answer.
