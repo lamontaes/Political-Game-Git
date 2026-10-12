@@ -5,8 +5,10 @@
  * owners earlier), the median down payment (NAR 2025), the 30-year rate in
  * the month they bought (FHFA MIRS and H.15) and prices then (CPI-U, until a
  * house price index is in the data). A loan bought more than 30 years ago is
- * paid off. Each mortgage is a monthly payment to the town bank: a standing
- * bill for a full household, a residents flow for a counted one.
+ * paid off. The town bank holds loans up to what its capital carries; the
+ * rest are held outside the town (most U.S. mortgages are sold into agency
+ * securities). Each is a monthly payment to its holder: a standing bill for a
+ * full household, a residents flow for counted ones.
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
@@ -25,8 +27,8 @@ const CPI = new Map(
 );
 export const MORTGAGE_PREFIX = "mortgage:";
 export const MORTGAGE_TERMS_KEY = "housingMortgages";
-export const countedMortgageFlowId = (placeId: string) =>
-  `${MORTGAGE_PREFIX}residents:${placeId}`;
+export const countedMortgageFlowId = (placeId: string, holderId: string) =>
+  `${MORTGAGE_PREFIX}residents:${placeId}:${holderId}`;
 
 export interface MortgageOwner {
   id: string;
@@ -43,6 +45,7 @@ export interface MortgageOwner {
 
 export interface MortgageTerms {
   householdId: string;
+  holderId: string;
   boughtYear: number;
   rate: number;
   originalMinor: number;
@@ -75,6 +78,10 @@ export function openingMortgages(input: {
   startedAt: IsoDate;
   dueAt: IsoDate;
   bankId: string;
+  /** What the town bank's capital lets it hold. */
+  bankRoomMinor: number;
+  /** Holders outside the town; without one the town bank holds every loan. */
+  outsideId?: string;
   account?: { accountId: string; placeId: string };
   placeId: string;
   p: MacroParameter;
@@ -140,7 +147,8 @@ export function openingMortgages(input: {
   const contracts: FinanceContractInput[] = [],
     flows: ResidentFlowInput[] = [],
     terms: MortgageTerms[] = [],
-    counted: Record<string, number> = {};
+    counted = new Map<string, Record<string, number>>();
+  let room = input.bankRoomMinor;
   for (const owner of owners) {
     if (!owes.has(owner.id) || owner.valueMinor <= 0) continue;
     const boughtYear = bought.get(owner.id)!;
@@ -164,8 +172,12 @@ export function openingMortgages(input: {
     const balance = Math.round(balanceAfter(original, r, termMonths, paid));
     if (payment <= 0 || balance <= 0) continue;
     const id = `${MORTGAGE_PREFIX}${owner.id}`;
+    const holderId =
+      !input.outsideId || balance <= room ? input.bankId : input.outsideId;
+    if (holderId === input.bankId) room -= balance;
     terms.push({
       householdId: owner.id,
+      holderId,
       boughtYear,
       rate,
       originalMinor: Math.round(original),
@@ -182,7 +194,7 @@ export function openingMortgages(input: {
         id,
         householdId: owner.id,
         payerIds: [...owner.payerIds],
-        payeeId: input.bankId,
+        payeeId: holderId,
         kind: "household-purchase",
         amountMinor: payment,
         dueAt: input.dueAt,
@@ -190,17 +202,24 @@ export function openingMortgages(input: {
         accruesArrears: true,
         source,
       });
-    else if (input.account) counted[id] = payment;
+    else if (input.account) {
+      const parts = counted.get(holderId) ?? {};
+      parts[id] = payment;
+      counted.set(holderId, parts);
+    }
   }
-  // The wider population's mortgages are one monthly flow per place, by household (as its purchases are).
-  const total = Object.values(counted).reduce((n, value) => n + value, 0);
-  if (input.account && total > 0)
+  // The wider population's mortgages are one monthly flow per place and holder, by household (as its purchases are).
+  for (const [holderId, parts] of [...counted].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    const total = Object.values(parts).reduce((n, value) => n + value, 0);
+    if (!input.account || total <= 0) continue;
     flows.push({
-      id: countedMortgageFlowId(input.placeId),
+      id: countedMortgageFlowId(input.placeId, holderId),
       kind: "purchase",
       financeKind: "household.mortgage",
       payerId: input.account.accountId,
-      payeeId: input.bankId,
+      payeeId: holderId,
       residentsId: input.account.accountId,
       placeId: input.placeId,
       amountMinor: total,
@@ -208,8 +227,9 @@ export function openingMortgages(input: {
       cadence: { kind: "months", every: 1, day: 1 },
       salesReceipt: false,
       marketAdjusted: false,
-      amountByContract: counted,
+      amountByContract: parts,
       source: input.source,
     });
+  }
   return { contracts, flows, terms };
 }

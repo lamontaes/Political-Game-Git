@@ -17,6 +17,7 @@ import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
 import { MACRO_PARAMETERS } from "./macro";
+import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
 import {
   MORTGAGE_PREFIX,
@@ -25,6 +26,7 @@ import {
   type MortgageTerms,
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
+import { withoutOutsideShelter } from "../housing-shelter";
 import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
@@ -58,6 +60,7 @@ const housingMacroParameter = (key: string): number => {
   const row =
     HOUSING_PARAMETERS[key] ??
     MACRO_PARAMETERS[key] ??
+    CREDIT_PARAMETERS[key] ??
     DEFAULT_DATA.parameters[key];
   if (!row) throw new Error(`Untagged numeric parameter: ${key}`);
   return row.value;
@@ -204,6 +207,9 @@ export function withHousing(input: CoreInput): CoreInput {
     (row) => row.kind === "bank" && row.placeId === town.placeId,
   );
   const medianValue = RENT_VALUE[town.county]?.[1] ?? 0;
+  const outside = input.organizations.find(
+    (row) => row.placeId === town.placeId && row.outsideFlow !== undefined,
+  );
   const mortgages =
     bank && medianValue > 0
       ? openingMortgages({
@@ -226,6 +232,12 @@ export function withHousing(input: CoreInput): CoreInput {
           startedAt: makeIsoDate(input.startedAt),
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
+          // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
+          bankRoomMinor:
+            bank.liquidMinor *
+            housingMacroParameter("creditMaxLimitsPerEquity") *
+            pv("housingBankMortgageShareOfLoans"),
+          ...(outside ? { outsideId: outside.id } : {}),
           ...(account ? { account } : {}),
           placeId: town.placeId,
           p: housingMacroParameter,
@@ -278,41 +290,59 @@ export function withHousing(input: CoreInput): CoreInput {
       });
     }
   }
-  return {
-    ...input,
-    organizations: [
-      ...input.organizations,
-      {
-        id: landlordId,
-        placeId: town.placeId,
-        name: housingData.landlordNamePattern.replace(
-          "{place}",
-          input.placeMetadata?.placeName?.split(",")[0] ?? town.placeId,
-        ),
-        kind: "employer",
-        liquidMinor: 0,
-        source,
-      },
-    ],
-    finance: input.finance
-      ? { ...input.finance, contracts: [...input.finance.contracts, ...leases] }
-      : { contracts: leases, facilities: [], businesses: [], gaps: [] },
-    ...(input.residents && flows.length
-      ? {
-          residents: {
-            ...input.residents,
-            flows: [...input.residents.flows, ...flows],
-          },
-        }
-      : {}),
-    placeMetadata: {
-      ...input.placeMetadata,
-      housingState: town.usps,
-      ...(mortgages.terms.length
-        ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
+  // What each household now pays for its home here: leases and full owners' mortgages are standing bills; counted rent and mortgages are flows.
+  const paid = new Map<string, number>();
+  const add = (id: string, amount: number) =>
+    paid.set(id, (paid.get(id) ?? 0) + amount);
+  for (const row of leases)
+    if (row.householdId) add(row.householdId, row.amountMinor);
+  for (const flow of flows)
+    if (flow.id.startsWith("rent:"))
+      add(flow.id.slice("rent:".length), flow.amountMinor);
+  const billed = new Set(mortgages.contracts.map((row) => row.householdId));
+  for (const row of mortgages.terms)
+    if (!billed.has(row.householdId)) add(row.householdId, row.paymentMinor);
+  return withoutOutsideShelter(
+    {
+      ...input,
+      organizations: [
+        ...input.organizations,
+        {
+          id: landlordId,
+          placeId: town.placeId,
+          name: housingData.landlordNamePattern.replace(
+            "{place}",
+            input.placeMetadata?.placeName?.split(",")[0] ?? town.placeId,
+          ),
+          kind: "employer",
+          liquidMinor: 0,
+          source,
+        },
+      ],
+      finance: input.finance
+        ? {
+            ...input.finance,
+            contracts: [...input.finance.contracts, ...leases],
+          }
+        : { contracts: leases, facilities: [], businesses: [], gaps: [] },
+      ...(input.residents && flows.length
+        ? {
+            residents: {
+              ...input.residents,
+              flows: [...input.residents.flows, ...flows],
+            },
+          }
         : {}),
+      placeMetadata: {
+        ...input.placeMetadata,
+        housingState: town.usps,
+        ...(mortgages.terms.length
+          ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
+          : {}),
+      },
     },
-  };
+    paid,
+  );
 }
 
 function store(api: CoreAPI) {
@@ -433,11 +463,53 @@ function amortize(api: CoreAPI): void {
   }
 }
 
+/**
+ * The landlord keeps a month of rent against costs and pays the rest out of
+ * the town: to rentals' owners, who mostly live elsewhere, and to suppliers.
+ */
+function landlordPayout(api: CoreAPI): void {
+  const c = core(api);
+  // One ownerless landlord until rentals have owners (businesses growing); see the stopgap.
+  stopgap("SG-WORLD-housing-landlord");
+  for (const landlord of c.organizations.values()) {
+    if (!landlord.id.startsWith("organization:landlord:")) continue;
+    const outside = [...c.organizations.values()].find(
+      (row) =>
+        row.placeId === landlord.placeId && row.outsideFlow !== undefined,
+    );
+    if (!outside) continue;
+    let monthly = 0;
+    for (const row of c.finance.contracts.values())
+      if (row.payeeId === landlord.id && !row.endedAt)
+        monthly += row.amountMinor;
+    for (const flow of residentsRuntime(c)?.flows.values() ?? [])
+      if (flow.payeeId === landlord.id && !flow.endedAt)
+        monthly += flow.amountMinor;
+    const excess = landlord.liquidMinor - monthly;
+    if (excess > 0)
+      transferCash(
+        api,
+        `landlord-payout:${landlord.id}:${c.date}`,
+        landlord.id,
+        outside.id,
+        excess,
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: housingData.source.citation,
+          estimatedFrom:
+            "Rent above a month's receipts goes to rentals' owners and suppliers outside the town.",
+        },
+      );
+  }
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
   renew(api);
   amortize(api);
+  landlordPayout(api);
   for (const [id, row] of c.finance.contracts) {
     if (
       !id.startsWith("lease:") ||

@@ -33,6 +33,7 @@ describe("opening mortgages", () => {
       startedAt: makeIsoDate("2026-01-01"),
       dueAt: makeIsoDate("2026-02-01"),
       bankId: "organization:bank:fixture",
+      bankRoomMinor: Number.POSITIVE_INFINITY,
       account: { accountId: "residents:fixture", placeId: "place:fixture" },
       placeId: "place:fixture",
       p,
