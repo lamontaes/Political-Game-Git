@@ -1,0 +1,105 @@
+{
+  "schema": "m0-golden-proof-v1",
+  "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+  "provisional": true,
+  "scope": "Detector overlay only: does not register or accept M0-07; existing contact/relationship tests plus generated opening",
+  "mutation": "Opening school-peer producer discards knownIds",
+  "before": {
+    "schema": "golden-path-v1",
+    "commit": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "budgetMilliseconds": 300000,
+    "elapsedMilliseconds": 22714.345078,
+    "configuredCommands": 1,
+    "regression": false,
+    "results": [
+      {
+        "id": "M0-07-provisional-detector",
+        "accepted": true,
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "--max-old-space-size=8192",
+          "--import",
+          "tsx",
+          "/tmp/core2-contact-proof-CzMTSS/provisional-step2.mjs"
+        ],
+        "place": {
+          "seed": "7d35fe5a7fbdb44741b97a115cacd3d5903022d470de464fc127b5210e158187",
+          "key": "7263697",
+          "name": "Pole Ojea, Puerto Rico",
+          "state": "US-PR"
+        },
+        "status": "passed",
+        "code": 0,
+        "timedOut": false,
+        "milliseconds": 22681.042202999997,
+        "output": ""
+      }
+    ]
+  },
+  "broken": {
+    "schema": "golden-path-v1",
+    "commit": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "budgetMilliseconds": 300000,
+    "elapsedMilliseconds": 17566.470631999997,
+    "configuredCommands": 1,
+    "regression": true,
+    "results": [
+      {
+        "id": "M0-07-provisional-detector",
+        "accepted": true,
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "--max-old-space-size=8192",
+          "--import",
+          "tsx",
+          "/tmp/core2-contact-proof-CzMTSS/provisional-step2.mjs"
+        ],
+        "place": {
+          "seed": "7d35fe5a7fbdb44741b97a115cacd3d5903022d470de464fc127b5210e158187",
+          "key": "7263697",
+          "name": "Pole Ojea, Puerto Rico",
+          "state": "US-PR"
+        },
+        "status": "failed",
+        "code": 1,
+        "timedOut": false,
+        "milliseconds": 17561.582910999998,
+        "output": "(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:\n  - import \"../parameters\" without a file extension (src/core2/tooling/vitest.config.ts:2:19). Add the file extension\nSet `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\n \u276f src/core2/opening-peer-network.test.ts (9 tests | 2 failed) 19ms\n     \u00d7 records reciprocal historical basis and persistent name provenance, without current closeness 4ms\n     \u00d7 is idempotent and keeps generic createCore knowledge provenance on a rebuilt input 3ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 2 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/core2/opening-peer-network.test.ts > explicit opening school-peer prior > records reciprocal historical basis and persistent name provenance, without current closeness\nAssertionError: expected [] to include 'person:b'\n \u276f src/core2/opening-peer-network.test.ts:169:29\n    167|       const left = byId.get(contact.personIds[p(\"zero\")]!)!;\n    168|       const right = byId.get(contact.personIds[p(\"one\")]!)!;\n    169|       expect(left.knownIds).toContain(right.id);\n       |                             ^\n    170|       expect(right.knownIds).toContain(left.id);\n    171|       for (const [self, other] of [\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/2]\u23af\n\n FAIL  src/core2/opening-peer-network.test.ts > explicit opening school-peer prior > is idempotent and keeps generic createCore knowledge provenance on a rebuilt input\nError: Invalid opening name provenance: person:a:person:b\n \u276f assertKnownIdSources src/core2/state.ts:126:13\n    124|       learnedAt > core.date\n    125|     )\n    126|       throw new Error(`Invalid opening name provenance: ${row.id}:${id\u2026\n       |             ^\n    127|   }\n    128| }\n \u276f admitPerson src/core2/state.ts:367:3\n \u276f createCore src/core2/state.ts:229:35\n \u276f src/core2/opening-peer-network.test.ts:262:23\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[2/2]\u23af\n\n\n Test Files  1 failed | 1 passed (2)\n      Tests  2 failed | 12 passed (14)\n   Start at  23:00:17\n   Duration  17.18s (transform 10.95s, setup 0ms, import 16.95s, tests 47ms, environment 0ms)\n\nnode:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Provisional contact/relationship boundary tests failed\n\n1 !== 0\n\n    at <anonymous> (/tmp/core2-contact-proof-CzMTSS/provisional-step2.mjs:22:8)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 1,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.19.0\n"
+      }
+    ]
+  },
+  "restored": {
+    "schema": "golden-path-v1",
+    "commit": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "budgetMilliseconds": 300000,
+    "elapsedMilliseconds": 22309.780919000004,
+    "configuredCommands": 1,
+    "regression": false,
+    "results": [
+      {
+        "id": "M0-07-provisional-detector",
+        "accepted": true,
+        "command": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+          "--max-old-space-size=8192",
+          "--import",
+          "tsx",
+          "/tmp/core2-contact-proof-CzMTSS/provisional-step2.mjs"
+        ],
+        "place": {
+          "seed": "7d35fe5a7fbdb44741b97a115cacd3d5903022d470de464fc127b5210e158187",
+          "key": "7263697",
+          "name": "Pole Ojea, Puerto Rico",
+          "state": "US-PR"
+        },
+        "status": "passed",
+        "code": 0,
+        "timedOut": false,
+        "milliseconds": 22305.609898000002,
+        "output": ""
+      }
+    ]
+  },
+  "driverRevision": "eac603381af19fb019f7725e2cb2b2ea2f5ffa03",
+  "rawReceiptSha256": "de29e4c3e07984ce553b5cfd361bbcf724017908dbd2f22871e81e004d151174"
+}
