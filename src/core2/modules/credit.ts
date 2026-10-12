@@ -8,6 +8,7 @@
  */
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
+import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../../simulation/government-units";
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
@@ -45,6 +46,35 @@ function table(text: string): Map<string, string> {
 }
 const COUNTY_POPULATION = table(countyRows.COUNTY_BUSINESS_ROWS);
 const COUNTY_DEPOSITS = table(depositRows.FDIC_COUNTY_DEPOSITS);
+const TERRITORY_FIPS: Readonly<Record<string, string>> = {
+  "US-AS": "60",
+  "US-GU": "66",
+  "US-MP": "69",
+  "US-VI": "78",
+};
+const TERRITORY_PEOPLE = new Map(
+  (regions.regions as { stateFips: string; kind: string; population: number }[])
+    .filter((row) => row.kind === "territory")
+    .map((row) => [row.stateFips, row.population]),
+);
+/** Deposits a place's people hold where no county table covers it: its territory's FDIC deposits per resident, else the nation's. */
+function fallbackDeposits(usps: string | undefined): number | undefined {
+  const fips = usps ? TERRITORY_FIPS[usps] : undefined;
+  const sum = (filter: (county: string) => boolean) => {
+    let total = 0;
+    for (const [county, value] of COUNTY_DEPOSITS)
+      if (filter(county)) total += Number(value) || 0;
+    return total;
+  };
+  const people = fips ? TERRITORY_PEOPLE.get(fips) : undefined;
+  const own = fips ? sum((county) => county.startsWith(fips)) : 0;
+  if (own > 0 && people) return own / people;
+  let nationPeople = 0;
+  for (const [county, row] of COUNTY_POPULATION)
+    if (COUNTY_DEPOSITS.has(county))
+      nationPeople += Number(row.split(",")[0]) || 0;
+  return nationPeople > 0 ? sum(() => true) / nationPeople : undefined;
+}
 
 export interface TownBank {
   organizationId: string;
@@ -65,13 +95,31 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
       : geoid;
-  const deposits = county ? Number(COUNTY_DEPOSITS.get(county)) : NaN;
-  const countyPeople = county
+  let deposits = county ? Number(COUNTY_DEPOSITS.get(county)) : NaN;
+  let countyPeople = county
     ? Number(COUNTY_POPULATION.get(county)?.split(",")[0])
     : NaN;
-  const townPeople = Number(input.placeMetadata?.referencePopulation);
-  if (!county || !(deposits > 0) || !(countyPeople > 0) || !(townPeople > 0))
-    return undefined;
+  // The town's recorded population, else the people the opening generated for it.
+  const recorded = Number(input.placeMetadata?.referencePopulation);
+  const townPeople =
+    recorded > 0
+      ? recorded
+      : input.people.length +
+        (input.residents?.households ?? []).reduce(
+          (n, row) => n + row.people.length,
+          0,
+        );
+  if (!(townPeople > 0)) return undefined;
+  if (!(deposits > 0) || !(countyPeople > 0)) {
+    // No county deposit table for this place (most island areas): deposits per resident, estimated.
+    stopgap("SG-WORLD-credit-island-deposits");
+    const perPerson = fallbackDeposits(
+      place?.stateJurisdictionKey ?? undefined,
+    );
+    if (!perPerson) return undefined;
+    deposits = perPerson * townPeople;
+    countyPeople = townPeople;
+  }
   const counts = new Map<string, number>();
   for (const row of input.organizations)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
@@ -86,7 +134,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   return {
     organizationId: `organization:bank:${placeId}`,
     placeId,
-    county,
+    county: county ?? place?.stateJurisdictionKey ?? "",
     depositsMinor,
     openingEquityMinor: Math.round(
       depositsMinor * p0("creditBankEquityShareOfDeposits"),

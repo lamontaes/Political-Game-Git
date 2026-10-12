@@ -59,6 +59,41 @@ const COUNTY_TENURE = housingData.countyTenure as unknown as Record<
   [number, number]
 >;
 const LEASE_KIND = "household-purchase";
+const NATION = "nation";
+/** The nation's owner share and household-weighted county median rent and value, for places no county table covers. */
+const NATIONAL = (() => {
+  let homes = 0,
+    owned = 0,
+    rent = 0,
+    value = 0,
+    weight = 0;
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    homes += row[0];
+    owned += row[1];
+    const rv = RENT_VALUE[county];
+    if (rv?.[0] && rv[1]) {
+      rent += rv[0] * row[0];
+      value += rv[1] * row[0];
+      weight += row[0];
+    }
+  }
+  return {
+    tenure: [homes, owned] as [number, number],
+    rentValue: [Math.round(rent / weight), Math.round(value / weight)] as [
+      number,
+      number,
+    ],
+  };
+})();
+function nationTenure(town: { county: string }): [number, number] | undefined {
+  if (!town.county.startsWith(`${NATION}:`)) return undefined;
+  stopgap("SG-WORLD-housing-island-areas");
+  return NATIONAL.tenure;
+}
+function rentValueOf(county: string): [number | null, number | null] {
+  if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
+  return (RENT_VALUE[county] as [number, number] | undefined) ?? [null, null];
+}
 const DWELLINGS_KEY = "housingDwellings";
 const housingMacroParameter = (key: string): number => {
   const row =
@@ -97,8 +132,9 @@ function townOf(input: CoreInput): Town | undefined {
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
   const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
-  if (!county || !placeId || !usps) return undefined;
-  return { geoid, county, usps, placeId };
+  if (!placeId || !usps) return undefined;
+  // A place no county table covers (the island areas) uses the nation's figures, estimated.
+  return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
 }
 
 /** Annual pay of a household's members from their recorded current jobs. */
@@ -121,8 +157,11 @@ function householdIncome(
 export function withHousing(input: CoreInput): CoreInput {
   const town = townOf(input);
   if (!town) return input;
-  const tenure = PLACE_TENURE[town.geoid] ?? COUNTY_TENURE[town.county];
-  const [medianRent] = RENT_VALUE[town.county] ?? [null, null];
+  const tenure =
+    PLACE_TENURE[town.geoid] ??
+    COUNTY_TENURE[town.county] ??
+    nationTenure(town);
+  const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
   // Income awards (retirement and the like) count as income too.
@@ -210,7 +249,7 @@ export function withHousing(input: CoreInput): CoreInput {
   const bank = input.organizations.find(
     (row) => row.kind === "bank" && row.placeId === town.placeId,
   );
-  const medianValue = RENT_VALUE[town.county]?.[1] ?? 0;
+  const medianValue = rentValueOf(town.county)[1] ?? 0;
   const outside = input.organizations.find(
     (row) => row.placeId === town.placeId && row.outsideFlow !== undefined,
   );
@@ -595,7 +634,7 @@ function buyHomes(api: CoreAPI): void {
         a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
     )[0];
     if (!household || !head) continue;
-    const town = RENT_VALUE[c.placeMetadata?.housingCounty ?? ""];
+    const town = rentValueOf(c.placeMetadata?.housingCounty ?? "");
     const outside = [...c.organizations.values()].find(
       (row) =>
         row.placeId === household.placeId && row.outsideFlow !== undefined,
