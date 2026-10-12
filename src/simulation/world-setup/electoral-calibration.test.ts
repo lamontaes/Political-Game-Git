@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { congressSeats } from "../living-world/congress-seats";
-import calibration from "./electoral-calibration.generated.json" with { type: "json" };
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 type Row = {
   readonly seatKey: string;
@@ -12,6 +13,35 @@ type Row = {
   readonly uncontested: boolean;
 };
 
+// Research reconciliation checks remain on the original corpus, not its projection.
+const calibration = JSON.parse(
+  readFileSync(
+    resolve(
+      import.meta.dirname,
+      "../../../data/source/electoral-calibration-2024/corpus.json",
+    ),
+    "utf8",
+  ),
+) as {
+  schema: string;
+  asOfDate: string;
+  provenanceClass: string;
+  house: Row[];
+  senate: Row[];
+  presidentialByState: {
+    stateUsps: string;
+    democraticTwoPartyShare: number | null;
+  }[];
+  governors: { status: string; party: string | null }[];
+  reconciliation: {
+    houseWinners: Record<string, number>;
+    senateLastElectionWinners: Record<string, number>;
+    clerkPoliticalDivisions119: {
+      houseDemocrats: number;
+      houseRepublicans: number;
+    };
+  };
+};
 const house = calibration.house as unknown as readonly Row[];
 const senate = calibration.senate as unknown as readonly Row[];
 
