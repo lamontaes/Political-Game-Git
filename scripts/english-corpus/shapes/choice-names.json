@@ -1,0 +1,427 @@
+{
+  "register": "choice-names",
+  "description": "The names the screen gives the player's choices and actions, and stance questions with their answers: short imperatives and questions American speakers say, mined from public-domain federal records (hearings, the Congressional Record, federal oral histories), with record words as slots. Each part names the core action id it labels.",
+  "slots": {
+    "employer": "An employer, from the job record.",
+    "name": "A person, by name, from the records.",
+    "relation": "A relative named by relation (your mother), from the family record.",
+    "group": "An organization, from the group record.",
+    "place": "A place, from the place or venue record.",
+    "office": "An office or officeholder, from the office records.",
+    "cause": "What the person's cause is about, from their drive record.",
+    "topic": "A stance topic as words, from the topic's record.",
+    "change": "The change a stance wants, as a verb phrase from the record."
+  },
+  "maxWords": 10,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "work-shift",
+      "subject": "action",
+      "role": "work-shift",
+      "choice": "work-shift",
+      "candidates": [
+        "Go to work.",
+        "Go to work at {employer}.",
+        "Work a shift.",
+        "Work a double shift.",
+        "Work an extra shift.",
+        "Work overtime.",
+        "Go in to work.",
+        "Work.",
+        "Clock in."
+      ]
+    },
+    {
+      "move": "rest",
+      "subject": "action",
+      "role": "rest",
+      "choice": "rest",
+      "candidates": [
+        "Get some rest.",
+        "Take the day off.",
+        "Stay home.",
+        "Rest.",
+        "Take a break.",
+        "Sleep in.",
+        "Take it easy.",
+        "Stay in bed."
+      ]
+    },
+    {
+      "move": "contact-known-person",
+      "subject": "action",
+      "role": "contact-known-person",
+      "choice": "contact-known-person",
+      "candidates": [
+        "Call {name}.",
+        "Visit {name}.",
+        "Go see {name}.",
+        "Talk to {name}.",
+        "Have lunch with {name}.",
+        "Have coffee with {name}.",
+        "Check on {name}.",
+        "Stop by and see {name}."
+      ]
+    },
+    {
+      "move": "care-for-relative",
+      "subject": "action",
+      "role": "care-for-relative",
+      "choice": "care-for-relative",
+      "candidates": [
+        "Take care of {relation}.",
+        "Look after {relation}.",
+        "Help {relation}.",
+        "Check on {relation}.",
+        "Spend time with {relation}.",
+        "Stay with {relation}.",
+        "Take {relation} to the doctor."
+      ]
+    },
+    {
+      "move": "join-association",
+      "subject": "action",
+      "role": "join-association",
+      "choice": "join-association",
+      "candidates": [
+        "Join {group}.",
+        "Become a member of {group}.",
+        "Sign up for {group}.",
+        "Go to a meeting of {group}.",
+        "Get involved with {group}."
+      ]
+    },
+    {
+      "move": "organize-meeting",
+      "subject": "action",
+      "role": "organize-meeting",
+      "choice": "organize-meeting",
+      "candidates": [
+        "Organize a meeting.",
+        "Hold a meeting.",
+        "Call a meeting.",
+        "Hold a town hall meeting.",
+        "Hold a community meeting.",
+        "Organize a community meeting.",
+        "Get people together.",
+        "Hold a meeting at {place}."
+      ]
+    },
+    {
+      "move": "approach-office",
+      "subject": "action",
+      "role": "approach-office",
+      "choice": "approach-office",
+      "candidates": [
+        "Go to {office}.",
+        "Call {office}.",
+        "Visit {office}.",
+        "Contact {office}.",
+        "Write to {office}.",
+        "Call your representative.",
+        "Contact your representative.",
+        "Write your representative.",
+        "Call your congressman.",
+        "Call the mayor.",
+        "Call city hall.",
+        "Go to city hall.",
+        "Talk to the mayor."
+      ]
+    },
+    {
+      "move": "look-up-local-institution",
+      "subject": "action",
+      "role": "look-up-local-institution",
+      "choice": "look-up-local-institution",
+      "candidates": [
+        "Look it up.",
+        "Find out who to call.",
+        "Find out who's in charge.",
+        "Look up {office}.",
+        "Find out more.",
+        "Look into it.",
+        "Do some research."
+      ]
+    },
+    {
+      "move": "take-up-cause",
+      "subject": "action",
+      "role": "take-up-cause",
+      "choice": "take-up-cause",
+      "candidates": [
+        "Do something about it.",
+        "Take a stand.",
+        "Fight back.",
+        "Get involved.",
+        "Speak up.",
+        "Speak out.",
+        "Stand up for {cause}.",
+        "Fight for {cause}.",
+        "Make a difference."
+      ]
+    },
+    {
+      "move": "hold-grudge",
+      "subject": "action",
+      "role": "hold-grudge",
+      "choice": "hold-grudge",
+      "candidates": [
+        "Hold it against {name}.",
+        "Don't forget it.",
+        "Never forgive {name}.",
+        "Blame {name}.",
+        "Stay angry."
+      ]
+    },
+    {
+      "move": "guard-family",
+      "subject": "action",
+      "role": "guard-family",
+      "choice": "guard-family",
+      "candidates": [
+        "Protect your family.",
+        "Take care of your family.",
+        "Look out for your family.",
+        "Put your family first.",
+        "Keep your family safe."
+      ]
+    },
+    {
+      "move": "prove-oneself",
+      "subject": "action",
+      "role": "prove-oneself",
+      "choice": "prove-oneself",
+      "candidates": [
+        "Prove them wrong.",
+        "Show them.",
+        "Start over.",
+        "Start your own business.",
+        "Go back to school.",
+        "Get a better job.",
+        "Find a new job.",
+        "Look for work.",
+        "Look for a job."
+      ]
+    },
+    {
+      "move": "answer-calling",
+      "subject": "action",
+      "role": "answer-calling",
+      "choice": "answer-calling",
+      "candidates": [
+        "Help out.",
+        "Help your neighbors.",
+        "Give back.",
+        "Serve your community.",
+        "Volunteer.",
+        "Do your part.",
+        "Step up."
+      ]
+    },
+    {
+      "move": "carry-on",
+      "subject": "action",
+      "role": "carry-on",
+      "choice": "carry-on",
+      "candidates": [
+        "Keep going.",
+        "Move on.",
+        "Carry on.",
+        "Get on with your life.",
+        "Let it go.",
+        "Stay the course.",
+        "Keep your head down.",
+        "Go on as before."
+      ]
+    },
+    {
+      "move": "share-cause",
+      "subject": "action",
+      "role": "share-cause",
+      "choice": "share-cause",
+      "candidates": [
+        "Tell {name} about it.",
+        "Talk to {name} about it.",
+        "Tell {name}.",
+        "Tell your friends.",
+        "Spread the word.",
+        "Tell people about it."
+      ]
+    },
+    {
+      "move": "found-cause-group",
+      "subject": "action",
+      "role": "found-cause-group",
+      "choice": "found-cause-group",
+      "candidates": [
+        "Start a group.",
+        "Start an organization.",
+        "Form a group.",
+        "Form a committee.",
+        "Start a petition.",
+        "Organize."
+      ]
+    },
+    {
+      "move": "join-cause-group",
+      "subject": "action",
+      "role": "join-cause-group",
+      "choice": "join-cause-group",
+      "candidates": [
+        "Join {group}.",
+        "Join the group.",
+        "Join the cause.",
+        "Sign up.",
+        "Join them."
+      ]
+    },
+    {
+      "move": "donate-to-cause",
+      "subject": "action",
+      "role": "donate-to-cause",
+      "choice": "donate-to-cause",
+      "candidates": [
+        "Donate to {group}.",
+        "Give money to {group}.",
+        "Make a donation.",
+        "Donate.",
+        "Give what you can.",
+        "Write a check."
+      ]
+    },
+    {
+      "move": "volunteer-for-cause",
+      "subject": "action",
+      "role": "volunteer-for-cause",
+      "choice": "volunteer-for-cause",
+      "candidates": [
+        "Volunteer at {place}.",
+        "Volunteer for {group}.",
+        "Volunteer.",
+        "Volunteer your time.",
+        "Help out at {place}."
+      ]
+    },
+    {
+      "move": "confront-grudge-target",
+      "subject": "action",
+      "role": "confront-grudge-target",
+      "choice": "confront-grudge-target",
+      "candidates": [
+        "Confront {name}.",
+        "Tell {name} off.",
+        "Have it out with {name}.",
+        "Go talk to {name}.",
+        "Say something to {name}.",
+        "Call {name} out."
+      ]
+    },
+    {
+      "move": "seek-standing",
+      "subject": "action",
+      "role": "seek-standing",
+      "choice": "seek-standing",
+      "candidates": [
+        "Meet {name}.",
+        "Introduce yourself to {name}.",
+        "Get to know {name}.",
+        "Make a name for yourself.",
+        "Network."
+      ]
+    },
+    {
+      "move": "testify-at-hearing",
+      "subject": "action",
+      "role": "testify-at-hearing",
+      "choice": "testify-at-hearing",
+      "candidates": [
+        "Testify at the hearing.",
+        "Testify.",
+        "Speak at the hearing.",
+        "Speak at the meeting.",
+        "Sign up to speak.",
+        "Speak at the council meeting.",
+        "Go to the hearing.",
+        "Go to the meeting."
+      ]
+    },
+    {
+      "move": "run-for-office",
+      "subject": "action",
+      "role": "run-for-office",
+      "choice": "run-for-office",
+      "candidates": [
+        "Run for office.",
+        "Run for {office}.",
+        "Run for city council.",
+        "Run for mayor.",
+        "Run for the school board.",
+        "File to run.",
+        "Run."
+      ]
+    },
+    {
+      "move": "lobby-legislator",
+      "subject": "action",
+      "role": "lobby-legislator",
+      "choice": "lobby-legislator",
+      "candidates": [
+        "Lobby {name}.",
+        "Call {name}.",
+        "Write to {name}.",
+        "Meet with {name}.",
+        "Talk to your legislator.",
+        "Call your legislator.",
+        "Write your legislator.",
+        "Contact your legislator.",
+        "Lobby the legislature."
+      ]
+    },
+    {
+      "move": "stance-question",
+      "subject": "action",
+      "role": "stance-question",
+      "choice": "question",
+      "candidates": [
+        "What do you think about {topic}?",
+        "How do you feel about {topic}?",
+        "Do you support {topic}?",
+        "Are you for or against {topic}?",
+        "Should we {change}?",
+        "Should {place} {change}?",
+        "Do you think we should {change}?",
+        "Where do you stand on {topic}?",
+        "What's your position on {topic}?",
+        "Is {topic} a problem?",
+        "Is {topic} a problem here?"
+      ]
+    },
+    {
+      "move": "stance-answer",
+      "subject": "action",
+      "role": "stance-answer",
+      "choice": "answer",
+      "candidates": [
+        "I support it.",
+        "I'm for it.",
+        "I'm against it.",
+        "I oppose it.",
+        "I'm not sure.",
+        "I don't know.",
+        "I haven't decided.",
+        "I'm undecided.",
+        "I'm in favor of it.",
+        "I'm strongly in favor of it.",
+        "I'm strongly opposed to it.",
+        "It depends.",
+        "Absolutely.",
+        "Absolutely not.",
+        "Definitely.",
+        "Definitely not.",
+        "No way.",
+        "Of course."
+      ]
+    }
+  ]
+}

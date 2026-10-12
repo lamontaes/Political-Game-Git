@@ -1,0 +1,836 @@
+{
+  "register": "newscast",
+  "description": "Spoken news on TV and radio: the anchor opening a broadcast, handing to a reporter and closing; the reporter in the field; and the stories the game's records make (an election night, a candidate filing, a vote or a law taking effect, a business closing or hiring, a hazard warning, a death). Every part is a whole sentence said in public-domain federal records (the Daily Compilation of Presidential Documents with its broadcast interviews, hearings, federal agencies' releases and briefings), with record words as slots. Commercial news gives patterns only.",
+  "slots": {
+    "name": "A person, by name, from the records (the anchor, the reporter, a candidate, an official, someone who died).",
+    "program": "The broadcast's name, from the station record.",
+    "place": "A place, from the place records.",
+    "topic": "What the story is about, from the event record.",
+    "claim": "What officials say, from the event record.",
+    "number": "A count from the event record.",
+    "amount": "A larger count from the event record, as people say it (\"12,000\", \"2 million\").",
+    "time": "A time from the record (\"7 p.m.\").",
+    "percent": "A share from the results or economy record, as a number such as 52.",
+    "votes": "A vote margin from the results record.",
+    "opponent": "The other candidate, from the contest record.",
+    "office": "The office, from the contest or office record.",
+    "pronoun": "His, her or their, from the person's record.",
+    "deadline": "A date from the record, as people say it.",
+    "when": "When it happens, from the record (\"today\", \"on Friday\").",
+    "count": "A vote count such as 5 to 2, from the vote record.",
+    "measure": "The measure, as its record names it.",
+    "subject": "The business, from the business record.",
+    "age": "An age, computed from the birth record.",
+    "years": "A count of years, computed from dated records.",
+    "alert": "A weather alert from the hazard record, as the Weather Service names it (\"Tornado Watch\").",
+    "until": "When the alert ends, from the hazard record (\"5 PM EDT\")."
+  },
+  "maxWords": 16,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "anchor-open",
+      "subject": "anchor",
+      "role": "open",
+      "choice": "open",
+      "candidates": [
+        "Good evening.",
+        "Good evening, everyone.",
+        "Good evening, and welcome.",
+        "Good evening, and thank you for joining us.",
+        "Good morning.",
+        "Good morning, everyone.",
+        "Good morning, and welcome.",
+        "Welcome back.",
+        "Welcome back, everyone.",
+        "Thank you for joining us.",
+        "Thanks for joining us.",
+        "Thank you for being with us.",
+        "Thanks for being with us.",
+        "Thank you for joining us tonight.",
+        "Thanks for joining us tonight.",
+        "I'm {name}.",
+        "Good evening, I'm {name}.",
+        "Good evening, I am {name}.",
+        "Good morning, I'm {name}.",
+        "Hello, I'm {name}.",
+        "Hi, I'm {name}.",
+        "I'm {name}, and this is {program}.",
+        "Welcome to {program}.",
+        "Welcome to {program}, I'm {name}.",
+        "This is {program}.",
+        "Here's what we know.",
+        "Here is what we know.",
+        "Here's what we know so far.",
+        "Here is what we know so far.",
+        "We begin tonight in {place}.",
+        "We begin in {place}.",
+        "We begin with {topic}.",
+        "We start with {topic}.",
+        "We start tonight with {topic}.",
+        "We begin tonight with {topic}.",
+        "Let's begin with {topic}.",
+        "Let's start with {topic}.",
+        "Our top story tonight.",
+        "We have breaking news.",
+        "Breaking news tonight.",
+        "We have some breaking news.",
+        "This just in.",
+        "We're following breaking news.",
+        "We are following breaking news.",
+        "We're following a developing story.",
+        "We are following a developing story.",
+        "First, the news.",
+        "Now, the news.",
+        "Here's the latest.",
+        "Here is the latest.",
+        "Let's get to the news.",
+        "A lot of news today.",
+        "There's a lot going on.",
+        "It's been a busy day."
+      ]
+    },
+    {
+      "move": "anchor-hand-off",
+      "subject": "anchor",
+      "role": "hand-off",
+      "choice": "hand-off",
+      "candidates": [
+        "{name} has more.",
+        "{name} has the story.",
+        "{name} has the latest.",
+        "{name} reports.",
+        "{name} is live in {place}.",
+        "{name} joins us now.",
+        "{name} joins us now from {place}.",
+        "{name} joins us from {place}.",
+        "{name} is in {place}.",
+        "{name}, what can you tell us?",
+        "{name}, what's the latest?",
+        "{name}, what are you hearing?",
+        "What's the latest?",
+        "What are you hearing?",
+        "What can you tell us?",
+        "What are people saying?",
+        "What are people telling you?",
+        "What happens next?",
+        "What happens now?",
+        "What's next?",
+        "Thank you, {name}.",
+        "Thanks, {name}.",
+        "Thanks so much, {name}.",
+        "Back to you.",
+        "Back to you, {name}.",
+        "Over to you.",
+        "Let's go to {place}.",
+        "Let's go to {name}.",
+        "Let's bring in {name}.",
+        "{name} is with us.",
+        "{name} is here with us.",
+        "{name} is with us now.",
+        "Joining us now is {name}.",
+        "With us now is {name}."
+      ]
+    },
+    {
+      "move": "anchor-close",
+      "subject": "anchor",
+      "role": "close",
+      "choice": "close",
+      "candidates": [
+        "That's all for tonight.",
+        "That's it for tonight.",
+        "That's all for now.",
+        "That's all the time we have.",
+        "That is all the time we have.",
+        "Thank you for watching.",
+        "Thanks for watching.",
+        "Stay with us.",
+        "We'll be right back.",
+        "We will be right back.",
+        "We'll be right back after this.",
+        "Don't go away.",
+        "Good night.",
+        "Good night, everyone.",
+        "Have a good night.",
+        "Have a great night.",
+        "We'll see you tomorrow.",
+        "See you tomorrow.",
+        "See you tomorrow night.",
+        "We'll see you next time.",
+        "See you next time.",
+        "We'll be back.",
+        "We'll keep you posted.",
+        "We will keep you posted.",
+        "We'll keep you updated.",
+        "We will keep you updated.",
+        "We'll continue to follow this story.",
+        "We will continue to follow this story.",
+        "We'll have more on this.",
+        "We'll have more on this story.",
+        "We'll have more later.",
+        "We'll be following this.",
+        "Stay safe.",
+        "Take care."
+      ]
+    },
+    {
+      "move": "reporter-field",
+      "subject": "reporter",
+      "role": "field",
+      "choice": "field",
+      "candidates": [
+        "I'm here in {place}.",
+        "I'm in {place}.",
+        "I'm standing in {place}.",
+        "I'm live in {place}.",
+        "We're here in {place}.",
+        "We're in {place}.",
+        "We're live in {place}.",
+        "Officials say {claim}.",
+        "Police say {claim}.",
+        "According to officials, {claim}.",
+        "Authorities say {claim}.",
+        "Witnesses say {claim}.",
+        "It's not clear yet.",
+        "It's still not clear.",
+        "It is not clear yet.",
+        "It is still not clear.",
+        "We don't know yet.",
+        "We don't know much yet.",
+        "We don't know.",
+        "We just don't know.",
+        "We're still waiting.",
+        "We're still learning.",
+        "We're learning more.",
+        "We're waiting to hear from {name}.",
+        "We reached out to {name}.",
+        "We've reached out to {name}.",
+        "We have reached out to {name}.",
+        "{name} did not respond.",
+        "{name} has not responded.",
+        "{name} did not respond to a request for comment.",
+        "{name} declined to comment.",
+        "{name} declined comment.",
+        "{name} did not return calls.",
+        "{name} could not be reached for comment.",
+        "{name} could not be reached.",
+        {
+          "text": "Residents here are worried.",
+          "requiresFacts": ["residents-worried"]
+        },
+        {
+          "text": "People here are worried.",
+          "requiresFacts": ["residents-worried"]
+        },
+        {
+          "text": "People here are angry.",
+          "requiresFacts": ["residents-angry"]
+        },
+        {
+          "text": "People here are frustrated.",
+          "requiresFacts": ["residents-frustrated"]
+        },
+        {
+          "text": "People are frustrated.",
+          "requiresFacts": ["residents-frustrated"]
+        },
+        {
+          "text": "People are worried.",
+          "requiresFacts": ["residents-worried"]
+        },
+        {
+          "text": "People are scared.",
+          "requiresFacts": ["residents-scared"]
+        },
+        "It's been a long day here.",
+        "It's been a tough day here.",
+        {
+          "text": "The mood here is tense.",
+          "requiresFacts": ["mood-tense"]
+        },
+        {
+          "text": "The mood here is somber.",
+          "requiresFacts": ["mood-somber"]
+        },
+        {
+          "text": "The mood here is festive.",
+          "requiresFacts": ["mood-festive"]
+        },
+        "It's quiet here now.",
+        "It's very quiet here.",
+        {
+          "text": "The scene here is chaotic.",
+          "requiresFacts": ["scene-chaotic"]
+        },
+        {
+          "text": "Crews are on the scene.",
+          "requiresFacts": ["crews-on-scene"]
+        },
+        {
+          "text": "Firefighters are on the scene.",
+          "requiresFacts": ["fire-on-scene"]
+        },
+        {
+          "text": "Police are on the scene.",
+          "requiresFacts": ["police-on-scene"]
+        },
+        {
+          "text": "No one was hurt.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "Nobody was hurt.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "No one was injured.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "No injuries were reported.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "There were no injuries.",
+          "requiresFacts": ["no-injuries"]
+        },
+        "{number} people were hurt.",
+        "{number} people were injured.",
+        "{number} people were killed.",
+        "{number} people died.",
+        {
+          "text": "The cause is under investigation.",
+          "requiresFacts": ["investigation-open"]
+        },
+        {
+          "text": "The cause of the fire is under investigation.",
+          "requiresFacts": ["fire", "investigation-open"]
+        },
+        {
+          "text": "The investigation is ongoing.",
+          "requiresFacts": ["investigation-open"]
+        },
+        {
+          "text": "The investigation continues.",
+          "requiresFacts": ["investigation-open"]
+        },
+        "Reporting from {place}, I'm {name}.",
+        "In {place}, I'm {name}.",
+        "For {program}, I'm {name}.",
+        "I'm {name}, reporting from {place}."
+      ]
+    },
+    {
+      "move": "story-election",
+      "subject": "story",
+      "role": "election",
+      "choice": "election",
+      "candidates": [
+        {
+          "text": "The polls are now closed.",
+          "requiresFacts": ["polls-closed"]
+        },
+        {
+          "text": "Polls are now closed.",
+          "requiresFacts": ["polls-closed"]
+        },
+        {
+          "text": "The polls are closed.",
+          "requiresFacts": ["polls-closed"]
+        },
+        "Polls close at {time}.",
+        "The polls close at {time}.",
+        "Polls open at {time}.",
+        "The polls open at {time}.",
+        "Today is Election Day.",
+        "Today is election day.",
+        "It's Election Day.",
+        "It's election day.",
+        "Voters in {place} went to the polls today.",
+        "Voters went to the polls today.",
+        "Voters are heading to the polls.",
+        "Voters headed to the polls today.",
+        {
+          "text": "Turnout was high.",
+          "requiresFacts": ["turnout-high"]
+        },
+        {
+          "text": "Turnout was low.",
+          "requiresFacts": ["turnout-low"]
+        },
+        {
+          "text": "Turnout was strong.",
+          "requiresFacts": ["turnout-high"]
+        },
+        {
+          "text": "Turnout was light.",
+          "requiresFacts": ["turnout-low"]
+        },
+        {
+          "text": "Turnout was heavy.",
+          "requiresFacts": ["turnout-high"]
+        },
+        "Turnout was {percent} percent.",
+        {
+          "text": "Turnout is high.",
+          "requiresFacts": ["turnout-high"]
+        },
+        {
+          "text": "Turnout is low.",
+          "requiresFacts": ["turnout-low"]
+        },
+        "{name} won.",
+        "{name} won the race.",
+        "{name} won the election.",
+        "{name} has won.",
+        "{name} has won the race.",
+        "{name} has been elected.",
+        "{name} was elected.",
+        "{name} was reelected.",
+        "{name} was re-elected.",
+        "{name} won reelection.",
+        "{name} won re-election.",
+        "{name} lost.",
+        "{name} lost the race.",
+        "{name} lost the election.",
+        "{name} lost reelection.",
+        "{name} won by {votes} votes.",
+        "{name} lost by {votes} votes.",
+        "{name} won with {percent} percent of the vote.",
+        "{name} received {percent} percent of the vote.",
+        "{name} conceded.",
+        "{name} has conceded.",
+        "{name} conceded the race.",
+        "{name} conceded defeat.",
+        "{name} called {opponent} to concede.",
+        {
+          "text": "The race is too close to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "It's too close to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "The race is still too close to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "It's still too early to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "It is too early to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "The results are in.",
+          "requiresFacts": ["results-final"]
+        },
+        {
+          "text": "Results are still coming in.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "The results are still coming in.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "We don't have results yet.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "All the votes have been counted.",
+          "requiresFacts": ["results-final"]
+        },
+        "Every vote will be counted.",
+        "Every vote should be counted.",
+        {
+          "text": "The count continues.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "Counting continues.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "There will be a recount.",
+          "requiresFacts": ["recount"]
+        },
+        {
+          "text": "There will be a runoff.",
+          "requiresFacts": ["runoff"]
+        },
+        {
+          "text": "The race is headed to a runoff.",
+          "requiresFacts": ["runoff"]
+        }
+      ]
+    },
+    {
+      "move": "story-filing",
+      "subject": "story",
+      "role": "filing",
+      "choice": "filing",
+      "candidates": [
+        "{name} filed to run for {office}.",
+        "{name} is running for {office}.",
+        "{name} is running for reelection.",
+        "{name} is running for re-election.",
+        "{name} is seeking reelection.",
+        "{name} is seeking re-election.",
+        "{name} is not seeking reelection.",
+        "{name} is not seeking re-election.",
+        "{name} will not seek reelection.",
+        "{name} will not seek re-election.",
+        "{name} is not running for reelection.",
+        "{name} announced {pronoun} candidacy.",
+        "{name} announced {pronoun} candidacy for {office}.",
+        "{name} filed paperwork to run for {office}.",
+        "{name} filed {pronoun} paperwork.",
+        "{name} qualified for the ballot.",
+        "{name} is on the ballot.",
+        "{name} is running unopposed.",
+        "{name} is unopposed.",
+        "The filing deadline is {deadline}.",
+        "The filing deadline was {deadline}.",
+        "{number} candidates filed.",
+        "{number} candidates are running.",
+        "{number} candidates are on the ballot.",
+        "Candidates have until {deadline} to file.",
+        "Candidates must file by {deadline}."
+      ]
+    },
+    {
+      "move": "story-vote-or-law",
+      "subject": "story",
+      "role": "vote-or-law",
+      "choice": "vote-or-law",
+      "candidates": [
+        "The council voted {count}.",
+        "The vote was {count}.",
+        "The measure passed {count}.",
+        "The bill passed {count}.",
+        {
+          "text": "The measure passed.",
+          "requiresFacts": ["measure-passed"]
+        },
+        {
+          "text": "The measure failed.",
+          "requiresFacts": ["measure-failed"]
+        },
+        {
+          "text": "The bill passed.",
+          "requiresFacts": ["bill-passed"]
+        },
+        {
+          "text": "The bill failed.",
+          "requiresFacts": ["bill-failed"]
+        },
+        {
+          "text": "The ordinance passed.",
+          "requiresFacts": ["ordinance-passed"]
+        },
+        {
+          "text": "The ordinance failed.",
+          "requiresFacts": ["ordinance-failed"]
+        },
+        {
+          "text": "The resolution passed.",
+          "requiresFacts": ["resolution-passed"]
+        },
+        {
+          "text": "The resolution failed.",
+          "requiresFacts": ["resolution-failed"]
+        },
+        {
+          "text": "The motion passed.",
+          "requiresFacts": ["motion-passed"]
+        },
+        {
+          "text": "The motion failed.",
+          "requiresFacts": ["motion-failed"]
+        },
+        {
+          "text": "The amendment passed.",
+          "requiresFacts": ["amendment-passed"]
+        },
+        {
+          "text": "The amendment failed.",
+          "requiresFacts": ["amendment-failed"]
+        },
+        {
+          "text": "The council approved the budget.",
+          "requiresFacts": ["budget-passed"]
+        },
+        {
+          "text": "The council approved the measure.",
+          "requiresFacts": ["measure-passed"]
+        },
+        {
+          "text": "The council rejected the measure.",
+          "requiresFacts": ["measure-failed"]
+        },
+        {
+          "text": "The budget passed.",
+          "requiresFacts": ["budget-passed"]
+        },
+        {
+          "text": "The budget was approved.",
+          "requiresFacts": ["budget-passed"]
+        },
+        "The new law takes effect {deadline}.",
+        "The law takes effect {deadline}.",
+        {
+          "text": "The new law takes effect today.",
+          "requiresFacts": ["law-took-effect"]
+        },
+        {
+          "text": "The law takes effect today.",
+          "requiresFacts": ["law-took-effect"]
+        },
+        {
+          "text": "The new law took effect today.",
+          "requiresFacts": ["law-took-effect"]
+        },
+        "The new rule takes effect {deadline}.",
+        "The ordinance takes effect {deadline}.",
+        "The changes take effect {deadline}.",
+        "The council will vote {when}.",
+        "The council will vote on {measure}.",
+        "The council will vote on the measure {when}.",
+        "The council is expected to vote {when}.",
+        {
+          "text": "The governor signed the bill.",
+          "requiresFacts": ["governor-signed"]
+        },
+        {
+          "text": "The governor vetoed the bill.",
+          "requiresFacts": ["governor-vetoed"]
+        },
+        {
+          "text": "The mayor signed the ordinance.",
+          "requiresFacts": ["mayor-signed"]
+        },
+        {
+          "text": "The mayor vetoed the ordinance.",
+          "requiresFacts": ["mayor-vetoed"]
+        },
+        {
+          "text": "The bill now goes to the governor.",
+          "requiresFacts": ["bill-to-governor"]
+        },
+        {
+          "text": "The bill now heads to the governor.",
+          "requiresFacts": ["bill-to-governor"]
+        },
+        {
+          "text": "The bill now goes to the Senate.",
+          "requiresFacts": ["bill-to-senate"]
+        },
+        {
+          "text": "The bill now goes to the House.",
+          "requiresFacts": ["bill-to-house"]
+        }
+      ]
+    },
+    {
+      "move": "story-economy",
+      "subject": "story",
+      "role": "economy",
+      "choice": "economy",
+      "candidates": [
+        "The unemployment rate is {percent} percent.",
+        "Unemployment rose to {percent} percent.",
+        "Unemployment fell to {percent} percent.",
+        "The unemployment rate rose to {percent} percent.",
+        "The unemployment rate fell to {percent} percent.",
+        {
+          "text": "Unemployment is up.",
+          "requiresFacts": ["unemployment-up"]
+        },
+        {
+          "text": "Unemployment is down.",
+          "requiresFacts": ["unemployment-down"]
+        },
+        {
+          "text": "Gas prices are up.",
+          "requiresFacts": ["gas-up"]
+        },
+        {
+          "text": "Gas prices are down.",
+          "requiresFacts": ["gas-down"]
+        },
+        {
+          "text": "Prices are up.",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "text": "Prices are going up.",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "text": "Rents are up.",
+          "requiresFacts": ["rents-up"]
+        },
+        {
+          "text": "Rents are going up.",
+          "requiresFacts": ["rents-up"]
+        },
+        {
+          "text": "Home prices are up.",
+          "requiresFacts": ["home-prices-up"]
+        },
+        "{subject} is closing.",
+        "{subject} is closing its doors.",
+        "{subject} is laying off {number} workers.",
+        "{subject} is laying off {number} employees.",
+        "{subject} announced layoffs.",
+        "{subject} is hiring.",
+        "{subject} plans to hire {number} workers.",
+        "{subject} is opening.",
+        "{subject} opened today.",
+        "{subject} is expanding.",
+        "{subject} is moving.",
+        "{subject} filed for bankruptcy.",
+        {
+          "text": "The plant is closing.",
+          "requiresFacts": ["plant-closing"]
+        },
+        {
+          "text": "The plant will close.",
+          "requiresFacts": ["plant-closing"]
+        },
+        {
+          "text": "The store is closing.",
+          "requiresFacts": ["store-closing"]
+        }
+      ]
+    },
+    {
+      "move": "story-hazard",
+      "subject": "story",
+      "role": "hazard",
+      "choice": "hazard",
+      "candidates": [
+        "A tornado warning is in effect for {place}.",
+        "A tornado watch is in effect for {place}.",
+        "A winter storm warning is in effect for {place}.",
+        "A flood warning is in effect for {place}.",
+        "A flash flood warning is in effect for {place}.",
+        "A heat advisory is in effect for {place}.",
+        "A severe thunderstorm warning is in effect for {place}.",
+        "A hurricane warning is in effect for {place}.",
+        "A red flag warning is in effect for {place}.",
+        {
+          "text": "A boil water notice is in effect.",
+          "requiresFacts": ["boil-water"]
+        },
+        {
+          "text": "A boil water advisory is in effect.",
+          "requiresFacts": ["boil-water"]
+        },
+        {
+          "text": "Schools are closed today.",
+          "requiresFacts": ["schools-closed"]
+        },
+        {
+          "text": "Schools are closed.",
+          "requiresFacts": ["schools-closed"]
+        },
+        {
+          "text": "Schools will be closed tomorrow.",
+          "requiresFacts": ["schools-closed"]
+        },
+        {
+          "text": "Roads are closed.",
+          "requiresFacts": ["roads-closed"]
+        },
+        {
+          "text": "Some roads are closed.",
+          "requiresFacts": ["roads-closed"]
+        },
+        {
+          "text": "Power is out.",
+          "requiresFacts": ["power-out"]
+        },
+        {
+          "text": "Thousands are without power.",
+          "requiresFacts": ["power-out"]
+        },
+        "{amount} customers are without power.",
+        {
+          "text": "Stay off the roads.",
+          "requiresFacts": ["story-stay-off-the-roads"]
+        },
+        {
+          "text": "Stay home if you can.",
+          "requiresFacts": ["story-stay-home-if-you-can"]
+        },
+        {
+          "text": "Stay indoors.",
+          "requiresFacts": ["story-stay-indoors"]
+        },
+        {
+          "text": "Evacuations are underway.",
+          "requiresFacts": ["evacuation"]
+        },
+        {
+          "text": "An evacuation order is in effect.",
+          "requiresFacts": ["evacuation"]
+        }
+      ]
+    },
+    {
+      "move": "story-death",
+      "subject": "story",
+      "role": "death",
+      "choice": "death",
+      "candidates": [
+        "{name} died {when}.",
+        "{name} has died.",
+        "{name} died.",
+        "{name} passed away.",
+        "{name} has passed away.",
+        "{name} passed away {when}.",
+        "{name} was {age}.",
+        "{name} was {age} years old.",
+        "{name} died at the age of {age}.",
+        "{name} died at age {age}.",
+        "{name} was a longtime resident of {place}.",
+        "{name} lived in {place} for {years} years.",
+        "{name} served as {office} for {years} years.",
+        "{name} served on {office} for {years} years.",
+        "{name} is survived by {pronoun} wife.",
+        "{name} is survived by {pronoun} husband.",
+        "{name} is survived by {pronoun} children.",
+        "Services will be held {when}.",
+        "A memorial service will be held {when}.",
+        "Funeral services will be held {when}."
+      ]
+    },
+    {
+      "move": "story-hazard-alert",
+      "subject": "story",
+      "role": "hazard",
+      "choice": "hazard",
+      "candidates": [
+        "A {alert} is in effect for {place}.",
+        "A {alert} remains in effect for {place}.",
+        "A {alert} remains in effect until {until}.",
+        "A {alert} remains in effect until {until} for {place}.",
+        "A {alert} is in effect until {until}.",
+        "A {alert} is in effect until {until} for {place}.",
+        "A {alert} is in effect.",
+        "A {alert} remains in effect.",
+        "The {alert} has been canceled.",
+        "The {alert} has expired.",
+        "The {alert} has been allowed to expire.",
+        "{alert} remains in effect until {until}.",
+        "{alert} in effect until {until}.",
+        "{alert} in effect for {place}."
+      ]
+    }
+  ]
+}
