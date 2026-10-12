@@ -137,6 +137,8 @@ export class BenchPlayer {
       date: addDays(makeIsoDate(this.core.date), 1),
       minuteOfDay: 0,
     };
+    if (mode === "calendar" && !(date && date > at.date))
+      throw new Error("Pick a day after today.");
     const days =
       mode === "week"
         ? 7

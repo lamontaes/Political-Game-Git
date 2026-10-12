@@ -1051,7 +1051,7 @@ const sheets = {
           el("b", { textContent: String(day) }),
         );
         // A later day: live until it, stopping early for anything that needs you.
-        if (iso > date) {
+        if (iso > (packet?.at.date ?? date)) {
           cell.classList.add("jump");
           cell.title = iso;
           cell.addEventListener("click", () => {

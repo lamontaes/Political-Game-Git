@@ -170,7 +170,8 @@ const specs: Record<string, () => string> = {
       chosen = adultOf(w, "m0-03", true);
     player.select(chosen.id);
     const offset = 1 + (hash(`${seed}:m0-03:date`) % 14),
-      from = addDays(makeIsoDate(OPENING_DATE), offset);
+      // A fresh clock starts the day after the opening.
+      from = addDays(makeIsoDate(OPENING_DATE), 1 + offset);
     let result = player.advance("calendar", from);
     while (result.packet.kind !== "complete")
       result = {
