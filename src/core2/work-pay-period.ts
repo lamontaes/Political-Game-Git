@@ -1,8 +1,9 @@
 /** Proposed internal payroll arithmetic. This helper never writes cash or grants authority. */
+import { bookkeeping } from "./bookkeeping";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import type { IsoDate } from "../simulation/types";
-import type { Source } from "./types";
+import type { Source, WorkAttendanceResult } from "./types";
 
 /**
  * One separately recorded employer pay calendar, never the attendance periodDays.
@@ -58,6 +59,8 @@ export interface WorkEarnedPayPeriod extends WorkPayPeriod, WorkPayrollBasis {
   firstEarnedAt: string;
   lastEarnedAt: string;
   lastWorkResultId: string;
+  /** Latest actual attendance, retained with this aggregate after the job advances. */
+  lastAttendanceBasis?: Readonly<Omit<WorkAttendanceResult, "decision">>;
   segmentCount: number;
   plannedMinutes: number;
   attendedMinutes: number;
@@ -214,6 +217,11 @@ export function createImmutableWorkPayrollCalendar(
   return result;
 }
 
+const validatedOn = new WeakMap<
+  object,
+  Map<string, WorkPayrollCalendarInput>
+>();
+
 /** Immutable structure only; full current Source guards remain on every call. */
 function calendar(
   r: FinanceReadGuard,
@@ -223,7 +231,16 @@ function calendar(
 ): WorkPayrollCalendarInput {
   const admitted = nativeCalendarWeakGet.call(immutableCalendarUnits, c) as
     Units | undefined;
-  if (!admitted) return validateCalendar(r, c, at, u);
+  if (!admitted) {
+    // In play, a calendar checked once for a date needn't be checked again.
+    if (bookkeeping()) return validateCalendar(r, c, at, u);
+    const seen = validatedOn.get(c);
+    const prior = seen?.get(at);
+    if (prior) return prior;
+    const result = validateCalendar(r, c, at, u);
+    validatedOn.set(c, (seen ?? new Map()).set(at, result));
+    return result;
+  }
   units(u);
   if (
     !Object.is(admitted.zero, u.zero) ||
@@ -459,7 +476,34 @@ function periodAtIndex(
   return { index, fromAt, throughAt, dueAt: addDays(throughAt, lag) };
 }
 
+/** Play reuses the period every worker on one calendar resolves on the same day. */
+const lastPeriod = new WeakMap<
+  WorkPayrollCalendarInput,
+  { at: string; u: Units; period: WorkPayPeriod }
+>();
+
 function periodContaining(
+  c: WorkPayrollCalendarInput,
+  at: string,
+  u: Units,
+): WorkPayPeriod {
+  if (bookkeeping()) return computePeriodContaining(c, at, u);
+  const cached = lastPeriod.get(c);
+  if (
+    cached &&
+    cached.at === at &&
+    (cached.u === u ||
+      (cached.u.zero === u.zero &&
+        cached.u.one === u.one &&
+        cached.u.monthsPerYear === u.monthsPerYear))
+  )
+    return cached.period;
+  const period = computePeriodContaining(c, at, u);
+  lastPeriod.set(c, { at, u, period });
+  return period;
+}
+
+function computePeriodContaining(
   c: WorkPayrollCalendarInput,
   at: string,
   u: Units,

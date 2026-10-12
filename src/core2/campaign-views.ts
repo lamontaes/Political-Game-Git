@@ -74,7 +74,9 @@ function delegateShare(stateKey: string): number | undefined {
 }
 
 /** How far a person's personality leans right, by the facets the research links to ideology. */
-function personalityLean(person: Readonly<PersonState>): number {
+function personalityLean(
+  person: Readonly<Pick<PersonState, "traits">>,
+): number {
   const t = person.traits;
   return (
     campaignParameter("leanPerDutyBound") *
@@ -87,6 +89,21 @@ function personalityLean(person: Readonly<PersonState>): number {
 }
 
 const leans = new WeakMap<object, Map<string, number>>();
+const countedSources = new WeakMap<
+  object,
+  () => readonly Pick<PersonState, "id" | "traits">[]
+>();
+
+/**
+ * The counted residents (two-level population) whose records rank with the
+ * full people for lean: registered by the elections engine for a world.
+ */
+export function registerCountedPeople(
+  people: object,
+  source: () => readonly Pick<PersonState, "id" | "traits">[],
+): void {
+  if (!countedSources.has(people)) countedSources.set(people, source);
+}
 
 /**
  * A person's lean, in [-1, 1]: positive right, negative left. The town's
@@ -97,17 +114,23 @@ const leans = new WeakMap<object, Map<string, number>>();
  */
 export function personLean(
   people: ReadonlyMap<string, Readonly<PersonState>>,
-  person: Readonly<PersonState>,
+  person: Readonly<Pick<PersonState, "id" | "traits">>,
   townLean: number,
 ): number {
   let map = leans.get(people);
   if (!map) {
-    const ordered = [...people.values()]
-      .filter((p) => p.alive)
-      .sort(
-        (a, b) =>
-          personalityLean(b) - personalityLean(a) || a.id.localeCompare(b.id),
-      );
+    // Everyone in the town ranks together: full people and the counted
+    // residents (two-level population), each by their own record.
+    const counted = (countedSources.get(people)?.() ?? []).filter(
+      (p) => !people.has(p.id),
+    );
+    const ordered = [
+      ...[...people.values()].filter((p) => p.alive),
+      ...counted,
+    ].sort(
+      (a, b) =>
+        personalityLean(b) - personalityLean(a) || a.id.localeCompare(b.id),
+    );
     const rightShare = (1 + townLean) / 2;
     map = new Map(
       ordered.map((p, rank) => [

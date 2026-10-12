@@ -23,6 +23,10 @@ import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
 import { partySide } from "../appointments";
 import { lawChain } from "./laws";
+import { FEDERAL_HOUSE, members } from "./legislature";
+import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
+import { resultOf, VOTING_MODULE_ID } from "./voting";
+import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
 import { novemberGeneralElectionDay } from "../../simulation/nationwide-world/town-election-calendar";
@@ -119,6 +123,10 @@ const classes = (
     >;
   }
 ).states;
+const electors = electorsData as unknown as {
+  toWin: number;
+  states: Record<string, number>;
+};
 const congress = (
   partyCounts as unknown as {
     congress: Record<string, Record<string, string[]>>;
@@ -144,9 +152,239 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     const year = Number(work.sourceRecordIds[0]);
     scheduleElection(api, year + 2);
     for (const race of racesIn(api, year)) decide(api, race, year);
+    if (year % 4 === 0)
+      api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
+        key: `electors:${year}`,
+        date: electorsMeet(year),
+        kind: "electors-meet",
+        source: {
+          tag: "SOURCED",
+          citation:
+            "3 U.S.C. § 7 (electors meet the first Tuesday after the second Wednesday in December)",
+          asOf: api.state.date,
+        },
+        sourceRecordIds: [String(year)],
+      });
     return;
   }
   if (work.kind === "seat-winner") seat(api, work.sourceRecordIds[0]!);
+  if (work.kind === "electors-meet")
+    electoralCollege(api, Number(work.sourceRecordIds[0]));
+  if (work.kind === "inauguration") inaugurate(api, work.sourceRecordIds[0]!);
+}
+
+/** The first Tuesday after the second Wednesday in December. */
+export function electorsMeet(year: number): string {
+  let wednesdays = 0;
+  for (let day = 1; day <= 31; day += 1) {
+    const d = new Date(Date.UTC(year, 11, day));
+    if (d.getUTCDay() === 3) wednesdays += 1;
+    if (wednesdays === 2 && d.getUTCDay() === 3) {
+      for (let next = day + 1; next <= day + 7; next += 1) {
+        const t = new Date(Date.UTC(year, 11, next));
+        if (t.getUTCDay() === 2) return t.toISOString().slice(0, 10);
+      }
+    }
+  }
+  throw new Error(`No electors' day in ${year}`);
+}
+
+export interface PresidentialRow {
+  readonly id: string;
+  readonly year: number;
+  readonly states: readonly {
+    readonly stateKey: string;
+    readonly electors: number;
+    readonly republicanShare: number;
+    readonly winnerSide: number;
+    readonly from: string;
+  }[];
+  readonly electoral: {
+    readonly republican: number;
+    readonly democratic: number;
+  };
+  readonly winnerParty: string;
+  readonly winnerId: string;
+  readonly inauguration: string;
+}
+
+/**
+ * The electors vote: each state's electors go to its statewide winner. The
+ * town's state is its own popular vote, counted from named voters and the
+ * state's voter groups (voting.ts); every other state is its 2024 lean plus
+ * the year's environment. A majority of electors (270) wins; a tie goes to
+ * the House, voting by state delegation (U.S. Const. amend. XII).
+ */
+function electoralCollege(api: CoreAPI, year: number): void {
+  const { stateKey } = lawChain(api);
+  const town = townPresidentialVote(api, year);
+  const holder = presidentSide(api);
+  // stopgapId: SG-GOV-presidential-environment
+  api.stopgap("SG-GOV-presidential-environment");
+  const environment =
+    -holder * campaignParameter("presidentialIncumbentPartyShift");
+  const states = Object.entries(electors.states).map(([key, count]) => {
+    const own = key === stateKey && town ? town.republicanShare : null;
+    const lean = 1 - (stateShare.get(key.slice(3)) ?? 0.5);
+    const share = own ?? lean + environment;
+    return {
+      stateKey: key,
+      electors: count,
+      republicanShare: share,
+      winnerSide: share > 0.5 ? 1 : share < 0.5 ? -1 : 0,
+      from:
+        own !== null
+          ? "the state's own count"
+          : "2024 lean and the year's environment",
+    };
+  });
+  const republican = states
+    .filter((s) => s.winnerSide > 0)
+    .reduce((a, s) => a + s.electors, 0);
+  const democratic = states
+    .filter((s) => s.winnerSide < 0)
+    .reduce((a, s) => a + s.electors, 0);
+  let side =
+    republican >= electors.toWin ? 1 : democratic >= electors.toWin ? -1 : 0;
+  if (side === 0) side = houseDelegationsSide(api);
+  const winnerParty = side > 0 ? "Republican" : "Democratic";
+  const winnerId =
+    town?.candidates.find((c) => partySide(c.party) === side)?.personId ??
+    `official:president:${year}:${winnerParty}`;
+  const row: PresidentialRow = {
+    id: `presidential:${year}`,
+    year,
+    states,
+    electoral: { republican, democratic },
+    winnerParty,
+    winnerId,
+    inauguration: `${year + 1}-01-20`,
+  };
+  table(api, "races").put({
+    ...row,
+    seatId: "seat:US:president",
+    office: "president",
+    date: api.state.date,
+  } as unknown as ModuleRow);
+  api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
+    key: `inauguration:${year + 1}`,
+    date: row.inauguration,
+    kind: "inauguration",
+    source: {
+      tag: "SOURCED",
+      citation: "U.S. Const. amend. XX, § 1 (noon, January 20)",
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [row.id],
+  });
+}
+
+/** The town's state's count of the presidential race, where the town voted on it. */
+function townPresidentialVote(
+  api: CoreAPI,
+  year: number,
+): {
+  republicanShare: number;
+  candidates: { personId: string; party: string | null }[];
+} | null {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return null;
+  const contests = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  ).filter(
+    (c) =>
+      c.officeId === "office:US:president" &&
+      c.electionDate.startsWith(String(year)),
+  );
+  for (const contest of contests) {
+    const result = resultOf(api, contest.id);
+    if (!result) continue;
+    const candidates = ballot(api, contest.id).map((f) => ({
+      personId: f.personId,
+      party: f.party ?? null,
+    }));
+    let r = 0;
+    let d = 0;
+    for (const c of candidates) {
+      const side = partySide(c.party);
+      if (side > 0) r += result.totals[c.personId] ?? 0;
+      if (side < 0) d += result.totals[c.personId] ?? 0;
+    }
+    if (r + d > 0) return { republicanShare: r / (r + d), candidates };
+  }
+  return null;
+}
+
+/** A House contingent election: each state's delegation casts one vote by its majority. */
+function houseDelegationsSide(api: CoreAPI): number {
+  const byState = new Map<string, number>();
+  for (const m of members(api, FEDERAL_HOUSE)) {
+    const state = m.seatId.split(":")[1] ?? "";
+    byState.set(state, (byState.get(state) ?? 0) + partySide(m.party));
+  }
+  let sum = 0;
+  for (const v of byState.values()) sum += Math.sign(v);
+  return sum >= 0 ? 1 : -1;
+}
+
+/** Noon, January 20: the president-elect and their running mate take office. */
+function inaugurate(api: CoreAPI, rowId: string): void {
+  const row = table(api, "races").get(rowId) as unknown as
+    PresidentialRow | undefined;
+  if (!row) return;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const terms = offices.table("terms");
+  const loaded = offices.table("loaded").get("town") as unknown as {
+    worldSeed: string;
+  };
+  for (const [seatId, officeId, key] of [
+    ["seat:US:president", "office:US:president", row.winnerId],
+    [
+      "seat:US:vice-president",
+      "office:US:vice-president",
+      `running-mate:${row.winnerId}`,
+    ],
+  ] as const) {
+    for (const term of terms.query("bySeatStatus", [
+      seatId,
+      "serving",
+    ]) as unknown as TermRow[])
+      terms.put({
+        ...term,
+        status: "ended",
+        endDate: api.state.date,
+        endEstimated: false,
+        endedBy: "term ended",
+      } as unknown as ModuleRow);
+    const drawn = drawOfficialIdentity({
+      worldSeed: loaded.worldSeed,
+      seatKey: key,
+      stateUsps: lawChain(api).stateKey.slice(3),
+      role: "state-executive-challenger",
+      referenceDate: api.state.date,
+    });
+    terms.put({
+      id: `term:${seatId}:${api.state.date}:elected`,
+      seatId,
+      officeId,
+      personId: null,
+      identity: {
+        givenName: drawn.givenName,
+        familyName: drawn.familyName,
+        gender: drawn.gender,
+        birthDate: drawn.birthDate,
+        homeState: lawChain(api).stateKey,
+      },
+      party: row.winnerParty,
+      startDate: api.state.date,
+      endDate: `${Number(api.state.date.slice(0, 4)) + 4}-01-20`,
+      endEstimated: false,
+      reached: `elected ${row.year}`,
+      status: "serving",
+    } as unknown as ModuleRow);
+  }
 }
 
 /** The president's side, from the seated president. */
@@ -410,5 +648,17 @@ function seat(api: CoreAPI, raceId: string): void {
 }
 
 export function racesOf(api: CoreAPI): readonly RaceRow[] {
-  return table(api, "races").rows() as unknown as RaceRow[];
+  return (table(api, "races").rows() as unknown as RaceRow[]).filter(
+    (r) => r.office !== "president",
+  );
+}
+
+export function presidentialOf(
+  api: CoreAPI,
+  year: number,
+): PresidentialRow | null {
+  return (
+    (table(api, "races").get(`presidential:${year}`) as unknown as
+      PresidentialRow | undefined) ?? null
+  );
 }

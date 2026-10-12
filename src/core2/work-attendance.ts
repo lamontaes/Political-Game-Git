@@ -1,3 +1,5 @@
+import { validateCompactChoice } from "./compact-choice";
+import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { FinanceReadGuard } from "./finance-plan";
@@ -240,21 +242,34 @@ function shallow<T extends object>(r: FinanceReadGuard, raw: T): T {
   return result as T;
 }
 
+// Only this copier can admit these independently detached, deeply frozen graphs.
+// Caller-frozen inputs are never trusted: their descriptor/read guards still run.
+const detachedAttendanceEvidence = new WeakSet<object>(),
+  hasDetachedAttendanceEvidence = WeakSet.prototype.has,
+  addDetachedAttendanceEvidence = WeakSet.prototype.add,
+  freezeDetachedAttendanceEvidence = Object.freeze,
+  createDetachedAttendanceEvidence = Object.create,
+  defineDetachedAttendanceEvidence = Object.defineProperty;
+
 /** Only a bounded result/evidence payload, never an actor/history/whole-world copy. */
 function detached<T>(
   r: FinanceReadGuard,
   raw: T,
   active = new Set<object>(),
 ): T {
+  // Play stores the freshly built result itself; bookkeeping detaches and freezes it.
+  if (!bookkeeping()) return raw;
   if (typeof raw === "function" || typeof raw === "symbol")
     throw new Error("Attendance payload cannot contain executable values.");
   if (raw === null || typeof raw !== "object") return raw;
+  if (hasDetachedAttendanceEvidence.call(detachedAttendanceEvidence, raw))
+    return raw;
   if (active.has(raw)) throw new Error("Attendance payload has a cycle.");
   active.add(raw);
   try {
     const result = Array.isArray(raw)
       ? []
-      : Object.create(Object.getPrototypeOf(raw));
+      : createDetachedAttendanceEvidence(Object.getPrototypeOf(raw));
     if (
       !Array.isArray(raw) &&
       Object.getPrototypeOf(raw) !== Object.prototype &&
@@ -271,7 +286,7 @@ function detached<T>(
         !Object.is(value, descriptor.value)
       )
         throw new Error("Attendance payload descriptor changed while copying.");
-      Object.defineProperty(result, key, {
+      defineDetachedAttendanceEvidence(result, key, {
         value: detached(r, value, active),
         enumerable: descriptor.enumerable,
         writable: false,
@@ -283,9 +298,11 @@ function detached<T>(
       for (let index = 0; index < length; index++)
         if (!Object.hasOwn(raw, index))
           throw new Error("Attendance arrays must be dense.");
-      Object.defineProperty(result, "length", { value: length });
+      defineDetachedAttendanceEvidence(result, "length", { value: length });
     }
-    return Object.freeze(result) as T;
+    freezeDetachedAttendanceEvidence(result);
+    addDetachedAttendanceEvidence.call(detachedAttendanceEvidence, result);
+    return result as T;
   } finally {
     active.delete(raw);
   }
@@ -557,7 +574,9 @@ export function recordWorkAttendance(
   ordinaryRow(row);
   ordinaryRow(job);
   if (previous) ordinaryRow(previous);
-  const actorView = shallow(r, actor),
+  // Play updates the worker's own row in place; bookkeeping stages a copy.
+  const live = !bookkeeping(),
+    actorView = live ? actor : shallow(r, actor),
     commitment = {
       id: r.field(row, "id"),
       jobId: r.field(row, "jobId"),
@@ -735,6 +754,36 @@ export function recordWorkAttendance(
     throw new Error(
       "Attendance choice does not retain its actual selected identity/time.",
     );
+  const rawCompact = r.field(input.decision, "compactChoice");
+  const compactChoice =
+    rawCompact === undefined ? undefined : detached(r, rawCompact);
+  if (compactChoice) validateCompactChoice(compactChoice);
+  if (
+    compactChoice &&
+    (compactChoice.version !== "core2-compact-choice-v1" ||
+      compactChoice.actorId !== actorView.id ||
+      compactChoice.date !== date ||
+      compactChoice.chosen.actionId !== actionView.id ||
+      compactChoice.chosen.targetId !== offer.targetId ||
+      compactChoice.chosen.availableHours !== offer.availableHours ||
+      compactChoice.chosen.driveId !== offer.driveId ||
+      compactChoice.chosen.effortHours !==
+        (offer.effortHours ??
+          batch.parameter(r.field(definition, "effortParameter"))) ||
+      !reasons ||
+      Object.keys(compactChoice.chosen.contributions).length !==
+        Object.keys(reasons).length ||
+      compactChoice.chosen.score !==
+        Object.values(reasons).reduce((sum, value) => sum + value, zero) ||
+      Object.keys(reasons).some(
+        (key) =>
+          compactChoice.chosen.contributions[key as keyof typeof reasons] !==
+          reasons[key as keyof typeof reasons],
+      ))
+  )
+    throw new Error(
+      "Attendance compact choice disagrees with its actual selected evidence.",
+    );
   availableSource(r, input.source, date, zero, one);
   const selectedId = actionView.id,
     actionKind = r.field(definition, "effect"),
@@ -795,6 +844,7 @@ export function recordWorkAttendance(
     payrollCalendarId: ownedCalendarId,
     earnedPayPeriodId: periodId,
     ...(detailed ? { decision: detached(r, input.decision) } : {}),
+    ...(detailed && compactChoice ? { compactChoice } : {}),
     source: {
       tag: "SOURCED",
       asOf: date,
@@ -810,7 +860,9 @@ export function recordWorkAttendance(
   nextActor.actCount = after;
   const actualKinds = r.field(actor, "actsByKind");
   r.payload(actualKinds, zero, one);
-  const kinds = new Map<string, number>(nativeEntries.call(actualKinds));
+  const kinds = live
+    ? actualKinds
+    : new Map<string, number>(nativeEntries.call(actualKinds));
   kinds.set(
     selectedId,
     addMinor(
@@ -974,14 +1026,29 @@ export function recordWorkAttendance(
     source: priorActivity ? r.field(priorActivity, "source") : stored.source,
   });
   batch.map(ledger, commitment.id, detached(r, earned.ledger));
-  batch.map(periods, periodId, detached(r, earned.period));
+  const { decision: omittedDecision, ...lastAttendanceBasis } = stored;
+  void omittedDecision;
+  const { lastAttendanceBasis: omittedBasis, ...periodFields } = earned.period;
+  void omittedBasis;
+  batch.map(
+    periods,
+    periodId,
+    detached(r, {
+      ...periodFields,
+      ...(detailed ? { lastAttendanceBasis } : {}),
+    }),
+  );
   const periodIndexes = r.field(work, "earnedPayPeriodByCommitmentIndex"),
     priorIndex = r.mapGet(periodIndexes, commitment.id),
-    nextIndex = new Map<number, string>(
-      priorIndex
-        ? (r.payload(priorIndex, zero, one), nativeEntries.call(priorIndex))
-        : [],
-    );
+    nextIndex =
+      live && priorIndex
+        ? priorIndex
+        : new Map<number, string>(
+            priorIndex
+              ? (r.payload(priorIndex, zero, one),
+                nativeEntries.call(priorIndex))
+              : [],
+          );
   if (
     r.mapGet(priorIndex ?? new Map<number, string>(), resolved.index) !==
     (originalPeriod ? periodId : undefined)
@@ -1027,7 +1094,9 @@ export function recordWorkAttendance(
     if (!known) throw new Error("Missing watched worker knowledge index.");
     // Replace the owned inner map; never mutate an injected map/property callback.
     r.payload(known, zero, one);
-    const nextKnown = new Map<string, KnownFact>(nativeEntries.call(known)),
+    const nextKnown = live
+        ? known
+        : new Map<string, KnownFact>(nativeEntries.call(known)),
       key = "job:" + input.jobId + ":latest-work-attendance";
     nextKnown.set(key, {
       key,

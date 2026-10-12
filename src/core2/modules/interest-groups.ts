@@ -147,6 +147,7 @@ function organize(api: CoreAPI, billId: string): void {
       const org = state.organizations.get(orgId);
       return (
         !!org &&
+        !org.outsideFlow &&
         state.cashJournal.accounts.has(`cash:${orgId}:residual`) &&
         cost.annualMinor > dues &&
         org.liquidMinor >= dues

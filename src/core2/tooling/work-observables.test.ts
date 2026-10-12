@@ -12,6 +12,7 @@ const source: Source = {
   asOf: "2021-01-01",
   citation:
     "Controlled observation-boundary fixture; not a generated-world realism receipt.",
+  estimatedFrom: "Controlled fixture terms only; no observed record.",
 };
 const ageDays = (result: ReturnType<typeof rosterDiaryExposure>, id: string) =>
   result.byAge.find((row) => row.ageId === id)!.residentDiaryDays;
@@ -40,6 +41,7 @@ function fixture(): CoreInput {
     jobId: "fixture-job",
     personId: "fixture-worker",
     organizationId: "fixture-employer",
+    payrollCalendarId: "fixture-payroll",
     startsAt: source.asOf!,
     anchorDate: source.asOf!,
     periodDays: p("one"),
@@ -72,6 +74,23 @@ function fixture(): CoreInput {
       },
     ],
     workCommitments: [term],
+    // Controlled daily payroll (zero-day lag): payday is the work date.
+    workPayrollCalendars: [
+      {
+        id: "fixture-payroll",
+        organizationId: "fixture-employer",
+        workCommitmentIds: [term.id],
+        basisRecordIds: ["fixture-employer"],
+        rule: "fixed-days-after-inclusive-period-end" as const,
+        periodDays: p("one"),
+        firstPeriodStartsAt: source.asOf!,
+        nonbusinessDayRule: "no-adjustment" as const,
+        firstPaydayAt: source.asOf!,
+        effectiveFrom: source.asOf!,
+        arrearsRule: "carry-to-next-recorded-payday" as const,
+        source,
+      },
+    ],
     organizations: [
       {
         id: "fixture-employer",

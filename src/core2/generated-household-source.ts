@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 /** Generated default household provenance only. It grants no payment authority. */
 import financeCatalog from "./data/opening-finance.json" with { type: "json" };
 import customerCatalog from "./data/opening-customers.json" with { type: "json" };
@@ -171,6 +172,7 @@ export function compactGeneratedHouseholdSource(
   };
 }
 function checkBasis(basis: GeneratedHouseholdSourceBasis): void {
+  if (!bookkeeping()) return;
   const keys = [
     "schema",
     "domain",
@@ -254,7 +256,12 @@ export interface GeneratedHouseholdSourceOwners {
   /** Entries must be the actual job/commitment/award/expense owners, not copied citations. */
   calendarRecords: ReadonlyMap<
     string,
-    { householdId: string; sources: readonly Source[] }
+    {
+      householdId: string;
+      /** An employer payday calendar serves every household with a worker on it. */
+      householdIds?: ReadonlySet<string>;
+      sources: readonly Source[];
+    }
   >;
   parameters: Readonly<Record<string, Parameter>>;
 }
@@ -374,7 +381,12 @@ export function resolveGeneratedHouseholdSource(
   });
   const calendarRecords = basis.calendarBasisIds.map((id) => {
     const row = owners.calendarRecords.get(id);
-    if (!row || row.householdId !== household.id || !row.sources.length)
+    if (
+      !row ||
+      (row.householdId !== household.id &&
+        !row.householdIds?.has(household.id)) ||
+      !row.sources.length
+    )
       throw new Error(
         "Generated household calendar basis lacks its actual owning record.",
       );
@@ -409,10 +421,18 @@ export function resolveGeneratedHouseholdSourceFromInput(
   const home = homes[P.zero]!,
     calendarRecords = new Map<
       string,
-      { householdId: string; sources: readonly Source[] }
+      {
+        householdId: string;
+        householdIds?: ReadonlySet<string>;
+        sources: readonly Source[];
+      }
     >();
   for (const id of basis.calendarBasisIds) {
-    const found: { householdId: string; sources: readonly Source[] }[] = [];
+    const found: {
+      householdId: string;
+      householdIds?: ReadonlySet<string>;
+      sources: readonly Source[];
+    }[] = [];
     for (const job of input.jobs)
       if (job.id === id) {
         const people = input.people.filter((row) => row.id === job.personId);
@@ -442,6 +462,25 @@ export function resolveGeneratedHouseholdSourceFromInput(
             householdId: person.householdId,
             sources: [fact.source],
           });
+    for (const calendar of input.workPayrollCalendars ?? [])
+      if (calendar.id === id) {
+        const commitments = new Set(calendar.workCommitmentIds);
+        const homes = new Set(
+          (input.workCommitments ?? [])
+            .filter((row) => commitments.has(row.id))
+            .map(
+              (row) =>
+                input.people.find((person) => person.id === row.personId)
+                  ?.householdId,
+            )
+            .filter((value): value is string => value !== undefined),
+        );
+        found.push({
+          householdId: calendar.organizationId,
+          householdIds: homes,
+          sources: [calendar.source],
+        });
+      }
     for (const row of recordedContracts)
       if (row.id === id) {
         const owner = row.householdId ?? row.recipientIncome?.householdId;

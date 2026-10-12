@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { registerElectorate } from "../electorate";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -211,6 +212,7 @@ export function parsePlatform(platform: readonly string[]): readonly Stance[] {
 
 /** Register the module and note the town's starting lean (stand-in for views). */
 export function openCampaigns(core: CoreState): void {
+  registerElectorate(core);
   if (!core.modules.has(CAMPAIGNS_MODULE_ID))
     registerModule(core, CAMPAIGNS_MODULE);
   const api = coreAPI(core);

@@ -33,7 +33,46 @@ const source: Source = {
     "Fixture amounts use already registered unit constants; source priors and crosswalks remain marked estimates/open stopgaps.",
 };
 
+// Controlled daily payroll calendar per employer (zero-day lag), so the first
+// eligible payday is the actual work date. It starts well before any fixture
+// opening date, and every commitment links to its owning employer calendar.
 function fixture(): CoreInput {
+  const base = rawFixture(),
+    start = "2020-01-01",
+    calendarSource: Source = { ...source, asOf: start };
+  const workPayrollCalendars = base.organizations.flatMap((organization) => {
+    const ids = (base.workCommitments ?? [])
+      .filter((row) => row.organizationId === organization.id)
+      .map((row) => row.id);
+    return ids.length
+      ? [
+          {
+            id: `payroll:${organization.id}`,
+            organizationId: organization.id,
+            workCommitmentIds: ids,
+            basisRecordIds: [organization.id],
+            rule: "fixed-days-after-inclusive-period-end" as const,
+            periodDays: p("one"),
+            firstPeriodStartsAt: start,
+            nonbusinessDayRule: "no-adjustment" as const,
+            firstPaydayAt: start,
+            effectiveFrom: start,
+            arrearsRule: "carry-to-next-recorded-payday" as const,
+            source: calendarSource,
+          },
+        ]
+      : [];
+  });
+  return {
+    ...base,
+    workCommitments: (base.workCommitments ?? []).map((row) => ({
+      ...row,
+      payrollCalendarId: `payroll:${row.organizationId}`,
+    })),
+    workPayrollCalendars,
+  } as CoreInput;
+}
+function rawFixture(): CoreInput {
   const firms = [
     { id: "store", classification: "enterprise:retail" },
     { id: "kitchen", classification: "enterprise:food-service" },
@@ -1624,11 +1663,15 @@ describe("fresh generated calendar Source references", () => {
       expect(term.settlementPhaseId).toBe(baseline.settlementPhaseId);
     }
     for (const [homeId, dueAt, basisIds] of [
-      ["household:store", "2021-01-02", ["job:store", "commitment:job:store"]],
+      [
+        "household:store",
+        "2021-01-02",
+        ["job:store", "commitment:job:store", "payroll:store"],
+      ],
       [
         "household:kitchen",
         "2021-01-04",
-        ["job:kitchen", "commitment:job:kitchen"],
+        ["job:kitchen", "commitment:job:kitchen", "payroll:kitchen"],
       ],
       ["household:bank", "2021-01-21", [income.id, "actual-compaction-award"]],
     ] as const) {
