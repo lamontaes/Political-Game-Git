@@ -4494,5 +4494,16 @@
     "value": 15,
     "tag": "SOURCED",
     "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
+  },
+  "traitDecisionWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much a person's scaled trait lean between two options (about -1 to 1, traitLeanScale) adds to a government or civic decision's score when the site has no trait weight of its own (OPUS-TRAITS, Oct 12, 2026). Half a full-strength pull: traits tilt the choice without overriding the record, party and money reasons the site already weighs.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "score per unit of scaled trait lean",
+      "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
+    }
   }
 }
