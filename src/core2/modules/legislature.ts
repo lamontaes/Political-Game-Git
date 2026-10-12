@@ -57,7 +57,7 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partySide } from "../appointments";
+import { partyName, partySide } from "../appointments";
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -785,7 +785,7 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
                 birthDate: "",
                 homeState: state,
               },
-              party: worldSeatParty(api, seatId) ?? party,
+              party: partyName(worldSeatParty(api, seatId) ?? party),
               startDate: api.state.date,
               endDate: null,
               endEstimated: true,

@@ -358,12 +358,22 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         endEstimated: false,
         endedBy: "term ended",
       } as unknown as ModuleRow);
+    // The running mate isn't the president's relative: no shared family name.
+    const president = (
+      terms.query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+    )[0];
     const drawn = drawOfficialIdentity({
       worldSeed: loaded.worldSeed,
       seatKey: key,
       stateUsps: lawChain(api).stateKey.slice(3),
       role: "state-executive-challenger",
       referenceDate: api.state.date,
+      ...(seatId === "seat:US:vice-president" && president
+        ? { avoidFamilyNames: [president.identity.familyName] }
+        : {}),
     });
     terms.put({
       id: `term:${seatId}:${api.state.date}:elected`,

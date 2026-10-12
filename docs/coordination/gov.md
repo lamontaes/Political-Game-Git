@@ -94,6 +94,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 04:50 UTC: PLAY's small items:
+  - Party labels read "Democratic" everywhere (`partyName` in `appointments.ts`); the rosters' "Democrat" is normalized where holders and Congress members are created.
+  - The Vice President, and an elected running mate, never shares the President's family name (`avoidFamilyNames` in `drawOfficialIdentity`), asserted in the offices test.
+  - `candidateIdentity(api, id)` in `voting.ts` reads any candidate id: a resident, a seated official (`official:term:…`), or a drawn challenger or nominee. It returns record fields only. Asserted for every ballot in the voting test.
+
 - 2026-10-13 04:20 UTC: Retired `SG-GOV-wage-floor-rate-write` (marked resolved and kept in the registry). A minimum-wage raise now goes through OPUS-CORE's `rerateJob` (core2-api-v12), and when a wage law takes effect the town's counted residents' jobs under the floor rise too, not only the named people's. The laws, legislature, cases, group A and tripwires tests pass (68 of 68).
 
 - 2026-10-13 03:55 UTC: **Audit 12 (the player votes and decides):** the engine never votes for the player.
