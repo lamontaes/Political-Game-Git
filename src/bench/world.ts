@@ -33,6 +33,13 @@ import { renewalData } from "../core2/births-setup";
 import { registerModule } from "../core2/state";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
+import { buildOpeningEconomy } from "../core2/opening-economy";
+import { addOutsideMarket } from "../core2/opening-outside-market";
+import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
+import { initialFocusPeople } from "../core2/focus";
+import { withCountedVoterGroups } from "../core2/opening-voter-groups";
+import { releaseRecentHistory } from "../simulation/history-index";
+import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
 
 export interface BenchResident {
@@ -138,22 +145,50 @@ export function buildBenchWorld(
       }),
     ),
   );
-  let opening = withWorldEconomy({
-    ...input,
-    finance: createOpeningFinance(input),
-  });
+  let opening: CoreInput;
   let playerId: string | undefined;
   if (options.twoLevel) {
-    playerId = entrantOf(opening, place.context.jurisdiction.id);
-    opening = { ...opening, playerId };
+    // The core's own opening route (as in its generated world): the player
+    // and their peers first, then the economy with the closures fix (outside
+    // buyers by industry), light terms for counted households, two levels and
+    // the counted voter groups.
+    playerId = entrantOf(input, place.context.jurisdiction.id);
+    let withPlayer: CoreInput = {
+      ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
+      playerId,
+    };
+    withPlayer = {
+      ...withPlayer,
+      focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
+    };
+    const kept = familyClosure(withPlayer);
+    const countedHouseholdIds = new Set(
+      withPlayer.households
+        .filter((home) => !home.memberIds.some((id) => kept.has(id)))
+        .map((home) => home.id),
+    );
+    opening = withWorldEconomy(
+      addOutsideMarket(
+        buildOpeningEconomy(withPlayer, {
+          finance: { countedHouseholdIds },
+          customers: { countedHouseholdIds },
+        }).input,
+      ),
+    );
     // People a module adds at the opening (the central bank's board) are
     // named officials: they stay full people.
     const generated = new Set(input.people.map((row) => row.id));
     const keep = familyClosure(opening);
     for (const row of opening.people)
       if (!generated.has(row.id)) keep.add(row.id);
-    opening = collapseToTwoLevels(opening, { keep });
-  }
+    opening = withCountedVoterGroups(collapseToTwoLevels(opening, { keep }));
+    releaseRecentHistory();
+    forgetLastValidatedWorld();
+  } else
+    opening = withWorldEconomy({
+      ...input,
+      finance: createOpeningFinance(input),
+    });
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
