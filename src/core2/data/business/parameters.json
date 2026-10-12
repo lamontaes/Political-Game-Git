@@ -194,5 +194,27 @@
       "unit": "years of income",
       "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee)."
     }
+  },
+  "businessUnionDuesShare": {
+    "value": 0.013,
+    "tag": "TUNABLE",
+    "citation": "Union dues run about one to two percent of a member's pay or a few hours' pay a month (union constitutions and LM-2 reports); applied to the place's median wage.",
+    "spread": {
+      "low": 0.008,
+      "high": 0.02,
+      "unit": "share of monthly pay",
+      "citation": "Union dues run about one to two percent of a member's pay or a few hours' pay a month (union constitutions and LM-2 reports); applied to the place's median wage."
+    }
+  },
+  "businessOldestFirmYears": {
+    "value": 100,
+    "tag": "TUNABLE",
+    "citation": "A cap on the oldest opening business's age; a few U.S. small businesses are a century old.",
+    "spread": {
+      "low": 60,
+      "high": 150,
+      "unit": "years",
+      "citation": "A cap on the oldest opening business's age; a few U.S. small businesses are a century old."
+    }
   }
 }

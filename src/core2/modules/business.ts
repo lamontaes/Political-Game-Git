@@ -13,7 +13,14 @@ import businessParameters from "../data/business/parameters.json" with { type: "
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import type { ActOffer, CoreAPI, CoreModule, CoreState } from "../types";
+import type { ActOffer, CoreAPI, CoreState } from "../types";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
+import bdsRates from "../data/business/bds-rates.json" with { type: "json" };
+import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import {
   countedJobsOf,
@@ -320,10 +327,52 @@ function succeed(api: CoreAPI): void {
   }
 }
 
+/** A union local keeps a cushion of its own payroll and sends the rest of its dues to its international, outside the town. */
+function membershipPayouts(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  for (const org of c.organizations.values()) {
+    if (
+      (org as { classification?: string }).classification !==
+      "membership:labor-union"
+    )
+      continue;
+    const outside = [...c.organizations.values()].find(
+      (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
+    );
+    if (!outside) continue;
+    let daily = 0;
+    for (const id of c.finance.jobsByOrganization.get(org.id) ?? []) {
+      const job = c.jobs.get(id);
+      if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
+    }
+    const cushion =
+      ((daily * p("jobsDaysPerYear")) / p("macroMonthsPerYear")) *
+      p("businessCushionMonths");
+    const excess = org.liquidMinor - cushion;
+    if (excess > 0)
+      transferCash(
+        api,
+        `per-capita:${org.id}:${c.date}`,
+        org.id,
+        outside.id,
+        excess,
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: businessData.source.citation,
+          estimatedFrom:
+            "Dues above the local's payroll cushion go to its international union as per-capita payments.",
+        },
+      );
+  }
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   succeed(api);
+  membershipPayouts(api);
   for (const row of store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
@@ -335,7 +384,8 @@ function month(api: CoreAPI): void {
     // Profit is what the business's net cash gained: every sale, wage, purchase and loan payment.
     const net = netCash(c, row.id);
     const profit = net - (row.netThrough ?? net);
-    const retained = Math.max(0, row.retainedMinor + profit);
+    // Losses carry: an owner draws only from profit the business has kept, net of losses since.
+    const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
     const cushion =
       (book.annualPayrollMinor / p("macroMonthsPerYear")) *
@@ -438,8 +488,9 @@ function marketRoom(api: CoreAPI): Market[] {
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
     row.staff +=
-      (c.finance.jobsByOrganization.get(id)?.size ?? 0) +
-      countedJobsOf(c, id).length;
+      [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
+        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+      ).length + countedJobsOf(c, id).length;
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
@@ -849,6 +900,15 @@ function found(
         source,
       )
     : 0;
+  // Funding a location moves the parent's cash, not its profit.
+  if (location && funded > 0) {
+    const parent = store(api).table("owners").get(location.parentId) as
+      OwnerRow | undefined;
+    if (parent?.netThrough !== undefined)
+      store(api)
+        .table("owners")
+        .put({ ...parent, netThrough: parent.netThrough - funded });
+  }
   const loan =
     startup - funded > 0
       ? lendForFounding(
@@ -924,8 +984,97 @@ export function ownerOf(
   )?.ownerId;
 }
 
-export const BUSINESS_MODULE: CoreModule = {
+const BDS = bdsRates as unknown as {
+  states: Record<string, { entryPct: number; exitPct: number }>;
+  nationExitPct: number;
+};
+const FIPS_OF_USPS = new Map(
+  (regions.regions as { stateFips: string; stateUsps: string }[]).map((row) => [
+    row.stateUsps,
+    row.stateFips,
+  ]),
+);
+
+/**
+ * Businesses before the start (M1-14): every opening business gets a founding
+ * date, so firms have ages. In a steady state where the state's businesses
+ * exit at its BDS rate x a year, the share at least a years old is (1 - x)^a;
+ * the largest businesses are the oldest. Foundings inside the window and each
+ * year's exits (the same rate) are dated history.
+ */
+function businessHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const usps = c.placeMetadata?.housingState ?? "";
+  const exit =
+    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
+    p("macroHundred");
+  const firms = [...c.finance.businesses.values()]
+    .filter((book) => !book.closedAt)
+    .map((book) => ({
+      id: book.organizationId,
+      kindId: book.kindId,
+      staff:
+        [
+          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
+        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
+        countedJobsOf(c, book.organizationId).length,
+    }))
+    .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
+  const start = makeIsoDate(c.date);
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: c.date,
+    citation: (bdsRates as { source: { citation: string } }).source.citation,
+    estimatedFrom: `Ages from the state's establishment exit rate (${(exit * 100).toFixed(1)}% a year); the largest businesses are the oldest.`,
+  };
+  firms.forEach((firm, i) => {
+    const q = (i + 0.5) / firms.length;
+    const years = Math.min(
+      p("businessOldestFirmYears"),
+      Math.log(q) / Math.log(1 - exit),
+    );
+    const foundedAt = makeIsoDate(
+      addDays(start, -Math.round(years * p("jobsDaysPerYear"))),
+    );
+    store(api).table("ages").put({ id: firm.id, foundedAt, ageYears: years });
+    if (foundedAt >= window.from && foundedAt <= window.through)
+      history.record({
+        id: `business.founded:${firm.id}`,
+        date: foundedAt,
+        kind: "business.founded",
+        placeId: c.organizations.get(firm.id)?.placeId,
+        facts: { organizationId: firm.id, kindId: firm.kindId },
+        publicRecord: true,
+        source,
+      });
+  });
+  // Each year in the window, the businesses that closed (the same exit rate, a steady count).
+  const first = Number(window.from.slice(0, 4)),
+    last = Number(window.through.slice(0, 4));
+  for (let year = first; year <= last; year++) {
+    const date = makeIsoDate(
+      `${year}-12-31` > window.through ? window.through : `${year}-12-31`,
+    );
+    if (date < window.from) continue;
+    history.record({
+      id: `business.exits:${year}`,
+      date,
+      kind: "business.exits",
+      facts: { year, closed: Math.round(firms.length * exit) },
+      publicRecord: true,
+      source,
+    });
+  }
+}
+
+export const BUSINESS_MODULE: PreStartModule = {
   id: BUSINESS_MODULE_ID,
+  preStart: { phase: "economy", run: businessHistory },
   state: {
     schemaVersion: 1,
     tables: {
@@ -935,6 +1084,7 @@ export const BUSINESS_MODULE: CoreModule = {
       foundings: {},
       successions: {},
       closures: {},
+      ages: {},
     },
   },
   reasonProviders: {

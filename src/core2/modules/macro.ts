@@ -45,13 +45,7 @@ import {
   regionalRegistered,
   stepRegional,
 } from "./regional";
-import type {
-  CoreAPI,
-  CoreData,
-  CoreInput,
-  CoreState,
-  Source,
-} from "../types";
+import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 
 export const MACRO_MODULE_ID = "macro";
 export const MACRO_PARAMETERS = macroParameters as unknown as Readonly<
@@ -151,8 +145,12 @@ function publishConditions(
         ((one + row.outputGapPct / hundred) /
           (one + opening.outputGapPct / hundred)) *
         region.demand;
-    // Buyers outside the town spend with the nation's prices and the region's demand.
-    scaleOutsideSales(api.state as CoreState, placeId, prices * demand);
+    // Buyers outside the town spend with the nation's prices and real output (its trend and its cycle), and the region's demand.
+    scaleOutsideSales(
+      api.state as CoreState,
+      placeId,
+      prices * (row.realOutput / opening.realOutput) * region.demand,
+    );
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,
       placeId,

@@ -29,6 +29,11 @@ import {
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
+import {
+  ACS_VALUE_DATE,
+  homePriceRatio,
+  type PriceLevel,
+} from "../housing-prices";
 import { residentsRuntime } from "./residents";
 import type {
   ActOffer,
@@ -135,6 +140,83 @@ function townOf(input: CoreInput): Town | undefined {
   if (!placeId || !usps) return undefined;
   // A place no county table covers (the island areas) uses the nation's figures, estimated.
   return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
+}
+
+const UNITS = housingData.unitsInStructure as unknown as {
+  kinds: string[];
+  counties: Record<string, { own: number[]; rent: number[] }>;
+  nation: { own: number[]; rent: number[] };
+};
+
+/**
+ * What kind of home each household lives in: its county's mix of houses,
+ * rowhouses, apartments and mobile homes for owners and for renters (ACS
+ * B25032). Within each, the lowest incomes live in mobile homes, then
+ * apartments, then rowhouses, the rest in houses; an owned house where
+ * someone works on a farm is a farmhouse.
+ */
+function withKinds(
+  input: CoreInput,
+  county: string,
+  households: readonly {
+    id: string;
+    income: number;
+    memberIds: readonly string[];
+  }[],
+  dwellings: readonly [string, "own" | "rent", number][],
+): [string, "own" | "rent", number, string][] {
+  const mix = UNITS.counties[county] ?? UNITS.nation;
+  const income = new Map(households.map((row) => [row.id, row.income]));
+  const farms = new Set(
+    (input.finance?.businesses ?? [])
+      .filter((row) => row.kindId === "farm")
+      .map((row) => row.organizationId),
+  );
+  const farmers = new Set(
+    [
+      ...input.jobs,
+      ...(input.residents?.households ?? []).flatMap((row) => row.jobs),
+    ]
+      .filter((job) => farms.has(job.organizationId))
+      .map((job) => job.personId),
+  );
+  const farmHomes = new Set(
+    households
+      .filter((row) => row.memberIds.some((id) => farmers.has(id)))
+      .map((row) => row.id),
+  );
+  const out: [string, "own" | "rent", number, string][] = [];
+  for (const tenure of ["own", "rent"] as const) {
+    const rows = dwellings
+      .filter((row) => row[1] === tenure)
+      .sort(
+        (a, b) =>
+          (income.get(a[0]) ?? 0) - (income.get(b[0]) ?? 0) ||
+          a[0].localeCompare(b[0]),
+      );
+    const [house, row, apartment, mobile] = mix[tenure];
+    const total = house! + row! + apartment! + mobile! || 1;
+    // Lowest incomes first: mobile homes, apartments, rowhouses, then houses.
+    const bounds = [
+      mobile!,
+      mobile! + apartment!,
+      mobile! + apartment! + row!,
+    ].map((n) => (n / total) * rows.length);
+    rows.forEach((dwelling, i) => {
+      const kind =
+        i < bounds[0]!
+          ? "mobile-home"
+          : i < bounds[1]!
+            ? "apartment"
+            : i < bounds[2]!
+              ? "rowhouse"
+              : tenure === "own" && farmHomes.has(dwelling[0])
+                ? "farmhouse"
+                : "house";
+      out.push([...dwelling, kind]);
+    });
+  }
+  return out;
 }
 
 /** Annual pay of a household's members from their recorded current jobs. */
@@ -267,6 +349,8 @@ export function withHousing(input: CoreInput): CoreInput {
       valueMinor: Math.round(
         medianValue *
           100 *
+          // ACS values are dated mid-2022; the state's house price index moves them to the start.
+          homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
           ((row.income + offset) / (medianIncome + offset || 1)) **
             pv("housingRentIncomeElasticity"),
       ),
@@ -279,6 +363,7 @@ export function withHousing(input: CoreInput): CoreInput {
           startedAt: makeIsoDate(input.startedAt),
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
+          usps: town.usps,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
             bank.liquidMinor *
@@ -385,7 +470,9 @@ export function withHousing(input: CoreInput): CoreInput {
         ...input.placeMetadata,
         housingState: town.usps,
         housingCounty: town.county,
-        [DWELLINGS_KEY]: JSON.stringify(dwellings),
+        [DWELLINGS_KEY]: JSON.stringify(
+          withKinds(input, town.county, households, dwellings),
+        ),
         ...(mortgages.terms.length
           ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
           : {}),
@@ -495,6 +582,9 @@ function amortize(api: CoreAPI): void {
     id: string;
   })[]) {
     if (row.monthsLeft <= 0) continue;
+    // A full household's bill in arrears paid no principal this month (counted households pay from the pool).
+    const bill = c.finance.contracts.get(row.id);
+    if (bill && !bill.endedAt && bill.arrearsMinor > 0) continue;
     const interest = Math.round((row.balanceMinor * row.rate) / months);
     const balance = Math.max(
       0,
@@ -560,6 +650,17 @@ function landlordPayout(api: CoreAPI): void {
 }
 
 const BUY_PULL = "housing:pull";
+
+/** The economy's consumer price level by month (history and simulated), for prices past the published data. */
+function macroPrices(api: CoreAPI): PriceLevel | undefined {
+  if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  const months = api.moduleState("macro").table("months");
+  return (date) =>
+    (
+      months.get(`macro-month:${date.slice(0, "YYYY-MM".length)}`) as
+        { priceIndex: number } | undefined
+    )?.priceIndex;
+}
 
 function buyOffer(
   buy: boolean,
@@ -643,10 +744,12 @@ function buyHomes(api: CoreAPI): void {
     const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
-    const prices =
-      (c.finance.conditionsByPlace.get(household.placeId) ?? [])
-        .filter((row) => row.at <= c.date)
-        .at(-1)?.generalPriceFactor ?? 1;
+    const prices = homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      ACS_VALUE_DATE,
+      c.date,
+      macroPrices(api),
+    );
     // The home the household's income would buy at the county's median, as rent scales with income.
     const value =
       town[1] *
@@ -723,6 +826,8 @@ function buyHomes(api: CoreAPI): void {
         id: `dwelling:${household.id}`,
         householdId: household.id,
         tenure: "own",
+        // A first home bought here is a house (the seller's unit kind isn't recorded yet).
+        kind: "house",
         valueMinor: Math.round(down) - owed + lent,
         loanHolderId:
           lent > 0
@@ -892,6 +997,11 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         id: `dwelling:${row.householdId}`,
         householdId: row.householdId,
         tenure: "removed",
+        kind:
+          (
+            store(api).table("dwellings").get(`dwelling:${row.householdId}`) as
+              { kind?: string } | undefined
+          )?.kind ?? "house",
         since: c.date,
         basis: "eviction",
       });
@@ -951,8 +1061,8 @@ export const HOUSING_MODULE: CoreModule = {
     const loans = new Map(
       (terms0(api) ?? []).map((row) => [row.householdId, row.holderId]),
     );
-    for (const [householdId, tenure, amount] of homes
-      ? (JSON.parse(homes) as [string, "own" | "rent", number][])
+    for (const [householdId, tenure, amount, kind] of homes
+      ? (JSON.parse(homes) as [string, "own" | "rent", number, string?][])
       : [])
       store(api)
         .table("dwellings")
@@ -960,6 +1070,7 @@ export const HOUSING_MODULE: CoreModule = {
           id: `dwelling:${householdId}`,
           householdId,
           tenure,
+          kind: kind ?? "house",
           ...(tenure === "own"
             ? { valueMinor: amount, loanHolderId: loans.get(householdId) ?? "" }
             : { rentMinor: amount }),
@@ -981,10 +1092,18 @@ export function ownedHomes(
 ): { householdId: string; placeId: string; valueMinor: number }[] {
   const c = api.state as CoreState;
   if (!c.modules.has(HOUSING_MODULE_ID)) return [];
-  const prices = (placeId: string) =>
-    (c.finance.conditionsByPlace.get(placeId) ?? [])
-      .filter((row) => row.at <= c.date)
-      .at(-1)?.generalPriceFactor ?? 1;
+  const opened =
+    (
+      store(api).table("state").get("housing:state") as
+        { openedAt: string } | undefined
+    )?.openedAt ?? c.date;
+  const prices = () =>
+    homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      opened,
+      c.date,
+      macroPrices(api),
+    );
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {
@@ -1003,9 +1122,22 @@ export function ownedHomes(
       householdId: row.householdId,
       placeId,
       valueMinor: Math.round(
-        row.valueMinor * (row.basis === "opening" ? prices(placeId) : 1),
+        row.valueMinor * (row.basis === "opening" ? prices() : 1),
       ),
     });
   }
   return out;
+}
+
+/** The kind of home a household lives in (house, rowhouse, apartment, mobile-home, farmhouse), for the home picture. */
+export function dwellingKind(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  if (!(api.state as CoreState).modules.has(HOUSING_MODULE_ID))
+    return undefined;
+  return (
+    store(api).table("dwellings").get(`dwelling:${householdId}`) as
+      { kind?: string } | undefined
+  )?.kind;
 }

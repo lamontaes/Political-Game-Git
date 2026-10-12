@@ -24,6 +24,11 @@
     "tag": "SOURCED",
     "citation": "Calendar months per quarter."
   },
+  "macroHistoryFirstYear": {
+    "value": 2021,
+    "tag": "SOURCED",
+    "citation": "M1-history (owner, Oct 10): the years from the latest full-data year, 2021, to the start date are the coarse run."
+  },
   "macroHistoryMonths": {
     "value": 13,
     "tag": "SOURCED",
@@ -206,16 +211,16 @@
     }
   },
   "macroMortgageSpreadOverTreasuryPct": {
-    "value": 1.768,
+    "value": 2.22,
     "tag": "ESTIMATED",
-    "citation": "FHFA MIRS 30-year fixed contract rate less the H.15 10-year Treasury yield, monthly 1990-2019: mean 1.77, 5th-95th 1.22 to 2.33. This product uses FHFA data but is neither endorsed nor certified by FHFA.",
-    "estimatedFrom": "The 1990-2019 mean spread, applied to months after FHFA's survey ended (CTO ruling on #3959).",
+    "citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/research/stand-in-figures-2026-10-12.json).",
+    "estimatedFrom": "Only months past the published series use the spread.",
     "stopgapId": "SG-WORLD-macro-mortgage-spread",
     "spread": {
-      "low": 1.22,
-      "high": 2.33,
+      "low": 1.34,
+      "high": 2.96,
       "unit": "percentage points",
-      "citation": "FHFA MIRS table 26 and H.15, 1990-2019."
+      "citation": "Freddie Mac PMMS and H.15 GS10, 2019-2026."
     }
   },
   "macroPrimeSpreadPct": {
@@ -314,7 +319,7 @@
       "low": -0.5,
       "high": 0.5,
       "unit": "gap points per year",
-      "citation": "CBO fiscal impulse estimates outside recessions."
+      "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."
     }
   },
   "macroTaylorInflationResponse": {
@@ -456,10 +461,5 @@
     "value": 3,
     "tag": "SOURCED",
     "citation": "The recorded trait scale (traitScale)."
-  },
-  "macroHistoryFirstYear": {
-    "value": 2021,
-    "tag": "SOURCED",
-    "citation": "M1-history (owner, Oct 10): the years from the latest full-data year, 2021, to the start date are the coarse run."
   }
 }

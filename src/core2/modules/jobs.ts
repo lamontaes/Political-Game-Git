@@ -450,6 +450,8 @@ function reviewEmployers(api: CoreAPI): void {
     const from =
       jobs.length || !row.templateFromId ? row.id : row.templateFromId;
     const fromJobs = from === row.id ? jobs : currentJobs(api, from);
+    // With no role to copy, a business can't open positions; its need waits, never past its gap.
+    if (!fromJobs.length && need > 0) need = Math.min(need, Math.max(0, gap));
     while (need >= 1 && fromJobs.length) {
       // A full person's job gives a new position its schedule and payday; counted jobs only when there is none.
       const full = fullJobs(api, from);
@@ -871,19 +873,30 @@ function runWeek(api: CoreAPI): void {
         );
       return value;
     };
-    let best = applicants[0]!;
-    for (const row of applicants) {
-      const gap = fit(row) - fit(best);
-      if (gap > 0 || (gap === 0 && row.id.localeCompare(best.id) < 0))
-        best = row;
-    }
-    if (isCounted(api, best.personId)) {
-      if (hireCounted(api, position, best, fit(best)))
+    const pick = (pool: readonly SeekerRow[]) => {
+      let top = pool[0]!;
+      for (const row of pool) {
+        const gap = fit(row) - fit(top);
+        if (gap > 0 || (gap === 0 && row.id.localeCompare(top.id) < 0))
+          top = row;
+      }
+      return top;
+    };
+    // A counted applicant who can't be placed gives way to the next best.
+    let pool = [...applicants];
+    let best = pick(pool);
+    while (isCounted(api, best.personId)) {
+      if (hireCounted(api, position, best, fit(best))) {
         for (const row of applications.values())
           for (let i = row.length - 1; i >= 0; i--)
             if (row[i]!.personId === best.personId) row.splice(i, 1);
-      continue;
+        break;
+      }
+      pool = pool.filter((row) => row !== best);
+      if (!pool.length) break;
+      best = pick(pool);
     }
+    if (isCounted(api, best.personId) || !pool.length) continue;
     const reference = best.referenceHourlyMinor;
     const answer = chooseAct(c, best.personId, [
       offer("decline", position.id, {}),
@@ -1287,6 +1300,8 @@ export const JOBS_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind === "jobs-review") {
+      // Agreements made since last month may name jobs too.
+      pinnedByCore.delete(core(api));
       reviewEmployers(api);
       reviewWorkers(api);
       scheduleReview(api);
