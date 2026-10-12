@@ -42,9 +42,10 @@ function person(
 }
 function input(): CoreInput {
   const workers = ["w1", "w2", "w3", "w4"].map((id, i) =>
-    // The least reliable worker is still within the range real people reach,
-    // so they file for the benefits they are owed (benefitsFileBase).
-    person(id, 50_000, i === 0 ? -0.4 : i - 1),
+    // The least reliable worker, only slightly below the middle: a fixture
+    // person carries this one trait alone, so it decides their whole lean,
+    // and they still file for the benefits they are owed (benefitsFileBase).
+    person(id, 50_000, i === 0 ? -0.1 : i - 1),
   );
   const seekers = ["s1", "s2"].map((id, i) =>
     person(id, 1_000 * (i + 1), i * 2),
