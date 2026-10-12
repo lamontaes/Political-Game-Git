@@ -1695,7 +1695,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 854,
+    "line": 855,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
@@ -1725,17 +1725,6 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
-  },
-  {
-    "id": "SG-WORLD-business-no-successor",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/business.ts",
-    "line": 302,
-    "whatItFakes": "A business whose owner stops working or dies with no worker or family member to take it on keeps running without a recorded owner.",
-    "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-12",
-    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",

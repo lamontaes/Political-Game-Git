@@ -673,22 +673,23 @@ function reviewWorkers(api: CoreAPI): void {
     ]);
     const chosen = result.selected!.definition.id;
     if (chosen === jobsData.actions.look.id)
-      startSeeking(api, person.id, true, "looking-around", pay);
-    else if (chosen === jobsData.actions.leave.id) {
-      const retiring = result.selected!.targetId.startsWith("retire:");
-      api.endJob(job.id, `jobs:left-work:${api.state.date}`);
-      record(api, {
-        personId: person.id,
-        organizationId: job.organizationId,
-        jobId: job.id,
-        kind: "left-work",
-        reasonKey: retiring
-          ? jobsData.reasons.retired
-          : jobsData.reasons.leftWork,
-        decidedBy: person.id,
-        values: { bufferMonths, strain, age },
-      });
-    }
+      if (ownerOf(api, job.organizationId) !== person.id)
+        startSeeking(api, person.id, true, "looking-around", pay);
+      else if (chosen === jobsData.actions.leave.id) {
+        const retiring = result.selected!.targetId.startsWith("retire:");
+        api.endJob(job.id, `jobs:left-work:${api.state.date}`);
+        record(api, {
+          personId: person.id,
+          organizationId: job.organizationId,
+          jobId: job.id,
+          kind: "left-work",
+          reasonKey: retiring
+            ? jobsData.reasons.retired
+            : jobsData.reasons.leftWork,
+          decidedBy: person.id,
+          values: { bufferMonths, strain, age },
+        });
+      }
   }
   reviewJobless(api);
   reviewCountedRetirements(api);
@@ -1036,6 +1037,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id)) continue;
+      // An owner retires through their business (the business module's closing choice), not off its payroll.
+      if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       if (!person) continue;
       const age =
@@ -1093,6 +1096,8 @@ function reviewCountedLooking(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      // An owner runs their own business; they don't look for a job elsewhere.
+      if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
