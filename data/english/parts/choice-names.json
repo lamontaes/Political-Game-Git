@@ -54,8 +54,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1346,
-      "nps.gov (PDF)": 107,
+      "nps.gov": 1484,
+      "nps.gov (PDF)": 125,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -66,7 +66,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 155
+    "notAttested": 154
   },
   "parts": [
     {
@@ -262,11 +262,11 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "epa": 1,
         "hearings": 2,
-        "nps.gov": 3,
+        "nps.gov": 4,
         "nps.gov (PDF)": 3
       },
       "shippable": true,
@@ -354,10 +354,10 @@
           "choice": "join-cause-group"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 12,
       "bySource": {
         "blm": 2,
-        "nps.gov": 8,
+        "nps.gov": 9,
         "nps.gov (PDF)": 1
       },
       "shippable": true,
@@ -699,6 +699,33 @@
       }
     },
     {
+      "key": "choice-names.join-cause-group.sign-up",
+      "move": "join-cause-group",
+      "kind": "spoken",
+      "text": "Sign up.",
+      "uses": [
+        {
+          "move": "join-cause-group",
+          "subject": "action",
+          "role": "join-cause-group",
+          "choice": "join-cause-group"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nps.gov (PDF)": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "THE DEPARTMENT OF ENERGY'S DUE DILIGENCE PROCESS FOR AWARDING COMPETITIVE GRANTS AND LOANS FUNDED THROUGH THE INFLATION REDUCTION ACT AND THE BIPARTISAN INFRASTRUCTURE LAW AND THE DEPARTMENT'S OVERALL INNOVATION INVESTMENT STRATEGY",
+        "date": "2023-10-19",
+        "granule": "CHRG-118shrg55813",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55813/html/CHRG-118shrg55813.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "choice-names.seek-standing.meet-name",
       "move": "seek-standing",
       "kind": "spoken",
@@ -780,14 +807,15 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 19,
+      "transcriptsUsing": 20,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
         "crec": 2,
         "hearings": 5,
         "nasa": 5,
         "nasa2": 2,
-        "nps": 4
+        "nps": 4,
+        "nps.gov (PDF)": 1
       },
       "shippable": true,
       "source": {
@@ -1112,7 +1140,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 1213,
+      "transcriptsUsing": 1214,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
         "Federal Election Commission (fec.gov)": 2,
@@ -1138,7 +1166,7 @@
         "nasa2": 125,
         "nih": 17,
         "nps": 231,
-        "nps.gov": 1,
+        "nps.gov": 2,
         "wpa": 22
       },
       "shippable": true,

@@ -54,6 +54,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Questions for the owner
 
+- **Scene settings.** No public-domain record says "You're at home." or "You're at Riverside High School." often enough to mine, even after adding 4,000 National Park Service and ready.gov pages written to "you". Mined so far: "You're at {employer}.", "You are at {school}.", "You're in {place}.", "Welcome to {place}.", "The phone rings.", "{name} is here." Until more turns up, I suggest the scene shows its setting as a caption from the record (the place's name) and narrates only who is there and what led here. Building it that way unless you say otherwise.
+
 - **San Diego notices.** `data/english/parts/notices.json` ships notice headings from the City of San Diego's public notices. California cities' works are generally treated as public domain, but the project's rule asks for the state's rule on record, and no ruling is recorded yet. Until you rule, I keep them as they are and won't add more city text.
 
 ## Log

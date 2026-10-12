@@ -52,8 +52,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1346,
-      "nps.gov (PDF)": 107,
+      "nps.gov": 1484,
+      "nps.gov (PDF)": 125,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -64,7 +64,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 79
+    "notAttested": 136
   },
   "parts": [
     {
@@ -92,6 +92,58 @@
         "date": "2016-09-20",
         "granule": "CHRG-114shrg21906",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21906/html/CHRG-114shrg21906.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-workplace-work.you-are-at-employer",
+      "move": "setting-workplace-work",
+      "kind": "spoken",
+      "text": "You are at {employer}.",
+      "uses": [
+        {
+          "move": "setting-workplace-work",
+          "subject": "setting",
+          "role": "workplace",
+          "choice": "work"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF TRANSPORTATION, AND HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2026",
+        "date": "2025-03-26",
+        "granule": "CHRG-119hhrg61854",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61854/html/CHRG-119hhrg61854.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-school-school.you-are-at-school",
+      "move": "setting-school-school",
+      "kind": "spoken",
+      "text": "You are at {school}.",
+      "uses": [
+        {
+          "move": "setting-school-school",
+          "subject": "setting",
+          "role": "school",
+          "choice": "school"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "COMMERCE, JUSTICE, SCIENCE, AND RELATED AGENCIES APPROPRIATIONS FOR 2020",
+        "date": "2019-02-26",
+        "granule": "CHRG-116hhrg36826",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36826/html/CHRG-116hhrg36826.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -124,6 +176,42 @@
         "date": "2021-06-24",
         "granule": "CHRG-117hhrg44859",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-public-out.welcome-to-place",
+      "move": "setting-public-out",
+      "kind": "spoken",
+      "text": "Welcome to {place}.",
+      "uses": [
+        {
+          "move": "setting-public-out",
+          "subject": "setting",
+          "role": "public",
+          "choice": "out"
+        }
+      ],
+      "transcriptsUsing": 60,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 8,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "U.S. Senate Historical Office oral history": 1,
+        "crec": 1,
+        "hearings": 8,
+        "nasa": 3,
+        "nasa2": 6,
+        "nps": 4,
+        "nps.gov": 8,
+        "nps.gov (PDF)": 18
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

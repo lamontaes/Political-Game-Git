@@ -65,8 +65,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1346,
-      "nps.gov (PDF)": 107,
+      "nps.gov": 1484,
+      "nps.gov (PDF)": 125,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -623,7 +623,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 296,
+      "transcriptsUsing": 306,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 4,
@@ -642,8 +642,8 @@
         "nasa2": 12,
         "nih": 3,
         "nps": 10,
-        "nps.gov": 49,
-        "nps.gov (PDF)": 9,
+        "nps.gov": 57,
+        "nps.gov (PDF)": 11,
         "weather.gov": 2,
         "wpa": 22
       },
@@ -1237,7 +1237,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 178,
+      "transcriptsUsing": 180,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
@@ -1254,7 +1254,7 @@
         "nasa2": 33,
         "ncua": 2,
         "nps": 2,
-        "nps.gov": 3,
+        "nps.gov": 5,
         "ntia": 5,
         "usgs": 1,
         "va": 5
@@ -1281,7 +1281,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 2966,
+      "transcriptsUsing": 2967,
       "bySource": {
         "Federal Election Commission (fec.gov)": 9,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
@@ -1314,7 +1314,7 @@
         "ncua": 90,
         "nih": 26,
         "nps": 128,
-        "nps.gov": 6,
+        "nps.gov": 7,
         "nps.gov (PDF)": 1,
         "ntia": 15,
         "sba": 32,
