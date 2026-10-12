@@ -342,18 +342,6 @@ const ALLOWED_FILES: readonly {
     reason:
       "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
   },
-  {
-    file: /^data\/research\/laws\/local-starting-law\/local-minimum-wage\.json$/,
-    words: /^local authorit(?:y|ies)$/i,
-    reason:
-      "research notes on state preemption, where 'local authority' is the legal term of art in Dillon's rule and home-rule sources",
-  },
-  {
-    file: /^data\/research\/laws\/local-starting-law\/unemployment-weekly-bounds\.json$/,
-    words: /^mum$/i,
-    reason:
-      "verbatim text extracted from statute tables, where 'mum' is a damaged extraction of 'maximum', kept as recorded",
-  },
 ];
 
 function isAllowedFile(relative: string, word: string): boolean {
