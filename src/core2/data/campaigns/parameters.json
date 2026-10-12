@@ -544,6 +544,12 @@
       "tag": "SOURCED",
       "source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 counts each house present). FIXER stand-in figures, Oct 12, SG-GOV-veto-override-rule.",
       "spread": [0.5, 0.75]
+    },
+    "leadershipSeniorityWeight": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Seniority counts only slightly in choosing leaders and committee members in every chamber type (data/research/legislature/chamber-leadership.json: seniorityImportance 'slight' for all, from NCSL, House and Senate rules and NLC): about a twentieth of a party-line difference per year served.",
+      "spread": [0, 0.15]
     }
   }
 }

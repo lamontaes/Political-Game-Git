@@ -152,6 +152,17 @@ export function registerLegislatureHooks(input: {
     beforeVoteHooks.push(input.beforeVote);
 }
 
+type RosterProvider = (
+  api: CoreAPI,
+  chamber: string,
+  committee: string,
+) => { memberIds: readonly string[]; chairId: string } | null;
+let rosterProvider: RosterProvider | null = null;
+/** The leadership engine seats committees and their chairs (`leadership.ts`). */
+export function registerCommitteeRosterProvider(fn: RosterProvider): void {
+  rosterProvider = fn;
+}
+
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
 export function employerCosts(
   api: CoreAPI,
@@ -1265,8 +1276,20 @@ function committeeStage(
           b.serviceStart ?? b.startDate,
         ) || memberKey(a).localeCompare(memberKey(b)),
     );
-  const chair =
-    roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
+  let chair = roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
+  // Where the chamber's leadership has seated the committee, its members and
+  // chair stand in place of seniority.
+  const seated = rosterProvider?.(api, chamber, committeeFor(bill));
+  if (seated?.memberIds.length) {
+    const byKey = new Map(all.map((t) => [memberKey(t), t]));
+    const members = seated.memberIds
+      .map((id) => byKey.get(id))
+      .filter((t): t is TermRow => t !== undefined);
+    if (members.length) {
+      roster.splice(0, roster.length, ...members);
+      chair = byKey.get(seated.chairId) ?? members[0]!;
+    }
+  }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
   const heard = chairPosition.total >= 0;
   const witnesses: { personId: string; stake: string }[] = [];

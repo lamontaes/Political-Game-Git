@@ -32,7 +32,8 @@ import {
   countyGovernmentUnit,
   governmentUnitsForPlace,
 } from "../../simulation/government-units";
-import { lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import type { LawRowInput } from "../laws-starting";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
@@ -132,6 +133,12 @@ export const BUDGETS_MODULE: CoreModule = {
   },
   onCalendarWork: adoptBudget,
   onWorkPayroll: withhold,
+  eventKinds: ["law-took-effect"],
+  onEvent: (api, event) => {
+    const series = event.facts?.series;
+    if (series === "sales-tax" || series === GROCERY_EXEMPTION)
+      syncSalesTax(api);
+  },
 };
 
 function table(api: CoreAPI, name: string) {
@@ -373,7 +380,82 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       sourceRecordIds: [gov.id],
     });
   }
+  syncSalesTax(api);
   return govs;
+}
+
+const GROCERY_EXEMPTION =
+  "us-policy-positions:fiscal.exempt-groceries-from-sales-tax";
+/** Grocery stores' classification (NAICS 445, food and beverage retailers). */
+const GROCERY_SELLERS = ["445"];
+
+/**
+ * The sales tax in force collected on every purchase in town (core2-api-v21):
+ * each level's rate to its own treasury (a local rate without a city
+ * government goes to the county, else the state), set so the levels' shares
+ * sum to the combined tax inside the price; groceries are exempt where a
+ * grocery exemption is law. Re-run when a sales-tax law takes effect.
+ */
+export function syncSalesTax(api: CoreAPI): void {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const answer = lawInForce(api, "sales-tax");
+  const town = lawChain(api).townPlaceId;
+  const govs = governments(api);
+  const payee = (level: string) =>
+    (level === "city"
+      ? (govs.find((g) => g.level === "city") ??
+        govs.find((g) => g.level === "county"))
+      : level === "county"
+        ? govs.find((g) => g.level === "county")
+        : undefined) ?? govs.find((g) => g.level === "state");
+  const rates = new Map<string, number>();
+  for (const l of answer.levels) {
+    if (!l.row || l.setAside || l.level === "federal") continue;
+    const gov = payee(l.level);
+    const value = l.row.value ?? 0;
+    if (!gov || !(value > 0)) continue;
+    rates.set(gov.id, (rates.get(gov.id) ?? 0) + value);
+  }
+  const total = [...rates.values()].reduce((a, b) => a + b, 0);
+  const exempt = groceryExemptionInForce(api) ? GROCERY_SELLERS : undefined;
+  for (const gov of govs) {
+    const id = `sales-tax:${gov.id}`;
+    const rate = rates.get(gov.id) ?? 0;
+    const account = accountFor(api, gov.id);
+    if (!account) continue;
+    // The share of a tax-inclusive price that is this level's: rate / (100 + total).
+    const effective = rate > 0 ? (100 * rate) / (100 + total - rate) : 0;
+    api.setPurchaseTax({
+      id,
+      placeId: town,
+      ratePercent: effective,
+      payeeAccountId: account,
+      ...(exempt ? { exemptClassificationPrefixes: exempt } : {}),
+      from: api.state.date,
+      source: {
+        tag: answer.estimate ? "ESTIMATED" : "SOURCED",
+        citation: `Sales tax in force (${gov.name})`,
+        asOf: api.state.date,
+        ...(answer.estimate ? { estimatedFrom: "starting-law" } : {}),
+      },
+    });
+  }
+}
+
+function groceryExemptionInForce(api: CoreAPI): boolean {
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const date = api.state.date;
+  return lawChain(api).levels.some(({ jurisdiction }) => {
+    const latest = (
+      laws.query("bySeries", [
+        jurisdiction,
+        GROCERY_EXEMPTION,
+      ]) as unknown as LawRowInput[]
+    )
+      .filter((r) => r.effectiveDate <= date)
+      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    return latest?.value === 1;
+  });
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
