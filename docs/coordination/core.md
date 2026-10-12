@@ -28,9 +28,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: M0-08's five checks in a newly drawn place: under 10% close, sales over half of wages, every dollar balances (automatic and blocking), outside money reported, national conditions labeled.
   - Needs: WORLD later replaces the flat national conditions
   - Done Oct 12 (f4be16bc): the cause is that 11 of 14 closing firms had no customer route at all; the numbers are on #3918. Fix: buyers from outside the town, each firm's sourced outside share of its own projected receipts. M0-08 in a new random place, Maricopa Colony, Arizona: **0 of 28 close**, sales are 6.4 times wages, every dollar balances, outside money is reported by source, and the national conditions are labeled. Still open: the private school has no tuition route (1 of 25 closed in Cheat Lake), and no resident money leaves the town yet, so town cash keeps growing.
-- [ ] **Accounts.** Rebuild the accounts piece: named accounts, obligations that come due, all through the one balanced ledger (postJournal).
+- [x] **Accounts.** Rebuild the accounts piece: named accounts, obligations that come due, all through the one balanced ledger (postJournal).
   - Verified by: Contract tests; M0-09 passes when GOV's budgets and WORLD's first engine build on it without patching the core.
   - Needs: GOV, WORLD
+  - Built Oct 12 (429a33be): `api.accounts()` (`src/core2/accounts.ts`) gives `open`, `main`, `balance`, `transfer` (one balanced journal entry; outside accounts are reported outside flows) and obligations with dates and arrears (`addObligation`, `obligation`, `endObligation`). Contract tests: `accounts.test.ts`. The residents engine posts through it, so there's one writer. Waiting on GOV's budgets and WORLD's first engine to build on it for M0-09.
 - [ ] **Onto main.** Merge the core and the work stacked on it into main, in order, once the above pass.
   - Verified by: Owner approval (the core needs your review to merge); main's checks green afterward.
   - Needs: CTO, owner
@@ -50,6 +51,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-GOV and OPUS-WORLD: build budgets and engines on `api.accounts()`** (M0-09 passes when you do, without patching the core). Open named funds with `accounts.open`, move money with `accounts.transfer`, and schedule payments with `accounts.addObligation`. Tell me here what's missing.
 - **OPUS-WORLD:** the town has no money leaving it. Residents never buy from outside, and nobody pays taxes or imports, while buyers from outside pay in (`src/core2/opening-outside-market.ts`, stopgap `SG-CORE-outside-market`). Your regional and national engines should own both directions: outside demand for the town's firms, and the share of residents' spending that leaves. I'll take your flows into the residents engine (`ResidentFlowInput`, kind `outside-sales`) or whatever shape you prefer.
 - **OPUS-PLAY:** to use the fast world, open towns with `generatedOpening(place, { twoLevel: true })` (`src/core2/tooling/generated-world.ts`), and call `fillInPerson(core, personId)` when the player clicks or meets someone who isn't a full person yet.
 - **OPUS-PEOPLE:** fill-in admits the household's generated records as they were built at the opening, past included. When your `buildOpeningKin` and `peerCohortSize` land, fill-in can switch to building on demand; the counts already give sizes by place and age band (`residentCounts`).
@@ -58,6 +60,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12, 19:30 UTC: **accounts built** (429a33be). The closures fix now balances both ways: firms buy outside what they don't buy locally, on net-30 terms, so profits no longer pile up. M0-08 in two new random places: Ernstville, Maryland, 1 of 27 close (a firm that opened with about three days of cash); Christiansted, U.S. Virgin Islands, 0 of 28. Every dollar balances.
 - Oct 12, 17:30 UTC: answered PLAY (the `own-choice` resume) and GOV (`rerateJob`, core2-api-v12). Both have tests; the golden path is green.
 - Oct 12, 16:30 UTC: **closures fixed, fill-in in** (f4be16bc). Firms with no customers now sell to buyers outside the town, using researched shares from the 2017 Economic Census and USDA. M0-08 passes in Maricopa Colony, Arizona: 0 of 28 close. `fillInPerson(core, id)` brings a counted person's household in as full people with their counted job; their money stays pooled for now (stopgap). Next: fill-in moves their money and work too, then a faster opening (the town still takes about 25 s to open because everyone is generated in full first), then the requests from GOV, PLAY and PEOPLE.
 - Oct 12, 14:00 UTC: **a year in 13.2 s** (a9976886), Cheat Lake, West Virginia (random draw, seed d2ef241b…, 10,000 people). Full people are now the player, their household, family and people they know, plus public workers: 76 here. Agreements can name counted workers, and play skips the remaining evidence copies. Closures: 14 of 25 businesses closed in that year, which is next after fill-in.
