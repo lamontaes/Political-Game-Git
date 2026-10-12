@@ -37,6 +37,7 @@ import {
   votesOn,
 } from "./modules/legislature";
 import { lifePlaceCoverage, lifePlaceSearch } from "../simulation/life-places";
+import { billCatalog, provisionFor } from "./bill-catalog";
 
 const START = "2026-01-05";
 const seed =
@@ -364,6 +365,47 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         parksAfter: next.spendingMinor.parks,
       }),
     );
+  });
+
+  it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
+    const { api, council } = town(Object.keys(authority).sort(), "catalog");
+    const menus = billCatalog(api, "city");
+    expect(menus).toHaveLength(18);
+    const all = menus.flatMap((m) => m.topics.flatMap((t) => t.policies));
+    const wage = all.find((p) => p.id === "law:minimum-wage")!;
+    expect(wage.inForce).toBe(lawInForce(api, "minimum-wage").value);
+    expect(all.some((p) => p.kind === "policy-question")).toBe(true);
+    expect(all.some((p) => p.kind === "budget-line")).toBe(true);
+    const provisions = [
+      provisionFor({
+        policyId: "budget:parks",
+        operation: "expand",
+        amount: 5_000_000,
+      }),
+      provisionFor({
+        policyId: all.find((p) => p.kind === "policy-question")!.id,
+        operation: "enact",
+      }),
+    ];
+    if (wage.authority.allowed)
+      provisions.push(
+        provisionFor({
+          policyId: wage.id,
+          operation: "raise",
+          amount: wage.inForce! + 100,
+          effectiveDate: "2026-07-01",
+        }),
+      );
+    const bill = draftBill(api, {
+      bodyOfficeId: council[0]!.office.id,
+      sponsorId: council[0]!.holder!.personId!,
+      provisions,
+    });
+    expect(bill.provisions).toHaveLength(provisions.length);
+    expect(["drafted", "blocked"]).toContain(bill.status);
+    expect(() =>
+      provisionFor({ policyId: wage.id, operation: "enact" }),
+    ).toThrow();
   });
 
   it("a town whose state preempts local minimum wages gets the block in the rule's words", () => {
