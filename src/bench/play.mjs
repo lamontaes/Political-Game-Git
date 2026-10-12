@@ -282,6 +282,8 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
+    show("filing-overlay", false);
+    delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
     renderPacket();
@@ -316,16 +318,21 @@ function renderFiling(value) {
       ),
     ),
   );
+  renderFilingOverlay(value);
   $("talk-choices").replaceChildren(
     ...value.visit.choices.slice(0, 6).map((choice) => {
       const b = el("button", { type: "button", textContent: choice.text });
-      b.addEventListener("click", async () =>
-        renderFiling(
-          await post(
-            `/api/filing/choose?key=${encodeURIComponent(choice.key)}`,
-          ),
-        ),
-      );
+      b.addEventListener("click", async () => {
+        // Filing carries the platform and party chosen on the overlay.
+        const params = new URLSearchParams({ key: choice.key });
+        if (choice.action.kind === "file") {
+          for (const select of $("filing-platform").querySelectorAll("select"))
+            if (select.value)
+              params.append("stance", `${select.name}=${select.value}`);
+          params.set("party", $("filing-party").value);
+        }
+        renderFiling(await post(`/api/filing/choose?${params}`));
+      });
       return b;
     }),
   );
@@ -342,6 +349,53 @@ function renderFiling(value) {
       ),
     );
   $("talk-lie").disabled = true;
+}
+/** The named office's rules from its records, with the platform and party to file under. */
+function renderFilingOverlay(value) {
+  const overlay = value?.overlay;
+  show("filing-overlay", Boolean(overlay && !value.result));
+  if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
+    return;
+  $("filing-title").dataset.contest = overlay.contestId;
+  $("filing-title").textContent = overlay.title;
+  $("filing-checks").replaceChildren(
+    row("Deadline", overlay.filingDeadline),
+    ...overlay.checks.map((check) => {
+      const line = row(
+        check.rule,
+        `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}`,
+      );
+      line.title = check.source ?? "";
+      if (!check.met) line.classList.add("unmet");
+      return line;
+    }),
+  );
+  $("filing-platform").replaceChildren(
+    ...overlay.questions.map((question) =>
+      el(
+        "div",
+        { className: "row" },
+        el("b", { textContent: question.split(":").pop() }),
+        el(
+          "select",
+          { name: question },
+          el("option", { value: "", textContent: "—" }),
+          el("option", { value: "1", textContent: "For" }),
+          el("option", { value: "-1", textContent: "Against" }),
+        ),
+      ),
+    ),
+  );
+  $("filing-party").replaceChildren(
+    el("option", { value: "", textContent: "—" }),
+    ...overlay.parties.map((name) =>
+      el("option", {
+        value: name,
+        textContent: name,
+        selected: name === overlay.party,
+      }),
+    ),
+  );
 }
 async function openFiling(filedWith) {
   closeSheet();
@@ -976,32 +1030,6 @@ const sheets = {
   },
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    const contests = v.contests
-      // Contests you can enter first.
-      .toSorted(
-        (a, b) =>
-          a.checks.filter((c) => !c.met).length -
-          b.checks.filter((c) => !c.met).length,
-      )
-      .slice(0, 6)
-      .map(({ contest, filingOffice, checks }) => {
-        const unmet = checks.filter((c) => !c.met).map((c) => c.rule);
-        const b = el("button", { type: "button", textContent: "File" });
-        b.disabled = unmet.length > 0;
-        b.addEventListener("click", async () => {
-          await post(
-            `/api/file?${new URLSearchParams({ contestId: contest.id, payFee: "true" })}`,
-          );
-          openSheet("politics");
-        });
-        return el(
-          "div",
-          { className: "row" },
-          el("b", { textContent: contest.title }),
-          `${filingOffice.filedWith} · ${contest.filingDeadline}${unmet.length ? ` · ${unmet.join(", ")}` : ""} `,
-          b,
-        );
-      });
     const filings = v.filings.map((f) => {
       const b = el("button", {
         type: "button",
@@ -1020,9 +1048,12 @@ const sheets = {
       );
     });
     const campaigns = await campaignRows();
-    const offices = [
-      ...new Set(v.contests.map((c) => c.filingOffice.filedWith)),
-    ].map((filedWith) => {
+    // Filing happens only at the office's counter, one race at a time.
+    const offices = (
+      v.filings.length
+        ? []
+        : [...new Set(v.contests.map((c) => c.filingOffice.filedWith))]
+    ).map((filedWith) => {
       const b = el("button", { type: "button", textContent: filedWith });
       b.addEventListener("click", () => openFiling(filedWith));
       return b;
@@ -1044,7 +1075,6 @@ const sheets = {
       map,
       ...campaigns,
       ...offices,
-      ...contests,
       ...filings,
       ...seat,
       ...v.seats

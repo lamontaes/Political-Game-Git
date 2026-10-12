@@ -70,12 +70,14 @@ export function fileForOffice(
   personId: string,
   contestId: string,
   payFee: boolean,
+  choices: { platform?: readonly string[]; party?: string | null } = {},
 ) {
   return fileCandidacy(coreAPI(core), {
     personId,
     contestId,
-    platform: [],
+    platform: choices.platform ?? [],
     payFee,
+    party: choices.party ?? null,
   });
 }
 

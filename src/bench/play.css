@@ -536,3 +536,26 @@ select {
 #caption {
   z-index: 6;
 }
+
+#filing-overlay {
+  top: 72px;
+  right: 16px;
+  width: 340px;
+  max-height: 60vh;
+  overflow: auto;
+}
+#filing-overlay h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+#filing-overlay .row.unmet b {
+  color: var(--soft-red, #c98a7a);
+}
+#filing-overlay select {
+  margin-left: 6px;
+}
+#filing-platform .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}

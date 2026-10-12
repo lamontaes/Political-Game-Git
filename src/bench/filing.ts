@@ -4,7 +4,10 @@ import {
   checkEligibility,
   filingOfficeFor,
   openContests,
+  type RequirementCheck,
 } from "../core2/modules/elections";
+import { PARTIES_MODULE_ID, partiesHere, partyTie } from "../core2/modules/parties";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import {
   openFilingVisit,
   pickContest,
@@ -40,7 +43,44 @@ export interface BenchFilingVisit {
   backdrop: ReturnType<typeof backdropFile>;
   people: ReturnType<typeof stagePeople>["people"];
   names: Record<string, string>;
+  /** What the counter shows once an office is named: its rules and the choices made with the filing. */
+  overlay?: FilingOverlay;
   result?: unknown;
+}
+
+export interface FilingOverlay {
+  contestId: string;
+  title: string;
+  filingDeadline: string;
+  checks: readonly RequirementCheck[];
+  questions: readonly string[];
+  /** The ballot labels of the parties here. */
+  parties: readonly string[];
+  /** The label of the party the player is tied to, if any; the form starts there. */
+  party: string | null;
+}
+
+/** The contest's rules and the platform and party choices, read from the records. */
+function overlayFor(
+  core: CoreState,
+  playerId: string,
+  contestId: string,
+): FilingOverlay {
+  const api = coreAPI(core);
+  const contest = openContests(api).find((row) => row.id === contestId)!;
+  const parties = core.modules.has(PARTIES_MODULE_ID) ? partiesHere(api) : [];
+  const tie = parties.length ? partyTie(api, playerId) : null;
+  return {
+    contestId,
+    title: contest.district
+      ? `${contest.title} (${contest.district})`
+      : contest.title,
+    filingDeadline: contest.filingDeadline,
+    checks: checkEligibility(api, playerId, contestId),
+    questions: PLATFORM_QUESTIONS,
+    parties: parties.map((row) => row.name),
+    party: parties.find((row) => row.id === tie?.partyId)?.name ?? null,
+  };
 }
 
 /** The player walks into the office that takes filings for these contests. */
@@ -92,6 +132,8 @@ export function chooseAtCounter(
   core: CoreState,
   state: BenchFilingVisit,
   key: string,
+  /** Stances as "question=position" and a party id, or null to run without one. */
+  filing: { platform?: readonly string[]; party?: string | null } = {},
 ): BenchFilingVisit {
   const choice = state.visit.choices.find((row) => row.key === key);
   if (!choice) throw new Error("Not an offered choice.");
@@ -105,7 +147,11 @@ export function chooseAtCounter(
       filingOfficeFor(api, action.contestId),
       checkEligibility(api, state.visit.playerId, action.contestId),
     );
-    return { ...state, visit };
+    return {
+      ...state,
+      visit,
+      overlay: overlayFor(core, state.visit.playerId, action.contestId),
+    };
   }
   if (action.kind === "file") {
     const result = fileForOffice(
@@ -113,6 +159,7 @@ export function chooseAtCounter(
       state.visit.playerId,
       action.contestId,
       action.payFee,
+      filing,
     );
     state.visit.lines.push({
       speaker: "player",

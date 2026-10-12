@@ -385,6 +385,10 @@ const server = createServer(async (request, response) => {
         requireCore(),
         filingVisit,
         url.searchParams.get("key") ?? "",
+        {
+          platform: url.searchParams.getAll("stance"),
+          party: url.searchParams.get("party") || null,
+        },
       );
       send(200, filingVisit);
       return;

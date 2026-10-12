@@ -46,6 +46,18 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
+## Audit fixes (owner, Oct 12, 9:15 a.m.: before new features)
+
+From `docs/reports/audit-2026-10-12/`, in BOARD's order.
+
+- [x] **The office list and File buttons are gone.** Politics now has only a button for each office that takes filings. Pressing it walks you to that counter, and you file there, one race at a time.
+- [x] **Platform and party at filing.** Once you name a seat at the counter, an overlay shows its deadline and each rule against your record (unmet rules in soft red), a For or Against for each platform question, and your party (it starts on the party you lean to). The filing carries them, and voters weigh them. Checked in Harmonyville, Vermont (seed file-b): the selectboard filing kept one stance and the Republican label.
+- [ ] Show schools, real relation words and action names (no raw keys).
+- [ ] Calendar jump, and say which stop ended a skip.
+- [ ] Fix the Lie control (tip only on a lie, soft red, no word "Lie").
+- [ ] Use the closures path in the bench opening.
+- [ ] Store screenshots by Friday.
+
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
@@ -147,7 +159,7 @@ Newest first: one line per event (what changed, the measured result, what's next
 - Oct 12: the economy in `/play` News and a World panel on the bench (OPUS-WORLD's `nationalPanel`, `regionPanel`, `turnoverPanel`, `bankPanel`, `evictionPanel`, `ownerPanel`). In seed econ-a, November 2026: national unemployment 4.2%, inflation 3.0%, policy rate 3.875%, 30-year mortgage 6.7%, and one central-bank meeting recorded. The national series is empty at the opening and fills in after the first simulated month.
 - Oct 12: staged scenes in `/play`. A director stop now plays through `composeScene` (setting picture, people present, narration, Talk). Not yet seen in play: no director moment reached an 18-year-old in eight played months (reported to PEOPLE). Found a payroll crash on 2027-03-20 in a normal town (reported to CORE and WORLD).
 - Oct 12: campaigning (step 4) in `/play`, on GOV's campaign engine (`openCampaigns`, then each act). In Eastabuchie MS (seed file-a), after filing for Commissioner: 2 hours of doors reached 28 people (18 warmer), 22 of the 24 people William knows agreed to volunteer, no one gave money (all 24 had no warmth yet), a speech for limiting groundwater withdrawal cooled 81 of the 82 who heard it, and a 50-person poll found 47 undecided and 2 for him.
-- Oct 12: the filing office visit (step 3) in `/play`, on OPUS-PEOPLE's `openFilingVisit` and `pickContest` and GOV's `fileCandidacy`. In Eastabuchie MS (seed file-a), William Roberson, 18, went to the circuit clerk (clerk Cory Pennington, the county's real officeholder), named Commissioner (6), heard the August 9, 2027 deadline and went on the ballot (no fee, no signatures). Next: GOV's campaign day.
+- Oct 12: the filing office visit (step 3) in `/play`, on OPUS-PEOPLE's `openFilingVisit` and `pickContest` and GOV's `fileCandidacy`. In Eastabuchie MS (seed file-a), William Roberson, 18, went to the circuit clerk (clerk Cory Pennington, the generated holder of that real office), named Commissioner (6), heard the August 9, 2027 deadline and went on the ballot (no fee, no signatures). Next: GOV's campaign day.
 - Oct 12: `/play` builds the whole place two-level (OPUS-CORE). Measured in Napoleon ND (seed two-a): 264 full people, the town built in 60 s (population generation), and a played week took 1.3 s. In Vicksburg MI (seed two-b), a worker's first shift filled in 12 coworkers from the counts. Town size no longer needs shrinking in `/play`; the developer bench at `/` keeps its size field.
 - Oct 12: merged main, `opus-core`, `opus-gov`, `opus-world` and `pool/P15-people-5` again. The golden path stays green (M0-01 to M0-06 pass), the bench tests pass, and in Funny River AK (seed art-e) 39 scenes drew 142 figures.
 - Oct 12: Calendar and News tabs in `/play`. In Davenport ND (seed cal-a), the calendar shows the Nov 3 general election with 20 contests, family birthdays and the April 5, 2027 filing deadlines. News is empty in the first weeks, because nothing public has happened yet.
