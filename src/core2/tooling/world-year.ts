@@ -35,7 +35,7 @@ const outsideSales = () =>
 const outsideSalesOpening = outsideSales();
 const t1 = performance.now();
 const end = new Date(`${input.startedAt}T00:00:00Z`);
-end.setUTCFullYear(end.getUTCFullYear() + 1);
+end.setUTCFullYear(end.getUTCFullYear() + Number(process.argv[4] ?? 1));
 advanceCore(core, end.toISOString().slice(0, 10));
 const api = coreAPI(core);
 const tables = (id: string) => api.moduleState(id).snapshot().tables;

@@ -1047,7 +1047,7 @@
     "id": "SG-WORLD-jobs-opening-seekers",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 223,
+    "line": 263,
     "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
     "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
     "addedBy": "OPUS-WORLD",
@@ -1059,7 +1059,7 @@
     "id": "SG-WORLD-jobs-layoff-decider",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 503,
+    "line": 544,
     "whatItFakes": "A layoff names the business itself as who decided it.",
     "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -1071,7 +1071,7 @@
     "id": "SG-WORLD-jobs-benefits",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 197,
+    "line": 237,
     "whatItFakes": "A spell of unemployment pays no unemployment insurance.",
     "why": "Benefits are paid from state budgets under each state's law (M1-07, OPUS-GOV).",
     "addedBy": "OPUS-WORLD",
@@ -1215,7 +1215,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 731,
+    "line": 773,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
@@ -1234,5 +1234,16 @@
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-agreement-pinned",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 128,
+    "whatItFakes": "A job that a saved visitor agreement names as its provider's qualification is never ended by a layoff, a quit, a retirement or a move to another job.",
+    "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
   }
 ]
