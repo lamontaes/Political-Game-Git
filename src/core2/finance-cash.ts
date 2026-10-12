@@ -1,5 +1,6 @@
 import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
+import { bookkeeping } from "./bookkeeping";
 import { makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
 import {
@@ -2271,7 +2272,14 @@ export function financeCashSourceProvider(
   const relations: Relations = { records: [], required: [] };
   let actual: Result,
     credits: CreditReceipt[] = [];
-  if (row.mode === "contract") {
+  // Play mode trusts the plan prepared moments ago in submit(); bookkeeping
+  // re-prepares it independently and requires an identical result.
+  const recheck = bookkeeping();
+  if (row.mode === "contract" && !recheck) {
+    contractAuthority(session, row.contractId!, relations);
+    actual = bundle.plan.result;
+    credits = [...bundle.credits];
+  } else if (row.mode === "contract") {
     contractAuthority(session, row.contractId!, relations);
     actual = prepareFinanceContract(session, row.contractId!);
     if (actual.creditReceiptId) {
@@ -2291,9 +2299,15 @@ export function financeCashSourceProvider(
     if (!row.request)
       throw new Error("Actual current standalone credit request is absent.");
     creditTrigger(session, row.request, relations, row.trigger);
-    actual = prepareFinanceCredit(session, row.request);
+    actual = recheck
+      ? prepareFinanceCredit(session, row.request)
+      : bundle.plan.result;
+    if (!recheck) credits = [...bundle.credits];
   }
-  if (!same(actual, bundle.plan.result) || !same(credits, bundle.credits))
+  if (
+    recheck &&
+    (!same(actual, bundle.plan.result) || !same(credits, bundle.credits))
+  )
     throw new Error(
       "Prepared finance result differs from the actual current occurrence.",
     );
@@ -2303,13 +2317,14 @@ export function financeCashSourceProvider(
   });
   for (const related of secondary.relatedRecords) add(relations, related);
   const retainFull = predictedRequirement(session, actual, row),
-    independentlyPrepared = session.seal(actual);
+    independentlyPrepared = recheck ? session.seal(actual) : bundle.plan;
   if (
-    !same(independentlyPrepared.postings, bundle.plan.postings) ||
-    !same(
-      independentlyPrepared.externalFlowAuthorizations,
-      bundle.plan.externalFlowAuthorizations,
-    )
+    recheck &&
+    (!same(independentlyPrepared.postings, bundle.plan.postings) ||
+      !same(
+        independentlyPrepared.externalFlowAuthorizations,
+        bundle.plan.externalFlowAuthorizations,
+      ))
   )
     throw new Error(
       "Current finance actual postings/outside authorizations changed.",
