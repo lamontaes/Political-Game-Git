@@ -20,9 +20,27 @@
     {
       "source": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
       "whatItDidNotSettle": "It holds one universal two-term limit as a game profile, with no state's real limit and no route by which a limit changes."
+    },
+    {
+      "source": "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
     }
   ],
   "title": "What makes a state change its governor's term limit, and how the votes go",
   "usableAnswer": "A table of governor term-limit measures since 1945 (state, year, direction: extend/abolish/impose/restore, route: legislative referral/initiative/convention, legislative vote per chamber, statewide yes share, passed or failed), with a short account of the recorded circumstances each time (a popular governor nearing the limit, a long-serving governor, a reform movement, a scandal). Then the general pattern: which circumstances recur, whether a limit change ever applies to the sitting governor, and which election a referred measure goes on. Cite a source per row.",
-  "whyItMatters": "Without it the game decides for itself when and why a legislature tries to change a governor's term limit, which is the invented depth the owner has ruled out."
+  "whyItMatters": "Without it the game decides for itself when and why a legislature tries to change a governor's term limit, which is the invented depth the owner has ruled out.",
+  "answer": {
+    "summary": "Federal ArticleV and the dated California ArticleXVIII official excerpt establish selected legal routes. Existing state-amendment-profiles game defaults are not evidence for unread states. No complete present-day constitutional structure or causal subject/term-limit history is established.",
+    "sources": [
+      "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:16:27.502185+00:00",
+    "stillOpen": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+  }
 }

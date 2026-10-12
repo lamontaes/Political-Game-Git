@@ -1,0 +1,1588 @@
+{
+  "schema": "p8-opening-cash-source-audit-v8",
+  "status": "PARTIAL_YEAR_AUDIT_NOT_MONEY_ACCEPTANCE",
+  "throughDate": "2021-04-02",
+  "simulatedDays": 91,
+  "originalInput": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-normal-year-work-enabled-20261009-1142-prepared.json",
+    "bytes": 376551832,
+    "sha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c"
+  },
+  "cashCaptureReceipt": "src/core2/receipts/prototype-v8-customers-cash-wip-20261009.json",
+  "fundingScope": "Per-firm own opening stock versus received payments. Incoming customer receipts can themselves originate from other opening stocks, including the new retirement funding. They are not claimed to be independent earned national income. No direct added opening cash or loan was admitted to any of these 27 firms.",
+  "attributionStatus": "Exact source-by-expense chronological traces were not retained in the five snapshots. Where receipts are zero, actual paid wages and purchases are necessarily opening-funded. Elsewhere only conservative funding bounds are established. Bounds for wages and purchases are individually conservative and must not be added as if both extremes occur together.",
+  "boundMethod": "At each saved date, cumulative outflows exceeding cumulative receipts require original opening cash. The largest such deficit bounds the minimum opening-funded total. The maximum is no greater than original opening cash or total outflows. Analogous conservative category bounds use wage/purchase deficits; receipt-funded bounds are the complement. This is reconstruction from saved stock/flow accounting, not an actual causal trace.",
+  "bookedFirmCount": 27,
+  "zeroReceiptFirmCount": 12,
+  "totals": {
+    "openingCashMinor": 1004510558,
+    "paidReceiptsMinor": 1690969064,
+    "paidWagesMinor": 485380316,
+    "paidPurchasesMinor": 614395743,
+    "totalPaidOutflowsMinor": 1099776059,
+    "closingCashMinor": 1595703563,
+    "addedOpeningCashDirectToFirmMinor": 0,
+    "cashFromLoansMinor": 0
+  },
+  "zeroReceiptFirms": {
+    "paidWagesMinor": 64011612,
+    "paidPurchasesMinor": 0,
+    "openingCashMinor": 131696218,
+    "closingCashMinor": 67684606
+  },
+  "allFirmsJanuary31": {
+    "paidReceiptsMinor": 0,
+    "paidWagesMinor": 157889156,
+    "paidPurchasesMinor": 0
+  },
+  "originalStockSourceRecords": {
+    "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5": {
+      "tag": "ESTIMATED",
+      "citation": "Census Bureau, 2023 County Business Patterns, county file, March employment by two-digit NAICS sector (private employers). BLS OEWS May 2025 state ownership research estimates: federal, state and local government, including schools and hospitals. BLS notes these carry more model error than standard estimates. src/simulation/living-world/town-employment.ts",
+      "asOf": "2021-01-01",
+      "estimatedFrom": "Existing deterministic matcher and authored workplace/role mix, interpreted as an opening estimate; later employment vintages are not observed 2021 jobs. Opening liquid reserve is the registered number of months of generated payroll, not an observed balance sheet."
+    }
+  },
+  "firms": [
+    {
+      "organizationId": "organization_0175e8c461d74012",
+      "name": "Bennett Tire and Auto",
+      "classification": "enterprise:repair",
+      "kindId": "repair",
+      "openingCashMinor": 1124764,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 62897147,
+      "paidWagesMinor": 547976,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 547976,
+      "closingCashMinor": 63473935,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 168608,
+        "maximum": 547976
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 379368
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 168608,
+        "maximum": 547976
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 379368
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 168608,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_efbc8a3bc0e3156f",
+      "name": "Davis Fitness",
+      "classification": "enterprise:recreation",
+      "kindId": "recreation",
+      "openingCashMinor": 16790198,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 7004608,
+      "paidWagesMinor": 8337761,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 8337761,
+      "closingCashMinor": 15457045,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 2674367,
+        "maximum": 8337761
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 5663394
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 2674367,
+        "maximum": 8337761
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 5663394
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 2674367,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_45c235457eb76716",
+      "name": "Garrett Transport",
+      "classification": "enterprise:transportation",
+      "kindId": "trucking",
+      "openingCashMinor": 25764754,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 12554256,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 12554256,
+      "closingCashMinor": 13210498,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 12554256,
+        "maximum": 12554256
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 12554256,
+        "maximum": 12554256
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 4320877,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_fc15dccb2eec4bd7",
+      "name": "Hayes Farms",
+      "classification": "enterprise:agriculture",
+      "kindId": "farm",
+      "openingCashMinor": 7745515,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 3774056,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 3774056,
+      "closingCashMinor": 3971459,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 3774056,
+        "maximum": 3774056
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 3774056,
+        "maximum": 3774056
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 1161248,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_dd65ae2f5e07164e",
+      "name": "Hidalgo County Cleaning Services",
+      "classification": "enterprise:building-services",
+      "kindId": "building-services",
+      "openingCashMinor": 105672508,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 31653491,
+      "paidWagesMinor": 51485720,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 51485720,
+      "closingCashMinor": 85840279,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 23979996,
+        "maximum": 51485720
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 27505724
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 23979996,
+        "maximum": 51485720
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 27505724
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 15841760,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_7af2cbbf9683c2ad",
+      "name": "Hidalgo County Contracting",
+      "classification": "enterprise:construction",
+      "kindId": "construction",
+      "openingCashMinor": 29073303,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 14164436,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 14164436,
+      "closingCashMinor": 14908867,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 14164436,
+        "maximum": 14164436
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 14164436,
+        "maximum": 14164436
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 4358288,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_e6177f73c43ec0e0",
+      "name": "Hidalgo County Diner",
+      "classification": "enterprise:food-service",
+      "kindId": "restaurant",
+      "openingCashMinor": 75015879,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 54143342,
+      "paidWagesMinor": 36555948,
+      "paidPurchasesMinor": 21439315,
+      "totalPaidOutflowsMinor": 57995263,
+      "closingCashMinor": 71163958,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 12653982,
+        "maximum": 57995263
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 45341281
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 12653982,
+        "maximum": 36555948
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 23901966
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 21439315
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 21439315
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 12653982,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_1e0cf4ddf5a88399",
+      "name": "Hidalgo County Insurance Services",
+      "classification": "enterprise:insurance",
+      "kindId": "insurance",
+      "openingCashMinor": 1360711,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 662948,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 662948,
+      "closingCashMinor": 697763,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 662948,
+        "maximum": 662948
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 662948,
+        "maximum": 662948
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 203984,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_e6178073c43ec293",
+      "name": "Hidalgo County Kitchen",
+      "classification": "enterprise:food-service",
+      "kindId": "restaurant",
+      "openingCashMinor": 80670015,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 57739598,
+      "paidWagesMinor": 39299832,
+      "paidPurchasesMinor": 22863337,
+      "totalPaidOutflowsMinor": 62163169,
+      "closingCashMinor": 76246444,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 13603788,
+        "maximum": 62163169
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 48559381
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 13603788,
+        "maximum": 39299832
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 25696044
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 22863337
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 22863337
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 13603788,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_ddd3980ca0d76530",
+      "name": "Hidalgo County Land and Homes",
+      "classification": "enterprise:real-estate",
+      "kindId": "realty",
+      "openingCashMinor": 1016652,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 495352,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 495352,
+      "closingCashMinor": 521300,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 495352,
+        "maximum": 495352
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 495352,
+        "maximum": 495352
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 152416,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_09972241ab595c8b",
+      "name": "Hidalgo County Machine Works",
+      "classification": "enterprise:manufacturing",
+      "kindId": "manufacturing",
+      "openingCashMinor": 53096581,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 25866984,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 25866984,
+      "closingCashMinor": 27229597,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 25866984,
+        "maximum": 25866984
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 25866984,
+        "maximum": 25866984
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 7959072,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_54db2ecf100046fc",
+      "name": "Hidalgo County Mercantile",
+      "classification": "enterprise:retail",
+      "kindId": "retail",
+      "openingCashMinor": 136936718,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 295107200,
+      "paidWagesMinor": 65458282,
+      "paidPurchasesMinor": 208779194,
+      "totalPaidOutflowsMinor": 274237476,
+      "closingCashMinor": 157806442,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 21814670,
+        "maximum": 136936718
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 137300758,
+        "maximum": 252422806
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 21814670,
+        "maximum": 65458282
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 43643612
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 136936718
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 71842476,
+        "maximum": 208779194
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 21814670,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_f7da0df2eb4d1f5e",
+      "name": "Hidalgo County Motor Inn",
+      "classification": "enterprise:lodging",
+      "kindId": "inn",
+      "openingCashMinor": 19561840,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 22644,
+      "paidWagesMinor": 9531236,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 9531236,
+      "closingCashMinor": 10053248,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 9508592,
+        "maximum": 9531236
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 22644
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 9508592,
+        "maximum": 9531236
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 22644
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 3299274,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_044a892fcca65a23",
+      "name": "Hidalgo County Telephone Cooperative",
+      "classification": "enterprise:telecommunications",
+      "kindId": "information",
+      "openingCashMinor": 29077503,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 5992952,
+      "paidWagesMinor": 14165866,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 14165866,
+      "closingCashMinor": 20904589,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 9003476,
+        "maximum": 14165866
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 5162390
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 9003476,
+        "maximum": 14165866
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 5162390
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 4358728,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_29bc279608f35677",
+      "name": "Jordan and Associates",
+      "classification": "enterprise:professional-services",
+      "kindId": "professional",
+      "openingCashMinor": 3261981,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 9423115,
+      "paidWagesMinor": 1161413,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 1161413,
+      "closingCashMinor": 11523683,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 489016,
+        "maximum": 1161413
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 672397
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 489016,
+        "maximum": 1161413
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 672397
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 489016,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_7af2cabf9683c0fa",
+      "name": "McGuire Builders",
+      "classification": "enterprise:construction",
+      "kindId": "construction",
+      "openingCashMinor": 1170420,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 482548,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 482548,
+      "closingCashMinor": 687872,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 482548,
+        "maximum": 482548
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 482548,
+        "maximum": 482548
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 175472,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_613b9e60ffc80856",
+      "name": "Montoya Residential Care",
+      "classification": "service:nursing-home",
+      "kindId": "care-home",
+      "openingCashMinor": 4288312,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 2089230,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 2089230,
+      "closingCashMinor": 2199082,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 2089230,
+        "maximum": 2089230
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 2089230,
+        "maximum": 2089230
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 683016,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_42f8c3553301e027",
+      "name": "Nash Sand and Gravel",
+      "classification": "enterprise:mining",
+      "kindId": "quarry",
+      "openingCashMinor": 1105406,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 538538,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 538538,
+      "closingCashMinor": 566868,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 538538,
+        "maximum": 538538
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 538538,
+        "maximum": 538538
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 165704,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_54db2fcf100048af",
+      "name": "Nguyen's Grocery",
+      "classification": "enterprise:retail",
+      "kindId": "retail",
+      "openingCashMinor": 141899451,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 302910841,
+      "paidWagesMinor": 67836461,
+      "paidPurchasesMinor": 214300027,
+      "totalPaidOutflowsMinor": 282136488,
+      "closingCashMinor": 162673804,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 22602503,
+        "maximum": 141899451
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 140237037,
+        "maximum": 259533985
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 22602503,
+        "maximum": 67836461
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 45233958
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 141899451
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 72400576,
+        "maximum": 214300027
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 22602503,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_29bc269608f354c4",
+      "name": "Noble Accounting",
+      "classification": "enterprise:professional-services",
+      "kindId": "professional",
+      "openingCashMinor": 1815620,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 7673898,
+      "paidWagesMinor": 867586,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 867586,
+      "closingCashMinor": 8621932,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 272184,
+        "maximum": 867586
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 595402
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 272184,
+        "maximum": 867586
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 595402
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 272184,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_2ff14956187618a9",
+      "name": "O'Neill Academy",
+      "classification": "service:private-school",
+      "kindId": "private-school",
+      "openingCashMinor": 4391858,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 2139852,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 2139852,
+      "closingCashMinor": 2252006,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 2139852,
+        "maximum": 2139852
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 2139852,
+        "maximum": 2139852
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 658416,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_e6178173c43ec446",
+      "name": "Park's Kitchen",
+      "classification": "enterprise:food-service",
+      "kindId": "restaurant",
+      "openingCashMinor": 26956357,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 19411218,
+      "paidWagesMinor": 12078627,
+      "paidPurchasesMinor": 7686323,
+      "totalPaidOutflowsMinor": 19764950,
+      "closingCashMinor": 26602625,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 3900052,
+        "maximum": 19764950
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 15864898
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 3900052,
+        "maximum": 12078627
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 8178575
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 7686323
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 7686323
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 3900052,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_8f2c022ed85b75c1",
+      "name": "Sandoval Distributing",
+      "classification": "enterprise:wholesale",
+      "kindId": "wholesale",
+      "openingCashMinor": 138788315,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 614395743,
+      "paidWagesMinor": 67562264,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 67562264,
+      "closingCashMinor": 685621794,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 20806544,
+        "maximum": 67562264
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 46755720
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 20806544,
+        "maximum": 67562264
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 46755720
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 20806544,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_09972141ab595ad8",
+      "name": "Sears Tool and Die",
+      "classification": "enterprise:manufacturing",
+      "kindId": "manufacturing",
+      "openingCashMinor": 1357789,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 597910,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 597910,
+      "closingCashMinor": 759879,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 597910,
+        "maximum": 597910
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 597910,
+        "maximum": 597910
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 203544,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    },
+    {
+      "organizationId": "organization_54db30cf10004a62",
+      "name": "Steele's Grocery",
+      "classification": "enterprise:retail",
+      "kindId": "retail",
+      "openingCashMinor": 94473625,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 196938027,
+      "paidWagesMinor": 46104786,
+      "paidPurchasesMinor": 139327547,
+      "totalPaidOutflowsMinor": 185432333,
+      "closingCashMinor": 105979319,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 15040449,
+        "maximum": 94473625
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 90958708,
+        "maximum": 170391884
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 15040449,
+        "maximum": 46104786
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 31064337
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 94473625
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 44853922,
+        "maximum": 139327547
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 15040449,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_570dd52ac59a0647",
+      "name": "Warren's Salon and Barbershop",
+      "classification": "enterprise:personal-services",
+      "kindId": "personal-care",
+      "openingCashMinor": 769566,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 25655240,
+      "paidWagesMinor": 374946,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 374946,
+      "closingCashMinor": 26049860,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 122578,
+        "maximum": 374946
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 252368
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 122578,
+        "maximum": 374946
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 252368
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 122578,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "Original opening cash and dated cumulative receipts reconcile all outflows. Exact expense/source ordering was not exported; conservative bounds only."
+    },
+    {
+      "organizationId": "organization_45c236457eb768c9",
+      "name": "Wilcox Trucking",
+      "classification": "enterprise:transportation",
+      "kindId": "trucking",
+      "openingCashMinor": 1324917,
+      "openingStockSourceRef": "e59b52f806d5e0688a7cfcdf2ebc706f8bab55e806061def54cb5686c761b1e5",
+      "addedOpeningCashDirectToFirmMinor": 0,
+      "paidReceiptsMinor": 0,
+      "paidWagesMinor": 645502,
+      "paidPurchasesMinor": 0,
+      "totalPaidOutflowsMinor": 645502,
+      "closingCashMinor": 679415,
+      "reconciliationResidualMinor": 0,
+      "cashFromLoansMinor": 0,
+      "openingFundedOutflowsBoundsMinor": {
+        "minimum": 645502,
+        "maximum": 645502
+      },
+      "receiptFundedOutflowsBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedWagesBoundsMinor": {
+        "minimum": 645502,
+        "maximum": 645502
+      },
+      "receiptFundedWagesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "openingFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "receiptFundedPurchasesBoundsMinor": {
+        "minimum": 0,
+        "maximum": 0
+      },
+      "january31": {
+        "paidReceiptsMinor": 0,
+        "paidWagesMinor": 198616,
+        "paidPurchasesMinor": 0
+      },
+      "fundingEvidence": "No receipts: all actual outflows came from the original opening stock."
+    }
+  ],
+  "addedOpeningAccountsAuditStatus": "SOURCE_ONLY_FORMULAS_VERIFIED_AND_SAVED_STOCKS_RECONCILED_NO_OBSERVED_INSTITUTION_STOCK_SIZE",
+  "openingFirmBufferObservation": "Source inference: current population.ts:700\u2013714 constructs organization cash as generated wageDailyMinor \u00d7 daysPerMeanYear / monthsPerYear \u00d7 organizationReserveMonths. The original input has no observed firm cash balance, owner-capital contribution or traced opening lender record. Actual stock sizing and caller compatibility need repair under REVIEW14; do not treat this year as calibrated.",
+  "noNewWorldRun": true,
+  "method": "Python loaded the original immutable input and five already-written small snapshots, reconciled each of 27 original cash rows exactly, and computed conservative source-funding bounds. No simulation or temporal expense-source trace was created.",
+  "addedOpeningAccounts": [
+    {
+      "id": "opening-retirement-payer:1849d3b163e2051c",
+      "measuredOpening": {
+        "id": "opening-retirement-payer:1849d3b163e2051c",
+        "placeId": "jurisdiction_47f8dde9eac44f56",
+        "name": "La Homa, Texas retirement-income paying account",
+        "classification": "sector:modeled-retirement-income-account",
+        "liquidMinor": 503659329
+      },
+      "measuredApril2": {
+        "id": "opening-retirement-payer:1849d3b163e2051c",
+        "placeId": "jurisdiction_47f8dde9eac44f56",
+        "name": "La Homa, Texas retirement-income paying account",
+        "classification": "sector:modeled-retirement-income-account",
+        "liquidMinor": 503659329
+      },
+      "classificationFinding": "Source-only: fictional public-institution retirement-paying pool; not a verified public treasury or private operating firm, equity injection, lender credit or enacted appropriation.",
+      "kindFromSource": "public-institution",
+      "identityBasisCitation": "Generated opening retirement paying account for represented residents; not a claim of real treasury ownership, appropriation, plan membership or verified historical existence.",
+      "amountObservationKnown": false,
+      "formulaFromSource": {
+        "location": "src/core2/opening-income.ts:781",
+        "expression": "floor(sum(generated monthly awardMinor for this payer) * openingRetirementPayerReserveMonths)",
+        "monthlyAwardFormulaLocation": "src/core2/opening-income.ts:718",
+        "monthlyAwardFormula": "floor(openingRetirementBenefitMonthlyMinor * clamp(coveredMonths / openingRetirementBenefitReferenceCoveredMonths, openingRetirementBenefitFactorMinimum, openingRetirementBenefitFactorMaximum))",
+        "currentNumericalReconciliation": "floor(167886443 * 3) = 503659329 minor units",
+        "registeredReserveMonths": 3
+      },
+      "sourceCitationFromPinnedData": "Authorized fictional pre-start WHO/PAST generation from the saved birth date, household, high-school cohort or sourced canonical reliability context and absence of a current owned job. Public-programs-2026.json preserves an official SSA snippet average of $2,015/month before the January 2026 COLA; it supplies an amount prior only. It does not verify individual earnings, 2021 eligibility, a historical employer roster, claim timing or a public funding account.",
+      "expectedAccountSourceTagFromSource": "ESTIMATED",
+      "expectedAccountSourceAsOfFromSource": "2021-01-01",
+      "sourceCitationLocation": "src/core2/data/opening-income.json:citation; src/core2/opening-income.ts:372",
+      "empiricalLimit": "The $2,015 later-vintage SSA retired-worker monthly average is a preserved official snippet amount prior. Modeled individual covered-work scaling and the three-month liquidity multiplier are unmeasured. Neither the average nor the sum observes this account balance.",
+      "directFirmFunding": false
+    },
+    {
+      "id": "opening-retirement-contributor:c5609eea36b35888",
+      "measuredOpening": {
+        "id": "opening-retirement-contributor:c5609eea36b35888",
+        "placeId": "jurisdiction_7691c6e3ae48f824",
+        "name": "U.S. Treasury retirement contribution portfolio for La Homa, Texas retirement-income paying account",
+        "classification": "sector:modeled-external-retirement-contributor",
+        "liquidMinor": 2014637316
+      },
+      "measuredApril2": {
+        "id": "opening-retirement-contributor:c5609eea36b35888",
+        "placeId": "jurisdiction_7691c6e3ae48f824",
+        "name": "U.S. Treasury retirement contribution portfolio for La Homa, Texas retirement-income paying account",
+        "classification": "sector:modeled-external-retirement-contributor",
+        "liquidMinor": 1510977987
+      },
+      "classificationFinding": "Source-only: fictional external public-institution contributor portfolio in U.S. Treasury context; not a verified Treasury bank account, public appropriation, owner equity or lender.",
+      "kindFromSource": "public-institution",
+      "identityBasisCitation": "Named external U.S. Treasury-context contributor portfolio at the canonical seat of government. The institution context is real; this represented opening portfolio, its terms and cash allocation are fictional input records, not a verified treasury bank account or public appropriation.",
+      "amountObservationKnown": false,
+      "formulaFromSource": {
+        "locations": [
+          "src/core2/opening-income-funding.ts:410",
+          "src/core2/opening-income-funding.ts:466",
+          "src/core2/opening-income-funding.ts:488"
+        ],
+        "expression": "nominalAnnual = sum(group monthly saved awards * monthsPerYear); boundedAnnual = min(floor(nominalAnnual * openingRetirementFundingEnvelopeShare), openingRetirementFundingPublicAnnualOutlayMinor); group envelope = floor(boundedAnnual * group nominalAnnual / total nominalAnnual); initial stock = floor(group envelope * openingRetirementFundingLiquidShare)",
+        "currentNumericalReconciliation": "167886443 * 12 = 2014637316; min(floor(2014637316 * 1), 158068578303383) = 2014637316; floor(2014637316 * 1) = 2014637316 minor units",
+        "registeredWindowMonths": 12,
+        "registeredEnvelopeShare": 1,
+        "registeredLiquidShare": 1,
+        "nationalCapBindingInThisWorld": false,
+        "monthlyFundingFormula": "floor(group envelope / monthsPerYear)",
+        "monthlyFundingMinor": 167886443
+      },
+      "sourceCitationFromPinnedData": "Authorized pre-start WHO/standing-terms generation bounded by saved qualified retirement awards and the independently preserved Treasury FY2025 Social Security outlay flow in federal-budget-fy2025.json. The generated external portfolio and opening cash allocation are explicit assumptions; no 2021 legal authority, national reserve liquidity, recipient membership or future receipts are asserted.",
+      "flowEvidenceFromPinnedData": {
+        "publisher": "U.S. Treasury",
+        "title": "Monthly Treasury Statement Table 9, FY2025 receipts and outlays at September 30, 2025",
+        "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_date:eq:2025-09-30",
+        "sourceFile": "data/research/money/federal-budget-fy2025.json",
+        "sourceField": "outlays.socialSecurity",
+        "sourceVintage": "Treasury FY2025 federal Social Security outlays; later-vintage contextual opening prior, not 2021 appropriation or liquid balance",
+        "scope": "Published annual Social Security functional outlays include more than retired-worker awards. Aggregate payroll receipts also include other retirement/unemployment; neither identifies this generated portfolio's appropriation, legal eligibility, liquidity or tax contributions."
+      },
+      "expectedAccountSourceTagFromSource": "ESTIMATED",
+      "expectedAccountSourceAsOfFromSource": "2021-01-01",
+      "sourceCitationLocation": "src/core2/opening-income-funding.ts:426",
+      "empiricalLimit": "Treasury FY2025 Social Security functional outlays are a national annual flow and cap, not observed local/portfolio cash, 2021 authority, membership, liquidity or tax contributions. The full one-year envelope and 100% upfront liquid share are authored, unmeasured assumptions.",
+      "directFirmFunding": false
+    },
+    {
+      "id": "p8-opening-customer-builder-v1:outside-household:725f304f2ba69980",
+      "measuredOpening": {
+        "id": "p8-opening-customer-builder-v1:outside-household:725f304f2ba69980",
+        "placeId": "jurisdiction_46cf8dbfbc1c7045",
+        "name": "Abbott household (McAllen, Texas)",
+        "classification": "customer:outside-household",
+        "liquidMinor": 740000
+      },
+      "measuredApril2": {
+        "id": "p8-opening-customer-builder-v1:outside-household:725f304f2ba69980",
+        "placeId": "jurisdiction_46cf8dbfbc1c7045",
+        "name": "Abbott household (McAllen, Texas)",
+        "classification": "customer:outside-household",
+        "liquidMinor": 717356
+      },
+      "classificationFinding": "Source-only: one fictional private outside family transaction-account pool represented as an organization; not an employer, firm owner-equity injection, lender deposit or public institution.",
+      "kindFromSource": "outside-customer-household",
+      "amountObservationKnown": false,
+      "formulaFromSource": {
+        "location": "src/core2/opening-customers.ts:1321",
+        "expression": "round(openingCustomerOutsideHouseholdLiquidUsd * minorPerDollar)",
+        "currentNumericalReconciliation": "round(7400 * 100) = 740000 minor units",
+        "familyCountParameter": "openingCustomerOutsideHouseholdCountPerMarket",
+        "familyCountValue": 1,
+        "monthlyLodgingBudgetExpression": "round(openingCustomerOutsideLodgingAnnualUsd * minorPerDollar / monthsPerYear)",
+        "monthlyLodgingBudgetMinor": 7548
+      },
+      "amountParameterCitation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40\u201359.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+      "sourceCitationFromPinnedData": "SCF 2022 family transaction-account and income priors; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, B1401; Census actual shared-county place/population records establish geography only. A fictional pre-start regional visit budget establishes WHO/PAST, not measured visit demand.",
+      "stockSourceRecordId": "scf-2022-family-transaction-accounts-middle-quintile",
+      "stockCoverageCitation": "One independent outside family transaction-account pool. No duplicate member balances, recurring outside income, lender deposits or seller cash.",
+      "expectedAccountSourceTagFromSource": "ESTIMATED",
+      "expectedAccountSourceAsOfFromSource": "2020-12-31",
+      "sourceCitationLocation": "src/core2/opening-customers.ts:1325; src/core2/opening-customers.ts:1336; src/core2/data/opening-customers.json:outsideHouseholds",
+      "accountSourceCitationConstruction": "market.source.citation + space + outsideHouseholds.citation + identity/stock/visit record IDs; the geography citation does not observe wealth or a visit. The exact saved account.source field was not reread from the large enriched input/producer artifact.",
+      "empiricalLimit": "The SCF 2022 $7,400 nominal median is an observed group statistic among transaction-account-holding families at income percentiles 40\u201359.9. It is not an observed 2021 balance for Abbott or McAllen. One generated family and its geography/visit crosswalk remain uncalibrated. The SCF $70,259 annual-income prior is context only, not a recurring cash credit.",
+      "directFirmFunding": "Measured lodging purchases total 22,644 minor units; no direct initial transfer to employer cash."
+    }
+  ],
+  "addedStockSourcePins": [
+    {
+      "path": "src/core2/opening-income.ts",
+      "bytes": 34405,
+      "sha256": "1e36be05401f753fb17202c8ead289d18e12c68e961d144de8d093170e3b4b49"
+    },
+    {
+      "path": "src/core2/data/opening-income.json",
+      "bytes": 5590,
+      "sha256": "f8c4cc05f6514bc4573d06083e3361ca7082c1da2d0236f8d2d163ca69219e7b"
+    },
+    {
+      "path": "src/core2/opening-income-funding.ts",
+      "bytes": 23735,
+      "sha256": "b6b657124774d63fd2b5a5acdda062e9383579a0957207f996327f2dd2f67492"
+    },
+    {
+      "path": "src/core2/data/opening-income-funding.json",
+      "bytes": 3218,
+      "sha256": "75229b22d0bdbed945a6213a666911cefc9c45c02599eb777396ef439e02a71c"
+    },
+    {
+      "path": "src/core2/opening-customers.ts",
+      "bytes": 56636,
+      "sha256": "dc17642697eb640a44e728612a5cbd791c69445150778a533c6346d9dd23160c"
+    },
+    {
+      "path": "src/core2/data/opening-customers.json",
+      "bytes": 41767,
+      "sha256": "a48136f698f5342fd8e7af350e38728bb213ba06246b431dd7083fa1d946f326"
+    },
+    {
+      "path": "src/core2/opening-customer-geography.ts",
+      "bytes": 5898,
+      "sha256": "c761132a2fa0e97525367547665035ce890d98c8e8f9ab0782708437d3c9013b"
+    },
+    {
+      "path": "src/core2/data/parameters.json",
+      "bytes": 204316,
+      "sha256": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5"
+    },
+    {
+      "path": "src/core2/data/stopgaps.json",
+      "bytes": 54535,
+      "sha256": "839dcd2885982b716dc178f2741877a448c1d7133268d4e81597043d8f16d913"
+    },
+    {
+      "path": "data/research/money/public-programs-2026.json",
+      "bytes": 97131,
+      "sha256": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193"
+    },
+    {
+      "path": "data/research/money/federal-budget-fy2025.json",
+      "bytes": 2575,
+      "sha256": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac"
+    },
+    {
+      "path": "data/research/money/scf-transaction-accounts-2022.json",
+      "bytes": 1687,
+      "sha256": "c5206713b111a704591a95d7b7d61d258abe3247b6064ca45e62b479e41cc469"
+    }
+  ],
+  "addedStockParameters": {
+    "openingRetirementPayerReserveMonths": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "citation": "Unmeasured finite opening liquidity buffer for the represented retirement payer cohort, in months of saved current award terms. Generated once, independent of firm deficits, forecast revenue or a year-survival target. No tax/contribution/refill is supplied.",
+      "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+      "spread": {
+        "status": "unmeasured",
+        "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+      },
+      "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      }
+    },
+    "openingRetirementBenefitMonthlyMinor": {
+      "value": 201500,
+      "tag": "ESTIMATED",
+      "citation": "data/research/money/public-programs-2026.json federal.socialSecurity.averageRetiredWorkerMonthly.beforeCola=$2015; official SSA 2026 factsheet snippet only. Later-vintage participant-average amount proxy in USD minor units, not actual 2021 benefits or each individual award.",
+      "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+      "stopgapId": "SG-P8-opening-retirement-income"
+    },
+    "openingRetirementFundingEnvelopeShare": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Authored represented retirement portfolio annual funding allocation, bounded to at most its saved one-year award obligations and the independently published national flow cap. Not an observed appropriation share, individual participation outcome or firm-survival target.",
+      "estimatedFrom": "Explicit bounded opening WHO/terms and liquidity prior; future source-qualified appropriation/receipt generation is missing.",
+      "spread": {
+        "status": "unmeasured",
+        "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
+      },
+      "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
+      "checkRange": {
+        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+      }
+    },
+    "openingRetirementFundingLiquidShare": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "Authored share of the admitted one-year represented funding envelope supplied as a finite new external contributor opening cash stock. Explicit liquidity allocation assumption, not SSA reserve assets treated as cash or an observed 2021 Treasury balance. No refill or firm-deficit dependence.",
+      "estimatedFrom": "Explicit bounded opening WHO/terms and liquidity prior; future source-qualified appropriation/receipt generation is missing.",
+      "spread": {
+        "status": "unmeasured",
+        "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
+      },
+      "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
+      "checkRange": {
+        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+      }
+    },
+    "openingRetirementFundingPublicAnnualOutlayMinor": {
+      "value": 158068578303383,
+      "tag": "SOURCED",
+      "citation": "data/research/money/federal-budget-fy2025.json outlays.socialSecurity = $1,580,685,783,033.83, Treasury MTS Table 9 FY2025 through 2025-09-30; exact USD minor-unit conversion. Published national functional outlay context and aggregate upper cap only; includes more than retired workers and does not identify 2021 liquidity or a generated portfolio appropriation."
+    },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "citation": "Gregorian civil calendar: twelve months per year."
+    },
+    "openingCustomerOutsideHouseholdLiquidUsd": {
+      "value": 7400,
+      "tag": "SOURCED",
+      "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40\u201359.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+      "stopgapId": "SG-P8-opening-customer-outside-households"
+    },
+    "minorPerDollar": {
+      "value": 100,
+      "tag": "SOURCED",
+      "citation": "ISO 4217: USD minor unit has two decimal places."
+    }
+  },
+  "combinedAddedCashMinor": 2519036645,
+  "combinedRetirementCashMinor": 2518296645,
+  "retirementOpeningMonthsFromSource": 15,
+  "institutionSpecificStocksObserved": false,
+  "actualPublicAppropriationObserved": false,
+  "addedStockProvenanceLimit": "Account names, IDs and stocks were measured from saved small snapshots; formula, expected source fields and institutional identity are inferred from pinned source/DATA. The large enriched input/producer export was not reread; no stored account.source field recovered from that export is claimed.",
+  "accountAuditArtifact": {
+    "path": "/tmp/p8-customer-cash-report-review-v1/account-audit.json",
+    "sha256": "8c386ea5bfcc6c2b423d5542ecbdb5d5d275867d70bd10aff7c4e8c3c494bbd7"
+  },
+  "openingFirmBufferParameterFromSource": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-organizationReserveMonths",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE"
+    }
+  },
+  "realBusinessBufferContext": {
+    "sourceFile": "data/research/money/opening-employer-cash-buffers.json",
+    "sha256": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198",
+    "medianAllSmallBusinessDays": 27,
+    "sample": "597,000 small businesses, February\u2013October 2015",
+    "sourceVintage": "JPMorgan Chase Institute, Cash Is King, September 2016",
+    "definition": "Cash balance / average daily cash outflows, not months of scheduled payroll.",
+    "implementationStatus": "NOT_IMPLEMENTED_IN_THIS_CHECKPOINT",
+    "limitation": "The small-business observation does not size or validate public retirement institution cash. Current original organization stock remains an unmeasured six-month generated-payroll prior."
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "version": "p8-estimated-opening-employer-payroll-calendar-v1",
+  "stopgapId": "SG-P8-opening-employer-pay-calendar",
+  "targetRef": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT",
+  "priorNamespace": "p8:opening-employer-payroll-calendar:WHO:v1",
+  "calendarIdPrefix": "opening-payroll-calendar:",
+  "parameterRefs": {
+    "phaseSpan": "openingPayrollPrivatePhaseSpanFraction",
+    "lagDays": "openingPayrollPeriodEndLagDays",
+    "monthlyBoundary": "openingPayrollMonthlyBoundaryDay",
+    "semimonthlyFirstBoundary": "openingPayrollSemimonthlyFirstBoundaryDay",
+    "semimonthlySecondBoundary": "openingPayrollSemimonthlySecondBoundaryDay"
+  },
+  "frequencyGroups": {
+    "all-private": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsAllPrivateWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsAllPrivateBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsAllPrivateSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsAllPrivateMonthlyWeight"
+      }
+    ],
+    "natural-resources-and-mining": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsNaturalResourcesAndMiningWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsNaturalResourcesAndMiningBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsNaturalResourcesAndMiningSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsNaturalResourcesAndMiningMonthlyWeight"
+      }
+    ],
+    "construction": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsConstructionWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsConstructionBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsConstructionSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsConstructionMonthlyWeight"
+      }
+    ],
+    "manufacturing": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsManufacturingWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsManufacturingBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsManufacturingSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsManufacturingMonthlyWeight"
+      }
+    ],
+    "trade-transportation-and-utilities": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsTradeTransportationAndUtilitiesWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsTradeTransportationAndUtilitiesBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsTradeTransportationAndUtilitiesSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsTradeTransportationAndUtilitiesMonthlyWeight"
+      }
+    ],
+    "information": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsInformationWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsInformationBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsInformationSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsInformationMonthlyWeight"
+      }
+    ],
+    "financial-activities": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsFinancialActivitiesWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsFinancialActivitiesBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsFinancialActivitiesSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsFinancialActivitiesMonthlyWeight"
+      }
+    ],
+    "professional-and-business-services": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsProfessionalAndBusinessServicesWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsProfessionalAndBusinessServicesBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsProfessionalAndBusinessServicesSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsProfessionalAndBusinessServicesMonthlyWeight"
+      }
+    ],
+    "education-and-health-services": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsEducationAndHealthServicesWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsEducationAndHealthServicesBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsEducationAndHealthServicesSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsEducationAndHealthServicesMonthlyWeight"
+      }
+    ],
+    "leisure-and-hospitality": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsLeisureAndHospitalityWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsLeisureAndHospitalityBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsLeisureAndHospitalitySemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsLeisureAndHospitalityMonthlyWeight"
+      }
+    ],
+    "other-services": [
+      {
+        "frequency": "weekly",
+        "weightParameter": "openingPayrollBlsOtherServicesWeeklyWeight"
+      },
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollBlsOtherServicesBiweeklyWeight"
+      },
+      {
+        "frequency": "semimonthly",
+        "weightParameter": "openingPayrollBlsOtherServicesSemimonthlyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollBlsOtherServicesMonthlyWeight"
+      }
+    ],
+    "education-proxy": [
+      {
+        "frequency": "biweekly",
+        "weightParameter": "openingPayrollEducationBiweeklyWeight"
+      },
+      {
+        "frequency": "monthly",
+        "weightParameter": "openingPayrollEducationMonthlyWeight"
+      }
+    ]
+  },
+  "industryByClassification": {
+    "enterprise:mining": "natural-resources-and-mining",
+    "enterprise:construction": "construction",
+    "enterprise:manufacturing": "manufacturing",
+    "enterprise:wholesale": "trade-transportation-and-utilities",
+    "enterprise:retail": "trade-transportation-and-utilities",
+    "enterprise:transportation": "trade-transportation-and-utilities",
+    "enterprise:utility": "trade-transportation-and-utilities",
+    "enterprise:telecommunications": "information",
+    "enterprise:insurance": "financial-activities",
+    "enterprise:real-estate": "financial-activities",
+    "enterprise:banking": "financial-activities",
+    "enterprise:professional-services": "professional-and-business-services",
+    "enterprise:building-services": "professional-and-business-services",
+    "service:clinic": "education-and-health-services",
+    "service:hospital": "education-and-health-services",
+    "service:nursing-home": "education-and-health-services",
+    "enterprise:recreation": "leisure-and-hospitality",
+    "enterprise:food-service": "leisure-and-hospitality",
+    "enterprise:lodging": "leisure-and-hospitality",
+    "enterprise:repair": "other-services",
+    "enterprise:personal-services": "other-services"
+  },
+  "educationClassifications": [
+    "service:school",
+    "service:private-school",
+    "service:university",
+    "service:college"
+  ],
+  "educationKinds": ["school", "education", "university", "college"],
+  "farmClassifications": ["enterprise:agriculture"],
+  "governmentKinds": ["government", "public-institution"],
+  "governmentClassificationPrefixes": [
+    "sector:local-government",
+    "sector:state-government",
+    "sector:federal-government",
+    "government:"
+  ],
+  "governmentIdentityKinds": ["local-government", "jurisdiction"],
+  "privateClassificationPrefixes": [
+    "enterprise:",
+    "service:clinic",
+    "service:hospital",
+    "service:nursing-home"
+  ],
+  "sources": {
+    "bls-2013-private-frequency": {
+      "id": "bls-2013-private-frequency",
+      "title": "How frequently do private businesses pay workers?",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "url": "https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm",
+      "publicationDate": "2014-05-23",
+      "availableAt": "2014-05-23",
+      "reference": "March2013",
+      "cohort": "Weighted single-pay-period private businesses with valid hours/earnings, not workers; nonfarm survey; government and all education excluded."
+    },
+    "santa-barbara-2021-pay-calendar": {
+      "id": "santa-barbara-2021-pay-calendar",
+      "title": "2021 Biweekly Payroll Schedule",
+      "publisher": "County of Santa Barbara, Office of the Auditor Controller, Payroll Division",
+      "url": "https://essplus.co.santa-barbara.ca.us/ESS/PayrollCalendars/Calendars/2021%20Pay%20Schedule.pdf",
+      "publicationMonth": "2020-11",
+      "availableAt": "2020-11-30",
+      "availabilityLimit": "Month-only issue date. Last day of that month is conservative availability, not an asserted publication day.",
+      "reference": "Published2021 scheduled period bounds and paydays; not proof payments occurred."
+    },
+    "american-university-2020-payroll": {
+      "id": "american-university-2020-payroll",
+      "title": "Important2020 Year-End Payroll and Tax-Related Deadlines",
+      "publisher": "American University, Payroll Office",
+      "url": "https://www.american.edu/finance/memos/important-2020-year-end-payroll-and-tax-related-deadlines.cfm",
+      "publicationDate": "2020-12-11",
+      "availableAt": "2020-12-11",
+      "reference": "December2020 biweekly/monthly payroll options and last paycheck dates; no full2021 calendar or national shares."
+    }
+  },
+  "governmentProxy": {
+    "sourceId": "santa-barbara-2021-pay-calendar",
+    "firstPeriodStartsAt": "2020-12-14",
+    "firstPaydayAt": "2021-01-07",
+    "frequency": "biweekly",
+    "nonbusinessDayRule": "no-adjustment",
+    "limitation": "Fictional government owner copies a published base biweekly option, not its actual employer terms or holiday exceptions. No public money authority or appropriation is created."
+  },
+  "nonbusinessDayRule": "no-adjustment",
+  "arrearsRule": "carry-to-next-recorded-payday",
+  "shortMonthRule": "clamp-to-calendar-month-end",
+  "scopeNotes": [
+    "BLS percentages are business weights, not worker outcomes.94.8% single-period and5.2% multiple; four-frequency distribution is single only.",
+    "Government and private/public education require separate proxy options. Farm/unknown-owner extrapolation is outside the source cohort and remains explicitly estimated.",
+    "BLS size bins use prior twelve-month maximum employment. No current-headcount bins are used by this candidate.",
+    "No original source supplies a fictional employer phase, lag, holiday rule, group membership or legal-frequency compliance.",
+    "SantaBarbara actual holiday overrides are not represented by the no-adjustment pure resolver. They are not silently claimed as copied.",
+    "FailedCalifornia HTML fetch and failedDOL403 are not calendar or legal evidence."
+  ],
+  "unmeasuredConventions": "Uniform model employer phase, five-calendar-day lag, private industry/taxonomy/legal-form crosswalk, semimonthly1/16 and monthly1 boundaries, omitted weekend/holiday adjustment, education equal proxy weights and payroll-group membership. Actual supplied calendars take exact priority. These remain open assumptions, not source-measured individual facts.",
+  "privateSourceId": "bls-2013-private-frequency",
+  "educationSourceId": "american-university-2020-payroll"
+}

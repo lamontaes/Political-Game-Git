@@ -19,6 +19,29 @@
     {
       "source": "src/simulation/campaigns.ts, recordCampaignObservation",
       "whatItDidNotSettle": "Shows how the memo is drawn; carries no claim about real internal polling."
+    },
+    {
+      "source": "https://www.pewresearch.org/short-reads/2019/02/27/response-rates-in-telephone-surveys-have-resumed-their-decline/",
+      "whatItDidNotSettle": "Matched empirical error and sponsor bias by poller type, office/race size, mode and cost remain open after AAPOR rights review."
+    },
+    {
+      "source": "https://www.pewresearch.org/methods/2026/09/16/faqs-about-political-weighting-in-polling-and-its-limitations/",
+      "whatItDidNotSettle": "Matched empirical error and sponsor bias by poller type, office/race size, mode and cost remain open after AAPOR rights review."
+    },
+    {
+      "source": "https://www.pewresearch.org/u-s-surveys/frequently-asked-questions/",
+      "whatItDidNotSettle": "Matched empirical error and sponsor bias by poller type, office/race size, mode and cost remain open after AAPOR rights review."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "Error cannot be inferred from sponsor type, price or nominal sample size alone. Pew reports historical telephone response rates of 7% in 2017 and 6% in 2018; low response is not equivalent to a six-percent accuracy rate. Weighting addresses sample composition but not every nonresponse/measurement/turnout error. For an unweighted simple random n=400/600/1000 sample at a 50% share, derived 95% share half-widths are 4.9/4.0/3.1 points; margin error is about twice share error. These are sampling illustrations, not measured internal/public poll accuracy.",
+    "sources": [
+      "https://www.pewresearch.org/short-reads/2019/02/27/response-rates-in-telephone-surveys-have-resumed-their-decline/",
+      "https://www.pewresearch.org/methods/2026/09/16/faqs-about-political-weighting-in-polling-and-its-limitations/",
+      "https://www.pewresearch.org/u-s-surveys/frequently-asked-questions/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:00:39.884604+00:00",
+    "stillOpen": "Matched empirical error and sponsor bias by poller type, office/race size, mode and cost remain open after AAPOR rights review."
+  }
 }

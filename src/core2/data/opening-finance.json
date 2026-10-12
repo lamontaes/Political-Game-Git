@@ -1,0 +1,95 @@
+{
+  "version": "p8-opening-finance-binding-candidate-v3",
+  "periodMonthsParameter": "openingFinancePeriodMonths",
+  "cadenceStopgap": {
+    "stopgapId": "SG-P8-opening-finance-cadence"
+  },
+  "openingPurchaseCalendar": {
+    "householdFirstDueRule": "first-recorded-income-calendar-date-after-opening",
+    "noIncomeFallbackRule": "recorded-expense-date-or-next-calendar-month",
+    "businessFirstDueRule": "first-advanced-simulation-day",
+    "recurringHouseholdDueRule": "generated-household-income-calendar-at-or-after-nominal",
+    "stopgapId": "SG-P8-customer-due-calendar-renewal",
+    "missingIncomeGap": "opening-purchase-calendar:no-admitted-household-income-calendar",
+    "source": {
+      "tag": "ESTIMATED",
+      "generationPriorVintage": "JPMorgan Chase Institute February 2016 report; Chase account observations October 2012 through September 2015. Generation prior only; not a fact available to an earlier actor.",
+      "citation": "JPMorgan Chase Institute, Diana Farrell and Fiona Greig, February 2016, Paychecks, Paydays, and the Online Platform Economy: Big Data on Income Volatility, conclusion and data/sample sections. https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-volatility-2-report.pdf ; https://www.jpmorganchase.com/institute/all-topics/labor-markets-and-workforce/report-paychecks-paydays-and-the-online-platform-economy . Explicit estimated opening purchase-calendar conventions under SG-P8-customer-due-calendar-renewal; not observed household invoices.",
+      "estimatedFrom": "The study motivates aligning income and payment cycles; its random sample of one million Chase customers observed October 2012 through September 2015 is not a universal household calendar or this world's dated evidence. Fresh household monthly budgets use the first eligible actual owned scheduled work-pay date strictly after opening. No-wage households use already admitted compatible recipient-income contract dates. Without either income calendar, an existing dated household expense supplies an estimated phase; otherwise an explicit first-next-calendar-month fallback is marked missing income timing under B0. Fresh business purchase budgets separately use the existing exact first advanced simulation day when no actual invoice supplies a date. Monthly amounts, periods and billing-day arithmetic remain unchanged. This convention is an opening generation prior, not later-date actor knowledge, predicted attendance, payment, benefit eligibility, household choice, public appropriation, delivery, deficit rescue or survival sizing. Actual supplied due dates and ends remain unchanged; statistical vintages create no contract expiry. Recurring generated household purchase dates separately retain the original nominal monthly billing day and choose the first eligible current owned scheduled wage calendar or actual qualified recipient-income calendar in [next nominal, following nominal). Without an eligible positive income opportunity in that cadence window, retain the nominal date with an explicit missing-income estimate. This cadence-window convention is authored under SG-P8-customer-due-calendar-renewal; the JPMC study does not supply its exact formula or observed invoice dates. It creates no income, attendance, award, benefit eligibility or household decision."
+    }
+  },
+  "marketAdjustedHouseholdBudgets": true,
+  "excludedOrganizationKinds": [
+    "nonprofit",
+    "public-institution",
+    "government"
+  ],
+  "stopgapIds": [
+    "SG-P8-opening-finance-bindings",
+    "SG-P8-opening-finance-cadence"
+  ],
+  "categories": [
+    {
+      "key": "food",
+      "contractKind": "household.food",
+      "supplierClassifications": [
+        "enterprise:retail",
+        "enterprise:food-service"
+      ],
+      "citation": "Existing retained CEX food category and generated general-store/restaurant classifications in src/simulation/living-world/town-employment.ts. The combined food category does not identify food-at-home versus food-away-from-home shares; projected firm capacity weights are an authored opening crosswalk.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "apparelAndServices",
+      "contractKind": "household.apparelAndServices",
+      "supplierClassifications": ["enterprise:retail"],
+      "citation": "Existing CEX apparel-and-services category and generated general-store classification; general merchandise is a provisional aggregate crosswalk, not proof of a recorded apparel purchase or service inventory.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "maintenanceAndRepairs",
+      "contractKind": "household.maintenanceAndRepairs",
+      "supplierClassifications": ["enterprise:repair"],
+      "citation": "Existing retained CEX vehicle maintenance/repair category and generated Auto Service/mechanic workplace in src/simulation/living-world/town-employment.ts. No repair appointment or recorded bill is implied.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "miscellaneous",
+      "contractKind": "household.miscellaneous",
+      "supplierClassifications": [],
+      "citation": "Retained CEX miscellaneous spending has no admitted supplier-product crosswalk in the input; remains unbound.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "gasoline",
+      "contractKind": "household.gasoline",
+      "supplierClassifications": [],
+      "citation": "Retained CEX gasoline category does not make the generated general store a gas station; requires an actual mapped gasoline supplier.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "drugs",
+      "contractKind": "household.drugs",
+      "supplierClassifications": [],
+      "citation": "Retained CEX drug category does not establish a pharmacy, prescription, or reimbursement payer; remains unbound.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "medicalSupplies",
+      "contractKind": "household.medicalSupplies",
+      "supplierClassifications": [],
+      "citation": "Retained CEX medical-supply category has no recorded product/provider binding; remains unbound.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    }
+  ],
+  "supplierRules": [
+    {
+      "buyerClassifications": ["enterprise:retail", "enterprise:food-service"],
+      "contractKind": "business.sales-input",
+      "salesReceiptBudget": true,
+      "supplierClassifications": ["enterprise:wholesale"],
+      "citation": "Actual generated Supply Company/warehouse/sales-representative organization classification can supply a provisional opening trade-input budget to actual stores/restaurants. IRS source sales-sensitive cost share identifies an aggregate component, not the product inventory, contract, delivery, credit approval, or individual supplier. Wholesale-to-buyer mapping remains an authored stopgap.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    }
+  ]
+}

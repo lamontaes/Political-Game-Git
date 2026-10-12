@@ -1,0 +1,68 @@
+/** Recorded counterparties, indexed monthly reviews and bills; no daily population scan. */
+import type { CoreAPI, CoreModule, SalesReceiptNotice } from "../types";
+
+/** Offer one paid sale to every module that listens (e.g. sales tax). */
+export function notifySalesReceipt(
+  api: CoreAPI,
+  sale: SalesReceiptNotice,
+): void {
+  for (const module of api.state.modules.values())
+    module.onSalesReceipt?.(api, sale);
+}
+import { financeSettlementPhase } from "../finance-state";
+import { observeWorkPayrollForFinance } from "../work-payroll-dispatch";
+
+function dueIds(
+  index: ReadonlyMap<string, ReadonlySet<string>>,
+  at: string,
+): string[] {
+  const result: string[] = [];
+  for (const date of [...index.keys()].filter((date) => date <= at).sort())
+    for (const id of index.get(date)!) result.push(id);
+  return result;
+}
+
+function runFinanceDay(api: CoreAPI): void {
+  const finance = api.state.finance;
+  for (const id of dueIds(finance.contractsEndingAt, api.state.date))
+    api.retireFinanceBudget(id);
+  for (const id of dueIds(finance.reviewsDueAt, api.state.date))
+    api.reviewBusiness(id);
+  const ids = dueIds(finance.contractsDueAt, api.state.date)
+    .filter((id) => !finance.contracts.get(id)!.endedAt)
+    .sort();
+  const byPhase = new Map<string, string[]>();
+  for (const id of ids) {
+    const phase = financeSettlementPhase(api, finance.contracts.get(id)!);
+    const rows = byPhase.get(phase.id) ?? [];
+    rows.push(id);
+    byPhase.set(phase.id, rows);
+  }
+  // The data orders finite funding, recipient income, purchases and procurement.
+  for (const phase of api.state.data.finance!.settlementPhases) {
+    const rows = byPhase.get(phase.id) ?? [];
+    if (phase.operation === "procure") api.prepareFinanceProcurement(rows);
+    for (const id of rows) {
+      const receipt = api.settleFinanceContract(id),
+        terms = finance.contracts.get(id)!;
+      if (terms.salesReceipt && receipt.paidMinor > 0)
+        notifySalesReceipt(api, {
+          id: receipt.id,
+          date: api.state.date,
+          sellerId: receipt.payeeId,
+          buyerIds: terms.payerIds,
+          kind: terms.kind,
+          paidMinor: receipt.paidMinor,
+          placeId: api.state.organizations.get(receipt.payeeId)?.placeId ?? "",
+          counted: false,
+        });
+    }
+  }
+}
+
+export const FINANCE_MODULE: CoreModule = {
+  id: "core2-recorded-finance-v1",
+  onDay: runFinanceDay,
+  onWorkPayroll: observeWorkPayrollForFinance,
+  onAfterDay: (api) => api.finishFinanceDay(),
+};

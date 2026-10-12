@@ -1,0 +1,364 @@
+{
+  "schema": "p8-opening-employer-cash-reference-v1",
+  "status": "SOURCE_ONLY normalized published aggregate observations; no generated-world comparison or empirical calibration pass",
+  "source": {
+    "id": "jpmci-cash-is-king-2016",
+    "title": "Cash Is King: Flows, Balances, and Buffer Days",
+    "publisher": "JPMorgan Chase Institute",
+    "publicationMonth": "2016-09",
+    "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+    "pdfBytes": 2818842,
+    "pdfSha256": "e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7",
+    "preservedContextFile": "data/research/money/opening-employer-cash-buffers.json",
+    "preservedContextSha256": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198",
+    "verification": "Original PDF downloaded October 9, 2026; Figures 5, 6 and 7 and methodological appendix directly read from pdftotext -layout. All thirteen medians agree with the preserved context file; quartiles copied from Figure 7, not inferred from industry median minima/maxima."
+  },
+  "sample": {
+    "businesses": 597000,
+    "dateWindow": {
+      "earliest": "2015-02-01",
+      "latest": "2015-10-31",
+      "precision": "nine calendar months"
+    },
+    "cohort": "Selected operating Chase Business Banking customers in twelve named industries, one metro location per month; employer and nonemployer businesses; screening for operating accounts and continuously identifiable balances. Not all U.S. businesses or public institutions.",
+    "appendixCitation": "Data Asset and Methodological Appendix, printed pages 25–26",
+    "holidayLimit": "November, December and January excluded; report describes a conservative view of seasonal liquidity challenges.",
+    "smallestNonemployerLimit": "Sample likely omits the smallest and least well-established nonemployer businesses."
+  },
+  "definition": "Cash buffer days are the number of days of cash outflows a business could pay out of its cash balance were its inflows to stop; average daily cash balance divided by average daily cash outflows.",
+  "unit": "days of average daily cash outflows",
+  "observations": [
+    {
+      "industry": "all-small-businesses",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 27,
+      "observedCounts": {
+        "percentile25": 13,
+        "median": 27,
+        "percentile75": 62
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "13 DAYS",
+        "median": "27 DAYS",
+        "percentile75": "62 DAYS"
+      }
+    },
+    {
+      "industry": "restaurants",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 16,
+      "observedCounts": {
+        "percentile25": 9,
+        "median": 16,
+        "percentile75": 31
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "9 DAYS",
+        "median": "16 DAYS",
+        "percentile75": "31 DAYS"
+      }
+    },
+    {
+      "industry": "repair-and-maintenance",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 18,
+      "observedCounts": {
+        "percentile25": 9,
+        "median": 18,
+        "percentile75": 40
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "9 DAYS",
+        "median": "18 DAYS",
+        "percentile75": "40 DAYS"
+      }
+    },
+    {
+      "industry": "retail",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 19,
+      "observedCounts": {
+        "percentile25": 10,
+        "median": 19,
+        "percentile75": 45
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "10 DAYS",
+        "median": "19 DAYS",
+        "percentile75": "45 DAYS"
+      }
+    },
+    {
+      "industry": "construction",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 20,
+      "observedCounts": {
+        "percentile25": 11,
+        "median": 20,
+        "percentile75": 44
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "11 DAYS",
+        "median": "20 DAYS",
+        "percentile75": "44 DAYS"
+      }
+    },
+    {
+      "industry": "personal-services",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 21,
+      "observedCounts": {
+        "percentile25": 11,
+        "median": 21,
+        "percentile75": 45
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "11 DAYS",
+        "median": "21 DAYS",
+        "percentile75": "45 DAYS"
+      }
+    },
+    {
+      "industry": "wholesalers",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 23,
+      "observedCounts": {
+        "percentile25": 11,
+        "median": 23,
+        "percentile75": 52
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "11 DAYS",
+        "median": "23 DAYS",
+        "percentile75": "52 DAYS"
+      }
+    },
+    {
+      "industry": "metal-and-machinery",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 28,
+      "observedCounts": {
+        "percentile25": 13,
+        "median": 28,
+        "percentile75": 62
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "13 DAYS",
+        "median": "28 DAYS",
+        "percentile75": "62 DAYS"
+      }
+    },
+    {
+      "industry": "health-care-services",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 30,
+      "observedCounts": {
+        "percentile25": 14,
+        "median": 30,
+        "percentile75": 67
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "14 DAYS",
+        "median": "30 DAYS",
+        "percentile75": "67 DAYS"
+      }
+    },
+    {
+      "industry": "high-tech-manufacturing",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 32,
+      "observedCounts": {
+        "percentile25": 15,
+        "median": 32,
+        "percentile75": 71
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "15 DAYS",
+        "median": "32 DAYS",
+        "percentile75": "71 DAYS"
+      }
+    },
+    {
+      "industry": "other-professional-services",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 33,
+      "observedCounts": {
+        "percentile25": 15,
+        "median": 33,
+        "percentile75": 72
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "15 DAYS",
+        "median": "33 DAYS",
+        "percentile75": "72 DAYS"
+      }
+    },
+    {
+      "industry": "high-tech-services",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 33,
+      "observedCounts": {
+        "percentile25": 15,
+        "median": 33,
+        "percentile75": 77
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "15 DAYS",
+        "median": "33 DAYS",
+        "percentile75": "77 DAYS"
+      }
+    },
+    {
+      "industry": "real-estate",
+      "quantity": "Cash buffer days distribution",
+      "unit": "cash buffer days",
+      "observedValue": 47,
+      "observedCounts": {
+        "percentile25": 21,
+        "median": 47,
+        "percentile75": 107
+      },
+      "medianCitation": "Figure 6, printed page 15",
+      "spreadCitation": "Figure 7, printed page 16",
+      "sourceRefs": ["jpmci-cash-is-king-2016"],
+      "dateWindow": {
+        "earliest": "2015-02-01",
+        "latest": "2015-10-31",
+        "precision": "nine calendar months"
+      },
+      "rawPublishedValues": {
+        "percentile25": "21 DAYS",
+        "median": "47 DAYS",
+        "percentile75": "107 DAYS"
+      }
+    }
+  ],
+  "overallContextCitation": "Figure 5, printed page 14: overall 25th percentile 13 days, median 27 days and 75th percentile 62 days; Figure 7 publishes all corresponding whole-day labels.",
+  "classificationMapping": {
+    "enterprise:food-service": "restaurants",
+    "enterprise:repair": "repair-and-maintenance",
+    "enterprise:retail": "retail",
+    "enterprise:construction": "construction",
+    "enterprise:personal-services": "personal-services",
+    "enterprise:wholesale": "wholesalers",
+    "service:clinic": "health-care-services",
+    "service:hospital": "health-care-services",
+    "service:nursing-home": "health-care-services",
+    "enterprise:professional-services": "other-professional-services",
+    "enterprise:legal-services": "other-professional-services",
+    "enterprise:real-estate": "real-estate"
+  },
+  "mappingLimit": "Only unambiguous saved classifications map to named source industries. Broad manufacturing, telecommunications, insurance, building services and education classifications do not establish the narrower report industry; use the sourced overall median rather than a guessed industry match.",
+  "approvedOverallFallback": "For an employer outside the named small-business industries, use the all-small-business median of 27 days as an explicit opening estimate under CTO approval 2026-10-02; no guessed industry multiplier. After opening, use the game's recorded comparable employer cash instead of this research bootstrap.",
+  "estimationLimit": "JPMC observes average bank-account balances divided by ALL cash debits in a selected, metropolitan Chase sample, including employer and nonemployer businesses. Payroll plus IRS accounting nonwage costs is an unmeasured cash-debit proxy: accounting costs can include noncash depreciation and omit tax, capital expenditure, debt service, owner draws and other debits. Generated legal form, total firm size, banking coverage, 2021/local/territorial applicability and the source of the owner capital are unobserved. No owner contribution, appropriation, lending transaction, refill, future deficit or survival guarantee is established.",
+  "dispersionLimit": "Observed 25th–75th percentiles are cohort dispersion, not a mean standard error, a universal minimum/maximum, an individual confidence interval, an actor assignment, a parameter-specific coefficient range or evidence for owner equity.",
+  "openingCalendarRecipe": "Count each currently owned active recorded commitment only over opening date through December 31. Divide payroll plus compatible nonwage estimate over the same window by its actual calendar-day count. January 1 spans 365 or 366 days; a midyear opening does not invent pre-opening contracts. No future attendance or receipt is generated."
+}
