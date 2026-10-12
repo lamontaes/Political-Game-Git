@@ -20,6 +20,7 @@
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
+import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import lawAgricultureNaturalResources from "../../../data/research/laws/starting-law-2026/agriculture-natural-resources.json" with { type: "json" };
 import lawBusinessCommerce from "../../../data/research/laws/starting-law-2026/business-commerce.json" with { type: "json" };
@@ -623,6 +624,28 @@ function costOf(api: CoreAPI, provisions: readonly Provision[]) {
   };
 }
 
+const seriesPowers = (
+  powers as unknown as {
+    series: Record<string, { levels: string[]; source: string }>;
+  }
+).series;
+
+/** A law amount this level has no power to set, with the law that says so; null when it may. */
+function beyondPower(
+  provision: Provision,
+  level: "federal" | "state" | "local",
+): Authority | null {
+  if (provision.kind !== "law-amount" || !provision.series) return null;
+  const power = seriesPowers[provision.series];
+  if (!power || power.levels.includes(level)) return null;
+  return {
+    allowed: false,
+    warning: "preempted",
+    reason: `only ${power.levels.join(" or ")} government sets ${provision.series}`,
+    source: power.source,
+  };
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -637,15 +660,24 @@ export function draftBill(
   const stateBody = /:(legislature-|us-house|us-senate)/.test(
     input.bodyOfficeId,
   );
-  const authority = input.provisions.map((p) =>
-    stateBody
-      ? ({
-          allowed: true,
-          warning: "none",
-          reason: "within the state's own power",
-          source: "",
-        } as Authority)
-      : authorityFor(api, p),
+  const level = /:(us-house|us-senate)/.test(input.bodyOfficeId)
+    ? "federal"
+    : stateBody
+      ? "state"
+      : "local";
+  const authority = input.provisions.map(
+    (p) =>
+      // A level may only set the amounts the law gives it (no council sets
+      // SNAP or the Medicare tax; audit 3).
+      beyondPower(p, level) ??
+      (stateBody
+        ? ({
+            allowed: true,
+            warning: "none",
+            reason: "within the state's own power",
+            source: "",
+          } as Authority)
+        : authorityFor(api, p)),
   );
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,

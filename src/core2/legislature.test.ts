@@ -429,4 +429,41 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
     expect(bill.authority[0]!.reason).toMatch(/preempts|no minimum-wage power/);
     expect(holdVote(api, bill.id).status).toBe("blocked");
   });
+
+  it("a body may only set the amounts the law gives its level (no council sets SNAP or the Medicare tax)", () => {
+    const states = Object.keys(authority).sort();
+    const { api, council } = town(states, "powers");
+    const sponsor = council[0]!.holder!.personId!;
+    for (const series of ["snap-maximum", "medicare-tax", "medicaid-match"]) {
+      const bill = draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: sponsor,
+        provisions: [{ kind: "law-amount", series, value: 1 }],
+      });
+      expect(bill.status, series).toBe("blocked");
+      expect(bill.authority[0]!.source.length).toBeGreaterThan(0);
+    }
+    const lower = townSeats(api).find(
+      (s) =>
+        s.office.kind === "legislature-lower" ||
+        s.office.kind === "legislature-unicameral",
+    );
+    if (lower) {
+      const stateBill = draftBill(api, {
+        bodyOfficeId: lower.office.id,
+        sponsorId: lower.holder?.personId ?? `official:${lower.holder!.id}`,
+        provisions: [{ kind: "law-amount", series: "snap-maximum", value: 1 }],
+      });
+      expect(stateBill.status).toBe("blocked");
+    }
+    const house = townSeats(api).find((s) => s.office.kind === "us-house");
+    if (house) {
+      const federal = draftBill(api, {
+        bodyOfficeId: house.office.id,
+        sponsorId: `official:${house.holder?.id ?? "x"}`,
+        provisions: [{ kind: "law-amount", series: "snap-maximum", value: 1 }],
+      });
+      expect(federal.status).toBe("drafted");
+    }
+  });
 });
