@@ -327,3 +327,14 @@ export function checkBands(
   }
   return out;
 }
+
+const BY_MONTH = new Map(ROWS.map((row) => [row.month, row]));
+
+/** The 30-year fixed mortgage rate in a past month (FHFA MIRS; after 2019 the 10-year plus its spread). */
+export function historicalMortgageRate(
+  month: string,
+  p: MacroParameter,
+): number {
+  const first = ROWS[0]!.month;
+  return mortgageAt(BY_MONTH, month < first ? first : month, p);
+}

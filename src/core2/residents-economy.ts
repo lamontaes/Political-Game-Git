@@ -283,3 +283,19 @@ export function rerateCountedJobs(
   for (const flow of touched) recompute(flow);
   return changed;
 }
+
+/** One household's part of a merged flow ends (a counted household's mortgage paid off). */
+export function endFlowPart(
+  core: CoreState,
+  id: string,
+  part: string,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  const amount = flow?.amountByContract?.[part];
+  if (!flow || flow.endedAt || amount === undefined) return false;
+  const parts = { ...flow.amountByContract };
+  delete parts[part];
+  flow.amountByContract = parts;
+  flow.amountMinor = Math.max(0, flow.amountMinor - amount);
+  return true;
+}

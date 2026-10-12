@@ -29,5 +29,14 @@ ten = json.load(open(HERE / "tenure-acs-2024.json"))
 doc = {"version": "housing-data-v1", "source": {"tag": "SOURCED", "asOf": "2026-10-12", "citation": "ACS 2020-2024 B25003 tenure, B25064 median gross rent, B25077 median owner home value; state eviction statutes as recorded in data/research/housing/eviction-steps-2026.json."},
        "eviction": steps, "evictionDefaults": defaults, "countyRentValue": county, "placeTenure": ten["places"], "countyTenure": ten["counties"],
        "landlordNamePattern": "{place} Rentals", "reasons": {"notice": "rent-past-grace", "cured": "paid-within-notice", "filed": "rent-still-owed", "judgment": "rent-owed-and-notice-given", "removal": "judgment-for-possession"}}
+age = json.load(open(HERE / "acs-2024-owner-mortgage-age.json"))
+moved = json.load(open(HERE / "acs-2024-owner-moved-in.json"))
+nar = json.load(open(HERE / "nar-2025-down-payments.json"))
+doc["mortgage"] = {
+    "source": "ACS 2020-2024 B25027 mortgage status by age of householder and B25038 year householder moved in (national); NAR 2025 Profile of Home Buyers and Sellers median down payments.",
+    "ageBands": [{"minAge": b["minAge"], "maxAgeExclusive": b.get("maxAgeExclusive"), "mortgagedShare": round(b["mortgaged"] / (b["mortgaged"] + b["mortgageFree"]), 4)} for b in age["ageBands"]],
+    "movedIn": [{"fromYear": r["fromYear"], "toYear": r["toYear"], "share": round(r["owners"] / moved["ownerOccupied"], 4)} for r in moved["periods"]],
+    "downPayment": {"firstTime": nar["firstTime"]["medianShare"], "repeat": nar["repeat"]["medianShare"]},
+}
 (ROOT / "src/core2/data/housing/housing.json").write_text(json.dumps(doc, separators=(",", ":")) + "\n")
 print(defaults, sum(1 for s in steps.values() if s["confidence"] == "high"))

@@ -106,3 +106,15 @@ export function ownerPanel(api: CoreAPI) {
     foundings: rows(api, "business", "foundings"),
   };
 }
+
+/** The town's monthly economic numbers (jobs, unemployment, pay, prices, businesses, rent, mortgages), oldest first. */
+export function metricsPanel(api: CoreAPI, placeId: string) {
+  return has(api, "world-metrics")
+    ? [
+        ...api
+          .moduleState("world-metrics")
+          .table("months")
+          .query("byPlace", [placeId]),
+      ].sort((a, b) => String(a.date).localeCompare(String(b.date)))
+    : [];
+}

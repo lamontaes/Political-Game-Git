@@ -25,5 +25,20 @@
     "value": 6,
     "tag": "SOURCED",
     "citation": "Rent is due on the 1st; the review runs after the most common five-day grace period."
+  },
+  "housingMortgageTermYears": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "The 30-year fixed-rate loan is the benchmark U.S. home mortgage: FHFA MIRS table 26 reports it as its 30-year fixed contract series."
+  },
+  "housingFirstTimeBuyerMedianAge": {
+    "value": 40,
+    "tag": "SOURCED",
+    "citation": "NAR 2025 Profile of Home Buyers and Sellers: the median first-time buyer is 40 (data/research/housing/nar-2025-down-payments.json)."
+  },
+  "housingOwnerMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "A householder signs for a home as an adult; 18 is the age of majority in most states."
   }
 }

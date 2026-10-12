@@ -637,6 +637,13 @@ function found(
     share,
   );
   const monthly = Math.round(annualDemandMinor / p("macroMonthsPerYear"));
+  // The incumbents' own markets shrink by the share they lost (books seam, for OPUS-CORE review).
+  for (const incumbentId of market.incumbents) {
+    const book = c.finance.businesses.get(incumbentId);
+    if (!book) continue;
+    book.anchorAnnualDemandMinor *= 1 - share;
+    book.annualDemandMinor *= 1 - share;
+  }
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === kindId,
   )!;

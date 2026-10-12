@@ -2023,5 +2023,16 @@
     "addedAt": "2026-10-12",
     "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-mortgage-history",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-mortgages.ts",
+    "line": 139,
+    "whatItFakes": "Each owner's purchase year comes from the national move-in distribution by age rank, the purchase price is today's value deflated by CPI-U rather than a house price index, the loan is a 30-year fixed with the NAR median down payment and no refinancing, and the same county mortgage shares by age apply everywhere.",
+    "why": "No house price index, county move-in or mortgage-balance table is in the data yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history."
   }
 ]

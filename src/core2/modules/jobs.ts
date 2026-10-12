@@ -430,7 +430,7 @@ function reviewEmployers(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.id);
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
-      positions = openPositions(api, row.id);
+      positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
     const target =
       book.capacityMinor > 0
@@ -679,6 +679,7 @@ function reviewWorkers(api: CoreAPI): void {
   }
   reviewJobless(api);
   reviewCountedRetirements(api);
+  reviewCountedLooking(api);
   raisePay(api);
 }
 
@@ -835,12 +836,21 @@ function runWeek(api: CoreAPI): void {
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
   for (const seeker of counted)
     for (const position of byPlace.get(seeker.placeId) ?? [])
-      applications.set(position.id, [
-        ...(applications.get(position.id) ?? []),
-        { ...seeker, employed: false },
-      ]);
+      // Someone with work moves only for better pay.
+      if (
+        !seeker.employed ||
+        position.hourlyMinor > seeker.referenceHourlyMinor
+      )
+        applications.set(position.id, [
+          ...(applications.get(position.id) ?? []),
+          seeker,
+        ]);
   for (const position of positions) {
-    const applicants = applications.get(position.id);
+    // A role copied from a counted worker can go only to a counted seeker until full roles exist there.
+    const fullRole = c.jobs.has(position.templateJobId);
+    const applicants = applications
+      .get(position.id)
+      ?.filter((row) => fullRole || isCounted(api, row.personId));
     if (!applicants?.length) continue;
     const fit = (seeker: SeekerRow) =>
       p("jobsFitExperienceWeight") *
@@ -903,7 +913,29 @@ function hireCounted(
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
     source: source(api, `A counted worker hired to ${position.id}.`),
   };
+  const previous = seeker.employed
+    ? [...(residentsRuntime(c)?.wageFlowByJob.keys() ?? [])]
+        .map((id) => residentsRuntime(c)!.jobs.get(id)!)
+        .find((row) => row.personId === seeker.personId && !row.endsAt)
+    : undefined;
+  if (previous?.organizationId === position.organizationId) return false;
   if (!addCountedJob(c, job, template.id)) return false;
+  if (previous) {
+    endCountedJob(c, previous.id);
+    record(api, {
+      personId: seeker.personId,
+      organizationId: previous.organizationId,
+      jobId: previous.id,
+      kind: "quit",
+      reasonKey: jobsData.reasons.betterOffer,
+      decidedBy: seeker.personId,
+      values: {
+        offeredHourlyMinor: position.hourlyMinor,
+        hourlyMinor: previous.hourlyMinor ?? 0,
+        counted: 1,
+      },
+    });
+  }
   store(api)
     .table("pay")
     .put({
@@ -930,10 +962,35 @@ function hireCounted(
   return true;
 }
 
+/**
+ * Who among the counted acts this month, without dice: each one's pull is
+ * the logistic of their reasons; as many act as the pulls add up to (the
+ * remainder carries to next month), and the strongest pulls act.
+ */
+function strongestPulls<T extends { id: string; score: number }>(
+  api: CoreAPI,
+  key: string,
+  rows: readonly T[],
+): T[] {
+  stopgap("SG-WORLD-jobs-counted-choices");
+  const state = store(api).table("state");
+  const row = (state.get(`pulls:${key}`) as { carry: number } | undefined) ?? {
+    carry: 0,
+  };
+  let total = row.carry;
+  for (const item of rows) total += 1 / (1 + Math.exp(-item.score));
+  const count = Math.floor(total);
+  state.put({ id: `pulls:${key}`, carry: total - count });
+  return [...rows]
+    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+    .slice(0, count);
+}
+
 /** Counted workers 62 and over weigh retiring by the same reasons as full people, without the chooser (stopgap). */
 function reviewCountedRetirements(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  const rows: { id: string; job: JobInput; age: number; score: number }[] = [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id)) continue;
@@ -944,21 +1001,91 @@ function reviewCountedRetirements(api: CoreAPI): void {
         p("jobsDaysPerYear");
       const past = age - p("jobsEarliestRetirementAge");
       if (past <= 0) continue;
-      stopgap("SG-WORLD-jobs-counted-choices");
-      const score = p("jobsRetireBaseline") + p("jobsRetireAgeWeight") * past;
-      if (score <= 0) continue;
-      endCountedJob(c, job.id);
-      record(api, {
-        personId: job.personId,
-        organizationId,
-        jobId: job.id,
-        kind: "left-work",
-        reasonKey: jobsData.reasons.retired,
-        decidedBy: job.personId,
-        values: { age, score, counted: 1 },
+      rows.push({
+        id: job.id,
+        job,
+        age,
+        score: p("jobsRetireBaseline") + p("jobsRetireAgeWeight") * past,
       });
     }
   }
+  for (const { job, age, score } of strongestPulls(api, "retire", rows)) {
+    endCountedJob(c, job.id);
+    record(api, {
+      personId: job.personId,
+      organizationId: job.organizationId,
+      jobId: job.id,
+      kind: "left-work",
+      reasonKey: jobsData.reasons.retired,
+      decidedBy: job.personId,
+      values: { age, score, counted: 1 },
+    });
+  }
+}
+
+/** Counted workers weigh looking around by their pay against the going rate and their traits (stopgap). */
+function reviewCountedLooking(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key),
+    t = jobsData.traits;
+  const going = new Map<string, number>();
+  for (const position of store(api)
+    .table("positions")
+    .query("byStatus", ["open"]) as unknown as PositionRow[])
+    going.set(
+      position.occupation,
+      Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
+    );
+  const seekers = store(api).table("countedSeekers");
+  // A worker who looked a while without a better offer stops looking.
+  for (const row of seekers.query("all", [true]) as unknown as SeekerRow[])
+    if (
+      row.employed &&
+      daysBetween(makeIsoDate(row.since), makeIsoDate(c.date)) >
+        p("jobsOnTheJobSearchMonths") *
+          (p("jobsDaysPerYear") / p("macroMonthsPerYear"))
+    )
+      seekers.remove(row.id);
+  const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
+    [];
+  for (const [organizationId] of c.finance.businesses) {
+    for (const job of countedJobsOf(c, organizationId)) {
+      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      const person = residentPerson(c, job.personId);
+      const pay = job.hourlyMinor ?? 0;
+      if (!person || pay <= 0) continue;
+      const payGap = Math.max(
+        0,
+        (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
+      );
+      const traits = person.traits;
+      const restless =
+        (traits[t.risk] ?? 0) +
+        (traits[t.acquisitive] ?? 0) -
+        (traits[t.contented] ?? 0) -
+        (traits[t.dutyBound] ?? 0);
+      rows.push({
+        id: job.id,
+        job,
+        placeId: person.placeId,
+        score:
+          p("jobsLookBaseline") +
+          p("jobsPayGapWeight") * payGap +
+          p("jobsCountedRestlessWeight") * restless,
+      });
+    }
+  }
+  for (const { job, placeId } of strongestPulls(api, "look", rows))
+    seekers.put({
+      id: job.personId,
+      isSeeker: true,
+      personId: job.personId,
+      placeId,
+      employed: true,
+      since: c.date,
+      reasonKey: jobsData.reasons.lookingAround,
+      referenceHourlyMinor: job.hourlyMinor ?? 0,
+    });
 }
 
 function experienceYears(
@@ -988,7 +1115,9 @@ function hire(
 ): void {
   const c = core(api),
     person = c.people.get(seeker.personId)!;
-  const template = c.jobs.get(position.templateJobId)!;
+  // A counted worker's role has no schedule a full person can be given yet.
+  const template = c.jobs.get(position.templateJobId);
+  if (!template) return;
   const templateCommitment = [
     ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
   ]

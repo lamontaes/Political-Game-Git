@@ -129,6 +129,31 @@ console.log(
         ).length,
         lastBook: (credit.books as unknown[]).at(-1),
       },
+      metrics: (() => {
+        const months = [
+          ...(tables("world-metrics").months as unknown as { date: string }[]),
+        ].sort((a, b) => a.date.localeCompare(b.date));
+        return { first: months[0], last: months.at(-1), count: months.length };
+      })(),
+      mortgages: (() => {
+        const rows = tables("housing").mortgages as unknown as {
+          balanceMinor: number;
+          paymentMinor: number;
+          monthsLeft: number;
+        }[];
+        return {
+          count: rows.length,
+          paidOff: rows.filter((row) => row.monthsLeft <= 0).length,
+          balanceMinor: rows.reduce((n, row) => n + row.balanceMinor, 0),
+          monthlyPaymentsMinor: rows.reduce(
+            (n, row) => n + row.paymentMinor,
+            0,
+          ),
+        };
+      })(),
+      residentsCash: [...core.organizations.values()]
+        .filter((row) => row.kind === "residents")
+        .reduce((n, row) => n + row.liquidMinor, 0),
       housing: {
         cases: (housing.cases as unknown as { stage: string }[]).reduce<
           Record<string, number>

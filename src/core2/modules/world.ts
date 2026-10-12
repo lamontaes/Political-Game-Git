@@ -1,7 +1,8 @@
 /**
  * The world's economy in one place for the evening build and the bench:
  * the national economy and central bank, state and metro economies, jobs and
- * the town bank's credit and housing.
+ * the town bank's credit, housing, businesses, and the town's monthly
+ * economic numbers.
  *
  *   const input = withWorldEconomy(opening);
  *   const core = createLifeCore(input, { data: worldCoreData(), modules: WORLD_MODULES });
@@ -15,6 +16,7 @@ import { HOUSING_MODULE, HOUSING_PARAMETERS, withHousing } from "./housing";
 import { JOBS_MODULE, JOBS_PARAMETERS } from "./jobs";
 import { MACRO_MODULE, MACRO_PARAMETERS, withCentralBank } from "./macro";
 import { REGIONAL_MODULE, REGIONAL_PARAMETERS } from "./regional";
+import { WORLD_METRICS_MODULE } from "./world-metrics";
 
 export const WORLD_MODULES = [
   MACRO_MODULE,
@@ -23,6 +25,7 @@ export const WORLD_MODULES = [
   JOBS_MODULE,
   HOUSING_MODULE,
   BUSINESS_MODULE,
+  WORLD_METRICS_MODULE,
 ] as const;
 
 export function withWorldEconomy(input: CoreInput): CoreInput {
