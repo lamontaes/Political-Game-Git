@@ -52,6 +52,7 @@
     <p>Saved explanations come from the core resolver and director records.</p>
     <h2>Choices</h2>
     <p id="chosen-resident">Choose a living resident to play.</p>
+    <button id="play" type="button" disabled>Play this resident</button>
     <fieldset id="choices" disabled>
       <legend>Issued offers</legend>
       <div id="choice-options"></div>
@@ -65,9 +66,13 @@
     <button id="skip" type="button" disabled>Skip until needed</button>
     <button id="resume-stop" type="button" disabled>Continue after stop</button>
     <p>
-      Skip looks ahead up to 365 days. A pending answer continues the original
-      destination. Switching residents requires a finished civil day.
+      Skip looks ahead up to 365 days. While you skip, your character answers
+      its own choices; a big moment, a fixed commitment or a deadline stops the
+      skip at its own time. Playing someone else first lets the current
+      character finish its day on its own.
     </p>
+    <h3>Chosen by the character while you skipped</h3>
+    <pre id="self-chosen"></pre>
     <pre id="clock-detail"></pre>
     <p id="stop-status" role="status">No core time has advanced.</p>
     <p id="api-status">Loading player API capabilities.</p>

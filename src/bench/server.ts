@@ -1,19 +1,11 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
-import { realLocalities } from "../core2/places";
-import { buildPopulation } from "../core2/population";
-import { buildDeepPast } from "../core2/deep-past";
-import { enrichCivicInputs } from "../core2/civic-inputs";
-import { createOpeningFinance } from "../core2/opening-finance";
-import { DEFAULT_DATA } from "../core2/data";
-import { BenchPlayer, directorStops } from "./player";
-import { createDirector, type Director } from "../director/ledger";
-import { createLifeCore, availableActs } from "../core2/life";
+import { BenchPlayer } from "./player";
+import { buildBenchWorld } from "./world";
+import { availableActs } from "../core2/life";
+import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
-import { selectBenchPlace } from "./place-selection.mjs";
 import { benchProgress } from "./progress";
 import { playerApiReadiness } from "./api-readiness";
 
@@ -87,6 +79,16 @@ const server = createServer(async (request, response) => {
       send(200, { ...result, progress: benchProgress(requireCore(), placeId) });
       return;
     }
+    if (request.method === "POST" && url.pathname === "/api/play") {
+      if (!player) throw new Error("Generate a town first.");
+      player.select(url.searchParams.get("id") ?? "");
+      send(200, {
+        personId: player.personId,
+        packet: player.packet,
+        selfChosen: player.selfChosen.slice(-50),
+      });
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/api/trace") {
       if (!player) throw new Error("Generate a town first.");
       send(200, player.trace(url.searchParams.get("id") ?? ""));
@@ -95,55 +97,13 @@ const server = createServer(async (request, response) => {
     if (request.method === "POST" && url.pathname === "/api/build") {
       if (building) throw new Error("Opening generation is already running.");
       const seed = url.searchParams.get("seed") ?? "";
-      const date = makeIsoDate(url.searchParams.get("date") ?? "");
-      const place = selectBenchPlace(
-        seed,
-        lifePlaceStateIdentities(),
-        realLocalities(),
-      );
+      const date = url.searchParams.get("date") ?? "";
       building = true;
       try {
-        const input = enrichCivicInputs(
-          buildDeepPast(
-            buildPopulation({
-              seed,
-              startedAt: date,
-              placeKey: place.key,
-            }),
-          ),
-        );
-        const nextDirector = createDirector();
-        const next = createLifeCore(
-          { ...input, finance: createOpeningFinance(input) },
-          {
-            data: DEFAULT_DATA,
-            modules: [nextDirector.module, directorStops(nextDirector)],
-          },
-        );
-        nextDirector.start(next);
-        const residents = [...next.people.values()]
-          .filter((person) => person.placeId === place.context.jurisdiction.id)
-          .map((person) => {
-            const household = next.households.get(person.householdId);
-            const job = person.jobId ? next.jobs.get(person.jobId) : undefined;
-            if (
-              !household?.memberIds.includes(person.id) ||
-              (person.jobId && job?.personId !== person.id)
-            )
-              throw new Error(
-                `Resident references do not resolve: ${person.id}`,
-              );
-            return {
-              id: person.id,
-              name: `${person.givenName} ${person.familyName}`,
-              age: ageOnDate(
-                makeIsoDate(person.birthDate),
-                makeIsoDate(next.date),
-              ),
-              householdId: person.householdId,
-              jobId: person.jobId,
-            };
-          });
+        const world = buildBenchWorld(seed, date);
+        const { place, residents } = world;
+        const next = world.core,
+          nextDirector = world.director;
         core = next;
         director = nextDirector;
         player = new BenchPlayer(next, nextDirector);
@@ -178,8 +138,8 @@ const server = createServer(async (request, response) => {
       const id = url.searchParams.get("id") ?? "";
       const person = current.people.get(id);
       if (!person) throw new Error("Resident does not exist in core records.");
-      player?.select(id);
       send(200, {
+        playing: player?.personId === id,
         date: current.date,
         packet: player?.packet,
         person,

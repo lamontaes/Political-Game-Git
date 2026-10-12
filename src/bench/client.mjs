@@ -5,6 +5,7 @@ let residents = [];
 let visibleCount = 100; // Engineering page size, not simulation calibration.
 let inspectionRequest = 0;
 let selectedId;
+let playingId;
 let packet;
 let busy = false;
 const missingScores = new Set();
@@ -118,6 +119,7 @@ function renderPacket(value) {
     }
   }
   element("clock-detail").textContent = JSON.stringify(value, null, 2);
+  setTimeControls();
 }
 
 async function resolveTrace(id) {
@@ -134,10 +136,29 @@ async function resolveTrace(id) {
   element("missing-scores").textContent = [...missingScores].join("\n");
 }
 
+function setTimeControls() {
+  const open = packet && packet.kind !== "complete";
+  for (const control of ["day", "week", "calendar", "calendar-go"])
+    element(control).disabled = !playingId || open;
+  // Skip may start from an open choice: the character answers it itself.
+  element("skip").disabled = !playingId || (open && packet.kind !== "choice");
+}
+
+function renderSelfChosen(rows) {
+  if (!rows?.length) return;
+  element("self-chosen").textContent = rows
+    .map(
+      (row) =>
+        `${row.at.date} minute ${row.at.minuteOfDay}: ${row.actionId}:${row.targetId} (${row.why})`,
+    )
+    .join("\n");
+}
+
 function renderChoices(value) {
   element("chosen-resident").textContent =
-    `Resident: ${value.person.givenName} ${value.person.familyName} (${value.person.id}).`;
-  renderPacket(value.packet);
+    `${value.playing ? "Playing" : "Viewing"}: ${value.person.givenName} ${value.person.familyName} (${value.person.id}).`;
+  element("play").disabled = value.playing || !value.person.alive;
+  if (value.playing) renderPacket(value.packet);
 }
 
 async function inspect(id) {
@@ -147,9 +168,7 @@ async function inspect(id) {
     if (requestId !== inspectionRequest) return;
     selectedId = id;
     renderChoices(value);
-    for (const control of ["day", "week", "calendar", "calendar-go", "skip"])
-      element(control).disabled =
-        value.packet && value.packet.kind !== "complete";
+    setTimeControls();
     element("trace-detail").replaceChildren();
     element("trace-record-id").value = "";
     element("trace-status").textContent =
@@ -264,7 +283,10 @@ element("opening").addEventListener("submit", async (event) => {
     residents = value.residents;
     ++inspectionRequest;
     selectedId = undefined;
+    playingId = undefined;
     packet = undefined;
+    element("play").disabled = true;
+    element("self-chosen").textContent = "";
     missingScores.clear();
     element("missing-scores").textContent = "";
     for (const control of ["day", "week", "calendar", "calendar-go", "skip"])
@@ -318,6 +340,7 @@ async function clockRequest(path, query) {
       method: "POST",
     });
     renderPacket(result.packet);
+    renderSelfChosen(result.selfChosen);
     renderProgress(result.progress);
     if (selectedId) await inspect(selectedId);
   } catch (error) {
@@ -326,6 +349,24 @@ async function clockRequest(path, query) {
     busy = false;
   }
 }
+element("play").addEventListener("click", async () => {
+  if (!selectedId || busy) return;
+  busy = true;
+  try {
+    const value = await request(
+      `/api/play?id=${encodeURIComponent(selectedId)}`,
+      { method: "POST" },
+    );
+    playingId = value.personId;
+    renderPacket(value.packet);
+    renderSelfChosen(value.selfChosen);
+    await inspect(selectedId);
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    busy = false;
+  }
+});
 for (const mode of ["day", "week", "skip"])
   element(mode).addEventListener("click", () =>
     clockRequest("/api/advance", { mode }),
