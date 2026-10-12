@@ -17,6 +17,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
+import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
   employerCosts,
@@ -26,6 +27,7 @@ import {
   type BillRow,
 } from "./legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { ownerOf } from "./business";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -128,6 +130,30 @@ function bill(api: CoreAPI, billId: string): BillRow {
     .get(billId) as unknown as BillRow;
 }
 
+/** The owner weighs the bill's cost against the dues, then the owner's own traits; no owner keeps the cost rule. */
+function ownerJoins(
+  api: CoreAPI,
+  orgId: string,
+  cost: number,
+  dues: number,
+): boolean {
+  const owner = ownerOf(api, orgId);
+  const person = owner ? api.state.people.get(owner) : undefined;
+  if (!person) return true;
+  return (
+    Math.log(cost / dues) +
+      api.parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          person,
+          "interest-groups.employer-join",
+          "join",
+          "stay-out",
+        ) >
+    0
+  );
+}
+
 /** Before the vote: the bill's losers decide whether to organize, and the group lobbies. */
 function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
@@ -150,7 +176,8 @@ function organize(api: CoreAPI, billId: string): void {
         !org.outsideFlow &&
         state.cashJournal.accounts.has(`cash:${orgId}:residual`) &&
         cost.annualMinor > dues &&
-        org.liquidMinor >= dues
+        org.liquidMinor >= dues &&
+        ownerJoins(api, orgId, cost.annualMinor, dues)
       );
     })
     .sort(
@@ -267,12 +294,21 @@ function lobbyistFor(
       a.localeCompare(b),
   )) {
     const best = [...state.work.commitments.values()]
-      .filter(
-        (c) =>
+      .filter((c) => {
+        const person = api.state.people.get(c.personId);
+        return (
           c.organizationId === orgId &&
           c.endsAt === undefined &&
-          api.state.people.get(c.personId)?.placeId === town,
-      )
+          person?.placeId === town &&
+          decisionLean(
+            api.state,
+            person,
+            "interest-groups.lobbyist",
+            "serve",
+            "decline",
+          ) >= 0
+        );
+      })
       .sort(
         (a, b) =>
           b.hourlyMinor - a.hourlyMinor || a.personId.localeCompare(b.personId),
