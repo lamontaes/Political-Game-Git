@@ -892,6 +892,24 @@ const sheets = {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
+      ...(me.card.dwelling
+        ? [
+            row(
+              me.card.dwelling.tenure === "own" ? "Own" : "Rent",
+              [
+                me.card.dwelling.kind,
+                me.card.dwelling.valueMinor !== undefined
+                  ? dollars(me.card.dwelling.valueMinor)
+                  : null,
+                me.card.dwelling.rentMinor !== undefined
+                  ? `${dollars(me.card.dwelling.rentMinor)} / month`
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(" · "),
+            ),
+          ]
+        : []),
       ...Object.entries(b.withholding?.byLine ?? {}).map(([line, minor]) =>
         row(line, `${dollars(minor)} · ${b.withholding.paychecks}`),
       ),
@@ -899,13 +917,19 @@ const sheets = {
   },
   async jobs() {
     const j = me.card.job;
-    return j
-      ? [
-          row(j.title, j.employer),
-          row("Pay", `${dollars(j.wageDailyMinor)} / day`),
-          row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
-        ]
-      : [];
+    return [
+      ...(j
+        ? [
+            row(j.title, j.employer),
+            row("Pay", `${dollars(j.wageDailyMinor)} / day`),
+            row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
+          ]
+        : []),
+      // Study: the schools on your record, newest first.
+      ...[...(me.card.schools ?? [])]
+        .reverse()
+        .map((school) => row(school.date.slice(0, 4), school.name)),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);

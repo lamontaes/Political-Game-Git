@@ -2,6 +2,7 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { effectsOn } from "../core2/modules/law-effects";
 import { coreAPI } from "../core2/state";
+import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
@@ -85,6 +86,20 @@ export function personCard(core: CoreState, personId: string) {
       hoursDaily: job.hoursDaily,
     },
     liquidMinor: person.liquidMinor,
+    // The household's home, from OPUS-WORLD's housing records.
+    dwelling: core.modules.has(HOUSING_MODULE_ID)
+      ? ((coreAPI(core)
+          .moduleState(HOUSING_MODULE_ID)
+          .table("dwellings")
+          .get(`dwelling:${person.householdId}`) as
+          | {
+              tenure: string;
+              kind?: string;
+              valueMinor?: number;
+              rentMinor?: number;
+            }
+          | undefined) ?? null)
+      : null,
     affect: person.affect,
     needs: person.needs,
     ties,
