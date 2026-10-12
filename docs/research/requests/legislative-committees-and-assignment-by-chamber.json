@@ -24,9 +24,37 @@
     {
       "source": "The open request legislature-packs-for-every-unbuilt-jurisdiction",
       "whatItDidNotSettle": "Asks how a bill moves through committee referral, not which committees exist or how members are assigned to them."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Chamber committee names, sizes, assignments, request handling and chair-selection matrix remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "Chamber committee names, sizes, assignments, request handling and chair-selection matrix remain open."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "Chamber committee names, sizes, assignments, request handling and chair-selection matrix remain open."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "Chamber committee names, sizes, assignments, request handling and chair-selection matrix remain open."
     }
   ],
   "title": "Which standing committees each legislative chamber has, and how members are put on them",
   "usableAnswer": "Per chamber: committee names with subject, a size or sizing rule, the assigning authority, when assignments happen, a typical number of committees per member, whether requests are honored, and how chairs are picked, each cited or marked UNKNOWN. A national pattern (the common arrangement and the notable exceptions) is enough for places not individually read.",
-  "whyItMatters": "The owner asked for committee assignments (2026-09-22, 11:24 p.m. Eastern). Today only Kentucky and Nebraska carry any committee, one each, and a seated player is always told they have not been appointed to one. The game already asks a member-elect to send committee requests before the term begins, but nothing reads them. Without the real committee lists and the real assignment rule, the game would have to invent committees and invent who hands them out."
+  "whyItMatters": "The owner asked for committee assignments (2026-09-22, 11:24 p.m. Eastern). Today only Kentucky and Nebraska carry any committee, one each, and a seated player is always told they have not been appointed to one. The game already asks a member-elect to send committee requests before the term begins, but nothing reads them. Without the real committee lists and the real assignment rule, the game would have to invent committees and invent who hands them out.",
+  "answer": {
+    "summary": "Committee membership, jurisdiction and referral are rule-controlled. The D.C. rules explicitly distinguish Council and committee quorum and referral; assigning a bill to a generic nationwide committee without its jurisdiction rule is unsupported.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "Chamber committee names, sizes, assignments, request handling and chair-selection matrix remain open."
+  }
 }
