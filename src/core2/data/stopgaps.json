@@ -1156,7 +1156,7 @@
     "kind": "partial-model",
     "file": "src/core2/modules/views.ts",
     "line": 1,
-    "whatItFakes": "Opening views read only the person's state and age band (the CES cell) and a household heritage; education, faith and urbanicity are not yet on person records, and the 14 values and issue stances at the opening are not formed. Stances move only on events with a topic.",
+    "whatItFakes": "Opening views read the person's state and age band (the CES cell), their education and faith profile (opening-profile.ts, itself a stopgap) and a household heritage; the 14 values and issue stances at the opening are not formed. Stances move only on events with a topic and on speeches.",
     "why": "First version of views on the new core, built while the people records gain education and faith.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
@@ -1377,6 +1377,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and the news surfacing records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-opening-profile",
+    "kind": "partial-model",
+    "file": "src/core2/opening-profile.ts",
+    "line": 1,
+    "whatItFakes": "Each adult's education and faith at the opening, read from their state's CES 2024 shares by age band with a household share; education and faith are treated as independent within a state and age band, and children carry no attainment.",
+    "why": "Views and candidacy need education and faith on records now; joint state tables are too sparse in one survey year.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study.",
     "status": "open"
   }
 ]

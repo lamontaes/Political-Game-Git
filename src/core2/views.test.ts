@@ -100,6 +100,17 @@ describe("political views", () => {
     for (const row of views) expect(row.basis).toMatch(/^ces-2024:/);
   });
 
+  it("carries each person's education and faith, as the survey does", () => {
+    const { views } = towns[0]!;
+    const group = (faith: string) =>
+      views.filter((row) => row.basis.endsWith(`:${faith}`));
+    const mean = (rows: typeof views) =>
+      rows.reduce((sum, row) => sum + row.lean, 0) / Math.max(1, rows.length);
+    expect(group("protestant").length).toBeGreaterThan(10);
+    expect(group("none").length).toBeGreaterThan(10);
+    expect(mean(group("protestant"))).toBeGreaterThan(mean(group("none")));
+  });
+
   it("forms the same view for the same person when they are filled in again", () => {
     const town = towns[0]!;
     const again = createLifeCore(town.input, { modules: [viewsModule] });

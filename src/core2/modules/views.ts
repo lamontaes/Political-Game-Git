@@ -15,6 +15,7 @@
 import { stableHash } from "../../simulation/ids";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import type { CoreAPI, CoreModule, PersonId, PersonState } from "../types";
@@ -28,6 +29,12 @@ interface CellKey {
 }
 interface StateKey extends CellKey {
   byAge: Readonly<Record<string, CellKey>>;
+  educationShares: Readonly<
+    Record<string, Readonly<Record<string, number>> | null>
+  >;
+  faithShares: Readonly<
+    Record<string, Readonly<Record<string, number>> | null>
+  >;
 }
 export const VIEWS_KEYS = keysJson as unknown as {
   version: string;
@@ -36,6 +43,14 @@ export const VIEWS_KEYS = keysJson as unknown as {
   national: CellKey;
   states: Readonly<Record<string, StateKey>>;
   counties: Readonly<Record<string, CellKey>>;
+  profileShift: Readonly<
+    Record<
+      string,
+      Readonly<
+        Record<string, Readonly<Record<string, { n: number; shift: number }>>>
+      >
+    >
+  >;
 };
 export const VIEWS_DATA = viewsJson as {
   version: string;
@@ -112,6 +127,7 @@ function ageBand(age: number): string {
 export function viewCell(
   person: PersonState,
   date: string,
+  seed: string,
 ): { cell: CellKey; shares: Readonly<Record<string, number>>; basis: string } {
   const state = stateOf(person);
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
@@ -127,12 +143,31 @@ export function viewCell(
       basis: `ces-2024:national (no state sample):age ${band}`,
     };
   const byAge = row.byAge[band];
-  const cell =
+  const base =
     byAge && byAge.n >= v("minimumCellRespondents") ? byAge : (row as CellKey);
+  // The person's own education and faith shift the cell by their profile's
+  // national lean, less what the state's mix of profiles at that age averages.
+  const fact = (kind: string, key: string) =>
+    person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+  const profile = profileFor(person, seed, date);
+  const educ =
+    fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
+  const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
+  const shifts = VIEWS_KEYS.profileShift[band];
+  const own = educ && faith ? shifts?.[educ]?.[faith]?.shift : undefined;
+  let expected = v("zero");
+  const educShares = row.educationShares[band];
+  const faithShares = row.faithShares[band];
+  if (own !== undefined && educShares && faithShares)
+    for (const [e, pe] of Object.entries(educShares))
+      for (const [f, pf] of Object.entries(faithShares))
+        expected += pe * pf * (shifts?.[e]?.[f]?.shift ?? v("zero"));
+  const cell =
+    own === undefined ? base : { ...base, mean: base.mean + own - expected };
   return {
     cell,
     shares: row.shares!,
-    basis: `ces-2024:${state}:${cell === byAge ? `age ${band}` : "state"}`,
+    basis: `ces-2024:${state}:${base === byAge ? `age ${band}` : "state"}${own === undefined ? "" : `:${educ}:${faith}`}`,
   };
 }
 
@@ -151,7 +186,11 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const person = api.state.people.get(personId);
   if (!person) return null;
   api.stopgap(VIEWS_DATA.stopgapId);
-  const { cell, shares, basis } = viewCell(person, api.state.startedAt);
+  const { cell, shares, basis } = viewCell(
+    person,
+    api.state.startedAt,
+    api.state.seed,
+  );
   const seed = api.state.seed;
   // Who someone is at the opening: their household's heritage and their own.
   const share = v("householdShare");
