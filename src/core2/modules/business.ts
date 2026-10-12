@@ -980,12 +980,41 @@ function found(
     liquidMinor: 0,
     source,
   });
-  const annualDemandMinor = shiftPurchaseShare(
-    c,
-    new Set(market.incumbents),
-    id,
-    share,
+  // Households' purchases are split again by the core among the sellers by capacity and price; outside buyers here.
+  const rivals = market.incumbents
+    .map((rid) => c.finance.businesses.get(rid))
+    .filter((row) => row && !row.closedAt);
+  const capacityMinor = rivals.length
+    ? rivals.reduce((n, row) => n + row!.capacityMinor, 0) / rivals.length
+    : market.demandMinor * share;
+  const incumbents = new Set(market.incumbents);
+  const countedBuyers = [...(residentsRuntime(c)?.flows.values() ?? [])].some(
+    (flow) =>
+      flow.kind === "purchase" &&
+      !flow.endedAt &&
+      incumbents.has(flow.payeeId) &&
+      !c.people.has(flow.payerId),
   );
+  const households = !countedBuyers
+    ? 0
+    : api
+        .enterMarket({
+          organizationId: id,
+          placeId: market.placeId,
+          like: market.incumbents[0]!,
+          capacityMinor,
+        })
+        .reduce((n, row) => n + row.annualDemandMinor, 0);
+  const annualDemandMinor =
+    households +
+    shiftPurchaseShare(
+      c,
+      new Set(market.incumbents),
+      id,
+      share,
+      // Outside buyers, and full households' own purchases (the core leaves those with their stores).
+      (flow) => flow.kind === "outside-sales" || c.people.has(flow.payerId),
+    );
   const monthly = Math.round(annualDemandMinor / p("macroMonthsPerYear"));
   // The incumbents' own markets shrink by the share they lost (books seam, for OPUS-CORE review).
   for (const incumbentId of market.incumbents) {
