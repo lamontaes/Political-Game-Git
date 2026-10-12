@@ -21,6 +21,7 @@ import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import {
   addCountedJob,
+  addCountedRetiree,
   countedJobsOf,
   endCountedJob,
   rerateCountedJobs,
@@ -1100,6 +1101,10 @@ function reviewCountedRetirements(api: CoreAPI): void {
   }
   for (const { job, age, score } of strongestPulls(api, "retire", rows)) {
     endCountedJob(c, job.id);
+    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
+    stopgap("SG-WORLD-jobs-counted-retiree-income");
+    const placeId = residentPerson(c, job.personId)?.placeId;
+    if (placeId) addCountedRetiree(c, placeId, job.personId);
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,
