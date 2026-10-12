@@ -198,7 +198,6 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
       );
     }
   });
-
 });
 
 describe("coverage discovery", () => {
