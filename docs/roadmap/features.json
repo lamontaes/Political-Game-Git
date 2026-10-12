@@ -2,7 +2,8 @@
   "_about": "Owner-approved specs for the road to early access (docs/ROADMAP.md). Each spec stays passes:false until its test passes in a place drawn at random from all 56 AND the finisher has played it in the test bench. Sessions may change only 'passes' (with evidence in the PR). They may never edit 'test'. The CTO adds 'command' once a spec's automated test exists. M1 to M7 specs are added here when the owner approves them. M2-01 sits under M1 because the owner moved it there (built with M1-12 in M1-officials).",
   "milestones": {
     "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)",
-    "M1": "The world runs (owner-approved Oct 10, 2026)"
+    "M1": "The world runs (owner-approved Oct 10, 2026)",
+    "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)"
   },
   "features": [
     {
@@ -272,6 +273,26 @@
       "golden_path": "world",
       "package": "M1-history",
       "test": "A new game in a random place opens on its start date; people have recent life events dated in the years before it; the economy's recent path matches real figures; laws in force show their dated changes before the start; governments show prior years' budgets; the load time and size are measured. (Owner, Oct 10: officials' election records and recent laws with their effects are added with M2 and M3.)",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-02",
+      "milestone": "M2",
+      "title": "Election calendars and filing rules",
+      "golden_path": "3",
+      "package": "M2-filing",
+      "test": "In a random place, the next local, state and federal elections have that place's real dates, and filing requires exactly what that place's rules require (age, residency, registration, a fee or signatures), read from data.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-03",
+      "milestone": "M2",
+      "title": "Filing in person",
+      "golden_path": "3",
+      "package": "M2-filing",
+      "test": "In a random place, the player goes to that place's real filing office, talks to the person there through dialogue choices, picks an office in the filing overlay, states a platform, gathers any required signatures from real people, files once and is on the ballot; an ineligible player is told the rule in words.",
       "command": null,
       "passes": false
     }
