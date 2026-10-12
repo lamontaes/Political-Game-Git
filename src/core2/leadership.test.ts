@@ -126,6 +126,9 @@ describe("chamber leadership and committees", () => {
         expect(partySide(byKey.get(minorityLeader)!.party)).not.toBe(
           majoritySide,
         );
+      // Each post has its own holder.
+      const held = posts.map((p) => p.holderId).filter((id) => id !== null);
+      expect(new Set(held).size, `${where} ${chamber}`).toBe(held.length);
       // Committees: the majority holds a majority of seats, the chair is theirs.
       for (const committee of COMMITTEES) {
         const roster = committeeRoster(api, chamber, committee);

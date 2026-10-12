@@ -89,6 +89,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
 - **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
+- **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
+- **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
   - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
   - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
@@ -100,6 +102,22 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12 23:56 UTC: Sales tax, leadership, carry-overs:
+  - **Sales tax collects:** every purchase in town pays the sales tax in force through the core's `setPurchaseTax` (v21), set by budgets at the opening and again whenever a sales-tax or grocery-exemption law takes effect. Each level's share goes to its own treasury, at a rate chosen so the shares add up to the combined tax inside the price, and grocery stores (NAICS 445) are exempt where an exemption is law. SG-GOV-REACH-B-sales-tax-collection is resolved.
+    - **Sault Ste. Marie, Michigan (bench world, Oct 12):** $264,648 of state tax in 20 days at 6%.
+    - **Speed (Montrose, Mississippi, bench world):** 30 days take 5.4–6.5 s with the tax and 6.1–7.1 s without (noise), about 73 s a year.
+    - **The speed guard script itself** (`npm run speed:year`, seed gov-sales-1) ran over 44 minutes on its first pass and was stopped. Not mine to fix; flagged for CORE.
+  - **Leadership and committees (new `leadership.ts`; BOARD "features the old engine had"):**
+    - **Organizing:** each chamber organizes the way its kind does (`data/research/legislature/chamber-leadership.json`, carried from #3788). Each caucus names its candidate and the floor elects the presiding officer; caucuses elect their own leaders and whips. Every member votes for the colleague they rate highest (party, closeness of views, relationship, slightly years served), the player only by their own `voteForPost`, and `standForPost` puts the player up for a post. One post per member.
+    - **Committees:** the assigning authority (a speaker, a senate president, a committee on committees or a council president) seats committees of about 11 by party ratio, with the members it rates highest. The chair is its pick, or the committee's vote where that's the rule.
+    - **Who reads it:** the legislature's committee stage uses these seats through a hook, and world-legislating's floor leader and presiding member are the elected ones when the module is open.
+    - **Trigger:** a body reorganizes only when its membership changed, read when first needed.
+    - **Runs:** Indiana and California chambers plus the U.S. House, all organized in 2.6 s once each member's lean is worked out once per organization (the first version re-read the House roster for every pair).
+  - **Law amounts from old PRs:** a Sonnet sub-agent re-ported 64 sourced per-state amounts from #2200, #2217, #2221 and #2229/#3575 (property-tax caps, territory income-tax brackets, mileage-fee rates, parks funding shares, term-limit and lobbying-ban terms), keeping every older citation as a conflict note. Reviewed and cherry-picked.
+  - **Old PRs #3951 and #3952 (campaign and governing rules):** nothing to copy. They're old-engine helpers on the old world model. Features they had that core2 lacks (executive orders and emergency declarations, department-head appointments, a campaign manager hire) go on my list to build fresh.
+  - **CI:** the American-English guard allowlists "Ward" as a family name in the ported `src/core2/gov-rules/names-data.ts`, as it did for the old file. That was the merged PR's only red check.
+  - **Next:** Social Security retirement ages as federal law (owner's request), past election results behind each term (history to 2000), then executive acts.
 
 - 2026-10-12 21:59 UTC: Old engine removal, phase 2 (GOV's part):
   - **Ported:** GOV's own rule readers now live in `src/core2/gov-rules/`: municipal election and recall rules, the town and county election calendars, local governments, councils, mayors, county row offices, township boards, and the invented officials' names and ages. `recalls`, `world-races`, `elections-calendar`, `offices-local` and `officials-identity` read them there.

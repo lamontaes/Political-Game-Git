@@ -142,6 +142,20 @@ const yearsServed = (t: TermRow, date: string) =>
       (365.25 * 86_400_000),
   );
 
+/** Each member's lean, worked out once per organization (a body can be all of Congress). */
+let leans: Map<string, number> | null = null;
+function leanFor(api: CoreAPI, t: TermRow): number {
+  const key = memberKey(t);
+  const known = leans?.get(key);
+  if (known !== undefined) return known;
+  // A named official not yet filled in leans by their party (as `leanOf`).
+  const lean = api.state.people.has(key)
+    ? leanOf(api, key)
+    : partySide(t.party) * campaignParameter("identityLeanScale");
+  leans?.set(key, lean);
+  return lean;
+}
+
 /**
  * How highly one member rates another for a post: their party (same side +1,
  * other side −1, none 0), how close their views are, their relationship, and
@@ -156,9 +170,7 @@ function rating(
   const a = partySide(voter.party);
   const b = partySide(candidate.party);
   const party = !partisan || a === 0 || b === 0 ? 0 : a === b ? 1 : -1;
-  const views =
-    1 -
-    Math.abs(leanOf(api, memberKey(voter)) - leanOf(api, memberKey(candidate)));
+  const views = 1 - Math.abs(leanFor(api, voter) - leanFor(api, candidate));
   const tie =
     voter.personId && candidate.personId
       ? ((api.state as CoreState).relationships.get(
@@ -251,6 +263,20 @@ export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
     return table(api, "posts").query("byChamber", [
       chamber,
     ]) as unknown as PostRow[];
+  leans = new Map();
+  try {
+    return organizeNow(api, chamber, all, signature);
+  } finally {
+    leans = null;
+  }
+}
+
+function organizeNow(
+  api: CoreAPI,
+  chamber: string,
+  all: readonly TermRow[],
+  signature: string,
+): readonly PostRow[] {
   const template = templateOf(api, chamber);
   const partisan = !/not-applicable|nonpartisan/.test(
     field<string>(template, "partyRatioRule"),
@@ -269,6 +295,10 @@ export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
   for (const row of table(api, "posts").query("byChamber", [chamber]))
     table(api, "posts").remove(row.id);
   const posts: PostRow[] = [];
+  // One post each: a member who wins one doesn't stand for the next.
+  const holders = new Set<string>();
+  const open = (pool: readonly TermRow[]) =>
+    pool.filter((t) => !holders.has(memberKey(t)));
   for (const post of field<Post[]>(template, "posts")) {
     let result: { winner: TermRow | null; votes: Record<string, number> };
     if (post.selection === "caucus-vote") {
@@ -278,7 +308,7 @@ export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
         chamber,
         post.key,
         caucus,
-        standing(api, chamber, post.key, caucus),
+        open(standing(api, chamber, post.key, caucus)),
         partisan,
       );
     } else if (partisan) {
@@ -292,7 +322,7 @@ export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
               chamber,
               `${post.key}:nomination`,
               caucus,
-              standing(api, chamber, post.key, caucus),
+              open(standing(api, chamber, post.key, caucus)),
               partisan,
             ).winner,
         )
@@ -304,9 +334,10 @@ export function organize(api: CoreAPI, chamber: string): readonly PostRow[] {
         chamber,
         post.key,
         all,
-        standing(api, chamber, post.key, all),
+        open(standing(api, chamber, post.key, all)),
         partisan,
       );
+    if (result.winner) holders.add(memberKey(result.winner));
     const row: PostRow = {
       id: `${chamber}:${post.key}`,
       chamber,

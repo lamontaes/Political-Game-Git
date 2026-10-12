@@ -15,6 +15,7 @@
  * choice from their reasons, and every vote is each member's.
  */
 import sessions from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import { leaderOf, presidingOfficer } from "./leadership";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -34,6 +35,7 @@ import {
   FEDERAL_HOUSE,
   holdVote,
   leanOf,
+  memberKey,
   members,
   POLICY_QUESTIONS,
   type BillRow,
@@ -328,13 +330,19 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         chamber(api, jurisdiction, "legislature-unicameral"));
   const sides = (lower?.members ?? []).map((m) => partySide(m.party));
   const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
-  // The floor leader: the most senior member of the majority (of the whole
-  // body where no party holds one).
-  const leader = senior(
-    (lower?.members ?? []).filter(
-      (m) => majority === 0 || partySide(m.party) === majority,
-    ),
-  );
+  // The floor leader: the majority leader the chamber elected (leadership
+  // engine), else the most senior member of the majority (of the whole body
+  // where no party holds one).
+  const elected = lower ? leaderOf(api, lower.id, "majority-leader") : null;
+  const leader =
+    (elected
+      ? lower?.members.find((m) => memberKey(m) === elected)
+      : undefined) ??
+    senior(
+      (lower?.members ?? []).filter(
+        (m) => majority === 0 || partySide(m.party) === majority,
+      ),
+    );
   bringAgenda(api, {
     key: work.key,
     jurisdiction,
@@ -360,7 +368,12 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
   scheduleMeeting(api, officeId, work.key);
   const body: Body = { id: officeId, members: members(api, officeId) };
-  const leader = senior(body.members);
+  // The presiding member the body elected, else the most senior.
+  const presiding = presidingOfficer(api, officeId);
+  const leader =
+    (presiding
+      ? body.members.find((m) => memberKey(m) === presiding)
+      : undefined) ?? senior(body.members);
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
