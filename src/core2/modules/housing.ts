@@ -29,7 +29,11 @@ import {
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
-import { ACS_VALUE_DATE, homePriceRatio } from "../housing-prices";
+import {
+  ACS_VALUE_DATE,
+  homePriceRatio,
+  type PriceLevel,
+} from "../housing-prices";
 import { residentsRuntime } from "./residents";
 import type {
   ActOffer,
@@ -568,6 +572,17 @@ function landlordPayout(api: CoreAPI): void {
 
 const BUY_PULL = "housing:pull";
 
+/** The economy's consumer price level by month (history and simulated), for prices past the published data. */
+function macroPrices(api: CoreAPI): PriceLevel | undefined {
+  if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  const months = api.moduleState("macro").table("months");
+  return (date) =>
+    (
+      months.get(`macro-month:${date.slice(0, "YYYY-MM".length)}`) as
+        { priceIndex: number } | undefined
+    )?.priceIndex;
+}
+
 function buyOffer(
   buy: boolean,
   targetId: string,
@@ -654,6 +669,7 @@ function buyHomes(api: CoreAPI): void {
       c.placeMetadata?.housingState ?? "",
       ACS_VALUE_DATE,
       c.date,
+      macroPrices(api),
     );
     // The home the household's income would buy at the county's median, as rent scales with income.
     const value =
@@ -995,7 +1011,12 @@ export function ownedHomes(
         { openedAt: string } | undefined
     )?.openedAt ?? c.date;
   const prices = () =>
-    homePriceRatio(c.placeMetadata?.housingState ?? "", opened, c.date);
+    homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      opened,
+      c.date,
+      macroPrices(api),
+    );
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {

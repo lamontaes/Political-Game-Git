@@ -32,8 +32,22 @@ function quarterKey(date: string): string {
   return `${date.slice(0, 4)}-Q${Math.ceil(month / 3)}`;
 }
 
+/** A price level by date (the economy's simulated consumer prices), when the caller has one. */
+export type PriceLevel = (date: string) => number | undefined;
+
+function priceRatio(from: string, to: string, level?: PriceLevel): number {
+  const a = level?.(from),
+    b = level?.(to);
+  if (a && b) return b / a;
+  return cpiAt(Number(to.slice(0, 4))) / cpiAt(Number(from.slice(0, 4)));
+}
+
 /** The state's index on a date; null when FHFA has no rows for it. */
-function indexAt(usps: string, date: string): number | null {
+function indexAt(
+  usps: string,
+  date: string,
+  level?: PriceLevel,
+): number | null {
   const rows = HPI[usps];
   if (!rows) return null;
   const key = quarterKey(date);
@@ -43,18 +57,21 @@ function indexAt(usps: string, date: string): number | null {
   // Past the latest quarter, the latest index moved with consumer prices since.
   const last = keys.at(-1)!;
   stopgap("SG-WORLD-housing-price-index");
-  return (
-    rows[last]! *
-    (cpiAt(Number(date.slice(0, 4))) / cpiAt(Number(last.slice(0, 4))))
-  );
+  const lastDate = `${last.slice(0, 4)}-${String(Number(last.slice(-1)) * 3 - 1).padStart(2, "0")}-15`;
+  return rows[last]! * priceRatio(lastDate, date, level);
 }
 
 /** How much a home's price moved from one date to another in a state. */
-export function homePriceRatio(usps: string, from: string, to: string): number {
-  const a = indexAt(usps, from),
-    b = indexAt(usps, to);
+export function homePriceRatio(
+  usps: string,
+  from: string,
+  to: string,
+  level?: PriceLevel,
+): number {
+  const a = indexAt(usps, from, level),
+    b = indexAt(usps, to, level);
   if (a && b) return b / a;
   // No state index (Puerto Rico, the island areas): consumer prices stand in.
   stopgap("SG-WORLD-housing-price-index");
-  return cpiAt(Number(to.slice(0, 4))) / cpiAt(Number(from.slice(0, 4)));
+  return priceRatio(from, to, level);
 }
