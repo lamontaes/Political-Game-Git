@@ -3,7 +3,6 @@ import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "../simulation/names-data";
 import { SeededRng } from "../simulation/rng";
-import { stopgap } from "./stopgaps";
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,
@@ -43,6 +42,12 @@ function isoDate(year: number, month: number, day: number): string {
   return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+function dayBefore(date: string): string {
+  const at = new Date(`${date}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() - 1);
+  return at.toISOString().slice(0, "YYYY-MM-DD".length);
+}
+
 /**
  * Learning-from-experience weighted mean of the annual inflation a person
  * lived through before `year` (Malmendier and Nagel 2016): recent years count
@@ -73,8 +78,6 @@ export function generateBoard(
   input: Pick<CoreInput, "seed" | "startedAt">,
   p: MacroParameter,
 ): BoardOpening {
-  // Every seat is filled at the opening and members stay on past their terms until the offices port appoints.
-  stopgap("SG-WORLD-board-appointments");
   const start = input.startedAt,
     startYear = Number(start.slice(0, 4));
   const corpus = getNameCorpus();
@@ -118,7 +121,9 @@ export function generateBoard(
       seatKind: "president",
       districtId: district.id,
       appointedAt: isoDate(termStart, t.startMonth, t.startDay),
-      termEndsAt: isoDate(termStart + termYears, t.startMonth, t.startDay - 1),
+      termEndsAt: dayBefore(
+        isoDate(termStart + termYears, t.startMonth, t.startDay),
+      ),
     });
 
   const people: PersonInput[] = [],
@@ -200,6 +205,14 @@ export function generateBoard(
       source,
     });
   }
+  return { people, households, members: withLeans(drafts, p) };
+}
+
+/** Each member's lean: how far their lived inflation sits from the board's, on a sliding scale. */
+export function withLeans<T extends Omit<BoardMember, "inflationLean">>(
+  drafts: readonly T[],
+  p: MacroParameter,
+): (T & { inflationLean: number })[] {
   const mean =
     drafts.reduce((sum, row) => sum + row.experiencedInflationPct, p("zero")) /
     drafts.length;
@@ -209,7 +222,7 @@ export function generateBoard(
       p("zero"),
     ) / drafts.length,
   );
-  const members = drafts.map((row) => ({
+  return drafts.map((row) => ({
     ...row,
     inflationLean:
       deviation > p("zero")
@@ -219,7 +232,102 @@ export function generateBoard(
           )
         : p("zero"),
   }));
-  return { people, households, members };
+}
+
+/** A seat whose term has ended, and the term it opens. */
+export interface BoardVacancy {
+  readonly seatId: string;
+  readonly seatKind: BoardMember["seatKind"];
+  readonly districtId?: string;
+  readonly termStartsAt: string;
+  readonly termEndsAt: string;
+}
+
+/** Someone who could be appointed to a seat: a recorded identity and their career. */
+export interface BoardCandidate {
+  readonly identity: {
+    readonly id: string;
+    readonly givenName: string;
+    readonly familyName: string;
+    readonly birthDate: string;
+    readonly placeId: string;
+    readonly seatKey: string;
+    readonly source: Source;
+  };
+  readonly career: string;
+  readonly experiencedInflationPct: number;
+}
+
+/** The next term of a seat whose term ends on `endedAt`: governors 14 years, reserve bank presidents five. */
+export function nextTerm(
+  member: Pick<
+    BoardMember,
+    "seatId" | "seatKind" | "districtId" | "termEndsAt"
+  >,
+  p: MacroParameter,
+): BoardVacancy {
+  const ended = member.termEndsAt;
+  const start = new Date(`${ended}T00:00:00Z`);
+  start.setUTCDate(start.getUTCDate() + 1);
+  const termStartsAt = start.toISOString().slice(0, "YYYY-MM-DD".length);
+  const years =
+    member.seatKind === "governor"
+      ? p("macroGovernorTermYears")
+      : p("macroPresidentTermYears");
+  const end = new Date(`${ended}T00:00:00Z`);
+  end.setUTCFullYear(end.getUTCFullYear() + years);
+  return {
+    seatId: member.seatId,
+    seatKind: member.seatKind,
+    ...(member.districtId ? { districtId: member.districtId } : {}),
+    termStartsAt,
+    termEndsAt: end.toISOString().slice(0, "YYYY-MM-DD".length),
+  };
+}
+
+/** Seeded generation of who could fill a seat; who is chosen is the appointer's decision. */
+export function boardCandidates(
+  seed: string,
+  vacancy: BoardVacancy,
+  p: MacroParameter,
+): BoardCandidate[] {
+  const corpus = getNameCorpus();
+  const year = Number(vacancy.termStartsAt.slice(0, 4));
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: vacancy.termStartsAt,
+    citation: board.source.citation,
+    estimatedFrom:
+      "Fictional candidate generated from the world seed for a real seat and term.",
+  };
+  return Array.from({ length: p("macroBoardCandidates") }, (_, index) => {
+    const rng = new SeededRng(
+      JSON.stringify([
+        "central-bank-candidate-v1",
+        seed,
+        vacancy.seatId,
+        vacancy.termStartsAt,
+        index,
+      ]),
+    );
+    const age =
+      p("macroGovernorMinimumAge") + rng.next() * p("macroGovernorAgeSpan");
+    const birthYear = Math.floor(year - age);
+    const id = `person:central-bank:${vacancy.seatId}:${vacancy.termStartsAt}:${index}`;
+    return {
+      identity: {
+        id,
+        givenName: rng.pick(corpus.givenNames),
+        familyName: rng.pick(corpus.familyNames),
+        birthDate: isoDate(birthYear, rng.integer(1, 13), rng.integer(1, 29)),
+        placeId: board.placeId,
+        seatKey: vacancy.seatId,
+        source,
+      },
+      career: rng.pick(board.careers),
+      experiencedInflationPct: experiencedInflationPct(birthYear, year, p),
+    };
+  });
 }
 
 /** The seven governors, the permanent president and the year's four rotating presidents (12 U.S.C. 263). */
