@@ -188,7 +188,10 @@ export function lawHere(
     "property-tax",
     "snap-maximum",
     "unemployment-weekly-maximum",
+    "unemployment-insurance",
     "medicaid-match",
+    "social-security-tax",
+    "medicare-tax",
   ].map((series) => lawInForce(api, series, date));
 }
 

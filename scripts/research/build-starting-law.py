@@ -281,6 +281,28 @@ def benefits(rows):
             rows.append(row(state, "federal", "medicaid-match", item["value"], item["effectiveDate"],
                             item["endDateExclusive"], item["source"], item.get("estimate", False),
                             unit="percent", retrieved=item.get("retrievalDate", RETRIEVED)))
+    programs = optional("unemployment-insurance.json")
+    for state, place in (programs or {}).get("places", {}).items():
+        source = place.get("source")
+        source = source[0] if isinstance(source, list) and source else source
+        if not place.get("hasProgram"):
+            rows.append(row(state, "state", "unemployment-insurance", 0, "2000-01-01", FOREVER,
+                            source or "U.S. Department of Labor: no regular unemployment insurance program",
+                            place.get("estimate", False), terms={"hasProgram": False, "note": place.get("text")}))
+            continue
+        formula = place.get("weeklyBenefitFormula") or {}
+        weeks = place.get("maxWeeks") or {}
+        rows.append(row(state, "state", "unemployment-insurance", 1, "2026-01-01", FOREVER, source,
+                        place.get("estimate", False), unit="program",
+                        terms={"hasProgram": True,
+                               "baseEarnings": place.get("baseEarnings"),
+                               "weeklyBenefitFraction": formula.get("fraction"),
+                               "weeklyBenefitAppliesTo": formula.get("fractionAppliesTo"),
+                               "weeklyBenefitText": formula.get("text"),
+                               "waitingWeek": (place.get("waitingWeek") or {}).get("required"),
+                               "maxWeeks": weeks.get("value2026") or weeks.get("maximum"),
+                               "maxWeeksRule": weeks.get("rule"),
+                               "workSearchContactsPerWeek": (place.get("searchRequirement") or {}).get("contactsPerWeek")}))
     extra = optional("benefit-gaps.json")
     for item in (extra or {}).get("rows", []):
         rows.append(item)
