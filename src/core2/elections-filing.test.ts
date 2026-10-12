@@ -190,7 +190,15 @@ describe("M2-03 filing (engine)", () => {
         .table("filings")
         .get(filing.id) as unknown as typeof filing;
     }
-    if ((rules.signatures ?? 0) <= neighbors.length || filing.feePaidMinor > 0)
+    // On the ballot once the fee is paid or enough neighbors actually signed
+    // (children, people out of town and wary strangers don't).
+    const signed = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("signatures")
+        .query("byFiling", [filing.id]) as unknown as { signed: boolean }[]
+    ).filter((s) => s.signed).length;
+    if (signed >= (rules.signatures ?? 0) || filing.feePaidMinor > 0)
       expect(filing.status).toBe("on-ballot");
     if (filing.status === "on-ballot")
       expect(ballot(api, contest.id).map((f) => f.personId)).toContain(

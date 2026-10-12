@@ -33,8 +33,8 @@ import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import { turnout } from "./voting";
-import { resolveMunicipalRecallRule } from "../../simulation/municipal-ballot-rules";
-import { resolveRequiredSignatures } from "../../simulation/municipal-election-rules";
+import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
+import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 

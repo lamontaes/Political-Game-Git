@@ -115,7 +115,7 @@
     "localElectorateShareOfPopulation": {
       "value": 0.46,
       "tag": "SOURCED",
-      "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46.",
+      "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46. Scaled by each election's cycle (midterm 0.72, off-cycle 0.39 of a presidential year's) where the race's electorate is sized.",
       "spread": [0.15, 0.55],
       "stopgapId": "SG-GOV-voter-groups-stand-in"
     },
@@ -203,15 +203,7 @@
       "value": 9,
       "tag": "ESTIMATED",
       "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
-      "spread": [7, 13],
-      "stopgapId": "SG-GOV-committee-structure"
-    },
-    "committeeShareOfBody": {
-      "value": 0.15,
-      "tag": "ESTIMATED",
-      "source": "A standing committee holds about a seventh of its chamber's members in state legislatures (NCSL: typical committees of 9 to 20 in chambers of 40 to 150).",
-      "spread": [0.08, 0.3],
-      "stopgapId": "SG-GOV-committee-structure"
+      "spread": [7, 13]
     },
     "hearingWitnesses": {
       "value": 3,
@@ -440,10 +432,10 @@
       "spread": [0.65, 0.8]
     },
     "offCycleShareOfPresidential": {
-      "value": 0.33,
+      "value": 0.39,
       "tag": "ESTIMATED",
-      "source": "Turnout in off-cycle municipal elections against a presidential year's: off-cycle city elections average about 20% of registered voters (Hajnal, Kogan and Markarian, 'Who Votes: City Election Timing and Voter Composition,' APSR 2022; Anzia, Timing and Turnout, 2014) against about 60% in presidential years, so about a third.",
-      "spread": [0.2, 0.45]
+      "source": "Off-cycle city election turnout against a presidential year's: big-city mayoral turnout runs about 0.39 of presidential turnout off cycle, 0.72 on midterm dates and 0.91 on presidential dates (Hajnal and Green, 'Big Cities, Tiny Votes?', Dec 2024; FIXER stand-in figures, Oct 12, SG-GOV-voter-groups-stand-in).",
+      "spread": [0.18, 0.46]
     },
     "midtermTurnoutCost": {
       "value": 0.6,
@@ -512,10 +504,10 @@
       "spread": [20, 80]
     },
     "pollCostPerInterviewMinor": {
-      "value": 3000,
+      "value": 4500,
       "tag": "ESTIMATED",
-      "source": "What a local campaign pays a pollster per completed interview: about $25 to $50 for a live-caller survey (AAPOR and campaign vendor price summaries), so $30.",
-      "spread": [1000, 6000]
+      "source": "What a campaign pays per completed telephone interview: $36 to $53 (midpoint about $45; BMC Medical Research Methodology 12:32), $46 to $80 by web; a whole local poll of a few hundred interviews runs $15,000 to $40,000 (Daily Montanan, 2023), consistent. data/research/money/poll-interview-prices.json (carried from #2486). Not scaled by place.",
+      "spread": [3600, 8000]
     },
     "pollAnswerThreshold": {
       "value": 1.4,
@@ -528,6 +520,30 @@
       "tag": "TUNABLE",
       "source": "How firm a lean must be for someone no campaign reached to name their party's candidate to a pollster rather than say they're undecided.",
       "spread": [0.1, 0.6]
+    },
+    "committeeSize": {
+      "value": 11,
+      "tag": "SOURCED",
+      "source": "State legislative standing committees hold about 10 to 12 members whatever the chamber's size (Book of the States 2023, Table 3.23; Ballotpedia's 2021 count of 2,083 state legislative committees; NCSL chamber sizes, June 2024).",
+      "spread": [5, 20]
+    },
+    "committeeSizeMinimum": {
+      "value": 5,
+      "tag": "SOURCED",
+      "source": "Smallest common standing committee (Ballotpedia 2021 committee-size breakdown).",
+      "spread": [3, 7]
+    },
+    "committeeSizeMaximum": {
+      "value": 20,
+      "tag": "SOURCED",
+      "source": "Largest common standing committee (Ballotpedia 2021 committee-size breakdown).",
+      "spread": [15, 30]
+    },
+    "vetoOverrideShare": {
+      "value": 0.6667,
+      "tag": "SOURCED",
+      "source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 counts each house present). FIXER stand-in figures, Oct 12, SG-GOV-veto-override-rule.",
+      "spread": [0.5, 0.75]
     }
   }
 }
