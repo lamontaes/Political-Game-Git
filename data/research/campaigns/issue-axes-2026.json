@@ -1,282 +1,282 @@
 {
- "id": "issue-axes-2026",
- "about": "Each policy question's left-right direction: the correlation across states between its recorded 2026 answer being yes and the state's 2024 Republican two-party presidential share. Positive leans right, negative leans left. Measured, not authored.",
- "sources": [
-  "data/research/laws/starting-law-2026 (each state's recorded answer and its source)",
-  "data/source/electoral-calibration-2024/corpus.json (Clerk of the House, 2024 presidential results by state)"
- ],
- "minimumStates": 20,
- "script": "scripts/research/export-issue-axes.py",
- "axes": {
-  "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-   "axis": -0.096,
-   "states": 50,
-   "yesShare": 0.62
-  },
-  "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
-   "axis": -0.367,
-   "states": 51,
-   "yesShare": 0.588
-  },
-  "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
-   "axis": -0.319,
-   "states": 51,
-   "yesShare": 0.412
-  },
-  "us-policy-positions:business-commerce.legalize-cannabis-sales": {
-   "axis": -0.489,
-   "states": 51,
-   "yesShare": 0.471
-  },
-  "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
-   "axis": -0.747,
-   "states": 51,
-   "yesShare": 0.451
-  },
-  "us-policy-positions:civil-family-community.restrict-abortion": {
-   "axis": 0.467,
-   "states": 51,
-   "yesShare": 0.804
-  },
-  "us-policy-positions:education.public-funds-for-private-schooling": {
-   "axis": 0.203,
-   "states": 51,
-   "yesShare": 0.608
-  },
-  "us-policy-positions:education.raise-teacher-minimum-salary": {
-   "axis": 0.284,
-   "states": 51,
-   "yesShare": 0.431
-  },
-  "us-policy-positions:education.universal-preschool": {
-   "axis": -0.196,
-   "states": 51,
-   "yesShare": 0.157
-  },
-  "us-policy-positions:environment-energy.bottle-deposit": {
-   "axis": -0.39,
-   "states": 51,
-   "yesShare": 0.196
-  },
-  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
-   "axis": -0.02,
-   "states": 51,
-   "yesShare": 0.176
-  },
-  "us-policy-positions:environment-energy.clean-electricity-standard": {
-   "axis": -0.756,
-   "states": 51,
-   "yesShare": 0.549
-  },
-  "us-policy-positions:environment-energy.price-carbon": {
-   "axis": -0.506,
-   "states": 51,
-   "yesShare": 0.235
-  },
-  "us-policy-positions:fiscal.adopt-income-tax": {
-   "axis": -0.182,
-   "states": 51,
-   "yesShare": 0.824
-  },
-  "us-policy-positions:fiscal.balanced-operating-budget": {
-   "axis": 0.223,
-   "states": 51,
-   "yesShare": 0.98
-  },
-  "us-policy-positions:fiscal.cap-property-tax-growth": {
-   "axis": -0.142,
-   "states": 51,
-   "yesShare": 0.314
-  },
-  "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
-   "axis": -0.292,
-   "states": 51,
-   "yesShare": 0.843
-  },
-  "us-policy-positions:fiscal.fund-pensions-to-schedule": {
-   "axis": 0.019,
-   "states": 51,
-   "yesShare": 0.706
-  },
-  "us-policy-positions:fiscal.graduated-income-tax": {
-   "axis": -0.3,
-   "states": 51,
-   "yesShare": 0.529
-  },
-  "us-policy-positions:fiscal.minimum-reserve-balance": {
-   "axis": 0.022,
-   "states": 50,
-   "yesShare": 0.98
-  },
-  "us-policy-positions:government-operations.all-mail-voting": {
-   "axis": -0.491,
-   "states": 51,
-   "yesShare": 0.176
-  },
-  "us-policy-positions:government-operations.automatic-voter-registration": {
-   "axis": -0.647,
-   "states": 51,
-   "yesShare": 0.471
-  },
-  "us-policy-positions:government-operations.ban-lobbying-after-office": {
-   "axis": -0.027,
-   "states": 51,
-   "yesShare": 0.647
-  },
-  "us-policy-positions:government-operations.broaden-local-authority": {
-   "axis": -0.026,
-   "states": 51,
-   "yesShare": 0.784
-  },
-  "us-policy-positions:government-operations.independent-redistricting": {
-   "axis": -0.027,
-   "states": 51,
-   "yesShare": 0.157
-  },
-  "us-policy-positions:government-operations.legislative-term-limits": {
-   "axis": 0.234,
-   "states": 51,
-   "yesShare": 0.314
-  },
-  "us-policy-positions:government-operations.require-photo-id-to-vote": {
-   "axis": 0.475,
-   "states": 51,
-   "yesShare": 0.451
-  },
-  "us-policy-positions:government-operations.same-day-voter-registration": {
-   "axis": -0.368,
-   "states": 51,
-   "yesShare": 0.451
-  },
-  "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
-   "axis": -0.303,
-   "states": 51,
-   "yesShare": 0.804
-  },
-  "us-policy-positions:health-human-services.medicaid-work-requirement": {
-   "axis": 0.114,
-   "states": 51,
-   "yesShare": 0.078
-  },
-  "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
-   "axis": -0.245,
-   "states": 51,
-   "yesShare": 0.137
-  },
-  "us-policy-positions:housing-land-use.inclusionary-requirement": {
-   "axis": -0.434,
-   "states": 51,
-   "yesShare": 0.039
-  },
-  "us-policy-positions:housing-land-use.rent-stabilization": {
-   "axis": -0.492,
-   "states": 51,
-   "yesShare": 0.078
-  },
-  "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
-   "axis": -0.233,
-   "states": 51,
-   "yesShare": 0.118
-  },
-  "us-policy-positions:justice-public-safety.child-access-prevention": {
-   "axis": -0.692,
-   "states": 51,
-   "yesShare": 0.353
-  },
-  "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
-   "axis": -0.563,
-   "states": 51,
-   "yesShare": 0.275
-  },
-  "us-policy-positions:justice-public-safety.end-cash-bail": {
-   "axis": -0.414,
-   "states": 49,
-   "yesShare": 0.061
-  },
-  "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
-   "axis": 0.121,
-   "states": 51,
-   "yesShare": 0.078
-  },
-  "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
-   "axis": -0.699,
-   "states": 51,
-   "yesShare": 0.431
-  },
-  "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
-   "axis": -0.564,
-   "states": 51,
-   "yesShare": 0.373
-  },
-  "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
-   "axis": -0.06,
-   "states": 51,
-   "yesShare": 0.922
-  },
-  "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
-   "axis": -0.3,
-   "states": 51,
-   "yesShare": 0.784
-  },
-  "us-policy-positions:justice-public-safety.stand-your-ground": {
-   "axis": 0.743,
-   "states": 51,
-   "yesShare": 0.588
-  },
-  "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
-   "axis": -0.358,
-   "states": 51,
-   "yesShare": 0.255
-  },
-  "us-policy-positions:labor-workforce.paid-family-leave": {
-   "axis": -0.655,
-   "states": 51,
-   "yesShare": 0.294
-  },
-  "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
-   "axis": -0.599,
-   "states": 51,
-   "yesShare": 0.627
-  },
-  "us-policy-positions:labor-workforce.raise-minimum-wage": {
-   "axis": -0.511,
-   "states": 51,
-   "yesShare": 0.608
-  },
-  "us-policy-positions:labor-workforce.right-to-work": {
-   "axis": 0.683,
-   "states": 51,
-   "yesShare": 0.51
-  },
-  "us-policy-positions:technology-privacy.age-verification-for-social-media": {
-   "axis": 0.125,
-   "states": 51,
-   "yesShare": 0.078
-  },
-  "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
-   "axis": -0.153,
-   "states": 51,
-   "yesShare": 0.333
-  },
-  "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
-   "axis": -0.323,
-   "states": 51,
-   "yesShare": 0.294
-  },
-  "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
-   "axis": -0.134,
-   "states": 50,
-   "yesShare": 0.08
-  },
-  "us-policy-positions:transportation-infrastructure.public-broadband": {
-   "axis": -0.235,
-   "states": 51,
-   "yesShare": 0.647
-  },
-  "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
-   "axis": -0.577,
-   "states": 51,
-   "yesShare": 0.255
+  "id": "issue-axes-2026",
+  "about": "Each policy question's left-right direction: the correlation across states between its recorded 2026 answer being yes and the state's 2024 Republican two-party presidential share. Positive leans right, negative leans left. Measured, not authored.",
+  "sources": [
+    "data/research/laws/starting-law-2026 (each state's recorded answer and its source)",
+    "data/source/electoral-calibration-2024/corpus.json (Clerk of the House, 2024 presidential results by state)"
+  ],
+  "minimumStates": 20,
+  "script": "scripts/research/export-issue-axes.py",
+  "axes": {
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "axis": -0.096,
+      "states": 50,
+      "yesShare": 0.62
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "axis": -0.367,
+      "states": 51,
+      "yesShare": 0.588
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "axis": -0.319,
+      "states": 51,
+      "yesShare": 0.412
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "axis": -0.489,
+      "states": 51,
+      "yesShare": 0.471
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "axis": -0.747,
+      "states": 51,
+      "yesShare": 0.451
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "axis": 0.467,
+      "states": 51,
+      "yesShare": 0.804
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "axis": 0.203,
+      "states": 51,
+      "yesShare": 0.608
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "axis": 0.284,
+      "states": 51,
+      "yesShare": 0.431
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "axis": -0.196,
+      "states": 51,
+      "yesShare": 0.157
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "axis": -0.39,
+      "states": 51,
+      "yesShare": 0.196
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "axis": -0.02,
+      "states": 51,
+      "yesShare": 0.176
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "axis": -0.756,
+      "states": 51,
+      "yesShare": 0.549
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "axis": -0.506,
+      "states": 51,
+      "yesShare": 0.235
+    },
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "axis": -0.182,
+      "states": 51,
+      "yesShare": 0.824
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "axis": 0.223,
+      "states": 51,
+      "yesShare": 0.98
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "axis": -0.142,
+      "states": 51,
+      "yesShare": 0.314
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "axis": -0.292,
+      "states": 51,
+      "yesShare": 0.843
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "axis": 0.019,
+      "states": 51,
+      "yesShare": 0.706
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "axis": -0.3,
+      "states": 51,
+      "yesShare": 0.529
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "axis": 0.022,
+      "states": 50,
+      "yesShare": 0.98
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "axis": -0.491,
+      "states": 51,
+      "yesShare": 0.176
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "axis": -0.647,
+      "states": 51,
+      "yesShare": 0.471
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "axis": -0.027,
+      "states": 51,
+      "yesShare": 0.647
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "axis": -0.026,
+      "states": 51,
+      "yesShare": 0.784
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "axis": -0.027,
+      "states": 51,
+      "yesShare": 0.157
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "axis": 0.234,
+      "states": 51,
+      "yesShare": 0.314
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "axis": 0.475,
+      "states": 51,
+      "yesShare": 0.451
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "axis": -0.368,
+      "states": 51,
+      "yesShare": 0.451
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "axis": -0.303,
+      "states": 51,
+      "yesShare": 0.804
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "axis": 0.114,
+      "states": 51,
+      "yesShare": 0.078
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "axis": -0.245,
+      "states": 51,
+      "yesShare": 0.137
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "axis": -0.434,
+      "states": 51,
+      "yesShare": 0.039
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "axis": -0.492,
+      "states": 51,
+      "yesShare": 0.078
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "axis": -0.233,
+      "states": 51,
+      "yesShare": 0.118
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "axis": -0.692,
+      "states": 51,
+      "yesShare": 0.353
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "axis": -0.563,
+      "states": 51,
+      "yesShare": 0.275
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "axis": -0.414,
+      "states": 49,
+      "yesShare": 0.061
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "axis": 0.121,
+      "states": 51,
+      "yesShare": 0.078
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "axis": -0.699,
+      "states": 51,
+      "yesShare": 0.431
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "axis": -0.564,
+      "states": 51,
+      "yesShare": 0.373
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "axis": -0.06,
+      "states": 51,
+      "yesShare": 0.922
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "axis": -0.3,
+      "states": 51,
+      "yesShare": 0.784
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "axis": 0.743,
+      "states": 51,
+      "yesShare": 0.588
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "axis": -0.358,
+      "states": 51,
+      "yesShare": 0.255
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "axis": -0.655,
+      "states": 51,
+      "yesShare": 0.294
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "axis": -0.599,
+      "states": 51,
+      "yesShare": 0.627
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "axis": -0.511,
+      "states": 51,
+      "yesShare": 0.608
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "axis": 0.683,
+      "states": 51,
+      "yesShare": 0.51
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "axis": 0.125,
+      "states": 51,
+      "yesShare": 0.078
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "axis": -0.153,
+      "states": 51,
+      "yesShare": 0.333
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "axis": -0.323,
+      "states": 51,
+      "yesShare": 0.294
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "axis": -0.134,
+      "states": 50,
+      "yesShare": 0.08
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "axis": -0.235,
+      "states": 51,
+      "yesShare": 0.647
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "axis": -0.577,
+      "states": 51,
+      "yesShare": 0.255
+    }
   }
- }
 }

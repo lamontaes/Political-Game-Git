@@ -2314,38 +2314,14 @@
       "kind": "county",
       "brackets": {
         "single": [
-          [
-            0,
-            50000,
-            2.7
-          ],
-          [
-            50000,
-            400000,
-            2.94
-          ],
-          [
-            400000,
-            null,
-            3.2
-          ]
+          [0, 50000, 2.7],
+          [50000, 400000, 2.94],
+          [400000, null, 3.2]
         ],
         "joint": [
-          [
-            0,
-            75000,
-            2.7
-          ],
-          [
-            75000,
-            480000,
-            2.94
-          ],
-          [
-            480000,
-            null,
-            3.2
-          ]
+          [0, 75000, 2.7],
+          [75000, 480000, 2.94],
+          [480000, null, 3.2]
         ]
       },
       "note": "Graduated; residentRate is the middle bracket."
@@ -2364,48 +2340,16 @@
       "kind": "county",
       "brackets": {
         "single": [
-          [
-            0,
-            25000,
-            2.25
-          ],
-          [
-            25000,
-            50000,
-            2.75
-          ],
-          [
-            50000,
-            150000,
-            2.96
-          ],
-          [
-            150000,
-            null,
-            3.2
-          ]
+          [0, 25000, 2.25],
+          [25000, 50000, 2.75],
+          [50000, 150000, 2.96],
+          [150000, null, 3.2]
         ],
         "joint": [
-          [
-            0,
-            25000,
-            2.25
-          ],
-          [
-            25000,
-            100000,
-            2.75
-          ],
-          [
-            100000,
-            250000,
-            2.96
-          ],
-          [
-            250000,
-            null,
-            3.2
-          ]
+          [0, 25000, 2.25],
+          [25000, 100000, 2.75],
+          [100000, 250000, 2.96],
+          [250000, null, 3.2]
         ]
       },
       "note": "Graduated; residentRate is the bracket covering most filers."
@@ -2923,11 +2867,7 @@
       "retrievedDate": "2026-10-12",
       "estimate": false,
       "kind": "district",
-      "countyFips": [
-        "41005",
-        "41051",
-        "41067"
-      ],
+      "countyFips": ["41005", "41051", "41067"],
       "thresholdSingle": 125000,
       "thresholdJoint": 200000,
       "note": "1% on Oregon taxable income above threshold; applies to residents of the Metro district and to nonresidents on income earned there."
