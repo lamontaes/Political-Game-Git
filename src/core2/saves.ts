@@ -28,6 +28,8 @@ export interface GameRecipe {
   place: { seed: string; key: string };
   twoLevel: boolean;
   settings?: WorldSettings;
+  /** History before the start: each engine's pre-start pass from this date (M1-14). */
+  preStart?: { from: string; step?: "month" | "quarter" };
 }
 
 export interface SaveCommand {
@@ -59,8 +61,6 @@ export interface GameOptions {
   observer?: boolean;
   /** Runs once after the core is created (e.g. engines' opening steps). */
   afterCreate?: (core: CoreState) => void;
-  /** History before the start: each engine's pre-start pass from this date (M1-14). */
-  preStart?: { from: string; step?: "month" | "quarter" };
 }
 
 type CommandHandler = (core: CoreState, payload: never) => unknown;
@@ -106,10 +106,10 @@ export function newGame(recipe: GameRecipe, options: GameOptions = {}): Game {
     ...(options.modules ? { modules: options.modules() } : {}),
   });
   options.afterCreate?.(core);
-  if (options.preStart)
+  if (recipe.preStart)
     runPreStart(
       core,
-      preStartWindow(core, options.preStart.from, options.preStart.step),
+      preStartWindow(core, recipe.preStart.from, recipe.preStart.step),
     );
   return { core, recipe, commands: [], skipped: [] };
 }
