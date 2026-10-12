@@ -9,7 +9,8 @@
  */
 import { P } from "../core2/parameters";
 import { applyCoreEvent } from "../core2/state";
-import type { CoreState, PersonId, Source } from "../core2/types";
+import { decisionLean } from "../core2/trait-decisions";
+import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import bringJson from "./data/bring-it-up.json" with { type: "json" };
 import { renderLine, type Variant } from "./render";
 import { markWordsStopgap } from "./stopgaps";
@@ -21,7 +22,6 @@ interface BringData {
   toldEvent: string;
   heardKey: string;
   blameKey: string;
-  blameAuthorityTrait: string;
   changes: readonly {
     eventKind: string;
     institutionFact: { prefix: string; suffix: string };
@@ -96,6 +96,22 @@ export function changesKnownTo(
   );
 }
 
+/** Whether a person's traits lean toward blaming an official over withholding blame. */
+export function leansToBlame(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits">,
+): boolean {
+  return (
+    decisionLean(
+      core,
+      person,
+      "bring-it-up.blame",
+      "blame-official",
+      "withhold-blame",
+    ) > P.zero
+  );
+}
+
 /** Who a person believes caused a change, from what they heard. */
 export function believedCause(
   core: Readonly<CoreState>,
@@ -119,10 +135,11 @@ export function believedCause(
       blamedId: change.institutionId,
       sourceId: change.eventId,
     };
-  // Heard only that it happened: someone whose temperament runs to blaming
-  // authority puts it on the public figure they know of.
+  // Heard only that it happened: someone whose traits lean more toward
+  // blaming authority than withholding blame puts it on the public figure
+  // they know of (every trait, through the shared trait table).
   const person = core.people.get(personId);
-  if ((person?.traits[data.blameAuthorityTrait] ?? P.zero) > P.zero) {
+  if (person && leansToBlame(core, person)) {
     const official = [...(known?.values() ?? [])]
       .filter(
         (fact) =>

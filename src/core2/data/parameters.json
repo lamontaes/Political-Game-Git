@@ -4457,6 +4457,17 @@
       "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
     }
   },
+  "truthDefaultPull": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "How strongly a hearer leans toward believing a claim they cannot check, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest. With traitLeanScale, only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a lie.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "scaled trait lean",
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
+    }
+  },
   "preStartFromYear": {
     "value": 2000,
     "tag": "TUNABLE",
@@ -4534,5 +4545,16 @@
     "value": 15,
     "tag": "SOURCED",
     "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
+  },
+  "traitDecisionWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much a person's scaled trait lean between two options (about -1 to 1, traitLeanScale) adds to a government or civic decision's score when the site has no trait weight of its own (OPUS-TRAITS, Oct 12, 2026). Half a full-strength pull: traits tilt the choice without overriding the record, party and money reasons the site already weighs.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "score per unit of scaled trait lean",
+      "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
+    }
   }
 }
