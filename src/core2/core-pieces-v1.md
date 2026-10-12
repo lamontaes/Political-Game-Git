@@ -6,7 +6,7 @@ After: Engines can register their own versioned tables, schedule keyed instituti
 
 ## Interface
 
-Inferred: The facade additions use `core2-api-v10`; the existing player API remains `core2-part1b-v1`. [Facade version](data.ts#L11), [facade methods](types.ts#L898).
+Inferred: The facade additions use `core2-api-v11` (v11 adds `repriceCreditFacility`, a dated credit-line rate); the existing player API remains `core2-part1b-v1`. [Facade version](data.ts#L11), [facade methods](types.ts#L898).
 
 ```ts
 registerModule(core, {

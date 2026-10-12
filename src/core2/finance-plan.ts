@@ -1237,7 +1237,9 @@ function accruedInterest(
     makeIsoDate(m.field(row, "lastAccruedAt")),
     makeIsoDate(session.date),
   );
-  const rate = session.parameter(r.field(row, "annualInterestParameter"));
+  const rate =
+    m.field(row, "annualInterestRate") ??
+    session.parameter(r.field(row, "annualInterestParameter"));
   const days = session.parameter(
     r.field(row, "interestDayCountParameter") ??
       r.field(data, "interestDayCountParameter"),

@@ -98,6 +98,10 @@ export interface CreditFacilityState extends CreditFacilityInput {
   interestRemainderMinor: number;
   unbilledInterestMinor: number;
   lastAccruedAt: IsoDate;
+  /** Dated repricing (core2-api-v11): replaces the parameter rate from ratedAt on. */
+  annualInterestRate?: number;
+  ratedAt?: IsoDate;
+  rateSource?: Source;
 }
 
 /** Cash has one authority: OrganizationInput.liquidMinor, never a second book. */

@@ -1,7 +1,7 @@
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -816,6 +816,34 @@ export function admitCreditFacility(
     interestFacilityId: input.id,
     source: input.source,
   });
+}
+
+/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+export function repriceCreditFacility(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  annualInterestRate: number,
+  source: Source,
+): void {
+  const row = core.finance.facilities.get(facilityId);
+  if (!row) throw new Error("Repricing requires a recorded credit facility.");
+  currentSource(source, core.date);
+  amount(api, annualInterestRate, "repriced annual interest rate");
+  const elapsed = daysBetween(
+    makeIsoDate(row.lastAccruedAt),
+    makeIsoDate(core.date),
+  );
+  const oldRate =
+    row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
+  const days = api.parameter(
+    row.interestDayCountParameter ?? policy(api).interestDayCountParameter,
+  );
+  row.unbilledInterestMinor += (row.principalMinor * elapsed * oldRate) / days;
+  row.lastAccruedAt = core.date;
+  row.annualInterestRate = annualInterestRate;
+  row.ratedAt = core.date;
+  row.rateSource = { ...source };
 }
 
 export function admitBusinessBooks(
