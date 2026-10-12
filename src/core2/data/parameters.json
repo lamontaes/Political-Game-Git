@@ -4249,13 +4249,13 @@
     }
   },
   "responseAmbitionFit": {
-    "value": 0.7,
+    "value": 1.9,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward an ambition to prove oneself, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%).",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+      "status": "measured",
+      "reason": "Fit 1.6 gives 8% and 2.0 gives 17% in the tuning towns; the research band is 10-20%."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

@@ -562,7 +562,8 @@ export function respond(
     const magnitude =
       appraised > p("zero") || !rule.impulseParameter
         ? appraised
-        : p(rule.impulseParameter);
+        : p(rule.impulseParameter) *
+          (p("lifeEventMoodScale") + p("lifeEventStressScale"));
     const pressure = seen.attention * magnitude;
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =

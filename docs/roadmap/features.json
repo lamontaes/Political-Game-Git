@@ -228,7 +228,7 @@
       "golden_path": "world",
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts",
       "passes": false
     },
     {
@@ -238,7 +238,7 @@
       "golden_path": "world",
       "package": "M1-drives-economy",
       "test": "Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts",
       "passes": false
     },
     {
@@ -368,7 +368,7 @@
       "golden_path": "3",
       "package": "M2-candidates-news",
       "test": "In a random place, every candidate on the ballot filed through their own choice (drives, views, standing, circumstances) with recorded reasons; incumbents decide on another term the same way, with no trait forcing it; an incumbent with a weak record draws a primary challenger.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/candidacy.test.ts",
       "passes": false
     },
     {
@@ -378,7 +378,7 @@
       "golden_path": "10",
       "package": "M2-candidates-news",
       "test": "In a random place, local outlets report results, laws and big events in engine-written words with nothing invented; specific people hear each story at different times through their own news habits and word of mouth; news from other places arrives later; a story changes a view only where the person trusts the source.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/news.test.ts",
       "passes": false
     },
     {
@@ -528,7 +528,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place, people bring up a change and who they believe caused it, in engine-written words; each attribution follows what that person actually heard, and some are wrong.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/director/vitest.config.ts src/director/bring-it-up.test.ts",
       "passes": false
     },
     {

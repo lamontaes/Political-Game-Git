@@ -45,6 +45,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Drives and moments.** Losses from the economy form drives; campaigns, votes and laws make moments; people bring them up.
   - Verified by: M1-11, M4-01 and M4-05.
   - Needs: WORLD (events), GOV
+  - In progress Oct 12: drives and health (#3922) merged; M1-11's closures calibrated and tested; M4-05 people bring it up (with wrong blame) built and tested. Still open: moments from campaigns, votes and laws (M4-01) once GOV's events are on a shared branch, and evictions and job losses as their producers arrive.
 
 ## Needs from other sessions
 
@@ -65,6 +66,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: drives answer the economy (M1-11). A closure now weighs as much as a lost job does on the same life-change scale as a death, and the ambition fit is calibrated to displaced-worker research: when every employer in a fresh town closes, 12.8% of workers form an ambition (retraining, a business), 5.5% a grudge aimed at the business, 82% carry on (research: 10–16% retrain, a few points start businesses, most carry on). Registered golden-path commands for M1-10, M1-11, M2-04, M2-09 and M4-05; in nightly mode all nine registered specs pass in drawn places, including Charlotte Amalie and Christiansted, U.S. Virgin Islands. The PR budget (300 s) reaches only the first five.
 - Oct 12: basic news (M2-09, `src/core2/modules/news.ts`): a public record becomes a story for its place; outlets carry it to each resident after a delay set by how closely they follow politics (next day for the most engaged, never past the story's 30 days), and each real contact passes the newest story the other hasn't heard; hearing it teaches what the record says. Not yet measured for speed over a year. Drives on closures: in a year in Rothschild, Wisconsin, 9 closures led 54 workers to decide, and all carried on, below the research's 10–16% who retrain or start something; tuning that is next.
 - Oct 12: people bring it up (M4-05, `src/director/bring-it-up.ts`). Someone who saw a closure's record says "Chen's closed. That was Chen's doing."; a friend they tell repeats it ("From what I heard..."); someone who only heard it closed and whose temperament runs to blaming authority pins it on a public official they know of, wrongly, and passes that on. Drives and health (#3922) are merged in; closures now carry a sourced impact into drives (SRRS "fired at work") and a grudge targets the business. Golden path green on this head (M0-06 Temple, Texas; M0-07 Lebanon, New Hampshire).
 - Oct 12: FIXER's #4005 and #4006 merged into this branch: the six generation picks are recorded and real school and owner names are exempt from the spelling sweep; zero-dice reports nothing new.
