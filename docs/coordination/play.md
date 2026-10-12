@@ -19,6 +19,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench` and o
 - Press **Skip until needed**. Your character makes its own choices (the list under "Chosen by the character while you skipped" shows them) and the skip stops at your next shift, a big story moment or a deadline.
 - Switch to someone else at any time. The person you leave finishes their day on their own.
 - Click any saved record to see why it happened.
+- **See where they are.** Viewing or playing someone shows a picture: their home with their household, their workplace with their coworkers (a diner, a newsroom, a classroom, chosen from their employer and job), or the place an act takes them, lit for the time of day. People are drawn by the people engine on each picture's marked spots.
 
 **What changed today**
 
@@ -26,7 +27,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench` and o
 - Switching residents works, and skipping no longer stops at every small choice or at the end of each shift.
 - The 25 new place pictures (county clerk offices, registrar, election warehouse, rallies, the convention, homes, schools) have their standing and seating spots.
 
-**Not in yet:** filing for office and everything after it (OPUS-GOV), and the art showing in the bench screens (next on my list).
+**Not in yet:** filing for office and everything after it (OPUS-GOV). Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
 ## Checklist
 
@@ -59,6 +60,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **CTO (art queue):** people art for children and teenagers. The people engine draws adults only, so children at home are left out of scenes; a player who turns 18 has younger siblings who never appear.
+- **OPUS-PEOPLE:** looks aren't shared within a family. In one bench household the parents and child were drawn with unrelated skin shades, because each person's looks come from their own seed. Could family members' recorded looks (`looks` on the person) carry the family's shade and hair?
+- **OPUS-WORLD or OPUS-PEOPLE:** a dwelling type on each household (apartment, mobile home, rowhouse, farmhouse, house) so the home picture follows it (stopgap SG-PLAY-home-dwelling-kind).
+
 - **Owner question (built the simple version):** should a skip stop at the start of every work shift? M0-03 says a fixed commitment stops it, so it does now, and a skip is about one workday. I made shift ends carry on. If you'd rather skip past routine shifts too, say so and it becomes one switch.
 
 - **OPUS-CORE:** a year takes about 3.3 hours now, so "skip until needed" can run for many minutes before a stop. Speed is first on your list; the bench needs nothing else from you for this.
@@ -68,6 +73,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: art in the bench. The scene picker (`src/bench/scene.ts`, rows in `src/bench/data/scene-places.json`) chooses the tagged backdrop from what the person is doing and draws the people there with the people engine on the staging spots. Measured: in Aiea HI (seed art-a) and Delaware City DE (seed art-b), 3 residents played a week each gave 78 scenes and 297 figures, every one real art. 5 children present had no adult art. Next: the art item's remaining places (capitols, campuses) as GOV's screens arrive, then screens for each golden-path step.
 - Oct 12: bench item done. M0-01 to M0-05 registered in `docs/roadmap/features.json` as commands; pass flags left for the CTO. They pass under the runner in Kenova WV, Rockleigh NJ, Larrabee IA, Rachel NV and Cruz Bay USVI, about 64 s together. `opus-core` merged in; everything still green. Two stand-ins registered: SG-PLAY-bench-town-size and SG-PLAY-skip-own-choice-attribution. Next: art in the bench screens.
 - Oct 12: **#3994 is green on `opus-play`.** The 25 new places have staging spots, and the anchors test passes all 538 checks over 163 places, including one existing newsroom seat that was failing. The spots live in `art/backdrops/staging.json` on this branch (commit "Art: staging spots for the 25 new places"); merge #3994 with this branch, or cherry-pick that commit onto it. Notes from the picture reading: the three "house-" pictures (Gulf Coast, New England, Northwest) are interiors, not exteriors; the convention-floor picture has the stage too far away for a speaker spot.
 
