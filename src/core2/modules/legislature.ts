@@ -873,7 +873,10 @@ function positionOn(
   // Only a deal the member took moves them: what the sponsor now owes them.
   const deal = bill.deals
     .filter((d) => d.memberId === memberId && d.status !== "declined")
-    .reduce((sum, d) => sum + dealValue(api, d.kind, memberId), 0);
+    .reduce(
+      (sum, d) => sum + dealValue(api, d.kind, memberId, bill.sponsorId),
+      0,
+    );
   const c = campaignParameter("constituentWeight");
   const lobby = positionTerms.reduce(
     (sum, term) => sum + term(api, bill, memberId),
@@ -991,7 +994,12 @@ export function offerDeal(
  * they are to the sponsor; backing their own item counts as much as their
  * strongest view; an amendment's worth is in the bill's changed terms.
  */
-function dealValue(api: CoreAPI, kind: string, memberId: string): number {
+function dealValue(
+  api: CoreAPI,
+  kind: string,
+  memberId: string,
+  sponsorId?: string,
+): number {
   const weight = campaignParameter("dealWeight");
   if (kind === "amend") return 0;
   if (kind === "back-their-item") {
@@ -1004,7 +1012,12 @@ function dealValue(api: CoreAPI, kind: string, memberId: string): number {
     );
     return weight * strongest * 2;
   }
-  return weight;
+  const tie = sponsorId
+    ? ((api.state as CoreState).relationships.get(
+        [memberId, sponsorId].sort().join(":"),
+      )?.level ?? 0)
+    : 0;
+  return weight * (1 + Math.max(0, tie));
 }
 
 /** What a sponsor owes the members who took their deals (favors, backing their items). */
