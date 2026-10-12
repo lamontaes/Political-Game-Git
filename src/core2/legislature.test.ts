@@ -137,7 +137,8 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         v.position.views +
           v.position.constituents +
           v.position.sponsor +
-          v.position.deal,
+          v.position.deal +
+          v.position.trait,
       );
     for (const m of council.map((s) => s.holder!.personId!)) {
       const v = votes.find((x) => x.memberId === m)!;
