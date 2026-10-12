@@ -50,11 +50,89 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- **OPUS-PLAY:** an app entry and build target for `/play` (root `index.html`, `review.html` and `vite.config.ts` inputs still name the deleted old app entry), so the web build works once #4036 lands.
+- **OPUS-CORE / OPUS-GOV:** to delete the other ~1,600 old files, move what `src/bench/scene.ts`, `src/rules/legislatures`, `src/rules/economy` and `tests/golden-path/place.ts` import from `src/simulation` and `src/presentation` into core2 or rules.
+
+**Stand-in figures (CTO list, Oct 12, 3:45 p.m.).** Of the 111 rows in `data/research/stand-in-figures-2026-10-12.json`, 44 are "not research" (a missing mechanic, no number to set) and 67 have a recommended value. FIXER replaced none of the 67 itself: 61 sit in files that an open pillar branch changes (checked with `git diff --name-only origin/main...origin/<branch>` for opus-core, opus-gov, opus-play, opus-world, opus-words, opus-web and pool/P15-people-5), and the other 6 either say "keep the current value" (`SG-P8-work-schedule-data`, `SG-P8-attendance-choice` is a check target and not a coefficient, `SG-P8-opening-customer-public-procurement`, `SG-P8-opening-employer-pay-calendar`) or name a code file whose numbers live in `src/core2/data/parameters.json`, which OPUS-CORE changes (`SG-P8-opening-customer-generation`: use the 2021 value 771 with the 2024 regional ratios once the owner rules on opening vintage; `SG-P8-opening-private-cash-buffer`: add real estate, 47 days). The CTO relays each pillar's rows; each row's recommended value and source are in the JSON file.
+
+- **OPUS-CORE** (37 rows with a number to set; every code location is in a file an open pillar branch changes, so FIXER did not touch them):
+  - `SG-P8-param-marriageReferenceAge` — researchable, high, `src/core2/data/parameters.json`
+  - `SG-P8-param-careHours` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-civicHours` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-stressBaseline` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-moodBaseline` — researchable, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-moodHalfLifeDays` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-stressHalfLifeDays` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-traitWeight` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-companyHorizonDays` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-moneyBufferDays` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-organizationReserveMonths` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-relationContactGain` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-opening-vintage` — researchable, medium, `src/core2/population.ts`
+  - `SG-P8-param-fallbackAnnualWageMinor` — researchable, high, `src/core2/data/parameters.json`
+  - `SG-P8-deep-past` — bounded, medium, `src/core2/data/deep-past.json`
+  - `SG-P8-opening-peer-network` — bounded, low, `src/core2/data/opening-peer-network.json`
+  - `SG-P8-work-schedule-data` — bounded, medium, `src/core2/data/work.json`
+  - `SG-P8-attendance-choice` — bounded, medium, `src/core2/data/work.json`
+  - `SG-P8-work-time-reserve` — researchable, high, `src/core2/data/parameters.json`
+  - `SG-P8-business-books-priors` — bounded, medium, `src/core2/data/parameters.json`
+  - `SG-P8-business-books-dynamics` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-opening-finance-cadence` — bounded, low, `src/core2/data/opening-finance.json`
+  - `SG-P8-opening-retirement-income` — researchable, high, `src/core2/data/opening-income.json`
+  - `SG-P8-param-openingRetirementClaimAgeYears` — researchable, high, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementClaimTraitPullYears` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementCoveredFraction` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementCoveredTraitPull` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementMinimumCoveredMonths` — researchable, high, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementBenefitReferenceCoveredMonths` — researchable, high, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementBenefitFactorMinimum` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-param-openingRetirementBenefitFactorMaximum` — researchable, medium, `src/core2/data/parameters.json`
+  - `SG-P8-person-trait-diversity` — bounded, low, `src/core2/population.ts`
+  - `SG-P8-opening-family-closeness` — researchable, medium, `src/core2/state.ts`
+  - `SG-P8-opening-customer-generation` — researchable, medium, `src/core2/data/opening-customers.json`
+  - `SG-P8-opening-customer-public-procurement` — bounded, low, `src/core2/data/opening-customers.json`
+  - `SG-P8-opening-private-cash-buffer` — researchable, high, `src/core2/data/opening-capital.json`
+  - `SG-P8-opening-employer-pay-calendar` — bounded, medium, `src/core2/opening-payroll-calendar.ts`
+- **OPUS-PEOPLE** (19 rows with a number to set; every code location is in a file an open pillar branch changes, so FIXER did not touch them):
+  - `SG-P15-params-uncalibrated` — bounded, medium, `src/core2/data/parameters.json`
+  - `SG-P15-personality-mapping` — bounded, medium, `src/core2/data/opening-kin.json`
+  - `SG-P15-distance-by-place` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P15-school-assignment` — researchable, medium, `src/core2/data/opening-schools.json`
+  - `SG-P15-coworker-groups` — bounded, low, `src/core2/data/opening-coworkers.json`
+  - `SG-P15-candidacy-weights` — bounded, low, `src/core2/data/candidacy/parameters.json`
+  - `SG-P10-params-uncalibrated` — bounded, low, `src/core2/data/parameters.json`
+  - `SG-P10-response-model` — bounded, medium, `src/core2/data/drives.json`
+  - `SG-P10-event-severity` — bounded, medium, `src/core2/data/health.json`
+  - `SG-P15-news-habits` — bounded, low, `src/core2/data/news/parameters.json`
+  - `SG-P15-speech-reception` — bounded, low, `src/core2/data/speech/parameters.json`
+  - `SG-P15-corruption-weights` — bounded, low, `src/core2/data/corruption/parameters.json`
+  - `SG-P13-param-directorMomentFloor` — bounded, low, `src/director/data/director.json`
+  - `SG-P13-param-directorWeightTieSociability` — bounded, low, `src/director/data/director.json`
+  - `SG-P13-param-directorWeightMoneyRisk` — bounded, low, `src/director/data/director.json`
+  - `SG-P13-param-directorTies` — bounded, low, `src/director/data/director.json`
+  - `SG-P13-param-directorHalfLives` — bounded, medium, `src/director/data/director.json`
+  - `SG-P13-param-directorAnniversaryHalfDays` — bounded, low, `src/director/data/director.json`
+  - `SG-P13-past-fact-estimates` — researchable, medium, `src/director/data/director.json`
+- **OPUS-GOV** (6 rows with a number to set; every code location is in a file an open pillar branch changes, so FIXER did not touch them):
+  - `SG-GOV-term-end-estimate` — researchable, medium, `src/core2/modules/offices.ts`
+  - `SG-GOV-voter-groups-stand-in` — bounded, medium, `src/core2/modules/voting.ts`
+  - `SG-GOV-local-fiscal-year` — researchable, medium, `src/core2/modules/budgets.ts`
+  - `SG-GOV-local-budget-split` — researchable, low, `src/core2/modules/budgets.ts`
+  - `SG-GOV-veto-override-rule` — researchable, low, `src/core2/modules/legislature.ts`
+  - `SG-GOV-committee-structure` — bounded, medium, `src/core2/modules/legislature.ts`
+- **OPUS-WORLD** (5 rows with a number to set; every code location is in a file an open pillar branch changes, so FIXER did not touch them):
+  - `SG-WORLD-macro-mortgage-spread` — researchable, high, `src/core2/macro-model.ts`
+  - `SG-WORLD-macro-public-budget` — bounded, medium, `src/core2/data/macro/parameters.json`
+  - `SG-WORLD-regional-territory-estimate` — researchable, low, `src/core2/regional-model.ts`
+  - `SG-WORLD-housing-eviction-steps` — researchable, medium, `src/core2/modules/housing.ts`
+  - `SG-WORLD-housing-mortgage-history` — researchable, medium, `src/core2/housing-mortgages.ts`
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12 (FIXER): old-engine removal refreshed on `fixer/remove-old-engine` (merged opus-play and main; restored `src/presentation/guide-terms.ts`, which `src/bench/server.ts` imports; the reachability script now treats `vite.config.ts` as an entry and counts a test as live only when its imports resolve; 123 tests of deleted code removed). Stand-in figures: no row could be set without editing a pillar-owned file, so all 67 are listed under "Needs from other sessions" by pillar.
+- Oct 12 (FIXER): old-engine removal, draft PR #4036 (`fixer/remove-old-engine`): deleted 1,874 unreachable old files; ~1,600 stay until bench scene, rules and golden-path place stop importing them. Typecheck: 3 map-preview errors left (to delete) plus 3 predating in `src/bench/changes.ts`. Lint, golden-path and new-game tests not yet run. Nothing new to play; the web build waits on PLAY's `/play` entry. Checks on the branch: typecheck clean except 3 errors already on `opus-play`; golden-path no accepted regression; `src/bench`, `src/director`, `src/release`, `src/core2` tests 1,772 pass and 14 fail, and the 4 I re-ran fail the same way on `opus-play` (nothing from the deletion). Waiting on PLAY's `/play` entry.
 
 - Oct 12 (FIXER): M7-04 bug report builder on `fixer/bug-report`: `src/release/bug-report.ts` builds the report (build, place and seed, last 500 log lines, note, crash error) with account names and emails taken out, and never sends. 4 tests pass (bare vitest config). Nothing to play yet: OPUS-PLAY wires the button and the after-crash prompt to `buildBugReport` and `serializeBugReport`, and the screen must show the text before sending. Steam updates and Mac signing still need the owner's accounts.
 

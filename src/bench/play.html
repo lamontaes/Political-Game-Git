@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Our Civic Duty</title>
+    <link rel="stylesheet" href="/play.css" />
+  </head>
+  <body>
+    <main id="game">
+      <div id="stage">
+        <img id="backdrop" alt="" />
+        <div id="people"></div>
+      </div>
+
+      <section id="caption" class="panel corners" hidden>
+        <p id="caption-title"></p>
+        <h2 id="caption-names"></h2>
+      </section>
+
+      <section id="front" class="panel corners">
+        <h1>Our Civic Duty</h1>
+        <label>Seed <input id="seed" /></label>
+        <label>Opening date <input id="date" type="date" /></label>
+        <label
+          >Place <input id="place" list="places" placeholder="Random"
+        /></label>
+        <datalist id="places"></datalist>
+        <details id="custom">
+          <summary>Customize the world</summary>
+          <label
+            >Town size
+            <input
+              id="set-population"
+              type="number"
+              min="100"
+              max="50000"
+              step="100"
+              placeholder="Real"
+          /></label>
+          <label
+            >Wages ×
+            <input
+              id="set-wages"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+          <label
+            >Household cash ×
+            <input
+              id="set-cash"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+          <label
+            >Outside demand ×
+            <input
+              id="set-demand"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+          <label
+            >Lean (−1 left, +1 right)
+            <input
+              id="set-lean"
+              type="number"
+              min="-1"
+              max="1"
+              step="0.05"
+              placeholder="0"
+          /></label>
+          <label
+            >Turnout ×
+            <input
+              id="set-turnout"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+        </details>
+        <button id="new-life" class="primary" type="button">New life</button>
+        <div class="progress" hidden><span></span></div>
+        <p id="front-status" role="status"></p>
+      </section>
+
+      <nav id="tabs" hidden>
+        <button type="button" data-tab="politics">Politics</button>
+        <button type="button" data-tab="news">News</button>
+        <button type="button" data-tab="calendar">Calendar</button>
+        <button type="button" data-tab="journal">Journal</button>
+        <button type="button" data-tab="travel">Travel</button>
+      </nav>
+
+      <nav id="stack" hidden>
+        <button type="button" data-tab="people">People</button>
+        <button type="button" data-tab="who">Who you are</button>
+        <button type="button" data-tab="money">Money and property</button>
+        <button type="button" data-tab="jobs">Jobs and study</button>
+        <button type="button" data-tab="guide">Guide</button>
+        <button type="button" data-tab="options">Options</button>
+      </nav>
+
+      <section id="sheet" class="panel corners" hidden>
+        <button id="sheet-close" class="close" type="button" aria-label="Close">
+          ×
+        </button>
+        <h2 id="sheet-title"></h2>
+        <div id="sheet-body"></div>
+      </section>
+
+      <section id="choices" class="panel corners" hidden>
+        <div id="choice-list"></div>
+      </section>
+
+      <section id="talk" class="panel corners" hidden>
+        <button id="talk-lie" class="scales" type="button">
+          <img src="/ui/kit12/scales-level.svg" alt="" />
+        </button>
+        <ol id="talk-lines"></ol>
+        <div id="talk-choices"></div>
+        <button id="talk-leave" type="button">Leave</button>
+      </section>
+
+      <section id="filing-overlay" class="panel corners" hidden>
+        <h2 id="filing-title"></h2>
+        <div id="filing-checks"></div>
+        <div id="filing-platform"></div>
+        <label
+          >Party
+          <select id="filing-party"></select
+        ></label>
+      </section>
+
+      <section id="person" class="panel corners" hidden>
+        <img id="person-figure" alt="" />
+        <div>
+          <h2 id="person-name"></h2>
+          <div id="person-facts"></div>
+          <button id="person-talk" type="button">Talk</button>
+          <button id="person-close" type="button">Close</button>
+        </div>
+      </section>
+
+      <section id="card" class="panel corners" hidden>
+        <h2 id="card-name"></h2>
+        <p id="card-place"></p>
+        <p id="card-clock"></p>
+        <p id="card-why"></p>
+        <div class="time">
+          <button id="day" type="button">Day</button>
+          <button id="week" type="button">Week</button>
+          <button id="skip" class="primary" type="button">Until needed</button>
+          <button id="continue" class="primary" type="button" hidden>
+            Continue
+          </button>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/play.mjs"></script>
+  </body>
+</html>

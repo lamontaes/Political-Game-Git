@@ -18,6 +18,7 @@ import type {
   CoreModule,
   PersonId,
 } from "../types";
+import { decisionKinds, decisionLean } from "../trait-decisions";
 import { stancesOf, viewOf, VIEWS_SPEECH_LEAN_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
@@ -54,7 +55,7 @@ export interface Retelling {
 function action(id: string, retelling: boolean): ActionDefinition {
   return {
     id,
-    actKinds: retelling ? ["speak-out"] : ["play-safe"],
+    actKinds: decisionKinds("speech.retell", id),
     goalKinds: [],
     need: "company",
     effortParameter: "zero",
@@ -195,8 +196,13 @@ export const speechModule: CoreModule = {
           binding.arguments?.retelling === "true"
             ? s(api, "speechRetellWeight") * amount +
               s(api, "speechSociabilityWeight") *
-                (actor.traits["people-mind-v1:sociability"] ??
-                  api.parameter("zero"))
+                decisionLean(
+                  api.state,
+                  actor,
+                  "speech.retell",
+                  "speech-retell",
+                  "speech-keep",
+                )
             : s(api, "speechKeepPull"),
         sourceIds: [actor.id],
       };

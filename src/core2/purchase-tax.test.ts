@@ -38,8 +38,26 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     );
     advanceCore(core, "2021-01-10");
     const api = coreAPI(core);
+    // Tax the place where the town's sellers actually are, read from the
+    // first sales: a place can have its government in one jurisdiction (a
+    // municipio) and its businesses in another, and a tax applies only to
+    // sellers located in the taxing jurisdiction.
+    advanceCore(core, "2021-01-20");
+    const salesByPlace = new Map<string, number>();
+    for (const sale of sales) {
+      const sellerPlace = core.organizations.get(sale.sellerId)?.placeId;
+      if (sellerPlace)
+        salesByPlace.set(sellerPlace, (salesByPlace.get(sellerPlace) ?? 0) + 1);
+    }
+    const taxingPlaceId = [...salesByPlace.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    )[0]?.[0];
+    expect(taxingPlaceId).toBeDefined();
     const local = [...core.organizations.values()].filter(
-      (row) => row.outsideFlow === undefined && row.kind === "employer",
+      (row) =>
+        row.outsideFlow === undefined &&
+        row.kind === "employer" &&
+        row.placeId === taxingPlaceId,
     );
     const government = local.find((row) => row.publicPayAuthority) ?? local[0]!;
     const treasury = api.accounts().open({
@@ -49,7 +67,6 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     });
     // Exempt the classification of the town's first seller, as a grocery
     // exemption exempts food stores.
-    advanceCore(core, "2021-01-20");
     const exempt = sales
       .map((sale) => core.organizations.get(sale.sellerId)?.classification)
       .find((row) => row);

@@ -153,12 +153,23 @@ interface HouseholdPlan {
 
 /** Each [child, parent] member pair of a household: children under 18 with every adult, and a grown child with their parent. */
 function parentChildMembers(plan: HouseholdPlan): [number, number][] {
-  const adults = plan.skeleton.members.flatMap((member, index) =>
-    member.role === "adult" ? [index] : [],
+  // The household's parents: its adults other than grown children living at
+  // home, and old enough to have had the child (a grown sibling is not a
+  // parent of the younger children).
+  const members = plan.skeleton.members;
+  const adults = members.flatMap((member, index) =>
+    member.role === "adult" && !plan.grownChildren?.includes(index)
+      ? [index]
+      : [],
   );
-  const pairs = plan.skeleton.members.flatMap((member, child) =>
+  const pairs = members.flatMap((member, child) =>
     member.role === "child"
-      ? adults.map((parent) => [child, parent] as [number, number])
+      ? adults
+          .filter(
+            (parent) =>
+              members[parent]!.age - member.age >= p("minimumParentAgeAtBirth"),
+          )
+          .map((parent) => [child, parent] as [number, number])
       : [],
   );
   for (const child of plan.grownChildren ?? [])
@@ -1425,23 +1436,46 @@ function openingFamilies(input: OpeningFamilyInput): {
     id: string,
     traits: Record<string, number>,
     traitSources: Record<string, Source> | undefined,
+    sharedTraitSource: Source | undefined,
   ) => {
     const core = temperament.get(id) ?? {};
+    // A recorded facet from upbringing outranks the generated estimate; the
+    // five temperament dimensions always come from the temperament model.
+    const recorded = Object.fromEntries(
+      Object.entries(traits).filter(
+        ([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`),
+      ),
+    );
+    // Every generated trait shares one temperament source; recorded facets
+    // keep the source they already had.
     return {
-      traits: { ...traits, ...core },
+      traits: { ...traits, ...core, ...recorded },
       traitSources: {
+        ...(sharedTraitSource
+          ? Object.fromEntries(
+              Object.keys(recorded).map((key) => [key, sharedTraitSource]),
+            )
+          : {}),
         ...(traitSources ?? {}),
         ...Object.fromEntries(
-          Object.keys(core).map((key) => [key, temperamentSource]),
+          Object.keys(core)
+            .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+            .map((key) => [key, temperamentSource]),
         ),
       },
+      sharedTraitSource: temperamentSource,
     };
   };
   const residents = input.people.map((person) => {
     const facts = familyFacts(person.id);
     return {
       ...person,
-      ...withTemperament(person.id, person.traits, person.traitSources),
+      ...withTemperament(
+        person.id,
+        person.traits,
+        person.traitSources,
+        person.sharedTraitSource,
+      ),
       familyIds: [...new Set([...person.familyIds, ...facts.ids])].sort(),
       knownIds: [...new Set([...person.knownIds, ...facts.ids])],
       ...(facts.ids.length

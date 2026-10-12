@@ -1,0 +1,206 @@
+{
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization. situationPlaces picks a picture by the story situation and its setting (first one painted wins; @home is the person's own dwelling); schoolPlacesByAge picks a school picture by the person's age. electionNight is the results sheet's picture: where a candidate watches returns, and where a voter voted.",
+  "actions": {
+    "work-shift": ["@workplace"],
+    "attend-scheduled-work-date-segment": ["@workplace"],
+    "rest": ["@home"],
+    "contact-known-person": ["@home"],
+    "care-for-relative": ["@home"],
+    "join-association": ["@target", "community-room"],
+    "organize-meeting": ["@target", "public-meeting-room"],
+    "approach-office": ["@target", "clerk-counter"],
+    "look-up-local-institution": ["public-library"],
+    "share-cause": ["@home"],
+    "found-cause-group": ["community-room"],
+    "join-cause-group": ["@target", "community-room"],
+    "donate-to-cause": ["@home"],
+    "volunteer-for-cause": ["@target", "community-room"],
+    "confront-grudge-target": ["main-street"],
+    "seek-standing": ["city-hall-hallway"],
+    "testify-at-hearing": ["committee-hearing-room", "public-meeting-room"],
+    "run-for-office": ["county-clerk-office-rural", "clerk-counter"],
+    "lobby-legislator": ["city-hall-hallway"]
+  },
+  "organizationKinds": {
+    "service:municipal-government": "city-hall",
+    "service:county-government": "county-clerk",
+    "sector:local-government-office": "city-hall",
+    "sector:state-government-office": "regional-office",
+    "sector:federal-government-office": "regional-office",
+    "community:organizing-nonprofit": "organizing",
+    "membership:labor-union": "union",
+    "enterprise:political-consulting": "campaign-staff",
+    "enterprise:food-service": "restaurant",
+    "enterprise:transportation": "trucking",
+    "enterprise:professional-services": "professional",
+    "enterprise:telecommunications": "information",
+    "enterprise:lodging": "inn",
+    "enterprise:real-estate": "realty",
+    "enterprise:personal-services": "personal-care",
+    "service:nursing-home": "care-home",
+    "service:public-health": "clinic"
+  },
+  "placesWithoutKind": {
+    "service:fire": "fire-station",
+    "service:police": "police-station",
+    "enterprise:agriculture": "farm-yard",
+    "service:public-health": "hospital-lobby",
+    "sector:state-government-office": "dmv-office",
+    "service:municipal-government": "mayor-office",
+    "membership:labor-union": "union-hall"
+  },
+  "variantByHour": [
+    {
+      "fromHour": 0,
+      "variant": "night"
+    },
+    {
+      "fromHour": 6,
+      "variant": "morning"
+    },
+    {
+      "fromHour": 11,
+      "variant": "midday"
+    },
+    {
+      "fromHour": 19,
+      "variant": "night"
+    }
+  ],
+  "filingOffices": [
+    {
+      "match": "county",
+      "places": [
+        "county-clerk-office-rural",
+        "county-clerk-office-urban",
+        "clerk-counter"
+      ]
+    },
+    {
+      "match": "registrar|board of elections|elections",
+      "places": ["registrar-of-voters-worn", "election-office", "clerk-counter"]
+    },
+    {
+      "match": "secretary of state",
+      "places": ["clerk-back-office", "clerk-counter"]
+    },
+    {
+      "match": "",
+      "places": ["clerk-counter"]
+    }
+  ],
+  "filingClerkOfficeKinds": [
+    "county-clerk",
+    "municipal-clerk",
+    "registrar",
+    "election-administrator"
+  ],
+  "sceneSettings": {
+    "home": ["@home"],
+    "other-home": ["@home"],
+    "workplace": ["@org", "office"],
+    "school": ["high-school-hallway", "classroom"],
+    "public": ["main-street", "park"],
+    "venue": ["community-room", "union-hall"],
+    "phone": ["@home"],
+    "letter": ["@home"]
+  },
+  "bodyPlaces": {
+    "about": "Where each kind of elected body meets, by the office kind on its records; a legislature with no upper chamber meets in the one-house chamber.",
+    "council": "council-chamber",
+    "township-board": "public-meeting-room",
+    "county-board": "council-chamber",
+    "school-board": "school-board-room",
+    "legislature-upper": "state-legislative-chamber-bicameral",
+    "legislature-lower": "state-legislative-chamber-bicameral",
+    "legislature-unicameral": "state-legislative-chamber-unicameral",
+    "us-senate": "us-senate-floor",
+    "us-house": "us-house-floor",
+    "default": "public-meeting-room"
+  },
+  "speechPlaces": [
+    "rally-courthouse-square",
+    "rally-downtown-plaza",
+    "rally-county-fairground",
+    "school-gym-town-hall",
+    "rally-union-hall-parking-lot",
+    "rally-stage",
+    "rally-airport-hangar",
+    "city-hall-steps-event",
+    "lodge-hall",
+    "church-supper-hall"
+  ],
+  "dwellingPlaces": {
+    "about": "The home picture for each kind of dwelling OPUS-WORLD's housing records (dwellingKind). Where a kind has several pictures, each household gets one from its own id, so the same home always looks the same; a state's regional house styles join the list there.",
+    "house": ["suburban-house"],
+    "rowhouse": ["rowhouse"],
+    "apartment": [
+      "small-apartment",
+      "apartment-older-walkup",
+      "apartment-suburban-garden"
+    ],
+    "mobile-home": ["mobile-home"],
+    "farmhouse": ["rural-farmhouse"]
+  },
+  "regionalHouses": {
+    "about": "House styles by state (USPS code), added to the house pictures there.",
+    "house-new-england-colonial": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "house-gulf-coast-raised": ["LA", "MS", "AL", "FL", "TX"],
+    "house-southwest-adobe": ["AZ", "NM"],
+    "house-northwest-craftsman": ["WA", "OR"]
+  },
+  "situationPlaces": {
+    "funeral:venue": [
+      "funeral-home-viewing-room",
+      "church-sanctuary",
+      "cemetery-graveside"
+    ],
+    "celebration:venue": ["hotel-ballroom", "church-supper-hall"],
+    "first-meeting:public": ["coffee-shop", "main-street"],
+    "first-meeting:venue": ["coffee-shop", "tavern"],
+    "date:public": ["park", "coffee-shop"],
+    "date:venue": ["tavern", "coffee-shop"],
+    "proposal:public": ["park"],
+    "proposal:venue": ["tavern"],
+    "becoming-friends:public": ["coffee-shop", "park"],
+    "reunion:public": ["coffee-shop", "main-street"],
+    "rescue:venue": ["hospital-emergency-waiting"],
+    "rescue:public": ["main-street"],
+    "visit:venue": ["hospital-patient-room", "community-room"],
+    "care:other-home": ["@home"],
+    "interview:venue": ["coffee-shop", "office"],
+    "departure:home": ["@home", "doorstep-entrance"],
+    "return:home": ["doorstep-entrance", "@home"],
+    "arrival:home": ["doorstep-entrance", "@home"],
+    "gathering-missing:home": ["home-kitchen", "@home"],
+    "argument:home": ["home-kitchen", "@home"],
+    "breakup:home": ["home-kitchen", "@home"],
+    "confession:home": ["home-kitchen", "@home"]
+  },
+  "schoolPlacesByAge": [
+    {
+      "underAge": 11,
+      "places": ["elementary-classroom", "school-hallway", "classroom"]
+    },
+    {
+      "underAge": 14,
+      "places": ["school-hallway", "school-cafeteria", "classroom"]
+    },
+    {
+      "underAge": 19,
+      "places": ["high-school-hallway", "high-school-cafeteria", "classroom"]
+    },
+    {
+      "underAge": 200,
+      "places": [
+        "university-lecture-hall",
+        "student-union-lounge",
+        "college-quad"
+      ]
+    }
+  ],
+  "electionNight": {
+    "ran": "election-night-venue",
+    "voted": "polling-place"
+  }
+}

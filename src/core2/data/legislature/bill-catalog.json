@@ -1,0 +1,1416 @@
+{
+  "id": "bill-catalog",
+  "about": "The bill paper's catalog: the owner-accepted 18 subject menus (docs/design/legislative-content-menus-v1.md) with the policies the engine supports under each topic, their operations and the levels that can pass them. Built by scripts/research/build-bill-catalog.py.",
+  "subjects": [
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure",
+      "topics": [
+        {
+          "name": "Transportation",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:highways",
+              "name": "Spending: highways",
+              "kind": "budget-line",
+              "line": "highways",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "name": "fare free transit",
+              "kind": "policy-question",
+              "question": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "name": "mileage fee replaces fuel tax",
+              "kind": "policy-question",
+              "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:transportation-infrastructure.public-broadband",
+              "name": "public broadband",
+              "kind": "policy-question",
+              "question": "us-policy-positions:transportation-infrastructure.public-broadband",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "name": "shift highway funds to transit",
+              "kind": "policy-question",
+              "question": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Water and wastewater",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Flood control and drainage",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Waste collection and disposal",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Public buildings and facilities",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Digital infrastructure",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "healthcare",
+      "name": "Healthcare",
+      "topics": [
+        {
+          "name": "Coverage and insurance",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "name": "expand medicaid eligibility",
+              "kind": "policy-question",
+              "question": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:health-human-services.medicaid-work-requirement",
+              "name": "medicaid work requirement",
+              "kind": "policy-question",
+              "question": "us-policy-positions:health-human-services.medicaid-work-requirement",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:health-human-services.work-requirement-for-assistance",
+              "name": "work requirement for assistance",
+              "kind": "policy-question",
+              "question": "us-policy-positions:health-human-services.work-requirement-for-assistance",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Hospitals and clinics",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:healthAndHospitals",
+              "name": "Spending: healthAndHospitals",
+              "kind": "budget-line",
+              "line": "healthAndHospitals",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Mental health and addiction services",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Public health",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Medicines and medical products",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Reproductive health",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Long-term care",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Healthcare workforce",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "name": "Education",
+      "topics": [
+        {
+          "name": "Early childhood and preschool",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:education.universal-preschool",
+              "name": "universal preschool",
+              "kind": "policy-question",
+              "question": "us-policy-positions:education.universal-preschool",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "K-12 schools",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:schools",
+              "name": "Spending: schools",
+              "kind": "budget-line",
+              "line": "schools",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "School funding",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:education.public-funds-for-private-schooling",
+              "name": "public funds for private schooling",
+              "kind": "policy-question",
+              "question": "us-policy-positions:education.public-funds-for-private-schooling",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "School facilities",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Teachers and support staff",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:education.raise-teacher-minimum-salary",
+              "name": "raise teacher minimum salary",
+              "kind": "policy-question",
+              "question": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Special education",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Colleges and universities",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:higherEducation",
+              "name": "Spending: higherEducation",
+              "kind": "budget-line",
+              "line": "higherEducation",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Student aid",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Vocational and adult education",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "taxes-finance",
+      "name": "Taxes & Public Finance",
+      "topics": [
+        {
+          "name": "Taxes",
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:income-tax",
+              "name": "Local income tax rate",
+              "kind": "law-amount",
+              "series": "income-tax",
+              "unit": "percent",
+              "operations": ["raise", "lower"],
+              "levels": ["city"]
+            },
+            {
+              "id": "law:sales-tax",
+              "name": "Local sales tax rate",
+              "kind": "law-amount",
+              "series": "sales-tax",
+              "unit": "percent",
+              "operations": ["raise", "lower"],
+              "levels": ["city"]
+            },
+            {
+              "id": "question:us-policy-positions:fiscal.adopt-income-tax",
+              "name": "adopt income tax",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.adopt-income-tax",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:fiscal.cap-property-tax-growth",
+              "name": "cap property tax growth",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.cap-property-tax-growth",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+              "name": "exempt groceries from sales tax",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:fiscal.graduated-income-tax",
+              "name": "graduated income tax",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.graduated-income-tax",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Fees and charges",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Budgets and appropriations",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:fiscal.balanced-operating-budget",
+              "name": "balanced operating budget",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.balanced-operating-budget",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Grants and transfers",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Debt and borrowing",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Reserves and fiscal rules",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "name": "fund pensions to schedule",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:fiscal.minimum-reserve-balance",
+              "name": "minimum reserve balance",
+              "kind": "policy-question",
+              "question": "us-policy-positions:fiscal.minimum-reserve-balance",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Fiscal and monetary institutions",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "assistance",
+      "name": "Assistance & Social Insurance",
+      "topics": [
+        {
+          "name": "Food assistance",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Cash assistance",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:welfareAndMedicaid",
+              "name": "Spending: welfareAndMedicaid",
+              "kind": "budget-line",
+              "line": "welfareAndMedicaid",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Child-care assistance",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Disability support",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Unemployment benefits",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Retirement and survivor benefits",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Elder and caregiver support",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Utility-bill assistance",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "housing",
+      "name": "Housing & Land Use",
+      "topics": [
+        {
+          "name": "Planning and zoning",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "name": "allow multifamily in single family zones",
+              "kind": "policy-question",
+              "question": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Building permits and standards",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Affordable and public housing",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:housing",
+              "name": "Spending: housing",
+              "kind": "budget-line",
+              "line": "housing",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:housing-land-use.inclusionary-requirement",
+              "name": "inclusionary requirement",
+              "kind": "policy-question",
+              "question": "us-policy-positions:housing-land-use.inclusionary-requirement",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Rental rules",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:housing-land-use.rent-stabilization",
+              "name": "rent stabilization",
+              "kind": "policy-question",
+              "question": "us-policy-positions:housing-land-use.rent-stabilization",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "name": "right to counsel in eviction",
+              "kind": "policy-question",
+              "question": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Homeownership assistance",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Homelessness services",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Neighborhood redevelopment",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "labor",
+      "name": "Labor & Employment",
+      "topics": [
+        {
+          "name": "Wages and working hours",
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:minimum-wage",
+              "name": "Minimum wage",
+              "kind": "law-amount",
+              "series": "minimum-wage",
+              "unit": "minor/hour",
+              "operations": ["raise", "lower"],
+              "levels": ["federal", "state", "city"]
+            },
+            {
+              "id": "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "name": "raise federal minimum wage",
+              "kind": "policy-question",
+              "question": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            },
+            {
+              "id": "question:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "name": "local minimum wage authority",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:labor-workforce.raise-minimum-wage",
+              "name": "raise minimum wage",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Paid and unpaid leave",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:labor-workforce.paid-family-leave",
+              "name": "paid family leave",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.paid-family-leave",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Workplace health and safety",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Hiring and employment protections",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Unions and collective bargaining",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "name": "public sector collective bargaining",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:labor-workforce.right-to-work",
+              "name": "right to work",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.right-to-work",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Workers' compensation",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Employment training",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Pensions",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "business",
+      "name": "Business & Economic Development",
+      "topics": [
+        {
+          "name": "Business formation and licensing",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "name": "legalize cannabis sales",
+              "kind": "policy-question",
+              "question": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Small-business finance",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Development incentives",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Competition and market rules",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Banking and credit",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "name": "cap consumer loan rates",
+              "kind": "policy-question",
+              "question": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Insurance markets",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Manufacturing and industry",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Commercial development",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "energy-environment",
+      "name": "Energy & Environment",
+      "topics": [
+        {
+          "name": "Electricity and the grid",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "name": "ban new gas hookups",
+              "kind": "policy-question",
+              "question": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:environment-energy.clean-electricity-standard",
+              "name": "clean electricity standard",
+              "kind": "policy-question",
+              "question": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Fuels and extraction",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Energy efficiency and renewables",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Utility regulation",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Air and emissions",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "name": "clean air plan for polluted counties",
+              "kind": "policy-question",
+              "question": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Water quality",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Land, wildlife and conservation",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:naturalResources",
+              "name": "Spending: naturalResources",
+              "kind": "budget-line",
+              "line": "naturalResources",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Pollution cleanup",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:environment-energy.bottle-deposit",
+              "name": "bottle deposit",
+              "kind": "policy-question",
+              "question": "us-policy-positions:environment-energy.bottle-deposit",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Climate and resilience",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:environment-energy.price-carbon",
+              "name": "price carbon",
+              "kind": "policy-question",
+              "question": "us-policy-positions:environment-energy.price-carbon",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "justice",
+      "name": "Justice & Public Safety",
+      "topics": [
+        {
+          "name": "Policing",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:police",
+              "name": "Spending: police",
+              "kind": "budget-line",
+              "line": "police",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "name": "civilian oversight of police",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "name": "partner with federal immigration enforcement",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Courts and legal aid",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:justice-public-safety.end-cash-bail",
+              "name": "end cash bail",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Criminal law and sentencing",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Prisons, probation and reentry",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:corrections",
+              "name": "Spending: corrections",
+              "kind": "budget-line",
+              "line": "corrections",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "name": "restore voting after sentence",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Juvenile justice",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "name": "raise juvenile court age",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Firearms and weapons rules",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:justice-public-safety.child-access-prevention",
+              "name": "child access prevention",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.child-access-prevention",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "name": "permit to carry concealed",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "name": "raise handgun purchase age",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:justice-public-safety.stand-your-ground",
+              "name": "stand your ground",
+              "kind": "policy-question",
+              "question": "us-policy-positions:justice-public-safety.stand-your-ground",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Fire and emergency medical services",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:fire",
+              "name": "Spending: fire",
+              "kind": "budget-line",
+              "line": "fire",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Emergency management and disaster recovery",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "government",
+      "name": "Government & Democracy",
+      "topics": [
+        {
+          "name": "Elections and representation",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:government-operations.all-mail-voting",
+              "name": "all mail voting",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.all-mail-voting",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:government-operations.automatic-voter-registration",
+              "name": "automatic voter registration",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.automatic-voter-registration",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:government-operations.independent-redistricting",
+              "name": "independent redistricting",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.independent-redistricting",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:government-operations.require-photo-id-to-vote",
+              "name": "require photo id to vote",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.require-photo-id-to-vote",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:government-operations.same-day-voter-registration",
+              "name": "same day voter registration",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.same-day-voter-registration",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Campaign finance",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Ethics and conflicts",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:government-operations.ban-lobbying-after-office",
+              "name": "ban lobbying after office",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.ban-lobbying-after-office",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Public records and meetings",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Agencies and public employment",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:administration",
+              "name": "Spending: administration",
+              "kind": "budget-line",
+              "line": "administration",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Procurement",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Local-government powers",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:government-operations.broaden-local-authority",
+              "name": "broaden local authority",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.broaden-local-authority",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Intergovernmental relations",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Constitutional and institutional reform",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:government-operations.legislative-term-limits",
+              "name": "legislative term limits",
+              "kind": "policy-question",
+              "question": "us-policy-positions:government-operations.legislative-term-limits",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rights",
+      "name": "Rights, Family & Consumer Protection",
+      "topics": [
+        {
+          "name": "Civil rights and equal treatment",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+              "name": "ban discrimination in housing and work",
+              "kind": "policy-question",
+              "question": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "name": "dedicated parks funding",
+              "kind": "policy-question",
+              "question": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:civil-family-community.restrict-abortion",
+              "name": "restrict abortion",
+              "kind": "policy-question",
+              "question": "us-policy-positions:civil-family-community.restrict-abortion",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Speech and religious liberty",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Privacy and personal rights",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Marriage, divorce and custody",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Adoption and child welfare",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Consumer contracts and products",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Fraud and unfair practices",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "technology",
+      "name": "Science, Technology & Communications",
+      "topics": [
+        {
+          "name": "Research and development",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "name": "age verification for social media",
+              "kind": "policy-question",
+              "question": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            },
+            {
+              "id": "question:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+              "name": "restrict government facial recognition",
+              "kind": "policy-question",
+              "question": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Broadband and telecommunications",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Data protection",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "name": "consumer data privacy law",
+              "kind": "policy-question",
+              "question": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Cybersecurity",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Artificial intelligence and automated systems",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Government digital services",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Space and scientific infrastructure",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "agriculture",
+      "name": "Agriculture & Food",
+      "topics": [
+        {
+          "name": "Crops and livestock",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Farm support and insurance",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Soil and agricultural water",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "name": "limit groundwater withdrawal",
+              "kind": "policy-question",
+              "question": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Food production and safety",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Rural development",
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+              "name": "protect farmland from development",
+              "kind": "policy-question",
+              "question": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+              "operations": ["enact", "repeal"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Forestry",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Fisheries",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "parks-culture",
+      "name": "Parks, Culture & Community Life",
+      "topics": [
+        {
+          "name": "Parks and recreation",
+          "supported": true,
+          "policies": [
+            {
+              "id": "budget:parks",
+              "name": "Spending: parks",
+              "kind": "budget-line",
+              "line": "parks",
+              "operations": ["expand", "restrict"],
+              "levels": ["state", "city"]
+            }
+          ]
+        },
+        {
+          "name": "Libraries",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Arts and museums",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Historic preservation",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Tourism and events",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Community facilities and public spaces",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "immigration",
+      "name": "Immigration & Citizenship",
+      "topics": [
+        {
+          "name": "Entry and visas",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Residency and naturalization",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Asylum and refugee resettlement",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Border administration",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Immigration proceedings",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Settlement and integration services",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "defense-veterans",
+      "name": "Defense & Veterans",
+      "topics": [
+        {
+          "name": "Military personnel and benefits",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Readiness and procurement",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Bases and facilities",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Defense authorization and oversight",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Veterans' healthcare",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Veterans' education, housing and employment",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Transition and survivor services",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    },
+    {
+      "id": "foreign-trade",
+      "name": "Foreign Affairs & Trade",
+      "topics": [
+        {
+          "name": "Diplomacy and international institutions",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "International agreements",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Foreign aid",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Trade and customs",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "Sanctions and export controls",
+          "supported": false,
+          "policies": []
+        },
+        {
+          "name": "International security cooperation",
+          "supported": false,
+          "policies": []
+        }
+      ]
+    }
+  ]
+}

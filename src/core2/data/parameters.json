@@ -4276,10 +4276,10 @@
     "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.39 to 0.47 (the scale's 'business readjustment' to 'fired at work')"
   },
   "driveEvictionImpulse": {
-    "value": 0.3,
+    "value": 0.47,
     "tag": "ESTIMATED",
-    "citation": "Losing one's home to eviction. The Social Readjustment Rating Scale has no eviction item; its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units, divided by 100 (Holmes and Rahe 1967). Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so this likely understates it.",
-    "estimatedFrom": "Holmes and Rahe (1967) nearest item; spread 0.3 to 0.47"
+    "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
+    "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
   },
   "schoolCohortPopulationShare": {
     "value": 0.0129,
@@ -4446,6 +4446,17 @@
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
   },
+  "traitLeanScale": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The trait lean difference between two options that counts as a full-strength pull (1) in a formula decision. Starting value: the largest lean difference across generated adults in a 1,200-person drawn town is about 0.6 to 0.7 (OPUS-TRAITS probe, Oct 12, 2026), so the strongest personalities reach about 1, the range of the hand-picked trait sums it replaces.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "trait lean difference",
+      "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
+    }
+  },
   "preStartFromYear": {
     "value": 2000,
     "tag": "TUNABLE",
@@ -4518,5 +4529,10 @@
       "unit": "years",
       "citation": "Social Security earliest claim (62) to the delayed-credit end (70)."
     }
+  },
+  "minimumParentAgeAtBirth": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
   }
 }

@@ -1,6 +1,7 @@
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
+import { decisionKinds } from "./trait-decisions";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 
 export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
@@ -93,7 +94,7 @@ export function birthCircumstances(
 function action(id: string, raising: boolean): ActionDefinition {
   return {
     id,
-    actKinds: raising ? ["care", "commit"] : ["play-safe"],
+    actKinds: decisionKinds("renewal.plan-child", id),
     goalKinds: [],
     need: "company",
     effortParameter: "zero",
