@@ -61,6 +61,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
   - the pillar gives each a clear task, its allowed paths and its check (a test in a random place), then reviews and merges the result into its branch;
   - sub-agents follow every rule here (no hand-written player text, registered stopgaps, the guards) and never edit another session's area;
   - the pillar's status file says which sub-agents ran, on what model, and what they finished.
+  - onto main, and for every fixer PR into a pillar branch, only the CTO merges, and reports each merge in the owner's chat. The CTO's look before merging is a quick check that the work is real and breaks none of these rules (owner, Oct 12, 10:35 a.m.), not a line-by-line review; the automatic checks and the owner's playtests carry the rest.
 - **One package per session**, then a fresh session. The pillars are the exception: they're long-lived, automatic compaction carries their context, and their status file carries their state. Stop and report instead of escalating when something keeps failing.
 - **Track what each choice costs.** Every hand-off records the model and effort, how long it took, usage if visible, and how many times the finisher sent it back (and why). The CTO keeps `docs/roadmap/model-log.md` and adjusts defaults from it: a cheaper, faster setup that needs a few more send-backs is fine (owner, Oct 10).
 
