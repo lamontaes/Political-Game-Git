@@ -35,7 +35,9 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 - Switching residents works, and skipping no longer stops at every small choice or at the end of each shift.
 - The 25 new place pictures (county clerk offices, registrar, election warehouse, rallies, the convention, homes, schools) have their standing and seating spots.
 
-**Not in yet:** election night and everything after it (OPUS-GOV). Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
+- **Election night.** After an election day, the Election night sheet opens by itself: every race with each candidate's votes and party, the winner, turnout, the exit poll, and how you voted. Until needed stops when results are in.
+
+**Not in yet:** voting yourself (the game casts your ballot for you), and serving in office (bills, budgets, meetings), which OPUS-GOV has built and which needs its screens next. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
 ## Checklist
 
@@ -70,6 +72,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Needs: GOV, PEOPLE
 
 ## Needs from other sessions
+
+- **OPUS-GOV (elections in the two-level world):** in Ketchuptown SC (seed all-a), every federal and statewide race went 100% to the incumbent. For example, U.S. Senator was Anthony Hunter 2,542,788 to Victor Medina 0, and every statewide race shows the same 2,542,788 electorate. Only 68 named voters exist in a two-level town, and the group votes copy their split, so a challenger with no named supporters gets nothing. Statewide races also had named turnout of 13 of 68. The counted residents need to vote as groups from their own records (CORE's counts by age, job and household), not only as copies of the named few.
+- **OPUS-GOV:** the player's ballot is decided by the engine (`ballotOf` shows a choice the player never made). Election day should be a player stop for the controlled person: offer the ballot (each contest's candidates) as a choice, or export a `castBallot(api, voterId, contestId, candidateId)` that the screen calls before the count.
+- **OPUS-GOV:** export a name reader for any candidate id (resident, `official:term:…`, `official:challenger:…`); the bench repeats your private identity draw for challengers (stopgap SG-PLAY-challenger-name).
+- **OPUS-GOV:** `scripts/zero-dice-guard.mjs` flags two new list-picks in `src/core2/officials-identity.ts` (lines 65 and 68, names for drawn officials). They look like IDENTITY generation, which needs allowlist entries with a reason.
 
 - **OPUS-CORE + OPUS-WORLD (crash):** in a normal (not two-level) town the clock throws "Payroll arrears lost their actual recorded retry membership." on **2027-03-20**: `ownedRequest` (`src/core2/work-payroll-dispatch.ts:195`), from `dispatchStatus` and `runWorkPayrollDay`, from the player clock's `closeDay`. To reproduce on `opus-play`: `buildBenchWorld("story-b", "2026-10-12", { minimumPeople: 1500 })`, play its 17-year-old, then skip in week legs. The same skip in a two-level town ran to June 2027 without it. Likely WORLD's job endings (`endJob`) meeting a payroll retry.
 - **OPUS-PEOPLE (story director):** an 18-year-old played from Oct 12, 2026 got **no** director moments in eight months (two-level town, seed story-b, through June 4, 2027), and none in five months in a normal town. So no big moment ever stops a skip, and the staged scenes in `/play` (`composeScene`) never play. Is an 18-year-old at home outside what the director measures, or is something on the merged stack not reaching it?
@@ -110,6 +117,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: election night (step 5) in `/play`, and the bench world now runs all 26 modules (GOV's parties, voting, record, budgets, legislature and law effects; PEOPLE's views, news, candidacy and renewal). In Ketchuptown SC (seed all-a), a month through the Nov 3 general election played in 6 s; Election night opened on its own and showed every race and Emma Farmer's ballot.
 - Oct 12: the economy in `/play` News and a World panel on the bench (OPUS-WORLD's `nationalPanel`, `regionPanel`, `turnoverPanel`, `bankPanel`, `evictionPanel`, `ownerPanel`). In seed econ-a, November 2026: national unemployment 4.2%, inflation 3.0%, policy rate 3.875%, 30-year mortgage 6.7%, and one central-bank meeting recorded. The national series is empty at the opening and fills in after the first simulated month.
 - Oct 12: staged scenes in `/play`. A director stop now plays through `composeScene` (setting picture, people present, narration, Talk). Not yet seen in play: no director moment reached an 18-year-old in eight played months (reported to PEOPLE). Found a payroll crash on 2027-03-20 in a normal town (reported to CORE and WORLD).
 - Oct 12: campaigning (step 4) in `/play`, on GOV's campaign engine (`openCampaigns`, then each act). In Eastabuchie MS (seed file-a), after filing for Commissioner: 2 hours of doors reached 28 people (18 warmer), 22 of the 24 people William knows agreed to volunteer, no one gave money (all 24 had no warmth yet), a speech for limiting groundwater withdrawal cooled 81 of the 82 who heard it, and a 50-person poll found 47 undecided and 2 for him.
