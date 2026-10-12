@@ -2,6 +2,7 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { backdropStaging } from "../presentation/backdrop-people";
 import { backdropFile, scenePlace } from "./scene";
 import type { CoreState } from "../core2/types";
+import { relationWord } from "./words";
 
 /** Everyone in the family: where each one is and what they are doing now. */
 export function familyView(core: CoreState, personId: string) {
@@ -12,8 +13,9 @@ export function familyView(core: CoreState, personId: string) {
     if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
       relation.set(fact.facts.otherPersonId, fact.kind.slice("family:".length));
   for (const id of person.familyIds)
-    if (!relation.has(id)) relation.set(id, "family");
-  return [...relation].map(([id, kind]) => {
+    if (!relation.has(id)) relation.set(id, "");
+  return [...relation].map(([id, key]) => {
+    const kind = relationWord(core, id, key);
     const other = core.people.get(id);
     if (!other) return { personId: id, relation: kind, known: false };
     const age = ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date));

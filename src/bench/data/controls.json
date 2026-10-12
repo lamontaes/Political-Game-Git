@@ -1,0 +1,14 @@
+{
+  "about": "Control names for the play screen's buttons: what pressing each choice does, named like any other button. They are not lines anyone says; the English engine's words for acts replace them when it has them.",
+  "stopgapId": "SG-PLAY-act-control-names",
+  "actions": {
+    "work-shift": "Go to work",
+    "rest": "Rest",
+    "contact-known-person": "Get in touch",
+    "care-for-relative": "Look after",
+    "join-association": "Join",
+    "organize-meeting": "Hold a meeting",
+    "approach-office": "Visit the office",
+    "look-up-local-institution": "Look up"
+  }
+}

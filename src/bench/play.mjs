@@ -125,6 +125,10 @@ async function renderCard() {
   );
 }
 
+// Control names for the choice buttons, loaded once.
+let controls = {};
+api("/api/controls").then((value) => (controls = value));
+
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet && packet.kind !== "complete";
@@ -139,7 +143,7 @@ function renderPacket(value) {
         const target = me.names?.[offer.targetId] ?? "";
         const b = el("button", {
           type: "button",
-          textContent: `${offer.actionId}${target ? ` · ${target}` : ""}`,
+          textContent: `${controls.actions?.[offer.actionId] ?? offer.actionId}${target ? ` · ${target}` : ""}`,
           title: `${offer.durationMinutes} min`,
         });
         b.addEventListener("click", () =>
@@ -707,6 +711,9 @@ const sheets = {
           .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
           .join(", "),
       ),
+      ...(c.schools ?? []).map((school) =>
+        row(school.date.slice(0, 4), school.name),
+      ),
       row("Mood", c.affect?.mood?.toFixed(2)),
       row("Stress", c.affect?.stress?.toFixed(2)),
       ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
@@ -865,7 +872,7 @@ const sheets = {
         card.append(
           el("b", { textContent: m.name }),
           el("div", {
-            textContent: `${m.relation} · ${m.age}${m.alive === false ? " · †" : ""}`,
+            textContent: `${m.relation ? `${m.relation} · ` : ""}${m.age}${m.alive === false ? " · †" : ""}`,
           }),
           el("div", { textContent: m.place ? `${m.place} · ${m.doing}` : "" }),
         );

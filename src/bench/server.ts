@@ -36,6 +36,7 @@ import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
+import controls from "./data/controls.json" with { type: "json" };
 import { playerApiReadiness } from "./api-readiness";
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -278,6 +279,10 @@ const server = createServer(async (request, response) => {
           Number(url.searchParams.get("change")) || 0,
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/controls") {
+      send(200, controls);
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/progress") {

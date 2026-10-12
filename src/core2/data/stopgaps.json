@@ -2046,5 +2046,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-act-control-names",
+    "kind": "text",
+    "file": "src/bench/data/controls.json",
+    "line": 3,
+    "whatItFakes": "The play screen names each choice button for its act (“Go to work”) from a bench table of control names instead of the English engine.",
+    "why": "The English engine has no words for acts yet, and a raw action id is not something a player should read.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-PEOPLE's English-engine words for acts, read by the bench in place of this table.",
+    "status": "open"
   }
 ]

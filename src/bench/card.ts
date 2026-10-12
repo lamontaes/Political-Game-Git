@@ -3,6 +3,7 @@ import { drivesReport } from "../core2/modules/drives";
 import { effectsOn } from "../core2/modules/law-effects";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import { relationWord, schoolsOf } from "./words";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -31,7 +32,7 @@ export function personCard(core: CoreState, personId: string) {
         personId: otherId,
         name: name(otherId),
         kind: row.kind,
-        relation: relationOf.get(otherId) ?? null,
+        relation: relationWord(core, otherId, relationOf.get(otherId)),
         level: row.level,
         lastContactDate: row.lastContactDate,
         recordId: row.id,
@@ -72,7 +73,7 @@ export function personCard(core: CoreState, personId: string) {
         .map((id) => ({
           personId: id,
           name: name(id),
-          relation: relationOf.get(id) ?? null,
+          relation: relationWord(core, id, relationOf.get(id)),
         })),
     },
     job: job && {
@@ -87,6 +88,7 @@ export function personCard(core: CoreState, personId: string) {
     needs: person.needs,
     ties,
     drives,
+    schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
     lawEffects: core.modules.has("core2-law-effects-v1")
       ? effectsOn(coreAPI(core), personId).map((row) => ({

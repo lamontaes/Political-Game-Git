@@ -6,7 +6,11 @@ import {
   openContests,
   type RequirementCheck,
 } from "../core2/modules/elections";
-import { PARTIES_MODULE_ID, partiesHere, partyTie } from "../core2/modules/parties";
+import {
+  PARTIES_MODULE_ID,
+  partiesHere,
+  partyTie,
+} from "../core2/modules/parties";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import {
   openFilingVisit,
