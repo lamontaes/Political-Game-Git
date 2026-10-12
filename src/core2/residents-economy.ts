@@ -77,7 +77,7 @@ export function addCountedJob(
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
     addResidentFlow(core, {
-      id: `residents:wages:${job.organizationId}`,
+      id: `residents:wages:${job.organizationId}:${core.date}`,
       kind: "wages",
       financeKind: template.financeKind,
       payerId: job.organizationId,
