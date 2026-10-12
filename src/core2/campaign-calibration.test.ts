@@ -24,13 +24,19 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import {
+  askForDonation,
   askToVolunteer,
   campaignFor,
+  commissionPoll,
   giveSpeech,
   knockDoors,
   openCampaigns,
 } from "./modules/campaigns";
-import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
+import {
+  campaignParameter,
+  personStance,
+  PLATFORM_QUESTIONS,
+} from "./campaign-views";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
@@ -136,8 +142,25 @@ describe("campaign calibration on totals", () => {
       const moved = heard.filter(
         (c) => Math.abs(c.warmthAfter - c.warmthBefore) > 0.05,
       );
+      // A poll: paid per completed interview from the campaign's money,
+      // reaching the counted residents too.
+      for (const id of [...core.people.keys()].sort())
+        askForDonation(api, filing.id, id);
+      const spentBefore = campaignFor(api, filing.id).spentMinor;
+      const poll = commissionPoll(api, { filingId: filing.id, sampleSize: 40 });
+      expect(campaignFor(api, filing.id).spentMinor - spentBefore).toBe(
+        poll.contacted * campaignParameter("pollCostPerInterviewMinor"),
+      );
+      const countedRespondents = poll.respondentIds.filter(
+        (id) => !core.people.has(id),
+      ).length;
       report = {
         seed,
+        poll: {
+          contacted: poll.contacted,
+          counted: countedRespondents,
+          answers: poll.answers,
+        },
         state,
         place: key,
         knocked,

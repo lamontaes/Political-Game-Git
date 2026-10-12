@@ -510,6 +510,24 @@
       "tag": "TUNABLE",
       "source": "Years of age that move readiness to answer by one step (older residents answer more; Green and Gerber 2019).",
       "spread": [20, 80]
+    },
+    "pollCostPerInterviewMinor": {
+      "value": 3000,
+      "tag": "ESTIMATED",
+      "source": "What a local campaign pays a pollster per completed interview: about $25 to $50 for a live-caller survey (AAPOR and campaign vendor price summaries), so $30.",
+      "spread": [1000, 6000]
+    },
+    "pollAnswerThreshold": {
+      "value": 1.4,
+      "tag": "TUNABLE",
+      "source": "How ready (sociability, half their reliability, and age) someone called must be to complete a poll; checked against telephone response rates of about 6 to 10% (Pew Research Center 2019).",
+      "spread": [0.8, 2]
+    },
+    "pollPartyCue": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How firm a lean must be for someone no campaign reached to name their party's candidate to a pollster rather than say they're undecided.",
+      "spread": [0.1, 0.6]
     }
   }
 }

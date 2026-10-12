@@ -14,6 +14,7 @@
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
 import { registerElectorate } from "../electorate";
+import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
@@ -38,6 +39,7 @@ import {
 } from "../campaign-views";
 import { recordAppeal } from "./record";
 import {
+  ballot,
   ELECTIONS_MODULE_ID,
   type ContestRow,
   type FilingRow,
@@ -582,6 +584,26 @@ export function knockDoors(
   return met;
 }
 
+/** The pollster the campaign pays (a stand-in seller until the town's businesses include one). */
+function pollster(api: CoreAPI): string {
+  const id = `organization:pollster:${townRow(api).townPlaceId}`;
+  if (!api.state.organizations.has(id))
+    api.addOrganization({
+      id,
+      placeId: townRow(api).townPlaceId,
+      name: "Polling firm",
+      kind: "pollster",
+      liquidMinor: 0,
+      source: {
+        tag: "ESTIMATED",
+        citation: "Stand-in seller of poll interviews",
+        asOf: api.state.date,
+        estimatedFrom: "pollCostPerInterviewMinor",
+      },
+    });
+  return id;
+}
+
 /** Whether a work commitment has its holder at a shift at this minute of this day. */
 function atWork(
   commitment: Readonly<{
@@ -1073,18 +1095,50 @@ export function commissionPoll(
   const campaign = campaignFor(api, input.filingId);
   const town = townRow(api).townPlaceId;
   const date = api.state.date;
-  const frame = [...api.state.people.values()]
-    .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
-    .sort((a, b) => a.id.localeCompare(b.id));
+  const core = api.state as CoreState;
+  // The whole town is the frame: full people and the counted residents.
+  const rt = residentsRuntime(core);
+  const frame = [
+    ...[...api.state.people.values()]
+      .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
+      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
+    ...[...(rt?.households.values() ?? [])]
+      .filter((r) => r.household.placeId === town)
+      .flatMap((r) => r.people)
+      .filter((p) => !api.state.people.has(p.id) && ageOn(p, date) >= 18)
+      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
+  ].sort((a, b) => a.id.localeCompare(b.id));
+  // The pollster is paid per completed interview, from the campaign's money.
+  const perInterview = campaignParameter("pollCostPerInterviewMinor");
+  const available = core.cashJournal.accounts.get(
+    `cash:${campaign.organizationId}:residual`,
+  )
+    ? campaign.raisedMinor - campaign.spentMinor
+    : 0;
+  const affordable = Math.min(
+    input.sampleSize,
+    Math.floor(available / Math.max(1, perInterview)),
+  );
   const offset =
     (table(api, "polls").query("byContest", [campaign.contestId]).length *
       input.sampleSize) %
     Math.max(1, frame.length);
-  const respondents = [...frame.slice(offset), ...frame.slice(0, offset)].slice(
-    0,
-    input.sampleSize,
-  );
+  const dialed = [...frame.slice(offset), ...frame.slice(0, offset)];
+  // Most people called don't take a poll; who does is who'd answer a stranger.
+  const respondents: (typeof frame)[number][] = [];
+  for (const person of dialed) {
+    if (respondents.length >= affordable) break;
+    const willing =
+      (person.traits["people-mind-v1:sociability"] ?? 0) +
+      (person.traits["people-mind-v1:reliability"] ?? 0) / 2 +
+      (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
+        campaignParameter("doorAnswerAgeSpan");
+    if (willing > campaignParameter("pollAnswerThreshold"))
+      respondents.push(person);
+  }
   const answers: Record<string, number> = {};
+  const lean0 = townRow(api).lean;
+  const filings = ballot(api, campaign.contestId);
   for (const person of respondents) {
     const impressions = (
       table(api, "impressions").query("byVoter", [
@@ -1094,12 +1148,19 @@ export function commissionPoll(
       .filter((i) => i.contestId === campaign.contestId && i.heardOf)
       .sort((a, b) => b.warmth - a.warmth);
     const best = impressions[0];
+    // Someone no campaign reached names their party's candidate if they
+    // hold a party view, else they're undecided.
+    const lean = personLean(api.state.people, person, lean0);
+    const partyPick =
+      Math.abs(lean) >= campaignParameter("pollPartyCue")
+        ? filings.find((f) => partySide(f.party ?? null) === Math.sign(lean))
+        : undefined;
     const answer =
-      !best || best.warmth <= 0
-        ? "undecided"
-        : (person.traits["people-mind-v1:conflict"] ?? 0) < 0
+      best && best.warmth > 0
+        ? (person.traits["people-mind-v1:conflict"] ?? 0) < 0
           ? "no-opinion"
-          : best.candidateId;
+          : best.candidateId
+        : (partyPick?.personId ?? "undecided");
     answers[answer] = (answers[answer] ?? 0) + 1;
   }
   const n = respondents.length;
@@ -1126,6 +1187,22 @@ export function commissionPoll(
       : null,
     respondentIds: respondents.map((p) => p.id),
   };
+  // An empty poll isn't a poll: nothing is paid or kept.
+  if (n === 0) return poll;
+  postMoney(
+    api,
+    AD_KIND,
+    `poll:${input.filingId}:${date}:${campaign.spentMinor}`,
+    campaign.organizationId,
+    pollster(api),
+    n * perInterview,
+    "Poll interviews",
+    false,
+  );
+  save(api, {
+    ...campaignFor(api, input.filingId),
+    spentMinor: campaign.spentMinor + n * perInterview,
+  });
   table(api, "polls").put(poll as unknown as ModuleRow);
   return poll;
 }
