@@ -129,6 +129,12 @@ console.log(
         ).length,
         lastBook: (credit.books as unknown[]).at(-1),
       },
+      metrics: (() => {
+        const months = [
+          ...(tables("world-metrics").months as unknown as { date: string }[]),
+        ].sort((a, b) => a.date.localeCompare(b.date));
+        return { first: months[0], last: months.at(-1), count: months.length };
+      })(),
       mortgages: (() => {
         const rows = tables("housing").mortgages as unknown as {
           balanceMinor: number;
