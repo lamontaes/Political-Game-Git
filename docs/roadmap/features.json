@@ -338,7 +338,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a random place, parties are organizations with members, leaders and rules; each person's party tie comes from their views plus loyalty; no party and independent both exist; nothing assumes exactly two permanent parties.",
-      "command": null,
+      "command": "npx vitest run src/core2/parties.test.ts --testTimeout=900000",
       "passes": false
     },
     {

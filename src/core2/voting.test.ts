@@ -30,6 +30,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { knockDoors, openCampaigns } from "./modules/campaigns";
+import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
   ballotOf,
@@ -80,6 +81,7 @@ describe("M2-07 elections", () => {
     openOffices(core, seed);
     openElections(core);
     openCampaigns(core);
+    openParties(core);
     const api = coreAPI(core);
     // Two residents file for the soonest open race they qualify for.
     const adults = [...core.people.values()]
