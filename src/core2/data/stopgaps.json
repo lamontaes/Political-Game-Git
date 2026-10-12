@@ -1030,5 +1030,17 @@
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-regional-territory-estimate",
+    "kind": "estimated-series",
+    "file": "src/core2/regional-model.ts",
+    "line": 141,
+    "whatItFakes": "Guam, American Samoa, the Northern Marianas and the U.S. Virgin Islands start from the nation's unemployment, pay and price level, with no industry mix of their own.",
+    "why": "They are outside the CBSA, CBP, LAUS and BEA tables in the repo; their governments' labor statistics are not yet gathered.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.",
+    "status": "open"
   }
 ]

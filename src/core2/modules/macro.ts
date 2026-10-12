@@ -33,6 +33,13 @@ import {
   type MacroParameter,
 } from "../macro-model";
 import type { Parameter } from "../parameters";
+import {
+  REGIONAL_PARAMETERS,
+  openRegional,
+  regionalFactors,
+  regionalRegistered,
+  stepRegional,
+} from "./regional";
 import type {
   CoreAPI,
   CoreData,
@@ -129,22 +136,30 @@ function publishConditions(
     .get(`macro-month:${state.openingMonth}`) as unknown as MacroMonth;
   const one = api.parameter("one"),
     hundred = api.parameter("macroHundred");
-  for (const placeId of state.placeIds)
+  const regional = regionalRegistered(api);
+  for (const placeId of state.placeIds) {
+    // The place's region moves its pay and demand against the nation's; price parities hold.
+    const region = regional
+      ? regionalFactors(api, placeId, opening, row)
+      : { wage: one, demand: one };
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,
       placeId,
       at: api.state.date,
       generalPriceFactor: row.priceIndex / opening.priceIndex,
-      wagePriceFactor: row.hourlyEarnings / opening.hourlyEarnings,
+      wagePriceFactor:
+        (row.hourlyEarnings / opening.hourlyEarnings) * region.wage,
       // Demand outside the town: national output against its trend, relative to the opening month.
       macroDemandFactor:
-        (one + row.outputGapPct / hundred) /
-        (one + opening.outputGapPct / hundred),
+        ((one + row.outputGapPct / hundred) /
+          (one + opening.outputGapPct / hundred)) *
+        region.demand,
       source: dated(
         api,
-        `National ${row.month}: prices, average hourly pay and output against trend, relative to ${state.openingMonth}.`,
+        `National ${row.month}: prices, average hourly pay and output against trend, relative to ${state.openingMonth}${regional ? ", with the place's region's pay and jobs against the nation's" : ""}.`,
       ),
     });
+  }
 }
 
 function runMonth(api: CoreAPI, state: MacroStateRow): void {
@@ -170,6 +185,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     p,
   );
   months.put(row as unknown as { id: string });
+  if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
   publishConditions(api, next, row);
@@ -231,6 +247,7 @@ function open(api: CoreAPI): MacroStateRow {
   store(api)
     .table("state")
     .put(state as unknown as { id: string });
+  if (regionalRegistered(api)) openRegional(api, opening, placeIds);
   if (monthKey(core.date) === shiftMonth(opening.month, p("one"), p))
     runMonth(api, state);
   else
@@ -451,5 +468,7 @@ export function withCentralBank(input: CoreInput): CoreInput {
 
 /** Core data with the macro parameters merged in. */
 export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
-  return extendData(base, { parameters: MACRO_PARAMETERS });
+  return extendData(base, {
+    parameters: { ...MACRO_PARAMETERS, ...REGIONAL_PARAMETERS },
+  });
 }

@@ -1,0 +1,260 @@
+{
+  "regionalSectorMiningLoggingTrendMonthlyPct": {
+    "value": -0.13387,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES mining-logging monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.047.",
+    "spread": {
+      "low": -0.22692,
+      "high": -0.04081,
+      "unit": "percent per month",
+      "citation": "OLS of national CES mining-logging monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.047."
+    }
+  },
+  "regionalSectorMiningLoggingBeta": {
+    "value": 1.1751,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.255.",
+    "spread": {
+      "low": 0.6647,
+      "high": 1.6856,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.255."
+    }
+  },
+  "regionalSectorConstructionTrendMonthlyPct": {
+    "value": -0.18739,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES construction monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.023.",
+    "spread": {
+      "low": -0.23349,
+      "high": -0.1413,
+      "unit": "percent per month",
+      "citation": "OLS of national CES construction monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.023."
+    }
+  },
+  "regionalSectorConstructionBeta": {
+    "value": 3.0771,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.126.",
+    "spread": {
+      "low": 2.8243,
+      "high": 3.33,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.126."
+    }
+  },
+  "regionalSectorManufacturingTrendMonthlyPct": {
+    "value": -0.24547,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES manufacturing monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.013.",
+    "spread": {
+      "low": -0.27161,
+      "high": -0.21932,
+      "unit": "percent per month",
+      "citation": "OLS of national CES manufacturing monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.013."
+    }
+  },
+  "regionalSectorManufacturingBeta": {
+    "value": 1.642,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.072.",
+    "spread": {
+      "low": 1.4985,
+      "high": 1.7854,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.072."
+    }
+  },
+  "regionalSectorTradeTransportUtilitiesTrendMonthlyPct": {
+    "value": -0.04186,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES trade-transport-utilities monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.007.",
+    "spread": {
+      "low": -0.05535,
+      "high": -0.02836,
+      "unit": "percent per month",
+      "citation": "OLS of national CES trade-transport-utilities monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.007."
+    }
+  },
+  "regionalSectorTradeTransportUtilitiesBeta": {
+    "value": 1.0838,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.037.",
+    "spread": {
+      "low": 1.0098,
+      "high": 1.1578,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.037."
+    }
+  },
+  "regionalSectorInformationTrendMonthlyPct": {
+    "value": -0.10393,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES information monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.023.",
+    "spread": {
+      "low": -0.15029,
+      "high": -0.05756,
+      "unit": "percent per month",
+      "citation": "OLS of national CES information monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.023."
+    }
+  },
+  "regionalSectorInformationBeta": {
+    "value": 1.3502,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.127.",
+    "spread": {
+      "low": 1.0958,
+      "high": 1.6045,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.127."
+    }
+  },
+  "regionalSectorFinancialTrendMonthlyPct": {
+    "value": 0.01799,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES financial monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.009.",
+    "spread": {
+      "low": -0.0001,
+      "high": 0.03608,
+      "unit": "percent per month",
+      "citation": "OLS of national CES financial monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.009."
+    }
+  },
+  "regionalSectorFinancialBeta": {
+    "value": 0.6844,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.050.",
+    "spread": {
+      "low": 0.5852,
+      "high": 0.7836,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.050."
+    }
+  },
+  "regionalSectorProfessionalBusinessTrendMonthlyPct": {
+    "value": 0.03872,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES professional-business monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.010.",
+    "spread": {
+      "low": 0.0186,
+      "high": 0.05884,
+      "unit": "percent per month",
+      "citation": "OLS of national CES professional-business monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.010."
+    }
+  },
+  "regionalSectorProfessionalBusinessBeta": {
+    "value": 1.656,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.055.",
+    "spread": {
+      "low": 1.5457,
+      "high": 1.7664,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.055."
+    }
+  },
+  "regionalSectorEducationHealthTrendMonthlyPct": {
+    "value": 0.219,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES education-health monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.007.",
+    "spread": {
+      "low": 0.20492,
+      "high": 0.23309,
+      "unit": "percent per month",
+      "citation": "OLS of national CES education-health monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.007."
+    }
+  },
+  "regionalSectorEducationHealthBeta": {
+    "value": 0.0796,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.039.",
+    "spread": {
+      "low": 0.0023,
+      "high": 0.1568,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.039."
+    }
+  },
+  "regionalSectorLeisureHospitalityTrendMonthlyPct": {
+    "value": 0.08088,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES leisure-hospitality monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.011.",
+    "spread": {
+      "low": 0.05813,
+      "high": 0.10362,
+      "unit": "percent per month",
+      "citation": "OLS of national CES leisure-hospitality monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.011."
+    }
+  },
+  "regionalSectorLeisureHospitalityBeta": {
+    "value": 0.912,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.062.",
+    "spread": {
+      "low": 0.7873,
+      "high": 1.0368,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.062."
+    }
+  },
+  "regionalSectorOtherServicesTrendMonthlyPct": {
+    "value": 0.04138,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES other-services monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.009.",
+    "spread": {
+      "low": 0.02291,
+      "high": 0.05985,
+      "unit": "percent per month",
+      "citation": "OLS of national CES other-services monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.009."
+    }
+  },
+  "regionalSectorOtherServicesBeta": {
+    "value": 0.5889,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.051.",
+    "spread": {
+      "low": 0.4876,
+      "high": 0.6902,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.051."
+    }
+  },
+  "regionalSectorGovernmentTrendMonthlyPct": {
+    "value": 0.02723,
+    "tag": "SOURCED",
+    "citation": "OLS of national CES government monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.014.",
+    "spread": {
+      "low": -0.00138,
+      "high": 0.05584,
+      "unit": "percent per month",
+      "citation": "OLS of national CES government monthly employment growth on total nonfarm growth, 1990-2019, intercept SE 0.014."
+    }
+  },
+  "regionalSectorGovernmentBeta": {
+    "value": 0.3936,
+    "tag": "SOURCED",
+    "citation": "Same regression, slope on national job growth, SE 0.078.",
+    "spread": {
+      "low": 0.2367,
+      "high": 0.5505,
+      "unit": "points per national point",
+      "citation": "Same regression, slope on national job growth, SE 0.078."
+    }
+  },
+  "regionalUnemploymentGapPersistence": {
+    "value": 0.99408,
+    "tag": "SOURCED",
+    "citation": "Pooled AR(1) of the state unemployment rate less the national rate, LAUS 2000-01 to 2019-12, LAUS seasonally adjusted state rate less the national rate, SE 0.0009.",
+    "spread": {
+      "low": 0.99223,
+      "high": 0.99592,
+      "unit": "monthly coefficient",
+      "citation": "Pooled AR(1) of the state unemployment rate less the national rate, LAUS 2000-01 to 2019-12, LAUS seasonally adjusted state rate less the national rate, SE 0.0009."
+    }
+  },
+  "regionalNationalMeanMonthlyJobGrowthPct": {
+    "value": 0.09241,
+    "tag": "SOURCED",
+    "citation": "Mean monthly national payroll growth 1990-2019, BLS CES0000000001."
+  }
+}
