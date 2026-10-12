@@ -652,6 +652,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
+  // A midterm or off-cycle election draws fewer voters (audit 2, item 5).
+  const cycleCost = cycleTurnout(contest.electionDate).cost;
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
@@ -670,7 +672,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = turnout(api, voter, appeal);
+    const t = turnout(api, voter, appeal, undefined, cycleCost);
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -730,7 +732,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       const party = candidateFacts(api, f, contest).party;
       appeal[f.personId] = { total: party ? lean * partySide(party) : 0 };
     }
-    const t = turnout(api, voter, appeal, voter.weeklyMinutes);
+    const t = turnout(api, voter, appeal, voter.weeklyMinutes, cycleCost);
     if (!t.votes) continue;
     countedVoted += 1;
     const ranked = Object.entries(appeal).sort(
@@ -845,7 +847,48 @@ const stateVotes = new Map(
 );
 
 /** How many votes the race's whole electorate cast in 2024, where read. */
+/**
+ * Which kind of election a date is: a presidential November, a midterm
+ * November, or an off-cycle date (an odd year, or a spring or summer local
+ * election), whose turnout runs far lower.
+ */
+export function electionCycle(
+  date: string,
+): "presidential" | "midterm" | "off-cycle" {
+  const year = Number(date.slice(0, 4));
+  const november = date.slice(5, 7) === "11";
+  if (!november || year % 2) return "off-cycle";
+  return year % 4 === 0 ? "presidential" : "midterm";
+}
+
+/** The cycle's turnout against a presidential year's, and what it adds to the cost of voting. */
+function cycleTurnout(date: string): { share: number; cost: number } {
+  const cycle = electionCycle(date);
+  if (cycle === "presidential") return { share: 1, cost: 0 };
+  if (cycle === "midterm")
+    return {
+      share: campaignParameter("midtermShareOfPresidential"),
+      cost: campaignParameter("midtermTurnoutCost"),
+    };
+  return {
+    share: campaignParameter("offCycleShareOfPresidential"),
+    cost: campaignParameter("offCycleTurnoutCost"),
+  };
+}
+
 function electorateSize(
+  api: CoreAPI,
+  contest: ContestRow,
+  namedCount: number,
+): number {
+  // The 2024 presidential electorate, scaled to this cycle's turnout.
+  return Math.round(
+    presidentialElectorate(api, contest, namedCount) *
+      cycleTurnout(contest.electionDate).share,
+  );
+}
+
+function presidentialElectorate(
   api: CoreAPI,
   contest: ContestRow,
   namedCount: number,

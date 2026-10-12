@@ -15,6 +15,7 @@
  * themselves (`requestSignature`).
  */
 import { registerElectorate } from "../electorate";
+import { campaignParameter } from "../campaign-views";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
@@ -351,13 +352,45 @@ function contestFor(
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
   const { stateKey, geoid } = town(api);
-  const dates = nextElectionForSeat({
-    office,
-    stateKey,
-    placeGeoid: geoid,
-    termEnd: holder?.endDate ?? null,
-    onDate: api.state.date,
-  });
+  const tomorrow = new Date(
+    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const at = (termEnd: string | null, onDate = api.state.date) =>
+    nextElectionForSeat({
+      office,
+      stateKey,
+      placeGeoid: geoid,
+      termEnd,
+      onDate,
+    });
+  let dates = at(holder?.endDate ?? null);
+  // A holder whose seat's election passed with no one elected holds over;
+  // the seat's next election comes a full term on.
+  if (
+    dates &&
+    dates.electionDate <= api.state.date &&
+    holder?.endDate &&
+    office.termYears
+  )
+    dates = at(
+      `${Number(holder.endDate.slice(0, 4)) + office.termYears}${holder.endDate.slice(4)}`,
+    );
+  // A seat whose election is today (decided, or with no one elected) looks
+  // for the regular election after it.
+  if (dates && dates.electionDate <= api.state.date) {
+    dates = at(null, tomorrow);
+    // With no term recorded either, the seat's next regular election is a
+    // typical term on (an estimate where the office's term isn't read).
+    const years =
+      office.termYears ?? campaignParameter("officeTermYearsEstimate");
+    if (dates && dates.electionDate <= api.state.date)
+      dates = at(
+        `${Number(api.state.date.slice(0, 4)) + years + 1}-01-01`,
+        tomorrow,
+      );
+  }
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   const daysBefore =
