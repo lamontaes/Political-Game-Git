@@ -4291,8 +4291,7 @@
       "high": 2,
       "unit": "multiples of the industry median buffer",
       "citation": "JPMCI 2016 interquartile buffer ranges run about half to double the median."
-    },
-    "checkedAgainst": "Spread 1 to 3; checked against annual closure rate (BDS establishment exit about 8% a year) and town cash staying near its opening level in a calm year."
+    }
   },
   "ownerDistributionLocalShare": {
     "value": 0.6,

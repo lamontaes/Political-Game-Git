@@ -216,5 +216,67 @@
       "unit": "years",
       "citation": "A cap on the oldest opening business's age; a few U.S. small businesses are a century old."
     }
+  },
+  "businessGroundwaterOutputElasticity": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "USDA Economic Research Service, Irrigation & Water Use (2023): irrigated farms are 28% of farms but 54% of crop sales; crop yields fall less than in proportion to irrigation water cut (deficit-irrigation response studies, about 0.3 to 0.6).",
+    "spread": {
+      "low": 0.25,
+      "high": 0.7,
+      "unit": "share of output lost per share of water cut",
+      "citation": "USDA Economic Research Service, Irrigation & Water Use (2023): irrigated farms are 28% of farms but 54% of crop sales; crop yields fall less than in proportion to irrigation water cut (deficit-irrigation response studies, about 0.3 to 0.6)."
+    }
+  },
+  "businessComplianceShareOfCosts": {
+    "value": 0.008,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)): manufacturers spent $20.7 billion operating pollution abatement, about 0.4% of their costs; stricter nonattainment rules weigh more (Greenstone 2002, JPE).",
+    "estimatedFrom": "Twice the manufacturing average abatement operating share, for a binding plan in a nonattainment county.",
+    "stopgapId": "SG-WORLD-business-compliance-cost",
+    "spread": {
+      "low": 0.004,
+      "high": 0.02,
+      "unit": "share of other operating costs",
+      "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)): manufacturers spent $20.7 billion operating pollution abatement, about 0.4% of their costs; stricter nonattainment rules weigh more (Greenstone 2002, JPE)."
+    }
+  },
+  "businessCloseBaseline": {
+    "value": -5.2,
+    "tag": "TUNABLE",
+    "citation": "Census BDS 2010-2019, 2022-2023: about 8 to 9% of establishments exit a year (0.7% a month), with forced closures and owners leaving no successor counted on top; checked against the state's exit rate.",
+    "spread": {
+      "low": -6,
+      "high": -4.5,
+      "unit": "logit of a month's closing pull",
+      "citation": "Census BDS 2010-2019, 2022-2023: about 8 to 9% of establishments exit a year (0.7% a month), with forced closures and owners leaving no successor counted on top; checked against the state's exit rate."
+    }
+  },
+  "businessCloseLossWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits.",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "per month of the business's costs lost and kept",
+      "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits."
+    }
+  },
+  "businessCloseAgeWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Owners close or sell as they age out: half of small-business owners are 55 or older (SBA Office of Advocacy 2023), and exits rise past retirement age.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "per span of years past 62",
+      "citation": "Owners close or sell as they age out: half of small-business owners are 55 or older (SBA Office of Advocacy 2023), and exits rise past retirement age."
+    }
+  },
+  "businessCloseAgeYears": {
+    "value": 10,
+    "tag": "SOURCED",
+    "citation": "A decade: the span the age weight is read over (ten years)."
   }
 }

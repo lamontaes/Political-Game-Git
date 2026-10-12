@@ -1926,6 +1926,50 @@
       "keyedBy": "member seed (world seed + seat)",
       "reason": "A fictional member's family name from the Census/SSA corpus.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 2,
+      "code": "p(\"macroGovernorMinimumAge\") + rng.next() * p(\"macroGovernorAgeSpan\");",
+      "class": "GENERATION",
+      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
+      "reason": "A fictional member's age at appointment: who exists, not what they decide.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 2,
+      "code": "givenName: rng.pick(corpus.givenNames),",
+      "class": "GENERATION",
+      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
+      "reason": "A fictional member's given name from the Census/SSA corpus.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 2,
+      "code": "familyName: rng.pick(corpus.familyNames),",
+      "class": "GENERATION",
+      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
+      "reason": "A fictional member's family name from the Census/SSA corpus.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": "OPUS-WORLD",
+      "count": 1,
+      "code": "career: rng.pick(board.careers),",
+      "class": "GENERATION",
+      "keyedBy": "candidate seed (world seed + seat + term)",
+      "reason": "A fictional candidate's past career: who exists; the appointer chooses among candidates by its own reasons.",
+      "replacement": null
     }
   ]
 }
