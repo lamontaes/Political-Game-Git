@@ -15,6 +15,7 @@ import {
 import { moduleCalendar } from "./module-calendar";
 import { voterGroups } from "./voter-groups";
 import { accountsFacade } from "./accounts";
+import { countedVoterGroupId } from "./opening-voter-groups";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -1674,6 +1675,17 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
     }
+  }
+  // Adults leave their counted voter group; they now vote by name.
+  const groups = voterGroups(core);
+  for (const row of record.people) {
+    const id = countedVoterGroupId(
+      record.household.placeId,
+      row.birthDate,
+      core.date,
+    );
+    const group = id ? groups.get(id) : undefined;
+    if (group && group.size > 0) groups.put({ ...group, size: group.size - 1 });
   }
   // Their economic life moves from the merged flows to their own records.
   const released = releaseResidentHousehold(core, record);

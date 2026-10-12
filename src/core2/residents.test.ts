@@ -281,4 +281,40 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       core.relationships.has([full.id, relative.id].sort().join(":")),
     ).toBe(true);
   }, 300_000);
+
+  it("gives the counted adults voter groups, and fill-in moves them out", () => {
+    const groups = two.voterGroups ?? [];
+    const start = Number(two.startedAt.slice(0, 4));
+    const adults = two.residents!.households.reduce(
+      (n, row) =>
+        n +
+        row.people.filter(
+          (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
+        ).length,
+      0,
+    );
+    expect(groups.reduce((n, row) => n + row.size, 0)).toBe(adults);
+    for (const row of groups) {
+      expect(row.turnout).toBeGreaterThan(0);
+      expect(row.turnout).toBeLessThanOrEqual(1);
+      expect(Math.abs(row.lean)).toBeLessThanOrEqual(1);
+    }
+    const core = createLifeCore(two);
+    const total = () =>
+      groups.reduce(
+        (n, row) => n + (coreAPI(core).voterGroups().get(row.id)?.size ?? 0),
+        0,
+      );
+    const record = two.residents!.households.find((row) =>
+      row.people.some(
+        (person) => start - Number(person.birthDate.slice(0, 4)) >= 25,
+      ),
+    )!;
+    const before = total();
+    fillInPerson(core, record.people[0]!.id);
+    const grown = record.people.filter(
+      (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
+    ).length;
+    expect(before - total()).toBe(grown);
+  }, 300_000);
 });

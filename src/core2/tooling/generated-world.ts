@@ -7,6 +7,7 @@ import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
 import { collapseToTwoLevels, fullPeople } from "../residents";
+import { withCountedVoterGroups } from "../opening-voter-groups";
 import { addOutsideMarket } from "../opening-outside-market";
 import { parameter } from "../parameters";
 import measurement from "../data/measurement.json" with { type: "json" };
@@ -147,7 +148,7 @@ export function generatedOpening(
       ),
     );
   if (!keep) return input;
-  const two = collapseToTwoLevels(input, { keep });
+  const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }));
   return { ...two, residents: { ...two.residents!, cohortSizes } };
 }
 

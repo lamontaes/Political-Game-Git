@@ -1066,5 +1066,17 @@
     "addedAt": "2026-10-13",
     "replacement": "PEOPLE's trait, kin and past builders seeded from the world seed and the identity (as fill-in of counted residents does), and the official's pay from the public payroll.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-voter-groups-starting-lean",
+    "kind": "aggregate-voters",
+    "file": "src/core2/opening-voter-groups.ts",
+    "line": 1,
+    "whatItFakes": "Counted adults vote as one group per place and age band: every counted adult is treated as an eligible citizen, turnout is the state's CPS 2024 rate for the age band (national where no state row exists), and every group starts with the state's 2024 presidential two-party margin as its lean.",
+    "why": "In a two-level town only about 60 named people vote individually; elections need the counted population to vote from its own records (PLAY's report on GOV's elections).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "Groups split by citizenship (ACS), place-level 2024 results and residents' own views (PEOPLE's views engine) and refined by GOV's elections.",
+    "status": "open"
   }
 ]
