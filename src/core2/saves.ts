@@ -52,6 +52,8 @@ export interface Game {
   commands: SaveCommand[];
   /** Commands a load could not replay under this version, with the reason. */
   skipped: { command: SaveCommand; reason: string }[];
+  /** The core version a loaded save was made under, when it isn't this one. */
+  upgradedFrom?: string;
 }
 
 export interface GameOptions {
@@ -127,9 +129,10 @@ export function runCommand<R = unknown>(
     kind,
     payload: JSON.parse(JSON.stringify(payload ?? null)),
   };
-  const result = handler(game.core, command.payload as never) as R;
+  // Recorded before it runs, so a command that fails is in the save (and a
+  // bug report replays to the failure).
   game.commands.push(command);
-  return result;
+  return handler(game.core, command.payload as never) as R;
 }
 
 export function saveGame(game: Game): SaveV1 {
@@ -147,6 +150,8 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
   if (save.format !== SAVE_FORMAT)
     throw new Error(`Unknown save format: ${String(save.format)}`);
   const game = newGame(save.recipe, options);
+  if (save.coreApiVersion !== CORE_API_VERSION)
+    game.upgradedFrom = save.coreApiVersion;
   for (const command of save.commands) {
     try {
       if (command.date > game.core.date)
