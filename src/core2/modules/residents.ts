@@ -252,7 +252,28 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     daily *
     (flow.bufferDays ?? 0) *
     api.parameter("ownerDistributionBufferMultiple");
-  const excess = Math.floor(spendable(core, flow.payerId) - target);
+  // Supplier bills already owed (net-30) are the business's money, not the
+  // owners': keep them back with the buffer.
+  const costs = rt.flows.get(`outside-costs:${flow.payerId}`);
+  let owed = 0;
+  if (costs && !costs.endedAt) {
+    const share =
+      book.annualDemandMinor > 0
+        ? book.annualOtherCostsMinor / book.annualDemandMinor
+        : 0;
+    const accrued =
+      (costs.accruedCostMinor ?? 0) +
+      (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) *
+        share;
+    owed = Math.max(
+      0,
+      accrued -
+        (book.operatingPaidMinor -
+          (costs.localPaidMinor ?? book.operatingPaidMinor)) -
+        (costs.outsidePaidMinor ?? 0),
+    );
+  }
+  const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
   if (excess <= 0) return;
   const residents = rt.input.accounts.find(
     (row) => row.placeId === flow.placeId,
