@@ -1014,6 +1014,54 @@
           "actKinds": ["speak-out", "engage"]
         }
       ]
+    },
+    {
+      "id": "press.follow-news",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "keep-same"]
+        },
+        {
+          "id": "follow",
+          "actKinds": ["engage", "follow-rules"]
+        }
+      ]
+    },
+    {
+      "id": "press.accept-interview",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["withdraw", "stay-quiet", "play-safe"]
+        },
+        {
+          "id": "accept",
+          "actKinds": ["speak-out", "engage", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "meetings.take-part",
+      "site": "src/core2/modules/meetings.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-away",
+          "actKinds": ["withdraw", "stay-quiet", "keep-same"]
+        },
+        {
+          "id": "take-part",
+          "actKinds": ["speak-out", "engage", "follow-rules", "commit"]
+        }
+      ]
     }
   ],
   "outside": [
@@ -1152,6 +1200,14 @@
     {
       "site": "src/core2/jobs-benefits.ts eligibility and payments",
       "why": "The state program's terms; filing a claim weighs traits."
+    },
+    {
+      "site": "src/core2/law-reach/group-a-staffing.ts",
+      "why": "An employer's staffing rule under a law (who is hired), not the worker's choice."
+    },
+    {
+      "site": "src/core2/modules/retirement-claims.ts covered years",
+      "why": "Covered work years estimated from reliability are a fact about the past; the claim age itself weighs traits (retirement.claim-age)."
     }
   ]
 }
