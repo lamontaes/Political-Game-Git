@@ -16,7 +16,20 @@ Only the CTO writes this file. Each session keeps its own status file in this fo
 
 OPUS-TRAITS owns data/content/trait-act-pulls.json and trait coverage (from Oct 12).
 
+OPUS-OFFICIALS (Opus, branch `opus-officials`, from Oct 12, 7:45 p.m.) owns M1-12: officials generated as people at the opening, and how members of every body take positions and vote. The Political Process's model, for reference: about 600 individual politicians with social and economic ideology, traits (charismatic, corrupt, incorruptible, independent) and liberal, moderate and conservative wings inside each party; the population itself is statistics per county.
+
 All six start at 3:07 a.m. Monday from one-off routines on the coordinator account.
+
+## Owner rulings, Oct 12, 7:30 p.m.: top priority for every session
+
+The owner, after the first one-year runs of the played world: "the point is to get this actually working in the game." These come before anything else on this board.
+
+1. **Everything built runs in the played world.** Nine finished modules were never installed in `buildBenchWorld`: world-legislating (other governments pass their own laws), outcome-web, interest-groups, world-races, ballot-measures, recalls, meetings, press and constituent-cases. FIXER-WIRE-ALL-MODULES is switching them all on (branch `fixer/wire-all-modules`) with a guard test that fails when a module under `src/core2/modules` is not installed or explicitly exempted. Your item is not done until it runs in `/play`.
+2. **OPUS-OFFICIALS (new Opus session from 7:45 p.m., branch `opus-officials`; owns M1-12): officials are people from the opening.** Every member of Congress, every governor and a layer of state legislators (at least each chamber's leadership and the town's own delegation, the rest by the sample rule in 4) are generated as people during the initial loading, with traits, views, careers and relationships, not a seat with a party label (retire SG-GOV-official-identity-only). The Political Process generates about 600 politicians at the start; same idea.
+3. **OPUS-OFFICIALS, with OPUS-GOV: votes vary and come from many influences.** OPUS-OFFICIALS owns member positions and leans in `src/core2/modules/legislature.ts` (`positionOn`, `leanOf`, `congressMembers`) for this; OPUS-GOV keeps the rest of legislating and reviews. Each member's own views and traits, their district and constituents, party and leadership pressure, interest groups and donors, relationships and deals, ambition and the next election, and the press. An independent who caucuses with a party usually votes with it; a truly independent one decides from the reasons they are independent. Nothing hard-coded: no fixed tallies, party-line stand-ins or lean constants in place of people. (Today every federal vote is a party line from the 2026 roster, 219 to 214 and 55 to 45 in every game, and independents vote with the Republicans because their lean is 0.)
+4. **OPUS-CORE: a representative population, not only the player's circle.** The full people are a representative sample of the town (ages, incomes, jobs, households, neighborhoods, views), each standing for a weighted share, plus the player's circle. The counted rest drifts too: births, deaths, moves in and out, aging and job changes applied to the counts by rate, so the town's population changes year to year (today it never changes by one person).
+5. **OPUS-CORE: running memory stays small.** The game keeps every log record: Juliaetta, Idaho reached 7 GB and crashed in April 2029, about 600 MB per game month. Keep a condensed index of what the game needs to know (current state, each person's key facts, recent detail) and summarize or drop old detail; the speed guard measures memory over a three-year run. Saves stay the world's recipe plus the player's commands (M7-02).
+6. **OPUS-GOV and OPUS-PEOPLE, seen in the one-year runs:** no births in a year in Beverly, Massachusetts; the federal budget fails at Senate cloture in every game; a statewide vote follows about 32 named townspeople.
 
 ## Audit priorities (owner, Oct 12, 9:15 a.m.): fix before building on
 
