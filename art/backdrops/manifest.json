@@ -11,10 +11,7 @@
       "sourceFile": "apartment-basement-studio__midday.png",
       "sourceSha256": "1889095085e5eb3b7c0b9e913a0401c0dd4e05ff6553243613ea330a7f8bc6ea",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:apartment-basement-studio",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:apartment-basement-studio", "uses:shared-location"]
     },
     {
       "place": "apartment-older-walkup",
@@ -26,10 +23,7 @@
       "sourceFile": "apartment-older-walkup__midday.png",
       "sourceSha256": "83acda10c514b783283156fd7700e5645c7eb4768229aaf186b74480b282355e",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:apartment-older-walkup",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:apartment-older-walkup", "uses:shared-location"]
     },
     {
       "place": "apartment-public-housing",
@@ -41,10 +35,7 @@
       "sourceFile": "apartment-public-housing__midday.png",
       "sourceSha256": "ed9487e23860ddfe5e585eeeb33f74c3216cf7429846063d05aa78b2b4d66695",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:apartment-public-housing",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:apartment-public-housing", "uses:shared-location"]
     },
     {
       "place": "apartment-student-shared",
@@ -56,10 +47,7 @@
       "sourceFile": "apartment-student-shared__midday.png",
       "sourceSha256": "b426514bd45db2deafa48ceded2b6ba0a885d7c420823ce70abd22e464d2783c",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:apartment-student-shared",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:apartment-student-shared", "uses:shared-location"]
     },
     {
       "place": "apartment-suburban-garden",
@@ -71,10 +59,7 @@
       "sourceFile": "apartment-suburban-garden__midday.png",
       "sourceSha256": "48eb0a9c0800ff016d0e88c3d2b322e9bd10ad883cde8e093176d853d58f5707",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:apartment-suburban-garden",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:apartment-suburban-garden", "uses:shared-location"]
     },
     {
       "place": "appellate-courtroom",
@@ -86,10 +71,7 @@
       "sourceFile": "appellate-courtroom__midday-v1.png",
       "sourceSha256": "c44080a04206b90d251f7194784fb67212e16a5c9f1bda8645fcd36ed513fa8b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:appellate-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:appellate-courtroom", "uses:shared-location"]
     },
     {
       "place": "appellate-courtroom",
@@ -101,10 +83,7 @@
       "sourceFile": "appellate-courtroom__morning-v1.png",
       "sourceSha256": "c20e9ad2956b85a340009e68adef3e77ef95c95ad4bb85b4065d7b49e82b3dee",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:appellate-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:appellate-courtroom", "uses:shared-location"]
     },
     {
       "place": "appellate-courtroom",
@@ -116,10 +95,7 @@
       "sourceFile": "appellate-courtroom__night-v1.png",
       "sourceSha256": "419f7097162786ff854cea341d0845dcd5565295d42423b89e3c95ef8f846d1b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:appellate-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:appellate-courtroom", "uses:shared-location"]
     },
     {
       "place": "appellate-courtroom",
@@ -131,10 +107,7 @@
       "sourceFile": "appellate-courtroom__rain-v1.png",
       "sourceSha256": "c4550ea5731967358d4904d1e80a48debd0426621cc2f6c11202f42fd822588b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:appellate-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:appellate-courtroom", "uses:shared-location"]
     },
     {
       "place": "barbershop",
@@ -214,10 +187,7 @@
       "sourceFile": "bedroom-teen__midday-v1.png",
       "sourceSha256": "b44724610cabdf0a9c3cf4b85ef8716ec842fbc465d208c3ebfcd39e871f9737",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:bedroom-teen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:bedroom-teen", "uses:shared-location"]
     },
     {
       "place": "bedroom-teen",
@@ -229,10 +199,7 @@
       "sourceFile": "bedroom-teen__morning-v1.png",
       "sourceSha256": "61a67085d8845899905f104c1cb255368ebc05bcde9dfd435b952b112dc4dc54",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:bedroom-teen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:bedroom-teen", "uses:shared-location"]
     },
     {
       "place": "bedroom-teen",
@@ -244,10 +211,7 @@
       "sourceFile": "bedroom-teen__night-v1.png",
       "sourceSha256": "c1505761cb26cbf7c4afc1dfc431d7cf908b4035132271e6035a1c4ddf38a19e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:bedroom-teen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:bedroom-teen", "uses:shared-location"]
     },
     {
       "place": "bedroom-teen",
@@ -259,10 +223,7 @@
       "sourceFile": "bedroom-teen__rain-v1.png",
       "sourceSha256": "807f2f8df8c5892d9f2bcea7cfd6a99bfd201bc838737b8ee440ac48fd3c992e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:bedroom-teen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:bedroom-teen", "uses:shared-location"]
     },
     {
       "place": "campaign-storefront",
@@ -274,10 +235,7 @@
       "sourceFile": "campaign-storefront__midday-v1.png",
       "sourceSha256": "20c9d240fd111d340f4b362c3cae92b6a073c1aeae9a185844fe2c091b84a67b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:campaign-storefront",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:campaign-storefront", "uses:shared-location"]
     },
     {
       "place": "campaign-storefront",
@@ -289,10 +247,7 @@
       "sourceFile": "campaign-storefront__morning-v1.png",
       "sourceSha256": "06f4a58723d1415136d7b20152fde861851e990484d0771e0386c70064e26f24",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:campaign-storefront",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:campaign-storefront", "uses:shared-location"]
     },
     {
       "place": "campaign-storefront",
@@ -304,10 +259,7 @@
       "sourceFile": "campaign-storefront__night-v1.png",
       "sourceSha256": "f830f4cb76cca1881d32ba86f013b709670fc42ca2b257533f1d2a7ede0ca525",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:campaign-storefront",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:campaign-storefront", "uses:shared-location"]
     },
     {
       "place": "campaign-storefront",
@@ -319,10 +271,7 @@
       "sourceFile": "campaign-storefront__rain-v1.png",
       "sourceSha256": "436f8c7c93a2b5c92d6a3055b9966da88e4a9154f10559fe6f9fa51f99cf8dab",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:campaign-storefront",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:campaign-storefront", "uses:shared-location"]
     },
     {
       "place": "church-exterior",
@@ -334,10 +283,7 @@
       "sourceFile": "church-exterior__midday-v1.png",
       "sourceSha256": "57ddb2a7c6ec3aaf5328cfe7d2097dcd4e712e480d9e577ae1adf508af5d532b",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-exterior", "uses:shared-location"]
     },
     {
       "place": "church-exterior",
@@ -349,10 +295,7 @@
       "sourceFile": "church-exterior__morning-v1.png",
       "sourceSha256": "2b4466c5e1dba4a942659f1bd46efaefabe0c93a05c98af8a30c2376a59332a8",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-exterior", "uses:shared-location"]
     },
     {
       "place": "church-exterior",
@@ -364,10 +307,7 @@
       "sourceFile": "church-exterior__night-v1.png",
       "sourceSha256": "e3f063fd1faffee742815d1b2858ae61236959077498061398558a8908775be2",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-exterior", "uses:shared-location"]
     },
     {
       "place": "church-exterior",
@@ -379,10 +319,7 @@
       "sourceFile": "church-exterior__rain-v1.png",
       "sourceSha256": "9defa7533e7269d67d954af707ce31c157e0ce29dca0a6dbd59bff4bcf94393e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-exterior", "uses:shared-location"]
     },
     {
       "place": "church-sanctuary",
@@ -394,10 +331,7 @@
       "sourceFile": "church-sanctuary__midday-v1.png",
       "sourceSha256": "cd969b46214175b8ece050f6d92c9e106a32c06449734837cf2b6da990a5cdb7",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-sanctuary",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-sanctuary", "uses:shared-location"]
     },
     {
       "place": "church-sanctuary",
@@ -409,10 +343,7 @@
       "sourceFile": "church-sanctuary__morning-v1.png",
       "sourceSha256": "6de28fd3d918cd0d1dc7b3c735678cc047605ffdbd0af64cc364fc8e7beb3a73",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-sanctuary",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-sanctuary", "uses:shared-location"]
     },
     {
       "place": "church-sanctuary",
@@ -424,10 +355,7 @@
       "sourceFile": "church-sanctuary__night-v1.png",
       "sourceSha256": "24b324c05e543e2a4bc5d6cdd3adf4588a5138a96ffe077ff3162177ff215cbc",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-sanctuary",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-sanctuary", "uses:shared-location"]
     },
     {
       "place": "church-sanctuary",
@@ -439,10 +367,7 @@
       "sourceFile": "church-sanctuary__rain-v1.png",
       "sourceSha256": "2d3df1b1f667ace35e313757c27db4196e1d61569b67043def973fbada13255e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:church-sanctuary",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:church-sanctuary", "uses:shared-location"]
     },
     {
       "place": "church-supper-hall",
@@ -518,10 +443,7 @@
       "sourceFile": "city-hall-exterior__midday-illustrated-r2.png",
       "sourceSha256": "844b15571bd199ed91d424797490b4f7e808c7a454b00b3fc1869c01eec58adf",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:city-hall-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-exterior", "uses:shared-location"]
     },
     {
       "place": "city-hall-exterior",
@@ -533,10 +455,7 @@
       "sourceFile": "city-hall-exterior__morning-v1.png",
       "sourceSha256": "01820ba3a56013d7b719bd44fc527b57189fca221371c57be0db8f29241b67a4",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:city-hall-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-exterior", "uses:shared-location"]
     },
     {
       "place": "city-hall-exterior",
@@ -548,10 +467,7 @@
       "sourceFile": "city-hall-exterior__night-v1.png",
       "sourceSha256": "328b2e1b0b47b1baae82bfe36f5995c4a210abc7bfd77185f0f8a679e63a4753",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:city-hall-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-exterior", "uses:shared-location"]
     },
     {
       "place": "city-hall-exterior",
@@ -563,10 +479,7 @@
       "sourceFile": "city-hall-exterior__rain-v2.png",
       "sourceSha256": "075636670d60f94bce812bfaf8fb5cc86b4c4faf377cff3b62392e8980a8c80f",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:city-hall-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-exterior", "uses:shared-location"]
     },
     {
       "place": "city-hall-hallway",
@@ -578,10 +491,7 @@
       "sourceFile": "city-hall-hallway__midday-v1.png",
       "sourceSha256": "d019780db13d2f715752fc2de4987d4bfa1ec8b1ceea4412684b0b5c88fefa37",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-hallway", "uses:shared-location"]
     },
     {
       "place": "city-hall-hallway",
@@ -593,10 +503,7 @@
       "sourceFile": "city-hall-hallway__morning-v1.png",
       "sourceSha256": "0a9248c5891de5c0021cedd8f1b97174396c8044fd25511a9d84ea218a183925",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-hallway", "uses:shared-location"]
     },
     {
       "place": "city-hall-hallway",
@@ -608,10 +515,7 @@
       "sourceFile": "city-hall-hallway__night-v1.png",
       "sourceSha256": "123fa8d3530920d24bb4ff313b6d4e2ef2a591a4c598d12b458e023d87b67f30",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-hallway", "uses:shared-location"]
     },
     {
       "place": "city-hall-hallway",
@@ -623,10 +527,7 @@
       "sourceFile": "city-hall-hallway__rain-v1.png",
       "sourceSha256": "9373aa2148045354379d67146af8c4f365c82de552bfc070a2c8ba4a3f0e9922",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-hallway", "uses:shared-location"]
     },
     {
       "place": "city-hall-steps-event",
@@ -638,10 +539,7 @@
       "sourceFile": "city-hall-steps-event__midday-v1.png",
       "sourceSha256": "44e056aa3158ee17048cb047370e8a6456af64d59d99836ebd3d83594a13d70a",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-steps-event",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-steps-event", "uses:shared-location"]
     },
     {
       "place": "city-hall-steps-event",
@@ -653,10 +551,7 @@
       "sourceFile": "city-hall-steps-event__morning-v1.png",
       "sourceSha256": "5a94ddbeb16a215b324ded15f8dd0debeb0a052ecf4d9cd4108cdc368216c874",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-steps-event",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-steps-event", "uses:shared-location"]
     },
     {
       "place": "city-hall-steps-event",
@@ -668,10 +563,7 @@
       "sourceFile": "city-hall-steps-event__night-v1.png",
       "sourceSha256": "7e89963064d6cc7f09c9287c5ed8fd6e487684bbbdb3ed5e2ca92f0a3c256d54",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-steps-event",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-steps-event", "uses:shared-location"]
     },
     {
       "place": "city-hall-steps-event",
@@ -683,10 +575,7 @@
       "sourceFile": "city-hall-steps-event__rain-v1.png",
       "sourceSha256": "8305dfd6dbd833deb0b5300f175918ee80e6b975c23cd1f46d0fe7cc76a6cdac",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:city-hall-steps-event",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:city-hall-steps-event", "uses:shared-location"]
     },
     {
       "place": "classroom",
@@ -698,11 +587,7 @@
       "sourceFile": "classroom__midday-v1.png",
       "sourceSha256": "6a3827b5607e94c3625369eed0b31aacc9428848256693fe0b152684f1a89161",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:classroom",
-        "uses:shared-location",
-        "education"
-      ]
+      "tags": ["kind:classroom", "uses:shared-location", "education"]
     },
     {
       "place": "classroom",
@@ -714,11 +599,7 @@
       "sourceFile": "classroom__night-v1.png",
       "sourceSha256": "3944c36c20bcf83b93abfd2deef0b90d4ed30539f994ed6ae737c07695c186fe",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:classroom",
-        "uses:shared-location",
-        "education"
-      ]
+      "tags": ["kind:classroom", "uses:shared-location", "education"]
     },
     {
       "place": "clerk-back-office",
@@ -730,10 +611,7 @@
       "sourceFile": "clerk-back-office__midday-v1.png",
       "sourceSha256": "94698a7f985bf2805216061fe7f8078763016f171962a78b8edebc932cf135a0",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:clerk-back-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:clerk-back-office", "uses:shared-location"]
     },
     {
       "place": "clerk-back-office",
@@ -745,10 +623,7 @@
       "sourceFile": "clerk-back-office__morning-v1.png",
       "sourceSha256": "ffdc9b3726ebc376383e344138589989cc5c5d9c5cba53a829c1d8ccab457740",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:clerk-back-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:clerk-back-office", "uses:shared-location"]
     },
     {
       "place": "clerk-back-office",
@@ -760,10 +635,7 @@
       "sourceFile": "clerk-back-office__night-v1.png",
       "sourceSha256": "bec83d0b196ca298fb713f3012a24e552cf28e1fa171a8e59ef7b17cf2ca973d",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:clerk-back-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:clerk-back-office", "uses:shared-location"]
     },
     {
       "place": "clerk-back-office",
@@ -775,10 +647,7 @@
       "sourceFile": "clerk-back-office__rain-v1.png",
       "sourceSha256": "0fca16a21e63184fe6d756e8963ee192000a2f18f3cfa46cb5a3218aed01560f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:clerk-back-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:clerk-back-office", "uses:shared-location"]
     },
     {
       "place": "clerk-counter",
@@ -790,11 +659,7 @@
       "sourceFile": "GOV-12_clerk-counter__midday-illustrated-r2.png",
       "sourceSha256": "e8ad2fc9b8b22f2a92b804da053bbc7714dd8ccdc31f4f25500a78efa90c4723",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:clerk-counter",
-        "uses:shared-location",
-        "public-service"
-      ]
+      "tags": ["kind:clerk-counter", "uses:shared-location", "public-service"]
     },
     {
       "place": "coffee-shop",
@@ -806,10 +671,7 @@
       "sourceFile": "coffee-shop__midday-v1.png",
       "sourceSha256": "3e4b60ec10bd285838151def68c5999cf35fd0118757c55e08b893b08b936481",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:coffee-shop",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:coffee-shop", "uses:shared-location"]
     },
     {
       "place": "coffee-shop",
@@ -821,10 +683,7 @@
       "sourceFile": "coffee-shop__morning-v1.png",
       "sourceSha256": "80a884d4af84640b65fe56147f0051d6f7f4a82081fafa8a5f5dc78dad233323",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:coffee-shop",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:coffee-shop", "uses:shared-location"]
     },
     {
       "place": "coffee-shop",
@@ -836,10 +695,7 @@
       "sourceFile": "coffee-shop__night-v1.png",
       "sourceSha256": "103237645fc204514a4381502a6cf220930960ce2d71c082aee46ba8eedf541e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:coffee-shop",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:coffee-shop", "uses:shared-location"]
     },
     {
       "place": "coffee-shop",
@@ -851,10 +707,7 @@
       "sourceFile": "coffee-shop__rain-v1.png",
       "sourceSha256": "884f5b8cfb550f4622b085ab59856f0e646bdbf94fe77649afbac36db52b608a",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:coffee-shop",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:coffee-shop", "uses:shared-location"]
     },
     {
       "place": "college-quad",
@@ -866,10 +719,7 @@
       "sourceFile": "college-quad__midday-v1.png",
       "sourceSha256": "e1037980ee9bec5ef08445d4bcda5806e6d062df31552cabdf0e5dddfa0f69b6",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:college-quad",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:college-quad", "uses:shared-location"]
     },
     {
       "place": "college-quad",
@@ -881,10 +731,7 @@
       "sourceFile": "college-quad__night-v1.png",
       "sourceSha256": "3cb99098e8ccdd7e38290cd9067c4d0c262676b5eb001a88a06f7e0673931a43",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:college-quad",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:college-quad", "uses:shared-location"]
     },
     {
       "place": "committee-hearing-room",
@@ -896,10 +743,7 @@
       "sourceFile": "committee-hearing-room__midday-v1.png",
       "sourceSha256": "9abacd0018cedd32eaf36f4b5bbc9ba04f009cb799a0f9db7d4d4b77aa21e54f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:committee-hearing-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:committee-hearing-room", "uses:shared-location"]
     },
     {
       "place": "committee-hearing-room",
@@ -911,10 +755,7 @@
       "sourceFile": "committee-hearing-room__morning-v1.png",
       "sourceSha256": "d6534c182f953bb4d8f76eb8891d3bc7fe722afd2fa335c7f480542381f5d88f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:committee-hearing-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:committee-hearing-room", "uses:shared-location"]
     },
     {
       "place": "committee-hearing-room",
@@ -926,10 +767,7 @@
       "sourceFile": "committee-hearing-room__night-v1.png",
       "sourceSha256": "8fc337a40f408779b1afd0692ba8989e82d67434325acb5e81b2316d13166ee2",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:committee-hearing-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:committee-hearing-room", "uses:shared-location"]
     },
     {
       "place": "committee-hearing-room",
@@ -941,10 +779,7 @@
       "sourceFile": "committee-hearing-room__rain-v1.png",
       "sourceSha256": "49379e5628ef1c408563b9a3c9a9e89f231834f9aa8060eec344af028ff355d8",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:committee-hearing-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:committee-hearing-room", "uses:shared-location"]
     },
     {
       "place": "community-room",
@@ -1058,11 +893,7 @@
       "sourceFile": "convention-hall__midday-v1.png",
       "sourceSha256": "f9034784a5cc86e44c2f5a8298c3e69859556357019e47c7cf82b6751317b900",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:convention-hall",
-        "uses:shared-location",
-        "recreation"
-      ]
+      "tags": ["kind:convention-hall", "uses:shared-location", "recreation"]
     },
     {
       "place": "convention-hall",
@@ -1074,11 +905,7 @@
       "sourceFile": "convention-hall__morning-v1.png",
       "sourceSha256": "d8b93064517a2701b12089f42d0301d9783d6fb480020797336623acddb20c46",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:convention-hall",
-        "uses:shared-location",
-        "recreation"
-      ]
+      "tags": ["kind:convention-hall", "uses:shared-location", "recreation"]
     },
     {
       "place": "convention-hall",
@@ -1090,11 +917,7 @@
       "sourceFile": "convention-hall__night-v1.png",
       "sourceSha256": "73f9c8db12d61bb9fd8b45f835c0a78fa3abacb8af86ff1017264a45a7ab5c55",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:convention-hall",
-        "uses:shared-location",
-        "recreation"
-      ]
+      "tags": ["kind:convention-hall", "uses:shared-location", "recreation"]
     },
     {
       "place": "convention-hall",
@@ -1106,11 +929,7 @@
       "sourceFile": "convention-hall__rain-v1.png",
       "sourceSha256": "1055ad1ca7f0f6c8cbf4855ecc49000ca6fe322af7263eb5bf0f8b05143e5ba1",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:convention-hall",
-        "uses:shared-location",
-        "recreation"
-      ]
+      "tags": ["kind:convention-hall", "uses:shared-location", "recreation"]
     },
     {
       "place": "council-chamber",
@@ -1122,10 +941,7 @@
       "sourceFile": "GOV-06_council-chamber__midday-v1.png",
       "sourceSha256": "66ce6de6dd6d11820be7043544ea556ce9cd30a69ebe44f03ca64176603d494d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:council-chamber",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:council-chamber", "uses:shared-location"]
     },
     {
       "place": "council-chamber",
@@ -1137,10 +953,7 @@
       "sourceFile": "GOV-06_council-chamber__morning-v1.png",
       "sourceSha256": "9c2384891397c1f24a7223a4e68a9a8eedc3c51a576d0c26261179f1cf26c9d8",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:council-chamber",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:council-chamber", "uses:shared-location"]
     },
     {
       "place": "council-chamber",
@@ -1152,10 +965,7 @@
       "sourceFile": "GOV-06_council-chamber__night-v1.png",
       "sourceSha256": "00c9f025fced7751d2521a7b7cd0be2cd99b6412f1d29bf38af310b372a84d8c",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:council-chamber",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:council-chamber", "uses:shared-location"]
     },
     {
       "place": "council-chamber",
@@ -1167,10 +977,7 @@
       "sourceFile": "GOV-06_council-chamber__rain-v1.png",
       "sourceSha256": "5d943e15a5ceca3b73f08c405c5bc2e8eb8175d2096b335db40ed93455b5d7b5",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:council-chamber",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:council-chamber", "uses:shared-location"]
     },
     {
       "place": "county-clerk-office-rural",
@@ -1182,10 +989,7 @@
       "sourceFile": "county-clerk-office-rural__midday.png",
       "sourceSha256": "004255750d81d63b566bf9327bf49ed8e59394868b21362f1764b09cf0fd925b",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:county-clerk-office-rural",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-clerk-office-rural", "uses:shared-location"]
     },
     {
       "place": "county-clerk-office-urban",
@@ -1197,10 +1001,7 @@
       "sourceFile": "county-clerk-office-urban__midday.png",
       "sourceSha256": "de3163b418d505934fa700db0845ba7a244ceb5067784b2949164bf0d911f092",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:county-clerk-office-urban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-clerk-office-urban", "uses:shared-location"]
     },
     {
       "place": "county-commission",
@@ -1212,10 +1013,7 @@
       "sourceFile": "GOV-08_county-commission__midday-v1.png",
       "sourceSha256": "aa079940724dbe2370db14fd9004f9dac099b7862274e85704efc35c67885f8e",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-commission",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-commission", "uses:shared-location"]
     },
     {
       "place": "county-commission",
@@ -1227,10 +1025,7 @@
       "sourceFile": "GOV-08_county-commission__morning-v1.png",
       "sourceSha256": "b4ebd1b0b56521a2e026aec2b33f78ac5177154a7a75825ab8c6cd0248316cdc",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-commission",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-commission", "uses:shared-location"]
     },
     {
       "place": "county-commission",
@@ -1242,10 +1037,7 @@
       "sourceFile": "GOV-08_county-commission__night-v1.png",
       "sourceSha256": "22f214cc96ebfd0edcc3973c6b82c35d0f37ee58cf2957c73ccbd5a986dbb995",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-commission",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-commission", "uses:shared-location"]
     },
     {
       "place": "county-commission",
@@ -1257,10 +1049,7 @@
       "sourceFile": "GOV-08_county-commission__rain-v1.png",
       "sourceSha256": "e83d6c881a4cfeaf5151541e233d42a8a51c9fe7fed33f8485d473fc54cd06fd",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-commission",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-commission", "uses:shared-location"]
     },
     {
       "place": "county-courthouse",
@@ -1272,10 +1061,7 @@
       "sourceFile": "GOV-04_county-courthouse__midday-v1.png",
       "sourceSha256": "6742a64c4d823f902a1c754d6a9cc637584342541e21373d141894431e2d5d1f",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courthouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courthouse", "uses:shared-location"]
     },
     {
       "place": "county-courthouse",
@@ -1287,10 +1073,7 @@
       "sourceFile": "GOV-04_county-courthouse__morning-v1.png",
       "sourceSha256": "5794040661e51ca5cb100f1ff45f0c474f0c8fbbc75fb61a4f00619a6c4cf0a0",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courthouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courthouse", "uses:shared-location"]
     },
     {
       "place": "county-courthouse",
@@ -1302,10 +1085,7 @@
       "sourceFile": "GOV-04_county-courthouse__night-v1.png",
       "sourceSha256": "b4d948dbe5a148a7a663cedccc506a2aa4e51ed14d8a74d2352b762c1cd047f0",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courthouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courthouse", "uses:shared-location"]
     },
     {
       "place": "county-courthouse",
@@ -1317,10 +1097,7 @@
       "sourceFile": "GOV-04_county-courthouse__rain-v1.png",
       "sourceSha256": "b434b5a57543cf74fec91e1a1f6e38dfdd0deea6d3b9e438054d9930821121cf",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courthouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courthouse", "uses:shared-location"]
     },
     {
       "place": "county-courtroom",
@@ -1332,10 +1109,7 @@
       "sourceFile": "county-courtroom__midday-v1.png",
       "sourceSha256": "957d1c25590782c2af3dbdbe219d31e15345da703f2fbc9f27cac6524a9ae1a1",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courtroom", "uses:shared-location"]
     },
     {
       "place": "county-courtroom",
@@ -1347,10 +1121,7 @@
       "sourceFile": "county-courtroom__morning-v1.png",
       "sourceSha256": "6adbdc42d707cfd0cccb8363164905f432a331062644162db20ee88809c886b1",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courtroom", "uses:shared-location"]
     },
     {
       "place": "county-courtroom",
@@ -1362,10 +1133,7 @@
       "sourceFile": "county-courtroom__night-v1.png",
       "sourceSha256": "05f4c3c7e2e3cab841cbecc8a0fe5f6111f3e97398087bd1a6520e3fc9088d4d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courtroom", "uses:shared-location"]
     },
     {
       "place": "county-courtroom",
@@ -1377,10 +1145,7 @@
       "sourceFile": "county-courtroom__rain-v1.png",
       "sourceSha256": "bf7cdfaf589bea9205808829c8e88188019fbaa8bbf1bf3342aab66b059b861c",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-courtroom", "uses:shared-location"]
     },
     {
       "place": "county-party-office",
@@ -1392,10 +1157,7 @@
       "sourceFile": "county-party-office__midday-v1.png",
       "sourceSha256": "91feaa4f52f2428ce4d700ff7ccf4676d3bf1bf7d37bfd1741691327ac73c6a4",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-party-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-party-office", "uses:shared-location"]
     },
     {
       "place": "county-party-office",
@@ -1407,10 +1169,7 @@
       "sourceFile": "county-party-office__morning-v1.png",
       "sourceSha256": "918ae33983648095fcbcfe09d3f13e7a5721fa14c9b2cce8e55b0068778e0984",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-party-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-party-office", "uses:shared-location"]
     },
     {
       "place": "county-party-office",
@@ -1422,10 +1181,7 @@
       "sourceFile": "county-party-office__night-v1.png",
       "sourceSha256": "fbb782385494f430f5710c4935aa51cd6d8005a0f715d82a0022cd09847b73ed",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-party-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-party-office", "uses:shared-location"]
     },
     {
       "place": "county-party-office",
@@ -1437,10 +1193,7 @@
       "sourceFile": "county-party-office__rain-v1.png",
       "sourceSha256": "4977669813b42bb4af3cee797dd39e3b6b658e32c4696bccad807186400cbec5",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:county-party-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:county-party-office", "uses:shared-location"]
     },
     {
       "place": "courthouse-hallway",
@@ -1452,10 +1205,7 @@
       "sourceFile": "courthouse-hallway__midday.png",
       "sourceSha256": "9f9b9850c0ac91e128275ec8b2a2853b3390c324c29c315063fe59bd6d27b7c4",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:courthouse-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:courthouse-hallway", "uses:shared-location"]
     },
     {
       "place": "courthouse-hallway",
@@ -1467,10 +1217,7 @@
       "sourceFile": "courthouse-hallway__morning.png",
       "sourceSha256": "3d59f2ad81cd744ac1803e8cf370125fa5b14c1f7bc49031563d92fefab23dfa",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:courthouse-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:courthouse-hallway", "uses:shared-location"]
     },
     {
       "place": "courthouse-hallway",
@@ -1482,10 +1229,7 @@
       "sourceFile": "courthouse-hallway__rain.png",
       "sourceSha256": "85d2d7c761a023f44269087007449f45486f735627c2f0d0ca86c4c7477c7ecf",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:courthouse-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:courthouse-hallway", "uses:shared-location"]
     },
     {
       "place": "debate-stage",
@@ -1497,10 +1241,7 @@
       "sourceFile": "debate-stage__midday-v1.png",
       "sourceSha256": "149eeecbd11d04a52592ffe630ec6c582b50176a89faf15450b3a420b6d76a7d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:debate-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:debate-stage", "uses:shared-location"]
     },
     {
       "place": "debate-stage",
@@ -1512,10 +1253,7 @@
       "sourceFile": "debate-stage__morning-v1.png",
       "sourceSha256": "73f338a931dfa6fe8babb80158bb45c8f4a0f76954692d9a5594333c1f640544",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:debate-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:debate-stage", "uses:shared-location"]
     },
     {
       "place": "debate-stage",
@@ -1527,10 +1265,7 @@
       "sourceFile": "debate-stage__night-v1.png",
       "sourceSha256": "3bf902f0d34574f30f980d8ba61a7feeefb26a643480adf636d085f6c89d6078",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:debate-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:debate-stage", "uses:shared-location"]
     },
     {
       "place": "debate-stage",
@@ -1542,10 +1277,7 @@
       "sourceFile": "debate-stage__rain-v1.png",
       "sourceSha256": "82f14ff84259face8e88434d5ed141193d899ee7a0fda39ce1cae0eb97f6a641",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:debate-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:debate-stage", "uses:shared-location"]
     },
     {
       "place": "diner",
@@ -1557,12 +1289,7 @@
       "sourceFile": "diner__midday-v1.png",
       "sourceSha256": "df7ceb783f261d44c1dfe3131bf2e92805c527ab27f84a300cc680099afbd3d9",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "employer",
-        "restaurant",
-        "kind:diner",
-        "uses:shared-location"
-      ]
+      "tags": ["employer", "restaurant", "kind:diner", "uses:shared-location"]
     },
     {
       "place": "diner",
@@ -1574,12 +1301,7 @@
       "sourceFile": "diner__morning-v1.png",
       "sourceSha256": "1409428ce1095f8926f1b5aa47e64fe921bfe639defe34946b5a54b37c420677",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "employer",
-        "restaurant",
-        "kind:diner",
-        "uses:shared-location"
-      ]
+      "tags": ["employer", "restaurant", "kind:diner", "uses:shared-location"]
     },
     {
       "place": "diner",
@@ -1591,12 +1313,7 @@
       "sourceFile": "diner__night-v1.png",
       "sourceSha256": "521077018e26e3133cbc947e92531aec7de340c2f110cb7c4ec8dd69dd9c68cb",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "employer",
-        "restaurant",
-        "kind:diner",
-        "uses:shared-location"
-      ]
+      "tags": ["employer", "restaurant", "kind:diner", "uses:shared-location"]
     },
     {
       "place": "diner",
@@ -1608,12 +1325,7 @@
       "sourceFile": "diner__rain-v1.png",
       "sourceSha256": "7cf797b2536c1f495abd130afd443d3f7932dd6780522054dece57e738da97c3",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "employer",
-        "restaurant",
-        "kind:diner",
-        "uses:shared-location"
-      ]
+      "tags": ["employer", "restaurant", "kind:diner", "uses:shared-location"]
     },
     {
       "place": "dmv-office",
@@ -1625,10 +1337,7 @@
       "sourceFile": "dmv-office__midday.png",
       "sourceSha256": "2fa5e7ca8b4d5d5878bed65efe09d869fa408ae79bd405403aad1710b2066c7e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:dmv-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dmv-office", "uses:shared-location"]
     },
     {
       "place": "dmv-office",
@@ -1640,10 +1349,7 @@
       "sourceFile": "dmv-office__morning.png",
       "sourceSha256": "6dc4e06360afaa8b211ebc6c65fdd351c7ed1073a30103c0197a76536c4ec8f2",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:dmv-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dmv-office", "uses:shared-location"]
     },
     {
       "place": "dmv-office",
@@ -1655,10 +1361,7 @@
       "sourceFile": "dmv-office__night.png",
       "sourceSha256": "e26d8d3f5ba843e3314af0a0af4ed294f0b8c9ea8bb1a18c2318986930aab349",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:dmv-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dmv-office", "uses:shared-location"]
     },
     {
       "place": "dmv-office",
@@ -1670,10 +1373,7 @@
       "sourceFile": "dmv-office__rain.png",
       "sourceSha256": "c59abb662ae9f4288a7d3433cf97a1f847122350d43f4cbc86bff60cec95766c",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:dmv-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dmv-office", "uses:shared-location"]
     },
     {
       "place": "door-knocking-rural",
@@ -1685,10 +1385,7 @@
       "sourceFile": "door-knocking-rural__midday-r2.png",
       "sourceSha256": "5d456cb2ca97b7567677f0739eb58b927cd1daa60d1dea20b6306e8a3f071bf1",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-rural",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-rural", "uses:shared-location"]
     },
     {
       "place": "door-knocking-rural",
@@ -1700,10 +1397,7 @@
       "sourceFile": "door-knocking-rural__morning-v1.png",
       "sourceSha256": "ea78f94959b59b0bf843e833012b5d3e112ce84cb4324befe7253f87107bbaa0",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-rural",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-rural", "uses:shared-location"]
     },
     {
       "place": "door-knocking-rural",
@@ -1715,10 +1409,7 @@
       "sourceFile": "door-knocking-rural__night-v1.png",
       "sourceSha256": "be41e19198c107b0edbaf1f57ad5f6a078c0a5d5967f3f56197147718a76b923",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-rural",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-rural", "uses:shared-location"]
     },
     {
       "place": "door-knocking-rural",
@@ -1730,10 +1421,7 @@
       "sourceFile": "door-knocking-rural__rain-v1.png",
       "sourceSha256": "399047291721b3f13c33c4becd4090eece575c10fa953fa383d62c310ca0ba6b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-rural",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-rural", "uses:shared-location"]
     },
     {
       "place": "door-knocking-suburban",
@@ -1745,10 +1433,7 @@
       "sourceFile": "door-knocking-suburban__midday-v1.png",
       "sourceSha256": "dc1acfc3cb26d98e988edbe074929218de9c0753f76faace4bbe2341aa0dba4c",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-suburban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-suburban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-suburban",
@@ -1760,10 +1445,7 @@
       "sourceFile": "door-knocking-suburban__morning-v1.png",
       "sourceSha256": "227be702f32d7c60dc929630d5fcb847136ee248a4d891d95066412d44a35552",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-suburban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-suburban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-suburban",
@@ -1775,10 +1457,7 @@
       "sourceFile": "door-knocking-suburban__night-v1.png",
       "sourceSha256": "5e566c82773d98cbdc0381f2cd03cba49487fdf00adb6e05df2e3a2baff7ecaa",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-suburban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-suburban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-suburban",
@@ -1790,10 +1469,7 @@
       "sourceFile": "door-knocking-suburban__rain-v1.png",
       "sourceSha256": "d43f611c1ac247d44355db89479ec4113c36603a8a6f9a10bbdd5cb109e27c59",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-suburban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-suburban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-urban",
@@ -1805,10 +1481,7 @@
       "sourceFile": "door-knocking-urban__midday-v1.png",
       "sourceSha256": "c0942a3fd9ceaaa1719b7e2bba1a2490f74040649865eb2e51e27e99ebf596d9",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-urban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-urban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-urban",
@@ -1820,10 +1493,7 @@
       "sourceFile": "door-knocking-urban__morning-v1.png",
       "sourceSha256": "35b55e0c0d355abeede8241b24495667096a2a607b6348cc9150bf53162be110",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-urban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-urban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-urban",
@@ -1835,10 +1505,7 @@
       "sourceFile": "door-knocking-urban__night-v1.png",
       "sourceSha256": "42a3cc10ef8428e14571bea537f38508b109b9be27bb6e48a08f61a6206677b8",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-urban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-urban", "uses:shared-location"]
     },
     {
       "place": "door-knocking-urban",
@@ -1850,10 +1517,7 @@
       "sourceFile": "door-knocking-urban__rain-v1.png",
       "sourceSha256": "e2367989ca868113d8684b44edd89ef581fc0212e587c1f9c4bba723ede4609e",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:door-knocking-urban",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:door-knocking-urban", "uses:shared-location"]
     },
     {
       "place": "dorm-room",
@@ -1865,10 +1529,7 @@
       "sourceFile": "dorm-room__midday-v1.png",
       "sourceSha256": "49f37e6fb037334552e888cf8ca14d0004eb036270aa2988012c9690230f2351",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:dorm-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dorm-room", "uses:shared-location"]
     },
     {
       "place": "dorm-room",
@@ -1880,10 +1541,7 @@
       "sourceFile": "dorm-room__morning-v1.png",
       "sourceSha256": "fefd2765b9754a3a6488cb04327b778267ce966f89e0fed25777b672391034b0",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:dorm-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dorm-room", "uses:shared-location"]
     },
     {
       "place": "dorm-room",
@@ -1895,10 +1553,7 @@
       "sourceFile": "dorm-room__night-v1.png",
       "sourceSha256": "01a8060be096d7adb7c2a7f26ebc2710ce3e5a1d3c0ebf68508264663493b3b5",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:dorm-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dorm-room", "uses:shared-location"]
     },
     {
       "place": "dorm-room",
@@ -1910,10 +1565,7 @@
       "sourceFile": "dorm-room__rain-v1.png",
       "sourceSha256": "1c487bf56b8efd12ac614bec54a88abf5792b1a2e3d9a6dfc265a6eaa0ab7fd9",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:dorm-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:dorm-room", "uses:shared-location"]
     },
     {
       "place": "election-night-venue",
@@ -1925,10 +1577,7 @@
       "sourceFile": "election-night-venue__midday-v1.png",
       "sourceSha256": "4be47f4febde8ad1b660e8e195037b05dbd23994e3069ab663cc212791f112d4",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:election-night-venue",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-night-venue", "uses:shared-location"]
     },
     {
       "place": "election-night-venue",
@@ -1940,10 +1589,7 @@
       "sourceFile": "election-night-venue__morning-v1.png",
       "sourceSha256": "22a86410ef2869c73dc565f5ac4d7fc48314bd15a44ba1640dfe068355015c80",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:election-night-venue",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-night-venue", "uses:shared-location"]
     },
     {
       "place": "election-night-venue",
@@ -1955,10 +1601,7 @@
       "sourceFile": "election-night-venue__night-v1.png",
       "sourceSha256": "2e1caf84a3bec5a95fbaa96fa6f614b59e8d96617b2b901a1b732f7f06c59ef3",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:election-night-venue",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-night-venue", "uses:shared-location"]
     },
     {
       "place": "election-night-venue",
@@ -1970,10 +1613,7 @@
       "sourceFile": "election-night-venue__rain-v1.png",
       "sourceSha256": "b8ccf24d3894ad18f18e4ae7399f657ff64d25cbc4a71457c6a759357e1f68bf",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:election-night-venue",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-night-venue", "uses:shared-location"]
     },
     {
       "place": "election-office",
@@ -1985,10 +1625,7 @@
       "sourceFile": "election-office__midday-v1.png",
       "sourceSha256": "e373b2b96f5a763bf742c834aed3bae06651b63c4f012e2f2dcf29cc2741bc38",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:election-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-office", "uses:shared-location"]
     },
     {
       "place": "election-office",
@@ -2000,10 +1637,7 @@
       "sourceFile": "election-office__morning-v1.png",
       "sourceSha256": "40b5ee79034fd77905659436e50ef6621e1c624f40594442f97bfe7b07c1c82a",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:election-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-office", "uses:shared-location"]
     },
     {
       "place": "election-office",
@@ -2015,10 +1649,7 @@
       "sourceFile": "election-office__night-v1.png",
       "sourceSha256": "62366c6557b3d2f324925200a4a54ce95f1e97cf8df38365f59cc8cef32813eb",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:election-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-office", "uses:shared-location"]
     },
     {
       "place": "election-office",
@@ -2030,10 +1661,7 @@
       "sourceFile": "election-office__rain-v1.png",
       "sourceSha256": "50025bd6201d7fffb58b8ddc1d6d7c4ec0a935c06a54eefb5c607c5ecc4456ca",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:election-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-office", "uses:shared-location"]
     },
     {
       "place": "election-office-warehouse",
@@ -2045,10 +1673,7 @@
       "sourceFile": "election-office-warehouse__midday.png",
       "sourceSha256": "27f608a3f4de0dcf439313bf7217fb6d393e9333bf825fc209eab96d3fd3197b",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:election-office-warehouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:election-office-warehouse", "uses:shared-location"]
     },
     {
       "place": "elementary-classroom",
@@ -2060,10 +1685,7 @@
       "sourceFile": "elementary-classroom__midday.png",
       "sourceSha256": "6c3ccc229b29b7c4a3d8502e052110c8af77872467f1ee7d12ed51aa0d8dd16a",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:elementary-classroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:elementary-classroom", "uses:shared-location"]
     },
     {
       "place": "factory-floor",
@@ -2117,10 +1739,7 @@
       "sourceFile": "farm-yard__midday-v1.png",
       "sourceSha256": "9615f6260cbb2092a1f22cf7adb20565a0a839127db382387f7d50d5ee935d43",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:farm-yard",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:farm-yard", "uses:shared-location"]
     },
     {
       "place": "farm-yard",
@@ -2132,10 +1751,7 @@
       "sourceFile": "farm-yard__morning-v1.png",
       "sourceSha256": "02630e174a89a270926b8ecb1f94265ef73c087834391a92f4f5f3f041582f7f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:farm-yard",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:farm-yard", "uses:shared-location"]
     },
     {
       "place": "farm-yard",
@@ -2147,10 +1763,7 @@
       "sourceFile": "farm-yard__night-v1.png",
       "sourceSha256": "337aa20cdaa328d6b2b3a9c5388417149b7c98442d629b63b3bf548b489786ff",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:farm-yard",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:farm-yard", "uses:shared-location"]
     },
     {
       "place": "farm-yard",
@@ -2162,10 +1775,7 @@
       "sourceFile": "farm-yard__rain-v1.png",
       "sourceSha256": "e8d31b6f4f2141fd0157ea34531305ff941d091b5bd6635b09ecb13f89e86d3f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:farm-yard",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:farm-yard", "uses:shared-location"]
     },
     {
       "place": "fire-station",
@@ -2177,11 +1787,7 @@
       "sourceFile": "fire-station__midday.png",
       "sourceSha256": "20c6b7a3ce9c77d8fe9cecded5d910083b2328f67368bb306f5bafe8b5eacf2b",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:fire-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:fire-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "fire-station",
@@ -2193,11 +1799,7 @@
       "sourceFile": "fire-station__morning.png",
       "sourceSha256": "05373a4d16d518833116ddba86dcdacda21852e6a61eb5c43553a4ff3b40037c",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:fire-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:fire-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "fire-station",
@@ -2209,11 +1811,7 @@
       "sourceFile": "fire-station__night.png",
       "sourceSha256": "4e914fed56e20170c8df7238a0a0ef51bdc96f84418f75c4ca01e6a47d877f90",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:fire-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:fire-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "fire-station",
@@ -2225,11 +1823,7 @@
       "sourceFile": "fire-station__rain.png",
       "sourceSha256": "4eb5a9c9978a56737a6f13d79e7e464d6f143af9fae19e8e7763a2df72378ab3",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:fire-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:fire-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "gas-station-store",
@@ -2241,10 +1835,7 @@
       "sourceFile": "gas-station-store__midday-v1.png",
       "sourceSha256": "953f2a50c619e1b0535e647df5708ad8bed2b03367db18e8f5684ba65a51f234",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:gas-station-store",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:gas-station-store", "uses:shared-location"]
     },
     {
       "place": "gas-station-store",
@@ -2256,10 +1847,7 @@
       "sourceFile": "gas-station-store__morning-v1.png",
       "sourceSha256": "34efc339f8a8c9c13128375f9d4e04d9382285edaab8561f77bac286dd725f9c",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:gas-station-store",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:gas-station-store", "uses:shared-location"]
     },
     {
       "place": "gas-station-store",
@@ -2271,10 +1859,7 @@
       "sourceFile": "gas-station-store__night-v1.png",
       "sourceSha256": "3f628b90c98021fdba23065ab6ff85fcb1462bac761da759b5171953b656cbd4",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:gas-station-store",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:gas-station-store", "uses:shared-location"]
     },
     {
       "place": "gas-station-store",
@@ -2286,10 +1871,7 @@
       "sourceFile": "gas-station-store__rain-v1.png",
       "sourceSha256": "7b6c59d5ad8d9e8af2a957a23d1dd5ca25437ef6019025f6b196bb6b7503bf6e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:gas-station-store",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:gas-station-store", "uses:shared-location"]
     },
     {
       "place": "governor-office",
@@ -2301,11 +1883,7 @@
       "sourceFile": "governor-office__midday-v1.png",
       "sourceSha256": "867cb5a08769043b4003f63c90521724a1c280f7e0d5981134224141a981c512",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:governor-office",
-        "uses:shared-location",
-        "public-service"
-      ]
+      "tags": ["kind:governor-office", "uses:shared-location", "public-service"]
     },
     {
       "place": "governor-office",
@@ -2317,11 +1895,7 @@
       "sourceFile": "governor-office__morning-v1.png",
       "sourceSha256": "88395ddde412fd5567e204d28471898a5a2e7eee9e47e0f5c869d15ebc96fb1e",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:governor-office",
-        "uses:shared-location",
-        "public-service"
-      ]
+      "tags": ["kind:governor-office", "uses:shared-location", "public-service"]
     },
     {
       "place": "governor-office",
@@ -2333,11 +1907,7 @@
       "sourceFile": "governor-office__night-v1.png",
       "sourceSha256": "30ccb9c7a7b7eb704fbcda0f80ebf61ebfb0de19cf2f3de295a5177d90cfb0a7",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:governor-office",
-        "uses:shared-location",
-        "public-service"
-      ]
+      "tags": ["kind:governor-office", "uses:shared-location", "public-service"]
     },
     {
       "place": "governor-office",
@@ -2349,11 +1919,7 @@
       "sourceFile": "governor-office__rain-v1.png",
       "sourceSha256": "8629d7c19acde3447788ca41a8725f44c194f30bfcba5b6743eda7c369c797e0",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:governor-office",
-        "uses:shared-location",
-        "public-service"
-      ]
+      "tags": ["kind:governor-office", "uses:shared-location", "public-service"]
     },
     {
       "place": "governor-residence-exterior",
@@ -2365,10 +1931,7 @@
       "sourceFile": "governor-residence-exterior__midday-v1.png",
       "sourceSha256": "f802ecaede90b8386b5cfe5cdd1f0a24410060e849f0c800d54decb431d74beb",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:governor-residence-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:governor-residence-exterior", "uses:shared-location"]
     },
     {
       "place": "governor-residence-exterior",
@@ -2380,10 +1943,7 @@
       "sourceFile": "governor-residence-exterior__morning-v1.png",
       "sourceSha256": "0069898911542096063cc11433a0634c363d1bbc69601ca57c918445dcdbafcf",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:governor-residence-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:governor-residence-exterior", "uses:shared-location"]
     },
     {
       "place": "governor-residence-exterior",
@@ -2395,10 +1955,7 @@
       "sourceFile": "governor-residence-exterior__night-v1.png",
       "sourceSha256": "6a3d892a279ce998e9eea08efcb35d64bf1807f8867c751fd9ec85f080966d75",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:governor-residence-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:governor-residence-exterior", "uses:shared-location"]
     },
     {
       "place": "governor-residence-exterior",
@@ -2410,10 +1967,7 @@
       "sourceFile": "governor-residence-exterior__rain-v1.png",
       "sourceSha256": "558aa58c4a9da2964b241f9e7ab700dcf35fba3b958f572d2f6d7acddf4ace52",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:governor-residence-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:governor-residence-exterior", "uses:shared-location"]
     },
     {
       "place": "high-school-cafeteria",
@@ -2425,10 +1979,7 @@
       "sourceFile": "high-school-cafeteria__midday.png",
       "sourceSha256": "5eaca65bd0a27bf4e31879eebc3cc71a50aff10565d36145ea4ad575a0b54732",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:high-school-cafeteria",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:high-school-cafeteria", "uses:shared-location"]
     },
     {
       "place": "high-school-hallway",
@@ -2440,10 +1991,7 @@
       "sourceFile": "high-school-hallway__midday.png",
       "sourceSha256": "eb36d03e1e63ffcb33908a3ba3858e369009bcdc41a9481246d7fe05a7824893",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:high-school-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:high-school-hallway", "uses:shared-location"]
     },
     {
       "place": "home-kitchen",
@@ -2455,10 +2003,7 @@
       "sourceFile": "home-kitchen__midday-v1.png",
       "sourceSha256": "ddc79e3100bf7f42a04bc0eb3c3b2bf2d60c9333a4e35cbfb58a100f178764ce",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:home-kitchen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:home-kitchen", "uses:shared-location"]
     },
     {
       "place": "home-kitchen",
@@ -2470,10 +2015,7 @@
       "sourceFile": "home-kitchen__morning-v1.png",
       "sourceSha256": "951092117d52931b043ea2f2b61680e8918ccc9d9ed84752025f0ad83601d3dc",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:home-kitchen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:home-kitchen", "uses:shared-location"]
     },
     {
       "place": "home-kitchen",
@@ -2485,10 +2027,7 @@
       "sourceFile": "home-kitchen__night-v1.png",
       "sourceSha256": "ccfb4621f15309d91a7c25100d02cefe3103e15d6b97064aafb228d56c4261de",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:home-kitchen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:home-kitchen", "uses:shared-location"]
     },
     {
       "place": "home-kitchen",
@@ -2500,10 +2039,7 @@
       "sourceFile": "home-kitchen__rain-v1.png",
       "sourceSha256": "4bedf931cd7b1d3469002c2b4f125c11f7d261cb0e3d79b4dd695d9a9ac24615",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:home-kitchen",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:home-kitchen", "uses:shared-location"]
     },
     {
       "place": "hospital-hallway",
@@ -2515,11 +2051,7 @@
       "sourceFile": "hospital-hallway__midday-v1.png",
       "sourceSha256": "b459780678cc6440b88b07d35709413560c91ae12eccef2421f7454ee032fdee",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:hospital-hallway",
-        "uses:shared-location",
-        "health-care"
-      ]
+      "tags": ["kind:hospital-hallway", "uses:shared-location", "health-care"]
     },
     {
       "place": "hospital-hallway",
@@ -2531,11 +2063,7 @@
       "sourceFile": "hospital-hallway__night-v1.png",
       "sourceSha256": "1f029018271f53c579104448c4cf8ce574e29a2f4269d1ddb2577d182a7cb6a5",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:hospital-hallway",
-        "uses:shared-location",
-        "health-care"
-      ]
+      "tags": ["kind:hospital-hallway", "uses:shared-location", "health-care"]
     },
     {
       "place": "hospital-lobby",
@@ -2547,10 +2075,7 @@
       "sourceFile": "hospital-lobby__midday-v1.png",
       "sourceSha256": "747304ac0e876466ff214bea0afbdc8332f496ca21cf1d6b4471ec4224f7fa81",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:hospital-lobby",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:hospital-lobby", "uses:shared-location"]
     },
     {
       "place": "hospital-lobby",
@@ -2562,10 +2087,7 @@
       "sourceFile": "hospital-lobby__morning-v1.png",
       "sourceSha256": "7c590da9da8b4806f7534ae471f296a5900298c47e84f3716ef60f3a88316139",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:hospital-lobby",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:hospital-lobby", "uses:shared-location"]
     },
     {
       "place": "hospital-lobby",
@@ -2577,10 +2099,7 @@
       "sourceFile": "hospital-lobby__night-v1.png",
       "sourceSha256": "f1606e15e32b9684d60c86abc912ca906526f0299b9aec46a875df58e6418dcb",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:hospital-lobby",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:hospital-lobby", "uses:shared-location"]
     },
     {
       "place": "hospital-lobby",
@@ -2592,10 +2111,7 @@
       "sourceFile": "hospital-lobby__rain-v1.png",
       "sourceSha256": "357e1b7bf5b2be2730bc6019a6d28ed72daf92caaf6988d965435149969978c1",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:hospital-lobby",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:hospital-lobby", "uses:shared-location"]
     },
     {
       "place": "hotel-ballroom",
@@ -2607,11 +2123,7 @@
       "sourceFile": "hotel-ballroom__midday.png",
       "sourceSha256": "e74ba05920c38225b37333404c19a478c78602272504f9fa03a61ef425f3831a",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:hotel-ballroom",
-        "uses:shared-location",
-        "lodging"
-      ]
+      "tags": ["kind:hotel-ballroom", "uses:shared-location", "lodging"]
     },
     {
       "place": "hotel-ballroom",
@@ -2623,11 +2135,7 @@
       "sourceFile": "hotel-ballroom__morning.png",
       "sourceSha256": "084b7d778fd86935e09b3d8fff822b1d54f4c9e377ae1bf14e1758fc1dd18019",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:hotel-ballroom",
-        "uses:shared-location",
-        "lodging"
-      ]
+      "tags": ["kind:hotel-ballroom", "uses:shared-location", "lodging"]
     },
     {
       "place": "hotel-ballroom",
@@ -2639,11 +2147,7 @@
       "sourceFile": "hotel-ballroom__night.png",
       "sourceSha256": "6aee97c29d183683e1ddbf84a5b27551912f7581c643bae3f1e61bc66d7d3ced",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:hotel-ballroom",
-        "uses:shared-location",
-        "lodging"
-      ]
+      "tags": ["kind:hotel-ballroom", "uses:shared-location", "lodging"]
     },
     {
       "place": "hotel-ballroom",
@@ -2655,11 +2159,7 @@
       "sourceFile": "hotel-ballroom__rain.png",
       "sourceSha256": "af8b2c1fffc0dbe574a267e59c235df4c917fa641bbcdbb60f4099592bde3a1e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:hotel-ballroom",
-        "uses:shared-location",
-        "lodging"
-      ]
+      "tags": ["kind:hotel-ballroom", "uses:shared-location", "lodging"]
     },
     {
       "place": "house-gulf-coast-raised",
@@ -2671,10 +2171,7 @@
       "sourceFile": "house-gulf-coast-raised__midday.png",
       "sourceSha256": "08a03353aaa1718338edce516b55878a3c857d80d85b5e4cab3ce8942165f121",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:house-gulf-coast-raised",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:house-gulf-coast-raised", "uses:shared-location"]
     },
     {
       "place": "house-new-england-colonial",
@@ -2686,10 +2183,7 @@
       "sourceFile": "house-new-england-colonial__midday.png",
       "sourceSha256": "48828dadd383d89a3c54501126eacc3411b50e396ee09916eddb75de2582fb3c",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:house-new-england-colonial",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:house-new-england-colonial", "uses:shared-location"]
     },
     {
       "place": "house-northwest-craftsman",
@@ -2701,10 +2195,7 @@
       "sourceFile": "house-northwest-craftsman__midday.png",
       "sourceSha256": "8717e756dc27a7d43ef301f2a030a7c90556454a40c2b2c85f269c8d16ba34e4",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:house-northwest-craftsman",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:house-northwest-craftsman", "uses:shared-location"]
     },
     {
       "place": "house-southwest-adobe",
@@ -2716,10 +2207,7 @@
       "sourceFile": "house-southwest-adobe__midday.png",
       "sourceSha256": "13c52f5b7f212d72720623dbefe70f6347dcfbf39f0b83bc1fe7550b1386e325",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:house-southwest-adobe",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:house-southwest-adobe", "uses:shared-location"]
     },
     {
       "place": "large-house",
@@ -2731,10 +2219,7 @@
       "sourceFile": "large-house__midday-illustrated-r2.png",
       "sourceSha256": "f5a038f6b394867815c4dcaa561c22707ecf24cc004f9d1da280a3fe1b51778d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:large-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:large-house", "uses:shared-location"]
     },
     {
       "place": "large-house",
@@ -2746,10 +2231,7 @@
       "sourceFile": "large-house__morning-v1.png",
       "sourceSha256": "753605f93dd4233c55bd5f4ed7b0c648c170d03b0fc698212ffbcfffb4a3ef0a",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:large-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:large-house", "uses:shared-location"]
     },
     {
       "place": "large-house",
@@ -2761,10 +2243,7 @@
       "sourceFile": "large-house__night-v1.png",
       "sourceSha256": "079e0b88eb34bfb12c3457b7586749111105059c8721921dcc45f08d5e46b548",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:large-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:large-house", "uses:shared-location"]
     },
     {
       "place": "large-house",
@@ -2776,10 +2255,7 @@
       "sourceFile": "large-house__rain-v1.png",
       "sourceSha256": "b8bfc8b911f1632e3440ded57d1bb11c64f52c5527f65a49a2ec1ccf8abf3f99",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:large-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:large-house", "uses:shared-location"]
     },
     {
       "place": "local-newspaper-office",
@@ -2791,10 +2267,7 @@
       "sourceFile": "local-newspaper-office__midday-v1.png",
       "sourceSha256": "3d7372fea2d1ba07d287b84e0f04a9fe435b502df0d8e9c91497e2ed2480542c",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:local-newspaper-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:local-newspaper-office", "uses:shared-location"]
     },
     {
       "place": "local-newspaper-office",
@@ -2806,10 +2279,7 @@
       "sourceFile": "local-newspaper-office__morning-v1.png",
       "sourceSha256": "288e90415810dcf5a2f87d670d10dc0672d0f5942a0fe2192d1ce1b98d375251",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:local-newspaper-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:local-newspaper-office", "uses:shared-location"]
     },
     {
       "place": "local-newspaper-office",
@@ -2821,10 +2291,7 @@
       "sourceFile": "local-newspaper-office__night-v1.png",
       "sourceSha256": "ff343fb0a2f0873f478ae4b2803ca6dcebc243ba13af505c8ac74eec4ddf4e46",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:local-newspaper-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:local-newspaper-office", "uses:shared-location"]
     },
     {
       "place": "local-newspaper-office",
@@ -2836,10 +2303,7 @@
       "sourceFile": "local-newspaper-office__rain-v1.png",
       "sourceSha256": "2e5efa580bbf2863a95a75115d6d208512efc68a5cfeff965ee7e5fd95657743",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:local-newspaper-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:local-newspaper-office", "uses:shared-location"]
     },
     {
       "place": "lodge-hall",
@@ -2851,10 +2315,7 @@
       "sourceFile": "lodge-hall__midday-v1.png",
       "sourceSha256": "1cffe15b3b59a2b1b6e45c19bd9212d2fa0c6e4bc1b31171932f2e891219f9fd",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:lodge-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:lodge-hall", "uses:shared-location"]
     },
     {
       "place": "lodge-hall",
@@ -2866,10 +2327,7 @@
       "sourceFile": "lodge-hall__morning-v1.png",
       "sourceSha256": "15e926aaf997809df3eaffde6d45654017106221e71e0b9b57d91084dc094fff",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:lodge-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:lodge-hall", "uses:shared-location"]
     },
     {
       "place": "lodge-hall",
@@ -2881,10 +2339,7 @@
       "sourceFile": "lodge-hall__night-v1.png",
       "sourceSha256": "6f0419323e9c32c62727db0684a702d9320302ac34f14c3b0ed5cf4373443e76",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:lodge-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:lodge-hall", "uses:shared-location"]
     },
     {
       "place": "lodge-hall",
@@ -2896,10 +2351,7 @@
       "sourceFile": "lodge-hall__rain-v1.png",
       "sourceSha256": "68e0b5766968ef472ea18ee19356574bac8a728ff3209e68c16220d76b19f2db",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:lodge-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:lodge-hall", "uses:shared-location"]
     },
     {
       "place": "main-street",
@@ -2947,10 +2399,7 @@
       "sourceFile": "mayor-office__midday-v1.png",
       "sourceSha256": "18ecfd0a306374f72e164c1d8f0cea8e3c5ad427b4025710b39327a79614f09f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:mayor-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mayor-office", "uses:shared-location"]
     },
     {
       "place": "mayor-office",
@@ -2962,10 +2411,7 @@
       "sourceFile": "mayor-office__morning-v1.png",
       "sourceSha256": "8b7609d4fd5d8e67d30c532219c4278ea52547f20a5bac96ec88d61ef7e3ac70",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:mayor-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mayor-office", "uses:shared-location"]
     },
     {
       "place": "mayor-office",
@@ -2977,10 +2423,7 @@
       "sourceFile": "mayor-office__night-v1.png",
       "sourceSha256": "580d32276eea540d8ebb97c28bea000ebaf1aef9f00d03adfb49867e3fee0e76",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:mayor-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mayor-office", "uses:shared-location"]
     },
     {
       "place": "mayor-office",
@@ -2992,10 +2435,7 @@
       "sourceFile": "mayor-office__rain-v1.png",
       "sourceSha256": "c5dc6b27e415ea95b61bee34a391f4134224606093ae5005aa2bc32d193d7162",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:mayor-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mayor-office", "uses:shared-location"]
     },
     {
       "place": "mobile-home",
@@ -3007,10 +2447,7 @@
       "sourceFile": "mobile-home__midday-illustrated-r2.png",
       "sourceSha256": "ca1bf9f9fac07a230865ebd91f103d67fc95a08e831f884fa50a62b01651182a",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:mobile-home",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mobile-home", "uses:shared-location"]
     },
     {
       "place": "mobile-home",
@@ -3022,10 +2459,7 @@
       "sourceFile": "mobile-home__morning-v1.png",
       "sourceSha256": "29c51a651d2837a125f51089368f5c5cd5a839bae8c32b2fe99c8a7195a48707",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:mobile-home",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mobile-home", "uses:shared-location"]
     },
     {
       "place": "mobile-home",
@@ -3037,10 +2471,7 @@
       "sourceFile": "mobile-home__night-v1.png",
       "sourceSha256": "3026980dd935c472f93052bb3db3640344683a2c681564631c75b2701276c044",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:mobile-home",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mobile-home", "uses:shared-location"]
     },
     {
       "place": "mobile-home",
@@ -3052,10 +2483,7 @@
       "sourceFile": "mobile-home__rain-v1.png",
       "sourceSha256": "ebcb32cce3e9d30658042579bde04ca9ec356794943ab4cfa26e7549225d7a90",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:mobile-home",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:mobile-home", "uses:shared-location"]
     },
     {
       "place": "national-convention-floor",
@@ -3067,10 +2495,7 @@
       "sourceFile": "national-convention-floor__midday.png",
       "sourceSha256": "8f5551c5f76ad61c11c7b3a0f78e142742f46336d3d4065bd51620d76f71609b",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:national-convention-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:national-convention-floor", "uses:shared-location"]
     },
     {
       "place": "national-convention-stage",
@@ -3082,10 +2507,7 @@
       "sourceFile": "national-convention-stage__midday.png",
       "sourceSha256": "7b24d197df6cd6fb1c30f0853abff0294a6815e548e1fced79bb44d5ef92d93b",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:national-convention-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:national-convention-stage", "uses:shared-location"]
     },
     {
       "place": "newsroom",
@@ -3097,11 +2519,7 @@
       "sourceFile": "newsroom__midday.png",
       "sourceSha256": "eff3604ee251128a304f0602c84a56f538f642dbd2fefb1e210a407101cea64f",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:newsroom",
-        "uses:shared-location",
-        "information"
-      ]
+      "tags": ["kind:newsroom", "uses:shared-location", "information"]
     },
     {
       "place": "newsroom",
@@ -3113,11 +2531,7 @@
       "sourceFile": "newsroom__morning.png",
       "sourceSha256": "6afd64de77ebc19c4d94a5289f8fcf497c723dcd59f21a4af4f7e1228f899b36",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:newsroom",
-        "uses:shared-location",
-        "information"
-      ]
+      "tags": ["kind:newsroom", "uses:shared-location", "information"]
     },
     {
       "place": "newsroom",
@@ -3129,11 +2543,7 @@
       "sourceFile": "newsroom__night.png",
       "sourceSha256": "06a4f8acaf17a96d4d0c1d3e4068d2e319cb84a93153c69fdd8413672bbeb505",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:newsroom",
-        "uses:shared-location",
-        "information"
-      ]
+      "tags": ["kind:newsroom", "uses:shared-location", "information"]
     },
     {
       "place": "newsroom",
@@ -3145,11 +2555,7 @@
       "sourceFile": "newsroom__rain.png",
       "sourceSha256": "099579b6f19dc5a71aa9483c6cdc72b4a51fcf886a47b2e269c0677298a47382",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:newsroom",
-        "uses:shared-location",
-        "information"
-      ]
+      "tags": ["kind:newsroom", "uses:shared-location", "information"]
     },
     {
       "place": "office",
@@ -3199,10 +2605,7 @@
       "sourceFile": "oval-office__midday-v2.png",
       "sourceSha256": "e10a21b5802a3e28e4b9a92261bfb6101d5da3e1b729dac7a7a5b812faff1e8c",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:oval-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
       "place": "oval-office",
@@ -3214,10 +2617,7 @@
       "sourceFile": "oval-office__morning-v2.png",
       "sourceSha256": "21e228c3d431d0172b11c01802d29c1440d48f3b5838305e8d6079cab2e50174",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:oval-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
       "place": "oval-office",
@@ -3229,10 +2629,7 @@
       "sourceFile": "oval-office__night-v2.png",
       "sourceSha256": "b927d7ca021f88e4bc58c1f91064db3b27afe1cd840eddc7113f42f2f866b2db",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:oval-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
       "place": "oval-office",
@@ -3244,10 +2641,7 @@
       "sourceFile": "oval-office__rain-v2.png",
       "sourceSha256": "df64d1e7c7b2f090e6a7695ea11113c3c701309d000052a87fd0fb7911b4d7a4",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:oval-office",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:oval-office", "uses:shared-location"]
     },
     {
       "place": "park",
@@ -3259,11 +2653,7 @@
       "sourceFile": "park__midday-v1.png",
       "sourceSha256": "7df7f55717cbb12e003866802c13b56d259d3a8553a8eba5846c82e35fa18daf",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:park",
-        "uses:shared-location",
-        "recreation"
-      ]
+      "tags": ["kind:park", "uses:shared-location", "recreation"]
     },
     {
       "place": "park",
@@ -3275,11 +2665,7 @@
       "sourceFile": "park__night-v1.png",
       "sourceSha256": "a33b81b0e317bd20a1e3e1e6ee72c7d8cf26b3fda621a171dfd7abe80fe7fccc",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:park",
-        "uses:shared-location",
-        "recreation"
-      ]
+      "tags": ["kind:park", "uses:shared-location", "recreation"]
     },
     {
       "place": "party-headquarters",
@@ -3291,11 +2677,7 @@
       "sourceFile": "party-headquarters__midday.png",
       "sourceSha256": "851981eafcbec37949cb02e371d2bf87b6b41438b4be0d3d9260d3f43a9c9f07",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:party-headquarters",
-        "uses:shared-location",
-        "office-work"
-      ]
+      "tags": ["kind:party-headquarters", "uses:shared-location", "office-work"]
     },
     {
       "place": "party-headquarters",
@@ -3307,11 +2689,7 @@
       "sourceFile": "party-headquarters__morning.png",
       "sourceSha256": "a3076b1a4229faa715799dfead1ae28c7ea275c8619649090f1f46f0baa0fc40",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:party-headquarters",
-        "uses:shared-location",
-        "office-work"
-      ]
+      "tags": ["kind:party-headquarters", "uses:shared-location", "office-work"]
     },
     {
       "place": "party-headquarters",
@@ -3323,11 +2701,7 @@
       "sourceFile": "party-headquarters__night.png",
       "sourceSha256": "61d227cd1dc8ea11caaae116a0dcaf317e000c554785f593081f6948f2123326",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:party-headquarters",
-        "uses:shared-location",
-        "office-work"
-      ]
+      "tags": ["kind:party-headquarters", "uses:shared-location", "office-work"]
     },
     {
       "place": "party-headquarters",
@@ -3339,11 +2713,7 @@
       "sourceFile": "party-headquarters__rain.png",
       "sourceSha256": "cc7e647e4f6854723d674b74b8988ce29f859ad1be0353f039ae32c8039d841e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:party-headquarters",
-        "uses:shared-location",
-        "office-work"
-      ]
+      "tags": ["kind:party-headquarters", "uses:shared-location", "office-work"]
     },
     {
       "place": "phone-bank-room",
@@ -3355,11 +2725,7 @@
       "sourceFile": "phone-bank-room__midday-v1.png",
       "sourceSha256": "812aad0001589af2f24ced5e6f32753ddd7eba1fe8f4401d54631d12e6911cf9",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:phone-bank-room",
-        "uses:shared-location",
-        "campaign-work"
-      ]
+      "tags": ["kind:phone-bank-room", "uses:shared-location", "campaign-work"]
     },
     {
       "place": "phone-bank-room",
@@ -3371,11 +2737,7 @@
       "sourceFile": "phone-bank-room__morning-v1.png",
       "sourceSha256": "930f108e2ca8c562300884f54062e4e6d4f847d28f25258a64de8079cf4f82f6",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:phone-bank-room",
-        "uses:shared-location",
-        "campaign-work"
-      ]
+      "tags": ["kind:phone-bank-room", "uses:shared-location", "campaign-work"]
     },
     {
       "place": "phone-bank-room",
@@ -3387,11 +2749,7 @@
       "sourceFile": "phone-bank-room__night-v1.png",
       "sourceSha256": "52d111b4fdf1eea4fa98446e1ec669fae6df3deb811014e4a787de4ce9beeb7b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:phone-bank-room",
-        "uses:shared-location",
-        "campaign-work"
-      ]
+      "tags": ["kind:phone-bank-room", "uses:shared-location", "campaign-work"]
     },
     {
       "place": "phone-bank-room",
@@ -3403,11 +2761,7 @@
       "sourceFile": "phone-bank-room__rain-v1.png",
       "sourceSha256": "493e7305281cf11548f9451bf98bbb21e8c6a0692ee23ca7193c5f9f2ee16cfa",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:phone-bank-room",
-        "uses:shared-location",
-        "campaign-work"
-      ]
+      "tags": ["kind:phone-bank-room", "uses:shared-location", "campaign-work"]
     },
     {
       "place": "police-station",
@@ -3419,11 +2773,7 @@
       "sourceFile": "police-station__midday.png",
       "sourceSha256": "0535cf3365ccf7ca1e27c8ea82ed44f5cc540b117f8d5ac33c5d46cac4b3e6e9",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:police-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:police-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "police-station",
@@ -3435,11 +2785,7 @@
       "sourceFile": "police-station__morning.png",
       "sourceSha256": "8f73537a155fcc5f2370769bb92d268b8becd39fbd4a17c9bec979beb2455203",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:police-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:police-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "police-station",
@@ -3451,11 +2797,7 @@
       "sourceFile": "police-station__night.png",
       "sourceSha256": "a6f6890bbd5baff3edeac2c7d30bfb3bc4fe622417a5fa5116079cdbc41b9acb",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:police-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:police-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "police-station",
@@ -3467,11 +2809,7 @@
       "sourceFile": "police-station__rain.png",
       "sourceSha256": "dedfd4f7a475a87cbf8523409437c392aea0189c595e0d99570f68ad8571d698",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:police-station",
-        "uses:shared-location",
-        "public-safety"
-      ]
+      "tags": ["kind:police-station", "uses:shared-location", "public-safety"]
     },
     {
       "place": "polling-place",
@@ -3483,10 +2821,7 @@
       "sourceFile": "polling-place__midday.png",
       "sourceSha256": "f67f793d2f4d71e5fe5d5202158d6569075d0b95517b5b8ac5a692963bbba1ec",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:polling-place",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:polling-place", "uses:shared-location"]
     },
     {
       "place": "polling-place",
@@ -3498,10 +2833,7 @@
       "sourceFile": "polling-place__morning.png",
       "sourceSha256": "016ee84f311b87b7202e2f32b96d9c84c465936c6e36637c1835802822db9822",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:polling-place",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:polling-place", "uses:shared-location"]
     },
     {
       "place": "polling-place",
@@ -3513,10 +2845,7 @@
       "sourceFile": "polling-place__night.png",
       "sourceSha256": "a96b9f2dd823e1060222ac23aadd33cf15927301511d5fea932b31d9ca56cef1",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:polling-place",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:polling-place", "uses:shared-location"]
     },
     {
       "place": "polling-place",
@@ -3528,10 +2857,7 @@
       "sourceFile": "polling-place__rain.png",
       "sourceSha256": "beccec23e6b4d77c1c61d2acbd9915cccdb0e481730bac0569bba84e26fcc872",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:polling-place",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:polling-place", "uses:shared-location"]
     },
     {
       "place": "public-library",
@@ -3543,10 +2869,7 @@
       "sourceFile": "public-library__midday.png",
       "sourceSha256": "dd490102916515b34fb45c0d64d5103f78dcecdf2f5951e8cd81478b0df0662c",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:public-library",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-library", "uses:shared-location"]
     },
     {
       "place": "public-library",
@@ -3558,10 +2881,7 @@
       "sourceFile": "public-library__morning.png",
       "sourceSha256": "ce9b8cb2ebb15c6fdb009978519001a28c71a64283daa7d619c4fa40c37ea121",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:public-library",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-library", "uses:shared-location"]
     },
     {
       "place": "public-library",
@@ -3573,10 +2893,7 @@
       "sourceFile": "public-library__night.png",
       "sourceSha256": "f95871fb746d050aa1f942ca1cbee019f62fd6fa10fd8475f6d8d2ead0ca28c6",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:public-library",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-library", "uses:shared-location"]
     },
     {
       "place": "public-library",
@@ -3588,10 +2905,7 @@
       "sourceFile": "public-library__rain.png",
       "sourceSha256": "9ee5029c85de8afdc5776b68d0be5f8303c64bee1a289fa65326d93b07cb0607",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:public-library",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-library", "uses:shared-location"]
     },
     {
       "place": "public-meeting-room",
@@ -3603,10 +2917,7 @@
       "sourceFile": "public-meeting-room__midday-illustrated-r3.png",
       "sourceSha256": "71808357937b3b4ab14b21ea48b8a12b7bce41f8e13d8e82cf00cb9ca12ed08e",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:public-meeting-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-meeting-room", "uses:shared-location"]
     },
     {
       "place": "public-meeting-room",
@@ -3618,10 +2929,7 @@
       "sourceFile": "public-meeting-room__morning-v1.png",
       "sourceSha256": "b86700490099f3fbdfcc58eb9f5732a79ee22263ac8d631b6cd9c2f9df180048",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:public-meeting-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-meeting-room", "uses:shared-location"]
     },
     {
       "place": "public-meeting-room",
@@ -3633,10 +2941,7 @@
       "sourceFile": "public-meeting-room__night-v1.png",
       "sourceSha256": "cf4381fe1b9ace5544a5e9474821428cc0624da4ad4da8ae219e44afb0dc17bd",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:public-meeting-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-meeting-room", "uses:shared-location"]
     },
     {
       "place": "public-meeting-room",
@@ -3648,10 +2953,7 @@
       "sourceFile": "public-meeting-room__rain-v1.png",
       "sourceSha256": "f7c69e29ab326f076ac088b8232dac75cad3a32dbdfe4294a2189d30409c4ddc",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:public-meeting-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:public-meeting-room", "uses:shared-location"]
     },
     {
       "place": "radio-booth",
@@ -3663,10 +2965,7 @@
       "sourceFile": "radio-booth__midday-v1.png",
       "sourceSha256": "b1a76944a9fb70afc274adbafd5b9c4efc9772936197375f28481c13c39eb7d7",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:radio-booth",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:radio-booth", "uses:shared-location"]
     },
     {
       "place": "radio-booth",
@@ -3678,10 +2977,7 @@
       "sourceFile": "radio-booth__morning-v1.png",
       "sourceSha256": "55f5b0c0621859600c68b74ed645cec700019e4d83bcb98ef526fce5e6048080",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:radio-booth",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:radio-booth", "uses:shared-location"]
     },
     {
       "place": "radio-booth",
@@ -3693,10 +2989,7 @@
       "sourceFile": "radio-booth__night-v1.png",
       "sourceSha256": "9468185f1ba8ef50a9713cd846417cd8be5722f94d271527dfea89ab03ae10f2",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:radio-booth",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:radio-booth", "uses:shared-location"]
     },
     {
       "place": "radio-booth",
@@ -3708,10 +3001,7 @@
       "sourceFile": "radio-booth__rain-v1.png",
       "sourceSha256": "a2f51dbe0e069c10ec0cea513572e6b13250b3bc53e6fe65ca82f7374a3e703f",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:radio-booth",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:radio-booth", "uses:shared-location"]
     },
     {
       "place": "rally-airport-hangar",
@@ -3723,10 +3013,7 @@
       "sourceFile": "rally-airport-hangar__midday.png",
       "sourceSha256": "80b788875adb95754b672f36596368df323dbdec0f76bf1f8c94e11bac159d45",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:rally-airport-hangar",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-airport-hangar", "uses:shared-location"]
     },
     {
       "place": "rally-county-fairground",
@@ -3738,10 +3025,7 @@
       "sourceFile": "rally-county-fairground__midday.png",
       "sourceSha256": "b3fc2dc53926d10e856f2ae7d40538182c7ed9a5f47a67c4d9ae5f8ee0003007",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:rally-county-fairground",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-county-fairground", "uses:shared-location"]
     },
     {
       "place": "rally-courthouse-square",
@@ -3753,10 +3037,7 @@
       "sourceFile": "rally-courthouse-square__midday.png",
       "sourceSha256": "2baf7079b121a1ae6d95f23d6b61883716de3ad7cdb2c51a6109e4c35033a8d2",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:rally-courthouse-square",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-courthouse-square", "uses:shared-location"]
     },
     {
       "place": "rally-downtown-plaza",
@@ -3768,10 +3049,7 @@
       "sourceFile": "rally-downtown-plaza__midday.png",
       "sourceSha256": "719f2f6afa567542ec214817eda0facbec764d6d9679df64b51d3536c278fe26",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:rally-downtown-plaza",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-downtown-plaza", "uses:shared-location"]
     },
     {
       "place": "rally-stage",
@@ -3783,10 +3061,7 @@
       "sourceFile": "rally-stage__midday-v1.png",
       "sourceSha256": "b3fb70f9796baa0d84a5882979a87a0b432ce2f77b9a29c6a21d347538e2dab5",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rally-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-stage", "uses:shared-location"]
     },
     {
       "place": "rally-stage",
@@ -3798,10 +3073,7 @@
       "sourceFile": "rally-stage__morning-v1.png",
       "sourceSha256": "93b2db926c3670b2c9aeb1e000eba74ae03d86d48291e7ebe9bf2157ea04fb82",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rally-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-stage", "uses:shared-location"]
     },
     {
       "place": "rally-stage",
@@ -3813,10 +3085,7 @@
       "sourceFile": "rally-stage__night-v1.png",
       "sourceSha256": "ea4106652957d95cab4de78be3cd28b3c52660e5c8025d8d7f2c7c9dd554fd2f",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rally-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-stage", "uses:shared-location"]
     },
     {
       "place": "rally-stage",
@@ -3828,10 +3097,7 @@
       "sourceFile": "rally-stage__rain-v1.png",
       "sourceSha256": "552e3d83065d151d17741d7467337344136f702fb8d6a2c4742ba429fc96b7fc",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rally-stage",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-stage", "uses:shared-location"]
     },
     {
       "place": "rally-union-hall-parking-lot",
@@ -3843,10 +3109,7 @@
       "sourceFile": "rally-union-hall-parking-lot__midday.png",
       "sourceSha256": "b88b567ab092763b0e0d3fc8ebc2c390c4d1daf3b2e407b0a4111ce595447694",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:rally-union-hall-parking-lot",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rally-union-hall-parking-lot", "uses:shared-location"]
     },
     {
       "place": "registrar-of-voters-worn",
@@ -3858,10 +3121,7 @@
       "sourceFile": "registrar-of-voters-worn__midday.png",
       "sourceSha256": "d18d387cf4bcc70fb703885a5b85142387839043dae8d45f41f38f3ce1a70809",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:registrar-of-voters-worn",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:registrar-of-voters-worn", "uses:shared-location"]
     },
     {
       "place": "rowhouse",
@@ -3873,10 +3133,7 @@
       "sourceFile": "rowhouse__midday-illustrated-r2.png",
       "sourceSha256": "19bfa2013ebe8af0f37aaa1d9a1f3c91364c3adb90cde805f5262929e6061406",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rowhouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rowhouse", "uses:shared-location"]
     },
     {
       "place": "rowhouse",
@@ -3888,10 +3145,7 @@
       "sourceFile": "rowhouse__morning-v1.png",
       "sourceSha256": "332c0921a9b3c92a504138aba0ca426fdba79da1d92b18768015907ac697f746",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rowhouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rowhouse", "uses:shared-location"]
     },
     {
       "place": "rowhouse",
@@ -3903,10 +3157,7 @@
       "sourceFile": "rowhouse__night-v1.png",
       "sourceSha256": "ab7c82f77c4d1d726140ed16950ffd1f6ce629296b400a8b7a6a77a769b12979",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rowhouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rowhouse", "uses:shared-location"]
     },
     {
       "place": "rowhouse",
@@ -3918,10 +3169,7 @@
       "sourceFile": "rowhouse__rain-v1.png",
       "sourceSha256": "ebbf42d7b66e673907ca124b20c8c190d4b55b2be1c72dadfc1d2503698393d2",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rowhouse",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:rowhouse", "uses:shared-location"]
     },
     {
       "place": "rural-farmhouse",
@@ -3933,11 +3181,7 @@
       "sourceFile": "rural-farmhouse__midday-illustrated-r2.png",
       "sourceSha256": "d0ee84c6bc9fdbaf806141a88bf9141f08f33c33039eb13cd0213173d969ff8c",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rural-farmhouse",
-        "uses:shared-location",
-        "agriculture"
-      ]
+      "tags": ["kind:rural-farmhouse", "uses:shared-location", "agriculture"]
     },
     {
       "place": "rural-farmhouse",
@@ -3949,11 +3193,7 @@
       "sourceFile": "rural-farmhouse__morning-v1.png",
       "sourceSha256": "9925d37545e5f96defd596800bd922b45fc1af554806746ea453583752a007d4",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rural-farmhouse",
-        "uses:shared-location",
-        "agriculture"
-      ]
+      "tags": ["kind:rural-farmhouse", "uses:shared-location", "agriculture"]
     },
     {
       "place": "rural-farmhouse",
@@ -3965,11 +3205,7 @@
       "sourceFile": "rural-farmhouse__night-v1.png",
       "sourceSha256": "87be3bedffa8ec785ec54b96ead115142ed331afea9a4b6bf62a7dfc32cae934",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rural-farmhouse",
-        "uses:shared-location",
-        "agriculture"
-      ]
+      "tags": ["kind:rural-farmhouse", "uses:shared-location", "agriculture"]
     },
     {
       "place": "rural-farmhouse",
@@ -3981,11 +3217,7 @@
       "sourceFile": "rural-farmhouse__rain-v1.png",
       "sourceSha256": "119209213f094560680aa8cc2d6a0d5bb1bbc134c59bdc245bdd58c43c6b2575",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rural-farmhouse",
-        "uses:shared-location",
-        "agriculture"
-      ]
+      "tags": ["kind:rural-farmhouse", "uses:shared-location", "agriculture"]
     },
     {
       "place": "rural-farmhouse",
@@ -3997,11 +3229,7 @@
       "sourceFile": "rural-farmhouse__winter-v2.png",
       "sourceSha256": "54378d587f51e5d7a59430cb688097d466e7eac54f30e95f2cfa14bc3b32f746",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:rural-farmhouse",
-        "uses:shared-location",
-        "agriculture"
-      ]
+      "tags": ["kind:rural-farmhouse", "uses:shared-location", "agriculture"]
     },
     {
       "place": "school-board-room",
@@ -4013,10 +3241,7 @@
       "sourceFile": "school-board-room__midday.png",
       "sourceSha256": "8b30d998634de7a74f428b89ce5aadf99e6753cb02d770ae646ca2630ff98c85",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:school-board-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-board-room", "uses:shared-location"]
     },
     {
       "place": "school-board-room",
@@ -4028,10 +3253,7 @@
       "sourceFile": "school-board-room__morning.png",
       "sourceSha256": "477fa50567bd705aa4740b46b78946be5e7dcd1c114437f739741cb6bb95adeb",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:school-board-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-board-room", "uses:shared-location"]
     },
     {
       "place": "school-board-room",
@@ -4043,10 +3265,7 @@
       "sourceFile": "school-board-room__night.png",
       "sourceSha256": "92e58855da23a0c6a3a60cbb0282c79cbf3b02195a070d3aea13e5cd603ebf0e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:school-board-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-board-room", "uses:shared-location"]
     },
     {
       "place": "school-board-room",
@@ -4058,10 +3277,7 @@
       "sourceFile": "school-board-room__rain.png",
       "sourceSha256": "11bf433b184f29150b7e1bc41a74b48302884825a24d8eca336cdd57419c8b0c",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:school-board-room",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-board-room", "uses:shared-location"]
     },
     {
       "place": "school-cafeteria",
@@ -4073,10 +3289,7 @@
       "sourceFile": "school-cafeteria__midday-v1.png",
       "sourceSha256": "359242c11827aff5c1fd2cb63494778d5010b36f3262606566ef4cb7a785543e",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-cafeteria",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-cafeteria", "uses:shared-location"]
     },
     {
       "place": "school-cafeteria",
@@ -4088,10 +3301,7 @@
       "sourceFile": "school-cafeteria__morning-v1.png",
       "sourceSha256": "ab86ee335c0186179f49c885c884721cbd00dc9882cb7538991a99270e1614bf",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-cafeteria",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-cafeteria", "uses:shared-location"]
     },
     {
       "place": "school-cafeteria",
@@ -4103,10 +3313,7 @@
       "sourceFile": "school-cafeteria__night-v1.png",
       "sourceSha256": "6616852d1e404f1f7bb61700a97fbea3b15450f7c3986ab3521192f6b4669435",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-cafeteria",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-cafeteria", "uses:shared-location"]
     },
     {
       "place": "school-cafeteria",
@@ -4118,10 +3325,7 @@
       "sourceFile": "school-cafeteria__rain-v1.png",
       "sourceSha256": "c3588ecb140b0f1098f9dbbf18f9ba9a9dc04ac85e26c2a0066ed3f78fd4f98a",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-cafeteria",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-cafeteria", "uses:shared-location"]
     },
     {
       "place": "school-exterior",
@@ -4133,10 +3337,7 @@
       "sourceFile": "school-exterior__midday-v1.png",
       "sourceSha256": "d9709c188f5250592c79bbbd0e7691dc5fafedd08e07bd563f79c587d9d7f2c2",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-exterior", "uses:shared-location"]
     },
     {
       "place": "school-exterior",
@@ -4148,10 +3349,7 @@
       "sourceFile": "school-exterior__morning-v1.png",
       "sourceSha256": "cefb741c691e6be641e025beec40d03d76783b8fe3e9bfa09ff56cd0171dd88d",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-exterior", "uses:shared-location"]
     },
     {
       "place": "school-exterior",
@@ -4163,10 +3361,7 @@
       "sourceFile": "school-exterior__night-v1.png",
       "sourceSha256": "ad9238a65e23bff6604ec1daf103c975bc392834153ee48d4307651713d543b0",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-exterior", "uses:shared-location"]
     },
     {
       "place": "school-exterior",
@@ -4178,10 +3373,7 @@
       "sourceFile": "school-exterior__rain-v1.png",
       "sourceSha256": "ed8f37cb0071c555e4380068c1faf99bf52a132a4e30d18b07bd7ed599e9c50f",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-exterior", "uses:shared-location"]
     },
     {
       "place": "school-gym-town-hall",
@@ -4193,10 +3385,7 @@
       "sourceFile": "school-gym-town-hall__midday-v1.png",
       "sourceSha256": "39e5623ce72e98c309863edea4dd0297fd5817e68a70969d29d3b18e5bc111d4",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:school-gym-town-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-gym-town-hall", "uses:shared-location"]
     },
     {
       "place": "school-gym-town-hall",
@@ -4208,10 +3397,7 @@
       "sourceFile": "school-gym-town-hall__morning-v1.png",
       "sourceSha256": "e4c31884afccac01078136f0f2e513013afab506c64c965cd9ce8fe17f8d110d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:school-gym-town-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-gym-town-hall", "uses:shared-location"]
     },
     {
       "place": "school-gym-town-hall",
@@ -4223,10 +3409,7 @@
       "sourceFile": "school-gym-town-hall__night-v1.png",
       "sourceSha256": "3276b15738c9ab8ef85c1fe363f396854ad4694973626290aac42236f51faa6d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:school-gym-town-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-gym-town-hall", "uses:shared-location"]
     },
     {
       "place": "school-gym-town-hall",
@@ -4238,10 +3421,7 @@
       "sourceFile": "school-gym-town-hall__rain-v1.png",
       "sourceSha256": "f8f3acc2768bc8fc34aeddb7aa65187ae3c1b1e1b2e9f517f29a9ded9640a3d3",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:school-gym-town-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-gym-town-hall", "uses:shared-location"]
     },
     {
       "place": "school-hallway",
@@ -4253,10 +3433,7 @@
       "sourceFile": "school-hallway__midday-v1.png",
       "sourceSha256": "63113bd30fdf594af05522fb6749fadf7969de40ab0cb8e3550b540658d1b717",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-hallway", "uses:shared-location"]
     },
     {
       "place": "school-hallway",
@@ -4268,10 +3445,7 @@
       "sourceFile": "school-hallway__morning-v1.png",
       "sourceSha256": "8206bdae491f2f69ee91729ef700e700c57ff3220ad2a1383509dd309c2f37ca",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-hallway", "uses:shared-location"]
     },
     {
       "place": "school-hallway",
@@ -4283,10 +3457,7 @@
       "sourceFile": "school-hallway__night-v1.png",
       "sourceSha256": "c3cc5e5f1a6152e02456fc77519e880982431928b084938581ac5803967a0176",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-hallway", "uses:shared-location"]
     },
     {
       "place": "school-hallway",
@@ -4298,10 +3469,7 @@
       "sourceFile": "school-hallway__rain-v1.png",
       "sourceSha256": "d399f29ebe1c1697a1d2f751e9f78c829b2b932220e9fbe2cf150cc5dda9d68d",
       "approval": "cto-checked-2026-10-06 (owner curates in play)",
-      "tags": [
-        "kind:school-hallway",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:school-hallway", "uses:shared-location"]
     },
     {
       "place": "small-apartment",
@@ -4313,10 +3481,7 @@
       "sourceFile": "small-apartment__midday-illustrated-r2.png",
       "sourceSha256": "8e2b061bf9a3a542c16098fc0b30ae6b34fda772a5b7db55e994a7ea8600873a",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:small-apartment",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:small-apartment", "uses:shared-location"]
     },
     {
       "place": "small-apartment",
@@ -4328,10 +3493,7 @@
       "sourceFile": "small-apartment__morning-v1.png",
       "sourceSha256": "303830d460d8a61a275612364c7fa39564705ba8667446ebbdee246a76a5d9a1",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:small-apartment",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:small-apartment", "uses:shared-location"]
     },
     {
       "place": "small-apartment",
@@ -4343,10 +3505,7 @@
       "sourceFile": "small-apartment__night-v1.png",
       "sourceSha256": "449d1e4d3f77c948afd04f8a5b70b51bb81969500fc066a9c819512558c1a4f7",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:small-apartment",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:small-apartment", "uses:shared-location"]
     },
     {
       "place": "small-apartment",
@@ -4358,10 +3517,7 @@
       "sourceFile": "small-apartment__rain-v1.png",
       "sourceSha256": "fc2c236a84a45785a32099989ee57e4068393cc580e651052d73984044ff5fe2",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:small-apartment",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:small-apartment", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ak",
@@ -4377,10 +3533,7 @@
       "referenceLicense": "CC BY 2.0",
       "referenceArtist": "James Brooks",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ak",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ak", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ak",
@@ -4396,10 +3549,7 @@
       "referenceLicense": "CC BY 2.0",
       "referenceArtist": "James Brooks",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ak",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ak", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ak",
@@ -4415,10 +3565,7 @@
       "referenceLicense": "CC BY 2.0",
       "referenceArtist": "James Brooks",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ak",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ak", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ak",
@@ -4434,10 +3581,7 @@
       "referenceLicense": "CC BY 2.0",
       "referenceArtist": "James Brooks",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ak",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ak", "uses:shared-location"]
     },
     {
       "place": "state-capitol-al",
@@ -4453,10 +3597,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-al",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-al", "uses:shared-location"]
     },
     {
       "place": "state-capitol-al",
@@ -4472,10 +3613,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-al",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-al", "uses:shared-location"]
     },
     {
       "place": "state-capitol-al",
@@ -4491,10 +3629,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-al",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-al", "uses:shared-location"]
     },
     {
       "place": "state-capitol-al",
@@ -4510,10 +3645,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-al",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-al", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ar",
@@ -4529,10 +3661,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ar",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ar", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ar",
@@ -4548,10 +3677,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ar",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ar", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ar",
@@ -4567,10 +3693,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ar",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ar", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ar",
@@ -4586,10 +3709,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ar",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ar", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ar",
@@ -4605,10 +3725,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ar",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ar", "uses:shared-location"]
     },
     {
       "place": "state-capitol-as",
@@ -4624,10 +3741,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "NOAA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-as",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-as", "uses:shared-location"]
     },
     {
       "place": "state-capitol-as",
@@ -4643,10 +3757,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "NOAA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-as",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-as", "uses:shared-location"]
     },
     {
       "place": "state-capitol-as",
@@ -4662,10 +3773,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "NOAA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-as",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-as", "uses:shared-location"]
     },
     {
       "place": "state-capitol-as",
@@ -4681,10 +3789,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "NOAA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-as",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-as", "uses:shared-location"]
     },
     {
       "place": "state-capitol-as",
@@ -4700,10 +3805,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "NOAA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-as",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-as", "uses:shared-location"]
     },
     {
       "place": "state-capitol-az",
@@ -4719,10 +3821,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-az",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-az", "uses:shared-location"]
     },
     {
       "place": "state-capitol-az",
@@ -4738,10 +3837,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-az",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-az", "uses:shared-location"]
     },
     {
       "place": "state-capitol-az",
@@ -4757,10 +3853,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-az",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-az", "uses:shared-location"]
     },
     {
       "place": "state-capitol-az",
@@ -4776,10 +3869,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-az",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-az", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ca",
@@ -4795,10 +3885,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Andre m",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ca",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ca", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ca",
@@ -4814,10 +3901,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Andre m",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ca",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ca", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ca",
@@ -4833,10 +3917,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Andre m",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ca",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ca", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ca",
@@ -4852,10 +3933,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Andre m",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ca",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ca", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ca",
@@ -4871,10 +3949,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Andre m",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ca",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ca", "uses:shared-location"]
     },
     {
       "place": "state-capitol-co",
@@ -4890,10 +3965,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-co",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-co", "uses:shared-location"]
     },
     {
       "place": "state-capitol-co",
@@ -4909,10 +3981,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-co",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-co", "uses:shared-location"]
     },
     {
       "place": "state-capitol-co",
@@ -4928,10 +3997,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-co",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-co", "uses:shared-location"]
     },
     {
       "place": "state-capitol-co",
@@ -4947,10 +4013,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-co",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-co", "uses:shared-location"]
     },
     {
       "place": "state-capitol-co",
@@ -4966,10 +4029,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-co",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-co", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ct",
@@ -4985,10 +4045,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Ragesoss",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ct",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ct", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ct",
@@ -5004,10 +4061,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Ragesoss",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ct",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ct", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ct",
@@ -5023,10 +4077,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Ragesoss",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ct",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ct", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ct",
@@ -5042,10 +4093,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Ragesoss",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ct",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ct", "uses:shared-location"]
     },
     {
       "place": "state-capitol-dc",
@@ -5061,10 +4109,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "APK",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-dc",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-dc", "uses:shared-location"]
     },
     {
       "place": "state-capitol-dc",
@@ -5080,10 +4125,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "APK",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-dc",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-dc", "uses:shared-location"]
     },
     {
       "place": "state-capitol-de",
@@ -5099,10 +4141,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Adavyd",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-de",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-de", "uses:shared-location"]
     },
     {
       "place": "state-capitol-de",
@@ -5118,10 +4157,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Adavyd",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-de",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-de", "uses:shared-location"]
     },
     {
       "place": "state-capitol-de",
@@ -5137,10 +4173,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Adavyd",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-de",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-de", "uses:shared-location"]
     },
     {
       "place": "state-capitol-dome",
@@ -5152,10 +4185,7 @@
       "sourceFile": "state-capitol-dome__midday-illustrated-r2.png",
       "sourceSha256": "f27ef9eff5c64a49b3421812a6269b2d82d1dd9b11b498c8af7d4f7b6c9ae0bc",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-dome",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-dome", "uses:shared-location"]
     },
     {
       "place": "state-capitol-dome",
@@ -5167,10 +4197,7 @@
       "sourceFile": "state-capitol-dome__morning-v1.png",
       "sourceSha256": "c1c30a889823ff994cb3be65194fc12544434f2af06d251383a97ac8acf90f36",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-dome",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-dome", "uses:shared-location"]
     },
     {
       "place": "state-capitol-dome",
@@ -5182,10 +4209,7 @@
       "sourceFile": "state-capitol-dome__night-v1.png",
       "sourceSha256": "4210acbf4cdfaddde30190ad979cc3be0f66a861700fabf19c5161b849d9e2e3",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-dome",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-dome", "uses:shared-location"]
     },
     {
       "place": "state-capitol-dome",
@@ -5197,10 +4221,7 @@
       "sourceFile": "state-capitol-dome__rain-v1.png",
       "sourceSha256": "2c750f9e942e5dd9d3b59b1a439eafc06383f9f2e5642dc6f2b988cad8266eca",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-dome",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-dome", "uses:shared-location"]
     },
     {
       "place": "state-capitol-fl",
@@ -5216,10 +4237,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-fl",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-fl", "uses:shared-location"]
     },
     {
       "place": "state-capitol-fl",
@@ -5235,10 +4253,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-fl",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-fl", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ga",
@@ -5254,10 +4269,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ga",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ga", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ga",
@@ -5273,10 +4285,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "DXR",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ga",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ga", "uses:shared-location"]
     },
     {
       "place": "state-capitol-gu",
@@ -5292,10 +4301,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Gage Skidmore from Surprise, AZ, United States of America",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-gu",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-gu", "uses:shared-location"]
     },
     {
       "place": "state-capitol-gu",
@@ -5311,10 +4317,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Gage Skidmore from Surprise, AZ, United States of America",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-gu",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-gu", "uses:shared-location"]
     },
     {
       "place": "state-capitol-gu",
@@ -5330,10 +4333,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Gage Skidmore from Surprise, AZ, United States of America",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-gu",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-gu", "uses:shared-location"]
     },
     {
       "place": "state-capitol-hi",
@@ -5349,10 +4349,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "Xpixupload <table class=\"toccolo",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-hi",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-hi", "uses:shared-location"]
     },
     {
       "place": "state-capitol-hi",
@@ -5368,10 +4365,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "Xpixupload <table class=\"toccolo",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-hi",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-hi", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ia",
@@ -5387,10 +4381,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "Carol M. Highsmith",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ia",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ia", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ia",
@@ -5406,10 +4397,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "Carol M. Highsmith",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ia",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ia", "uses:shared-location"]
     },
     {
       "place": "state-capitol-id",
@@ -5425,10 +4413,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-id",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-id", "uses:shared-location"]
     },
     {
       "place": "state-capitol-id",
@@ -5444,10 +4429,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-id",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-id", "uses:shared-location"]
     },
     {
       "place": "state-capitol-id",
@@ -5463,10 +4445,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-id",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-id", "uses:shared-location"]
     },
     {
       "place": "state-capitol-il",
@@ -5482,10 +4461,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-il",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-il", "uses:shared-location"]
     },
     {
       "place": "state-capitol-il",
@@ -5501,10 +4477,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Daniel Schwen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-il",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-il", "uses:shared-location"]
     },
     {
       "place": "state-capitol-in",
@@ -5520,10 +4493,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Original: Daniel SchwenDerivative work: Massimo Catarinella",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-in",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-in", "uses:shared-location"]
     },
     {
       "place": "state-capitol-in",
@@ -5539,10 +4509,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Original: Daniel SchwenDerivative work: Massimo Catarinella",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-in",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-in", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ks",
@@ -5558,10 +4525,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Nils Huenerfuerst",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ks",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ks", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ks",
@@ -5577,10 +4541,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Nils Huenerfuerst",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ks",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ks", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ks",
@@ -5596,10 +4557,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Nils Huenerfuerst",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ks",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ks", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ky",
@@ -5615,10 +4573,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "TEDD LiGGETT",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ky",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ky", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ky",
@@ -5634,10 +4589,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "TEDD LiGGETT",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ky",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ky", "uses:shared-location"]
     },
     {
       "place": "state-capitol-la",
@@ -5653,10 +4605,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Chrismiceli",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-la",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-la", "uses:shared-location"]
     },
     {
       "place": "state-capitol-la",
@@ -5672,10 +4621,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Chrismiceli",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-la",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-la", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ma",
@@ -5691,10 +4637,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "King of Hearts",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ma",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ma", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ma",
@@ -5710,10 +4653,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "King of Hearts",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ma",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ma", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ma",
@@ -5729,10 +4669,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "King of Hearts",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ma",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ma", "uses:shared-location"]
     },
     {
       "place": "state-capitol-md",
@@ -5748,10 +4685,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Martin Falbisoner",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-md",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-md", "uses:shared-location"]
     },
     {
       "place": "state-capitol-md",
@@ -5767,10 +4701,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Martin Falbisoner",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-md",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-md", "uses:shared-location"]
     },
     {
       "place": "state-capitol-me",
@@ -5786,10 +4717,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-me",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-me", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mi",
@@ -5805,10 +4733,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Mojnsen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mi",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mi", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mi",
@@ -5824,10 +4749,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Mojnsen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mi",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mi", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mn",
@@ -5843,10 +4765,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Myotus",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mn",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mn", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mn",
@@ -5862,10 +4781,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Myotus",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mn",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mn", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mo",
@@ -5881,10 +4797,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "RebelAt of English Wikipedia",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mo",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mo", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mp",
@@ -5900,10 +4813,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "Abasaa",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mp",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mp", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mp",
@@ -5919,10 +4829,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "Abasaa",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mp",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mp", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ms",
@@ -5938,10 +4845,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Gage Skidmore from Surprise, AZ, United States of America",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ms",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ms", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ms",
@@ -5957,10 +4861,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Gage Skidmore from Surprise, AZ, United States of America",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ms",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ms", "uses:shared-location"]
     },
     {
       "place": "state-capitol-mt",
@@ -5976,10 +4877,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Martin Kraft",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-mt",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-mt", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nc",
@@ -5995,10 +4893,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Farragutful",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nc",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nc", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nc",
@@ -6014,10 +4909,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Farragutful",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nc",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nc", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nd",
@@ -6033,10 +4925,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nd",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nd", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nd",
@@ -6052,10 +4941,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nd",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nd", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ne",
@@ -6071,10 +4957,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Hurstbergn",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ne",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ne", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nh",
@@ -6090,10 +4973,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nh",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nh", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nh",
@@ -6109,10 +4989,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nh",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nh", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nh",
@@ -6128,10 +5005,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nh",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nh", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nj",
@@ -6147,10 +5021,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "ajay_suresh",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nj",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nj", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nj",
@@ -6166,10 +5037,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "ajay_suresh",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nj",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nj", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nm",
@@ -6185,10 +5053,7 @@
       "referenceLicense": "CC BY 2.0",
       "referenceArtist": "Jim Bowen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nm",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nm", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nm",
@@ -6204,10 +5069,7 @@
       "referenceLicense": "CC BY 2.0",
       "referenceArtist": "Jim Bowen",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nm",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nm", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nv",
@@ -6223,10 +5085,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nv",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nv", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nv",
@@ -6242,10 +5101,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nv",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nv", "uses:shared-location"]
     },
     {
       "place": "state-capitol-nv",
@@ -6261,10 +5117,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-nv",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-nv", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ny",
@@ -6280,10 +5133,7 @@
       "referenceLicense": "CC BY 3.0",
       "referenceArtist": "<figure",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ny",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ny", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ny",
@@ -6299,10 +5149,7 @@
       "referenceLicense": "CC BY 3.0",
       "referenceArtist": "<figure",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ny",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ny", "uses:shared-location"]
     },
     {
       "place": "state-capitol-oh",
@@ -6316,12 +5163,9 @@
       "fireflyAssetId": "urn:aaid:sc:US:9cdf20dc-3768-4e69-811c-a7b36860a4aa",
       "referencePhoto": "https://commons.wikimedia.org/wiki/File:Ohio_Statehouse_exterior.jpg",
       "referenceLicense": "CC BY-SA 4.0",
-      "referenceArtist": "\u2c6e",
+      "referenceArtist": "Ɱ",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-oh",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-oh", "uses:shared-location"]
     },
     {
       "place": "state-capitol-oh",
@@ -6335,12 +5179,9 @@
       "fireflyAssetId": "urn:aaid:sc:US:807df092-8177-4c03-9104-1f1109ad5192",
       "referencePhoto": "https://commons.wikimedia.org/wiki/File:Ohio_Statehouse_exterior.jpg",
       "referenceLicense": "CC BY-SA 4.0",
-      "referenceArtist": "\u2c6e",
+      "referenceArtist": "Ɱ",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-oh",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-oh", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ok",
@@ -6356,10 +5197,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Oklahoma Legislative Services Bureau",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ok",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ok", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ok",
@@ -6375,10 +5213,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Oklahoma Legislative Services Bureau",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ok",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ok", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ok",
@@ -6394,10 +5229,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Oklahoma Legislative Services Bureau",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ok",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ok", "uses:shared-location"]
     },
     {
       "place": "state-capitol-or",
@@ -6413,10 +5245,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "M.O. Stevens",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-or",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-or", "uses:shared-location"]
     },
     {
       "place": "state-capitol-or",
@@ -6432,10 +5261,7 @@
       "referenceLicense": "Public domain",
       "referenceArtist": "M.O. Stevens",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-or",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-or", "uses:shared-location"]
     },
     {
       "place": "state-capitol-pa",
@@ -6451,10 +5277,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-pa",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-pa", "uses:shared-location"]
     },
     {
       "place": "state-capitol-pa",
@@ -6470,10 +5293,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-pa",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-pa", "uses:shared-location"]
     },
     {
       "place": "state-capitol-pr",
@@ -6489,10 +5309,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "Brad Clinesmith from Wilkes-Barre, PA, USA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-pr",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-pr", "uses:shared-location"]
     },
     {
       "place": "state-capitol-pr",
@@ -6508,10 +5325,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "Brad Clinesmith from Wilkes-Barre, PA, USA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-pr",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-pr", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ri",
@@ -6527,10 +5341,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Beyond My Ken",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ri",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ri", "uses:shared-location"]
     },
     {
       "place": "state-capitol-sc",
@@ -6546,10 +5357,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "HaloMasterMind",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-sc",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-sc", "uses:shared-location"]
     },
     {
       "place": "state-capitol-sd",
@@ -6565,10 +5373,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "WeaponizingArchitecture",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-sd",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-sd", "uses:shared-location"]
     },
     {
       "place": "state-capitol-tn",
@@ -6584,10 +5389,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "w_lemay",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-tn",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-tn", "uses:shared-location"]
     },
     {
       "place": "state-capitol-tower",
@@ -6599,10 +5401,7 @@
       "sourceFile": "state-capitol-tower__midday-v1.png",
       "sourceSha256": "d4f9d5e508f09e24f65a1cb6ac40740d8af967e3fbeaf8fa2925917e376a308b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-tower",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-tower", "uses:shared-location"]
     },
     {
       "place": "state-capitol-tower",
@@ -6614,10 +5413,7 @@
       "sourceFile": "state-capitol-tower__morning-v1.png",
       "sourceSha256": "eb1144d88c45a9c5155cd150f16ddc89963831c5cd36a7442040d2ebe0db0653",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-tower",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-tower", "uses:shared-location"]
     },
     {
       "place": "state-capitol-tower",
@@ -6629,10 +5425,7 @@
       "sourceFile": "state-capitol-tower__night-v1.png",
       "sourceSha256": "bb49f52217b3ca591f9f2d01c74b27481d0f8466d783c3e84471fc2edc1b7b7b",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-tower",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-tower", "uses:shared-location"]
     },
     {
       "place": "state-capitol-tower",
@@ -6644,10 +5437,7 @@
       "sourceFile": "state-capitol-tower__rain-v1.png",
       "sourceSha256": "d5102c39d90a01e101b11a9330676ea1003f745653141923dd37894cc3b2a839",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:state-capitol-tower",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-tower", "uses:shared-location"]
     },
     {
       "place": "state-capitol-tx",
@@ -6663,10 +5453,7 @@
       "referenceLicense": "CC BY 3.0",
       "referenceArtist": "LoneStarMike",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-tx",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-tx", "uses:shared-location"]
     },
     {
       "place": "state-capitol-ut",
@@ -6682,10 +5469,7 @@
       "referenceLicense": "CC BY-SA 2.0",
       "referenceArtist": "Andrew Smith from Seattle, WA, USA",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-ut",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-ut", "uses:shared-location"]
     },
     {
       "place": "state-capitol-va",
@@ -6701,10 +5485,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Martin Kraft",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-va",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-va", "uses:shared-location"]
     },
     {
       "place": "state-capitol-vi",
@@ -6720,10 +5501,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Farragutful",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-vi",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-vi", "uses:shared-location"]
     },
     {
       "place": "state-capitol-vt",
@@ -6739,10 +5517,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Harrison Keely",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-vt",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-vt", "uses:shared-location"]
     },
     {
       "place": "state-capitol-wa",
@@ -6758,10 +5533,7 @@
       "referenceLicense": "CC BY-SA 4.0",
       "referenceArtist": "Martin Kraft",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-wa",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-wa", "uses:shared-location"]
     },
     {
       "place": "state-capitol-wi",
@@ -6777,10 +5549,7 @@
       "referenceLicense": "CC0",
       "referenceArtist": "Wikideas1",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-wi",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-wi", "uses:shared-location"]
     },
     {
       "place": "state-capitol-wv",
@@ -6796,10 +5565,7 @@
       "referenceLicense": "CC BY 4.0",
       "referenceArtist": "Quintin Soloviev",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-wv",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-wv", "uses:shared-location"]
     },
     {
       "place": "state-capitol-wy",
@@ -6815,10 +5581,7 @@
       "referenceLicense": "CC BY-SA 3.0",
       "referenceArtist": "Matthew Trump",
       "approval": "live-owner-reviews-in-play-2026-09-28",
-      "tags": [
-        "kind:state-capitol-wy",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:state-capitol-wy", "uses:shared-location"]
     },
     {
       "place": "state-legislative-chamber-bicameral",
@@ -6986,10 +5749,7 @@
       "sourceFile": "student-union-lounge__midday.png",
       "sourceSha256": "c019273c91f5586896b70fdd54c21f977eeb2a45dd2caf47e7036ce2e22030f3",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:student-union-lounge",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:student-union-lounge", "uses:shared-location"]
     },
     {
       "place": "suburban-house",
@@ -7001,10 +5761,7 @@
       "sourceFile": "suburban-house__midday-illustrated-r2.png",
       "sourceSha256": "5ae3d383d19ca0ca9e1d853406f6559e75aefea94045c2f9c0ddb514108fc201",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:suburban-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:suburban-house", "uses:shared-location"]
     },
     {
       "place": "suburban-house",
@@ -7016,10 +5773,7 @@
       "sourceFile": "suburban-house__morning-v1.png",
       "sourceSha256": "80bd5ffd90b7aa74182cb64d2890746b43642717c30d0e5ef79fca15d996324f",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:suburban-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:suburban-house", "uses:shared-location"]
     },
     {
       "place": "suburban-house",
@@ -7031,10 +5785,7 @@
       "sourceFile": "suburban-house__night-v1.png",
       "sourceSha256": "7601402f61277e18ae9fbcbe210cb4db45eafd1754e46bd2e2fe57ee55332a18",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:suburban-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:suburban-house", "uses:shared-location"]
     },
     {
       "place": "suburban-house",
@@ -7046,10 +5797,7 @@
       "sourceFile": "suburban-house__rain-v1.png",
       "sourceSha256": "3bc14424829d2a87ad2392e905005f812ddc1c516048735581457b20cdf74f3c",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:suburban-house",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:suburban-house", "uses:shared-location"]
     },
     {
       "place": "supreme-courtroom",
@@ -7061,10 +5809,7 @@
       "sourceFile": "supreme-courtroom__midday-v1.png",
       "sourceSha256": "d1cb604d8d389d2c4e358d409f48e1ff7e2a528c7380806ea21e7e5a1bd76238",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:supreme-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:supreme-courtroom", "uses:shared-location"]
     },
     {
       "place": "supreme-courtroom",
@@ -7076,10 +5821,7 @@
       "sourceFile": "supreme-courtroom__morning-v1.png",
       "sourceSha256": "1a011fc68ecfbe4b7dc52a90f23519ecefed4e4a38d878620750cde48f55f66c",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:supreme-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:supreme-courtroom", "uses:shared-location"]
     },
     {
       "place": "supreme-courtroom",
@@ -7091,10 +5833,7 @@
       "sourceFile": "supreme-courtroom__night-v1.png",
       "sourceSha256": "f49c6ff790e9a0a88c4b820dae3e8e1151a2faa1108fa3645e9a1d309735be4e",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:supreme-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:supreme-courtroom", "uses:shared-location"]
     },
     {
       "place": "supreme-courtroom",
@@ -7106,10 +5845,7 @@
       "sourceFile": "supreme-courtroom__rain-v1.png",
       "sourceSha256": "3262d7476d478c0194c752f57d48e6fb28ccb128c57513abedbb4bda08a2bf8f",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:supreme-courtroom",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:supreme-courtroom", "uses:shared-location"]
     },
     {
       "place": "tv-studio",
@@ -7121,10 +5857,7 @@
       "sourceFile": "tv-studio__midday-v1.png",
       "sourceSha256": "d2621d08c2d45a24b4f10442d6fe07406e8539b22b4612584195d8698b664a98",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:tv-studio",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:tv-studio", "uses:shared-location"]
     },
     {
       "place": "tv-studio",
@@ -7136,10 +5869,7 @@
       "sourceFile": "tv-studio__morning-v1.png",
       "sourceSha256": "11fd63b2bf05a6690e6a627fbc28dd0c96850051305df07d1bd72191e5b7c717",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:tv-studio",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:tv-studio", "uses:shared-location"]
     },
     {
       "place": "tv-studio",
@@ -7151,10 +5881,7 @@
       "sourceFile": "tv-studio__night-v1.png",
       "sourceSha256": "ac7ea7093e7bb7aeb9f595f4cfd9a17920a2085fe3543d9a9aa545b9b62c0604",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:tv-studio",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:tv-studio", "uses:shared-location"]
     },
     {
       "place": "tv-studio",
@@ -7166,10 +5893,7 @@
       "sourceFile": "tv-studio__rain-v1.png",
       "sourceSha256": "1f558a9625a93dabbd4a83760255c570d67e35fb806eca6c14c2e2a1729c8918",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:tv-studio",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:tv-studio", "uses:shared-location"]
     },
     {
       "place": "union-hall",
@@ -7181,11 +5905,7 @@
       "sourceFile": "union-hall__midday-v1.png",
       "sourceSha256": "e095b1150c7ac1137bf3e86c076353b8ae7de1eebf9ade147e7c473ed99fdfaa",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:union-hall",
-        "uses:shared-location",
-        "community-service"
-      ]
+      "tags": ["kind:union-hall", "uses:shared-location", "community-service"]
     },
     {
       "place": "union-hall",
@@ -7197,11 +5917,7 @@
       "sourceFile": "union-hall__morning-v1.png",
       "sourceSha256": "9582b1ceacb8d8f2852553c2b90c501ac34464cebd4a060ff30d3976a7597311",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:union-hall",
-        "uses:shared-location",
-        "community-service"
-      ]
+      "tags": ["kind:union-hall", "uses:shared-location", "community-service"]
     },
     {
       "place": "union-hall",
@@ -7213,11 +5929,7 @@
       "sourceFile": "union-hall__night-v1.png",
       "sourceSha256": "5d7f68f22e276a5a98b40144698db19f22c1a43b52064ea154d5a98fe7d2eec7",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:union-hall",
-        "uses:shared-location",
-        "community-service"
-      ]
+      "tags": ["kind:union-hall", "uses:shared-location", "community-service"]
     },
     {
       "place": "union-hall",
@@ -7229,11 +5941,7 @@
       "sourceFile": "union-hall__rain-v1.png",
       "sourceSha256": "79ee0493117d22ac840479dab084ba00ac5bf0d2c76a3ef4acc55e07057f204a",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:union-hall",
-        "uses:shared-location",
-        "community-service"
-      ]
+      "tags": ["kind:union-hall", "uses:shared-location", "community-service"]
     },
     {
       "place": "university-lecture-hall",
@@ -7245,10 +5953,7 @@
       "sourceFile": "university-lecture-hall__midday.png",
       "sourceSha256": "d7af1680120fcb00da64467c90c4771fa8fa9466354996bad858df5ddb78e62a",
       "approval": "live-owner-reviews-in-play-2026-10-12",
-      "tags": [
-        "kind:university-lecture-hall",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:university-lecture-hall", "uses:shared-location"]
     },
     {
       "place": "us-capitol-exterior",
@@ -7260,10 +5965,7 @@
       "sourceFile": "us-capitol-exterior__midday-v1.png",
       "sourceSha256": "7849eaecb768938e980608b7db8ccf8da1ffd9e223c654423a5aa0024f66337e",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-capitol-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-capitol-exterior", "uses:shared-location"]
     },
     {
       "place": "us-capitol-exterior",
@@ -7275,10 +5977,7 @@
       "sourceFile": "us-capitol-exterior__morning-v1.png",
       "sourceSha256": "554c3f4f2d0ba1988b2308269886ed9bb2a33d6c6f43187d03d39184c9a6bce6",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-capitol-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-capitol-exterior", "uses:shared-location"]
     },
     {
       "place": "us-capitol-exterior",
@@ -7290,10 +5989,7 @@
       "sourceFile": "us-capitol-exterior__night-v1.png",
       "sourceSha256": "ee9441e137087a7d8974118f709035067aec4a8fce162801fe1f9416cfab7c85",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-capitol-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-capitol-exterior", "uses:shared-location"]
     },
     {
       "place": "us-capitol-exterior",
@@ -7305,10 +6001,7 @@
       "sourceFile": "us-capitol-exterior__rain-v1.png",
       "sourceSha256": "83babc91e51005e70a863457e4485e511aed78aac0964ebc1d6225dac62455f0",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-capitol-exterior",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-capitol-exterior", "uses:shared-location"]
     },
     {
       "place": "us-house-floor",
@@ -7320,10 +6013,7 @@
       "sourceFile": "us-house-floor__midday-v1.png",
       "sourceSha256": "59b1caaebe4ad23d59c24a97fc6bbd323c079ff82f19af0b42452ecba154b646",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-house-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-house-floor", "uses:shared-location"]
     },
     {
       "place": "us-house-floor",
@@ -7335,10 +6025,7 @@
       "sourceFile": "us-house-floor__morning-v1.png",
       "sourceSha256": "351e764cebbfc7aeb699d9615f0c03731f740120e66902614d280b4976d84f4d",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-house-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-house-floor", "uses:shared-location"]
     },
     {
       "place": "us-house-floor",
@@ -7350,10 +6037,7 @@
       "sourceFile": "us-house-floor__night-v1.png",
       "sourceSha256": "152f13c4846f7c330f7332778904b2775e3c96f2620fc8d0146d6ce3c39e21cc",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-house-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-house-floor", "uses:shared-location"]
     },
     {
       "place": "us-house-floor",
@@ -7365,10 +6049,7 @@
       "sourceFile": "us-house-floor__rain-v1.png",
       "sourceSha256": "e75884969a72b46305ca62e9d38313cc371d981cae7d05d8780979b7bde8d528",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-house-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-house-floor", "uses:shared-location"]
     },
     {
       "place": "us-senate-floor",
@@ -7380,10 +6061,7 @@
       "sourceFile": "us-senate-floor__midday-v1.png",
       "sourceSha256": "3ac3ac0a735d4c590a6009642caa1fa7b7d6252316ea93ddb86ca346718e2036",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-senate-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-senate-floor", "uses:shared-location"]
     },
     {
       "place": "us-senate-floor",
@@ -7395,10 +6073,7 @@
       "sourceFile": "us-senate-floor__morning-v1.png",
       "sourceSha256": "0aee20a7a73aacaa17730c633c2bcc420f9de94870c91f939ce6f331ec2b5fe0",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-senate-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-senate-floor", "uses:shared-location"]
     },
     {
       "place": "us-senate-floor",
@@ -7410,10 +6085,7 @@
       "sourceFile": "us-senate-floor__night-v1.png",
       "sourceSha256": "6e314aa8d66ec0d6c8f500a698e31685f1e8e61a3b7ecc5090eb367fa7504839",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-senate-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-senate-floor", "uses:shared-location"]
     },
     {
       "place": "us-senate-floor",
@@ -7425,10 +6097,7 @@
       "sourceFile": "us-senate-floor__rain-v1.png",
       "sourceSha256": "5a1ab4b6b74d7ac4a714d815446ec74d88c64e53a6f830efe5e65fec7af79852",
       "approval": "owner-placeholder-2026-09-27",
-      "tags": [
-        "kind:us-senate-floor",
-        "uses:shared-location"
-      ]
+      "tags": ["kind:us-senate-floor", "uses:shared-location"]
     }
   ]
 }
