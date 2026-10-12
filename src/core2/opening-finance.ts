@@ -63,6 +63,17 @@ export interface OpeningFinanceData {
     supplierClassifications: readonly string[];
     citation: string;
     stopgapId: string;
+    /** A category bought from two kinds of seller in sourced shares (food at home, away). */
+    supplierSplit?: {
+      /** Exactly two: the first and the second (\"away\") part. */
+      parts: readonly {
+        supplierClassifications: readonly string[];
+        label: string;
+      }[];
+      /** The second part's share, by Census region. */
+      awayShareByRegion: Readonly<Record<string, number>>;
+      citation: string;
+    };
   }[];
   supplierRules: readonly {
     buyerClassifications: readonly string[];
@@ -1142,7 +1153,48 @@ export function createOpeningFinance(
         continue;
       }
       const counted = options.countedHouseholdIds?.has(household.id) === true;
-      for (const share of allocate(budget.amount, supplierWeights(suppliers))) {
+      // A split category goes to each kind of seller in its sourced share;
+      // a part with no seller in the place goes to the other part's sellers.
+      const split = crosswalk.supplierSplit;
+      const parts: { amount: number; suppliers: typeof suppliers }[] = [];
+      if (split) {
+        if (split.parts.length !== 2)
+          throw new Error(`A split category needs two parts: ${budget.id}`);
+        const second =
+          split.awayShareByRegion[region] ?? split.awayShareByRegion.national!;
+        // A seller kind the category lists but neither part names (e.g. a
+        // mod's new store) sells in the first part.
+        const named = new Set(
+          split.parts.flatMap((part) => part.supplierClassifications),
+        );
+        const groups = split.parts.map((part, index) =>
+          eligibleSuppliers(household.placeId, [
+            ...part.supplierClassifications,
+            ...(index === 0
+              ? crosswalk.supplierClassifications.filter(
+                  (row) => !named.has(row),
+                )
+              : []),
+          ]),
+        );
+        const away = Math.round(budget.amount * second);
+        if (groups[0]!.length && groups[1]!.length)
+          parts.push(
+            { amount: budget.amount - away, suppliers: groups[0]! },
+            { amount: away, suppliers: groups[1]! },
+          );
+        else
+          parts.push({
+            amount: budget.amount,
+            suppliers: groups[0]!.length ? groups[0]! : groups[1]!,
+          });
+      } else parts.push({ amount: budget.amount, suppliers });
+      const shares = parts.flatMap((part) =>
+        part.suppliers.length
+          ? allocate(part.amount, supplierWeights(part.suppliers))
+          : [],
+      );
+      for (const share of shares) {
         if (share.amount <= zero) continue;
         if (counted) {
           // Same budget and supplier shares; light counted terms, merged later.
