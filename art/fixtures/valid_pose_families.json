@@ -123,7 +123,8 @@
       "control_plate": {
         "path": "art/fixtures/pose-control-plates/standing-neutral__front.svg",
         "hash": "6a73e05f843eecd8dac65984d94353cff0ba10fc0a0be2f3289ba7572be88af0"
-      }
+      },
+      "slot_kinds": ["stand"]
     },
     {
       "pose_family_id": "seated-at-desk",
@@ -249,7 +250,8 @@
       "control_plate": {
         "path": "art/fixtures/pose-control-plates/seated-at-desk__three-quarter-left.svg",
         "hash": "47d2f60a6e6a6e8bf6c6f8f9d04806e919128f52843772939a63eb5b315b9568"
-      }
+      },
+      "slot_kinds": ["sit"]
     }
   ]
 }
