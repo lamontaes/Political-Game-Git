@@ -100,3 +100,47 @@ export function countedJobsOf(
     }
   return out;
 }
+
+/**
+ * A new business wins customers: each household purchase flow paying an
+ * incumbent of its kind gives up `share` of its amount to an equal new flow
+ * paying the entrant. Money the households spend is unchanged.
+ */
+export function shiftPurchaseShare(
+  core: CoreState,
+  incumbentIds: ReadonlySet<string>,
+  entrantId: string,
+  share: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(share > 0) || share >= 1) return 0;
+  let moved = 0;
+  for (const flow of [...rt.flows.values()]) {
+    if (
+      flow.kind !== "purchase" ||
+      flow.endedAt ||
+      !incumbentIds.has(flow.payeeId)
+    )
+      continue;
+    const amount = Math.floor(flow.amountMinor * share);
+    if (amount <= 0) continue;
+    flow.amountMinor -= amount;
+    addResidentFlow(core, {
+      id: `${flow.id}:entrant:${entrantId}`,
+      kind: "purchase",
+      financeKind: flow.financeKind,
+      payerId: flow.payerId,
+      payeeId: entrantId,
+      residentsId: flow.residentsId,
+      placeId: flow.placeId,
+      amountMinor: amount,
+      firstAt: flow.nextAt,
+      cadence: flow.cadence,
+      salesReceipt: flow.salesReceipt,
+      marketAdjusted: flow.marketAdjusted,
+      source: flow.source,
+    });
+    moved += amount;
+  }
+  return moved;
+}

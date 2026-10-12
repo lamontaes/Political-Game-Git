@@ -47,5 +47,75 @@
     "value": 30.4,
     "tag": "SOURCED",
     "citation": "Mean days per month (365/12)."
+  },
+  "businessFoundBaseline": {
+    "value": -4,
+    "tag": "TUNABLE",
+    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year).",
+    "spread": {
+      "low": -6,
+      "high": -2,
+      "unit": "score",
+      "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year)."
+    }
+  },
+  "businessFoundRoomWeight": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Room in a market (incumbents' demand above their capacity) draws entrants (Census BDS entry rises with local demand growth).",
+    "spread": {
+      "low": 2,
+      "high": 12,
+      "unit": "score per share of unmet demand",
+      "citation": "Room in a market (incumbents' demand above their capacity) draws entrants (Census BDS entry rises with local demand growth)."
+    }
+  },
+  "businessFoundUnemployedWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Losing a job pushes some toward starting a business (Fairlie 2013, necessity entrepreneurship).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score",
+      "citation": "Losing a job pushes some toward starting a business (Fairlie 2013, necessity entrepreneurship)."
+    }
+  },
+  "businessFoundTraitWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Enterprising and risk-taking people start businesses more often; traitScale 3.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score per trait point",
+      "citation": "Enterprising and risk-taking people start businesses more often; traitScale 3."
+    }
+  },
+  "businessStartupMonthsOfCosts": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Startup capital of a few months of operating costs (Kauffman Firm Survey: median startup capital about 30,000 dollars for employer firms).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months of planned costs",
+      "citation": "Startup capital of a few months of operating costs (Kauffman Firm Survey: median startup capital about 30,000 dollars for employer firms)."
+    }
+  },
+  "businessStartupTermMonths": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "SBA microloans run up to six years; 7(a) working capital loans up to ten. Five years is within both."
+  },
+  "businessFounderMinimumAge": {
+    "value": 25,
+    "tag": "SOURCED",
+    "citation": "Kauffman: most new business owners are 25 to 64."
+  },
+  "businessFounderMaximumAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Kauffman: most new business owners are 25 to 64."
   }
 }

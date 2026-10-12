@@ -74,6 +74,17 @@ console.log(
         ),
       },
       businesses: {
+        founded: (
+          tables("business").foundings as unknown as {
+            kindId: string;
+            date: string;
+            loanMinor: number;
+            customersMonthlyMinor: number;
+          }[]
+        ).map(
+          (row) =>
+            `${row.date} ${row.kindId} loan ${row.loanMinor} customers ${row.customersMonthlyMinor}`,
+        ),
         open: books.filter((b) => !b.closedAt).length,
         closed: books.filter((b) => b.closedAt).length,
       },

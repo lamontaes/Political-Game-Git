@@ -14,11 +14,24 @@
     "keep": {
       "id": "business-owner-keep",
       "actKinds": ["play-safe", "keep-same"]
+    },
+    "found": {
+      "id": "business-found",
+      "actKinds": ["take-risk", "commit", "change"]
+    },
+    "notFound": {
+      "id": "business-stay-put",
+      "actKinds": ["play-safe", "keep-same"]
     }
   },
   "need": "money",
   "effortParameter": "zero",
   "effectParameter": "zero",
   "targetKind": "business-option",
-  "effect": "business-choice"
+  "effect": "business-choice",
+  "traits": {
+    "enterprising": "personality-v1:facet-enterprising",
+    "risk": "people-mind-v1:risk"
+  },
+  "namePattern": "{founder} {kind}"
 }

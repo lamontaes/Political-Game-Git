@@ -140,3 +140,135 @@ describe("owners draw from profit", () => {
     expect(money(core)).toBe(total);
   });
 });
+
+describe("founding a business where a market has room", () => {
+  it("an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", async () => {
+    const { CREDIT_MODULE } = await import("./modules/credit");
+    const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
+    const place2 = "place:founding-fixture",
+      residentsId = "residents:founding-fixture";
+    const s2: Source = { ...src, asOf: "2026-10-01" };
+    const base = withCentralBank({
+      seed: "founding-fixture",
+      startedAt: "2026-10-01",
+      people: [
+        {
+          id: "founder",
+          givenName: "Found",
+          familyName: "Fixture",
+          birthDate: "1985-01-01",
+          placeId: place2,
+          householdId: "household:founder",
+          tier: "monthly",
+          traits: {
+            "personality-v1:facet-enterprising": 3,
+            "people-mind-v1:risk": 3,
+          },
+          liquidMinor: 0,
+          livingCostDailyMinor: 0,
+          source: s2,
+          familyIds: [],
+          knownIds: [],
+        },
+      ],
+      households: [
+        {
+          id: "household:founder",
+          placeId: place2,
+          memberIds: ["founder"],
+          source: s2,
+        },
+      ],
+      jobs: [],
+      organizations: [
+        ...["diner:a", "diner:b"].map((id) => ({
+          id,
+          placeId: place2,
+          name: id,
+          kind: "employer",
+          liquidMinor: 1_000_000,
+          source: s2,
+        })),
+        {
+          id: "organization:bank:fixture",
+          placeId: place2,
+          name: "Bank",
+          kind: "bank",
+          liquidMinor: 500_000_000,
+          source: s2,
+        },
+        {
+          id: residentsId,
+          placeId: place2,
+          name: "Residents",
+          kind: "residents",
+          liquidMinor: 100_000_000,
+          source: s2,
+        },
+      ],
+      residents: {
+        version: "core2-residents-v1",
+        accounts: [{ placeId: place2, accountId: residentsId }],
+        households: [],
+        flows: ["diner:a", "diner:b"].map((id) => ({
+          id: `purchase:${id}`,
+          kind: "purchase" as const,
+          financeKind: "household.food",
+          payerId: residentsId,
+          payeeId: id,
+          residentsId,
+          placeId: place2,
+          amountMinor: 300_000,
+          firstAt: "2026-10-12",
+          cadence: { kind: "months" as const, every: 1, day: 12 },
+          salesReceipt: true,
+          marketAdjusted: false,
+          source: s2,
+        })),
+        source: s2,
+      },
+      focusPersonIds: [],
+      focusPlaceIds: [],
+      calendarDates: [],
+      gaps: [],
+    });
+    const core = createLifeCore(base, {
+      data: worldCoreData(),
+      modules: [
+        WORLD_TRANSFER_MODULE,
+        MACRO_MODULE,
+        CREDIT_MODULE,
+        BUSINESS_MODULE,
+      ],
+      scheduledWork: false,
+    });
+    for (const id of ["diner:a", "diner:b"]) {
+      const book = {
+        ...books(core),
+        organizationId: id,
+        kindId: "restaurant",
+        annualDemandMinor: 60_000_000,
+        capacityMinor: 40_000_000,
+      };
+      core.finance.businesses.set(id, book as BusinessBooksState);
+    }
+    core.finance.businesses.delete(shop);
+    const total = money(core);
+    advanceCore(core, "2026-12-15");
+    const foundings = api(core).moduleState("business").snapshot().tables
+      .foundings as unknown as {
+      founderId: string;
+      kindId: string;
+      customersMonthlyMinor: number;
+      loanMinor: number;
+    }[];
+    expect(foundings[0]).toMatchObject({
+      founderId: "founder",
+      kindId: "restaurant",
+    });
+    expect(foundings[0]!.customersMonthlyMinor).toBeGreaterThan(0);
+    expect(foundings[0]!.loanMinor).toBeGreaterThan(0);
+    expect(money(core)).toBe(total);
+  });
+});
+const api = (core: CoreState) => coreAPI(core);

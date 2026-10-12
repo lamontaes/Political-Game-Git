@@ -391,7 +391,9 @@ function reviewEmployers(api: CoreAPI): void {
     if (!jobs.length && !positions.length) continue;
     const target =
       book.capacityMinor > 0
-        ? (row.openingStaff * book.annualDemandMinor) / book.capacityMinor
+        ? // Real demand: the books' demand in the business's own opening prices.
+          (row.openingStaff * book.annualDemandMinor) /
+          ((book.price / book.anchorPrice || 1) * book.capacityMinor)
         : row.openingStaff;
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
@@ -1020,3 +1022,15 @@ export const JOBS_MODULE: CoreModule = {
     if (!store(api).table("state").get("jobs:state")) open(api);
   },
 };
+
+/** A newly founded business joins the labor market, staffing toward what its books call for. */
+export function registerEmployer(
+  api: CoreAPI,
+  organizationId: string,
+  openingStaff: number,
+): void {
+  if (!store(api).table("state").get("jobs:state")) return;
+  store(api)
+    .table("employers")
+    .put({ id: organizationId, isEmployer: true, openingStaff, need: 0 });
+}
