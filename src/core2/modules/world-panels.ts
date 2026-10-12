@@ -104,6 +104,8 @@ export function ownerPanel(api: CoreAPI) {
     owners: rows(api, "business", "owners"),
     draws: rows(api, "business", "draws"),
     foundings: rows(api, "business", "foundings"),
+    // When each business was founded (before the start too).
+    ages: rows(api, "business", "ages"),
   };
 }
 

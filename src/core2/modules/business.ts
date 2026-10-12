@@ -13,7 +13,14 @@ import businessParameters from "../data/business/parameters.json" with { type: "
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import type { ActOffer, CoreAPI, CoreModule, CoreState } from "../types";
+import type { ActOffer, CoreAPI, CoreState } from "../types";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
+import bdsRates from "../data/business/bds-rates.json" with { type: "json" };
+import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import {
   countedJobsOf,
@@ -977,8 +984,97 @@ export function ownerOf(
   )?.ownerId;
 }
 
-export const BUSINESS_MODULE: CoreModule = {
+const BDS = bdsRates as unknown as {
+  states: Record<string, { entryPct: number; exitPct: number }>;
+  nationExitPct: number;
+};
+const FIPS_OF_USPS = new Map(
+  (regions.regions as { stateFips: string; stateUsps: string }[]).map((row) => [
+    row.stateUsps,
+    row.stateFips,
+  ]),
+);
+
+/**
+ * Businesses before the start (M1-14): every opening business gets a founding
+ * date, so firms have ages. In a steady state where the state's businesses
+ * exit at its BDS rate x a year, the share at least a years old is (1 - x)^a;
+ * the largest businesses are the oldest. Foundings inside the window and each
+ * year's exits (the same rate) are dated history.
+ */
+function businessHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const usps = c.placeMetadata?.housingState ?? "";
+  const exit =
+    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
+    p("macroHundred");
+  const firms = [...c.finance.businesses.values()]
+    .filter((book) => !book.closedAt)
+    .map((book) => ({
+      id: book.organizationId,
+      kindId: book.kindId,
+      staff:
+        [
+          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
+        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
+        countedJobsOf(c, book.organizationId).length,
+    }))
+    .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
+  const start = makeIsoDate(c.date);
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: c.date,
+    citation: (bdsRates as { source: { citation: string } }).source.citation,
+    estimatedFrom: `Ages from the state's establishment exit rate (${(exit * 100).toFixed(1)}% a year); the largest businesses are the oldest.`,
+  };
+  firms.forEach((firm, i) => {
+    const q = (i + 0.5) / firms.length;
+    const years = Math.min(
+      p("businessOldestFirmYears"),
+      Math.log(q) / Math.log(1 - exit),
+    );
+    const foundedAt = makeIsoDate(
+      addDays(start, -Math.round(years * p("jobsDaysPerYear"))),
+    );
+    store(api).table("ages").put({ id: firm.id, foundedAt, ageYears: years });
+    if (foundedAt >= window.from && foundedAt <= window.through)
+      history.record({
+        id: `business.founded:${firm.id}`,
+        date: foundedAt,
+        kind: "business.founded",
+        placeId: c.organizations.get(firm.id)?.placeId,
+        facts: { organizationId: firm.id, kindId: firm.kindId },
+        publicRecord: true,
+        source,
+      });
+  });
+  // Each year in the window, the businesses that closed (the same exit rate, a steady count).
+  const first = Number(window.from.slice(0, 4)),
+    last = Number(window.through.slice(0, 4));
+  for (let year = first; year <= last; year++) {
+    const date = makeIsoDate(
+      `${year}-12-31` > window.through ? window.through : `${year}-12-31`,
+    );
+    if (date < window.from) continue;
+    history.record({
+      id: `business.exits:${year}`,
+      date,
+      kind: "business.exits",
+      facts: { year, closed: Math.round(firms.length * exit) },
+      publicRecord: true,
+      source,
+    });
+  }
+}
+
+export const BUSINESS_MODULE: PreStartModule = {
   id: BUSINESS_MODULE_ID,
+  preStart: { phase: "economy", run: businessHistory },
   state: {
     schemaVersion: 1,
     tables: {
@@ -988,6 +1084,7 @@ export const BUSINESS_MODULE: CoreModule = {
       foundings: {},
       successions: {},
       closures: {},
+      ages: {},
     },
   },
   reasonProviders: {
