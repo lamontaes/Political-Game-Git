@@ -56,6 +56,7 @@ class Cell:
 
 def main(src, dst):
     cells = defaultdict(Cell)
+    comp = defaultdict(lambda: defaultdict(float))
     raw = open(src, "rb").read()
     digest = hashlib.sha256(raw).hexdigest()
     for row in csv.DictReader(open(src, newline="")):
@@ -79,6 +80,15 @@ def main(src, dst):
             keys += [("faith", FAITH[row["religpew"]]), ("state-faith", state, FAITH[row["religpew"]])]
         if row["urbancity"] in URBAN:
             keys += [("urban", URBAN[row["urbancity"]]), ("state-urban", state, URBAN[row["urbancity"]])]
+        # Composition: education and faith shares by state and age band.
+        if row["educ"] in EDUC:
+            comp[("educ", state, b)][EDUC[row["educ"]]] += w
+            comp[("educ", "US", b)][EDUC[row["educ"]]] += w
+        if row["religpew"] in FAITH:
+            comp[("faith", state, b)][FAITH[row["religpew"]]] += w
+            comp[("faith", "US", b)][FAITH[row["religpew"]]] += w
+        if row["educ"] in EDUC and row["religpew"] in FAITH:
+            keys.append(("profile", b, EDUC[row["educ"]], FAITH[row["religpew"]]))
         county = row["countyfips"]
         if county and county != "NA":
             keys.append(("county", county.zfill(5)))
@@ -122,6 +132,27 @@ def main(src, dst):
             mean = sum(c["mean"] * c["n"] for c in rows) / total
             row["countySpread"] = round(math.sqrt(sum(c["n"] * (c["mean"] - mean) ** 2 for c in rows) / total), 4)
             row["countiesChecked"] = len(rows)
+    def shares(kind, where, b):
+        row = comp[(kind, where, b)]
+        total = sum(row.values())
+        return {k: round(v / total, 4) for k, v in sorted(row.items())} if total else None
+    for state, row in out["states"].items():
+        row["educationShares"] = {b: shares("educ", state, b) for b in out["ageBands"]}
+        row["faithShares"] = {b: shares("faith", state, b) for b in out["ageBands"]}
+    out["nationalEducationShares"] = {b: shares("educ", "US", b) for b in out["ageBands"]}
+    out["nationalFaithShares"] = {b: shares("faith", "US", b) for b in out["ageBands"]}
+    # How far each education-and-faith profile leans from its age band's
+    # national mean, so a state-by-age cell can carry a person's profile.
+    out["profileShift"] = {}
+    for k, c in cells.items():
+        if k[0] != "profile" or c.n < 30:
+            continue
+        age_band, educ, faith = k[1], k[2], k[3]
+        row = c.out()
+        out["profileShift"].setdefault(age_band, {}).setdefault(educ, {})[faith] = {
+            "n": row["n"],
+            "shift": round(row["mean"] - out["byAge"][age_band]["mean"], 4),
+        }
     json.dump(out, open(dst, "w"), indent=1, sort_keys=False)
     open(dst, "a").write("\n")
 

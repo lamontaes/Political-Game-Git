@@ -235,6 +235,52 @@
      "sd": 1.0187,
      "engagement": 0.613
     }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.3471,
+     "no-college": 0.4617,
+     "some-college": 0.1912
+    },
+    "30-44": {
+     "college": 0.2413,
+     "no-college": 0.3798,
+     "some-college": 0.3788
+    },
+    "45-64": {
+     "college": 0.2492,
+     "no-college": 0.4846,
+     "some-college": 0.2661
+    },
+    "65-plus": {
+     "college": 0.3612,
+     "no-college": 0.1983,
+     "some-college": 0.4405
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "none": 0.4173,
+     "protestant": 0.5827
+    },
+    "30-44": {
+     "catholic": 0.2983,
+     "none": 0.3634,
+     "other-faith": 0.1174,
+     "protestant": 0.2209
+    },
+    "45-64": {
+     "catholic": 0.1299,
+     "none": 0.2606,
+     "other-faith": 0.4072,
+     "protestant": 0.2024
+    },
+    "65-plus": {
+     "catholic": 0.0958,
+     "none": 0.2078,
+     "other-faith": 0.3487,
+     "protestant": 0.3477
+    }
    }
   },
   "AL": {
@@ -349,7 +395,55 @@
     }
    },
    "countySpread": 0.2573,
-   "countiesChecked": 7
+   "countiesChecked": 7,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1855,
+     "no-college": 0.4403,
+     "some-college": 0.3742
+    },
+    "30-44": {
+     "college": 0.3465,
+     "no-college": 0.265,
+     "some-college": 0.3886
+    },
+    "45-64": {
+     "college": 0.2937,
+     "no-college": 0.3932,
+     "some-college": 0.3131
+    },
+    "65-plus": {
+     "college": 0.2647,
+     "no-college": 0.4681,
+     "some-college": 0.2671
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0886,
+     "none": 0.4765,
+     "other-faith": 0.0878,
+     "protestant": 0.3471
+    },
+    "30-44": {
+     "catholic": 0.0592,
+     "none": 0.3389,
+     "other-faith": 0.0911,
+     "protestant": 0.5108
+    },
+    "45-64": {
+     "catholic": 0.0609,
+     "none": 0.2046,
+     "other-faith": 0.1442,
+     "protestant": 0.5903
+    },
+    "65-plus": {
+     "catholic": 0.0872,
+     "none": 0.1553,
+     "other-faith": 0.1221,
+     "protestant": 0.6354
+    }
+   }
   },
   "AR": {
    "n": 498,
@@ -463,7 +557,55 @@
     }
    },
    "countySpread": 0.4141,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2343,
+     "no-college": 0.5231,
+     "some-college": 0.2426
+    },
+    "30-44": {
+     "college": 0.2592,
+     "no-college": 0.36,
+     "some-college": 0.3808
+    },
+    "45-64": {
+     "college": 0.2886,
+     "no-college": 0.4235,
+     "some-college": 0.2879
+    },
+    "65-plus": {
+     "college": 0.2289,
+     "no-college": 0.4848,
+     "some-college": 0.2863
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0348,
+     "none": 0.3567,
+     "other-faith": 0.1331,
+     "protestant": 0.4754
+    },
+    "30-44": {
+     "catholic": 0.0441,
+     "none": 0.3129,
+     "other-faith": 0.1458,
+     "protestant": 0.4972
+    },
+    "45-64": {
+     "catholic": 0.0727,
+     "none": 0.2012,
+     "other-faith": 0.0999,
+     "protestant": 0.6262
+    },
+    "65-plus": {
+     "catholic": 0.0802,
+     "none": 0.1118,
+     "other-faith": 0.1604,
+     "protestant": 0.6476
+    }
+   }
   },
   "AZ": {
    "n": 1431,
@@ -577,7 +719,55 @@
     }
    },
    "countySpread": 0.2494,
-   "countiesChecked": 6
+   "countiesChecked": 6,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2565,
+     "no-college": 0.362,
+     "some-college": 0.3815
+    },
+    "30-44": {
+     "college": 0.3925,
+     "no-college": 0.2868,
+     "some-college": 0.3207
+    },
+    "45-64": {
+     "college": 0.3544,
+     "no-college": 0.3269,
+     "some-college": 0.3188
+    },
+    "65-plus": {
+     "college": 0.346,
+     "no-college": 0.3057,
+     "some-college": 0.3484
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1678,
+     "none": 0.5327,
+     "other-faith": 0.1125,
+     "protestant": 0.1871
+    },
+    "30-44": {
+     "catholic": 0.1936,
+     "none": 0.4065,
+     "other-faith": 0.1715,
+     "protestant": 0.2284
+    },
+    "45-64": {
+     "catholic": 0.1578,
+     "none": 0.3523,
+     "other-faith": 0.1744,
+     "protestant": 0.3155
+    },
+    "65-plus": {
+     "catholic": 0.1581,
+     "none": 0.2673,
+     "other-faith": 0.1413,
+     "protestant": 0.4332
+    }
+   }
   },
   "CA": {
    "n": 4585,
@@ -691,7 +881,55 @@
     }
    },
    "countySpread": 0.2164,
-   "countiesChecked": 26
+   "countiesChecked": 26,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2776,
+     "no-college": 0.3403,
+     "some-college": 0.3821
+    },
+    "30-44": {
+     "college": 0.4607,
+     "no-college": 0.2496,
+     "some-college": 0.2897
+    },
+    "45-64": {
+     "college": 0.3978,
+     "no-college": 0.3119,
+     "some-college": 0.2903
+    },
+    "65-plus": {
+     "college": 0.3596,
+     "no-college": 0.3399,
+     "some-college": 0.3005
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2424,
+     "none": 0.4282,
+     "other-faith": 0.1568,
+     "protestant": 0.1727
+    },
+    "30-44": {
+     "catholic": 0.2039,
+     "none": 0.4067,
+     "other-faith": 0.1891,
+     "protestant": 0.2002
+    },
+    "45-64": {
+     "catholic": 0.2179,
+     "none": 0.3717,
+     "other-faith": 0.1745,
+     "protestant": 0.2359
+    },
+    "65-plus": {
+     "catholic": 0.201,
+     "none": 0.3583,
+     "other-faith": 0.1584,
+     "protestant": 0.2823
+    }
+   }
   },
   "CO": {
    "n": 1005,
@@ -805,7 +1043,55 @@
     }
    },
    "countySpread": 0.3904,
-   "countiesChecked": 11
+   "countiesChecked": 11,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2897,
+     "no-college": 0.3332,
+     "some-college": 0.3772
+    },
+    "30-44": {
+     "college": 0.5569,
+     "no-college": 0.2281,
+     "some-college": 0.215
+    },
+    "45-64": {
+     "college": 0.5055,
+     "no-college": 0.209,
+     "some-college": 0.2855
+    },
+    "65-plus": {
+     "college": 0.4391,
+     "no-college": 0.2839,
+     "some-college": 0.277
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1092,
+     "none": 0.5306,
+     "other-faith": 0.0859,
+     "protestant": 0.2742
+    },
+    "30-44": {
+     "catholic": 0.1287,
+     "none": 0.4493,
+     "other-faith": 0.1289,
+     "protestant": 0.2932
+    },
+    "45-64": {
+     "catholic": 0.215,
+     "none": 0.3802,
+     "other-faith": 0.0976,
+     "protestant": 0.3072
+    },
+    "65-plus": {
+     "catholic": 0.1536,
+     "none": 0.3041,
+     "other-faith": 0.1038,
+     "protestant": 0.4385
+    }
+   }
   },
   "CT": {
    "n": 555,
@@ -919,7 +1205,55 @@
     }
    },
    "countySpread": 0.2165,
-   "countiesChecked": 6
+   "countiesChecked": 6,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3202,
+     "no-college": 0.3147,
+     "some-college": 0.3651
+    },
+    "30-44": {
+     "college": 0.4675,
+     "no-college": 0.3221,
+     "some-college": 0.2104
+    },
+    "45-64": {
+     "college": 0.4622,
+     "no-college": 0.2979,
+     "some-college": 0.2398
+    },
+    "65-plus": {
+     "college": 0.4078,
+     "no-college": 0.3565,
+     "some-college": 0.2357
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.3329,
+     "none": 0.3176,
+     "other-faith": 0.2823,
+     "protestant": 0.0672
+    },
+    "30-44": {
+     "catholic": 0.2575,
+     "none": 0.5385,
+     "other-faith": 0.1103,
+     "protestant": 0.0938
+    },
+    "45-64": {
+     "catholic": 0.4504,
+     "none": 0.3086,
+     "other-faith": 0.0969,
+     "protestant": 0.1442
+    },
+    "65-plus": {
+     "catholic": 0.3923,
+     "none": 0.1824,
+     "other-faith": 0.1255,
+     "protestant": 0.2998
+    }
+   }
   },
   "DC": {
    "n": 162,
@@ -1030,6 +1364,54 @@
      "mean": -2.0,
      "sd": 0.0,
      "engagement": 1.0
+    }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.7231,
+     "no-college": 0.1679,
+     "some-college": 0.109
+    },
+    "30-44": {
+     "college": 0.7786,
+     "no-college": 0.1341,
+     "some-college": 0.0873
+    },
+    "45-64": {
+     "college": 0.3381,
+     "no-college": 0.3947,
+     "some-college": 0.2672
+    },
+    "65-plus": {
+     "college": 0.4037,
+     "no-college": 0.1524,
+     "some-college": 0.4439
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0214,
+     "none": 0.599,
+     "other-faith": 0.0982,
+     "protestant": 0.2814
+    },
+    "30-44": {
+     "catholic": 0.1092,
+     "none": 0.4912,
+     "other-faith": 0.297,
+     "protestant": 0.1026
+    },
+    "45-64": {
+     "catholic": 0.1799,
+     "none": 0.2551,
+     "other-faith": 0.1699,
+     "protestant": 0.3952
+    },
+    "65-plus": {
+     "catholic": 0.1621,
+     "none": 0.2482,
+     "other-faith": 0.228,
+     "protestant": 0.3616
     }
    }
   },
@@ -1145,7 +1527,55 @@
     }
    },
    "countySpread": 0.1298,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3378,
+     "no-college": 0.4279,
+     "some-college": 0.2342
+    },
+    "30-44": {
+     "college": 0.3498,
+     "no-college": 0.3573,
+     "some-college": 0.2929
+    },
+    "45-64": {
+     "college": 0.3912,
+     "no-college": 0.3816,
+     "some-college": 0.2272
+    },
+    "65-plus": {
+     "college": 0.3898,
+     "no-college": 0.2055,
+     "some-college": 0.4047
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0906,
+     "none": 0.7152,
+     "other-faith": 0.1161,
+     "protestant": 0.0781
+    },
+    "30-44": {
+     "catholic": 0.2993,
+     "none": 0.3228,
+     "other-faith": 0.1209,
+     "protestant": 0.257
+    },
+    "45-64": {
+     "catholic": 0.1537,
+     "none": 0.3018,
+     "other-faith": 0.0628,
+     "protestant": 0.4817
+    },
+    "65-plus": {
+     "catholic": 0.2853,
+     "none": 0.2842,
+     "other-faith": 0.024,
+     "protestant": 0.4065
+    }
+   }
   },
   "FL": {
    "n": 4158,
@@ -1259,7 +1689,55 @@
     }
    },
    "countySpread": 0.272,
-   "countiesChecked": 34
+   "countiesChecked": 34,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2221,
+     "no-college": 0.4187,
+     "some-college": 0.3592
+    },
+    "30-44": {
+     "college": 0.4642,
+     "no-college": 0.251,
+     "some-college": 0.2848
+    },
+    "45-64": {
+     "college": 0.3606,
+     "no-college": 0.3711,
+     "some-college": 0.2684
+    },
+    "65-plus": {
+     "college": 0.3142,
+     "no-college": 0.3858,
+     "some-college": 0.3
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1437,
+     "none": 0.5456,
+     "other-faith": 0.1023,
+     "protestant": 0.2084
+    },
+    "30-44": {
+     "catholic": 0.2071,
+     "none": 0.4359,
+     "other-faith": 0.1019,
+     "protestant": 0.2551
+    },
+    "45-64": {
+     "catholic": 0.2363,
+     "none": 0.3024,
+     "other-faith": 0.1504,
+     "protestant": 0.3109
+    },
+    "65-plus": {
+     "catholic": 0.2542,
+     "none": 0.2033,
+     "other-faith": 0.1633,
+     "protestant": 0.3792
+    }
+   }
   },
   "GA": {
    "n": 1907,
@@ -1373,7 +1851,55 @@
     }
    },
    "countySpread": 0.2939,
-   "countiesChecked": 12
+   "countiesChecked": 12,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2266,
+     "no-college": 0.4863,
+     "some-college": 0.2871
+    },
+    "30-44": {
+     "college": 0.3867,
+     "no-college": 0.3005,
+     "some-college": 0.3128
+    },
+    "45-64": {
+     "college": 0.3627,
+     "no-college": 0.3537,
+     "some-college": 0.2836
+    },
+    "65-plus": {
+     "college": 0.2805,
+     "no-college": 0.4311,
+     "some-college": 0.2883
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1195,
+     "none": 0.3559,
+     "other-faith": 0.1897,
+     "protestant": 0.3348
+    },
+    "30-44": {
+     "catholic": 0.134,
+     "none": 0.3677,
+     "other-faith": 0.118,
+     "protestant": 0.3802
+    },
+    "45-64": {
+     "catholic": 0.0658,
+     "none": 0.2283,
+     "other-faith": 0.1198,
+     "protestant": 0.5861
+    },
+    "65-plus": {
+     "catholic": 0.132,
+     "none": 0.1621,
+     "other-faith": 0.1403,
+     "protestant": 0.5656
+    }
+   }
   },
   "HI": {
    "n": 172,
@@ -1487,7 +2013,55 @@
     }
    },
    "countySpread": 0.2661,
-   "countiesChecked": 2
+   "countiesChecked": 2,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1249,
+     "no-college": 0.5487,
+     "some-college": 0.3263
+    },
+    "30-44": {
+     "college": 0.4086,
+     "no-college": 0.3082,
+     "some-college": 0.2833
+    },
+    "45-64": {
+     "college": 0.5367,
+     "no-college": 0.206,
+     "some-college": 0.2573
+    },
+    "65-plus": {
+     "college": 0.3428,
+     "no-college": 0.3314,
+     "some-college": 0.3258
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1047,
+     "none": 0.4094,
+     "other-faith": 0.3294,
+     "protestant": 0.1566
+    },
+    "30-44": {
+     "catholic": 0.1641,
+     "none": 0.4025,
+     "other-faith": 0.2831,
+     "protestant": 0.1503
+    },
+    "45-64": {
+     "catholic": 0.2271,
+     "none": 0.4106,
+     "other-faith": 0.2014,
+     "protestant": 0.1609
+    },
+    "65-plus": {
+     "catholic": 0.0953,
+     "none": 0.4402,
+     "other-faith": 0.2187,
+     "protestant": 0.2458
+    }
+   }
   },
   "IA": {
    "n": 581,
@@ -1601,7 +2175,55 @@
     }
    },
    "countySpread": 0.1768,
-   "countiesChecked": 4
+   "countiesChecked": 4,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2681,
+     "no-college": 0.4355,
+     "some-college": 0.2964
+    },
+    "30-44": {
+     "college": 0.3486,
+     "no-college": 0.3004,
+     "some-college": 0.351
+    },
+    "45-64": {
+     "college": 0.3158,
+     "no-college": 0.3992,
+     "some-college": 0.285
+    },
+    "65-plus": {
+     "college": 0.268,
+     "no-college": 0.4425,
+     "some-college": 0.2895
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2442,
+     "none": 0.3704,
+     "other-faith": 0.1761,
+     "protestant": 0.2094
+    },
+    "30-44": {
+     "catholic": 0.0831,
+     "none": 0.5154,
+     "other-faith": 0.1136,
+     "protestant": 0.2878
+    },
+    "45-64": {
+     "catholic": 0.1494,
+     "none": 0.2301,
+     "other-faith": 0.1622,
+     "protestant": 0.4583
+    },
+    "65-plus": {
+     "catholic": 0.1889,
+     "none": 0.1681,
+     "other-faith": 0.0825,
+     "protestant": 0.5605
+    }
+   }
   },
   "ID": {
    "n": 301,
@@ -1715,7 +2337,55 @@
     }
    },
    "countySpread": 0.1107,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1789,
+     "no-college": 0.3368,
+     "some-college": 0.4843
+    },
+    "30-44": {
+     "college": 0.4139,
+     "no-college": 0.3358,
+     "some-college": 0.2502
+    },
+    "45-64": {
+     "college": 0.3725,
+     "no-college": 0.3235,
+     "some-college": 0.304
+    },
+    "65-plus": {
+     "college": 0.2993,
+     "no-college": 0.3353,
+     "some-college": 0.3654
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2213,
+     "none": 0.595,
+     "other-faith": 0.1447,
+     "protestant": 0.039
+    },
+    "30-44": {
+     "catholic": 0.0973,
+     "none": 0.4169,
+     "other-faith": 0.2633,
+     "protestant": 0.2225
+    },
+    "45-64": {
+     "catholic": 0.0795,
+     "none": 0.3132,
+     "other-faith": 0.325,
+     "protestant": 0.2822
+    },
+    "65-plus": {
+     "catholic": 0.106,
+     "none": 0.3152,
+     "other-faith": 0.1955,
+     "protestant": 0.3832
+    }
+   }
   },
   "IL": {
    "n": 2171,
@@ -1829,7 +2499,55 @@
     }
    },
    "countySpread": 0.213,
-   "countiesChecked": 12
+   "countiesChecked": 12,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2534,
+     "no-college": 0.4114,
+     "some-college": 0.3352
+    },
+    "30-44": {
+     "college": 0.4602,
+     "no-college": 0.2287,
+     "some-college": 0.3111
+    },
+    "45-64": {
+     "college": 0.3605,
+     "no-college": 0.3394,
+     "some-college": 0.3001
+    },
+    "65-plus": {
+     "college": 0.3062,
+     "no-college": 0.4275,
+     "some-college": 0.2663
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1676,
+     "none": 0.6161,
+     "other-faith": 0.1018,
+     "protestant": 0.1145
+    },
+    "30-44": {
+     "catholic": 0.1901,
+     "none": 0.4279,
+     "other-faith": 0.1286,
+     "protestant": 0.2534
+    },
+    "45-64": {
+     "catholic": 0.2146,
+     "none": 0.3113,
+     "other-faith": 0.1543,
+     "protestant": 0.3198
+    },
+    "65-plus": {
+     "catholic": 0.2711,
+     "none": 0.2354,
+     "other-faith": 0.1312,
+     "protestant": 0.3624
+    }
+   }
   },
   "IN": {
    "n": 1181,
@@ -1943,7 +2661,55 @@
     }
    },
    "countySpread": 0.2386,
-   "countiesChecked": 10
+   "countiesChecked": 10,
+   "educationShares": {
+    "18-29": {
+     "college": 0.177,
+     "no-college": 0.5127,
+     "some-college": 0.3103
+    },
+    "30-44": {
+     "college": 0.412,
+     "no-college": 0.2869,
+     "some-college": 0.3012
+    },
+    "45-64": {
+     "college": 0.3553,
+     "no-college": 0.3055,
+     "some-college": 0.3393
+    },
+    "65-plus": {
+     "college": 0.2357,
+     "no-college": 0.5198,
+     "some-college": 0.2446
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0122,
+     "none": 0.5228,
+     "other-faith": 0.1653,
+     "protestant": 0.2997
+    },
+    "30-44": {
+     "catholic": 0.1214,
+     "none": 0.3888,
+     "other-faith": 0.0999,
+     "protestant": 0.3899
+    },
+    "45-64": {
+     "catholic": 0.1453,
+     "none": 0.28,
+     "other-faith": 0.1135,
+     "protestant": 0.4612
+    },
+    "65-plus": {
+     "catholic": 0.1975,
+     "none": 0.2112,
+     "other-faith": 0.085,
+     "protestant": 0.5063
+    }
+   }
   },
   "KS": {
    "n": 464,
@@ -2057,7 +2823,55 @@
     }
    },
    "countySpread": 0.0613,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1769,
+     "no-college": 0.431,
+     "some-college": 0.3921
+    },
+    "30-44": {
+     "college": 0.4119,
+     "no-college": 0.3117,
+     "some-college": 0.2763
+    },
+    "45-64": {
+     "college": 0.3397,
+     "no-college": 0.3539,
+     "some-college": 0.3064
+    },
+    "65-plus": {
+     "college": 0.3267,
+     "no-college": 0.3467,
+     "some-college": 0.3266
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.055,
+     "none": 0.4986,
+     "other-faith": 0.1539,
+     "protestant": 0.2925
+    },
+    "30-44": {
+     "catholic": 0.1498,
+     "none": 0.3957,
+     "other-faith": 0.1598,
+     "protestant": 0.2946
+    },
+    "45-64": {
+     "catholic": 0.1334,
+     "none": 0.3841,
+     "other-faith": 0.1126,
+     "protestant": 0.3698
+    },
+    "65-plus": {
+     "catholic": 0.1518,
+     "none": 0.2217,
+     "other-faith": 0.04,
+     "protestant": 0.5866
+    }
+   }
   },
   "KY": {
    "n": 812,
@@ -2171,7 +2985,55 @@
     }
    },
    "countySpread": 0.0094,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1835,
+     "no-college": 0.4696,
+     "some-college": 0.3469
+    },
+    "30-44": {
+     "college": 0.3731,
+     "no-college": 0.3374,
+     "some-college": 0.2895
+    },
+    "45-64": {
+     "college": 0.279,
+     "no-college": 0.4195,
+     "some-college": 0.3015
+    },
+    "65-plus": {
+     "college": 0.2845,
+     "no-college": 0.4645,
+     "some-college": 0.251
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1495,
+     "none": 0.4768,
+     "other-faith": 0.0599,
+     "protestant": 0.3139
+    },
+    "30-44": {
+     "catholic": 0.1057,
+     "none": 0.4737,
+     "other-faith": 0.0933,
+     "protestant": 0.3273
+    },
+    "45-64": {
+     "catholic": 0.0985,
+     "none": 0.208,
+     "other-faith": 0.1159,
+     "protestant": 0.5777
+    },
+    "65-plus": {
+     "catholic": 0.0899,
+     "none": 0.1335,
+     "other-faith": 0.1301,
+     "protestant": 0.6465
+    }
+   }
   },
   "LA": {
    "n": 644,
@@ -2285,7 +3147,55 @@
     }
    },
    "countySpread": 0.3491,
-   "countiesChecked": 5
+   "countiesChecked": 5,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1129,
+     "no-college": 0.5259,
+     "some-college": 0.3613
+    },
+    "30-44": {
+     "college": 0.3055,
+     "no-college": 0.3685,
+     "some-college": 0.326
+    },
+    "45-64": {
+     "college": 0.2737,
+     "no-college": 0.4073,
+     "some-college": 0.319
+    },
+    "65-plus": {
+     "college": 0.2476,
+     "no-college": 0.5034,
+     "some-college": 0.2491
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1051,
+     "none": 0.518,
+     "other-faith": 0.1925,
+     "protestant": 0.1844
+    },
+    "30-44": {
+     "catholic": 0.1344,
+     "none": 0.3894,
+     "other-faith": 0.1202,
+     "protestant": 0.3559
+    },
+    "45-64": {
+     "catholic": 0.2487,
+     "none": 0.197,
+     "other-faith": 0.1595,
+     "protestant": 0.3949
+    },
+    "65-plus": {
+     "catholic": 0.2541,
+     "none": 0.1667,
+     "other-faith": 0.096,
+     "protestant": 0.4833
+    }
+   }
   },
   "MA": {
    "n": 1060,
@@ -2399,7 +3309,55 @@
     }
    },
    "countySpread": 0.2925,
-   "countiesChecked": 10
+   "countiesChecked": 10,
+   "educationShares": {
+    "18-29": {
+     "college": 0.4089,
+     "no-college": 0.2464,
+     "some-college": 0.3447
+    },
+    "30-44": {
+     "college": 0.4826,
+     "no-college": 0.3058,
+     "some-college": 0.2115
+    },
+    "45-64": {
+     "college": 0.4661,
+     "no-college": 0.287,
+     "some-college": 0.2469
+    },
+    "65-plus": {
+     "college": 0.4365,
+     "no-college": 0.2797,
+     "some-college": 0.2838
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2818,
+     "none": 0.4506,
+     "other-faith": 0.1702,
+     "protestant": 0.0974
+    },
+    "30-44": {
+     "catholic": 0.2429,
+     "none": 0.4416,
+     "other-faith": 0.1629,
+     "protestant": 0.1526
+    },
+    "45-64": {
+     "catholic": 0.3233,
+     "none": 0.409,
+     "other-faith": 0.1577,
+     "protestant": 0.11
+    },
+    "65-plus": {
+     "catholic": 0.3324,
+     "none": 0.2921,
+     "other-faith": 0.1667,
+     "protestant": 0.2088
+    }
+   }
   },
   "MD": {
    "n": 1022,
@@ -2513,7 +3471,55 @@
     }
    },
    "countySpread": 0.2385,
-   "countiesChecked": 9
+   "countiesChecked": 9,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2659,
+     "no-college": 0.41,
+     "some-college": 0.324
+    },
+    "30-44": {
+     "college": 0.5334,
+     "no-college": 0.2607,
+     "some-college": 0.2059
+    },
+    "45-64": {
+     "college": 0.4838,
+     "no-college": 0.2845,
+     "some-college": 0.2317
+    },
+    "65-plus": {
+     "college": 0.4416,
+     "no-college": 0.3232,
+     "some-college": 0.2352
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.059,
+     "none": 0.5187,
+     "other-faith": 0.1766,
+     "protestant": 0.2457
+    },
+    "30-44": {
+     "catholic": 0.1383,
+     "none": 0.4625,
+     "other-faith": 0.1547,
+     "protestant": 0.2445
+    },
+    "45-64": {
+     "catholic": 0.2064,
+     "none": 0.2964,
+     "other-faith": 0.1538,
+     "protestant": 0.3435
+    },
+    "65-plus": {
+     "catholic": 0.2181,
+     "none": 0.2225,
+     "other-faith": 0.1362,
+     "protestant": 0.4232
+    }
+   }
   },
   "ME": {
    "n": 266,
@@ -2627,7 +3633,55 @@
     }
    },
    "countySpread": 0.318,
-   "countiesChecked": 2
+   "countiesChecked": 2,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1861,
+     "no-college": 0.5475,
+     "some-college": 0.2664
+    },
+    "30-44": {
+     "college": 0.4282,
+     "no-college": 0.2576,
+     "some-college": 0.3142
+    },
+    "45-64": {
+     "college": 0.3526,
+     "no-college": 0.4127,
+     "some-college": 0.2347
+    },
+    "65-plus": {
+     "college": 0.3313,
+     "no-college": 0.4075,
+     "some-college": 0.2612
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0208,
+     "none": 0.5761,
+     "other-faith": 0.1259,
+     "protestant": 0.2771
+    },
+    "30-44": {
+     "catholic": 0.1438,
+     "none": 0.5291,
+     "other-faith": 0.1598,
+     "protestant": 0.1673
+    },
+    "45-64": {
+     "catholic": 0.1589,
+     "none": 0.4347,
+     "other-faith": 0.0594,
+     "protestant": 0.347
+    },
+    "65-plus": {
+     "catholic": 0.1373,
+     "none": 0.3959,
+     "other-faith": 0.1422,
+     "protestant": 0.3246
+    }
+   }
   },
   "MI": {
    "n": 1844,
@@ -2741,7 +3795,55 @@
     }
    },
    "countySpread": 0.2726,
-   "countiesChecked": 13
+   "countiesChecked": 13,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2258,
+     "no-college": 0.3683,
+     "some-college": 0.4059
+    },
+    "30-44": {
+     "college": 0.3785,
+     "no-college": 0.2933,
+     "some-college": 0.3282
+    },
+    "45-64": {
+     "college": 0.3063,
+     "no-college": 0.3659,
+     "some-college": 0.3279
+    },
+    "65-plus": {
+     "college": 0.2811,
+     "no-college": 0.4354,
+     "some-college": 0.2835
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1629,
+     "none": 0.4703,
+     "other-faith": 0.1477,
+     "protestant": 0.2191
+    },
+    "30-44": {
+     "catholic": 0.1101,
+     "none": 0.5196,
+     "other-faith": 0.0811,
+     "protestant": 0.2893
+    },
+    "45-64": {
+     "catholic": 0.1641,
+     "none": 0.2729,
+     "other-faith": 0.2091,
+     "protestant": 0.354
+    },
+    "65-plus": {
+     "catholic": 0.236,
+     "none": 0.2243,
+     "other-faith": 0.0823,
+     "protestant": 0.4574
+    }
+   }
   },
   "MN": {
    "n": 968,
@@ -2855,7 +3957,55 @@
     }
    },
    "countySpread": 0.2344,
-   "countiesChecked": 6
+   "countiesChecked": 6,
+   "educationShares": {
+    "18-29": {
+     "college": 0.266,
+     "no-college": 0.3352,
+     "some-college": 0.3987
+    },
+    "30-44": {
+     "college": 0.4486,
+     "no-college": 0.2152,
+     "some-college": 0.3362
+    },
+    "45-64": {
+     "college": 0.3817,
+     "no-college": 0.2715,
+     "some-college": 0.3468
+    },
+    "65-plus": {
+     "college": 0.3175,
+     "no-college": 0.3913,
+     "some-college": 0.2911
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0762,
+     "none": 0.5535,
+     "other-faith": 0.1757,
+     "protestant": 0.1947
+    },
+    "30-44": {
+     "catholic": 0.0986,
+     "none": 0.4062,
+     "other-faith": 0.2113,
+     "protestant": 0.2839
+    },
+    "45-64": {
+     "catholic": 0.1738,
+     "none": 0.3272,
+     "other-faith": 0.1632,
+     "protestant": 0.3359
+    },
+    "65-plus": {
+     "catholic": 0.1609,
+     "none": 0.2263,
+     "other-faith": 0.1341,
+     "protestant": 0.4786
+    }
+   }
   },
   "MO": {
    "n": 1254,
@@ -2969,7 +4119,55 @@
     }
    },
    "countySpread": 0.3444,
-   "countiesChecked": 8
+   "countiesChecked": 8,
+   "educationShares": {
+    "18-29": {
+     "college": 0.29,
+     "no-college": 0.3573,
+     "some-college": 0.3527
+    },
+    "30-44": {
+     "college": 0.3392,
+     "no-college": 0.3923,
+     "some-college": 0.2685
+    },
+    "45-64": {
+     "college": 0.3288,
+     "no-college": 0.37,
+     "some-college": 0.3013
+    },
+    "65-plus": {
+     "college": 0.2757,
+     "no-college": 0.4286,
+     "some-college": 0.2957
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.055,
+     "none": 0.4714,
+     "other-faith": 0.1267,
+     "protestant": 0.3469
+    },
+    "30-44": {
+     "catholic": 0.1153,
+     "none": 0.4312,
+     "other-faith": 0.1665,
+     "protestant": 0.287
+    },
+    "45-64": {
+     "catholic": 0.1016,
+     "none": 0.2572,
+     "other-faith": 0.1622,
+     "protestant": 0.479
+    },
+    "65-plus": {
+     "catholic": 0.1205,
+     "none": 0.1941,
+     "other-faith": 0.1233,
+     "protestant": 0.5622
+    }
+   }
   },
   "MS": {
    "n": 459,
@@ -3083,7 +4281,55 @@
     }
    },
    "countySpread": 0.2697,
-   "countiesChecked": 2
+   "countiesChecked": 2,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1957,
+     "no-college": 0.4801,
+     "some-college": 0.3243
+    },
+    "30-44": {
+     "college": 0.2697,
+     "no-college": 0.3766,
+     "some-college": 0.3537
+    },
+    "45-64": {
+     "college": 0.256,
+     "no-college": 0.4186,
+     "some-college": 0.3255
+    },
+    "65-plus": {
+     "college": 0.2112,
+     "no-college": 0.4937,
+     "some-college": 0.2951
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.081,
+     "none": 0.3435,
+     "other-faith": 0.1006,
+     "protestant": 0.4749
+    },
+    "30-44": {
+     "catholic": 0.0948,
+     "none": 0.3428,
+     "other-faith": 0.1181,
+     "protestant": 0.4442
+    },
+    "45-64": {
+     "catholic": 0.0503,
+     "none": 0.1566,
+     "other-faith": 0.1971,
+     "protestant": 0.596
+    },
+    "65-plus": {
+     "catholic": 0.0978,
+     "none": 0.1024,
+     "other-faith": 0.1267,
+     "protestant": 0.6731
+    }
+   }
   },
   "MT": {
    "n": 217,
@@ -3194,6 +4440,54 @@
      "mean": 0.5464,
      "sd": 1.1814,
      "engagement": 0.828
+    }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.2293,
+     "no-college": 0.596,
+     "some-college": 0.1748
+    },
+    "30-44": {
+     "college": 0.5235,
+     "no-college": 0.2264,
+     "some-college": 0.2501
+    },
+    "45-64": {
+     "college": 0.3161,
+     "no-college": 0.2923,
+     "some-college": 0.3915
+    },
+    "65-plus": {
+     "college": 0.2782,
+     "no-college": 0.3998,
+     "some-college": 0.322
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0796,
+     "none": 0.495,
+     "other-faith": 0.1845,
+     "protestant": 0.2409
+    },
+    "30-44": {
+     "catholic": 0.1922,
+     "none": 0.3981,
+     "other-faith": 0.1436,
+     "protestant": 0.2661
+    },
+    "45-64": {
+     "catholic": 0.142,
+     "none": 0.3465,
+     "other-faith": 0.1506,
+     "protestant": 0.3609
+    },
+    "65-plus": {
+     "catholic": 0.1426,
+     "none": 0.3519,
+     "other-faith": 0.1453,
+     "protestant": 0.3602
     }
    }
   },
@@ -3309,7 +4603,55 @@
     }
    },
    "countySpread": 0.4644,
-   "countiesChecked": 16
+   "countiesChecked": 16,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3101,
+     "no-college": 0.4079,
+     "some-college": 0.282
+    },
+    "30-44": {
+     "college": 0.3996,
+     "no-college": 0.3118,
+     "some-college": 0.2886
+    },
+    "45-64": {
+     "college": 0.4244,
+     "no-college": 0.3401,
+     "some-college": 0.2354
+    },
+    "65-plus": {
+     "college": 0.3119,
+     "no-college": 0.4131,
+     "some-college": 0.275
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0669,
+     "none": 0.3807,
+     "other-faith": 0.1664,
+     "protestant": 0.3861
+    },
+    "30-44": {
+     "catholic": 0.0804,
+     "none": 0.3912,
+     "other-faith": 0.1594,
+     "protestant": 0.369
+    },
+    "45-64": {
+     "catholic": 0.0619,
+     "none": 0.237,
+     "other-faith": 0.1258,
+     "protestant": 0.5753
+    },
+    "65-plus": {
+     "catholic": 0.1283,
+     "none": 0.1868,
+     "other-faith": 0.1055,
+     "protestant": 0.5794
+    }
+   }
   },
   "ND": {
    "n": 106,
@@ -3420,6 +4762,54 @@
      "mean": 0.5587,
      "sd": 0.8755,
      "engagement": 0.7251
+    }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.286,
+     "no-college": 0.5663,
+     "some-college": 0.1477
+    },
+    "30-44": {
+     "college": 0.4693,
+     "no-college": 0.223,
+     "some-college": 0.3077
+    },
+    "45-64": {
+     "college": 0.3976,
+     "no-college": 0.1278,
+     "some-college": 0.4745
+    },
+    "65-plus": {
+     "college": 0.2396,
+     "no-college": 0.4633,
+     "some-college": 0.2971
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.3596,
+     "none": 0.4075,
+     "other-faith": 0.0417,
+     "protestant": 0.1912
+    },
+    "30-44": {
+     "catholic": 0.1311,
+     "none": 0.4101,
+     "other-faith": 0.2025,
+     "protestant": 0.2563
+    },
+    "45-64": {
+     "catholic": 0.1384,
+     "none": 0.2132,
+     "other-faith": 0.1591,
+     "protestant": 0.4892
+    },
+    "65-plus": {
+     "catholic": 0.1513,
+     "none": 0.1604,
+     "other-faith": 0.1247,
+     "protestant": 0.5636
     }
    }
   },
@@ -3535,7 +4925,55 @@
     }
    },
    "countySpread": 0.3073,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2717,
+     "no-college": 0.2214,
+     "some-college": 0.5069
+    },
+    "30-44": {
+     "college": 0.4176,
+     "no-college": 0.3038,
+     "some-college": 0.2787
+    },
+    "45-64": {
+     "college": 0.3258,
+     "no-college": 0.2972,
+     "some-college": 0.377
+    },
+    "65-plus": {
+     "college": 0.2899,
+     "no-college": 0.4119,
+     "some-college": 0.2982
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1814,
+     "none": 0.4473,
+     "other-faith": 0.1601,
+     "protestant": 0.2112
+    },
+    "30-44": {
+     "catholic": 0.1915,
+     "none": 0.4277,
+     "other-faith": 0.1198,
+     "protestant": 0.261
+    },
+    "45-64": {
+     "catholic": 0.1458,
+     "none": 0.283,
+     "other-faith": 0.1033,
+     "protestant": 0.4679
+    },
+    "65-plus": {
+     "catholic": 0.2082,
+     "none": 0.1178,
+     "other-faith": 0.2162,
+     "protestant": 0.4578
+    }
+   }
   },
   "NH": {
    "n": 283,
@@ -3649,7 +5087,55 @@
     }
    },
    "countySpread": 0.2515,
-   "countiesChecked": 4
+   "countiesChecked": 4,
+   "educationShares": {
+    "18-29": {
+     "college": 0.4388,
+     "no-college": 0.2595,
+     "some-college": 0.3017
+    },
+    "30-44": {
+     "college": 0.3978,
+     "no-college": 0.2126,
+     "some-college": 0.3896
+    },
+    "45-64": {
+     "college": 0.3742,
+     "no-college": 0.4004,
+     "some-college": 0.2254
+    },
+    "65-plus": {
+     "college": 0.4066,
+     "no-college": 0.3738,
+     "some-college": 0.2196
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1243,
+     "none": 0.4277,
+     "other-faith": 0.3146,
+     "protestant": 0.1334
+    },
+    "30-44": {
+     "catholic": 0.0756,
+     "none": 0.6694,
+     "other-faith": 0.0934,
+     "protestant": 0.1615
+    },
+    "45-64": {
+     "catholic": 0.2945,
+     "none": 0.514,
+     "other-faith": 0.07,
+     "protestant": 0.1215
+    },
+    "65-plus": {
+     "catholic": 0.2867,
+     "none": 0.3131,
+     "other-faith": 0.1342,
+     "protestant": 0.266
+    }
+   }
   },
   "NJ": {
    "n": 1522,
@@ -3763,7 +5249,55 @@
     }
    },
    "countySpread": 0.2718,
-   "countiesChecked": 16
+   "countiesChecked": 16,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3446,
+     "no-college": 0.3836,
+     "some-college": 0.2719
+    },
+    "30-44": {
+     "college": 0.5138,
+     "no-college": 0.287,
+     "some-college": 0.1992
+    },
+    "45-64": {
+     "college": 0.4556,
+     "no-college": 0.3181,
+     "some-college": 0.2262
+    },
+    "65-plus": {
+     "college": 0.3766,
+     "no-college": 0.4145,
+     "some-college": 0.2088
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2828,
+     "none": 0.3553,
+     "other-faith": 0.2262,
+     "protestant": 0.1358
+    },
+    "30-44": {
+     "catholic": 0.2313,
+     "none": 0.3334,
+     "other-faith": 0.2504,
+     "protestant": 0.1848
+    },
+    "45-64": {
+     "catholic": 0.3266,
+     "none": 0.2887,
+     "other-faith": 0.1484,
+     "protestant": 0.2363
+    },
+    "65-plus": {
+     "catholic": 0.3442,
+     "none": 0.2083,
+     "other-faith": 0.1615,
+     "protestant": 0.2861
+    }
+   }
   },
   "NM": {
    "n": 390,
@@ -3877,7 +5411,55 @@
     }
    },
    "countySpread": 0.1811,
-   "countiesChecked": 3
+   "countiesChecked": 3,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1135,
+     "no-college": 0.7585,
+     "some-college": 0.128
+    },
+    "30-44": {
+     "college": 0.2316,
+     "no-college": 0.3159,
+     "some-college": 0.4525
+    },
+    "45-64": {
+     "college": 0.3139,
+     "no-college": 0.3848,
+     "some-college": 0.3013
+    },
+    "65-plus": {
+     "college": 0.3636,
+     "no-college": 0.2785,
+     "some-college": 0.3579
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1363,
+     "none": 0.4902,
+     "other-faith": 0.1205,
+     "protestant": 0.253
+    },
+    "30-44": {
+     "catholic": 0.2289,
+     "none": 0.4487,
+     "other-faith": 0.192,
+     "protestant": 0.1303
+    },
+    "45-64": {
+     "catholic": 0.1866,
+     "none": 0.3543,
+     "other-faith": 0.1703,
+     "protestant": 0.2889
+    },
+    "65-plus": {
+     "catholic": 0.2556,
+     "none": 0.3573,
+     "other-faith": 0.1497,
+     "protestant": 0.2373
+    }
+   }
   },
   "NV": {
    "n": 688,
@@ -3991,7 +5573,55 @@
     }
    },
    "countySpread": 0.1076,
-   "countiesChecked": 2
+   "countiesChecked": 2,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1827,
+     "no-college": 0.5845,
+     "some-college": 0.2328
+    },
+    "30-44": {
+     "college": 0.3124,
+     "no-college": 0.3496,
+     "some-college": 0.338
+    },
+    "45-64": {
+     "college": 0.2804,
+     "no-college": 0.2936,
+     "some-college": 0.426
+    },
+    "65-plus": {
+     "college": 0.2758,
+     "no-college": 0.3217,
+     "some-college": 0.4025
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.3675,
+     "none": 0.2705,
+     "other-faith": 0.1855,
+     "protestant": 0.1765
+    },
+    "30-44": {
+     "catholic": 0.2087,
+     "none": 0.5404,
+     "other-faith": 0.203,
+     "protestant": 0.0479
+    },
+    "45-64": {
+     "catholic": 0.1763,
+     "none": 0.4135,
+     "other-faith": 0.163,
+     "protestant": 0.2472
+    },
+    "65-plus": {
+     "catholic": 0.3068,
+     "none": 0.2591,
+     "other-faith": 0.1828,
+     "protestant": 0.2513
+    }
+   }
   },
   "NY": {
    "n": 3226,
@@ -4105,7 +5735,55 @@
     }
    },
    "countySpread": 0.3216,
-   "countiesChecked": 22
+   "countiesChecked": 22,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3357,
+     "no-college": 0.3576,
+     "some-college": 0.3067
+    },
+    "30-44": {
+     "college": 0.4958,
+     "no-college": 0.221,
+     "some-college": 0.2831
+    },
+    "45-64": {
+     "college": 0.3958,
+     "no-college": 0.3249,
+     "some-college": 0.2793
+    },
+    "65-plus": {
+     "college": 0.3387,
+     "no-college": 0.4382,
+     "some-college": 0.2231
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2211,
+     "none": 0.3683,
+     "other-faith": 0.2592,
+     "protestant": 0.1515
+    },
+    "30-44": {
+     "catholic": 0.3237,
+     "none": 0.3971,
+     "other-faith": 0.1257,
+     "protestant": 0.1535
+    },
+    "45-64": {
+     "catholic": 0.3405,
+     "none": 0.3134,
+     "other-faith": 0.1262,
+     "protestant": 0.22
+    },
+    "65-plus": {
+     "catholic": 0.3311,
+     "none": 0.2408,
+     "other-faith": 0.1839,
+     "protestant": 0.2442
+    }
+   }
   },
   "OH": {
    "n": 2398,
@@ -4219,7 +5897,55 @@
     }
    },
    "countySpread": 0.2482,
-   "countiesChecked": 19
+   "countiesChecked": 19,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2351,
+     "no-college": 0.4176,
+     "some-college": 0.3473
+    },
+    "30-44": {
+     "college": 0.4278,
+     "no-college": 0.306,
+     "some-college": 0.2662
+    },
+    "45-64": {
+     "college": 0.3578,
+     "no-college": 0.3526,
+     "some-college": 0.2896
+    },
+    "65-plus": {
+     "college": 0.2734,
+     "no-college": 0.4697,
+     "some-college": 0.2569
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1754,
+     "none": 0.5046,
+     "other-faith": 0.1311,
+     "protestant": 0.1889
+    },
+    "30-44": {
+     "catholic": 0.1083,
+     "none": 0.4745,
+     "other-faith": 0.1038,
+     "protestant": 0.3134
+    },
+    "45-64": {
+     "catholic": 0.145,
+     "none": 0.3679,
+     "other-faith": 0.1137,
+     "protestant": 0.3733
+    },
+    "65-plus": {
+     "catholic": 0.2116,
+     "none": 0.229,
+     "other-faith": 0.0707,
+     "protestant": 0.4886
+    }
+   }
   },
   "OK": {
    "n": 627,
@@ -4333,7 +6059,55 @@
     }
    },
    "countySpread": 0.1958,
-   "countiesChecked": 4
+   "countiesChecked": 4,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1317,
+     "no-college": 0.6376,
+     "some-college": 0.2307
+    },
+    "30-44": {
+     "college": 0.2811,
+     "no-college": 0.3892,
+     "some-college": 0.3297
+    },
+    "45-64": {
+     "college": 0.2908,
+     "no-college": 0.4032,
+     "some-college": 0.306
+    },
+    "65-plus": {
+     "college": 0.2826,
+     "no-college": 0.3798,
+     "some-college": 0.3376
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1913,
+     "none": 0.3866,
+     "other-faith": 0.0273,
+     "protestant": 0.3948
+    },
+    "30-44": {
+     "catholic": 0.0856,
+     "none": 0.4788,
+     "other-faith": 0.101,
+     "protestant": 0.3347
+    },
+    "45-64": {
+     "catholic": 0.0259,
+     "none": 0.1765,
+     "other-faith": 0.209,
+     "protestant": 0.5886
+    },
+    "65-plus": {
+     "catholic": 0.0703,
+     "none": 0.1701,
+     "other-faith": 0.1084,
+     "protestant": 0.6512
+    }
+   }
   },
   "OR": {
    "n": 952,
@@ -4447,7 +6221,55 @@
     }
    },
    "countySpread": 0.3493,
-   "countiesChecked": 8
+   "countiesChecked": 8,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2141,
+     "no-college": 0.4413,
+     "some-college": 0.3446
+    },
+    "30-44": {
+     "college": 0.4198,
+     "no-college": 0.2581,
+     "some-college": 0.3221
+    },
+    "45-64": {
+     "college": 0.3727,
+     "no-college": 0.2809,
+     "some-college": 0.3463
+    },
+    "65-plus": {
+     "college": 0.3731,
+     "no-college": 0.288,
+     "some-college": 0.3389
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1753,
+     "none": 0.5438,
+     "other-faith": 0.0938,
+     "protestant": 0.1871
+    },
+    "30-44": {
+     "catholic": 0.0873,
+     "none": 0.6001,
+     "other-faith": 0.0922,
+     "protestant": 0.2204
+    },
+    "45-64": {
+     "catholic": 0.0927,
+     "none": 0.445,
+     "other-faith": 0.1705,
+     "protestant": 0.2918
+    },
+    "65-plus": {
+     "catholic": 0.0909,
+     "none": 0.3698,
+     "other-faith": 0.1382,
+     "protestant": 0.401
+    }
+   }
   },
   "PA": {
    "n": 2887,
@@ -4561,7 +6383,55 @@
     }
    },
    "countySpread": 0.2916,
-   "countiesChecked": 27
+   "countiesChecked": 27,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2422,
+     "no-college": 0.3858,
+     "some-college": 0.372
+    },
+    "30-44": {
+     "college": 0.4557,
+     "no-college": 0.2996,
+     "some-college": 0.2447
+    },
+    "45-64": {
+     "college": 0.3621,
+     "no-college": 0.3497,
+     "some-college": 0.2881
+    },
+    "65-plus": {
+     "college": 0.2717,
+     "no-college": 0.5125,
+     "some-college": 0.2158
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1864,
+     "none": 0.4791,
+     "other-faith": 0.1769,
+     "protestant": 0.1576
+    },
+    "30-44": {
+     "catholic": 0.1429,
+     "none": 0.475,
+     "other-faith": 0.1104,
+     "protestant": 0.2718
+    },
+    "45-64": {
+     "catholic": 0.2271,
+     "none": 0.2332,
+     "other-faith": 0.1429,
+     "protestant": 0.3969
+    },
+    "65-plus": {
+     "catholic": 0.2872,
+     "none": 0.1955,
+     "other-faith": 0.1006,
+     "protestant": 0.4167
+    }
+   }
   },
   "RI": {
    "n": 196,
@@ -4675,7 +6545,55 @@
     }
    },
    "countySpread": 0.0264,
-   "countiesChecked": 2
+   "countiesChecked": 2,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3739,
+     "no-college": 0.2123,
+     "some-college": 0.4138
+    },
+    "30-44": {
+     "college": 0.4059,
+     "no-college": 0.2353,
+     "some-college": 0.3587
+    },
+    "45-64": {
+     "college": 0.2794,
+     "no-college": 0.3881,
+     "some-college": 0.3325
+    },
+    "65-plus": {
+     "college": 0.4415,
+     "no-college": 0.3126,
+     "some-college": 0.246
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2013,
+     "none": 0.4727,
+     "other-faith": 0.1186,
+     "protestant": 0.2073
+    },
+    "30-44": {
+     "catholic": 0.3265,
+     "none": 0.4594,
+     "other-faith": 0.1395,
+     "protestant": 0.0746
+    },
+    "45-64": {
+     "catholic": 0.2684,
+     "none": 0.4746,
+     "other-faith": 0.1111,
+     "protestant": 0.1459
+    },
+    "65-plus": {
+     "catholic": 0.3889,
+     "none": 0.272,
+     "other-faith": 0.1629,
+     "protestant": 0.1762
+    }
+   }
   },
   "SC": {
    "n": 927,
@@ -4789,7 +6707,55 @@
     }
    },
    "countySpread": 0.2812,
-   "countiesChecked": 10
+   "countiesChecked": 10,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2005,
+     "no-college": 0.3517,
+     "some-college": 0.4479
+    },
+    "30-44": {
+     "college": 0.3839,
+     "no-college": 0.2876,
+     "some-college": 0.3285
+    },
+    "45-64": {
+     "college": 0.3471,
+     "no-college": 0.3406,
+     "some-college": 0.3123
+    },
+    "65-plus": {
+     "college": 0.3198,
+     "no-college": 0.3687,
+     "some-college": 0.3114
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2006,
+     "none": 0.4657,
+     "other-faith": 0.1275,
+     "protestant": 0.2061
+    },
+    "30-44": {
+     "catholic": 0.0582,
+     "none": 0.3658,
+     "other-faith": 0.1506,
+     "protestant": 0.4254
+    },
+    "45-64": {
+     "catholic": 0.102,
+     "none": 0.3281,
+     "other-faith": 0.0805,
+     "protestant": 0.4894
+    },
+    "65-plus": {
+     "catholic": 0.1346,
+     "none": 0.1275,
+     "other-faith": 0.0981,
+     "protestant": 0.6398
+    }
+   }
   },
   "SD": {
    "n": 162,
@@ -4900,6 +6866,54 @@
      "mean": 0.284,
      "sd": 1.3435,
      "engagement": 0.7302
+    }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.2116,
+     "no-college": 0.6216,
+     "some-college": 0.1667
+    },
+    "30-44": {
+     "college": 0.3885,
+     "no-college": 0.3475,
+     "some-college": 0.2641
+    },
+    "45-64": {
+     "college": 0.2725,
+     "no-college": 0.2296,
+     "some-college": 0.498
+    },
+    "65-plus": {
+     "college": 0.3118,
+     "no-college": 0.3123,
+     "some-college": 0.3758
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0856,
+     "none": 0.4901,
+     "other-faith": 0.0739,
+     "protestant": 0.3504
+    },
+    "30-44": {
+     "catholic": 0.0925,
+     "none": 0.3006,
+     "other-faith": 0.145,
+     "protestant": 0.4619
+    },
+    "45-64": {
+     "catholic": 0.1038,
+     "none": 0.3851,
+     "other-faith": 0.1376,
+     "protestant": 0.3736
+    },
+    "65-plus": {
+     "catholic": 0.1776,
+     "none": 0.178,
+     "other-faith": 0.1141,
+     "protestant": 0.5303
     }
    }
   },
@@ -5015,7 +7029,55 @@
     }
    },
    "countySpread": 0.2744,
-   "countiesChecked": 11
+   "countiesChecked": 11,
+   "educationShares": {
+    "18-29": {
+     "college": 0.3412,
+     "no-college": 0.3464,
+     "some-college": 0.3123
+    },
+    "30-44": {
+     "college": 0.368,
+     "no-college": 0.3697,
+     "some-college": 0.2623
+    },
+    "45-64": {
+     "college": 0.2922,
+     "no-college": 0.4275,
+     "some-college": 0.2802
+    },
+    "65-plus": {
+     "college": 0.2326,
+     "no-college": 0.5251,
+     "some-college": 0.2424
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0894,
+     "none": 0.4111,
+     "other-faith": 0.1583,
+     "protestant": 0.3412
+    },
+    "30-44": {
+     "catholic": 0.0655,
+     "none": 0.354,
+     "other-faith": 0.1466,
+     "protestant": 0.4339
+    },
+    "45-64": {
+     "catholic": 0.0913,
+     "none": 0.2059,
+     "other-faith": 0.083,
+     "protestant": 0.6198
+    },
+    "65-plus": {
+     "catholic": 0.0589,
+     "none": 0.1068,
+     "other-faith": 0.0769,
+     "protestant": 0.7574
+    }
+   }
   },
   "TX": {
    "n": 4512,
@@ -5129,7 +7191,55 @@
     }
    },
    "countySpread": 0.2133,
-   "countiesChecked": 26
+   "countiesChecked": 26,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2278,
+     "no-college": 0.3724,
+     "some-college": 0.3998
+    },
+    "30-44": {
+     "college": 0.407,
+     "no-college": 0.2893,
+     "some-college": 0.3038
+    },
+    "45-64": {
+     "college": 0.3544,
+     "no-college": 0.353,
+     "some-college": 0.2927
+    },
+    "65-plus": {
+     "college": 0.2924,
+     "no-college": 0.4497,
+     "some-college": 0.258
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.2002,
+     "none": 0.3629,
+     "other-faith": 0.1736,
+     "protestant": 0.2633
+    },
+    "30-44": {
+     "catholic": 0.1873,
+     "none": 0.3429,
+     "other-faith": 0.1332,
+     "protestant": 0.3367
+    },
+    "45-64": {
+     "catholic": 0.1804,
+     "none": 0.2716,
+     "other-faith": 0.1322,
+     "protestant": 0.4157
+    },
+    "65-plus": {
+     "catholic": 0.2157,
+     "none": 0.1691,
+     "other-faith": 0.0985,
+     "protestant": 0.5167
+    }
+   }
   },
   "UT": {
    "n": 474,
@@ -5243,7 +7353,55 @@
     }
    },
    "countySpread": 0.1282,
-   "countiesChecked": 4
+   "countiesChecked": 4,
+   "educationShares": {
+    "18-29": {
+     "college": 0.1761,
+     "no-college": 0.3752,
+     "some-college": 0.4488
+    },
+    "30-44": {
+     "college": 0.399,
+     "no-college": 0.3032,
+     "some-college": 0.2978
+    },
+    "45-64": {
+     "college": 0.3988,
+     "no-college": 0.2691,
+     "some-college": 0.3321
+    },
+    "65-plus": {
+     "college": 0.3867,
+     "no-college": 0.2197,
+     "some-college": 0.3936
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0665,
+     "none": 0.3466,
+     "other-faith": 0.5693,
+     "protestant": 0.0176
+    },
+    "30-44": {
+     "catholic": 0.0052,
+     "none": 0.3573,
+     "other-faith": 0.5514,
+     "protestant": 0.086
+    },
+    "45-64": {
+     "catholic": 0.0876,
+     "none": 0.2991,
+     "other-faith": 0.5596,
+     "protestant": 0.0537
+    },
+    "65-plus": {
+     "catholic": 0.0985,
+     "none": 0.2029,
+     "other-faith": 0.4924,
+     "protestant": 0.2062
+    }
+   }
   },
   "VA": {
    "n": 1542,
@@ -5357,7 +7515,55 @@
     }
    },
    "countySpread": 0.2475,
-   "countiesChecked": 13
+   "countiesChecked": 13,
+   "educationShares": {
+    "18-29": {
+     "college": 0.317,
+     "no-college": 0.2815,
+     "some-college": 0.4015
+    },
+    "30-44": {
+     "college": 0.4873,
+     "no-college": 0.2737,
+     "some-college": 0.2391
+    },
+    "45-64": {
+     "college": 0.4451,
+     "no-college": 0.2486,
+     "some-college": 0.3063
+    },
+    "65-plus": {
+     "college": 0.3913,
+     "no-college": 0.3573,
+     "some-college": 0.2513
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.156,
+     "none": 0.4047,
+     "other-faith": 0.1762,
+     "protestant": 0.263
+    },
+    "30-44": {
+     "catholic": 0.1525,
+     "none": 0.4153,
+     "other-faith": 0.0799,
+     "protestant": 0.3523
+    },
+    "45-64": {
+     "catholic": 0.1013,
+     "none": 0.24,
+     "other-faith": 0.1522,
+     "protestant": 0.5066
+    },
+    "65-plus": {
+     "catholic": 0.1347,
+     "none": 0.1883,
+     "other-faith": 0.1657,
+     "protestant": 0.5113
+    }
+   }
   },
   "VT": {
    "n": 116,
@@ -5468,6 +7674,54 @@
      "mean": -0.231,
      "sd": 1.147,
      "engagement": 0.6358
+    }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.076,
+     "no-college": 0.5564,
+     "some-college": 0.3676
+    },
+    "30-44": {
+     "college": 0.5505,
+     "no-college": 0.0462,
+     "some-college": 0.4033
+    },
+    "45-64": {
+     "college": 0.509,
+     "no-college": 0.3401,
+     "some-college": 0.1509
+    },
+    "65-plus": {
+     "college": 0.3671,
+     "no-college": 0.4844,
+     "some-college": 0.1485
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.3509,
+     "none": 0.3399,
+     "other-faith": 0.0525,
+     "protestant": 0.2567
+    },
+    "30-44": {
+     "catholic": 0.2943,
+     "none": 0.6078,
+     "other-faith": 0.0435,
+     "protestant": 0.0545
+    },
+    "45-64": {
+     "catholic": 0.1955,
+     "none": 0.5281,
+     "other-faith": 0.1567,
+     "protestant": 0.1198
+    },
+    "65-plus": {
+     "catholic": 0.3749,
+     "none": 0.3394,
+     "other-faith": 0.0797,
+     "protestant": 0.2061
     }
    }
   },
@@ -5583,7 +7837,55 @@
     }
    },
    "countySpread": 0.3151,
-   "countiesChecked": 11
+   "countiesChecked": 11,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2789,
+     "no-college": 0.3457,
+     "some-college": 0.3754
+    },
+    "30-44": {
+     "college": 0.4303,
+     "no-college": 0.2528,
+     "some-college": 0.3169
+    },
+    "45-64": {
+     "college": 0.44,
+     "no-college": 0.2301,
+     "some-college": 0.3298
+    },
+    "65-plus": {
+     "college": 0.4087,
+     "no-college": 0.2419,
+     "some-college": 0.3494
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0939,
+     "none": 0.5021,
+     "other-faith": 0.3236,
+     "protestant": 0.0803
+    },
+    "30-44": {
+     "catholic": 0.0954,
+     "none": 0.4707,
+     "other-faith": 0.1788,
+     "protestant": 0.2551
+    },
+    "45-64": {
+     "catholic": 0.1361,
+     "none": 0.3855,
+     "other-faith": 0.1372,
+     "protestant": 0.3412
+    },
+    "65-plus": {
+     "catholic": 0.1257,
+     "none": 0.3406,
+     "other-faith": 0.1262,
+     "protestant": 0.4075
+    }
+   }
   },
   "WI": {
    "n": 1252,
@@ -5697,7 +7999,55 @@
     }
    },
    "countySpread": 0.2922,
-   "countiesChecked": 12
+   "countiesChecked": 12,
+   "educationShares": {
+    "18-29": {
+     "college": 0.2463,
+     "no-college": 0.3256,
+     "some-college": 0.4281
+    },
+    "30-44": {
+     "college": 0.3632,
+     "no-college": 0.3307,
+     "some-college": 0.3061
+    },
+    "45-64": {
+     "college": 0.3009,
+     "no-college": 0.3502,
+     "some-college": 0.3489
+    },
+    "65-plus": {
+     "college": 0.274,
+     "no-college": 0.4491,
+     "some-college": 0.277
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.221,
+     "none": 0.4551,
+     "other-faith": 0.032,
+     "protestant": 0.2919
+    },
+    "30-44": {
+     "catholic": 0.1223,
+     "none": 0.4262,
+     "other-faith": 0.1522,
+     "protestant": 0.2992
+    },
+    "45-64": {
+     "catholic": 0.224,
+     "none": 0.3057,
+     "other-faith": 0.1151,
+     "protestant": 0.3553
+    },
+    "65-plus": {
+     "catholic": 0.3078,
+     "none": 0.2397,
+     "other-faith": 0.0889,
+     "protestant": 0.3636
+    }
+   }
   },
   "WV": {
    "n": 397,
@@ -5811,7 +8161,55 @@
     }
    },
    "countySpread": 0.1888,
-   "countiesChecked": 2
+   "countiesChecked": 2,
+   "educationShares": {
+    "18-29": {
+     "college": 0.0907,
+     "no-college": 0.586,
+     "some-college": 0.3232
+    },
+    "30-44": {
+     "college": 0.3427,
+     "no-college": 0.3392,
+     "some-college": 0.3182
+    },
+    "45-64": {
+     "college": 0.2668,
+     "no-college": 0.4802,
+     "some-college": 0.253
+    },
+    "65-plus": {
+     "college": 0.2084,
+     "no-college": 0.5446,
+     "some-college": 0.247
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.0242,
+     "none": 0.6076,
+     "other-faith": 0.2294,
+     "protestant": 0.1389
+    },
+    "30-44": {
+     "catholic": 0.0369,
+     "none": 0.387,
+     "other-faith": 0.2001,
+     "protestant": 0.376
+    },
+    "45-64": {
+     "catholic": 0.1072,
+     "none": 0.3322,
+     "other-faith": 0.1051,
+     "protestant": 0.4556
+    },
+    "65-plus": {
+     "catholic": 0.0764,
+     "none": 0.1116,
+     "other-faith": 0.0771,
+     "protestant": 0.7349
+    }
+   }
   },
   "WY": {
    "n": 93,
@@ -5922,6 +8320,54 @@
      "mean": 0.3435,
      "sd": 0.7323,
      "engagement": 0.6048
+    }
+   },
+   "educationShares": {
+    "18-29": {
+     "college": 0.1915,
+     "no-college": 0.3559,
+     "some-college": 0.4526
+    },
+    "30-44": {
+     "college": 0.3725,
+     "no-college": 0.0529,
+     "some-college": 0.5746
+    },
+    "45-64": {
+     "college": 0.1437,
+     "no-college": 0.5144,
+     "some-college": 0.3419
+    },
+    "65-plus": {
+     "college": 0.3091,
+     "no-college": 0.4634,
+     "some-college": 0.2275
+    }
+   },
+   "faithShares": {
+    "18-29": {
+     "catholic": 0.1679,
+     "none": 0.5493,
+     "other-faith": 0.1039,
+     "protestant": 0.1789
+    },
+    "30-44": {
+     "catholic": 0.0415,
+     "none": 0.5297,
+     "other-faith": 0.1556,
+     "protestant": 0.2732
+    },
+    "45-64": {
+     "catholic": 0.1188,
+     "none": 0.4725,
+     "other-faith": 0.0777,
+     "protestant": 0.331
+    },
+    "65-plus": {
+     "catholic": 0.0677,
+     "none": 0.1277,
+     "other-faith": 0.4168,
+     "protestant": 0.3878
     }
    }
   }
@@ -8452,6 +10898,280 @@
    "mean": 0.1385,
    "sd": 0.9564,
    "engagement": 0.5474
+  }
+ },
+ "nationalEducationShares": {
+  "18-29": {
+   "college": 0.2544,
+   "no-college": 0.3953,
+   "some-college": 0.3504
+  },
+  "30-44": {
+   "college": 0.4249,
+   "no-college": 0.2842,
+   "some-college": 0.2909
+  },
+  "45-64": {
+   "college": 0.3681,
+   "no-college": 0.3372,
+   "some-college": 0.2948
+  },
+  "65-plus": {
+   "college": 0.3174,
+   "no-college": 0.4032,
+   "some-college": 0.2794
+  }
+ },
+ "nationalFaithShares": {
+  "18-29": {
+   "catholic": 0.1643,
+   "none": 0.4505,
+   "other-faith": 0.1611,
+   "protestant": 0.224
+  },
+  "30-44": {
+   "catholic": 0.1586,
+   "none": 0.4203,
+   "other-faith": 0.1453,
+   "protestant": 0.2758
+  },
+  "45-64": {
+   "catholic": 0.1811,
+   "none": 0.3024,
+   "other-faith": 0.1467,
+   "protestant": 0.3698
+  },
+  "65-plus": {
+   "catholic": 0.2046,
+   "none": 0.2264,
+   "other-faith": 0.1316,
+   "protestant": 0.4373
+  }
+ },
+ "profileShift": {
+  "45-64": {
+   "no-college": {
+    "protestant": {
+     "n": 2052,
+     "shift": 0.3939
+    },
+    "none": {
+     "n": 1872,
+     "shift": -0.175
+    },
+    "other-faith": {
+     "n": 775,
+     "shift": 0.1072
+    },
+    "catholic": {
+     "n": 995,
+     "shift": 0.0692
+    }
+   },
+   "college": {
+    "catholic": {
+     "n": 1624,
+     "shift": 0.1203
+    },
+    "protestant": {
+     "n": 2604,
+     "shift": 0.3762
+    },
+    "none": {
+     "n": 2551,
+     "shift": -0.8478
+    },
+    "other-faith": {
+     "n": 1101,
+     "shift": -0.2353
+    }
+   },
+   "some-college": {
+    "none": {
+     "n": 2665,
+     "shift": -0.5235
+    },
+    "protestant": {
+     "n": 2494,
+     "shift": 0.3304
+    },
+    "other-faith": {
+     "n": 1086,
+     "shift": 0.0767
+    },
+    "catholic": {
+     "n": 1286,
+     "shift": 0.143
+    }
+   }
+  },
+  "65-plus": {
+   "some-college": {
+    "other-faith": {
+     "n": 752,
+     "shift": -0.1196
+    },
+    "catholic": {
+     "n": 1244,
+     "shift": 0.1464
+    },
+    "protestant": {
+     "n": 2494,
+     "shift": 0.4349
+    },
+    "none": {
+     "n": 1624,
+     "shift": -0.6309
+    }
+   },
+   "no-college": {
+    "protestant": {
+     "n": 2274,
+     "shift": 0.3521
+    },
+    "catholic": {
+     "n": 1251,
+     "shift": 0.076
+    },
+    "none": {
+     "n": 1167,
+     "shift": -0.4118
+    },
+    "other-faith": {
+     "n": 517,
+     "shift": 0.1799
+    }
+   },
+   "college": {
+    "protestant": {
+     "n": 2146,
+     "shift": 0.2337
+    },
+    "catholic": {
+     "n": 1122,
+     "shift": 0.036
+    },
+    "none": {
+     "n": 1509,
+     "shift": -0.9065
+    },
+    "other-faith": {
+     "n": 873,
+     "shift": -0.5173
+    }
+   }
+  },
+  "18-29": {
+   "no-college": {
+    "other-faith": {
+     "n": 367,
+     "shift": 0.2791
+    },
+    "none": {
+     "n": 1186,
+     "shift": -0.0191
+    },
+    "catholic": {
+     "n": 297,
+     "shift": 0.2577
+    },
+    "protestant": {
+     "n": 478,
+     "shift": 0.578
+    }
+   },
+   "college": {
+    "none": {
+     "n": 1207,
+     "shift": -0.8162
+    },
+    "other-faith": {
+     "n": 382,
+     "shift": -0.2063
+    },
+    "catholic": {
+     "n": 487,
+     "shift": 0.3082
+    },
+    "protestant": {
+     "n": 599,
+     "shift": 0.4955
+    }
+   },
+   "some-college": {
+    "none": {
+     "n": 1292,
+     "shift": -0.515
+    },
+    "protestant": {
+     "n": 664,
+     "shift": 0.4172
+    },
+    "other-faith": {
+     "n": 488,
+     "shift": 0.1194
+    },
+    "catholic": {
+     "n": 482,
+     "shift": 0.165
+    }
+   }
+  },
+  "30-44": {
+   "no-college": {
+    "none": {
+     "n": 1294,
+     "shift": -0.1249
+    },
+    "catholic": {
+     "n": 355,
+     "shift": 0.0969
+    },
+    "other-faith": {
+     "n": 400,
+     "shift": 0.3603
+    },
+    "protestant": {
+     "n": 679,
+     "shift": 0.6414
+    }
+   },
+   "some-college": {
+    "none": {
+     "n": 1453,
+     "shift": -0.388
+    },
+    "protestant": {
+     "n": 726,
+     "shift": 0.6081
+    },
+    "other-faith": {
+     "n": 416,
+     "shift": 0.2854
+    },
+    "catholic": {
+     "n": 384,
+     "shift": 0.2869
+    }
+   },
+   "college": {
+    "protestant": {
+     "n": 1094,
+     "shift": 0.4632
+    },
+    "catholic": {
+     "n": 842,
+     "shift": 0.1265
+    },
+    "other-faith": {
+     "n": 614,
+     "shift": -0.1663
+    },
+    "none": {
+     "n": 2075,
+     "shift": -0.745
+    }
+   }
   }
  }
 }
