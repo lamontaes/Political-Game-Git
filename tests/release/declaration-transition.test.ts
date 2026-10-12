@@ -148,6 +148,27 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
+  it("needs no declaration for a status-file-only change", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "status", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "coordination"), { recursive: true });
+      writeFileSync(
+        join(fixture.root, "docs", "coordination", "BOARD.md"),
+        "# Board\n",
+      );
+      const head = fixture.commit("Status file only");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "pr",
+      });
+      expect(result.problems).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("accepts explicit none for a fresh source-only branch", () => {
     const fixture = historyFixture();
     try {
