@@ -928,7 +928,8 @@ const sheets = {
         row(
           `${r.date} · ${r.kind}`,
           Object.entries(r.facts)
-            .map(([k, v]) => `${k}: ${v}`)
+            .filter(([k]) => !/Id$/.test(k))
+            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
             .join(" · "),
         ),
       ),
