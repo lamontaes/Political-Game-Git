@@ -1,0 +1,22 @@
+{
+  "id": "provision-questions",
+  "about": "Which recorded policy question an ordinance's change to a law-in-force series speaks to, and which direction counts as 'yes'. Members, voters and the record read a provision through its question (src/core2/modules/legislature.ts). A mapping, not a measurement: each row says why.",
+  "retrieved": "2026-10-12",
+  "series": {
+    "minimum-wage": {
+      "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "raiseIs": 1,
+      "why": "Raising a local minimum wage is the policy the question asks about."
+    },
+    "income-tax": {
+      "question": "us-policy-positions:fiscal.graduated-income-tax",
+      "raiseIs": 1,
+      "why": "A higher local income tax shifts the burden toward earners, the side the graduated-income-tax question measures; an estimate of how members read it."
+    },
+    "sales-tax": {
+      "question": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "raiseIs": -1,
+      "why": "Raising a sales tax runs against lightening sales taxes on necessities, the side the grocery-exemption question measures; an estimate of how members read it."
+    }
+  }
+}

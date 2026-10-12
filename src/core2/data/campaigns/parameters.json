@@ -161,6 +161,30 @@
       "tag": "TUNABLE",
       "source": "How much a broken promise the voter agreed with takes away; larger than a kept one (negativity bias: Soroka 2014; Bonilla 2022).",
       "spread": [-0.8, -0.1]
+    },
+    "sponsorRelationshipWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a member's relationship with the sponsor (core2 relationship level) adds to their support. Checked against cosponsorship-network studies (Fowler 2006).",
+      "spread": [0.1, 1]
+    },
+    "dealWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "What one recorded deal (backing their item, a favor) adds to a member's support. Checked against logrolling studies (Stratmann 1992: vote trading moves a few votes on close measures).",
+      "spread": [0.2, 1]
+    },
+    "constituentWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much the district's lean on the questions weighs beside the member's own views. Checked against dyadic representation studies (Miller and Stokes 1963; Bafumi and Herron 2010).",
+      "spread": [0.2, 1]
+    },
+    "ordinanceEffectiveDays": {
+      "value": 30,
+      "tag": "ESTIMATED",
+      "source": "Many city charters and state municipal codes make an ordinance effective 30 days after passage unless it says otherwise or is an emergency (e.g. Cal. Gov. Code 36937; Ohio Rev. Code 731.29 sets 30 days). Varies by place: SG-GOV-veto-override-rule's companion, to be read per state.",
+      "spread": [10, 90]
     }
   }
 }
