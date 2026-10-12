@@ -942,7 +942,7 @@ function review(api: CoreAPI): void {
   for (const { id } of landlordPulls(api, late)) {
     const row = c.finance.contracts.get(id)!;
     const caseId = `eviction:${id}:${c.date}`;
-    const cureBy = addDays(makeIsoDate(c.date), law.noticeDays);
+    const cureBy = addDays(makeIsoDate(c.date), Math.max(1, law.noticeDays));
     store(api)
       .table("cases")
       .put({
@@ -1041,7 +1041,10 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         closedAt: c.date,
         reasonKey: housingData.reasons.cured,
       });
-    const hearingAt = addDays(makeIsoDate(c.date), row.law.hearingDays);
+    const hearingAt = addDays(
+      makeIsoDate(c.date),
+      Math.max(1, row.law.hearingDays),
+    );
     put({
       stage: "filed",
       filedAt: c.date,
@@ -1364,7 +1367,8 @@ function judge(
     law: Steps;
     [key: string]: unknown;
   };
-  const removalAt = addDays(makeIsoDate(c.date), row.law.stayDays);
+  // A step the statute gives no days to falls on the next day: the court acts after today's business.
+  const removalAt = addDays(makeIsoDate(c.date), Math.max(1, row.law.stayDays));
   store(api)
     .table("cases")
     .put({

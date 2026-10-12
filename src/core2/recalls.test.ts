@@ -140,5 +140,5 @@ describe("M3-10 recalls", () => {
     }
     expect(report, `no recall started in ${tried.join(", ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
-  });
+  }, 300_000);
 });

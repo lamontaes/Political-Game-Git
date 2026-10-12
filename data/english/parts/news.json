@@ -77,7 +77,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 66
+    "notAttested": 66,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -338,7 +365,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Board of Advisors Meeting — transcript (EAC0419VerbatimBOA.pdf)",
+        "document": "Board of Advisors Meeting \u2014 transcript (EAC0419VerbatimBOA.pdf)",
         "date": "2019-04-24",
         "granule": "eac-2019-04-24-eac0419verbatimboa",
         "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC0419VerbatimBOA.pdf",
@@ -368,6 +395,32 @@
         "date": "2020-02-25",
         "granule": "CHRG-116shrg29104956",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg29104956/html/CHRG-116shrg29104956.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.organization-closed.subject-closed-in-year",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} closed in {year}.",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "news",
+          "role": "organization.closed",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Legislative Hearing On H.R. 2925, To Amend The Omnibus Budget Reconcili- Ation Act Of 1993 To Provide For Secu- Rity Of Tenure For Use Of Mining Claims For Ancillary Activities, And For Other Purpos",
+        "date": "2024-01-31",
+        "granule": "CHRG-118hhrg54709",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54709",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

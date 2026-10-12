@@ -41,6 +41,8 @@ export interface JournalData {
   relationWords: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The possessive each surface names relatives with ("my", "your"). */
   possessive: Readonly<Record<string, string>>;
+  /** The possessive for someone by their recorded gender ("his", "her", "their"). */
+  possessivePronoun: Readonly<Record<string, string>>;
   countWords: readonly string[];
   manyTimes: string;
   lines: readonly LineRow[];
@@ -196,7 +198,11 @@ export function composeJournal(
     );
     const logged = core.durableLog.get(moment.causeId);
     for (const [key, spec] of Object.entries(row?.eventFacts ?? {})) {
-      const value = logged?.facts?.[spec.fact];
+      // An organization the event is about is named from its own record.
+      const value =
+        spec.format === "organization"
+          ? core.organizations.get(logged?.topic ?? "")?.name
+          : logged?.facts?.[spec.fact];
       if (value === undefined) return null;
       facts[key] = {
         text:
@@ -206,7 +212,10 @@ export function composeJournal(
                 currency: "USD",
               }).format(Number(value) / P.minorPerDollar)
             : value,
-        sourceRecordIds: [moment.causeId],
+        sourceRecordIds:
+          spec.format === "organization"
+            ? [moment.causeId, logged!.topic!]
+            : [moment.causeId],
       };
     }
     const otherId =
@@ -219,6 +228,13 @@ export function composeJournal(
       if (!said) return null;
       facts.other = said;
       const row = core.people.get(otherId);
+      // Their recorded gender picks the possessive, as it picks "father".
+      facts.their = {
+        text:
+          data.possessivePronoun[row?.looks?.gender ?? "other"] ??
+          data.possessivePronoun.other!,
+        sourceRecordIds: said.sourceRecordIds,
+      };
       if (row)
         facts.name = {
           text: row.givenName,

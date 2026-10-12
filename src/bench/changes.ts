@@ -12,7 +12,36 @@ import type { CoreState } from "../core2/types";
 // Engineering page size for the names shown per law, not a model value.
 const NAMED = 4;
 
+/** Laws a body enacted that haven't taken effect yet: each with the date it will. */
+function enactedAhead(core: CoreState) {
+  if (!core.modules.has(LAWS_MODULE_ID)) return [];
+  return (
+    coreAPI(core)
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows() as unknown as (LawRowInput & {
+      terms?: { enactedBy?: string };
+    })[]
+  )
+    .filter((law) => law.terms?.enactedBy && law.effectiveDate > core.date)
+    .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))
+    .map((law) => ({
+      id: law.id,
+      date: law.effectiveDate,
+      series: law.series,
+      level: law.level,
+      jurisdiction: law.jurisdiction,
+      value: String(law.value),
+      unit: law.unit ?? null,
+      measure: law.terms!.enactedBy!,
+    }));
+}
+
 export function lawChanges(core: CoreState, personId: string) {
+  return { ahead: enactedAhead(core), took: lawsTook(core, personId) };
+}
+
+function lawsTook(core: CoreState, personId: string) {
   const applied = core.modules.has(LAW_EFFECTS_MODULE_ID)
     ? coreAPI(core).moduleState(LAW_EFFECTS_MODULE_ID).table("applied")
     : undefined;
@@ -25,7 +54,7 @@ export function lawChanges(core: CoreState, personId: string) {
       const reached = applied
         ? (
             applied.query("byQuestion", [
-              facts.series,
+              facts.series ?? null,
               null,
             ]) as unknown as AppliedEffect[]
           ).filter((effect) => effect.lawId === facts.lawId)
@@ -47,8 +76,8 @@ export function lawChanges(core: CoreState, personId: string) {
               .moduleState(LAWS_MODULE_ID)
               .table("laws")
               .query("bySeries", [
-                facts.jurisdiction,
-                facts.series,
+                facts.jurisdiction ?? null,
+                facts.series ?? null,
               ]) as unknown as LawRowInput[]
           )
             .filter((law) => law.effectiveDate < row.date)

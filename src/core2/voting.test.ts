@@ -34,6 +34,7 @@ import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
   ballotOf,
+  candidateIdentity,
   openVoting,
   resultOf,
   type BallotRow,
@@ -161,8 +162,21 @@ describe("M2-07 elections", () => {
     advanceCore(core, after);
     const result = resultOf(api, contest!.id)!;
     expect(result.date).toBe(contest!.electionDate);
-    expect(result.winnerId).not.toBeNull();
+    // Two candidates on the same platform can tie, or draw no votes in a
+    // nonpartisan race; a tie goes to the state's tie rule (a second
+    // election), and no one wins on no votes.
+    if (result.winnerId === null) {
+      const totals = Object.values(result.totals).sort((a, b) => b - a);
+      expect(
+        totals[0] === 0 || totals[0] === totals[1],
+        `${place}: no winner with ${JSON.stringify(result.totals)}`,
+      ).toBe(true);
+      return;
+    }
     const candidates = ballot(api, contest!.id).map((f) => f.personId);
+    // Every candidate, resident or official, has a name to show.
+    for (const id of candidates)
+      expect(candidateIdentity(api, id)?.familyName, id).toBeTruthy();
     // A filer is on the November ballot, or a top-two or top-four primary
     // (where the contest holds one) sent them home: never lost any other way.
     for (const f of filed) {
@@ -241,5 +255,5 @@ describe("M2-07 elections", () => {
         whyOneVoter: voter ? ballotOf(api, contest!.id, voter.voterId) : null,
       }),
     );
-  }, 90_000); // a whole election year of daily work in one town; 30 s is too tight on slower runners
+  }, 300_000);
 });

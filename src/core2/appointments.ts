@@ -44,6 +44,15 @@ export interface Appointment {
   } | null;
 }
 
+/**
+ * A party's name as the ballot prints it: the rosters' "Democrat" is the
+ * Democratic Party (one label everywhere a candidate or holder shows).
+ */
+export function partyName(party: string | null): string | null {
+  if (!party) return party;
+  return /^democrat(ic)?$/i.test(party.trim()) ? "Democratic" : party;
+}
+
 /** -1 for the Democratic family, +1 Republican, 0 otherwise. */
 export function partySide(party: string | null | undefined): number {
   if (!party) return 0;

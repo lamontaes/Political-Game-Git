@@ -818,12 +818,15 @@ export function createDirector(
         raw = Math.abs(after - before) / before;
       }
       if (raw <= zero) continue;
+      const named = rule.counterpartFact
+        ? row.event.facts?.[rule.counterpartFact]
+        : undefined;
       change(
         row.event.id,
         `event:${row.event.kind}`,
         rule.channel,
         raw,
-        row.event.personIds,
+        named ? [named] : row.event.personIds,
       );
     }
 

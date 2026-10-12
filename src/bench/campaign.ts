@@ -14,6 +14,7 @@ import {
 import { campaignParameter, PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import type { FilingRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
+import { deliverSpeech, SPEECH_MODULE_ID } from "../core2/modules/speech";
 import { backdropFile, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -132,8 +133,13 @@ export function campaignAct(
             return { question: question!, position: Number(position) };
           }),
       });
+      // The people it reached hear it as a speech (OPUS-PEOPLE's speech
+      // engine): each stance on its topic moves by how near they lean, and
+      // each decides whether to retell it at home.
+      const retold = hearSpeech(core, personId, input.statements ?? "", causes);
       return {
         ...summary(causes),
+        retold,
         scene: speechScene(core, personId, input.venue, causes),
       };
     }
@@ -200,4 +206,30 @@ function speechScene(
       }),
     ),
   };
+}
+
+/** The speech heard on its first statement's topic; how many retell it. */
+function hearSpeech(
+  core: CoreState,
+  personId: string,
+  statements: string,
+  causes: readonly CauseRow[],
+): number {
+  if (!core.modules.has(SPEECH_MODULE_ID)) return 0;
+  const [question, position] = (statements.split(",")[0] ?? "").split("=");
+  if (!question) return 0;
+  const api = coreAPI(core);
+  const speaker = core.people.get(personId)!;
+  const audienceIds = [...new Set(causes.map((row) => row.voterId))].filter(
+    (id) => core.people.get(id)?.alive,
+  );
+  const n = core.durableLog.size;
+  return deliverSpeech(api, {
+    id: `speech:${personId}:${core.date}:${n}`,
+    speakerId: personId,
+    placeId: speaker.placeId,
+    topic: question,
+    desiredChange: Number(position) > 0 ? "enact" : "repeal",
+    audienceIds,
+  }).filter((row) => row.retold).length;
 }

@@ -9,6 +9,7 @@
  * party falling out with the other and deciding to tell someone.
  */
 import { scoreOffers, decisionFromScores } from "../choice";
+import { decisionKinds, decisionLean } from "../trait-decisions";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
 import type { CashJournalPosting } from "../journal";
 import type { Parameter } from "../parameters";
@@ -82,12 +83,19 @@ function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
   return api.parameter("zero");
 }
 
-/** The person's lean toward a corrupt act, from risk-taking and low reliability. */
-function temperament(api: CoreAPI, person: Readonly<PersonState>): number {
-  const zero = api.parameter("zero");
-  const risk = person.traits["people-mind-v1:risk"] ?? zero;
-  const reliability = person.traits["people-mind-v1:reliability"] ?? zero;
-  return (risk - reliability) / (api.parameter("two") * api.parameter("two"));
+/** The person's lean toward a corrupt act, from every trait through the shared trait table, about -1..1. */
+function temperament(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  role: "offer" | "take" | "tell",
+): number {
+  return decisionLean(
+    api.state,
+    person,
+    `corruption.${role}`,
+    `corruption-${role}-yes`,
+    `corruption-${role}-no`,
+  );
 }
 
 function decide(
@@ -99,7 +107,7 @@ function decide(
 ): { yes: boolean; values: Record<string, number> } {
   const action = (id: string, yes: boolean): ActionDefinition => ({
     id,
-    actKinds: yes ? ["self-interest"] : ["follow-rules"],
+    actKinds: decisionKinds(`corruption.${role}`, id),
     goalKinds: [],
     need: "money",
     effortParameter: "zero",
@@ -153,7 +161,8 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     ask.offererId,
     "offer",
     {
-      temperament: c(api, "corruptionTraitWeight") * temperament(api, offerer),
+      temperament:
+        c(api, "corruptionTraitWeight") * temperament(api, offerer, "offer"),
       // How much the favor matters: its worth against a year of the
       // offerer's living costs.
       stake: Math.log1p(
@@ -173,7 +182,8 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
         "take",
         {
           temperament:
-            c(api, "corruptionTraitWeight") * temperament(api, official),
+            c(api, "corruptionTraitWeight") *
+            temperament(api, official, "take"),
           // The bribe against a month of living costs plus the cash on hand:
           // larger for someone with little cushion.
           need:
@@ -344,7 +354,8 @@ export const corruptionModule: CoreModule = {
             soured:
               c(api, "corruptionTellWeight") * (level.before - level.after),
             temperament:
-              c(api, "corruptionTraitWeight") * temperament(api, teller),
+              c(api, "corruptionTraitWeight") *
+              temperament(api, teller, "tell"),
           },
           crime.id,
         );

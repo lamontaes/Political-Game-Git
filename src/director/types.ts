@@ -59,6 +59,8 @@ export interface DirectorData {
     toFact?: string;
     /** Or a sourced impact for the event itself (filing for office). */
     impactParameter?: string;
+    /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
+    counterpartFact?: string;
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };

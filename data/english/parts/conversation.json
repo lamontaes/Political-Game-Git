@@ -75,7 +75,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 496
+    "notAttested": 496,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -1653,7 +1680,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks Prior to a Meeting With President Recep Tayyip Erdoğan of Turkey and an Exchange With Reporters",
+        "document": "Remarks Prior to a Meeting With President Recep Tayyip Erdo\u011fan of Turkey and an Exchange With Reporters",
         "date": "2025-09-25",
         "granule": "DCPD-202500954",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500954/html/DCPD-202500954.htm",
@@ -1730,7 +1757,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "The President's News Conference in Évian-les-Bains, France",
+        "document": "The President's News Conference in \u00c9vian-les-Bains, France",
         "date": "2026-06-17",
         "granule": "DCPD-202600410",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
@@ -2150,7 +2177,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Bentley, Helen Delich - U.S. Representative of Maryland - 1985–1995",
+        "document": "U.S. House Oral History: Bentley, Helen Delich - U.S. Representative of Maryland - 1985\u20131995",
         "date": "2016-03-21",
         "granule": "house-oh-bentley",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/bentley-transcript/",
@@ -2347,7 +2374,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -4920,7 +4947,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -6843,7 +6870,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks Prior to a Meeting With President Iván Duque Márquez of Colombia and an Exchange With Reporters in New York City",
+        "document": "Remarks Prior to a Meeting With President Iv\u00e1n Duque M\u00e1rquez of Colombia and an Exchange With Reporters in New York City",
         "date": "2018-09-25",
         "granule": "DCPD-201800632",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201800632/html/DCPD-201800632.htm",
@@ -6965,7 +6992,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks Prior to a Meeting With President Iván Duque Márquez of Colombia and an Exchange With Reporters in New York City",
+        "document": "Remarks Prior to a Meeting With President Iv\u00e1n Duque M\u00e1rquez of Colombia and an Exchange With Reporters in New York City",
         "date": "2018-09-25",
         "granule": "DCPD-201800632",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201800632/html/DCPD-201800632.htm",
@@ -10594,7 +10621,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Standards Board Meeting — transcript (EAC0411-1219VerbatimStandardsBoard.pdf)",
+        "document": "Standards Board Meeting \u2014 transcript (EAC0411-1219VerbatimStandardsBoard.pdf)",
         "date": "2019-04-11",
         "granule": "eac-2019-04-11-eac0411-1219verbatimstandardsboard",
         "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC0411-1219VerbatimStandardsBoard.pdf",
@@ -10727,7 +10754,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G–7) Nations Leaders in Kananaskis, Canada",
+        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G\u20137) Nations Leaders in Kananaskis, Canada",
         "date": "2025-06-16",
         "granule": "DCPD-202500700",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500700/html/DCPD-202500700.htm",
@@ -10785,7 +10812,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "document": "2025 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
         "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
         "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
@@ -12164,7 +12191,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -12202,7 +12229,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -12900,6 +12927,410 @@
         "date": "2026-09-30",
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.greet-answer-fine.very-well-thank-you",
+      "move": "greet-answer-fine",
+      "kind": "spoken",
+      "text": "Very well, thank you.",
+      "uses": [
+        {
+          "move": "greet-answer-fine",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Advancing Innovation (Ai): Harnessing Artificial Intelligence To Defend And Secure The Homeland",
+        "date": "2024-02-12",
+        "granule": "CHRG-118hhrg58784",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg58784",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.home-lie-moved.we-left-place",
+      "move": "home-lie-moved",
+      "kind": "spoken",
+      "text": "We left {place}.",
+      "uses": [
+        {
+          "move": "home-lie-moved",
+          "subject": "home",
+          "role": "lie",
+          "choice": "moved",
+          "stages": ["none"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "The Usaid Betrayal",
+        "date": "2025-02-13",
+        "granule": "CHRG-119hhrg59986",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59986",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-reply-saw.i-talked-to-name-when",
+      "move": "mutual-reply-saw",
+      "kind": "spoken",
+      "text": "I talked to {name} {when}.",
+      "uses": [
+        {
+          "move": "mutual-reply-saw",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "saw",
+          "stages": ["saw"]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1,
+        "house": 1,
+        "nasa": 4,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Examining The January 6 Attack On The U.S. Capitol",
+        "date": "2021-02-23",
+        "granule": "CHRG-117shrg44585",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117shrg44585",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-reply-not.i-havent-seen-her",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "I haven't seen her.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Oversight Of The Voting Rights Act: A Continuing Record Of Discrimination",
+        "date": "2021-05-27",
+        "granule": "CHRG-117hhrg46229",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg46229",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-reply-not.not-recently",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "Not recently.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        },
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Looking Ahead Series: Oversight Of The United States Capitol Police",
+        "date": "2023-04-18",
+        "granule": "CHRG-118hhrg54610",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54610",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-mine-saw.i-talked-to-name-my-when",
+      "move": "mutual-answer-mine-saw",
+      "kind": "spoken",
+      "text": "I talked to {name} {my_when}.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-saw",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-saw",
+          "requiresFacts": ["my_when"]
+        },
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["my_when"]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1,
+        "house": 1,
+        "nasa": 4,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Examining The January 6 Attack On The U.S. Capitol",
+        "date": "2021-02-23",
+        "granule": "CHRG-117shrg44585",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117shrg44585",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.kin-answer-brief.youll-like-name",
+      "move": "kin-answer-brief",
+      "kind": "spoken",
+      "text": "You'll like {name}.",
+      "uses": [
+        {
+          "move": "kin-answer-brief",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Administration of Donald J. Trump, 2019 Remarks in a Meeting With World War II Veterans and an Exchange With Reporters April 11, 2019 The President. Well, thank you very much. This is a special moment",
+        "date": "2019-04-11",
+        "granule": "DCPD-201900222",
+        "url": "https://www.govinfo.gov/app/details/DCPD-201900222",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.kin-answer-turn.maybe-one-day",
+      "move": "kin-answer-turn",
+      "kind": "spoken",
+      "text": "Maybe one day.",
+      "uses": [
+        {
+          "move": "kin-answer-turn",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "next-2"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nasa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Jane D. Dreyfus",
+        "date": "2019-11-12",
+        "granule": "dreyfusjc-11-12-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/dreyfusjc-11-12-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-ask-how.hows-your-wife",
+      "move": "family-ask-how",
+      "kind": "spoken",
+      "text": "How's your wife?",
+      "uses": [
+        {
+          "move": "family-ask-how",
+          "subject": "family",
+          "role": "ask",
+          "choice": "how"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "eisenhower": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Efforts To Combat Inflation and an Exchange With Reporters",
+        "date": "2023-01-12",
+        "granule": "DCPD-202300022",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202300022",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.family-answer-gone.my-mother-died",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "My mother died.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Drug Pricing In America: A Prescription For Change, Part Ii",
+        "date": "2015-01-01",
+        "granule": "CHRG-116shrg37143",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116shrg37143",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.news-raise-heard.guess-what-happened",
+      "move": "news-raise-heard",
+      "kind": "spoken",
+      "text": "Guess what happened.",
+      "uses": [
+        {
+          "move": "news-raise-heard",
+          "subject": "news",
+          "role": "raise",
+          "choice": "heard"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Robert L. Gibson",
+        "date": "2016-01-22",
+        "granule": "gibsonrl-1-22-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.tell-name-i-said-hello",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "Tell {name} I said hello.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Parrish Hirasaki",
+        "date": "2023-08-02",
+        "granule": "hirasakip-8-2-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hirasakip-8-2-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.other-work-answer-ack-none.sorry-to-hear-that",
+      "move": "other-work-answer-ack-none",
+      "kind": "spoken",
+      "text": "Sorry to hear that.",
+      "uses": [
+        {
+          "move": "other-work-answer-ack-none",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "ack-none",
+          "stages": ["none"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Linda R. Brown",
+        "date": "2017-05-10",
+        "granule": "brownlr-5-10-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/06/brownlr-5-10-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-kin-answer-not-yet.not-yet-no",
+      "move": "asked-kin-answer-not-yet",
+      "kind": "spoken",
+      "text": "Not yet, no.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-not-yet",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "not-yet"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "National Defense Authorization Act",
+        "date": "2018-04-12",
+        "granule": "CHRG-115hhrg30573",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg30573",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

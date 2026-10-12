@@ -20,6 +20,7 @@
  */
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { stopgap } from "../stopgaps";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
@@ -248,6 +249,34 @@ function fiscalYearOf(date: string, start: string): number {
   return date.slice(5) >= start ? year : year - 1;
 }
 
+const LOCAL_YEARS = localYears as unknown as {
+  states: Record<string, Record<string, { population: number; end: string }[]>>;
+  national: Record<string, string>;
+};
+
+/**
+ * A local government's fiscal year start (MM-DD): its state's sampled unit of
+ * the same type nearest it in population (Census 2024 unit files), else the
+ * national most common year end for the type.
+ */
+export function localFiscalYearStart(
+  stateKey: string,
+  type: "county" | "municipal",
+  population: number,
+): string {
+  const units = LOCAL_YEARS.states[stateKey]?.[type] ?? [];
+  const nearest = [...units].sort(
+    (a, b) =>
+      Math.abs(a.population - population) -
+        Math.abs(b.population - population) || a.end.localeCompare(b.end),
+  )[0];
+  const end = nearest?.end ?? LOCAL_YEARS.national[type]!;
+  const date = new Date(
+    Date.UTC(2023, Number(end.slice(0, 2)) - 1, Number(end.slice(2, 4)) + 1),
+  );
+  return date.toISOString().slice(5, 10);
+}
+
 /** Register the module, open each government's treasury and the budget in force. */
 export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   if (!core.modules.has(BUDGETS_MODULE_ID))
@@ -274,8 +303,6 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       residents: place?.population2024 ?? 0,
     }),
   ];
-  // stopgapId: SG-GOV-local-fiscal-year
-  api.stopgap("SG-GOV-local-fiscal-year");
   const county = chain.countyGeoids[0];
   const countyUnit = county ? countyGovernmentUnit(county) : null;
   if (countyUnit)
@@ -286,7 +313,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           id: `county:${county}`,
           level: "county",
           name: countyUnit.name,
-          fiscalYearStart: stateStart,
+          fiscalYearStart: localFiscalYearStart(
+            chain.stateKey,
+            "county",
+            bases.countyPopulation2024[county!] ?? townResidents,
+          ),
           residents: bases.countyPopulation2024[county!] ?? townResidents,
         },
         countyUnit.id,
@@ -306,7 +337,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           id: `place:${geoid}`,
           level: "city",
           name: city.name,
-          fiscalYearStart: stateStart,
+          fiscalYearStart: localFiscalYearStart(
+            chain.stateKey,
+            "municipal",
+            townResidents,
+          ),
           residents: townResidents,
         },
         city.id,

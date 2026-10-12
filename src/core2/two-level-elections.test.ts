@@ -22,7 +22,8 @@ import {
 } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import { openVoting, resultOf } from "./modules/voting";
+import { breakElectionTie, openVoting, resultOf } from "./modules/voting";
+import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { countedResidents } from "./electorate";
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -165,6 +166,46 @@ describe("elections in the two-level world", () => {
         ),
         `${c.title} ${c.seatId}`,
       ).toBe(true);
+    // A tie is settled the state's way (audit 3, item 10): a legislature or
+    // board choosing, or a second election between the tied candidates.
+    const rules = (
+      tieRules as unknown as {
+        states: Record<string, Record<string, { method: string }>>;
+      }
+    ).states[state]!;
+    for (const contest of (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    ).filter(
+      (c) => c.electionDate > api.state.date && ballot(api, c.id).length >= 2,
+    )) {
+      const tied = ballot(api, contest.id)
+        .slice(0, 2)
+        .map((f) => f.personId);
+      const field =
+        contest.family === "statewideExecutive"
+          ? "statewideExecutiveTie"
+          : contest.family === "stateLegislative"
+            ? "legislativeTie"
+            : contest.family === "countyOffice" ||
+                contest.family === "municipalOffice"
+              ? "localTie"
+              : "generalElectionTie";
+      const winner = breakElectionTie(api, contest, tied);
+      const method = rules[field]?.method ?? "lot";
+      if (winner === null)
+        expect(
+          api
+            .moduleState(ELECTIONS_MODULE_ID)
+            .table("contests")
+            .get(`${contest.id}:second`),
+          `${contest.title} ${method}`,
+        ).toBeDefined();
+      else expect(["legislature-decides", "board-decides"]).toContain(method);
+      break;
+    }
     govReport(
       "two-level-elections",
       JSON.stringify({
