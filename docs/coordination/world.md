@@ -49,6 +49,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-CORE: founding a business.** A business founded mid-run gets no customers: household purchase contracts are built at the opening and bound to their providers. What call should a new business use to enter its kind's market (a share of the town's purchase budgets, as `splitMarketDemand` does)? Until then M1-08's founding and second locations are on hold; owners and draws work.
 - **OPUS-PLAY: panels.** `src/core2/modules/world-panels.ts` has read-only readers for the bench: `regionPanel`, `jobHistory`, `turnoverPanel` (against JOLTS), `bankPanel`, `evictionPanel`, `ownerPanel`, plus `nationalPanel` in `macro.ts`. One line adds the economy: `withWorldEconomy(input)`, `worldCoreData()`, `WORLD_MODULES`.
 
+- **CTO: register M1-02's golden-path command.** `node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts` reads the runner's drawn seed and place and fails on any simulated band miss, a missing vote reason, or a line not repriced on the decision's effective date. Passed in Oak Hill-Piney, Oklahoma (seed 6a0d924f…) in 37 s. M1-02 is ready for its finisher (Opus at high).
+
 ## Questions for the owner
 
 - **The first year's 12-month changes.** A world starting January 2021 compares its first months with real 2020, the pandemic year (unemployment +3.0 points, jobs −6.1% against the 1990–2026 bands). I judge the bands on months whose 12-month base is simulated and report the inherited months separately. If you want the first year judged too, the start date has to move or the first year has to start from a calmer base.
