@@ -20,7 +20,12 @@ import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
-import { budgetsOf, governments, openBudgets } from "./modules/budgets";
+import {
+  budgetsOf,
+  governments,
+  openBudgets,
+  setBudgetPriorities,
+} from "./modules/budgets";
 import {
   billOf,
   committeeRecords,
@@ -322,6 +327,41 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         ),
         executive: votes.find((v) => v.vote === "sign" || v.vote === "veto")
           ?.vote,
+      }),
+    );
+  });
+
+  it("the mayor's budget priorities go to the council's vote at the fiscal year's start", () => {
+    const { core, api } = town(Object.keys(authority).sort(), "budget-vote");
+    openBudgets(core);
+    const city = governments(api).find((g) => g.level === "city");
+    if (!city) return;
+    const mayor = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    setBudgetPriorities(api, {
+      governmentId: city.id,
+      setBy: mayor?.holder?.personId ?? "council",
+      changes: { parks: 10_000_000 },
+    });
+    const before = budgetsOf(api, city.id)[0]!;
+    const start = `${before.fiscalYear + 1}-${city.fiscalYearStart}`;
+    advanceCore(core, start);
+    const next = budgetsOf(api, city.id).find(
+      (b) => b.fiscalYear === before.fiscalYear + 1,
+    )!;
+    expect(next.adoptedOn).toBe(start);
+    expect(next.adoptedBy).toMatch(/council vote|council rejected/);
+    if (next.adoptedBy.startsWith("council vote"))
+      expect(next.spendingMinor.parks).toBe(
+        (before.spendingMinor.parks ?? 0) + 10_000_000,
+      );
+    govReport(
+      "legislature",
+      JSON.stringify({
+        budgetVote: next.adoptedBy,
+        parksBefore: before.spendingMinor.parks,
+        parksAfter: next.spendingMinor.parks,
       }),
     );
   });

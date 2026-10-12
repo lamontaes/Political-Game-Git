@@ -218,6 +218,12 @@
       "tag": "TUNABLE",
       "source": "How many of the people a bill touches most testify at its hearing; hearings commonly seat a few public witnesses per panel.",
       "spread": [1, 8]
+    },
+    "budgetAdoptionDuty": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much a member's duty to keep the government funded weighs toward adopting a budget, beside their views on its changes. Checked against how rarely councils fail to adopt a budget (most charters carry the prior budget forward when they do).",
+      "spread": [0.1, 0.6]
     }
   }
 }

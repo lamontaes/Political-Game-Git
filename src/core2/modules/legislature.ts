@@ -45,7 +45,15 @@ import { localAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
-import { amendBudget } from "./budgets";
+import {
+  amendBudget,
+  budgetPriorities,
+  proposedBudget,
+  putBudget,
+  registerBudgetVote,
+  type BudgetRow,
+  type GovernmentRow,
+} from "./budgets";
 import { partySide } from "../appointments";
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
@@ -132,6 +140,102 @@ function table(api: CoreAPI, name: string) {
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
+  registerBudgetVote(councilBudget);
+}
+
+/**
+ * The council votes the town's budget at its fiscal year's start: the
+ * executive's proposal (this year's lines with their priorities applied).
+ * Each member weighs the proposal's changes by their own views, and their
+ * duty to keep the government funded (a budget must be adopted); a budget
+ * the council rejects is carried forward as last year's, as most charters
+ * provide. Only the town's own government votes here; other levels' budgets
+ * stay on the budget rule until their legislatures vote them.
+ */
+function councilBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  if (gov.level !== "city") return null;
+  const council = (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+      id: string;
+      kind: string;
+      level: string;
+    }[]
+  ).find((o) => o.kind === "council" && o.level === "city");
+  if (!council || !members(api, council.id).length) return null;
+  const priorities = budgetPriorities(api, gov.id);
+  const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
+    ([line, delta]) => ({
+      kind: "budget-line",
+      line,
+      value: delta,
+    }),
+  );
+  const sponsor = priorities?.setBy ?? memberKey(members(api, council.id)[0]!);
+  const bill = draftBill(api, {
+    bodyOfficeId: council.id,
+    sponsorId: sponsor,
+    provisions,
+  });
+  // Each member's duty to adopt a budget sits beside their views on its changes.
+  let yes = 0;
+  let no = 0;
+  for (const member of members(api, council.id)) {
+    const key = memberKey(member);
+    const position = memberPosition(api, bill.id, key);
+    const total =
+      position.total -
+      position.sponsor +
+      campaignParameter("budgetAdoptionDuty");
+    if (total > 0) yes += 1;
+    else if (total < 0) no += 1;
+    table(api, "votes").put({
+      id: `vote:${bill.id}:${key}`,
+      billId: bill.id,
+      memberId: key,
+      vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
+      position: { ...position, total },
+    } as unknown as ModuleRow);
+  }
+  const adopted = yes > no;
+  const proposal = proposedBudget(
+    api,
+    gov,
+    fy,
+    `council vote ${yes}-${no}, Ordinance ${bill.number}`,
+  );
+  const budget: BudgetRow = adopted
+    ? proposal
+    : {
+        ...proposal,
+        spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
+        adoptedBy: `carried forward after the council rejected Ordinance ${bill.number} ${yes}-${no}`,
+      };
+  putBudget(api, budget);
+  table(api, "bills").put({
+    ...bill,
+    kind: "budget",
+    status: adopted ? "enacted" : "failed",
+  } as unknown as ModuleRow);
+  return budget;
+}
+
+/** Last year's adopted lines, for a budget the council rejects. */
+function budgetCarry(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow | null {
+  return (
+    (api
+      .moduleState("core2-budgets-v1")
+      .table("budgets")
+      .get(`budget:${gov.id}:${fy - 1}`) as unknown as BudgetRow | undefined) ??
+    null
+  );
 }
 
 type StartingAnswers = Record<

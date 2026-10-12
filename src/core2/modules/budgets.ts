@@ -122,6 +122,7 @@ export const BUDGETS_MODULE: CoreModule = {
       governments: {},
       budgets: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       withholding: { indexes: { byPerson: { fields: ["personId"] } } },
+      priorities: {},
       yearToDate: {},
     },
   },
@@ -340,22 +341,94 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   return govs;
 }
 
+/** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
+export function setBudgetPriorities(
+  api: CoreAPI,
+  input: {
+    readonly governmentId: string;
+    readonly setBy: string;
+    readonly changes: Readonly<Record<string, number>>;
+  },
+): void {
+  table(api, "priorities").put({
+    id: input.governmentId,
+    ...input,
+  } as unknown as ModuleRow);
+}
+
+export function budgetPriorities(
+  api: CoreAPI,
+  governmentId: string,
+): {
+  readonly setBy: string;
+  readonly changes: Readonly<Record<string, number>>;
+} | null {
+  return (
+    (table(api, "priorities").get(governmentId) as unknown as
+      { setBy: string; changes: Record<string, number> } | undefined) ?? null
+  );
+}
+
+/**
+ * The next year's budget as proposed: this year's lines carried forward, with
+ * the executive's priorities applied. The legislature engine votes it.
+ */
+export function proposedBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+): BudgetRow {
+  const base = budgetFor(
+    gov,
+    lawChain(api).stateKey,
+    fy,
+    api.state.date,
+    adoptedBy,
+  );
+  const changes = budgetPriorities(api, gov.id)?.changes ?? {};
+  const spending = { ...base.spendingMinor };
+  for (const [line, delta] of Object.entries(changes))
+    spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  return { ...base, spendingMinor: spending };
+}
+
+export function putBudget(api: CoreAPI, budget: BudgetRow): void {
+  table(api, "budgets").put(budget as unknown as ModuleRow);
+}
+
+let councilBudgetVote:
+  ((api: CoreAPI, gov: GovernmentRow, fy: number) => BudgetRow | null) | null =
+  null;
+/** The legislature engine registers how a council votes its budget. */
+export function registerBudgetVote(
+  vote: (api: CoreAPI, gov: GovernmentRow, fy: number) => BudgetRow | null,
+): void {
+  councilBudgetVote = vote;
+}
+
 function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "budget-adoption") return;
   const gov = table(api, "governments").get(
     work.sourceRecordIds[0]!,
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
-  // stopgapId: SG-GOV-budget-adopted-by-rule
-  api.stopgap("SG-GOV-budget-adopted-by-rule");
-  const budget = budgetFor(
-    gov,
-    lawChain(api).stateKey,
-    fy,
-    api.state.date,
-    "carried forward by the budget rule until the council or legislature votes it",
-  );
-  table(api, "budgets").put(budget as unknown as ModuleRow);
+  // The town's council votes its own budget where the legislature engine runs.
+  const voted = councilBudgetVote?.(api, gov, fy) ?? null;
+  let budget: BudgetRow;
+  if (voted) budget = voted;
+  else {
+    // stopgapId: SG-GOV-budget-adopted-by-rule
+    api.stopgap("SG-GOV-budget-adopted-by-rule");
+    budget = budgetFor(
+      gov,
+      lawChain(api).stateKey,
+      fy,
+      api.state.date,
+      "carried forward by the budget rule until the council or legislature votes it",
+    );
+    table(api, "budgets").put(budget as unknown as ModuleRow);
+  }
   api.emit({
     id: `budget-adopted:${budget.id}`,
     date: api.state.date,
