@@ -9,11 +9,11 @@ A package is what a session is given to build or finish one piece of the roadmap
 3. **What to build, step by step,** naming the files and interfaces involved.
 4. **Out of scope:** what not to touch, and which session owns it.
 5. **Sources:** the real data and research it must use.
-6. **Hand-off:** where to log progress (`docs/roadmap/PROGRESS.md` and the PR body), and what the finisher checks.
+6. **Hand-off:** where to log progress (`docs/roadmap/PROGRESS.md`, the PR body, or the pillar's status file), and how the owner will play it.
 
 ## Rules that apply to every package
 
 - Before building, write the contract back (what you'll build, how it's checked) in the PR body, then start right away. Wait for approval only when changing the package's scope, owned paths or a test; the CTO reviews contracts at check-ins.
 - Register every shortcut as a stopgap; never edit a spec's test, only its passing status.
-- One package per session. When it's done, the next package gets a fresh session.
+- One package per session. When it's done, the next package gets a fresh session. The pillars are the exception (see "The team" in `AGENTS.md`).
 - Never push to another session's branch. Never merge your own PR.
