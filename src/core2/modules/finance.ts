@@ -1,5 +1,14 @@
 /** Recorded counterparties, indexed monthly reviews and bills; no daily population scan. */
-import type { CoreAPI, CoreModule } from "../types";
+import type { CoreAPI, CoreModule, SalesReceiptNotice } from "../types";
+
+/** Offer one paid sale to every module that listens (e.g. sales tax). */
+export function notifySalesReceipt(
+  api: CoreAPI,
+  sale: SalesReceiptNotice,
+): void {
+  for (const module of api.state.modules.values())
+    module.onSalesReceipt?.(api, sale);
+}
 import { financeSettlementPhase } from "../finance-state";
 import { observeWorkPayrollForFinance } from "../work-payroll-dispatch";
 
@@ -33,7 +42,21 @@ function runFinanceDay(api: CoreAPI): void {
   for (const phase of api.state.data.finance!.settlementPhases) {
     const rows = byPhase.get(phase.id) ?? [];
     if (phase.operation === "procure") api.prepareFinanceProcurement(rows);
-    for (const id of rows) api.settleFinanceContract(id);
+    for (const id of rows) {
+      const receipt = api.settleFinanceContract(id),
+        terms = finance.contracts.get(id)!;
+      if (terms.salesReceipt && receipt.paidMinor > 0)
+        notifySalesReceipt(api, {
+          id: receipt.id,
+          date: api.state.date,
+          sellerId: receipt.payeeId,
+          buyerIds: terms.payerIds,
+          kind: terms.kind,
+          paidMinor: receipt.paidMinor,
+          placeId: api.state.organizations.get(receipt.payeeId)?.placeId ?? "",
+          counted: false,
+        });
+    }
   }
 }
 

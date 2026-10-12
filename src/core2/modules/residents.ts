@@ -12,6 +12,7 @@ import {
   type ResidentsInput,
 } from "../residents";
 import { transfer } from "../accounts";
+import { notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import type {
@@ -295,6 +296,17 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       finance.unfundedBusinessReceipts.set(flow.payerId, { date, id });
     }
   }
+  if (flow.kind === "purchase" && flow.salesReceipt && payeeBook && paid > 0)
+    notifySalesReceipt(api, {
+      id: `${flow.id}@${date}`,
+      date,
+      sellerId: flow.payeeId,
+      buyerIds: [flow.payerId],
+      kind: flow.financeKind,
+      paidMinor: paid,
+      placeId: flow.placeId,
+      counted: true,
+    });
   if (
     (flow.kind === "purchase" || flow.kind === "outside-sales") &&
     payeeBook &&

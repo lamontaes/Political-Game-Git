@@ -204,4 +204,48 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         -1,
       );
   }, 300_000);
+
+  it("offers every paid sale to modules, e.g. to remit sales tax", () => {
+    let sales = 0,
+      remitted = 0,
+      counted = 0;
+    const treasury = {
+      id: "treasury:test",
+      placeId: two.people[0]!.placeId,
+      name: "Test treasury",
+      kind: "government",
+      liquidMinor: 0,
+      source: two.residents!.source,
+    };
+    const core = createLifeCore(
+      { ...two, organizations: [...two.organizations, treasury] },
+      {
+        modules: [
+          {
+            id: "test-sales-tax",
+            onSalesReceipt(api, sale) {
+              sales += sale.paidMinor;
+              if (sale.counted) counted++;
+              const tax = Math.floor(sale.paidMinor * 0.05);
+              const accounts = api.accounts();
+              remitted += accounts.transfer({
+                id: `tax:${sale.id}`,
+                from: accounts.main(sale.sellerId),
+                to: accounts.main(treasury.id),
+                amountMinor: tax,
+                reasonKey: "tax.sales",
+                source: two.residents!.source,
+                partial: true,
+              }).paidMinor;
+            },
+          },
+        ],
+      },
+    );
+    advanceCore(core, "2021-02-01");
+    expect(sales).toBeGreaterThan(0);
+    expect(counted).toBeGreaterThan(0);
+    expect(core.organizations.get(treasury.id)!.liquidMinor).toBe(remitted);
+    expect(remitted).toBeGreaterThan(0.04 * sales);
+  }, 300_000);
 });

@@ -881,6 +881,19 @@ export interface CoreData {
   }[];
 }
 
+/** One paid sale, for modules' onSalesReceipt (e.g. sales tax). */
+export interface SalesReceiptNotice {
+  id: string;
+  date: IsoDate;
+  sellerId: string;
+  buyerIds: readonly string[];
+  kind: string;
+  paidMinor: number;
+  placeId: PlaceId;
+  /** True when the buyers are the counted wider population. */
+  counted: boolean;
+}
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -907,6 +920,11 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /**
+   * Called after every paid sale to a business (finance purchase contracts and
+   * the residents' merged purchases), e.g. to remit sales tax from the seller.
+   */
+  onSalesReceipt?: (api: CoreAPI, sale: SalesReceiptNotice) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
