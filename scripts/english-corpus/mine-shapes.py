@@ -72,6 +72,21 @@ SLOT_PATTERNS = {
     "required": r"[\w$,.\- ]{1,30}",
     "actual": r"[\w$,.\- ]{1,30}",
     "wage": r"\$\d+(?:\.\d\d)?",
+    "bill": r"(?:this|the) (?:bill|legislation|resolution|amendment|rule)|H\.R\. \d+|S\. \d+|the [A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)* Act(?: of (?:19|20)\d\d)?",
+    "year": r"(?:19|20)\d\d",
+    "pronoun": r"(?:his|her|their)",
+    "pronoun_obj": r"(?:him|her|them)",
+    "number": r"(?:\d{1,2}|" + NUMBER_WORD + r")",
+    "group": r"(?:the )?" + PROPER,
+    "issue": r"(?:the |this |that |our )?[a-z][\w' -]{2,40}",
+    "reason": r"[a-z][\w' ,-]{3,60}",
+    "hardship": r"[a-z][\w' -]{3,50}",
+    "goal": r"[a-z][\w' ,-]{3,60}",
+    "did": r"[a-z][\w' ,-]{3,60}",
+    "opponent": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
+    "date": r"(?:" + MONTH + r" \d{1,2}(?:st|nd|rd|th)?|Tuesday|November \d{1,2})",
+    "cause": r"(?:the |our |your |their )?[a-z][\w' -]{2,40}",
+    "change": r"[a-z][\w' ,-]{3,60}",
     "topic": r"(?:the |that |this )?[A-Za-z][\w' -]{2,40}",
     "subject": PROPER,
     "whose": PROPER + r"'s?",
@@ -80,7 +95,7 @@ SLOT_PATTERNS = {
 
 # Slots that hold a proper name. A real sentence fills them with a name, never
 # with a title, a vocative, a speaker label in capitals or a common word.
-PROPER_SLOTS = {"who_many", "first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
+PROPER_SLOTS = {"opponent", "group", "who_many", "first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
 NOT_A_NAME = set(
     "mr mrs ms dr miss madam madame chairman chairwoman chair senator representative congressman congresswoman "
     "secretary general admiral director commissioner governor mayor president speaker sir ma'am "

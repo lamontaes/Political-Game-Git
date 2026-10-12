@@ -1,0 +1,1004 @@
+{
+  "register": "choice-names",
+  "read": {
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "fda": 8,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "nasa2": 330,
+    "nih": 15,
+    "nps": 317,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "work-shift",
+      "text": "Go to work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Go to work at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Work a shift.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Work a double shift.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Work an extra shift.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Work overtime.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Go in to work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-shift",
+      "text": "Clock in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "rest",
+      "text": "Get some rest.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "rest",
+      "text": "Take the day off.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "rest",
+      "text": "Rest.",
+      "documents": 4,
+      "modern": 0
+    },
+    {
+      "move": "rest",
+      "text": "Sleep in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "rest",
+      "text": "Stay in bed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-known-person",
+      "text": "Go see {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "contact-known-person",
+      "text": "Have lunch with {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-known-person",
+      "text": "Have coffee with {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-known-person",
+      "text": "Check on {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-known-person",
+      "text": "Stop by and see {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Take care of {relation}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Look after {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Help {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Check on {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Spend time with {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Stay with {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "care-for-relative",
+      "text": "Take {relation} to the doctor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-association",
+      "text": "Join {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-association",
+      "text": "Become a member of {group}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "join-association",
+      "text": "Sign up for {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-association",
+      "text": "Go to a meeting of {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-association",
+      "text": "Get involved with {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Organize a meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Hold a meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Call a meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Hold a town hall meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Hold a community meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Organize a community meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Get people together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organize-meeting",
+      "text": "Hold a meeting at {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Go to {office}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Call {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "approach-office",
+      "text": "Visit {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Contact {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Write to {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Call your representative.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Contact your representative.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Write your representative.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Call your congressman.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Call the mayor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Call city hall.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Go to city hall.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "approach-office",
+      "text": "Talk to the mayor.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "look-up-local-institution",
+      "text": "Find out who to call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "look-up-local-institution",
+      "text": "Find out who's in charge.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "look-up-local-institution",
+      "text": "Look up {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "look-up-local-institution",
+      "text": "Find out more.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "look-up-local-institution",
+      "text": "Look into it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "look-up-local-institution",
+      "text": "Do some research.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "take-up-cause",
+      "text": "Do something about it.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "take-up-cause",
+      "text": "Take a stand.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "take-up-cause",
+      "text": "Fight back.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "take-up-cause",
+      "text": "Speak out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "take-up-cause",
+      "text": "Make a difference.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hold-grudge",
+      "text": "Hold it against {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hold-grudge",
+      "text": "Never forgive {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hold-grudge",
+      "text": "Blame {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hold-grudge",
+      "text": "Stay angry.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "guard-family",
+      "text": "Protect your family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "guard-family",
+      "text": "Take care of your family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "guard-family",
+      "text": "Look out for your family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "guard-family",
+      "text": "Put your family first.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "guard-family",
+      "text": "Keep your family safe.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Prove them wrong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Show them.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Start over.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Start your own business.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Go back to school.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Get a better job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Find a new job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Look for work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "prove-oneself",
+      "text": "Look for a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "answer-calling",
+      "text": "Help out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "answer-calling",
+      "text": "Help your neighbors.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "answer-calling",
+      "text": "Give back.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "answer-calling",
+      "text": "Serve your community.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "answer-calling",
+      "text": "Volunteer.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "answer-calling",
+      "text": "Do your part.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "answer-calling",
+      "text": "Step up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "carry-on",
+      "text": "Move on.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "carry-on",
+      "text": "Carry on.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "carry-on",
+      "text": "Get on with your life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "carry-on",
+      "text": "Stay the course.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "carry-on",
+      "text": "Keep your head down.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "carry-on",
+      "text": "Go on as before.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "share-cause",
+      "text": "Tell {name} about it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "share-cause",
+      "text": "Talk to {name} about it.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "share-cause",
+      "text": "Tell {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "share-cause",
+      "text": "Tell your friends.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "share-cause",
+      "text": "Spread the word.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "share-cause",
+      "text": "Tell people about it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "found-cause-group",
+      "text": "Start a group.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "found-cause-group",
+      "text": "Start an organization.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "found-cause-group",
+      "text": "Form a group.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "found-cause-group",
+      "text": "Form a committee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "found-cause-group",
+      "text": "Start a petition.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-cause-group",
+      "text": "Join {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-cause-group",
+      "text": "Join the group.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "join-cause-group",
+      "text": "Join the cause.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "join-cause-group",
+      "text": "Sign up.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "join-cause-group",
+      "text": "Join them.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "donate-to-cause",
+      "text": "Donate to {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "donate-to-cause",
+      "text": "Give money to {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "donate-to-cause",
+      "text": "Make a donation.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "donate-to-cause",
+      "text": "Donate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "donate-to-cause",
+      "text": "Give what you can.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "donate-to-cause",
+      "text": "Write a check.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "volunteer-for-cause",
+      "text": "Volunteer at {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "volunteer-for-cause",
+      "text": "Volunteer for {group}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "volunteer-for-cause",
+      "text": "Volunteer.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "volunteer-for-cause",
+      "text": "Volunteer your time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "volunteer-for-cause",
+      "text": "Help out at {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "confront-grudge-target",
+      "text": "Confront {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "confront-grudge-target",
+      "text": "Tell {name} off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "confront-grudge-target",
+      "text": "Have it out with {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "confront-grudge-target",
+      "text": "Go talk to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "confront-grudge-target",
+      "text": "Say something to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "confront-grudge-target",
+      "text": "Call {name} out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "seek-standing",
+      "text": "Meet {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "seek-standing",
+      "text": "Introduce yourself to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "seek-standing",
+      "text": "Get to know {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "seek-standing",
+      "text": "Make a name for yourself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "seek-standing",
+      "text": "Network.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Testify at the hearing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Testify.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Speak at the hearing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Speak at the meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Sign up to speak.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Speak at the council meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Go to the hearing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "testify-at-hearing",
+      "text": "Go to the meeting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "run-for-office",
+      "text": "Run for office.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "run-for-office",
+      "text": "Run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "run-for-office",
+      "text": "Run for city council.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "run-for-office",
+      "text": "Run for mayor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "run-for-office",
+      "text": "Run for the school board.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "run-for-office",
+      "text": "File to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "run-for-office",
+      "text": "Run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Lobby {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Write to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Meet with {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Talk to your legislator.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Call your legislator.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Write your legislator.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Contact your legislator.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lobby-legislator",
+      "text": "Lobby the legislature.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-question",
+      "text": "Are you for or against {topic}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-question",
+      "text": "What's your position on {topic}?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "stance-question",
+      "text": "Is {topic} a problem here?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I'm for it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I'm against it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I haven't decided.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I'm undecided.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I'm in favor of it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I'm strongly in favor of it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "stance-answer",
+      "text": "I'm strongly opposed to it.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

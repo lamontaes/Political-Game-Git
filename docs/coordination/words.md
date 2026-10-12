@@ -29,6 +29,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Scenes and bring-it-up, first version Oct 12: `data/english/parts/scene-words.json` and `bring-it-up.json`; `scripts/english-corpus/scene-bank.ts` turns them into the director's words, and `scene-bank.test.ts` runs the real `composeScene` and `bringItUp` with them in a generated place. People now say "Chen's General Store shut down." then "That was Chen's doing."-style blame from the records: "It was Chen's decision.", "I think it was Mayor Lee.", "I have no idea."
   - Scenes are thin: second-person narration is rare in transcripts, so only being at work, out in town, the phone ringing and who is here are mined. Home, someone's home, school, a letter and the cause lines are not yet. The blame someone was told ("I heard it was ...") is not yet mined either.
 - [ ] **Speeches and debate** (campaign speeches, floor speeches, public comment), then **interviews** (with GOV's press interviews).
+  - Mined Oct 12: `data/english/parts/address.json`, 148 sentences in the register cards' moves: the House floor ("Madam Speaker, I rise today in support of {bill}.", "I yield back the balance of my time."), the Senate floor, a state floor, committee hearings and witnesses ("I don't recall.", "That's a great question."), public comment ("My name is {name}, and I live in {place}.", "Thank you for your consideration."), the chair ("Is there a second?", "The ayes have it."), campaign remarks ("I grew up in {place}.", "We can do better.", "{opponent} voted against {issue}."), victory ("I am humbled.") and concession ("I congratulate {opponent}."). Not yet wired: the new core has no speech wording yet (GOV's `giveSpeech`).
+- Choice names, mined Oct 12: `data/english/parts/choice-names.json`, 35 sentences naming core actions ("Call {name}.", "Take a break.", "Stand up for {cause}.", "Keep going.") and stance questions with answers ("Do you support {topic}?", "Should {place} {change}?", "It depends."). Imperatives are rare in transcripts, so about half the actions have no mined name yet. The new core has no headline text at all: a news story is its event kind and facts.
 
 ## Needs from other sessions
 
@@ -38,15 +40,20 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   3. Skip a part the owner's grades hold back (`heldByGrades(part.key)`), as `composeFromBank` already does.
 - **OPUS-PEOPLE (closes `SG-P15-journal-banks`):** pass `journalDataFromBank()` from `scripts/english-corpus/journal-bank.ts` as the journal's data. No engine change is needed; the relation words, count words and look-back stay the director's own data.
 - **OPUS-PEOPLE (scenes and bring-it-up, `SG-P15-scene-banks`, `SG-P15-bring-it-up-banks`):** pass `sceneWordsFromBank()` to `composeScene` and `bringDataFromBank()` to `bringItUp` (both in `scripts/english-corpus/scene-bank.ts`); no engine change. Until the setting lines are mined, a scene could show its setting's record name as a caption instead of a narration line (your call).
+- **OPUS-GOV (speeches):** `giveSpeech` can compose a speech with the English engine's `composeAddress` from `data/english/parts/address.json`: each part's `uses` names the register (house-floor, senate-floor, state-floor, hearing, public-comment, chair, campaign, victory, concession) and the move. Sentences that open "Mr." or "Madam" need the chair's recorded gender to choose between them. I'll write the adapter to `ComposedLineBank` next; tell me (through the CTO) which moves your speech records carry.
+- **OPUS-PLAY (choice names):** `data/english/parts/choice-names.json` names core actions by their action id (each part's `uses[].role`), and stance questions and answers. The bench can show these instead of the action ids.
+- **OPUS-PEOPLE (old banks):** `bank-english.ts` reads `data/english/parts/notices.json`, whose register is `notice`; the bank test wants the file named after its register. Importing it as `notice.json` (I'll rename the file in the same change) clears two of the five red bank tests. The other three are `newspaper-ledes.json`: structural lede patterns from pre-1929 newspapers, which fail the 2015 era rule; I'll re-mine ledes from federal records.
 - **OPUS-PEOPLE (filing clerk, closes `SG-P15-filing-visit-banks`):** let `openFilingVisit` and `pickContest` take the words (`filingWordsFromBank()` from `scripts/english-corpus/filing-bank.ts`) instead of reading `FILING_VISIT_WORDS` directly, and add GOV's `filedWith` as the fact `filing-office`. No public-domain record has a clerk saying the fee or the signature count, so the clerk states only the deadline and the rules; the screen shows the fee and signatures as the filing record's data, and the office choices and "pay the fee" or "gather signatures" as control names (empty `pick`, `payFee` and `gather` mean "use the control name").
 
 ## Questions for the owner
 
-- (none yet)
+- **San Diego notices.** `data/english/parts/notices.json` ships notice headings from the City of San Diego's public notices. California cities' works are generally treated as public domain, but the project's rule asks for the state's rule on record, and no ruling is recorded yet. Until you rule, I keep them as they are and won't add more city text.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12: mined the speech bank (148 sentences, nine registers) and choice names (35); bank tests: 130 pass, the same 5 old failures. Next: a grading batch for the journal, clerk, scenes and bring-it-up; then the speech adapter.
 
 - Oct 12: scenes (7 sentences) and bring-it-up (23) run through the real `composeScene` and `bringItUp` with mined words; tests pass. Next: news headlines and choice names, while the oral-history corpus grows to fill the gaps.
 

@@ -1,0 +1,1238 @@
+{
+  "register": "address",
+  "read": {
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "fda": 8,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "nasa2": 330,
+    "nih": 15,
+    "nps": 200,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "house-floor-address-chair",
+      "text": "Mr. Speaker, I rise today to honor {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-address-chair",
+      "text": "Madam Speaker, I rise today to honor {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-address-chair",
+      "text": "Madam Speaker, I rise today to recognize {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-address-chair",
+      "text": "Mr. Speaker, I rise today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-address-chair",
+      "text": "Madam Speaker, I rise today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-yield",
+      "text": "I urge a no vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-yield",
+      "text": "I urge support of this bill.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "house-floor-yield",
+      "text": "I urge adoption of the amendment.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-close",
+      "text": "I ask my colleagues to join me in honoring {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-close",
+      "text": "Please join me in congratulating {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-close",
+      "text": "{name} made a difference in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-close",
+      "text": "I thank {name} for {years} years of service.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-story",
+      "text": "{name} served {place} for {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "house-floor-tribute-story",
+      "text": "{name} served as {office} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-story",
+      "text": "{name} was elected {office} in {year}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "house-floor-tribute-story",
+      "text": "{name} is survived by {pronoun} husband.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "house-floor-tribute-story",
+      "text": "{name} is survived by {pronoun} children.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "senate-floor-address-chair",
+      "text": "Mr. President, I rise today to honor {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "senate-floor-address-chair",
+      "text": "Madam President, I rise today to honor {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "senate-floor-address-chair",
+      "text": "Mr. President, I rise today in support of {bill}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "senate-floor-address-chair",
+      "text": "Madam President, I rise today in support of {bill}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "senate-floor-address-chair",
+      "text": "Mr. President, I rise today in opposition to {bill}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-floor-close",
+      "text": "I ask for a yes vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-floor-close",
+      "text": "I ask for an affirmative vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-floor-close",
+      "text": "I ask for your support.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "state-floor-close",
+      "text": "I urge a no vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-floor-close",
+      "text": "I ask the members to vote yes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-floor-close",
+      "text": "I ask the members to vote no.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hearing-open",
+      "text": "Good morning, and thank you for the opportunity to testify.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "hearing-close",
+      "text": "I'm happy to answer any questions.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "hearing-witness-hedge",
+      "text": "We'll get back to you on that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hearing-witness-hedge",
+      "text": "I'll follow up with your office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hearing-witness-hedge",
+      "text": "We'd be happy to follow up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hearing-witness-hedge",
+      "text": "It's too early to tell.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "hearing-witness-hedge",
+      "text": "I think it's too early to tell.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "My name is {name}, and I'm a resident of {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "My name is {name}, and I've lived in {place} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a resident of {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I've lived in {place} for {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I've lived here for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a homeowner in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a small business owner in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a teacher in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a parent.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a mother of {number}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm a father of {number}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm here today on behalf of {group}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm here to speak about {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm here today to talk about {issue}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm here to speak in support of {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-name",
+      "text": "I'm here to speak in opposition to {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good evening, everyone.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good evening, members of the council.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good evening, Mayor {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good evening, Mr. Mayor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good evening, Madam Mayor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good morning, members of the board.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good morning, Commissioners.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-greet",
+      "text": "Good afternoon, members of the board.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I urge you to vote no.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I urge you to vote yes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I urge you to oppose {issue}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I ask that you vote no.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I ask that you vote yes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I ask you to vote no.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I ask you to vote yes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "Please vote no.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "Please vote yes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "Please support this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "Please do the right thing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "We ask for your support.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I ask for your support.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I hope you will support this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-ask",
+      "text": "I hope you'll vote no.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "We've lived here for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "My family has lived here for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "I was born and raised here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "My kids go to school here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "My children go to school here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "I work here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "I've worked here for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "We can't afford to live here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "My rent went up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "My taxes went up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "My property taxes went up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "Our taxes keep going up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "I had to close my business.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "I'm on a fixed income.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-story",
+      "text": "It's not safe.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "public-comment-story",
+      "text": "The roads are terrible.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "public-comment-close",
+      "text": "Thank you, and have a good evening.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Next speaker, please.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Next speaker.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Please state your name for the record.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "State your name for the record.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Those opposed, say no.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "The motion fails.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Move to approve.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "I make a motion to approve.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Roll call, please.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "chair-run-meeting",
+      "text": "Please call the roll.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-thanks",
+      "text": "Thank you for coming out tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-thanks",
+      "text": "Thank you for being here tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-thanks",
+      "text": "It's great to be back in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-thanks",
+      "text": "It's good to be home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-thanks",
+      "text": "It's great to be home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-thanks",
+      "text": "It's good to be back in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "My name is {name}, and I'm running for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm running for {office}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm running for {office} because {reason}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I've lived in {place} my whole life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I've lived here my whole life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I've spent my whole life here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a small business owner.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a teacher.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a nurse.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a farmer.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a veteran.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a mother.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a father.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "I'm a parent.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "My father worked at {employer}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-self",
+      "text": "My mother worked at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "My dad worked at {employer} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "My mom worked at {employer} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I know what it's like to {hardship}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I know what it's like to struggle.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I know what it's like to lose a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-self",
+      "text": "I know what it's like to raise a family on a tight budget.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "It's time for a change.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "We need jobs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "We need good jobs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "We need better schools.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "We need to fix our roads.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "We need to lower taxes.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-issue",
+      "text": "Taxes are too high.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "Prices are too high.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "Rent is too high.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "Families are hurting.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "Families are struggling.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-issue",
+      "text": "Working families are struggling.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "This election is about {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "This is about our future.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-issue",
+      "text": "This is about jobs.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "My opponent voted against {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "My opponent voted for {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "My opponent wants to {goal}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "My opponent has been in office for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "They had their chance.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "They've had their chance.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-contrast",
+      "text": "We've tried it their way.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "I'm asking for your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "I ask for your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "I ask for your support.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-ask",
+      "text": "I need your vote.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-ask",
+      "text": "I'm asking for your support.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Please vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Go vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Get out and vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Make sure you vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Vote on {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Election Day is {date}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Tell your friends.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Tell your neighbors.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Bring a friend.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Let's go win this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Let's win this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-ask",
+      "text": "Together, we can do this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "campaign-close",
+      "text": "Thank you, and God bless.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-close",
+      "text": "Thank you, and God bless you.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "campaign-close",
+      "text": "God bless you, and God bless America.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "victory-claim",
+      "text": "Tonight, we won.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "The people have spoken.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "victory-claim",
+      "text": "The voters have spoken.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "victory-claim",
+      "text": "Tonight, the people of {place} have spoken.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "This is your victory.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "This victory belongs to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "This is not my victory.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "I'm humbled.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "I'm honored.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "victory-claim",
+      "text": "I'm grateful.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "I'm deeply grateful.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "Now the work begins.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "Now the hard work begins.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "Tomorrow we get to work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "I will be {office} for everyone.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "I will represent everyone.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "I will work for every one of you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "victory-claim",
+      "text": "Whether you voted for me or not, I will work for you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "I called {opponent} to congratulate {pronoun_obj}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "I called {opponent} to concede.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "I wish {opponent} well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "The voters have spoken.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "concession-concede",
+      "text": "The people have spoken.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "concession-concede",
+      "text": "This is not the result we wanted.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "This is not the outcome we hoped for.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "We came up short.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "concession-concede",
+      "text": "We fell short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "We didn't win.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "I'm proud of the campaign we ran.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "I'm proud of what we did.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "concession-concede",
+      "text": "This is not the end.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "concession-concede",
+      "text": "The fight goes on.",
+      "documents": 1,
+      "modern": 1
+    }
+  ]
+}
