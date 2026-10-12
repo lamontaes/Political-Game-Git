@@ -20,7 +20,8 @@
     "goal": "What the speaker wants done, from their recorded stance.",
     "did": "What the opponent did, from the opponent's record.",
     "opponent": "The other candidate, by name, from the contest record.",
-    "date": "Election day, from the contest record."
+    "date": "Election day, from the contest record.",
+    "state": "What the speaker means to restore, as the record says it."
   },
   "maxWords": 16,
   "minDocuments": 2,
@@ -604,6 +605,144 @@
         "This is not the end.",
         "The fight goes on.",
         "Thank you for everything."
+      ]
+    },
+    {
+      "move": "state-of-the-union-salutation",
+      "subject": "state-of-the-union",
+      "role": "salutation",
+      "choice": "salutation",
+      "candidates": [
+        "Mr. Speaker, Madam Vice President, members of Congress, my fellow Americans.",
+        "Madam Speaker, Mr. Vice President, members of Congress, my fellow Americans.",
+        "Mr. Speaker, Mr. Vice President, members of Congress, my fellow Americans.",
+        "Madam Speaker, Madam Vice President, members of Congress, my fellow Americans.",
+        "Mr. Speaker, Mr. Vice President, Members of Congress, the First Lady of the United States, and my fellow Americans.",
+        "My fellow Americans.",
+        "Thank you very much.",
+        "Thank you."
+      ]
+    },
+    {
+      "move": "state-of-the-union-report",
+      "subject": "state-of-the-union",
+      "role": "report",
+      "choice": "report",
+      "candidates": [
+        "The state of our Union is strong.",
+        "The state of our union is strong.",
+        "Tonight, the state of our Union is strong.",
+        "I can report that the state of our Union is strong.",
+        "Our economy is strong.",
+        "Our economy is booming.",
+        "America is back.",
+        "Jobs are up.",
+        "Wages are rising.",
+        "Unemployment is at a record low.",
+        "We've created {number} new jobs.",
+        "We created {number} jobs."
+      ]
+    },
+    {
+      "move": "state-of-the-union-guest",
+      "subject": "state-of-the-union",
+      "role": "guest",
+      "choice": "guest",
+      "candidates": [
+        "{name} is here tonight.",
+        "{name} is with us tonight.",
+        "{name} is here with us tonight.",
+        "{name}, please stand.",
+        "{name}, thank you.",
+        "Thank you, {name}.",
+        "{name} is in the gallery tonight.",
+        "{name} joins us tonight.",
+        "Please welcome {name}."
+      ]
+    },
+    {
+      "move": "state-of-the-union-ask",
+      "subject": "state-of-the-union",
+      "role": "ask",
+      "choice": "ask",
+      "candidates": [
+        "I ask Congress to {goal}.",
+        "I'm asking Congress to {goal}.",
+        "Send me a bill, and I will sign it.",
+        "Send me that bill.",
+        "Pass it.",
+        "Let's get it done.",
+        "Let's {goal}.",
+        "Let's finish the job.",
+        "Let's work together.",
+        "Congress must {goal}.",
+        "We must {goal}.",
+        "I urge Congress to {goal}."
+      ]
+    },
+    {
+      "move": "state-of-the-union-close",
+      "subject": "state-of-the-union",
+      "role": "close",
+      "choice": "close",
+      "candidates": [
+        "God bless you, and may God protect our troops.",
+        "God bless you all, and may God protect our troops.",
+        "God bless America.",
+        "God bless you, and God bless the United States of America.",
+        "Thank you, and God bless America.",
+        "Thank you.",
+        "Thank you all.",
+        "Thank you very much."
+      ]
+    },
+    {
+      "move": "inaugural-salutation",
+      "subject": "inaugural",
+      "role": "salutation",
+      "choice": "salutation",
+      "candidates": [
+        "Chief Justice {name}, Vice President {name}, my fellow citizens.",
+        "My fellow Americans.",
+        "My fellow citizens.",
+        "Thank you.",
+        "Thank you very much."
+      ]
+    },
+    {
+      "move": "inaugural-moment",
+      "subject": "inaugural",
+      "role": "moment",
+      "choice": "moment",
+      "candidates": [
+        "Today, we celebrate the triumph not of a party, but of a cause.",
+        "This is America's day.",
+        "This is democracy's day.",
+        "Today is a new day.",
+        "This is our moment.",
+        "We are one nation.",
+        "We will {goal}.",
+        "Together, we will {goal}.",
+        "We will not fail.",
+        "The future is ours.",
+        "We will rebuild.",
+        "We will make America {state} again.",
+        "We are all Americans."
+      ]
+    },
+    {
+      "move": "inaugural-close",
+      "subject": "inaugural",
+      "role": "close",
+      "choice": "close",
+      "candidates": [
+        "God bless America.",
+        "God bless you, and God bless America.",
+        "Thank you, God bless you, and God bless America.",
+        "So help me God.",
+        "May God bless America.",
+        "Thank you.",
+        "Thank you, and God bless you."
       ]
     }
   ]

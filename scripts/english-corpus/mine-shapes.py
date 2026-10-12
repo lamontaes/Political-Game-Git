@@ -98,6 +98,7 @@ SLOT_PATTERNS = {
     "body": r"(?:the )?[A-Z][\w'.&-]*(?: [A-Z][\w'.&-]*| of| for)*",
     "matter": r"[A-Za-z][\w' ,-]{3,60}",
     "occasion": r"[A-Za-z][\w' ,-]{3,60}",
+    "state": r"[a-z]+(?: and [a-z]+)?",
     "claim": r"[a-z][\w' ,-]{3,60}",
     "experience": r"[a-z][\w' ,-]{3,60}",
     "cause": r"(?:the |our |your |their )?[a-z][\w' -]{2,40}",
