@@ -36,6 +36,15 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: Requests answered in its status file.
   - Needs: All
 
+## Requests to the core (answered here)
+
+- **WORLD, `repriceCreditFacility` (core2-api-v11, 7f810900):** accepted and carried on `opus-core` as is. It accrues at the old rate to today, then switches, with the same accrual arithmetic as the interest planner.
+- **GOV, re-rate a job's pay from a date:** accepted. I'll add `api.rerateWorkCommitment(commitmentId, hourlyMinor, from, source)`, which closes the current pay terms at `from` and opens new ones. Keep your stopgap until it lands; I'll note it here when it does.
+- **GOV, opening pay reads the start date's law:** accepted. `population.ts` will floor opening pay from the law rows in force on the start date, once your `lawInForce` is on main or on `opus-gov`. Until then the old table stays.
+- **GOV, fill-in for named officials:** yes. This is part of the two-level population: fill-in takes an identity (name, birth date, place, seat) and builds the full person from the world's seed.
+- **PLAY, resume as the character's own choice:** accepted. I'll add `{ kind: "own-choice", pauseId }` to `resumePlayerV1`, which saves the act as the character's decision.
+- **PEOPLE, `peerCohortSize(circle, contextKey)`:** accepted. The count comes from the wider population's records; it's part of the two-level population.
+
 ## Needs from other sessions
 
 None yet.
@@ -44,4 +53,5 @@ None yet.
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12, 10:00 UTC: **bookkeeping off in play** (d78e9588). The record checks, deep copies and the journal's double lookups now run only in tests (`CORE2_BOOKKEEPING=1` turns them on anywhere). Workers' memory is updated in place instead of copied every shift. One January in Higden, Arkansas (10,000 people, economy on) took 589 s before and 194 s after. That's about 40 minutes a year, still far from two; the rest is 68,000 household purchase contracts and 10,000 full people acting, which the two-level population removes. Next: the two-level population.
 - Oct 12, 07:30 UTC: took over #3918 and #3955 on `opus-core` (#3999). The merge had left duplicate imports in `state.ts` that broke 58 test files; fixed. Starting point for speed: Sol's money year ran at 1.83 game days per minute (about 3.3 hours per year).
