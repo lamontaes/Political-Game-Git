@@ -1042,5 +1042,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-outside-living-costs",
+    "kind": "housing-and-leakage",
+    "file": "src/core2/residents.ts",
+    "line": 1,
+    "whatItFakes": "Each household's assigned living cost (CEX basket plus HUD Fair Market Rent) not bought from a recorded local seller is paid to one outside account on the 1st: no landlord, mortgage, utility or outside store.",
+    "why": "Rent and non-local spending were never paid, so household cash grew without limit.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-WORLD's housing engine (rent and mortgages to owners and lenders) and outside-spending model (category location-quotient leakage); turn this off with collapseToTwoLevels(input, { outsideLivingCosts: false }).",
+    "status": "open"
   }
 ]

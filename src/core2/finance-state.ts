@@ -726,6 +726,53 @@ export function prepareFinanceProcurement(
   }
 }
 
+/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+export function reduceStandingArrears(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  paidMinor: number,
+): void {
+  const row = core.finance.contracts.get(id);
+  minor(api, paidMinor, "arrears payment");
+  if (!row || !row.accruesArrears || paidMinor > row.arrearsMinor)
+    throw new Error("An arrears payment cannot exceed what is owed.");
+  row.arrearsMinor -= paidMinor;
+  if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
+}
+
+/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+export function setStandingContractAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error(
+      "Only a current standing obligation can change its amount.",
+    );
+  minor(api, amountMinor, "standing obligation amount");
+  row.amountMinor = amountMinor;
+}
+
+/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+export function endStandingContract(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error("Only a current standing obligation can end.");
+  policy(api);
+  row.endedAt = core.date;
+  removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+  if (row.endsAt)
+    removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+}
+
 export function retireFinanceBudget(
   core: CoreState,
   api: CoreAPI,
@@ -817,6 +864,27 @@ export function admitCreditFacility(
     interestFacilityId: input.id,
     source: input.source,
   });
+}
+
+/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+export function attachBusinessCredit(
+  core: CoreState,
+  api: CoreAPI,
+  organizationId: string,
+  facilityId: string,
+): void {
+  const book = core.finance.businesses.get(organizationId),
+    facility = core.finance.facilities.get(facilityId);
+  if (
+    !book ||
+    book.closedAt ||
+    !facility ||
+    !facility.active ||
+    facility.borrowerId !== organizationId
+  )
+    throw new Error("Business credit must be the open firm's own active line.");
+  policy(api);
+  book.creditFacilityId = facilityId;
 }
 
 /** core2-api-v11: a dated rate change; interest before today stays at the old rate. */

@@ -204,9 +204,17 @@ export function fullPeople(input: CoreInput): Set<PersonId> {
  * total is unchanged: people (full plus counted), cash (people plus residents
  * accounts), wages, retirement income and household purchases.
  */
+export interface CollapseOptions {
+  keep?: ReadonlySet<PersonId>;
+  /** Stand-in (SG-CORE-outside-living-costs): living costs not bought locally leave the town. Off when a housing/outside-spending engine is installed. */
+  outsideLivingCosts?: boolean;
+  /** Stand-in (SG-CORE-unplaced-workers-income): pay for workers the opening couldn't place. Off when a jobs engine places them. */
+  unplacedWorkerIncome?: boolean;
+}
+
 export function collapseToTwoLevels(
   input: CoreInput,
-  options: { keep?: ReadonlySet<PersonId> } = {},
+  options: CollapseOptions = {},
 ): CoreInput {
   stopgap(RESIDENTS_STOPGAP);
   const keep = new Set(options.keep ?? fullPeople(input));
@@ -586,9 +594,12 @@ export function collapseToTwoLevels(
     PlaceId,
     { amount: number; byHome: Record<string, number> }
   >();
-  for (const home of input.households) {
+  for (const home of options.outsideLivingCosts === false
+    ? []
+    : input.households) {
     const members = home.memberIds.map((id) => peopleById.get(id)!);
     const payer = members.find((row) => row.livingCostDailyMinor > 0);
+    stopgap("SG-CORE-outside-living-costs");
     if (!payer) continue;
     const assigned = Math.round(
       (sum(members.map((row) => row.livingCostDailyMinor)) * DAYS_PER_YEAR) /
@@ -651,7 +662,12 @@ export function collapseToTwoLevels(
     Number.isFinite(target) && allAdults > 0
       ? Math.max(0, target - employed) * (countedAdults / allAdults)
       : 0;
-  if (unplaced > 0 && median > 0 && accountByPlace.size) {
+  if (
+    options.unplacedWorkerIncome !== false &&
+    unplaced > 0 &&
+    median > 0 &&
+    accountByPlace.size
+  ) {
     const placeId = [...accountByPlace.keys()][0]!;
     stopgap("SG-CORE-unplaced-workers-income");
     flows.push({

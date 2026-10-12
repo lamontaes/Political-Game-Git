@@ -67,6 +67,10 @@ export function outsideMarketAccount(
 export function addOutsideMarket(
   input: CoreInput,
   data: OutsideMarketData = outsideMarket as OutsideMarketData,
+  options: {
+    /** Stand-in (SG-CORE-owner-distributions); off when a business engine pays owners. */
+    ownerDistributions?: boolean;
+  } = {},
 ): CoreInput {
   stopgap(data.stopgapId);
   markStopgap("SG-CORE-owner-distributions");
@@ -103,7 +107,7 @@ export function addOutsideMarket(
     ] ?? openingCapital.medianDaysParameterByIndustry["all-small-businesses"];
   for (const book of input.finance?.businesses ?? []) {
     const owner = organizations.get(book.organizationId);
-    if (owner) {
+    if (owner && options.ownerDistributions !== false) {
       const outside =
         accounts.get(owner.placeId) ??
         outsideMarketAccount(owner.placeId, start);
