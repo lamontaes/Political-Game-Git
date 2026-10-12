@@ -24,6 +24,7 @@ import type { Raster } from "../presentation/appearance-engine/raster";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
+import { dwellingKind } from "../core2/modules/housing";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -92,9 +93,15 @@ function workplaceOf(core: CoreState, person: PersonState): string {
   );
 }
 
-// Stopgap SG-PLAY-home-dwelling-kind: new-core households record no dwelling
-// type, so every home shows the shared house interior.
-const homeOf = () => homePlaceFor(null);
+/** The person's home picture, from the kind of dwelling their household lives in (OPUS-WORLD housing). */
+export function homeOf(core: CoreState, personId: string): string {
+  const household = core.people.get(personId)?.householdId;
+  const kind = household ? dwellingKind(coreAPI(core), household) : undefined;
+  const place = kind
+    ? (scenePlaces.dwellingPlaces as Record<string, string>)[kind]
+    : undefined;
+  return place && hasBackdrop(place) ? place : homePlaceFor(null);
+}
 
 /** What the person is doing right now, from the open pause or their last act. */
 function doing(
@@ -136,7 +143,7 @@ export function scenePlace(
   for (const step of tries) {
     const place =
       step === "@home"
-        ? homeOf()
+        ? homeOf(core, personId)
         : step === "@workplace"
           ? workplaceOf(core, person)
           : step === "@target"
@@ -149,7 +156,7 @@ export function scenePlace(
         ...(act?.targetId ? { targetId: act.targetId } : {}),
       };
   }
-  return { place: homeOf(), why: "at home" };
+  return { place: homeOf(core, personId), why: "at home" };
 }
 
 export function backdropFile(place: string, minuteOfDay: number) {
@@ -210,7 +217,7 @@ function presentIds(
     alive(targetId)
   )
     return [targetId];
-  if (place === homeOf())
+  if (place === homeOf(core, personId))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
       .filter(alive);

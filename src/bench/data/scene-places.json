@@ -119,5 +119,13 @@
     "school-gym-town-hall",
     "rally-union-hall-parking-lot",
     "rally-stage"
-  ]
+  ],
+  "dwellingPlaces": {
+    "about": "The home picture for each kind of dwelling OPUS-WORLD's housing records (dwellingKind).",
+    "house": "suburban-house",
+    "rowhouse": "rowhouse",
+    "apartment": "small-apartment",
+    "mobile-home": "mobile-home",
+    "farmhouse": "rural-farmhouse"
+  }
 }

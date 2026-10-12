@@ -1313,11 +1313,11 @@
     "file": "src/bench/server.ts",
     "line": 101,
     "whatItFakes": "The bench builds a smaller town (2,000 people by default) instead of the full opening cohort.",
-    "why": "A day of the full 40,000-person town takes about 13 seconds, too slow to play.",
+    "why": "A day of the full 40,000-person town takes about 13 seconds, too slow to play. Resolved by OPUS-PLAY (2026-10-12): /play builds the whole place two-level (OPUS-CORE), and a year runs in 39 s; the developer page's size field is a tool, not a stand-in.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE’s two-level population and speed work, after which the bench builds the full place.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-home-dwelling-kind",
@@ -1325,11 +1325,11 @@
     "file": "src/bench/scene.ts",
     "line": 89,
     "whatItFakes": "Every home in the bench shows the shared suburban house interior.",
-    "why": "New-core households record no dwelling type (apartment, mobile home, rowhouse, farmhouse), so the picture cannot follow the home.",
+    "why": "New-core households record no dwelling type (apartment, mobile home, rowhouse, farmhouse), so the picture cannot follow the home. Resolved by OPUS-PLAY (2026-10-12): the scene reads OPUS-WORLD's dwellingKind (house, rowhouse, apartment, mobile home, farmhouse) and shows that home's picture.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "A dwelling type on each household from OPUS-WORLD housing or OPUS-PEOPLE, read by the bench scene picker.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-wage-floor-rate-write",
