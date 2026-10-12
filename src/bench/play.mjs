@@ -130,6 +130,11 @@ async function renderCard() {
 
 // Control names for the choice buttons, loaded once.
 let controls = {};
+// Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+const amount = (value, unit) =>
+  unit?.startsWith("minor")
+    ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+    : `${value ?? ""}${unit ? ` ${unit}` : ""}`;
 /** A policy question by its name on the bill catalog, else its key's last part. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? question.split(":").pop();
@@ -687,12 +692,15 @@ async function seatRows() {
     const pick = el(
       "select",
       {},
-      ...v.amounts.map((a) =>
-        el("option", {
+      ...v.amounts.map((a) => {
+        const option = el("option", {
           value: `series:${a.series}`,
-          textContent: `${a.series} · ${a.current ?? ""} ${a.unit ?? ""}`,
-        }),
-      ),
+          textContent: `${policyLabel(a.series)} · ${amount(a.current, a.unit)}`,
+        });
+        // Money is typed in dollars and kept in cents.
+        if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
+        return option;
+      }),
       ...v.questions.map((q) =>
         el("option", {
           value: `question:${q}`,
@@ -711,11 +719,14 @@ async function seatRows() {
         pick.value.slice(0, pick.value.indexOf(":")),
         pick.value.slice(pick.value.indexOf(":") + 1),
       ];
+      const cents = pick.selectedOptions[0]?.dataset.cents === "1";
       act({
         kind: "draft",
         officeId: body.officeId,
         ...(kind === "series" ? { series: key } : { question: key }),
-        value: value.value,
+        value: cents
+          ? String(Math.round(Number(value.value) * 100))
+          : value.value,
       });
     });
     rows.push(
@@ -1167,11 +1178,6 @@ const sheets = {
     ];
   },
   async changes() {
-    // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
-    const amount = (value, unit) =>
-      unit?.startsWith("minor")
-        ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-        : `${value}${unit ? ` ${unit}` : ""}`;
     const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
     seenChanges = laws.length;
     return laws.map((law) =>
