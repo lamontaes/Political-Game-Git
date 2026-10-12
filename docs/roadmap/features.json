@@ -258,7 +258,7 @@
       "golden_path": "world",
       "package": "M1-officials",
       "test": "In a random place, every seat that covers the player has a holder with a record and a term; a vacancy is filled the way that office's real rules say.",
-      "command": null,
+      "command": "npx vitest run src/core2/offices.test.ts --testTimeout=300000",
       "passes": false
     },
     {

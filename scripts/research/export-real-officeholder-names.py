@@ -42,6 +42,13 @@ def main(folder):
         names.add(normalize(name["first"], name["last"]))
         if name.get("nickname"):
             names.add(normalize(name["nickname"], name["last"]))
+    calibration = ROOT / "data/source/electoral-calibration-2024/corpus.json"
+    governors = 0
+    for row in json.load(open(calibration))["governors"]:
+        parts = (row.get("officeholderName") or "").split()
+        if len(parts) >= 2:
+            names.add(normalize(parts[0], parts[-1]))
+            governors += 1
     states = 0
     for path in sorted(glob.glob(os.path.join(folder, "*.csv"))):
         rows = list(csv.DictReader(open(path)))
@@ -58,9 +65,10 @@ def main(folder):
         "sources": [
             "https://unitedstates.github.io/congress-legislators/legislators-current.json",
             "https://data.openstates.org/people/current/",
+            "https://www.nga.org/governors/",
         ],
-        "license": "Both sources are public domain (CC0).",
-        "coverage": f"Congress (all current members) and current state legislators in {states} jurisdictions from Open States. Governors and other statewide officers are not yet included.",
+        "license": "Congress and Open States data are public domain (CC0); governors' names are facts read from NGA pages and only their hashes are kept.",
+        "coverage": f"Congress (all current members), {governors} governors (National Governors Association, via data/source/electoral-calibration-2024) and current state legislators in {states} jurisdictions from Open States. Other statewide officers are not yet included.",
         "hashes": sorted(digest(n) for n in names),
     }
     OUT.write_text(json.dumps(document, indent=0) + "\n")

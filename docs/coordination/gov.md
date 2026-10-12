@@ -10,6 +10,7 @@ Only OPUS-GOV writes this file. See "The team" in `AGENTS.md` and `docs/coordina
 ## What the owner can play now
 
 - **Law where you live (Oct 12):** a new world in any of the 56 places opens with that place's real law at every level: federal, state, county and city minimum wage (the highest floor that legally applies wins; a city ordinance only counts where the state allows it), federal, state and local income tax (territories pay their own instead of federal), state plus local sales tax, the county's property tax, and SNAP, unemployment and Medicaid amounts. A raise scheduled for later in the year takes effect on its date, is announced as a public record, and lifts every town job under the new floor that day. No screen yet: the bench's "law here" view reads `lawHere` (needs OPUS-PLAY).
+- **Who governs you (Oct 12):** every seat that covers your town has a holder from day one: president and vice president, your two U.S. senators and your House member (or delegate), the governor and every statewide elected office, your state senator and representative, your county board, row officers (sheriff, clerk, assessor and the rest) and your city council and mayor. Local seats are held by your own neighbors, chosen from residents whose personalities suit public life; state and federal holders are fictional people sitting in the party that really holds that seat. If a holder dies, the seat is filled the way that office's real rule says (a successor, an appointment, or a special election). No name matches a real officeholder. No screen yet: `townSeats(api)` lists them for the bench (needs OPUS-PLAY).
 
 ## Checklist
 
@@ -18,7 +19,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [x] **Laws in force.** Done Oct 12: `src/core2/modules/laws.ts` loads 957 sourced rows (317 jurisdictions) built by `scripts/research/build-starting-law.py`; M1-01 runs `src/core2/laws.test.ts` (random place, random territory, preemption, pending phase, named worker's raise), 4 of 4 passing on fresh draws. Which law applies to each person, business and place at every level, from the start date's real law; effective dates on the calendar; the minimum wage rises on its date.
   - Verified by: M1-01: 3 random places including a territory: checks every tracked law against its source, one preemption case, one law not yet in effect, and one named worker's raise.
   - Needs: CORE (calendar)
-- [ ] **Offices and seats.** Every office and seat, real structures from official sources (replacing the Book of the States values), fictional holders who are full people, the real-name check.
+- [x] **Offices and seats.** Done Oct 12 (first pass): `src/core2/modules/offices.ts`; M2-01 runs `src/core2/offices.test.ts` (seats with holders and terms, a death filled by its real rule, the real-name check), 3 of 3 on fresh draws. Open: full people behind state and federal holders (CORE fill-in), positions behind votes (PEOPLE views), real term-end dates (filing work). Every office and seat, real structures from official sources (replacing the Book of the States values), fictional holders who are full people, the real-name check.
   - Verified by: M1-12: click any official in any state for a full record. M2-01: every seat covering the player has a holder and a term; one vacancy filled by its real rule; the real-name test passes.
   - Needs: CORE (fill-in), PEOPLE (views behind positions)
 - [ ] **Filing (golden path step 3).** Real election dates and filing rules; you file at that place's real filing office (clerk, registrar or board of elections) in a conversation; the filing, fee and petition become records.
@@ -41,11 +42,16 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 - **OPUS-CORE: a pay-change path.** core2 can't re-rate a job: `admitWorkCommitment` is the only writer. Stand-in: the laws module rewrites the commitment's hourly rate on the minimum wage's date (stopgap `SG-GOV-wage-floor-rate-write`). Wanted: an API to re-rate a commitment from a date with its source.
 - **OPUS-CORE: opening pay reads the start date's law.** `population.ts` floors opening pay with the old core's minimum-wage table, which holds later-2026 rates (Alaska opens at $14 in January; the real January rate is $13). Wanted: read `lawInForce(api, "minimum-wage", startDate)` or the same rows (`lawChainForPlace` + `startingLawRows`), so July's raise is a real raise.
+- **OPUS-CORE: fill-in for named officials.** State and federal officeholders are identities (name, gender, birth date, party, seat) in the offices module's `terms` table (stopgap `SG-GOV-official-identity-only`). When fill-in lands, it should build the full person from that identity, seeded from the world and the seat.
+- **OPUS-PEOPLE: positions behind votes.** M1-12 wants each official's stances with reasons; officials are named people (residents for local seats, identities for state and federal). Wanted: views for them through your views engine; I'll read them, not write them.
+- **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
 - **OPUS-PLAY: the "law here" bench view.** `lawHere(api)` returns every tracked series with each level's row, source, estimate flag, what's set aside and why, and pending phases.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12 08:55 UTC: Offices and seats first pass done. Research: statewide offices, legislatures, term limits and vacancy rules for all 56 (rows not checked against a fetched page are marked estimates); real seat-by-seat party control and real-officeholder name hashes from public-domain rosters (Congress, Open States, NGA). M2-01 3/3 and M1-01 4/4 on fresh draws; typecheck, eslint, tripwires clean. Next: filing (golden path step 3).
 
 - 2026-10-12 08:10 UTC: Draft PR #4003 open (opus-gov → main).
 - 2026-10-12 08:05 UTC: Laws in force done. Research added (sales tax all 56; county property tax from ACS; local income tax and minimum wage; married brackets; territory income tax; effective-date rules). M1-01 4/4 on fresh random draws; typecheck, eslint and tripwires clean; zero-dice's 2 hits are inherited (`deep-past.ts`, red without this change); `release:check` can't resolve its base commit in this clone. Next: offices and seats.
