@@ -16,6 +16,7 @@ import { addressMoves, composeTurn } from "./address-bank";
 import { conversationDataFromBank, pickBy } from "./conversation-bank";
 import { filingWordsFromBank } from "./filing-bank";
 import { journalDataFromBank } from "./journal-bank";
+import { composeNewsStory } from "./newscast-bank";
 import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
 import { bringDataFromBank, sceneWordsFromBank } from "./scene-bank";
 
@@ -30,4 +31,6 @@ export const MINED_WORDS = {
   address: { addressMoves, composeTurn },
   /** The President's address that opens the game, section by section. */
   openingSpeech: { composeOpeningSpeech, openingSpeechKind },
+  /** A story on TV and in the paper: the broadcast, the headline and the lede. */
+  news: { composeNewsStory },
 };

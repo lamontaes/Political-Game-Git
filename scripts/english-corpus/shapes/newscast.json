@@ -213,37 +213,106 @@
         "{name} did not return calls.",
         "{name} could not be reached for comment.",
         "{name} could not be reached.",
-        "Residents here are worried.",
-        "People here are worried.",
-        "People here are angry.",
-        "People here are frustrated.",
-        "People are frustrated.",
-        "People are worried.",
-        "People are scared.",
+        {
+          "text": "Residents here are worried.",
+          "requiresFacts": ["residents-worried"]
+        },
+        {
+          "text": "People here are worried.",
+          "requiresFacts": ["residents-worried"]
+        },
+        {
+          "text": "People here are angry.",
+          "requiresFacts": ["residents-angry"]
+        },
+        {
+          "text": "People here are frustrated.",
+          "requiresFacts": ["residents-frustrated"]
+        },
+        {
+          "text": "People are frustrated.",
+          "requiresFacts": ["residents-frustrated"]
+        },
+        {
+          "text": "People are worried.",
+          "requiresFacts": ["residents-worried"]
+        },
+        {
+          "text": "People are scared.",
+          "requiresFacts": ["residents-scared"]
+        },
         "It's been a long day here.",
         "It's been a tough day here.",
-        "The mood here is tense.",
-        "The mood here is somber.",
-        "The mood here is festive.",
+        {
+          "text": "The mood here is tense.",
+          "requiresFacts": ["mood-tense"]
+        },
+        {
+          "text": "The mood here is somber.",
+          "requiresFacts": ["mood-somber"]
+        },
+        {
+          "text": "The mood here is festive.",
+          "requiresFacts": ["mood-festive"]
+        },
         "It's quiet here now.",
         "It's very quiet here.",
-        "The scene here is chaotic.",
-        "Crews are on the scene.",
-        "Firefighters are on the scene.",
-        "Police are on the scene.",
-        "No one was hurt.",
-        "Nobody was hurt.",
-        "No one was injured.",
-        "No injuries were reported.",
-        "There were no injuries.",
+        {
+          "text": "The scene here is chaotic.",
+          "requiresFacts": ["scene-chaotic"]
+        },
+        {
+          "text": "Crews are on the scene.",
+          "requiresFacts": ["crews-on-scene"]
+        },
+        {
+          "text": "Firefighters are on the scene.",
+          "requiresFacts": ["fire-on-scene"]
+        },
+        {
+          "text": "Police are on the scene.",
+          "requiresFacts": ["police-on-scene"]
+        },
+        {
+          "text": "No one was hurt.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "Nobody was hurt.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "No one was injured.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "No injuries were reported.",
+          "requiresFacts": ["no-injuries"]
+        },
+        {
+          "text": "There were no injuries.",
+          "requiresFacts": ["no-injuries"]
+        },
         "{number} people were hurt.",
         "{number} people were injured.",
         "{number} people were killed.",
         "{number} people died.",
-        "The cause is under investigation.",
-        "The cause of the fire is under investigation.",
-        "The investigation is ongoing.",
-        "The investigation continues.",
+        {
+          "text": "The cause is under investigation.",
+          "requiresFacts": ["investigation-open"]
+        },
+        {
+          "text": "The cause of the fire is under investigation.",
+          "requiresFacts": ["fire", "investigation-open"]
+        },
+        {
+          "text": "The investigation is ongoing.",
+          "requiresFacts": ["investigation-open"]
+        },
+        {
+          "text": "The investigation continues.",
+          "requiresFacts": ["investigation-open"]
+        },
         "Reporting from {place}, I'm {name}.",
         "In {place}, I'm {name}.",
         "For {program}, I'm {name}.",
@@ -256,9 +325,18 @@
       "role": "election",
       "choice": "election",
       "candidates": [
-        "The polls are now closed.",
-        "Polls are now closed.",
-        "The polls are closed.",
+        {
+          "text": "The polls are now closed.",
+          "requiresFacts": ["polls-closed"]
+        },
+        {
+          "text": "Polls are now closed.",
+          "requiresFacts": ["polls-closed"]
+        },
+        {
+          "text": "The polls are closed.",
+          "requiresFacts": ["polls-closed"]
+        },
         "Polls close at {time}.",
         "The polls close at {time}.",
         "Polls open at {time}.",
@@ -271,14 +349,35 @@
         "Voters went to the polls today.",
         "Voters are heading to the polls.",
         "Voters headed to the polls today.",
-        "Turnout was high.",
-        "Turnout was low.",
-        "Turnout was strong.",
-        "Turnout was light.",
-        "Turnout was heavy.",
+        {
+          "text": "Turnout was high.",
+          "requiresFacts": ["turnout-high"]
+        },
+        {
+          "text": "Turnout was low.",
+          "requiresFacts": ["turnout-low"]
+        },
+        {
+          "text": "Turnout was strong.",
+          "requiresFacts": ["turnout-high"]
+        },
+        {
+          "text": "Turnout was light.",
+          "requiresFacts": ["turnout-low"]
+        },
+        {
+          "text": "Turnout was heavy.",
+          "requiresFacts": ["turnout-high"]
+        },
         "Turnout was {percent} percent.",
-        "Turnout is high.",
-        "Turnout is low.",
+        {
+          "text": "Turnout is high.",
+          "requiresFacts": ["turnout-high"]
+        },
+        {
+          "text": "Turnout is low.",
+          "requiresFacts": ["turnout-low"]
+        },
         "{name} won.",
         "{name} won the race.",
         "{name} won the election.",
@@ -303,23 +402,68 @@
         "{name} conceded the race.",
         "{name} conceded defeat.",
         "{name} called {opponent} to concede.",
-        "The race is too close to call.",
-        "It's too close to call.",
-        "The race is still too close to call.",
-        "It's still too early to call.",
-        "It is too early to call.",
-        "The results are in.",
-        "Results are still coming in.",
-        "The results are still coming in.",
-        "We don't have results yet.",
-        "All the votes have been counted.",
+        {
+          "text": "The race is too close to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "It's too close to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "The race is still too close to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "It's still too early to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "It is too early to call.",
+          "requiresFacts": ["too-close"]
+        },
+        {
+          "text": "The results are in.",
+          "requiresFacts": ["results-final"]
+        },
+        {
+          "text": "Results are still coming in.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "The results are still coming in.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "We don't have results yet.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "All the votes have been counted.",
+          "requiresFacts": ["results-final"]
+        },
         "Every vote will be counted.",
         "Every vote should be counted.",
-        "The count continues.",
-        "Counting continues.",
-        "There will be a recount.",
-        "There will be a runoff.",
-        "The race is headed to a runoff."
+        {
+          "text": "The count continues.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "Counting continues.",
+          "requiresFacts": ["results-partial"]
+        },
+        {
+          "text": "There will be a recount.",
+          "requiresFacts": ["recount"]
+        },
+        {
+          "text": "There will be a runoff.",
+          "requiresFacts": ["runoff"]
+        },
+        {
+          "text": "The race is headed to a runoff.",
+          "requiresFacts": ["runoff"]
+        }
       ]
     },
     {
@@ -366,28 +510,88 @@
         "The vote was {count}.",
         "The measure passed {count}.",
         "The bill passed {count}.",
-        "The measure passed.",
-        "The measure failed.",
-        "The bill passed.",
-        "The bill failed.",
-        "The ordinance passed.",
-        "The ordinance failed.",
-        "The resolution passed.",
-        "The resolution failed.",
-        "The motion passed.",
-        "The motion failed.",
-        "The amendment passed.",
-        "The amendment failed.",
-        "The council approved the budget.",
-        "The council approved the measure.",
-        "The council rejected the measure.",
-        "The budget passed.",
-        "The budget was approved.",
+        {
+          "text": "The measure passed.",
+          "requiresFacts": ["measure-passed"]
+        },
+        {
+          "text": "The measure failed.",
+          "requiresFacts": ["measure-failed"]
+        },
+        {
+          "text": "The bill passed.",
+          "requiresFacts": ["bill-passed"]
+        },
+        {
+          "text": "The bill failed.",
+          "requiresFacts": ["bill-failed"]
+        },
+        {
+          "text": "The ordinance passed.",
+          "requiresFacts": ["ordinance-passed"]
+        },
+        {
+          "text": "The ordinance failed.",
+          "requiresFacts": ["ordinance-failed"]
+        },
+        {
+          "text": "The resolution passed.",
+          "requiresFacts": ["resolution-passed"]
+        },
+        {
+          "text": "The resolution failed.",
+          "requiresFacts": ["resolution-failed"]
+        },
+        {
+          "text": "The motion passed.",
+          "requiresFacts": ["motion-passed"]
+        },
+        {
+          "text": "The motion failed.",
+          "requiresFacts": ["motion-failed"]
+        },
+        {
+          "text": "The amendment passed.",
+          "requiresFacts": ["amendment-passed"]
+        },
+        {
+          "text": "The amendment failed.",
+          "requiresFacts": ["amendment-failed"]
+        },
+        {
+          "text": "The council approved the budget.",
+          "requiresFacts": ["budget-passed"]
+        },
+        {
+          "text": "The council approved the measure.",
+          "requiresFacts": ["measure-passed"]
+        },
+        {
+          "text": "The council rejected the measure.",
+          "requiresFacts": ["measure-failed"]
+        },
+        {
+          "text": "The budget passed.",
+          "requiresFacts": ["budget-passed"]
+        },
+        {
+          "text": "The budget was approved.",
+          "requiresFacts": ["budget-passed"]
+        },
         "The new law takes effect {deadline}.",
         "The law takes effect {deadline}.",
-        "The new law takes effect today.",
-        "The law takes effect today.",
-        "The new law took effect today.",
+        {
+          "text": "The new law takes effect today.",
+          "requiresFacts": ["law-took-effect"]
+        },
+        {
+          "text": "The law takes effect today.",
+          "requiresFacts": ["law-took-effect"]
+        },
+        {
+          "text": "The new law took effect today.",
+          "requiresFacts": ["law-took-effect"]
+        },
         "The new rule takes effect {deadline}.",
         "The ordinance takes effect {deadline}.",
         "The changes take effect {deadline}.",
@@ -395,14 +599,38 @@
         "The council will vote on {measure}.",
         "The council will vote on the measure {when}.",
         "The council is expected to vote {when}.",
-        "The governor signed the bill.",
-        "The governor vetoed the bill.",
-        "The mayor signed the ordinance.",
-        "The mayor vetoed the ordinance.",
-        "The bill now goes to the governor.",
-        "The bill now heads to the governor.",
-        "The bill now goes to the Senate.",
-        "The bill now goes to the House."
+        {
+          "text": "The governor signed the bill.",
+          "requiresFacts": ["governor-signed"]
+        },
+        {
+          "text": "The governor vetoed the bill.",
+          "requiresFacts": ["governor-vetoed"]
+        },
+        {
+          "text": "The mayor signed the ordinance.",
+          "requiresFacts": ["mayor-signed"]
+        },
+        {
+          "text": "The mayor vetoed the ordinance.",
+          "requiresFacts": ["mayor-vetoed"]
+        },
+        {
+          "text": "The bill now goes to the governor.",
+          "requiresFacts": ["bill-to-governor"]
+        },
+        {
+          "text": "The bill now heads to the governor.",
+          "requiresFacts": ["bill-to-governor"]
+        },
+        {
+          "text": "The bill now goes to the Senate.",
+          "requiresFacts": ["bill-to-senate"]
+        },
+        {
+          "text": "The bill now goes to the House.",
+          "requiresFacts": ["bill-to-house"]
+        }
       ]
     },
     {
@@ -416,15 +644,42 @@
         "Unemployment fell to {percent} percent.",
         "The unemployment rate rose to {percent} percent.",
         "The unemployment rate fell to {percent} percent.",
-        "Unemployment is up.",
-        "Unemployment is down.",
-        "Gas prices are up.",
-        "Gas prices are down.",
-        "Prices are up.",
-        "Prices are going up.",
-        "Rents are up.",
-        "Rents are going up.",
-        "Home prices are up.",
+        {
+          "text": "Unemployment is up.",
+          "requiresFacts": ["unemployment-up"]
+        },
+        {
+          "text": "Unemployment is down.",
+          "requiresFacts": ["unemployment-down"]
+        },
+        {
+          "text": "Gas prices are up.",
+          "requiresFacts": ["gas-up"]
+        },
+        {
+          "text": "Gas prices are down.",
+          "requiresFacts": ["gas-down"]
+        },
+        {
+          "text": "Prices are up.",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "text": "Prices are going up.",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "text": "Rents are up.",
+          "requiresFacts": ["rents-up"]
+        },
+        {
+          "text": "Rents are going up.",
+          "requiresFacts": ["rents-up"]
+        },
+        {
+          "text": "Home prices are up.",
+          "requiresFacts": ["home-prices-up"]
+        },
         "{subject} is closing.",
         "{subject} is closing its doors.",
         "{subject} is laying off {number} workers.",
@@ -437,9 +692,18 @@
         "{subject} is expanding.",
         "{subject} is moving.",
         "{subject} filed for bankruptcy.",
-        "The plant is closing.",
-        "The plant will close.",
-        "The store is closing."
+        {
+          "text": "The plant is closing.",
+          "requiresFacts": ["plant-closing"]
+        },
+        {
+          "text": "The plant will close.",
+          "requiresFacts": ["plant-closing"]
+        },
+        {
+          "text": "The store is closing.",
+          "requiresFacts": ["store-closing"]
+        }
       ]
     },
     {
@@ -457,21 +721,63 @@
         "A severe thunderstorm warning is in effect for {place}.",
         "A hurricane warning is in effect for {place}.",
         "A red flag warning is in effect for {place}.",
-        "A boil water notice is in effect.",
-        "A boil water advisory is in effect.",
-        "Schools are closed today.",
-        "Schools are closed.",
-        "Schools will be closed tomorrow.",
-        "Roads are closed.",
-        "Some roads are closed.",
-        "Power is out.",
-        "Thousands are without power.",
+        {
+          "text": "A boil water notice is in effect.",
+          "requiresFacts": ["boil-water"]
+        },
+        {
+          "text": "A boil water advisory is in effect.",
+          "requiresFacts": ["boil-water"]
+        },
+        {
+          "text": "Schools are closed today.",
+          "requiresFacts": ["schools-closed"]
+        },
+        {
+          "text": "Schools are closed.",
+          "requiresFacts": ["schools-closed"]
+        },
+        {
+          "text": "Schools will be closed tomorrow.",
+          "requiresFacts": ["schools-closed"]
+        },
+        {
+          "text": "Roads are closed.",
+          "requiresFacts": ["roads-closed"]
+        },
+        {
+          "text": "Some roads are closed.",
+          "requiresFacts": ["roads-closed"]
+        },
+        {
+          "text": "Power is out.",
+          "requiresFacts": ["power-out"]
+        },
+        {
+          "text": "Thousands are without power.",
+          "requiresFacts": ["power-out"]
+        },
         "{amount} customers are without power.",
-        "Stay off the roads.",
-        "Stay home if you can.",
-        "Stay indoors.",
-        "Evacuations are underway.",
-        "An evacuation order is in effect."
+        {
+          "text": "Stay off the roads.",
+          "requiresFacts": ["story-stay-off-the-roads"]
+        },
+        {
+          "text": "Stay home if you can.",
+          "requiresFacts": ["story-stay-home-if-you-can"]
+        },
+        {
+          "text": "Stay indoors.",
+          "requiresFacts": ["story-stay-indoors"]
+        },
+        {
+          "text": "Evacuations are underway.",
+          "requiresFacts": ["evacuation"]
+        },
+        {
+          "text": "An evacuation order is in effect.",
+          "requiresFacts": ["evacuation"]
+        }
       ]
     },
     {
