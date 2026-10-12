@@ -60,6 +60,12 @@ export interface OpeningPeerOptions {
   personIds: readonly PersonId[];
   data?: OpeningPeerData;
   parameters?: Readonly<Record<string, Parameter>>;
+  /**
+   * The two-level population: how many people the records hold in a context
+   * (a school class, a workplace), so a person filled in alone joins the same
+   * group they would in a fully built town. Defaults to the people present.
+   */
+  cohortSize?: (contextKey: string, present: number) => number;
   /** P15: reads a context fact's fields from another record (coworkers' jobs); defaults to the fact's own. */
   contextValues?: (
     person: PersonInput,
@@ -197,38 +203,35 @@ export function buildOpeningPeerContacts(
 
   // All identity groups are stable independently of which group is expanded.
   // A partial last group is avoided by balanced partitioning; no filler IDs.
+  // Each person's group comes from their own key and the cohort's size, never
+  // from who else is present, so filling people in one at a time gives each
+  // the same classmates and coworkers as building the whole town.
   const groupByPerson = new Map<PersonId, string>();
   const groups = new Map<string, ContextMember[]>();
+  const groupMembers = new Map<string, number>();
+  const digits = p("seedHashDigits");
+  const radix = p("seedPlaceHashRadix");
   for (const [contextKey, cohort] of cohorts) {
-    const ranked = cohort
-      .map((member) => ({
-        member,
-        rank: stableHash(
-          JSON.stringify([
-            input.seed,
-            data.version,
-            contextKey,
-            member.person.id,
-          ]),
-        ),
-      }))
-      .sort(
-        (left, right) =>
-          left.rank.localeCompare(right.rank) ||
-          left.member.person.id.localeCompare(right.member.person.id),
-      );
-    const groupCount = Math.ceil(ranked.length / size);
-    for (let index = zero; index < ranked.length; index += one) {
-      const member = ranked[index]!.member;
-      const groupId = stableHash(
+    const cohortSize = options.cohortSize
+      ? options.cohortSize(contextKey, cohort.length)
+      : cohort.length;
+    const groupCount = Math.max(one, Math.ceil(cohortSize / size));
+    for (const member of cohort) {
+      const rank = stableHash(
         JSON.stringify([
           input.seed,
           data.version,
           contextKey,
-          index % groupCount,
+          member.person.id,
         ]),
       );
+      const index =
+        Number.parseInt(rank.slice(zero, digits), radix) % groupCount;
+      const groupId = stableHash(
+        JSON.stringify([input.seed, data.version, contextKey, index]),
+      );
       groupByPerson.set(member.person.id, groupId);
+      groupMembers.set(groupId, cohortSize / groupCount);
       const group = groups.get(groupId) ?? [];
       if (group.some((prior) => prior.contextKey !== contextKey))
         throw new Error(
@@ -390,6 +393,7 @@ export function buildOpeningPeerContacts(
               otherContextFactId: direction.other.fact.id,
               contextKey: left.contextKey,
               peerGroupId: groupId,
+              peerGroupMembers: groupMembers.get(groupId)!.toFixed(p("two")),
               contactId: id,
               relationshipBasis: data.relationshipBasis,
               relationship: data.relationship,

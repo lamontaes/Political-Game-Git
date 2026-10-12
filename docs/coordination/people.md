@@ -19,7 +19,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Done Oct 12: #3964, the story director (`pool/P13-5`) and main merged in. #3964 and this branch had each built part 5 from the same commit; this branch's version stays because saved traces, appraisal and the M0-07 test already use it. M0-06 and M0-07 are registered golden-path commands and pass in drawn places (Repton, Alabama; Martha Lake, Washington). The owner plays them once the bench shows them.
   - Verified by: M0-06 and M0-07 in the bench; you play steps 1 and 2.
   - Needs: PLAY (bench)
-- [ ] **People in the two-level world.** With CORE: filled-in people get kin and a past that match the records; memories keep what matters and summarize the rest.
+- [ ] **People in the two-level world.** (In progress: fill-in side done Oct 12; forgetting next.) With CORE: filled-in people get kin and a past that match the records; memories keep what matters and summarize the rest.
   - Verified by: CORE's fill-in tests; a person's memory stays roughly the same size across a year.
   - Needs: CORE
 - [ ] **Words: the English engine on the new core (owner, Oct 12).** Bring the English engine (`src/presentation/english-*.ts` and the `*-english.ts` writers) onto the new core, so conversations, scene narration and the journal come from record data: every conversation choice names something real, the Lie button sits beside the replies, and the journal reads as a first-person story that never invents a feeling. No hand-written player text.
@@ -40,10 +40,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Needs from other sessions
 
 - **OPUS-PLAY:** the bench screens for step 1 (the 18-year-old's family, schools and the record behind each fact) and step 2 (the circle, each meeting and why a tie grew closer). The data is `pastFacts`, `knownIds` and each relationship's `latestChange` on `pool/P15-people-5`.
+- **OPUS-CORE (two-level population):** filling someone in is ready on my side. Build a household's kin with `buildOpeningKin([thatHousehold], options)` and its members' past with `buildDeepPast(inputHoldingThem, { peerCohortSize })`; both give exactly what the full-town build gives (`src/core2/fill-in-people.test.ts`). The one thing I need from the counts: `peerCohortSize(circle, contextKey)`, the records' count of people in that school class or workplace. Relatives outside the household stay husks until met, and ties to classmates or coworkers appear as each is filled in.
+- **CTO (zero-dice):** six list-picks were already on this branch before today and the allowlist only shrinks, so I can't record them myself: births' timing in `opening-kin.ts`, household ages in `opening-partnership.ts` (two lines), the school name pattern and the enrollment-weighted school in `deep-past.ts` (two lines). All but the school are GENERATION keyed by the household or person. The inventory says a school pick isn't generation, because the school follows from where the family lived; the core doesn't model where in the place a home is yet. Should I keep it as a registered stopgap until homes have locations, or do you want a different rule now?
 - **CTO:** the PR suite now runs four commands in about 288 s against its 300 s budget; M0-06 and M0-07 spend most of theirs loading data. If the budget becomes a problem, give the people checks the nightly run or a larger PR budget.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: fill-in ready for CORE. A household filled in alone gets the same kin, and its people the same past, as in the full-town build: 0 differences for 608 people across 60 households (Rutherford-sized test town, seed fill-a), and a test now holds it. Classmates and coworkers are now grouped from each person's own key and the class's size in the records, not from who else was built. Memory measured over a year: per person, known facts (17), ties (8.4) and the director's moments (2.5 per watched person) stay flat, so nothing grows yet; forgetting is next so it stays that way once campaigns and drives add moments.
 - Oct 12: merged #3964, `pool/P13-5` and main; typecheck clean; golden path green with M0-06 (Repton, Alabama, 103 s) and M0-07 (Martha Lake, Washington, 157 s) passing as goals. Next: people in the two-level world.
