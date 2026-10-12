@@ -18,7 +18,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-01",
       "passes": false
     },
     {
@@ -28,7 +28,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Over 7 days, every act on the chosen person's record came from a choice made on screen, other residents' lives continue, and choosing an option nobody offered is impossible.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
       "passes": false
     },
     {
@@ -38,7 +38,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment, or an offer with a deadline; it says which one; nothing was skipped past.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-03",
       "passes": false
     },
     {
@@ -48,7 +48,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "20 randomly sampled items on screen each open a 'why' with scores and record ids that exist in the core; none is made up for display.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-04",
       "passes": false
     },
     {
@@ -58,7 +58,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
       "passes": false
     },
     {

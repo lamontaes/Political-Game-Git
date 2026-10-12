@@ -5,7 +5,6 @@ import {
   registerModuleStopV1,
   releaseModuleStopV1,
 } from "../core2/player-stops-v1";
-import { earliestPlayerStopV1 } from "../core2/player-v1";
 import { BenchPlayer, ownPick } from "./player";
 import type { CoreInput } from "../core2/types";
 
