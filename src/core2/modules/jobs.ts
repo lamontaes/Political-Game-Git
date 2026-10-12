@@ -15,6 +15,7 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { ownerOf } from "./business";
 import type {
   ActOffer,
   ActionDefinition,
@@ -406,17 +407,18 @@ function layOff(
   )[0]!;
   const keepScore = keep(job);
   api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  // The owner decides; a business without a recorded owner decides as itself.
+  const decidedBy = ownerOf(api, organizationId);
+  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
   record(api, {
     personId: job.personId,
     organizationId,
     jobId: job.id,
     kind: "layoff",
     reasonKey: jobsData.reasons.layoff,
-    decidedBy: organizationId,
+    decidedBy: decidedBy ?? organizationId,
     values: { ...values, keepScore },
   });
-  // Owners come with businesses growing (M1-08); until then the business itself decides.
-  stopgap("SG-WORLD-jobs-layoff-decider");
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,

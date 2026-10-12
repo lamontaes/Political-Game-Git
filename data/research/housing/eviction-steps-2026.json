@@ -1,7 +1,7 @@
 {
  "id": "eviction-steps-2026",
  "retrieved": "2026-10-12",
- "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps).",
+ "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps). A second pass (Oct 12) read official code sites with curl; records it confirmed carry verifiedFields and a quote.",
  "fields": "noticeDays (pay-or-quit), cureAllowed, gracePeriodDays, answerOrHearingDays, appealOrStayDays, removalBy, statute, sourceUrl, confidence, note",
  "places": {
   "US-AK": {
@@ -16,9 +16,14 @@
    "appealOrStayDays": null,
    "removalBy": "court service officer / state trooper",
    "statute": "AS 34.03.220(b); AS 09.45.090-.120",
-   "sourceUrl": "https://www.akleg.gov/basis/statutes.asp#34.03.220",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; hearing range is a guess."
+   "sourceUrl": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=34.03.220&secEnd=34.03.220",
+   "confidence": "high",
+   "note": "AS 34.03.220(a)(2) read. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "AS 34.03.220(a)(2): fails to pay rent in full within seven days after written notice by the landlord of nonpayment and the intention to terminate ... the landlord may terminate ... and immediately recover possession"
   },
   "US-AL": {
    "noticeDays": 7,
@@ -31,7 +36,8 @@
    "statute": "Ala. Code \u00a7 35-9A-421(b); \u00a7 6-6-310 et seq.",
    "sourceUrl": "https://alisondb.legislature.state.al.us/alison/CodeOfAlabama/1975/35-9A-421.htm",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 7 days to appeal to circuit court."
+   "note": "from recall of the statute; not fetched or verified this session; 7 days to appeal to circuit court.",
+   "verificationFailed": "alisondb returned empty"
   },
   "US-AR": {
    "noticeDays": 3,
@@ -44,7 +50,8 @@
    "statute": "Ark. Code \u00a7 18-60-304; \u00a7 18-17-701; \u00a7 18-16-101",
    "sourceUrl": "https://law.justia.com/codes/arkansas/title-18/",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; unlawful detainer 3-day notice, RLTA termination notice is 14 days, cure under RLTA not confirmed."
+   "note": "from recall of the statute; not fetched or verified this session; unlawful detainer 3-day notice, RLTA termination notice is 14 days, cure under RLTA not confirmed.",
+   "verificationFailed": "arkleg returned a blank GIF; Justia blocked"
   },
   "US-AS": {
    "noticeDays": 7,
@@ -60,7 +67,8 @@
    "statute": "A.S.C.A. 43.1406-43.1407; High Court Summary Repossession Rule 2(b)(3)(B)",
    "sourceUrl": "https://www.courtrules.net/american_samoa/american-samoa-summary-repossession/rule-2",
    "confidence": "medium",
-   "note": "Read court rule: default 7 days after service of written demand letter; statute text not read."
+   "note": "Read court rule: default 7 days after service of written demand letter; statute text not read.",
+   "verificationFailed": "Not retried; asbar.org home page only reachable, no statute text located (existing record already read from court rule)."
   },
   "US-AZ": {
    "noticeDays": 5,
@@ -76,7 +84,12 @@
    "statute": "A.R.S. \u00a7 33-1368(B), \u00a7 33-1377; Rules of Procedure for Eviction Actions",
    "sourceUrl": "https://www.azleg.gov/ars/33/01368.htm",
    "confidence": "high",
-   "note": "Notice/cure/calendar days read in statute text; hearing/writ timing from recall; cure after filing needs fees and costs, after judgment landlord's discretion."
+   "note": "A.R.S. 33-1368(B) read. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "If rent is unpaid when due and the tenant fails to pay rent within five days after written notice ... the landlord may terminate ... Before the filing of a special detainer action the rental agreement shall be reinstated if the tenant tenders all past due rent"
   },
   "US-CA": {
    "noticeDays": 3,
@@ -92,7 +105,8 @@
    "statute": "Cal. Code Civ. Proc. \u00a7 1161(2), \u00a7 1167, \u00a7 715.010",
    "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CCP&sectionNum=1161",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3 court days excluding weekends and judicial holidays; answer period 10 court days since AB 2347 (2025); sheriff posts 5-day notice to vacate."
+   "note": "from recall of the statute; not fetched or verified this session; 3 court days excluding weekends and judicial holidays; answer period 10 court days since AB 2347 (2025); sheriff posts 5-day notice to vacate.",
+   "verificationFailed": "leginfo.legislature.ca.gov returned a Cloudflare challenge page; no statute text"
   },
   "US-CO": {
    "noticeDays": 10,
@@ -107,8 +121,14 @@
    "removalBy": "sheriff",
    "statute": "C.R.S. \u00a7 13-40-104(1)(d), \u00a7 13-40-111, \u00a7 13-40-115, \u00a7 38-12-105",
    "sourceUrl": "https://leg.colorado.gov/bills/hb19-1118",
-   "confidence": "medium",
-   "note": "10-day demand read in HB19-1118 summary; 5 days for exempt small landlords; other fields from recall; 7-day late-fee grace from HB24-1098 is unverified."
+   "confidence": "high",
+   "note": "C.R.S. 13-40-104(1)(d) 10 days (3 days nonresidential, 5 exempt residential); 13-40-111 summons 7-14 days; 13-40-115(4) tenant may pay until judgment; writ valid 49 days. gracePeriodDays and appealOrStayDays still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "answerOrHearingDays"
+   ],
+   "quote": "(1)(d) ... ten days' notice in writing has been duly served upon the tenant ... requiring in the alternative the payment of the rent or the possession of the premises"
   },
   "US-CT": {
    "noticeDays": 3,
@@ -124,20 +144,26 @@
    "statute": "Conn. Gen. Stat. \u00a7 47a-23, \u00a7 47a-15a, \u00a7 47a-23a, \u00a7 47a-35, \u00a7 47a-42",
    "sourceUrl": "https://www.cga.ct.gov/current/pub/chap_832.htm",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3 full-day notice to quit after 9-day grace; tenant can cure only before notice to quit (\u00a7 47a-15); 5-day stay excludes Sundays and holidays; pre-notice requirements added in 2021."
+   "note": "from recall of the statute; not fetched or verified this session; 3 full-day notice to quit after 9-day grace; tenant can cure only before notice to quit (\u00a7 47a-15); 5-day stay excludes Sundays and holidays; pre-notice requirements added in 2021.",
+   "verificationFailed": "cga.ct.gov returned empty/no connection"
   },
   "US-DC": {
-   "noticeDays": 30,
+   "noticeDays": 10,
    "noticeDayType": "calendar",
    "cureAllowed": true,
    "gracePeriodDays": 5,
    "answerOrHearingDays": null,
    "appealOrStayDays": null,
    "removalBy": "marshal",
-   "statute": "D.C. Code \u00a7 42-3505.01(b), \u00a7 16-1501 et seq.",
+   "statute": "D.C. Code 42-3505.01(a-1); 16-1501 et seq.",
    "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3505.01",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 30-day notice to cure or vacate for nonpayment; late fee not before 5th day of the month; right of redemption until execution."
+   "confidence": "high",
+   "note": "CORRECTED: 30 days in 42-3505.01(b) applies to violations other than nonpayment; nonpayment requires 10-day notice of intent to file, and no notice if arrears under $600. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "noticeDayType"
+   ],
+   "quote": "(a-1)(1) A housing provider shall provide the tenant with notice of the housing provider's intent to file a claim ... for the non-payment of rent at least 10 days before filing the claim"
   },
   "US-DE": {
    "noticeDays": 7,
@@ -150,7 +176,12 @@
    "statute": "25 Del. C. \u00a7 5502, \u00a7 5501(d), \u00a7 5710-5717",
    "sourceUrl": "https://delcode.delaware.gov/title25/c055/index.html",
    "confidence": "high",
-   "note": "Read \u00a7 5502: notice not less than 7 days, payment before action bars possession claim; 5-day late-fee grace in \u00a7 5501(d); hearing and writ timing not confirmed."
+   "note": "25 Del. C. 5502(a),(c) read: 7-day minimum notice; payment of all rent due before action bars the action. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "5502(a): notify the tenant in writing that unless payment is made within a time mentioned in such notice, to be not less than 7 days after the date notice was given or sent, the landlord may file a court action to terminate"
   },
   "US-FL": {
    "noticeDays": 3,
@@ -166,7 +197,12 @@
    "statute": "Fla. Stat. \u00a7 83.56(3), \u00a7 83.59, \u00a7 83.60, \u00a7 83.62",
    "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2025/83.56",
    "confidence": "high",
-   "note": "3-day notice excludes weekends and court holidays (read); tenant answer in 5 business days with rent deposited in court registry and sheriff posts 24-hour writ (from recall)."
+   "note": "3-day notice excluding weekends and court-observed holidays read in 2025 Fla. Stat. 83.56(3); cure by payment within the 3 days implied by the text; answer/writ periods still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "noticeDayType"
+   ],
+   "quote": "If the tenant fails to pay rent when due and the default continues for 3 days, excluding Saturday, Sunday, and legal holidays, after delivery of written demand ... the landlord may terminate the rental agreement."
   },
   "US-GA": {
    "noticeDays": 3,
@@ -182,7 +218,8 @@
    "statute": "O.C.G.A. \u00a7 44-7-50, \u00a7 44-7-51, \u00a7 44-7-55",
    "sourceUrl": "https://law.justia.com/codes/georgia/title-44/chapter-7/article-3/",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 2024 HB 404 added a 3-business-day notice to pay before filing; answer due 7 days after service; writ 7 days after judgment."
+   "note": "from recall of the statute; not fetched or verified this session; 2024 HB 404 added a 3-business-day notice to pay before filing; answer due 7 days after service; writ 7 days after judgment.",
+   "verificationFailed": "legis.ga.gov unreachable and Justia blocked by Cloudflare"
   },
   "US-GU": {
    "noticeDays": 5,
@@ -198,7 +235,8 @@
    "statute": "21 GCA 21103; 21 GCA 48401 (Rental Act)",
    "sourceUrl": "https://law.justia.com/codes/guam/2022/title-21/division-1/chapter-21/",
    "confidence": "low",
-   "note": "Only a secondary source gives 5 days for 21 GCA 21103; statute not read (Justia returned 403)."
+   "note": "Only a secondary source gives 5 days for 21 GCA 21103; statute not read (Justia returned 403).",
+   "verificationFailed": "guamcourts.org Compiler of Laws connection fails through the proxy."
   },
   "US-HI": {
    "noticeDays": 5,
@@ -211,7 +249,8 @@
    "statute": "HRS \u00a7 521-68, \u00a7 521-21, \u00a7 666-",
    "sourceUrl": "https://www.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0068.htm",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 5-business-day notice; 5-day late-charge grace."
+   "note": "from recall of the statute; not fetched or verified this session; 5-business-day notice; 5-day late-charge grace.",
+   "verificationFailed": "capitol.hawaii.gov blocked by Cloudflare"
   },
   "US-IA": {
    "noticeDays": 3,
@@ -226,12 +265,17 @@
    "removalBy": "sheriff",
    "statute": "Iowa Code \u00a7 562A.27(2), \u00a7 648.5, \u00a7 648.18",
    "sourceUrl": "https://www.legis.iowa.gov/docs/code/562A.27.pdf",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3-day notice; original notice served at least 3 days before trial."
+   "confidence": "high",
+   "note": "Iowa Code 562A.27(2) read (official PDF). Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "If rent is unpaid when due and the tenant fails to pay rent within three days after written notice by the landlord of nonpayment ... the landlord may terminate the rental agreement."
   },
   "US-ID": {
    "noticeDays": 3,
-   "noticeDayType": "business",
+   "noticeDayType": "calendar",
    "cureAllowed": true,
    "gracePeriodDays": 0,
    "answerOrHearingDays": [
@@ -243,7 +287,11 @@
    "statute": "Idaho Code \u00a7 6-303(2), \u00a7 6-310, \u00a7 6-316",
    "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title6/t6ch3/sect6-303/",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3 days believed to exclude weekends and holidays; hearing range 5-12 days."
+   "note": "3 days read; text retrieved has no business-day exclusion, so day type changed to calendar (original said business). Also: residential tenant has 72 hours after judgment to remove belongings. Cure and other fields still recall.",
+   "verifiedFields": [
+    "noticeDays"
+   ],
+   "quote": "Idaho Code 6-303(2): ... three (3) days' notice, in writing, requiring its payment, stating the amount which is due, or possession of the property"
   },
   "US-IL": {
    "noticeDays": 5,
@@ -259,7 +307,8 @@
    "statute": "735 ILCS 5/9-209, 9-210, 9-107.5, 9-117",
    "sourceUrl": "https://www.ilga.gov/legislation/ilcs/ilcs4.asp?DocName=073500050HArt%2E+IX&ActID=2017&ChapterID=56",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 5-day notice, enforcement stayed 24 hours after judgment; some home-rule cities add rules."
+   "note": "from recall of the statute; not fetched or verified this session; 5-day notice, enforcement stayed 24 hours after judgment; some home-rule cities add rules.",
+   "verificationFailed": "ilga.gov returned empty/no connection through the proxy"
   },
   "US-IN": {
    "noticeDays": 10,
@@ -272,7 +321,8 @@
    "statute": "Ind. Code \u00a7 32-31-1-6, \u00a7 32-31-1-6 et seq.",
    "sourceUrl": "https://iga.in.gov/laws/2024/ic/titles/32#32-31-1",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 10-day notice to pay or vacate."
+   "note": "from recall of the statute; not fetched or verified this session; 10-day notice to pay or vacate.",
+   "verificationFailed": "iga.in.gov is a JS app and Justia is blocked; no text"
   },
   "US-KS": {
    "noticeDays": 3,
@@ -287,8 +337,14 @@
    "removalBy": "sheriff",
    "statute": "K.S.A. \u00a7 58-2564(b), \u00a7 61-3801 et seq.",
    "sourceUrl": "https://www.ksrevisor.org/statutes/chapters/ch58/058_025_0064.html",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3-day notice, tenant cures by paying; answer date set 7-14 days after filing."
+   "confidence": "high",
+   "note": "K.S.A. 58-2564(b) read: 3 consecutive 24-hour periods. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "noticeDayType",
+    "cureAllowed"
+   ],
+   "quote": "The landlord may terminate the rental agreement if rent is unpaid when due and the tenant fails to pay rent within three days, after written notice ... computed as three consecutive 24-hour periods."
   },
   "US-KY": {
    "noticeDays": 7,
@@ -301,7 +357,8 @@
    "statute": "KRS \u00a7 383.660(2), \u00a7 383.200-.215",
    "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; URLTA applies only in adopting cities and counties; elsewhere common law with 7-day demand."
+   "note": "from recall of the statute; not fetched or verified this session; URLTA applies only in adopting cities and counties; elsewhere common law with 7-day demand.",
+   "verificationFailed": "apps.legislature.ky.gov id guessed wrong (returned KRS 21A.010); KRS 383.660 not retrieved"
   },
   "US-LA": {
    "noticeDays": 5,
@@ -317,7 +374,8 @@
    "statute": "La. Code Civ. Proc. art. 4701, 4731-4733",
    "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=111788",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 5-day notice to vacate, trial no earlier than 3rd day after service, 24 hours to vacate after judgment."
+   "note": "from recall of the statute; not fetched or verified this session; 5-day notice to vacate, trial no earlier than 3rd day after service, 24 hours to vacate after judgment.",
+   "verificationFailed": "legis.la.gov returned only CSS for the guessed document id"
   },
   "US-MA": {
    "noticeDays": 14,
@@ -333,7 +391,8 @@
    "statute": "M.G.L. c. 186 \u00a7 11, \u00a7 15B; c. 239 \u00a7 1-8A",
    "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleI/Chapter186/Section11",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 14-day notice to quit, 30-day late-fee grace, execution after 10 days; cure by paying before answer date (c. 239 \u00a7 8A)."
+   "note": "from recall of the statute; not fetched or verified this session; 14-day notice to quit, 30-day late-fee grace, execution after 10 days; cure by paying before answer date (c. 239 \u00a7 8A).",
+   "verificationFailed": "malegislature.gov section URLs returned 404 (Title I and Title III paths tried)"
   },
   "US-MD": {
    "noticeDays": 10,
@@ -348,8 +407,14 @@
    "removalBy": "sheriff",
    "statute": "Md. Code, Real Prop. \u00a7 8-401, \u00a7 8-208(d)",
    "sourceUrl": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=grp&section=8-401",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 10-day notice of intent to file, tenant right of redemption until execution, 4 days to appeal."
+   "confidence": "high",
+   "note": "Md. Real Prop. 8-401(c)(1): 10-day written notice of intent to file, tenant may cure within the 10 days; other periods still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "statute"
+   ],
+   "quote": "Before a landlord may file a complaint ... the landlord shall provide to the tenant a written notice of the landlord's intent to file a claim ... if the tenant does not cure within 10 days after the written notice is provided"
   },
   "US-ME": {
    "noticeDays": 7,
@@ -364,8 +429,13 @@
    "removalBy": "sheriff",
    "statute": "14 M.R.S. \u00a7 6002, \u00a7 6004, \u00a7 6008, \u00a7 6028",
    "sourceUrl": "https://legislature.maine.gov/statutes/14/title14sec6002.html",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 7-day notice to quit, 15-day late-fee grace, writ 7 days after judgment."
+   "confidence": "high",
+   "note": "Maine 7-day notice for rent arrears; paying within it voids notice; later payment of arrears and fees before writ issues reinstates tenancy (6002(3)). Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "14 M.R.S. 6002(1)(A)/(3): 7-day notice in writing; if the tenant pays the full amount of rent due before the expiration of the 7-day notice, that notice is void"
   },
   "US-MI": {
    "noticeDays": 7,
@@ -380,8 +450,13 @@
    "removalBy": "court officer / bailiff",
    "statute": "MCL \u00a7 554.134, \u00a7 600.5735, \u00a7 600.5744",
    "sourceUrl": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-554-134",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 7-day demand notice, 10-day wait before writ."
+   "confidence": "high",
+   "note": "554.134(2) 7-day notice read; MCL 600.5714(1)(a) read: summary proceedings when tenant fails to pay rent within 7 days from service of written demand for possession. Cure by paying in the 7 days is implied; other periods still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "MCL 554.134(2): If a tenant neglects or refuses to pay rent ... the landlord may terminate the tenancy by giving the tenant a written 7-day notice to quit."
   },
   "US-MN": {
    "noticeDays": 14,
@@ -396,8 +471,14 @@
    "removalBy": "sheriff",
    "statute": "Minn. Stat. \u00a7 504B.321, \u00a7 504B.285, \u00a7 504B.345",
    "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/504B.321",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 14-day notice of nonpayment required since 2023; 24-hour writ wait."
+   "confidence": "high",
+   "note": "Minn. Stat. 504B.321 subd. 1a (14-day nonpayment notice) read; subd. 1(c): appearance not less than 7 nor more than 14 days from issuing summons. Writ wait still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "answerOrHearingDays"
+   ],
+   "quote": "Your landlord can file an eviction case if you do not pay the total amount due or move out within 14 days from the date of this notice. (504B.321 subd. 1a)"
   },
   "US-MO": {
    "noticeDays": null,
@@ -410,7 +491,11 @@
    "statute": "RSMo \u00a7 535.010-.030, \u00a7 441.040",
    "sourceUrl": "https://revisor.mo.gov/main/OneChapter.aspx?chapter=535",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; no pay-or-quit notice believed required before filing rent-and-possession suit; cure by paying before judgment believed allowed."
+   "note": "RSMo 535.020 read: only a demand for payment before filing; no statutory notice period (441.060 notice not required), so noticeDays stays null. Cure and other fields still recall.",
+   "verifiedFields": [
+    "noticeDays"
+   ],
+   "quote": "535.020: payment has been demanded ... and payment has not been made ... Giving the notice provided in section 441.060 is not required prior to filing a statement"
   },
   "US-MP": {
    "noticeDays": 3,
@@ -439,7 +524,8 @@
    "statute": "Miss. Code \u00a7 89-8-13, \u00a7 89-7-",
    "sourceUrl": "https://law.justia.com/codes/mississippi/title-89/chapter-8/",
    "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3 days believed correct for nonpayment under MRLTA (14 days for other breaches)."
+   "note": "from recall of the statute; not fetched or verified this session; 3 days believed correct for nonpayment under MRLTA (14 days for other breaches).",
+   "verificationFailed": "not attempted (call budget)"
   },
   "US-MT": {
    "noticeDays": 3,
@@ -451,8 +537,13 @@
    "removalBy": "sheriff",
    "statute": "MCA \u00a7 70-24-422",
    "sourceUrl": "https://leg.mt.gov/bills/mca/title_0700/chapter_0240/part_0040/section_0220/0700-0240-0040-0220.html",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 3-day notice for nonpayment."
+   "confidence": "high",
+   "note": "MCA 70-24-422(2) read. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "If rent is unpaid when due and the tenant fails to pay rent within 3 days after written notice by the landlord of nonpayment ... the landlord may terminate the rental agreement"
   },
   "US-NC": {
    "noticeDays": null,
@@ -466,14 +557,18 @@
    "appealOrStayDays": 10,
    "removalBy": "sheriff",
    "statute": "N.C.G.S. 42-3, 42-26, 42-29, 42-30, 42-34, 42-46",
-   "sourceUrl": "https://law.justia.com/codes/north-carolina/chapter-42/",
+   "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-3.html",
    "confidence": "medium",
-   "note": "No statutory pay-or-quit demand required before filing summary ejectment (lease may require 10-day demand); 5-day grace applies to late fees; hearing within 7 days of summons issuance; 10 days to appeal."
+   "note": "Read 42-3 and 42-26/42-29. 42-3 implies forfeiture if rent unpaid 10 days after demand in leases with a fixed rent date (practice: landlords serve a 10-day demand; treat as 10 calendar days if the lease has no other rule). Original null left because the 42-26 ground does not itself require the demand. 42-29 summons service text read; 5-day late-fee grace (42-46) text was not confirmed in retrieved output.",
+   "verifiedFields": [
+    "statute"
+   ],
+   "quote": "G.S. 42-3: forfeiture of the term is implied \"upon failure to pay the rent within 10 days after a demand is made by the lessor or his agent on said lessee for all past-due rent\""
   },
   "US-ND": {
    "noticeDays": 3,
    "noticeDayType": "calendar",
-   "cureAllowed": false,
+   "cureAllowed": null,
    "gracePeriodDays": 0,
    "answerOrHearingDays": [
     3,
@@ -482,9 +577,15 @@
    "appealOrStayDays": null,
    "removalBy": "sheriff",
    "statute": "NDCC 47-32-01, 47-32-02, 47-32-03, 47-32-04",
-   "sourceUrl": "https://law.justia.com/codes/north-dakota/title-47/chapter-47-32/",
+   "sourceUrl": "https://ndlegis.gov/cencode/t47c32.pdf",
    "confidence": "low",
-   "note": "Recalled, not read; 3-day notice to quit; summons returnable roughly 3-15 days."
+   "note": "Read official NDCC ch. 47-32 PDF. Written 3-day notice required (47-32-02); summons appearance date 3-15 days from issuance; personal service in county at least 3 days before appearance, otherwise at least 7. Cure by payment not stated in the chapter, so cureAllowed false is unverified (treat as null).",
+   "verifiedFields": [
+    "noticeDays",
+    "answerOrHearingDays",
+    "statute"
+   ],
+   "quote": "47-32-02: \"In all cases arising under subsections 4, 5, 6, and 8 of section 47-32-01, three days' written notice of intention to evict must be given ... before proceedings can be instituted.\""
   },
   "US-NE": {
    "noticeDays": 7,
@@ -496,8 +597,14 @@
    "removalBy": "sheriff",
    "statute": "Neb. Rev. Stat. \u00a7 76-1431(2), \u00a7 76-1445",
    "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=76-1431",
-   "confidence": "low",
-   "note": "from recall of the statute; not fetched or verified this session; 7-day notice to pay or vacate."
+   "confidence": "high",
+   "note": "Neb. Rev. Stat. 76-1431(2) read. Other fields still recall.",
+   "verifiedFields": [
+    "noticeDays",
+    "noticeDayType",
+    "cureAllowed"
+   ],
+   "quote": "76-1431(2): If rent is unpaid when due and the tenant fails to pay rent within seven calendar days after written notice by the landlord of nonpayment ... the landlord may terminate the rental agreement."
   },
   "US-NH": {
    "noticeDays": 7,
@@ -513,7 +620,8 @@
    "statute": "RSA 540:3, 540:9, 540:13, 540:13-a",
    "sourceUrl": "https://law.justia.com/codes/new-hampshire/title-lv/chapter-540/",
    "confidence": "low",
-   "note": "Recalled, not read; 7-day demand; tenant may cure by paying rent owed before the notice period ends/until hearing (verify); appeal 7 days."
+   "note": "Recalled, not read; 7-day demand; tenant may cure by paying rent owed before the notice period ends/until hearing (verify); appeal 7 days.",
+   "verificationFailed": "gencourt.state.nh.us / gc.nh.gov connection fails through the proxy."
   },
   "US-NJ": {
    "noticeDays": 0,
@@ -526,10 +634,18 @@
    ],
    "appealOrStayDays": 3,
    "removalBy": "court officer (Special Civil Part officer)",
-   "statute": "N.J.S.A. 2A:18-61.1(a), 2A:18-55, 2A:42-6.1, 2A:42-10.16",
-   "sourceUrl": "https://law.justia.com/codes/new-jersey/title-2a/section-2a-18-61-1/",
-   "confidence": "medium",
-   "note": "No pay-or-quit notice for nonpayment; 5-day late-fee grace; tenant may pay all rent plus costs to stop judgment; warrant of removal needs 3 business days notice after service."
+   "statute": "N.J.S.A. 2A:18-61.1, 2A:18-61.2, 2A:18-55, 2A:42-6.1, 2A:42-10.16",
+   "sourceUrl": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
+   "confidence": "high",
+   "note": "Read in official NJ statutes text file. No pre-suit notice for nonpayment (2A:18-61.2 exempts it). Tenant pays clerk rent claimed plus costs any time before final judgment and proceedings stop (2A:18-55). Grace is 5 BUSINESS days (2A:42-6.1). Warrant executed not earlier than the 3rd day after personal service, excluding weekends/court holidays (2A:42-10.16(b)), so appealOrStayDays 3 is business days. Hearing window not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "gracePeriodDays",
+    "appealOrStayDays",
+    "statute"
+   ],
+   "quote": "2A:18-61.2: \"No judgment of possession shall be entered ... except in the nonpayment of rent under subsection a. or f. of section 2, unless the landlord has made written demand and given written notice\""
   },
   "US-NM": {
    "noticeDays": 3,
@@ -545,10 +661,11 @@
    "statute": "NMSA 47-8-33, 47-8-47 (UORRA); Rules of Magistrate Court",
    "sourceUrl": "https://law.justia.com/codes/new-mexico/chapter-47/article-8/",
    "confidence": "low",
-   "note": "Recalled, not read; 3-day written pay-or-quit under Uniform Owner-Resident Relations Act (check for recent amendments); hearing timing set by magistrate rules."
+   "note": "Recalled, not read; 3-day written pay-or-quit under Uniform Owner-Resident Relations Act (check for recent amendments); hearing timing set by magistrate rules.",
+   "verificationFailed": "nmonesource.com serves a JavaScript shell with no statute text; Justia 403."
   },
   "US-NV": {
-   "noticeDays": 10,
+   "noticeDays": 7,
    "noticeDayType": "judicial",
    "cureAllowed": true,
    "gracePeriodDays": 0,
@@ -556,12 +673,21 @@
     10,
     10
    ],
-   "appealOrStayDays": 1,
+   "appealOrStayDays": 10,
    "removalBy": "sheriff or constable",
-   "statute": "NRS 40.253, 40.254, 40.290-40.420",
-   "sourceUrl": "https://law.justia.com/codes/nevada/title-3/chapter-40/",
-   "confidence": "medium",
-   "note": "Recalled from statute, not read this session; 10 judicial days after 2023 AB 340; tenant answer by affidavit within 10 judicial days; 24-hour notice to vacate after eviction order. Verify."
+   "statute": "NRS 40.253, 40.385, 40.290-40.420",
+   "sourceUrl": "https://www.leg.state.nv.us/nrs/nrs-040.html",
+   "confidence": "high",
+   "note": "CORRECTION: current NRS 40.253(1)(a) is 7 judicial days, not 10. Weekly tenancies of 45 days or less may use noon of the 4th full day. After the order, sheriff/constable posts within 24 hours and removes not earlier than 24 nor later than 36 hours after posting. Appeal within 10 judicial days of the order (NRS 40.385); the tenant affidavit is due by the notice deadline, so answerOrHearingDays 10 is unverified and probably 7 judicial days. Left as original; owner to review.",
+   "verifiedFields": [
+    "noticeDays",
+    "noticeDayType",
+    "cureAllowed",
+    "appealOrStayDays",
+    "removalBy",
+    "statute"
+   ],
+   "quote": "NRS 40.253(1): notice \"requiring in the alternative the payment of the rent or the surrender of the premises: (a) Before the close of business on the seventh judicial day following the day of service\""
   },
   "US-NY": {
    "noticeDays": 14,
@@ -577,7 +703,8 @@
    "statute": "RPAPL 711(2), 732, 733, 749, 751; RPL 238-a",
    "sourceUrl": "https://law.justia.com/codes/new-york/rpa/article-7/",
    "confidence": "medium",
-   "note": "Recalled, not read; 14-day written rent demand (HSTPA 2019); petition returnable 10-17 days after service; warrant execution needs 14 days notice; 5-day late-fee grace."
+   "note": "Recalled, not read; 14-day written rent demand (HSTPA 2019); petition returnable 10-17 days after service; warrant execution needs 14 days notice; 5-day late-fee grace.",
+   "verificationFailed": "nysenate.gov returns Cloudflare 403/challenge and the legislation API needs a key; no official text retrieved."
   },
   "US-OH": {
    "noticeDays": 3,
@@ -591,9 +718,14 @@
    "appealOrStayDays": 10,
    "removalBy": "bailiff",
    "statute": "ORC 1923.04, 1923.06, 1923.13, 5321.03",
-   "sourceUrl": "https://law.justia.com/codes/ohio/title-19/chapter-1923/",
+   "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-1923.04",
    "confidence": "medium",
-   "note": "3-day notice to leave premises; hearing 5-15 days after filing; writ after about 10 days; cure by payment not clearly statutory."
+   "note": "Read 1923.04(A). 3 or more days notice to leave. Cure not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "statute"
+   ],
+   "quote": "ORC 1923.04(A): party \"shall notify the adverse party to leave the premises ... three or more days before beginning the action, by certified mail ... or by handing a written copy of the notice\""
   },
   "US-OK": {
    "noticeDays": 5,
@@ -607,12 +739,17 @@
    "appealOrStayDays": 10,
    "removalBy": "sheriff or constable",
    "statute": "41 O.S. 131; 12 O.S. 1148.1-1148.10",
-   "sourceUrl": "https://law.justia.com/codes/oklahoma/title-41/section-41-131/",
-   "confidence": "medium",
-   "note": "Recalled, not read; 5-day pay-or-quit; summons returnable 5-10 days; 10 days to appeal."
+   "sourceUrl": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os41.rtf",
+   "confidence": "high",
+   "note": "Read official Title 41 text. Payment within 5 days after written demand avoids termination; demand for rent is deemed a demand for possession. Title 12 timing fields not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "41 O.S. 131(B): \"A landlord may terminate a rental agreement for failure to pay rent when due, if the tenant fails to pay the rent within five (5) days after written notice of landlord's demand for payment.\""
   },
   "US-OR": {
-   "noticeDays": 3,
+   "noticeDays": 10,
    "noticeDayType": "calendar",
    "cureAllowed": true,
    "gracePeriodDays": 7,
@@ -623,25 +760,41 @@
    "appealOrStayDays": null,
    "removalBy": "sheriff",
    "statute": "ORS 90.394, 90.427, 105.105-105.168",
-   "sourceUrl": "https://law.justia.com/codes/oregon/volume-03/chapter-90/section-90-394/",
-   "confidence": "medium",
-   "note": "72-hour notice (144-hour alternative) allowed on the 8th day of the rent period; first appearance 7-15 days after filing; recent legislation (SB 611 2023) added limits."
+   "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors090.html",
+   "confidence": "high",
+   "note": "CORRECTION: current ORS 90.394 (amended 2023 c.13, c.296) is 10 days written notice, given no sooner than the 8th day of the rental period (so 7 days of grace); alternative 13-day notice may be given from the 5th day. Week-to-week tenancies: 72 hours, from the 5th day. Notice must state amount and date/time to cure, so cure by payment is allowed. Hearing/appeal fields not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "gracePeriodDays",
+    "statute"
+   ],
+   "quote": "90.394(2)(a): \"At least 10 days written notice of nonpayment and the landlord's intention to terminate the rental agreement if the rent is not paid within that period ... no sooner than on the eighth day of the rental period\""
   },
   "US-PA": {
    "noticeDays": 10,
    "noticeDayType": "calendar",
-   "cureAllowed": null,
+   "cureAllowed": true,
    "gracePeriodDays": 0,
    "answerOrHearingDays": [
     7,
-    15
+    10
    ],
    "appealOrStayDays": 10,
    "removalBy": "constable",
-   "statute": "68 P.S. 250.501, 250.502, 250.513; MDJ Rules 510, 519",
-   "sourceUrl": "https://law.justia.com/codes/pennsylvania/title-68/",
-   "confidence": "medium",
-   "note": "10-day notice to quit for nonpayment; MDJ hearing 7-15 days after filing; possession order issued after 10 days; cure by payment not clearly statutory."
+   "statute": "68 P.S. 250.501(b), 250.502(a), 250.503(b)-(c), 250.513(b)",
+   "sourceUrl": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=HTM&SessYr=1951&ActNum=20&SessInd=0",
+   "confidence": "high",
+   "note": "Read official PA text. 10-day notice to quit for nonpayment. Summons date is 7-10 days from summons (502(a)). Writ of possession issues after the 5th day after judgment, served within 48 hours and executed on the 11th day after service (503(b)). Tenant can supersede the writ by paying arrears and costs any time before execution (503(c)). Appeal within 10 days of judgment (513(b)); supersedeas only if tenant pays judgment in cash/bond.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "answerOrHearingDays",
+    "appealOrStayDays",
+    "removalBy",
+    "statute"
+   ],
+   "quote": "250.501(b): \"In case of failure of the tenant, upon demand, to satisfy any rent reserved and due, the notice shall specify that the tenant shall remove within ten days from the date of the service thereof.\""
   },
   "US-PR": {
    "noticeDays": null,
@@ -657,7 +810,8 @@
    "statute": "32 L.P.R.A. 2821 et seq. (Codigo de Enjuiciamiento Civil Arts. 620-634; Ley 140-1974)",
    "sourceUrl": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/",
    "confidence": "low",
-   "note": "Could not retrieve text; summary desahucio court proceeding; details unresolved."
+   "note": "Could not retrieve text; summary desahucio court proceeding; details unresolved.",
+   "verificationFailed": "Not attempted beyond reachability checks; no Puerto Rico statute host tried successfully."
   },
   "US-RI": {
    "noticeDays": 5,
@@ -671,9 +825,16 @@
    "appealOrStayDays": 5,
    "removalBy": "sheriff or constable",
    "statute": "R.I. Gen. Laws 34-18-35, 34-18-36, 34-18-39",
-   "sourceUrl": "https://law.justia.com/codes/rhode-island/title-34/chapter-34-18/",
-   "confidence": "low",
-   "note": "Recalled, not read; 15-day grace before nonpayment counts; 5-day notice; landlord must accept full payment before eviction."
+   "sourceUrl": "https://webserver.rilegislature.gov/Statutes/TITLE34/34-18/34-18-35.htm",
+   "confidence": "high",
+   "note": "Read 34-18-35. Notice only after rent is 15 days in arrears; tenant cures by paying within 5 days of mailing; action filed no earlier than the 6th day after mailing.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "gracePeriodDays",
+    "statute"
+   ],
+   "quote": "34-18-35(a): rent \"in arrears for fifteen (15) days, the landlord shall send a written notice ... unless he or she cures the breach within five (5) days of the date of mailing of the notice, the rental agreement shall terminate\""
   },
   "US-SC": {
    "noticeDays": 5,
@@ -701,15 +862,21 @@
    "cureAllowed": null,
    "gracePeriodDays": 0,
    "answerOrHearingDays": [
-    6,
-    12
+    5,
+    5
    ],
    "appealOrStayDays": null,
    "removalBy": "sheriff",
-   "statute": "SDCL 21-16-2, 21-16-4, 21-16-9",
-   "sourceUrl": "https://law.justia.com/codes/south-dakota/title-21/chapter-21-16/",
+   "statute": "SDCL 21-16-1(4), 21-16-6, 21-16-7, 21-16-8",
+   "sourceUrl": "https://sdlegislature.gov/Statutes/21-16-1",
    "confidence": "low",
-   "note": "Recalled, not read; 3-day notice; return day roughly 6-12 days (verify)."
+   "note": "Read SD codified law. CORRECTION: SDCL 21-16-2 was repealed (SL 2024 ch 75). Nonpayment ground is 3 days after rent is due (21-16-1(4)), with no separate written notice found. Appearance and pleading due 5 days from service (21-16-7); trial on 2 days notice after issue joined (21-16-8); adjournments capped at 14 days without bond. Cure not addressed.",
+   "verifiedFields": [
+    "noticeDays",
+    "answerOrHearingDays",
+    "statute"
+   ],
+   "quote": "21-16-1(4): action maintainable \"If a lessee in person or by subtenants holds over ... or fails to pay his rent for three days after the same shall be due\""
   },
   "US-TN": {
    "noticeDays": 14,
@@ -725,7 +892,8 @@
    "statute": "T.C.A. 66-28-505 (URLTA counties), 29-18-115, 29-18-130",
    "sourceUrl": "https://law.justia.com/codes/tennessee/title-66/chapter-28/part-5/",
    "confidence": "medium",
-   "note": "URLTA counties: rent 5 days late, then 14-day notice to cure; non-URLTA counties use common law demand; detainer warrant return 3-6 days; 10 days to appeal."
+   "note": "URLTA counties: rent 5 days late, then 14-day notice to cure; non-URLTA counties use common law demand; detainer warrant return 3-6 days; 10 days to appeal.",
+   "verificationFailed": "wapp.capitol.tn.gov code pages are a JavaScript app (no text via curl); Justia returns 403."
   },
   "US-TX": {
    "noticeDays": 3,
@@ -757,10 +925,11 @@
    "statute": "Utah Code 78B-6-802, 78B-6-803, 78B-6-811",
    "sourceUrl": "https://law.justia.com/codes/utah/title-78b/chapter-6/part-8/",
    "confidence": "medium",
-   "note": "Recalled, not read; 3 business days notice; answer 3 business days after service; hearing within 10 days of request."
+   "note": "Recalled, not read; 3 business days notice; answer 3 business days after service; hearing within 10 days of request.",
+   "verificationFailed": "le.utah.gov connection fails through the proxy (no response)."
   },
   "US-VA": {
-   "noticeDays": 5,
+   "noticeDays": 14,
    "noticeDayType": "calendar",
    "cureAllowed": true,
    "gracePeriodDays": 5,
@@ -770,10 +939,16 @@
    ],
    "appealOrStayDays": 10,
    "removalBy": "sheriff",
-   "statute": "Va. Code 55.1-1245(C), 55.1-1250, 8.01-124 to 8.01-130, 8.01-470",
-   "sourceUrl": "https://law.justia.com/codes/virginia/title-55-1/chapter-12/",
-   "confidence": "medium",
-   "note": "5-day pay-or-quit; tenant may redeem by paying all before hearing; return date within 21 days; 10 days to appeal; 5-day grace for late fees."
+   "statute": "Va. Code 55.1-1245(F), 55.1-1250, 8.01-124 to 8.01-130, 8.01-470",
+   "sourceUrl": "https://law.lis.virginia.gov/vacode/title55.1/chapter12/section55.1-1245/",
+   "confidence": "high",
+   "note": "CORRECTION: current (effective-until-July 1, 2027) text of 55.1-1245(F) says 14 days, not 5 (page read 2026-10-12, amended by 2025 cc.684/688 and 2026 cc.353/354/844). Paying within 14 days avoids termination. 55.1-1250 governs redemption/acceptance of rent. Hearing, appeal and grace fields not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "statute"
+   ],
+   "quote": "55.1-1245(F): \"If rent is unpaid when due, and the tenant fails to pay rent within 14 days after written notice is served on him ... the landlord may terminate the rental agreement\""
   },
   "US-VI": {
    "noticeDays": 3,
@@ -789,7 +964,8 @@
    "statute": "28 V.I.C. 781-794",
    "sourceUrl": "https://www.vicourts.org/",
    "confidence": "low",
-   "note": "Recalled 3-day notice from statute language; a secondary source said 14 days; unresolved."
+   "note": "Recalled 3-day notice from statute language; a secondary source said 14 days; unresolved.",
+   "verificationFailed": "legvi.org/www.legvi.org vicode returns 404/522; vilegislature.org blocked by proxy."
   },
   "US-VT": {
    "noticeDays": 14,
@@ -803,9 +979,14 @@
    "appealOrStayDays": 14,
    "removalBy": "sheriff",
    "statute": "9 V.S.A. 4467(a), 12 V.S.A. 4851-4854",
-   "sourceUrl": "https://law.justia.com/codes/vermont/title-9/chapter-137/",
-   "confidence": "low",
-   "note": "Recalled, not read; 14-day notice (tenant may cure by paying full rent); writ issues after 14 days."
+   "sourceUrl": "https://legislature.vermont.gov/statutes/section/09/137/04467",
+   "confidence": "high",
+   "note": "Read 4467(a). Cure by paying rent due through the end of the rental period in which payment is made. Hearing/writ fields not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ],
+   "quote": "9 V.S.A. 4467(a): termination date \"shall be at least 14 days after the date of the actual notice. The rental agreement shall not terminate if the tenant pays or tenders rent due through the end of the rental period\""
   },
   "US-WA": {
    "noticeDays": 14,
@@ -818,10 +999,16 @@
    ],
    "appealOrStayDays": null,
    "removalBy": "sheriff",
-   "statute": "RCW 59.18.057, 59.18.365, 59.18.375, 59.18.410",
-   "sourceUrl": "https://law.justia.com/codes/washington/title-59/chapter-59-18/",
-   "confidence": "medium",
-   "note": "14-day pay-or-vacate (2019 law); show-cause hearing 7-30 days after filing; writ by sheriff; tenant may redeem."
+   "statute": "RCW 59.12.030(3), 59.18.057",
+   "sourceUrl": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.12.030",
+   "confidence": "high",
+   "note": "Read RCW 59.12.030(3) and 59.18.057. Notice is pay-or-vacate in the alternative, 14 days after service. Other fields (hearing, writ) not verified.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "statute"
+   ],
+   "quote": "RCW 59.12.030(3): notice \"requiring in the alternative the payment of the rent or the surrender of the detained premises ... for the period of 14 days after service for tenancies under chapter 59.18 RCW.\""
   },
   "US-WI": {
    "noticeDays": 5,
@@ -834,10 +1021,16 @@
    ],
    "appealOrStayDays": null,
    "removalBy": "sheriff",
-   "statute": "Wis. Stat. 704.17(2), 799.205, 799.44",
-   "sourceUrl": "https://law.justia.com/codes/wisconsin/",
-   "confidence": "medium",
-   "note": "5-day notice for under-1-year leases/month-to-month, 14 days for longer leases; paying in full within the notice voids it."
+   "statute": "Wis. Stat. 704.17(2)(a), 799.205, 799.44",
+   "sourceUrl": "https://docs.legis.wisconsin.gov/statutes/statutes/704/17",
+   "confidence": "high",
+   "note": "Read 704.17(2)(a). 5 days for leases of one year or less and year-to-year tenancies; if tenant already received a pay-or-vacate notice, paid, and defaults again within one year, landlord may give 14-day notice to vacate (no cure). Longer leases use 704.17(1) (not read).",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed",
+    "statute"
+   ],
+   "quote": "704.17(2)(a): tenant who \"fails to pay any installment of rent when due, the tenant's tenancy is terminated if the landlord gives the tenant notice requiring the tenant to pay rent or vacate on or before a date at least 5 days after the giving of the notice\""
   },
   "US-WV": {
    "noticeDays": null,
@@ -846,14 +1039,19 @@
    "gracePeriodDays": 0,
    "answerOrHearingDays": [
     5,
-    20
+    10
    ],
    "appealOrStayDays": 10,
    "removalBy": "sheriff",
-   "statute": "W.Va. Code 55-3A-1 to 55-3A-4, 37-6-5",
-   "sourceUrl": "https://law.justia.com/codes/west-virginia/chapter-55/article-3a/",
+   "statute": "W.Va. Code 55-3A-1, 37-6-5",
+   "sourceUrl": "https://code.wvlegislature.gov/55-3A-1/",
    "confidence": "low",
-   "note": "Recalled, not read; magistrate court summons; notice requirement not confirmed."
+   "note": "Read 55-3A-1. No pre-suit notice appears in the petition requirement; hearing 5-10 judicial days after filing (answerOrHearingDays is in judicial days); written defense due within 5 days of receipt of hearing notice. Notice and cure for nonpayment still unconfirmed.",
+   "verifiedFields": [
+    "answerOrHearingDays",
+    "statute"
+   ],
+   "quote": "55-3A-1(b): \"the court shall schedule a hearing, which may not be less than five nor more than 10 judicial days following the filing of the petition.\""
   },
   "US-WY": {
    "noticeDays": 3,
@@ -869,7 +1067,8 @@
    "statute": "Wyo. Stat. 1-21-1002 to 1-21-1008",
    "sourceUrl": "https://law.justia.com/codes/wyoming/title-1/chapter-21/",
    "confidence": "low",
-   "note": "Recalled, not read; 3-day notice to quit."
+   "note": "Recalled, not read; 3-day notice to quit.",
+   "verificationFailed": "wyoleg.gov statutes site is a JavaScript app; Justia 403."
   }
  }
 }
