@@ -26,7 +26,11 @@
         "You are home.",
         "You're back home.",
         "You're at your house.",
-        "You're at the house."
+        "You're at the house.",
+        "You are in your home.",
+        "You're in your home.",
+        "You are inside your home.",
+        "You're inside your home."
       ]
     },
     {
@@ -39,7 +43,11 @@
         "You're at {host} home.",
         "You're at {host} place.",
         "You're over at {host} house.",
-        "You're at {host}."
+        "You're at {host}.",
+        "You are at {host} home.",
+        "You are at {host} house.",
+        "You are in {host} home.",
+        "You're in {host} home."
       ]
     },
     {
@@ -54,7 +62,11 @@
         "You're at the office.",
         "You're at the plant.",
         "You're on the job.",
-        "You're at {employer} today."
+        "You're at {employer} today.",
+        "You are at {employer}.",
+        "You are now at {employer}.",
+        "You're at your workplace.",
+        "You are at your workplace."
       ]
     },
     {
@@ -66,7 +78,11 @@
         "You're at school.",
         "You're at {school}.",
         "You are in school.",
-        "You're in class."
+        "You're in class.",
+        "You are at school.",
+        "You are at {school}.",
+        "You are in a classroom.",
+        "You're in a classroom."
       ]
     },
     {
@@ -79,8 +95,18 @@
         "You're in town.",
         "You're downtown.",
         "You're in {place}.",
-        "You're out.",
-        "You're out and about."
+        "You're out and about.",
+        "You are in {place}.",
+        "You are standing in {place}.",
+        "You're standing in {place}.",
+        "You are now in {place}.",
+        "You are in downtown {place}.",
+        "You are on Main Street.",
+        "You're on Main Street.",
+        "You are outside.",
+        "You're outside.",
+        "You are standing on Main Street.",
+        "Welcome to {place}."
       ]
     },
     {
@@ -92,7 +118,11 @@
         "The phone rings.",
         "Your phone rings.",
         "The phone rang.",
-        "Your phone rang."
+        "Your phone rang.",
+        "You get a phone call.",
+        "You receive a phone call.",
+        "You get a call.",
+        "Your cell phone rings."
       ]
     },
     {
@@ -110,7 +140,12 @@
         "There's a letter for you.",
         "You have mail.",
         "You've got mail.",
-        "The mail came."
+        "The mail came.",
+        "You receive a letter.",
+        "You get a letter in the mail.",
+        "You receive a letter in the mail.",
+        "A letter arrives in the mail.",
+        "You get mail."
       ]
     },
     {
@@ -122,9 +157,10 @@
         "{who} is here.",
         "{who} is there.",
         "{who} is with you.",
-        "{who} was there.",
-        "{who} was here.",
-        "{who} is there too."
+        "{who} is there too.",
+        "{who} is here too.",
+        "{who} is waiting for you.",
+        "{who} is waiting."
       ]
     },
     {
@@ -136,8 +172,7 @@
         "{who_many} are here.",
         "{who_many} are there.",
         "{who_many} are with you.",
-        "{who_many} were there.",
-        "{who_many} were here."
+        "{who_many} are waiting for you."
       ]
     },
     {
@@ -153,7 +188,9 @@
         "You see {other} a lot.",
         "You've seen a lot of {other}.",
         "You and {other} have gotten close.",
-        "You and {other} are friends."
+        "You and {other} are friends.",
+        "You've been spending time with {other}.",
+        "You have been seeing {other}."
       ]
     },
     {
@@ -170,7 +207,11 @@
         "You were let go.",
         "You've been laid off.",
         "You're out of work.",
-        "You lost your job there."
+        "You lost your job there.",
+        "You have lost your job.",
+        "You are out of work.",
+        "You are unemployed.",
+        "You're unemployed."
       ]
     },
     {
@@ -189,7 +230,11 @@
         "You got the job.",
         "You went to work for {employer}.",
         "You went to work at {employer}.",
-        "You're working at {employer} now."
+        "You're working at {employer} now.",
+        "You have a job at {employer}.",
+        "You work at {employer}.",
+        "You start work at {employer}.",
+        "You are starting a new job."
       ]
     },
     {
@@ -204,7 +249,25 @@
         "You just moved to {place}.",
         "You moved here.",
         "You've moved.",
-        "You moved."
+        "You moved.",
+        "You have moved to {place}.",
+        "You are new to {place}.",
+        "You're new to {place}.",
+        "You have just moved."
+      ]
+    },
+    {
+      "move": "setting-venue-venue",
+      "subject": "setting",
+      "role": "venue",
+      "choice": "venue",
+      "candidates": [
+        "You are in {place}.",
+        "You are now in {place}.",
+        "You are standing in {place}.",
+        "You're standing in {place}.",
+        "You are inside {place}.",
+        "You're inside {place}."
       ]
     }
   ]

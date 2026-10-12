@@ -16,22 +16,57 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/scene-words.json",
     "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
       "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
       "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
+      "briefing": 1499,
       "crec": 445,
-      "fda": 8,
+      "dcpd": 4730,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
       "hearings": 1617,
       "house": 115,
+      "hud": 996,
       "nasa": 317,
-      "nasa2": 330,
-      "nih": 15,
-      "nps": 139,
+      "nasa2": 349,
+      "ncua": 683,
+      "nih": 52,
+      "nps": 515,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 83
+    "notAttested": 132
   },
   "parts": [
     {
@@ -47,17 +82,72 @@
           "choice": "work"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 5,
       "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "dcpd": 2,
         "hearings": 1,
         "house": 1
       },
       "shippable": true,
       "source": {
-        "document": "LABORATORY TESTING IN THE ERA OF PRECISION MEDICINE",
-        "date": "2016-09-20",
-        "granule": "CHRG-114shrg21906",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21906/html/CHRG-114shrg21906.htm",
+        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500550",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-workplace-work.you-are-at-employer",
+      "move": "setting-workplace-work",
+      "kind": "spoken",
+      "text": "You are at {employer}.",
+      "uses": [
+        {
+          "move": "setting-workplace-work",
+          "subject": "setting",
+          "role": "workplace",
+          "choice": "work"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dcpd": 2,
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
+        "date": "2026-05-20",
+        "granule": "DCPD-202600354",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-school-school.you-are-at-school",
+      "move": "setting-school-school",
+      "kind": "spoken",
+      "text": "You are at {school}.",
+      "uses": [
+        {
+          "move": "setting-school-school",
+          "subject": "setting",
+          "role": "school",
+          "choice": "school"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "COMMERCE, JUSTICE, SCIENCE, AND RELATED AGENCIES APPROPRIATIONS FOR 2020",
+        "date": "2019-02-26",
+        "granule": "CHRG-116hhrg36826",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36826/html/CHRG-116hhrg36826.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -74,17 +164,90 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 12,
       "bySource": {
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1,
+        "dcpd": 3,
         "hearings": 2,
-        "nasa2": 1
+        "nasa2": 1,
+        "nps": 1,
+        "nps.gov (PDF)": 1
       },
       "shippable": true,
       "source": {
-        "document": "Dante S. Lauretta oral history (discovery-and-new-frontiers collection)",
-        "date": "2024-08-07",
-        "granule": "discovery-and-new-frontiers-laurettads-8-7-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-7-24.pdf",
+        "document": "EXAMINING THE POLICIES AND PRIORITIES OF THE U.S. DEPARTMENT OF EDUCATION",
+        "date": "2021-06-24",
+        "granule": "CHRG-117hhrg44859",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-public-out.welcome-to-place",
+      "move": "setting-public-out",
+      "kind": "spoken",
+      "text": "Welcome to {place}.",
+      "uses": [
+        {
+          "move": "setting-public-out",
+          "subject": "setting",
+          "role": "public",
+          "choice": "out"
+        }
+      ],
+      "transcriptsUsing": 109,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 8,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "U.S. Senate Historical Office oral history": 1,
+        "briefing": 7,
+        "crec": 1,
+        "dcpd": 36,
+        "hearings": 8,
+        "nasa": 3,
+        "nasa2": 6,
+        "nps": 4,
+        "nps.gov": 10,
+        "nps.gov (PDF)": 22
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in Marietta, Georgia",
+        "date": "2026-07-22",
+        "granule": "DCPD-202600485",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600485/html/DCPD-202600485.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-phone-phone.the-phone-rings",
+      "move": "setting-phone-phone",
+      "kind": "spoken",
+      "text": "The phone rings.",
+      "uses": [
+        {
+          "move": "setting-phone-phone",
+          "subject": "setting",
+          "role": "phone",
+          "choice": "phone"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 3,
+        "nasa2": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: francis phil oct 23 2015",
+        "date": "2015-10-23",
+        "granule": "npgallery-525cb730",
+        "url": "https://npgallery.nps.gov/AssetDetail/525cb730-f885-406d-83b6-7a6af7778659",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -101,11 +264,13 @@
           "choice": "phone"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 7,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
         "crec": 1,
         "nasa": 2,
-        "nasa2": 1
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -129,19 +294,24 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 16,
+      "transcriptsUsing": 108,
       "bySource": {
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 7,
+        "U.S. Senate Historical Office oral history": 1,
+        "briefing": 2,
         "crec": 1,
-        "hearings": 7,
-        "nasa2": 1
+        "dcpd": 89,
+        "hearings": 5,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "119TH CONGRESS MEMBER DAY",
-        "date": "2025-12-04",
-        "granule": "CHRG-119hhrg62747",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62747/html/CHRG-119hhrg62747.htm",
+        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
+        "date": "2026-08-19",
+        "granule": "DCPD-202600547",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -158,27 +328,31 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 22,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 2,
+        "briefing": 2,
         "crec": 2,
+        "dcpd": 8,
         "hearings": 2,
         "nasa": 2,
-        "nasa2": 2
+        "nasa2": 2,
+        "nps": 2
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2024-06-05",
-        "date": "2024-06-05",
-        "granule": "CREC-2024-06-05-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-06-05",
+        "document": "Remarks and an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
+        "date": "2025-09-14",
+        "granule": "DCPD-202500914",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500914/html/DCPD-202500914.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
     {
-      "key": "scene-words.present-one-one.who-was-there",
+      "key": "scene-words.present-one-one.who-is-with-you",
       "move": "present-one-one",
       "kind": "spoken",
-      "text": "{who} was there.",
+      "text": "{who} is with you.",
       "uses": [
         {
           "move": "present-one-one",
@@ -187,31 +361,24 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 61,
+      "transcriptsUsing": 2,
       "bySource": {
-        "crec": 1,
-        "hearings": 2,
-        "house": 14,
-        "nasa": 16,
-        "nasa2": 15,
-        "nih": 2,
-        "nps": 10,
-        "wpa": 1
+        "dcpd": 2
       },
       "shippable": true,
       "source": {
-        "document": "Jessica Sunshine oral history (discovery-and-new-frontiers collection)",
-        "date": "2025-02-25",
-        "granule": "discovery-and-new-frontiers-sunshinej-2-25-25",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
+        "document": "Remarks on the National Day of Prayer",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500543",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500543/html/DCPD-202500543.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
     {
-      "key": "scene-words.present-one-one.who-was-here",
+      "key": "scene-words.present-one-one.who-is-here-too",
       "move": "present-one-one",
       "kind": "spoken",
-      "text": "{who} was here.",
+      "text": "{who} is here too.",
       "uses": [
         {
           "move": "present-one-one",
@@ -220,20 +387,69 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 3,
       "bySource": {
-        "crec": 1,
-        "house": 1,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 5
+        "dcpd": 3
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2022-09-20",
-        "date": "2022-09-20",
-        "granule": "CREC-2022-09-20-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2022-09-20",
+        "document": "Remarks During a World Economic Forum Reception With Business Leaders in Davos, Switzerland",
+        "date": "2026-01-21",
+        "granule": "DCPD-202600049",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600049/html/DCPD-202600049.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-many-many.who-many-are-here",
+      "move": "present-many-many",
+      "kind": "spoken",
+      "text": "{who_many} are here.",
+      "uses": [
+        {
+          "move": "present-many-many",
+          "subject": "present",
+          "role": "many",
+          "choice": "many"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a State Dinner With Amir Tamim bin Hamad Al Thani of Qatar in Doha, Qatar",
+        "date": "2025-05-14",
+        "granule": "DCPD-202500603",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500603/html/DCPD-202500603.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.cause-home:moved-moved.you-moved",
+      "move": "cause-home:moved-moved",
+      "kind": "spoken",
+      "text": "You moved.",
+      "uses": [
+        {
+          "move": "cause-home:moved-moved",
+          "subject": "cause",
+          "role": "home:moved",
+          "choice": "moved"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing Legislation To Promote United States Semiconductor Production, Technological Innovation, and Advanced Manufacturing",
+        "date": "2022-08-09",
+        "granule": "DCPD-202200702",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200702/html/DCPD-202200702.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

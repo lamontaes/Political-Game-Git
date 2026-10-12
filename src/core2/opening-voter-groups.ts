@@ -53,8 +53,15 @@ function turnoutFor(stateName: string, band: string) {
     : undefined;
 }
 
-/** Adds one voter group per place and age band of counted adults. */
-export function withCountedVoterGroups(input: CoreInput): CoreInput {
+/**
+ * Adds one voter group per place and age band of counted adults. A custom
+ * world's politics settings shift the starting lean (−1 to 1, positive more
+ * Republican) and multiply turnout (capped at everyone voting).
+ */
+export function withCountedVoterGroups(
+  input: CoreInput,
+  custom: { leanShift?: number; turnout?: number } = {},
+): CoreInput {
   const residents = input.residents;
   const placeKey = input.placeMetadata?.placeKey;
   if (!residents || !placeKey) return input;
@@ -68,7 +75,12 @@ export function withCountedVoterGroups(input: CoreInput): CoreInput {
   const dem = presidential?.totalsByParty.democratic ?? 0,
     rep = presidential?.totalsByParty.republican ?? 0;
   const share = dem + rep > 0 ? dem / (dem + rep) : undefined;
-  const lean = share === undefined ? 0 : 1 - 2 * share;
+  const leanShift = custom.leanShift ?? 0,
+    turnoutScale = custom.turnout ?? 1;
+  const lean = Math.max(
+    -1,
+    Math.min(1, (share === undefined ? 0 : 1 - 2 * share) + leanShift),
+  );
   const start = Number(input.startedAt.slice(0, 4));
   const counts = new Map<string, number>();
   for (const record of residents.households)
@@ -88,14 +100,14 @@ export function withCountedVoterGroups(input: CoreInput): CoreInput {
       tag: "ESTIMATED",
       asOf: input.startedAt,
       citation: `U.S. Census Bureau November 2024 CPS voting table 4c, ${observed.row.recordId} (${observed.national ? "national row; no state row" : `${state!.name}`}); Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (${usps ?? "no state"} two-party share).`,
-      estimatedFrom: `Counted adults ${band}; turnout from citizen turnout, all counted adults treated as eligible; starting lean ${lean.toFixed(3)} from the state's 2024 presidential two-party margin${share === undefined ? " (no presidential vote recorded: 0)" : ""}. Views and elections refine it.`,
+      estimatedFrom: `Counted adults ${band}; turnout from citizen turnout, all counted adults treated as eligible; starting lean ${lean.toFixed(3)} from the state's 2024 presidential two-party margin${share === undefined ? " (no presidential vote recorded: 0)" : ""}${leanShift || turnoutScale !== 1 ? `; custom world: lean shifted ${leanShift}, turnout ×${turnoutScale}` : ""}. Views and elections refine it.`,
     };
     groups.push({
       id: `residents:${placeId}:${band}`,
       placeId,
       ageBand: band,
       lean,
-      turnout: observed.turnout,
+      turnout: Math.min(1, observed.turnout * turnoutScale),
       size,
       asOf: input.startedAt,
       source,

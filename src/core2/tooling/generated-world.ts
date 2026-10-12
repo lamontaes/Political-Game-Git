@@ -168,7 +168,10 @@ function buildOpening(
   releaseRecentHistory();
   forgetLastValidatedWorld();
   if (!keep) return input;
-  const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }));
+  const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }), {
+    leanShift: settings.politics?.leanShift ?? 0,
+    turnout: settings.politics?.turnout ?? 1,
+  });
   return { ...two, residents: { ...two.residents!, cohortSizes } };
 }
 

@@ -7,7 +7,10 @@ How the phrase banks in `data/english/parts/` are built from real American speec
 - A bank part is a whole sentence (or a sentence's opening clause) that real people said or wrote, with the words that name a record (a person, an employer, a town, a date, a fee) replaced by slots the game fills from its own records.
 - It ships word for word only from public-domain records: federal works (17 U.S.C. 105) and state works from states whose government works carry no copyright (Florida: _Microdecisions, Inc. v. Skinner_, 889 So. 2d 871, Fla. 2d DCA 2004). Every part records its source document, date, address and license.
 - A part is kept when at least two documents say it and one is a public-domain record from 2015 or later, which becomes its source. A hearing's date is when it was printed, so hearings before the 114th Congress never serve as the source. The WPA life histories (1936 to 1940) count toward the two documents but never ship as the source.
+- A part cites a record the government wrote or said itself (hearings, the Congressional Record, agency news releases and meetings) ahead of an oral history whenever both attest it. Some oral-history interviewees signed deeds of gift giving their rights to the United States, so their words may be government-owned rather than public domain; every part is a short, common sentence (short phrases carry no copyright, 37 C.F.R. 202.1(a)), and it is never taken from a transcript carrying a copyright or permission notice.
 - The filing clerk's bank accepts one document, because few transcripts record a clerk explaining filing.
+- A sentence that claims something about the speaker's life or the place ("I'm a nurse.", "My rent went up.") names the record fact it needs and is said only when that fact is in the record.
+- A real politician's campaign slogan never ships, even from a public-domain record.
 - Council minutes, meeting video, news, books, TV and interviews give patterns and counts only. `data/english/patterns/` holds older banks whose sources are not public domain; none of their text ships.
 
 ## The corpus
@@ -27,4 +30,4 @@ The raw text stays outside the repository. Rebuild it into any folder with one s
 
 ## Rebuilding the banks
 
-`scripts/english-corpus/mine-all.sh <corpus-dir>` re-mines every bank from its candidate shapes in `scripts/english-corpus/shapes/` and writes each bank's unattested shapes to `not-attested-<bank>.json` here. A shape that no record says is a sentence the game cannot use yet; widening the corpus is how a gap closes, never writing the line by hand.
+`scripts/english-corpus/mine-all.sh <corpus-dir>` re-mines every bank in one pass over the corpus from its candidate shapes in `scripts/english-corpus/shapes/` and writes each bank's unattested shapes to `not-attested-<bank>.json` here. A shape that no record says is a sentence the game cannot use yet; widening the corpus is how a gap closes, never writing the line by hand.
