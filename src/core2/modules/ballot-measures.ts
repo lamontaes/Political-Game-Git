@@ -6,7 +6,8 @@
  * On the measure's election day every adult in town decides for themselves:
  * whether to vote (the same duty, interest and cost as any race; someone who
  * turned out for a race that day votes on the measures too) and how (their
- * own view of the question; someone with no view leaves it blank). The rest
+ * own view of the question, their lean plus how popular the policy is; someone
+ * with no view leaves it blank). The rest
  * of the state votes as groups spread across the left-right scale around the
  * state's real 2024 lean, each group voting its own view. The measure passes
  * by the state's own rule (a simple majority unless the data says
@@ -19,7 +20,12 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { personLean, personStance } from "../campaign-views";
+import {
+  personLean,
+  personStance,
+  publicOffset,
+  publicSupport,
+} from "../campaign-views";
 import { enactLaw, lawChain } from "./laws";
 import { turnout, VOTING_MODULE_ID } from "./voting";
 import { stateActEffectiveDate } from "../state-effective-date";
@@ -186,7 +192,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const lean0 = townLean(api);
   for (const voter of adults) {
     const lean = personLean(api.state.people, voter, lean0);
-    const support = personStance(lean, measure.question) * direction;
+    const support = publicSupport(lean, measure.question) * direction;
     const t = turnout(api, voter, {
       yes: { total: support },
       no: { total: -support },
@@ -232,7 +238,12 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // the share voting yes is the part of that range whose view favors it.
   const low = 2 * rightShare - 2;
   const slope = personStance(1, measure.question) * direction;
-  const yesFraction = shareFavoring(low, low + 2, slope, 0);
+  const yesFraction = shareFavoring(
+    low,
+    low + 2,
+    slope,
+    publicOffset(measure.question) * direction,
+  );
   groups.yes = Math.round(unnamed * yesFraction);
   groups.no = unnamed - groups.yes;
   const yes = named.yes + groups.yes;

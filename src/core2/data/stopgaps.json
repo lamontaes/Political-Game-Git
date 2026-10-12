@@ -2011,5 +2011,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and the news surfacing records.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-group-lobbyist-stand-in",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/interest-groups.ts",
+    "line": 260,
+    "whatItFakes": "An employers' group's lobbyist is the best-paid town resident working for the member business the bill costs most; businesses themselves decide to join and pay dues.",
+    "why": "Businesses have no owners or managers in core2 yet (OPUS-WORLD's business engine), and lobbyists aren't a hired job yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
+    "status": "open"
   }
 ]

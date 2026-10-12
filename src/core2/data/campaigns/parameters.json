@@ -277,6 +277,18 @@
       "tag": "ESTIMATED",
       "source": "Percent of the votes last cast for the office that a local recall petition needs where the state's recall exists but its threshold isn't read: the median of the read municipal recall rules (25%, Colorado, Michigan, Arizona, New Jersey; 15% Oregon).",
       "spread": [10, 35]
+    },
+    "groupDuesMinor": {
+      "value": 50000,
+      "tag": "ESTIMATED",
+      "source": "A year's dues for a small business in a local employers' association, in cents: local chambers of commerce charge small firms about $300 to $700 a year (chamber dues schedules surveyed by the U.S. Chamber's local affiliate guides).",
+      "spread": [20000, 150000]
+    },
+    "lobbyWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much a member a group met weighs its case, at full strength when the group speaks for all of the bill's losers; checked so a fully organized industry moves a member about as much as their constituents' lean does.",
+      "spread": [0.1, 0.6]
     }
   }
 }

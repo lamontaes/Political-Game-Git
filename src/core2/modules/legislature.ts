@@ -117,6 +117,8 @@ export interface MemberPosition {
   readonly constituents: number;
   readonly sponsor: number;
   readonly deal: number;
+  /** What organized interests that met the member pressed on them. */
+  readonly lobby: number;
   readonly total: number;
 }
 
@@ -138,6 +140,47 @@ function table(api: CoreAPI, name: string) {
   return api.moduleState(LEGISLATURE_MODULE_ID).table(name);
 }
 
+type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
+const positionTerms: PositionTerm[] = [];
+const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/**
+ * Other engines add to a member's reasons (organized interests lobbying) and
+ * act on a bill before its votes (groups forming from its fiscal note).
+ */
+export function registerLegislatureHooks(input: {
+  readonly positionTerm?: PositionTerm;
+  readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+}): void {
+  if (input.positionTerm && !positionTerms.includes(input.positionTerm))
+    positionTerms.push(input.positionTerm);
+  if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
+    beforeVoteHooks.push(input.beforeVote);
+}
+
+/** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
+export function employerCosts(
+  api: CoreAPI,
+  bill: BillRow,
+): ReadonlyMap<string, { workers: number; annualMinor: number }> {
+  const wage = bill.provisions.find(
+    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
+  );
+  const out = new Map<string, { workers: number; annualMinor: number }>();
+  if (!wage) return out;
+  for (const c of (api.state as CoreState).work.commitments.values())
+    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
+      const row = out.get(c.organizationId) ?? { workers: 0, annualMinor: 0 };
+      out.set(c.organizationId, {
+        workers: row.workers + 1,
+        annualMinor: Math.round(
+          row.annualMinor +
+            (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52,
+        ),
+      });
+    }
+  return out;
+}
+
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
@@ -145,28 +188,22 @@ export function openLegislature(core: CoreState): void {
 }
 
 /**
- * The council votes the town's budget at its fiscal year's start: the
+ * Each government's legislature votes its budget at the fiscal year's start
+ * (the town council, the county board, the state's chambers, Congress): the
  * executive's proposal (this year's lines with their priorities applied).
  * Each member weighs the proposal's changes by their own views, and their
  * duty to keep the government funded (a budget must be adopted); a budget
- * the council rejects is carried forward as last year's, as most charters
- * provide. Only the town's own government votes here; other levels' budgets
- * stay on the budget rule until their legislatures vote them.
+ * that fails is carried forward as last year's (a charter's carry-forward, a
+ * state's continuing appropriation, Congress's continuing resolution).
  */
 function councilBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
 ): BudgetRow | null {
-  if (gov.level !== "city") return null;
-  const council = (
-    api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
-      id: string;
-      kind: string;
-      level: string;
-    }[]
-  ).find((o) => o.kind === "council" && o.level === "city");
-  if (!council || !members(api, council.id).length) return null;
+  const chambers = budgetChambers(api, gov);
+  if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
+    return null;
   const priorities = budgetPriorities(api, gov.id);
   const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
@@ -175,45 +212,64 @@ function councilBudget(
       value: delta,
     }),
   );
-  const sponsor = priorities?.setBy ?? memberKey(members(api, council.id)[0]!);
+  const sponsor =
+    priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
   const bill = draftBill(api, {
-    bodyOfficeId: council.id,
+    bodyOfficeId: chambers.introducedIn,
     sponsorId: sponsor,
     provisions,
   });
-  // Each member's duty to adopt a budget sits beside their views on its changes.
-  let yes = 0;
-  let no = 0;
-  for (const member of members(api, council.id)) {
-    const key = memberKey(member);
-    const position = memberPosition(api, bill.id, key);
-    const total =
-      position.total -
-      position.sponsor +
-      campaignParameter("budgetAdoptionDuty");
-    if (total > 0) yes += 1;
-    else if (total < 0) no += 1;
-    table(api, "votes").put({
-      id: `vote:${bill.id}:${key}`,
-      billId: bill.id,
-      memberId: key,
-      vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
-      position: { ...position, total },
-    } as unknown as ModuleRow);
+  // Each member's duty to adopt a budget sits beside their views on its
+  // changes; every chamber must pass it (the U.S. Senate by cloture first).
+  const tallies: string[] = [];
+  let adopted = true;
+  for (const chamber of chambers.chambers) {
+    let yes = 0;
+    let no = 0;
+    for (const member of members(api, chamber)) {
+      const key = memberKey(member);
+      const position = memberPosition(api, bill.id, key);
+      const total =
+        position.total -
+        position.sponsor +
+        campaignParameter("budgetAdoptionDuty");
+      if (total > 0) yes += 1;
+      else if (total < 0) no += 1;
+      table(api, "votes").put({
+        id: `vote:${bill.id}:${key}`,
+        billId: bill.id,
+        memberId: key,
+        chamber,
+        vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
+        position: { ...position, total },
+      } as unknown as ModuleRow);
+    }
+    tallies.push(`${yes}-${no}`);
+    const cloture =
+      chamber === FEDERAL_SENATE &&
+      yes <
+        Math.ceil(
+          members(api, chamber).length *
+            campaignParameter("senateClotureShare"),
+        );
+    if (yes <= no || cloture) {
+      adopted = false;
+      break;
+    }
   }
-  const adopted = yes > no;
+  const votes = tallies.join(", ");
   const proposal = proposedBudget(
     api,
     gov,
     fy,
-    `council vote ${yes}-${no}, Ordinance ${bill.number}`,
+    `${chambers.body} vote ${votes}, ${bill.number}`,
   );
   const budget: BudgetRow = adopted
     ? proposal
     : {
         ...proposal,
         spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
-        adoptedBy: `carried forward after the council rejected Ordinance ${bill.number} ${yes}-${no}`,
+        adoptedBy: `carried forward after the ${chambers.body} rejected ${bill.number} ${votes}`,
       };
   putBudget(api, budget);
   table(api, "bills").put({
@@ -222,6 +278,60 @@ function councilBudget(
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
   return budget;
+}
+
+/**
+ * The bodies that vote a government's budget, in order, and where the bill
+ * is introduced: the town council, the county board, the state's chambers,
+ * or Congress (through the town's own House seat).
+ */
+function budgetChambers(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): {
+  chambers: readonly string[];
+  introducedIn: string;
+  body: string;
+} | null {
+  const offices = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .rows() as unknown as {
+    id: string;
+    kind: string;
+    level: string;
+    jurisdiction: string;
+  }[];
+  if (gov.level === "federal") {
+    const house = offices.find((o) => o.kind.startsWith("us-house"));
+    return house
+      ? {
+          chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
+          introducedIn: house.id,
+          body: "Congress",
+        }
+      : null;
+  }
+  if (gov.level === "state") {
+    const state = offices
+      .filter(
+        (o) => o.kind.startsWith("legislature-") && o.jurisdiction === gov.id,
+      )
+      .map((o) => o.id)
+      .sort();
+    return state.length
+      ? { chambers: state, introducedIn: state[0]!, body: "legislature" }
+      : null;
+  }
+  const kind = gov.level === "county" ? "county-board" : "council";
+  const body = offices.find((o) => o.kind === kind && o.level === gov.level);
+  return body
+    ? {
+        chambers: [body.id],
+        introducedIn: body.id,
+        body: gov.level === "county" ? "county board" : "council",
+      }
+    : null;
 }
 
 /** Last year's adopted lines, for a budget the council rejects. */
@@ -650,13 +760,18 @@ export function memberPosition(
     bill.deals.filter((d) => d.memberId === memberId).length *
     campaignParameter("dealWeight");
   const c = campaignParameter("constituentWeight");
+  const lobby = positionTerms.reduce(
+    (sum, term) => sum + term(api, bill, memberId),
+    0,
+  );
   return {
     memberId,
     views,
     constituents: c * constituents,
     sponsor,
     deal,
-    total: views + c * constituents + sponsor + deal,
+    lobby,
+    total: views + c * constituents + sponsor + deal + lobby,
   };
 }
 
@@ -1003,6 +1118,10 @@ export function committeeRecords(
  * fifths of its members vote to end debate. Every vote is on the record.
  */
 export function holdVote(api: CoreAPI, billId: string): BillRow {
+  if (
+    (table(api, "bills").get(billId) as unknown as BillRow).status === "drafted"
+  )
+    for (const hook of beforeVoteHooks) hook(api, billId);
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
   const tallies: { yes: number; no: number }[] = [];

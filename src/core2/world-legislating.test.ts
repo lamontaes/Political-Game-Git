@@ -17,6 +17,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { openLegislature } from "./modules/legislature";
+import { budgetsOf, openBudgets } from "./modules/budgets";
 import { effectsOn, openLawEffects } from "./modules/law-effects";
 import {
   openWorldLegislating,
@@ -247,6 +248,49 @@ describe("M3-10 other governments legislate", () => {
         place: key,
         bodies: bodies.map((b) => b.kind),
         meetings,
+      }),
+    );
+  });
+
+  it("Congress votes the federal budget on the fiscal year's first day, the Senate by cloture", () => {
+    const state = pick(states, "budget:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "budget:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: "2026-09-25",
+        minimumPeople: 120,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openRecord(core);
+    openLegislature(core);
+    openBudgets(core);
+    const api = coreAPI(core);
+    advanceCore(core, "2026-10-02");
+    const federal = budgetsOf(api, "US").find(
+      (b) => b.startsOn === "2026-10-01",
+    );
+    expect(federal, `${state} ${key}`).toBeDefined();
+    // Voted by Congress: adopted, or carried forward as a continuing resolution.
+    expect(federal!.adoptedBy).toMatch(/Congress/);
+    govReport(
+      "world-legislating-budget",
+      JSON.stringify({
+        seed,
+        state,
+        place: key,
+        adoptedBy: federal!.adoptedBy,
       }),
     );
   });
