@@ -1592,17 +1592,20 @@
     }
   },
   "businessIncomeHalfLifeDays": {
-    "value": 1095,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances localDemandHalfLifeDays is explicitly PLACEHOLDER. Analytic linear reached-income response is a new registered approximation; no source identifies this duration.",
+    "value": 785,
+    "tag": "ESTIMATED",
+    "citation": "BLS Local Area Unemployment Statistics, state unemployment-rate gaps 2000–2025: half-life implied by their AR(1) persistence, median across the 50 states (data/research/regional/roadmap-r1-gap-persistence.json, research roadmap R1).",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical half-life range for town sales responding to income has been established; require dated income/sales response calibration."
+      "low": 357,
+      "high": 1473,
+      "unit": "days",
+      "citation": "P10 and P90 across the 50 states."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "How fast a town's sales follow a change in its residents' income is read from how fast local labor-market gaps close; the median state's half-life is 785 days."
   },
   "businessCrowdingResponse": {
     "value": 0.1,
@@ -1749,17 +1752,18 @@
     "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementCoveredFraction": {
-    "value": 0.65,
-    "tag": "TUNABLE",
-    "citation": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementCoveredFraction",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    },
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
+    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "spread": {
+      "low": 0.66,
+      "high": 0.84,
+      "unit": "share of adult years with covered earnings",
+      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -1796,32 +1800,20 @@
     "estimatedFrom": "35 years × 12 = 420 months; dividing covered months by 420 approximates the zero-year penalty, not the earnings level or the bend points."
   },
   "openingRetirementBenefitFactorMinimum": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "Authored lower amount factor for fictional generated awards; no individual benefit-distribution percentile or parameter bound is inferred from the average.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementBenefitFactorMinimum",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    },
+    "value": 0.33,
+    "tag": "SOURCED",
+    "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (retired workers by monthly benefit, December 2020; 46,329,595 workers, average $1,544.15), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 5th percentile benefit, computed from the published bins, is 0.33 of the mean."
   },
   "openingRetirementBenefitFactorMaximum": {
-    "value": 1.25,
-    "tag": "TUNABLE",
-    "citation": "Authored upper amount factor for fictional generated awards; no individual benefit-distribution percentile or parameter bound is inferred from the average.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementBenefitFactorMaximum",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    },
+    "value": 1.88,
+    "tag": "SOURCED",
+    "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
   "openingRetirementPayerReserveMonths": {
     "value": 0,

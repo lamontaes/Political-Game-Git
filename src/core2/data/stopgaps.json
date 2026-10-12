@@ -548,7 +548,7 @@
     "why": "All new model coefficients are TUNABLE with explicitly unmeasured spreads. Source employment or category-price estimates do not identify these generated-town sales/price coefficients.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched dated town income, market sales, prices/capacity and within-market shares with identified coefficient ranges and executed calibration; review cadence also requires evidence.",
+    "replacement": "Matched dated town income, market sales, prices/capacity and within-market shares with identified coefficient ranges and executed calibration; review cadence also requires evidence. Oct 12 (OPUS-CORE): businessIncomeHalfLifeDays now 785 from BLS LAUS persistence; the other coefficients have no published value yet.",
     "status": "open"
   },
   {
@@ -656,8 +656,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): set from FIXER's researched value with its source (SSA Bulletin 65(1); SSA Annual Statistical Supplement 2021 Table 5.B6).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
@@ -704,8 +704,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): set from FIXER's researched value with its source (SSA Bulletin 65(1); SSA Annual Statistical Supplement 2021 Table 5.B6).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitFactorMaximum",
@@ -716,8 +716,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): set from FIXER's researched value with its source (SSA Bulletin 65(1); SSA Annual Statistical Supplement 2021 Table 5.B6).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementPayerReserveMonths",
