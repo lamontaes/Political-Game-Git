@@ -40,8 +40,13 @@ import type {
   PersonReach,
 } from "./law-reach/group-b-store";
 import { GROUP_B_KEYS, groupBPolicy } from "./law-reach/group-b";
-import { reachParameter } from "./law-reach/group-b-people";
-import { budgetNow, residentsOf } from "./law-reach/group-b-money";
+import { reachParameter, townFacts } from "./law-reach/group-b-people";
+import {
+  budgetNow,
+  modeledShare,
+  residentsOf,
+  townShare,
+} from "./law-reach/group-b-money";
 
 const START = "2026-01-05";
 const seed =
@@ -90,9 +95,11 @@ function build(): void {
       minimumPeople: 400,
     });
     const year = Number(START.slice(0, 4));
-    const player = [...full.people]
-      .filter((p) => year - Number(p.birthDate.slice(0, 4)) >= 25 && p.jobId)
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    // An employed adult where the place has one (paychecks for the tax tests), else any adult.
+    const adults = [...full.people]
+      .filter((p) => year - Number(p.birthDate.slice(0, 4)) >= 18)
+      .sort((a, b) => a.id.localeCompare(b.id));
+    const player = adults.find((p) => p.jobId) ?? adults[0];
     if (!player) continue;
     const teachers = full.jobs.filter(
       (j) => j.occupationClassification === "profession:teacher",
@@ -627,7 +634,24 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const raised = staff().filter(
       (j) => (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0),
     );
-    if (before.size) expect(raised.length, where).toBeGreaterThan(0);
+    // Where the town's share of the change moves some staff rate by a cent.
+    const delta = group(key)?.terms.townDeltaMinor ?? 0;
+    const payroll =
+      staff().reduce(
+        (n, j) => n + (before.has(j.id) ? j.wageDailyMinor : 0),
+        0,
+      ) * 365;
+    const fraction =
+      payroll > 0
+        ? (delta *
+            reachParameter("schoolCompensationShare") *
+            modeledShare(api, townFacts(api, town))) /
+          payroll
+        : 0;
+    const moves = [...before.values()].some(
+      (h) => h > 0 && Math.round(h * (1 + fraction)) !== h,
+    );
+    if (moves) expect(raised.length, where).toBeGreaterThan(0);
     report[key] = {
       staff: before.size,
       raised: raised.length,
@@ -644,13 +668,25 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const base = line(gov, "welfareAndMedicaid");
     const step = stepFor(gov, "welfareAndMedicaid");
     amend(gov, "welfareAndMedicaid", step);
-    expect(reached(key), where).toBeGreaterThan(0);
+    // Households with no job income at all are under any income limit.
+    const anyNoIncome = [...townFacts(api, town).households.values()].some(
+      (h) => h.incomeDollars === 0,
+    );
+    if (anyNoIncome) expect(reached(key), where).toBeGreaterThan(0);
     const benefits = table<{
       key: string;
       obligationId: string;
       amountMinor: number;
     }>("taken").filter((r) => r.key === `benefit|${key}`);
-    expect(benefits.length, where).toBeGreaterThan(0);
+    // Where the town's share of the increase comes to a cent a household a month.
+    const perHousehold = Math.floor(
+      ((group(key)?.terms.townDeltaMinor ?? 0) *
+        modeledShare(api, townFacts(api, town))) /
+        12 /
+        Math.max(1, reached(key)),
+    );
+    if (reached(key) > 0 && perHousehold >= 1)
+      expect(benefits.length, where).toBeGreaterThan(0);
     const accounts = api.accounts();
     const treasuryBefore = core.organizations.get(
       gov.organizationId,
@@ -769,10 +805,18 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const govs = governments(api).filter(
       (g) => g.level === LOCAL || g.level === "state",
     );
+    // The government with a budget to hold a reserve against, richest first.
+    const spends = (g: GovernmentRow) =>
+      Object.values(budgetNow(api, g.id)?.spendingMinor ?? {}).some(
+        (v) => v > 0,
+      )
+        ? 1
+        : 0;
     const gov = [...govs].sort(
       (a, b) =>
+        spends(b) - spends(a) ||
         core.organizations.get(b.organizationId)!.liquidMinor -
-        core.organizations.get(a.organizationId)!.liquidMinor,
+          core.organizations.get(a.organizationId)!.liquidMinor,
     )[0]!;
     const accounts = api.accounts();
     const cash = core.organizations.get(gov.organizationId)!.liquidMinor;
@@ -783,9 +827,18 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const spending = Object.values(
       budgetNow(api, gov.id)?.spendingMinor ?? {},
     ).reduce((a, b) => a + b, 0);
-    if (spending > 0) expect(target, where).toBeGreaterThan(0);
-    expect(held).toBeLessThanOrEqual(target);
-    if (cash > 0) expect(held, where).toBeGreaterThan(0);
+    // The target is the reserve share of the year's spending, the town's part of it.
+    const expected = Math.round(
+      spending *
+        reachParameter("reserveShareOfSpending") *
+        townShare(api, gov) *
+        modeledShare(api, townFacts(api, town)),
+    );
+    const numbers = `${where}: cash ${cash}, spending ${spending}, target ${target}, held ${held}`;
+    expect(target, numbers).toBe(expected);
+    expect(held, numbers).toBeLessThanOrEqual(target);
+    // Where the treasury had cash and the target is above zero, cash moved.
+    if (cash > 0 && target > 0) expect(held, numbers).toBeGreaterThan(0);
     expect(
       core.organizations.get(gov.organizationId)!.liquidMinor,
     ).toBeGreaterThanOrEqual(held);
