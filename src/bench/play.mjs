@@ -77,7 +77,8 @@ function renderPacket(value) {
   packet = value ?? packet;
   const open = packet && packet.kind !== "complete";
   for (const id of ["day", "week"]) $(id).disabled = busy || open;
-  $("skip").disabled = busy || (open && packet.kind !== "choice");
+  $("skip").disabled =
+    !skipping && (busy || (open && packet.kind !== "choice"));
   show("continue", packet?.kind === "stop");
   show("choices", packet?.kind === "choice" && !talk);
   if (packet?.kind === "choice")
@@ -122,8 +123,39 @@ async function act(path) {
     renderPacket();
   }
 }
-for (const mode of ["day", "week", "skip"])
+for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => act(`/api/advance?mode=${mode}`));
+// Until needed runs in week-long legs so the clock is seen moving; pressing
+// it again stops after the current leg. A stop, choice or day's end that
+// needs you ends it at once.
+let skipping = false;
+const SKIP_LEG_DAYS = 7;
+const SKIP_MAX_LEGS = 52;
+$("skip").addEventListener("click", async () => {
+  if (skipping) {
+    skipping = false;
+    return;
+  }
+  skipping = true;
+  $("skip").classList.add("active");
+  try {
+    for (let leg = 0; skipping && leg < SKIP_MAX_LEGS; leg++) {
+      const result = await post(`/api/advance?mode=skip&days=${SKIP_LEG_DAYS}`);
+      me.names = { ...me.names, ...result.names };
+      renderPacket(result.packet);
+      $("card-clock").textContent = clock(result.packet.at);
+      if (result.packet.kind !== "complete") break;
+      await renderScene();
+    }
+  } catch (error) {
+    $("card-place").textContent = error.message;
+  } finally {
+    skipping = false;
+    $("skip").classList.remove("active");
+    renderPacket();
+    await refresh();
+  }
+});
 $("continue").addEventListener("click", () =>
   act(
     `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,

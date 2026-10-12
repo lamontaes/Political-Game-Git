@@ -127,7 +127,8 @@ export class BenchPlayer {
     });
   }
 
-  advance(mode: string, date?: string) {
+  /** `lookaheadDays` shortens a skip's leg; the screen runs a long skip in legs. */
+  advance(mode: string, date?: string, lookaheadDays?: number) {
     if (!this.personId) throw new Error("Choose a resident first.");
     if (!["day", "week", "calendar", "skip"].includes(mode))
       throw new Error("Unknown time control.");
@@ -139,7 +140,11 @@ export class BenchPlayer {
       minuteOfDay: 0,
     };
     const days =
-      mode === "week" ? 7 : mode === "skip" ? SKIP_LOOKAHEAD_DAYS : 1;
+      mode === "week"
+        ? 7
+        : mode === "skip"
+          ? Math.min(lookaheadDays ?? SKIP_LOOKAHEAD_DAYS, SKIP_LOOKAHEAD_DAYS)
+          : 1;
     const through: PlayerMomentV1 =
       mode === "calendar"
         ? { date: makeIsoDate(date ?? ""), minuteOfDay: 0 }
