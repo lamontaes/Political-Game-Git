@@ -36,10 +36,17 @@ if (!flag("--no-economy")) {
   );
   input = buildOpeningEconomy(input).input;
 }
+if (flag("--two-level")) {
+  const { collapseToTwoLevels } = await moduleAt("src/core2/residents.ts");
+  input = collapseToTwoLevels(input);
+}
 const prepMilliseconds = performance.now() - prepStarted;
 const initStarted = performance.now();
 const core = createLifeCore(input);
 const initMilliseconds = performance.now() - initStarted;
+let openingCash = 0;
+for (const row of core.people.values()) openingCash += row.liquidMinor;
+for (const row of core.organizations.values()) openingCash += row.liquidMinor;
 const businesses = core.organizations?.size;
 console.error(
   JSON.stringify({
@@ -47,6 +54,12 @@ console.error(
     key: place.key,
     seed,
     people: input.people.length,
+    countedPeople: input.residents?.households.reduce(
+      (n, h) => n + h.people.length,
+      0,
+    ),
+    flows: input.residents?.flows.length,
+    contracts: input.finance?.contracts.length,
     jobs: input.jobs.length,
     organizations: businesses,
     economy: !flag("--no-economy"),
@@ -100,6 +113,29 @@ while (dayIndex < days) {
   cursor = next;
 }
 const seconds = (performance.now() - started) / 1000;
+const cashNow = () => {
+  let total = 0;
+  for (const row of core.people.values()) total += row.liquidMinor;
+  for (const row of core.organizations.values()) total += row.liquidMinor;
+  return total;
+};
+let outsideNet = 0;
+for (const row of core.cashJournal.externalFlowsByOwner.values())
+  outsideNet += row.netMinor;
+const books = [...core.finance.businesses.values()];
+const money = {
+  openingCashMinor: openingCash,
+  closingCashMinor: cashNow(),
+  outsideNetMinor: outsideNet,
+  balances: openingCash - outsideNet === cashNow(),
+  journalEntries: core.cashJournal.nextSequence,
+  businesses: books.length,
+  closed: books.filter((b) => b.closedAt).length,
+  salesMinor: books.reduce((n, b) => n + b.salesReceivedMinor, 0),
+  wagesPaidMinor: books.reduce((n, b) => n + b.wagesPaidMinor, 0),
+  wagesUnpaidMinor: books.reduce((n, b) => n + b.wagesUnpaidMinor, 0),
+};
+console.error(JSON.stringify(money));
 const closed = [...(core.organizations?.values() ?? [])].filter(
   (o) => o.closedAt || o.status === "closed",
 ).length;

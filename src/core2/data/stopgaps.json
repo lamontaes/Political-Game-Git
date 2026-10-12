@@ -982,5 +982,17 @@
     "addedAt": "2026-10-10",
     "replacement": "Qualified employer-owned dated compensation/payroll records and government/education policy calendars, actual legal-frequency/holiday/lag treatment, shared household payday source links and empirical startup cohort checks. Public-budget/national modules own actual government funding, not this timing prior.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-residents-cadence",
+    "kind": "aggregate-cadence",
+    "file": "src/core2/residents.ts",
+    "line": 1,
+    "whatItFakes": "The wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays; count workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates).",
+    "why": "Two-level population (owner, Oct 11): only the circle is simulated person by person; the merged flows keep every monthly total equal to the full opening.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS.",
+    "status": "open"
   }
 ]

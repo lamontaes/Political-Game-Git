@@ -24,6 +24,7 @@ import {
 } from "./opening-payroll-calendar";
 import { LIFE_MODULE } from "./modules/life";
 import { FINANCE_MODULE } from "./modules/finance";
+import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import { coreAPI, createCore, resolveOperation } from "./state";
@@ -101,9 +102,11 @@ export function createLifeCore(
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),
       ...(input.finance ? [FINANCE_MODULE] : []),
+      ...(input.residents ? [RESIDENTS_MODULE] : []),
       ...(options.modules ?? []),
     ],
   });
+  if (input.residents) admitResidents(core, input.residents);
   if (payroll?.estimates.length)
     coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
   core.gaps.add(

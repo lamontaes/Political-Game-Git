@@ -1,4 +1,5 @@
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
+import { residentWageShortfall } from "./modules/residents";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
@@ -1182,6 +1183,14 @@ export function closeEmployer(
         source: { ...row.source },
       };
   }
+  const counted = residentWageShortfall(core, sourceReceiptId);
+  if (
+    counted &&
+    counted.organizationId === organizationId &&
+    counted.date === core.date &&
+    counted.shortfallMinor > api.parameter("zero")
+  )
+    cause = { ...counted, source: { ...counted.source } };
   if (!cause)
     throw new Error(
       "Closure requires an actual current unfunded obligation receipt.",
