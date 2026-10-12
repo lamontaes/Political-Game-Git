@@ -57,19 +57,6 @@
         "document": "United States v. Aponte-Lara sentencing transcript quoted in First Circuit opinion",
         "url": "https://www.ca1.uscourts.gov/sites/ca1/files/opnfiles/09-1964U-01A.pdf"
       }
-    },
-    {
-      "key": "sentencing-significance-of-decision",
-      "move": "explain-sentence",
-      "kind": "spoken",
-      "text": "The imposition of sentence is one of the most difficult and significant decisions",
-      "timesRecorded": 1,
-      "shippable": true,
-      "source": {
-        "document": "New York sentencing hearing transcript, People v. Trump",
-        "date": "2025-01-10",
-        "url": "https://rollcall.com/factbase/trump/transcript/donald-trump-remarks-sentencing-new-york-fraud-felony-case-january-10-2025"
-      }
     }
   ]
 }
