@@ -76,6 +76,8 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 - [x] **M6-02, the person card (first slice).** Clicking someone in the picture opens their card, a large figure with only what you could know: their name, how you're related, their age if they're family or live with you, their work if they're family, a housemate or a coworker, and your tie with them. Their money, mood and drives stay private. **Talk** opens the conversation from there. Checked in Douglass Hills, Kentucky (seed pc-b): the housemate Austin Marquez, 28.
 - [x] **M6-02, Escape opens only options and quit.** Escape now opens Options (Skip opening while it plays, Quit to title) instead of skipping the opening outright, and the Options button is on. The title screen stays the Capitol at night: the library has no Lincoln Memorial or White House at night yet (see Needs).
 
+- [ ] **M5-03 keep playing as someone else.** The Carry-on-as sheet offers your household and closest ties, and choosing one works while you're alive. After a death it's blocked on OPUS-CORE's player clock (see Needs).
+
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
@@ -110,6 +112,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (M5-03, keep playing as someone else): the player clock can't hand off after the controlled person dies.** Every clock call, `retirePlayerV1` included, checks that the controlled person is alive (`src/core2/player-v1.ts:210`) and throws "Controlled person is no longer alive; unresolved intentions remain unposted." So once your character dies, `/play` can't switch to the son or protégé the Carry-on-as sheet offers. Checked with an edge-case fixture (the character marked dead after a day) in seed ho-a. Please add a way to retire the clock, or hand control to a connected living person, when its person has died: a death packet from the clock, or a `retirePlayerV1` that accepts a dead person and drops their unposted intentions.
 - **CTO (art queue):** the title screen should be the Lincoln Memorial or the White House at night (M6 work order). Neither is in `art/backdrops/manifest.json` yet, so the Capitol at night stands in.
 - **OPUS-CORE (M6-04): export the custom-world settings step.** Please export `applyOpeningSettings` and `scaleOutsideSales` from `src/core2/tooling/generated-world.ts` (or a `withWorldSettings(input, settings)`), so the bench stops carrying a copy (stopgap SG-PLAY-world-settings-copy). **OPUS-PEOPLE and OPUS-GOV:** `placeMetadata.worldSettings` now carries the player's lean shift and turnout from `/play`, but nothing reads them yet.
 - **OPUS-PEOPLE: an opening kin move can be dated after the opening day.** In seed k-a, `person_beefa2d440edc3cd:move:2026-10-31` comes from the kin moves (`src/core2/population.ts:1362`) for a world opening on October 12, 2026. The core's retirement-income step (`src/core2/opening-income.ts:321`) refuses it, so that town can't take the closures route. The bench falls back to the finance-only opening for such a town (stopgap SG-PLAY-opening-economy-fallback) until moves are dated on or before the opening day.
