@@ -7,8 +7,6 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
-import { withDrives, createDrivesModule } from "../core2/modules/drives";
-import { createHealthModule } from "../core2/modules/health";
 import { createDirector, type Director } from "../director/ledger";
 import {
   WORLD_MODULES,
@@ -25,9 +23,7 @@ import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openLegislature } from "../core2/modules/legislature";
 import { openLawEffects } from "../core2/modules/law-effects";
-import { viewsModule } from "../core2/modules/views";
-import { newsModule } from "../core2/modules/news";
-import { candidacyModule } from "../core2/modules/candidacy";
+import { peopleData, peopleModules } from "../director/play-modules";
 import { RENEWAL_MODULE } from "../core2/modules/renewal";
 import { renewalData } from "../core2/births-setup";
 import { registerModule } from "../core2/state";
@@ -216,14 +212,12 @@ export function buildBenchWorld(
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: renewalData(worldCoreData(withDrives(DEFAULT_DATA))),
+    data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
     modules: [
       ...WORLD_MODULES,
-      createHealthModule(),
-      createDrivesModule(),
-      viewsModule,
-      newsModule,
-      candidacyModule,
+      // Every people engine a played world installs (OPUS-PEOPLE): health,
+      // drives, views, news, speeches, who runs, corruption and beliefs.
+      ...peopleModules(),
       director.module,
     ],
   });
