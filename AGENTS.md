@@ -24,14 +24,14 @@ This section overrides anything heavier elsewhere in this file, in `docs/package
 
 Long-lived Opus cloud sessions ("pillars") each own one area. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's blocked or out of usage. A checklist is an order of work, not a ceiling.
 
-| Session     | Owns                                                                                                         | Model        |
-| ----------- | ------------------------------------------------------------------------------------------------------------ | ------------ |
-| OPUS-CORE   | The core, `src/core2`: state, clock, choices, ledger, population, speed, money; everything not listed below  | Opus, high   |
-| OPUS-GOV    | `src/rules` and the government engines: laws, budgets, programs, offices, elections, legislatures, executive | Opus, medium |
-| OPUS-PEOPLE | The people engines (people, health, drives, views, renewal) and the story director, `src/director`           | Opus, high   |
-| OPUS-PLAY   | The bench, `src/bench`; the game screens on the new core; the evening build; store screenshots               | Opus, medium |
-| OPUS-WORLD  | The economy engines: macro, regional, jobs, housing, credit, business                                        | Opus, medium |
-| FIXER       | Nothing of its own: bugs the CTO assigns, one per PR                                                         | Sonnet, high |
+| Session     | Owns                                                                                                                       | Model        |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| OPUS-CORE   | The core, `src/core2`: state, clock, choices, ledger, population, speed, money; everything not listed below                | Opus, high   |
+| OPUS-GOV    | `src/rules` and the government engines: laws, budgets, programs, offices, elections and campaigns, legislatures, executive | Opus, medium |
+| OPUS-PEOPLE | The people engines (people, health, drives, views, renewal), the story director (`src/director`) and the English engine    | Opus, high   |
+| OPUS-PLAY   | The bench, `src/bench`; the game screens on the new core; the evening build; store screenshots                             | Opus, medium |
+| OPUS-WORLD  | The economy engines: macro, regional, jobs, housing, credit, business                                                      | Opus, medium |
+| FIXER       | Nothing of its own: bugs the CTO assigns, one per PR                                                                       | Sonnet, high |
 
 - An engine is `src/core2/modules/<name>.ts` with its helpers `src/core2/<name>-*.ts` and data `src/core2/data/<name>/`; it belongs to the pillar that owns that engine.
 - Each session writes only in its own area, on its own branch. Changes to the core go through OPUS-CORE: ask on its PR, and it answers within the day.
