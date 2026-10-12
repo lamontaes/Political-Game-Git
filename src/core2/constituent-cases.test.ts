@@ -124,5 +124,7 @@ describe("M3-08 constituent cases", () => {
       `fewer than two cases in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("constituent-cases", JSON.stringify(report));
-  });
+    // Up to eight generated towns are tried, each run through a stretch of
+    // office work (40 s or more in a large town), so this test names its own limit.
+  }, 240_000);
 });

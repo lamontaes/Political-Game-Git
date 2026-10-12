@@ -54,15 +54,15 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-function randomPlace() {
-  const state = pick(states, "state");
+function randomPlace(attempt = 0) {
+  const state = pick(states, attempt ? `state:${attempt}` : "state");
   const places = [
     ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  return pick(places, "place");
+  return pick(places, attempt ? `place:${attempt}` : "place");
 }
 
 /** File and, where the place asks for signatures, gather them from neighbors. */
@@ -93,45 +93,58 @@ function fileAndQualify(
 
 describe("M2-05 and M2-06 campaigning and polls", () => {
   it("every activity moves specific people with a recorded cause; a rival campaigns; polls report what people said", () => {
-    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: place,
-        startedAt: START,
-        minimumPeople: 300,
-      }),
-    );
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    const api = coreAPI(core);
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
-    const platformA = [
-      `${pick(PLATFORM_QUESTIONS, "q1")}=1`,
-      `${pick(PLATFORM_QUESTIONS, "q2")}=-1`,
-    ];
-    const platformB = platformA.map((s) =>
-      s.replace("=1", "=x").replace("=-1", "=1").replace("=x", "=-1"),
-    );
+    // A town too small to gather a race's signatures has no contest two
+    // residents can both reach the ballot for; try other generated towns.
+    let place = "";
+    let core!: ReturnType<typeof createLifeCore>;
+    let api!: ReturnType<typeof coreAPI>;
     let you: FilingRow | null = null;
     let rival: FilingRow | null = null;
-    for (const contest of openContests(api)) {
-      you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
-      if (!you) continue;
-      rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
-      if (rival) break;
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6 && !rival; attempt += 1) {
+      place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace(attempt).key;
+      tried.push(place);
+      core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: place,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
+      );
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      api = coreAPI(core);
+      const adults = [...core.people.values()]
+        .filter(
+          (p) =>
+            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+        )
+        .sort(
+          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+        );
+      const platformA = [
+        `${pick(PLATFORM_QUESTIONS, "q1")}=1`,
+        `${pick(PLATFORM_QUESTIONS, "q2")}=-1`,
+      ];
+      const platformB = platformA.map((s) =>
+        s.replace("=1", "=x").replace("=-1", "=1").replace("=x", "=-1"),
+      );
+      you = null;
+      rival = null;
+      for (const contest of openContests(api)) {
+        you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
+        if (!you) continue;
+        rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
+        if (rival) break;
+        you = null;
+      }
+      if (process.env.GOLDEN_PATH_PLACE_KEY) break;
     }
     expect(
       you,
-      `no open contest the two candidates could both qualify for in ${place}`,
+      `no open contest the two candidates could both qualify for in ${tried.join(", ")}`,
     ).not.toBeNull();
     expect(rival).not.toBeNull();
     const candidate = core.people.get(you!.personId)!;

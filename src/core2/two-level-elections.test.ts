@@ -176,5 +176,7 @@ describe("elections in the two-level world", () => {
         report,
       }),
     );
-  });
+    // A whole generated town over a full election cycle: large towns take
+    // 40 s on a busy machine, so this test names its own limit.
+  }, 120_000);
 });

@@ -56,74 +56,91 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-function randomPlace() {
-  const state = pick(states, "state");
+function randomPlace(attempt = 0) {
+  const state = pick(states, attempt ? `state:${attempt}` : "state");
   const places = [
     ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  return pick(places, "place");
+  return pick(places, attempt ? `place:${attempt}` : "place");
 }
 
 describe("M2-07 elections", () => {
   it("votes come from each person's own reasons, groups vote as groups, and the winner takes the seat on its date", () => {
-    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: place,
-        startedAt: START,
-        // A small town: the year of daily work the election runs through
-        // costs time per person.
-        minimumPeople: 60,
-      }),
-    );
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    openParties(core);
-    const api = coreAPI(core);
-    // Two residents file for the soonest open race they qualify for.
-    const adults = [...core.people.values()]
-      .filter(
-        (p) =>
-          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-      )
-      .sort(
-        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
-      );
-    const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
+    // A town too small to gather a race's signatures has no race two residents
+    // can reach the ballot for; try other generated towns (bounded).
+    let place = "";
+    let core!: ReturnType<typeof createLifeCore>;
+    let api!: ReturnType<typeof coreAPI>;
     let filed: FilingRow[] = [];
     let contest: ContestRow | undefined;
-    for (const open of openContests(api).filter((c) => c.level !== "federal")) {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6 && !contest; attempt += 1) {
+      place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace(attempt).key;
+      tried.push(place);
+      core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: place,
+          startedAt: START,
+          // A small town: the year of daily work the election runs through
+          // costs time per person.
+          minimumPeople: 60,
+        }),
+      );
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      api = coreAPI(core);
+      // Two residents file for the soonest open race they qualify for.
+      const adults = [...core.people.values()]
+        .filter(
+          (p) =>
+            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+        )
+        .sort(
+          (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+        );
+      const platform = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
       filed = [];
-      for (const person of adults.slice(0, 2)) {
-        const result = fileCandidacy(api, {
-          personId: person.id,
-          contestId: open.id,
-          platform,
-          payFee: true,
-        });
-        if (result.status === "refused") break;
-        let filing = result.filing;
-        for (const neighbor of [...core.people.keys()].sort()) {
-          if (filing.status === "on-ballot") break;
-          requestSignature(api, filing.id, neighbor);
-          filing = api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(filing.id) as unknown as FilingRow;
+      contest = undefined;
+      for (const open of openContests(api).filter(
+        (c) => c.level !== "federal",
+      )) {
+        filed = [];
+        for (const person of adults.slice(0, 2)) {
+          const result = fileCandidacy(api, {
+            personId: person.id,
+            contestId: open.id,
+            platform,
+            payFee: true,
+          });
+          if (result.status === "refused") break;
+          let filing = result.filing;
+          for (const neighbor of [...core.people.keys()].sort()) {
+            if (filing.status === "on-ballot") break;
+            requestSignature(api, filing.id, neighbor);
+            filing = api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("filings")
+              .get(filing.id) as unknown as FilingRow;
+          }
+          if (filing.status === "on-ballot") filed.push(filing);
         }
-        if (filing.status === "on-ballot") filed.push(filing);
+        if (filed.length === 2) {
+          contest = open;
+          break;
+        }
       }
-      if (filed.length === 2) {
-        contest = open;
-        break;
-      }
+      if (process.env.GOLDEN_PATH_PLACE_KEY) break;
     }
-    expect(contest, `no open local or state race in ${place}`).toBeDefined();
+    expect(
+      contest,
+      `no open local or state race in ${tried.join(", ")}`,
+    ).toBeDefined();
     openVoting(core);
     knockDoors(api, {
       filingId: filed[0]!.id,
@@ -146,8 +163,20 @@ describe("M2-07 elections", () => {
     expect(result.date).toBe(contest!.electionDate);
     expect(result.winnerId).not.toBeNull();
     const candidates = ballot(api, contest!.id).map((f) => f.personId);
-    for (const id of filed.map((f) => f.personId))
-      expect(candidates).toContain(id);
+    // A filer is on the November ballot, or a top-two or top-four primary
+    // (where the contest holds one) sent them home: never lost any other way.
+    for (const f of filed) {
+      if (candidates.includes(f.personId)) continue;
+      const now = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(f.id) as unknown as FilingRow;
+      expect(now.status, `${f.personId} in ${contest!.id}`).toBe("withdrawn");
+      expect(
+        contest!.primaryDate,
+        `${contest!.id} held no primary`,
+      ).not.toBeNull();
+    }
     // Every named adult has a ballot with their own reasons; votes add up.
     const ballots = api
       .moduleState(VOTING_MODULE_ID)

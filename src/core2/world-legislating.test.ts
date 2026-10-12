@@ -122,7 +122,10 @@ describe("M3-10 other governments legislate", () => {
     }
     expect(report, `no act passed in ${tried.join(", ")}`).not.toBeNull();
     govReport("world-legislating", JSON.stringify(report));
-  });
+    // Each attempt builds a generated town and runs it to the session's end
+    // (35 to 60 s), and up to six towns are tried until one passes an act, so
+    // this test names its own limit.
+  }, 400_000);
 
   it("Congress passes its majority's agenda at its year-end votes and the acts reach the town", () => {
     // Open the world shortly before Congress's floor day.

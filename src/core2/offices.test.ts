@@ -96,6 +96,9 @@ describe("M2-01 offices and seats, every level", () => {
       (s) => s.holder?.personId && s.office.level !== "federal",
     );
     const { office, seat, holder } = pick(local, "seat");
+    // The holder is really dead, as in play: a special election never seats
+    // a person who is still recorded as alive.
+    api.updatePerson(holder!.personId!, { alive: false });
     api.emit({
       id: `test-death:${holder!.personId}`,
       date: START,
