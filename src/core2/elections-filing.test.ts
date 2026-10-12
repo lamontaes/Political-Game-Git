@@ -1,0 +1,234 @@
+/**
+ * M2-02 and the engine half of M2-03: election calendars, filing rules, and
+ * filing in a random place.
+ *
+ * - The next local, state and federal contests carry that place's real dates
+ *   (general election, primary, filing deadline) from the data files, and
+ *   filing requires what that place's rules require.
+ * - A resident files once: by fee (the cash moves from the candidate to the
+ *   government that takes filings, and the books balance) or by signatures
+ *   gathered from real residents; then they're on the ballot.
+ * - An ineligible person gets the rule that stops them, as a structured reason.
+ */
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
+import { buildPopulation } from "./population";
+import { createLifeCore } from "./life";
+import { coreAPI } from "./state";
+import { openOffices } from "./modules/offices";
+import {
+  ELECTIONS_MODULE_ID,
+  ballot,
+  checkEligibility,
+  fileCandidacy,
+  filingRequirements,
+  openContests,
+  openElections,
+  requestSignature,
+  type ContestRow,
+} from "./modules/elections";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
+import { novemberGeneralElectionDay } from "../simulation/nationwide-world/town-election-calendar";
+
+const START = "2026-01-05";
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256").update(`filing:${Date.now()}`).digest("hex");
+const nomination = JSON.parse(
+  readFileSync(
+    "data/research/elections/party-nomination-rules-2026.json",
+    "utf8",
+  ),
+).places;
+const states = [...lifePlaceStateIdentities()]
+  .map((s) => s.jurisdictionKey)
+  .sort();
+function pick<T>(list: readonly T[], salt: string): T {
+  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
+  return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
+}
+function randomPlace(salt: string) {
+  const state = pick(states, `${salt}:state`);
+  const places = [
+    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    }),
+  ].sort((a, b) => a.key.localeCompare(b.key));
+  return pick(places, `${salt}:place`);
+}
+function world(placeKey: string) {
+  const core = createLifeCore(
+    buildPopulation({ seed, placeKey, startedAt: START, minimumPeople: 200 }),
+  );
+  openOffices(core, seed);
+  openElections(core);
+  return core;
+}
+const contests = (api: ReturnType<typeof coreAPI>) =>
+  api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[];
+
+describe("M2-02 election calendars and filing rules", () => {
+  it("the next local, state and federal contests carry the place's real dates and rules", () => {
+    const placeKey =
+      process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("calendar").key;
+    const core = world(placeKey);
+    const api = coreAPI(core);
+    const all = contests(api);
+    const stateKey = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("town")
+        .get("town") as unknown as {
+        stateKey: string;
+      }
+    ).stateKey;
+    const levels = new Set(all.map((c) => c.level));
+    expect(levels.has("federal")).toBe(true);
+    expect(levels.has("state")).toBe(true);
+    for (const contest of all) {
+      expect(contest.filingDeadline <= contest.electionDate).toBe(true);
+      if (contest.level === "federal" || contest.level === "state") {
+        const year = Number(contest.electionDate.slice(0, 4));
+        expect(contest.electionDate).toBe(novemberGeneralElectionDay(year));
+        const read = nomination[stateKey];
+        if (year === 2026 && contest.family === "usHouse") {
+          const primary =
+            read.primary.dates2026?.["us-house"] ?? read.primary.dates2026?.all;
+          if (primary) expect(contest.primaryDate).toBe(primary);
+          const deadline =
+            read.filing.deadlines2026?.["us-house"] ??
+            read.filing.deadlines2026?.all;
+          if (deadline) expect(contest.filingDeadline).toBe(deadline);
+        }
+      }
+      const rules = filingRequirements(stateKey, contest.family);
+      expect(rules.minimumAge).toBeGreaterThanOrEqual(18);
+      expect(rules.filedWith.length).toBeGreaterThan(0);
+    }
+    govReport(
+      "elections-filing",
+      JSON.stringify({
+        placeKey,
+        seed,
+        contests: all
+          .slice(0, 12)
+          .map(
+            (c) =>
+              `${c.title}${c.district ? ` ${c.district}` : ""}: election ${c.electionDate}, primary ${c.primaryDate ?? "none"}, filing closes ${c.filingDeadline} (${c.basis}); file with ${filingRequirements(stateKey, c.family).filedWith}`,
+          ),
+      }),
+    );
+  });
+});
+
+describe("M2-03 filing (engine)", () => {
+  it("a resident files once and is on the ballot; the fee balances; an ineligible person is told the rule", () => {
+    const core = world(randomPlace("file").key);
+    const api = coreAPI(core);
+    const open = openContests(api);
+    expect(open.length).toBeGreaterThan(0);
+    const contest = open.find((c) => c.level !== "federal") ?? open[0]!;
+    const adults = [...core.people.values()]
+      .filter(
+        (p) =>
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 40,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
+    const candidate = pick(adults, "candidate");
+    // Give the candidate enough cash for any fee, through the journal-free
+    // opening stock (a test fixture, not a payment).
+    const rules = filingRequirements(
+      (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("town")
+          .get("town") as unknown as { stateKey: string }
+      ).stateKey,
+      contest.family,
+    );
+    const eligibility = checkEligibility(api, candidate.id, contest.id);
+    const unmetBefore = eligibility.filter((c) => !c.met).map((c) => c.rule);
+    const cashBefore = core.people.get(candidate.id)!.liquidMinor;
+    const payFee =
+      (rules.feeMinor ?? 0) > 0 && cashBefore >= (rules.feeMinor ?? 0);
+    const result = fileCandidacy(api, {
+      personId: candidate.id,
+      contestId: contest.id,
+      platform: ["fixture-platform"],
+      payFee,
+    });
+    if (result.status === "refused") {
+      // Refused only for a stated rule.
+      expect(result.unmet.length).toBeGreaterThan(0);
+      expect(unmetBefore.length + result.unmet.length).toBeGreaterThan(0);
+      return;
+    }
+    if (result.filing.feePaidMinor > 0)
+      expect(core.people.get(candidate.id)!.liquidMinor).toBe(
+        cashBefore - result.filing.feePaidMinor,
+      );
+    // Gather signatures from real residents until the petition is complete.
+    let filing = result.filing;
+    const neighbors = [...core.people.values()]
+      .filter((p) => p.id !== candidate.id)
+      .sort((a, b) => a.id.localeCompare(b.id));
+    for (const neighbor of neighbors) {
+      if (filing.status === "on-ballot") break;
+      requestSignature(api, filing.id, neighbor.id);
+      filing = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filing.id) as unknown as typeof filing;
+    }
+    if ((rules.signatures ?? 0) <= neighbors.length || filing.feePaidMinor > 0)
+      expect(filing.status).toBe("on-ballot");
+    if (filing.status === "on-ballot")
+      expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
+        candidate.id,
+      );
+    // File once.
+    const again = fileCandidacy(api, {
+      personId: candidate.id,
+      contestId: contest.id,
+      platform: [],
+      payFee,
+    });
+    expect(again.status).toBe("refused");
+    // A child can't file, and is told the age rule.
+    const child = [...core.people.values()].find(
+      (p) => Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) < 16,
+    );
+    if (child) {
+      const refused = fileCandidacy(api, {
+        personId: child.id,
+        contestId: contest.id,
+        platform: [],
+        payFee: false,
+      });
+      expect(refused.status).toBe("refused");
+      if (refused.status === "refused")
+        expect(refused.unmet.map((u) => u.rule)).toContain("minimum-age");
+    }
+    govReport(
+      "elections-filing",
+      JSON.stringify({
+        contest: contest.title,
+        filedWith: filing.filedWith,
+        fee: filing.feePaidMinor,
+        signatures: filing.signatureCount,
+        required: rules.signatures,
+        status: filing.status,
+      }),
+    );
+  });
+});

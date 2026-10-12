@@ -12,6 +12,9 @@ Only the CTO writes this file. Each session keeps its own status file in this fo
 | OPUS-PLAY   | `play.md`   | `opus-play`, from `pool/M0-bench`                      | Opus, medium | Mon Oct 12, 3 a.m. |
 | OPUS-WORLD  | `world.md`  | `opus-world`, from `pool/M1-macro`                     | Opus, medium | Mon Oct 12, 3 a.m. |
 | FIXER       | `fixer.md`  | `fixer/<bug>`, one per bug                             | Sonnet, high | Mon Oct 12, 3 a.m. |
+| OPUS-TRAITS | `traits.md` | `opus-traits`, from `pool/P15-people-5` + `main`       | Opus, high   | Mon Oct 12         |
+
+OPUS-TRAITS owns data/content/trait-act-pulls.json and trait coverage (from Oct 12).
 
 All six start at 3:07 a.m. Monday from one-off routines on the coordinator account.
 
@@ -101,6 +104,29 @@ After its checklist, every session keeps going through its area's specs in every
   - **OPUS-CORE:** `tests/golden-path/place.ts` and `tests/fixtures/*` use `src/simulation/life-places`. Read places through the core's own place data.
   - **FIXER:** the map preview (`src/maps/MapPlaceContext.tsx`, `map-preview-entry.tsx`, `map-preview.html`) and the old art tooling (`scripts/art-asset-factory`, `scripts/dev-lab/artbench*`, `scripts/appearance`, the `artbench-bridge` in `vite.config.ts`) go with the old people engine.
 - **Rule for everyone:** no new imports from `src/simulation`, `src/presentation`, `src/player` or other old folders. When your last old import is gone, write it in your status file.
+
+## Researched stand-in numbers to apply (CTO, Oct 12, 4:10 p.m.)
+
+FIXER checked all 111 rows of `data/research/stand-in-figures-2026-10-12.json`. 67 have a researched value to set, and each sits in a file its owner is changing, so each owner applies its own rows. FIXER's `docs/coordination/fixer.md` lists them under "Needs from other sessions": OPUS-CORE 37 (most in `src/core2/data/parameters.json`), OPUS-PEOPLE 19, OPUS-GOV 6, OPUS-WORLD 5. Apply the recommended value with its source, retire the stopgap row and marker, and tick it in your status file. This is part of M7-03 (zero placeholders).
+
+## Carry over from old PRs (CTO audit, Oct 12, 4:15 p.m.)
+
+An audit of the 204 old open PRs found that most are old-engine only. These pieces are unique and belong in the new core. Take them from the named PR's branch (`gh api repos/lamontaes/Political-Game-Git/compare/main...<branch>`). Re-port them; don't merge the old PR. Details are in `cto-notes/stale-pr-audit-2026-10-12.md` on the CTO's machine; ask the CTO for any row.
+
+- **OPUS-GOV:**
+  - Research with no consumer yet: presidential-rules.json, presidential-placeholder-ledger.json and state-reference.json (#3904); council-meeting-intervals.json (#2880); chamber-leadership.json (#3788); citizen-measure-change-back.json (#2497); poll-interview-prices.json (#2486; it can replace the $30 poll stopgap).
+  - Law amounts to re-port into the `starting-law-2026/*` shards: #2200 (fiscal), #2217 (transportation mileage fees), #2221 (civil-family-community), and #2229 with #3575 (government-operations; dedupe the two).
+  - Decide whether `src/rules/campaigns/**` (#3951) and `src/rules/governing/**` (#3952, executive acts) have anything your core2 modules lack.
+- **OPUS-PEOPLE (with OPUS-CORE):** history-people.ts, opening-history.ts, the deep-past `fromInclusive` window and `src/core2/data/history/*` (#3961), for history back to 2000. Also the views research notes (#3965).
+- **OPUS-WORDS:** the debt-notice (#3791), lie-and-tell (#3843) and government-form (#3909) banks. Compare life-story (#3834) with journal.json, and presidential-address (#3913) with address.json, before carrying either.
+- **OPUS-PLAY:** `art/backdrops/staging.json` spots main lacks; carry them by hand: courtroom seats (#3442), classroom (#3492), diner (#3504), polling place (#3548), convention hall and rally stage (#3567, #3796), debate stage (#3531), office (#3547).
+- **OPUS-WEB:** the births-level link marked unsupported in outcome-web data (#3842). Decide whether `src/rules/outcome-web/**` (#3933) adds anything.
+- **OPUS-CORE and OPUS-WORLD, when the engines start:** jury, disaster, birth-citizenship, employer-pay and starting-cohort research (#3784); crime severity (#3694); federal housing estimates (#3767); occupation entry requirements (#3772).
+- **Features the old engine had and the new core lacks** (re-spec, nothing to copy):
+  - GOV: executive acts, committee assignments, leadership races, public meetings, press interviews, Article V amendments and petition circulation.
+  - PEOPLE: home and school presence at life start.
+  - PLAY: the Options challenge control.
+  - CORE: disasters and hazards.
 
 ## Merge order
 

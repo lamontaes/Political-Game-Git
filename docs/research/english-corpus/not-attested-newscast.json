@@ -1,0 +1,1871 @@
+{
+  "register": "newscast",
+  "read": {
+    "chrg": 2500,
+    "dcpd": 17712,
+    "eac": 330,
+    "eisenhower": 15,
+    "fec": 330,
+    "federal-counter": 292,
+    "florida": 420,
+    "house": 300,
+    "nasa": 1388,
+    "news-energy": 436,
+    "news-epa": 3009,
+    "news-faa": 1383,
+    "news-fda": 1199,
+    "news-justice": 5265,
+    "news-nasa": 1446,
+    "news-noaa": 484,
+    "news-nps": 2506,
+    "news-nws": 695,
+    "news-treasury": 980,
+    "senate": 51,
+    "sotu-gutenberg": 222,
+    "usa-gov": 260
+  },
+  "notAttested": [
+    {
+      "move": "anchor-open",
+      "text": "Good evening, and welcome.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Good evening, and thank you for joining us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Thank you for joining us tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Thanks for joining us tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Good evening, I'm {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Good evening, I am {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "I'm {name}, and this is {program}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Welcome to {program}, I'm {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Here is what we know so far.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We begin tonight in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We begin in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We start tonight with {topic}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We begin tonight with {topic}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Our top story tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Breaking news tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We have some breaking news.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "This just in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We're following breaking news.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We are following breaking news.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We're following a developing story.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "We are following a developing story.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "First, the news.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Now, the news.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-open",
+      "text": "Here's the latest.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Here is the latest.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "Let's get to the news.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "A lot of news today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-open",
+      "text": "It's been a busy day.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} has more.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} has the story.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} has the latest.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} reports.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} is live in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} joins us now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} joins us now from {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name}, what can you tell us?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name}, what's the latest?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name}, what are you hearing?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "What's the latest?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "What are people saying?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "What are people telling you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "Let's bring in {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} is here with us.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "{name} is with us now.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "Joining us now is {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-hand-off",
+      "text": "With us now is {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "That's all for tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "That's it for tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "That's all for now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "That's all the time we have.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "That is all the time we have.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "Thank you for watching.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll be right back after this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "Don't go away.",
+      "documents": 4,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "Good night, everyone.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "Have a good night.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-close",
+      "text": "Have a great night.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-close",
+      "text": "See you tomorrow night.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll see you next time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "See you next time.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll keep you posted.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We will keep you posted.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll keep you updated.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We will keep you updated.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll continue to follow this story.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We will continue to follow this story.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll have more on this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll have more on this story.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll have more later.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "anchor-close",
+      "text": "We'll be following this.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "I'm standing in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "I'm live in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "We're live in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Officials say {claim}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Police say {claim}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "According to officials, {claim}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-field",
+      "text": "Authorities say {claim}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-field",
+      "text": "Witnesses say {claim}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It's not clear yet.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It's still not clear.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It is not clear yet.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It is still not clear.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "We don't know much yet.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "We're still learning.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "We're waiting to hear from {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "We reached out to {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-field",
+      "text": "We've reached out to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "We have reached out to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} did not respond.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} has not responded.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} did not respond to a request for comment.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} declined comment.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} did not return calls.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} could not be reached for comment.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{name} could not be reached.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Residents here are worried.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "People here are worried.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "People here are angry.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "People here are frustrated.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "People are worried.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It's been a long day here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It's been a tough day here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The mood here is tense.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The mood here is somber.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The mood here is festive.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It's quiet here now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "It's very quiet here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The scene here is chaotic.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Crews are on the scene.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Firefighters are on the scene.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Police are on the scene.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "No injuries were reported.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-field",
+      "text": "There were no injuries.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{number} people were hurt.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{number} people were injured.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{number} people were killed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "{number} people died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The cause is under investigation.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The cause of the fire is under investigation.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "The investigation continues.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "Reporting from {place}, I'm {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "In {place}, I'm {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "For {program}, I'm {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-field",
+      "text": "I'm {name}, reporting from {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The polls are now closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Polls are now closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The polls are closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Polls close at {time}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The polls close at {time}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Polls open at {time}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-election",
+      "text": "Today is Election Day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Today is election day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "It's Election Day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "It's election day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Voters in {place} went to the polls today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Voters went to the polls today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Voters are heading to the polls.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Voters headed to the polls today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout was high.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout was low.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout was strong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout was light.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout was heavy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout was {percent} percent.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout is high.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Turnout is low.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} won the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} won the election.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-election",
+      "text": "{name} has won.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-election",
+      "text": "{name} has won the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} has been elected.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} was reelected.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} was re-elected.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} won reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} won re-election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} lost the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} lost the election.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} lost reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} won by {votes} votes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} lost by {votes} votes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} won with {percent} percent of the vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} received {percent} percent of the vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} conceded.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} has conceded.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} conceded the race.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} conceded defeat.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "{name} called {opponent} to concede.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The race is too close to call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "It's too close to call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The race is still too close to call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "It's still too early to call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "It is too early to call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The results are in.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-election",
+      "text": "Results are still coming in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The results are still coming in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "We don't have results yet.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "All the votes have been counted.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Every vote will be counted.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Every vote should be counted.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The count continues.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "Counting continues.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "There will be a recount.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "There will be a runoff.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-election",
+      "text": "The race is headed to a runoff.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} filed to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is running for {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is running for reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is running for re-election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is seeking reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is seeking re-election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is not seeking reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is not seeking re-election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} will not seek reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} will not seek re-election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is not running for reelection.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} announced {pronoun} candidacy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} announced {pronoun} candidacy for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} filed paperwork to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} filed {pronoun} paperwork.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} qualified for the ballot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is on the ballot.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is running unopposed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{name} is unopposed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "The filing deadline is {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "The filing deadline was {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{number} candidates filed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{number} candidates are running.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "{number} candidates are on the ballot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "Candidates have until {deadline} to file.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-filing",
+      "text": "Candidates must file by {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council voted {count}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The measure passed {count}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The bill passed {count}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The measure passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The measure failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The bill failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The ordinance passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The ordinance failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The resolution passed.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The resolution failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The motion passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The motion failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The amendment failed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council approved the budget.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council approved the measure.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council rejected the measure.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The budget passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The budget was approved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The new law takes effect {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The law takes effect {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The new law takes effect today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The law takes effect today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The new law took effect today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The new rule takes effect {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The ordinance takes effect {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The changes take effect {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council will vote {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council will vote on {measure}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council will vote on the measure {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The council is expected to vote {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The governor signed the bill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The governor vetoed the bill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The mayor signed the ordinance.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The mayor vetoed the ordinance.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The bill now goes to the governor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The bill now heads to the governor.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The bill now goes to the Senate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-vote-or-law",
+      "text": "The bill now goes to the House.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "Unemployment rose to {percent} percent.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "Unemployment fell to {percent} percent.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "The unemployment rate rose to {percent} percent.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "Unemployment is up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "Gas prices are up.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-economy",
+      "text": "Rents are up.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-economy",
+      "text": "Rents are going up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "Home prices are up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is closing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is closing its doors.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is laying off {number} workers.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is laying off {number} employees.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} announced layoffs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is hiring.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} plans to hire {number} workers.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is opening.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} opened today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} is moving.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "{subject} filed for bankruptcy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "The plant is closing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "The plant will close.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-economy",
+      "text": "The store is closing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A tornado warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A tornado watch is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A winter storm warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A flood warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A flash flood warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A heat advisory is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A severe thunderstorm warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A hurricane warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A red flag warning is in effect for {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A boil water notice is in effect.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "A boil water advisory is in effect.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Schools are closed today.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Schools are closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Schools will be closed tomorrow.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Roads are closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Some roads are closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Power is out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Thousands are without power.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "{amount} customers are without power.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Stay off the roads.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Stay home if you can.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Stay indoors.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "Evacuations are underway.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-hazard",
+      "text": "An evacuation order is in effect.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} died {when}.",
+      "documents": 4,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} died at the age of {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} died at age {age}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "story-death",
+      "text": "{name} was a longtime resident of {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} lived in {place} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} served as {office} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} served on {office} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} is survived by {pronoun} wife.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} is survived by {pronoun} husband.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "{name} is survived by {pronoun} children.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "Services will be held {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "A memorial service will be held {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "story-death",
+      "text": "Funeral services will be held {when}.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}
