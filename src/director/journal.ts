@@ -17,6 +17,7 @@ import {
 } from "../presentation/grounded-english";
 import journalJson from "./data/journal.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { properName } from "./words";
 import { directorStopgap } from "./stopgaps";
 import type { Moment } from "./types";
 
@@ -134,7 +135,9 @@ export function composeJournal(
   const employerOf = (jobId: string | undefined) => {
     const job = jobId ? core.jobs.get(jobId) : undefined;
     const org = job ? core.organizations.get(job.organizationId) : undefined;
-    return org ? { text: org.name, sourceRecordIds: [job!.id, org.id] } : null;
+    return org
+      ? { text: properName(org.name), sourceRecordIds: [job!.id, org.id] }
+      : null;
   };
   const placeName = (placeId: string | undefined) => {
     const place = placeId ? lifePlaceByJurisdictionId(placeId as never) : null;
@@ -151,7 +154,7 @@ export function composeJournal(
       : undefined;
     if (fact?.facts?.schoolName)
       facts.school = {
-        text: fact.facts.schoolName,
+        text: properName(fact.facts.schoolName),
         sourceRecordIds: [fact.id],
       };
     if (moment.causeKind === "work:opening") {

@@ -178,5 +178,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from the mined first-person corpus in the speech research, refined by the owner's grades (M4-03).",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-conversation-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/conversation.json",
+    "line": 1,
+    "whatItFakes": "Conversation line templates written by hand instead of composed from mined real speech.",
+    "why": "The first new-core conversations need words now; each template copies only recorded facts.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Lines composed from the mined speech corpus and register cards, refined by the owner's grades (M4-02).",
+    "status": "open"
   }
 ]

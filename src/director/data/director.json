@@ -335,7 +335,7 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": [],
+      "producedBy": ["conversation.lie"],
       "stopgapId": "SG-P13-kept-fact-producers"
     },
     {

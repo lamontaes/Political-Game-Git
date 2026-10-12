@@ -1,0 +1,232 @@
+{
+  "version": "p15-conversation-v1",
+  "stopgapId": "SG-P15-conversation-banks",
+  "about": "Conversation words on the new core. Each subject is a record the speaker holds; each template copies only recorded facts. The other person asks; each choice answers that line and raises a new subject; the lie line exists only for a question about the player's own record.",
+  "minimumChoices": 4,
+  "toldEvent": "conversation.told",
+  "lieEvent": "conversation.lie",
+  "subjects": {
+    "own-work": {
+      "ask": [
+        {
+          "key": "still-at",
+          "text": "Still at {{employer}}?"
+        }
+      ],
+      "answer": [
+        {
+          "key": "yes",
+          "text": "Yes, still at {{employer}}."
+        }
+      ],
+      "lie": [
+        {
+          "key": "left",
+          "text": "No, I'm not at {{employer}} anymore."
+        }
+      ],
+      "lieClaim": "none",
+      "raise": [
+        {
+          "key": "tell",
+          "text": "I'm still at {{employer}}."
+        }
+      ]
+    },
+    "home": {
+      "ask": [
+        {
+          "key": "still-in",
+          "text": "Are you still living in {{place}}?"
+        }
+      ],
+      "answer": [
+        {
+          "key": "yes",
+          "text": "Yes, still in {{place}}."
+        }
+      ],
+      "lie": [
+        {
+          "key": "moved",
+          "text": "No, I moved away from {{place}}."
+        }
+      ],
+      "lieClaim": "moved-away",
+      "raise": [
+        {
+          "key": "still-in",
+          "text": "Are you still in {{place}}?"
+        }
+      ],
+      "reply": [
+        {
+          "key": "still",
+          "text": "I'm still in {{place}}."
+        }
+      ]
+    },
+    "shared-school": {
+      "ask": [
+        {
+          "key": "remember",
+          "text": "Do you remember {{school}}?"
+        }
+      ],
+      "answer": [
+        {
+          "key": "yes",
+          "text": "{{school}}, yes."
+        }
+      ],
+      "raise": [
+        {
+          "key": "remember",
+          "text": "Do you remember {{school}}?"
+        }
+      ],
+      "reply": [
+        {
+          "key": "years",
+          "text": "{{school}}. That was {{years}} years ago."
+        }
+      ]
+    },
+    "shared-work": {
+      "ask": [
+        {
+          "key": "remember",
+          "text": "Remember working at {{employer}}?"
+        }
+      ],
+      "answer": [
+        {
+          "key": "yes",
+          "text": "{{employer}}, yes."
+        }
+      ],
+      "raise": [
+        {
+          "key": "still",
+          "text": "Are you still at {{employer}}?"
+        }
+      ],
+      "reply": [
+        {
+          "key": "still",
+          "text": "I'm still at {{employer}}.",
+          "stages": ["still"]
+        },
+        {
+          "key": "left",
+          "text": "I left {{employer}}.",
+          "stages": ["left"]
+        }
+      ]
+    },
+    "other-work": {
+      "answer": [
+        {
+          "key": "ok",
+          "text": "{{employer}}, right.",
+          "stages": ["working"]
+        },
+        {
+          "key": "none",
+          "text": "I see.",
+          "stages": ["none"]
+        }
+      ],
+      "reply": [
+        {
+          "key": "at",
+          "text": "I'm at {{employer}}.",
+          "stages": ["working"]
+        },
+        {
+          "key": "none",
+          "text": "Not right now.",
+          "stages": ["none"]
+        }
+      ]
+    },
+    "mutual": {
+      "answer": [
+        {
+          "key": "saw",
+          "text": "{{name}}, on {{when}}.",
+          "stages": ["saw"]
+        },
+        {
+          "key": "not",
+          "text": "Okay.",
+          "stages": ["not"]
+        }
+      ],
+      "raise": [
+        {
+          "key": "seen",
+          "text": "Have you seen {{name}}?"
+        }
+      ],
+      "reply": [
+        {
+          "key": "saw",
+          "text": "I saw {{name}} on {{when}}.",
+          "stages": ["saw"]
+        },
+        {
+          "key": "not",
+          "text": "I haven't seen {{name}} lately.",
+          "stages": ["not"]
+        }
+      ]
+    },
+    "their-work": {
+      "raise": [
+        {
+          "key": "ask",
+          "text": "Are you still working?"
+        }
+      ]
+    },
+    "heard-work": {
+      "reply": [
+        {
+          "key": "ok",
+          "text": "{{employer}}, right."
+        }
+      ],
+      "answer": [
+        {
+          "key": "yes",
+          "text": "Yes."
+        }
+      ]
+    },
+    "kin": {
+      "raise": [
+        {
+          "key": "met",
+          "text": "Have you met {{relation}}, {{name}}?"
+        }
+      ],
+      "reply": [
+        {
+          "key": "not",
+          "text": "No, I haven't met {{name}}."
+        }
+      ],
+      "answer": [
+        {
+          "key": "is",
+          "text": "{{name}} is {{relation}}."
+        }
+      ]
+    }
+  },
+  "replyKinds": {
+    "own-work": "heard-work",
+    "their-work": "other-work"
+  }
+}
