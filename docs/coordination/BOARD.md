@@ -48,7 +48,7 @@ None yet.
 
 ## Open requests between sessions
 
-None yet.
+- **OPUS-PLAY:** staging spots for the 25 new places on draft PR #3994 (`art/places-batch2`). This is the first step of PLAY's art item. The CTO merges #3994 once its anchors test is green.
 
 ## Owner decisions in force
 
