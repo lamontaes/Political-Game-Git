@@ -9,7 +9,27 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 ## What the owner can play now
 
-Nothing on a screen yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`. A town opens with its real history since 2000 (businesses already founded and closed, the nation's real months since 2021), then runs on its own: a national economy and central bank board, state and metro economies, jobs that open, hire, raise pay and lay off for reasons, a town bank lending to businesses and households, homes in the place's real mix of houses, apartments and mobile homes with FHFA prices and mortgages, renters evicted only through their state's steps, and owners who found, grow, hand on and close businesses. Twenty years in three drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`), with two known gaps: no recessions yet, and towns pile up cash from the core's outside buyers.
+Nothing on a screen of its own yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`, and the bench reads it through `worldPanels` (more panels are listed for PLAY under Needs). A town opens with its real history since 2000 and runs on its own:
+
+- **The nation and the central bank:** a national economy, and a board whose seats turn over on their real dates.
+- **Regions:** state and metro economies.
+- **Jobs:**
+  - Jobs open, hire, raise pay and lay off for reasons.
+  - Young people start looking for work as they leave school, and the unemployed eventually stop looking.
+  - Laid-off workers draw unemployment insurance.
+- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons.
+- **The town bank** lends to businesses and households.
+- **Homes:**
+  - Homes in the place's real mix, with FHFA prices, mortgages and property tax bills.
+  - Builders put up houses and apartment buildings as value outruns cost, and new vacancy lowers rents.
+  - Landlords serve notice after about two months owed, and evictions follow the state's steps.
+- **What laws can do,** waiting for GOV's handlers:
+  - Zoning, set-aside units, all-electric codes and farmland protection.
+  - Right to counsel, with payment plans.
+  - Property tax rates and caps.
+  - Electricity and fuel prices, transit fares, mileage fees, bottle deposits, public broadband and road condition.
+  - Groundwater limits and clean-air compliance costs.
+- **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
 
@@ -120,6 +140,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12: one-year sweep in eight drawn places (Nu'uuli, American Samoa; North Lindenhurst, New York; Lake Victoria, Michigan; Emhouse, Texas; Abney Crossroads, South Carolina; Blue Ridge Manor, Kentucky; Gruetli-Laager, Tennessee; Byron, Georgia): every dollar balances in all eight, no national band exits, 20 to 37 s each.
 - 2026-10-12: a new business wins counted households through the core's `enterMarket` (the core is the one writer of their purchases); outside buyers and full households still move through my seam. Fixed an eviction crash where a state's statute gives a step no days (Wisconsin's stay): it now falls on the next day. M1-02 passes in Wauwatosa, Wisconsin; Absecon, three years: 3 foundings, 91 s, every dollar balances.
 - 2026-10-12: counted people enter and leave the labor market. Young people start looking as they leave school (the pull rises from 18 to 25, BLS participation by age), a few others come back to work, and about a fifth of the unemployed stop looking each month (BLS CPS flows). Absecon, three years: the town's unemployment settles at 2.5% (it had read 0% because nobody counted ever looked for a first job); 89 s (83 before); every dollar balances. Employment still drifts down (2,400 to 2,230) because counted retirees lose their whole income; see Needs. Re-ran the 20-year drift in Adrian, Missouri on today's engines: no band exits, town cash $340M after 20 years (was $588M).
 - 2026-10-12: a closed business's counted workers now look for work and file claims (only its full workers did; the counted ones dropped out of the labor market). Absecon, three years: every dollar balances; two workers from a closure were rehired the Monday it closed.
