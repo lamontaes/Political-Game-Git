@@ -289,6 +289,59 @@
       "tag": "TUNABLE",
       "source": "How much a member a group met weighs its case, at full strength when the group speaks for all of the bill's losers; checked so a fully organized industry moves a member about as much as their constituents' lean does.",
       "spread": [0.1, 0.6]
+    },
+    "executivePriorityShare": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "The largest share of a budget line an executive's proposal moves it in a year, at full lean on a line the parties split on completely; checked against year-over-year changes in proposed functional spending (presidential and gubernatorial budget requests typically move a function a few percent).",
+      "spread": [0.02, 0.12]
+    },
+    "officeHoursPerMonth": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How often a local official's office holds open hours where residents bring problems (many council members hold monthly office hours or a monthly ward meeting).",
+      "spread": [1, 4]
+    },
+    "caseEffort": {
+      "value": 0.9,
+      "tag": "TUNABLE",
+      "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018).",
+      "spread": [0.5, 1.4]
+    },
+    "caseRetirementAge": {
+      "value": 62,
+      "tag": "SOURCED",
+      "source": "Earliest age for Social Security retirement benefits (SSA); an adult past it without work isn't read as looking for work."
+    },
+    "caseCushionMonths": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Months of savings against living costs below which being out of work presses hard (the common three-month emergency-fund guideline; Federal Reserve SHED 2024: 63% could cover a $400 expense from cash).",
+      "spread": [1, 6]
+    },
+    "caseResponseDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "source": "Days before an office handles a case the official hasn't decided themselves.",
+      "spread": [3, 21]
+    },
+    "caseHelpedWarmth": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "Where a resident's view of an official heads after being helped (or the opposite after being turned away).",
+      "spread": [0.3, 0.9]
+    },
+    "caseWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far one case moves a resident's view toward that, at full severity.",
+      "spread": [0.2, 0.8]
+    },
+    "caseWageShortfallScale": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How hard being paid under the minimum wage presses: the shortfall's share of the legal wage times this (a 20% shortfall presses fully).",
+      "spread": [2, 10]
     }
   }
 }

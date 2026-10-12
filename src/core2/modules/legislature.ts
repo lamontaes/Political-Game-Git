@@ -204,7 +204,8 @@ function councilBudget(
   const chambers = budgetChambers(api, gov);
   if (!chambers || !chambers.chambers.every((c) => members(api, c).length))
     return null;
-  const priorities = budgetPriorities(api, gov.id);
+  const priorities =
+    budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
       kind: "budget-line",
@@ -269,7 +270,7 @@ function councilBudget(
     : {
         ...proposal,
         spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
-        adoptedBy: `carried forward after the ${chambers.body} rejected ${bill.number} ${votes}`,
+        adoptedBy: `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
       };
   putBudget(api, budget);
   table(api, "bills").put({
@@ -278,6 +279,61 @@ function councilBudget(
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
   return budget;
+}
+
+/**
+ * Where no one has set the year's priorities, the government's elected
+ * executive (mayor, county executive, governor, president) proposes them from
+ * their own lean: more for the lines their side wants more spent on, less
+ * for the others, each moved by up to a tunable share of the line.
+ */
+function executivePriorities(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): { setBy: string; changes: Record<string, number> } | null {
+  const kind = {
+    federal: "president",
+    state: "governor",
+    county: "county-executive",
+    city: "mayor",
+  }[gov.level];
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const office = (
+    offices.table("offices").rows() as unknown as {
+      id: string;
+      kind: string;
+      level: string;
+    }[]
+  ).find(
+    (o) => o.kind === kind && (gov.level !== "state" || o.level === "state"),
+  );
+  if (!office) return null;
+  const holder = (
+    offices.table("seats").query("byOffice", [office.id]) as unknown as {
+      id: string;
+    }[]
+  )
+    .flatMap(
+      (seat) =>
+        offices
+          .table("terms")
+          .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[],
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  const base = budgetCarry(api, gov, fy);
+  if (!holder || !base) return null;
+  const key = memberKey(holder);
+  const lean = leanOf(api, key);
+  const share = campaignParameter("executivePriorityShare");
+  const changes: Record<string, number> = {};
+  for (const [line, amount] of Object.entries(base.spendingMinor)) {
+    const change = Math.round(
+      amount * share * personStance(lean, `budget-line:${line}`),
+    );
+    if (change !== 0) changes[line] = change;
+  }
+  return { setBy: key, changes };
 }
 
 /**
@@ -320,7 +376,7 @@ function budgetChambers(
       .map((o) => o.id)
       .sort();
     return state.length
-      ? { chambers: state, introducedIn: state[0]!, body: "legislature" }
+      ? { chambers: state, introducedIn: state[0]!, body: "the legislature" }
       : null;
   }
   const kind = gov.level === "county" ? "county-board" : "council";
@@ -329,7 +385,7 @@ function budgetChambers(
     ? {
         chambers: [body.id],
         introducedIn: body.id,
-        body: gov.level === "county" ? "county board" : "council",
+        body: gov.level === "county" ? "the county board" : "the council",
       }
     : null;
 }
@@ -376,11 +432,6 @@ export const POLICY_QUESTIONS: StartingAnswers = Object.assign(
   ),
 );
 
-const budgetQuestion = (
-  provisionQuestions as unknown as {
-    budget: { question: string; raiseIs: number };
-  }
-).budget;
 const seriesQuestion = (
   provisionQuestions as unknown as {
     series: Record<string, { question: string; raiseIs: number }>;
@@ -398,15 +449,14 @@ export function provisionStance(
       question: provision.question,
       position: provision.value > 0 ? 1 : -1,
     };
-  if (provision.kind === "budget-line") {
-    const budget = budgetQuestion;
+  // Spending more or less on a line: read by who wants more spent on it.
+  if (provision.kind === "budget-line" && provision.line)
     return provision.value === 0
       ? null
       : {
-          question: budget.question,
-          position: Math.sign(provision.value) * budget.raiseIs,
+          question: `budget-line:${provision.line}`,
+          position: Math.sign(provision.value),
         };
-  }
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
   const current = currentAmount(api, provision.series, level);

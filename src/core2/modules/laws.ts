@@ -229,46 +229,61 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * Jobs at an employer outside the town's chain keep their own law.
  */
 function raiseToFloor(api: CoreAPI, source: Source): void {
+  const core = api.state as CoreState;
+  for (const commitment of [...core.work.commitments.values()])
+    raiseOne(api, commitment.id, source);
+}
+
+/**
+ * Raise one job to the minimum wage in force where it's paid under it (an
+ * enforcement finding, or the law taking effect). Returns whether it rose.
+ * Jobs at an employer outside the town's chain keep their own law.
+ */
+export function raiseOne(
+  api: CoreAPI,
+  commitmentId: string,
+  source: Source,
+): boolean {
   const answer = lawInForce(api, "minimum-wage");
   const floor = answer.value;
-  if (floor === null || !answer.governing) return;
+  if (floor === null || !answer.governing) return false;
   const core = api.state as CoreState;
   const town = core.visiblePlaceIds;
   const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
-  for (const commitment of core.work.commitments.values()) {
-    if (commitment.hourlyMinor >= floor) continue;
-    if (commitment.endsAt !== undefined && commitment.endsAt <= core.date)
-      continue;
-    const employer = core.organizations.get(commitment.organizationId);
-    if (!employer || (town.size && !town.has(employer.placeId))) continue;
-    // stopgapId: SG-GOV-wage-floor-rate-write
-    api.stopgap("SG-GOV-wage-floor-rate-write");
-    core.work.commitments.set(commitment.id, {
-      ...commitment,
-      hourlyMinor: floor,
-    });
-    raises.put({
-      id: `raise:${commitment.id}:${core.date}`,
-      personId: commitment.personId,
+  const commitment = core.work.commitments.get(commitmentId);
+  if (!commitment || commitment.hourlyMinor >= floor) return false;
+  if (commitment.endsAt !== undefined && commitment.endsAt <= core.date)
+    return false;
+  const employer = core.organizations.get(commitment.organizationId);
+  if (!employer || (town.size && !town.has(employer.placeId))) return false;
+  // stopgapId: SG-GOV-wage-floor-rate-write
+  api.stopgap("SG-GOV-wage-floor-rate-write");
+  core.work.commitments.set(commitment.id, {
+    ...commitment,
+    hourlyMinor: floor,
+  });
+  raises.put({
+    id: `raise:${commitment.id}:${core.date}`,
+    personId: commitment.personId,
+    jobId: commitment.jobId,
+    date: core.date,
+    fromMinor: commitment.hourlyMinor,
+    toMinor: floor,
+    lawId: answer.governing.id,
+  });
+  api.emit({
+    id: `minimum-wage-raise:${commitment.id}:${core.date}`,
+    date: core.date,
+    kind: "pay-raised-to-minimum-wage",
+    personIds: [commitment.personId],
+    placeId: employer.placeId,
+    source,
+    facts: {
       jobId: commitment.jobId,
-      date: core.date,
-      fromMinor: commitment.hourlyMinor,
-      toMinor: floor,
+      fromMinor: String(commitment.hourlyMinor),
+      toMinor: String(floor),
       lawId: answer.governing.id,
-    });
-    api.emit({
-      id: `minimum-wage-raise:${commitment.id}:${core.date}`,
-      date: core.date,
-      kind: "pay-raised-to-minimum-wage",
-      personIds: [commitment.personId],
-      placeId: employer.placeId,
-      source,
-      facts: {
-        jobId: commitment.jobId,
-        fromMinor: String(commitment.hourlyMinor),
-        toMinor: String(floor),
-        lawId: answer.governing.id,
-      },
-    });
-  }
+    },
+  });
+  return true;
 }

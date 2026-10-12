@@ -77,7 +77,8 @@ export type CampaignAct =
   | "ad"
   | "attack-ad"
   | "endorsement"
-  | "donation-ask";
+  | "donation-ask"
+  | "constituent-case";
 
 /** Why one person's view of one candidate changed, once. */
 export interface CauseRow {
@@ -364,6 +365,57 @@ function reach(
       access:
         act === "retold" ? "told" : act.endsWith("ad") ? "public" : "perceived",
     });
+  return cause;
+}
+
+/**
+ * What an official did for a person outside any campaign (helping with their
+ * problem, or turning them away) moves the person's warmth toward the
+ * official, recorded as a cause the next election reads.
+ */
+export function touchImpression(
+  api: CoreAPI,
+  input: {
+    readonly voterId: string;
+    readonly officialId: string;
+    readonly act: CampaignAct;
+    readonly target: number;
+    readonly weight: number;
+    readonly rapport: number;
+  },
+): CauseRow | null {
+  const voter = api.state.people.get(input.voterId);
+  if (!voter?.alive || input.voterId === input.officialId) return null;
+  const date = api.state.date;
+  const before = impressionOf(api, input.voterId, input.officialId);
+  const warmthBefore = before?.warmth ?? 0;
+  const warmthAfter = clamp(
+    warmthBefore + input.weight * (clamp(input.target) - warmthBefore),
+  );
+  const cause: CauseRow = {
+    id: `cause:${input.voterId}:${input.officialId}:${date}:${(before?.causes ?? 0) + 1}`,
+    voterId: input.voterId,
+    candidateId: input.officialId,
+    date,
+    act: input.act,
+    actorId: input.officialId,
+    warmthBefore,
+    warmthAfter,
+    agreement: null,
+    rapport: input.rapport,
+    weight: input.weight,
+  };
+  table(api, "causes").put(cause as unknown as ModuleRow);
+  table(api, "impressions").put({
+    id: `${input.voterId}|${input.officialId}`,
+    voterId: input.voterId,
+    candidateId: input.officialId,
+    contestId: (before as { contestId?: string } | null)?.contestId ?? null,
+    heardOf: true,
+    knowsPlatform: before?.knowsPlatform ?? false,
+    warmth: warmthAfter,
+    causes: (before?.causes ?? 0) + 1,
+  } as unknown as ModuleRow);
   return cause;
 }
 
