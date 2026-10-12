@@ -79,7 +79,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 67
+    "notAttested": 67,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -635,7 +662,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC\u2019s Framework for Reviewing Bank Merger Transactions",
         "date": "2026-09-17",
         "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
         "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
@@ -763,7 +790,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC\u2019s Framework for Reviewing Bank Merger Transactions",
         "date": "2026-09-17",
         "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
         "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
@@ -1480,6 +1507,142 @@
         "date": "2025-10-17",
         "granule": "DCPD-202501023",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.place-awarded-money-for-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{place} Awarded {money} for {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-epa": 1,
+        "news-faa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Iowa American Lung Association Awarded $422,155 for Diesel Emissions Reduction Project",
+        "date": "2021-11-02",
+        "granule": "iowa-american-lung-association-awarded-422155-diesel-emissions-reduction-project",
+        "url": "https://www.epa.gov/newsreleases/iowa-american-lung-association-awarded-422155-diesel-emissions-reduction-project",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-opened.subject-opens",
+      "move": "organization-opened",
+      "kind": "spoken",
+      "text": "{subject} Opens",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "eac": 1,
+        "news-nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Events",
+        "date": "2021-10-13",
+        "granule": "eac-eac-gov-events-page-1-592a76",
+        "url": "https://www.eac.gov/events?page=1",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-opened.subject-reopens",
+      "move": "organization-opened",
+      "kind": "spoken",
+      "text": "{subject} Reopens",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Northern Section of Coastal Trail Reopens",
+        "date": "2018-07-26",
+        "granule": "redw-coastaltrailreopns",
+        "url": "https://www.nps.gov/redw/learn/news/coastaltrailreopns.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-opened.subject-reopens-to-the-public",
+      "move": "organization-opened",
+      "kind": "spoken",
+      "text": "{subject} Reopens to the Public",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Big Creek Trail reopens to the public",
+        "date": "2022-07-05",
+        "granule": "grsm-big-creek-trail-reopens-to-the-public",
+        "url": "https://www.nps.gov/grsm/learn/news/big-creek-trail-reopens-to-the-public.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.honor.body-honors-name",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{body} Honors {name}",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "dcpd": 2,
+        "news-epa": 3,
+        "news-justice": 2,
+        "news-nasa": 1,
+        "news-treasury": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in an Exchange With Reporters Prior to the Kennedy Center Honors Ceremony",
+        "date": "2025-12-07",
+        "granule": "DCPD-202501174",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202501174",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
