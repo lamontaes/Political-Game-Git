@@ -124,11 +124,13 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
     advanceCore(core, "2021-02-05");
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
-    // Twelve full workers lose their jobs over the next week.
+    // Twelve full workers lose their jobs over the next week (not ones a
+    // public supply contract names as its qualified worker).
+    const named = JSON.stringify([...core.finance.contracts.values()]);
     let laidOff = 0;
     for (const day of [6, 7, 8, 9, 10, 11, 12]) {
       for (const job of [...core.jobs.values()]
-        .filter((row) => !row.endsAt)
+        .filter((row) => !row.endsAt && !named.includes(row.id))
         .sort((a, b) => a.id.localeCompare(b.id))) {
         if (laidOff >= 12) break;
         try {
