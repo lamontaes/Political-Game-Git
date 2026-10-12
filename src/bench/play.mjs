@@ -646,7 +646,13 @@ const sheets = {
     ];
   },
   async money() {
-    return [row("Cash", dollars(me.card.liquidMinor))];
+    const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    return [
+      row("Cash", dollars(me.card.liquidMinor)),
+      ...Object.entries(b.withholding?.byLine ?? {}).map(([line, minor]) =>
+        row(line, `${dollars(minor)} · ${b.withholding.paychecks}`),
+      ),
+    ];
   },
   async jobs() {
     const j = me.card.job;
@@ -701,6 +707,54 @@ const sheets = {
           : "",
       ),
     );
+  },
+  async budgets() {
+    const v = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    // An executive's priority moves a line by this much (engineering step).
+    const STEP_MINOR = 10_000_000;
+    return v.governments.map((gov) => {
+      const box = el(
+        "div",
+        { className: "row race" },
+        el("b", {
+          textContent: `${gov.name} · ${gov.level}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
+        }),
+      );
+      if (!gov.latest) return box;
+      box.append(
+        el("div", {
+          textContent: `${gov.latest.adoptedBy} · ${gov.latest.adoptedOn}`,
+        }),
+      );
+      for (const r of gov.latest.revenue.slice(0, 3))
+        box.append(
+          el("div", { textContent: `+ ${r.line} · ${dollars(r.minor)}` }),
+        );
+      for (const r of gov.latest.spending.slice(0, 6)) {
+        const line = el("div", {
+          textContent: `− ${r.line} · ${dollars(r.minor)} `,
+        });
+        if (gov.youAreExecutive)
+          for (const [label, sign] of [
+            ["+", 1],
+            ["−", -1],
+          ]) {
+            const b = el("button", { type: "button", textContent: label });
+            b.addEventListener("click", async () => {
+              const now = gov.priorities?.changes?.[r.line] ?? 0;
+              await post(
+                `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: r.line, change: String(now + sign * STEP_MINOR) })}`,
+              );
+              openSheet("budgets");
+            });
+            line.append(b);
+          }
+        const change = gov.priorities?.changes?.[r.line];
+        if (change) line.append(` ${change > 0 ? "+" : ""}${dollars(change)}`);
+        box.append(line);
+      }
+      return box;
+    });
   },
   async calendar() {
     const { date, items } = await api(
@@ -869,8 +923,11 @@ const sheets = {
       b.addEventListener("click", () => openSheet("results"));
       return b;
     })();
+    const budgets = el("button", { type: "button", textContent: "Budgets" });
+    budgets.addEventListener("click", () => openSheet("budgets"));
     return [
       results,
+      budgets,
       ...campaigns,
       ...offices,
       ...contests,
@@ -908,6 +965,7 @@ const titles = {
   politics: "Politics",
   calendar: "Calendar",
   results: "Election night",
+  budgets: "Budgets",
   news: "News",
 };
 async function openSheet(tab) {
@@ -915,7 +973,10 @@ async function openSheet(tab) {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === tab);
   $("sheet-title").textContent = titles[tab];
-  $("sheet").classList.toggle("wide", tab === "calendar" || tab === "results");
+  $("sheet").classList.toggle(
+    "wide",
+    tab === "calendar" || tab === "results" || tab === "budgets",
+  );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;

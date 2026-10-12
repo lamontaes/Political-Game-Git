@@ -11,6 +11,7 @@ import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
+import { budgetView, setPriority } from "./budget";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -230,6 +231,24 @@ const server = createServer(async (request, response) => {
           requireCore(),
           director,
           url.searchParams.get("id") ?? "",
+        ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/budget") {
+      send(200, budgetView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/budget/priority") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        setPriority(
+          requireCore(),
+          player.personId,
+          url.searchParams.get("governmentId") ?? "",
+          url.searchParams.get("line") ?? "",
+          Number(url.searchParams.get("change")) || 0,
         ),
       );
       return;
