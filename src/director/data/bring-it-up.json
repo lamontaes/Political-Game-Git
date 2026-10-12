@@ -9,18 +9,42 @@
   "changes": [
     {
       "eventKind": "organization.closed",
-      "institutionFact": { "prefix": "organization:", "suffix": ":status" },
-      "line": [{ "key": "closed", "text": "{{subject}} closed." }]
+      "institutionFact": {
+        "prefix": "organization:",
+        "suffix": ":status"
+      },
+      "line": [
+        {
+          "key": "closed",
+          "text": "{{subject}} closed."
+        }
+      ]
     }
   ],
   "blame": {
-    "record": [{ "key": "record", "text": "That was {{who}}'s doing." }],
+    "record": [
+      {
+        "key": "record",
+        "text": "That was {{whose}} doing."
+      }
+    ],
     "told": [
-      { "key": "told", "text": "From what I heard, {{who}} was behind it." }
+      {
+        "key": "told",
+        "text": "From what I heard, {{who}} was behind it."
+      }
     ],
     "assumed": [
-      { "key": "assumed", "text": "I'd bet {{who}} had a hand in it." }
+      {
+        "key": "assumed",
+        "text": "I'd bet {{who}} had a hand in it."
+      }
     ],
-    "unknown": [{ "key": "unknown", "text": "I don't know who's behind it." }]
+    "unknown": [
+      {
+        "key": "unknown",
+        "text": "I don't know who's behind it."
+      }
+    ]
   }
 }

@@ -213,7 +213,7 @@
     "died": [
       {
         "key": "died",
-        "text": "I died in {{place}} at {{age}}."
+        "text": "I died in {{place}}, at {{age}}."
       }
     ]
   }

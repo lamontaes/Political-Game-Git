@@ -35,6 +35,8 @@ export interface OpenContest {
   filingDeadline: string;
   /** The filing fee in minor units; zero where signatures are the route. */
   feeMinor: number;
+  /** Who holds the seat now, if anyone (GOV's term record). */
+  incumbentId?: PersonId;
   sourceIds: readonly string[];
 }
 
@@ -95,6 +97,10 @@ export function candidacyReasons(
     money:
       c(api, "candidacyMoneyWeight") * Math.max(-one, Math.min(one, money)),
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
+    incumbency:
+      contest.incumbentId === person.id
+        ? c(api, "candidacyIncumbencyWeight")
+        : zero,
     age:
       c(api, "candidacyAgeWeight") *
       (two * Math.exp(-distance * distance) - one),

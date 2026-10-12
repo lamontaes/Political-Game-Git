@@ -56,6 +56,23 @@ export function storiesHeard(api: CoreAPI, personId: PersonId): Story[] {
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
 }
 
+/** How many stories each person has heard, rebuilt from the table when first read. */
+const heardCounts = new WeakMap<object, Map<PersonId, number>>();
+function countsOf(api: CoreAPI): Map<PersonId, number> {
+  let map = heardCounts.get(api.state);
+  if (!map) {
+    map = new Map();
+    for (const row of heard(api).rows())
+      map.set(
+        row.personId as string,
+        (map.get(row.personId as string) ?? api.parameter("zero")) +
+          api.parameter("one"),
+      );
+    heardCounts.set(api.state, map);
+  }
+  return map;
+}
+
 function hear(
   api: CoreAPI,
   personId: PersonId,
@@ -66,6 +83,11 @@ function hear(
   const id = `${personId}:${story.id}`;
   if (heard(api).get(id)) return false;
   heard(api).put({ id, personId, storyId: story.id, date: api.state.date });
+  const counts = countsOf(api);
+  counts.set(
+    personId,
+    (counts.get(personId) ?? api.parameter("zero")) + api.parameter("one"),
+  );
   const learned = (key: string, value: string) =>
     api.observe(personId, {
       key,
@@ -120,8 +142,11 @@ export const newsModule: CoreModule = {
   },
   relationshipKinds: ["*"],
   onRelationshipChange(api, notice) {
-    // Only a contact that happened today carries news between the two.
+    // Only a contact that happened today carries news between the two, and
+    // only when one of them has heard something.
     if (notice.date !== api.state.date) return;
+    const counts = countsOf(api);
+    if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
     const maxAge = n(api, "newsMaxAgeDays");
     const fresh = (story: Story) =>
       daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=

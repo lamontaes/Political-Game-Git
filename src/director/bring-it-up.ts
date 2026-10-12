@@ -12,7 +12,7 @@ import { applyCoreEvent } from "../core2/state";
 import type { CoreState, PersonId, Source } from "../core2/types";
 import bringJson from "./data/bring-it-up.json" with { type: "json" };
 import { renderLine, type Variant } from "./render";
-import { properName } from "./words";
+import { possessive, properName } from "./words";
 
 interface BringData {
   version: string;
@@ -203,6 +203,10 @@ export function bringItUp(
       ? {
           who: {
             text: who,
+            sourceRecordIds: [attribution.sourceId ?? change.eventId],
+          },
+          whose: {
+            text: possessive(who),
             sourceRecordIds: [attribution.sourceId ?? change.eventId],
           },
         }

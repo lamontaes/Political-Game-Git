@@ -54,7 +54,15 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       expect(row.run).toBe(true);
       expect(margin(row)).toBeGreaterThan(0);
       expect(Object.keys(row.reasons).sort()).toEqual(
-        ["age", "cause", "engagement", "money", "temperament", "time"].sort(),
+        [
+          "age",
+          "cause",
+          "engagement",
+          "incumbency",
+          "money",
+          "temperament",
+          "time",
+        ].sort(),
       );
       expect(row.sourceIds).toContain("fixture-contest:a");
     }
@@ -90,5 +98,18 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     const again = decideToRun(api, near.personId, contest("b"))!;
     expect(again.reasons.cause).toBeGreaterThan(near.reasons.cause);
     expect(again.run).toBe(true);
+  });
+
+  it("has most incumbents run again, as about 81% really do", () => {
+    const sample = adults.slice(0, 200);
+    const again = sample.filter(
+      (row) =>
+        decideToRun(api, row.id, {
+          ...contest(`incumbent:${row.id}`),
+          incumbentId: row.id,
+        })!.run,
+    ).length;
+    expect(again / sample.length).toBeGreaterThan(0.65);
+    expect(again / sample.length).toBeLessThan(0.95);
   });
 });

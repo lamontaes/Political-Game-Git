@@ -154,7 +154,7 @@
       "answer": [
         {
           "key": "saw",
-          "text": "{{name}}, on {{when}}.",
+          "text": "{{name}}, right.",
           "stages": ["saw"]
         },
         {

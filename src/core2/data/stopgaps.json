@@ -1975,5 +1975,29 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day."
+  },
+  {
+    "id": "SG-P15-speech-reception",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/speech/parameters.json",
+    "line": 1,
+    "whatItFakes": "How much a speech moves listeners and who retells it; retelling reaches only the listener's household.",
+    "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Reception calibrated to persuasion experiments by audience and message (Coppock 2023), retelling through friends and the news module, and memory by age (M4-04).",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-corruption-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/corruption/parameters.json",
+    "line": 1,
+    "whatItFakes": "How much traits, money pressure and ties weigh in offering, taking and telling about a bribe.",
+    "why": "Basic corruption (M3-09) needs a first version; the research gives directions, not these coefficients.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and the news surfacing records.",
+    "status": "open"
   }
 ]
