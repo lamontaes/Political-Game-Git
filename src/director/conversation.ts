@@ -19,7 +19,7 @@ import {
 } from "../presentation/grounded-english";
 import conversationJson from "./data/conversation.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
-import { properName, spoken } from "./words";
+import { properName, spoken, spokenDate } from "./words";
 
 const zero = P.zero;
 const one = P.one;
@@ -307,12 +307,7 @@ function replyFacts(
       ],
     };
     if (!last || !tie) return { facts: { name }, stage: "not" };
-    const when = new Date(`${last}T00:00:00Z`).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-      timeZone: "UTC",
-    });
+    const when = spokenDate(last, core.date);
     return {
       facts: { name, when: { text: when, sourceRecordIds: [tie] } },
       stage: "saw",

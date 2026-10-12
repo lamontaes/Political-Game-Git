@@ -25,3 +25,21 @@ export function spoken(place: {
     ? place.displayName.slice(P.zero, -suffix.length)
     : place.displayName;
 }
+
+/** The possessive of a name: "Chen's", "Chandler Builders'". */
+export function possessive(name: string): string {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}
+
+/** A date as people say it: the year only when it is not this year. */
+export function spokenDate(iso: string, today: string): string {
+  const sameYear =
+    iso.slice(P.zero, iso.indexOf("-")) ===
+    today.slice(P.zero, today.indexOf("-"));
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    ...(sameYear ? {} : { year: "numeric" as const }),
+    timeZone: "UTC",
+  });
+}

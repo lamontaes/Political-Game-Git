@@ -151,7 +151,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     try {
       const lines = composeLookBack(core, director, player.id);
       expect(lines.length).toBe(chapters.length + 1);
-      expect(lines.at(-1)!.text).toMatch(/^I died in .+ at \d+\.$/);
+      expect(lines.at(-1)!.text).toMatch(/^I died in .+, at \d+\.$/);
       for (const line of lines)
         expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     } finally {
