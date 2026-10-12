@@ -32,6 +32,10 @@ import {
   draftBill,
   holdVote,
   learnStake,
+  castMemberVote,
+  executiveDecision,
+  memberPosition,
+  obligationsOf,
   offerDeal,
   openLegislature,
   votesOn,
@@ -126,8 +130,21 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
       memberId: target.memberId,
       kind: "back-their-item",
     });
-    expect(deal.after.deal).toBeGreaterThan(deal.before.deal);
+    // The offer is on the record either way (audit 3, deals): taken, the
+    // sponsor owes it and it moves the member; declined, it moves no one.
     expect(billOf(api, bill.id).deals).toHaveLength(1);
+    if (deal.accepted) {
+      expect(deal.after.deal).toBeGreaterThan(deal.before.deal);
+      expect(
+        obligationsOf(api, bill.sponsorId).some(
+          (o) => o.owedTo === target.memberId,
+        ),
+      ).toBe(true);
+    } else {
+      expect(deal.after.total).toBe(deal.before.total);
+      expect(billOf(api, bill.id).deals[0]!.status).toBe("declined");
+      expect(learnStake(api, bill.id, target.memberId, "record").deal).toBe(0);
+    }
     // The vote: each member's reasons are recorded, and on the record.
     const after = holdVote(api, bill.id);
     const votes = votesOn(api, bill.id);
@@ -365,7 +382,7 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         parksAfter: next.spendingMinor.parks,
       }),
     );
-  });
+  }, 120_000); // a whole fiscal year of daily work in one town; 30 s is too tight on slower runners
 
   it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
     const { api, council } = town(Object.keys(authority).sort(), "catalog");
@@ -428,5 +445,93 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
     expect(bill.authority[0]!.warning).toBe("preempted");
     expect(bill.authority[0]!.reason).toMatch(/preempts|no minimum-wage power/);
     expect(holdVote(api, bill.id).status).toBe("blocked");
+  });
+
+  it("a body may only set the amounts the law gives its level (no council sets SNAP or the Medicare tax)", () => {
+    const states = Object.keys(authority).sort();
+    const { api, council } = town(states, "powers");
+    const sponsor = council[0]!.holder!.personId!;
+    for (const series of ["snap-maximum", "medicare-tax", "medicaid-match"]) {
+      const bill = draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: sponsor,
+        provisions: [{ kind: "law-amount", series, value: 1 }],
+      });
+      expect(bill.status, series).toBe("blocked");
+      expect(bill.authority[0]!.source.length).toBeGreaterThan(0);
+    }
+    const lower = townSeats(api).find(
+      (s) =>
+        s.office.kind === "legislature-lower" ||
+        s.office.kind === "legislature-unicameral",
+    );
+    if (lower) {
+      const stateBill = draftBill(api, {
+        bodyOfficeId: lower.office.id,
+        sponsorId: lower.holder?.personId ?? `official:${lower.holder!.id}`,
+        provisions: [{ kind: "law-amount", series: "snap-maximum", value: 1 }],
+      });
+      expect(stateBill.status).toBe("blocked");
+    }
+    const house = townSeats(api).find((s) => s.office.kind === "us-house");
+    if (house) {
+      const federal = draftBill(api, {
+        bodyOfficeId: house.office.id,
+        sponsorId: `official:${house.holder?.id ?? "x"}`,
+        provisions: [{ kind: "law-amount", series: "snap-maximum", value: 1 }],
+      });
+      expect(federal.status).toBe("drafted");
+    }
+  });
+
+  it("the player casts their own vote and, as mayor, decides to sign or veto (audit 3)", () => {
+    const states = Object.keys(authority).sort();
+    const { core, api, council } = town(states, "player");
+    const player = council[0]!.holder!.personId!;
+    (core as unknown as { playerId: string }).playerId = player;
+    const floor = lawInForce(api, "minimum-wage").value!;
+    const draft = () =>
+      draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: council[1]!.holder!.personId!,
+        provisions: [
+          {
+            kind: "law-amount",
+            series: "minimum-wage",
+            value: floor + 100,
+            unit: "minor/hour",
+          },
+        ],
+      });
+    // Not cast: the player is never voted for, so they abstain.
+    const first = draft();
+    if (first.status === "blocked") return;
+    holdVote(api, first.id);
+    expect(
+      votesOn(api, first.id).find((v) => v.memberId === player)?.vote,
+    ).toBe("abstain");
+    // Cast: the player's vote is their choice, whatever the engine would say.
+    const second = draft();
+    const mine =
+      memberPosition(api, second.id, player).total > 0 ? "no" : "yes";
+    castMemberVote(api, second.id, player, mine);
+    holdVote(api, second.id);
+    expect(
+      votesOn(api, second.id).find((v) => v.memberId === player)?.vote,
+    ).toBe(mine);
+    // As mayor: a passed ordinance waits on the player's desk.
+    const mayor = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    if (!mayor) return;
+    (core as unknown as { playerId: string }).playerId =
+      mayor.holder!.personId!;
+    const third = draft();
+    for (const seat of council)
+      castMemberVote(api, third.id, seat.holder!.personId!, "yes");
+    const waiting = holdVote(api, third.id);
+    expect(waiting.status).toBe("awaiting-signature");
+    const decided = executiveDecision(api, third.id, true);
+    expect(["signed", "enacted"]).toContain(decided.status);
   });
 });

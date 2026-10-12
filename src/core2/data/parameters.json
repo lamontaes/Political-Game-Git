@@ -4479,11 +4479,6 @@
       "citation": "The two step sizes the pre-start contract offers (src/core2/pre-start.ts)."
     }
   },
-  "minimumParentAgeAtBirth": {
-    "value": 15,
-    "tag": "SOURCED",
-    "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
-  },
   "openingPupilTeacherRatio": {
     "value": 15.4,
     "tag": "SOURCED",
@@ -4534,5 +4529,10 @@
       "unit": "years",
       "citation": "Social Security earliest claim (62) to the delayed-credit end (70)."
     }
+  },
+  "minimumParentAgeAtBirth": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
   }
 }

@@ -16,6 +16,11 @@
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  electionLawTurnoutCost,
+  felonyDisenfranchisedShare,
+} from "../law-reach/group-a-voting";
+import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -108,6 +113,7 @@ export const VOTING_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
+      chosen: {},
       ballots: {
         indexes: {
           byContest: { fields: ["contestId"] },
@@ -325,9 +331,11 @@ export function turnout(
         sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
       0,
     );
+  // The election laws in force (voter ID, registration, mail voting).
   const cost =
     weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
-    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2;
+    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2 +
+    electionLawTurnoutCost(api, voter, weeklyWork);
   return {
     duty,
     interest,
@@ -437,6 +445,63 @@ function termLimited(
 /** A named official on the ballot who isn't a full person in the world yet. */
 export function officialCandidateId(key: string): string {
   return `official:${key}`;
+}
+
+/**
+ * Who a candidate id names, for any kind of candidate: a resident (their own
+ * record), a seated official (`official:term:…`, their term's identity), or a
+ * drawn challenger or nominee (`official:challenger:…`, `official:nominee:…`,
+ * the same identity a win would seat). Record fields only; the words come
+ * from the English engine.
+ */
+export function candidateIdentity(
+  api: CoreAPI,
+  candidateId: string,
+): {
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly birthDate: string;
+  readonly kind: "resident" | "official" | "drawn";
+} | null {
+  const person = api.state.people.get(candidateId);
+  if (person)
+    return {
+      givenName: person.givenName,
+      familyName: person.familyName,
+      birthDate: person.birthDate,
+      kind: "resident",
+    };
+  if (!candidateId.startsWith("official:")) return null;
+  const key = candidateId.slice("official:".length);
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(key) as unknown as TermRow | undefined;
+  if (term)
+    return {
+      givenName: term.identity.givenName,
+      familyName: term.identity.familyName,
+      birthDate: term.identity.birthDate,
+      kind: "official",
+    };
+  const loaded = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as { worldSeed: string } | undefined;
+  if (!loaded) return null;
+  const drawn = drawOfficialIdentity({
+    worldSeed: loaded.worldSeed,
+    seatKey: candidateId,
+    stateUsps: town(api).stateKey.slice(3),
+    role: "state-executive-challenger",
+    referenceDate: api.state.date,
+  });
+  return {
+    givenName: drawn.givenName,
+    familyName: drawn.familyName,
+    birthDate: drawn.birthDate,
+    kind: "drawn",
+  };
 }
 
 /**
@@ -646,12 +711,223 @@ function addPrimaryGroups(
       counts[index]! + Math.round((unnamed * counts[index]!) / chose);
 }
 
+const polls = new WeakMap<object, Map<string, ReturnType<typeof turnout>>>();
+
+/**
+ * Whether a voter goes to the polls on an election day: once for the whole
+ * ballot, drawn by the race they feel most strongly about (a voter who turns
+ * out for governor also sees the county races; with no preference in one,
+ * they leave it blank).
+ */
+function atThePolls(
+  api: CoreAPI,
+  voter: Readonly<Pick<PersonState, "id" | "traits">> & {
+    readonly birthDate: string;
+  },
+  date: string,
+  cycleCost: number,
+  recordedWeeklyMinutes?: number,
+): ReturnType<typeof turnout> {
+  const map = polls.get(api.state) ?? new Map();
+  polls.set(api.state, map);
+  const key = `${date}|${voter.id}`;
+  const hit = map.get(key);
+  if (hit) return hit;
+  const named = api.state.people.get(voter.id);
+  const lean = personLean(api.state.people, voter, townLean(api));
+  let strongest = 0;
+  for (const contest of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[]) {
+    if (contest.electionDate !== date) continue;
+    const field = ballot(api, contest.id);
+    if (!field.length) continue;
+    const totals = named
+      ? Object.values(appealFor(api, named, contest, field).appeal).map(
+          (a) => a.total,
+        )
+      : field.map((f) => {
+          const party = candidateFacts(api, f, contest).party;
+          return party ? lean * partySide(party) : 0;
+        });
+    for (const total of totals)
+      strongest = Math.max(strongest, Math.abs(total));
+  }
+  const t = turnout(
+    api,
+    voter,
+    { strongest: { total: strongest } },
+    recordedWeeklyMinutes,
+    cycleCost,
+  );
+  map.set(key, t);
+  return t;
+}
+
+const tieRules = (
+  ties as unknown as {
+    states: Record<string, Record<string, { method: string; detail?: string }>>;
+  }
+).states;
+
+/**
+ * An exact tie, settled the way the state's law says
+ * (`data/research/elections/tie-rules-2026.json`): by lot, by a second
+ * election between the tied candidates, or by the legislature (statewide
+ * offices) or local governing body choosing, each member for their own
+ * reasons. Returns the winner, or null when a second election will decide.
+ */
+export function breakElectionTie(
+  api: CoreAPI,
+  contest: ContestRow,
+  tied: readonly string[],
+): string | null {
+  const field =
+    contest.family === "statewideExecutive"
+      ? "statewideExecutiveTie"
+      : contest.family === "stateLegislative"
+        ? "legislativeTie"
+        : contest.family === "countyOffice" ||
+            contest.family === "municipalOffice"
+          ? "localTie"
+          : "generalElectionTie";
+  const rule = tieRules[town(api).stateKey]?.[field]?.method ?? "lot";
+  const sorted = [...tied].sort();
+  if (rule === "new-election" || rule === "runoff") {
+    secondElection(api, contest, sorted);
+    return null;
+  }
+  if (rule === "legislature-decides" || rule === "board-decides") {
+    const body = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    ).find((o) =>
+      rule === "legislature-decides"
+        ? o.kind.startsWith("legislature-")
+        : o.kind === "council" || o.kind === "county-board",
+    );
+    const terms = body
+      ? (
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("seats")
+            .query("byOffice", [body.id]) as unknown as { id: string }[]
+        ).flatMap(
+          (seat) =>
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .query("bySeatStatus", [
+                seat.id,
+                "serving",
+              ]) as unknown as TermRow[],
+        )
+      : [];
+    // Each member backs the tied candidate whose party sits on their side.
+    const filings = ballot(api, contest.id);
+    const tally = new Map<string, number>();
+    for (const term of terms) {
+      const side = partySide(term.party);
+      const pick = sorted.find(
+        (id) =>
+          partySide(filings.find((f) => f.personId === id)?.party ?? null) ===
+            side && side !== 0,
+      );
+      if (pick) tally.set(pick, (tally.get(pick) ?? 0) + 1);
+    }
+    const best = [...tally.entries()].sort((a, b) => b[1] - a[1]);
+    if (best.length && (best.length === 1 || best[0]![1] > best[1]![1]))
+      return best[0]![0];
+  }
+  // By lot, where the law says so: the game holds a second election between
+  // the tied candidates instead, since no draw decides an outcome (owner's
+  // no-dice rule; the question is in gov.md): SG-GOV-tie-by-lot.
+  // stopgapId: SG-GOV-tie-by-lot
+  api.stopgap("SG-GOV-tie-by-lot");
+  secondElection(api, contest, sorted);
+  return null;
+}
+
+/** A second election between the tied candidates, a tunable number of weeks on. */
+function secondElection(
+  api: CoreAPI,
+  contest: ContestRow,
+  tied: readonly string[],
+): void {
+  const date = new Date(
+    Date.parse(`${api.state.date}T00:00:00Z`) +
+      campaignParameter("tieElectionDays") * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const next: ContestRow = {
+    ...contest,
+    id: `${contest.id}:second`,
+    electionDate: date,
+    primaryDate: null,
+    filingDeadline: api.state.date,
+  };
+  api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .put(next as unknown as ModuleRow);
+  for (const f of ballot(api, contest.id).filter((f) =>
+    tied.includes(f.personId),
+  ))
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .put({
+        ...f,
+        id: `${f.id}:second`,
+        contestId: next.id,
+      } as unknown as ModuleRow);
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `election:${next.id}`,
+    date,
+    kind: "election-day",
+    source: {
+      tag: "ESTIMATED",
+      citation: "second election after a tie",
+      asOf: api.state.date,
+      estimatedFrom: "tieElectionDays",
+    },
+    sourceRecordIds: [next.id],
+  });
+}
+
+/**
+ * A named voter's own ballot in a race, cast before election day (the
+ * player's): a candidate, or null to leave the race blank.
+ */
+export function castBallot(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  candidateId: string | null,
+): void {
+  if (
+    candidateId !== null &&
+    !ballot(api, contestId).some((f) => f.personId === candidateId)
+  )
+    throw new Error(`${candidateId} isn't on the ballot for ${contestId}`);
+  table(api, "chosen").put({
+    id: `${contestId}|${voterId}`,
+    candidateId,
+  } as unknown as ModuleRow);
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
+  // A midterm or off-cycle election draws fewer voters (audit 2, item 5).
+  const cycleCost = cycleTurnout(contest.electionDate).cost;
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
@@ -670,7 +946,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = turnout(api, voter, appeal);
+    // A voter who chose their ballot (the player) votes as they chose; the
+    // player is never voted for, so with no ballot cast they didn't vote.
+    const chosen = table(api, "chosen").get(
+      `${contestId}|${voter.id}`,
+    ) as unknown as { candidateId: string | null } | undefined;
+    const isPlayer = voter.id === (api.state as CoreState).playerId;
+    const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
+    const t =
+      chosen || isPlayer
+        ? { ...decided, votes: chosen !== undefined }
+        : decided;
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -679,7 +965,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     const separates =
       ranked.length === 1 ||
       (ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total);
-    const choice = t.votes && separates ? ranked[0]![0] : null;
+    const choice = chosen
+      ? chosen.candidateId
+      : t.votes && separates
+        ? ranked[0]![0]
+        : null;
     const told = !t.votes
       ? null
       : choice === null
@@ -730,7 +1020,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       const party = candidateFacts(api, f, contest).party;
       appeal[f.personId] = { total: party ? lean * partySide(party) : 0 };
     }
-    const t = turnout(api, voter, appeal, voter.weeklyMinutes);
+    const t = atThePolls(
+      api,
+      voter,
+      contest.electionDate,
+      cycleCost,
+      voter.weeklyMinutes,
+    );
     if (!t.votes) continue;
     countedVoted += 1;
     const ranked = Object.entries(appeal).sort(
@@ -744,6 +1040,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     if (choice) countedVotes[choice] = (countedVotes[choice] ?? 0) + 1;
     byLean.push({ lean, heard: new Set(), choice });
   }
+  // Counted adults barred for a felony conviction can't vote (the share a
+  // restoration law in force returns is counted back).
+  const barred = felonyDisenfranchisedShare(api);
+  for (const id of Object.keys(countedVotes))
+    countedVotes[id] = Math.round(countedVotes[id]! * (1 - barred));
+  countedVoted = Math.round(countedVoted * (1 - barred));
+  countedEligible = Math.round(countedEligible * (1 - barred));
   const { groupVotes, electorate } = groupVote(
     api,
     contest,
@@ -763,7 +1066,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   );
   // No one wins on no votes: the seat stays with its holder (or vacant)
   // until the next contest.
-  const winnerId = ranked.length && ranked[0]![1] > 0 ? ranked[0]![0] : null;
+  const tied =
+    ranked.length > 1 && ranked[0]![1] > 0 && ranked[0]![1] === ranked[1]![1];
+  const winnerId = tied
+    ? breakElectionTie(
+        api,
+        contest,
+        ranked.filter((r) => r[1] === ranked[0]![1]).map((r) => r[0]),
+      )
+    : ranked.length && ranked[0]![1] > 0
+      ? ranked[0]![0]
+      : null;
   const incumbent = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)
@@ -845,7 +1158,48 @@ const stateVotes = new Map(
 );
 
 /** How many votes the race's whole electorate cast in 2024, where read. */
+/**
+ * Which kind of election a date is: a presidential November, a midterm
+ * November, or an off-cycle date (an odd year, or a spring or summer local
+ * election), whose turnout runs far lower.
+ */
+export function electionCycle(
+  date: string,
+): "presidential" | "midterm" | "off-cycle" {
+  const year = Number(date.slice(0, 4));
+  const november = date.slice(5, 7) === "11";
+  if (!november || year % 2) return "off-cycle";
+  return year % 4 === 0 ? "presidential" : "midterm";
+}
+
+/** The cycle's turnout against a presidential year's, and what it adds to the cost of voting. */
+function cycleTurnout(date: string): { share: number; cost: number } {
+  const cycle = electionCycle(date);
+  if (cycle === "presidential") return { share: 1, cost: 0 };
+  if (cycle === "midterm")
+    return {
+      share: campaignParameter("midtermShareOfPresidential"),
+      cost: campaignParameter("midtermTurnoutCost"),
+    };
+  return {
+    share: campaignParameter("offCycleShareOfPresidential"),
+    cost: campaignParameter("offCycleTurnoutCost"),
+  };
+}
+
 function electorateSize(
+  api: CoreAPI,
+  contest: ContestRow,
+  namedCount: number,
+): number {
+  // The 2024 presidential electorate, scaled to this cycle's turnout.
+  return Math.round(
+    presidentialElectorate(api, contest, namedCount) *
+      cycleTurnout(contest.electionDate).share,
+  );
+}
+
+function presidentialElectorate(
   api: CoreAPI,
   contest: ContestRow,
   namedCount: number,

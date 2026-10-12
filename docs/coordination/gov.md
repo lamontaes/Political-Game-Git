@@ -62,7 +62,18 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: M3-01 to M3-05 in a random place.
   - Needs: PEOPLE, PLAY
 
+## Questions for the owner
+
+- **Ties settled by lot (Oct 13).** About 34 states settle an exact general-election tie by lot (51 for primaries). A lot is a random draw, which the no-dice rule bars, so for now the game holds a second election between the tied candidates there (stopgap `SG-GOV-tie-by-lot`). Should a lot be drawn as the law requires, as a visible recorded procedure, or keep the second election?
+
 ## Needs from other sessions
+
+**From law reach (audit 13, Oct 12): what each policy needs to finish its effect.** Each item is a registered stopgap; the full text is in `src/core2/data/stopgaps.json`.
+
+- **CORE:** `SG-GOV-REACH-A-leave-claims`; `SG-GOV-REACH-A-bargaining`; `SG-GOV-REACH-A-union-dues`; `SG-GOV-REACH-A-cannabis-market`; `SG-GOV-REACH-A-consumer-credit`; `SG-GOV-REACH-A-rent-assistance`; `SG-GOV-REACH-A-rent-contracts`; `SG-GOV-REACH-B-public-school-staff`; `SG-GOV-REACH-B-medicaid-coverage`; `SG-GOV-REACH-B-assistance-benefits`; `SG-GOV-REACH-B-preschool-enrollment`; `SG-GOV-REACH-B-sales-tax-collection`
+- **WORLD:** `SG-GOV-REACH-A-housing-supply`; `SG-GOV-REACH-A-affordable-units`; `SG-GOV-REACH-A-eviction-cases`; `SG-GOV-REACH-B-transit-fare-price`; `SG-GOV-REACH-B-mileage-fee-price`; `SG-GOV-REACH-B-broadband-bill`; `SG-GOV-REACH-B-property-tax-bills`; `SG-GOV-REACH-B-building-cost`; `SG-GOV-REACH-B-energy-price`; `SG-GOV-REACH-B-retail-price`; `SG-GOV-REACH-B-nonattainment-data`; `SG-GOV-REACH-B-business-cost`; `SG-GOV-REACH-B-land-use`; `SG-GOV-REACH-B-road-condition`
+- **PEOPLE:** `SG-GOV-REACH-A-citizenship`; `SG-GOV-REACH-A-convictions`; `SG-GOV-REACH-A-firearms`; `SG-GOV-REACH-B-voucher-payment`; `SG-GOV-REACH-B-tuition`; `SG-GOV-REACH-B-park-use`
+- **GOV:** `SG-GOV-REACH-A-pretrial`; `SG-GOV-REACH-A-redistricting`; `SG-GOV-REACH-B-territory-residents`
 
 - **OPUS-CORE: a pay-change path.** core2 can't re-rate a job: `admitWorkCommitment` is the only writer. Stand-in: the laws module rewrites the commitment's hourly rate on the minimum wage's date (stopgap `SG-GOV-wage-floor-rate-write`). Wanted: an API to re-rate a commitment from a date with its source.
 - **OPUS-CORE: opening pay reads the start date's law.** `population.ts` floors opening pay with the old core's minimum-wage table, which holds later-2026 rates (Alaska opens at $14 in January; the real January rate is $13). Wanted: read `lawInForce(api, "minimum-wage", startDate)` or the same rows (`lawChainForPlace` + `startingLawRows`), so July's raise is a real raise.
@@ -77,13 +88,115 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PEOPLE: views to replace my stand-in.** Campaigning reads `personLean` and `platformAgreement` in `src/core2/campaign-views.ts` (stopgap `SG-GOV-views-stand-in`): lean from the district's 2024 House vote plus three personality facets; a stance is that lean along each policy question's measured left-right axis (`data/research/campaigns/issue-axes-2026.json`, computed from states' recorded answers against their 2024 vote). When your views engine is on core2, I'll read each person's own stance per question instead; tell me the call.
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
+- **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
+  - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
+  - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
+  - `executiveDecision(api, billId, "sign" | "veto")` decides a bill with status `awaiting-signature` on the player's desk.
+  - New since then: `signUpToSpeak` (public comment and testimony), `holdTownHall`, `requestInterview` / `answerInterview` and `interviewsFor`, `answerDebate` / `debatesIn` (debates wait on the player's answers), and `outletsHere` / `followersOf`.
+  - Wanted: these reachable from the bench, and `openPress` and `openMeetings` opened with the other GOV modules in `src/bench/world.ts`.
 - **OPUS-PLAY: the "law here" bench view.** `lawHere(api)` returns every tracked series with each level's row, source, estimate flag, what's set aside and why, and pending phases.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
-- 2026-10-12 22:00 UTC: **Audit 3 (unreached voters):** done with the two-level fix: a band with no town voters goes by party only. Also, a promise now counts only with a voter who heard it made: speech listeners record each promise (`promise:<id>`), and `recordAppeal` skips promises the voter never heard. **Audit 4 (no winner on 0 votes):** `holdElection` names no winner when the leader has no votes; the seat stays with its holder and the next cycle opens. Asserted in `two-level-elections.test.ts`.
+- 2026-10-12 20:56 UTC: BOARD next, item 5 (first part): careers before the start:
+  - **Terms start on real dates:** each holder at the opening began their current term a full term before it ends, not on the opening day.
+  - **Earlier terms are on the record:** a holder's past terms on the same seat are recorded as ended terms ("re-elected"). How many follows the mean service of sitting officials of that kind: House 8.5 years and Senate 11.2 (CRS, not fetched, so marked estimates); state legislators 6, statewide officers 5.5 and local officials 7 (estimates). The spread is drawn once per seat from the world's seed, which counts as generating who exists.
+  - **Limits:** nobody first served younger than 21, and service is capped by the state's legislative term limit where it has one. The presidency keeps its real record.
+  - **Readers:** seniority (committees, case routing, the majority leader) now reads `serviceStart`. The lobbying ban ignores terms that ended in re-election.
+  - **Guam run:** the governor has served since 2019 and is in a second term; the delegate since 2023.
+  - **Tests:** the offices tests pass (4 of 4), including a new careers check. The suites that read terms were still running at this commit.
+  - **Bench item:** BOARD item 3 (the bill catalog on the bench) is listed under Needs for PLAY, with the engine calls ready.
+  - **Next:** past election results behind each term, then later-milestone specs.
+
+- 2026-10-12 20:36 UTC: BOARD next, item 2: public meetings (`src/core2/modules/meetings.ts`):
+  - **Public comment and testimony:** you sign up to speak on a bill before its vote (`signUpToSpeak`); at a town or county meeting it's public comment, in a legislature it's testimony at the hearing. At a local meeting, up to 6 residents who feel strongly enough about the bill's question, by their civic temperament, stand up too. Every member weighs the room's balance as one of their reasons (the `lobby` part of their position; tunable weight 0.15). A California town's anti-discrimination ordinance drew 6 residents in favor plus the signed-up speaker; a weak-axis question (groundwater) drew no one.
+  - **Town halls (`holdTownHall`):** the town's 40 most civic-minded adults come. Each asks about the strongest of their views among the questions their own life touches: work for labor and taxes, children at home for schools, 55 and over for health, under 35 for housing. The host takes the 4 most-asked questions and answers them; a candidate's answers are promises. In the California run, 40 came, 4 different questions were taken, and all 40 moved with a recorded cause.
+  - **Debates:** 14 days before a general election, each race with two or more candidates gets its debate on the town's widest-reaching outlet; the audience hears every candidate's answers as statements on the record. A race you run in waits for your answers (`answerDebate`). In an Arkansas council race, the debate aired on a TV station and reached 50 viewers.
+  - **Tests:** new `meetings.test.ts`. The press, campaigns, legislature and interest-groups tests pass.
+  - **Next:** the bill catalog on the bench, your own vote and sign or veto (with PLAY), then pre-start history.
+
+- 2026-10-12 20:12 UTC: BOARD next, item 1: campaign interviews (`src/core2/modules/press.ts`):
+  - **Outlets:** each town's local outlets are records sized from its state's counts: its county's share of the state's newspapers and news radio, and one market's television stations, at most 4 of each kind (tunable). Research in `data/research/press/local-news-2026.json`: the national totals are sourced (Medill 2024, FCC 2025, Pew 2024); the per-state splits and the age-band habits are estimates and marked that way. Names wait on the English engine (stopgap SG-GOV-press-outlet-names).
+  - **Who follows them:** in each age band, the share that follows that kind of local news (Pew) are the band's most dutiful and deliberate adults.
+  - **Interviews:** a candidate asks an outlet for one (`requestInterview`). The outlet says yes while its reporter has room this week; television only for a newsworthy candidate (name recognition, incumbency, share of the money raised). In the last 6 weeks before a general election, outlets seek out the candidates on the ballot, most newsworthy first.
+  - **Questions:** a promise the candidate broke, the question where they differ most from a rival, and the most divisive question in play. Each answer (`answerInterview`) is a promise on the record that only the audience heard; a declined question is recorded. Readers and viewers react with a recorded cause, and the published interview is a public record the news carries. Other candidates answer from their own platform, unless shy and averse to both conflict and risk.
+  - **Ads:** ads now buy time from the town's widest-reaching outlet and reach its closest followers, replacing the fewest-work-hours stand-in wherever the press is open. SG-GOV-ad-reach-media-habits stays open for worlds without it.
+  - **California town (seed ccfe6a6d…, place 0607260):** 4 newspapers (about 30 readers each of 301 adults), 1 news radio station (132), 4 television stations (about 42 each). A newspaper interview reached 30 readers. In the final weeks the rival gave 9 interviews and the player was invited by 5 outlets.
+  - **Senate seats:** each now comes up in its real class year (from the Senate-classes data, matched by party as in the world's races). Before, seat 0 always came up in 2026, which gave California a 2026 Senate race.
+  - **Tests:** new `press.test.ts`.
+    - The voting test now accepts a tie or a zero-vote race with no winner (both candidates run on one platform). It has a 5-minute limit because it simulates most of a year (66 seconds with or without this change).
+    - The offices, elections-filing, world-races, campaigns, two-level, parties and press tests pass.
+    - Seen but not fixed: the offices vacancy test sometimes seats the "dead" holder again, because it emits a death without marking the person dead (a test artifact). A Rhode Island draw of the door calibration came out at 10% contact against a 15% floor (a small sample).
+  - **Next:** public meetings, hearings, town halls and debates.
+
+- 2026-10-12 19:14 UTC: BOARD next, item 4: the researched yes/no policy answers are law at the opening:
+  - **The answers are law:** each state's answers (57 questions answered for most states; 14 research files) load as state law rows in force on day one, marked estimates where the research estimated them. The legislature, ballot measures and the bill catalog already read the same answers, so a bill now repeals a real starting law instead of a remembered answer.
+  - **Policies already in force reach people from day one:** when law effects open, every policy in force runs through its engine once. Minnesota: 28 policies in force, all 28 reached people on day one. Missouri: 20 of 22; term limits and the lobbying ban bind officeholders, and that run had no offices open.
+  - **Other changes:** `src/core2/policy-answers.ts` holds the answers so `laws.ts` can read them without an import cycle. Group B's government lookup returns nothing in a world without budgets. The law-reach tests repeal the starting answers first (`law-test-start.ts`) so each round trip starts from "no".
+  - **Tests:** new `starting-policy-law.test.ts`. The law-reach A and B, law-effects, laws, legislature and world-legislating tests pass. The state-session test was already at 29.9 seconds against a 30-second limit (the same with or without this change); it now has its own two-minute limit.
+  - **Next:** campaign interviews from real outlets.
+
+- 2026-10-13 06:30 UTC: Polls:
+  - **Who's asked:** a poll now dials the whole town, named and counted adults, and only those willing complete it (by sociability, reliability and age; tunable toward the 6–10% phone response rate).
+  - **Who answers how:** a counted respondent no campaign reached names their party's candidate when their lean is firm, and is otherwise undecided.
+  - **Cost and empty polls:** each completed interview costs the campaign $30 (estimate) through the books, and an empty poll isn't saved.
+  - **Untested so far:** in the calibration runs the test campaign had raised nothing, so only the unfunded path ran. A funded run is still to check.
+
+- 2026-10-13 06:00 UTC: Campaign calibration (CTO's notes from PLAY's runs; checks on totals, no dice):
+  - **Doors** now walk the whole town, named and counted households. Who's home comes from each adult's own work schedule at the minute of the knock (an evening shift from 5 p.m., tunable). The most willing one opens: their sociability, half their readiness for conflict and for risk, and their age (older residents answer more). A counted household that opens is filled in (`fillInPerson`, the owner's on-click design). In fresh two-level towns: 49 doors in 3 hours, 18–29% opened, near the field's 25–33%.
+  - **Volunteers:** someone says yes when liking the candidate, closeness, and an outgoing or dutiful temperament outweigh their work hours. One of 4 acquaintances said yes in the runs, against 22 of 24 before.
+  - **Speeches:** agreement is now the listener's own view times the stated position, so people without a view barely move. A speech on the least divisive question moved none of 13–22 listeners much, against 81 of 82 cooled before.
+  - New `src/core2/campaign-calibration.test.ts`. The campaigns, voting, record, parties, two-level and tripwires tests pass.
+
+- 2026-10-13 05:10 UTC: PLAY's filing routes:
+  - **Colorado's U.S. Senate route:** it had come out free with no petition. It now needs 1,500 signatures from each of the state's 8 districts (12,000), via the new per-district and "N or X%, whichever is less" forms in `filing-formulas.ts`, with district counts from the 2024 House results.
+  - **A Mississippi county office:** it now pays its fee (the research gives "$100 to $300 (estimate)", read as $100 and marked an estimate).
+  - **Still open:** the party-assembly alternative (Colorado), which is a party convention; a question for after early access.
+
+- 2026-10-13 04:50 UTC: PLAY's small items:
+  - Party labels read "Democratic" everywhere (`partyName` in `appointments.ts`); the rosters' "Democrat" is normalized where holders and Congress members are created.
+  - The Vice President, and an elected running mate, never shares the President's family name (`avoidFamilyNames` in `drawOfficialIdentity`), asserted in the offices test.
+  - `candidateIdentity(api, id)` in `voting.ts` reads any candidate id: a resident, a seated official (`official:term:…`), or a drawn challenger or nominee. It returns record fields only. Asserted for every ballot in the voting test.
+
+- 2026-10-13 04:20 UTC: Retired `SG-GOV-wage-floor-rate-write` (marked resolved and kept in the registry). A minimum-wage raise now goes through OPUS-CORE's `rerateJob` (core2-api-v12), and when a wage law takes effect the town's counted residents' jobs under the floor rise too, not only the named people's. The laws, legislature, cases, group A and tripwires tests pass (68 of 68).
+
+- 2026-10-13 03:55 UTC: **Audit 12 (the player votes and decides):** the engine never votes for the player.
+  - `castBallot(api, voterId, contestId, candidateId | null)` in `voting.ts` records a ballot. Election day counts it as that voter's choice; a player who casts none didn't vote.
+  - `castMemberVote(api, billId, memberId, vote)` in `legislature.ts` does the same in a body's vote; a player who casts none abstains.
+  - When the player is the executive, a passed bill waits on their desk (`awaiting-signature`) until `executiveDecision(api, billId, sign)`. A veto still faces the override.
+  - New test in `legislature.test.ts`: an uncast player vote abstains, a cast one counts as chosen even against the engine's read, and as mayor the player's bill waits and then is signed. These are the calls PLAY's screens need.
+
+- 2026-10-13 03:20 UTC: **Audit 10 (ties by real rules):**
+  - Election ties are settled by each state's rule (new research `data/research/elections/tie-rules-2026.json`). Most rows are estimates because NCSL's pages returned 403; confirmed rows are Washington and Virginia general ties, the Texas local rule, and five senate tie-breakers.
+  - A legislature (for statewide offices) or local board decides by each member's party side. A rule for a new election or runoff schedules a second election between the tied candidates four weeks on (tunable). Where the law says "by lot", there is a second election instead; question to you above.
+  - Chamber ties: the Vice President breaks U.S. Senate ties, and the lieutenant governor breaks state senate ties in the 31 states that give them the vote. Otherwise a tied vote fails.
+  - Tested in `two-level-elections.test.ts`. Primary ties still eliminate no one (both stay on), which is next.
+
+- 2026-10-13 02:40 UTC: **Audit 11 (deals):** `offerDeal` now lets the member weigh the bill as the offer would leave it. They take it only if it brings them to yes. A taken amendment changes the bill's real terms for everyone; a taken favor or backing of their item becomes an obligation the sponsor owes (`obligationsOf`), which is its cost. A declined offer is on the record (`status: "declined"`) and moves no one. A deal is worth what it's worth to that member: a favor counts by closeness, and backing their item counts by how strongly they hold their own top view. The legislature test now checks both outcomes.
+
+- 2026-10-13 02:05 UTC: **Audit 9 (council authority):** every law amount now carries the levels allowed to set it, with the law that says so (`src/core2/data/legislature/series-powers.json`). For example, SNAP allotments are federal (7 U.S.C. § 2017), the Medicare tax is federal (26 U.S.C. § 3101), the Medicaid match is federal, and unemployment maximums belong to the states. `draftBill` blocks a body at any level that tries to set an amount beyond its power, citing that law; local wage, income and sales taxes still also need the state's grant. New test in `legislature.test.ts`: a council's SNAP, Medicare-tax and Medicaid-match bills are blocked, a state's SNAP bill is blocked, and Congress's is drafted.
+
+- 2026-10-13 01:45 UTC: **Audit 7 (federal acts take effect):** `enactLaw` in `laws.ts` now runs "law took effect" at once for an act in force the day it's enacted (a federal act without a date of its own). It had only scheduled future dates, so such acts never fired. New test in `world-legislating.test.ts`: a federal anti-discrimination act reaches the town's named adults the day it's signed. **Audit 8 (city income tax collects):** `tax-withholding.ts` now withholds an enacted income tax with unit "percent" and no bracket schedule as a flat rate. Group B's income-tax test turns its collection check on by itself and passes. Two group B test checks are now conditional on the world: a raise in an island territory can round below a cent, and a reserve needs a target above zero. Agent B is hardening the rest of its tests across all six territories.
+
+- 2026-10-13 01:10 UTC: **Audit 6 (independent filing terms, formula fees):**
+  - Filing terms now follow the candidate's side. Filing with no party takes the research's independent route: Texas statewide is $0, 1% of the governor's vote, and a June 25 deadline.
+  - Fees and signature counts written as formulas are worked out from the race (`src/core2/filing-formulas.ts`). A fee comes from the office's salary, so California's governor pays 2% of salary, no longer free. Signatures come from the district's 2024 vote, with caps, floors and "whichever is less"; registered voters are votes ÷ 0.89, from CPS 2024. A range takes its middle and is marked an estimate.
+  - Salaries: new research `data/research/offices/official-salaries-2026.json`, read in `filing-context.ts`. Every row is marked an estimate because the helper's fetches failed; the figures are to be checked against Ballotpedia and NCSL.
+  - You can't file before the filing window opens, and petitions take no signatures after the deadline.
+  - New `filing-formulas.test.ts`; the filing, voting, parties, record, campaigns and tripwires tests pass.
+
+- 2026-10-13 00:30 UTC: **Audit 13 (law breadth), first pass merged:** all 74 catalog policies plus the transit line now reach someone once in force, through `src/core2/law-reach/` (handlers registered by key with `registerPolicyHandler` in `law-effects.ts`; budget-line changes are announced by `amendBudget`).
+  - **Full mechanics.** Wage laws and local wage authority. The paid-family-leave premium, journaled from paychecks into the enacting treasury. Police, fire, administration and corrections staffing hiring and laying off from the budget line. Parks funding. Teacher minimum salary and school and health pay through `rerateJob`. Adopting or graduating an income tax collected by withholding. A balanced-budget rule. Pension contributions. A reserve account. Welfare benefits owed and paid from treasury cash. Shifting highway money to transit. Election laws changing each voter's turnout cost.
+  - **The rest.** Records on the named people, counted groups and employers reached, with 35 registered stopgaps (`SG-GOV-REACH-A-*`, `SG-GOV-REACH-B-*`), each naming the exact API another session must provide. These are under "Needs".
+  - **Wired in my files.** The election-law turnout cost in `turnout()`, the felony-disenfranchised share for counted voters, granted local wage authority in `authorityFor`, a term-limit filing check, and the lobbying ban in choosing a lobbyist.
+  - **Tests.** `law-reach-group-a.test.ts` (38 tests) and `law-reach-group-b.test.ts` (34) enact and repeal every policy in random places.
+  - **Sub-agents that ran (CTO's rule):** two Opus sub-agents, one per half of the menus. Group A covered labor, business, housing, justice, rights, technology and government (40 policies); group B covered infrastructure, health, education, taxes, assistance, energy, agriculture and parks (35 keys). Each worked in its own worktree on its own files; I reviewed and merged both. Still open on item 13: the bench's draft menu (`billCatalog` with PLAY), and the starting answers loaded as law rows (BOARD next item 4).
+
+- 2026-10-12 23:10 UTC: **Audit 5 (off-cycle and midterm turnout):** `electionCycle` in `voting.ts` classes each election as presidential, midterm or off-cycle (an odd year, or not in November). The wider electorate is scaled from 2024's: midterm 0.72 (2022 VEP turnout 46.6% against 2024's 64.1%, U.S. Elections Project), off-cycle 0.33 (off-cycle city elections near 20% of registered voters; Hajnal, Kogan and Markarian 2022). Each named and counted voter also faces the cycle's extra cost (tunable). Counted turnout in a 2026 midterm is now 49% of adults (it was 62–76%). A voter now decides once per election day whether to go to the polls, drawn by the race they feel most strongly about, and then votes every race they have a preference in. Before, each race decided separately, so a county commissioner race drew 7% of adults while the governor's race drew 50%. Named midterm turnout now runs 50–54%. Also: a seat whose election passes with no one elected looks for its next regular election, with a four-year estimate where the office's term isn't read (a Vermont county board had found no next contest).
+
+- 2026-10-12 22:00 UTC: **Audit 3 (unreached voters):** done with the two-level fix: a band with no town voters goes by party only. Also, a promise now counts only with a voter who heard it made: speech listeners record each promise (`promise:<id>`), and `recordAppeal` skips promises the voter never heard. An attack ad still shows its viewers the broken promises from the public record, and they know them from then on. **Audit 4 (no winner on 0 votes):** `holdElection` names no winner when the leader has no votes; the seat stays with its holder and the next cycle opens. Asserted in `two-level-elections.test.ts`.
 
 - 2026-10-12 21:45 UTC: **Audit 2 (a next contest each cycle):** contests no longer carry a unique seat index. Once a seat's winner takes office (or a race ends with no winner), `openNextCycle` in `voting.ts` opens that seat's next contest from the new term (`openNextContest` in `elections.ts`) and puts its filing close, primary and election day on the calendar. The presidency's next cycle opens at the inauguration. `two-level-elections.test.ts` now runs past every November 2026 winner's seating date and asserts each decided seat has a later contest open, so step 11 (the record read at the next election) can happen in play. Election suites and tripwires pass.
 

@@ -63,7 +63,19 @@ export function reachedSteps(core: CoreState, personId: string) {
     const decided = bills.filter((b) => b.status !== "drafted");
     if (decided.length)
       out.push({ step: 8, recordIds: decided.map((b) => b.id) });
-    const enacted = bills.filter((b) => b.status === "enacted");
+    // Step 9, the town changes: a law the bill made has taken effect.
+    const tookEffect = [...(core.logByKind.get("law-took-effect") ?? [])]
+      .map(
+        (id) =>
+          (core.durableLog.get(id) as { facts?: { lawId?: string } })?.facts
+            ?.lawId ?? "",
+      )
+      .filter(Boolean);
+    const enacted = bills.filter(
+      (b) =>
+        (b.status === "enacted" || b.status === "overridden") &&
+        tookEffect.some((lawId) => lawId.endsWith(`:${b.number}`)),
+    );
     if (enacted.length)
       out.push({ step: 9, recordIds: enacted.map((b) => b.id) });
   }

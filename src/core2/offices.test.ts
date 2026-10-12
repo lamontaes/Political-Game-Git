@@ -63,13 +63,22 @@ describe("M2-01 offices and seats, every level", () => {
     const core = world(placeKey);
     const api = coreAPI(core);
     const seats = townSeats(api);
+    // The President and Vice President aren't drawn as relatives.
+    const president = seats.find(
+      (s) => s.seat.id === "seat:US:president",
+    )?.holder;
+    const vice = seats.find(
+      (s) => s.seat.id === "seat:US:vice-president",
+    )?.holder;
+    if (president && vice)
+      expect(vice.identity.familyName).not.toBe(president.identity.familyName);
     const levels = new Set(seats.map((s) => s.office.level));
     expect(levels.has("federal")).toBe(true);
     expect(levels.has("state")).toBe(true);
     for (const { office, seat, holder } of seats) {
       expect(holder, `${office.title} ${seat.id}`).not.toBeNull();
       expect(holder!.identity.givenName.length).toBeGreaterThan(0);
-      expect(holder!.startDate).toBe(START);
+      expect(holder!.startDate <= START).toBe(true);
       expect(holder!.reached).toBeTruthy();
       if (office.termYears) expect(holder!.endDate! > START).toBe(true);
       // A local seat is held by a resident of the town.
@@ -153,5 +162,64 @@ describe("M2-01 offices and seats, every level", () => {
       isRealOfficeholderName(t.identity.givenName, t.identity.familyName),
     );
     expect(matches).toEqual([]);
+  });
+
+  it("holders at the opening have careers of real length: terms begin before it and earlier terms are on the record", () => {
+    const placeKey =
+      process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("careers").key;
+    const core = world(placeKey);
+    const api = coreAPI(core);
+    const terms = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .rows() as unknown as TermRow[];
+    const serving = terms.filter((t) => t.status === "serving");
+    const offices = new Map(townSeats(api).map((s) => [s.office.id, s.office]));
+    let before = 0;
+    let withPast = 0;
+    for (const t of serving) {
+      expect(t.startDate <= START, `${placeKey} ${t.seatId}`).toBe(true);
+      const office = offices.get(t.officeId);
+      if (
+        !office?.termYears ||
+        !t.endDate ||
+        office.kind === "president" ||
+        office.kind === "vice-president"
+      )
+        continue;
+      if (t.startDate < START) before += 1;
+      expect(t.serviceStart! <= t.startDate).toBe(true);
+      const past = terms
+        .filter((p) => p.id.startsWith(`${t.id}:past:`))
+        .sort((a, b) => a.startDate.localeCompare(b.startDate));
+      if (past.length) withPast += 1;
+      // Unbroken: each past term ends as the next begins.
+      for (const [i, p] of past.entries()) {
+        expect(p.status).toBe("ended");
+        expect(p.endDate).toBe(past[i + 1]?.startDate ?? t.startDate);
+      }
+      expect(past[0]?.startDate ?? t.startDate).toBe(t.serviceStart);
+      // Nobody first served under the minimum age.
+      expect(
+        Number(t.serviceStart!.slice(0, 4)) -
+          Number(t.identity.birthDate.slice(0, 4)),
+        `${placeKey} ${t.seatId}`,
+      ).toBeGreaterThanOrEqual(21);
+    }
+    expect(before, placeKey).toBeGreaterThan(0);
+    expect(withPast, placeKey).toBeGreaterThan(0);
+    govReport(
+      "offices-careers",
+      JSON.stringify({
+        placeKey,
+        seed,
+        careers: serving
+          .filter((t) => t.serviceStart)
+          .map(
+            (t) =>
+              `${offices.get(t.officeId)?.title ?? t.officeId}: since ${t.serviceStart}, this term ${t.startDate} to ${t.endDate}`,
+          ),
+      }),
+    );
   });
 });
