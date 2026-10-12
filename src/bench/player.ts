@@ -138,7 +138,9 @@ export class BenchPlayer {
       minuteOfDay: 0,
     };
     if (mode === "calendar" && !(date && date > at.date))
-      throw new Error("Pick a day after today.");
+      throw new Error(
+        "A calendar jump can't go backward: pick a day after today.",
+      );
     const days =
       mode === "week"
         ? 7

@@ -4490,6 +4490,57 @@
       "citation": "The two step sizes the pre-start contract offers (src/core2/pre-start.ts)."
     }
   },
+  "openingPupilTeacherRatio": {
+    "value": 15.4,
+    "tag": "SOURCED",
+    "citation": "NCES, Digest of Education Statistics 2022, Table 208.20: public elementary and secondary pupil/teacher ratio, fall 2021, 15.4. https://nces.ed.gov/programs/digest/d22/tables/dt22_208.20.asp"
+  },
+  "openingPublicSchoolShare": {
+    "value": 0.87,
+    "tag": "ESTIMATED",
+    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021 public school enrollment 49.4 million and private 4.7 million; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
+    "estimatedFrom": "49.4 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.87 of school-age children enrolled in public schools; pre-K in the public count is not separated.",
+    "spread": {
+      "low": 0.8,
+      "high": 0.92,
+      "unit": "share of children aged 5–17",
+      "citation": "State public shares range roughly from 0.80 to 0.92 (NCES Digest Table 205.80, private enrollment by state)."
+    }
+  },
+  "openingSchoolAgeFirst": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "NCES Digest Table 203.10 and Census school-age population: kindergarten through grade 12 serves ages 5–17."
+  },
+  "openingSchoolAgeLast": {
+    "value": 17,
+    "tag": "SOURCED",
+    "citation": "NCES Digest Table 203.10 and Census school-age population: kindergarten through grade 12 serves ages 5–17."
+  },
+  "openingTeacherMinimumAge": {
+    "value": 22,
+    "tag": "ESTIMATED",
+    "citation": "A bachelor's degree is required for a public school teaching license in every state (BLS Occupational Outlook Handbook, Kindergarten and Elementary School Teachers, How to Become One).",
+    "estimatedFrom": "Typical age at a bachelor's degree; the town generator's teacher role uses the same minimum age.",
+    "spread": {
+      "low": 21,
+      "high": 24,
+      "unit": "years",
+      "citation": "NCES Digest Table 104.10 age at bachelor's completion."
+    }
+  },
+  "openingWorkingAgeLast": {
+    "value": 64,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey, labor force participation by age (annual averages): participation falls from about 65% at ages 55–64 to about 19% at 65 and over.",
+    "estimatedFrom": "New opening jobs go to adults under 65, where most of the labor force is; the opening's part-time rule already starts at 65 (openingPartTimeOlderWorkerAge).",
+    "spread": {
+      "low": 61,
+      "high": 69,
+      "unit": "years",
+      "citation": "Social Security earliest claim (62) to the delayed-credit end (70)."
+    }
+  },
   "minimumParentAgeAtBirth": {
     "value": 15,
     "tag": "SOURCED",

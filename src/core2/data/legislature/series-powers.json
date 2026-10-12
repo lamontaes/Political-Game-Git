@@ -1,0 +1,45 @@
+{
+  "about": "Which levels of government may set each law amount the engine tracks. A local body also needs its state's grant where the state law says so (checked separately for the minimum wage, income tax and sales tax). Read by draftBill: a bill a body has no power to pass is blocked with the law's reason.",
+  "series": {
+    "minimum-wage": {
+      "levels": ["federal", "state", "local"],
+      "source": "29 U.S.C. § 206 (federal floor); 29 U.S.C. § 218 (states and places may set higher)"
+    },
+    "income-tax": {
+      "levels": ["federal", "state", "local"],
+      "source": "U.S. Const. amend. XVI; state constitutions; local income taxes only where state law authorizes them"
+    },
+    "sales-tax": {
+      "levels": ["state", "local"],
+      "source": "No federal sales tax; local sales taxes only where state law authorizes them"
+    },
+    "property-tax": {
+      "levels": ["state", "local"],
+      "source": "Property taxes are levied by local governments under state law (U.S. Const. art. I, § 9 bars an unapportioned federal direct tax)"
+    },
+    "snap-maximum": {
+      "levels": ["federal"],
+      "source": "7 U.S.C. § 2017 (allotments set federally from the Thrifty Food Plan)"
+    },
+    "medicaid-match": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 1396d(b) (the federal medical assistance percentage)"
+    },
+    "unemployment-weekly-maximum": {
+      "levels": ["state"],
+      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+    },
+    "unemployment-insurance": {
+      "levels": ["state"],
+      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+    },
+    "social-security-tax": {
+      "levels": ["federal"],
+      "source": "26 U.S.C. § 3101(a)"
+    },
+    "medicare-tax": {
+      "levels": ["federal"],
+      "source": "26 U.S.C. § 3101(b)"
+    }
+  }
+}

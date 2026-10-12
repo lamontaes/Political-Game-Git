@@ -12,6 +12,7 @@ import {
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import {
   prepareModuleState,
   installModuleState,
@@ -989,6 +990,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     closeBusinessByChoice(input) {
       return closeBusinessByChoice(core, api, input);
+    },
+    setPurchaseTax(input) {
+      setPurchaseTax(core, input);
+    },
+    endPurchaseTax(id) {
+      endPurchaseTax(core, id);
     },
     closeEmployer(id, sourceId, reason) {
       return closeEmployer(core, api, id, sourceId, reason);
