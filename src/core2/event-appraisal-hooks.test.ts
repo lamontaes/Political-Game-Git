@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { advanceDate } from "./calendar";
 import { chooseAct } from "./choice";
+import { closenessAfter } from "./closeness";
+import { PEOPLE_MODULE } from "./modules/people";
 import { DEFAULT_DATA } from "./data";
 import { appraiseEvent } from "./emotion";
 import { LIFE_MODULE } from "./modules/life";
@@ -507,7 +509,13 @@ describe("ordered relationship mutation notices", () => {
       {
         measure: "level",
         before: firstLevel,
-        after: Math.tanh(firstLevel - parameter("one")),
+        // P15: one hour together, then one hour taken away the same day.
+        after: closenessAfter(
+          core,
+          { level: firstLevel, lastContactDate: date, kind: "contact" },
+          "contact",
+          -parameter("one"),
+        ),
       },
     ]);
     expect(Reflect.set(seen[0]!.changes[0]!, "after", parameter("zero"))).toBe(
@@ -697,7 +705,7 @@ describe("saved actual relationship change causes", () => {
   const tieId = [actorId, otherId].sort().join(":");
 
   it("saves an outsider's original contact choice involving a focus contact without a new event or full quiet score list", () => {
-    const core = world([LIFE_MODULE], DEFAULT_DATA, false),
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
       api = coreAPI(core);
     core.focusPersonIds.add(otherId);
     const decision = actualChoice(core, "contact"),
@@ -714,10 +722,14 @@ describe("saved actual relationship change causes", () => {
       evidence = row.latestChange!;
     expect(evidence.cause).toBe("chosen-act");
     expect(evidence.actionId).toBe(decision.selected!.definition.id);
-    expect(evidence.requestedChange).toBe(parameter("relationContactGain"));
+    // P15: a contact's change is its hours of time together.
+    const hours =
+      decision.selected!.effortHours ??
+      parameter(decision.selected!.definition.effortParameter);
+    expect(evidence.requestedChange).toBe(hours);
     expect(evidence.before).toEqual({ level: parameter("zero") });
     expect(evidence.after).toEqual({
-      level: Math.tanh(parameter("relationContactGain")),
+      level: closenessAfter(core, undefined, "contact", hours),
       lastContactDate: date,
     });
     expect(evidence.decision!.compactChoice).toEqual(decision.compactChoice);
@@ -811,7 +823,12 @@ describe("saved actual relationship change causes", () => {
     expect(second.requestedKind).toBe("coworker");
     expect(second.before.level).toBe(first.after.level);
     expect(second.after.level).toBe(
-      Math.tanh(first.after.level - parameter("one")),
+      closenessAfter(
+        core,
+        { level: first.after.level, lastContactDate: date, kind: "family" },
+        "coworker",
+        -parameter("one"),
+      ),
     );
     expect(
       second.sourceRecordRefs.every((ref) => core.people.has(ref.id)),
@@ -821,7 +838,7 @@ describe("saved actual relationship change causes", () => {
   });
 
   it("rejects mismatched date, actor and chosen target before changing the row, focus, indexes or notifications", () => {
-    const core = world([LIFE_MODULE], DEFAULT_DATA, false),
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
       api = coreAPI(core);
     const decision = actualChoice(core, "contact"),
       notices: RelationshipChangeNotice[] = [];
@@ -870,7 +887,7 @@ describe("saved actual relationship change causes", () => {
   });
 
   it("rejects getters, executable values and cycles before mutation while leaving getter counters at zero", () => {
-    const core = world([LIFE_MODULE], DEFAULT_DATA, false),
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
       api = coreAPI(core),
       decision = actualChoice(core, "contact");
     let calls = parameter("zero");
@@ -903,7 +920,7 @@ describe("saved actual relationship change causes", () => {
   });
 
   it("rejects a reflected late date drift before committing a stale relationship change", () => {
-    const core = world([LIFE_MODULE], DEFAULT_DATA, false),
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
       api = coreAPI(core),
       decision = actualChoice(core, "contact");
     let drifted = false;
@@ -932,7 +949,7 @@ describe("saved actual relationship change causes", () => {
 });
 
 it("keeps an outside-circle relationship result without saving change explanations", () => {
-  const core = world([LIFE_MODULE], DEFAULT_DATA, false),
+  const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
     api = coreAPI(core);
   api.relationship(
     actorId,
@@ -941,7 +958,14 @@ it("keeps an outside-circle relationship result without saving change explanatio
     parameter("relationContactGain"),
   );
   const row = core.relationships.get([actorId, otherId].sort().join(":"))!;
-  expect(row.level).toBe(Math.tanh(parameter("relationContactGain")));
+  expect(row.level).toBe(
+    closenessAfter(
+      core,
+      undefined,
+      "contact",
+      parameter("relationContactGain"),
+    ),
+  );
   expect(row.lastContactDate).toBe(date);
   expect(row.latestChange).toBeUndefined();
   expect(core.eventIds.size).toBe(parameter("zero"));

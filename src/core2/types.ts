@@ -229,6 +229,12 @@ export interface HouseholdInput {
   source: Source;
 }
 
+/** P15: why a closeness changed, the cause and the record behind it. */
+export interface RelationshipReason {
+  cause: string;
+  sourceId?: string;
+}
+
 /** Latest committed tie change; scores exist only when supplied by the actual choice. */
 export interface RelationshipChangeEvidence {
   version: "core2-relationship-change-v1";
@@ -247,6 +253,8 @@ export interface RelationshipChangeEvidence {
   sourceRecordRefs: readonly Readonly<{ kind: "person"; id: PersonId }>[];
   /** Full only under the existing chooser trace policy; quiet choices retain the compact pair. */
   decision?: Readonly<DecisionResult>;
+  /** P15: the cause and record of the change (a visit, a meeting), for the "why" view. */
+  reason?: Readonly<RelationshipReason>;
 }
 
 export interface Relationship {
@@ -258,6 +266,17 @@ export interface Relationship {
   lastContactDate: IsoDate;
   promise?: string;
   latestChange?: Readonly<RelationshipChangeEvidence>;
+}
+
+/** P15 part 5: a real shared moment where two people first meet. */
+export interface Encounter {
+  /** Where they met: the host's home (household ID) or the group's place. */
+  placeId: string;
+  /** The record of the moment (a visit, a membership). */
+  sourceId: string;
+  cause: string;
+  /** Hours spent together, the first tie's time together. */
+  hours: number;
 }
 
 export interface ActionDefinition {
@@ -338,6 +357,8 @@ export interface RelationshipChangeNotice {
   requestedKind: Relationship["kind"];
   created: boolean;
   changes: readonly RelationshipMeasureChange[];
+  /** P15: the saved reason for this change, when the writer recorded one. */
+  reason?: RelationshipReason;
 }
 
 export type CoreRelationshipListener = (
@@ -1091,7 +1112,15 @@ export interface CoreAPI {
     kind: Relationship["kind"],
     change: number,
     decision?: DecisionResult,
+    reason?: RelationshipReason,
   ): void;
+  /**
+   * P15 part 5: two people who did not know each other meet in a real shared
+   * moment. Each enters the other's circle, learns the name and the dated
+   * meeting, and their first tie holds the hours spent together. Returns
+   * false when they already knew each other.
+   */
+  meet(actorId: PersonId, otherId: PersonId, encounter: Encounter): boolean;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;
   /** External consumers can subscribe without owning or scanning world state. */

@@ -18,6 +18,7 @@
     "institutionSourceId",
     "directoryAsOf"
   ],
+  "copiedContextFields": ["schoolName"],
   "factKind": "social:generated-school-acquaintance",
   "relationshipBasis": "generated-school-peer-group",
   "relationship": "historical-acquaintance",
