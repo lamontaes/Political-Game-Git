@@ -4445,5 +4445,16 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
+  },
+  "traitLeanScale": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The trait lean difference between two options that counts as a full-strength pull (1) in a formula decision. Starting value: the largest lean difference across generated adults in a 1,200-person drawn town is about 0.6 to 0.7 (OPUS-TRAITS probe, Oct 12, 2026), so the strongest personalities reach about 1, the range of the hand-picked trait sums it replaces.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "trait lean difference",
+      "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
+    }
   }
 }
