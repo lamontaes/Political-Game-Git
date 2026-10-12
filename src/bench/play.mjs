@@ -921,20 +921,27 @@ const sheets = {
             textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
           }),
         ),
-        el("div", {
-          textContent: `${race.namedTurnout} / ${race.namedEligible} · ${Object.entries(
-            race.exitPoll,
-          )
+        el(
+          "div",
+          {},
+          el("b", { textContent: "Turnout " }),
+          `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
+        ),
+        el(
+          "div",
+          {},
+          el("b", { textContent: "Exit poll " }),
+          Object.entries(race.exitPoll)
             .map(([k, n]) => `${k} ${n}`)
-            .join(" · ")}`,
-        }),
+            .join(" · "),
+        ),
         race.ballot
-          ? el("div", {
-              className: "mine",
-              textContent: race.ballot.voted
-                ? `${me.card?.name ?? ""}: ${race.ballot.choice ?? ""}`
-                : `${me.card?.name ?? ""}: —`,
-            })
+          ? el(
+              "div",
+              { className: "mine" },
+              el("b", { textContent: "You " }),
+              race.ballot.voted ? (race.ballot.choice ?? "") : "—",
+            )
           : "",
       ),
     );
