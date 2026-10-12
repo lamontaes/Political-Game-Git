@@ -234,6 +234,17 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
+    if (request.method === "GET" && url.pathname === "/api/progress") {
+      send(
+        200,
+        benchProgress(
+          requireCore(),
+          placeId,
+          url.searchParams.get("id") ?? undefined,
+        ),
+      );
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/api/seat") {
       send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
       return;

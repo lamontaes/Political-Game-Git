@@ -627,7 +627,12 @@ const sheets = {
   },
   async who() {
     const c = me.card;
+    const progress = await api(`/api/progress?id=${encodeURIComponent(me.id)}`);
+    const step = progress.steps.find(
+      (row) => row.step === progress.furthestReachedStep,
+    );
     return [
+      row("Golden path", step ? `${step.step}. ${step.label}` : "—"),
       row("Born", c.birthDate),
       row(
         "Home",
