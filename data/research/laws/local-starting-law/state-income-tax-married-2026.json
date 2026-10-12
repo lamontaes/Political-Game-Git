@@ -54,12 +54,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Alabama",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "b",
-          "c",
-          "uu"
-        ]
+        "footnotes": ["a", "b", "c", "uu"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -103,12 +98,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Arizona",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "e",
-          "f",
-          "u",
-          "vv"
-        ]
+        "footnotes": ["e", "f", "u", "vv"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -243,16 +233,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row California",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "h",
-          "j",
-          "k",
-          "l",
-          "m",
-          "n",
-          "nn"
-        ]
+        "footnotes": ["a", "h", "j", "k", "l", "m", "n", "nn"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": true
@@ -278,10 +259,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Colorado",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "o"
-        ]
+        "footnotes": ["a", "o"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -339,12 +317,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Connecticut",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "i",
-          "p",
-          "q",
-          "r"
-        ]
+        "footnotes": ["i", "p", "q", "r"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -396,12 +369,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Delaware",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "h",
-          "m",
-          "s"
-        ]
+        "footnotes": ["a", "h", "m", "s"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -534,10 +502,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Hawaii",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "m",
-          "t"
-        ]
+        "footnotes": ["m", "t"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -565,12 +530,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Idaho",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "j",
-          "m",
-          "o",
-          "u"
-        ]
+        "footnotes": ["j", "m", "o", "u"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": true
@@ -596,17 +556,11 @@
         "amount": 2925,
         "form": "deduction"
       },
-      "notes": [
-        "Illinois exemption not allowed above $500,000 AGI (MFJ)."
-      ],
+      "notes": ["Illinois exemption not allowed above $500,000 AGI (MFJ)."],
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Illinois",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "d",
-          "m",
-          "v"
-        ]
+        "footnotes": ["d", "m", "v"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -635,11 +589,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Indiana",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "m",
-          "w"
-        ]
+        "footnotes": ["a", "m", "w"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -674,11 +624,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Iowa",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "h",
-          "o"
-        ]
+        "footnotes": ["a", "h", "o"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -714,10 +660,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Kansas",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "m"
-        ]
+        "footnotes": ["a", "m"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -743,11 +686,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Kentucky",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "d",
-          "z"
-        ]
+        "footnotes": ["a", "d", "z"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -770,9 +709,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Louisiana",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "d"
-        ]
+        "footnotes": ["d"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -817,14 +754,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Maine",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "u",
-          "y",
-          "bb",
-          "ll",
-          "vv",
-          "ww"
-        ]
+        "footnotes": ["u", "y", "bb", "ll", "vv", "ww"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": true
@@ -897,13 +827,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Maryland",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "m",
-          "x",
-          "vv",
-          "aa"
-        ]
+        "footnotes": ["a", "m", "x", "vv", "aa"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -939,10 +863,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Massachusetts",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "j",
-          "rr"
-        ]
+        "footnotes": ["j", "rr"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": true
@@ -971,10 +892,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Michigan",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "d"
-        ]
+        "footnotes": ["a", "d"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1021,13 +939,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Minnesota",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "d",
-          "bb",
-          "cc",
-          "oo",
-          "vv"
-        ]
+        "footnotes": ["d", "bb", "cc", "oo", "vv"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1103,19 +1015,11 @@
       "personalExemptionSingle": null,
       "personalExemptionMarriedJoint": null,
       "personalExemptionDependent": null,
-      "notes": [
-        "Deduction/exemption tied to the federal amount."
-      ],
+      "notes": ["Deduction/exemption tied to the federal amount."],
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Missouri",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "b",
-          "m",
-          "u",
-          "bb"
-        ]
+        "footnotes": ["a", "b", "m", "u", "bb"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1150,11 +1054,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Montana",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "o",
-          "u",
-          "bb"
-        ]
+        "footnotes": ["o", "u", "bb"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1198,12 +1098,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Nebraska",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "d",
-          "h",
-          "m",
-          "bb"
-        ]
+        "footnotes": ["d", "h", "m", "bb"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1289,9 +1184,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row New Jersey",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a"
-        ]
+        "footnotes": ["a"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1341,12 +1234,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row New Mexico",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "m",
-          "o",
-          "u",
-          "jj"
-        ]
+        "footnotes": ["m", "o", "u", "jj"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1411,10 +1299,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row New York",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "i"
-        ]
+        "footnotes": ["a", "i"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1469,11 +1354,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row North Dakota",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "j",
-          "o",
-          "u"
-        ]
+        "footnotes": ["j", "o", "u"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": true
@@ -1505,12 +1386,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Ohio",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "bb",
-          "dd",
-          "pp"
-        ]
+        "footnotes": ["a", "bb", "dd", "pp"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1550,9 +1426,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Oklahoma",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "m"
-        ]
+        "footnotes": ["m"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1599,16 +1473,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Oregon",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a",
-          "b",
-          "d",
-          "h",
-          "m",
-          "bb",
-          "ee",
-          "nn"
-        ]
+        "footnotes": ["a", "b", "d", "h", "m", "bb", "ee", "nn"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1628,9 +1493,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Pennsylvania",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "a"
-        ]
+        "footnotes": ["a"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1673,11 +1536,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Rhode Island",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "d",
-          "bb",
-          "ff"
-        ]
+        "footnotes": ["d", "bb", "ff"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -1870,12 +1729,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Vermont",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "j",
-          "n",
-          "hh",
-          "mm"
-        ]
+        "footnotes": ["j", "n", "hh", "mm"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": true
@@ -1919,9 +1773,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Virginia",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "m"
-        ]
+        "footnotes": ["m"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -2074,12 +1926,7 @@
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Wisconsin",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "d",
-          "m",
-          "bb",
-          "ii"
-        ]
+        "footnotes": ["d", "m", "bb", "ii"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false
@@ -2137,15 +1984,11 @@
       "personalExemptionSingle": null,
       "personalExemptionMarriedJoint": null,
       "personalExemptionDependent": null,
-      "notes": [
-        "Deduction/exemption tied to the federal amount."
-      ],
+      "notes": ["Deduction/exemption tied to the federal amount."],
       "source": {
         "title": "Tax Foundation, State Individual Income Tax Rates and Brackets, 2026 (as of January 1, 2026), table row Washington DC",
         "url": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
-        "footnotes": [
-          "u"
-        ]
+        "footnotes": ["u"]
       },
       "retrievedDate": "2026-10-12",
       "estimate": false

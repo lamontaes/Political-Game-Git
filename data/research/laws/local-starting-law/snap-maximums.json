@@ -30,9 +30,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -60,17 +58,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -103,9 +96,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -133,17 +124,12 @@
           "8": 2352
         },
         "additionalPersonAboveEight": 287,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 4965,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -174,9 +160,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -204,17 +188,12 @@
           "8": 2999
         },
         "additionalPersonAboveEight": 366,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 6331,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -245,9 +224,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -275,17 +252,12 @@
           "8": 3650
         },
         "additionalPersonAboveEight": 446,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 7705,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -318,9 +290,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -348,17 +318,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -391,9 +356,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -421,17 +384,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -464,9 +422,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -494,17 +450,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -537,9 +488,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -567,17 +516,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -610,9 +554,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -640,17 +582,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -683,9 +620,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -713,17 +648,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -756,9 +686,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -786,17 +714,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -829,9 +752,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -859,17 +780,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -902,9 +818,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -932,17 +846,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -975,9 +884,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1005,17 +912,12 @@
           "8": 2714
         },
         "additionalPersonAboveEight": 331,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 5729,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1048,9 +950,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1078,17 +978,12 @@
           "8": 2979
         },
         "additionalPersonAboveEight": 364,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 6289,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          5
-        ],
+        "sourcePages": [5],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1121,9 +1016,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1151,17 +1044,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1194,9 +1082,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1224,17 +1110,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1267,9 +1148,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1297,17 +1176,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1340,9 +1214,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1370,17 +1242,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1413,9 +1280,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1443,17 +1308,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1486,9 +1346,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1516,17 +1374,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1559,9 +1412,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1589,17 +1440,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1632,9 +1478,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1662,17 +1506,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1705,9 +1544,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1735,17 +1572,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1778,9 +1610,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1808,17 +1638,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1851,9 +1676,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1881,17 +1704,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1924,9 +1742,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1954,17 +1770,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -1997,9 +1808,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2027,17 +1836,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2070,9 +1874,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2100,17 +1902,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2143,9 +1940,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2173,17 +1968,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2216,9 +2006,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2246,17 +2034,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2289,9 +2072,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2319,17 +2100,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2362,9 +2138,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2392,17 +2166,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2435,9 +2204,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2465,17 +2232,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2508,9 +2270,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2538,17 +2298,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2581,9 +2336,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2611,17 +2364,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2654,9 +2402,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2684,17 +2430,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2727,9 +2468,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2757,17 +2496,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2800,9 +2534,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2830,17 +2562,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2873,9 +2600,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2903,17 +2628,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2946,9 +2666,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -2976,17 +2694,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3019,9 +2732,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3049,17 +2760,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3092,9 +2798,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3122,17 +2826,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3165,9 +2864,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3195,17 +2892,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3238,9 +2930,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3268,17 +2958,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3311,9 +2996,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3341,17 +3024,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3384,9 +3062,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3414,17 +3090,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3457,9 +3128,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3487,17 +3156,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3530,9 +3194,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3560,17 +3222,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3603,9 +3260,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3633,17 +3288,12 @@
           "8": 2367
         },
         "additionalPersonAboveEight": 289,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 4997,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3676,9 +3326,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3706,17 +3354,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3749,9 +3392,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3779,17 +3420,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3822,9 +3458,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3852,17 +3486,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3895,9 +3524,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3925,17 +3552,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3968,9 +3590,7 @@
         "effectiveDate": "2025-10-01",
         "endDateExclusive": "2026-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",
@@ -3998,17 +3618,12 @@
           "8": 1841
         },
         "additionalPersonAboveEight": 225,
-        "additionalPersonRange": [
-          9,
-          17
-        ],
+        "additionalPersonRange": [9, 17],
         "maximumAtEighteenOrMore": 3887,
         "effectiveDate": "2026-10-01",
         "endDateExclusive": "2027-10-01",
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
-        "sourcePages": [
-          4
-        ],
+        "sourcePages": [4],
         "retrievalDate": "2026-10-10",
         "estimate": false,
         "classification": "SOURCED",

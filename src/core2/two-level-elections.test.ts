@@ -104,6 +104,9 @@ describe("elections in the two-level world", () => {
     ).filter((c) => c.electionDate === "2026-11-03")) {
       const result = resultOf(api, contest.id);
       if (!result) continue;
+      // No one wins on no votes (audit 2, item 4).
+      if (Object.values(result.totals).every((n) => n === 0))
+        expect(result.winnerId, contest.title).toBeNull();
       const filings = ballot(api, contest.id);
       expect(result.countedEligible).toBeGreaterThan(0);
       const sides = filings.map((f) => partySide(f.party ?? null));

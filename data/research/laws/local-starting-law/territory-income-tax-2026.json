@@ -4,15 +4,8 @@
   "taxYear": 2026,
   "about": "Which income tax applies to bona fide residents of each U.S. territory in 2026, with the rate schedules where the territory has its own, and the federal 2026 schedule where it mirrors the IRC. Bracket entries use the same lower-bound convention as state-income-tax-2026.json (overSingle / overMarriedJoint).",
   "overview": {
-    "mirror": [
-      "US-GU",
-      "US-VI",
-      "US-MP"
-    ],
-    "ownCode": [
-      "US-PR",
-      "US-AS"
-    ],
+    "mirror": ["US-GU", "US-VI", "US-MP"],
+    "ownCode": ["US-PR", "US-AS"],
     "source": {
       "title": "IRS Publication 570, Tax Guide for Individuals With Income From U.S. Possessions",
       "url": "https://www.irs.gov/publications/p570"

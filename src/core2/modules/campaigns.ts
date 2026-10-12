@@ -767,9 +767,10 @@ export function giveSpeech(
     causes.push(cause);
     retell(api, withStatements, listener, cause);
   }
-  for (const [index, stance] of input.statements.entries())
+  for (const [index, stance] of input.statements.entries()) {
+    const promiseId = `promise:${campaign.candidateId}:${api.state.date}:${index}`;
     table(api, "promises").put({
-      id: `promise:${campaign.candidateId}:${api.state.date}:${index}`,
+      id: promiseId,
       candidateId: campaign.candidateId,
       contestId: campaign.contestId,
       date: api.state.date,
@@ -777,6 +778,16 @@ export function giveSpeech(
       venue: input.venue,
       audience: causes.length,
     } as unknown as ModuleRow);
+    // Who heard it: only they can hold the promise against the speaker.
+    for (const cause of causes)
+      api.observe(cause.voterId, {
+        key: promiseId,
+        value: "heard",
+        learnedAt: api.state.date,
+        sourceId: cause.id,
+        access: "perceived",
+      });
+  }
   save(api, {
     ...campaignFor(api, input.filingId),
     platform: withStatements.platform,

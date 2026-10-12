@@ -173,6 +173,8 @@ export function recordAppeal(
   }
   for (const status of promisesOf(api, officeholderId)) {
     if (status.status === "open") continue;
+    // A promise only counts with a voter who heard it made.
+    if (!api.knows(voter.id, status.promise.id)) continue;
     const own = personStance(lean, status.promise.stance.question);
     const agreed =
       Math.sign(own) === Math.sign(status.promise.stance.position) && own !== 0;
