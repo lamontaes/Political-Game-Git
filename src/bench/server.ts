@@ -118,20 +118,19 @@ const server = createServer(async (request, response) => {
       if (building) throw new Error("Opening generation is already running.");
       building = true;
       try {
+        // The whole town, two-level (OPUS-CORE): full people for the
+        // player's circle and officials, counts for everyone else.
         const world = buildBenchWorld(
           url.searchParams.get("seed") ?? "",
           url.searchParams.get("date") ?? "",
-          { minimumPeople: Number(url.searchParams.get("size")) || 2000 },
+          { twoLevel: true },
         );
         core = world.core;
         director = world.director;
         player = new BenchPlayer(world.core, world.director);
         conversation = undefined;
         placeId = world.placeId;
-        // A new life starts at the golden path's first step: the resident
-        // at or nearest to 18.
-        const entrant = benchProgress(core, placeId).steps[0]?.evidence;
-        if (!entrant) throw new Error("No resident at or near 18 here.");
+        const entrant = { personId: world.playerId! };
         player.select(entrant.personId);
         send(200, {
           personId: entrant.personId,

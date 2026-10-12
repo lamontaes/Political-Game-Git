@@ -22,7 +22,8 @@ import {
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import type { Raster } from "../presentation/appearance-engine/raster";
 import type { CoreState, PersonState } from "../core2/types";
-import { coreAPI } from "../core2/state";
+import { coreAPI, fillInPerson } from "../core2/state";
+import { residentsRuntime } from "../core2/modules/residents";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -178,7 +179,7 @@ function presentIds(
   if (why === "work-shift" || why === "attend-scheduled-work-date-segment") {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job) return [];
-    return [...core.jobs.values()]
+    const full = [...core.jobs.values()]
       .filter(
         (row) =>
           row.organizationId === job.organizationId &&
@@ -188,6 +189,16 @@ function presentIds(
       .map((row) => row.personId)
       .filter(alive)
       .sort();
+    // Two-level world: coworkers still in the counts are met here, so they
+    // are filled in (OPUS-CORE's fillInPerson), up to the room's spots.
+    const room = (backdropStaging(place)?.spots.length ?? 1) - 1;
+    const counted = [...(residentsRuntime(core)?.jobs.values() ?? [])]
+      .filter((row) => row.organizationId === job.organizationId)
+      .map((row) => row.personId)
+      .sort()
+      .slice(0, Math.max(room - full.length, 0));
+    for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
+    return [...full, ...counted.filter(alive)];
   }
   if (
     targetId &&
