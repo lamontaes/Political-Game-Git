@@ -94,6 +94,20 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12 20:12 UTC: BOARD next, item 1: campaign interviews (`src/core2/modules/press.ts`):
+  - **Outlets:** each town's local outlets are records sized from its state's counts: its county's share of the state's newspapers and news radio, and one market's television stations, at most 4 of each kind (tunable). Research in `data/research/press/local-news-2026.json`: the national totals are sourced (Medill 2024, FCC 2025, Pew 2024); the per-state splits and the age-band habits are estimates and marked that way. Names wait on the English engine (stopgap SG-GOV-press-outlet-names).
+  - **Who follows them:** in each age band, the share that follows that kind of local news (Pew) are the band's most dutiful and deliberate adults.
+  - **Interviews:** a candidate asks an outlet for one (`requestInterview`). The outlet says yes while its reporter has room this week; television only for a newsworthy candidate (name recognition, incumbency, share of the money raised). In the last 6 weeks before a general election, outlets seek out the candidates on the ballot, most newsworthy first.
+  - **Questions:** a promise the candidate broke, the question where they differ most from a rival, and the most divisive question in play. Each answer (`answerInterview`) is a promise on the record that only the audience heard; a declined question is recorded. Readers and viewers react with a recorded cause, and the published interview is a public record the news carries. Other candidates answer from their own platform, unless shy and averse to both conflict and risk.
+  - **Ads:** ads now buy time from the town's widest-reaching outlet and reach its closest followers, replacing the fewest-work-hours stand-in wherever the press is open. SG-GOV-ad-reach-media-habits stays open for worlds without it.
+  - **California town (seed ccfe6a6d…, place 0607260):** 4 newspapers (about 30 readers each of 301 adults), 1 news radio station (132), 4 television stations (about 42 each). A newspaper interview reached 30 readers. In the final weeks the rival gave 9 interviews and the player was invited by 5 outlets.
+  - **Senate seats:** each now comes up in its real class year (from the Senate-classes data, matched by party as in the world's races). Before, seat 0 always came up in 2026, which gave California a 2026 Senate race.
+  - **Tests:** new `press.test.ts`.
+    - The voting test now accepts a tie or a zero-vote race with no winner (both candidates run on one platform). It has a 5-minute limit because it simulates most of a year (66 seconds with or without this change).
+    - The offices, elections-filing, world-races, campaigns, two-level, parties and press tests pass.
+    - Seen but not fixed: the offices vacancy test sometimes seats the "dead" holder again, because it emits a death without marking the person dead (a test artifact). A Rhode Island draw of the door calibration came out at 10% contact against a 15% floor (a small sample).
+  - **Next:** public meetings, hearings, town halls and debates.
+
 - 2026-10-12 19:14 UTC: BOARD next, item 4: the researched yes/no policy answers are law at the opening:
   - **The answers are law:** each state's answers (57 questions answered for most states; 14 research files) load as state law rows in force on day one, marked estimates where the research estimated them. The legislature, ballot measures and the bill catalog already read the same answers, so a bill now repeals a real starting law instead of a remembered answer.
   - **Policies already in force reach people from day one:** when law effects open, every policy in force runs through its engine once. Minnesota: 28 policies in force, all 28 reached people on day one. Missouri: 20 of 22; term limits and the lobbying ban bind officeholders, and that run had no offices open.

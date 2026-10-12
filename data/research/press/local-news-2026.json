@@ -1,0 +1,807 @@
+{
+  "meta": {
+    "note": "Per-state values are ESTIMATED allocations of sourced national totals; replace with FCC LMS / Medill state data when available.",
+    "retrieved": "2026-10-12"
+  },
+  "sources": [
+    {
+      "id": "medill2024",
+      "title": "Medill Local News Initiative, The State of Local News 2024 (national total ~5,600 newspapers, 80% weeklies; per-state values ESTIMATED by allocation)",
+      "url": "https://localnewsinitiative.northwestern.edu/projects/state-of-local-news/2024/",
+      "retrieved": "2026-10-12"
+    },
+    {
+      "id": "fcc2025",
+      "title": "FCC Public Notice DA 26-49, Broadcast Station Totals as of Dec 31, 2025 (AM 4,342; FM comm 6,589; FM edu 4,755; full-power TV 1,777)",
+      "url": "https://docs.fcc.gov/public/attachments/DA-26-49A1.pdf",
+      "retrieved": "2026-10-12"
+    },
+    {
+      "id": "pew2024",
+      "title": "Pew Research Center, Americans' Changing Relationship With Local News (May 2024) and Sept 2024 short read (local TV 64%)",
+      "url": "https://www.pewresearch.org/journalism/2024/05/07/attention-to-local-news/",
+      "retrieved": "2026-10-12"
+    },
+    {
+      "id": "pewpol2024",
+      "title": "Pew, Consumption and sources of local political news (Jul 2024; local outlets 66% overall, 75% age 65+, 53% age 18-29)",
+      "url": "https://www.pewresearch.org/journalism/2024/07/24/consumption-and-sources-of-local-political-news/",
+      "retrieved": "2026-10-12"
+    }
+  ],
+  "places": {
+    "US-AL": {
+      "newspapers": 78,
+      "tvStations": 31,
+      "radioStations": 384,
+      "tvMarkets": 8,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-AK": {
+      "newspapers": 21,
+      "tvStations": 22,
+      "radioStations": 120,
+      "tvMarkets": 3,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-AZ": {
+      "newspapers": 56,
+      "tvStations": 31,
+      "radioStations": 216,
+      "tvMarkets": 4,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-AR": {
+      "newspapers": 82,
+      "tvStations": 24,
+      "radioStations": 320,
+      "tvMarkets": 7,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-CA": {
+      "newspapers": 335,
+      "tvStations": 132,
+      "radioStations": 799,
+      "tvMarkets": 14,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-CO": {
+      "newspapers": 104,
+      "tvStations": 38,
+      "radioStations": 272,
+      "tvMarkets": 6,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-CT": {
+      "newspapers": 41,
+      "tvStations": 13,
+      "radioStations": 104,
+      "tvMarkets": 3,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-DE": {
+      "newspapers": 9,
+      "tvStations": 3,
+      "radioStations": 32,
+      "tvMarkets": 2,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-DC": {
+      "newspapers": 9,
+      "tvStations": 11,
+      "radioStations": 20,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-FL": {
+      "newspapers": 186,
+      "tvStations": 99,
+      "radioStations": 639,
+      "tvMarkets": 12,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-GA": {
+      "newspapers": 112,
+      "tvStations": 46,
+      "radioStations": 479,
+      "tvMarkets": 10,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-HI": {
+      "newspapers": 16,
+      "tvStations": 15,
+      "radioStations": 80,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-ID": {
+      "newspapers": 41,
+      "tvStations": 19,
+      "radioStations": 160,
+      "tvMarkets": 6,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-IL": {
+      "newspapers": 246,
+      "tvStations": 55,
+      "radioStations": 519,
+      "tvMarkets": 11,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-IN": {
+      "newspapers": 142,
+      "tvStations": 38,
+      "radioStations": 416,
+      "tvMarkets": 9,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-IA": {
+      "newspapers": 171,
+      "tvStations": 27,
+      "radioStations": 352,
+      "tvMarkets": 9,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-KS": {
+      "newspapers": 134,
+      "tvStations": 27,
+      "radioStations": 304,
+      "tvMarkets": 7,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-KY": {
+      "newspapers": 104,
+      "tvStations": 33,
+      "radioStations": 376,
+      "tvMarkets": 10,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-LA": {
+      "newspapers": 82,
+      "tvStations": 35,
+      "radioStations": 336,
+      "tvMarkets": 8,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-ME": {
+      "newspapers": 30,
+      "tvStations": 15,
+      "radioStations": 160,
+      "tvMarkets": 3,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MD": {
+      "newspapers": 52,
+      "tvStations": 16,
+      "radioStations": 144,
+      "tvMarkets": 4,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MA": {
+      "newspapers": 112,
+      "tvStations": 31,
+      "radioStations": 224,
+      "tvMarkets": 4,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MI": {
+      "newspapers": 171,
+      "tvStations": 44,
+      "radioStations": 495,
+      "tvMarkets": 11,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MN": {
+      "newspapers": 209,
+      "tvStations": 33,
+      "radioStations": 376,
+      "tvMarkets": 7,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MS": {
+      "newspapers": 75,
+      "tvStations": 24,
+      "radioStations": 304,
+      "tvMarkets": 8,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MO": {
+      "newspapers": 209,
+      "tvStations": 40,
+      "radioStations": 416,
+      "tvMarkets": 10,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MT": {
+      "newspapers": 60,
+      "tvStations": 22,
+      "radioStations": 176,
+      "tvMarkets": 8,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NE": {
+      "newspapers": 112,
+      "tvStations": 22,
+      "radioStations": 200,
+      "tvMarkets": 7,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NV": {
+      "newspapers": 22,
+      "tvStations": 20,
+      "radioStations": 96,
+      "tvMarkets": 5,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NH": {
+      "newspapers": 26,
+      "tvStations": 9,
+      "radioStations": 88,
+      "tvMarkets": 3,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NJ": {
+      "newspapers": 97,
+      "tvStations": 11,
+      "radioStations": 128,
+      "tvMarkets": 3,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NM": {
+      "newspapers": 34,
+      "tvStations": 22,
+      "radioStations": 176,
+      "tvMarkets": 4,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NY": {
+      "newspapers": 283,
+      "tvStations": 93,
+      "radioStations": 623,
+      "tvMarkets": 14,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-NC": {
+      "newspapers": 127,
+      "tvStations": 44,
+      "radioStations": 519,
+      "tvMarkets": 10,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-ND": {
+      "newspapers": 48,
+      "tvStations": 16,
+      "radioStations": 120,
+      "tvMarkets": 5,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-OH": {
+      "newspapers": 216,
+      "tvStations": 55,
+      "radioStations": 543,
+      "tvMarkets": 12,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-OK": {
+      "newspapers": 112,
+      "tvStations": 31,
+      "radioStations": 320,
+      "tvMarkets": 5,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-OR": {
+      "newspapers": 75,
+      "tvStations": 31,
+      "radioStations": 240,
+      "tvMarkets": 5,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-PA": {
+      "newspapers": 246,
+      "tvStations": 60,
+      "radioStations": 599,
+      "tvMarkets": 11,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-RI": {
+      "newspapers": 15,
+      "tvStations": 5,
+      "radioStations": 32,
+      "tvMarkets": 2,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-SC": {
+      "newspapers": 63,
+      "tvStations": 27,
+      "radioStations": 320,
+      "tvMarkets": 7,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-SD": {
+      "newspapers": 75,
+      "tvStations": 16,
+      "radioStations": 120,
+      "tvMarkets": 5,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-TN": {
+      "newspapers": 112,
+      "tvStations": 42,
+      "radioStations": 447,
+      "tvMarkets": 9,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-TX": {
+      "newspapers": 417,
+      "tvStations": 143,
+      "radioStations": 1039,
+      "tvMarkets": 20,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-UT": {
+      "newspapers": 41,
+      "tvStations": 20,
+      "radioStations": 160,
+      "tvMarkets": 3,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-VT": {
+      "newspapers": 19,
+      "tvStations": 7,
+      "radioStations": 80,
+      "tvMarkets": 2,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-VA": {
+      "newspapers": 97,
+      "tvStations": 36,
+      "radioStations": 400,
+      "tvMarkets": 10,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-WA": {
+      "newspapers": 112,
+      "tvStations": 33,
+      "radioStations": 280,
+      "tvMarkets": 6,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-WV": {
+      "newspapers": 52,
+      "tvStations": 20,
+      "radioStations": 256,
+      "tvMarkets": 8,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-WI": {
+      "newspapers": 186,
+      "tvStations": 42,
+      "radioStations": 432,
+      "tvMarkets": 10,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-WY": {
+      "newspapers": 26,
+      "tvStations": 11,
+      "radioStations": 104,
+      "tvMarkets": 5,
+      "estimated": {
+        "newspapers": "national total sourced (Medill 2024); per-state split estimated from memory of Medill state counts, scaled to ~5,500 for states",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-PR": {
+      "newspapers": 12,
+      "tvStations": 22,
+      "radioStations": 104,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "estimated from local news sources/knowledge of known outlets; not in Medill state table",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-GU": {
+      "newspapers": 3,
+      "tvStations": 4,
+      "radioStations": 16,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "estimated from local news sources/knowledge of known outlets; not in Medill state table",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-VI": {
+      "newspapers": 3,
+      "tvStations": 3,
+      "radioStations": 16,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "estimated from local news sources/knowledge of known outlets; not in Medill state table",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-AS": {
+      "newspapers": 2,
+      "tvStations": 3,
+      "radioStations": 4,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "estimated from local news sources/knowledge of known outlets; not in Medill state table",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    },
+    "US-MP": {
+      "newspapers": 3,
+      "tvStations": 2,
+      "radioStations": 8,
+      "tvMarkets": 1,
+      "estimated": {
+        "newspapers": "estimated from local news sources/knowledge of known outlets; not in Medill state table",
+        "tvStations": "national total sourced (FCC 1,777); per-state split estimated and scaled to total",
+        "radioStations": "national total sourced (FCC 15,686 AM+FM+edu); per-state split estimated and scaled to total",
+        "tvMarkets": "approximate count of Nielsen DMAs overlapping the state, from general knowledge"
+      },
+      "sourceIds": ["medill2024", "fcc2025"]
+    }
+  },
+  "habits": {
+    "national": {
+      "localTv": 0.64,
+      "localNewspapers": 0.45,
+      "localRadio": 0.5,
+      "sourceIds": ["pew2024"],
+      "estimated": {
+        "localTv": "sourced: 64% (Pew Jan 2024 survey)",
+        "localNewspapers": "estimated: Pew publishes this in its local news fact sheet; not retrieved",
+        "localRadio": "estimated: not retrieved"
+      }
+    },
+    "byAge": {
+      "18-29": {
+        "localTv": 0.48,
+        "localNewspapers": 0.38,
+        "localRadio": 0.42
+      },
+      "30-49": {
+        "localTv": 0.58,
+        "localNewspapers": 0.42,
+        "localRadio": 0.52
+      },
+      "50-64": {
+        "localTv": 0.71,
+        "localNewspapers": 0.47,
+        "localRadio": 0.54
+      },
+      "65+": {
+        "localTv": 0.8,
+        "localNewspapers": 0.55,
+        "localRadio": 0.5
+      },
+      "estimated": "All age-band shares estimated from Pew's published age gaps (local political news from local outlets: 53% age 18-29 vs 75% age 65+; very-close following 9% vs 35%); not exact Pew figures.",
+      "sourceIds": ["pew2024", "pewpol2024"]
+    }
+  },
+  "staff": {
+    "journalistsPerNewspaper": 5,
+    "journalistsPerTvStationNewsroom": 35,
+    "estimated": {
+      "journalistsPerNewspaper": "estimated ~5 from roughly 25-30k newspaper newsroom jobs over ~5,600 papers (Pew/Medill; weeklies often 1-3)",
+      "journalistsPerTvStationNewsroom": "estimated ~35 from RTDNA/Hofstra survey typical average; not retrieved"
+    }
+  }
+}
