@@ -61,6 +61,18 @@ const pending = new WeakMap<
   { role: "offer" | "take" | "tell"; values: Record<string, number> }
 >();
 const journalRecords = new WeakMap<object, Map<string, unknown>>();
+/** People party to a taken bribe, rebuilt from the table when first read. */
+const partySets = new WeakMap<object, Set<PersonId>>();
+function partiesOf(api: CoreAPI): Set<PersonId> {
+  let set = partySets.get(api.state);
+  if (!set) {
+    set = new Set();
+    for (const row of table(api, "crimes").rows() as unknown as CrimeRecord[])
+      if (row.taken) set.add(row.offererId).add(row.officialId);
+    partySets.set(api.state, set);
+  }
+  return set;
+}
 
 function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
   for (const id of api.state.relationshipsByPerson.get(a) ?? []) {
@@ -187,7 +199,10 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   };
   if (!offer.yes) return record;
   table(api, "crimes").put(record as unknown as { id: string });
-  if (record.taken) pay(api, record);
+  if (record.taken) {
+    pay(api, record);
+    partiesOf(api).add(record.offererId).add(record.officialId);
+  }
   // Both parties hold the act; no one else does.
   for (const personId of [ask.offererId, ask.officialId])
     api.observe(personId, {
@@ -290,6 +305,9 @@ export const corruptionModule: CoreModule = {
   },
   relationshipKinds: ["*"],
   onRelationshipChange(api, notice) {
+    // Most ties have no crime behind them: skip them without a table read.
+    const parties = partiesOf(api);
+    if (!parties.has(notice.actorId) || !parties.has(notice.otherId)) return;
     // A party to a taken bribe whose tie to the other sours may tell someone.
     const level = notice.changes.find((row) => row.measure === "level");
     if (!level || level.measure !== "level" || level.after >= level.before)
