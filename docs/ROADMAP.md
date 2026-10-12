@@ -129,4 +129,4 @@ Fifteen work orders, owner-approved Oct 10, 2026, in `docs/packages/M1-*.md` (ev
 
 ## Specs and packages
 
-Exact specs for every milestone, each with its test, are in `docs/roadmap/features.json` (failing until proven). Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.
+Exact specs for M0 and M1, each with its test, are in `docs/roadmap/features.json` (failing until proven). Draft specs for M2 to M7 are in `docs/roadmap/later-specs-draft.md`; the pillars build from them under "No stopping" (owner, Oct 12) until the owner approves them. Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.

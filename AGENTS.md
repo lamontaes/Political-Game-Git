@@ -22,7 +22,7 @@ This section overrides anything heavier elsewhere in this file, in `docs/package
 
 ## The team (owner, Oct 11, 2026)
 
-Long-lived Opus cloud sessions ("pillars") each own one area. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's blocked or out of usage. A checklist is an order of work, not a ceiling.
+Long-lived Opus cloud sessions ("pillars") each own one area. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's out of usage (see "No stopping" below). A checklist is an order of work, not a ceiling.
 
 | Session     | Owns                                                                                                                       | Model        |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ |
@@ -37,13 +37,14 @@ Long-lived Opus cloud sessions ("pillars") each own one area. Each works down it
 - Each session writes only in its own area, on its own branch. Changes to the core go through OPUS-CORE: ask on its PR, and it answers within the day.
 - Each session keeps one status file, `docs/coordination/<session>.md`, and is its only writer: its checklist, what it needs from others, and what the owner can play now. Only the CTO writes `docs/coordination/BOARD.md`. Cloud sessions can't reliably message each other, so the CTO relays.
 - Codex and any other session build under the pillar that owns the area.
+- **No stopping (owner, Oct 12, 2026).** The pillars build the whole game, not just tonight's list. When your checklist is done, keep going through your area's specs in every later milestone (`docs/roadmap/later-specs-draft.md`, M2 to M7), then take open work from `docs/coordination/BOARD.md`. Nothing waits on another session: if you need something from one, build against the smallest stand-in on your own branch, note it under "Needs from other sessions", and keep going. Nothing waits on the owner: where a design is his call and he hasn't ruled, build the simplest version that follows this file, write the question in your status file, and keep going; he reviews by playing. The only stop is running out of usage.
 
 ## Who does what
 
 - **Codex and the Claude engineering account build** (owner, Oct 11), on draft PRs, from a package spec in `docs/packages/`. Codex takes broad and data-heavy work (research, ports, data, tests). The Claude engineering account takes the critical path and work where mistakes cost most (core speed, money, people modeling, and work orders the CTO assigns to it).
 - **Checks stay light (owner, Oct 11).** Builders test their own work. Three checks are automatic and the only ones that block: the golden-path suite, the speed guard, and every dollar balancing. The owner plays the evening build, and that's the real check. Checker sessions play alongside and file bugs to the fixer; they never hold a builder up.
-- **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session.
-- **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it.
+- **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session; the pillars' work under "No stopping" is the exception, and he reviews it by playing.
+- **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it (pillars claim in their status file).
 - **Helpers.** A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task (see `model-effort`).
 
 ## Models, effort and helpers (owner, Oct 10: mind the usage)

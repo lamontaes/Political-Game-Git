@@ -20,6 +20,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Assigned bugs.** Bugs from your evening playtests and checker failures; one bug per PR; no refactoring; inside a pillar's folders only with that pillar told.
   - Verified by: A test that fails before the fix and passes after.
   - Needs: The owning pillar
+- [ ] **When no bug is assigned:** take open work from `BOARD.md` (write "Taking <item>" here first).
+  - Verified by: That item's own test.
 
 ## Needs from other sessions
 
