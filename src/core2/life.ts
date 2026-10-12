@@ -1,8 +1,22 @@
+import { runModuleCalendar } from "./module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
-import { advanceDate, duePeople, catchUpPerson } from "./calendar";
+import {
+  advanceDate,
+  duePeople,
+  catchUpPerson,
+  planningDays,
+} from "./calendar";
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
-import { chooseAct } from "./choice";
+import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
+import { compactOriginalAnswer } from "./compact-choice";
+import { FinanceReadGuard } from "./finance-plan";
+import {
+  planFreeTime,
+  registerPlannedActRunner,
+  takePlannedActs,
+  type PlannedAct,
+} from "./free-block";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
@@ -20,6 +34,8 @@ import {
   OPENING_PAYROLL_CALENDAR_STOPGAP,
 } from "./opening-payroll-calendar";
 import { LIFE_MODULE } from "./modules/life";
+import { PEOPLE_MODULE } from "./modules/people";
+import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -89,11 +105,16 @@ export function createLifeCore(
     : { ...input, workCommitments: [], workPayrollCalendars: [] };
   const core = createCore(preparedInput, {
     ...coreOptions,
-    data: scheduledWork
-      ? options.data
-      : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+    // P15 part 4: the people module is always loaded here, so the acts grief
+    // bears on carry its reason (withGrief), as drives add their own acts.
+    data: withGrief(
+      scheduledWork
+        ? (options.data ?? DEFAULT_DATA)
+        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+    ),
     modules: [
       LIFE_MODULE,
+      PEOPLE_MODULE,
       // Attendance accrues wages; recorded payday cash precedes purchase budgets.
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),
@@ -104,7 +125,7 @@ export function createLifeCore(
   if (payroll?.estimates.length)
     coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
   core.gaps.add(
-    "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining time admits one discretionary scored act per tier activation. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
+    "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining free hours hold several scored acts from one scoring pass per activation, at most one per need a day. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
   );
   core.gaps.add(
     "Business receipts and standing purchases cover recorded counterparties only; missing suppliers, public budgets, hiring, nonwage income, demography, elections and law effects prevent realism claims.",
@@ -191,6 +212,20 @@ export function projectWorkNeeds(
   return { affect, needValues, goalUrgencies, goalRows };
 }
 
+function admits(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+  offer: ActOffer,
+): boolean {
+  return (offer.definition.prerequisites ?? []).every((rule) => {
+    const accepts = resolveOperation(core, "eligibilityRules", rule.operation);
+    if (!accepts)
+      throw new Error(`Unregistered eligibility rule: ${rule.operation}`);
+    return accepts(api, actor, offer, rule.argument);
+  });
+}
+
 export function availableActs(
   core: CoreState,
   personId: string,
@@ -240,70 +275,171 @@ export function availableActs(
         offer.availableHours <= api.parameter("zero")
       )
         continue;
-      const eligible = (definition.prerequisites ?? []).every((rule) => {
-        const accepts = resolveOperation(
-          core,
-          "eligibilityRules",
-          rule.operation,
-        );
-        if (!accepts)
-          throw new Error(`Unregistered eligibility rule: ${rule.operation}`);
-        return accepts(api, actor, offer, rule.argument);
-      });
-      if (eligible) offers.push(offer);
+      if (admits(core, api, actor, offer)) offers.push(offer);
     }
   }
   return offers;
 }
 
+function perform(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+  chosen: ActOffer,
+  decision: DecisionResult,
+  days: number,
+): boolean {
+  const effect = resolveOperation(
+    core,
+    "effectHandlers",
+    chosen.definition.effect,
+  );
+  if (!effect)
+    throw new Error(
+      `Unregistered effect operation: ${chosen.definition.effect}`,
+    );
+  if (chosen.definition.stopgapId) api.stopgap(chosen.definition.stopgapId);
+  const result = effect(api, personId, chosen, core.date, days, decision);
+  if (!result?.recordedActId)
+    api.recordAct(personId, chosen, core.date, decision);
+  if (!result?.recordedActivity)
+    recordDiscretionaryActivity(api, personId, chosen);
+  return result?.recordedLastActDate === true;
+}
+
+function plannedDecision(core: CoreState, act: PlannedAct): DecisionResult {
+  // The chooser's retention contract: full reason terms only for traced people.
+  const traced =
+    core.observer ||
+    act.personId === core.playerId ||
+    core.focusPersonIds.has(act.personId) ||
+    isExplicitlyControlledPersonV1(core, act.personId);
+  return {
+    actorId: act.personId,
+    date: core.date,
+    selected: act.offer,
+    selectedReasons: act.reasons,
+    ...(traced && act.reasonTerms?.length
+      ? { selectedReasonTerms: act.reasonTerms }
+      : {}),
+    reasonKey: `planned:utility:${act.offer.definition.need}:${act.offer.driveId ?? act.offer.definition.effect}`,
+  };
+}
+
+/**
+ * P15 part 2b: one scoring pass per activation. The chooser's pick happens
+ * now; the rest of today's free hours and each later day up to the next
+ * activation are filled from the same scores (free-block.ts).
+ */
 export function activate(
   core: CoreState,
   personId: string,
   days: number,
   controller?: Controller,
-): boolean {
+): number {
   const actor = core.people.get(personId)!;
   const api = coreAPI(core);
   refreshNeeds(core, api, actor);
-  const offers = availableActs(core, personId);
-  const decision = chooseAct(core, personId, offers);
+  const offers = availableActs(core, personId).map((offer) =>
+    controller
+      ? {
+          ...offer,
+          effortHours:
+            offer.effortHours ??
+            api.parameter(offer.definition.effortParameter),
+        }
+      : offer,
+  );
+  const scored = scoreOffers(core, personId, offers);
+  const decision = decisionFromScores(core, personId, scored, !!controller);
+  const retainFullScores =
+    core.observer ||
+    actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
   if (controller) {
+    const originalReads = new FinanceReadGuard();
+    originalReads.payload(
+      decision,
+      api.parameter("zero"),
+      api.parameter("one"),
+    );
+    originalReads.payload(offers, api.parameter("zero"), api.parameter("one"));
     const requested = controller(decision, offers);
+    originalReads.verify();
     if (requested !== undefined) {
       const chosen = offers.find(
         (offer) => `${offer.definition.id}:${offer.targetId}` === requested,
       );
       if (!chosen) throw new Error("Controller requested an unavailable act.");
-      const forced = chooseAct(core, personId, [chosen]);
+      const index = offers.indexOf(chosen);
+      const scored = decision.scores![index]!;
       decision.selected = chosen;
-      decision.selectedReasons = forced.selectedReasons;
-      decision.reasonKey = `controller:${forced.reasonKey}`;
+      decision.selectedReasons = scored.reasons;
+      decision.selectedReasonTerms = retainFullScores
+        ? scored.reasonTerms
+        : undefined;
+      decision.compactChoice = compactOriginalAnswer(decision, offers, index);
+      decision.reasonKey = `controller:utility:${chosen.definition.need}:${chosen.driveId ?? chosen.definition.effect}`;
     }
   }
+  if (!retainFullScores) decision.scores = undefined;
   const chosen = decision.selected;
+  const later = planFreeTime(
+    api,
+    actor,
+    scored,
+    chosen,
+    planningDays(core, actor),
+  );
   let recordedLastActDate = false;
+  let acts = api.parameter("zero");
+  // The rest of the block first, so the person's last choice and reason stay
+  // the activation's own pick; the day's order of acts is not modeled.
+  for (const act of later) {
+    if (
+      perform(core, api, personId, act.offer, plannedDecision(core, act), days)
+    )
+      recordedLastActDate = true;
+    acts += api.parameter("one");
+  }
   if (chosen) {
-    const effect = resolveOperation(
-      core,
-      "effectHandlers",
-      chosen.definition.effect,
-    );
-    if (!effect)
-      throw new Error(
-        `Unregistered effect operation: ${chosen.definition.effect}`,
-      );
-    if (chosen.definition.stopgapId) api.stopgap(chosen.definition.stopgapId);
-    const result = effect(api, personId, chosen, core.date, days, decision);
-    if (!result?.recordedActId)
-      api.recordAct(personId, chosen, core.date, decision);
-    if (!result?.recordedActivity)
-      recordDiscretionaryActivity(api, personId, chosen);
-    recordedLastActDate = result?.recordedLastActDate === true;
+    if (perform(core, api, personId, chosen, decision, days))
+      recordedLastActDate = true;
+    acts += api.parameter("one");
   }
   if (!recordedLastActDate)
     api.updatePerson(personId, { lastActDate: core.date });
-  return chosen !== undefined;
+  return acts;
 }
+
+/**
+ * A planned act happens on its date if the person and the act are still
+ * possible: both people alive, the act still admitted and its hours free.
+ */
+function performPlanned(core: CoreState, act: PlannedAct): boolean {
+  const api = coreAPI(core);
+  const actor = core.people.get(act.personId);
+  if (!actor?.alive) return false;
+  // A person under the player's control acts only on the player's answers.
+  if (isExplicitlyControlledPersonV1(core, act.personId)) return false;
+  const target = core.people.get(act.offer.targetId);
+  if (target && !target.alive) return false;
+  if (act.offer.driveId && !actor.drives.has(act.offer.driveId)) return false;
+  const hours = act.offer.effortHours ?? api.parameter("zero");
+  if (hours > discretionaryHours(api, actor.id)) return false;
+  if (!admits(core, api, actor, act.offer)) return false;
+  perform(
+    core,
+    api,
+    act.personId,
+    act.offer,
+    plannedDecision(core, act),
+    api.parameter("one"),
+  );
+  return true;
+}
+registerPlannedActRunner(performPlanned);
 
 /** Routine statistics compact by indexed month; visible history and open callbacks are exempt. */
 export function compactRoutineMetrics(core: CoreState): void {
@@ -341,6 +477,7 @@ export function advanceCore(
     const due = duePeople(core, date);
     advanceDate(core, date);
     const api = coreAPI(core);
+    runModuleCalendar(core, api);
     for (const module of core.modules.values()) {
       const committed = module.onDay?.(
         api,
@@ -356,10 +493,11 @@ export function advanceCore(
         acts += committed.acts;
       }
     }
+    for (const act of takePlannedActs(core, date))
+      if (performPlanned(core, act)) acts += p("one");
     for (const row of due) {
       decisions += p("one");
-      if (activate(core, row.personId, row.days, options.controller))
-        acts += p("one");
+      acts += activate(core, row.personId, row.days, options.controller);
     }
     for (const module of core.modules.values()) module.onAfterDay?.(api);
     compactRoutineMetrics(core);

@@ -39,6 +39,13 @@
       "goalKind": "security",
       "parameters": {},
       "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "dependents",
+      "evaluator": "dependent-care",
+      "goalKind": "care",
+      "parameters": {},
+      "stopgapId": "SG-P15-free-block-plan"
     }
   ],
   "actions": [
@@ -91,10 +98,10 @@
       "id": "care-for-relative",
       "actKinds": ["help-others", "commit"],
       "goalKinds": ["care"],
-      "need": "health",
+      "need": "dependents",
       "effortParameter": "careHours",
       "effectParameter": "careEffect",
-      "targetKind": "family",
+      "targetKind": "dependent-at-home",
       "effect": "care",
       "stopgapId": "SG-P8-life-utility",
       "emotion": {
@@ -171,17 +178,22 @@
     {
       "id": "look-up-local-institution",
       "actKinds": ["engage", "follow-rules"],
-      "goalKinds": ["change-condition", "connect"],
-      "need": "company",
+      "goalKinds": ["change-condition"],
+      "need": "safety",
       "effortParameter": "lookupHours",
       "effectParameter": "one",
-      "targetKind": "public-directory",
+      "targetKind": "office-directory",
       "effect": "public-lookup",
       "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
-      }
+      },
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        }
+      ]
     }
   ],
   "tiers": [

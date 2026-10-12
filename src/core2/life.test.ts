@@ -240,10 +240,12 @@ describe("shared actor chooser and committed effects", () => {
     const playerAct = lastAct(core, actorId);
     const npcAct = lastAct(core, npcId);
     const work = definition("paid-work");
+    // P15 part 2b: each activation's free hours can hold more than one act.
     expect(result).toEqual({
       simulatedDays: p("one"),
       decisions: p("two"),
-      acts: p("two"),
+      acts:
+        core.people.get(actorId)!.actCount + core.people.get(npcId)!.actCount,
     });
     expect(playerAct.actionId).toBe(work.id);
     expect(npcAct.actionId).toBe(work.id);
@@ -267,7 +269,8 @@ describe("shared actor chooser and committed effects", () => {
     for (const id of [actorId, npcId]) {
       const actor = core.people.get(id)!;
       expect(actor.liquidMinor).toBe(pay);
-      expect(actor.actCount).toBe(p("one"));
+      expect(actor.actsByKind.get(work.id)).toBe(p("one"));
+      expect(actor.actsByKind).toEqual(core.people.get(npcId)!.actsByKind);
       expect(actor.lastActDate).toBe(nextDay);
       expect(actor.lastReason).toBe(playerAct.reasonKey);
       expect(actor.needs[work.need]).toBeGreaterThan(p("zero"));
@@ -295,7 +298,11 @@ describe("shared actor chooser and committed effects", () => {
     expect(actor.needs[definition("paid-work").need]!).toBeLessThan(priorNeed);
     expect(lastAct(core, actorId).actionId).toBe(definition("recover").id);
     expect(actor.affect.stress).toBeLessThan(priorStress);
-    expect(actor.liquidMinor).toBe(earned);
+    // P15 part 2b: the day's free hours can still hold a shift after the
+    // recovery pick; each shift pays the same daily wage.
+    expect(actor.liquidMinor).toBe(
+      earned * actor.actsByKind.get(definition("paid-work").id)!,
+    );
     expect(money(core)).toBe(openingMoney);
     assertCoreIntegrity(core);
   });
@@ -340,7 +347,9 @@ describe("shared actor chooser and committed effects", () => {
     expect(high.people.get(actorId)!.liquidMinor).toBeGreaterThan(
       low.people.get(actorId)!.liquidMinor,
     );
-    expect(low.people.get(actorId)!.affect.stress).toBeLessThan(
+    // P15 part 2b: the high-effort worker also rests in what is left of the
+    // evening after the shift, so both end the day equally rested.
+    expect(low.people.get(actorId)!.affect.stress).toBe(
       high.people.get(actorId)!.affect.stress,
     );
     expect(money(high)).toBe(openingHigh);
@@ -418,19 +427,23 @@ describe("shared actor chooser and committed effects", () => {
     const actor = core.people.get(npcId)!;
     expect(actor.lastChoice).toBe(definition("paid-work").id);
     expect(actor.lastReason).toMatch(/^utility:/);
-    expect(actor.actCount).toBe(p("one"));
     expect(actor.actsByKind.get(actor.lastChoice!)).toBe(p("one"));
     expect(core.durableLog.size).toBe(p("zero"));
     expect(core.eventIds.size).toBe(p("zero"));
+    // P15 part 2b: one compact counter per act kind in the filled free hours.
     const counters = [...core.actCounters.values()];
-    expect(counters).toHaveLength(p("one"));
-    expect(counters[0]).toMatchObject({
+    expect(counters).toHaveLength(actor.actsByKind.size);
+    expect(counters.reduce((sum, row) => sum + row.count, p("zero"))).toBe(
+      actor.actCount,
+    );
+    const work = counters.find((row) => row.actionId === actor.lastChoice)!;
+    expect(work).toMatchObject({
       actorId: npcId,
       actionId: actor.lastChoice,
       count: p("one"),
     });
-    expect(counters[0]!.needContribution).toBeGreaterThan(p("zero"));
-    expect(counters[0]!.goalContribution).toBeGreaterThan(p("zero"));
+    expect(work.needContribution).toBeGreaterThan(p("zero"));
+    expect(work.goalContribution).toBeGreaterThan(p("zero"));
     expect(money(core)).toBe(openingMoney);
   });
 
@@ -451,13 +464,14 @@ describe("shared actor chooser and committed effects", () => {
           offer.targetId === relative,
       ),
     ).toBe(true);
+    // P15 part 2b: care answers children at home; this relative is an adult
+    // in another home, so no care is offered for them.
     expect(
       initial.some(
         (offer) =>
-          offer.definition.targetKind === "family" &&
-          offer.targetId === relative,
+          offer.definition.effect === "care" && offer.targetId === relative,
       ),
-    ).toBe(true);
+    ).toBe(false);
     expect(initial.some((offer) => offer.definition.targetKind === "job")).toBe(
       false,
     );

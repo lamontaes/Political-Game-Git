@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { advanceDate } from "./calendar";
+import { chooseAct } from "./choice";
+import { closenessAfter } from "./closeness";
+import { PEOPLE_MODULE } from "./modules/people";
 import { DEFAULT_DATA } from "./data";
 import { appraiseEvent } from "./emotion";
 import { LIFE_MODULE } from "./modules/life";
@@ -7,6 +10,8 @@ import { parameter, parameterValues } from "./parameters";
 import { createCore, coreAPI, registerModule } from "./state";
 import type { EventAppraisal } from "./emotion";
 import type {
+  ActOffer,
+  DecisionResult,
   CoreData,
   CoreEventInput,
   CoreInput,
@@ -504,7 +509,13 @@ describe("ordered relationship mutation notices", () => {
       {
         measure: "level",
         before: firstLevel,
-        after: Math.tanh(firstLevel - parameter("one")),
+        // P15: one hour together, then one hour taken away the same day.
+        after: closenessAfter(
+          core,
+          { level: firstLevel, lastContactDate: date, kind: "contact" },
+          "contact",
+          -parameter("one"),
+        ),
       },
     ]);
     expect(Reflect.set(seen[0]!.changes[0]!, "after", parameter("zero"))).toBe(
@@ -675,4 +686,287 @@ describe("bounded explicit notification registration", () => {
       api.subscribeEventAppraisals(" director", ["*"], appraisalListener),
     ).toThrow(/invalid/i);
   });
+});
+
+describe("saved actual relationship change causes", () => {
+  function actualChoice(
+    core: CoreState,
+    effect: "contact" | "care",
+  ): DecisionResult {
+    const definition = core.data.actions.find((row) => row.effect === effect)!;
+    expect(definition).toBeDefined();
+    const chosen: ActOffer = {
+      definition,
+      targetId: otherId,
+      availableHours: parameter("hoursPerDay"),
+    };
+    return chooseAct(core, actorId, [chosen], undefined, true);
+  }
+  const tieId = [actorId, otherId].sort().join(":");
+
+  it("saves an outsider's original contact choice involving a focus contact without a new event or full quiet score list", () => {
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
+      api = coreAPI(core);
+    core.focusPersonIds.add(otherId);
+    const decision = actualChoice(core, "contact"),
+      before = sizes(core);
+    LIFE_MODULE.effectHandlers!.contact!(
+      api,
+      actorId,
+      decision.selected!,
+      core.date,
+      parameter("one"),
+      decision,
+    );
+    const row = core.relationships.get(tieId)!,
+      evidence = row.latestChange!;
+    expect(evidence.cause).toBe("chosen-act");
+    expect(evidence.actionId).toBe(decision.selected!.definition.id);
+    // P15: a contact's change is its hours of time together.
+    const hours =
+      decision.selected!.effortHours ??
+      parameter(decision.selected!.definition.effortParameter);
+    expect(evidence.requestedChange).toBe(hours);
+    expect(evidence.before).toEqual({ level: parameter("zero") });
+    expect(evidence.after).toEqual({
+      level: closenessAfter(core, undefined, "contact", hours),
+      lastContactDate: date,
+    });
+    expect(evidence.decision!.compactChoice).toEqual(decision.compactChoice);
+    expect(evidence.decision!.compactChoice).not.toBe(decision.compactChoice);
+    expect(evidence.decision!.scores).toBeUndefined();
+    expect(evidence.decision!.selected).toBeUndefined();
+    expect(evidence.sourceRecordRefs).toEqual([
+      { kind: "person", id: actorId },
+      { kind: "person", id: otherId },
+    ]);
+    expect(sizes(core)).toEqual(before);
+    expect(core.eventIds.size).toBe(parameter("zero"));
+    expect(
+      Reflect.set(
+        evidence.decision!.compactChoice!.chosen.contributions,
+        "need",
+        parameter("zero"),
+      ),
+    ).toBe(false);
+  });
+
+  it("retains and detaches the existing full-circle care decision and original provider source IDs", () => {
+    const providerId = "fixture:relationship-cause-provider",
+      bindingId = "fixture:relationship-cause-binding";
+    const core = world([
+        LIFE_MODULE,
+        {
+          id: "fixture:relationship-cause",
+          reasonProviders: {
+            [providerId]: () => ({
+              value: parameter("one"),
+              sourceIds: [otherId],
+            }),
+          },
+        },
+      ]),
+      api = coreAPI(core);
+    const definition = core.data.actions.find((row) => row.effect === "care")!;
+    const chosen: ActOffer = {
+      definition,
+      targetId: otherId,
+      availableHours: parameter("hoursPerDay"),
+      reasonBindings: [
+        { id: bindingId, provider: providerId, weightParameter: "needWeight" },
+      ],
+    };
+    const decision = chooseAct(core, actorId, [chosen]);
+    LIFE_MODULE.effectHandlers!.care!(
+      api,
+      actorId,
+      decision.selected!,
+      core.date,
+      parameter("one"),
+      decision,
+    );
+    const evidence = core.relationships.get(tieId)!.latestChange!;
+    expect(evidence.kind).toBe("family");
+    expect(evidence.decision).toEqual(decision);
+    expect(evidence.decision).not.toBe(decision);
+    expect(
+      evidence.decision!.selectedReasonTerms!.find(
+        (row) => row.id === bindingId,
+      )!.sourceIds,
+    ).toEqual([otherId]);
+    const savedNeed = evidence.decision!.selectedReasons!.need;
+    decision.selectedReasons!.need += parameter("one");
+    expect(evidence.decision!.selectedReasons!.need).toBe(savedNeed);
+    expect(
+      Reflect.set(
+        evidence.decision!.scores![parameter("zero")]!.reasons,
+        "need",
+        savedNeed,
+      ),
+    ).toBe(false);
+  });
+
+  it("records factual family and reverse updates without manufactured scores or an unsaved future act ID", () => {
+    const core = world([]),
+      api = coreAPI(core),
+      before = sizes(core);
+    api.relationship(actorId, otherId, "family", parameter("one"));
+    const first = core.relationships.get(tieId)!.latestChange!;
+    api.relationship(otherId, actorId, "coworker", -parameter("one"));
+    const second = core.relationships.get(tieId)!.latestChange!;
+    expect(first.cause).toBe("recorded-relationship-update");
+    expect(first.decision).toBeUndefined();
+    expect(first.actionId).toBeUndefined();
+    expect(second.actorId).toBe(otherId);
+    expect(second.otherId).toBe(actorId);
+    expect(second.kind).toBe("family");
+    expect(second.requestedKind).toBe("coworker");
+    expect(second.before.level).toBe(first.after.level);
+    expect(second.after.level).toBe(
+      closenessAfter(
+        core,
+        { level: first.after.level, lastContactDate: date, kind: "family" },
+        "coworker",
+        -parameter("one"),
+      ),
+    );
+    expect(
+      second.sourceRecordRefs.every((ref) => core.people.has(ref.id)),
+    ).toBe(true);
+    expect(Object.isFrozen(first)).toBe(true);
+    expect(sizes(core)).toEqual(before);
+  });
+
+  it("rejects mismatched date, actor and chosen target before changing the row, focus, indexes or notifications", () => {
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
+      api = coreAPI(core);
+    const decision = actualChoice(core, "contact"),
+      notices: RelationshipChangeNotice[] = [];
+    api.subscribeRelationshipChanges(
+      "fixture:invalid-cause",
+      ["*"],
+      (_api, notice) => notices.push(notice),
+    );
+    const before = {
+      sizes: sizes(core),
+      gaps: [...core.gaps],
+      focus: [...core.focusPersonIds],
+    };
+    for (const invalid of [
+      { ...decision, date: "2021-01-02" },
+      { ...decision, actorId: otherId },
+      {
+        ...decision,
+        selected: { ...decision.selected!, targetId: bystanderId },
+      },
+      {
+        ...decision,
+        compactChoice: {
+          ...decision.compactChoice!,
+          chosen: { ...decision.compactChoice!.chosen, targetId: bystanderId },
+        },
+      },
+    ])
+      expect(() =>
+        api.relationship(
+          actorId,
+          otherId,
+          "contact",
+          parameter("one"),
+          invalid,
+        ),
+      ).toThrow(/invalid relationship decision/i);
+    expect(core.relationships.has(tieId)).toBe(false);
+    expect(core.relationshipsByPerson.size).toBe(parameter("zero"));
+    expect(notices).toEqual([]);
+    expect({
+      sizes: sizes(core),
+      gaps: [...core.gaps],
+      focus: [...core.focusPersonIds],
+    }).toEqual(before);
+  });
+
+  it("rejects getters, executable values and cycles before mutation while leaving getter counters at zero", () => {
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
+      api = coreAPI(core),
+      decision = actualChoice(core, "contact");
+    let calls = parameter("zero");
+    const accessor = { ...decision };
+    Object.defineProperty(accessor, "compactChoice", {
+      get: () => {
+        calls += parameter("one");
+        return decision.compactChoice;
+      },
+    });
+    const cycle = { ...decision, extra: {} as Record<string, unknown> };
+    cycle.extra.parent = cycle;
+    for (const invalid of [
+      accessor,
+      cycle,
+      { ...decision, extra: () => parameter("one") },
+    ])
+      expect(() =>
+        api.relationship(
+          actorId,
+          otherId,
+          "contact",
+          parameter("one"),
+          invalid,
+        ),
+      ).toThrow(/relationship evidence/i);
+    expect(calls).toBe(parameter("zero"));
+    expect(core.relationships.size).toBe(parameter("zero"));
+    expect(core.relationshipsByPerson.size).toBe(parameter("zero"));
+  });
+
+  it("rejects a reflected late date drift before committing a stale relationship change", () => {
+    const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
+      api = coreAPI(core),
+      decision = actualChoice(core, "contact");
+    let drifted = false;
+    const reflected = new Proxy(decision, {
+      getOwnPropertyDescriptor(target, key) {
+        if (!drifted && key === "reasonKey") {
+          drifted = true;
+          advanceDate(core, "2021-01-02");
+        }
+        return Reflect.getOwnPropertyDescriptor(target, key);
+      },
+    });
+    expect(() =>
+      api.relationship(
+        actorId,
+        otherId,
+        "contact",
+        parameter("one"),
+        reflected,
+      ),
+    ).toThrow(/stale relationship/i);
+    expect(core.date).toBe("2021-01-02");
+    expect(core.relationships.size).toBe(parameter("zero"));
+    expect(core.relationshipsByPerson.size).toBe(parameter("zero"));
+  });
+});
+
+it("keeps an outside-circle relationship result without saving change explanations", () => {
+  const core = world([LIFE_MODULE, PEOPLE_MODULE], DEFAULT_DATA, false),
+    api = coreAPI(core);
+  api.relationship(
+    actorId,
+    otherId,
+    "contact",
+    parameter("relationContactGain"),
+  );
+  const row = core.relationships.get([actorId, otherId].sort().join(":"))!;
+  expect(row.level).toBe(
+    closenessAfter(
+      core,
+      undefined,
+      "contact",
+      parameter("relationContactGain"),
+    ),
+  );
+  expect(row.lastContactDate).toBe(date);
+  expect(row.latestChange).toBeUndefined();
+  expect(core.eventIds.size).toBe(parameter("zero"));
 });
