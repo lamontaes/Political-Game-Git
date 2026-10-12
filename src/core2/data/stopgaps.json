@@ -428,7 +428,7 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 12 (OPUS-CORE sub-agent): openingPeerGroupSize now 20 (NCES NTPS 2020-21 class size, band 17-22); the stopgap stays open because a class is not a remembered-peer circle.",
     "status": "open"
   },
   {
@@ -500,7 +500,7 @@
     "why": "Sleep reserve is planned, not observed; full education/care/consumption/primary-activity diary is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads.",
+    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads. Oct 12 (OPUS-CORE sub-agent): workSleepReserveHours now 9.03 (ATUS 2025 sleep mean); the stopgap stays open for workWakingRecoveryHours (stand-in 1, research suggests 5.16 as a different quantity).",
     "status": "open"
   },
   {
@@ -644,8 +644,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): the claim is now a decision inside Social Security's law bounds; this pull is one of its calibrated weights.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredFraction",
@@ -833,7 +833,7 @@
     "file": "src/core2/deep-past.ts",
     "line": 139,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
-    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player\u2019s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
+    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
@@ -1380,15 +1380,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-presidential-environment",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/world-races.ts",
-    "line": 223,
-    "whatItFakes": "States other than the town's vote for president by their 2024 lean plus one tunable shift against the party holding the presidency; Maine's and Nebraska's district electors go with the statewide winner; nominees are a party's fictional candidate without a primary season.",
-    "why": "The national economy (OPUS-WORLD), the president's record and the primary calendar don't feed the race yet.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-12",
-    "replacement": "Each state's vote from its voter groups reacting to the economy, the record and the campaigns; nominees from state-by-state primaries; district electors in Maine and Nebraska.",
     "id": "SG-P15-encounters",
     "kind": "behavior-model-gap",
     "file": "src/core2/data/encounters.json",
@@ -1717,11 +1708,11 @@
     "kind": "business-closure",
     "file": "src/core2/finance-state.ts",
     "line": 1,
-    "whatItFakes": "A business closed by its owner's choice ends its jobs the same day without a final paycheck for wages earned since the last payday, and without paying off open supplier or credit balances; the owner takes all remaining cash.",
+    "whatItFakes": "A business closed by its owner's choice pays its workers what they've earned (counted workers at once, full workers on their next payday from cash held back) but doesn't pay off open supplier or credit balances before the owner takes the rest.",
     "why": "WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "A wind-down that settles earned wages and open balances from the business's cash before the owner's distribution.",
+    "replacement": "A wind-down that also settles open supplier balances and credit lines from the business's cash before the owner's distribution.",
     "status": "open"
   },
   {
