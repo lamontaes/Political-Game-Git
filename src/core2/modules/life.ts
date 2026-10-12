@@ -1,5 +1,7 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
+import { currentCloseness } from "../closeness";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -15,7 +17,8 @@ const p = (api: CoreAPI, key: string) => api.parameter(key);
 const zero = (api: CoreAPI) => p(api, "zero");
 const positive = (api: CoreAPI, value: number) => Math.max(zero(api), value);
 
-function offer(
+/** Shared offer builder; P15 people offers reuse it so drive selection stays identical. */
+export function offer(
   api: CoreAPI,
   actor: Readonly<PersonState>,
   action: ActionDefinition,
@@ -103,6 +106,12 @@ const eventConditions: Readonly<
 };
 
 /** Available acts and consequences are registered operations; content identities remain data. */
+/** P15: closeness today, faded since the last contact; zero for strangers. */
+function relationAt(api: CoreAPI, id: string): number {
+  const row = api.state.relationships.get(id);
+  return row ? currentCloseness(api.state, row) : zero(api);
+}
+
 export const LIFE_MODULE: CoreModule = {
   id: "core2-life-v2",
   eventKinds: ["*"],
@@ -251,23 +260,26 @@ export const LIFE_MODULE: CoreModule = {
       api.updatePerson(actorId, { affect });
     },
     contact: (api, actorId, chosen, _date, _days, decision) => {
-      api.relationship(
-        actorId,
-        chosen.targetId,
-        "contact",
-        p(api, "relationContactGain"),
-        decision,
-      );
+      // P15: the visit's hours are time together, saved with their reason.
+      const hours =
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter);
+      api.relationship(actorId, chosen.targetId, "contact", hours, decision, {
+        cause: ENCOUNTERS.causes.visit,
+        sourceId: `visit:${api.state.date}:${actorId}:${chosen.targetId}`,
+      });
       api.updatePerson(actorId, { lastContactDate: api.state.date });
       api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
+      // P15 part 5: the visitor meets the people who live with the host.
+      meetAtVisit(api, actorId, chosen.targetId, hours);
     },
     care: (api, actorId, chosen, _date, _days, decision) => {
       api.relationship(
         actorId,
         chosen.targetId,
         "family",
-        p(api, "relationContactGain"),
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
         decision,
+        { cause: ENCOUNTERS.causes.care },
       );
       const actor = api.state.people.get(actorId)!;
       api.updatePerson(actorId, {
@@ -285,6 +297,13 @@ export const LIFE_MODULE: CoreModule = {
       const event = civicEvent(api, actorId, chosen, "association.requested");
       api.join(actorId, chosen.targetId, chosen.driveId);
       api.emit(event);
+      // P15 part 5: joining a group meets its other members.
+      meetAtJoin(
+        api,
+        actorId,
+        chosen.targetId,
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+      );
     },
     organize: (api, actorId, chosen) => {
       api.stopgap("SG-P8-grief-action-response");
@@ -325,11 +344,7 @@ export const LIFE_MODULE: CoreModule = {
       const actor = api.state.people.get(id)!;
       const relation = event.personIds.reduce(
         (level, subject) =>
-          Math.max(
-            level,
-            api.state.relationships.get([id, subject].sort().join(":"))
-              ?.level ?? zero(api),
-          ),
+          Math.max(level, relationAt(api, [id, subject].sort().join(":"))),
         zero(api),
       );
       const appraisal = appraiseEvent(

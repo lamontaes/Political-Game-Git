@@ -6,6 +6,7 @@ import { DEFAULT_DATA, extendData } from "./data";
 import { parameter as p } from "./parameters";
 import { coreAPI, createCore } from "./state";
 import { resolveSavedTraceV1 } from "./saved-trace-v1";
+import { PEOPLE_MODULE } from "./modules/people";
 import type {
   CoreInput,
   CoreState,
@@ -872,6 +873,11 @@ describe("bounded quiet selections and relationship explanations", () => {
     const core = fresh(false),
       api = coreAPI(core);
     core.focusPersonIds.add("worker");
+    // P15: a contact offer carries the people module's tie-fading reason.
+    core.reasonProviders.set(
+      "tie-fading",
+      PEOPLE_MODULE.reasonProviders!["tie-fading"]!,
+    );
     const offer = {
       definition: core.data.actions.find((row) => row.effect === "contact")!,
       targetId: "other",

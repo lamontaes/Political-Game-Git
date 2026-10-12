@@ -15,6 +15,12 @@ export interface OpeningPeerData {
   contextKinds: readonly string[];
   requiredContextFields: readonly string[];
   optionalContextFields: readonly string[];
+  /** P15: people whose contexts began on different dates still share one (coworkers). */
+  groupAcrossDates?: boolean;
+  /** P15: a context that began on the opening day counts (coworkers). */
+  includesOpeningDay?: boolean;
+  /** Context fields copied onto each generated acquaintance fact. */
+  copiedContextFields: readonly string[];
   factKind: string;
   relationshipBasis: string;
   relationship: string;
@@ -54,6 +60,17 @@ export interface OpeningPeerOptions {
   personIds: readonly PersonId[];
   data?: OpeningPeerData;
   parameters?: Readonly<Record<string, Parameter>>;
+  /**
+   * The two-level population: how many people the records hold in a context
+   * (a school class, a workplace), so a person filled in alone joins the same
+   * group they would in a fully built town. Defaults to the people present.
+   */
+  cohortSize?: (contextKey: string, present: number) => number;
+  /** P15: reads a context fact's fields from another record (coworkers' jobs); defaults to the fact's own. */
+  contextValues?: (
+    person: PersonInput,
+    fact: PriorFact,
+  ) => Readonly<Record<string, string>> | undefined;
 }
 
 export interface OpeningPeerBuild {
@@ -65,6 +82,7 @@ export interface OpeningPeerBuild {
 interface ContextMember {
   person: PersonInput;
   fact: PriorFact;
+  values: Readonly<Record<string, string>>;
   contextKey: string;
 }
 
@@ -150,20 +168,25 @@ export function buildOpeningPeerContacts(
     for (const fact of person.pastFacts ?? []) {
       if (!data.contextKinds.includes(fact.kind)) continue;
       const date = makeIsoDate(fact.date);
-      if (date < birth || date >= cutoff) continue;
-      const values = fact.facts;
       if (
-        !values ||
-        !values.schoolName ||
-        data.requiredContextFields.some((field) => !values[field])
+        date < birth ||
+        date > cutoff ||
+        (date === cutoff && !data.includesOpeningDay)
       )
+        continue;
+      const values = options.contextValues
+        ? options.contextValues(person, fact)
+        : fact.facts;
+      if (!values || data.requiredContextFields.some((field) => !values[field]))
         continue;
       const fields = [
         ...data.requiredContextFields,
         ...data.optionalContextFields,
       ].map((field) => [field, values[field] ?? ""]);
-      const contextKey = JSON.stringify([fact.kind, date, fields]);
-      const candidate = { person, fact, contextKey };
+      const contextKey = JSON.stringify(
+        data.groupAcrossDates ? [fact.kind, fields] : [fact.kind, date, fields],
+      );
+      const candidate = { person, fact, values, contextKey };
       if (
         !latest ||
         fact.date > latest.fact.date ||
@@ -180,38 +203,35 @@ export function buildOpeningPeerContacts(
 
   // All identity groups are stable independently of which group is expanded.
   // A partial last group is avoided by balanced partitioning; no filler IDs.
+  // Each person's group comes from their own key and the cohort's size, never
+  // from who else is present, so filling people in one at a time gives each
+  // the same classmates and coworkers as building the whole town.
   const groupByPerson = new Map<PersonId, string>();
   const groups = new Map<string, ContextMember[]>();
+  const groupMembers = new Map<string, number>();
+  const digits = p("seedHashDigits");
+  const radix = p("seedPlaceHashRadix");
   for (const [contextKey, cohort] of cohorts) {
-    const ranked = cohort
-      .map((member) => ({
-        member,
-        rank: stableHash(
-          JSON.stringify([
-            input.seed,
-            data.version,
-            contextKey,
-            member.person.id,
-          ]),
-        ),
-      }))
-      .sort(
-        (left, right) =>
-          left.rank.localeCompare(right.rank) ||
-          left.member.person.id.localeCompare(right.member.person.id),
-      );
-    const groupCount = Math.ceil(ranked.length / size);
-    for (let index = zero; index < ranked.length; index += one) {
-      const member = ranked[index]!.member;
-      const groupId = stableHash(
+    const cohortSize = options.cohortSize
+      ? options.cohortSize(contextKey, cohort.length)
+      : cohort.length;
+    const groupCount = Math.max(one, Math.ceil(cohortSize / size));
+    for (const member of cohort) {
+      const rank = stableHash(
         JSON.stringify([
           input.seed,
           data.version,
           contextKey,
-          index % groupCount,
+          member.person.id,
         ]),
       );
+      const index =
+        Number.parseInt(rank.slice(zero, digits), radix) % groupCount;
+      const groupId = stableHash(
+        JSON.stringify([input.seed, data.version, contextKey, index]),
+      );
       groupByPerson.set(member.person.id, groupId);
+      groupMembers.set(groupId, cohortSize / groupCount);
       const group = groups.get(groupId) ?? [];
       if (group.some((prior) => prior.contextKey !== contextKey))
         throw new Error(
@@ -373,13 +393,19 @@ export function buildOpeningPeerContacts(
               otherContextFactId: direction.other.fact.id,
               contextKey: left.contextKey,
               peerGroupId: groupId,
+              peerGroupMembers: groupMembers.get(groupId)!.toFixed(p("two")),
               contactId: id,
               relationshipBasis: data.relationshipBasis,
               relationship: data.relationship,
               historicalAttendance: data.attendanceStatus,
               currentCloseness: data.closenessStatus,
               recognition: data.recognitionStatus,
-              schoolName: direction.self.fact.facts!.schoolName!,
+              ...Object.fromEntries(
+                data.copiedContextFields.map((field) => [
+                  field,
+                  direction.self.values[field]!,
+                ]),
+              ),
               stopgapId: marker.id,
             },
           });

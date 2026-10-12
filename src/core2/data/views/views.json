@@ -1,0 +1,57 @@
+{
+  "version": "views-v1",
+  "stopgapId": "SG-P15-views-first-version",
+  "keys": "ces-2024-views.json",
+  "parameters": {
+    "zero": { "value": 0, "tag": "SOURCED", "citation": "Identity." },
+    "one": { "value": 1, "tag": "SOURCED", "citation": "Identity." },
+    "two": { "value": 2, "tag": "SOURCED", "citation": "Identity." },
+    "leanMin": {
+      "value": -2,
+      "tag": "SOURCED",
+      "citation": "CES ideo5 'very liberal' on the -2 to +2 lean scale (ces-2024-views.json)."
+    },
+    "leanMax": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "CES ideo5 'very conservative' on the -2 to +2 lean scale (ces-2024-views.json)."
+    },
+    "hashDigits": {
+      "value": 8,
+      "tag": "SOURCED",
+      "citation": "Hex digits of a stable hash read as one uniform value."
+    },
+    "hashRadix": { "value": 16, "tag": "SOURCED", "citation": "Hexadecimal." },
+    "minimumCellRespondents": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "citation": "A state-by-age cell with fewer CES respondents falls back to the whole state. Checked by towns staying inside their state's spread; spread 20 to 100.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "householdShare": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Share of a person's opening lean that their household shares. Parent-child correlations of political orientation run about 0.4 to 0.6 (Jennings, Stoker and Bowers 2009, Journal of Politics 71(3):782-799), and spouses correlate about 0.6 on ideology (Alford, Hatemi, Hibbing, Martin and Eaves 2011, Journal of Politics 73(2):362-379).",
+      "estimatedFrom": "Jennings, Stoker and Bowers 2009; Alford et al. 2011; spread 0.4 to 0.6"
+    },
+    "tightness": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "How much less an engaged person's stance moves on one event: people who follow politics closely resist new messages more (Zaller 1992, The Nature and Origins of Mass Opinion). No study sets the size; spread 0.25 to 0.75.",
+      "stopgapId": "SG-P15-views-first-version"
+    },
+    "stanceStep": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "citation": "How far one event that reaches a person moves their stance on its topic, per unit of the event's appraised impulse. No study sets the size; checked by a big event moving the people it touched and no one else. Spread 0.05 to 0.2.",
+      "stopgapId": "SG-P15-views-first-version"
+    }
+  },
+  "labels": [
+    "veryLiberal",
+    "liberal",
+    "moderate",
+    "conservative",
+    "veryConservative"
+  ]
+}

@@ -1,3 +1,4 @@
+import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import { publicPayTreasuries } from "./public-work-pay";
@@ -210,6 +211,9 @@ function admitOwnerCashAccount(
       : {}),
   });
 }
+
+/** Opening family ties: closeness from the kind of tie (P15 part 2). */
+const OPENING_FAMILY_CAUSE = "opening-family";
 
 function assertKnownIdSources(
   core: CoreState,
@@ -434,7 +438,14 @@ export function createCore(
       }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
-        api.relationship(actor.id, id, "family", p("relationInitial"));
+        api.relationship(
+          actor.id,
+          id,
+          "family",
+          openingClosenessHours(core, actor.id, id),
+          undefined,
+          { cause: OPENING_FAMILY_CAUSE },
+        );
     }
     for (const id of actor.knownIds) {
       const other = core.people.get(id);
@@ -1004,7 +1015,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
-    relationship(actorId, otherId, kind, change, decision) {
+    relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
         !core.people.has(otherId) ||
@@ -1012,6 +1023,14 @@ export function coreAPI(core: CoreState): CoreAPI {
         !Number.isFinite(change)
       )
         throw new Error("Invalid relationship endpoints or change.");
+      if (
+        reason &&
+        (typeof reason.cause !== "string" ||
+          !reason.cause.trim() ||
+          (reason.sourceId !== undefined &&
+            (typeof reason.sourceId !== "string" || !reason.sourceId.trim())))
+      )
+        throw new Error("Invalid relationship change reason.");
       const id = [actorId, otherId].sort().join(":");
       const previous = core.relationships.get(id);
       const beforeLevel = previous?.level ?? p("zero");
@@ -1025,7 +1044,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         lastContactDate: core.date,
       };
       const at = core.date,
-        nextLevel = Math.tanh(row.level + change),
+        // P15: `change` is hours of time together; closeness fades between contacts.
+        nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId),
         storedKind = row.kind;
@@ -1123,6 +1143,16 @@ export function coreAPI(core: CoreState): CoreAPI {
               { kind: "person", id: otherId },
             ],
             ...(savedDecision ? { decision: savedDecision } : {}),
+            ...(reason
+              ? {
+                  reason: {
+                    cause: reason.cause,
+                    ...(reason.sourceId === undefined
+                      ? {}
+                      : { sourceId: reason.sourceId }),
+                  },
+                }
+              : {}),
           } satisfies RelationshipChangeEvidence)
         : undefined;
       if (
@@ -1167,7 +1197,52 @@ export function coreAPI(core: CoreState): CoreAPI {
         requestedKind: kind,
         created: previous === undefined,
         changes,
+        ...(reason ? { reason } : {}),
       });
+    },
+    meet(actorId, otherId, encounter) {
+      const actor = core.people.get(actorId);
+      const other = core.people.get(otherId);
+      if (!actor || !other || actorId === otherId)
+        throw new Error("Invalid meeting endpoints.");
+      if (!encounter.placeId.trim() || !encounter.sourceId.trim())
+        throw new Error("A meeting needs its place and its record.");
+      if (!Number.isFinite(encounter.hours) || encounter.hours < p("zero"))
+        throw new Error("Invalid meeting hours.");
+      if (actor.knownIds.has(otherId) && other.knownIds.has(actorId))
+        return false;
+      for (const [self, peer] of [
+        [actor, other],
+        [other, actor],
+      ] as const) {
+        self.knownIds.add(peer.id);
+        api.observe(self.id, {
+          key: `person:${peer.id}:name`,
+          value: `${peer.givenName} ${peer.familyName}`,
+          learnedAt: core.date,
+          sourceId: encounter.sourceId,
+          access: "perceived",
+        });
+        api.observe(self.id, {
+          key: `person:${peer.id}:met`,
+          value: encounter.placeId,
+          learnedAt: core.date,
+          sourceId: encounter.sourceId,
+          access: "perceived",
+        });
+      }
+      api.relationship(
+        actorId,
+        otherId,
+        "contact",
+        encounter.hours,
+        undefined,
+        {
+          cause: encounter.cause,
+          sourceId: encounter.sourceId,
+        },
+      );
+      return true;
     },
     join(personId, organizationId, driveId) {
       if (
@@ -1977,7 +2052,14 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds)
-    api.relationship(actor.id, id, "family", api.parameter("relationInitial"));
+    api.relationship(
+      actor.id,
+      id,
+      "family",
+      openingClosenessHours(core, actor.id, id),
+      undefined,
+      { cause: OPENING_FAMILY_CAUSE },
+    );
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

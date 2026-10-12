@@ -229,6 +229,11 @@ const ALLOWED_PHRASES: readonly {
   readonly reason: string;
 }[] = [
   {
+    pattern: /\bLabour Economics\b/g,
+    reason:
+      "the title of a real journal (Labour Economics, Elsevier), quoted in a research citation",
+  },
+  {
     pattern: /\bLabour Party\b/g,
     reason: "a real party name, if one is ever quoted",
   },
