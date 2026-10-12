@@ -1884,6 +1884,18 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-voluntary-closure-final-pay",
+    "kind": "business-closure",
+    "file": "src/core2/finance-state.ts",
+    "line": 1,
+    "whatItFakes": "A business closed by its owner's choice ends its jobs the same day without a final paycheck for wages earned since the last payday, and without paying off open supplier or credit balances; the owner takes all remaining cash.",
+    "why": "WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "A wind-down that settles earned wages and open balances from the business's cash before the owner's distribution.",
+    "status": "open"
+  },
+  {
     "id": "SG-CORE-outside-living-costs",
     "kind": "housing-and-leakage",
     "file": "src/core2/residents.ts",

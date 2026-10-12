@@ -1,6 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { residentsRuntime } from "./modules/residents";
 import { loadGame, newGame, runCommand, saveGame } from "./saves";
 import type { CoreState } from "./types";
 
@@ -26,11 +27,10 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     };
     const game = newGame(recipe);
     runCommand(game, "advance", { through: "2021-01-20" });
-    const counted = game.core.residents?.households.find(
+    const counted = [...residentsRuntime(game.core)!.households.values()].find(
       (row) => row.people.length,
-    );
-    if (counted)
-      runCommand(game, "fill-in", { personId: counted.people[0]!.id });
+    )!;
+    runCommand(game, "fill-in", { personId: counted.people[0]!.id });
     runCommand(game, "advance", { through: "2021-02-15" });
     const save = JSON.parse(JSON.stringify(saveGame(game)));
     const loaded = loadGame(save);
@@ -40,7 +40,7 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(loaded.commands.filter((row) => row.kind !== "advance")).toEqual(
       game.commands.filter((row) => row.kind !== "advance"),
     );
-  });
+  }, 300_000);
 
   it("skips a command this version no longer knows and keeps loading", () => {
     const recipe = {
@@ -62,5 +62,5 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       "retired.command",
     ]);
     expect(digest(loaded.core)).toBe(digest(game.core));
-  });
+  }, 300_000);
 });

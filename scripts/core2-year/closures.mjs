@@ -157,7 +157,8 @@ if (firm) {
         localSupplies: d("operatingPaid"),
         wages: d("wagesPaid"),
         cashChange: cashDelta,
-        impliedOutsideCosts: d("received") - d("operatingPaid") - d("wagesPaid") - cashDelta,
+        impliedOutsideCosts:
+          d("received") - d("operatingPaid") - d("wagesPaid") - cashDelta,
         demandAnnual: $(h[i].demand),
         otherAnnual: $(h[i].other),
       }),
@@ -178,10 +179,18 @@ if (traceFirm)
   const byKind = {};
   for (const row of core.organizations.values())
     byKind[row.kind] = (byKind[row.kind] ?? 0) + $(row.liquidMinor);
-  byKind.people = [...core.people.values()].reduce((n, r) => n + $(r.liquidMinor), 0);
+  byKind.people = [...core.people.values()].reduce(
+    (n, r) => n + $(r.liquidMinor),
+    0,
+  );
   const openingByKind = {};
   for (const row of input.organizations)
-    openingByKind[row.kind] = (openingByKind[row.kind] ?? 0) + $(row.liquidMinor);
+    openingByKind[row.kind] =
+      (openingByKind[row.kind] ?? 0) + $(row.liquidMinor);
   openingByKind.people = input.people.reduce((n, r) => n + $(r.liquidMinor), 0);
-  console.log("cash by owner kind, opening -> closing ($)", JSON.stringify(openingByKind), JSON.stringify(byKind));
+  console.log(
+    "cash by owner kind, opening -> closing ($)",
+    JSON.stringify(openingByKind),
+    JSON.stringify(byKind),
+  );
 }

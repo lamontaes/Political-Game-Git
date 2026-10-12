@@ -24,6 +24,7 @@ import type {
   FinanceReceipt,
   FinanceRuntime,
   FinanceInput,
+  OwnerClosureChoice,
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
@@ -1237,7 +1238,6 @@ export function closeEmployer(
       cause = structuredClone(row);
     }
   }
-  const retiredProcurementPayers = new Set<string>();
   for (const id of core.finance.contractsByBusiness.get(organizationId) ?? []) {
     const row = core.finance.latestReceiptsByContract.get(id);
     if (
@@ -1265,6 +1265,30 @@ export function closeEmployer(
     throw new Error(
       "Closure requires an actual current unfunded obligation receipt.",
     );
+  return windDownEmployer(
+    core,
+    api,
+    organizationId,
+    sourceReceiptId,
+    reasonKey,
+    cause,
+    "Actual prototype closure after a recorded obligation could not be funded by existing cash or recorded finite credit; closure policy remains an open model assumption.",
+  );
+}
+
+/** Ends a closing firm's jobs, contracts and books, and records the closure. */
+function windDownEmployer(
+  core: CoreState,
+  api: CoreAPI,
+  organizationId: string,
+  sourceReceiptId: string,
+  reasonKey: string,
+  cause: EmployerClosure["cause"],
+  sourceText: string,
+): EmployerClosure {
+  const book = core.finance.businesses.get(organizationId)!,
+    employer = core.organizations.get(organizationId)!;
+  const retiredProcurementPayers = new Set<string>();
   const eventId = `employer-closed:${core.date}:${organizationId}`;
   if (core.eventIds.has(eventId))
     throw new Error("Closure event already exists.");
@@ -1288,10 +1312,7 @@ export function closeEmployer(
     cause,
     endedJobIds,
     affectedPersonIds,
-    source: actualSource(
-      api,
-      "Actual prototype closure after a recorded obligation could not be funded by existing cash or recorded finite credit; closure policy remains an open model assumption.",
-    ),
+    source: actualSource(api, sourceText),
   };
   book.closedAt = core.date;
   book.closingReasonKey = reasonKey;
@@ -1394,6 +1415,62 @@ export function closeEmployer(
     },
   });
   return closure;
+}
+
+/**
+ * An owner closes a solvent business by choice (no successor, retiring): its
+ * remaining cash goes to the owner's account in one balanced entry, then its
+ * jobs, contracts and books end exactly as in a forced closure. The decision
+ * is the caller's (an owner's own reasons); this only carries it out.
+ */
+export function closeBusinessByChoice(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    organizationId: string;
+    ownerAccountId: string;
+    reasonKey: string;
+    source: Source;
+  },
+): EmployerClosure {
+  const { organizationId, ownerAccountId, reasonKey, source } = input;
+  const book = core.finance.businesses.get(organizationId),
+    employer = core.organizations.get(organizationId);
+  if (!book || !employer || book.closedAt || !reasonKey)
+    throw new Error("A closure by choice needs an open recorded business.");
+  api.stopgap("SG-CORE-voluntary-closure-final-pay");
+  const accounts = api.accounts(),
+    id = `owner-closed:${core.date}:${organizationId}`;
+  const left = accounts.balance(accounts.main(organizationId));
+  const paid =
+    left > 0
+      ? accounts.transfer({
+          id,
+          from: accounts.main(organizationId),
+          to: ownerAccountId,
+          amountMinor: left,
+          reasonKey: "business.closing-distribution",
+          source,
+        }).paidMinor
+      : 0;
+  const cause: OwnerClosureChoice = {
+    kind: "owner.choice",
+    id,
+    date: core.date,
+    organizationId,
+    ownerAccountId,
+    paidOutMinor: paid,
+    source: { ...source },
+  };
+  return windDownEmployer(
+    core,
+    api,
+    organizationId,
+    id,
+    reasonKey,
+    cause,
+    `The owner closed the business by choice and took its remaining cash (${paid} minor units). ${source.citation}`,
+  );
 }
 
 export function finishFinanceDay(core: CoreState, api: CoreAPI): void {

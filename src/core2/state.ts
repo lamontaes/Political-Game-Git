@@ -1,8 +1,10 @@
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
+import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
+  enterResidentMarket,
   releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
@@ -49,6 +51,7 @@ import {
   retireFinanceBudget,
   transferCredit,
   reviewBusiness,
+  closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
 } from "./finance-state";
@@ -982,6 +985,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
     },
+    closeBusinessByChoice(input) {
+      return closeBusinessByChoice(core, api, input);
+    },
     closeEmployer(id, sourceId, reason) {
       return closeEmployer(core, api, id, sourceId, reason);
     },
@@ -1446,6 +1452,41 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByTier, changes.tier, personId);
       }
       Object.assign(actor, changes);
+    },
+    fundPublicPay(authorityId, treasuryId, source) {
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("Treasury funding cannot cite a later source.");
+      const authority = [...core.organizations.values()].find(
+        (row) => row.publicPayAuthority?.id === authorityId,
+      )?.publicPayAuthority;
+      if (!authority)
+        throw new Error(`No recorded public pay authority: ${authorityId}`);
+      const treasury = core.organizations.get(treasuryId);
+      if (!treasury || treasury.outsideFlow || treasury.kind !== "government")
+        throw new Error(
+          `A treasury must be a recorded government with its own cash: ${treasuryId}`,
+        );
+      const links = publicPayTreasuries(core),
+        prior = links.get(authorityId);
+      links.set(authorityId, {
+        treasuryId,
+        source: { ...source },
+        shortfalls: prior?.shortfalls ?? new Map(),
+      });
+    },
+    publicPayShortfallMinor(authorityId) {
+      let total = 0;
+      for (const row of publicPayTreasuries(core)
+        .get(authorityId)
+        ?.shortfalls.values() ?? [])
+        total += row.amountMinor;
+      return total;
+    },
+    enterMarket(entry) {
+      if (!Number.isFinite(entry.capacityMinor) || entry.capacityMinor < 0)
+        throw new Error("Market capacity must be a nonnegative amount.");
+      return enterResidentMarket(core, entry);
     },
     rerateJob(jobId, hourlyMinor, source) {
       if (!Number.isSafeInteger(hourlyMinor) || hourlyMinor <= 0)
