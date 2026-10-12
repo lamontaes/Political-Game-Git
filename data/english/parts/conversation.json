@@ -61,8 +61,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1097,
-      "nps.gov (PDF)": 74,
+      "nps.gov": 1346,
+      "nps.gov (PDF)": 107,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -89,7 +89,7 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 64,
+      "transcriptsUsing": 65,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Election Assistance Commission (eac.gov)": 6,
@@ -100,7 +100,8 @@
         "nasa": 5,
         "nasa2": 2,
         "nps": 4,
-        "nps.gov": 1
+        "nps.gov": 1,
+        "nps.gov (PDF)": 1
       },
       "shippable": true,
       "source": {
@@ -160,7 +161,7 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 30,
+      "transcriptsUsing": 31,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "National Archives History Office oral history project": 1,
@@ -173,7 +174,8 @@
         "house": 2,
         "nasa": 6,
         "nasa2": 4,
-        "nps": 7
+        "nps": 7,
+        "nps.gov (PDF)": 1
       },
       "shippable": true,
       "source": {
@@ -2470,7 +2472,7 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 922,
+      "transcriptsUsing": 930,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Federal Election Commission (fec.gov)": 2,
@@ -2503,8 +2505,8 @@
         "ncua": 7,
         "nih": 11,
         "nps": 96,
-        "nps.gov": 38,
-        "nps.gov (PDF)": 6,
+        "nps.gov": 43,
+        "nps.gov (PDF)": 9,
         "ntia": 3,
         "sba": 20,
         "usfa.fema.gov": 3,
@@ -3508,7 +3510,7 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 541,
+      "transcriptsUsing": 542,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 2,
@@ -3532,7 +3534,7 @@
         "nih": 3,
         "nps": 152,
         "nps.gov": 2,
-        "nps.gov (PDF)": 2,
+        "nps.gov (PDF)": 3,
         "va": 1
       },
       "shippable": true,
@@ -3985,7 +3987,7 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 974,
+      "transcriptsUsing": 977,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -4012,8 +4014,8 @@
         "nasa2": 18,
         "nih": 12,
         "nps": 94,
-        "nps.gov": 6,
-        "nps.gov (PDF)": 2,
+        "nps.gov": 7,
+        "nps.gov (PDF)": 4,
         "ntia": 2,
         "usgs": 18,
         "va": 2,
@@ -4193,7 +4195,7 @@
           "stages": ["born"]
         }
       ],
-      "transcriptsUsing": 208,
+      "transcriptsUsing": 209,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -4213,6 +4215,7 @@
         "nasa2": 10,
         "nih": 1,
         "nps": 76,
+        "nps.gov (PDF)": 1,
         "wpa": 27
       },
       "shippable": true,
@@ -5623,7 +5626,7 @@
           "choice": "yes"
         }
       ],
-      "transcriptsUsing": 3352,
+      "transcriptsUsing": 3354,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 2,
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
@@ -5654,7 +5657,7 @@
         "ncua": 8,
         "nih": 31,
         "nps": 375,
-        "nps.gov": 4,
+        "nps.gov": 6,
         "nps.gov (PDF)": 1,
         "usa.gov": 1,
         "wpa": 7
@@ -6375,7 +6378,7 @@
           "choice": "met"
         }
       ],
-      "transcriptsUsing": 286,
+      "transcriptsUsing": 287,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 4,
@@ -6393,7 +6396,7 @@
         "nasa2": 8,
         "nih": 4,
         "nps": 90,
-        "nps.gov": 1,
+        "nps.gov": 2,
         "nps.gov (PDF)": 1,
         "wpa": 1
       },
@@ -7910,7 +7913,7 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 939,
+      "transcriptsUsing": 940,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
         "Federal Election Commission (fec.gov)": 3,
@@ -7938,6 +7941,7 @@
         "nasa2": 92,
         "nih": 11,
         "nps": 222,
+        "nps.gov": 1,
         "usfa.fema.gov": 1,
         "wpa": 10
       },
@@ -8558,7 +8562,7 @@
           "choice": "think"
         }
       ],
-      "transcriptsUsing": 138,
+      "transcriptsUsing": 139,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 2,
@@ -8575,7 +8579,7 @@
         "nasa2": 10,
         "nih": 1,
         "nps": 17,
-        "nps.gov": 1,
+        "nps.gov": 2,
         "nps.gov (PDF)": 1
       },
       "shippable": true,
@@ -9515,7 +9519,7 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 2386,
+      "transcriptsUsing": 2388,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
@@ -9543,7 +9547,7 @@
         "nih": 14,
         "nps": 159,
         "nps.gov": 3,
-        "nps.gov (PDF)": 1,
+        "nps.gov (PDF)": 3,
         "va": 17,
         "wpa": 2
       },
@@ -10347,7 +10351,7 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 922,
+      "transcriptsUsing": 930,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Federal Election Commission (fec.gov)": 2,
@@ -10380,8 +10384,8 @@
         "ncua": 7,
         "nih": 11,
         "nps": 96,
-        "nps.gov": 38,
-        "nps.gov (PDF)": 6,
+        "nps.gov": 43,
+        "nps.gov (PDF)": 9,
         "ntia": 3,
         "sba": 20,
         "usfa.fema.gov": 3,
@@ -10631,7 +10635,7 @@
           "choice": "turn"
         }
       ],
-      "transcriptsUsing": 653,
+      "transcriptsUsing": 657,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
@@ -10653,7 +10657,7 @@
         "nih": 3,
         "nps": 62,
         "nps.gov": 3,
-        "nps.gov (PDF)": 8,
+        "nps.gov (PDF)": 12,
         "weather.gov": 1,
         "wpa": 6
       },

@@ -19,7 +19,9 @@
     "opponent": "The other candidate, from the contest record.",
     "measure": "The measure, as its record names it.",
     "body": "The governing body, from its record.",
-    "action": "What the body voted to do, from the measure record."
+    "action": "What the body voted to do, from the measure record.",
+    "matter": "What the case was about, from the enforcement record.",
+    "occasion": "What is being marked, from the event record."
   },
   "maxWords": 14,
   "minDocuments": 2,
@@ -68,7 +70,15 @@
         "{place} Receives {money} Grant",
         "{place} Awarded {money} Grant",
         "{money} Grant Awarded to {place}",
-        "{money} for {purpose} in {place}"
+        "{money} for {purpose} in {place}",
+        "{body} Awards {money} to {place}",
+        "{body} Awards {money} for {purpose}",
+        "{body} Announces {money} for {purpose}",
+        "{body} Announces {money} to {purpose}",
+        "{body} Grants {money} to {place}",
+        "{body} Invests {money} in {place}",
+        "{place} Receives {money}",
+        "{body} Awards {money} Grant to {place}"
       ]
     },
     {
@@ -167,6 +177,84 @@
         "{body} Votes to {action}",
         "{place} Approves {measure}",
         "{place} Adopts {measure}"
+      ]
+    },
+    {
+      "move": "organization-opened",
+      "subject": "headline",
+      "role": "organization.opened",
+      "choice": "headline",
+      "candidates": [
+        "{subject} Opens",
+        "{subject} Reopens",
+        "{subject} Opens in {place}",
+        "{subject} Opens Its Doors",
+        "{subject} Celebrates Grand Opening",
+        "{subject} Reopens to the Public"
+      ]
+    },
+    {
+      "move": "labor-citation",
+      "subject": "headline",
+      "role": "labor-citation",
+      "choice": "headline",
+      "candidates": [
+        "{body} Cites {employer}",
+        "{body} Fines {employer}",
+        "{body} Sues {employer}",
+        "{employer} Settles",
+        "{employer} to Pay {money} to Settle {matter}",
+        "{employer} Will Pay {money} to Settle {matter}",
+        "{employer} Cited for {matter}",
+        "{employer} Fined {money}"
+      ]
+    },
+    {
+      "move": "honor",
+      "subject": "headline",
+      "role": "honor",
+      "choice": "headline",
+      "candidates": [
+        "{body} Honors {name}",
+        "{body} Recognizes {name}",
+        "{place} Celebrates {occasion}",
+        "{body} Celebrates {occasion}",
+        "{name} Named {office}",
+        "{name} Honored",
+        "{name} Recognized"
+      ]
+    },
+    {
+      "move": "proposal",
+      "subject": "headline",
+      "role": "proposal",
+      "choice": "headline",
+      "candidates": [
+        "{body} Proposes {measure}",
+        "{body} Finalizes {measure}",
+        "{body} Seeks Comment on {measure}",
+        "{body} Seeks Public Comment on {measure}",
+        "{body} Extends {measure}",
+        "{body} Announces {measure}",
+        "{body} Launches {measure}",
+        "{body} Issues {measure}"
+      ]
+    },
+    {
+      "move": "meeting",
+      "subject": "headline",
+      "role": "meeting",
+      "choice": "headline",
+      "candidates": [
+        "{body} to Meet in {place}",
+        "{body} to Meet on {date}",
+        "{body} to Meet",
+        "{body} Announces Meeting",
+        "{body} Schedules Meeting",
+        "{body} to Hold Public Meeting",
+        "{body} to Hold Public Meeting in {place}",
+        "{body} Will Meet in {place}",
+        "{body} to Host Public Meeting"
       ]
     }
   ]

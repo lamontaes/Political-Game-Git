@@ -37,8 +37,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1097,
-    "nps.gov (PDF)": 74,
+    "nps.gov": 1346,
+    "nps.gov (PDF)": 107,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -113,12 +113,6 @@
       "move": "rest",
       "text": "Sleep in.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "rest",
-      "text": "Take it easy.",
-      "documents": 3,
       "modern": 0
     },
     {
@@ -357,12 +351,6 @@
     },
     {
       "move": "look-up-local-institution",
-      "text": "Find out more.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "look-up-local-institution",
       "text": "Look into it.",
       "documents": 0,
       "modern": 0
@@ -544,8 +532,8 @@
     {
       "move": "answer-calling",
       "text": "Do your part.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "answer-calling",

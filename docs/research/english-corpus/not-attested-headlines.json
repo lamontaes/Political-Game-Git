@@ -37,8 +37,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1097,
-    "nps.gov (PDF)": 74,
+    "nps.gov": 1346,
+    "nps.gov (PDF)": 107,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -156,6 +156,18 @@
       "text": "{money} for {purpose} in {place}",
       "documents": 1,
       "modern": 1
+    },
+    {
+      "move": "grant",
+      "text": "{body} Grants {money} to {place}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "grant",
+      "text": "{place} Receives {money}",
+      "documents": 0,
+      "modern": 0
     },
     {
       "move": "officeholder",
@@ -327,13 +339,121 @@
     },
     {
       "move": "council",
-      "text": "{body} Rejects {measure}",
+      "text": "{body} Votes to {action}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-opened",
+      "text": "{subject} Opens",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-opened",
+      "text": "{subject} Reopens",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-opened",
+      "text": "{subject} Opens in {place}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-opened",
+      "text": "{subject} Opens Its Doors",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-opened",
+      "text": "{subject} Celebrates Grand Opening",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-opened",
+      "text": "{subject} Reopens to the Public",
       "documents": 1,
       "modern": 1
     },
     {
-      "move": "council",
-      "text": "{body} Votes to {action}",
+      "move": "labor-citation",
+      "text": "{employer} Settles",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "labor-citation",
+      "text": "{employer} Fined {money}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "honor",
+      "text": "{body} Honors {name}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "honor",
+      "text": "{body} Recognizes {name}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "honor",
+      "text": "{name} Named {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "honor",
+      "text": "{name} Honored",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "honor",
+      "text": "{name} Recognized",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "meeting",
+      "text": "{body} to Meet on {date}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "meeting",
+      "text": "{body} Announces Meeting",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "meeting",
+      "text": "{body} Schedules Meeting",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "meeting",
+      "text": "{body} to Hold Public Meeting",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "meeting",
+      "text": "{body} to Hold Public Meeting in {place}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "meeting",
+      "text": "{body} to Host Public Meeting",
       "documents": 0,
       "modern": 0
     }

@@ -54,8 +54,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1097,
-      "nps.gov (PDF)": 74,
+      "nps.gov": 1346,
+      "nps.gov (PDF)": 107,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -66,7 +66,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 157
+    "notAttested": 155
   },
   "parts": [
     {
@@ -184,6 +184,35 @@
       }
     },
     {
+      "key": "choice-names.rest.take-it-easy",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Take it easy.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 1,
+        "nasa2": 1,
+        "nps.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Day Hikes",
+        "date": "2022-04-08",
+        "granule": "nps-thingstodo-day-hikes",
+        "url": "https://www.nps.gov/thingstodo/day-hikes.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "choice-names.contact-known-person.call-name",
       "move": "contact-known-person",
       "kind": "spoken",
@@ -233,12 +262,12 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 9,
       "bySource": {
         "epa": 1,
         "hearings": 2,
-        "nps.gov": 2,
-        "nps.gov (PDF)": 1
+        "nps.gov": 3,
+        "nps.gov (PDF)": 3
       },
       "shippable": true,
       "source": {
@@ -392,6 +421,32 @@
         "date": "2024-07-24",
         "granule": "CHRG-118hhrg57120",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57120/html/CHRG-118hhrg57120.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.look-up-local-institution.find-out-more",
+      "move": "look-up-local-institution",
+      "kind": "spoken",
+      "text": "Find out more.",
+      "uses": [
+        {
+          "move": "look-up-local-institution",
+          "subject": "action",
+          "role": "look-up-local-institution",
+          "choice": "look-up-local-institution"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nps.gov": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Pony Express National Historic Trail Passport Stamp",
+        "date": "2025-09-04",
+        "granule": "nps-articles-pony-express-national-historic-trail-passport-stamp",
+        "url": "https://www.nps.gov/articles/000/pony-express-national-historic-trail-passport-stamp.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
