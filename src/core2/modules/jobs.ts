@@ -21,6 +21,7 @@ import {
   addCountedJob,
   countedJobsOf,
   endCountedJob,
+  rerateCountedJobs,
 } from "../residents-economy";
 import type {
   ActOffer,
@@ -672,6 +673,61 @@ function reviewWorkers(api: CoreAPI): void {
   }
   reviewJobless(api);
   reviewCountedRetirements(api);
+  raisePay(api);
+}
+
+/** The place's pay level against the opening: national hourly earnings times its region's pay. */
+function payLevel(api: CoreAPI, placeId: string): number {
+  const c = core(api);
+  const condition = (c.finance.conditionsByPlace.get(placeId) ?? [])
+    .filter((row) => row.at <= c.date)
+    .at(-1);
+  return condition?.wagePriceFactor ?? api.parameter("one");
+}
+
+/**
+ * Once a year from its last raise, each job's pay follows the place's pay
+ * level since then (Employment Cost Index practice: most employers adjust
+ * pay yearly). Hires start at the going rate and their own level.
+ */
+function raisePay(api: CoreAPI): void {
+  const c = core(api),
+    pay = store(api).table("pay"),
+    months = api.parameter("macroMonthsPerYear"),
+    counted = new Map<string, number>();
+  const jobs = [
+    ...[...c.jobs.values()].filter(
+      (job) => job.endsAt === undefined && c.people.get(job.personId)?.alive,
+    ),
+    ...[...c.finance.businesses.keys()].flatMap((id) => countedJobsOf(c, id)),
+  ];
+  for (const job of jobs) {
+    const placeId = c.organizations.get(job.organizationId)?.placeId;
+    if (!placeId || !job.hourlyMinor) continue;
+    const row = pay.get(job.id) as { level: number; at: string } | undefined;
+    const level = row?.level ?? api.parameter("one"),
+      at = row?.at ?? api.state.startedAt;
+    if (
+      daysBetween(makeIsoDate(at), makeIsoDate(c.date)) <
+      (api.parameter("jobsDaysPerYear") * (months - 1)) / months
+    )
+      continue;
+    const now = payLevel(api, placeId);
+    const hourly = Math.round((job.hourlyMinor * now) / level);
+    if (hourly > 0 && hourly !== job.hourlyMinor && !c.jobs.has(job.id))
+      counted.set(job.id, hourly);
+    else if (hourly > 0 && hourly !== job.hourlyMinor)
+      api.rerateJob(
+        job.id,
+        hourly,
+        source(
+          api,
+          `A yearly raise following the place's pay level, ${level.toFixed(4)} to ${now.toFixed(4)} against the opening.`,
+        ),
+      );
+    pay.put({ id: job.id, level: now, at: c.date });
+  }
+  rerateCountedJobs(c, counted);
 }
 
 /** Jobless working-age adults choose whether to look for work, pushed by how few days their money covers. */
@@ -842,6 +898,16 @@ function hireCounted(
   };
   if (!addCountedJob(c, job)) return false;
   store(api)
+    .table("pay")
+    .put({
+      id: jobId,
+      level: payLevel(
+        api,
+        c.organizations.get(job.organizationId)?.placeId ?? "",
+      ),
+      at: c.date,
+    });
+  store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
   store(api).table("countedSeekers").remove(seeker.personId);
@@ -989,6 +1055,16 @@ function hire(
     newCalendar,
   );
   store(api)
+    .table("pay")
+    .put({
+      id: jobId,
+      level: payLevel(
+        api,
+        c.organizations.get(job.organizationId)?.placeId ?? "",
+      ),
+      at: c.date,
+    });
+  store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: person.id });
   store(api).table("seekers").remove(person.id);
@@ -1018,6 +1094,7 @@ export const JOBS_MODULE: CoreModule = {
         },
       },
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
+      pay: {},
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       changes: {

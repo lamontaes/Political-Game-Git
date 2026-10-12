@@ -175,3 +175,39 @@ export function scaleOutsideSales(
   }
   return changed;
 }
+
+/**
+ * New hourly pay for many counted workers at once: each employer's wage flow
+ * is recomputed once, not once per worker (the core's `rerateCountedJob`
+ * scans every flow per call). Returns the jobs changed.
+ */
+export function rerateCountedJobs(
+  core: CoreState,
+  hourlyByJob: ReadonlyMap<string, number>,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt) return 0;
+  const touched = new Set<Flow>();
+  let changed = 0;
+  for (const [jobId, hourlyMinor] of hourlyByJob) {
+    const job = rt.jobs.get(jobId),
+      flow = rt.wageFlowByJob.get(jobId);
+    if (!job || !flow || flow.endedAt || !job.hourlyMinor) continue;
+    const perDay = flow.perDayMinorByJob?.[jobId];
+    if (perDay === undefined) continue;
+    const ratio = hourlyMinor / job.hourlyMinor;
+    if (!touched.has(flow)) {
+      flow.perDayMinorByJob = { ...flow.perDayMinorByJob };
+      touched.add(flow);
+    }
+    (flow.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+    rt.jobs.set(jobId, {
+      ...job,
+      hourlyMinor,
+      wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
+    });
+    changed += 1;
+  }
+  for (const flow of touched) recompute(flow);
+  return changed;
+}
