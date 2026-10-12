@@ -291,9 +291,9 @@ const ALLOWED_FILES: readonly {
     reason: "federal court division and county names",
   },
   {
-    file: /^data\/research\/places\/local-institutions\.json$/,
+    file: /^data\/research\/places\/local-institutions(?:\.json|\/[A-Z]{2}\.json)$/,
     reason:
-      "real names of schools, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
+      "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
   },
   {
     file: /^src\/simulation\/municipal-seat-identity\.ts$/,
