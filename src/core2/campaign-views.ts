@@ -203,7 +203,7 @@ export function publicOffset(
 
 /**
  * How much a person agrees with a platform, in [-1, 1]: the mean, over the
- * stated positions, of how close the position is to their own stance.
+ * stated positions, of their own stance times the position.
  */
 export function platformAgreement(
   lean: number,
@@ -211,7 +211,10 @@ export function platformAgreement(
 ): number {
   if (!platform.length) return 0;
   let sum = 0;
+  // Their own view times the platform's position: someone with no view of a
+  // question is barely moved either way by it; someone who holds it strongly
+  // is drawn or put off (owner, Oct 9: most people hold weak views or none).
   for (const stance of platform)
-    sum += 1 - Math.abs(personStance(lean, stance.question) - stance.position);
+    sum += personStance(lean, stance.question) * stance.position;
   return Math.max(-1, Math.min(1, sum / platform.length));
 }
