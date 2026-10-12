@@ -14,6 +14,7 @@ import { seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
+import { lifePlaceSearch } from "../simulation/life-places";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -137,7 +138,12 @@ const server = createServer(async (request, response) => {
         const world = buildBenchWorld(
           url.searchParams.get("seed") ?? "",
           url.searchParams.get("date") ?? "",
-          { twoLevel: true },
+          {
+            twoLevel: true,
+            ...(url.searchParams.get("placeKey")
+              ? { placeKey: url.searchParams.get("placeKey")! }
+              : {}),
+          },
         );
         core = world.core;
         director = world.director;
@@ -234,6 +240,17 @@ const server = createServer(async (request, response) => {
           director,
           url.searchParams.get("id") ?? "",
         ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/places") {
+      // Engineering list length for the place picker, not a model value.
+      const rows = lifePlaceSearch(url.searchParams.get("q") ?? "", 8, {
+        scope: "locality",
+      });
+      send(
+        200,
+        rows.map((row) => ({ key: row.key, name: row.displayName })),
       );
       return;
     }

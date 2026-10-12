@@ -515,3 +515,24 @@ select {
 .gov-map .yours.place {
   fill: var(--gold);
 }
+
+/* The opening plays like a film: letterbox bars. */
+#game.letterbox::before,
+#game.letterbox::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 9vh;
+  background: #000;
+  z-index: 5;
+}
+#game.letterbox::before {
+  top: 0;
+}
+#game.letterbox::after {
+  bottom: 0;
+}
+#caption {
+  z-index: 6;
+}

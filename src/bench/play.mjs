@@ -64,6 +64,7 @@ let skipOpening;
 async function playOpening() {
   const shots = await api(`/api/opening?id=${encodeURIComponent(me.id)}`);
   show("caption", true);
+  $("game").classList.add("letterbox");
   for (const shot of shots) {
     $("backdrop").src = shot.backdrop.url;
     drawPeople(shot.people);
@@ -81,6 +82,7 @@ async function playOpening() {
   }
   skipOpening = undefined;
   show("caption", false);
+  $("game").classList.remove("letterbox");
 }
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && skipOpening) skipOpening();
@@ -153,6 +155,11 @@ function renderPacket(value) {
 
 async function refresh() {
   await Promise.all([renderScene(), renderCard()]);
+  // When your character dies, carry on as someone connected to them.
+  if (me.card && me.card.alive === false) {
+    await openSheet("handoff");
+    return;
+  }
   // Election night: new results open their sheet.
   const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
   if (races.length > seenResults) {
@@ -747,6 +754,30 @@ const sheets = {
     }
     return [el("div", { className: "row map" }, svg), ...legend];
   },
+  async handoff() {
+    const people = [
+      ...(me.card.home?.members ?? []).map((m) => ({
+        id: m.personId,
+        name: m.name,
+        why: m.relation ?? "home",
+      })),
+      ...me.card.ties.map((t) => ({
+        id: t.personId,
+        name: t.name,
+        why: t.relation ?? t.kind,
+      })),
+    ].filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
+    return [
+      row(me.card.name, "†"),
+      ...people.map((p) => {
+        const line = row(p.name, `${p.why} `);
+        const b = el("button", { type: "button", textContent: "Play" });
+        b.addEventListener("click", () => playAs(p.id));
+        line.append(b);
+        return line;
+      }),
+    ];
+  },
   async family() {
     const members = await api(`/api/family?id=${encodeURIComponent(me.id)}`);
     return members
@@ -1042,6 +1073,7 @@ const titles = {
   results: "Election night",
   budgets: "Budgets",
   family: "Family",
+  handoff: "Carry on as",
   map: "Map",
   news: "News",
 };
@@ -1083,13 +1115,23 @@ api("/api/seed").then((value) => {
   $("seed").value = value.seed;
   $("date").value = value.date;
 });
+let placeRows = [];
+$("place").addEventListener("input", async () => {
+  placeRows = await api(
+    `/api/places?q=${encodeURIComponent($("place").value)}`,
+  );
+  $("places").replaceChildren(
+    ...placeRows.map((row) => el("option", { value: row.name })),
+  );
+});
 $("new-life").addEventListener("click", async () => {
   $("new-life").disabled = true;
   show("front-status", true);
   document.querySelector("#front .progress").hidden = false;
   try {
+    const chosen = placeRows.find((row) => row.name === $("place").value);
     const life = await post(
-      `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value })}`,
+      `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}) })}`,
     );
     me = {
       id: life.personId,
