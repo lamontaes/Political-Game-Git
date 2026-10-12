@@ -20,6 +20,8 @@
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
+import powers from "../data/legislature/series-powers.json" with { type: "json" };
+import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import lawAgricultureNaturalResources from "../../../data/research/laws/starting-law-2026/agriculture-natural-resources.json" with { type: "json" };
 import lawBusinessCommerce from "../../../data/research/laws/starting-law-2026/business-commerce.json" with { type: "json" };
@@ -55,7 +57,7 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
-import { partySide } from "../appointments";
+import { partyName, partySide } from "../appointments";
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -101,12 +103,16 @@ export interface BillRow {
     | "vetoed"
     | "overridden"
     | "enacted"
-    | "blocked";
+    | "blocked"
+    /** Passed, on the desk of an executive who decides for themselves (the player). */
+    | "awaiting-signature";
   readonly deals: readonly {
     readonly memberId: string;
     readonly kind: string;
     readonly terms: string;
     readonly date: string;
+    /** A declined offer is on the record but moves no one. */
+    readonly status?: "accepted" | "declined";
   }[];
 }
 
@@ -131,6 +137,8 @@ export const LEGISLATURE_MODULE: CoreModule = {
       votes: { indexes: { byBill: { fields: ["billId"] } } },
       committees: {},
       counters: {},
+      obligations: {},
+      choices: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -623,6 +631,28 @@ function costOf(api: CoreAPI, provisions: readonly Provision[]) {
   };
 }
 
+const seriesPowers = (
+  powers as unknown as {
+    series: Record<string, { levels: string[]; source: string }>;
+  }
+).series;
+
+/** A law amount this level has no power to set, with the law that says so; null when it may. */
+function beyondPower(
+  provision: Provision,
+  level: "federal" | "state" | "local",
+): Authority | null {
+  if (provision.kind !== "law-amount" || !provision.series) return null;
+  const power = seriesPowers[provision.series];
+  if (!power || power.levels.includes(level)) return null;
+  return {
+    allowed: false,
+    warning: "preempted",
+    reason: `only ${power.levels.join(" or ")} government sets ${provision.series}`,
+    source: power.source,
+  };
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -637,15 +667,24 @@ export function draftBill(
   const stateBody = /:(legislature-|us-house|us-senate)/.test(
     input.bodyOfficeId,
   );
-  const authority = input.provisions.map((p) =>
-    stateBody
-      ? ({
-          allowed: true,
-          warning: "none",
-          reason: "within the state's own power",
-          source: "",
-        } as Authority)
-      : authorityFor(api, p),
+  const level = /:(us-house|us-senate)/.test(input.bodyOfficeId)
+    ? "federal"
+    : stateBody
+      ? "state"
+      : "local";
+  const authority = input.provisions.map(
+    (p) =>
+      // A level may only set the amounts the law gives it (no council sets
+      // SNAP or the Medicare tax; audit 3).
+      beyondPower(p, level) ??
+      (stateBody
+        ? ({
+            allowed: true,
+            warning: "none",
+            reason: "within the state's own power",
+            source: "",
+          } as Authority)
+        : authorityFor(api, p)),
   );
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
@@ -746,7 +785,7 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
                 birthDate: "",
                 homeState: state,
               },
-              party: worldSeatParty(api, seatId) ?? party,
+              party: partyName(worldSeatParty(api, seatId) ?? party),
               startDate: api.state.date,
               endDate: null,
               endEstimated: true,
@@ -802,7 +841,69 @@ export function memberPosition(
   billId: string,
   memberId: string,
 ): MemberPosition {
-  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  return positionOn(
+    api,
+    table(api, "bills").get(billId) as unknown as BillRow,
+    memberId,
+  );
+}
+
+const tieRules = (
+  ties as unknown as {
+    states: Record<string, { stateSenateTieBreaker?: { who: string } }>;
+  }
+).states;
+
+/**
+ * Who breaks a tie in a chamber: the Vice President in the U.S. Senate
+ * (U.S. Const. art. I, § 3, cl. 4); in a state senate, the lieutenant
+ * governor where the state's law gives them the vote
+ * (`data/research/elections/tie-rules-2026.json`). Null where no one does.
+ */
+function tieBreaker(api: CoreAPI, chamber: string): string | null {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const serving = (seatId: string) =>
+    (
+      offices
+        .table("terms")
+        .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+    )[0];
+  if (chamber === FEDERAL_SENATE) {
+    const vp = serving("seat:US:vice-president");
+    return vp ? memberKey(vp) : null;
+  }
+  const office = offices.table("offices").get(chamber) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  if (office?.kind !== "legislature-upper") return null;
+  if (
+    tieRules[office.jurisdiction]?.stateSenateTieBreaker?.who !==
+    "lieutenant governor"
+  )
+    return null;
+  const lg = (
+    offices
+      .table("offices")
+      .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+      id: string;
+      kind: string;
+    }[]
+  ).find((o) => o.kind === "lieutenant-governor");
+  if (!lg) return null;
+  const seat = (
+    offices.table("seats").query("byOffice", [lg.id]) as unknown as {
+      id: string;
+    }[]
+  )[0];
+  const term = seat ? serving(seat.id) : undefined;
+  return term ? memberKey(term) : null;
+}
+
+/** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
+function positionOn(
+  api: CoreAPI,
+  bill: BillRow,
+  memberId: string,
+): MemberPosition {
   const lean = leanOf(api, memberId);
   // A town member answers to the town; a state member to their district,
   // read as their own seat's lean until district views are modeled.
@@ -823,9 +924,13 @@ export function memberPosition(
       ? 1
       : campaignParameter("sponsorRelationshipWeight") *
         (relationship?.level ?? 0);
-  const deal =
-    bill.deals.filter((d) => d.memberId === memberId).length *
-    campaignParameter("dealWeight");
+  // Only a deal the member took moves them: what the sponsor now owes them.
+  const deal = bill.deals
+    .filter((d) => d.memberId === memberId && d.status !== "declined")
+    .reduce(
+      (sum, d) => sum + dealValue(api, d.kind, memberId, bill.sponsorId),
+      0,
+    );
   const c = campaignParameter("constituentWeight");
   const lobby = positionTerms.reduce(
     (sum, term) => sum + term(api, bill, memberId),
@@ -882,7 +987,7 @@ export function offerDeal(
   readonly after: MemberPosition;
 } {
   const bill = table(api, "bills").get(input.billId) as unknown as BillRow;
-  const before = memberPosition(api, input.billId, input.memberId);
+  const before = positionOn(api, bill, input.memberId);
   const provisions =
     input.kind === "amend" && input.amend
       ? bill.provisions.map((p, i) =>
@@ -893,23 +998,101 @@ export function offerDeal(
     input.kind === "amend"
       ? `amend provision ${input.amend?.index} to ${input.amend?.value}`
       : input.kind;
-  const next: BillRow = {
+  const deal = {
+    memberId: input.memberId,
+    kind: input.kind,
+    terms,
+    date: api.state.date,
+  };
+  // The member weighs the bill as the offer would leave it.
+  const offered: BillRow = {
     ...bill,
     provisions,
     costEstimate: costOf(api, provisions),
-    deals: [
-      ...bill.deals,
-      {
-        memberId: input.memberId,
-        kind: input.kind,
-        terms,
-        date: api.state.date,
-      },
-    ],
+    deals: [...bill.deals, { ...deal, status: "accepted" }],
   };
+  const after = positionOn(api, offered, input.memberId);
+  const accepted = after.total > 0 && before.total <= 0;
+  // Accepted, the terms are real (an amendment changes the bill for
+  // everyone) and the sponsor owes what they gave; declined, nothing changes
+  // but the offer is on the record.
+  const next: BillRow = accepted
+    ? offered
+    : { ...bill, deals: [...bill.deals, { ...deal, status: "declined" }] };
   table(api, "bills").put(next as unknown as ModuleRow);
-  const after = memberPosition(api, input.billId, input.memberId);
-  return { accepted: after.total > 0 && before.total <= 0, before, after };
+  if (accepted && input.kind !== "amend")
+    table(api, "obligations").put({
+      id: `obligation:${bill.id}:${input.memberId}:${bill.deals.length}`,
+      owedBy: bill.sponsorId,
+      owedTo: input.memberId,
+      kind: input.kind,
+      billId: bill.id,
+      measure: bill.number,
+      date: api.state.date,
+      settled: false,
+    } as unknown as ModuleRow);
+  if (
+    api.state.people.has(input.memberId) &&
+    api.state.people.has(bill.sponsorId)
+  )
+    api.relationship(bill.sponsorId, input.memberId, "contact", 0.05);
+  return {
+    accepted,
+    before,
+    after: accepted ? after : before,
+  };
+}
+
+/**
+ * What a deal is worth to a member: a favor owed counts for more the closer
+ * they are to the sponsor; backing their own item counts as much as their
+ * strongest view; an amendment's worth is in the bill's changed terms.
+ */
+function dealValue(
+  api: CoreAPI,
+  kind: string,
+  memberId: string,
+  sponsorId?: string,
+): number {
+  const weight = campaignParameter("dealWeight");
+  if (kind === "amend") return 0;
+  if (kind === "back-their-item") {
+    const lean = leanOf(api, memberId);
+    const strongest = Math.max(
+      0,
+      ...[...Object.keys(POLICY_QUESTIONS)].map((q) =>
+        Math.abs(personStance(lean, q)),
+      ),
+    );
+    return weight * strongest * 2;
+  }
+  const tie = sponsorId
+    ? ((api.state as CoreState).relationships.get(
+        [memberId, sponsorId].sort().join(":"),
+      )?.level ?? 0)
+    : 0;
+  return weight * (1 + Math.max(0, tie));
+}
+
+/** What a sponsor owes the members who took their deals (favors, backing their items). */
+export function obligationsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly {
+  owedTo: string;
+  kind: string;
+  measure: string;
+  settled: boolean;
+}[] {
+  return (
+    table(api, "obligations").rows() as unknown as {
+      owedBy: string;
+      owedTo: string;
+      kind: string;
+      measure: string;
+      settled: boolean;
+    }[]
+  ).filter((o) => o.owedBy === personId);
 }
 
 /** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
@@ -959,8 +1142,19 @@ function chamberVote(
   for (const member of members(api, officeId)) {
     const key = memberKey(member);
     const position = memberPosition(api, bill.id, key);
+    // A member who chose their vote (the player) votes as they chose; the
+    // player is never voted for, so with no choice they abstain.
+    const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+      { vote: "yes" | "no" | "abstain" } | undefined;
     const vote =
-      position.total > 0 ? "yes" : position.total < 0 ? "no" : "abstain";
+      chosen?.vote ??
+      (key === (api.state as CoreState).playerId
+        ? "abstain"
+        : position.total > 0
+          ? "yes"
+          : position.total < 0
+            ? "no"
+            : "abstain");
     if (vote === "yes") yes += 1;
     if (vote === "no") no += 1;
     table(api, "votes").put({
@@ -1199,7 +1393,31 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
       table(api, "bills").put(held as unknown as ModuleRow);
       return held;
     }
-    const tally = chamberVote(api, bill, chamber);
+    const counted = chamberVote(api, bill, chamber);
+    // A tie: the presiding officer who may break one does (the Vice President
+    // in the U.S. Senate, a lieutenant governor where the state's law says);
+    // otherwise a tied vote fails.
+    const breaker =
+      counted.yes === counted.no ? tieBreaker(api, chamber) : null;
+    const breakerYes =
+      breaker !== null && memberPosition(api, bill.id, breaker).total > 0;
+    const tally =
+      breaker === null
+        ? counted
+        : {
+            yes: counted.yes + (breakerYes ? 1 : 0),
+            no: counted.no + (breakerYes ? 0 : 1),
+          };
+    if (breaker !== null)
+      table(api, "votes").put({
+        id: `vote:${bill.id}:${breaker}:tie`,
+        billId: bill.id,
+        memberId: breaker,
+        chamber,
+        vote: breakerYes ? "yes" : "no",
+        position: memberPosition(api, bill.id, breaker),
+        tieBreak: true,
+      } as unknown as ModuleRow);
     tallies.push(tally);
     // The Senate first needs three fifths of its sworn members to end debate.
     const cloture =
@@ -1273,7 +1491,20 @@ function executiveAction(
   if (executive) {
     const key = memberKey(executive);
     const position = memberPosition(api, bill.id, key);
-    if (position.total < 0) {
+    const decided = table(api, "choices").get(
+      `${bill.id}|executive`,
+    ) as unknown as { sign: boolean } | undefined;
+    // The player decides for themselves: the bill waits on their desk.
+    if (!decided && key === (api.state as CoreState).playerId) {
+      const waiting: BillRow = { ...bill, status: "awaiting-signature" };
+      table(api, "bills").put({
+        ...waiting,
+        tallies,
+      } as unknown as ModuleRow);
+      return waiting;
+    }
+    const vetoes = decided ? !decided.sign : position.total < 0;
+    if (vetoes) {
       // stopgapId: SG-GOV-veto-override-rule
       api.stopgap("SG-GOV-veto-override-rule");
       status = tallies.every((t) => t.yes * 3 >= (t.yes + t.no) * 2)
@@ -1292,6 +1523,40 @@ function executiveAction(
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
   return enact(api, next);
+}
+
+/** A member's own vote on a bill, cast before the vote is held (the player's). */
+export function castMemberVote(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+  vote: "yes" | "no" | "abstain",
+): void {
+  table(api, "choices").put({
+    id: `${billId}|${memberId}`,
+    vote,
+  } as unknown as ModuleRow);
+}
+
+/**
+ * The executive's own decision on a passed bill: sign it, or veto it (the
+ * body may then override by two thirds). Completes a bill waiting on the
+ * player's desk; for another executive, it's recorded for their next turn.
+ */
+export function executiveDecision(
+  api: CoreAPI,
+  billId: string,
+  sign: boolean,
+): BillRow {
+  table(api, "choices").put({
+    id: `${billId}|executive`,
+    sign,
+  } as unknown as ModuleRow);
+  const bill = table(api, "bills").get(billId) as unknown as BillRow & {
+    tallies?: { yes: number; no: number }[];
+  };
+  if (bill.status !== "awaiting-signature") return bill;
+  return executiveAction(api, bill, bill.tallies ?? []);
 }
 
 /** A county board's ordinances are county law: the county the board governs, in the town's chain. */

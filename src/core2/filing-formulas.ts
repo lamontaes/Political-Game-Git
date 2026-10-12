@@ -68,9 +68,36 @@ export function feeFromFormula(
  */
 export function signaturesFromFormula(
   formula: string,
-  base: { readonly registered: number; readonly votesCast: number },
+  base: {
+    readonly registered: number;
+    readonly votesCast: number;
+    /** The state's congressional districts, for "N from each district" rules. */
+    readonly districts?: number;
+  },
 ): FormulaRead | null {
   const text = formula.toLowerCase();
+  const each = /([\d,]+) from each congressional district/.exec(text);
+  if (each)
+    return {
+      value: money(each[1]!) * Math.max(1, base.districts ?? 1),
+      estimate: base.districts === undefined,
+      basis: formula,
+    };
+  // "1,500 or 10% of …, whichever is less"
+  const lesserFirst =
+    /^([\d,]+) or (\d+(?:\.\d+)?)% of (.*?), whichever is less/.exec(text);
+  if (lesserFirst) {
+    const registered = /regist|eligible|qualified|active/.test(lesserFirst[3]!);
+    const share = Math.ceil(
+      (Number(lesserFirst[2]) / 100) *
+        (registered ? base.registered : base.votesCast),
+    );
+    return {
+      value: Math.min(money(lesserFirst[1]!), share),
+      estimate: true,
+      basis: `${formula} (base from the 2024 vote)`,
+    };
+  }
   const inLieu = /(\d[\d,]*) in-lieu signatures/.exec(text);
   if (inLieu)
     return { value: money(inLieu[1]!), estimate: false, basis: formula };

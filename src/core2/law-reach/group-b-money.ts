@@ -24,6 +24,7 @@ import {
   graduatedSchedule,
   jurisdictionResidents,
   reachParameter,
+  townFacts,
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
@@ -56,10 +57,17 @@ export function townShare(api: CoreAPI, gov: GovernmentRow): number {
   if (gov.level === "city") return 1;
   const residents = residentsOf(api, gov);
   if (residents <= 0) return 0;
-  const town =
-    Number(api.state.placeMetadata.referencePopulation) ||
-    api.state.people.size;
-  return Math.min(1, town / residents);
+  return Math.min(1, townPopulation(api) / residents);
+}
+
+/**
+ * The town's population: its recorded reference population, else (a place
+ * whose count isn't held, as in some island areas) everyone modeled there.
+ */
+export function townPopulation(api: CoreAPI): number {
+  const recorded = Number(api.state.placeMetadata.referencePopulation);
+  if (Number.isFinite(recorded) && recorded > 0) return recorded;
+  return townFacts(api, lawChain(api).townPlaceId).modeled;
 }
 
 /** A government's residents, from the budgets module or (island areas) the Census. */
@@ -74,8 +82,7 @@ export function residentsOf(api: CoreAPI, gov: GovernmentRow): number {
 
 /** Modeled residents (named and counted) as a share of the town's real population. */
 export function modeledShare(api: CoreAPI, facts: TownFacts): number {
-  const town = Number(api.state.placeMetadata.referencePopulation);
-  return town > 0 ? Math.min(1, facts.modeled / town) : 1;
+  return Math.min(1, facts.modeled / Math.max(1, townPopulation(api)));
 }
 
 /** A budget line's base this fiscal year: the Census amount before any act or priority. */

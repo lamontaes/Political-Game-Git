@@ -63,6 +63,15 @@ describe("M2-01 offices and seats, every level", () => {
     const core = world(placeKey);
     const api = coreAPI(core);
     const seats = townSeats(api);
+    // The President and Vice President aren't drawn as relatives.
+    const president = seats.find(
+      (s) => s.seat.id === "seat:US:president",
+    )?.holder;
+    const vice = seats.find(
+      (s) => s.seat.id === "seat:US:vice-president",
+    )?.holder;
+    if (president && vice)
+      expect(vice.identity.familyName).not.toBe(president.identity.familyName);
     const levels = new Set(seats.map((s) => s.office.level));
     expect(levels.has("federal")).toBe(true);
     expect(levels.has("state")).toBe(true);

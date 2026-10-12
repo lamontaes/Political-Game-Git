@@ -19,6 +19,7 @@ import { termLimitReached } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
 import { feeFromFormula, signaturesFromFormula } from "../filing-formulas";
 import {
+  congressionalDistricts,
   officeSalary,
   registeredFromVotes,
   stateVotes2024,
@@ -77,6 +78,8 @@ export interface FilingContext {
   readonly salary: number | null;
   readonly termYears: number | null;
   readonly votesCast: number;
+  /** The state's congressional districts. */
+  readonly districts?: number;
 }
 
 /** Party candidates and independents file on their own terms. */
@@ -317,6 +320,7 @@ export function filingRequirements(
         ? signaturesFromFormula(side.signatureFormula, {
             votesCast: context.votesCast,
             registered: registeredFromVotes(context.votesCast),
+            ...(context.districts ? { districts: context.districts } : {}),
           })
         : null;
   for (const r of [feeRead, signatureRead])
@@ -375,6 +379,7 @@ export function filingRulesFor(
     salary: salary?.dollars ?? null,
     termYears: office?.termYears ?? null,
     votesCast: raceVotes2024(api, contest),
+    districts: congressionalDistricts(stateKey),
   });
   return salary?.estimate && rules.formulas.length
     ? { ...rules, estimate: true }

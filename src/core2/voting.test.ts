@@ -34,6 +34,7 @@ import { openParties } from "./modules/parties";
 import {
   VOTING_MODULE_ID,
   ballotOf,
+  candidateIdentity,
   openVoting,
   resultOf,
   type BallotRow,
@@ -144,6 +145,9 @@ describe("M2-07 elections", () => {
     expect(result.date).toBe(contest!.electionDate);
     expect(result.winnerId).not.toBeNull();
     const candidates = ballot(api, contest!.id).map((f) => f.personId);
+    // Every candidate, resident or official, has a name to show.
+    for (const id of candidates)
+      expect(candidateIdentity(api, id)?.familyName, id).toBeTruthy();
     for (const id of filed.map((f) => f.personId))
       expect(candidates).toContain(id);
     // Every named adult has a ballot with their own reasons; votes add up.

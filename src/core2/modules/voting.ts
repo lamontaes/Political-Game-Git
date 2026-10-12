@@ -20,6 +20,7 @@ import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,
 } from "../law-reach/group-a-voting";
+import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -112,6 +113,7 @@ export const VOTING_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
+      chosen: {},
       ballots: {
         indexes: {
           byContest: { fields: ["contestId"] },
@@ -446,6 +448,63 @@ export function officialCandidateId(key: string): string {
 }
 
 /**
+ * Who a candidate id names, for any kind of candidate: a resident (their own
+ * record), a seated official (`official:term:…`, their term's identity), or a
+ * drawn challenger or nominee (`official:challenger:…`, `official:nominee:…`,
+ * the same identity a win would seat). Record fields only; the words come
+ * from the English engine.
+ */
+export function candidateIdentity(
+  api: CoreAPI,
+  candidateId: string,
+): {
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly birthDate: string;
+  readonly kind: "resident" | "official" | "drawn";
+} | null {
+  const person = api.state.people.get(candidateId);
+  if (person)
+    return {
+      givenName: person.givenName,
+      familyName: person.familyName,
+      birthDate: person.birthDate,
+      kind: "resident",
+    };
+  if (!candidateId.startsWith("official:")) return null;
+  const key = candidateId.slice("official:".length);
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(key) as unknown as TermRow | undefined;
+  if (term)
+    return {
+      givenName: term.identity.givenName,
+      familyName: term.identity.familyName,
+      birthDate: term.identity.birthDate,
+      kind: "official",
+    };
+  const loaded = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as { worldSeed: string } | undefined;
+  if (!loaded) return null;
+  const drawn = drawOfficialIdentity({
+    worldSeed: loaded.worldSeed,
+    seatKey: candidateId,
+    stateUsps: town(api).stateKey.slice(3),
+    role: "state-executive-challenger",
+    referenceDate: api.state.date,
+  });
+  return {
+    givenName: drawn.givenName,
+    familyName: drawn.familyName,
+    birthDate: drawn.birthDate,
+    kind: "drawn",
+  };
+}
+
+/**
  * The primary, by the state's method. A party primary picks one nominee per
  * party from that party's voters (and independents where the state lets
  * them in); a top-two or top-four primary puts every candidate before every
@@ -706,6 +765,161 @@ function atThePolls(
   return t;
 }
 
+const tieRules = (
+  ties as unknown as {
+    states: Record<string, Record<string, { method: string; detail?: string }>>;
+  }
+).states;
+
+/**
+ * An exact tie, settled the way the state's law says
+ * (`data/research/elections/tie-rules-2026.json`): by lot, by a second
+ * election between the tied candidates, or by the legislature (statewide
+ * offices) or local governing body choosing, each member for their own
+ * reasons. Returns the winner, or null when a second election will decide.
+ */
+export function breakElectionTie(
+  api: CoreAPI,
+  contest: ContestRow,
+  tied: readonly string[],
+): string | null {
+  const field =
+    contest.family === "statewideExecutive"
+      ? "statewideExecutiveTie"
+      : contest.family === "stateLegislative"
+        ? "legislativeTie"
+        : contest.family === "countyOffice" ||
+            contest.family === "municipalOffice"
+          ? "localTie"
+          : "generalElectionTie";
+  const rule = tieRules[town(api).stateKey]?.[field]?.method ?? "lot";
+  const sorted = [...tied].sort();
+  if (rule === "new-election" || rule === "runoff") {
+    secondElection(api, contest, sorted);
+    return null;
+  }
+  if (rule === "legislature-decides" || rule === "board-decides") {
+    const body = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    ).find((o) =>
+      rule === "legislature-decides"
+        ? o.kind.startsWith("legislature-")
+        : o.kind === "council" || o.kind === "county-board",
+    );
+    const terms = body
+      ? (
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("seats")
+            .query("byOffice", [body.id]) as unknown as { id: string }[]
+        ).flatMap(
+          (seat) =>
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .query("bySeatStatus", [
+                seat.id,
+                "serving",
+              ]) as unknown as TermRow[],
+        )
+      : [];
+    // Each member backs the tied candidate whose party sits on their side.
+    const filings = ballot(api, contest.id);
+    const tally = new Map<string, number>();
+    for (const term of terms) {
+      const side = partySide(term.party);
+      const pick = sorted.find(
+        (id) =>
+          partySide(filings.find((f) => f.personId === id)?.party ?? null) ===
+            side && side !== 0,
+      );
+      if (pick) tally.set(pick, (tally.get(pick) ?? 0) + 1);
+    }
+    const best = [...tally.entries()].sort((a, b) => b[1] - a[1]);
+    if (best.length && (best.length === 1 || best[0]![1] > best[1]![1]))
+      return best[0]![0];
+  }
+  // By lot, where the law says so: the game holds a second election between
+  // the tied candidates instead, since no draw decides an outcome (owner's
+  // no-dice rule; the question is in gov.md): SG-GOV-tie-by-lot.
+  // stopgapId: SG-GOV-tie-by-lot
+  api.stopgap("SG-GOV-tie-by-lot");
+  secondElection(api, contest, sorted);
+  return null;
+}
+
+/** A second election between the tied candidates, a tunable number of weeks on. */
+function secondElection(
+  api: CoreAPI,
+  contest: ContestRow,
+  tied: readonly string[],
+): void {
+  const date = new Date(
+    Date.parse(`${api.state.date}T00:00:00Z`) +
+      campaignParameter("tieElectionDays") * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const next: ContestRow = {
+    ...contest,
+    id: `${contest.id}:second`,
+    electionDate: date,
+    primaryDate: null,
+    filingDeadline: api.state.date,
+  };
+  api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .put(next as unknown as ModuleRow);
+  for (const f of ballot(api, contest.id).filter((f) =>
+    tied.includes(f.personId),
+  ))
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .put({
+        ...f,
+        id: `${f.id}:second`,
+        contestId: next.id,
+      } as unknown as ModuleRow);
+  api.moduleCalendar(VOTING_MODULE_ID).schedule({
+    key: `election:${next.id}`,
+    date,
+    kind: "election-day",
+    source: {
+      tag: "ESTIMATED",
+      citation: "second election after a tie",
+      asOf: api.state.date,
+      estimatedFrom: "tieElectionDays",
+    },
+    sourceRecordIds: [next.id],
+  });
+}
+
+/**
+ * A named voter's own ballot in a race, cast before election day (the
+ * player's): a candidate, or null to leave the race blank.
+ */
+export function castBallot(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  candidateId: string | null,
+): void {
+  if (
+    candidateId !== null &&
+    !ballot(api, contestId).some((f) => f.personId === candidateId)
+  )
+    throw new Error(`${candidateId} isn't on the ballot for ${contestId}`);
+  table(api, "chosen").put({
+    id: `${contestId}|${voterId}`,
+    candidateId,
+  } as unknown as ModuleRow);
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -732,7 +946,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = atThePolls(api, voter, contest.electionDate, cycleCost);
+    // A voter who chose their ballot (the player) votes as they chose; the
+    // player is never voted for, so with no ballot cast they didn't vote.
+    const chosen = table(api, "chosen").get(
+      `${contestId}|${voter.id}`,
+    ) as unknown as { candidateId: string | null } | undefined;
+    const isPlayer = voter.id === (api.state as CoreState).playerId;
+    const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
+    const t =
+      chosen || isPlayer
+        ? { ...decided, votes: chosen !== undefined }
+        : decided;
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -741,7 +965,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     const separates =
       ranked.length === 1 ||
       (ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total);
-    const choice = t.votes && separates ? ranked[0]![0] : null;
+    const choice = chosen
+      ? chosen.candidateId
+      : t.votes && separates
+        ? ranked[0]![0]
+        : null;
     const told = !t.votes
       ? null
       : choice === null
@@ -838,7 +1066,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   );
   // No one wins on no votes: the seat stays with its holder (or vacant)
   // until the next contest.
-  const winnerId = ranked.length && ranked[0]![1] > 0 ? ranked[0]![0] : null;
+  const tied =
+    ranked.length > 1 && ranked[0]![1] > 0 && ranked[0]![1] === ranked[1]![1];
+  const winnerId = tied
+    ? breakElectionTie(
+        api,
+        contest,
+        ranked.filter((r) => r[1] === ranked[0]![1]).map((r) => r[0]),
+      )
+    : ranked.length && ranked[0]![1] > 0
+      ? ranked[0]![0]
+      : null;
   const incumbent = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)

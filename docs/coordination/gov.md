@@ -62,6 +62,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: M3-01 to M3-05 in a random place.
   - Needs: PEOPLE, PLAY
 
+## Questions for the owner
+
+- **Ties settled by lot (Oct 13).** About 34 states settle an exact general-election tie by lot (51 for primaries). A lot is a random draw, which the no-dice rule bars, so for now the game holds a second election between the tied candidates there (stopgap `SG-GOV-tie-by-lot`). Should a lot be drawn as the law requires, as a visible recorded procedure, or keep the second election?
+
 ## Needs from other sessions
 
 **From law reach (audit 13, Oct 12): what each policy needs to finish its effect.** Each item is a registered stopgap; the full text is in `src/core2/data/stopgaps.json`.
@@ -89,6 +93,48 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-13 06:30 UTC: Polls:
+  - **Who's asked:** a poll now dials the whole town, named and counted adults, and only those willing complete it (by sociability, reliability and age; tunable toward the 6–10% phone response rate).
+  - **Who answers how:** a counted respondent no campaign reached names their party's candidate when their lean is firm, and is otherwise undecided.
+  - **Cost and empty polls:** each completed interview costs the campaign $30 (estimate) through the books, and an empty poll isn't saved.
+  - **Untested so far:** in the calibration runs the test campaign had raised nothing, so only the unfunded path ran. A funded run is still to check.
+
+- 2026-10-13 06:00 UTC: Campaign calibration (CTO's notes from PLAY's runs; checks on totals, no dice):
+  - **Doors** now walk the whole town, named and counted households. Who's home comes from each adult's own work schedule at the minute of the knock (an evening shift from 5 p.m., tunable). The most willing one opens: their sociability, half their readiness for conflict and for risk, and their age (older residents answer more). A counted household that opens is filled in (`fillInPerson`, the owner's on-click design). In fresh two-level towns: 49 doors in 3 hours, 18–29% opened, near the field's 25–33%.
+  - **Volunteers:** someone says yes when liking the candidate, closeness, and an outgoing or dutiful temperament outweigh their work hours. One of 4 acquaintances said yes in the runs, against 22 of 24 before.
+  - **Speeches:** agreement is now the listener's own view times the stated position, so people without a view barely move. A speech on the least divisive question moved none of 13–22 listeners much, against 81 of 82 cooled before.
+  - New `src/core2/campaign-calibration.test.ts`. The campaigns, voting, record, parties, two-level and tripwires tests pass.
+
+- 2026-10-13 05:10 UTC: PLAY's filing routes:
+  - **Colorado's U.S. Senate route:** it had come out free with no petition. It now needs 1,500 signatures from each of the state's 8 districts (12,000), via the new per-district and "N or X%, whichever is less" forms in `filing-formulas.ts`, with district counts from the 2024 House results.
+  - **A Mississippi county office:** it now pays its fee (the research gives "$100 to $300 (estimate)", read as $100 and marked an estimate).
+  - **Still open:** the party-assembly alternative (Colorado), which is a party convention; a question for after early access.
+
+- 2026-10-13 04:50 UTC: PLAY's small items:
+  - Party labels read "Democratic" everywhere (`partyName` in `appointments.ts`); the rosters' "Democrat" is normalized where holders and Congress members are created.
+  - The Vice President, and an elected running mate, never shares the President's family name (`avoidFamilyNames` in `drawOfficialIdentity`), asserted in the offices test.
+  - `candidateIdentity(api, id)` in `voting.ts` reads any candidate id: a resident, a seated official (`official:term:…`), or a drawn challenger or nominee. It returns record fields only. Asserted for every ballot in the voting test.
+
+- 2026-10-13 04:20 UTC: Retired `SG-GOV-wage-floor-rate-write` (marked resolved and kept in the registry). A minimum-wage raise now goes through OPUS-CORE's `rerateJob` (core2-api-v12), and when a wage law takes effect the town's counted residents' jobs under the floor rise too, not only the named people's. The laws, legislature, cases, group A and tripwires tests pass (68 of 68).
+
+- 2026-10-13 03:55 UTC: **Audit 12 (the player votes and decides):** the engine never votes for the player.
+  - `castBallot(api, voterId, contestId, candidateId | null)` in `voting.ts` records a ballot. Election day counts it as that voter's choice; a player who casts none didn't vote.
+  - `castMemberVote(api, billId, memberId, vote)` in `legislature.ts` does the same in a body's vote; a player who casts none abstains.
+  - When the player is the executive, a passed bill waits on their desk (`awaiting-signature`) until `executiveDecision(api, billId, sign)`. A veto still faces the override.
+  - New test in `legislature.test.ts`: an uncast player vote abstains, a cast one counts as chosen even against the engine's read, and as mayor the player's bill waits and then is signed. These are the calls PLAY's screens need.
+
+- 2026-10-13 03:20 UTC: **Audit 10 (ties by real rules):**
+  - Election ties are settled by each state's rule (new research `data/research/elections/tie-rules-2026.json`). Most rows are estimates because NCSL's pages returned 403; confirmed rows are Washington and Virginia general ties, the Texas local rule, and five senate tie-breakers.
+  - A legislature (for statewide offices) or local board decides by each member's party side. A rule for a new election or runoff schedules a second election between the tied candidates four weeks on (tunable). Where the law says "by lot", there is a second election instead; question to you above.
+  - Chamber ties: the Vice President breaks U.S. Senate ties, and the lieutenant governor breaks state senate ties in the 31 states that give them the vote. Otherwise a tied vote fails.
+  - Tested in `two-level-elections.test.ts`. Primary ties still eliminate no one (both stay on), which is next.
+
+- 2026-10-13 02:40 UTC: **Audit 11 (deals):** `offerDeal` now lets the member weigh the bill as the offer would leave it. They take it only if it brings them to yes. A taken amendment changes the bill's real terms for everyone; a taken favor or backing of their item becomes an obligation the sponsor owes (`obligationsOf`), which is its cost. A declined offer is on the record (`status: "declined"`) and moves no one. A deal is worth what it's worth to that member: a favor counts by closeness, and backing their item counts by how strongly they hold their own top view. The legislature test now checks both outcomes.
+
+- 2026-10-13 02:05 UTC: **Audit 9 (council authority):** every law amount now carries the levels allowed to set it, with the law that says so (`src/core2/data/legislature/series-powers.json`). For example, SNAP allotments are federal (7 U.S.C. § 2017), the Medicare tax is federal (26 U.S.C. § 3101), the Medicaid match is federal, and unemployment maximums belong to the states. `draftBill` blocks a body at any level that tries to set an amount beyond its power, citing that law; local wage, income and sales taxes still also need the state's grant. New test in `legislature.test.ts`: a council's SNAP, Medicare-tax and Medicaid-match bills are blocked, a state's SNAP bill is blocked, and Congress's is drafted.
+
+- 2026-10-13 01:45 UTC: **Audit 7 (federal acts take effect):** `enactLaw` in `laws.ts` now runs "law took effect" at once for an act in force the day it's enacted (a federal act without a date of its own). It had only scheduled future dates, so such acts never fired. New test in `world-legislating.test.ts`: a federal anti-discrimination act reaches the town's named adults the day it's signed. **Audit 8 (city income tax collects):** `tax-withholding.ts` now withholds an enacted income tax with unit "percent" and no bracket schedule as a flat rate. Group B's income-tax test turns its collection check on by itself and passes. Two group B test checks are now conditional on the world: a raise in an island territory can round below a cent, and a reserve needs a target above zero. Agent B is hardening the rest of its tests across all six territories.
 
 - 2026-10-13 01:10 UTC: **Audit 6 (independent filing terms, formula fees):**
   - Filing terms now follow the candidate's side. Filing with no party takes the research's independent route: Texas statewide is $0, 1% of the governor's vote, and a June 25 deadline.

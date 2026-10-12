@@ -2617,5 +2617,17 @@
     "addedAt": "2026-10-12",
     "replacement": "GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-tie-by-lot",
+    "kind": "behavior",
+    "file": "src/core2/modules/voting.ts",
+    "line": 792,
+    "whatItFakes": "Where the state's law settles an exact election tie by lot (about 34 states for general elections, 51 for primaries), the game holds a second election between the tied candidates instead.",
+    "why": "A lot is a random draw, and the owner's no-dice rule bars a seeded draw from deciding an outcome; the owner hasn't ruled on legally required lots.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-13",
+    "replacement": "The owner's ruling: either a lot drawn as the law requires (a visible procedure, recorded), or keep the second election.",
+    "status": "open"
   }
 ]

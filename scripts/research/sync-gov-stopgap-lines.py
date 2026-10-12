@@ -12,7 +12,7 @@ REGISTRY = ROOT / "src/core2/data/stopgaps.json"
 
 rows = json.loads(REGISTRY.read_text())
 for row in rows:
-    if not row["id"].startswith("SG-GOV-"):
+    if not row["id"].startswith("SG-GOV-") or row.get("status") == "resolved":
         continue
     lines = (ROOT / row["file"]).read_text().splitlines()
     # A code marker, or a data row naming it (law-reach effect tables).

@@ -49,6 +49,28 @@ describe("filing formulas and independent terms", () => {
     ).toBe(6000);
   });
 
+  it("reads per-district petitions and lesser-of counts", () => {
+    expect(
+      signaturesFromFormula(
+        "1,500 from each congressional district (or 30% of party assembly delegates instead)",
+        {
+          votesCast: 3_000_000,
+          registered: 3_500_000,
+          districts: 8,
+        },
+      )?.value,
+    ).toBe(12_000);
+    expect(
+      signaturesFromFormula(
+        "1,500 or 10% of votes cast in the last party primary for the office, whichever is less",
+        {
+          votesCast: 10_000,
+          registered: 12_000,
+        },
+      )?.value,
+    ).toBe(1000);
+  });
+
   it("gives an independent the independent route, and a formula fee its worked-out amount", () => {
     const salary = officeSalary("US-CA", "governor")!;
     const party = filingRequirements("US-CA", "statewideExecutive", "party", {
@@ -72,5 +94,21 @@ describe("filing formulas and independent terms", () => {
     expect(independent.feeMinor).toBe(0);
     expect(independent.signatures).toBe(80_000);
     expect(independent.deadline).toBe("2026-06-25");
+  });
+
+  it("Colorado's U.S. Senate route takes a petition, and a Mississippi county office a fee (PLAY's report)", () => {
+    const co = filingRequirements("US-CO", "statewideExecutive", "party", {
+      salary: 174_000,
+      termYears: 6,
+      votesCast: 3_200_000,
+      districts: 8,
+    });
+    expect(co.signatures).toBe(12_000);
+    const ms = filingRequirements("US-MS", "countyOffice", "party", {
+      salary: 40_000,
+      termYears: 4,
+      votesCast: 10_000,
+    });
+    expect(ms.feeMinor).toBeGreaterThan(0);
   });
 });
