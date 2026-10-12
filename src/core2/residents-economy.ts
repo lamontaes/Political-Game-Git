@@ -232,6 +232,8 @@ export function shiftPurchaseShare(
   incumbentIds: ReadonlySet<string>,
   entrantId: string,
   share: number,
+  /** Only flows that pass (the core's `enterMarket` splits counted households' purchases). */
+  include: (flow: Flow) => boolean = () => true,
 ): number {
   const rt = residentsRuntime(core);
   if (!rt || !(share > 0) || share >= 1) return 0;
@@ -241,6 +243,7 @@ export function shiftPurchaseShare(
   for (const flow of [...rt.flows.values()]) {
     if (
       !CUSTOMER_KINDS.has(flow.kind) ||
+      !include(flow) ||
       flow.endedAt ||
       !incumbentIds.has(flow.payeeId)
     )

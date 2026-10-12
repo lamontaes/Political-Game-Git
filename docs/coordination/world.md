@@ -9,7 +9,27 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 ## What the owner can play now
 
-Nothing on a screen yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`. A town opens with its real history since 2000 (businesses already founded and closed, the nation's real months since 2021), then runs on its own: a national economy and central bank board, state and metro economies, jobs that open, hire, raise pay and lay off for reasons, a town bank lending to businesses and households, homes in the place's real mix of houses, apartments and mobile homes with FHFA prices and mortgages, renters evicted only through their state's steps, and owners who found, grow, hand on and close businesses. Twenty years in three drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`), with two known gaps: no recessions yet, and towns pile up cash from the core's outside buyers.
+Nothing on a screen of its own yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`, and the bench reads it through `worldPanels` (more panels are listed for PLAY under Needs). A town opens with its real history since 2000 and runs on its own:
+
+- **The nation and the central bank:** a national economy, and a board whose seats turn over on their real dates.
+- **Regions:** state and metro economies.
+- **Jobs:**
+  - Jobs open, hire, raise pay and lay off for reasons.
+  - Young people start looking for work as they leave school, and the unemployed eventually stop looking.
+  - Laid-off workers draw unemployment insurance.
+- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons.
+- **The town bank** lends to businesses and households.
+- **Homes:**
+  - Homes in the place's real mix, with FHFA prices, mortgages and property tax bills.
+  - Builders put up houses and apartment buildings as value outruns cost, and new vacancy lowers rents.
+  - Landlords serve notice after about two months owed, and evictions follow the state's steps.
+- **What laws can do,** waiting for GOV's handlers:
+  - Zoning, set-aside units, all-electric codes and farmland protection.
+  - Right to counsel, with payment plans.
+  - Property tax rates and caps.
+  - Electricity and fuel prices, transit fares, mileage fees, bottle deposits, public broadband and road condition.
+  - Groundwater limits and clean-air compliance costs.
+- **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
 
@@ -20,7 +40,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Needs: CORE (calendar)
 - [ ] **State and metro economies.** _(Built on #3996: 132 regions; tests pass; awaiting a generated-world year.)_ Each state plus its one or two largest metros, moving with the nation by its own industries; towns follow their region.
   - Verified by: M1-03: two random states diverge plausibly; a town's prices and pay follow its region.
-- [ ] **Jobs.** _(Built on #3996 on OPUS-CORE's two-level population: all 2,401 jobs in Absecon, a year in 18 s. Hires run far below JOLTS until life events and moves land.)_ Openings from need, hiring on fit, quits and layoffs for reasons, on the two-level population.
+- [ ] **Jobs.** _(Built on #3996 on OPUS-CORE's two-level population: all 2,401 jobs in Absecon, a year in 18 s. Hires 2.5% a month against JOLTS's 3.6%, quits 2.2% against 1.9%; layoffs still far below.)_ Openings from need, hiring on fit, quits and layoffs for reasons, on the two-level population.
   - Verified by: M1-04: a year inside job-turnover ranges; every job change has a reason.
   - Needs: CORE (population, money fix)
 - [ ] **Credit and housing.** _(First cuts on #3996: the town bank lends prime-linked business lines; owners and renters in the town's real share, rent with arrears, eviction through each place's steps. Household loans and mortgages wait for the core's accounts.)_ Banks and loans that balance; rent, buying and evictions through each place's legal steps.
@@ -52,10 +72,17 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - Fresh-eyes review (general-purpose): 12 findings, 11 fixed.
 - Report review (civic-report-reviewer): the drift report, 14 findings, all addressed.
 - Household prices research (general-purpose, read-only): Consumer Expenditure Survey shares, miles, fares, broadband, containers, energy pass-through, roads, property tax rates, counsel costs, for GOV's law reach.
+- Seasonal factors research (general-purpose, read-only): BLS CES seasonal factors by supersector and JOLTS layoffs by month, 2010-2019.
 - Eviction filings research (general-purpose, read-only): Eviction Lab state filing rates 2000-2018, Household Pulse arrears, months owed at filing, case outcomes.
 - Construction research (general-purpose, read-only): building costs and times, zoning, supply and vacancy effects on rents, inclusionary rules, all-electric costs, farmland.
 
 ## Needs from other sessions
+
+- **OPUS-PLAY: the custom world's economy setting (M6-04).** The new-game screen can pass `worldGameOptions({ economy: { unemploymentPct?, inflationPct?, policyRatePct? } })` (`src/core2/modules/world.ts`); anything left out stays at the real opening month.
+
+- **OPUS-CORE: an opening crash in Valmont, Colorado (seed `0d5c879e…`, key `0880370`).** `generatedOpening(place, { twoLevel: true })` alone throws "Past fact outside recipient lifetime/opening: person_2f0fc685f53f5833:move:2021-04-17" in `buildOpeningRetirementIncome` (`opening-income.ts:325`, from your retirement-claims change 0b705b06): the generated history gives a person a move dated after the January 1, 2021 start. It made M1-02 fail in the golden-path runner on my head (the check never reaches the economy). Either the history should stop at the start, or the check should skip facts dated after the opening.
+
+- **OPUS-CORE (with GOV): retirement income for counted retirees.** When a counted worker retires their wage flow ends and nothing replaces it, so the town's spending and then its jobs shrink about 2% a year (Absecon: 2,400 to 2,230 jobs in three years). Real retirees draw Social Security (about $1,900 a month on average) and pensions. A residents' income flow for counted retirees (from GOV's Social Security in force, paid from outside the town) would hold spending up.
 
 - **OPUS-PLAY: four more panels for the bench's `worldPanels`** (`src/core2/modules/world-panels.ts`, record data only): `buildingPanel(api)` (housing stock and zoning by town, projects from start to finish, households in set-aside units), `lawCostsPanel(api)` (price rules a place's laws set, property tax assessments, right to counsel), `benefitsPanel(api)` (unemployment claims with weekly benefit, paid and end), `boardPanel(api)` (central bank seats with holder, term and lean). `ownerPanel` now also has `successions`, `choices` (closures by choice with reasons), `closures` and `operatingRules`.
 
@@ -116,6 +143,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12: turnover close to JOLTS (M1-04). Counted workers also quit without another job, at their industry's JOLTS quit rate less the half of quits that go straight to a new job, pulled further by pay below the going rate; and a worker who quits or retires is replaced at once (the employer's need grows by one) instead of at the slow staffing adjustment. Absecon, three years: hires 2.5% a month (JOLTS 3.6%), quits 2.2% (1.9%), employment holds (2,412 at the end against 2,400), unemployment 1.3%, 89 s, every dollar balances. Still low: layoffs, 0.04% a month against 1.4%.
+- 2026-10-12: jobs follow the seasons. Each business's staffing target moves with its industry's month (BLS CES seasonal factors, 2010-2019: construction 0.94 in February to 1.04 in August, leisure and hospitality 0.95 to 1.05, retail 1.035 in December), so builders and inns hire in spring and let people go in winter. Absecon, three years: hires 421 (were 323), layoffs 30 (were 14), 2,283 jobs at the end (were 2,230), unemployment 3.0%, 84 s, every dollar balances. Farms have no CES series and stay flat.
+- 2026-10-12: FIXER's five stand-in rows for WORLD (`data/research/stand-in-figures-2026-10-12.json`): the mortgage spread is SOURCED (PMMS less the 10-year, 2.22 points since 2019; stopgap retired); mortgage history (FHFA prices, ACS shares by age and move-in years) and eviction notice defaults (the high-confidence median, 7 days) were already applied; the public budget impulse stays neutral until GOV's budgets land; the island areas' unemployment rates are in, their pay and price levels weren't found.
+- 2026-10-12: a custom world's economy (M6-04, the economy's part). `worldGameOptions({ economy: { unemploymentPct, inflationPct, policyRatePct } })` opens the national economy on the player's figures (output's gap from trend follows by Okun's law) and it runs by the same rules from there; the central bank answers them. Test: a world opened at 9% unemployment, 4% inflation and a 3% rate is still above 8% unemployment two months on. Each region opens shifted by the same points (Absecon's region 7.3% → 9.6% at 9% national). The town's own unemployment still settles near 2.5% within months whatever the setting, because layoffs run far below JOLTS (the M1-04 gap): too few people lose jobs to keep the opening's unemployed replenished.
+- 2026-10-12: one-year sweep in eight drawn places (Nu'uuli, American Samoa; North Lindenhurst, New York; Lake Victoria, Michigan; Emhouse, Texas; Abney Crossroads, South Carolina; Blue Ridge Manor, Kentucky; Gruetli-Laager, Tennessee; Byron, Georgia): every dollar balances in all eight, no national band exits, 20 to 37 s each.
+- 2026-10-12: a new business wins counted households through the core's `enterMarket` (the core is the one writer of their purchases); outside buyers and full households still move through my seam. Fixed an eviction crash where a state's statute gives a step no days (Wisconsin's stay): it now falls on the next day. M1-02 passes in Wauwatosa, Wisconsin; Absecon, three years: 3 foundings, 91 s, every dollar balances.
+- 2026-10-12: counted people enter and leave the labor market. Young people start looking as they leave school (the pull rises from 18 to 25, BLS participation by age), a few others come back to work, and about a fifth of the unemployed stop looking each month (BLS CPS flows). Absecon, three years: the town's unemployment settles at 2.5% (it had read 0% because nobody counted ever looked for a first job); 89 s (83 before); every dollar balances. Employment still drifts down (2,400 to 2,230) because counted retirees lose their whole income; see Needs. Re-ran the 20-year drift in Adrian, Missouri on today's engines: no band exits, town cash $340M after 20 years (was $588M).
 - 2026-10-12: a closed business's counted workers now look for work and file claims (only its full workers did; the counted ones dropped out of the labor market). Absecon, three years: every dollar balances; two workers from a closure were rehired the Monday it closed.
 - 2026-10-12: the landlord has patience. Instead of serving notice the day the grace period ends, the landlord weighs each late lease by months of rent owed and months late, calibrated so notice usually comes at about two months owed (NBER w33155; Household Pulse 2024: 14% of renters behind, most by a month). Eviction Lab 2018 filing rates by state are saved for the check (`data/research/housing/eviction-filings-2026.json`). Fixture: a Texas tenant with no pay got notice at three months owed and the state's steps followed. Absecon, three years: 76 s, every dollar balances.
 - 2026-10-12: owners decide whether to borrow. A business short of cash no longer applies for a credit line automatically: its owner weighs how short it is against the interest over its monthly sales (full owners through the chooser, counted owners by summed pulls); only ownerless organizations still apply on their books. Absecon, three years: 6 business lines, 3 household loans, none charged off; 80 s; every dollar balances.
