@@ -270,7 +270,7 @@
   "absenceAction": {
     "id": "decline-scheduled-work-date-segment",
     "actKinds": ["play-safe", "withdraw"],
-    "goalKinds": ["recover"],
+    "goalKinds": [],
     "need": "time",
     "effortParameter": "zero",
     "effectParameter": "zero",

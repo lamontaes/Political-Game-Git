@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels } from "./residents";
+import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
@@ -220,7 +221,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         row.people.every(
           (person) =>
             !person.pastFacts?.some((fact) =>
-              fact.id.startsWith(`${person.id}:`),
+              fact.id.startsWith(
+                `${person.id}:${DEFAULT_DEEP_PAST_DATA.version}:`,
+              ),
             ),
         ),
       ),
