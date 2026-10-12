@@ -2211,6 +2211,181 @@
       "skipped": [
         "PLACEHOLDER RESEARCH REQUEST: inspect morning, midday, night, rain, and winter pictures; record painted screens, posters, papers, and TVs before live content uses them."
       ]
+    },
+    "apartment-basement-studio": {
+      "checked": ["apartment-basement-studio__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-older-walkup": {
+      "checked": ["apartment-older-walkup__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-public-housing": {
+      "checked": ["apartment-public-housing__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-student-shared": {
+      "checked": ["apartment-student-shared__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-suburban-garden": {
+      "checked": ["apartment-suburban-garden__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-clerk-office-rural": {
+      "checked": ["county-clerk-office-rural__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-clerk-office-urban": {
+      "checked": ["county-clerk-office-urban__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "election-office-warehouse": {
+      "checked": ["election-office-warehouse__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "elementary-classroom": {
+      "checked": ["elementary-classroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "high-school-cafeteria": {
+      "checked": ["high-school-cafeteria__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "high-school-hallway": {
+      "checked": ["high-school-hallway__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-gulf-coast-raised": {
+      "checked": ["house-gulf-coast-raised__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-new-england-colonial": {
+      "checked": ["house-new-england-colonial__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-northwest-craftsman": {
+      "checked": ["house-northwest-craftsman__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-southwest-adobe": {
+      "checked": ["house-southwest-adobe__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "national-convention-floor": {
+      "checked": ["national-convention-floor__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "national-convention-stage": {
+      "checked": ["national-convention-stage__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-airport-hangar": {
+      "checked": ["rally-airport-hangar__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-county-fairground": {
+      "checked": ["rally-county-fairground__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-courthouse-square": {
+      "checked": ["rally-courthouse-square__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-downtown-plaza": {
+      "checked": ["rally-downtown-plaza__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-union-hall-parking-lot": {
+      "checked": ["rally-union-hall-parking-lot__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "registrar-of-voters-worn": {
+      "checked": ["registrar-of-voters-worn__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "student-union-lounge": {
+      "checked": ["student-union-lounge__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "university-lecture-hall": {
+      "checked": ["university-lecture-hall__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
     }
   }
 }
