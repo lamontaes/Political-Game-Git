@@ -303,10 +303,10 @@
       "spread": [1, 4]
     },
     "caseEffort": {
-      "value": 0.9,
+      "value": 1.3,
       "tag": "TUNABLE",
       "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018).",
-      "spread": [0.5, 1.4]
+      "spread": [0.9, 1.7]
     },
     "caseRetirementAge": {
       "value": 62,
@@ -342,6 +342,54 @@
       "tag": "TUNABLE",
       "source": "How hard being paid under the minimum wage presses: the shortfall's share of the legal wage times this (a 20% shortfall presses fully).",
       "spread": [2, 10]
+    },
+    "staffHourlyMinor": {
+      "value": 2400,
+      "tag": "ESTIMATED",
+      "source": "A local official's aide's pay, in cents an hour: legislative assistants earn about $45,000 to $55,000 a year (BLS OES 2024, 43-6011 executive secretaries and administrative assistants in local government, median about $24 an hour).",
+      "spread": [1800, 3500]
+    },
+    "staffBaseQuality": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "Where a new staffer's work starts before their reliability, deliberation, experience and passion add or take away.",
+      "spread": [0.2, 0.5]
+    },
+    "staffLearningBase": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "How fast experience grows per task done, before a staffer's own deliberation speeds or slows it.",
+      "spread": [0.05, 0.3]
+    },
+    "staffExperienceCeiling": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "The most experience adds to a staffer's work.",
+      "spread": [0.15, 0.45]
+    },
+    "staffPassionWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How much caring about a task's question adds to a staffer's work on it.",
+      "spread": [0.05, 0.35]
+    },
+    "staffCaseFollowThrough": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How good a staffer's work on a case must be for them to see it through to a referral.",
+      "spread": [0.3, 0.7]
+    },
+    "staffTraitWeight": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "How much each of a staffer's reliability and deliberation (each from -1 to 1) moves their work.",
+      "spread": [0.05, 0.25]
+    },
+    "caseRepeatDays": {
+      "value": 180,
+      "tag": "TUNABLE",
+      "source": "How long after bringing a problem to an official a resident waits before bringing one again.",
+      "spread": [60, 365]
     }
   }
 }

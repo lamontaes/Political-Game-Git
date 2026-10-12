@@ -1198,5 +1198,17 @@
     "addedAt": "2026-10-12",
     "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-staff-unpaid",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 140,
+    "whatItFakes": "A hired staffer takes the post without a pay commitment: no wage flows from the government's treasury to them, and they keep any job they had.",
+    "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
+    "status": "open"
   }
 ]

@@ -10,7 +10,8 @@
  * decides to come when how hard it presses on them, with how ready they are
  * to reach out, outweighs the effort; they go to the official they know best.
  * The official's office handles it: the player decides with `handleCase`;
- * otherwise the office handles it by the official's own sense of duty within
+ * otherwise their staffer handles it (as well as their own work goes), or
+ * with no staff the office decides by the official's own sense of duty, within
  * a few days. Helping a wage complaint refers it to the labor standards
  * office, which raises the pay to the floor; helping a job seeker refers them
  * to the workforce office. Either way the resident's view of the official
@@ -25,6 +26,7 @@ import { lawChain, lawInForce, raiseOne } from "./laws";
 import { members } from "./legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { touchImpression } from "./campaigns";
+import { STAFF_MODULE_ID, staffDecision } from "./staff";
 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
 
@@ -41,7 +43,8 @@ export interface CaseRow {
   readonly opened: string;
   readonly respondBy: string;
   readonly status: "open" | "helped" | "declined";
-  readonly handledBy: "official" | "office" | null;
+  readonly handledBy: "official" | "office" | "staff" | null;
+  readonly stafferId?: string | null;
   readonly outcome: string | null;
 }
 
@@ -185,7 +188,10 @@ function officeHours(api: CoreAPI): void {
     if (officials.some((o) => o.personId === person.id)) continue;
     if (
       (table(api).query("byPerson", [person.id]) as unknown as CaseRow[]).some(
-        (c) => c.status === "open",
+        (c) =>
+          c.status === "open" ||
+          c.opened >
+            addDays(api.state.date, -campaignParameter("caseRepeatDays")),
       )
     )
       continue;
@@ -239,6 +245,20 @@ function officeHours(api: CoreAPI): void {
 
 /** The office handles a case nobody decided: by the official's own sense of duty. */
 function officeHandles(api: CoreAPI, row: CaseRow): void {
+  // An office with staff hands it to its staffer; the result is theirs.
+  const staffed = api.state.modules.has(STAFF_MODULE_ID)
+    ? staffDecision(api, row.officialId)
+    : null;
+  if (staffed) {
+    resolve(
+      api,
+      row,
+      staffed.help ? "help" : "decline",
+      "staff",
+      staffed.stafferId,
+    );
+    return;
+  }
   const official = api.state.people.get(row.officialId);
   const duty =
     (official?.traits["personality-v1:facet-duty-bound"] ?? 0) +
@@ -261,7 +281,8 @@ function resolve(
   api: CoreAPI,
   row: CaseRow,
   decision: "help" | "decline",
-  by: "official" | "office",
+  by: "official" | "office" | "staff",
+  stafferId: string | null = null,
 ): CaseRow {
   let outcome: string;
   if (decision === "help" && row.problem === "paid-under-minimum-wage") {
@@ -277,6 +298,7 @@ function resolve(
     ...row,
     status: decision === "help" ? "helped" : "declined",
     handledBy: by,
+    stafferId,
     outcome,
   };
   table(api).put(done as unknown as ModuleRow);
