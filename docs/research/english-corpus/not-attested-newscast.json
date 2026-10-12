@@ -5,12 +5,12 @@
     "dcpd": 17712,
     "eac": 330,
     "eisenhower": 15,
-    "fec": 330,
-    "federal-counter": 292,
+    "fec": 288,
+    "federal-counter": 330,
     "florida": 420,
     "house": 300,
     "nasa": 1388,
-    "news-energy": 436,
+    "news-energy": 1507,
     "news-epa": 3009,
     "news-faa": 1383,
     "news-fda": 1199,
@@ -18,8 +18,8 @@
     "news-nasa": 1446,
     "news-noaa": 484,
     "news-nps": 2506,
-    "news-nws": 695,
-    "news-treasury": 980,
+    "news-nws": 3072,
+    "news-treasury": 2504,
     "senate": 51,
     "sotu-gutenberg": 222,
     "usa-gov": 260
@@ -394,7 +394,7 @@
     {
       "move": "anchor-close",
       "text": "We will keep you posted.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -690,12 +690,6 @@
       "text": "Police are on the scene.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "reporter-field",
-      "text": "No injuries were reported.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "reporter-field",
@@ -1816,7 +1810,7 @@
     {
       "move": "story-death",
       "text": "{name} lived in {place} for {years} years.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
