@@ -108,6 +108,8 @@ export interface BillRow {
     readonly kind: string;
     readonly terms: string;
     readonly date: string;
+    /** A declined offer is on the record but moves no one. */
+    readonly status?: "accepted" | "declined";
   }[];
 }
 
@@ -132,6 +134,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       votes: { indexes: { byBill: { fields: ["billId"] } } },
       committees: {},
       counters: {},
+      obligations: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -834,7 +837,19 @@ export function memberPosition(
   billId: string,
   memberId: string,
 ): MemberPosition {
-  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  return positionOn(
+    api,
+    table(api, "bills").get(billId) as unknown as BillRow,
+    memberId,
+  );
+}
+
+/** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
+function positionOn(
+  api: CoreAPI,
+  bill: BillRow,
+  memberId: string,
+): MemberPosition {
   const lean = leanOf(api, memberId);
   // A town member answers to the town; a state member to their district,
   // read as their own seat's lean until district views are modeled.
@@ -855,9 +870,10 @@ export function memberPosition(
       ? 1
       : campaignParameter("sponsorRelationshipWeight") *
         (relationship?.level ?? 0);
-  const deal =
-    bill.deals.filter((d) => d.memberId === memberId).length *
-    campaignParameter("dealWeight");
+  // Only a deal the member took moves them: what the sponsor now owes them.
+  const deal = bill.deals
+    .filter((d) => d.memberId === memberId && d.status !== "declined")
+    .reduce((sum, d) => sum + dealValue(api, d.kind, memberId), 0);
   const c = campaignParameter("constituentWeight");
   const lobby = positionTerms.reduce(
     (sum, term) => sum + term(api, bill, memberId),
@@ -914,7 +930,7 @@ export function offerDeal(
   readonly after: MemberPosition;
 } {
   const bill = table(api, "bills").get(input.billId) as unknown as BillRow;
-  const before = memberPosition(api, input.billId, input.memberId);
+  const before = positionOn(api, bill, input.memberId);
   const provisions =
     input.kind === "amend" && input.amend
       ? bill.provisions.map((p, i) =>
@@ -925,23 +941,91 @@ export function offerDeal(
     input.kind === "amend"
       ? `amend provision ${input.amend?.index} to ${input.amend?.value}`
       : input.kind;
-  const next: BillRow = {
+  const deal = {
+    memberId: input.memberId,
+    kind: input.kind,
+    terms,
+    date: api.state.date,
+  };
+  // The member weighs the bill as the offer would leave it.
+  const offered: BillRow = {
     ...bill,
     provisions,
     costEstimate: costOf(api, provisions),
-    deals: [
-      ...bill.deals,
-      {
-        memberId: input.memberId,
-        kind: input.kind,
-        terms,
-        date: api.state.date,
-      },
-    ],
+    deals: [...bill.deals, { ...deal, status: "accepted" }],
   };
+  const after = positionOn(api, offered, input.memberId);
+  const accepted = after.total > 0 && before.total <= 0;
+  // Accepted, the terms are real (an amendment changes the bill for
+  // everyone) and the sponsor owes what they gave; declined, nothing changes
+  // but the offer is on the record.
+  const next: BillRow = accepted
+    ? offered
+    : { ...bill, deals: [...bill.deals, { ...deal, status: "declined" }] };
   table(api, "bills").put(next as unknown as ModuleRow);
-  const after = memberPosition(api, input.billId, input.memberId);
-  return { accepted: after.total > 0 && before.total <= 0, before, after };
+  if (accepted && input.kind !== "amend")
+    table(api, "obligations").put({
+      id: `obligation:${bill.id}:${input.memberId}:${bill.deals.length}`,
+      owedBy: bill.sponsorId,
+      owedTo: input.memberId,
+      kind: input.kind,
+      billId: bill.id,
+      measure: bill.number,
+      date: api.state.date,
+      settled: false,
+    } as unknown as ModuleRow);
+  if (
+    api.state.people.has(input.memberId) &&
+    api.state.people.has(bill.sponsorId)
+  )
+    api.relationship(bill.sponsorId, input.memberId, "contact", 0.05);
+  return {
+    accepted,
+    before,
+    after: accepted ? after : before,
+  };
+}
+
+/**
+ * What a deal is worth to a member: a favor owed counts for more the closer
+ * they are to the sponsor; backing their own item counts as much as their
+ * strongest view; an amendment's worth is in the bill's changed terms.
+ */
+function dealValue(api: CoreAPI, kind: string, memberId: string): number {
+  const weight = campaignParameter("dealWeight");
+  if (kind === "amend") return 0;
+  if (kind === "back-their-item") {
+    const lean = leanOf(api, memberId);
+    const strongest = Math.max(
+      0,
+      ...[...Object.keys(POLICY_QUESTIONS)].map((q) =>
+        Math.abs(personStance(lean, q)),
+      ),
+    );
+    return weight * strongest * 2;
+  }
+  return weight;
+}
+
+/** What a sponsor owes the members who took their deals (favors, backing their items). */
+export function obligationsOf(
+  api: CoreAPI,
+  personId: string,
+): readonly {
+  owedTo: string;
+  kind: string;
+  measure: string;
+  settled: boolean;
+}[] {
+  return (
+    table(api, "obligations").rows() as unknown as {
+      owedBy: string;
+      owedTo: string;
+      kind: string;
+      measure: string;
+      settled: boolean;
+    }[]
+  ).filter((o) => o.owedBy === personId);
 }
 
 /** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */

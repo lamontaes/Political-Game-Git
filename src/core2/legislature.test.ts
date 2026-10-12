@@ -32,6 +32,7 @@ import {
   draftBill,
   holdVote,
   learnStake,
+  obligationsOf,
   offerDeal,
   openLegislature,
   votesOn,
@@ -126,8 +127,21 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
       memberId: target.memberId,
       kind: "back-their-item",
     });
-    expect(deal.after.deal).toBeGreaterThan(deal.before.deal);
+    // The offer is on the record either way (audit 3, deals): taken, the
+    // sponsor owes it and it moves the member; declined, it moves no one.
     expect(billOf(api, bill.id).deals).toHaveLength(1);
+    if (deal.accepted) {
+      expect(deal.after.deal).toBeGreaterThan(deal.before.deal);
+      expect(
+        obligationsOf(api, bill.sponsorId).some(
+          (o) => o.owedTo === target.memberId,
+        ),
+      ).toBe(true);
+    } else {
+      expect(deal.after.total).toBe(deal.before.total);
+      expect(billOf(api, bill.id).deals[0]!.status).toBe("declined");
+      expect(learnStake(api, bill.id, target.memberId, "record").deal).toBe(0);
+    }
     // The vote: each member's reasons are recorded, and on the record.
     const after = holdVote(api, bill.id);
     const votes = votesOn(api, bill.id);
