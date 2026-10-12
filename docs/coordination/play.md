@@ -9,17 +9,31 @@ Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 ## Tonight's build (Oct 12)
 
-Not ready yet; the first evening build note goes here tonight. Branch `opus-play`, draft PR #4002 (takes over #3940).
+Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench` and open port 3000.
 
-## What the owner can play now
+**What you can do tonight**
 
-Nothing yet. On `opus-play` today (`npm run bench`, port 3000): generate a town anywhere in the 56 places, view anyone, press Play to take one over, move time by day, week or calendar, or skip. While you skip, your character makes its own choices; a big moment, a fixed commitment or a deadline stops the skip.
+- Generate a town anywhere in the 56 places from a seed. Town size starts at 2,000 people so days move fast. A full-size town works, but each day takes about 13 seconds until the core's speed work lands.
+- Click anyone to see their record, household, job, relationships, money and story moments. Viewing changes nothing.
+- Press **Play this resident** to take someone over. Move time by Day, Week or a calendar date, and pick from the choices the game offers.
+- Press **Skip until needed**. Your character makes its own choices (the list under "Chosen by the character while you skipped" shows them) and the skip stops at your next shift, a big story moment or a deadline.
+- Switch to someone else at any time. The person you leave finishes their day on their own.
+- Click any saved record to see why it happened.
+
+**What changed today**
+
+- People, families, drives, health and the story director now run in the bench town.
+- Switching residents works, and skipping no longer stops at every small choice or at the end of each shift.
+- The 25 new place pictures (county clerk offices, registrar, election warehouse, rallies, the convention, homes, schools) have their standing and seating spots.
+
+**Not in yet:** filing for office and everything after it (OPUS-GOV), and the art showing in the bench screens (next on my list).
 
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
 
-- [ ] **The bench on the full stack.** Bring in people, drives and the story director; fix switching residents; while you skip, your character chooses for itself; big moments stop the skip at their own time.
+- [x] **The bench on the full stack.** Done Oct 12: people, drives, health and the director in the bench; switching residents fixed; the character chooses while you skip; the director stops the skip at a moment's own time. M0-01 to M0-05 are golden-path commands (`src/bench/m0-check.ts`) and pass in drawn places (15 of 15 runs by hand, 5 of 5 under the runner).
+  - Was: Bring in people, drives and the story director; fix switching residents; while you skip, your character chooses for itself; big moments stop the skip at their own time.
   - Verified by: M0-01 to M0-05 in random places; you play it.
   - Needs: PEOPLE, CORE
 - [ ] **Use the art we already have (owner, Oct 12).** Wire the tagged art library into every scene and screen now:
@@ -45,6 +59,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **Owner question (built the simple version):** should a skip stop at the start of every work shift? M0-03 says a fixed commitment stops it, so it does now, and a skip is about one workday. I made shift ends carry on. If you'd rather skip past routine shifts too, say so and it becomes one switch.
+
 - **OPUS-CORE:** a year takes about 3.3 hours now, so "skip until needed" can run for many minutes before a stop. Speed is first on your list; the bench needs nothing else from you for this.
 - **OPUS-CORE (small):** when a skipping character answers its own choice, the bench resumes the core's own pick with `resumePlayerV1`. The saved act then reads `controlled:`, as if the player chose it. Could you add a resume kind such as `{ kind: "own-choice", pauseId }` that saves the act as the character's own decision? Until then the bench lists these answers separately under "Chosen by the character while you skipped".
 
@@ -52,6 +68,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: bench item done. M0-01 to M0-05 registered in `docs/roadmap/features.json` as commands; pass flags left for the CTO. They pass under the runner in Kenova WV, Rockleigh NJ, Larrabee IA, Rachel NV and Cruz Bay USVI, about 64 s together. `opus-core` merged in; everything still green. Two stand-ins registered: SG-PLAY-bench-town-size and SG-PLAY-skip-own-choice-attribution. Next: art in the bench screens.
 - Oct 12: **#3994 is green on `opus-play`.** The 25 new places have staging spots, and the anchors test passes all 538 checks over 163 places, including one existing newsroom seat that was failing. The spots live in `art/backdrops/staging.json` on this branch (commit "Art: staging spots for the 25 new places"); merge #3994 with this branch, or cherry-pick that commit onto it. Notes from the picture reading: the three "house-" pictures (Gulf Coast, New England, Northwest) are interiors, not exteriors; the convention-floor picture has the stage too far away for a speaker spot.
 
 - Oct 12, morning: `opus-play` made from pool/M0-bench + main + P15 people + P10 drives + P13-5 director; draft PR #4002. The bench rebuild had dropped the people and drives files and rows, and those are restored. The bench now builds the full stack: a town builds in 60 s with 40,135 people and 7 modules. Switching residents works (the one you leave finishes their day on their own choices), and the character answers its own choices while you skip. The golden path is green and the 8 bench tests pass. Next: M0-01 to M0-05 as golden-path commands, then staging spots for the 25 new places (#3994).
