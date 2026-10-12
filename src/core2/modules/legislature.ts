@@ -496,7 +496,7 @@ export function draftBill(
 }
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
-function members(api: CoreAPI, officeId: string): readonly TermRow[] {
+export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
     return congressMembers(api, officeId);
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -889,9 +889,34 @@ function committeeStage(
     3,
     Math.round(all.length * campaignParameter("committeeShareOfBody")),
   );
-  const roster = ranked.slice(0, size);
-  const sides = roster.map((t) => partySide(t.party));
-  const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
+  // Committee seats follow the chamber's party ratio, the majority holding a
+  // majority of them; each side seats its most senior members.
+  const majority = Math.sign(
+    all.reduce((sum, t) => sum + partySide(t.party), 0),
+  );
+  const bySide = new Map<number, TermRow[]>();
+  for (const t of ranked) {
+    const side = partySide(t.party);
+    bySide.set(side, [...(bySide.get(side) ?? []), t]);
+  }
+  const seatsFor = new Map<number, number>();
+  for (const [side, list] of bySide)
+    seatsFor.set(side, Math.round((size * list.length) / all.length));
+  if (majority !== 0 && bySide.has(majority))
+    seatsFor.set(
+      majority,
+      Math.min(
+        bySide.get(majority)!.length,
+        Math.max(seatsFor.get(majority)!, Math.floor(size / 2) + 1),
+      ),
+    );
+  const roster = [...bySide.entries()]
+    .flatMap(([side, list]) => list.slice(0, seatsFor.get(side)))
+    .sort(
+      (a, b) =>
+        a.startDate.localeCompare(b.startDate) ||
+        memberKey(a).localeCompare(memberKey(b)),
+    );
   const chair =
     roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
@@ -973,7 +998,8 @@ export function committeeRecords(
 
 /**
  * The bill's votes: each chamber in turn (a town has one body); a majority of
- * those voting passes it in each. Every vote is on the record.
+ * those voting passes it in each, and in the U.S. Senate only after three
+ * fifths of its members vote to end debate. Every vote is on the record.
  */
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
@@ -988,7 +1014,15 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
     }
     const tally = chamberVote(api, bill, chamber);
     tallies.push(tally);
-    if (tally.yes <= tally.no) {
+    // The Senate first needs three fifths of its sworn members to end debate.
+    const cloture =
+      chamber === FEDERAL_SENATE &&
+      tally.yes <
+        Math.ceil(
+          members(api, chamber).length *
+            campaignParameter("senateClotureShare"),
+        );
+    if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(failed as unknown as ModuleRow);
       return failed;

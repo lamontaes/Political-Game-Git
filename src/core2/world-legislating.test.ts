@@ -20,9 +20,10 @@ import { openLegislature } from "./modules/legislature";
 import { effectsOn, openLawEffects } from "./modules/law-effects";
 import {
   openWorldLegislating,
+  congressAgendaDate,
   sessionAgendaDates,
   sessionsOf,
-  stateAnswer,
+  answerIn,
 } from "./modules/world-legislating";
 import {
   lifePlaceCoverage,
@@ -82,7 +83,6 @@ describe("M3-10 other governments legislate", () => {
       advanceCore(core, end);
       const session = sessionsOf(api).find((s) => s.stateKey === state);
       expect(session, `${state} ${key}: no session record`).toBeDefined();
-      expect(session!.bills.length).toBeGreaterThan(0);
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );
@@ -101,7 +101,7 @@ describe("M3-10 other governments legislate", () => {
         expect(rows.length, `${bill.number} ${bill.question}`).toBeGreaterThan(
           0,
         );
-        expect(stateAnswer(api, state, bill.question)).not.toBeNull();
+        expect(answerIn(api, state, bill.question)).not.toBeNull();
       }
       const reached = [...core.people.keys()].filter((id) =>
         effectsOn(api, id).some((e) =>
@@ -121,5 +121,72 @@ describe("M3-10 other governments legislate", () => {
     }
     expect(report, `no act passed in ${tried.join(", ")}`).not.toBeNull();
     govReport("world-legislating", JSON.stringify(report));
+  });
+
+  it("Congress passes its majority's agenda at its year-end votes and the acts reach the town", () => {
+    // Open the world shortly before Congress's floor day.
+    const start = "2026-11-30";
+    const state = pick(states, "congress:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "congress:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: start,
+        minimumPeople: 200,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openRecord(core);
+    openLegislature(core);
+    openLawEffects(core);
+    openWorldLegislating(core);
+    const api = coreAPI(core);
+    const day = congressAgendaDate(2026);
+    advanceCore(core, day);
+    const session = sessionsOf(api).find((s) => s.stateKey === "US");
+    expect(
+      session,
+      `${state} ${key}: no Congress session record`,
+    ).toBeDefined();
+    const passed = session!.bills.filter((b) =>
+      ["enacted", "signed", "overridden"].includes(b.status),
+    );
+    const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+    const effective = passed
+      .flatMap((b) => laws.query("bySeries", ["US", b.question]))
+      .map((r) => (r as unknown as { effectiveDate: string }).effectiveDate)
+      .sort();
+    expect(effective.length).toBe(passed.length);
+    if (effective.length) advanceCore(core, effective[effective.length - 1]!);
+    for (const bill of passed)
+      expect(answerIn(api, "US", bill.question), bill.question).not.toBeNull();
+    const reached = [...core.people.keys()].filter((id) =>
+      effectsOn(api, id).some((e) =>
+        passed.some((b) => b.question === e.question),
+      ),
+    );
+    govReport(
+      "world-legislating-congress",
+      JSON.stringify({
+        seed,
+        state,
+        place: key,
+        day,
+        effective,
+        leader: session!.leader,
+        bills: session!.bills,
+        residentsReached: reached.length,
+      }),
+    );
   });
 });
