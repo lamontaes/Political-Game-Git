@@ -289,6 +289,12 @@
       "tag": "TUNABLE",
       "source": "How much a member a group met weighs its case, at full strength when the group speaks for all of the bill's losers; checked so a fully organized industry moves a member about as much as their constituents' lean does.",
       "spread": [0.1, 0.6]
+    },
+    "executivePriorityShare": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "The largest share of a budget line an executive's proposal moves it in a year, at full lean on a line the parties split on completely; checked against year-over-year changes in proposed functional spending (presidential and gubernatorial budget requests typically move a function a few percent).",
+      "spread": [0.02, 0.12]
     }
   }
 }

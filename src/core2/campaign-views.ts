@@ -11,6 +11,7 @@
  */
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import support from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
+import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
@@ -124,7 +125,21 @@ export function personLean(
 
 /** How strongly a person supports a question's "yes", in [-1, 1]. */
 export function personStance(lean: number, question: string): number {
-  return lean * (axisOf[question]?.axis ?? 0);
+  return lean * questionAxis(question);
+}
+
+const lineAxis = (lineAxes as { lines: Record<string, { axis: number }> })
+  .lines;
+
+/**
+ * A question's left-right direction: a recorded policy question's, or for
+ * spending on a budget line ("budget-line:<line>"), who wants more spent on
+ * it (GSS and Pew by party).
+ */
+export function questionAxis(question: string): number {
+  if (question.startsWith("budget-line:"))
+    return lineAxis[question.slice("budget-line:".length)]?.axis ?? 0;
+  return axisOf[question]?.axis ?? 0;
 }
 
 const supportOf = (
