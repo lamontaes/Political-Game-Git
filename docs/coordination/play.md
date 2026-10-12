@@ -11,7 +11,7 @@ Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and open port 3000 **at `/play`** for the game screen. The plain page at `/` is the developer bench, with every record and "why".
 
-**Start here: `/play`.** Press **New life**. You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Politics** (top left) shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
+**Start here: `/play`.** Press **New life**. First comes the opening: the President, your senators, your representative, your governor, your legislators and your town's officials, each in their own room, then your family, then you (Escape skips it). You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Politics** (top left) shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
 
 **What you can do tonight**
 
@@ -64,11 +64,14 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Was: Real gameplay screenshots for the Steam page by Friday, with capsule art from the art pipeline.
   - Verified by: Your sign-off.
   - Needs: CTO (art)
-- [ ] **The opening.** Your opening sequence, from the place's officials and family, with engine words.
+- [ ] **The opening.** First version in `/play` (Oct 12): after New life, the camera cuts from the President in the Oval Office at night to your senators, your representative, your governor, your state legislators and your town's officials, then your family at home, then you. Each shot draws the real holders from the offices records, dressed for the place, with their title and name. Escape skips it. Waiting on the speech's words (OPUS-PEOPLE); stopgap SG-PLAY-opening-without-speech.
+  - Was: Your opening sequence, from the place's officials and family, with engine words.
   - Verified by: M6-01.
   - Needs: GOV, PEOPLE
 
 ## Needs from other sessions
+
+- **OPUS-PEOPLE (English engine):** the opening speech. The President's address (inaugural in an inauguration year, else the State of the Union) with the world's real numbers, one passage per level so it plays over each shot: national, your senators and representative, your governor and state, your town, your family. The shots are ready in `/play` (`src/bench/opening.ts`).
 
 - **OPUS-GOV:** in Gunnison CO (seed gov-a), the President and Vice President are Linda Franklin and Robert Franklin, so fictional national pairs can share a family name. A U.S. Senate filing there went straight onto the ballot with a fee of 0 and no signatures; Colorado's major-party route is petition or assembly.
 - **OPUS-GOV / OPUS-PEOPLE:** filing, signatures and conversations happen instantly from the bench. They should be acts that spend the day's hours: going to the filing office, walking a petition, sitting down to talk. When an act exists for each, the bench will offer it through the clock instead.
@@ -90,6 +93,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: the opening, first version. New life plays 8 shots: Oval Office, Senate floor, House floor, governor's office, state chamber, council or commission, home with family, home with you. Holders come from the offices records, including state and federal holders known only by their term identity. Everyone now dresses for the place (`placeWear`). In Knappa OR (seed open-a), every shot had its holders drawn.
 - Oct 12: the game screen on the new core, `/play`. A new life starts as the resident nearest 18 in a random place, in the Kit 12/13 look: tabs, menu stack, player card with the clock, choices along the bottom, and the conversation lower third with the scales. Until needed runs in week legs so the clock visibly moves. Store-shot script added; 16 shots from Paris MS, Wayne WV, Thompsonville MI and Chickasaw Point SC. Next: the opening sequence (M6 order item 1), then the panel style pass.
 - Oct 12: the whole world in the bench, and four new panels. Merged `opus-core`, `pool/P15-people-5`, `opus-gov` and `opus-world`; the bench town runs 15 modules. A 4,700-person town builds in 12 s, and a played week takes 6.8 s. The golden path stays green, and M0-01 to M0-05 pass on the full stack. New panels: Government (law here, who governs you, open contests, File, Request signatures), Conversation (OPUS-PEOPLE's `openConversation` and `say`, with the Lie button) and My life (`composeJournal`). Measured in Gunnison CO (seed gov-a): 7 laws in force, 31 seats held, 10 open contests; a council filing went to the municipal clerk, and 15 of 19 people asked signed. M0-05 now checks that the panel's running and missing rows match the installed modules.
 - Oct 12: art in the bench. The scene picker (`src/bench/scene.ts`, rows in `src/bench/data/scene-places.json`) chooses the tagged backdrop from what the person is doing and draws the people there with the people engine on the staging spots. Measured: in Aiea HI (seed art-a) and Delaware City DE (seed art-b), 3 residents played a week each gave 78 scenes and 297 figures, every one real art. 5 children present had no adult art. Next: the art item's remaining places (capitols, campuses) as GOV's screens arrive, then screens for each golden-path step.
