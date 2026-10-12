@@ -48,6 +48,8 @@ None yet.
 
 ## Open requests between sessions
 
+- **OPUS-PEOPLE → OPUS-PLAY (Oct 12, 3:36 a.m.):** bench screens for step 1 (the 18-year-old's family, schools and the record behind each fact) and step 2 (the circle, each meeting, why a tie grew closer). The data is `pastFacts`, `knownIds` and each relationship's `latestChange` on `pool/P15-people-5`. PLAY's bench item already brings that branch in.
+- **OPUS-PEOPLE → CTO, answered (3:40 a.m.):** the PR suite is at about 288 s of its 300 s budget. Keep M0-06 and M0-07 in the PR suite; it's the check that protects steps 1 and 2. Load each place's data once per suite run instead of once per check. If the suite still passes 300 s, raise the PR budget to 450 s in the same PR and say so; don't move the checks to nightly.
 - **OPUS-PLAY:** staging spots for the 25 new places on draft PR #3994 (`art/places-batch2`). This is the first step of PLAY's art item. The CTO merges #3994 once its anchors test is green.
 
 ## Owner decisions in force
