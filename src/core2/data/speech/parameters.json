@@ -1,0 +1,26 @@
+{
+  "speechImpulse": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The appraised impulse of hearing a speech in person, on the core's life-change scale. Political persuasion effects from a single message are small on average (Coppock 2023, Persuasion in Parallel, University of Chicago Press), so a speech weighs less than a life event. Spread 0.1 to 0.5.",
+    "stopgapId": "SG-P15-speech-reception"
+  },
+  "speechRetellWeight": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Weight on how far the speech moved the listener's stance when deciding whether to retell it; people talk about what affected them (Berger 2014, Journal of Consumer Psychology 24(4):586-607, on word of mouth). Spread 3 to 10.",
+    "stopgapId": "SG-P15-speech-reception"
+  },
+  "speechSociabilityWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Weight on the listener's sociability (-2 to 2) in deciding whether to retell. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-speech-reception"
+  },
+  "speechKeepPull": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The pull of not retelling, against which retelling is weighed. Checked so that some, not all, listeners retell a speech that moved them. Spread 0.3 to 1.",
+    "stopgapId": "SG-P15-speech-reception"
+  }
+}
