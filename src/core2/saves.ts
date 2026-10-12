@@ -13,6 +13,7 @@ import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { advancePlayerV1, resumePlayerV1 } from "./player-v1";
+import { preStartWindow, runPreStart } from "./pre-start";
 import { fillInIdentity, fillInPerson } from "./state";
 import {
   generatedOpening,
@@ -27,6 +28,8 @@ export interface GameRecipe {
   place: { seed: string; key: string };
   twoLevel: boolean;
   settings?: WorldSettings;
+  /** History before the start: each engine's pre-start pass from this date (M1-14). */
+  preStart?: { from: string; step?: "month" | "quarter" };
 }
 
 export interface SaveCommand {
@@ -103,6 +106,11 @@ export function newGame(recipe: GameRecipe, options: GameOptions = {}): Game {
     ...(options.modules ? { modules: options.modules() } : {}),
   });
   options.afterCreate?.(core);
+  if (recipe.preStart)
+    runPreStart(
+      core,
+      preStartWindow(core, recipe.preStart.from, recipe.preStart.step),
+    );
   return { core, recipe, commands: [], skipped: [] };
 }
 

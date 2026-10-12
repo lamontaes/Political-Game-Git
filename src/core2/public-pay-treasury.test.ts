@@ -20,53 +20,79 @@ const outsideNet = (core: CoreState) =>
     0,
   );
 
+/** Wages the people on a public payroll have actually been paid, from the work ledger. */
+const publicWagesPaid = (core: CoreState) =>
+  [...core.work.commitments.values()]
+    .filter(
+      (row) => core.organizations.get(row.organizationId)?.publicPayAuthority,
+    )
+    .reduce(
+      (n, row) =>
+        n + (core.work.payrollLedgerByCommitment.get(row.id)?.paidMinor ?? 0),
+      0,
+    );
+
+/**
+ * Every public payroll in the place draws from one treasury. Whether a public
+ * worker draws any pay in the window is the worker's own choice (a clerk may
+ * miss every day), so the tests check the treasury against the wages actually
+ * paid, whatever that is in the drawn place.
+ */
 function world(treasuryMinor: number) {
   const core = createLifeCore(
     generatedOpening(place, { twoLevel: true, settings: { population: 1500 } }),
   );
-  const employer = [...core.organizations.values()].find(
+  const employers = [...core.organizations.values()].filter(
     (row) => row.publicPayAuthority,
   );
-  if (!employer) return undefined;
   const api = coreAPI(core);
   api.addOrganization({
     id: "treasury:test",
-    placeId: employer.placeId,
+    placeId:
+      employers[0]?.placeId ??
+      core.organizations.values().next().value!.placeId,
     name: "General fund",
     kind: "government",
     liquidMinor: treasuryMinor,
-    source: employer.source,
+    source: (employers[0] ?? core.organizations.values().next().value!).source,
   });
-  api.fundPublicPay(
-    employer.publicPayAuthority!.id,
-    "treasury:test",
-    employer.source,
-  );
-  return { core, api, authorityId: employer.publicPayAuthority!.id };
+  for (const employer of employers)
+    api.fundPublicPay(
+      employer.publicPayAuthority!.id,
+      "treasury:test",
+      employer.source,
+    );
+  return {
+    core,
+    api,
+    authorityIds: employers.map((row) => row.publicPayAuthority!.id),
+  };
 }
 
 describe(`public pay from a treasury in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("pays public wages from the treasury's cash", () => {
-    const made = world(100_000_000);
-    if (!made) return; // No public employer recorded in this place.
-    const { core, api, authorityId } = made;
+    const { core, api, authorityIds } = world(100_000_000);
     const start = cash(core) + outsideNet(core);
     advanceCore(core, "2021-02-28");
     const spent =
       100_000_000 - core.organizations.get("treasury:test")!.liquidMinor;
-    expect(spent).toBeGreaterThan(0);
-    expect(api.publicPayShortfallMinor(authorityId)).toBe(0);
+    // The treasury pays exactly the public wages that were paid: positive
+    // where a public worker drew pay, and nothing where none did.
+    expect(spent).toBe(publicWagesPaid(core));
+    for (const id of authorityIds)
+      expect(api.publicPayShortfallMinor(id)).toBe(0);
     expect(cash(core) + outsideNet(core)).toBe(start);
   }, 300_000);
 
   it("records what an empty treasury couldn't cover, and wages are still paid", () => {
-    const made = world(0);
-    if (!made) return;
-    const { core, api, authorityId } = made;
+    const { core, api, authorityIds } = world(0);
     const start = cash(core) + outsideNet(core);
     advanceCore(core, "2021-02-28");
     expect(core.organizations.get("treasury:test")!.liquidMinor).toBe(0);
-    expect(api.publicPayShortfallMinor(authorityId)).toBeGreaterThan(0);
+    // What the empty treasury couldn't cover is every public wage paid.
+    expect(
+      authorityIds.reduce((n, id) => n + api.publicPayShortfallMinor(id), 0),
+    ).toBe(publicWagesPaid(core));
     expect(cash(core) + outsideNet(core)).toBe(start);
   }, 300_000);
 });
