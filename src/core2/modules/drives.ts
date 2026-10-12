@@ -78,6 +78,8 @@ export interface DrivesData {
   }[];
   actions: readonly ActionDefinition[];
   gaps: readonly string[];
+  /** Event kinds whose topic is the responsible person or institution. */
+  responsibleInTopic?: readonly string[];
   /** The fact key naming an institution an event's record holds responsible. */
   institutionFact?: { prefix: string; suffix: string };
 }
@@ -357,7 +359,12 @@ type RequirementTest = (
 
 function responsibleId(data: DrivesData, event: CoreEventInput) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
-  if (named || !data.institutionFact) return named;
+  if (named) return named;
+  // Some engines name the responsible party as the event's topic (the
+  // employer behind a layoff, the landlord behind an eviction).
+  if (data.responsibleInTopic?.includes(event.kind) && event.topic)
+    return event.topic;
+  if (!data.institutionFact) return named;
   // An institution the event's own record names (a business that closed).
   const { prefix, suffix } = data.institutionFact;
   const key = Object.keys(event.facts ?? {}).find(

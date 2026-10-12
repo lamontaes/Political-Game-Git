@@ -389,7 +389,8 @@
         "prove-oneself",
         "guard-family",
         "carry-on"
-      ]
+      ],
+      "impulseParameter": "driveClosureImpulse"
     },
     {
       "id": "closure",
@@ -410,7 +411,8 @@
       "eventKind": "housing.eviction",
       "roles": ["subject", "household", "family"],
       "channels": ["injustice", "threat"],
-      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"]
+      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"],
+      "impulseParameter": "driveEvictionImpulse"
     },
     {
       "id": "crime-suffered",
@@ -650,5 +652,6 @@
   "institutionFact": {
     "prefix": "organization:",
     "suffix": ":status"
-  }
+  },
+  "responsibleInTopic": ["work.job-lost", "housing.eviction"]
 }
