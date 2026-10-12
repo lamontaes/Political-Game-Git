@@ -1,6 +1,7 @@
 import { OPENING_KIN } from "./opening-kin";
 import { addOpeningFallingOuts } from "./opening-falling-outs";
 import { addOpeningFavors } from "./opening-favors";
+import firstYearsJson from "./data/school-first-years.json" with { type: "json" };
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
@@ -139,6 +140,24 @@ function hasPrefix(kind: string, prefixes: readonly string[]): boolean {
 }
 
 /** One-time augmentation of a supplied life, never a historical clock run. */
+const FIRST_YEARS = firstYearsJson as unknown as {
+  snapshots: readonly number[];
+  firstYear: Readonly<Record<string, number>>;
+  source: { citation: string };
+};
+
+/**
+ * Whether the directory lists a school by a cohort's year: listed in the
+ * first snapshot counts for any earlier year (it may be older); a school in
+ * no snapshot opened after the last one.
+ */
+export function schoolOpenBy(id: string, year: number): boolean {
+  const [earliest, next] = FIRST_YEARS.snapshots as [number, number];
+  const latest = Math.max(...FIRST_YEARS.snapshots);
+  const first = FIRST_YEARS.firstYear[id] ?? latest + (next - earliest);
+  return first <= Math.max(year, earliest);
+}
+
 export function buildDeepPast(
   input: CoreInput,
   options: DeepPastOptions = {},
@@ -423,8 +442,13 @@ export function buildDeepPast(
         const rng = new SeededRng(input.seed).fork(
           `${data.version}:${placeId}:${stage.id}:school-identity`,
         );
+        // Only a school the national directory lists by the year this cohort
+        // started there (audit 1: no 2015 campus for a 1960s class).
+        const open = schoolRows(placeId, countyId, stage.entryGrade).filter(
+          ([id]) => schoolOpenBy(id, year),
+        );
         const school = schoolFor(
-          schoolRows(placeId, countyId, stage.entryGrade),
+          open,
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
         const [campusId, campusName] = school ?? [];
@@ -434,7 +458,7 @@ export function buildDeepPast(
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
-          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${campusId}, ${campusName}.` : " No public school teaching this grade is recorded for the place or its county; generated landscape name."}`,
+          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS.source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."}`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
         add({
