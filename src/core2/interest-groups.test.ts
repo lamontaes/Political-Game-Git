@@ -5,6 +5,7 @@
  * reason in each member's position.
  */
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -46,13 +47,25 @@ function pick<T>(list: readonly T[], salt: string): T {
 const states = [...lifePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
+// States whose law lets a council set its own minimum wage; a bill in any
+// other state is blocked before a vote, so no employer has a cost to organize on.
+const authority = JSON.parse(
+  readFileSync(
+    "data/research/laws/starting-law-2026/labor-workforce.json",
+    "utf8",
+  ),
+).questions["us-policy-positions:labor-workforce.local-minimum-wage-authority"]
+  .answers as Record<string, { answer: string }>;
+const allowing = states.filter((s) => authority[s]?.answer === "yes");
 
 describe("M3-07 interest groups", () => {
   it("employers a wage bill would cost organize, pay dues that balance, and lobby the council", () => {
     let report: Record<string, unknown> | null = null;
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 10 && !report; attempt += 1) {
-      const state = pick(states, `state:${attempt}`);
+    for (let attempt = 0; attempt < 14 && !report; attempt += 1) {
+      // The first towns are random, so a blocked state is met too; later
+      // ones come from states that allow the bill.
+      const state = pick(attempt < 3 ? states : allowing, `state:${attempt}`);
       const places = [
         ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
           stateJurisdictionKey: state,
