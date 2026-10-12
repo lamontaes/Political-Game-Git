@@ -1,0 +1,961 @@
+{
+ "id": "legislature-party-counts-2026",
+ "about": "Sitting members of each state legislative chamber by party, counted from Open States' current roster. Aggregates only. A chamber's members can be fewer than its seats while seats are vacant.",
+ "retrieved": "2026-10-12",
+ "source": "https://data.openstates.org/people/current/",
+ "license": "Open States data is public domain (CC0).",
+ "missing": "Guam, the U.S. Virgin Islands, American Samoa and the Northern Marianas (Open States has no roster for them).",
+ "places": {
+  "US-AK": {
+   "lower": {
+    "members": 40,
+    "districts": 40,
+    "parties": {
+     "Republican": 21,
+     "Democratic": 14,
+     "Independent": 4,
+     "Nonpartisan": 1
+    }
+   },
+   "upper": {
+    "members": 20,
+    "districts": 20,
+    "parties": {
+     "Republican": 11,
+     "Democratic": 9
+    }
+   }
+  },
+  "US-AL": {
+   "lower": {
+    "members": 105,
+    "districts": 105,
+    "parties": {
+     "Republican": 76,
+     "Democratic": 29
+    }
+   },
+   "upper": {
+    "members": 35,
+    "districts": 35,
+    "parties": {
+     "Republican": 27,
+     "Democratic": 8
+    }
+   }
+  },
+  "US-AR": {
+   "lower": {
+    "members": 99,
+    "districts": 99,
+    "parties": {
+     "Republican": 79,
+     "Democratic": 20
+    }
+   },
+   "upper": {
+    "members": 33,
+    "districts": 33,
+    "parties": {
+     "Republican": 27,
+     "Democratic": 6
+    }
+   }
+  },
+  "US-AZ": {
+   "lower": {
+    "members": 60,
+    "districts": 30,
+    "parties": {
+     "Republican": 33,
+     "Democratic": 27
+    }
+   },
+   "upper": {
+    "members": 30,
+    "districts": 30,
+    "parties": {
+     "Republican": 17,
+     "Democratic": 13
+    }
+   }
+  },
+  "US-CA": {
+   "lower": {
+    "members": 79,
+    "districts": 79,
+    "parties": {
+     "Democratic": 60,
+     "Republican": 19
+    }
+   },
+   "upper": {
+    "members": 39,
+    "districts": 39,
+    "parties": {
+     "Democratic": 29,
+     "Republican": 10
+    }
+   }
+  },
+  "US-CO": {
+   "lower": {
+    "members": 64,
+    "districts": 64,
+    "parties": {
+     "Democratic": 42,
+     "Republican": 22
+    }
+   },
+   "upper": {
+    "members": 35,
+    "districts": 35,
+    "parties": {
+     "Democratic": 23,
+     "Republican": 12
+    }
+   }
+  },
+  "US-CT": {
+   "lower": {
+    "members": 151,
+    "districts": 151,
+    "parties": {
+     "Democratic": 81,
+     "Republican": 49,
+     "Democratic/Working Families": 20,
+     "Democratic/Independence/Working Families": 1
+    }
+   },
+   "upper": {
+    "members": 36,
+    "districts": 36,
+    "parties": {
+     "Democratic": 21,
+     "Republican": 11,
+     "Democratic/Working Families": 4
+    }
+   }
+  },
+  "US-DC": {
+   "legislature": {
+    "members": 13,
+    "districts": 10,
+    "parties": {
+     "Democratic": 11,
+     "Independent": 2
+    }
+   }
+  },
+  "US-DE": {
+   "lower": {
+    "members": 41,
+    "districts": 41,
+    "parties": {
+     "Democratic": 27,
+     "Republican": 14
+    }
+   },
+   "upper": {
+    "members": 21,
+    "districts": 21,
+    "parties": {
+     "Democratic": 15,
+     "Republican": 6
+    }
+   }
+  },
+  "US-FL": {
+   "lower": {
+    "members": 116,
+    "districts": 116,
+    "parties": {
+     "Republican": 82,
+     "Democratic": 34
+    }
+   },
+   "upper": {
+    "members": 39,
+    "districts": 39,
+    "parties": {
+     "Republican": 26,
+     "Democratic": 12,
+     "Independent": 1
+    }
+   }
+  },
+  "US-GA": {
+   "lower": {
+    "members": 180,
+    "districts": 180,
+    "parties": {
+     "Republican": 99,
+     "Democratic": 81
+    }
+   },
+   "upper": {
+    "members": 55,
+    "districts": 55,
+    "parties": {
+     "Republican": 33,
+     "Democratic": 22
+    }
+   }
+  },
+  "US-HI": {
+   "lower": {
+    "members": 51,
+    "districts": 51,
+    "parties": {
+     "Democratic": 41,
+     "Republican": 10
+    }
+   },
+   "upper": {
+    "members": 25,
+    "districts": 25,
+    "parties": {
+     "Democratic": 22,
+     "Republican": 3
+    }
+   }
+  },
+  "US-IA": {
+   "lower": {
+    "members": 100,
+    "districts": 100,
+    "parties": {
+     "Republican": 67,
+     "Democratic": 33
+    }
+   },
+   "upper": {
+    "members": 49,
+    "districts": 49,
+    "parties": {
+     "Republican": 32,
+     "Democratic": 17
+    }
+   }
+  },
+  "US-ID": {
+   "lower": {
+    "members": 70,
+    "districts": 70,
+    "parties": {
+     "Republican": 61,
+     "Democratic": 9
+    }
+   },
+   "upper": {
+    "members": 35,
+    "districts": 35,
+    "parties": {
+     "Republican": 29,
+     "Democratic": 6
+    }
+   }
+  },
+  "US-IL": {
+   "lower": {
+    "members": 118,
+    "districts": 118,
+    "parties": {
+     "Democratic": 78,
+     "Republican": 40
+    }
+   },
+   "upper": {
+    "members": 59,
+    "districts": 59,
+    "parties": {
+     "Democratic": 40,
+     "Republican": 19
+    }
+   }
+  },
+  "US-IN": {
+   "lower": {
+    "members": 100,
+    "districts": 100,
+    "parties": {
+     "Republican": 69,
+     "Democratic": 30,
+     "Independent": 1
+    }
+   },
+   "upper": {
+    "members": 50,
+    "districts": 50,
+    "parties": {
+     "Republican": 40,
+     "Democratic": 10
+    }
+   }
+  },
+  "US-KS": {
+   "lower": {
+    "members": 125,
+    "districts": 125,
+    "parties": {
+     "Republican": 88,
+     "Democratic": 37
+    }
+   },
+   "upper": {
+    "members": 40,
+    "districts": 40,
+    "parties": {
+     "Republican": 31,
+     "Democratic": 9
+    }
+   }
+  },
+  "US-KY": {
+   "lower": {
+    "members": 100,
+    "districts": 100,
+    "parties": {
+     "Republican": 80,
+     "Democratic": 20
+    }
+   },
+   "upper": {
+    "members": 38,
+    "districts": 38,
+    "parties": {
+     "Republican": 32,
+     "Democratic": 6
+    }
+   }
+  },
+  "US-LA": {
+   "lower": {
+    "members": 104,
+    "districts": 104,
+    "parties": {
+     "Republican": 72,
+     "Democratic": 32
+    }
+   },
+   "upper": {
+    "members": 38,
+    "districts": 38,
+    "parties": {
+     "Republican": 28,
+     "Democratic": 10
+    }
+   }
+  },
+  "US-MA": {
+   "lower": {
+    "members": 157,
+    "districts": 157,
+    "parties": {
+     "Democratic": 131,
+     "Republican": 25,
+     "Independent": 1
+    }
+   },
+   "upper": {
+    "members": 40,
+    "districts": 40,
+    "parties": {
+     "Democratic": 35,
+     "Republican": 5
+    }
+   }
+  },
+  "US-MD": {
+   "lower": {
+    "members": 141,
+    "districts": 71,
+    "parties": {
+     "Democratic": 102,
+     "Republican": 39
+    }
+   },
+   "upper": {
+    "members": 47,
+    "districts": 47,
+    "parties": {
+     "Democratic": 34,
+     "Republican": 13
+    }
+   }
+  },
+  "US-ME": {
+   "lower": {
+    "members": 153,
+    "districts": 153,
+    "parties": {
+     "Democratic": 75,
+     "Republican": 73,
+     "Independent": 5
+    }
+   },
+   "upper": {
+    "members": 35,
+    "districts": 35,
+    "parties": {
+     "Democratic": 20,
+     "Republican": 14,
+     "Independent": 1
+    }
+   }
+  },
+  "US-MI": {
+   "lower": {
+    "members": 110,
+    "districts": 110,
+    "parties": {
+     "Republican": 58,
+     "Democratic": 52
+    }
+   },
+   "upper": {
+    "members": 38,
+    "districts": 38,
+    "parties": {
+     "Democratic": 20,
+     "Republican": 18
+    }
+   }
+  },
+  "US-MN": {
+   "lower": {
+    "members": 133,
+    "districts": 133,
+    "parties": {
+     "Democratic-Farmer-Labor": 67,
+     "Republican": 66
+    }
+   },
+   "upper": {
+    "members": 67,
+    "districts": 67,
+    "parties": {
+     "Democratic-Farmer-Labor": 34,
+     "Republican": 33
+    }
+   }
+  },
+  "US-MO": {
+   "lower": {
+    "members": 155,
+    "districts": 155,
+    "parties": {
+     "Republican": 105,
+     "Democratic": 50
+    }
+   },
+   "upper": {
+    "members": 33,
+    "districts": 33,
+    "parties": {
+     "Republican": 23,
+     "Democratic": 10
+    }
+   }
+  },
+  "US-MS": {
+   "lower": {
+    "members": 120,
+    "districts": 120,
+    "parties": {
+     "Republican": 77,
+     "Democratic": 41,
+     "Independent": 2
+    }
+   },
+   "upper": {
+    "members": 51,
+    "districts": 51,
+    "parties": {
+     "Republican": 34,
+     "Democratic": 17
+    }
+   }
+  },
+  "US-MT": {
+   "lower": {
+    "members": 100,
+    "districts": 100,
+    "parties": {
+     "Republican": 58,
+     "Democratic": 42
+    }
+   },
+   "upper": {
+    "members": 50,
+    "districts": 50,
+    "parties": {
+     "Republican": 32,
+     "Democratic": 18
+    }
+   }
+  },
+  "US-NC": {
+   "lower": {
+    "members": 120,
+    "districts": 120,
+    "parties": {
+     "Republican": 71,
+     "Democratic": 47,
+     "Independent": 2
+    }
+   },
+   "upper": {
+    "members": 50,
+    "districts": 50,
+    "parties": {
+     "Republican": 30,
+     "Democratic": 20
+    }
+   }
+  },
+  "US-ND": {
+   "lower": {
+    "members": 94,
+    "districts": 48,
+    "parties": {
+     "Republican": 83,
+     "Democratic": 11
+    }
+   },
+   "upper": {
+    "members": 47,
+    "districts": 47,
+    "parties": {
+     "Republican": 42,
+     "Democratic": 5
+    }
+   }
+  },
+  "US-NE": {
+   "legislature": {
+    "members": 49,
+    "districts": 49,
+    "parties": {
+     "Nonpartisan": 49
+    }
+   }
+  },
+  "US-NH": {
+   "lower": {
+    "members": 382,
+    "districts": 199,
+    "parties": {
+     "Republican": 211,
+     "Democratic": 169,
+     "Independent": 2
+    }
+   },
+   "upper": {
+    "members": 24,
+    "districts": 24,
+    "parties": {
+     "Republican": 16,
+     "Democratic": 8
+    }
+   }
+  },
+  "US-NJ": {
+   "lower": {
+    "members": 80,
+    "districts": 40,
+    "parties": {
+     "Democratic": 57,
+     "Republican": 23
+    }
+   },
+   "upper": {
+    "members": 40,
+    "districts": 40,
+    "parties": {
+     "Democratic": 25,
+     "Republican": 15
+    }
+   }
+  },
+  "US-NM": {
+   "lower": {
+    "members": 68,
+    "districts": 68,
+    "parties": {
+     "Democratic": 42,
+     "Republican": 26
+    }
+   },
+   "upper": {
+    "members": 42,
+    "districts": 42,
+    "parties": {
+     "Democratic": 26,
+     "Republican": 16
+    }
+   }
+  },
+  "US-NV": {
+   "lower": {
+    "members": 42,
+    "districts": 42,
+    "parties": {
+     "Democratic": 27,
+     "Republican": 15
+    }
+   },
+   "upper": {
+    "members": 21,
+    "districts": 21,
+    "parties": {
+     "Democratic": 13,
+     "Republican": 8
+    }
+   }
+  },
+  "US-NY": {
+   "lower": {
+    "members": 150,
+    "districts": 150,
+    "parties": {
+     "Democratic": 82,
+     "Republican": 22,
+     "Democratic/Working Families": 19,
+     "Republican/Conservative": 18,
+     "Republican/Conservative/Independence": 6,
+     "Democratic/Independence/Working Families": 2,
+     "Republican/Conservative/Independence/Libertarian": 1
+    }
+   },
+   "upper": {
+    "members": 62,
+    "districts": 62,
+    "parties": {
+     "Democratic": 21,
+     "Democratic/Working Families": 19,
+     "Republican/Conservative": 16,
+     "Republican/Conservative/Independence": 3,
+     "Republican": 2,
+     "Republican/Conservative/Independence/Reform": 1
+    }
+   }
+  },
+  "US-OH": {
+   "lower": {
+    "members": 98,
+    "districts": 98,
+    "parties": {
+     "Republican": 64,
+     "Democratic": 34
+    }
+   },
+   "upper": {
+    "members": 32,
+    "districts": 32,
+    "parties": {
+     "Republican": 23,
+     "Democratic": 9
+    }
+   }
+  },
+  "US-OK": {
+   "lower": {
+    "members": 100,
+    "districts": 100,
+    "parties": {
+     "Republican": 81,
+     "Democratic": 19
+    }
+   },
+   "upper": {
+    "members": 47,
+    "districts": 47,
+    "parties": {
+     "Republican": 39,
+     "Democratic": 8
+    }
+   }
+  },
+  "US-OR": {
+   "lower": {
+    "members": 60,
+    "districts": 60,
+    "parties": {
+     "Democratic": 36,
+     "Republican": 23,
+     "Democratic/Working Families": 1
+    }
+   },
+   "upper": {
+    "members": 30,
+    "districts": 30,
+    "parties": {
+     "Democratic": 18,
+     "Republican": 12
+    }
+   }
+  },
+  "US-PA": {
+   "lower": {
+    "members": 203,
+    "districts": 203,
+    "parties": {
+     "Democratic": 103,
+     "Republican": 100
+    }
+   },
+   "upper": {
+    "members": 50,
+    "districts": 50,
+    "parties": {
+     "Republican": 27,
+     "Democratic": 23
+    }
+   }
+  },
+  "US-PR": {
+   "lower": {
+    "members": 53,
+    "districts": 41,
+    "parties": {
+     "Partido Nuevo Progresista": 36,
+     "Partido Popular Democr\u00e1tico": 13,
+     "Partido Independentista Puertorrique\u00f1o": 3,
+     "Proyecto Dignidad": 1
+    }
+   },
+   "upper": {
+    "members": 28,
+    "districts": 9,
+    "parties": {
+     "Partido Nuevo Progresista": 18,
+     "Partido Popular Democr\u00e1tico": 6,
+     "Partido Independentista Puertorrique\u00f1o": 2,
+     "Independent": 2
+    }
+   }
+  },
+  "US-RI": {
+   "lower": {
+    "members": 74,
+    "districts": 74,
+    "parties": {
+     "Democratic": 63,
+     "Republican": 10,
+     "Independent": 1
+    }
+   },
+   "upper": {
+    "members": 38,
+    "districts": 38,
+    "parties": {
+     "Democratic": 34,
+     "Republican": 4
+    }
+   }
+  },
+  "US-SC": {
+   "lower": {
+    "members": 124,
+    "districts": 124,
+    "parties": {
+     "Republican": 89,
+     "Democratic": 35
+    }
+   },
+   "upper": {
+    "members": 46,
+    "districts": 46,
+    "parties": {
+     "Republican": 34,
+     "Democratic": 12
+    }
+   }
+  },
+  "US-SD": {
+   "lower": {
+    "members": 70,
+    "districts": 37,
+    "parties": {
+     "Republican": 65,
+     "Democratic": 5
+    }
+   },
+   "upper": {
+    "members": 35,
+    "districts": 35,
+    "parties": {
+     "Republican": 32,
+     "Democratic": 3
+    }
+   }
+  },
+  "US-TN": {
+   "lower": {
+    "members": 98,
+    "districts": 98,
+    "parties": {
+     "Republican": 75,
+     "Democratic": 23
+    }
+   },
+   "upper": {
+    "members": 33,
+    "districts": 33,
+    "parties": {
+     "Republican": 27,
+     "Democratic": 6
+    }
+   }
+  },
+  "US-TX": {
+   "lower": {
+    "members": 148,
+    "districts": 148,
+    "parties": {
+     "Republican": 86,
+     "Democratic": 62
+    }
+   },
+   "upper": {
+    "members": 30,
+    "districts": 30,
+    "parties": {
+     "Republican": 18,
+     "Democratic": 12
+    }
+   }
+  },
+  "US-UT": {
+   "lower": {
+    "members": 75,
+    "districts": 75,
+    "parties": {
+     "Republican": 61,
+     "Democratic": 14
+    }
+   },
+   "upper": {
+    "members": 29,
+    "districts": 29,
+    "parties": {
+     "Republican": 22,
+     "Democratic": 6,
+     "Forward": 1
+    }
+   }
+  },
+  "US-VA": {
+   "lower": {
+    "members": 99,
+    "districts": 99,
+    "parties": {
+     "Democratic": 63,
+     "Republican": 36
+    }
+   },
+   "upper": {
+    "members": 40,
+    "districts": 40,
+    "parties": {
+     "Democratic": 21,
+     "Republican": 19
+    }
+   }
+  },
+  "US-VT": {
+   "lower": {
+    "members": 150,
+    "districts": 109,
+    "parties": {
+     "Democratic": 87,
+     "Republican": 57,
+     "Democratic/Progressive": 3,
+     "Independent": 3
+    }
+   },
+   "upper": {
+    "members": 30,
+    "districts": 16,
+    "parties": {
+     "Democratic": 14,
+     "Republican": 13,
+     "Democratic/Progressive": 3
+    }
+   }
+  },
+  "US-WA": {
+   "lower": {
+    "members": 98,
+    "districts": 49,
+    "parties": {
+     "Democratic": 59,
+     "Republican": 39
+    }
+   },
+   "upper": {
+    "members": 49,
+    "districts": 49,
+    "parties": {
+     "Democratic": 30,
+     "Republican": 19
+    }
+   }
+  },
+  "US-WI": {
+   "lower": {
+    "members": 99,
+    "districts": 99,
+    "parties": {
+     "Republican": 54,
+     "Democratic": 45
+    }
+   },
+   "upper": {
+    "members": 33,
+    "districts": 33,
+    "parties": {
+     "Republican": 18,
+     "Democratic": 15
+    }
+   }
+  },
+  "US-WV": {
+   "lower": {
+    "members": 100,
+    "districts": 100,
+    "parties": {
+     "Republican": 91,
+     "Democratic": 9
+    }
+   },
+   "upper": {
+    "members": 34,
+    "districts": 17,
+    "parties": {
+     "Republican": 32,
+     "Democratic": 2
+    }
+   }
+  },
+  "US-WY": {
+   "lower": {
+    "members": 62,
+    "districts": 62,
+    "parties": {
+     "Republican": 56,
+     "Democratic": 6
+    }
+   },
+   "upper": {
+    "members": 31,
+    "districts": 31,
+    "parties": {
+     "Republican": 29,
+     "Democratic": 2
+    }
+   }
+  }
+ }
+}

@@ -47,5 +47,6 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12 08:10 UTC: Draft PR #4003 open (opus-gov → main).
 - 2026-10-12 08:05 UTC: Laws in force done. Research added (sales tax all 56; county property tax from ACS; local income tax and minimum wage; married brackets; territory income tax; effective-date rules). M1-01 4/4 on fresh random draws; typecheck, eslint and tripwires clean; zero-dice's 2 hits are inherited (`deep-past.ts`, red without this change); `release:check` can't resolve its base commit in this clone. Next: offices and seats.
 - 2026-10-12 07:22 UTC: Branch `opus-gov` created from `pool/M1-laws` with RULES-2's shelves (P14 offices ⊂ elections ⊂ legislatures ⊂ laws ⊂ economy, one merge) and main merged. Golden path: M0-10 and M0-11 pass.
