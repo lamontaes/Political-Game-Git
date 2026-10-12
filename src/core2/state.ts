@@ -2,6 +2,7 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   countedJob,
+  enterResidentMarket,
   releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
@@ -1371,6 +1372,11 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByTier, changes.tier, personId);
       }
       Object.assign(actor, changes);
+    },
+    enterMarket(entry) {
+      if (!Number.isFinite(entry.capacityMinor) || entry.capacityMinor < 0)
+        throw new Error("Market capacity must be a nonnegative amount.");
+      return enterResidentMarket(core, entry);
     },
     rerateJob(jobId, hourlyMinor, source) {
       if (!Number.isSafeInteger(hourlyMinor) || hourlyMinor <= 0)

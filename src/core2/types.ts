@@ -1132,6 +1132,13 @@ export interface CoreAPI {
   ): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
+  /**
+   * v18: a business founded mid-run takes its share of the counted
+   * households' purchases (by capacity and price); returns each kind's yearly sales.
+   */
+  enterMarket(
+    entry: import("./modules/residents").MarketEntry,
+  ): { financeKind: string; annualDemandMinor: number }[];
   addOrganization(input: OrganizationInput): void;
   /** v11: zero-stock newborn admission through the canonical person writer. */
   addBornPersonV1(

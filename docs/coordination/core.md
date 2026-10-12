@@ -42,12 +42,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Requests to the core (answered here)
 
-Facade: **core2-api-v17** on `opus-core`. Build on `opus-core` (merge it into your branch); the core goes to main first.
+Facade: **core2-api-v18** on `opus-core`. Build on `opus-core` (merge it into your branch); the core goes to main first.
 
 - **WORLD:** all done and carried on `opus-core`.
   - `repriceCreditFacility` (v11) and your v12–v16 seams: `startJob`/`endJob`, `attachBusinessCredit`, `endStandingContract`, `setStandingContractAmount`, `reduceStandingArrears`. Reviewed as is.
   - My stand-in flows switch off where your engines replace them: `collapseToTwoLevels(input, { outsideLivingCosts: false, unplacedWorkerIncome: false })` and `addOutsideMarket(input, data, { ownerDistributions: false })`. Your housing and outside spending would otherwise double-charge rent and leakage.
   - Accounts are in (`api.accounts()`), so household loans, mortgages and deposits can be named accounts with obligations.
+- **WORLD, founding a business mid-run:** **done** (v18). Call `api.enterMarket({ organizationId, placeId, like: rivalId, capacityMinor, relativePrice? })` after `addOrganization` (or pass `financeKinds` instead of `like`). The counted households' purchases of those kinds are split again among the sellers by capacity and price, using `splitMarketDemand` with each incumbent at its current sales. The market is split, not grown, and every dollar balances (`src/core2/market-entry.test.ts`, random place). Full households keep their own stores. It returns each kind's yearly sales for the new firm's books. The reverse is automatic: when a seller closes, its counted customers move to the place's other open sellers of that kind, in proportion to what each already sells them.
 - **GOV, re-rate pay:** **done** (`api.rerateJob`, v12). It covers full and counted workers.
 - **GOV, sales tax:** **done** with a hook instead of a split. Every paid sale to a business, from full households' contracts and the residents' merged purchases, calls each module's `onSalesReceipt(api, sale)` (`SalesReceiptNotice` in `types.ts`). Remit the rate in force from `sale.sellerId` to the treasury with `api.accounts().transfer(...)`. There's a test with a 5% tax.
 - **GOV, public payroll from the treasury:** accepted, not done yet. Public employers pay through the outside "public pay authority" path in `work-payroll-cash.ts`. I'll add a switch to fund it from a named treasury account. Keep your stand-in until then.
@@ -82,6 +83,7 @@ Facade: **core2-api-v17** on `opus-core`. Build on `opus-core` (merge it into yo
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 13, 06:30 UTC: answered WORLD's founding request with `api.enterMarket` (v18): a new business takes a capacity- and price-weighted share of the residents' purchases, and every dollar balances. Profiled the opening: 10 s, of which 5.6 s is PEOPLE's builder, 0.8 s deep past for everyone, and 2.5 s my economy (the purchase calendar is built twice; sharing it saves about 0.5 s, so it waits).
 - Oct 13, 06:00 UTC: **saves that last (M7-02, core side).** A save is the world's recipe (place, seed, settings) plus the player's dated commands; loading rebuilds and replays it, so saves survive updates. Tested in a random place: save after commands, JSON round trip, load, same cash everywhere; an unknown command is skipped and the rest loads. Note for PEOPLE: `npm run zero-dice` flags two list-picks in `src/core2/deep-past.ts` (school names, already on this base). Next: M7 speed items, then BOARD.
 - Oct 13, 05:00 UTC: fixed PLAY's "Absent family member" (relatives in the counts are husks). Added voter groups for counted adults (CPS turnout, 2024 state margin as starting lean) so two-level elections have an electorate. Tried PLAY's payroll-crash repro on `opus-play`: it hits a different crash first ("Unregistered tier: newborn", PEOPLE's births data); notes are in Requests.
 - Oct 13, 03:00 UTC: `fillInIdentity` for GOV. Custom world settings (M6-04, core side) honor population, wages, cash and outside demand, and record politics for PEOPLE and GOV. The PR description passed the report reviewer and is updated on #3999. The current build measured once in two new random places: Mill Plain, Connecticut, 13.2 s a year, 2 of 28 closed; Hobbs, Indiana, 12.7 s, 1 of 28. Core suite 1,562 of 1,562.
