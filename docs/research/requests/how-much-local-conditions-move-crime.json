@@ -11,9 +11,27 @@
     {
       "source": "src/simulation/crime/causes.ts UNRESEARCHED_UNEMPLOYMENT_EFFECT and CRIME_CAUSE_SEAMS",
       "whatItDidNotSettle": "Unemployment already moves crime at a placeholder size (1 to 3% per point above 4%, depending on the offense). Poverty, policing and enacted laws are listed as causes the game cannot read yet, and none has a researched size."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+    },
+    {
+      "source": "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "How much unemployment, poverty, policing and policy move crime in a place",
   "usableAnswer": "A table with one row per cause and one column per offense. Each cell holds the effect size in a form the game can apply, such as the percent change in the offense rate per unit of the cause, with its lag in months, its source, and a confidence note. Say which effects are well established and which are contested. Where no measured figure exists for a cause, say so rather than estimate.",
-  "whyItMatters": "Crime in the game should rise and fall for reasons. So far only unemployment moves it, and at a made-up size. These answers set how strongly the state of the economy, a town's poverty, its police and the laws the player passes change crime."
+  "whyItMatters": "Crime in the game should rise and fall for reasons. So far only unemployment moves it, and at a made-up size. These answers set how strongly the state of the economy, a town's poverty, its police and the laws the player passes change crime.",
+  "answer": {
+    "summary": "The checked BJS/FBI aggregates describe offense/reporting levels; they do not identify the requested causal effects on offending, towns, victim health or incumbent support. No coefficient for an individual actor is supported by these aggregate counts.",
+    "sources": [
+      "https://bjs.ojp.gov/document/cv24.pdf",
+      "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

@@ -23,9 +23,22 @@
     {
       "source": "Survey of the Performance of American Elections (MIT Election Data and Science Lab)",
       "whatItDidNotSettle": "Asks about waiting time in line, not the distance traveled, and state samples are small."
+    },
+    {
+      "source": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "whatItDidNotSettle": "All56 weighted-distance estimates and a sourced national fallback remain open; no private voter address records collected."
     }
   ],
   "title": "How far voters travel to their polling place, state by state",
   "usableAnswer": "One row per place: the average (or median) miles from a voter's address to the assigned polling place, the year, the source and table, and how it was computed (survey, GIS of polling-place and voter-file locations, or other). Where a place has no value, say so, and give the national figure with its source so the game can start the place from it, marked ESTIMATED FROM NATIONAL AVERAGE.",
-  "whyItMatters": "The outcome web has a researched link, polling-distance-to-turnout (Cantoni 2020: about -14% of ballots per added mile), whose cause measure, voting.polling-place-distance-miles, has no starting value for any place. Until one exists the link cannot run, and a law that closes or moves polling places has nothing to act on. The owner's rule is real, latest data with its source, or nothing: a distance computed from land area would be invented."
+  "whyItMatters": "The outcome web has a researched link, polling-distance-to-turnout (Cantoni 2020: about -14% of ballots per added mile), whose cause measure, voting.polling-place-distance-miles, has no starting value for any place. Until one exists the link cannot run, and a law that closes or moves polling places has nothing to act on. The owner's rule is real, latest data with its source, or nothing: a distance computed from land area would be invented.",
+  "answer": {
+    "summary": "EAVS records polling-place administration but does not give voter-address-to-assigned-site mean miles. Computing distance needs dated assigned precinct/site geography, eligible-address weighting and a declared road-versus-straight-line method; count of sites alone is insufficient.",
+    "sources": [
+      "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "All56 weighted-distance estimates and a sourced national fallback remain open; no private voter address records collected."
+  }
 }

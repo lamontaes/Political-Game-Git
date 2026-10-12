@@ -13,6 +13,7 @@ import type {
   BrowserWorldSummary,
   QuarantinedSave,
 } from "../presentation/browser-world-repository";
+import { displayVersion } from "../release/build-identity";
 import { TitleScreen } from "./TitleScreen";
 
 /**
@@ -182,6 +183,15 @@ describe("Observer Mode on the title screen", () => {
     const markup = render([senator], []);
     expect(markup).toContain(
       "Ada Moss, 52 \u00b7 State Senator \u00b7 Frankfort",
+    );
+  });
+});
+
+describe("the title screen carries the build version", () => {
+  it("shows v and the number from the build, so the release check can find it", () => {
+    const markup = render([], []);
+    expect(markup).toContain(
+      `data-testid="title-version">${displayVersion()}<`,
     );
   });
 });

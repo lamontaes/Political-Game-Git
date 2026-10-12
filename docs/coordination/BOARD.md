@@ -15,6 +15,72 @@ Only the CTO writes this file. Each session keeps its own status file in this fo
 
 All six start at 3:07 a.m. Monday from one-off routines on the coordinator account.
 
+## Audit priorities (owner, Oct 12, 9:15 a.m.): fix before building on
+
+The CTO's code audit (`docs/reports/audit-2026-10-12/`) found that many items ticked overnight are first slices, work only in tests, or aren't wired into `/play`. **The owner's ruling: each session fixes its audit findings first (correctness bugs, then the thin spots), then continues.** A checklist item counts as done only when it works in `/play` and its test covers more than one narrow case.
+
+- **OPUS-CORE (audit 4):**
+  1. Replace the outside-buyer residual (`max(floor, 1 − local/projected)`, a top-up) with real outside demand.
+  2. Explain or fix the cash growth (Absecon $59.8M → $202.8M).
+  3. With WORLD, switch off the core stand-ins (outside rent, owner payouts, unplaced pay) when the WORLD engines run.
+  4. Wire click-to-fill (`/api/resident`, `/api/scene` and `/api/talk/open` throw for counted people).
+  5. Measure a whole year on `/play` with all modules, record it, and make the speed guard time that path.
+  6. Fill-in from the seed; no past until filled in.
+- **OPUS-GOV (audits 2 and 3):**
+  1. Primaries with the wider electorate.
+  2. A next contest each cycle (one contest per seat ever blocks step 11).
+  3. Unreached voter bands must not vote on platforms they never heard.
+  4. No winner on 0 votes.
+  5. Off-cycle and midterm turnout.
+  6. Independent filing terms; formula fees.
+  7. Federal acts take effect.
+  8. City income tax collects (the "percent" unit).
+  9. Council authority (no SNAP or Medicare tax).
+  10. Ties by real rules.
+  11. Deals: no effect when declined, recorded, with a cost.
+  12. The player casts their own vote and chooses to sign or veto.
+  13. Breadth: 6 of 74 policies reach people. Wire the rest and test every policy.
+  14. President: an Electoral College and a joint ticket.
+- **OPUS-PEOPLE (audit 1):**
+  1. Conversations: distinct choices, four guaranteed; lies change beliefs and can be found out by others.
+  2. Talking records contact and closeness, and passes news.
+  3. Register the speech module and "bring it up" in play.
+  4. News: what the player heard, outlets, trust, other places.
+  5. Journal lines for deaths, marriages, elections and filing; the death look-back in play.
+  6. Schools by era.
+  7. Template banks fire their stopgaps until composed from mined speech.
+- **OPUS-PLAY (audits 1–4):**
+  1. Remove the office list and File buttons; the filing visit plus overlay only.
+  2. Platform and party at filing.
+  3. Show schools, real relation words and action names (no raw keys).
+  4. Calendar jump, and say which stop ended a skip.
+  5. Fix the Lie control (tip only on a lie, soft red, no word "Lie").
+  6. Use the closures path in the bench opening.
+  7. Store screenshots by Friday.
+- **OPUS-WORLD (audit 4):**
+  1. Counted workers quit, look and are laid off.
+  2. Double counting of rent and owner pay (with CORE).
+  3. M1-02 re-proved in a drawn town with town feedback and the town bank's line.
+  4. Dwellings, prices, buying, mortgages and property tax.
+  5. Founders and loans from counted households.
+  6. Settle the eviction sources (26 vs 51 of 56).
+
+## Next, after your audit items (owner's questions, Oct 12, 9:20 a.m.)
+
+The owner asked what history, meetings, groups, places, interviews and laws the game has. The CTO checked the code (answers: https://claude.ai/artifact/NV5EmoFMjrYeDkMZfg5CqG). These are the gaps. Each session takes its own once its audit items above are fixed.
+
+- **OPUS-GOV:**
+  1. Campaign interviews: the place's real outlets (newspaper, TV, radio) from its media data; you ask for an interview or a reporter asks you; questions come from the race's issues and your record; answers go on the record and into the news; readers and viewers react. Start from the old game's logic (`src/simulation/press-interviews.ts`); words from OPUS-PEOPLE.
+  2. Public meetings you attend: council and county commission meetings with public comment, hearings you can testify at (the `testify-at-hearing` act is a stopgap never offered), town halls and debates.
+  3. The bill catalog (`docs/design/legislative-content-menus-v1.md`, all 18 subject menus) reachable from the bench, plus your own vote and signing or vetoing when you hold those offices.
+  4. Load the 59 researched yes/no policy answers as law rows.
+  5. Pre-start history: past elections and officials' careers of real length, so terms don't all start on the opening day (M1-14 part 2, with OPUS-CORE's run).
+- **OPUS-PEOPLE:** group kinds as data with each town's counts from real sources (clubs, PTAs, service clubs, veterans' posts, neighborhood associations, volunteer groups, leagues); joining or switching parties for a reason; church and club gatherings; the words for interviews.
+- **OPUS-PLAY:** a "Go to" list of the town's places (from its organizations and the art library), showing who's there and what you can do; meeting scenes using the existing art (council chamber, school board room, rally stage); open `world-legislating` in `src/bench/world.ts` so councils, legislatures and Congress act on their own; the town visibly changing after a law passes.
+- **OPUS-WORLD:** a 20-year drift report in random places with town feedback on: every exit from the 1990–2026 bands with when, how far and its cause; business founding and closures before the start (M1-14 part 2).
+- **OPUS-CORE:** the pre-start history run (adopt #3961's `runPreStartHistory`, economy, people, then governments) so the other sessions' history passes plug in.
+- **FIXER:** a script that lists every open stopgap by session and kind (behavior, figure, text, art) from `src/core2/data/stopgaps.json` and `src/director/data/stopgaps.json`, so the CTO can keep "Open stand-ins" below complete.
+
 ## Order of work right now
 
 1. **OPUS-CORE: speed first** (bookkeeping off in play, no copying of worker memory each shift), then the two-level population, then the business closures.
@@ -43,7 +109,11 @@ The whole game gets built, not just tonight's list (owner, Oct 12; "No stopping"
 
 ## Open stand-ins
 
-The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it. As of Oct 12, 4:25 a.m.:
+The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it.
+
+**Count, Oct 12, 9:40 a.m. (CTO, from the code):** about 180 open in what the bench runs: 159 open rows on `opus-play` (91 simplified rules, 65 figures, 2 text, 1 art; 8 resolved) plus 19 in `src/director/data/stopgaps.json` (3 rules, 11 figures, 5 text). The list below is the earlier, partial one; the full list by session replaces it once FIXER's script lands.
+
+As of Oct 12, 4:25 a.m.:
 
 - **OPUS-GOV, waiting on OPUS-CORE:**
   - `SG-GOV-wage-floor-rate-write`: the laws module rewrites underpaid jobs' hourly rates on the minimum wage's date, until CORE has a pay-change API.
@@ -65,6 +135,7 @@ The CTO lists every registered stand-in here, by session, at each check-in (owne
 
 ## Owner decisions in force
 
+- Owner, Oct 12, 10:30 a.m.: every pillar may run Sonnet or Opus sub-agents that write code in its own area (`AGENTS.md`, "Pillars may build with sub-agents"): Sonnet for fixes, Opus for parallel roadmap steps, two at once when a build splits cleanly. The CTO checks in every 15 minutes. Two Sonnet fixers (FIXER-2: merge blockers; FIXER-3: skip crashes) open PRs against the owning branch. OPUS-WORDS (Opus, branch `opus-words`, status `docs/coordination/words.md`) owns the English engine's phrase banks (`data/english/parts/**`); OPUS-PEOPLE keeps the engine.
 - Keep it simple (`AGENTS.md`): two-level population, bookkeeping off in play, one run and one number, build only what the golden path needs, something to play every evening.
 - No session is capped; checklists are an order of work.
 - Owner, Oct 12, 8:49 a.m.:
