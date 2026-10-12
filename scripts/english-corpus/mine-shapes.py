@@ -32,6 +32,10 @@ RELATION = r"(?:mother|father|mom|dad|sister|brother|son|daughter|wife|husband|g
 
 # What each slot may stand for in a real sentence. A slot's words are dropped
 # when the part is written; only the slot name ships.
+WHEN = (
+    r"(?:today|yesterday|on " + MONTH + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?"
+    r"|on (?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)|last (?:week|month|night|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)|the other day)"
+)
 # A workplace is also said by what it is: "the plant", "the bank".
 WORKPLACE = r"(?:the )?" + PROPER + r"|the [a-z]+(?: [a-z]+)?"
 SLOT_PATTERNS = {
@@ -42,6 +46,7 @@ SLOT_PATTERNS = {
     "my_place": PROPER + r"(?:, " + PROPER + r")?",
     "school": r"(?:the )?" + PROPER,
     "name": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
+    "first": r"[A-Z][a-z]+",
     "other": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "who": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "years": r"(?:\d{1,2}|" + NUMBER_WORD + r"(?:[- ]" + NUMBER_WORD + r")?)",
@@ -49,8 +54,9 @@ SLOT_PATTERNS = {
     "times": r"(?:" + NUMBER_WORD + r" times|twice|once)",
     "since": r"(?:" + MONTH + r" (?:of )?)?(?:19|20)\d\d",
     "my_since": r"(?:" + MONTH + r" (?:of )?)?(?:19|20)\d\d",
-    "when": MONTH + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?",
-    "my_when": MONTH + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?",
+    # When someone was last seen, as the director says it: "yesterday", "on March 3".
+    "when": WHEN,
+    "my_when": WHEN,
     # A deadline as people say one: a date, a weekday, noon on a date.
     "deadline": r"(?:(?:noon|midnight|\d{1,2}(?::\d\d)? ?[ap]\.?m\.?) (?:on )?)?(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),? )?(?:"
     + MONTH
@@ -72,7 +78,7 @@ SLOT_PATTERNS = {
 
 # Slots that hold a proper name. A real sentence fills them with a name, never
 # with a title, a vocative, a speaker label in capitals or a common word.
-PROPER_SLOTS = {"employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
+PROPER_SLOTS = {"first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
 NOT_A_NAME = set(
     "mr mrs ms dr miss madam madame chairman chairwoman chair senator representative congressman congresswoman "
     "secretary general admiral director commissioner governor mayor president speaker sir ma'am "

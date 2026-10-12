@@ -12,10 +12,11 @@
     "years": "A count of years, computed from two dated records.",
     "since": "A month and year from a dated record, as people say it.",
     "my_since": "The month and year the player started, from their job record.",
-    "when": "A date from a contact record, as people say it.",
-    "my_when": "The date the player last saw that person, from a contact record.",
+    "when": "When the speaker last saw someone, from a contact record, as the director says it (\"yesterday\", \"on March 3\").",
+    "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
-    "topic": "What happened, from a news record the speaker heard."
+    "topic": "What happened, from a news record the speaker heard.",
+    "first": "The given name of someone both people know, from the person's record."
   },
   "maxWords": 10,
   "minDocuments": 2,
@@ -956,7 +957,14 @@
         "You know {name}?",
         "Do you remember {name}?",
         "Remember {name}?",
-        "How's {name} been?"
+        "How's {name} been?",
+        "Seen {first} lately?",
+        "Have you seen {first} lately?",
+        "Have you seen {first}?",
+        "How's {first}?",
+        "How's {first} doing?",
+        "Have you talked to {first}?",
+        "Have you heard from {first}?"
       ]
     },
     {
@@ -966,7 +974,7 @@
       "choice": "saw",
       "stages": ["saw"],
       "candidates": [
-        "I saw {name} on {when}.",
+        "I saw {name} {when}.",
         "I just saw {name}.",
         "I saw {name} the other day.",
         "I saw {name} last week.",
@@ -975,7 +983,12 @@
         "I ran into {name} the other day.",
         "I just talked to {name}.",
         "I saw {name} yesterday.",
-        "Yes, I saw {name} on {when}."
+        "Yes, I saw {name} {when}.",
+        "Saw {name} {when}.",
+        "I saw {name} {when}.",
+        "I talked to {name} {when}.",
+        "I ran into {name} {when}.",
+        "I just saw {name} {when}."
       ]
     },
     {
@@ -1023,12 +1036,15 @@
       "choice": "mine-saw",
       "requiresFacts": ["my_when"],
       "candidates": [
-        "I saw {name} on {my_when}.",
+        "I saw {name} {my_when}.",
         "I saw {name} the other day.",
         "I just saw {name}.",
         "I saw {name} last week.",
         "I saw {name} yesterday.",
-        "I saw {name} recently."
+        "I saw {name} recently.",
+        "I saw {name} {my_when}.",
+        "I talked to {name} {my_when}.",
+        "I ran into {name} {my_when}."
       ]
     },
     {
@@ -1827,6 +1843,109 @@
         "What about you?",
         "Where are you from?",
         "Where do you live?"
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "saw",
+      "requiresFacts": ["my_when"],
+      "candidates": [
+        "I saw {name} {my_when}.",
+        "I talked to {name} {my_when}.",
+        "I ran into {name} {my_when}.",
+        "I just saw {name} {my_when}.",
+        "Yes, I saw {name} {my_when}."
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "not",
+      "requiresFacts": ["my_not"],
+      "candidates": [
+        "Not lately.",
+        "Not in a while.",
+        "Not recently.",
+        "No, not lately.",
+        "No, not in a while.",
+        "I haven't seen {name} in a while.",
+        "I haven't seen {name} lately."
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-turn",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "turn",
+      "candidates": [
+        "Have you?",
+        "Why?",
+        "How about you?",
+        "Have you seen {name}?"
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-brief",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["No.", "Nope.", "No, I haven't."]
+    },
+    {
+      "move": "asked-kin-answer-no",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "no",
+      "candidates": [
+        "No, I haven't.",
+        "No, I haven't met {name}.",
+        "I haven't met {name}.",
+        "No, I don't think so.",
+        "I don't think so."
+      ]
+    },
+    {
+      "move": "asked-kin-answer-not-yet",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "not-yet",
+      "candidates": ["Not yet.", "No, not yet.", "Not yet, no."]
+    },
+    {
+      "move": "asked-kin-answer-name",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "name",
+      "candidates": ["{name}? No.", "{name}?", "Who's {name}?"]
+    },
+    {
+      "move": "asked-kin-answer-brief",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["No.", "Nope."]
+    },
+    {
+      "move": "ack-reply-right",
+      "subject": "ack",
+      "role": "reply",
+      "choice": "right",
+      "candidates": [
+        "Right.",
+        "Okay.",
+        "Yeah.",
+        "Huh.",
+        "Sure.",
+        "Uh-huh.",
+        "I see.",
+        "Oh.",
+        "All right.",
+        "Got it."
       ]
     }
   ]

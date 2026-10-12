@@ -13,10 +13,11 @@
     "years": "A count of years, computed from two dated records.",
     "since": "A month and year from a dated record, as people say it.",
     "my_since": "The month and year the player started, from their job record.",
-    "when": "A date from a contact record, as people say it.",
-    "my_when": "The date the player last saw that person, from a contact record.",
+    "when": "When the speaker last saw someone, from a contact record, as the director says it (\"yesterday\", \"on March 3\").",
+    "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
-    "topic": "What happened, from a news record the speaker heard."
+    "topic": "What happened, from a news record the speaker heard.",
+    "first": "The given name of someone both people know, from the person's record."
   },
   "maxWords": 10,
   "mining": {
@@ -31,10 +32,12 @@
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
+      "nasa2": 330,
+      "nps": 32,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 600
+    "notAttested": 615
   },
   "parts": [
     {
@@ -50,13 +53,14 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 54,
+      "transcriptsUsing": 56,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 6,
         "crec": 1,
         "hearings": 40,
         "house": 2,
-        "nasa": 5
+        "nasa": 5,
+        "nasa2": 2
       },
       "shippable": true,
       "source": {
@@ -80,12 +84,14 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 61,
+      "transcriptsUsing": 63,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 15,
         "hearings": 39,
         "house": 2,
-        "nasa": 5
+        "nasa": 5,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -109,12 +115,13 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 13,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 1,
         "house": 2,
-        "nasa": 6
+        "nasa": 6,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -138,13 +145,15 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 519,
+      "transcriptsUsing": 521,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 26,
         "hearings": 481,
         "house": 1,
         "nasa": 5,
+        "nasa2": 1,
+        "nps": 1,
         "wpa": 4
       },
       "shippable": true,
@@ -169,12 +178,13 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 185,
+      "transcriptsUsing": 189,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 20,
         "crec": 2,
         "hearings": 162,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
@@ -280,11 +290,13 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 11,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nasa2": 4,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -310,8 +322,9 @@
       ],
       "transcriptsUsing": 9,
       "bySource": {
-        "hearings": 4,
-        "nasa": 5
+        "hearings": 3,
+        "nasa": 5,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -338,9 +351,10 @@
       "transcriptsUsing": 16,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
-        "hearings": 11,
+        "hearings": 10,
         "house": 1,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -508,12 +522,14 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 21,
+      "transcriptsUsing": 24,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 13,
         "house": 4,
         "nasa": 2,
+        "nasa2": 1,
+        "nps": 2,
         "wpa": 1
       },
       "shippable": true,
@@ -538,12 +554,13 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 16,
       "bySource": {
         "crec": 1,
         "hearings": 7,
         "house": 2,
-        "nasa": 5
+        "nasa": 5,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -567,18 +584,19 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 7,
       "bySource": {
         "hearings": 1,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
-        "document": "AN ASSESSMENT OF FEDERAL RECOVERY EFFORTS FROM RECENT DISASTERS",
-        "date": "2019-10-22",
-        "granule": "CHRG-116hhrg41481",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg41481/html/CHRG-116hhrg41481.htm",
+        "document": "Ronald P. Seeders oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-05-25",
+        "granule": "discovery-and-new-frontiers-seedersrp-5-25-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/seedersrp-5-25-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -622,11 +640,12 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "crec": 1,
         "hearings": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -677,9 +696,10 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
-        "hearings": 9
+        "hearings": 9,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -703,17 +723,19 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 13,
       "bySource": {
         "house": 7,
-        "nasa": 4
+        "nasa": 4,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Tsongas, Nicola S. (Niki) - U.S. Representative of Massachusetts - 2007–2019",
-        "date": "2018-01-18",
-        "granule": "house-oh-tsongas",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/tsongas-transcript/",
+        "document": "Michael P. Saunders oral history (discovery-and-new-frontiers collection)",
+        "date": "2022-05-11",
+        "granule": "discovery-and-new-frontiers-saundersmp-5-11-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/saundersmp-5-11-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -787,12 +809,13 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
         "crec": 1,
         "hearings": 4,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -820,9 +843,15 @@
           "subject": "farewell",
           "role": "answer",
           "choice": "bye"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 1114,
+      "transcriptsUsing": 1162,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 38,
@@ -830,6 +859,8 @@
         "hearings": 971,
         "house": 18,
         "nasa": 73,
+        "nasa2": 43,
+        "nps": 5,
         "wpa": 1
       },
       "shippable": true,
@@ -919,16 +950,24 @@
           "role": "answer",
           "choice": "turn",
           "raises": "next-2"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 1276,
+      "transcriptsUsing": 1463,
       "bySource": {
         "Federal Election Commission (fec.gov)": 3,
         "U.S. Election Assistance Commission (eac.gov)": 54,
         "crec": 28,
         "hearings": 901,
         "house": 75,
-        "nasa": 215
+        "nasa": 215,
+        "nasa2": 175,
+        "nps": 12
       },
       "shippable": true,
       "source": {
@@ -1012,13 +1051,21 @@
           "role": "answer",
           "choice": "turn",
           "raises": "home"
+        },
+        {
+          "move": "asked-mutual-answer-turn",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "turn"
         }
       ],
-      "transcriptsUsing": 46,
+      "transcriptsUsing": 49,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 2,
         "hearings": 42,
+        "nasa2": 2,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -1093,6 +1140,60 @@
       }
     },
     {
+      "key": "conversation.own-work-ask-still-at.how-are-things-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "How are things at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NATIONAL CYBERSECURITY STRATEGY: PROTECTION OF FEDERAL AND CRITICAL INFRASTRUCTURE SYSTEMS",
+        "date": "2021-09-23",
+        "granule": "CHRG-117shrg47628",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47628/html/CHRG-117shrg47628.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.hows-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "How's {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "house": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Ellen Ochoa oral history (nasa-senior-leadership collection)",
+        "date": "2017-06-13",
+        "granule": "nasa-senior-leadership-ochoael-6-13-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/ochoael-6-13-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "conversation.own-work-ask-still-at.are-you-still-there",
       "move": "own-work-ask-still-at",
       "kind": "spoken",
@@ -1117,10 +1218,11 @@
           "choice": "still-in"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1157,10 +1259,11 @@
           "stages": ["working"]
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "hearings": 1,
         "nasa": 3,
+        "nasa2": 1,
         "wpa": 2
       },
       "shippable": true,
@@ -1198,10 +1301,11 @@
           "stages": ["working"]
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 5,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -1245,11 +1349,13 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 22,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "hearings": 5,
-        "house": 11
+        "house": 11,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1313,13 +1419,14 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 62,
+      "transcriptsUsing": 66,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "crec": 2,
         "hearings": 55,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
@@ -1349,17 +1456,18 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "hearings": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "A REVIEW OF LICENSING AND CREDENTIALING STANDARDS FOR SERVICEMEMBERS AND VETERANS: DO BARRIERS STILL REMAIN?",
-        "date": "2015-09-10",
-        "granule": "CHRG-114hhrg98691",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg98691/html/CHRG-114hhrg98691.htm",
+        "document": "Troy L. Hudson oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-07-10",
+        "granule": "discovery-and-new-frontiers-hudsontl-8-23-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/hudsontl-8-23-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1388,11 +1496,12 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 120,
+      "transcriptsUsing": 121,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 11,
-        "hearings": 108
+        "hearings": 108,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -1422,10 +1531,11 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
-        "hearings": 2
+        "hearings": 2,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -1490,9 +1600,10 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
-        "hearings": 3
+        "hearings": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1583,13 +1694,14 @@
           "raises": "their-work"
         }
       ],
-      "transcriptsUsing": 48,
+      "transcriptsUsing": 53,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "crec": 11,
         "hearings": 16,
         "house": 4,
-        "nasa": 14
+        "nasa": 14,
+        "nasa2": 5
       },
       "shippable": true,
       "source": {
@@ -1614,17 +1726,18 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 5,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
-        "document": "TGDC Meeting February 13-14 2017 — transcript (2017-feb-tgdc-transcript.docx)",
-        "date": "2017-02-13",
-        "granule": "eac-2017-02-13-2017-feb-tgdc-transcript",
-        "url": "https://www.eac.gov/sites/default/files/event_document/files/2017-feb-tgdc-transcript.docx",
+        "document": "Mark S. Geyer oral history (orion-program collection)",
+        "date": "2020-12-03",
+        "granule": "orion-program-geyerm-12-3-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/geyerm-12-3-20.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1649,11 +1762,13 @@
           "stages": ["left"]
         }
       ],
-      "transcriptsUsing": 27,
+      "transcriptsUsing": 37,
       "bySource": {
         "hearings": 10,
         "house": 3,
         "nasa": 9,
+        "nasa2": 8,
+        "nps": 2,
         "wpa": 5
       },
       "shippable": true,
@@ -1686,11 +1801,12 @@
           "stages": ["left"]
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
         "crec": 4,
         "hearings": 2,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -1698,6 +1814,36 @@
         "date": "2025-06-04",
         "granule": "CREC-2025-06-04-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.own-work-lie-left.i-quit",
+      "move": "own-work-lie-left",
+      "kind": "spoken",
+      "text": "I quit.",
+      "uses": [
+        {
+          "move": "own-work-lie-left",
+          "subject": "own-work",
+          "role": "lie",
+          "choice": "left",
+          "stages": ["none"]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "house": 1,
+        "nasa": 2,
+        "nasa2": 4,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Hans Mark oral history (iss collection)",
+        "date": "2015-07-08",
+        "granule": "iss-markh-7-8-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/06/markh-7-8-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1722,10 +1868,12 @@
           "stages": ["left"]
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 8,
       "bySource": {
         "hearings": 2,
-        "nasa": 4
+        "nasa": 4,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1733,6 +1881,34 @@
         "date": "2022-06-21",
         "granule": "CHRG-117hhrg49352",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49352/html/CHRG-117hhrg49352.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.own-work-lie-elsewhere.i-went-to-work-for-claimed",
+      "move": "own-work-lie-elsewhere",
+      "kind": "spoken",
+      "text": "I went to work for {claimed}.",
+      "uses": [
+        {
+          "move": "own-work-lie-elsewhere",
+          "subject": "own-work",
+          "role": "lie",
+          "choice": "elsewhere",
+          "stages": ["elsewhere"]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "nasa": 5,
+        "nasa2": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Cecil G. Dome oral history (naca collection)",
+        "date": "2015-02-19",
+        "granule": "naca-domecg-2-19-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/domecg-2-19-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1763,7 +1939,7 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 548,
+      "transcriptsUsing": 592,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 15,
@@ -1771,6 +1947,8 @@
         "hearings": 359,
         "house": 9,
         "nasa": 35,
+        "nasa2": 32,
+        "nps": 12,
         "wpa": 6
       },
       "shippable": true,
@@ -1836,11 +2014,12 @@
           "stages": ["none"]
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "hearings": 6,
         "house": 1,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -1877,11 +2056,13 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 18,
       "bySource": {
         "hearings": 3,
         "house": 6,
-        "nasa": 6
+        "nasa": 6,
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1912,13 +2093,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 40,
+      "transcriptsUsing": 46,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 2,
         "hearings": 14,
         "house": 12,
         "nasa": 10,
+        "nasa2": 4,
+        "nps": 2,
         "wpa": 1
       },
       "shippable": true,
@@ -1968,13 +2151,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 145,
+      "transcriptsUsing": 174,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 34,
         "hearings": 50,
         "house": 23,
-        "nasa": 36
+        "nasa": 36,
+        "nasa2": 25,
+        "nps": 4
       },
       "shippable": true,
       "source": {
@@ -2011,13 +2196,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 28,
+      "transcriptsUsing": 39,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 2,
         "hearings": 5,
         "house": 5,
-        "nasa": 15
+        "nasa": 15,
+        "nasa2": 9,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -2067,13 +2254,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 100,
+      "transcriptsUsing": 122,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "crec": 1,
         "hearings": 46,
         "house": 15,
-        "nasa": 30
+        "nasa": 30,
+        "nasa2": 20,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -2122,15 +2311,23 @@
           "role": "answer",
           "choice": "turn",
           "raises": "next-2"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 115,
+      "transcriptsUsing": 123,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "crec": 1,
         "hearings": 100,
         "house": 6,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 4,
+        "nps": 4
       },
       "shippable": true,
       "source": {
@@ -2168,12 +2365,14 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 21,
+      "transcriptsUsing": 24,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "crec": 1,
         "hearings": 15,
-        "house": 2
+        "house": 2,
+        "nasa2": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -2217,12 +2416,13 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "crec": 3,
         "hearings": 3,
         "house": 1,
         "nasa": 1,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -2273,13 +2473,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 118,
+      "transcriptsUsing": 156,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 12,
         "crec": 1,
         "hearings": 34,
         "house": 16,
-        "nasa": 55
+        "nasa": 55,
+        "nasa2": 35,
+        "nps": 3
       },
       "shippable": true,
       "source": {
@@ -2310,12 +2512,14 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 78,
+      "transcriptsUsing": 103,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "hearings": 36,
         "house": 6,
         "nasa": 32,
+        "nasa2": 24,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -2383,9 +2587,10 @@
           "choice": "ask"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
-        "hearings": 2
+        "hearings": 2,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -2411,12 +2616,13 @@
           "raises": "their-tenure"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
         "crec": 1,
         "hearings": 3,
         "house": 1,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -2440,10 +2646,11 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 10,
       "bySource": {
         "hearings": 2,
         "nasa": 2,
+        "nasa2": 3,
         "wpa": 3
       },
       "shippable": true,
@@ -2468,9 +2675,11 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 7,
       "bySource": {
         "hearings": 2,
+        "nasa2": 1,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -2495,17 +2704,18 @@
           "choice": "since"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "hearings": 3,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 2
       },
       "shippable": true,
       "source": {
-        "document": "EXECUTIVE OVERREACH: EXAMINING THE SBA'S ELECTIONEERING EFFORTS WITH ASSOCIATE ADMINISTRATOR OF OFFICE OF FIELD OPERATIONS, JENNIFER KIM",
-        "date": "2024-07-24",
-        "granule": "CHRG-118hhrg56139",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56139/html/CHRG-118hhrg56139.htm",
+        "document": "Dante S. Lauretta oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-08-07",
+        "granule": "discovery-and-new-frontiers-laurettads-8-7-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-7-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -2529,10 +2739,12 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 10,
       "bySource": {
         "hearings": 1,
         "nasa": 4,
+        "nasa2": 3,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -2570,13 +2782,15 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 229,
+      "transcriptsUsing": 286,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 6,
         "crec": 13,
         "hearings": 126,
         "house": 23,
-        "nasa": 61
+        "nasa": 61,
+        "nasa2": 54,
+        "nps": 3
       },
       "shippable": true,
       "source": {
@@ -2608,10 +2822,11 @@
           "stages": ["moved"]
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 5,
       "bySource": {
         "hearings": 2,
-        "nasa": 2
+        "nasa": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -2619,6 +2834,34 @@
         "date": "2023-07-27",
         "granule": "CHRG-118hhrg53169",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53169/html/CHRG-118hhrg53169.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.home-answer-years.ive-been-here-for-years-years",
+      "move": "home-answer-years",
+      "kind": "spoken",
+      "text": "I've been here for {years} years.",
+      "uses": [
+        {
+          "move": "home-answer-years",
+          "subject": "home",
+          "role": "answer",
+          "choice": "years",
+          "stages": ["moved"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF DEFENSE AUTHORIZATION FOR APPROPRIATIONS FOR FISCAL YEAR 2019 AND THE FUTURE YEARS DEFENSE PROGRAM",
+        "date": "2018-02-15",
+        "granule": "CHRG-115shrg42143",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg42143/html/CHRG-115shrg42143.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -2636,9 +2879,10 @@
           "stages": ["born"]
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "nasa": 1,
+        "nasa2": 1,
         "wpa": 2
       },
       "shippable": true,
@@ -2728,10 +2972,12 @@
           "stages": ["none"]
         }
       ],
-      "transcriptsUsing": 13,
+      "transcriptsUsing": 21,
       "bySource": {
         "hearings": 4,
         "nasa": 5,
+        "nasa2": 7,
+        "nps": 1,
         "wpa": 4
       },
       "shippable": true,
@@ -2757,12 +3003,13 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 13,
       "bySource": {
         "crec": 1,
         "hearings": 2,
         "house": 2,
         "nasa": 2,
+        "nasa2": 2,
         "wpa": 4
       },
       "shippable": true,
@@ -2788,11 +3035,12 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 13,
       "bySource": {
         "hearings": 3,
         "house": 2,
         "nasa": 3,
+        "nps": 1,
         "wpa": 4
       },
       "shippable": true,
@@ -2801,6 +3049,40 @@
         "date": "2025-05-07",
         "granule": "CHRG-119hhrg60446",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.home-new-ask-where.where-do-you-live",
+      "move": "home-new-ask-where",
+      "kind": "spoken",
+      "text": "Where do you live?",
+      "uses": [
+        {
+          "move": "home-new-ask-where",
+          "subject": "home-new",
+          "role": "ask",
+          "choice": "where"
+        },
+        {
+          "move": "home-new-answer-turn",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "home"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "ON THE BRINK OF HOMELESSNESS: HOW THE AFFORDABLE HOUSING CRISIS AND THE GENTRIFICATION OF AMERICA IS LEAVING FAMILIES VULNERABLE",
+        "date": "2020-01-14",
+        "granule": "CHRG-116hhrg42744",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg42744/html/CHRG-116hhrg42744.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -2824,12 +3106,14 @@
           "raises": "home"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 10,
       "bySource": {
         "crec": 1,
         "hearings": 1,
         "house": 1,
-        "nasa": 4
+        "nasa": 4,
+        "nasa2": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -2853,13 +3137,15 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 553,
+      "transcriptsUsing": 583,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 15,
         "crec": 136,
         "hearings": 369,
         "house": 10,
         "nasa": 16,
+        "nasa2": 15,
+        "nps": 15,
         "wpa": 7
       },
       "shippable": true,
@@ -2890,12 +3176,13 @@
           "choice": "still"
         }
       ],
-      "transcriptsUsing": 50,
+      "transcriptsUsing": 52,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "crec": 4,
         "hearings": 37,
         "nasa": 1,
+        "nasa2": 2,
         "wpa": 3
       },
       "shippable": true,
@@ -2920,17 +3207,18 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
-        "date": "2022-10-31",
-        "granule": "house-oh-hymel",
-        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
+        "document": "Donya Douglas-Bradshaw oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-08-30",
+        "granule": "discovery-and-new-frontiers-douglas-bradshawd-8-30-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/douglas-bradshawd-8-30-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -2947,12 +3235,14 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 22,
+      "transcriptsUsing": 30,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "hearings": 10,
         "house": 2,
-        "nasa": 6
+        "nasa": 6,
+        "nasa2": 7,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -2977,13 +3267,15 @@
           "stages": ["born"]
         }
       ],
-      "transcriptsUsing": 37,
+      "transcriptsUsing": 49,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 4,
         "hearings": 17,
         "house": 9,
-        "nasa": 6
+        "nasa": 6,
+        "nasa2": 11,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -3008,12 +3300,14 @@
           "stages": ["born"]
         }
       ],
-      "transcriptsUsing": 66,
+      "transcriptsUsing": 80,
       "bySource": {
         "crec": 4,
         "hearings": 18,
         "house": 13,
         "nasa": 4,
+        "nasa2": 9,
+        "nps": 5,
         "wpa": 27
       },
       "shippable": true,
@@ -3098,11 +3392,12 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 12,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 5,
         "nasa": 1,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -3156,10 +3451,11 @@
           "stages": ["same"]
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 7,
-        "house": 2
+        "house": 2,
+        "nasa2": 2
       },
       "shippable": true,
       "source": {
@@ -3183,11 +3479,13 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 18,
       "bySource": {
         "hearings": 3,
         "house": 6,
-        "nasa": 6
+        "nasa": 6,
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -3211,12 +3509,13 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 22,
+      "transcriptsUsing": 24,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 7,
         "house": 9,
         "nasa": 4,
+        "nps": 2,
         "wpa": 1
       },
       "shippable": true,
@@ -3241,11 +3540,12 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 13,
+      "transcriptsUsing": 20,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "house": 2,
-        "nasa": 9
+        "nasa": 9,
+        "nasa2": 7
       },
       "shippable": true,
       "source": {
@@ -3316,16 +3616,24 @@
           "role": "answer",
           "choice": "turn",
           "raises": "next-2"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 1321,
+      "transcriptsUsing": 1463,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 31,
         "crec": 6,
         "hearings": 1086,
         "house": 66,
-        "nasa": 131
+        "nasa": 131,
+        "nasa2": 134,
+        "nps": 8
       },
       "shippable": true,
       "source": {
@@ -3375,16 +3683,24 @@
           "role": "answer",
           "choice": "brief",
           "raises": "next"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 1185,
+      "transcriptsUsing": 1307,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 38,
         "crec": 4,
         "hearings": 965,
         "house": 59,
-        "nasa": 118
+        "nasa": 118,
+        "nasa2": 117,
+        "nps": 5
       },
       "shippable": true,
       "source": {
@@ -3421,15 +3737,23 @@
           "role": "answer",
           "choice": "brief",
           "raises": "next"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 173,
+      "transcriptsUsing": 209,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "crec": 1,
         "hearings": 88,
         "house": 22,
         "nasa": 44,
+        "nasa2": 32,
+        "nps": 4,
         "wpa": 14
       },
       "shippable": true,
@@ -3460,11 +3784,13 @@
           "choice": "remember"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 1,
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nasa2": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -3494,12 +3820,13 @@
           "choice": "remember"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "crec": 3,
         "hearings": 1,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -3529,12 +3856,13 @@
           "choice": "years"
         }
       ],
-      "transcriptsUsing": 27,
+      "transcriptsUsing": 29,
       "bySource": {
         "crec": 8,
         "hearings": 12,
         "house": 1,
         "nasa": 3,
+        "nasa2": 2,
         "wpa": 3
       },
       "shippable": true,
@@ -3595,11 +3923,12 @@
           "choice": "years"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 1,
         "hearings": 3,
-        "house": 1
+        "house": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -3607,6 +3936,34 @@
         "date": "2018-09-28",
         "granule": "CREC-2018-09-28-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2018-09-28",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.shared-school-reply-years.its-been-a-long-time",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "It's been a long time.",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "nasa2": 3,
+        "nps": 1,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Peggy A. Whitson oral history (iss collection)",
+        "date": "2015-10-07",
+        "granule": "iss-whitsonpa-10-7-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/06/whitsonpa-10-7-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -3623,18 +3980,20 @@
           "choice": "years"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "hearings": 1,
         "house": 1,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: JoAnn Carr (Wife of Skylab Astronaut Gerald P. Carr)",
-        "date": "2019-07-02",
-        "granule": "jsc-carrjrp-7-2-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/carrjrp-7-2-19.pdf",
+        "document": "Leon Alkalai oral history (discovery-and-new-frontiers collection)",
+        "date": "2021-10-15",
+        "granule": "discovery-and-new-frontiers-alkalail-10-15-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/alkalail-10-15-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -3657,17 +4016,18 @@
           "choice": "years"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "crec": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2023-01-31",
-        "date": "2023-01-31",
-        "granule": "CREC-2023-01-31-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2023-01-31",
+        "document": "Kevin Righter oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-08-15",
+        "granule": "discovery-and-new-frontiers-righterk-8-15-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/righterk-8-15-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -3684,13 +4044,15 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 72,
+      "transcriptsUsing": 95,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 1,
         "hearings": 36,
         "house": 16,
-        "nasa": 18
+        "nasa": 18,
+        "nasa2": 18,
+        "nps": 5
       },
       "shippable": true,
       "source": {
@@ -3727,13 +4089,15 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 234,
+      "transcriptsUsing": 256,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "crec": 14,
         "hearings": 188,
         "house": 11,
-        "nasa": 18
+        "nasa": 18,
+        "nasa2": 20,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -3792,13 +4156,15 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 52,
+      "transcriptsUsing": 66,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 7,
         "hearings": 8,
         "house": 16,
         "nasa": 19,
+        "nasa2": 11,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -3823,12 +4189,14 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 203,
+      "transcriptsUsing": 249,
       "bySource": {
         "crec": 1,
         "hearings": 77,
         "house": 43,
         "nasa": 80,
+        "nasa2": 40,
+        "nps": 6,
         "wpa": 2
       },
       "shippable": true,
@@ -3866,12 +4234,14 @@
           "raises": "their-work"
         }
       ],
-      "transcriptsUsing": 41,
+      "transcriptsUsing": 50,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 14,
         "house": 14,
-        "nasa": 12
+        "nasa": 12,
+        "nasa2": 8,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -3895,11 +4265,12 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
         "hearings": 1,
         "house": 3,
         "nasa": 2,
+        "nasa2": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -3932,7 +4303,7 @@
           "raises": "their-work"
         }
       ],
-      "transcriptsUsing": 420,
+      "transcriptsUsing": 428,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 13,
@@ -3940,6 +4311,8 @@
         "hearings": 364,
         "house": 16,
         "nasa": 13,
+        "nasa2": 6,
+        "nps": 2,
         "wpa": 1
       },
       "shippable": true,
@@ -3965,11 +4338,13 @@
           "raises": "mutual"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 18,
       "bySource": {
         "hearings": 1,
         "house": 7,
         "nasa": 6,
+        "nasa2": 2,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -3995,12 +4370,14 @@
           "raises": "mutual"
         }
       ],
-      "transcriptsUsing": 126,
+      "transcriptsUsing": 133,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "hearings": 108,
         "house": 8,
-        "nasa": 7
+        "nasa": 7,
+        "nasa2": 5,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -4038,7 +4415,7 @@
           "choice": "yes"
         }
       ],
-      "transcriptsUsing": 1976,
+      "transcriptsUsing": 2273,
       "bySource": {
         "Federal Election Commission (fec.gov)": 5,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 4,
@@ -4047,6 +4424,8 @@
         "hearings": 1479,
         "house": 98,
         "nasa": 279,
+        "nasa2": 284,
+        "nps": 13,
         "wpa": 7
       },
       "shippable": true,
@@ -4083,16 +4462,24 @@
           "subject": "heard-work",
           "role": "answer",
           "choice": "yes"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 427,
+      "transcriptsUsing": 490,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 31,
         "crec": 7,
         "hearings": 329,
         "house": 17,
-        "nasa": 42
+        "nasa": 42,
+        "nasa2": 53,
+        "nps": 10
       },
       "shippable": true,
       "source": {
@@ -4116,12 +4503,13 @@
           "choice": "remember"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 12,
       "bySource": {
         "crec": 5,
         "hearings": 2,
         "house": 1,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -4145,11 +4533,13 @@
           "choice": "remember"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 16,
       "bySource": {
         "crec": 3,
         "hearings": 3,
-        "house": 4
+        "house": 4,
+        "nasa2": 3,
+        "nps": 3
       },
       "shippable": true,
       "source": {
@@ -4157,6 +4547,34 @@
         "date": "2025-03-26",
         "granule": "CHRG-119shrg61564",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61564/html/CHRG-119shrg61564.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-raise-seen.have-you-talked-to-name",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Have you talked to {name}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "nasa": 4,
+        "nasa2": 3,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Lee D. Feinberg oral history (hubble-space-telescope collection)",
+        "date": "2018-07-03",
+        "granule": "hubble-space-telescope-feinbergld-7-3-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/feinbergld-7-3-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4205,11 +4623,12 @@
           "choice": "met"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 8,
       "bySource": {
         "crec": 1,
         "hearings": 2,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 2
       },
       "shippable": true,
       "source": {
@@ -4217,6 +4636,33 @@
         "date": "2025-06-25",
         "granule": "CHRG-119hhrg60840",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60840/html/CHRG-119hhrg60840.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-raise-seen.you-know-name",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "You know {name}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "nasa": 1,
+        "nasa2": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "David H. Lehman oral history (discovery-and-new-frontiers collection)",
+        "date": "2021-09-07",
+        "granule": "discovery-and-new-frontiers-lehmand-9-7-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/lehmand-9-7-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4233,10 +4679,12 @@
           "choice": "seen"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 4,
       "bySource": {
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -4260,11 +4708,12 @@
           "choice": "seen"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "crec": 1,
         "hearings": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -4272,6 +4721,34 @@
         "date": "2024-06-13",
         "granule": "CHRG-118jhrg56078",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118jhrg56078/html/CHRG-118jhrg56078.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-raise-seen.have-you-talked-to-first",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Have you talked to {first}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "nasa": 2,
+        "nasa2": 2,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Lee D. Feinberg oral history (hubble-space-telescope collection)",
+        "date": "2018-07-03",
+        "granule": "hubble-space-telescope-feinbergld-7-3-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/feinbergld-7-3-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4316,10 +4793,12 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 11,
       "bySource": {
         "house": 5,
-        "nasa": 4
+        "nasa": 4,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -4343,12 +4822,13 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 18,
+      "transcriptsUsing": 19,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 3,
         "house": 9,
         "nasa": 4,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -4357,6 +4837,35 @@
         "date": "2025-03-04",
         "granule": "CHRG-119hhrg64648",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64648/html/CHRG-119hhrg64648.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-mine-not.i-havent-either",
+      "move": "mutual-answer-mine-not",
+      "kind": "spoken",
+      "text": "I haven't either.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-not",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-not",
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PARTISAN AND PROFITABLE: THE SPLC'S INFLUENCE ON FEDERAL CIVIL RIGHTS POLICY",
+        "date": "2025-12-16",
+        "granule": "CHRG-119hhrg62368",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62368/html/CHRG-119hhrg62368.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4441,12 +4950,19 @@
           "role": "answer",
           "choice": "turn",
           "raises": "next-2"
+        },
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "hearings": 2,
         "house": 1,
+        "nasa2": 1,
         "wpa": 6
       },
       "shippable": true,
@@ -4498,13 +5014,15 @@
           "choice": "met"
         }
       ],
-      "transcriptsUsing": 129,
+      "transcriptsUsing": 143,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 17,
         "crec": 26,
         "hearings": 46,
         "house": 17,
         "nasa": 22,
+        "nasa2": 8,
+        "nps": 6,
         "wpa": 1
       },
       "shippable": true,
@@ -4534,19 +5052,34 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"]
+        },
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 9,
       "bySource": {
         "hearings": 1,
-        "nasa": 4
+        "nasa": 4,
+        "nasa2": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "MONETARY POLICY AND THE STATE OF THE ECONOMY",
-        "date": "2016-06-22",
-        "granule": "CHRG-114hhrg25848",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg25848/html/CHRG-114hhrg25848.htm",
+        "document": "John P. Andrews oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-01-09",
+        "granule": "discovery-and-new-frontiers-andrewsjp-1-9-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/andrewsjp-1-9-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4561,15 +5094,23 @@
           "subject": "kin",
           "role": "reply",
           "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
         }
       ],
-      "transcriptsUsing": 176,
+      "transcriptsUsing": 205,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 35,
         "hearings": 51,
         "house": 34,
-        "nasa": 54
+        "nasa": 54,
+        "nasa2": 23,
+        "nps": 6
       },
       "shippable": true,
       "source": {
@@ -4591,14 +5132,22 @@
           "subject": "kin",
           "role": "reply",
           "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
         }
       ],
-      "transcriptsUsing": 43,
+      "transcriptsUsing": 55,
       "bySource": {
         "crec": 3,
         "hearings": 10,
         "house": 10,
-        "nasa": 20
+        "nasa": 20,
+        "nasa2": 10,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -4620,15 +5169,22 @@
           "subject": "kin",
           "role": "reply",
           "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-not-yet",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "not-yet"
         }
       ],
-      "transcriptsUsing": 26,
+      "transcriptsUsing": 29,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 1,
         "hearings": 13,
         "house": 1,
-        "nasa": 9
+        "nasa": 9,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -4663,6 +5219,35 @@
         "date": "2023-09-29",
         "granule": "CREC-2023-09-29-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2023-09-29",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.kin-answer-is.thats-relation",
+      "move": "kin-answer-is",
+      "kind": "spoken",
+      "text": "That's {relation}.",
+      "uses": [
+        {
+          "move": "kin-answer-is",
+          "subject": "kin",
+          "role": "answer",
+          "choice": "is"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "house": 3,
+        "nasa": 3,
+        "nasa2": 2,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "JoAnn H. Barnicki oral history (naca collection)",
+        "date": "2015-02-20",
+        "granule": "naca-barnickijh-2-20-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/barnickijh-2-20-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4708,10 +5293,12 @@
           "raises": "next-2"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "hearings": 3,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -4741,12 +5328,14 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 87,
+      "transcriptsUsing": 100,
       "bySource": {
         "crec": 16,
         "hearings": 32,
         "house": 15,
-        "nasa": 24
+        "nasa": 24,
+        "nasa2": 12,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -4776,7 +5365,7 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 515,
+      "transcriptsUsing": 540,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 4,
@@ -4784,6 +5373,8 @@
         "hearings": 449,
         "house": 7,
         "nasa": 49,
+        "nasa2": 21,
+        "nps": 4,
         "wpa": 2
       },
       "shippable": true,
@@ -4809,11 +5400,12 @@
           "stages": ["died"]
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 5,
       "bySource": {
         "hearings": 2,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -4838,9 +5430,10 @@
           "stages": ["died"]
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
         "hearings": 3,
+        "nps": 1,
         "wpa": 5
       },
       "shippable": true,
@@ -4921,9 +5514,10 @@
           "choice": "thanks"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
-        "hearings": 4
+        "hearings": 4,
+        "nasa2": 2
       },
       "shippable": true,
       "source": {
@@ -4973,11 +5567,13 @@
           "choice": "at"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 4,
         "house": 3,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -4985,6 +5581,34 @@
         "date": "2025-07-22",
         "granule": "CHRG-119hhrg61506",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61506/html/CHRG-119hhrg61506.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.school-answer-at.im-going-to-school",
+      "move": "school-answer-at",
+      "kind": "spoken",
+      "text": "I'm going to {school}.",
+      "uses": [
+        {
+          "move": "school-answer-at",
+          "subject": "school",
+          "role": "answer",
+          "choice": "at"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "house": 2,
+        "nasa": 1,
+        "nasa2": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Julie A. Kramer-White oral history (orion-program collection)",
+        "date": "2016-08-09",
+        "granule": "orion-program-kramer-whiteja-8-9-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/06/kramer-whiteja-8-9-16.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5001,12 +5625,14 @@
           "choice": "at"
         }
       ],
-      "transcriptsUsing": 94,
+      "transcriptsUsing": 130,
       "bySource": {
         "crec": 8,
-        "hearings": 18,
+        "hearings": 19,
         "house": 21,
         "nasa": 37,
+        "nasa2": 33,
+        "nps": 2,
         "wpa": 10
       },
       "shippable": true,
@@ -5031,12 +5657,14 @@
           "choice": "at"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 11,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 4,
         "house": 1,
         "nasa": 1,
+        "nasa2": 2,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -5061,12 +5689,14 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 14,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 4,
         "house": 2,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -5090,18 +5720,19 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 15,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "house": 2,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 7
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
-        "date": "2019-09-30",
-        "granule": "house-oh-hart",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
+        "document": "James B. Garvin oral history (discovery-and-new-frontiers collection)",
+        "date": "2022-04-20",
+        "granule": "discovery-and-new-frontiers-garvinjb-4-20-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/garvinjb-4-20-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5118,19 +5749,20 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 16,
+      "transcriptsUsing": 24,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 4,
         "house": 5,
-        "nasa": 5
+        "nasa": 5,
+        "nasa2": 8
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Richard H. “Dick” Koos (Space Task Group; Simulation Supervisor, Mercury, Gemini and Apollo programs; Flight Mechanics and Trajectory, Flight Activity Planning; Flight Controller/Lunar Experiments Officer, Mission Control; Flight Control, Apollo – ISS.)",
-        "date": "2023-08-24",
-        "granule": "jsc-koosrh-8-24-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-24-23.pdf",
+        "document": "Jessica A. Lounsbury oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-09-13",
+        "granule": "discovery-and-new-frontiers-lounsburyja-9-13-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lounsburyja-9-13-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5147,19 +5779,20 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 15,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "house": 2,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 8
       },
       "shippable": true,
       "source": {
-        "document": "June 22, 2017 audit hearing — archived live captions",
-        "date": "2017-06-22",
-        "granule": "fec-hearing-2017-06-22-captions-2017-06-22-audit",
-        "url": "https://www.fec.gov/resources/updates/agendas/2017/transcripts/Captions_2017_06_22_Audit.txt",
+        "document": "David J. Lawrence oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-03-22",
+        "granule": "discovery-and-new-frontiers-lawrencedj-3-22-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lawrencedj-3-22-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5258,12 +5891,14 @@
           "choice": "heard"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 7,
       "bySource": {
         "crec": 1,
         "hearings": 2,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -5287,9 +5922,10 @@
           "choice": "heard"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
-        "crec": 6
+        "crec": 6,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -5313,12 +5949,13 @@
           "choice": "heard"
         }
       ],
-      "transcriptsUsing": 54,
+      "transcriptsUsing": 58,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 47,
         "hearings": 4,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
@@ -5343,11 +5980,12 @@
           "stages": ["heard"]
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 14,
       "bySource": {
         "hearings": 6,
         "house": 2,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -5372,13 +6010,15 @@
           "stages": ["heard"]
         }
       ],
-      "transcriptsUsing": 175,
+      "transcriptsUsing": 194,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "crec": 16,
         "hearings": 118,
         "house": 9,
         "nasa": 23,
+        "nasa2": 17,
+        "nps": 2,
         "wpa": 1
       },
       "shippable": true,
@@ -5404,13 +6044,15 @@
           "stages": ["not-heard"]
         }
       ],
-      "transcriptsUsing": 69,
+      "transcriptsUsing": 75,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 20,
         "hearings": 27,
         "house": 4,
         "nasa": 16,
+        "nasa2": 5,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -5434,9 +6076,23 @@
           "role": "answer",
           "choice": "no",
           "stages": ["not-heard"]
+        },
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        },
+        {
+          "move": "asked-kin-answer-brief",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
         }
       ],
-      "transcriptsUsing": 367,
+      "transcriptsUsing": 455,
       "bySource": {
         "Federal Election Commission (fec.gov)": 3,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
@@ -5445,6 +6101,8 @@
         "hearings": 153,
         "house": 50,
         "nasa": 112,
+        "nasa2": 76,
+        "nps": 12,
         "wpa": 10
       },
       "shippable": true,
@@ -5485,6 +6143,34 @@
       }
     },
     {
+      "key": "conversation.news-answer-no.i-havent-heard",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "I haven't heard.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-11-18",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "conversation.news-answer-no.no-i-didnt",
       "move": "news-answer-no",
       "kind": "spoken",
@@ -5498,18 +6184,20 @@
           "stages": ["not-heard"]
         }
       ],
-      "transcriptsUsing": 17,
+      "transcriptsUsing": 21,
       "bySource": {
         "hearings": 3,
         "house": 7,
-        "nasa": 7
+        "nasa": 7,
+        "nasa2": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Johnson, Eddie Bernice - U.S. Representative of Texas - 1993–2023",
-        "date": "2022-07-19",
-        "granule": "house-oh-johnsoneb",
-        "url": "https://history.house.gov/Oral-History/Rainey/Rainey-Transcripts/johnsoneb-transcript/",
+        "document": "Kevin Righter oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-08-15",
+        "granule": "discovery-and-new-frontiers-righterk-8-15-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/righterk-8-15-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5527,13 +6215,15 @@
           "stages": ["not-heard"]
         }
       ],
-      "transcriptsUsing": 109,
+      "transcriptsUsing": 143,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 6,
         "crec": 12,
         "hearings": 36,
         "house": 20,
         "nasa": 32,
+        "nasa2": 32,
+        "nps": 2,
         "wpa": 3
       },
       "shippable": true,
@@ -5559,11 +6249,12 @@
           "stages": ["not-heard"]
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 14,
       "bySource": {
         "hearings": 8,
         "house": 1,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 2
       },
       "shippable": true,
       "source": {
@@ -5594,12 +6285,14 @@
           "stages": ["none"]
         }
       ],
-      "transcriptsUsing": 66,
+      "transcriptsUsing": 85,
       "bySource": {
         "crec": 10,
         "hearings": 18,
         "house": 14,
         "nasa": 23,
+        "nasa2": 16,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -5624,20 +6317,22 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 23,
       "bySource": {
         "crec": 1,
         "hearings": 3,
         "house": 2,
         "nasa": 13,
+        "nasa2": 1,
+        "nps": 2,
         "wpa": 1
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2023-01-11",
-        "date": "2023-01-11",
-        "granule": "CREC-2023-01-11-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2023-01-11",
+        "document": "Bruce G. Bills oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-01-16",
+        "granule": "discovery-and-new-frontiers-billsbg-1-16-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/billsbg-1-16-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5688,10 +6383,12 @@
           "stages": ["none"]
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 12,
       "bySource": {
         "house": 1,
-        "nasa": 9
+        "nasa": 9,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -5715,16 +6412,18 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 7,
       "bySource": {
-        "hearings": 3
+        "hearings": 3,
+        "nasa2": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "EXAMINING THE ACTIONS OF DRUG COMPANIES",
-        "date": "2019-01-29",
-        "granule": "CHRG-116hhrg36509",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36509/html/CHRG-116hhrg36509.htm",
+        "document": "Jessica Sunshine oral history (discovery-and-new-frontiers collection)",
+        "date": "2025-02-25",
+        "granule": "discovery-and-new-frontiers-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5741,11 +6440,12 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 11,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 7,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -5795,11 +6495,13 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 8,
       "bySource": {
         "crec": 3,
         "house": 1,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -5835,12 +6537,14 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 25,
+      "transcriptsUsing": 30,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 9,
         "house": 6,
-        "nasa": 9
+        "nasa": 9,
+        "nasa2": 4,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -5864,18 +6568,47 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 13,
+      "transcriptsUsing": 17,
       "bySource": {
         "hearings": 9,
         "house": 1,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
-        "document": "REVISITING THE IMPLICATIONS OF THE FACE ACT: PART II",
-        "date": "2024-12-18",
-        "granule": "CHRG-118hhrg57830",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57830/html/CHRG-118hhrg57830.htm",
+        "document": "Jessica Sunshine oral history (discovery-and-new-frontiers collection)",
+        "date": "2025-02-25",
+        "granule": "discovery-and-new-frontiers-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.news-answer-react.youre-kidding",
+      "move": "news-answer-react",
+      "kind": "spoken",
+      "text": "You're kidding.",
+      "uses": [
+        {
+          "move": "news-answer-react",
+          "subject": "news",
+          "role": "answer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "house": 1,
+        "nasa": 3,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Courtney A. Stadd oral history (nasa-senior-leadership collection)",
+        "date": "2017-06-06",
+        "granule": "nasa-senior-leadership-staddc-6-6-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/staddc-6-6-17.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5892,13 +6625,14 @@
           "choice": "think"
         }
       ],
-      "transcriptsUsing": 79,
+      "transcriptsUsing": 89,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 1,
         "hearings": 50,
         "house": 7,
-        "nasa": 19
+        "nasa": 19,
+        "nasa2": 10
       },
       "shippable": true,
       "source": {
@@ -5922,12 +6656,13 @@
           "choice": "think"
         }
       ],
-      "transcriptsUsing": 29,
+      "transcriptsUsing": 32,
       "bySource": {
         "crec": 1,
         "hearings": 25,
         "house": 1,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -5977,10 +6712,11 @@
           "choice": "think"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 12,
       "bySource": {
         "hearings": 8,
-        "nasa": 3
+        "nasa": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -6004,18 +6740,19 @@
           "choice": "think"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 1,
         "hearings": 1,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2021-07-27",
-        "date": "2021-07-27",
-        "granule": "CREC-2021-07-27-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2021-07-27",
+        "document": "Ronald P. Seeders oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-05-25",
+        "granule": "discovery-and-new-frontiers-seedersrp-5-25-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/seedersrp-5-25-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -6032,7 +6769,7 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 538,
+      "transcriptsUsing": 661,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 20,
@@ -6040,6 +6777,8 @@
         "hearings": 216,
         "house": 54,
         "nasa": 169,
+        "nasa2": 112,
+        "nps": 11,
         "wpa": 22
       },
       "shippable": true,
@@ -6121,10 +6860,12 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
         "house": 1,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -6148,12 +6889,13 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 21,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 2,
         "house": 1,
-        "nasa": 10
+        "nasa": 10,
+        "nasa2": 6
       },
       "shippable": true,
       "source": {
@@ -6205,11 +6947,12 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "crec": 2,
         "hearings": 2,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -6233,12 +6976,13 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 1,
         "hearings": 4,
         "house": 1,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -6263,12 +7007,14 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 79,
+      "transcriptsUsing": 103,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "hearings": 20,
         "house": 14,
-        "nasa": 37
+        "nasa": 37,
+        "nasa2": 17,
+        "nps": 7
       },
       "shippable": true,
       "source": {
@@ -6292,19 +7038,20 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
         "hearings": 2,
         "house": 1,
         "nasa": 2,
+        "nasa2": 1,
         "wpa": 3
       },
       "shippable": true,
       "source": {
-        "document": "TAIWAN AND THE UNITED STATES: ENDURING BONDS IN THE FACE OF ADVERSITY",
-        "date": "2020-12-10",
-        "granule": "CHRG-116hhrg42495",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg42495/html/CHRG-116hhrg42495.htm",
+        "document": "William J. Borucki oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-03-20",
+        "granule": "discovery-and-new-frontiers-boruckiwj-3-20-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/boruckiwj-3-20-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -6327,17 +7074,18 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 9,
       "bySource": {
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nasa2": 7
       },
       "shippable": true,
       "source": {
-        "document": "ISSUES FACING SENIORS: RETIREMENT SECURITY, HEALTHCARE, AND FISCAL HEALTH",
-        "date": "2022-11-21",
-        "granule": "CHRG-117shrg49820",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg49820/html/CHRG-117shrg49820.htm",
+        "document": "Jon Jenkins oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-06-18",
+        "granule": "discovery-and-new-frontiers-jenkinsj-6-18-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -6360,11 +7108,12 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 16,
+      "transcriptsUsing": 24,
       "bySource": {
         "hearings": 13,
         "house": 2,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 8
       },
       "shippable": true,
       "source": {
@@ -6388,10 +7137,11 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
-        "hearings": 1
+        "hearings": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -6425,6 +7175,33 @@
         "date": "2022-11-29",
         "granule": "house-oh-butterfield",
         "url": "https://history.house.gov/Oral-History/Rainey/Rainey-Transcripts/butterfield-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.farewell-leave-bye.ive-got-to-go",
+      "move": "farewell-leave-bye",
+      "kind": "spoken",
+      "text": "I've got to go.",
+      "uses": [
+        {
+          "move": "farewell-leave-bye",
+          "subject": "farewell",
+          "role": "leave",
+          "choice": "bye"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nasa": 2,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "John B. Charles oral history (iss collection)",
+        "date": "2015-07-21",
+        "granule": "iss-charlesjb-7-21-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/06/charlesjb-7-21-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -6493,11 +7270,12 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 8,
       "bySource": {
         "hearings": 3,
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -6521,12 +7299,14 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 78,
+      "transcriptsUsing": 81,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 5,
         "hearings": 69,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -6577,14 +7357,16 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 458,
+      "transcriptsUsing": 474,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 36,
         "crec": 2,
         "hearings": 391,
         "house": 11,
-        "nasa": 16
+        "nasa": 16,
+        "nasa2": 14,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -6608,7 +7390,7 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 1929,
+      "transcriptsUsing": 2035,
       "bySource": {
         "Federal Election Commission (fec.gov)": 11,
         "U.S. Election Assistance Commission (eac.gov)": 61,
@@ -6616,6 +7398,8 @@
         "hearings": 1592,
         "house": 70,
         "nasa": 101,
+        "nasa2": 98,
+        "nps": 8,
         "wpa": 2
       },
       "shippable": true,
@@ -6640,13 +7424,15 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 286,
+      "transcriptsUsing": 296,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "crec": 3,
         "hearings": 252,
         "house": 5,
         "nasa": 18,
+        "nasa2": 7,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -6698,12 +7484,13 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 121,
+      "transcriptsUsing": 127,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 115,
         "house": 1,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 6
       },
       "shippable": true,
       "source": {
@@ -6727,12 +7514,14 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 18,
+      "transcriptsUsing": 20,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 5,
         "house": 2,
-        "nasa": 10
+        "nasa": 10,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -6785,13 +7574,15 @@
           "choice": "ask"
         }
       ],
-      "transcriptsUsing": 35,
+      "transcriptsUsing": 52,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 2,
         "hearings": 14,
         "house": 10,
-        "nasa": 8
+        "nasa": 8,
+        "nasa2": 16,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -6816,13 +7607,15 @@
           "stages": ["none"]
         }
       ],
-      "transcriptsUsing": 213,
+      "transcriptsUsing": 230,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 27,
         "hearings": 152,
         "house": 13,
-        "nasa": 20
+        "nasa": 20,
+        "nasa2": 13,
+        "nps": 4
       },
       "shippable": true,
       "source": {
@@ -6873,10 +7666,11 @@
           "choice": "own"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "hearings": 1,
         "nasa": 3,
+        "nasa2": 1,
         "wpa": 2
       },
       "shippable": true,
@@ -6901,10 +7695,11 @@
           "choice": "own"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 5,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -6954,11 +7749,13 @@
           "choice": "own"
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 22,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "hearings": 5,
-        "house": 11
+        "house": 11,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -6982,12 +7779,13 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 23,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 6,
         "house": 5,
-        "nasa": 7
+        "nasa": 7,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -7011,17 +7809,18 @@
           "choice": "own"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "hearings": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "A REVIEW OF LICENSING AND CREDENTIALING STANDARDS FOR SERVICEMEMBERS AND VETERANS: DO BARRIERS STILL REMAIN?",
-        "date": "2015-09-10",
-        "granule": "CHRG-114hhrg98691",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg98691/html/CHRG-114hhrg98691.htm",
+        "document": "Troy L. Hudson oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-07-10",
+        "granule": "discovery-and-new-frontiers-hudsontl-8-23-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/hudsontl-8-23-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -7045,13 +7844,15 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 233,
+      "transcriptsUsing": 316,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 14,
         "crec": 2,
         "hearings": 111,
         "house": 21,
-        "nasa": 85
+        "nasa": 85,
+        "nasa2": 77,
+        "nps": 6
       },
       "shippable": true,
       "source": {
@@ -7082,13 +7883,15 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 95,
+      "transcriptsUsing": 98,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 12,
         "crec": 1,
         "hearings": 75,
         "house": 2,
-        "nasa": 5
+        "nasa": 5,
+        "nasa2": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -7113,12 +7916,14 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 66,
+      "transcriptsUsing": 84,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 13,
         "hearings": 18,
         "house": 8,
-        "nasa": 27
+        "nasa": 27,
+        "nasa2": 16,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -7142,12 +7947,13 @@
           "choice": "own"
         }
       ],
-      "transcriptsUsing": 50,
+      "transcriptsUsing": 52,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "crec": 4,
         "hearings": 37,
         "nasa": 1,
+        "nasa2": 2,
         "wpa": 3
       },
       "shippable": true,
@@ -7172,17 +7978,18 @@
           "choice": "own"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
         "house": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 4
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
-        "date": "2022-10-31",
-        "granule": "house-oh-hymel",
-        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
+        "document": "Donya Douglas-Bradshaw oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-08-30",
+        "granule": "discovery-and-new-frontiers-douglas-bradshawd-8-30-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/douglas-bradshawd-8-30-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -7200,14 +8007,16 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 306,
+      "transcriptsUsing": 340,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 6,
         "crec": 53,
         "hearings": 192,
         "house": 15,
-        "nasa": 39
+        "nasa": 40,
+        "nasa2": 30,
+        "nps": 3
       },
       "shippable": true,
       "source": {
@@ -7232,7 +8041,7 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 548,
+      "transcriptsUsing": 592,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 15,
@@ -7240,6 +8049,8 @@
         "hearings": 359,
         "house": 9,
         "nasa": 35,
+        "nasa2": 32,
+        "nps": 12,
         "wpa": 6
       },
       "shippable": true,
@@ -7265,10 +8076,11 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "hearings": 1,
         "nasa": 3,
+        "nasa2": 1,
         "wpa": 2
       },
       "shippable": true,
@@ -7294,10 +8106,11 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 5,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 3
       },
       "shippable": true,
       "source": {
@@ -7349,11 +8162,13 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 22,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "hearings": 5,
-        "house": 11
+        "house": 11,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -7361,6 +8176,227 @@
         "date": "2024-07-31",
         "granule": "house-oh-wexton",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/wexton-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-turn.have-you",
+      "move": "asked-mutual-answer-turn",
+      "kind": "spoken",
+      "text": "Have you?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-turn",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "turn"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "hearings": 5,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "VOICES FOR THE VICTIMS: THE HEART- BREAKING REALITY OF THE MAYORKAS BORDER CRISIS",
+        "date": "2024-01-18",
+        "granule": "CHRG-118hhrg57220",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57220/html/CHRG-118hhrg57220.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-turn.why",
+      "move": "asked-mutual-answer-turn",
+      "kind": "spoken",
+      "text": "Why?",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-turn",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "turn"
+        }
+      ],
+      "transcriptsUsing": 505,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 10,
+        "crec": 177,
+        "hearings": 223,
+        "house": 21,
+        "nasa": 32,
+        "nasa2": 33,
+        "nps": 3,
+        "wpa": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-brief.nope",
+      "move": "asked-mutual-answer-brief",
+      "kind": "spoken",
+      "text": "Nope.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-brief",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        },
+        {
+          "move": "asked-kin-answer-brief",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "transcriptsUsing": 35,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 9,
+        "hearings": 14,
+        "house": 2,
+        "nasa": 4,
+        "nasa2": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "CASE-BY-CASE: RETURNING PAROLE TO ITS PROPER PURPOSE",
+        "date": "2025-07-15",
+        "granule": "CHRG-119hhrg61405",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61405/html/CHRG-119hhrg61405.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-kin-answer-not-yet.no-not-yet",
+      "move": "asked-kin-answer-not-yet",
+      "kind": "spoken",
+      "text": "No, not yet.",
+      "uses": [
+        {
+          "move": "asked-kin-answer-not-yet",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "not-yet"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "hearings": 2,
+        "house": 1,
+        "nasa": 4,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE SEC'S DIVISION OF INVESTMENT MANAGEMENT",
+        "date": "2023-09-19",
+        "granule": "CHRG-118hhrg54180",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54180/html/CHRG-118hhrg54180.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-kin-answer-name.whos-name",
+      "move": "asked-kin-answer-name",
+      "kind": "spoken",
+      "text": "Who's {name}?",
+      "uses": [
+        {
+          "move": "asked-kin-answer-name",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "name"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "hearings": 2,
+        "house": 2,
+        "nasa": 1,
+        "nasa2": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
+        "date": "2024-06-04",
+        "granule": "CHRG-118hhrg55952",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55952/html/CHRG-118hhrg55952.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.uh-huh",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Uh-huh.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "transcriptsUsing": 90,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 80,
+        "house": 3,
+        "nasa": 1,
+        "nasa2": 1,
+        "nps": 3,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PARTISAN AND PROFITABLE: THE SPLC'S INFLUENCE ON FEDERAL CIVIL RIGHTS POLICY",
+        "date": "2025-12-16",
+        "granule": "CHRG-119hhrg62368",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62368/html/CHRG-119hhrg62368.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.ack-reply-right.got-it",
+      "move": "ack-reply-right",
+      "kind": "spoken",
+      "text": "Got it.",
+      "uses": [
+        {
+          "move": "ack-reply-right",
+          "subject": "ack",
+          "role": "reply",
+          "choice": "right"
+        }
+      ],
+      "transcriptsUsing": 126,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 8,
+        "crec": 1,
+        "hearings": 114,
+        "house": 1,
+        "nasa": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
