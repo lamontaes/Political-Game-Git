@@ -25,6 +25,7 @@ import {
 } from "../central-bank-board";
 import {
   MACRO_HISTORY_SOURCE,
+  checkBands,
   historyMonths,
   monthKey,
   shiftMonth,
@@ -471,4 +472,23 @@ export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
   return extendData(base, {
     parameters: { ...MACRO_PARAMETERS, ...REGIONAL_PARAMETERS },
   });
+}
+
+/** What the bench's national panel shows: each month against its band, each meeting with every vote's reasons. Read-only. */
+export function nationalPanel(api: CoreAPI) {
+  const snap = store(api).snapshot();
+  const months = snap.tables.months as unknown as MacroMonth[];
+  const votes = snap.tables.votes as unknown as { meetingId: string }[];
+  return {
+    months,
+    bands: checkBands(months, params(api)),
+    meetings: (snap.tables.meetings as unknown as { id: string }[]).map(
+      (meeting) => ({
+        ...meeting,
+        votes: votes.filter((vote) => vote.meetingId === meeting.id),
+      }),
+    ),
+    members: snap.tables.members,
+    repricings: snap.tables.repricings,
+  };
 }
