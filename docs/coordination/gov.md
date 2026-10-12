@@ -94,6 +94,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12 19:14 UTC: BOARD next, item 4: the researched yes/no policy answers are law at the opening:
+  - **The answers are law:** each state's answers (57 questions answered for most states; 14 research files) load as state law rows in force on day one, marked estimates where the research estimated them. The legislature, ballot measures and the bill catalog already read the same answers, so a bill now repeals a real starting law instead of a remembered answer.
+  - **Policies already in force reach people from day one:** when law effects open, every policy in force runs through its engine once. Minnesota: 28 policies in force, all 28 reached people on day one. Missouri: 20 of 22; term limits and the lobbying ban bind officeholders, and that run had no offices open.
+  - **Other changes:** `src/core2/policy-answers.ts` holds the answers so `laws.ts` can read them without an import cycle. Group B's government lookup returns nothing in a world without budgets. The law-reach tests repeal the starting answers first (`law-test-start.ts`) so each round trip starts from "no".
+  - **Tests:** new `starting-policy-law.test.ts`. The law-reach A and B, law-effects, laws, legislature and world-legislating tests pass. The state-session test was already at 29.9 seconds against a 30-second limit (the same with or without this change); it now has its own two-minute limit.
+  - **Next:** campaign interviews from real outlets.
+
 - 2026-10-13 06:30 UTC: Polls:
   - **Who's asked:** a poll now dials the whole town, named and counted adults, and only those willing complete it (by sociability, reliability and age; tunable toward the 6–10% phone response rate).
   - **Who answers how:** a counted respondent no campaign reached names their party's candidate when their lean is firm, and is otherwise undecided.

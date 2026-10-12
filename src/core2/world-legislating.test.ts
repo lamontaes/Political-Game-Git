@@ -122,7 +122,7 @@ describe("M3-10 other governments legislate", () => {
     }
     expect(report, `no act passed in ${tried.join(", ")}`).not.toBeNull();
     govReport("world-legislating", JSON.stringify(report));
-  });
+  }, 120_000);
 
   it("Congress passes its majority's agenda at its year-end votes and the acts reach the town", () => {
     // Open the world shortly before Congress's floor day.

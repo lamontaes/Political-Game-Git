@@ -8,6 +8,7 @@
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
+import { repealStartingAnswers } from "./law-test-start";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -115,6 +116,7 @@ function openTown(): void {
     openLegislature(c);
     openBudgets(c);
     openLawEffects(c);
+    repealStartingAnswers(c);
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
     if (!governments(a).some((g) => g.level === "city")) continue;
