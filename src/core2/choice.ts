@@ -12,10 +12,9 @@ import type {
   PersonState,
   WeightedReason,
 } from "./types";
-/** Per person: each act kind's summed trait pull and how many pulls touched it. */
+/** Per person: each act kind's summed trait pull. */
 interface KindLean {
   sum: Map<string, number>;
-  count: Map<string, number>;
 }
 const kindLeans = new WeakMap<PersonState, KindLean>();
 
@@ -52,11 +51,9 @@ function kindLean(
   const cached = kindLeans.get(actor as PersonState);
   if (cached) return cached;
   const p = (key: string) => parameter(key, core.data.parameters);
-  const lean: KindLean = { sum: new Map(), count: new Map() };
-  const add = (kind: string, value: number) => {
+  const lean: KindLean = { sum: new Map() };
+  const add = (kind: string, value: number) =>
     lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
-    lean.count.set(kind, (lean.count.get(kind) ?? p("zero")) + p("one"));
-  };
   for (const [id, raw] of Object.entries(actor.traits)) {
     const row = core.data.traitPulls[id];
     if (!row || raw === p("zero")) continue;
@@ -71,9 +68,12 @@ function kindLean(
 }
 
 /**
- * How a person's traits lean toward an option that expresses these act kinds,
- * from -1 to 1: the mean of every matching trait pull. The chooser's trait
- * reason, and the one trait term every formula decision uses.
+ * How a person's traits lean toward an option that expresses these act kinds:
+ * every matching trait pull summed, over the option's act kinds times the
+ * typical number of pulls on one kind (`traitPullsPerKind`). A pull toward an
+ * option always raises it and a pull away always lowers it, whatever else the
+ * person carries. The chooser's trait reason, and the one trait term every
+ * formula decision uses.
  */
 export function traitLean(
   core: Pick<CoreState, "data">,
@@ -82,13 +82,11 @@ export function traitLean(
 ): number {
   const p = (key: string) => parameter(key, core.data.parameters);
   const lean = kindLean(core, actor);
-  let sum = p("zero"),
-    count = p("zero");
-  for (const kind of actKinds) {
-    sum += lean.sum.get(kind) ?? p("zero");
-    count += lean.count.get(kind) ?? p("zero");
-  }
-  return count > p("zero") ? sum / count : p("zero");
+  let sum = p("zero");
+  for (const kind of actKinds) sum += lean.sum.get(kind) ?? p("zero");
+  return actKinds.length
+    ? sum / (actKinds.length * p("traitPullsPerKind"))
+    : p("zero");
 }
 
 function traitScore(

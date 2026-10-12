@@ -4505,5 +4505,16 @@
       "unit": "score per unit of scaled trait lean",
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
     }
+  },
+  "traitPullsPerKind": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "The typical number of trait pulls that land on one act kind for a generated adult: 98 traits, each side pulling on about 3.6 act kinds over 20 kinds, with about 60% of traits away from the middle level (OPUS-TRAITS, Oct 12, 2026). Dividing an option's summed pulls by its kinds times this keeps the trait lean in the range the earlier mean-of-pulls had, while every pull moves it the right way.",
+    "spread": {
+      "low": 6,
+      "high": 16,
+      "unit": "pulls per act kind",
+      "citation": "From the trait table: about 17 pulls per kind if every trait were off the middle, about 7 if only the 40% at the outer levels were."
+    }
   }
 }
