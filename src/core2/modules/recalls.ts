@@ -14,6 +14,8 @@
  * seat then filling by its vacancy rule.
  */
 import { coreAPI, registerModule } from "../state";
+import { decisionLean } from "../trait-decisions";
+import { parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -206,9 +208,15 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       .map((p) => {
         const g = grievance(api, p, row.series, enacted, side);
         const duty =
-          (p.traits["personality-v1:facet-duty-bound"] ?? 0) +
-          (p.traits["people-mind-v1:conflict"] ?? 0);
-        return { p, drive: g + duty / 2 };
+          parameter("traitDecisionWeight") *
+          decisionLean(
+            api.state,
+            p,
+            "recalls.organize",
+            "organize",
+            "leave-it",
+          );
+        return { p, drive: g + duty };
       })
       .filter((x) => x.drive > campaignParameter("recallOrganizerEffort"))
       .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id))[0];
@@ -216,7 +224,10 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     const signers = people.filter(
       (p) =>
         p.id !== term.personId &&
-        grievance(api, p, row.series, enacted, side) > 0,
+        grievance(api, p, row.series, enacted, side) +
+          parameter("traitDecisionWeight") *
+            decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
+          0,
     );
     const electorate = townElectorate(api, people.length);
     // stopgapId: SG-GOV-recall-signature-groups
@@ -315,7 +326,10 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   let remove = 0;
   let keep = 0;
   for (const p of people) {
-    const g = grievance(api, p, recall.question, enacted, side);
+    const g =
+      grievance(api, p, recall.question, enacted, side) +
+      parameter("traitDecisionWeight") *
+        decisionLean(api.state, p, "recalls.vote", "remove", "keep");
     const t = turnout(api, p, { remove: { total: g }, keep: { total: -g } });
     if (!t.votes) continue;
     if (g > 0) remove += 1;
