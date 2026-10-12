@@ -24,6 +24,7 @@ After: one game year takes about 13 seconds and every dollar balances. On the cu
 **Closures had a cause.** Measured in Cheat Lake, West Virginia, before the fix: 14 of 25 firms closed, and 11 of those 14 sold nothing all year because no customer route reached their industry (posted on #3918). What the code now does (inferred from the code, measured in the results above): each firm sells to buyers outside the town, sized from its industry's share of receipts in the 2017 Economic Census and USDA data (`src/core2/opening-outside-market.ts:67`). It also pays outside suppliers for costs it doesn't buy locally, 30 days later (supplier payments, `src/core2/modules/residents.ts:217`). The closure rule is unchanged, and no firm is topped up.
 
 **Money circulates.** What the code now does (inferred from the code), as registered stand-ins until OPUS-WORLD's engines replace them:
+
 - Rent and other living costs not bought locally are paid out of town on the 1st (`src/core2/residents.ts:149`).
 - Firms pay cash above twice their industry's usual buffer to owners each month (`src/core2/modules/residents.ts:154`).
 - The opening places only some workers in town firms. In Mill Creek, Oklahoma, 1,809 of an employment target of 5,195 had jobs; the other 3,386 now earn the town's median wage (`src/core2/residents.ts:676`).
