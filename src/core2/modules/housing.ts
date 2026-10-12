@@ -16,6 +16,16 @@ import { transferCash } from "../world-transfer";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
+import { MACRO_PARAMETERS } from "./macro";
+import { DEFAULT_DATA } from "../data";
+import {
+  MORTGAGE_PREFIX,
+  MORTGAGE_TERMS_KEY,
+  openingMortgages,
+  type MortgageTerms,
+} from "../housing-mortgages";
+import { endFlowPart } from "../residents-economy";
+import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
   CoreInput,
@@ -44,6 +54,14 @@ const COUNTY_TENURE = housingData.countyTenure as unknown as Record<
   [number, number]
 >;
 const LEASE_KIND = "household-purchase";
+const housingMacroParameter = (key: string): number => {
+  const row =
+    HOUSING_PARAMETERS[key] ??
+    MACRO_PARAMETERS[key] ??
+    DEFAULT_DATA.parameters[key];
+  if (!row) throw new Error(`Untagged numeric parameter: ${key}`);
+  return row.value;
+};
 
 function pv(key: string) {
   return HOUSING_PARAMETERS[key]!.value;
@@ -123,6 +141,10 @@ export function withHousing(input: CoreInput): CoreInput {
         oldest: oldestOf(
           row.memberIds.map((id) => people.get(id)?.birthDate ?? "9999"),
         ),
+        liquidMinor: row.memberIds.reduce(
+          (n, id) => n + (people.get(id)?.liquidMinor ?? 0),
+          0,
+        ),
       })),
     ...(input.residents?.households ?? [])
       .filter(
@@ -134,6 +156,10 @@ export function withHousing(input: CoreInput): CoreInput {
         memberIds: row.household.memberIds,
         income: householdIncome(row.jobs, row.household.memberIds),
         oldest: oldestOf(row.people.map((person) => person.birthDate)),
+        liquidMinor: row.people.reduce(
+          (n, person) => n + person.liquidMinor,
+          0,
+        ),
       })),
   ];
   const owners = Math.round((households.length * tenure[1]) / tenure[0]);
@@ -173,6 +199,41 @@ export function withHousing(input: CoreInput): CoreInput {
   );
   const leases: FinanceContractInput[] = [];
   const flows: ResidentFlowInput[] = [];
+  // Owners who still owe pay the town bank monthly.
+  const bank = input.organizations.find(
+    (row) => row.kind === "bank" && row.placeId === town.placeId,
+  );
+  const medianValue = RENT_VALUE[town.county]?.[1] ?? 0;
+  const mortgages =
+    bank && medianValue > 0
+      ? openingMortgages({
+          owners: households
+            .filter((row) => rank.get(row.id)! < owners)
+            .map((row) => ({
+              id: row.id,
+              counted: row.counted,
+              memberIds: row.memberIds,
+              payerIds: row.memberIds.filter((id) => people.has(id)),
+              oldest: row.oldest,
+              liquidMinor: row.liquidMinor,
+              valueMinor: Math.round(
+                medianValue *
+                  100 *
+                  ((row.income + offset) / (medianIncome + offset || 1)) **
+                    pv("housingRentIncomeElasticity"),
+              ),
+            })),
+          startedAt: makeIsoDate(input.startedAt),
+          dueAt: makeIsoDate(dueAt),
+          bankId: bank.id,
+          ...(account ? { account } : {}),
+          placeId: town.placeId,
+          p: housingMacroParameter,
+          source,
+        })
+      : { contracts: [], flows: [], terms: [] };
+  leases.push(...mortgages.contracts);
+  flows.push(...mortgages.flows);
   for (const row of households) {
     if (rank.get(row.id)! < owners) continue;
     // A renter with no recorded income is the wider population, not yet modeled; see the stopgap.
@@ -244,7 +305,13 @@ export function withHousing(input: CoreInput): CoreInput {
           },
         }
       : {}),
-    placeMetadata: { ...input.placeMetadata, housingState: town.usps },
+    placeMetadata: {
+      ...input.placeMetadata,
+      housingState: town.usps,
+      ...(mortgages.terms.length
+        ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
+        : {}),
+    },
   };
 }
 
@@ -333,10 +400,44 @@ function renew(api: CoreAPI): void {
 }
 
 /** Rent owed past the grace period starts a case: the landlord serves the notice the law requires. */
+/** Each month a mortgage's payment pays its interest and then its principal; the last payment ends it. */
+function amortize(api: CoreAPI): void {
+  const c = core(api),
+    months = api.parameter("macroMonthsPerYear");
+  for (const row of store(api)
+    .table("mortgages")
+    .rows() as unknown as (MortgageTerms & {
+    id: string;
+  })[]) {
+    if (row.monthsLeft <= 0) continue;
+    const interest = Math.round((row.balanceMinor * row.rate) / months);
+    const balance = Math.max(
+      0,
+      row.balanceMinor - (row.paymentMinor - interest),
+    );
+    const monthsLeft = balance > 0 ? row.monthsLeft - 1 : 0;
+    store(api)
+      .table("mortgages")
+      .put({ ...row, balanceMinor: balance, monthsLeft });
+    if (monthsLeft > 0) continue;
+    if (c.finance.contracts.has(row.id)) api.endStandingContract(row.id);
+    else {
+      const placeId = c.households.get(row.householdId)?.placeId;
+      const merged = [...(residentsRuntime(c)?.flows.values() ?? [])].find(
+        (flow) =>
+          flow.amountByContract?.[row.id] !== undefined &&
+          (!placeId || flow.placeId === placeId),
+      );
+      if (merged) endFlowPart(c, merged.id, row.id);
+    }
+  }
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
   renew(api);
+  amortize(api);
   for (const [id, row] of c.finance.contracts) {
     if (
       !id.startsWith("lease:") ||
@@ -499,6 +600,7 @@ export const HOUSING_MODULE: CoreModule = {
       state: {},
       cases: { indexes: { openByLease: { fields: ["leaseId", "open"] } } },
       renewals: {},
+      mortgages: {},
     },
   },
   onCalendarWork(api, work) {
@@ -513,6 +615,11 @@ export const HOUSING_MODULE: CoreModule = {
     store(api)
       .table("state")
       .put({ id: "housing:state", openedAt: api.state.date });
+    const terms = api.state.placeMetadata?.[MORTGAGE_TERMS_KEY];
+    for (const row of terms ? (JSON.parse(terms) as MortgageTerms[]) : [])
+      store(api)
+        .table("mortgages")
+        .put({ id: `${MORTGAGE_PREFIX}${row.householdId}`, ...row });
     scheduleReview(api);
   },
 };
