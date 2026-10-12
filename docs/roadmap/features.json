@@ -4,7 +4,8 @@
     "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)",
     "M1": "The world runs (owner-approved Oct 10, 2026)",
     "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)",
-    "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)"
+    "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)",
+    "M3": "Governing, and laws that change things (owner-approved piece by piece from Oct 12, 2026)"
   },
   "features": [
     {
@@ -374,6 +375,36 @@
       "golden_path": "10",
       "package": "M2-candidates-news",
       "test": "In a random place, local outlets report results, laws and big events in engine-written words with nothing invented; specific people hear each story at different times through their own news habits and word of mouth; news from other places arrives later; a story changes a view only where the person trusts the source.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-01",
+      "milestone": "M3",
+      "title": "Writing a bill",
+      "golden_path": "6",
+      "package": "M3-legislating",
+      "test": "In a random place, the player drafts an ordinance on the bill paper from the accepted catalog (docs/design/legislative-content-menus-v1.md: subject, operation, applicable sections), with amounts starting from the law in force and an optional phase-in; a fiscal note appears at drafting and the bill gets a real bill number; a bill beyond the body's authority gets the city attorney's warning, and a clear higher-level ban blocks it.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-02",
+      "milestone": "M3",
+      "title": "Negotiating",
+      "golden_path": "7",
+      "package": "M3-legislating",
+      "test": "In a random place, the player learns at least two members' stakes through routes the character could use and trades for their votes; each deal changes real terms (bill text, support, favors, endorsements), favors and promises land on the record and in the journal, and every member's vote has recorded reasons.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-03",
+      "milestone": "M3",
+      "title": "Legislatures, one engine",
+      "golden_path": "8",
+      "package": "M3-legislating",
+      "test": "A council, a state chamber and Congress each move bills through committee, amendments, floor votes and executive action under their real rules on one engine; the council meeting plays as a scene with routine items summarized; members' rules votes can change procedure; ties are broken by lot only where the law requires it.",
       "command": null,
       "passes": false
     }

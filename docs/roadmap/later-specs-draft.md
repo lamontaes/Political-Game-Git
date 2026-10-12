@@ -81,18 +81,21 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M3-01 · Writing a bill (step 6)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-legislating.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Pick a subject from the 18-subject bill catalog and draft on paper with the shared sections (current rules and programs, coverage, benefit or rate, funding, administration, enforcement, reporting, timing). A bill carries real amounts written from current law, and only what your level of government is allowed to do.
 - **Passes when:** In a random place, a council member drafts an ordinance with real amounts, inside the city's authority; a city can't pass what only a state can.
 
 ### M3-02 · Negotiating (step 7)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-legislating.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Members' positions come from their lives and personal stakes. You learn a stake only the way your character could (a conversation, a staffer, the news, research, the voting record) and can then use it. Political favors and deals are remembered and come due.
 - **Passes when:** In a random place, a member's vote changes because of a stake the player learned and used, and a favor owed is called in later.
 
 ### M3-03 · Legislatures, one engine (step 8)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-legislating.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Council, state legislature and Congress on one engine: sessions, committees, floor votes, amendments, leadership, quorum and required votes, veto and override windows; members vote from their own reasons.
 - **Passes when:** In a random place, the ordinance moves through that body's real procedure and passes or fails on each member's recorded reasons.
