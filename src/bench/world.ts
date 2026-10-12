@@ -24,9 +24,7 @@ import { openBudgets } from "../core2/modules/budgets";
 import { openLegislature } from "../core2/modules/legislature";
 import { openLawEffects } from "../core2/modules/law-effects";
 import { peopleData, peopleModules } from "../director/play-modules";
-import { RENEWAL_MODULE } from "../core2/modules/renewal";
 import { renewalData } from "../core2/births-setup";
-import { registerModule } from "../core2/state";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
@@ -276,8 +274,6 @@ function* benchWorldStages(
   openBudgets(core);
   openLegislature(core);
   openLawEffects(core);
-  // Births and deaths (OPUS-PEOPLE's renewal), on the same scheduler.
-  registerModule(core, RENEWAL_MODULE);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
