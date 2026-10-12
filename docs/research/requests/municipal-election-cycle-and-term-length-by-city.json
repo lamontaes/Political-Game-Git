@@ -40,9 +40,42 @@
     {
       "source": "src/simulation/nationwide-world/town-election-calendar.ts, nextTownElection",
       "whatItDidNotSettle": "Reads the state timing only, so every town in an odd-year-November state has an election every odd year."
+    },
+    {
+      "source": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "whatItDidNotSettle": "Five-kind sample per state and city-specific mayor/council terms, staggering and 2027/2028 dates remain open."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Five-kind sample per state and city-specific mayor/council terms, staggering and 2027/2028 dates remain open."
+    },
+    {
+      "source": "https://www.azleg.gov/ars/16/00204.htm",
+      "whatItDidNotSettle": "Five-kind sample per state and city-specific mayor/council terms, staggering and 2027/2028 dates remain open."
+    },
+    {
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "whatItDidNotSettle": "Five-kind sample per state and city-specific mayor/council terms, staggering and 2027/2028 dates remain open."
+    },
+    {
+      "source": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "whatItDidNotSettle": "Five-kind sample per state and city-specific mayor/council terms, staggering and 2027/2028 dates remain open."
     }
   ],
   "title": "When each city's council and mayor are elected, and for how long",
   "usableAnswer": "Per city: the next council and mayoral election year after 2026, the cycle length, the term length for council and for mayor, whether and how council seats are staggered, and the date rule (for example the first Tuesday after the first Monday in November of odd years, or the first Tuesday in April), each with the charter or statute read. Anything unknown stays marked unknown.",
-  "whyItMatters": "A player's town race is scheduled from this. Dating every town from its state's timing alone shows elections in years a city does not vote, such as a Detroit council election in 2027, and gives no city a four-year term or staggered seats."
+  "whyItMatters": "A player's town race is scheduled from this. Dating every town from its state's timing alone shows elections in years a city does not vote, such as a Detroit council election in 2027, and gives no city a four-year term or staggered seats.",
+  "answer": {
+    "summary": "Arizona 16-204(E) constrains regular candidate elections to even-year July/November dates (2028 July 18 and November 7). Maine 30-A 2525 requires annual town elections but does not supply a statewide month. Local term lengths and staggering need charter records; never derive them from population or the congressional calendar.",
+    "sources": [
+      "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://www.azleg.gov/ars/16/00204.htm",
+      "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:55:58.902164+00:00",
+    "stillOpen": "Five-kind sample per state and city-specific mayor/council terms, staggering and 2027/2028 dates remain open."
+  }
 }

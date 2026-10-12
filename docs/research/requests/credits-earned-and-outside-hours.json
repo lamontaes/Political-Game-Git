@@ -21,9 +21,22 @@
     {
       "source": "34 CFR 668.34 (satisfactory academic progress)",
       "whatItDidNotSettle": "Sets the 150% maximum timeframe and a pace measure for aid eligibility; it does not say how outside hours affect earned credits."
+    },
+    {
+      "source": "https://www.ed.gov/laws-and-policy/higher-education-laws-and-policy/higher-education-policy/direct-assessment-competency-based-programs",
+      "whatItDidNotSettle": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
     }
   ],
   "title": "How outside hours change the credits a student earns",
   "usableAnswer": "Credit-completion rates (credits earned over credits attempted) by weekly hours worked or caregiving, from a national survey such as NPSAS or BPS, so the curve in STUDY_CREDIT_PACE can be measured; and typical credit totals by credential level.",
-  "whyItMatters": "Without credits, paying for the years was enough to graduate, so a student working full time finished a degree as surely as one who studied full time, and the player's choices about work and study did not matter."
+  "whyItMatters": "Without credits, paying for the years was enough to graduate, so a student working full time finished a degree as surely as one who studied full time, and the player's choices about work and study did not matter.",
+  "answer": {
+    "summary": "Federal guidance gives approximate1instruction+2outside work hours per semester credit per week, with alternative equivalents. It does not estimate credits completed versus paid work/caregiving, or impose uniform credential totals.",
+    "sources": [
+      "https://www.ed.gov/laws-and-policy/higher-education-laws-and-policy/higher-education-policy/direct-assessment-competency-based-programs"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:17:44.514865+00:00",
+    "stillOpen": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
+  }
 }

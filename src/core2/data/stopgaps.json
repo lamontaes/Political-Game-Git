@@ -44,8 +44,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): marriageReferenceAge = 25, ESTIMATED from U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://ww…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-careHours",
@@ -56,8 +56,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): careHours = 2.23, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-civicHours",
@@ -68,8 +68,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): civicHours = 2.18, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-stressBaseline",
@@ -104,8 +104,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): moodHalfLifeDays = 1, ESTIMATED from Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-stressHalfLifeDays",
@@ -236,8 +236,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): moneyBufferDays = 19, ESTIMATED from JPMorgan Chase Institute 2023 cash buffer days (spread 13–43).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-organizationReserveMonths",
@@ -368,8 +368,8 @@
     "why": "Retain a real generated job while its occupation/local wage record is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source the same occupation and place wage for the relevant era.",
-    "status": "open"
+    "replacement": "Source the same occupation and place wage for the relevant era. Done Oct 12 (OPUS-CORE): fallbackAnnualWageMinor = 4449120, ESTIMATED from BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-deep-past",
@@ -632,8 +632,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementClaimAgeYears = 64, ESTIMATED from SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage d…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementClaimTraitPullYears",
@@ -680,8 +680,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementMinimumCoveredMonths = 120, SOURCED from Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for w…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitReferenceCoveredMonths",
@@ -692,8 +692,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementBenefitReferenceCoveredMonths = 420, SOURCED from Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitFactorMinimum",
@@ -1342,5 +1342,276 @@
     "addedAt": "2026-10-13",
     "replacement": "Groups split by citizenship (ACS), place-level 2024 results and residents' own views (PEOPLE's views engine) and refined by GOV's elections.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-mortgage-spread",
+    "kind": "estimated-series",
+    "file": "src/core2/macro-model.ts",
+    "line": 85,
+    "whatItFakes": "Opening 30-year mortgage rates after April 2019 are the 10-year Treasury plus the 1990-2019 mean FHFA spread, not a published monthly rate.",
+    "why": "FHFA's monthly survey ended in 2019; public HMDA is annual and Freddie Mac's survey is excluded (CTO ruling on #3959).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-public-budget",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/macro/parameters.json",
+    "line": 312,
+    "whatItFakes": "Public budgets add no impulse to national output beyond their real average.",
+    "why": "M1-07 budgets have not landed; trend growth 1990-2019 already carries average public spending.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-appointments",
+    "kind": "faked-mechanic",
+    "file": "src/core2/central-bank-board.ts",
+    "line": 77,
+    "whatItFakes": "Every central bank seat is filled at the opening, governors are seated at their seat's term start, and members stay past their terms.",
+    "why": "Appointments by the president and Senate come with the offices port (M1 offices, OPUS-GOV); presidents' reappointment by their banks' boards is not modeled.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The offices port: the president nominates, the Senate confirms, and reserve bank boards reappoint, each from their own views, on the term dates already recorded here.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-line-stand-in",
+    "kind": "faked-mechanic",
+    "file": "src/core2/credit-stand-in.ts",
+    "line": 13,
+    "whatItFakes": "One named business gets a prime-linked credit line from a town lender for the M1-02 proof; no bank chose to lend.",
+    "why": "The generated opening has no credit lines; banks and loans are M1-06 (OPUS-WORLD, next on the checklist).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-regional-territory-estimate",
+    "kind": "estimated-series",
+    "file": "src/core2/regional-model.ts",
+    "line": 143,
+    "whatItFakes": "Guam, American Samoa, the Northern Marianas and the U.S. Virgin Islands start from the nation's unemployment, pay and price level, with no industry mix of their own.",
+    "why": "They are outside the CBSA, CBP, LAUS and BEA tables in the repo; their governments' labor statistics are not yet gathered.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-opening-seekers",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 266,
+    "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
+    "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-layoff-decider",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 551,
+    "whatItFakes": "A layoff names the business itself as who decided it.",
+    "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-benefits",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 240,
+    "whatItFakes": "A spell of unemployment pays no unemployment insurance.",
+    "why": "Benefits are paid from state budgets under each state's law (M1-07, OPUS-GOV).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-business-applies",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/credit.ts",
+    "line": 283,
+    "whatItFakes": "A business applies for a line whenever its cash is below a few months of payroll, without an owner deciding.",
+    "why": "Businesses have no recorded owners until businesses growing (M1-08).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The owner chooses to borrow through the shared chooser from the books, their traits and the line's cost.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-bank-equity-only",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/credit.ts",
+    "line": 407,
+    "whatItFakes": "The town bank opens holding only its own equity as cash and lends from that; households' and businesses' money is not on deposit with it.",
+    "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-landlord",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 190,
+    "whatItFakes": "All of a town's rentals belong to one landlord business with no owner, and it serves notice as soon as rent is past the grace period.",
+    "why": "Landlords as businesses with owners who decide from their own books and patience come with businesses growing (M1-08).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Landlord businesses founded and owned by people (M1-08), deciding whether and when to serve notice through the shared chooser.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-eviction-steps",
+    "kind": "estimated-law",
+    "file": "src/core2/modules/housing.ts",
+    "line": 369,
+    "whatItFakes": "Eviction steps not yet read from official text: of 56 places, 30 have the notice period read, 23 whether a tenant can cure, 36 the hearing period and 34 the stay; the other values are recalled from secondary summaries, and missing values take the median of the better-sourced places.",
+    "why": "Three research passes read official code and court-rule sites; some sites refused or are Lexis-only (CA, CT, IL, UT, NJ, NM, GU, AL, AR, GA, MS, TN, IN, VI, AS). Per-place verifiedFields, hearingStaySources and verificationFailed are in data/research/housing/eviction-steps-2026.json.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-hearing-without-judge",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 824,
+    "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
+    "why": "Courts are parked until after early access (owner, Oct 10).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-opening-owners",
+    "kind": "generated-identity",
+    "file": "src/core2/modules/business.ts",
+    "line": 95,
+    "whatItFakes": "Each opening business is owned by its highest-paid current worker, as owner-operator.",
+    "why": "The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Opening owners from Census Annual Business Survey owner shares by industry and size, with owners who do not work in the business, and founders recorded at founding.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-vacancy",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 407,
+    "whatItFakes": "Renewal rents follow only the region's pay; the town's own vacancy does not push them up or down.",
+    "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Dwellings as records with occupancy (M1-05's build step 1); renewal rents on a sliding scale of the town's vacancy against the Census Housing Vacancy Survey.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-unmodeled-renters",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 261,
+    "whatItFakes": "Renter households with no recorded income (no current job and no income award) pay no rent and cannot be evicted.",
+    "why": "Most such households stand for people working at employers the opening does not generate; charging them rent evicted 537 of 1,195 renter households in four months in Landrum. The two-level population (OPUS-CORE) will hold them as counts with their real incomes.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The two-level population's household incomes for every renter, with rent and arrears for all of them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-counted-choices",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 841,
+    "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
+    "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Fill-in at the moment a counted person meets an employer (OPUS-CORE's fillInPerson), or an aggregate chooser for counted groups agreed with OPUS-CORE.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-counted-rent",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 284,
+    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, with no household arrears or eviction cases of their own.",
+    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-agreement-pinned",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 131,
+    "whatItFakes": "A job that a saved visitor agreement names as its provider's qualification is never ended by a layoff, a quit, a retirement or a move to another job.",
+    "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+  },
+  {
+    "id": "SG-WORLD-business-no-successor",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/business.ts",
+    "line": 289,
+    "whatItFakes": "A business whose owner stops working or dies with no worker or family member to take it on keeps running without a recorded owner.",
+    "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
+  },
+  {
+    "id": "SG-WORLD-business-counted-owner-choice",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/business.ts",
+    "line": 185,
+    "whatItFakes": "An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.",
+    "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day."
+  },
+  {
+    "id": "SG-WORLD-housing-mortgage-history",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-mortgages.ts",
+    "line": 146,
+    "whatItFakes": "Each owner's purchase year comes from the national move-in distribution by age rank, the purchase price is today's value deflated by CPI-U rather than a house price index, the loan is a 30-year fixed with the NAR median down payment and no refinancing, and the same county mortgage shares by age apply everywhere.",
+    "why": "No house price index, county move-in or mortgage-balance table is in the data yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history."
+  },
+  {
+    "id": "SG-WORLD-housing-price-index",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 582,
+    "whatItFakes": "Home prices for a purchase move with consumer prices since the opening, the county's median value scaled by the household's rent; the seller is outside the town.",
+    "why": "No house price index is in the data yet, and people don't move in or out of town until M1-09.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "FHFA house price index by state and metro moving each place's values, and sellers who are the town's own owners moving or downsizing (M1-09)."
   }
 ]

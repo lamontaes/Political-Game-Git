@@ -41,7 +41,7 @@ export interface CashJournalPostedMarker {
   completedAt?: IsoDate;
 }
 
-/** Detached acknowledgement only; the journal runtime retains no noncash receipt. */
+/** Detached acknowledgment only; the journal runtime retains no noncash receipt. */
 export interface CashJournalSourceCompletion {
   sourceRef: CashJournalSourceRef;
   completedAt: IsoDate;

@@ -20,9 +20,42 @@
     {
       "source": "src/simulation/campaign-opponents.ts (FUNDRAISING_RANGE, MESSAGING_RANGE)",
       "whatItDidNotSettle": "Game ranges for weekly fundraising and advertising only; nothing about other spending."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "whatItDidNotSettle": "No source-backed race-size category shares, weekly payment cadence or unit cost distributions; aggregate totals cannot provide these."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "whatItDidNotSettle": "No source-backed race-size category shares, weekly payment cadence or unit cost distributions; aggregate totals cannot provide these."
+    },
+    {
+      "source": "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "whatItDidNotSettle": "No source-backed race-size category shares, weekly payment cadence or unit cost distributions; aggregate totals cannot provide these."
+    },
+    {
+      "source": "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "whatItDidNotSettle": "No source-backed race-size category shares, weekly payment cadence or unit cost distributions; aggregate totals cannot provide these."
+    },
+    {
+      "source": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446",
+      "whatItDidNotSettle": "No source-backed race-size category shares, weekly payment cadence or unit cost distributions; aggregate totals cannot provide these."
     }
   ],
   "title": "What campaigns actually spend their money on, how much, and how often, by race size",
   "usableAnswer": "A table per race size: category spending shares, typical total spending and its timing, disbursements per week or month, and typical single-payment size per category, each with a source. UNKNOWN where no source settles it.",
-  "whyItMatters": "A reader, reporter or rival can only spot an odd payment against a believable pattern of ordinary ones. Without real shares the ordinary bills are guesses, and the leftover money at the end of a race is meaningless."
+  "whyItMatters": "A reader, reporter or rival can only spot an odd payment against a believable pattern of ordinary ones. Without real shares the ordinary bills are guesses, and the leftover money at the end of a race is meaningless.",
+  "answer": {
+    "summary": "The 2023-2024 FEC summary measures congressional committees at $3,801.5 million receipts and $3,704.2 million disbursements, and presidential committees at $2,012.0 million/$1,796.7 million. These are full-cycle aggregates, not average race-size budgets or fixed shares. Independent expenditures were $4,426.5 million, a distinct reporting population.",
+    "sources": [
+      "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:57:22.841855+00:00",
+    "stillOpen": "No source-backed race-size category shares, weekly payment cadence or unit cost distributions; aggregate totals cannot provide these."
+  }
 }

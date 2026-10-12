@@ -11,9 +11,32 @@
     {
       "source": "src/simulation/press/outlets.ts (starter profiles authored 2026-09-22)",
       "whatItDidNotSettle": "The profiles and weights are authored, not measured; nothing in the repository ties outlet kind or staff to a place's size, and the game has no population figure for most places to tie it to."
+    },
+    {
+      "source": "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "whatItDidNotSettle": "County/town/capitol outlet inventory, staffing/cadence and Puerto Rico Spanish/English coverage sample remain open."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "whatItDidNotSettle": "County/town/capitol outlet inventory, staffing/cadence and Puerto Rico Spanish/English coverage sample remain open."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/",
+      "whatItDidNotSettle": "County/town/capitol outlet inventory, staffing/cadence and Puerto Rico Spanish/English coverage sample remain open."
     }
   ],
   "title": "What kinds of newsroom cover an American town, a state capitol and Puerto Rico",
   "usableAnswer": "A short table for towns by size band and one for state capitols: each kind of outlet, how common it is, a typical newsroom headcount and cadence, with a source per row; plus a paragraph on Puerto Rico's press (languages, island-wide dailies, municipal coverage, the Capitolio corps). Where a size band has no measured answer, say so rather than estimate.",
-  "whyItMatters": "Every town and every state now gets a newsroom in the game, and which kind it is decides its staff, how often it publishes and how many stories it can chase at once. The spread of kinds and their weights (weekly 3, digital 3, daily 1, radio 2 for towns; for a state, one standard statehouse newsroom with a varied masthead, since the press desk and ownership market are built around it) and the Spanish mastheads for Puerto Rico were authored without research. They are marked as placeholders in src/simulation/press/outlets.ts and should be replaced by what is actually true."
+  "whyItMatters": "Every town and every state now gets a newsroom in the game, and which kind it is decides its staff, how often it publishes and how many stories it can chase at once. The spread of kinds and their weights (weekly 3, digital 3, daily 1, radio 2 for towns; for a state, one standard statehouse newsroom with a varied masthead, since the press desk and ownership market are built around it) and the Spanish mastheads for Puerto Rico were authored without research. They are marked as placeholders in src/simulation/press/outlets.ts and should be replaced by what is actually true.",
+  "answer": {
+    "summary": "Source use is overlapping: newspapers, broadcast, government sites and community forums can reach the same reader. Pew’s national adult sample establishes use, not outlet presence or newsroom staffing in any town-size band or Puerto Rico. The Northwestern outlet table was not adopted because reuse terms were unclear.",
+    "sources": [
+      "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:03:31.652405+00:00",
+    "stillOpen": "County/town/capitol outlet inventory, staffing/cadence and Puerto Rico Spanish/English coverage sample remain open."
+  }
 }

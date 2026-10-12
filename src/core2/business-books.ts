@@ -271,6 +271,8 @@ export function projectBusinessPrice(
     generalPriceFactor: number;
     annualDemandMinor: number;
     capacityMinor: number;
+    /** The prior price against the opening's, so nominal demand is read against capacity in the same dollars. */
+    priceLevel?: number;
   },
   options: BusinessBooksOptions = {},
 ): number {
@@ -297,7 +299,9 @@ export function projectBusinessPrice(
     (one - payShare) * input.generalPriceFactor;
   const crowding =
     input.capacityMinor > zero
-      ? input.annualDemandMinor / input.capacityMinor - one
+      ? input.annualDemandMinor /
+          (input.capacityMinor * (input.priceLevel ?? one)) -
+        one
       : zero;
   const maximum = p(data.policy.priceStepMaximumParameter),
     response = p(data.policy.crowdingResponseParameter);
