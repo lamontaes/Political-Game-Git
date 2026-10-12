@@ -3,6 +3,7 @@ import { availableActs } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";
 import { openContests, filingOfficeFor } from "../core2/modules/elections";
+import { reachedSteps } from "./reached";
 
 // M0's entry age is an exhibit-selection criterion, not a simulation rule.
 const ENTRY_AGE = 18; // docs/roadmap/features.json, M0-05 and M0-06.
@@ -44,7 +45,24 @@ const missingWorld = [
 ] as const;
 
 /** A read-only projection. Opening history is never evidence of a played step. */
-export function benchProgress(core: CoreState, placeId: string) {
+// The module that runs each later step (OPUS-GOV and OPUS-PEOPLE).
+const STEP_MODULES: Record<number, string> = {
+  4: "core2-campaigns-v1",
+  5: "core2-voting-v1",
+  6: "core2-legislature-v1",
+  7: "core2-legislature-v1",
+  8: "core2-legislature-v1",
+  9: "core2-law-effects-v1",
+  10: "news",
+  11: "core2-record-v1",
+};
+
+export function benchProgress(
+  core: CoreState,
+  placeId: string,
+  playerId?: string,
+) {
+  const reached = playerId ? reachedSteps(core, playerId) : [];
   const ids = [...(core.peopleByPlace.get(placeId) ?? [])].sort();
   const entrants = ids
     .map((id) => core.people.get(id)!)
@@ -167,23 +185,42 @@ export function benchProgress(core: CoreState, placeId: string) {
           : "contact offer for the resident at or approaching 18",
         evidence: contactEvidence,
       },
-      ...missingSteps.map(([label, missingModule], index) =>
-        index === 0 && filingEvidence
-          ? {
-              step: 3,
-              label,
-              status: "reachable now",
-              missingModule: null,
-              evidence: filingEvidence,
-            }
-          : {
-              step: index + 3,
-              label,
-              status: "not in the new core yet",
-              missingModule,
-              evidence: undefined,
-            },
-      ),
+      ...missingSteps.map(([label, missingModule], index) => {
+        const step = index + 3;
+        const played = reached.find((row) => row.step === step);
+        if (played)
+          return {
+            step,
+            label,
+            status: "reached",
+            missingModule: null,
+            evidence: { kind: "played-records" as const, ...played },
+          };
+        if (step === 3 && filingEvidence)
+          return {
+            step,
+            label,
+            status: "reachable now",
+            missingModule: null,
+            evidence: filingEvidence,
+          };
+        const moduleId = STEP_MODULES[step];
+        if (moduleId && core.modules.has(moduleId))
+          return {
+            step,
+            label,
+            status: "reachable now",
+            missingModule: null,
+            evidence: { kind: "module-running" as const, moduleId },
+          };
+        return {
+          step,
+          label,
+          status: "not in the new core yet",
+          missingModule,
+          evidence: undefined,
+        };
+      }),
     ],
     world: missingWorld.map(([label, missingModule, modules, still]) => {
       const running = modules.filter((id) => core.modules.has(id));
@@ -205,8 +242,10 @@ export function benchProgress(core: CoreState, placeId: string) {
     worldRunning: missingWorld.some(([, , modules]) =>
       modules.some((id) => core.modules.has(id)),
     ),
-    furthestReachedStep: null,
-    reachedEvidence: [],
+    furthestReachedStep: reached.length
+      ? Math.max(...reached.map((row) => row.step))
+      : null,
+    reachedEvidence: reached,
     basis:
       "Reachability identifies existing opening records and current offers. No step is reached without played records and the M1 world modules running. Opening history and the presence of government organizations do not establish that.",
   };

@@ -157,11 +157,14 @@ export function buildBenchWorld(
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: worldCoreData(withDrives(DEFAULT_DATA)),
+    data: renewalData(worldCoreData(withDrives(DEFAULT_DATA))),
     modules: [
       ...WORLD_MODULES,
       createHealthModule(),
       createDrivesModule(),
+      viewsModule,
+      newsModule,
+      candidacyModule,
       director.module,
     ],
   });

@@ -402,7 +402,7 @@ const server = createServer(async (request, response) => {
       send(200, {
         ...result,
         names: namesFor(result.packet),
-        progress: benchProgress(requireCore(), placeId),
+        progress: benchProgress(requireCore(), placeId, player?.personId),
       });
       return;
     }
@@ -420,7 +420,7 @@ const server = createServer(async (request, response) => {
       send(200, {
         ...result,
         names: namesFor(result.packet),
-        progress: benchProgress(requireCore(), placeId),
+        progress: benchProgress(requireCore(), placeId, player?.personId),
       });
       return;
     }
