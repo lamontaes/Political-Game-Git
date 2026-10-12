@@ -20,7 +20,7 @@ import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { latestPersonalityTendenciesForPerson } from "../queries";
 import { STORY_MOVES } from "../story/situations";
 import { SeededRng, pickDistinct } from "../rng";
-import { traitDefinitionFromPack, isOneSided } from "../trait-packs";
+import { traitDefinitionFromPack } from "../trait-packs";
 import { registeredTraitConsiderations } from "../trait-readings";
 import { loadedTraitRegistry } from "../trait-registry";
 import type {
@@ -386,7 +386,9 @@ describe("act kinds, option labels and trait pulls are one consistent table", ()
     expect(wrong).toEqual([]);
   });
 
-  it("has a pulls entry for every one of the 97 registry traits, one pole for one-sided traits and both for the rest", () => {
+  // Owner, Oct 6 and Oct 12, 2026: every trait matters at both ends, so every
+  // trait, one-sided facets included, carries a high and a low pole.
+  it("has a pulls entry with both poles for every one of the 97 registry traits", () => {
     expect(PERSONALITY_TRAIT_REGISTRY).toHaveLength(97);
     const problems: string[] = [];
     for (const { qualifiedKey } of PERSONALITY_TRAIT_REGISTRY) {
@@ -394,12 +396,8 @@ describe("act kinds, option labels and trait pulls are one consistent table", ()
       const poles = tables.pulls.get(qualifiedKey);
       if (!trait) problems.push(`${qualifiedKey} is not in the registry`);
       else if (!poles) problems.push(`${qualifiedKey} has no pulls entry`);
-      else if (isOneSided(trait)) {
-        if (!poles.high || poles.low) {
-          problems.push(`${qualifiedKey} is one-sided and needs only a high`);
-        }
-      } else if (!poles.high || !poles.low) {
-        problems.push(`${qualifiedKey} is two-sided and needs both poles`);
+      else if (!poles.high || !poles.low) {
+        problems.push(`${qualifiedKey} needs both poles`);
       }
     }
     for (const traitId of tables.pulls.keys()) {

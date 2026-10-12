@@ -238,13 +238,15 @@ export function readGeneratedHouseholdSourceBasis(
     });
   }
   checkBasis(copy);
+  // Re-deriving the text (a canonical hash) is a bookkeeping check, not play.
   if (
+    bookkeeping() &&
     reads.field(source, "estimatedFrom") !==
-    compactGeneratedHouseholdSource(
-      copy,
-      reads.field(source, "asOf"),
-      reads.field(source, "generationPriorVintage"),
-    ).estimatedFrom
+      compactGeneratedHouseholdSource(
+        copy,
+        reads.field(source, "asOf"),
+        reads.field(source, "generationPriorVintage"),
+      ).estimatedFrom
   )
     throw new Error(
       "Generated household Source differs from its exact typed basis.",

@@ -7,8 +7,11 @@
  * mean plus segregation), a part of the person's own, a small upbringing
  * shift, and the sourced age and sex differences of its matching NEO facet.
  * The score is cut into the owner-accepted -2..2 levels at the 10/20/40/20/10
- * spread. This decides who a person is at the opening, never what they do.
+ * spread. Every other trait in the shared trait table follows from its
+ * anchor dimension (see ANCHORED). This decides who a person is at the
+ * opening, never what they do.
  */
+import traitTable from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { OPENING_KIN } from "./opening-kin";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { PEOPLE_MIND_VERSION } from "../simulation/people-trait-definitions";
@@ -18,6 +21,33 @@ import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
 const SPEC = OPENING_KIN.personality;
+
+/**
+ * Every other trait in the shared trait table, tied to one temperament
+ * dimension by a standard-score loading (OPUS-TRAITS, Oct 12): the trait is
+ * the loading times that dimension plus the person's own part, so a full
+ * person carries a level on every trait, low as well as high.
+ */
+const ANCHORED = Object.entries(
+  traitTable.pulls as Record<
+    string,
+    { anchor?: { dimension: string; loading: number } }
+  >,
+)
+  .filter(([id]) => !id.startsWith(`${PEOPLE_MIND_VERSION}:`))
+  .map(([id, row]) => ({
+    id,
+    dimension: row.anchor
+      ? SPEC.dimensions.findIndex(
+          (dim) =>
+            `${PEOPLE_MIND_VERSION}:${dim.trait}` === row.anchor!.dimension,
+        )
+      : -p("one"),
+    loading: row.anchor?.loading ?? p("zero"),
+  }));
+for (const row of ANCHORED)
+  if (row.loading !== p("zero") && row.dimension < p("zero"))
+    throw new Error(`Trait ${row.id} is anchored to an unknown dimension.`);
 
 export interface TemperamentSubject {
   id: PersonId;
@@ -124,6 +154,7 @@ export function openingTemperaments(
       makeIsoDate(options.startedAt),
     );
     const traits: Record<string, number> = {};
+    const scores: number[] = [];
     SPEC.dimensions.forEach((row, index) => {
       const upbringing =
         (subject.upbringing?.[row.trait] ?? p("zero")) *
@@ -133,8 +164,18 @@ export function openingTemperaments(
         own[index]! * ownSd +
         upbringing +
         shiftFor(row, age, subject.gender);
+      scores[index] = z;
       traits[`${PEOPLE_MIND_VERSION}:${row.trait}`] = level(z);
     });
+    const ownTraits = rng.fork("traits");
+    for (const row of ANCHORED) {
+      const shared =
+        row.dimension < p("zero") ? p("zero") : scores[row.dimension]!;
+      traits[row.id] = level(
+        row.loading * shared +
+          Math.sqrt(p("one") - row.loading * row.loading) * normal(ownTraits),
+      );
+    }
     result.set(subject.id, traits);
   }
   return result;

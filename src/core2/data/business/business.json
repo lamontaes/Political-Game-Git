@@ -26,6 +26,14 @@
     "expand": {
       "id": "business-open-location",
       "actKinds": ["take-risk", "commit", "change"]
+    },
+    "close": {
+      "id": "business-close",
+      "actKinds": ["change", "self-interest"]
+    },
+    "carryOn": {
+      "id": "business-carry-on",
+      "actKinds": ["keep-same", "commit"]
     }
   },
   "need": "money",
@@ -37,5 +45,10 @@
     "enterprising": "personality-v1:facet-enterprising",
     "risk": "people-mind-v1:risk"
   },
-  "namePattern": "{founder} {kind}"
+  "namePattern": "{founder} {kind}",
+  "reasons": {
+    "noSuccessor": "no-successor",
+    "losses": "losses-kept",
+    "retiring": "owner-retiring"
+  }
 }

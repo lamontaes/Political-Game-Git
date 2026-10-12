@@ -14,12 +14,18 @@ import { CORE_API_VERSION } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { advancePlayerV1, resumePlayerV1 } from "./player-v1";
 import { preStartWindow, runPreStart } from "./pre-start";
-import { fillInIdentity, fillInPerson } from "./state";
+import { coreAPI, fillInIdentity, fillInPerson } from "./state";
 import {
   generatedOpening,
   type WorldSettings,
 } from "./tooling/generated-world";
-import type { CoreData, CoreModule, CoreState, IsoDate } from "./types";
+import type {
+  CoreData,
+  CoreInput,
+  CoreModule,
+  CoreState,
+  IsoDate,
+} from "./types";
 
 export const SAVE_FORMAT = "core2-save-v1";
 
@@ -28,8 +34,12 @@ export interface GameRecipe {
   place: { seed: string; key: string };
   twoLevel: boolean;
   settings?: WorldSettings;
-  /** History before the start: each engine's pre-start pass from this date (M1-14). */
-  preStart?: { from: string; step?: "month" | "quarter" };
+  /**
+   * History before the start: each engine's pre-start pass from this date
+   * (M1-14). Left out, it runs from the parameter table's year
+   * (`preStartFromYear`, `preStartStepMonths`); `false` skips it.
+   */
+  preStart?: { from: string; step?: "month" | "quarter" } | false;
 }
 
 export interface SaveCommand {
@@ -61,6 +71,8 @@ export interface GameOptions {
   modules?: () => readonly CoreModule[];
   data?: CoreData;
   observer?: boolean;
+  /** Adds an engine's records to the opening before the core is built (e.g. withWorldEconomy). */
+  input?: (input: CoreInput) => CoreInput;
   /** Runs once after the core is created (e.g. engines' opening steps). */
   afterCreate?: (core: CoreState) => void;
 }
@@ -97,22 +109,34 @@ registerCommand<Parameters<typeof fillInIdentity>[1]>(
   (core, payload) => fillInIdentity(core, payload),
 );
 
+/** The owner's default: coarse history from the parameter table's year to the start. */
+function defaultPreStart(
+  core: Game["core"],
+): { from: string; step: "month" | "quarter" } | false {
+  const api = coreAPI(core);
+  const from = `${api.parameter("preStartFromYear")}-01-01`;
+  if (from >= core.date) return false;
+  return {
+    from,
+    step: api.parameter("preStartStepMonths") === 1 ? "month" : "quarter",
+  };
+}
+
 export function newGame(recipe: GameRecipe, options: GameOptions = {}): Game {
-  const input = generatedOpening(recipe.place, {
+  const opening = generatedOpening(recipe.place, {
     twoLevel: recipe.twoLevel,
     ...(recipe.settings ? { settings: recipe.settings } : {}),
   });
+  const input = options.input ? options.input(opening) : opening;
   const core = createLifeCore(input, {
     ...(options.data ? { data: options.data } : {}),
     ...(options.observer !== undefined ? { observer: options.observer } : {}),
     ...(options.modules ? { modules: options.modules() } : {}),
   });
   options.afterCreate?.(core);
-  if (recipe.preStart)
-    runPreStart(
-      core,
-      preStartWindow(core, recipe.preStart.from, recipe.preStart.step),
-    );
+  const preStart = recipe.preStart ?? defaultPreStart(core);
+  if (preStart)
+    runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
   return { core, recipe, commands: [], skipped: [] };
 }
 

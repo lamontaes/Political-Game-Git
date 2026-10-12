@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { residentsRuntime } from "./modules/residents";
 import { loadGame, newGame, runCommand, saveGame } from "./saves";
-import type { CoreState } from "./types";
+import type { CoreModule, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-saves");
@@ -25,7 +25,18 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       twoLevel: true,
       settings: { population: 1500 },
     };
-    const game = newGame(recipe);
+    // A new game runs history from 2000 by default (owner ruling, M1-14).
+    const windows: string[] = [];
+    const history: CoreModule = {
+      id: "fixture-history-window",
+      preStart: {
+        phase: "economy",
+        run: (_api, window) =>
+          void windows.push(`${window.from}/${window.step}`),
+      },
+    } as CoreModule;
+    const game = newGame(recipe, { modules: () => [history] });
+    expect(windows).toEqual(["2000-01-01/quarter"]);
     runCommand(game, "advance", { through: "2021-01-20" });
     const counted = [...residentsRuntime(game.core)!.households.values()].find(
       (row) => row.people.length,
