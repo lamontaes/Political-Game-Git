@@ -15,6 +15,7 @@ import {
 import { moduleCalendar } from "./module-calendar";
 import { voterGroups } from "./voter-groups";
 import { accountsFacade } from "./accounts";
+import { countedVoterGroupId } from "./opening-voter-groups";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -100,6 +101,8 @@ import type {
   RelationshipChangeEvidence,
   RelationshipMeasureChange,
   Source,
+  IsoDate,
+  PlaceId,
 } from "./types";
 
 // Exact successful factory identity, private to this module. No caller can admit a host.
@@ -421,7 +424,11 @@ export function createCore(
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
-      if (!core.people.has(id)) throw new Error(`Absent family member: ${id}`);
+      // Relatives in the counts are husks until met (two-level population).
+      if (!core.people.has(id)) {
+        if (core.husks.has(id)) continue;
+        throw new Error(`Absent family member: ${id}`);
+      }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
         api.relationship(actor.id, id, "family", p("relationInitial"));
@@ -789,6 +796,92 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    addBornPersonV1(input, parents, relations) {
+      const zero = parameter("zero", core.data.parameters);
+      const household = core.households.get(input.householdId);
+      if (
+        input.birthDate !== core.date ||
+        input.liquidMinor !== zero ||
+        input.livingCostDailyMinor !== zero ||
+        input.jobId !== undefined ||
+        parents[0] === parents[1] ||
+        !household ||
+        household.placeId !== input.placeId ||
+        household.memberIds.includes(input.id) ||
+        core.husks.has(input.id) ||
+        parents.some(
+          (id) =>
+            !core.people.has(id) ||
+            core.people.get(id)!.householdId !== input.householdId ||
+            !household.memberIds.includes(id),
+        ) ||
+        relations.some(
+          (row) => row.otherId === input.id || !core.people.has(row.otherId),
+        ) ||
+        new Set(relations.map((row) => row.otherId)).size !==
+          relations.length ||
+        input.familyIds.some(
+          (id) => !relations.some((row) => row.otherId === id),
+        ) ||
+        relations.some((row) => !input.familyIds.includes(row.otherId)) ||
+        new Set(input.familyIds).size !== input.familyIds.length ||
+        parents.some(
+          (id) =>
+            !relations.some(
+              (row) =>
+                row.otherId === id &&
+                row.relation === "parent" &&
+                row.inverse === "child",
+            ),
+        ) ||
+        input.knownIds.some((id) => !core.people.has(id))
+      )
+        throw new Error("Invalid newborn family admission.");
+      const links = parents.map((parentId) => ({
+        id: `${input.id}:parent:${parentId}`,
+        kind: "parent-child" as const,
+        personIds: [parentId, input.id] as const,
+      }));
+      if (links.some((row) => core.familyLinks.has(row.id)))
+        throw new Error("Duplicate newborn parent link.");
+      // admitPerson validates identity, cash, tier, traits and knowledge before indexing.
+      const child = admitPerson(core, input);
+      core.households.set(household.id, {
+        ...household,
+        memberIds: [...household.memberIds, child.id],
+      });
+      for (const link of links) core.familyLinks.set(link.id, link);
+      for (const row of relations) {
+        const relative = core.people.get(row.otherId)!;
+        relative.familyIds.add(child.id);
+        relative.pastFacts = [
+          ...(relative.pastFacts ?? []),
+          {
+            id: `${child.id}:kin:${relative.id}:inverse`,
+            date: core.date,
+            kind: `family:${row.inverse}`,
+            summary: row.inverse,
+            source: input.source,
+            facts: { otherPersonId: child.id },
+          },
+        ];
+        api.relationship(child.id, relative.id, "family", zero);
+      }
+      // Names are learned by household adults from the birth, never by the infant.
+      for (const parentId of parents) {
+        const parent = core.people.get(parentId)!;
+        if (!parent.alive) continue;
+        parent.knownIds.add(child.id);
+        api.observe(parentId, {
+          key: `person:${child.id}:name`,
+          value: `${child.givenName} ${child.familyName}`,
+          learnedAt: core.date,
+          sourceId: `${child.id}:birth`,
+          access: "perceived",
+        });
+      }
+      return child;
+    },
     moduleState: (moduleId) => moduleState(core, moduleId),
     moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
     voterGroups: () => voterGroups(core),
@@ -1583,6 +1676,17 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
     }
   }
+  // Adults leave their counted voter group; they now vote by name.
+  const groups = voterGroups(core);
+  for (const row of record.people) {
+    const id = countedVoterGroupId(
+      record.household.placeId,
+      row.birthDate,
+      core.date,
+    );
+    const group = id ? groups.get(id) : undefined;
+    if (group && group.size > 0) groups.put({ ...group, size: group.size - 1 });
+  }
   // Their economic life moves from the merged flows to their own records.
   const released = releaseResidentHousehold(core, record);
   if (released.accountId) {
@@ -1649,6 +1753,22 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       householdPurchaseCalendar: undefined,
     });
   }
+  // Full people who already name a newcomer as family (it was their husk).
+  const newcomers = new Set(admitted.map((actor) => actor.id));
+  for (const other of core.people.values())
+    if (!newcomers.has(other.id))
+      for (const id of other.familyIds)
+        if (newcomers.has(id)) {
+          core.people.get(id)!.familyIds.add(other.id);
+          const relationshipId = [other.id, id].sort().join(":");
+          if (!core.relationships.has(relationshipId))
+            api.relationship(
+              other.id,
+              id,
+              "family",
+              api.parameter("relationInitial"),
+            );
+        }
   for (const actor of admitted) {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)
@@ -1691,6 +1811,93 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     }
   }
   return core.people.get(personId)!;
+}
+
+/** A recorded identity from another engine (e.g. an officeholder in GOV's offices table). */
+export interface RecordedIdentity {
+  id: PersonId;
+  givenName: string;
+  familyName: string;
+  birthDate: IsoDate;
+  placeId: PlaceId;
+  countyId?: PlaceId;
+  gender?: string;
+  party?: string;
+  seatKey?: string;
+  source: Source;
+}
+
+/**
+ * Fill in a named person who exists only as a recorded identity (state and
+ * federal officials): a full person in their own household at their place,
+ * with their identity, party and seat as past facts. Traits stay neutral until
+ * PEOPLE's builder supplies them (stopgap SG-CORE-identity-fill-in-traits).
+ * Returns the existing person if already full.
+ */
+export function fillInIdentity(
+  core: CoreState,
+  identity: RecordedIdentity,
+): PersonState {
+  const existing = core.people.get(identity.id);
+  if (existing) return existing;
+  if (takeResidentHousehold(core, identity.id))
+    throw new Error("A counted resident is filled in with fillInPerson.");
+  coreAPI(core).stopgap("SG-CORE-identity-fill-in-traits");
+  makeIsoDate(identity.birthDate);
+  const householdId = `household:${identity.id}`;
+  if (core.households.has(householdId))
+    throw new Error(`Identity household already present: ${householdId}`);
+  core.households.set(householdId, {
+    id: householdId,
+    placeId: identity.placeId,
+    memberIds: [identity.id],
+    source: identity.source,
+  });
+  core.husks.delete(identity.id);
+  const facts: NonNullable<PersonInput["pastFacts"]>[number][] = [
+    ...(identity.party
+      ? [
+          {
+            id: `${identity.id}:party`,
+            date: core.date,
+            kind: "identity:party",
+            summary: identity.party,
+            source: identity.source,
+            facts: { party: identity.party },
+          },
+        ]
+      : []),
+    ...(identity.seatKey
+      ? [
+          {
+            id: `${identity.id}:seat`,
+            date: core.date,
+            kind: "identity:seat",
+            summary: identity.seatKey,
+            source: identity.source,
+            facts: { seatKey: identity.seatKey },
+          },
+        ]
+      : []),
+  ];
+  return admitPerson(core, {
+    id: identity.id,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: identity.placeId,
+    ...(identity.countyId ? { countyId: identity.countyId } : {}),
+    householdId,
+    tier: "monthly",
+    traits: {},
+    liquidMinor: 0,
+    livingCostDailyMinor: 0,
+    source: identity.source,
+    familyIds: [],
+    knownIds: [],
+    ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
+    pastFacts: facts,
+  });
 }
 
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {

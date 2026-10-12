@@ -22,10 +22,31 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
 
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
+  let collapsed: CoreInput;
   beforeAll(() => {
     full = generatedOpening(place);
-    two = collapseToTwoLevels(full);
-  }, 300_000);
+    collapsed = collapseToTwoLevels(full);
+    // The opening the game uses: counted households get light economy terms.
+    two = generatedOpening(place, { twoLevel: true });
+  }, 600_000);
+
+  it("gives counted households the same money as a full opening", () => {
+    const flows = (input: CoreInput) => {
+      const bySeller = new Map<string, number>();
+      for (const row of input.residents!.flows)
+        bySeller.set(
+          `${row.kind}:${row.payerId}:${row.payeeId}`,
+          (bySeller.get(`${row.kind}:${row.payerId}:${row.payeeId}`) ?? 0) +
+            row.amountMinor,
+        );
+      return [...bySeller].sort();
+    };
+    expect(flows(two)).toEqual(flows(collapsed));
+    expect(two.people.map((row) => row.id)).toEqual(
+      collapsed.people.map((row) => row.id),
+    );
+    expect(cash(two)).toBe(cash(collapsed));
+  });
 
   it("keeps every person, dollar and purchase", () => {
     const counted = two.residents!.households.reduce(
@@ -36,7 +57,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(two.people.length).toBeLessThan(full.people.length);
     expect(cash(two)).toBe(cash(full));
     const purchases = two.residents!.flows.filter(
-      (row) => row.kind === "purchase",
+      (row) =>
+        row.kind === "purchase" &&
+        row.financeKind !== "household.outside-living-costs",
     );
     const merged = purchases.reduce(
       (n, row) =>
@@ -123,12 +146,10 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const opening = cash(two);
     advanceCore(core, "2021-02-01");
     expect(core.work.lastAttendanceByJob.get(job.id)).toBeDefined();
-    const commitment = record.workCommitments.find(
-      (row) => row.jobId === job.id,
-    )!;
-    expect(
-      core.work.payrollLedgerByCommitment.get(commitment.id)!.earnedMinor,
-    ).toBeGreaterThan(0);
+    // Their shifts are scheduled; whether they go is their own choice.
+    expect(core.work.totalsByJob.get(job.id)!.plannedMinutes).toBeGreaterThan(
+      0,
+    );
     let closing = 0,
       outside = 0;
     for (const row of core.people.values()) closing += row.liquidMinor;
@@ -182,5 +203,118 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         hourly,
         -1,
       );
+  }, 300_000);
+
+  it("offers every paid sale to modules, e.g. to remit sales tax", () => {
+    let sales = 0,
+      remitted = 0,
+      counted = 0;
+    const treasury = {
+      id: "treasury:test",
+      placeId: two.people[0]!.placeId,
+      name: "Test treasury",
+      kind: "government",
+      liquidMinor: 0,
+      source: two.residents!.source,
+    };
+    const core = createLifeCore(
+      { ...two, organizations: [...two.organizations, treasury] },
+      {
+        modules: [
+          {
+            id: "test-sales-tax",
+            onSalesReceipt(api, sale) {
+              sales += sale.paidMinor;
+              if (sale.counted) counted++;
+              const tax = Math.floor(sale.paidMinor * 0.05);
+              const accounts = api.accounts();
+              remitted += accounts.transfer({
+                id: `tax:${sale.id}`,
+                from: accounts.main(sale.sellerId),
+                to: accounts.main(treasury.id),
+                amountMinor: tax,
+                reasonKey: "tax.sales",
+                source: two.residents!.source,
+                partial: true,
+              }).paidMinor;
+            },
+          },
+        ],
+      },
+    );
+    advanceCore(core, "2021-02-01");
+    expect(sales).toBeGreaterThan(0);
+    expect(counted).toBeGreaterThan(0);
+    expect(core.organizations.get(treasury.id)!.liquidMinor).toBe(remitted);
+    expect(remitted).toBeGreaterThan(0.04 * sales);
+  }, 300_000);
+
+  it("lets a full person's relative wait in the counts as a husk", () => {
+    const full = two.people.find((row) => row.id === two.playerId)!;
+    const relative = two.residents!.households[0]!.people[0]!;
+    const input = {
+      ...two,
+      people: two.people.map((row) =>
+        row.id === full.id
+          ? { ...row, familyIds: [...row.familyIds, relative.id] }
+          : row,
+      ),
+      husks: [
+        ...(two.husks ?? []),
+        {
+          id: relative.id,
+          givenName: relative.givenName,
+          familyName: relative.familyName,
+          placeId: relative.placeId,
+          looks: {},
+          said: [],
+          birthDate: relative.birthDate,
+          source: relative.source,
+        },
+      ],
+    };
+    const core = createLifeCore(input);
+    expect(core.husks.has(relative.id)).toBe(true);
+    fillInPerson(core, relative.id);
+    expect(core.husks.has(relative.id)).toBe(false);
+    expect(
+      core.relationships.has([full.id, relative.id].sort().join(":")),
+    ).toBe(true);
+  }, 300_000);
+
+  it("gives the counted adults voter groups, and fill-in moves them out", () => {
+    const groups = two.voterGroups ?? [];
+    const start = Number(two.startedAt.slice(0, 4));
+    const adults = two.residents!.households.reduce(
+      (n, row) =>
+        n +
+        row.people.filter(
+          (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
+        ).length,
+      0,
+    );
+    expect(groups.reduce((n, row) => n + row.size, 0)).toBe(adults);
+    for (const row of groups) {
+      expect(row.turnout).toBeGreaterThan(0);
+      expect(row.turnout).toBeLessThanOrEqual(1);
+      expect(Math.abs(row.lean)).toBeLessThanOrEqual(1);
+    }
+    const core = createLifeCore(two);
+    const total = () =>
+      groups.reduce(
+        (n, row) => n + (coreAPI(core).voterGroups().get(row.id)?.size ?? 0),
+        0,
+      );
+    const record = two.residents!.households.find((row) =>
+      row.people.some(
+        (person) => start - Number(person.birthDate.slice(0, 4)) >= 25,
+      ),
+    )!;
+    const before = total();
+    fillInPerson(core, record.people[0]!.id);
+    const grown = record.people.filter(
+      (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
+    ).length;
+    expect(before - total()).toBe(grown);
   }, 300_000);
 });

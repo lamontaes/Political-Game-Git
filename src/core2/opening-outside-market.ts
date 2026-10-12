@@ -9,6 +9,9 @@
 import { makeIsoDate } from "../simulation/dates";
 import { stopgap } from "./stopgaps";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
+import openingCapital from "./data/opening-capital.json" with { type: "json" };
+import { parameter } from "./parameters";
+import { stopgap as markStopgap } from "./stopgaps";
 import type { ResidentFlowInput, ResidentsInput } from "./residents";
 import type { CoreInput, OrganizationInput, Source } from "./types";
 
@@ -33,11 +36,44 @@ export interface OutsideMarketData {
 
 export const OUTSIDE_MARKET_KIND = "outside-market";
 
+/** The one outside account per place: buyers and sellers outside the town. */
+export function outsideMarketAccount(
+  placeId: string,
+  start: string,
+): OrganizationInput {
+  return {
+    id: `outside-market:${placeId}`,
+    placeId,
+    name: "Buyers and sellers outside the town",
+    kind: OUTSIDE_MARKET_KIND,
+    liquidMinor: 0,
+    outsideFlow: {
+      tag: "ESTIMATED",
+      asOf: start,
+      citation:
+        "Customers and suppliers outside the town: nonresident consumers, outside businesses, landlords and lenders, and government programs.",
+      estimatedFrom: "src/core2/data/outside-market.json",
+    },
+    source: {
+      tag: "ESTIMATED",
+      asOf: start,
+      citation:
+        "Outside account: a recorded flow account with no opening cash.",
+      estimatedFrom: "src/core2/data/outside-market.json",
+    },
+  };
+}
+
 export function addOutsideMarket(
   input: CoreInput,
   data: OutsideMarketData = outsideMarket as OutsideMarketData,
+  options: {
+    /** Stand-in (SG-CORE-owner-distributions); off when a business engine pays owners. */
+    ownerDistributions?: boolean;
+  } = {},
 ): CoreInput {
   stopgap(data.stopgapId);
+  markStopgap("SG-CORE-owner-distributions");
   const start = makeIsoDate(input.startedAt);
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   const accounts = new Map<string, OrganizationInput>();
@@ -58,7 +94,49 @@ export function addOutsideMarket(
         (localAnnual.get(row.payeeId) ?? 0) +
           (row.amountMinor * 12) / row.cadence.every,
       );
+  const classificationIndustry = new Map(
+    Object.entries(
+      (openingCapital as { industryByClassification?: Record<string, string> })
+        .industryByClassification ?? {},
+    ),
+  );
+  const bufferParameter = (classification: string | undefined) =>
+    openingCapital.medianDaysParameterByIndustry[
+      (classificationIndustry.get(classification ?? "") ??
+        openingCapital.overallIndustry) as keyof typeof openingCapital.medianDaysParameterByIndustry
+    ] ?? openingCapital.medianDaysParameterByIndustry["all-small-businesses"];
   for (const book of input.finance?.businesses ?? []) {
+    const owner = organizations.get(book.organizationId);
+    if (owner && options.ownerDistributions !== false) {
+      const outside =
+        accounts.get(owner.placeId) ??
+        outsideMarketAccount(owner.placeId, start);
+      accounts.set(owner.placeId, outside);
+      flows.push({
+        id: `owner-distribution:${book.organizationId}`,
+        kind: "owner-distribution",
+        financeKind: "business.owner-distribution",
+        payerId: book.organizationId,
+        payeeId: outside.id,
+        outsideId: outside.id,
+        residentsId: outside.id,
+        placeId: owner.placeId,
+        amountMinor: 0,
+        bufferDays: parameter(bufferParameter(owner.classification)),
+        firstAt: makeIsoDate(`${start.slice(0, 8)}28`),
+        cadence: { kind: "months", every: 1, day: 28 },
+        salesReceipt: false,
+        marketAdjusted: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: start,
+          citation:
+            "Owner payouts: cash above ownerDistributionBufferMultiple times the industry's median buffer days (JPMorgan Chase Institute, Cash Is King, 2016), ownerDistributionLocalShare to the town's residents.",
+          estimatedFrom:
+            "src/core2/data/parameters.json; stopgap SG-CORE-owner-distributions.",
+        },
+      });
+    }
     const industry = data.shares[book.kindId];
     // Economic base (location quotient) method: sales the firm's recorded
     // local buyers can't account for are sold outside the town; the
@@ -105,27 +183,7 @@ export function addOutsideMarket(
     };
     let account = accounts.get(firm.placeId);
     if (!account) {
-      account = {
-        id: `outside-market:${firm.placeId}`,
-        placeId: firm.placeId,
-        name: "Buyers from outside the town",
-        kind: OUTSIDE_MARKET_KIND,
-        liquidMinor: 0,
-        outsideFlow: {
-          tag: "ESTIMATED",
-          asOf: start,
-          citation:
-            "Customers outside the town: nonresident consumers, outside businesses and government programs, by industry share of receipts.",
-          estimatedFrom: "src/core2/data/outside-market.json",
-        },
-        source: {
-          tag: "ESTIMATED",
-          asOf: start,
-          citation:
-            "Outside buyers' account: a recorded flow account with no opening cash.",
-          estimatedFrom: "src/core2/data/outside-market.json",
-        },
-      };
+      account = outsideMarketAccount(firm.placeId, start);
       accounts.set(firm.placeId, account);
     }
     const weekly = Math.round(

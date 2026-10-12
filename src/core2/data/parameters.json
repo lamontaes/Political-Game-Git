@@ -3393,5 +3393,17 @@
     "tag": "ESTIMATED",
     "citation": "Net 30 is the most common U.S. business-to-business invoice term; Federal Reserve Bank of Atlanta / Small Business Credit Survey and trade-credit literature (e.g., Petersen and Rajan 1997, Review of Financial Studies 10(3)) describe 30-day terms as the norm.",
     "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
+  },
+  "ownerDistributionBufferMultiple": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Firms keep this multiple of their industry's median cash buffer days (JPMorgan Chase Institute, Cash Is King, 2016: openingEmployerCashBufferDays*) before paying owners.",
+    "checkedAgainst": "Spread 1 to 3; checked against annual closure rate (BDS establishment exit about 8% a year) and town cash staying near its opening level in a calm year."
+  },
+  "ownerDistributionLocalShare": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Share of a small-town firm's owner payouts received by owners living in the town; ownership of each firm is not modeled yet.",
+    "checkedAgainst": "Spread 0.3 to 0.9; the rest goes to owners outside the town."
   }
 }

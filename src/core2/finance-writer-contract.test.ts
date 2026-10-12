@@ -20,6 +20,11 @@ import {
 } from "./finance-cash";
 import { chooseAct } from "./life";
 import { ensureWorkCashModule } from "./work-cash";
+import { runWorkPayrollDay } from "./work-payroll-dispatch";
+import {
+  ensureWorkPayrollCashModule,
+  type WorkPayrollJournalReceipt,
+} from "./work-payroll-cash";
 import { LIFE_MODULE } from "./modules/life";
 import { FINANCE_MODULE } from "./modules/finance";
 import {
@@ -48,7 +53,6 @@ import type {
   PersonInput,
   Source,
   WorkCommitmentInput,
-  WorkResult,
 } from "./types";
 
 const startedAt = "2021-01-01";
@@ -199,6 +203,7 @@ function input(options: FixtureOptions = {}): CoreInput {
     personId: job.personId,
     jobId: job.id,
     organizationId: job.organizationId,
+    payrollCalendarId: `payroll:${job.organizationId}`,
     startsAt: startedAt,
     anchorDate: startedAt,
     periodDays: p("daysPerWeek"),
@@ -219,6 +224,9 @@ function input(options: FixtureOptions = {}): CoreInput {
     scheduleSource: source,
     paySource: source,
   }));
+  const admittedCommitments = options.onlyWorkerCommitment
+    ? workCommitments.filter((row) => row.personId === worker)
+    : workCommitments;
   return {
     seed: "p8-finance-writer-contract-fixture",
     startedAt,
@@ -230,9 +238,26 @@ function input(options: FixtureOptions = {}): CoreInput {
       source,
     })),
     jobs,
-    workCommitments: options.onlyWorkerCommitment
-      ? workCommitments.filter((row) => row.personId === worker)
-      : workCommitments,
+    workCommitments: admittedCommitments,
+    // Controlled daily payroll (zero-day lag) per employer: payday is the work date.
+    workPayrollCalendars: [
+      ...new Set(admittedCommitments.map((row) => row.organizationId)),
+    ].map((organizationId) => ({
+      id: `payroll:${organizationId}`,
+      organizationId,
+      workCommitmentIds: admittedCommitments
+        .filter((row) => row.organizationId === organizationId)
+        .map((row) => row.id),
+      basisRecordIds: [organizationId],
+      rule: "fixed-days-after-inclusive-period-end" as const,
+      periodDays: p("one"),
+      firstPeriodStartsAt: startedAt,
+      nonbusinessDayRule: "no-adjustment" as const,
+      firstPaydayAt: startedAt,
+      effectiveFrom: startedAt,
+      arrearsRule: "carry-to-next-recorded-payday" as const,
+      source,
+    })),
     organizations: [
       { id: employer, liquidMinor: options.employerCash ?? p("zero") },
       { id: otherEmployer, liquidMinor: 200 },
@@ -359,12 +384,17 @@ function cash(core: CoreState): number {
   );
 }
 
-function freeWork(core: CoreState): void {
+function freeAttendance(core: CoreState): void {
   runScheduledWork(
     coreAPI(core),
     (id, offers, context) => chooseAct(core, id, offers, context),
     () => undefined,
   );
+}
+function freeWork(core: CoreState): void {
+  freeAttendance(core);
+  // Attendance accrues wages; the recorded payday (same day here) pays or misses them.
+  runWorkPayrollDay(coreAPI(core));
 }
 
 function assertClosureHistory(core: CoreState, closure: EmployerClosure): void {
@@ -437,7 +467,7 @@ function assertClosureHistory(core: CoreState, closure: EmployerClosure): void {
 describe("conserving finance API/schema-v6 writer seam", () => {
   it("admits optional finance input and shares one versioned facade across callers", () => {
     const core = fixture();
-    expect(CORE_API_VERSION).toBe("core2-api-v12");
+    expect(CORE_API_VERSION).toBe("core2-api-v17");
     expect(CORE_SCHEMA_VERSION).toBe("core2-schema-v9");
     expect(coreAPI(core)).toBe(coreAPI(core));
     expect(coreAPI(core).version).toBe(core.apiVersion);
@@ -907,11 +937,13 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     const api = coreAPI(core);
     const total = cash(core);
     freeWork(core);
-    const result = core.work.lastResultByJob.get(`job:${worker}`)!;
-    expect(result.attendedMinutes).toBeGreaterThan(p("zero"));
+    // Attendance accrues the wage; the completed payday is the missed payroll.
+    const attendance = core.work.lastAttendanceByJob.get(`job:${worker}`)!;
+    const result = core.work.latestPayrollByJob.get(`job:${worker}`)!;
+    expect(attendance.attendedMinutes).toBeGreaterThan(p("zero"));
     expect(result.shortfallMinor).toBeGreaterThan(p("zero"));
-    expect(result.decision).toBeUndefined();
-    expect(core.durableLog.has(result.sourceActId)).toBe(false);
+    expect("decision" in result).toBe(false);
+    expect(core.durableLog.has(attendance.sourceActId)).toBe(false);
     const counted = core.people.get(worker)!.actCount;
     const history = catchUpScheduledWork(api, worker);
     const closure = api.closeEmployer(
@@ -920,13 +952,11 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       financePolicy.reasons.closure,
     );
     expect(closure.sourceReceiptId).toBe(result.id);
-    const decisionFreeResult = { ...result };
-    delete decisionFreeResult.decision;
-    expect(closure.cause).toEqual(decisionFreeResult);
+    expect(closure.cause).toEqual(result);
     expect("decision" in closure.cause).toBe(false);
-    expect(core.work.lastResultByJob.get(result.jobId)).toEqual(result);
+    expect(core.work.latestPayrollByJob.get(`job:${worker}`)).toEqual(result);
     expect(core.people.get(worker)!.actCount).toBe(counted);
-    expect(core.durableLog.has(result.sourceActId)).toBe(false);
+    expect(core.durableLog.has(attendance.sourceActId)).toBe(false);
     expect(catchUpScheduledWork(api, worker)).toEqual(history);
     expect(cash(core)).toBe(total);
     assertClosureHistory(core, closure);
@@ -934,10 +964,10 @@ describe("conserving finance API/schema-v6 writer seam", () => {
 
   it("preserves the actual closure evidence when a caller modifies a returned receipt", () => {
     const core = fixture();
-    let returned: Readonly<WorkResult> | undefined;
+    let returned: Readonly<WorkPayrollJournalReceipt> | undefined;
     registerModule(core, {
       id: "fixture:actual-work-receipt-consumer",
-      onWorkResult: (_api, receipt) => {
+      onWorkPayroll: (_api, receipt) => {
         if (receipt.personId === worker) returned = receipt;
       },
     });
@@ -950,11 +980,31 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       financePolicy.reasons.closure,
     );
     const pinned = JSON.stringify(closure.cause);
-    result.jobSource.citation = "Caller-modified job source";
-    result.paySource.citation = "Caller-modified pay source";
-    result.employerOpeningFundsSource.citation =
-      "Caller-modified opening source";
-    result.source.citation = "Caller-modified result source";
+    // The returned receipt may be frozen (the write throws) or writable; either
+    // way the retained closure evidence must not change.
+    const tamper = (write: () => void) => {
+      try {
+        write();
+      } catch {
+        // A read-only receipt is the stronger guarantee.
+      }
+    };
+    if ("jobSource" in result)
+      tamper(() => {
+        result.jobSource.citation = "Caller-modified job source";
+      });
+    if ("paySource" in result)
+      tamper(() => {
+        result.paySource.citation = "Caller-modified pay source";
+      });
+    if ("employerOpeningFundsSource" in result)
+      tamper(() => {
+        result.employerOpeningFundsSource.citation =
+          "Caller-modified opening source";
+      });
+    tamper(() => {
+      result.source.citation = "Caller-modified result source";
+    });
     expect(JSON.stringify(closure.cause)).toBe(pinned);
   });
 
@@ -1067,8 +1117,11 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       onlyWorkerCommitment: true,
     });
     ensureWorkCashModule(core);
+    ensureWorkPayrollCashModule(core);
+    // Attendance only accrues the wage; the payday payment is what must not commit.
+    freeAttendance(core);
     const before = snapshot(core);
-    expect(() => freeWork(core)).toThrow();
+    expect(() => runWorkPayrollDay(coreAPI(core))).toThrow();
     expect(snapshot(core)).toBe(before);
 
     const parameters = { ...fixtureData.parameters };
@@ -1081,7 +1134,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     ensureWorkCashModule(missingActParameter);
     const beforeAct = snapshot(missingActParameter);
     expect(() => freeWork(missingActParameter)).toThrow(
-      "Untagged numeric parameter: isoMonthCharacters",
+      "Attendance has an unregistered parameter: isoMonthCharacters",
     );
     expect(snapshot(missingActParameter)).toBe(beforeAct);
   });
@@ -1100,6 +1153,12 @@ describe("shared funding and retained finance obligations", () => {
       workCommitments: opening.workCommitments!.filter(
         (row) => row.personId !== colleague,
       ),
+      workPayrollCalendars: opening.workPayrollCalendars!.map((row) => ({
+        ...row,
+        workCommitmentIds: row.workCommitmentIds.filter(
+          (id) => id !== `commitment:job:${colleague}`,
+        ),
+      })),
       finance: {
         ...opening.finance!,
         facilities: [
@@ -1127,8 +1186,8 @@ describe("shared funding and retained finance obligations", () => {
     });
     const total = cash(core);
     freeWork(core);
-    const first = core.work.lastResultByJob.get(`job:${worker}`)!;
-    const second = core.work.lastResultByJob.get(`job:${otherWorker}`)!;
+    const first = core.work.latestPayrollByJob.get(`job:${worker}`)!;
+    const second = core.work.latestPayrollByJob.get(`job:${otherWorker}`)!;
     expect(first).toMatchObject({
       requestedMinor: 100,
       paidMinor: 70,
