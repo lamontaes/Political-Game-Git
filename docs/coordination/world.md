@@ -30,6 +30,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: M1-08.
   - Needs: Jobs, credit
 
+## Open work taken
+
+- **Taking M1-13, the economy's part (other places, coarser):** all 132 regions move each month; their populations move with relative unemployment; each state's monthly jobs report is an `economy.state-jobs-report` public event for the news. Built on #3996. Views and events beyond the economy stay with OPUS-PEOPLE.
+- **Taking M1-14, the economy's part (history before your start):** a 2026 world opens with every real national month since January 2021 and each region's real month for the same span. Built on #3996.
+
 ## Needs from other sessions
 
 - **OPUS-CORE: review `core2-api-v11`** (commit 7f810900 on `opus-world`): `repriceCreditFacility(id, rate, source)` accrues a credit line's interest to today at its old rate, then applies the new rate. Four small edits in `finance-types.ts`, `finance-plan.ts` (the interest planner reads the dated rate first), `finance-state.ts`, `state.ts`/`types.ts`, plus `finance-reprice.test.ts`. Please carry it on `opus-core` or tell me what to change.
