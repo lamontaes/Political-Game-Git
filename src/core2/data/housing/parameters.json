@@ -99,12 +99,17 @@
   "housingCounselPlanMaxMonths": {
     "value": 12,
     "tag": "TUNABLE",
-    "citation": "Negotiated repayment plans in right-to-counsel programs run a few months to a year (NYC Office of Civil Justice annual reports, 2019-2024).",
+    "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain.",
     "spread": {
       "low": 3,
       "high": 12,
       "unit": "months",
-      "citation": "Negotiated repayment plans in right-to-counsel programs run a few months to a year (NYC Office of Civil Justice annual reports, 2019-2024)."
+      "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain."
     }
+  },
+  "housingCounselCostPerCaseMinor": {
+    "value": 426000,
+    "tag": "SOURCED",
+    "citation": "NYC Dept. of Social Services, Office of Civil Justice, FY25 Annual Report (Dec 2025): tenant legal services $217.3M over 51,000 households served ($4,260) to 22,700 fully represented ($9,570)."
   }
 }

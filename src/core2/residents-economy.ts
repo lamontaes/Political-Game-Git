@@ -222,6 +222,10 @@ export function purchaseShareOf(
 /** Outside buyers' flows at the opening's prices and demand, and each place's latest factor (see scaleOutsideSales). */
 const outsideBases = new WeakMap<CoreState, Map<string, number>>();
 const outsideFactors = new WeakMap<CoreState, Map<string, number>>();
+/** A business's own limit on what it can sell outside (an operating limit under law), by organization. */
+const outputLimits = new WeakMap<CoreState, Map<string, number>>();
+const limitOf = (core: CoreState, organizationId: string) =>
+  outputLimits.get(core)?.get(organizationId) ?? 1;
 
 export function shiftPurchaseShare(
   core: CoreState,
@@ -331,8 +335,55 @@ export function scaleOutsideSales(
     )
       continue;
     // First seen: its amount is at the last month's factor.
-    if (!bases.has(flow.id)) bases.set(flow.id, flow.amountMinor / before);
-    flow.amountMinor = Math.round(bases.get(flow.id)! * factor);
+    if (!bases.has(flow.id))
+      bases.set(
+        flow.id,
+        flow.amountMinor / (before * limitOf(core, flow.payeeId)),
+      );
+    flow.amountMinor = Math.round(
+      bases.get(flow.id)! * factor * limitOf(core, flow.payeeId),
+    );
+    changed += 1;
+  }
+  return changed;
+}
+
+/**
+ * A business sells outside the town at `limit` of what it could (1 is no
+ * limit): its outside buyers' flows are rescaled now and at every month's
+ * scaling. Returns the flows changed.
+ */
+export function limitOutsideSales(
+  core: CoreState,
+  organizationId: string,
+  limit: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(limit > 0)) return 0;
+  let limits = outputLimits.get(core);
+  if (!limits) outputLimits.set(core, (limits = new Map()));
+  const before = limitOf(core, organizationId);
+  limits.set(organizationId, limit);
+  let bases = outsideBases.get(core);
+  if (!bases) outsideBases.set(core, (bases = new Map()));
+  const placeFactor = (placeId: string) =>
+    outsideFactors.get(core)?.get(placeId) ?? 1;
+  let changed = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "outside-sales" ||
+      flow.endedAt ||
+      flow.payeeId !== organizationId
+    )
+      continue;
+    if (!bases.has(flow.id))
+      bases.set(
+        flow.id,
+        flow.amountMinor / (placeFactor(flow.placeId) * before),
+      );
+    flow.amountMinor = Math.round(
+      bases.get(flow.id)! * placeFactor(flow.placeId) * limit,
+    );
     changed += 1;
   }
   return changed;

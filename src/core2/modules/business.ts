@@ -31,6 +31,12 @@ import { residentPerson, residentsRuntime } from "./residents";
 import { lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
+import {
+  addRegulatoryCost,
+  endOperatingRule,
+  payOperatingCosts,
+  setOperatingLimit,
+} from "../business-operating-rules";
 
 export const BUSINESS_MODULE_ID = "business";
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
@@ -373,6 +379,7 @@ function month(api: CoreAPI): void {
     p = (key: string) => api.parameter(key);
   succeed(api);
   membershipPayouts(api);
+  payOperatingCosts(api, store(api).table("operating"));
   for (const row of store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
@@ -1085,6 +1092,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       successions: {},
       closures: {},
       ages: {},
+      operating: { indexes: { all: { fields: ["isRule"] } } },
     },
   },
   reasonProviders: {
@@ -1141,3 +1149,24 @@ export const BUSINESS_MODULE: PreStartModule = {
     if (!store(api).table("state").get("business:state")) open(api);
   },
 };
+
+/** A law limits an input a business uses (groundwater): its output and sales fall (OPUS-GOV's law reach calls this). */
+export function setBusinessOperatingLimit(
+  api: CoreAPI,
+  input: Parameters<typeof setOperatingLimit>[2],
+): void {
+  setOperatingLimit(api, store(api).table("operating"), input);
+}
+
+/** A law adds a compliance cost to a business's operations (a clean air plan). */
+export function addBusinessComplianceCost(
+  api: CoreAPI,
+  input: Parameters<typeof addRegulatoryCost>[2],
+): void {
+  addRegulatoryCost(api, store(api).table("operating"), input);
+}
+
+/** A repeal: `limit:<organization>:<input>` or `cost:<organization>:<cause>`. */
+export function endBusinessOperatingRule(api: CoreAPI, id: string): void {
+  endOperatingRule(api, store(api).table("operating"), id);
+}

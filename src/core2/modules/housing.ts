@@ -29,6 +29,7 @@ import {
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
+import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
 import {
   ACS_VALUE_DATE,
   homePriceRatio,
@@ -432,6 +433,15 @@ export function withHousing(input: CoreInput): CoreInput {
   for (const flow of flows)
     if (flow.id.startsWith("rent:"))
       add(flow.id.slice("rent:".length), flow.amountMinor);
+  // Owners' property tax is billed by the housing engine, so it comes out of the outside living cost too.
+  for (const row of ownerRows)
+    add(
+      row.id,
+      Math.round(
+        (row.valueMinor * stateEffectiveRate(town.usps)) /
+          housingMacroParameter("macroMonthsPerYear"),
+      ),
+    );
   const billed = new Set(mortgages.contracts.map((row) => row.householdId));
   for (const row of mortgages.terms)
     if (!billed.has(row.householdId)) add(row.householdId, row.paymentMinor);
@@ -857,6 +867,7 @@ function review(api: CoreAPI): void {
     law = steps(api);
   renew(api);
   amortize(api);
+  billPropertyTax(api, store(api).table("assessments"), ownedHomes(api));
   landlordPayout(api);
   buyHomes(api);
   for (const [id, row] of c.finance.contracts) {
@@ -973,6 +984,8 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         closedAt: c.date,
         reasonKey: housingData.reasons.cured,
       });
+    const placeId = c.households.get(row.householdId)?.placeId;
+    if (placeId) payCounsel(api, caseId, placeId);
     const plan = counselPlan(api, row.householdId, owed);
     if (!plan) return judge(api, caseId, owed);
     put({
@@ -1028,8 +1041,38 @@ export function setRightToCounsel(
   api: CoreAPI,
   placeId: string,
   inForce: boolean,
+  /** The government that pays the tenants' lawyers (the city's treasury). */
+  fundedById?: string,
 ): void {
-  store(api).table("counsel").put({ id: placeId, inForce });
+  store(api)
+    .table("counsel")
+    .put({ id: placeId, inForce, ...(fundedById ? { fundedById } : {}) });
+}
+
+/** The funding government pays the legal services provider for the case, through the ledger. */
+function payCounsel(api: CoreAPI, caseId: string, placeId: string): void {
+  const c = core(api);
+  const row = store(api).table("counsel").get(placeId) as
+    | { inForce?: boolean; fundedById?: string }
+    | undefined;
+  if (!row?.inForce || !row.fundedById) return;
+  const provider = [...c.organizations.values()].find(
+    (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+  );
+  if (!provider) return;
+  transferCash(
+    api,
+    `counsel:${caseId}`,
+    row.fundedById,
+    provider.id,
+    api.parameter("housingCounselCostPerCaseMinor"),
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom: `A tenant's lawyer for ${caseId}, paid by the city at the program's average cost per case.`,
+    },
+  );
 }
 
 /**
@@ -1156,6 +1199,7 @@ export const HOUSING_MODULE: CoreModule = {
       purchases: {},
       dwellings: {},
       counsel: {},
+      assessments: {},
     },
   },
   reasonProviders: {
