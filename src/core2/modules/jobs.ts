@@ -15,6 +15,7 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { ownerOf } from "./business";
 import type {
   ActOffer,
   ActionDefinition,
@@ -406,17 +407,18 @@ function layOff(
   )[0]!;
   const keepScore = keep(job);
   api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  // The owner decides; a business without a recorded owner decides as itself.
+  const decidedBy = ownerOf(api, organizationId);
+  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
   record(api, {
     personId: job.personId,
     organizationId,
     jobId: job.id,
     kind: "layoff",
     reasonKey: jobsData.reasons.layoff,
-    decidedBy: organizationId,
+    decidedBy: decidedBy ?? organizationId,
     values: { ...values, keepScore },
   });
-  // Owners come with businesses growing (M1-08); until then the business itself decides.
-  stopgap("SG-WORLD-jobs-layoff-decider");
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
@@ -470,6 +472,11 @@ function reviewWorkers(api: CoreAPI): void {
             p("macroMonthsPerYear"))
         : 0;
     const strain = (person.needs.time ?? 0) + (person.needs.health ?? 0);
+    // Years past the earliest Social Security retirement age pull toward retiring, as savings allow.
+    const age =
+      daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+      p("jobsDaysPerYear");
+    const pastRetirementAge = Math.max(0, age - p("jobsEarliestRetirementAge"));
     const result = chooseAct(c, person.id, [
       offer("stay", job.id, {}),
       offer("look", job.id, {
@@ -484,20 +491,34 @@ function reviewWorkers(api: CoreAPI): void {
           (p("one") +
             p("jobsMoneyBufferWeight") * Math.log1p(Math.max(0, bufferMonths))),
       }),
+      ...(pastRetirementAge > 0
+        ? [
+            offer("leave", `retire:${job.id}`, {
+              baseline: p("jobsRetireBaseline"),
+              age: p("jobsRetireAgeWeight") * pastRetirementAge,
+              savings:
+                p("jobsMoneyBufferWeight") *
+                Math.log1p(Math.max(0, bufferMonths)),
+            }),
+          ]
+        : []),
     ]);
     const chosen = result.selected!.definition.id;
     if (chosen === jobsData.actions.look.id)
       startSeeking(api, person.id, true, "looking-around", pay);
     else if (chosen === jobsData.actions.leave.id) {
+      const retiring = result.selected!.targetId.startsWith("retire:");
       api.endJob(job.id, `jobs:left-work:${api.state.date}`);
       record(api, {
         personId: person.id,
         organizationId: job.organizationId,
         jobId: job.id,
         kind: "left-work",
-        reasonKey: jobsData.reasons.leftWork,
+        reasonKey: retiring
+          ? jobsData.reasons.retired
+          : jobsData.reasons.leftWork,
         decidedBy: person.id,
-        values: { bufferMonths, strain },
+        values: { bufferMonths, strain, age },
       });
     }
   }
@@ -509,6 +530,7 @@ function reviewJobless(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     [young, old] = jobsData.workingAge as [number, number];
+  const worked = new Set([...c.jobs.values()].map((job) => job.personId));
   for (const person of c.people.values()) {
     if (
       !person.alive ||
@@ -517,6 +539,8 @@ function reviewJobless(api: CoreAPI): void {
     )
       continue;
     if (!c.households.has(person.householdId)) continue;
+    // Only people who have worked in this world are in its labor market; the rest are the wider population (see the opening-seekers stopgap).
+    if (!worked.has(person.id)) continue;
     const age =
       daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
       p("jobsDaysPerYear");

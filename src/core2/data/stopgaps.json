@@ -1582,5 +1582,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-opening-owners",
+    "kind": "generated-identity",
+    "file": "src/core2/modules/business.ts",
+    "line": 72,
+    "whatItFakes": "Each opening business is owned by its highest-paid current worker, as owner-operator.",
+    "why": "The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Opening owners from Census Annual Business Survey owner shares by industry and size, with owners who do not work in the business, and founders recorded at founding.",
+    "status": "open"
   }
 ]

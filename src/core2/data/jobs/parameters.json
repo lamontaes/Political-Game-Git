@@ -162,5 +162,32 @@
       "unit": "score",
       "citation": "CPS labor force flows, 1990-2019."
     }
+  },
+  "jobsEarliestRetirementAge": {
+    "value": 62,
+    "tag": "SOURCED",
+    "citation": "42 U.S.C. 402(a), 416(l): Social Security retirement benefits start at 62 at the earliest."
+  },
+  "jobsRetireBaseline": {
+    "value": -3,
+    "tag": "TUNABLE",
+    "citation": "How far retiring sits below staying at 62 before age and savings; checked against CPS labor force participation by age (about 57% at 62-64, 26% at 65-69, BLS 2019).",
+    "spread": {
+      "low": -5,
+      "high": -1,
+      "unit": "score",
+      "citation": "BLS CPS participation by age, 2015-2019."
+    }
+  },
+  "jobsRetireAgeWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Each year past 62 pulls further toward retiring; checked against CPS participation falling from 62 to 70.",
+    "spread": {
+      "low": 0.3,
+      "high": 1.2,
+      "unit": "score per year",
+      "citation": "BLS CPS participation by age, 2015-2019."
+    }
   }
 }

@@ -9,7 +9,7 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 ## What the owner can play now
 
-Nothing on a screen yet (the bench panel is next). In code, a world built with `withCentralBank(input)` and `MACRO_MODULE` has a national economy that starts on the real figures of the month before its start date, a central bank board of 19 fictional members who vote eight times a year, monthly price, pay and demand conditions reaching every business, and prime-linked credit lines that reprice on a decision's effective date.
+Nothing on a screen yet. In code, one line adds the whole economy: `withWorldEconomy(input)` with `worldCoreData()` and `WORLD_MODULES` (`src/core2/modules/world.ts`). Such a world has state and metro economies, jobs that open and close for reasons, a town bank lending to businesses, and renters who can be evicted only through their state's steps; and a national economy that starts on the real figures of the month before its start date, a central bank board of 19 fictional members who vote eight times a year, monthly price, pay and demand conditions reaching every business, and prime-linked credit lines that reprice on a decision's effective date.
 
 ## Checklist
 
@@ -23,7 +23,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Jobs.** *(First cut on #3996 on a stand-in for the two-level population; fixture tests pass; generated-world year blocked on the speed of the opening with business books.)* Openings from need, hiring on fit, quits and layoffs for reasons, on the two-level population.
   - Verified by: M1-04: a year inside job-turnover ranges; every job change has a reason.
   - Needs: CORE (population, money fix)
-- [ ] **Credit and housing.** Banks and loans that balance; rent, buying and evictions through each place's legal steps.
+- [ ] **Credit and housing.** *(First cuts on #3996: the town bank lends prime-linked business lines; owners and renters in the town's real share, rent with arrears, eviction through each place's steps. Household loans and mortgages wait for the core's accounts.)* Banks and loans that balance; rent, buying and evictions through each place's legal steps.
   - Verified by: M1-06 and M1-05.
   - Needs: GOV (laws), CORE (accounts)
 - [ ] **Businesses growing.** Founding by choice, owners taking profit, new locations, chains emerging.
@@ -38,8 +38,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PLAY:** a bench panel for the national series and each meeting's votes; I will add the data reader on my branch.
 
 - **OPUS-CORE: review `core2-api-v12`** (commit on `opus-world`, `src/core2/job-lifecycle.ts`): `startJob(job, commitment, calendar)` admits one hire mid-run through the existing commitment and payroll-calendar writers; `endJob(jobId, sourceId)` ends one job from calendar work, before that day's shift, the same steps `closeEmployer` takes for each of its jobs. If you would rather `closeEmployer` call the same function, that's your call.
+- **OPUS-CORE: where the time goes with books (profiled).** 13 days in Landrum with the opening finance and the whole economy: 494 s of CPU, of which 198 s is `finance-plan.ts` bookkeeping (`verify` 45 s, `detach` 42 s, `directRead` 30 s, `field` 24 s, `payload` 14 s) and 167 s is garbage collection; `generated-household-source.ts` 24 s, `finance-cash.ts` 21 s. The economy modules (macro, regional, jobs, credit) do not appear in the top 15 files. Your "bookkeeping off in play" item is what unblocks a year of jobs and credit.
 - **OPUS-CORE: the opening with business books is too slow to test on.** With `buildOpeningEconomy`, one 31-day month in Landrum, South Carolina did not finish in 30 minutes (5.9 GB). The plain opening runs 36 days in about 2 minutes but has no books, so no openings or layoffs. Jobs needs books in a world it can run.
 - **OPUS-CORE: the two-level population.** The opening employs 2,167 of 6,264 working-age adults in Landrum; jobs treats only the neediest jobless adults as seekers (stopgap `SG-WORLD-jobs-opening-seekers`) until the wider population holds the rest as counts.
+
+- **OPUS-CORE: review `core2-api-v13` and `-v14`** (`attachBusinessCredit`, `endStandingContract`, both small, in `finance-state.ts`).
+- **OPUS-CORE: accounts.** Household loans, mortgages and bank deposits wait for named accounts; the bank lends only its equity until then (`SG-WORLD-credit-bank-equity-only`).
+- **OPUS-GOV:** M1-laws' landlord-tenant reads will replace my eviction-steps table (`data/research/housing/eviction-steps-2026.json`), and state unemployment insurance will replace `SG-WORLD-jobs-benefits`.
 
 ## Questions for the owner
 
@@ -48,6 +53,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12: housing first cut (M1-05). In Landrum, South Carolina, 78% of homes are owned (ACS: 986 of 1,267). Renters pay the county's median rent scaled by income; rent unpaid past the grace period starts a case that follows the place's notice, cure, hearing and stay, ending in removal and `housing.eviction`. A fixture on Texas's statute follows each step on the law's dates. Eviction steps for all 56 places are recorded, but only 6 have been read from statute text (Arizona, Delaware, Florida, South Carolina's notice, Texas, Northern Marianas). Helpers are now verifying the rest on official code sites.
+- 2026-10-12: credit first cut (M1-06). The town bank holds the town's share of its county's FDIC deposits times the median small bank's equity share. It lends prime-linked lines to businesses short of cash, sized from its capital and their sales against wages. Each rate decision reprices those lines.
+- 2026-10-12: **M1-02 proof.** In Landrum, South Carolina (seed 178c3c0c…, head 4028273b), the world opened June 1, 2022. The June 15 meeting raised the rate 0.875% → 1.625% unanimously. On June 16, The Cannon House's prime-linked line repriced from 5.455% to 6.205%.
 
 - 2026-10-12: jobs first cut (M1-04). Businesses open positions when demand outgrows their staff and lay off when it falls short, keeping the most tenured and reliable; workers choose to stay, look or leave; jobless adults choose whether to look; seekers apply and employers offer the best-placed applicant. Fixture: a business with twice the demand hires a seeker; one at a quarter lays off its least reliable worker, names itself as the decider and emits `work.job-lost`; money balances. JOLTS 2001–2019 (hires 3.6%, quits 1.9%, layoffs 1.4% a month) and CPS duration (median 10.4 weeks) researched. Next: a generated-world year against JOLTS once the opening with books runs.
 - 2026-10-12: generated-world proof for M1-02 in Landrum, South Carolina (seed 178c3c0c…, opened Oct 1, 2026): national conditions reached the town's 41 employers each month, every simulated band row inside, the Nov 4 meeting held at 3.875% with 2 dissents and every vote's pulls recorded. Speed: 36 days took 113.7 s with macro and regional against 127.7 s without (no measurable cost). A longer run for a rate change is going.
