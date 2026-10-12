@@ -2,9 +2,9 @@
 
 Before: in Vonore, Tennessee, employers' cash doubled in a year, from $43.6 million to $93.6 million, piling up instead of moving through the town. In Birch Creek, Alaska, 3 of 19 businesses closed, all restaurants. In three towns, 8 of 46 workers the player can meet never went to a shift.
 
-After: Vonore's employers end the year with $44.9 million of their own, plus money held for supplier bills. Birch Creek keeps every business. Every worker the player can meet goes to work. Every dollar balances.
+After: Vonore's employers end the year with $44.9 million of their own, plus money held for supplier bills. Birch Creek keeps every business. In the same three towns, every worker the player can meet goes to work. Every dollar balances.
 
-**What you need to do:** play the evening build once the CTO merges this. It carries the CTO's audit fixes, Social Security claims, closing a business by choice, and saves.
+**What you need to do:** play the evening build once the CTO merges this. It carries the CTO's audit fixes and Social Security claims during play.
 
 ## What changed for the player
 
@@ -21,7 +21,7 @@ After: Vonore's employers end the year with $44.9 million of their own, plus mon
 - Every firm pays its outside suppliers, wholesalers included (`src/core2/opening-outside-market.ts:127`).
 - Owners are paid only above one median cash buffer, after supplier bills already owed (`src/core2/modules/residents.ts:261`).
 
-Measured in Vonore: before, firms kept supplier money they never paid out, and owners drew on it, so cash grew from $43.6 million to $93.6 million. After, firms end the year with $95.9 million on hand. $51.0 million of that is for supplier bills not yet due, which they now keep until they pay them. That leaves $44.9 million of their own, close to the $43.6 million they started with.
+Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a year; the code shows firms never paid outside suppliers, and owners drew on that money. After, firms end the year with $95.9 million on hand. $51.0 million of that is for supplier bills not yet due, which they now keep until they pay them. That leaves $44.9 million of their own, close to the $43.6 million they started with.
 
 **No business gets sales it didn't earn.** What the code did (inferred from the code): any gap between a firm's books and its local sales was filled with sales to buyers outside the town. Now its outside sales are only its industry's sourced share of receipts (`src/core2/opening-outside-market.ts:124`). Measured: 2 of 27 businesses closed in Vonore and 1 of 29 in Sutherlin, Oregon, each with a recorded cause.
 
@@ -43,9 +43,9 @@ Measured in Vonore: before, firms kept supplier money they never paid out, and o
 
 ## What happens next
 
-- Main itself got slower: before the people team's relatives arrived, the same Vonore year took 11.3 seconds. Every household now gets its relatives when a town opens, so Vonore's counted population grew from 9,940 to 39,685 people and 96 people stay full instead of 64. I've asked the people team to build relatives only when a household is filled in; details are in `docs/coordination/core.md`.
+- Main itself got slower: before the people team's relatives arrived, the same Vonore year took 11.3 seconds. Every household now gets its relatives when a town opens, so Vonore's counted population grew from 9,940 to 39,685 people and 96 of them stay full people instead of 64 of 9,940. I've asked the people team to build relatives only when a household is filled in; details are in `docs/coordination/core.md`.
 - Opening Vonore takes 34.8 seconds on main, against 11.1 seconds before. Most of it goes to generating everyone in full before the town keeps only its full people; the same request would shorten it.
 
 ## Method
 
-Measured on this branch on October 13, 2026, one run each, in the cloud. A full-game year took 34.9 seconds in one bench town before the relatives arrived; that run didn't record the town's name, so it isn't compared here.
+Measured on this branch on October 12, 2026, one run each, in the cloud, seed hours-a for Vonore.
