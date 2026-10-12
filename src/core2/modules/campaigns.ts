@@ -79,6 +79,8 @@ export type CampaignAct =
   | "volunteer-door"
   | "speech"
   | "interview"
+  | "town-hall"
+  | "debate"
   | "retold"
   | "ad"
   | "attack-ad"

@@ -94,6 +94,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12 20:36 UTC: BOARD next, item 2: public meetings (`src/core2/modules/meetings.ts`):
+  - **Public comment and testimony:** you sign up to speak on a bill before its vote (`signUpToSpeak`); at a town or county meeting it's public comment, in a legislature it's testimony at the hearing. At a local meeting, up to 6 residents who feel strongly enough about the bill's question, by their civic temperament, stand up too. Every member weighs the room's balance as one of their reasons (the `lobby` part of their position; tunable weight 0.15). A California town's anti-discrimination ordinance drew 6 residents in favor plus the signed-up speaker; a weak-axis question (groundwater) drew no one.
+  - **Town halls (`holdTownHall`):** the town's 40 most civic-minded adults come. Each asks about the strongest of their views among the questions their own life touches: work for labor and taxes, children at home for schools, 55 and over for health, under 35 for housing. The host takes the 4 most-asked questions and answers them; a candidate's answers are promises. In the California run, 40 came, 4 different questions were taken, and all 40 moved with a recorded cause.
+  - **Debates:** 14 days before a general election, each race with two or more candidates gets its debate on the town's widest-reaching outlet; the audience hears every candidate's answers as statements on the record. A race you run in waits for your answers (`answerDebate`). In an Arkansas council race, the debate aired on a TV station and reached 50 viewers.
+  - **Tests:** new `meetings.test.ts`. The press, campaigns, legislature and interest-groups tests pass.
+  - **Next:** the bill catalog on the bench, your own vote and sign or veto (with PLAY), then pre-start history.
+
 - 2026-10-12 20:12 UTC: BOARD next, item 1: campaign interviews (`src/core2/modules/press.ts`):
   - **Outlets:** each town's local outlets are records sized from its state's counts: its county's share of the state's newspapers and news radio, and one market's television stations, at most 4 of each kind (tunable). Research in `data/research/press/local-news-2026.json`: the national totals are sourced (Medill 2024, FCC 2025, Pew 2024); the per-state splits and the age-band habits are estimates and marked that way. Names wait on the English engine (stopgap SG-GOV-press-outlet-names).
   - **Who follows them:** in each age band, the share that follows that kind of local news (Pew) are the band's most dutiful and deliberate adults.

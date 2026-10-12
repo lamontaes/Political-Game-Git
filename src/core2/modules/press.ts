@@ -633,14 +633,14 @@ function publish(
  * How a candidate who isn't the player answers: their platform's position,
  * else the side their own lean puts them on, else they decline.
  */
-function ownAnswers(
+export function candidateAnswers(
   api: CoreAPI,
-  row: InterviewRow,
+  questions: readonly string[],
   filing: FilingRow,
 ): readonly InterviewAnswer[] {
   const platform = platformOf(api, filing);
   const person = api.state.people.get(filing.personId);
-  return row.questions.map((question) => {
+  return questions.map((question) => {
     const stated = platform.find((s) => s.question === question);
     if (stated) return { question, position: stated.position };
     if (!person) return { question, position: null };
@@ -707,6 +707,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           status: "declined",
           reason: "candidate-declined",
         });
-      else publish(api, row, ownAnswers(api, row, f));
+      else publish(api, row, candidateAnswers(api, row.questions, f));
     }
 }
