@@ -25,7 +25,7 @@ export function lawChanges(core: CoreState, personId: string) {
       const reached = applied
         ? (
             applied.query("byQuestion", [
-              facts.series,
+              facts.series ?? null,
               null,
             ]) as unknown as AppliedEffect[]
           ).filter((effect) => effect.lawId === facts.lawId)
@@ -47,8 +47,8 @@ export function lawChanges(core: CoreState, personId: string) {
               .moduleState(LAWS_MODULE_ID)
               .table("laws")
               .query("bySeries", [
-                facts.jurisdiction,
-                facts.series,
+                facts.jurisdiction ?? null,
+                facts.series ?? null,
               ]) as unknown as LawRowInput[]
           )
             .filter((law) => law.effectiveDate < row.date)
