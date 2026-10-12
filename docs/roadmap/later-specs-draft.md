@@ -197,24 +197,28 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M5-01 · State legislator career
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M5-careers.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV (screens: OPUS-PLAY)
 - **Does:** Pick a real numbered seat, file, campaign against the actual holder, take the seat, and pass bills with colleagues.
 - **Passes when:** In a random state, the player replaces the right member at the start of the term and passes a bill.
 
 ### M5-02 · Governor and mayor play
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M5-careers.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV (screens: OPUS-PLAY)
 - **Does:** Set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results. Line-by-line budgets are optional depth.
 - **Passes when:** In a random state, the governor's priorities change real spending and outcomes.
 
 ### M5-03 · Keep playing as someone else
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M5-careers.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PLAY
 - **Does:** When your character dies, or when you choose to, continue as a connected existing person (your son, a protégé, anyone eligible) with their own life. Inheriting a movement comes after early access.
 - **Passes when:** After the player's death, the handoff offers connected people, and the save continues.
 
 ### M5-04 · Member of Congress and president (parallel)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M5-careers.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV, or anyone free
 - **Does:** The same engines at federal level, including foreign policy for the president. Early access doesn't wait for it.
 - **Passes when:** A random life reaches Congress or the presidency and governs.
