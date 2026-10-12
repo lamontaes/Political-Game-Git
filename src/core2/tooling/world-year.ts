@@ -95,6 +95,7 @@ console.log(
         ),
       },
       businesses: {
+        owners: (tables("business").owners as unknown[]).length,
         successions: (
           tables("business").successions as unknown as {
             basis: string;

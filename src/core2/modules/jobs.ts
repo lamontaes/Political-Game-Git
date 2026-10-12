@@ -72,6 +72,8 @@ interface EmployerRow {
   openingStaff: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
+  /** A new business's template for its first roles. */
+  templateFromId?: string;
 }
 
 function store(api: CoreAPI) {
@@ -429,7 +431,7 @@ function reviewEmployers(api: CoreAPI): void {
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
       positions = openPositions(api, row.id);
-    if (!jobs.length && !positions.length) continue;
+    if (!jobs.length && !positions.length && !row.templateFromId) continue;
     const target =
       book.capacityMinor > 0
         ? // Real demand: the books' demand in the business's own opening prices.
@@ -444,10 +446,14 @@ function reviewEmployers(api: CoreAPI): void {
     const gap = target - jobs.length - positions.length;
     let need =
       row.need + p("jobsStaffGapActedPerMonth") * (gap > 0 ? gap * reach : gap);
-    while (need >= 1 && jobs.length) {
+    // A new business's first roles come from its template business.
+    const from =
+      jobs.length || !row.templateFromId ? row.id : row.templateFromId;
+    const fromJobs = from === row.id ? jobs : currentJobs(api, from);
+    while (need >= 1 && fromJobs.length) {
       // A full person's job gives a new position its schedule and payday; counted jobs only when there is none.
-      const full = fullJobs(api, row.id);
-      const pool = full.length ? full : jobs;
+      const full = fullJobs(api, from);
+      const pool = full.length ? full : fromJobs;
       const template = [...pool].sort((a, b) => a.id.localeCompare(b.id))[
         (positions.length + Math.floor(need)) % pool.length
       ]!;
@@ -881,6 +887,7 @@ function hireCounted(
   const c = core(api);
   const template =
     c.jobs.get(position.templateJobId) ??
+    residentsRuntime(c)?.jobs.get(position.templateJobId) ??
     countedJobsOf(c, position.organizationId)[0];
   if (!template) return false;
   const jobId = `job:${position.id}:${seeker.personId}`;
@@ -896,7 +903,7 @@ function hireCounted(
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
     source: source(api, `A counted worker hired to ${position.id}.`),
   };
-  if (!addCountedJob(c, job)) return false;
+  if (!addCountedJob(c, job, template.id)) return false;
   store(api)
     .table("pay")
     .put({
@@ -1031,6 +1038,7 @@ function hire(
   };
   const newCalendar: WorkPayrollCalendarInput = {
     ...calendar,
+    organizationId: position.organizationId,
     id: `payroll-calendar:${jobId}`,
     workCommitmentIds: [commitmentId],
     basisRecordIds: [position.organizationId, template.id],
@@ -1041,6 +1049,7 @@ function hire(
     job,
     {
       ...templateCommitment,
+      organizationId: position.organizationId,
       id: commitmentId,
       jobId,
       personId: person.id,
@@ -1145,13 +1154,25 @@ export const JOBS_MODULE: CoreModule = {
 };
 
 /** A newly founded business joins the labor market, staffing toward what its books call for. */
+/**
+ * A business founded mid-run joins the jobs engine. Until it has staff of
+ * its own, its positions copy roles, schedules and pay from `templateFromId`
+ * (its parent, or a business of its kind).
+ */
 export function registerEmployer(
   api: CoreAPI,
   organizationId: string,
   openingStaff: number,
+  templateFromId?: string,
 ): void {
   if (!store(api).table("state").get("jobs:state")) return;
   store(api)
     .table("employers")
-    .put({ id: organizationId, isEmployer: true, openingStaff, need: 0 });
+    .put({
+      id: organizationId,
+      isEmployer: true,
+      openingStaff,
+      need: 0,
+      ...(templateFromId ? { templateFromId } : {}),
+    });
 }

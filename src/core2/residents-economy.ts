@@ -39,17 +39,58 @@ export function endCountedJob(
   return ended;
 }
 
-/** A counted person is hired: the employer's wage flow grows by their pay. False when it has none. */
-export function addCountedJob(core: CoreState, job: JobInput): boolean {
+/**
+ * A counted person is hired: the employer's wage flow grows by their pay.
+ * An employer with no counted workers yet (a new business) gets a wage flow
+ * on the cadence of `templateJobId`'s; false when there is neither.
+ */
+export function addCountedJob(
+  core: CoreState,
+  job: JobInput,
+  templateJobId?: string,
+): boolean {
   const rt = residentsRuntime(core);
   if (!rt || (rt.jobs.has(job.id) && rt.jobs.get(job.id)!.endsAt === undefined))
     return false;
-  const flow = [...rt.flows.values()].find(
-    (row) =>
-      row.kind === "wages" &&
-      !row.endedAt &&
-      row.organizationId === job.organizationId,
-  );
+  const find = () =>
+    [...rt.flows.values()].find(
+      (row) =>
+        row.kind === "wages" &&
+        !row.endedAt &&
+        row.organizationId === job.organizationId,
+    );
+  let flow = find();
+  const template = templateJobId
+    ? rt.wageFlowByJob.get(templateJobId)
+    : undefined;
+  if (!flow && template && !template.endedAt) {
+    const placeId = core.organizations.get(job.organizationId)?.placeId;
+    const account =
+      rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
+      template.payeeId;
+    addResidentFlow(core, {
+      id: `residents:wages:${job.organizationId}`,
+      kind: "wages",
+      financeKind: template.financeKind,
+      payerId: job.organizationId,
+      payeeId: account,
+      residentsId: account,
+      placeId: placeId ?? template.placeId,
+      amountMinor: 0,
+      firstAt: template.nextAt,
+      cadence: template.cadence,
+      salesReceipt: false,
+      marketAdjusted: false,
+      organizationId: job.organizationId,
+      jobIds: [],
+      perDayMinorByJob: {},
+      ...(template.periodFactor !== undefined
+        ? { periodFactor: template.periodFactor }
+        : {}),
+      source: job.source,
+    });
+    flow = find();
+  }
   if (!flow) return false;
   flow.perDayMinorByJob = {
     ...(flow.perDayMinorByJob ?? {}),
@@ -101,10 +142,41 @@ export function countedJobsOf(
   return out;
 }
 
+const CUSTOMER_KINDS = new Set(["purchase", "outside-sales"]);
+const DAYS_PER_YEAR = 365,
+  MONTHS_PER_YEAR = 12;
+
+/** A flow's payments a year at its cadence. */
+function perYear(flow: Flow, amount: number): number {
+  return flow.cadence.kind === "days"
+    ? (amount * DAYS_PER_YEAR) / flow.cadence.every
+    : (amount * MONTHS_PER_YEAR) / flow.cadence.every;
+}
+
+/** What `shiftPurchaseShare` would move a year, without moving it. */
+export function purchaseShareOf(
+  core: CoreState,
+  incumbentIds: ReadonlySet<string>,
+  share: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(share > 0) || share >= 1) return 0;
+  let total = 0;
+  for (const flow of rt.flows.values())
+    if (
+      CUSTOMER_KINDS.has(flow.kind) &&
+      !flow.endedAt &&
+      incumbentIds.has(flow.payeeId)
+    )
+      total += perYear(flow, Math.floor(flow.amountMinor * share));
+  return Math.round(total);
+}
+
 /**
- * A new business wins customers: each household purchase flow paying an
- * incumbent of its kind gives up `share` of its amount to an equal new flow
- * paying the entrant. Money the households spend is unchanged.
+ * A new business wins customers: each household purchase flow and each
+ * outside buyers' flow paying an incumbent of its kind gives up `share` of
+ * its amount to an equal new flow paying the entrant. Money the buyers spend
+ * is unchanged. Returns the entrant's customers' spending a year.
  */
 export function shiftPurchaseShare(
   core: CoreState,
@@ -117,7 +189,7 @@ export function shiftPurchaseShare(
   let moved = 0;
   for (const flow of [...rt.flows.values()]) {
     if (
-      flow.kind !== "purchase" ||
+      !CUSTOMER_KINDS.has(flow.kind) ||
       flow.endedAt ||
       !incumbentIds.has(flow.payeeId)
     )
@@ -127,7 +199,7 @@ export function shiftPurchaseShare(
     flow.amountMinor -= amount;
     addResidentFlow(core, {
       id: `${flow.id}:entrant:${entrantId}`,
-      kind: "purchase",
+      kind: flow.kind,
       financeKind: flow.financeKind,
       payerId: flow.payerId,
       payeeId: entrantId,
@@ -140,9 +212,9 @@ export function shiftPurchaseShare(
       marketAdjusted: flow.marketAdjusted,
       source: flow.source,
     });
-    moved += amount;
+    moved += perYear(flow, amount);
   }
-  return moved;
+  return Math.round(moved);
 }
 
 const outsideBases = new WeakMap<CoreState, Map<string, number>>();

@@ -4,6 +4,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { BUSINESS_MODULE, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
+import { transferCash } from "./world-transfer";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
 
@@ -65,6 +66,14 @@ function input(): CoreInput {
         liquidMinor: 5_000_000,
         source: src,
       },
+      {
+        id: "organization:customer",
+        placeId: place,
+        name: "Customer",
+        kind: "employer",
+        liquidMinor: 10_000_000,
+        source: src,
+      },
     ],
     focusPersonIds: [],
     focusPlaceIds: [],
@@ -123,8 +132,19 @@ describe("owners draw from profit", () => {
     expect(api.moduleState("business").table("owners").get(shop)).toMatchObject(
       { ownerId: "owner" },
     );
-    book.salesReceivedMinor = 3_000_000;
-    book.wagesPaidMinor = 1_000_000;
+    // A month's net gain: 2,000,000 of sales more than costs.
+    book.salesReceivedMinor = 2_000_000;
+    transferCash(
+      api,
+      "fixture:sale",
+      "organization:customer",
+      shop,
+      2_000_000,
+      {
+        ...src,
+        asOf: "2021-01-15",
+      },
+    );
     advanceCore(core, "2021-02-02");
     const draw = api
       .moduleState("business")

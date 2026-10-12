@@ -15,7 +15,12 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import type { ActOffer, CoreAPI, CoreModule, CoreState } from "../types";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
-import { shiftPurchaseShare } from "../residents-economy";
+import {
+  countedJobsOf,
+  purchaseShareOf,
+  shiftPurchaseShare,
+} from "../residents-economy";
+import { residentPerson, residentsRuntime } from "./residents";
 import { lendForFounding } from "./credit";
 import { registerEmployer } from "./jobs";
 import { transferCash } from "../world-transfer";
@@ -37,6 +42,8 @@ interface OwnerRow {
   operatingThrough: number;
   /** Profit earned and not yet drawn; the most an owner can take. */
   retainedMinor: number;
+  /** Cash less credit owed at the last draw: profit is its change. */
+  netThrough?: number;
   /** The business this one is a location of, when an owner opened it. */
   parentId?: string;
 }
@@ -97,18 +104,30 @@ function open(api: CoreAPI): void {
             .birthDate.localeCompare(c.people.get(b.personId)!.birthDate) ||
           a.id.localeCompare(b.id),
       );
+    if (!staff.length) {
+      // No full worker: the best-paid counted worker owns it, filled in when the player meets them.
+      const counted = countedJobsOf(c, id).sort(
+        (a, b) =>
+          (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) ||
+          a.id.localeCompare(b.id),
+      )[0];
+      if (counted) staff.push(counted);
+    }
     if (!staff.length) continue;
-    store(api).table("owners").put({
-      id,
-      isOwner: true,
-      ownerId: staff[0]!.personId,
-      since: c.date,
-      basis: "highest-paid-worker",
-      salesThrough: book.salesReceivedMinor,
-      wagesThrough: book.wagesPaidMinor,
-      operatingThrough: book.operatingPaidMinor,
-      retainedMinor: 0,
-    });
+    store(api)
+      .table("owners")
+      .put({
+        id,
+        isOwner: true,
+        ownerId: staff[0]!.personId,
+        since: c.date,
+        basis: "highest-paid-worker",
+        salesThrough: book.salesReceivedMinor,
+        wagesThrough: book.wagesPaidMinor,
+        operatingThrough: book.operatingPaidMinor,
+        retainedMinor: 0,
+        netThrough: netCash(c, id),
+      });
   }
   store(api).table("state").put({ id: "business:state", openedAt: c.date });
   scheduleMonth(api);
@@ -133,12 +152,64 @@ function scheduleMonth(api: CoreAPI): void {
   });
 }
 
+/** A business's cash less what it owes on its credit lines. */
+function netCash(c: CoreState, organizationId: string): number {
+  let owed = 0;
+  for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
+    owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
+  return (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed;
+}
+
+/** The owner as a full person, or as a counted person until they are filled in. */
+function ownerPerson(c: CoreState, personId: string) {
+  const full = c.people.get(personId);
+  if (full) return { person: full, full: true, alive: full.alive };
+  const counted = residentPerson(c, personId);
+  return counted
+    ? {
+        person: { ...counted, needs: {} as Record<string, number> },
+        full: false,
+        alive: true,
+      }
+    : undefined;
+}
+
+/**
+ * The option a person takes: the shared chooser for a full person; for one
+ * still counted, the option whose reasons sum highest (the same reasons).
+ */
+function decide(c: CoreState, personId: string, offers: ActOffer[]): ActOffer {
+  if (c.people.has(personId)) return chooseAct(c, personId, offers).selected!;
+  stopgap("SG-WORLD-business-counted-owner-choice");
+  const score = (offer: ActOffer) =>
+    (offer.reasonBindings ?? []).reduce(
+      (n, row) => n + Number(row.arguments?.value ?? 0),
+      0,
+    );
+  return [...offers].sort((a, b) => score(b) - score(a))[0]!;
+}
+
+/** Where an owner's money goes: their own cash, or their place's pooled residents account while counted. */
+function ownerAccount(c: CoreState, personId: string): string | undefined {
+  if (c.people.has(personId)) return personId;
+  const placeId = residentPerson(c, personId)?.placeId;
+  return residentsRuntime(c)?.input.accounts.find(
+    (row) => row.placeId === placeId,
+  )?.accountId;
+}
+
 /** An owner-operator who no longer works at the business, or an owner who has died, hands it on. */
 function stillOwns(c: CoreState, row: OwnerRow): boolean {
+  const operator =
+    row.basis === "highest-paid-worker" || row.basis === "successor";
+  if (!c.people.has(row.ownerId))
+    return (
+      !operator ||
+      countedJobsOf(c, row.id).some((job) => job.personId === row.ownerId)
+    );
   const owner = c.people.get(row.ownerId);
   if (!owner?.alive) return false;
-  if (row.basis !== "highest-paid-worker" && row.basis !== "successor")
-    return true;
+  if (!operator) return true;
   const job = owner.jobId ? c.jobs.get(owner.jobId) : undefined;
   return job?.organizationId === row.id && job.endsAt === undefined;
 }
@@ -167,6 +238,13 @@ function successorOf(
         (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) || a.id.localeCompare(b.id),
     );
   if (workers[0]) return { personId: workers[0].personId, basis: "successor" };
+  const counted = countedJobsOf(c, row.id)
+    .filter((job) => job.personId !== row.ownerId && !owners.has(job.personId))
+    .sort(
+      (a, b) =>
+        (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) || a.id.localeCompare(b.id),
+    )[0];
+  if (counted) return { personId: counted.personId, basis: "successor" };
   const owner = c.people.get(row.ownerId);
   const family = [...(owner?.familyIds ?? [])]
     .map((id) => c.people.get(id))
@@ -192,7 +270,7 @@ function succeed(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.id);
     if (!book || book.closedAt || stillOwns(c, row)) continue;
     const next = successorOf(api, row, owners);
-    const previous = c.people.get(row.ownerId);
+    const previous = ownerPerson(c, row.ownerId);
     store(api)
       .table("successions")
       .put({
@@ -224,7 +302,9 @@ function succeed(api: CoreAPI): void {
       id: `event:organization.owner-changed:${row.id}:${c.date}`,
       date: c.date,
       kind: "organization.owner-changed",
-      personIds: [next.personId, ...(previous?.alive ? [previous.id] : [])],
+      personIds: [next.personId, row.ownerId].filter(
+        (id) => c.people.get(id)?.alive,
+      ),
       placeId: c.organizations.get(row.id)?.placeId ?? "",
       source: {
         tag: "ESTIMATED",
@@ -246,13 +326,13 @@ function month(api: CoreAPI): void {
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
     const book = c.finance.businesses.get(row.id),
-      owner = c.people.get(row.ownerId);
-    if (!book || book.closedAt || !owner || !owner.alive) continue;
-    const profit =
-      book.salesReceivedMinor -
-      row.salesThrough -
-      (book.wagesPaidMinor - row.wagesThrough) -
-      (book.operatingPaidMinor - row.operatingThrough);
+      found = ownerPerson(c, row.ownerId),
+      owner = found?.person,
+      account = ownerAccount(c, row.ownerId);
+    if (!book || book.closedAt || !owner || !found.alive || !account) continue;
+    // Profit is what the business's net cash gained: every sale, wage, purchase and loan payment.
+    const net = netCash(c, row.id);
+    const profit = net - (row.netThrough ?? net);
     const retained = Math.max(0, row.retainedMinor + profit);
     const cash = c.organizations.get(row.id)!.liquidMinor;
     const cushion =
@@ -267,7 +347,7 @@ function month(api: CoreAPI): void {
     let drawn = 0,
       share = 0;
     if (retained > 0) {
-      const result = chooseAct(
+      const selected = decide(
         c,
         owner.id,
         businessData.drawShares.map((s) =>
@@ -278,13 +358,13 @@ function month(api: CoreAPI): void {
           }),
         ),
       );
-      share = Number(result.selected!.targetId.split(":").at(-1));
+      share = Number(selected.targetId.split(":").at(-1));
       if (share > 0)
         drawn = transferCash(
           api,
           `owner-draw:${row.id}:${c.date}`,
           row.id,
-          owner.id,
+          account,
           retained * share,
           {
             tag: "ESTIMATED",
@@ -317,6 +397,7 @@ function month(api: CoreAPI): void {
         wagesThrough: book.wagesPaidMinor,
         operatingThrough: book.operatingPaidMinor,
         retainedMinor: retained - drawn,
+        netThrough: net - drawn,
       });
   }
 }
@@ -351,7 +432,9 @@ function marketRoom(api: CoreAPI): Market[] {
     row.demand += book.annualDemandMinor / (book.price / book.anchorPrice || 1);
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
-    row.staff += c.finance.jobsByOrganization.get(id)?.size ?? 0;
+    row.staff +=
+      (c.finance.jobsByOrganization.get(id)?.size ?? 0) +
+      countedJobsOf(c, id).length;
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
@@ -372,7 +455,15 @@ function foundings(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const market = marketRoom(api)
-    .filter((row) => row.room > 0)
+    .filter(
+      (row) =>
+        row.room > 0 &&
+        purchaseShareOf(
+          c,
+          new Set(row.incumbents),
+          1 / (row.incumbents.length + 1),
+        ) > 0,
+    )
     .sort(
       (a, b) =>
         b.room - a.room ||
@@ -382,7 +473,7 @@ function foundings(api: CoreAPI): void {
   if (!market) return;
   const traits = businessData.traits;
   const traitPull = (personId: string) => {
-    const person = c.people.get(personId)!;
+    const person = ownerPerson(c, personId)!.person;
     return (
       ((person.traits[traits.enterprising] ?? 0) +
         (person.traits[traits.risk] ?? 0)) /
@@ -396,7 +487,7 @@ function foundings(api: CoreAPI): void {
   const growers = ownerRows
     .map((row) => {
       const book = c.finance.businesses.get(row.id);
-      const owner = c.people.get(row.ownerId);
+      const owner = ownerPerson(c, row.ownerId);
       if (!book || book.closedAt || book.kindId !== market.kindId) return;
       if (!owner?.alive) return;
       const cash = c.organizations.get(row.id)!.liquidMinor;
@@ -413,20 +504,20 @@ function foundings(api: CoreAPI): void {
     );
   const decided = new Set<string>();
   for (const grower of growers) {
-    if (decided.has(grower.owner.id)) continue;
-    decided.add(grower.owner.id);
-    const result = chooseAct(c, grower.owner.id, [
+    const ownerId = grower.owner.person.id;
+    if (decided.has(ownerId)) continue;
+    decided.add(ownerId);
+    const selected = decide(c, ownerId, [
       option(0, {}),
       expandOption(market.kindId, {
         baseline: p("businessExpandBaseline"),
         room: p("businessFoundRoomWeight") * market.room,
-        traits: p("businessFoundTraitWeight") * traitPull(grower.owner.id),
+        traits: p("businessFoundTraitWeight") * traitPull(ownerId),
         books: p("businessExpandStrengthWeight") * grower.strength,
       }),
     ]);
-    if (result.selected!.definition.id !== businessData.actions.expand.id)
-      continue;
-    found(api, grower.owner.id, market, {
+    if (selected.definition.id !== businessData.actions.expand.id) continue;
+    found(api, ownerId, market, {
       parentId: grower.row.id,
       // The parent funds the location from cash above its own cushion.
       fundsMinor: Math.max(0, grower.cash - grower.cushion),
@@ -507,11 +598,11 @@ function found(
   founderId: string,
   market: Market,
   location?: { parentId: string; fundsMinor: number; strength: number },
-): void {
+): boolean {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const kindId = market.kindId;
-  const founder = c.people.get(founderId)!;
+  const founder = ownerPerson(c, founderId)!.person;
   const id = location
     ? `organization:location:${location.parentId}:${market.placeId}:${c.date}`
     : `organization:founded:${kindId}:${founderId}:${c.date}`;
@@ -524,6 +615,9 @@ function found(
   const parentName = location
     ? c.organizations.get(location.parentId)?.name
     : undefined;
+  const share = 1 / (market.incumbents.length + 1);
+  // No customers to win (no buyers reach this market's businesses): nothing to found.
+  if (purchaseShareOf(c, new Set(market.incumbents), share) <= 0) return false;
   api.addOrganization({
     id,
     placeId: market.placeId,
@@ -536,12 +630,16 @@ function found(
     liquidMinor: 0,
     source,
   });
-  const share = 1 / (market.incumbents.length + 1);
-  const monthly = shiftPurchaseShare(c, new Set(market.incumbents), id, share);
+  const annualDemandMinor = shiftPurchaseShare(
+    c,
+    new Set(market.incumbents),
+    id,
+    share,
+  );
+  const monthly = Math.round(annualDemandMinor / p("macroMonthsPerYear"));
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === kindId,
   )!;
-  const annualDemandMinor = monthly * p("macroMonthsPerYear");
   const annualPayrollMinor = annualDemandMinor * p(kind.payrollShareParameter);
   const annualOtherCostsMinor = Math.max(
     0,
@@ -553,7 +651,15 @@ function found(
     annualPayrollMinor,
     annualDemandMinor,
     annualOtherCostsMinor,
-    openingTownIncomeMinor: 0,
+    // The town's income as an incumbent's books have reached it today, so demand projects from now.
+    openingTownIncomeMinor: Math.round(
+      market.incumbents
+        .map((id) => c.finance.businesses.get(id))
+        .filter((row) => row && row.openingTownIncomeMinor > 0)
+        .map(
+          (row) => row!.reachedIncomeRatio * row!.openingTownIncomeMinor,
+        )[0] ?? 0,
+    ),
     capacityMinor: annualDemandMinor,
     price: 1,
     costContractIds: [],
@@ -596,9 +702,15 @@ function found(
       wagesThrough: book.wagesPaidMinor,
       operatingThrough: book.operatingPaidMinor,
       retainedMinor: 0,
+      netThrough: netCash(c, id),
     });
   if (c.modules.has("jobs"))
-    registerEmployer(api, id, Math.max(1, Math.round(market.staff * share)));
+    registerEmployer(
+      api,
+      id,
+      Math.max(1, Math.round(market.staff * share)),
+      location?.parentId ?? market.incumbents[0],
+    );
   store(api)
     .table("foundings")
     .put({
@@ -621,12 +733,13 @@ function found(
     id: `event:organization.founded:${id}`,
     date: c.date,
     kind: "organization.founded",
-    personIds: [founderId],
+    personIds: c.people.has(founderId) ? [founderId] : [],
     placeId: market.placeId,
     source,
     publicRecord: true,
     topic: id,
   });
+  return true;
 }
 
 /** Who owns a business, for jobs (who decided a layoff) and the bench. */
