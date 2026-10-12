@@ -177,9 +177,13 @@ export function workQuality(
     (person.traits["people-mind-v1:deliberation"] ?? 0) *
     campaignParameter("staffTraitWeight");
   // Experience: what they've learned from tasks done, at their own rate.
+  // Deliberation speeds or slows learning on the trait scale; even the least
+  // deliberate still learn (at -2 the old /2 made the rate zero).
   const rate =
     campaignParameter("staffLearningBase") *
-    (1 + (person.traits["people-mind-v1:deliberation"] ?? 0) / 2);
+    (1 +
+      (person.traits["people-mind-v1:deliberation"] ?? 0) /
+        (2 * parameter("traitScale")));
   const experience =
     campaignParameter("staffExperienceCeiling") *
     (1 - Math.exp(-rate * staffer.tasksDone));
