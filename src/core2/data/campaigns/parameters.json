@@ -224,6 +224,18 @@
       "tag": "TUNABLE",
       "source": "How much a member's duty to keep the government funded weighs toward adopting a budget, beside their views on its changes. Checked against how rarely councils fail to adopt a budget (most charters carry the prior budget forward when they do).",
       "spread": [0.1, 0.6]
+    },
+    "sessionAgendaBills": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of the majority leader's priority policy bills reach the floor in a session (the major partisan measures of a session, out of the hundreds of bills a legislature passes). Checked against states' enacted headline measures per session (state legislative session summaries, 2023 to 2025: typically two to six).",
+      "spread": [1, 8]
+    },
+    "fullYearSessionAgendaMonth": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "source": "The month at whose end a legislature that sits all year (NCSL 'full-year') brings its leader's priority bills to the floor: the end of the state fiscal year most share (June 30 in 46 states, NASBO), when full-time legislatures pass their headline measures alongside the budget.",
+      "spread": [4, 12]
     }
   }
 }

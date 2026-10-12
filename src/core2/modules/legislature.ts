@@ -243,7 +243,7 @@ type StartingAnswers = Record<
   { answers: Record<string, { preempts?: boolean; answer?: string }> }
 >;
 /** Every recorded starting-law policy question, by key. */
-const POLICY_QUESTIONS: StartingAnswers = Object.assign(
+export const POLICY_QUESTIONS: StartingAnswers = Object.assign(
   {},
   ...[
     lawAgricultureNaturalResources,
