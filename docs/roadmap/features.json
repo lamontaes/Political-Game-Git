@@ -488,7 +488,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place over a year, the story director turns engine events (a campaign, a vote, a law, a lost job) into moments sized by impact: a big one stops the skip and smaller ones become journal lines; a broad event gives everyone a journal chapter and personal moments to the people it hit; a recorded lie, favor or promise comes back through a person.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/director/vitest.config.ts src/director/world-moments.test.ts src/director/journal.test.ts",
       "passes": false
     },
     {

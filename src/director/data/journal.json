@@ -130,7 +130,7 @@
       "otherLine": [
         {
           "key": "other-lost",
-          "text": "{{other}} lost their job."
+          "text": "{{other}} lost {{their}} job."
         }
       ],
       "title": [
@@ -231,6 +231,60 @@
       ]
     },
     {
+      "kindPrefix": "event:housing.eviction",
+      "turn": false,
+      "line": [
+        {
+          "key": "evicted",
+          "text": "We were evicted."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-evicted",
+          "text": "{{other}} was evicted."
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:housing.purchase",
+      "turn": false,
+      "line": [
+        {
+          "key": "bought-home",
+          "text": "We bought a house."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-bought-home",
+          "text": "{{other}} bought a house."
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:organization.founded",
+      "turn": false,
+      "eventFacts": {
+        "business": {
+          "fact": "topic",
+          "format": "organization"
+        }
+      },
+      "line": [
+        {
+          "key": "started-business",
+          "text": "I started {{business}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-started-business",
+          "text": "{{other}} started {{business}}."
+        }
+      ]
+    },
+    {
       "kindPrefix": "event:person.moved-away",
       "turn": false,
       "line": [
@@ -321,5 +375,10 @@
         }
       ]
     }
-  ]
+  ],
+  "possessivePronoun": {
+    "male": "his",
+    "female": "her",
+    "other": "their"
+  }
 }
