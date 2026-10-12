@@ -1,6 +1,6 @@
 # Our Civic Duty — repository guide
 
-A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.claude/skills/` and `.agents/rules/`.
+A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.agents/skills/`, `.agents/rules/standing-skills/` and `.agents/rules/`.
 
 ## Where the game is going (owner, Oct 10, 2026)
 
@@ -75,7 +75,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 
 ## Standing owner rules
 
-Detail and self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
+Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>/SKILL.md`.
 
 - **No dice.** No seeded roll or fixed percentage decides what a person, business, official or body does; their traits, principles, relationships, money, health, the law in force and the place's conditions decide. Real rates check totals; they never pick one actor's outcome. Seeded generation of who exists is allowed. See `no-dice`.
 - **Sliding scales and causes.** Nothing flips at a threshold. World events happen from causes (a hazard record, a health record, a law, a price change), never a monthly chance.
