@@ -14,12 +14,14 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M2-02 · Election calendars and filing rules
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-filing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Real election dates, filing deadlines, qualifications, petitions and fees, from each place's records; primaries, runoffs and ballot rules (including top-two or ranked-choice where a place really uses them).
 - **Passes when:** In a random place, the next local, state and federal elections have real dates, and filing requires exactly what that place's rules require.
 
 ### M2-03 · Filing in person (step 3)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-filing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV (screen: OPUS-PLAY)
 - **Does:** You go to that place's filing office (clerk, registrar or board of elections) and talk to the person there. The conversation teaches how campaigns work, and filing becomes a record. Menus only record what you did.
 - **Passes when:** In a random place, the player files with the right office, and the filing, fee and petition (if required) become records that the election reads.
