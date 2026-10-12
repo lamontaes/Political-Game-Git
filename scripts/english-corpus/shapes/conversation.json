@@ -682,10 +682,7 @@
       "candidates": [
         "I've lived in {place} for {years} years.",
         "I've been in {place} for {years} years.",
-        "I've lived in {place} {years} years.",
-        "For {years} years now.",
-        "{years} years now.",
-        "I've been here {years} years."
+        "I've lived in {place} {years} years."
       ]
     },
     {
@@ -1106,14 +1103,9 @@
         "Have you met {name}?",
         "Did you ever meet {relation}?",
         "You've met {relation}, haven't you?",
-        "This is {relation}, {name}.",
-        "This is {relation}.",
-        "I want you to meet {relation}.",
         "Do you know {relation}?",
         "Do you know {name}?",
-        "Have you ever met {relation}?",
-        "You know {relation}, {name}.",
-        "This is {name}."
+        "Have you ever met {relation}?"
       ]
     },
     {
@@ -1797,7 +1789,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": ["That's right.", "That's it.", "Yep.", "Right."]
+      "candidates": ["That's right.", "Yep.", "Right."]
     },
     {
       "move": "home-reply-answer-own",

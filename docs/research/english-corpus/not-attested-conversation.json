@@ -1395,12 +1395,6 @@
       "modern": 0
     },
     {
-      "move": "home-new-answer-years",
-      "text": "{years} years now.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "home-new-answer-always",
       "text": "I was born and raised here.",
       "documents": 2,
@@ -2026,18 +2020,6 @@
     },
     {
       "move": "kin-raise-met",
-      "text": "This is {relation}, {name}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "kin-raise-met",
-      "text": "I want you to meet {relation}.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "kin-raise-met",
       "text": "Do you know {relation}?",
       "documents": 0,
       "modern": 0
@@ -2045,12 +2027,6 @@
     {
       "move": "kin-raise-met",
       "text": "Have you ever met {relation}?",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "kin-raise-met",
-      "text": "You know {relation}, {name}.",
       "documents": 0,
       "modern": 0
     },

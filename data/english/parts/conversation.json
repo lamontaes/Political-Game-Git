@@ -74,7 +74,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 544
+    "notAttested": 540
   },
   "parts": [
     {
@@ -2197,13 +2197,6 @@
           "role": "answer",
           "choice": "years",
           "stages": ["moved"]
-        },
-        {
-          "move": "home-new-answer-years",
-          "subject": "home-new",
-          "role": "answer",
-          "choice": "years",
-          "stages": ["moved"]
         }
       ],
       "transcriptsUsing": 8,
@@ -3928,13 +3921,6 @@
         {
           "move": "home-answer-years",
           "subject": "home",
-          "role": "answer",
-          "choice": "years",
-          "stages": ["moved"]
-        },
-        {
-          "move": "home-new-answer-years",
-          "subject": "home-new",
           "role": "answer",
           "choice": "years",
           "stages": ["moved"]
@@ -7182,82 +7168,6 @@
         "date": "2026-05-01",
         "granule": "DCPD-202600300",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600300/html/DCPD-202600300.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.kin-raise-met.this-is-relation",
-      "move": "kin-raise-met",
-      "kind": "spoken",
-      "text": "This is {relation}.",
-      "uses": [
-        {
-          "move": "kin-raise-met",
-          "subject": "kin",
-          "role": "raise",
-          "choice": "met"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "hearings": 2,
-        "nps": 2,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks During a Roundtable Discussion on Tax Code Reform in Las Vegas, Nevada",
-        "date": "2026-04-16",
-        "granule": "DCPD-202600263",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600263/html/DCPD-202600263.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.kin-raise-met.this-is-name",
-      "move": "kin-raise-met",
-      "kind": "spoken",
-      "text": "This is {name}.",
-      "uses": [
-        {
-          "move": "kin-raise-met",
-          "subject": "kin",
-          "role": "raise",
-          "choice": "met"
-        }
-      ],
-      "transcriptsUsing": 324,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 4,
-        "National Archives History Office oral history project": 9,
-        "National Archives History Office oral history project (ross-oral-histories)": 2,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 4,
-        "Richard Nixon Presidential Library (NARA) oral history project": 5,
-        "U.S. Election Assistance Commission (eac.gov)": 18,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
-        "U.S. Senate Historical Office oral history": 11,
-        "crec": 31,
-        "dcpd": 36,
-        "hearings": 49,
-        "house": 17,
-        "nasa": 22,
-        "nasa2": 8,
-        "nih": 4,
-        "nps": 90,
-        "nps.gov": 2,
-        "nps.gov (PDF)": 2,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks With Prime Minister Micheál Martin of Ireland at the Congressional Friends of Ireland Luncheon",
-        "date": "2026-03-17",
-        "granule": "DCPD-202600183",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600183/html/DCPD-202600183.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -11877,50 +11787,6 @@
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.heard-work-answer-brief.thats-it",
-      "move": "heard-work-answer-brief",
-      "kind": "spoken",
-      "text": "That's it.",
-      "uses": [
-        {
-          "move": "heard-work-answer-brief",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 226,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
-        "National Archives History Office oral history project": 7,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 4,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 13,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 11,
-        "U.S. Senate Historical Office oral history": 13,
-        "dcpd": 54,
-        "hearings": 18,
-        "house": 8,
-        "nasa": 27,
-        "nasa2": 17,
-        "nih": 2,
-        "nps": 44
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in Las Vegas, Nevada",
-        "date": "2026-08-05",
-        "granule": "DCPD-202600518",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
