@@ -22,8 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
-    "dcpd": 3000,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -154,12 +155,6 @@
     },
     {
       "move": "blame-record-record",
-      "text": "It's {whose} fault.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "blame-record-record",
       "text": "{who} made that decision.",
       "documents": 0,
       "modern": 0
@@ -189,12 +184,6 @@
       "modern": 0
     },
     {
-      "move": "blame-record-record",
-      "text": "{who} is to blame.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "blame-told-told",
       "text": "From what I heard, {who} was behind it.",
       "documents": 0,
@@ -215,8 +204,8 @@
     {
       "move": "blame-told-told",
       "text": "They say it was {who}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "blame-told-told",
@@ -385,12 +374,6 @@
       "text": "I don't know what happened there.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "blame-hearer-react",
-      "text": "I heard that too.",
-      "documents": 1,
-      "modern": 0
     },
     {
       "move": "blame-hearer-react",

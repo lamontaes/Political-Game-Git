@@ -50,8 +50,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
-      "dcpd": 3000,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -200,9 +201,9 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
-        "dcpd": 2,
+        "dcpd": 3,
         "hearings": 1
       },
       "shippable": true,
@@ -606,15 +607,16 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 235,
+      "transcriptsUsing": 248,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 16,
+        "briefing": 9,
         "crec": 14,
-        "dcpd": 4,
+        "dcpd": 8,
         "doi": 14,
         "doj": 2,
         "dol-osha": 2,
@@ -653,7 +655,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 341,
+      "transcriptsUsing": 368,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 4,
@@ -663,8 +665,9 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
         "U.S. Senate Historical Office oral history": 7,
         "blm": 6,
+        "briefing": 24,
         "crec": 57,
-        "dcpd": 28,
+        "dcpd": 31,
         "doi": 3,
         "eeoc": 1,
         "hearings": 82,
@@ -700,10 +703,11 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 46,
+      "transcriptsUsing": 56,
       "bySource": {
+        "briefing": 6,
         "crec": 14,
-        "dcpd": 8,
+        "dcpd": 12,
         "dol-osha": 1,
         "eeoc": 1,
         "hearings": 19,
@@ -733,15 +737,16 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 194,
+      "transcriptsUsing": 199,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 16,
+        "briefing": 4,
         "crec": 7,
-        "dcpd": 2,
+        "dcpd": 3,
         "doi": 13,
         "doj": 1,
         "dol-osha": 1,
@@ -812,9 +817,10 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 161,
+      "transcriptsUsing": 162,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "briefing": 1,
         "dol-osha": 158,
         "epa": 1,
         "hearings": 1
@@ -1042,11 +1048,12 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 297,
+      "transcriptsUsing": 306,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 10,
+        "briefing": 9,
         "crec": 25,
         "dcpd": 4,
         "doi": 19,
@@ -1183,14 +1190,15 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 353,
+      "transcriptsUsing": 386,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 9,
+        "briefing": 23,
         "crec": 79,
-        "dcpd": 28,
+        "dcpd": 38,
         "doi": 4,
         "dol-osha": 2,
         "eeoc": 1,
@@ -1231,13 +1239,14 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 515,
+      "transcriptsUsing": 521,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Senate Historical Office oral history": 5,
         "blm": 40,
+        "briefing": 5,
         "crec": 12,
-        "dcpd": 4,
+        "dcpd": 5,
         "doi": 62,
         "doj": 16,
         "dol-osha": 9,
@@ -1275,13 +1284,14 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 187,
+      "transcriptsUsing": 201,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "blm": 2,
+        "briefing": 11,
         "crec": 6,
-        "dcpd": 7,
+        "dcpd": 10,
         "doi": 8,
         "dol-osha": 3,
         "eeoc": 1,
@@ -1320,7 +1330,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 3203,
+      "transcriptsUsing": 3959,
       "bySource": {
         "Federal Election Commission (fec.gov)": 9,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
@@ -1338,8 +1348,9 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 22,
         "U.S. Senate Historical Office oral history": 118,
         "blm": 55,
+        "briefing": 575,
         "crec": 260,
-        "dcpd": 234,
+        "dcpd": 415,
         "doi": 24,
         "doj": 6,
         "dol-osha": 6,
@@ -1386,11 +1397,12 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 17,
+      "transcriptsUsing": 24,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 7,
+        "briefing": 7,
         "crec": 1,
         "dcpd": 2,
         "hearings": 1,
@@ -1420,10 +1432,11 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 14,
+      "transcriptsUsing": 15,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "blm": 1,
+        "briefing": 1,
         "crec": 4,
         "dcpd": 1,
         "fdic": 3,
@@ -1454,17 +1467,19 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
+        "briefing": 1,
+        "dcpd": 2,
         "hearings": 1
       },
       "shippable": true,
       "source": {
-        "document": "NOMINATION OF THE HONORABLE THOMAS J. VILSACK, OF IOWA, TO BE SECRETARY, U.S. DEPARTMENT OF AGRICULTURE",
-        "date": "2021-02-02",
-        "granule": "CHRG-117shrg45388",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg45388/html/CHRG-117shrg45388.htm",
+        "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
+        "date": "2025-10-17",
+        "granule": "DCPD-202501023",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

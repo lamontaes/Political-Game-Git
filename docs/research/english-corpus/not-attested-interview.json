@@ -22,8 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
-    "dcpd": 3000,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -94,15 +95,9 @@
     },
     {
       "move": "reporter-issue",
-      "text": "What would you do about {issue}?",
+      "text": "What's your plan for {issue}?",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "reporter-issue",
-      "text": "What's your plan for {issue}?",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "reporter-issue",
@@ -201,12 +196,6 @@
       "modern": 0
     },
     {
-      "move": "reporter-opponent",
-      "text": "How do you respond?",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "reporter-future",
       "text": "Will you run again?",
       "documents": 0,
@@ -245,8 +234,8 @@
     {
       "move": "reporter-press",
       "text": "You didn't answer the question.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "reporter-press",
@@ -292,12 +281,6 @@
     },
     {
       "move": "official-record",
-      "text": "It was the right decision.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "official-record",
       "text": "I made the right decision.",
       "documents": 0,
       "modern": 0
@@ -322,37 +305,7 @@
     },
     {
       "move": "official-deflect",
-      "text": "I'm not going to get into that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I'm not going to speculate.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I'm not going to get ahead of that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I don't have anything to share on that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
       "text": "That's a hypothetical.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "That's a hypothetical question.",
       "documents": 1,
       "modern": 1
     },
@@ -367,24 +320,6 @@
       "text": "I'm focused on doing my job.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "It's too early to say.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "official-deflect",
-      "text": "It's too early to tell.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I haven't made a decision.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "official-deflect",
@@ -412,15 +347,9 @@
     },
     {
       "move": "official-story",
-      "text": "I've seen it firsthand.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-story",
       "text": "I've seen it myself.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-story",
@@ -448,12 +377,6 @@
     },
     {
       "move": "official-opponent",
-      "text": "That's not accurate.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "official-opponent",
       "text": "That's a lie.",
       "documents": 1,
       "modern": 1
@@ -467,8 +390,8 @@
     {
       "move": "official-opponent",
       "text": "We just disagree.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-opponent",

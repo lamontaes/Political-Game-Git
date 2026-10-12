@@ -22,8 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
-    "dcpd": 3000,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -95,8 +96,8 @@
     {
       "move": "rest",
       "text": "Get some rest.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "rest",
@@ -251,8 +252,8 @@
     {
       "move": "approach-office",
       "text": "Go to {office}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "approach-office",
@@ -532,12 +533,6 @@
     },
     {
       "move": "carry-on",
-      "text": "Keep your head down.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
       "text": "Go on as before.",
       "documents": 0,
       "modern": 0
@@ -557,12 +552,6 @@
     {
       "move": "share-cause",
       "text": "Tell {name}.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "share-cause",
-      "text": "Tell your friends.",
       "documents": 1,
       "modern": 1
     },
@@ -615,12 +604,6 @@
       "modern": 0
     },
     {
-      "move": "join-cause-group",
-      "text": "Join them.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "donate-to-cause",
       "text": "Donate to {group}.",
       "documents": 1,
@@ -637,12 +620,6 @@
       "text": "Make a donation.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "donate-to-cause",
-      "text": "Donate.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "donate-to-cause",
@@ -907,12 +884,6 @@
       "text": "I'm undecided.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "stance-answer",
-      "text": "I'm in favor of it.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "stance-answer",

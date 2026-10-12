@@ -22,8 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
-    "dcpd": 3000,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -219,18 +220,6 @@
       "modern": 1
     },
     {
-      "move": "hearing-close",
-      "text": "I'm happy to answer any questions.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "hearing-witness-hedge",
-      "text": "We'll get back to you on that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "hearing-witness-hedge",
       "text": "I'll follow up with your office.",
       "documents": 0,
@@ -239,18 +228,6 @@
     {
       "move": "hearing-witness-hedge",
       "text": "We'd be happy to follow up.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "hearing-witness-hedge",
-      "text": "It's too early to tell.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "hearing-witness-hedge",
-      "text": "I think it's too early to tell.",
       "documents": 0,
       "modern": 0
     },
@@ -761,8 +738,8 @@
     {
       "move": "campaign-issue",
       "text": "We need better schools.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-issue",
@@ -791,8 +768,8 @@
     {
       "move": "campaign-issue",
       "text": "Families are hurting.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-issue",
@@ -811,12 +788,6 @@
       "text": "This is about our future.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "campaign-issue",
-      "text": "This is about jobs.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "campaign-contrast",
@@ -907,12 +878,6 @@
       "text": "Election Day is {date}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "campaign-ask",
-      "text": "Tell your friends.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "campaign-ask",
@@ -1051,12 +1016,6 @@
       "text": "I called {opponent} to concede.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "concession-concede",
-      "text": "I wish {opponent} well.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "concession-concede",
@@ -1337,8 +1296,8 @@
     {
       "move": "debate-moderator",
       "text": "Let {name} finish.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "debate-moderator",
@@ -1360,12 +1319,6 @@
     },
     {
       "move": "debate-rebut",
-      "text": "That's not accurate.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "debate-rebut",
       "text": "Let me respond to that.",
       "documents": 1,
       "modern": 1
@@ -1384,12 +1337,6 @@
     },
     {
       "move": "debate-rebut",
-      "text": "Let me answer the question.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "debate-rebut",
       "text": "I'm going to answer the question.",
       "documents": 0,
       "modern": 0
@@ -1397,8 +1344,8 @@
     {
       "move": "debate-rebut",
       "text": "I'll answer the question.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "debate-rebut",
@@ -1445,8 +1392,8 @@
     {
       "move": "debate-closing",
       "text": "Thank you for watching.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "debate-closing",

@@ -37,8 +37,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
-      "dcpd": 3000,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -111,9 +112,10 @@
           "choice": "which"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "U.S. Senate Historical Office oral history": 3,
+        "dcpd": 1,
         "house": 1,
         "nasa": 2,
         "nasa2": 2,
@@ -121,10 +123,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Gratia K. Lousma (Wife of Skylab and Space Shuttle Astronaut Jack R. Lousma)",
-        "date": "2019-07-10",
-        "granule": "jsc-lousmagk-7-10-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
+        "document": "Remarks to Members of the Press With President Volodymyr Zelenskyy of Ukraine in Kyiv, Ukraine",
+        "date": "2023-02-20",
+        "granule": "DCPD-202300126",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300126/html/DCPD-202300126.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -199,18 +201,19 @@
           "choice": "deadline"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
-        "dcpd": 2,
+        "briefing": 1,
+        "dcpd": 3,
         "hearings": 1,
         "ntia": 1
       },
       "shippable": true,
       "source": {
-        "document": "NOMINATION OF MICHAEL G. WHITAKER, NOMINEE TO BE ADMINISTRATOR, FEDERAL AVIATION ADMINISTRATION",
-        "date": "2023-10-04",
-        "granule": "CHRG-118shrg60397",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60397/html/CHRG-118shrg60397.htm",
+        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Miami, Florida",
+        "date": "2025-04-03",
+        "granule": "DCPD-202500427",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500427/html/DCPD-202500427.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -253,16 +256,16 @@
           "choice": "age"
         }
       ],
-      "transcriptsUsing": 1,
+      "transcriptsUsing": 2,
       "bySource": {
-        "dcpd": 1
+        "dcpd": 2
       },
       "shippable": true,
       "source": {
-        "document": "Remarks at a Labor Day Celebration in West Mifflin, Pennsylvania",
-        "date": "2022-09-05",
-        "granule": "DCPD-202200760",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200760/html/DCPD-202200760.htm",
+        "document": "Remarks Prior to a Meeting With President Gabriel Boric Font of Chile and an Exchange With Reporters",
+        "date": "2023-11-02",
+        "granule": "DCPD-202300972",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300972/html/DCPD-202300972.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -357,9 +360,10 @@
           "choice": "short-fee"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 7,
       "bySource": {
-        "dcpd": 1,
+        "briefing": 1,
+        "dcpd": 2,
         "hearings": 1,
         "nasa": 1,
         "nasa2": 1,
@@ -367,10 +371,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "21ST CENTURY COMMUNITIES: CAPITALIZING ON OPPORTUNITIES IN THE CLEAN ENERGY ECONOMY",
-        "date": "2021-04-22",
-        "granule": "CHRG-117shrg47912",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47912/html/CHRG-117shrg47912.htm",
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre, National Economic Council Director Lael Brainard, and NSC Coordinator for Strategic Communications John Kirby",
+        "date": "2023-10-26",
+        "granule": "WH-2023-10-26-press-briefing-by-press-secretary-karine-jean-pierre-national-economic",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/10/26/press-briefing-by-press-secretary-karine-jean-pierre-national-economic-council-director-lael-brainard-and-nsc-coordinator-for-strategic-communications-john-kirby/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -442,16 +446,16 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
-        "dcpd": 4
+        "dcpd": 6
       },
       "shippable": true,
       "source": {
-        "document": "Remarks at a Women's History Month Event",
-        "date": "2025-03-26",
-        "granule": "DCPD-202500401",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500401/html/DCPD-202500401.htm",
+        "document": "dcpd of 2025-06-27",
+        "date": "2025-06-27",
+        "granule": "DCPD-202500723",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500723/html/DCPD-202500723.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -468,7 +472,7 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 226,
+      "transcriptsUsing": 313,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
@@ -481,7 +485,8 @@
         "U.S. Election Assistance Commission (eac.gov)": 13,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 11,
         "U.S. Senate Historical Office oral history": 13,
-        "dcpd": 54,
+        "briefing": 58,
+        "dcpd": 83,
         "hearings": 18,
         "house": 8,
         "nasa": 27,
@@ -511,13 +516,14 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 114,
+      "transcriptsUsing": 131,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 3,
         "crec": 6,
-        "dcpd": 78,
+        "dcpd": 92,
         "hearings": 11,
         "nasa": 4,
         "nasa2": 1,
@@ -577,13 +583,14 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 55,
+      "transcriptsUsing": 101,
       "bySource": {
         "Federal Election Commission (fec.gov)": 3,
         "U.S. Election Assistance Commission (eac.gov)": 14,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 26,
+        "briefing": 7,
+        "dcpd": 65,
         "hearings": 2,
         "nasa": 3,
         "nasa2": 3,
@@ -611,12 +618,12 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 45,
+      "transcriptsUsing": 69,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
-        "dcpd": 31,
+        "dcpd": 55,
         "hearings": 2,
         "nasa": 3,
         "nasa2": 1,
@@ -670,7 +677,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 319,
+      "transcriptsUsing": 383,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
@@ -679,8 +686,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 53,
         "crec": 10,
-        "dcpd": 45,
+        "dcpd": 56,
         "hearings": 209,
         "house": 3,
         "nasa": 11,
@@ -710,7 +718,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 2614,
+      "transcriptsUsing": 3800,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Federal Election Commission (fec.gov)": 3,
@@ -729,8 +737,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 54,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 42,
         "U.S. Senate Historical Office oral history": 60,
+        "briefing": 797,
         "crec": 28,
-        "dcpd": 599,
+        "dcpd": 988,
         "doi": 1,
         "hearings": 901,
         "house": 75,
@@ -762,7 +771,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 1767,
+      "transcriptsUsing": 2389,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
         "Federal Election Commission (fec.gov)": 1,
@@ -781,8 +790,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 38,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
         "U.S. Senate Historical Office oral history": 29,
+        "briefing": 469,
         "crec": 12,
-        "dcpd": 371,
+        "dcpd": 524,
         "hearings": 971,
         "house": 18,
         "hud": 1,
@@ -815,14 +825,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 156,
+      "transcriptsUsing": 176,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 14,
         "crec": 1,
-        "dcpd": 6,
+        "dcpd": 12,
         "hearings": 114,
         "house": 1,
         "nasa": 1,
@@ -852,7 +863,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 294,
+      "transcriptsUsing": 348,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 5,
@@ -864,8 +875,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
         "U.S. Senate Historical Office oral history": 8,
+        "briefing": 38,
         "crec": 1,
-        "dcpd": 27,
+        "dcpd": 43,
         "hearings": 100,
         "house": 6,
         "nasa": 3,
@@ -895,7 +907,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 4577,
+      "transcriptsUsing": 6578,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
@@ -913,8 +925,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 61,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 20,
         "U.S. Senate Historical Office oral history": 26,
+        "briefing": 768,
         "crec": 92,
-        "dcpd": 2187,
+        "dcpd": 3420,
         "doi": 1,
         "hearings": 1592,
         "house": 70,
@@ -950,7 +963,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 689,
+      "transcriptsUsing": 1038,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -961,8 +974,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 36,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 274,
         "crec": 2,
-        "dcpd": 176,
+        "dcpd": 251,
         "hearings": 391,
         "house": 11,
         "nasa": 16,
@@ -993,14 +1007,15 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 214,
+      "transcriptsUsing": 257,
       "bySource": {
         "National Archives History Office oral history project": 2,
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Election Assistance Commission (eac.gov)": 13,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 34,
+        "briefing": 25,
+        "dcpd": 52,
         "hearings": 147,
         "nasa": 1,
         "nasa2": 4,
@@ -1029,7 +1044,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 71,
+      "transcriptsUsing": 72,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
@@ -1037,6 +1052,7 @@
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 3,
+        "briefing": 1,
         "crec": 2,
         "dcpd": 3,
         "hearings": 27,

@@ -37,8 +37,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
-      "dcpd": 3000,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -81,10 +82,10 @@
           "choice": "work"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 5,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 1,
+        "dcpd": 2,
         "hearings": 1,
         "house": 1
       },
@@ -163,12 +164,13 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 12,
       "bySource": {
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Army Center of Military History": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
+        "briefing": 1,
+        "dcpd": 3,
         "hearings": 2,
         "nasa2": 1,
         "nps": 1,
@@ -196,14 +198,15 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 92,
+      "transcriptsUsing": 109,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 7,
         "crec": 1,
-        "dcpd": 26,
+        "dcpd": 36,
         "hearings": 8,
         "nasa": 3,
         "nasa2": 6,
@@ -291,13 +294,14 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 85,
+      "transcriptsUsing": 108,
       "bySource": {
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 2,
         "crec": 1,
-        "dcpd": 68,
+        "dcpd": 89,
         "hearings": 5,
         "nasa2": 1,
         "nps": 1
@@ -324,11 +328,12 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 22,
       "bySource": {
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 2,
         "crec": 2,
-        "dcpd": 3,
+        "dcpd": 8,
         "hearings": 2,
         "nasa": 2,
         "nasa2": 2,
@@ -336,10 +341,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks on Federal Judicial Nominations",
-        "date": "2025-01-02",
-        "granule": "DCPD-202500004",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500004/html/DCPD-202500004.htm",
+        "document": "Remarks and an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
+        "date": "2025-09-14",
+        "granule": "DCPD-202500914",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500914/html/DCPD-202500914.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -382,9 +387,9 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
-        "dcpd": 2
+        "dcpd": 3
       },
       "shippable": true,
       "source": {

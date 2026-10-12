@@ -39,8 +39,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
-      "dcpd": 3000,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -67,7 +68,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 146
+    "notAttested": 141
   },
   "parts": [
     {
@@ -83,8 +84,9 @@
           "choice": "work-shift"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
+        "briefing": 1,
         "dcpd": 2
       },
       "shippable": true,
@@ -109,10 +111,10 @@
           "choice": "work-shift"
         }
       ],
-      "transcriptsUsing": 17,
+      "transcriptsUsing": 18,
       "bySource": {
         "crec": 2,
-        "dcpd": 2,
+        "dcpd": 3,
         "hearings": 1,
         "nasa": 2,
         "nasa2": 3,
@@ -141,18 +143,19 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "briefing": 1,
         "crec": 1,
         "dcpd": 1
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2024-04-10",
-        "date": "2024-04-10",
-        "granule": "CREC-2024-04-10-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-04-10",
+        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
+        "date": "2020-03-26",
+        "granule": "WH-2020-03-26-remarks-president-trump-vice-president-pence-members-coronavirus-task",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-12/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -169,17 +172,18 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
+        "dcpd": 1,
         "dol-osha": 4,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "U.S. Department of Labor Reminds Employers of the Dangers of Heat Illness",
-        "date": "2019-07-19",
-        "granule": "dol-osha-2019-07-19-u-s-department-of-labor-reminds-employers-of-the-dangers-of-8ac097db",
-        "url": "https://www.osha.gov/news/newsreleases/new-york-city/20190719",
+        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
+        "date": "2025-10-12",
+        "granule": "DCPD-202501004",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501004/html/DCPD-202501004.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -225,10 +229,11 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 1,
         "dcpd": 4,
         "nasa2": 1,
         "nps.gov": 1
@@ -349,20 +354,21 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
         "Naval History and Heritage Command, Navy strategy oral histories": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
+        "dcpd": 1,
         "hearings": 1,
         "house": 1,
         "nasa2": 2
       },
       "shippable": true,
       "source": {
-        "document": "THE LAW ENFORCEMENT EXPERIENCE ON JANUARY 6TH",
-        "date": "2021-07-27",
-        "granule": "CHRG-117hhrg50139",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg50139/html/CHRG-117hhrg50139.htm",
+        "document": "Remarks in an Exchange With Reporters at Morristown Municipal Airport in Morristown, New Jersey",
+        "date": "2025-04-27",
+        "granule": "DCPD-202500529",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500529/html/DCPD-202500529.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -467,10 +473,10 @@
           "choice": "look-up-local-institution"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 11,
       "bySource": {
         "crec": 2,
-        "dcpd": 6,
+        "dcpd": 7,
         "hearings": 1,
         "nasa2": 1
       },
@@ -576,19 +582,19 @@
           "choice": "take-up-cause"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 9,
       "bySource": {
         "crec": 2,
-        "dcpd": 2,
+        "dcpd": 5,
         "hearings": 1,
         "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "BOOK BANS: EXAMINING HOW CENSORSHIP LIMITS LIBERTY AND LITERATURE",
-        "date": "2023-09-12",
-        "granule": "CHRG-118shrg53878",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg53878/html/CHRG-118shrg53878.htm",
+        "document": "The President's News Conference in Évian-les-Bains, France",
+        "date": "2026-06-17",
+        "granule": "DCPD-202600410",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -688,11 +694,12 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 37,
+      "transcriptsUsing": 41,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 3,
         "crec": 1,
-        "dcpd": 7,
+        "dcpd": 8,
         "hearings": 13,
         "nasa": 2,
         "nps": 13
@@ -746,17 +753,18 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "NPS History Collection oral history: beale chad and paula mar 5 2020",
-        "date": "2020-03-05",
-        "granule": "npgallery-fc47216c",
-        "url": "https://npgallery.nps.gov/AssetDetail/fc47216c-f9e5-4174-886c-36ab4815f120",
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre, National Monkeypox Response Coordinator Bob Fenton and Deputy Coordinator Dr. Demetre Daskalakis",
+        "date": "2022-09-07",
+        "granule": "WH-2022-09-07-press-briefing-by-press-secretary-karine-jean-pierre-national-monkeypo",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2022/09/07/press-briefing-by-press-secretary-karine-jean-pierre-national-monkeypox-response-coordinator-bob-fenton-and-deputy-coordinator-dr-demetre-daskalakis/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -773,19 +781,20 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 7,
       "bySource": {
         "National Archives History Office oral history project": 1,
+        "briefing": 1,
         "crec": 1,
-        "dcpd": 2,
+        "dcpd": 3,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "Remarks at the Turning Point U.S.A. Student Action Summit in West Palm Beach, Florida",
-        "date": "2019-12-21",
-        "granule": "DCPD-201900886",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-201900886/html/DCPD-201900886.htm",
+        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
+        "date": "2020-04-03",
+        "granule": "WH-2020-04-03-remarks-president-trump-vice-president-pence-members-coronavirus-task-x",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-17/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -812,6 +821,60 @@
         "date": "2020-08-05",
         "granule": "DCPD-202000573",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202000573/html/DCPD-202000573.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.carry-on.keep-your-head-down",
+      "move": "carry-on",
+      "kind": "spoken",
+      "text": "Keep your head down.",
+      "uses": [
+        {
+          "move": "carry-on",
+          "subject": "action",
+          "role": "carry-on",
+          "choice": "carry-on"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Gaggle by Press Secretary Karine Jean-Pierre and Office of Public Engagement Director Stephen Benjamin en Route Austin, TX",
+        "date": "2024-07-29",
+        "granule": "WH-2024-07-29-press-gaggle-by-press-secretary-karine-jean-pierre-and-office-of-publi",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/07/29/press-gaggle-by-press-secretary-karine-jean-pierre-and-office-of-public-engagement-director-stephen-benjamin-en-route-austin-tx/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.share-cause.tell-your-friends",
+      "move": "share-cause",
+      "kind": "spoken",
+      "text": "Tell your friends.",
+      "uses": [
+        {
+          "move": "share-cause",
+          "subject": "action",
+          "role": "share-cause",
+          "choice": "share-cause"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "briefing": 1,
+        "nps.gov (PDF)": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Briefing by Press Secretary Jen Psaki and National Security Advisor Jake Sullivan, March 12, 2021",
+        "date": "2021-03-12",
+        "granule": "WH-2021-03-12-press-briefing-by-press-secretary-jen-psaki-march-12-2021",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2021/03/12/press-briefing-by-press-secretary-jen-psaki-march-12-2021/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -897,6 +960,59 @@
       }
     },
     {
+      "key": "choice-names.join-cause-group.join-them",
+      "move": "join-cause-group",
+      "kind": "spoken",
+      "text": "Join them.",
+      "uses": [
+        {
+          "move": "join-cause-group",
+          "subject": "action",
+          "role": "join-cause-group",
+          "choice": "join-cause-group"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the COVID–19 Response and National Vaccination Efforts and an Exchange With Reporters",
+        "date": "2021-12-21",
+        "granule": "DCPD-202101072",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202101072/html/DCPD-202101072.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.donate-to-cause.donate",
+      "move": "donate-to-cause",
+      "kind": "spoken",
+      "text": "Donate.",
+      "uses": [
+        {
+          "move": "donate-to-cause",
+          "subject": "action",
+          "role": "donate-to-cause",
+          "choice": "donate-to-cause"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks by President Trump, Vice President Pence, and Members of the C oronavirus Task Force in Press Briefing",
+        "date": "2020-03-20",
+        "granule": "WH-2020-03-20-remarks-president-trump-vice-president-pence-members-c-oronavirus-task",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-c-oronavirus-task-force-press-briefing/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "choice-names.seek-standing.meet-name",
       "move": "seek-standing",
       "kind": "spoken",
@@ -936,9 +1052,9 @@
           "choice": "run-for-office"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
-        "dcpd": 2
+        "dcpd": 3
       },
       "shippable": true,
       "source": {
@@ -962,7 +1078,7 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 124,
+      "transcriptsUsing": 169,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
@@ -972,8 +1088,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 9,
+        "briefing": 18,
         "crec": 1,
-        "dcpd": 30,
+        "dcpd": 57,
         "hearings": 46,
         "house": 4,
         "nasa": 6,
@@ -1005,11 +1122,12 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 32,
+      "transcriptsUsing": 46,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 5,
         "crec": 2,
-        "dcpd": 12,
+        "dcpd": 21,
         "hearings": 5,
         "nasa": 5,
         "nasa2": 2,
@@ -1038,10 +1156,11 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 114,
+      "transcriptsUsing": 150,
       "bySource": {
+        "briefing": 9,
         "crec": 2,
-        "dcpd": 27,
+        "dcpd": 54,
         "hearings": 85
       },
       "shippable": true,
@@ -1066,7 +1185,7 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 253,
+      "transcriptsUsing": 354,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -1076,8 +1195,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
         "U.S. Senate Historical Office oral history": 10,
+        "briefing": 86,
         "crec": 22,
-        "dcpd": 30,
+        "dcpd": 45,
         "hearings": 123,
         "house": 8,
         "nasa": 15,
@@ -1107,10 +1227,11 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 30,
+      "transcriptsUsing": 61,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "dcpd": 9,
+        "briefing": 8,
+        "dcpd": 32,
         "hearings": 19,
         "nasa2": 1
       },
@@ -1136,8 +1257,9 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 17,
       "bySource": {
+        "briefing": 2,
         "dcpd": 3,
         "hearings": 11,
         "nps": 1
@@ -1164,10 +1286,11 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 10,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 1,
+        "briefing": 3,
+        "dcpd": 2,
         "hearings": 4
       },
       "shippable": true,
@@ -1192,10 +1315,11 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 7,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 2,
+        "briefing": 1,
+        "dcpd": 4,
         "hearings": 1
       },
       "shippable": true,
@@ -1220,9 +1344,10 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 23,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
+        "briefing": 3,
         "crec": 1,
         "dcpd": 3,
         "hearings": 11,
@@ -1251,18 +1376,18 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 13,
       "bySource": {
         "crec": 5,
-        "dcpd": 1,
+        "dcpd": 3,
         "hearings": 5
       },
       "shippable": true,
       "source": {
-        "document": "OVERSIGHT OF THE INFRASTRUCTURE INVESTMENT AND JOBS ACT: MODAL PERSPECTIVES",
-        "date": "2023-12-13",
-        "granule": "CHRG-118hhrg56093",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56093/html/CHRG-118hhrg56093.htm",
+        "document": "dcpd of 2025-02-27",
+        "date": "2025-02-27",
+        "granule": "DCPD-202500307",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500307/html/DCPD-202500307.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1305,7 +1430,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 272,
+      "transcriptsUsing": 323,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 7,
@@ -1318,7 +1443,8 @@
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
         "U.S. Senate Historical Office oral history": 24,
-        "dcpd": 28,
+        "briefing": 39,
+        "dcpd": 40,
         "hearings": 20,
         "house": 14,
         "nasa": 37,
@@ -1348,7 +1474,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 1659,
+      "transcriptsUsing": 2084,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
         "Federal Election Commission (fec.gov)": 2,
@@ -1367,8 +1493,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 20,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 71,
         "U.S. Senate Historical Office oral history": 100,
+        "briefing": 191,
         "crec": 55,
-        "dcpd": 445,
+        "dcpd": 679,
         "hearings": 216,
         "house": 54,
         "nasa": 169,
@@ -1400,10 +1527,10 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
-        "dcpd": 1
+        "dcpd": 2
       },
       "shippable": true,
       "source": {
@@ -1411,6 +1538,33 @@
         "date": "2025-01-24",
         "granule": "DCPD-202500174",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500174/html/DCPD-202500174.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.stance-answer.im-in-favor-of-it",
+      "move": "stance-answer",
+      "kind": "spoken",
+      "text": "I'm in favor of it.",
+      "uses": [
+        {
+          "move": "stance-answer",
+          "subject": "action",
+          "role": "stance-answer",
+          "choice": "answer"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
+        "date": "2020-04-20",
+        "granule": "WH-2020-04-20-remarks-president-trump-vice-president-pence-members-coronavirus-task-x",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-28/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1427,13 +1581,14 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 63,
+      "transcriptsUsing": 76,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "U.S. Senate Historical Office oral history": 5,
-        "dcpd": 28,
+        "briefing": 2,
+        "dcpd": 39,
         "hearings": 21,
         "nasa": 2,
         "nasa2": 3
@@ -1460,7 +1615,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 1859,
+      "transcriptsUsing": 2239,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Federal Election Commission (fec.gov)": 1,
@@ -1477,8 +1632,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 32,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 36,
         "U.S. Senate Historical Office oral history": 51,
+        "briefing": 259,
         "crec": 28,
-        "dcpd": 268,
+        "dcpd": 389,
         "hearings": 1066,
         "house": 50,
         "nasa": 72,
@@ -1509,7 +1665,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 183,
+      "transcriptsUsing": 243,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "Naval History and Heritage Command, Navy strategy oral histories": 1,
@@ -1517,8 +1673,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 54,
         "crec": 12,
-        "dcpd": 11,
+        "dcpd": 17,
         "hearings": 119,
         "house": 2,
         "nasa": 10,
@@ -1548,7 +1705,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 146,
+      "transcriptsUsing": 157,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
@@ -1560,7 +1717,8 @@
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
         "U.S. Senate Historical Office oral history": 4,
-        "dcpd": 12,
+        "briefing": 2,
+        "dcpd": 21,
         "hearings": 46,
         "house": 17,
         "nasa": 3,
@@ -1623,7 +1781,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 82,
+      "transcriptsUsing": 85,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 1,
@@ -1632,8 +1790,9 @@
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 6,
         "U.S. Senate Historical Office oral history": 10,
+        "briefing": 1,
         "crec": 2,
-        "dcpd": 23,
+        "dcpd": 25,
         "hearings": 4,
         "house": 5,
         "nasa": 11,
@@ -1662,7 +1821,7 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 377,
+      "transcriptsUsing": 468,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
@@ -1677,8 +1836,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
         "U.S. Senate Historical Office oral history": 14,
+        "briefing": 60,
         "crec": 14,
-        "dcpd": 52,
+        "dcpd": 83,
         "hearings": 188,
         "house": 11,
         "nasa": 18,
