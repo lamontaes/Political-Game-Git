@@ -16,18 +16,27 @@ export function localBusinessPlansFor(
   return compile(read)(id);
 }
 // stopgapId: "economy.business-plan-opening-caps"
+interface LocalBusinessKind {
+  readonly key: string;
+  readonly name: (familyName: string) => string;
+  readonly classification: OrganizationClassification;
+  readonly ownerTitle: string;
+  readonly workerTitle: string;
+  readonly workerOccupation: OccupationClassification;
+  readonly workers: number;
+}
+export interface LocalBusinessPlan {
+  readonly kind: LocalBusinessKind;
+  readonly index: number;
+  readonly workers: number;
+  readonly monthlyRevenueMinor: number;
+  readonly expected: number | null;
+  readonly sourced: boolean;
+  readonly estimateBasis?: string;
+}
 function compile(
   localBusinessSupplyFor: (id: EntityId) => ReturnType<typeof supplyFromFacts>,
 ) {
-  interface LocalBusinessKind {
-    readonly key: string;
-    readonly name: (familyName: string) => string;
-    readonly classification: OrganizationClassification;
-    readonly ownerTitle: string;
-    readonly workerTitle: string;
-    readonly workerOccupation: OccupationClassification;
-    readonly workers: number;
-  }
   const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     {
       key: "grocery",
@@ -104,15 +113,6 @@ function compile(
   ];
   const LOCAL_BUSINESS_MAX_PER_KIND = 2;
   const LOCAL_BUSINESS_MAX_STAFF = 3;
-  interface LocalBusinessPlan {
-    readonly kind: LocalBusinessKind;
-    readonly index: number;
-    readonly workers: number;
-    readonly monthlyRevenueMinor: number;
-    readonly expected: number | null;
-    readonly sourced: boolean;
-    readonly estimateBasis?: string;
-  }
   function computePlans(
     jurisdictionId: EntityId,
   ): readonly LocalBusinessPlan[] {

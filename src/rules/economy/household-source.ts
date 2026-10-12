@@ -18,13 +18,18 @@ export function householdMixForJurisdiction(
   return read(id);
 }
 // stopgapId: "economy.household-source-fallback"
+type HouseholdShape =
+  | "alone"
+  | "couple"
+  | "couple-with-children"
+  | "parent-with-children"
+  | "housemates";
+type HouseholdMixBasis = "place" | "state" | "national";
+export interface HouseholdMix {
+  readonly shares: readonly (readonly [HouseholdShape, number])[];
+  readonly basis: HouseholdMixBasis;
+}
 function compile(facts: HouseholdSourceFacts) {
-  type HouseholdShape =
-    | "alone"
-    | "couple"
-    | "couple-with-children"
-    | "parent-with-children"
-    | "housemates";
   const HOUSEHOLD_SHAPE_ORDER: readonly HouseholdShape[] = [
     "alone",
     "couple",
@@ -32,11 +37,6 @@ function compile(facts: HouseholdSourceFacts) {
     "parent-with-children",
     "housemates",
   ];
-  type HouseholdMixBasis = "place" | "state" | "national";
-  interface HouseholdMix {
-    readonly shares: readonly (readonly [HouseholdShape, number])[];
-    readonly basis: HouseholdMixBasis;
-  }
   let table: ReadonlyMap<string, readonly number[]> | null = null;
   function rows(): ReadonlyMap<string, readonly number[]> {
     if (table) return table;
