@@ -35,18 +35,18 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
 
-- [ ] **National economy and central bank.** _(Built on #3996; generated-world proof and bench panel in progress.)_ Monthly growth, jobs, prices and rates; board members are fictional people deciding from their views.
+- [x] **National economy and central bank.** _(Done Oct 12: M1-02 passes in the golden-path runner in drawn places; panels for the bench; seats turn over on their real dates; a custom world sets the opening figures.)_ Monthly growth, jobs, prices and rates; board members are fictional people deciding from their views.
   - Verified by: M1-02: a year inside real historical bands; one rate decision changes what loans cost in the town; every vote has its reasons.
   - Needs: CORE (calendar)
-- [ ] **State and metro economies.** _(Built on #3996: 132 regions; tests pass; awaiting a generated-world year.)_ Each state plus its one or two largest metros, moving with the nation by its own industries; towns follow their region.
+- [x] **State and metro economies.** _(Done Oct 12: 132 regions; M1-03's divergence test passes; towns' pay and prices follow their region in every generated-world year.)_ Each state plus its one or two largest metros, moving with the nation by its own industries; towns follow their region.
   - Verified by: M1-03: two random states diverge plausibly; a town's prices and pay follow its region.
-- [ ] **Jobs.** _(Built on #3996 on OPUS-CORE's two-level population: all 2,401 jobs in Absecon, a year in 18 s. Hires 2.5% a month against JOLTS's 3.6%, quits 2.2% against 1.9%; layoffs still far below.)_ Openings from need, hiring on fit, quits and layoffs for reasons, on the two-level population.
+- [ ] **Jobs.** _(Built on #3996 on the two-level population: hires 2.5% a month against JOLTS's 3.6%, quits 2.2% against 1.9%, seasons by industry, entry and exit, unemployment insurance. Open: layoffs 0.04% a month against 1.4%, which needs firm-level demand shifts.)_ Openings from need, hiring on fit, quits and layoffs for reasons, on the two-level population.
   - Verified by: M1-04: a year inside job-turnover ranges; every job change has a reason.
   - Needs: CORE (population, money fix)
-- [ ] **Credit and housing.** _(First cuts on #3996: the town bank lends prime-linked business lines; owners and renters in the town's real share, rent with arrears, eviction through each place's steps. Household loans and mortgages wait for the core's accounts.)_ Banks and loans that balance; rent, buying and evictions through each place's legal steps.
+- [ ] **Credit and housing.** _(Built on #3996: business lines by owners' choice, household loans, mortgages, buying, property tax, construction and zoning, landlords' patience, evictions by each place's steps, right to counsel. Open: deposits at the town bank, and households moving in to fill new homes, OPUS-CORE.)_ Banks and loans that balance; rent, buying and evictions through each place's legal steps.
   - Verified by: M1-06 and M1-05.
   - Needs: GOV (laws), CORE (accounts)
-- [ ] **Businesses growing.** _(Built on #3996: every business has an owner who draws from net cash gained; owners hand businesses on; founding and new locations by choice; chains from repeated growth. Absecon, New Jersey, three years: 6 openings and 5 closures among about 27 businesses, a little below the state's BDS rates. Voluntary closure waits on OPUS-CORE.)_ Founding by choice, owners taking profit, new locations, chains emerging.
+- [x] **Businesses growing.** _(Done Oct 12: owners draw profit, borrow, found, open locations, hand on and close by choice; Absecon, three years: 8 of 30 closed, 27% against BDS's 24%; new businesses win customers through the core's market split.)_ Founding by choice, owners taking profit, new locations, chains emerging.
   - Verified by: M1-08.
   - Needs: Jobs, credit
 
