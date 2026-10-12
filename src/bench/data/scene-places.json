@@ -111,5 +111,13 @@
     "us-senate": "us-senate-floor",
     "us-house": "us-house-floor",
     "default": "public-meeting-room"
-  }
+  },
+  "speechPlaces": [
+    "rally-courthouse-square",
+    "rally-downtown-plaza",
+    "rally-county-fairground",
+    "school-gym-town-hall",
+    "rally-union-hall-parking-lot",
+    "rally-stage"
+  ]
 }

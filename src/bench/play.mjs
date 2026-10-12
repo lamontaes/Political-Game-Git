@@ -448,6 +448,14 @@ async function campaignRows() {
           : result.reached !== undefined
             ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
             : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+      // A speech is seen where it was given, with the people it reached.
+      if (result.scene) {
+        closeSheet();
+        $("backdrop").src = result.scene.backdrop.url;
+        drawPeople(result.scene.people);
+        $("card-why").textContent = campaignResult;
+        return;
+      }
       openSheet("politics");
     };
     const question = el(
@@ -462,6 +470,16 @@ async function campaignRows() {
       {},
       el("option", { value: "1", textContent: "For" }),
       el("option", { value: "-1", textContent: "Against" }),
+    );
+    const venue = el(
+      "select",
+      {},
+      ...(v.venues ?? []).map((place) =>
+        el("option", {
+          value: place,
+          textContent: controls.venues?.[place] ?? place,
+        }),
+      ),
     );
     const button = (label, kind, extra) => {
       const b = el("button", { type: "button", textContent: label });
@@ -493,8 +511,9 @@ async function campaignRows() {
           {},
           question,
           side,
+          venue,
           button("Speech", "speech", () => ({
-            venue: me.scene?.place ?? "",
+            venue: venue.value,
             statements: `${question.value}=${side.value}`,
           })),
         ),

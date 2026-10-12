@@ -17,5 +17,13 @@
     "moment": "Something needs you",
     "choice": "A choice",
     "results": "Election results"
+  },
+  "venues": {
+    "rally-courthouse-square": "Courthouse square",
+    "rally-downtown-plaza": "Downtown plaza",
+    "rally-county-fairground": "County fairground",
+    "school-gym-town-hall": "School gym",
+    "rally-union-hall-parking-lot": "Union hall",
+    "rally-stage": "Rally stage"
   }
 }

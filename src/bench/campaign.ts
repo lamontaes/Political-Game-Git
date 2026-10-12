@@ -14,13 +14,16 @@ import {
 import { campaignParameter, PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import type { FilingRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
+import { backdropFile, stagePeople } from "./scene";
+import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
-  if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], questions: [] };
+  if (!core.modules.has(CAMPAIGNS))
+    return { campaigns: [], questions: [], venues: [] };
   const api = coreAPI(core);
   const filings = (
     api
@@ -30,6 +33,7 @@ export function campaignView(core: CoreState, personId: string) {
   ).filter((row) => row.status !== "withdrawn");
   return {
     questions: PLATFORM_QUESTIONS,
+    venues: scenePlaces.speechPlaces,
     campaigns: filings.map((filing) => {
       const campaign = campaignFor(api, filing.id);
       const polls = api
@@ -116,20 +120,23 @@ export function campaignAct(
         }),
       );
     }
-    case "speech":
-      return summary(
-        giveSpeech(api, {
-          filingId: input.filingId,
-          venue: input.venue ?? "",
-          statements: (input.statements ?? "")
-            .split(",")
-            .filter(Boolean)
-            .map((row) => {
-              const [question, position] = row.split("=");
-              return { question: question!, position: Number(position) };
-            }),
-        }),
-      );
+    case "speech": {
+      const causes = giveSpeech(api, {
+        filingId: input.filingId,
+        venue: input.venue ?? "",
+        statements: (input.statements ?? "")
+          .split(",")
+          .filter(Boolean)
+          .map((row) => {
+            const [question, position] = row.split("=");
+            return { question: question!, position: Number(position) };
+          }),
+      });
+      return {
+        ...summary(causes),
+        scene: speechScene(core, personId, input.venue, causes),
+      };
+    }
     case "volunteer":
       return {
         answers: known.map((id) => ({
@@ -166,4 +173,31 @@ export function campaignAct(
     default:
       throw new Error("Unknown campaign act.");
   }
+}
+
+/** The speech where it was given: the candidate up front, the people it reached around them. */
+function speechScene(
+  core: CoreState,
+  personId: string,
+  venue: string | undefined,
+  causes: readonly CauseRow[],
+) {
+  const place = scenePlaces.speechPlaces.includes(venue ?? "")
+    ? venue!
+    : scenePlaces.speechPlaces[0]!;
+  const ids = [personId, ...new Set(causes.map((row) => row.voterId))].filter(
+    (id) => core.people.get(id)?.alive,
+  );
+  return {
+    place,
+    backdrop: backdropFile(place, 18 * 60),
+    ...stagePeople(
+      core,
+      place,
+      ids.map((id) => {
+        const row = core.people.get(id)!;
+        return { id, name: `${row.givenName} ${row.familyName}` };
+      }),
+    ),
+  };
 }
