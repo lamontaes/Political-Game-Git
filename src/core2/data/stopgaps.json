@@ -1102,5 +1102,41 @@
     "addedAt": "2026-10-12",
     "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-landlord",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 123,
+    "whatItFakes": "All of a town's rentals belong to one landlord business with no owner, and it serves notice as soon as rent is past the grace period.",
+    "why": "Landlords as businesses with owners who decide from their own books and patience come with businesses growing (M1-08).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Landlord businesses founded and owned by people (M1-08), deciding whether and when to serve notice through the shared chooser.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-eviction-steps",
+    "kind": "estimated-law",
+    "file": "src/core2/modules/housing.ts",
+    "line": 189,
+    "whatItFakes": "Eviction notice, hearing and stay periods for places whose statute was not read in full; missing values take the median of the better-sourced places.",
+    "why": "State code sites refused the research helpers' requests; 51 of 56 places are recalled or summarized, not read (data/research/housing/eviction-steps-2026.json).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-hearing-without-judge",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 301,
+    "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
+    "why": "Courts are parked until after early access (owner, Oct 10).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
+    "status": "open"
   }
 ]
