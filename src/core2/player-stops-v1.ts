@@ -445,6 +445,20 @@ export function earliestModuleStopsV1(
   return output;
 }
 
+/**
+ * Read-only: the controlled person's active clock frontier, the exact moment
+ * work recorded now happens on the player's clock. Undefined when no clock is
+ * active. Modules use it to register a stop at a record's own time.
+ */
+export function playerClockFrontierV1(
+  core: CoreState,
+  controlledPersonId: string,
+): WorkMomentV1 | undefined {
+  assertFactoryCoreV1(core);
+  const clock = clockSnapshot(core, text(controlledPersonId));
+  return clock.active ? clock.frontier : undefined;
+}
+
 /** One active clock per actual controlled person. Root owns session/cursor admission. */
 export function bindModuleStopClockV1(
   core: CoreState,
