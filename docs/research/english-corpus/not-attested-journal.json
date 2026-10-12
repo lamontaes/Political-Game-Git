@@ -1,17 +1,51 @@
 {
   "register": "journal",
   "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
     "crec": 445,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
     "hearings": 1617,
     "house": 115,
+    "hud": 996,
     "nasa": 317,
     "nasa2": 349,
+    "ncua": 683,
     "nih": 52,
     "nps": 515,
+    "nps.gov": 1484,
+    "nps.gov (PDF)": 125,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
     "wpa": 38
   },
   "notAttested": [
@@ -23,12 +57,6 @@
     },
     {
       "move": "school-line-started",
-      "text": "I went to school at {school}.",
-      "documents": 3,
-      "modern": 0
-    },
-    {
-      "move": "school-line-started",
       "text": "I started school at {school}.",
       "documents": 0,
       "modern": 0
@@ -36,18 +64,12 @@
     {
       "move": "school-line-started",
       "text": "I enrolled at {school}.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
       "move": "work-line-started",
       "text": "I started working at {employer}.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "work-line-started",
-      "text": "I went to work at {employer}.",
       "documents": 1,
       "modern": 1
     },
@@ -78,7 +100,7 @@
     {
       "move": "work-line-started",
       "text": "I took a job at {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -91,12 +113,6 @@
       "move": "work-line-started",
       "text": "I was hired at {employer}.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
-      "text": "I started working for {employer}.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -120,7 +136,7 @@
     {
       "move": "work-line-lost",
       "text": "I was let go.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -132,7 +148,7 @@
     {
       "move": "work-line-lost",
       "text": "I was fired.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -150,7 +166,7 @@
     {
       "move": "work-line-lost",
       "text": "They let me go.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -234,7 +250,7 @@
     {
       "move": "family-line-married",
       "text": "We were married.",
-      "documents": 2,
+      "documents": 4,
       "modern": 0
     },
     {
@@ -246,13 +262,13 @@
     {
       "move": "home-line-moved",
       "text": "Then we moved to {place}.",
-      "documents": 10,
+      "documents": 14,
       "modern": 0
     },
     {
       "move": "home-line-moved",
       "text": "Then I moved to {place}.",
-      "documents": 2,
+      "documents": 4,
       "modern": 0
     },
     {
@@ -260,12 +276,6 @@
       "text": "I moved.",
       "documents": 1,
       "modern": 0
-    },
-    {
-      "move": "home-line-moved",
-      "text": "I moved back to {place}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "money-line-short",
@@ -322,12 +332,6 @@
       "modern": 0
     },
     {
-      "move": "contact-line-saw",
-      "text": "I ran into {other}.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "contact-line-saw-often",
       "text": "I saw {other} {times}.",
       "documents": 1,
@@ -342,7 +346,7 @@
     {
       "move": "contact-line-saw-often",
       "text": "I saw a lot of {other}.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -516,7 +520,7 @@
     {
       "move": "office-other-filed",
       "text": "{other} decided to run.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -536,12 +540,6 @@
       "text": "I lost the election.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "office-line-lost",
-      "text": "I didn't win.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "office-line-lost",

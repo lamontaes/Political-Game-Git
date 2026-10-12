@@ -1,17 +1,51 @@
 {
   "register": "interview",
   "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
     "crec": 445,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
     "hearings": 1617,
     "house": 115,
+    "hud": 996,
     "nasa": 317,
     "nasa2": 349,
+    "ncua": 683,
     "nih": 52,
     "nps": 515,
+    "nps.gov": 1484,
+    "nps.gov (PDF)": 125,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
     "wpa": 38
   },
   "notAttested": [
@@ -26,12 +60,6 @@
       "text": "Thank you for talking with us.",
       "documents": 1,
       "modern": 0
-    },
-    {
-      "move": "reporter-open",
-      "text": "Thanks for taking the time.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "reporter-why-run",
@@ -148,12 +176,6 @@
       "modern": 0
     },
     {
-      "move": "reporter-record",
-      "text": "Was that a mistake?",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "reporter-opponent",
       "text": "What do you think of your opponent?",
       "documents": 0,
@@ -252,7 +274,7 @@
     {
       "move": "official-commit",
       "text": "I'm going to fight for {issue}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -312,7 +334,7 @@
     {
       "move": "official-record",
       "text": "Look at my record.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {

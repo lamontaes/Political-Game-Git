@@ -27,21 +27,55 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/news.json",
     "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
       "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
       "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
       "crec": 445,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
       "hearings": 1617,
       "house": 115,
+      "hud": 996,
       "nasa": 317,
       "nasa2": 349,
+      "ncua": 683,
       "nih": 52,
       "nps": 515,
+      "nps.gov": 1484,
+      "nps.gov (PDF)": 125,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 68
+    "notAttested": 67
   },
   "parts": [
     {
@@ -65,10 +99,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2023-06-23",
-        "date": "2023-06-23",
-        "granule": "CREC-2023-06-23-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2023-06-23",
+        "document": "DEPARTMENT OF LABOR, HEALTH AND HUMAN SERVICES, AND EDUCATION, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2018",
+        "date": "2018-05-02",
+        "granule": "CHRG-115shrg79104782",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg79104782/html/CHRG-115shrg79104782.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -85,9 +119,9 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 13,
       "bySource": {
-        "crec": 10,
+        "crec": 11,
         "hearings": 1,
         "house": 1
       },
@@ -113,9 +147,10 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 28,
+      "transcriptsUsing": 29,
       "bySource": {
         "crec": 15,
+        "doj": 1,
         "hearings": 3,
         "nps": 1,
         "wpa": 9
@@ -142,9 +177,15 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 33,
+      "transcriptsUsing": 52,
       "bySource": {
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (ross-oral-histories)": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "U.S. Senate Historical Office oral history": 9,
         "crec": 6,
         "hearings": 2,
         "house": 4,
@@ -152,14 +193,15 @@
         "nasa2": 1,
         "nih": 1,
         "nps": 11,
+        "nps.gov": 1,
         "wpa": 4
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2025-12-15",
-        "date": "2025-12-15",
-        "granule": "CREC-2025-12-15-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15",
+        "document": "EXAMINING THE FEDERAL AVIATION ADMINISTRATION'S OVERSIGHT OF AIRCRAFT CERTIFICATION",
+        "date": "2020-06-17",
+        "granule": "CHRG-116shrg52680",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg52680/html/CHRG-116shrg52680.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -216,6 +258,33 @@
       }
     },
     {
+      "key": "news.election-result.name-lost-the-election",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} lost the election.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "National Archives History Office oral history project": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Alan Lowe oral history interview",
+        "date": "2016-06-15",
+        "granule": "nara-staff-alan-lowe-final",
+        "url": "https://www.archives.gov/files/about/history/alan-lowe-final.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "news.council-vote.the-vote-was-count",
       "move": "council-vote",
       "kind": "spoken",
@@ -236,10 +305,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2025-01-21",
-        "date": "2025-01-21",
-        "granule": "CREC-2025-01-21-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-01-21",
+        "document": "Board of Advisors Meeting — transcript (EAC0419VerbatimBOA.pdf)",
+        "date": "2019-04-24",
+        "granule": "eac-2019-04-24-eac0419verbatimboa",
+        "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC0419VerbatimBOA.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

@@ -1,17 +1,51 @@
 {
   "register": "scene-words",
   "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
     "crec": 445,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
     "hearings": 1617,
     "house": 115,
+    "hud": 996,
     "nasa": 317,
     "nasa2": 349,
+    "ncua": 683,
     "nih": 52,
     "nps": 515,
+    "nps.gov": 1484,
+    "nps.gov (PDF)": 125,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
     "wpa": 38
   },
   "notAttested": [
@@ -64,6 +98,30 @@
       "modern": 0
     },
     {
+      "move": "setting-home-home",
+      "text": "You are in your home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-home-home",
+      "text": "You're in your home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-home-home",
+      "text": "You are inside your home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-home-home",
+      "text": "You're inside your home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-other-home-their-home",
       "text": "You're at {host} house.",
       "documents": 0,
@@ -90,6 +148,30 @@
     {
       "move": "setting-other-home-their-home",
       "text": "You're at {host}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-other-home-their-home",
+      "text": "You are at {host} home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-other-home-their-home",
+      "text": "You are at {host} house.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-other-home-their-home",
+      "text": "You are in {host} home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-other-home-their-home",
+      "text": "You're in {host} home.",
       "documents": 0,
       "modern": 0
     },
@@ -130,6 +212,24 @@
       "modern": 0
     },
     {
+      "move": "setting-workplace-work",
+      "text": "You are now at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-workplace-work",
+      "text": "You're at your workplace.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-workplace-work",
+      "text": "You are at your workplace.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-school-school",
       "text": "You're at school.",
       "documents": 0,
@@ -150,6 +250,24 @@
     {
       "move": "setting-school-school",
       "text": "You're in class.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-school-school",
+      "text": "You are at school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-school-school",
+      "text": "You are in a classroom.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "setting-school-school",
+      "text": "You're in a classroom.",
       "documents": 0,
       "modern": 0
     },
@@ -178,6 +296,66 @@
       "modern": 0
     },
     {
+      "move": "setting-public-out",
+      "text": "You are in {place}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You are standing in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You're standing in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You are now in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You are in downtown {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You are on Main Street.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You're on Main Street.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You are outside.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You're outside.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You are standing on Main Street.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-phone-phone",
       "text": "Your phone rings.",
       "documents": 0,
@@ -186,6 +364,30 @@
     {
       "move": "setting-phone-phone",
       "text": "Your phone rang.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-phone-phone",
+      "text": "You get a phone call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-phone-phone",
+      "text": "You receive a phone call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-phone-phone",
+      "text": "You get a call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-phone-phone",
+      "text": "Your cell phone rings.",
       "documents": 0,
       "modern": 0
     },
@@ -250,6 +452,36 @@
       "modern": 0
     },
     {
+      "move": "setting-letter-letter",
+      "text": "You receive a letter.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "You get a letter in the mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "You receive a letter in the mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "A letter arrives in the mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "You get mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "present-one-one",
       "text": "{who} is with you.",
       "documents": 0,
@@ -258,6 +490,24 @@
     {
       "move": "present-one-one",
       "text": "{who} is there too.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "present-one-one",
+      "text": "{who} is here too.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "present-one-one",
+      "text": "{who} is waiting for you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "present-one-one",
+      "text": "{who} is waiting.",
       "documents": 0,
       "modern": 0
     },
@@ -276,6 +526,12 @@
     {
       "move": "present-many-many",
       "text": "{who_many} are with you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "present-many-many",
+      "text": "{who_many} are waiting for you.",
       "documents": 0,
       "modern": 0
     },
@@ -324,6 +580,18 @@
     {
       "move": "cause-tie:contact-seeing",
       "text": "You and {other} are friends.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "text": "You've been spending time with {other}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "text": "You have been seeing {other}.",
       "documents": 0,
       "modern": 0
     },
@@ -382,6 +650,30 @@
       "modern": 0
     },
     {
+      "move": "cause-money:job-ended-lost",
+      "text": "You have lost your job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You are out of work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You are unemployed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You're unemployed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "cause-money:job-started-started",
       "text": "You've started at {employer}.",
       "documents": 0,
@@ -390,7 +682,7 @@
     {
       "move": "cause-money:job-started-started",
       "text": "You started at {employer}.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -414,7 +706,7 @@
     {
       "move": "cause-money:job-started-started",
       "text": "You have a new job.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -448,6 +740,30 @@
       "modern": 0
     },
     {
+      "move": "cause-money:job-started-started",
+      "text": "You have a job at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You work at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You start work at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You are starting a new job.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
       "move": "cause-home:moved-moved",
       "text": "You've moved to {place}.",
       "documents": 0,
@@ -456,7 +772,7 @@
     {
       "move": "cause-home:moved-moved",
       "text": "You moved to {place}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -487,6 +803,66 @@
       "move": "cause-home:moved-moved",
       "text": "You moved.",
       "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You have moved to {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You are new to {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You're new to {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You have just moved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-venue-venue",
+      "text": "You are in {place}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "setting-venue-venue",
+      "text": "You are now in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-venue-venue",
+      "text": "You are standing in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-venue-venue",
+      "text": "You're standing in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-venue-venue",
+      "text": "You are inside {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-venue-venue",
+      "text": "You're inside {place}.",
+      "documents": 0,
       "modern": 0
     }
   ]

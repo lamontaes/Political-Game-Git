@@ -1,17 +1,51 @@
 {
   "register": "choice-names",
   "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
     "crec": 445,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
     "hearings": 1617,
     "house": 115,
+    "hud": 996,
     "nasa": 317,
     "nasa2": 349,
+    "ncua": 683,
     "nih": 52,
     "nps": 515,
+    "nps.gov": 1484,
+    "nps.gov (PDF)": 125,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
     "wpa": 38
   },
   "notAttested": [
@@ -77,26 +111,8 @@
     },
     {
       "move": "rest",
-      "text": "Stay home.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "rest",
-      "text": "Rest.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "rest",
       "text": "Sleep in.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "rest",
-      "text": "Take it easy.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -104,12 +120,6 @@
       "text": "Stay in bed.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "contact-known-person",
-      "text": "Go see {name}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "contact-known-person",
@@ -174,12 +184,6 @@
     {
       "move": "care-for-relative",
       "text": "Take {relation} to the doctor.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "join-association",
-      "text": "Join {group}.",
       "documents": 0,
       "modern": 0
     },
@@ -288,7 +292,7 @@
     {
       "move": "approach-office",
       "text": "Contact your representative.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -347,12 +351,6 @@
     },
     {
       "move": "look-up-local-institution",
-      "text": "Find out more.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "look-up-local-institution",
       "text": "Look into it.",
       "documents": 0,
       "modern": 0
@@ -366,12 +364,6 @@
     {
       "move": "take-up-cause",
       "text": "Do something about it.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "take-up-cause",
-      "text": "Take a stand.",
       "documents": 1,
       "modern": 1
     },
@@ -480,7 +472,7 @@
     {
       "move": "prove-oneself",
       "text": "Go back to school.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -540,8 +532,8 @@
     {
       "move": "answer-calling",
       "text": "Do your part.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "answer-calling",
@@ -554,12 +546,6 @@
       "text": "Move on.",
       "documents": 1,
       "modern": 0
-    },
-    {
-      "move": "carry-on",
-      "text": "Carry on.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "carry-on",
@@ -576,7 +562,7 @@
     {
       "move": "carry-on",
       "text": "Keep your head down.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -653,12 +639,6 @@
     },
     {
       "move": "join-cause-group",
-      "text": "Join {group}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "join-cause-group",
       "text": "Join the group.",
       "documents": 1,
       "modern": 1
@@ -671,12 +651,6 @@
     },
     {
       "move": "join-cause-group",
-      "text": "Sign up.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "join-cause-group",
       "text": "Join them.",
       "documents": 0,
       "modern": 0
@@ -684,8 +658,8 @@
     {
       "move": "donate-to-cause",
       "text": "Donate to {group}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "donate-to-cause",
@@ -768,7 +742,7 @@
     {
       "move": "confront-grudge-target",
       "text": "Go talk to {name}.",
-      "documents": 0,
+      "documents": 3,
       "modern": 0
     },
     {
@@ -782,12 +756,6 @@
       "text": "Call {name} out.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "seek-standing",
-      "text": "Meet {name}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "seek-standing",
@@ -959,12 +927,6 @@
     },
     {
       "move": "stance-question",
-      "text": "What's your position on {topic}?",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "stance-question",
       "text": "Is {topic} a problem here?",
       "documents": 0,
       "modern": 0
@@ -984,7 +946,7 @@
     {
       "move": "stance-answer",
       "text": "I haven't decided.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {

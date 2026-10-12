@@ -171,6 +171,27 @@ export const ADDRESS_REGISTERS: Readonly<
       { move: "close", act: "thank" },
     ],
   },
+  // The cinematic opening: a President's State of the Union or inaugural.
+  // Stand-in: the engine has no register card for a president's address
+  // yet, so these compose under election-night until PEOPLE adds one.
+  "state-of-the-union": {
+    register: "election-night",
+    moves: [
+      { move: "salutation", act: "greet", required: true },
+      { move: "report", act: "tell" },
+      { move: "guest", act: "praise" },
+      { move: "ask", act: "request" },
+      { move: "close", act: "farewell" },
+    ],
+  },
+  inaugural: {
+    register: "election-night",
+    moves: [
+      { move: "salutation", act: "greet", required: true },
+      { move: "moment", act: "promise" },
+      { move: "close", act: "farewell" },
+    ],
+  },
   victory: {
     register: "election-night",
     moves: [{ move: "claim", act: "thank", required: true }],
