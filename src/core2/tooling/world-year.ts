@@ -21,6 +21,12 @@ const core = createLifeCore(withWorldEconomy(input), {
   data,
   modules: [...WORLD_MODULES],
 });
+const cashNow = () =>
+  [...core.people.values(), ...core.organizations.values()].reduce(
+    (n, row) => n + row.liquidMinor,
+    0,
+  );
+const opening = cashNow();
 const t1 = performance.now();
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCFullYear(end.getUTCFullYear() + 1);
@@ -46,6 +52,9 @@ for (const row of changes)
   byKind[`${row.kind}:${row.reasonKey}`] =
     (byKind[`${row.kind}:${row.reasonKey}`] ?? 0) + 1;
 const books = [...core.finance.businesses.values()];
+let outsideNet = 0;
+for (const row of core.cashJournal.externalFlowsByOwner.values())
+  outsideNet += row.netMinor;
 console.log(
   JSON.stringify(
     {
@@ -54,6 +63,7 @@ console.log(
       start: input.startedAt,
       buildSeconds: Math.round((t1 - t0) / 1000),
       yearSeconds: Math.round((performance.now() - t1) / 1000),
+      everyDollarBalances: cashNow() === opening - outsideNet,
       national: {
         bandRows: bands.length,
         outside: bands.filter((row) => !row.inside).length,

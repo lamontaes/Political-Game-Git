@@ -5,7 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
-import { WORLD_TRANSFER_MODULE, transferCash } from "./world-transfer";
+import { transferCash } from "./world-transfer";
 import type { CoreInput, Source } from "./types";
 
 const start = "2021-01-01",
@@ -88,7 +88,7 @@ describe("eviction follows the place's steps", () => {
       law = housingData.eviction[usps];
     const core = createLifeCore(input(usps), {
         data: worldCoreData(),
-        modules: [WORLD_TRANSFER_MODULE, HOUSING_MODULE],
+        modules: [HOUSING_MODULE],
       }),
       api = coreAPI(core);
     advanceCore(core, "2021-04-30");
@@ -119,7 +119,7 @@ describe("paying within the notice period", () => {
   it("in South Carolina, whose statute lets a tenant cure, cures the case when the household pays what it owes before the deadline", () => {
     const core = createLifeCore(input("SC"), {
         data: worldCoreData(),
-        modules: [WORLD_TRANSFER_MODULE, HOUSING_MODULE],
+        modules: [HOUSING_MODULE],
       }),
       api = coreAPI(core);
     advanceCore(core, "2021-02-07");
