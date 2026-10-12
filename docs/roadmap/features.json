@@ -1,7 +1,8 @@
 {
-  "_about": "Owner-approved specs for the road to early access (docs/ROADMAP.md). Each spec stays passes:false until its test passes in a place drawn at random from all 56 AND the finisher has played it in the test bench. Sessions may change only 'passes' (with evidence in the PR). They may never edit 'test'. The CTO adds 'command' once a spec's automated test exists. M1 to M7 specs are added here when the owner approves them.",
+  "_about": "Owner-approved specs for the road to early access (docs/ROADMAP.md). Each spec stays passes:false until its test passes in a place drawn at random from all 56 AND the finisher has played it in the test bench. Sessions may change only 'passes' (with evidence in the PR). They may never edit 'test'. The CTO adds 'command' once a spec's automated test exists. M1 to M7 specs are added here when the owner approves them. M2-01 sits under M1 because the owner moved it there (built with M1-12 in M1-officials).",
   "milestones": {
-    "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)"
+    "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)",
+    "M1": "The world runs (owner-approved Oct 10, 2026)"
   },
   "features": [
     {
@@ -30,7 +31,7 @@
       "title": "Time: Day, Week, Calendar, and skip until something needs you",
       "golden_path": "1",
       "package": "M0-bench",
-      "test": "A skip from a random date stops exactly at the earliest of: a moment over the 0.50 interrupt line, a fixed commitment, or an offer with a deadline; it says which one; nothing was skipped past.",
+      "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment, or an offer with a deadline; it says which one; nothing was skipped past.",
       "command": null,
       "passes": false
     },
@@ -101,8 +102,8 @@
       "golden_path": "studio",
       "package": "M0-guard",
       "test": "A deliberately broken step-2 change turns the check red, and the suite fits its time budget.",
-      "command": null,
-      "passes": false
+      "command": "node --import tsx --test tests/golden-path/runner.node-test.mjs",
+      "passes": true
     },
     {
       "id": "M0-11",
@@ -111,8 +112,8 @@
       "golden_path": "studio",
       "package": "M0-guard",
       "test": "A change that makes a year more than 20% slower than its base fails the check, and the report names the slowest steps.",
-      "command": null,
-      "passes": false
+      "command": "node --import tsx --test scripts/core2-guard/compare.node-test.mjs",
+      "passes": true
     },
     {
       "id": "M0-12",
@@ -121,6 +122,156 @@
       "golden_path": "studio",
       "package": "CTO",
       "test": "A fresh session can read docs/roadmap/features.json and docs/roadmap/PROGRESS.md, pick the top unfinished feature and start without asking anyone what's next.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-01",
+      "milestone": "M1",
+      "title": "Laws in force, every level",
+      "golden_path": "world",
+      "package": "M1-laws",
+      "test": "For a random place, tracked laws (minimum wage; income, sales and property taxes; major benefit amounts) match that place's real starting law at every level; a higher level's override wins where it legally does; a law that hasn't taken effect yet doesn't apply.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-02",
+      "milestone": "M1",
+      "title": "The national economy and central bank",
+      "golden_path": "world",
+      "package": "M1-macro",
+      "test": "A one-year run keeps national figures within real historical spreads (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth, inside the 5th to 95th percentile of 1990 to the latest year); a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-03",
+      "milestone": "M1",
+      "title": "State and metro economies",
+      "golden_path": "world",
+      "package": "M1-regional",
+      "test": "In a year, two randomly drawn states diverge plausibly in jobs and wages (each inside the real spread of one-year state changes since 2000); a town's prices and pay follow its region; each state's and metro's starting figures match real data.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-04",
+      "milestone": "M1",
+      "title": "Jobs",
+      "golden_path": "world",
+      "package": "M1-jobs",
+      "test": "Over a year in a random place, unemployment, hiring and quitting stay within real ranges (federal job-turnover data), and every job change on record has a reason.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-05",
+      "milestone": "M1",
+      "title": "Housing",
+      "golden_path": "world",
+      "package": "M1-housing",
+      "test": "Rents and home prices in a random place fall within real ranges for its region; an eviction happens only from unpaid rent, through the steps that place's law requires.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-06",
+      "milestone": "M1",
+      "title": "Credit and banks",
+      "golden_path": "world",
+      "package": "M1-credit",
+      "test": "Every loan's money balances from lender to borrower and back; defaults follow borrowers' real circumstances, never a chance roll.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-07",
+      "milestone": "M1",
+      "title": "Budgets and taxes, every level",
+      "golden_path": "world",
+      "package": "M1-budgets-taxes + M1-budgets-programs",
+      "test": "In a random place over a year, every level adopts a budget on its real calendar; federal and state money reaches named residents and the town; every dollar balances; spending and taxes per resident fall within real ranges.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-08",
+      "milestone": "M1",
+      "title": "Businesses grow and shrink",
+      "golden_path": "world",
+      "package": "M1-business",
+      "test": "A year's business openings and closings stay within real rates (Census Business Dynamics Statistics); owners' income comes from profit; across multi-year runs, some businesses add locations without being scripted to.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-09",
+      "milestone": "M1",
+      "title": "Births, moves and new residents",
+      "golden_path": "world",
+      "package": "M1-renewal",
+      "test": "A year's births and moves in a random place stay within that place's real rates; the town's population changes the way real towns do instead of winding down.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-10",
+      "milestone": "M1",
+      "title": "Political views",
+      "golden_path": "world",
+      "package": "M1-views",
+      "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-11",
+      "milestone": "M1",
+      "title": "Drives answer the economy",
+      "golden_path": "world",
+      "package": "M1-drives-economy",
+      "test": "Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-12",
+      "milestone": "M1",
+      "title": "Important people everywhere",
+      "golden_path": "world",
+      "package": "M1-officials",
+      "test": "Click any official in any state: a full record with personality, history, relationships and the positions behind their votes.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-01",
+      "milestone": "M1",
+      "title": "Offices and seats, every level",
+      "golden_path": "world",
+      "package": "M1-officials",
+      "test": "In a random place, every seat that covers the player has a holder with a record and a term; a vacancy is filled the way that office's real rules say.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-13",
+      "milestone": "M1",
+      "title": "Other places, coarser",
+      "golden_path": "world",
+      "package": "M1-other-places",
+      "test": "In a year, other places' populations and voters' views change from their own conditions within real ranges, and their public events are recorded with place and date so news (M2-09) can carry them. (Narrowed by the owner, Oct 10: other councils legislating is M3-10; news delivery is M2-09.)",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M1-14",
+      "milestone": "M1",
+      "title": "History before your start",
+      "golden_path": "world",
+      "package": "M1-history",
+      "test": "A new game in a random place opens on its start date; people have recent life events dated in the years before it; the economy's recent path matches real figures; laws in force show their dated changes before the start; governments show prior years' budgets; the load time and size are measured. (Owner, Oct 10: officials' election records and recent laws with their effects are added with M2 and M3.)",
       "command": null,
       "passes": false
     }
