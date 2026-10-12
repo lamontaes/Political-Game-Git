@@ -934,12 +934,52 @@ export const BUSINESS_MODULE: CoreModule = {
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
       foundings: {},
       successions: {},
+      closures: {},
     },
   },
   reasonProviders: {
     [PULL]: (_api, _actor, _offer, binding) => ({
       value: Number(binding.arguments!.value),
     }),
+  },
+  eventKinds: ["organization.closed"],
+  onEvent(api, event) {
+    if (!store(api).table("state").get("business:state")) return;
+    const c = core(api);
+    // The closure event's id ends with the closed business.
+    const organizationId = event.id.split(":").slice(2).join(":");
+    const row = store(api).table("owners").get(organizationId) as
+      OwnerRow | undefined;
+    if (!row) return;
+    const book = c.finance.businesses.get(organizationId);
+    store(api)
+      .table("closures")
+      .put({
+        id: `closure:${organizationId}`,
+        organizationId,
+        ownerId: row.ownerId,
+        date: c.date,
+        cause: "could-not-pay",
+        workersAffected: event.personIds.length,
+        salesMinor: book?.salesReceivedMinor ?? 0,
+        wagesMinor: book?.wagesPaidMinor ?? 0,
+      });
+    // The owner answers for it: drives about a closure name them (M1-11).
+    api.emit({
+      id: `event:business.closed:${organizationId}`,
+      date: c.date,
+      kind: "business.closed",
+      personIds: c.people.get(row.ownerId)?.alive ? [row.ownerId] : [],
+      placeId: c.organizations.get(organizationId)?.placeId ?? "",
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: businessData.source.citation,
+        estimatedFrom: `${organizationId} closed when it could not pay what it owed; its owner ${row.ownerId} answers for it.`,
+      },
+      publicRecord: true,
+      topic: organizationId,
+    });
   },
   onCalendarWork(api, work) {
     if (work.kind !== "business-month") return;

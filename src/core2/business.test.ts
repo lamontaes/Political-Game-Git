@@ -371,4 +371,32 @@ describe("owners hand their business on", () => {
     expect(ownerOf(api(core), "diner:a")).toBe("cook");
   });
 });
+describe("a closure names its owner", () => {
+  it("records the closure with the owner who answers for it and emits business.closed naming them", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE],
+        scheduledWork: false,
+      }),
+      a = coreAPI(core);
+    books(core);
+    advanceCore(core, "2021-01-15");
+    a.emit({
+      id: `employer-closed:2021-01-15:${shop}`,
+      date: "2021-01-15",
+      kind: "organization.closed",
+      placeId: place,
+      personIds: ["clerk"],
+      publicRecord: true,
+      source: { ...src, asOf: "2021-01-15" },
+    });
+    expect(
+      a.moduleState("business").table("closures").get(`closure:${shop}`),
+    ).toMatchObject({
+      ownerId: "owner",
+      workersAffected: 1,
+    });
+    expect(core.eventIds.has(`event:business.closed:${shop}`)).toBe(true);
+  });
+});
 const api = (core: CoreState) => coreAPI(core);

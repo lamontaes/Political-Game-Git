@@ -1279,7 +1279,8 @@ export const JOBS_MODULE: CoreModule = {
         jobId: event.id,
         kind: "closure",
         reasonKey: jobsData.reasons.closure,
-        decidedBy: organizationId,
+        // The owner answers for the closure; a business without one answers as itself.
+        decidedBy: ownerOf(api, organizationId) ?? organizationId,
       });
       startSeeking(api, personId, false, jobsData.reasons.closure, 0);
     }
