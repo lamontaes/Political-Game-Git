@@ -203,7 +203,9 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         ),
       }),
     );
-  });
+    // A generated town (any of the 56 places, some very large) run through a
+    // legislative session takes 30 s or more, so this test names its own limit.
+  }, 180_000);
 
   it("an ordinance adding to a budget line changes the city's budget when it passes", () => {
     const allowing = Object.keys(authority).sort();
@@ -239,7 +241,9 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         ),
       }),
     );
-  });
+    // A generated town (any of the 56 places, some very large) run through a
+    // legislative session takes 30 s or more, so this test names its own limit.
+  }, 180_000);
 
   it("a state bill moves through both chambers on the same engine, the governor acts, and members' votes are on their records", () => {
     const states = Object.keys(authority)
@@ -330,7 +334,9 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
           ?.vote,
       }),
     );
-  });
+    // A generated town (any of the 56 places, some very large) run through a
+    // legislative session takes 30 s or more, so this test names its own limit.
+  }, 180_000);
 
   it("the mayor's budget priorities go to the council's vote at the fiscal year's start", () => {
     const { core, api } = town(Object.keys(authority).sort(), "budget-vote");
@@ -365,7 +371,9 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         parksAfter: next.spendingMinor.parks,
       }),
     );
-  });
+    // A whole generated town through a fiscal year takes 30 to 60 s in any
+    // town (about 45 s on a busy machine), so this test names its own limit.
+  }, 180_000);
 
   it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
     const { api, council } = town(Object.keys(authority).sort(), "catalog");
