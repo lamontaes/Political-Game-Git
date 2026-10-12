@@ -135,6 +135,7 @@ As of Oct 12, 4:25 a.m.:
 
 ## Owner decisions in force
 
+- Owner, Oct 12, 10:30 a.m.: every pillar may run Sonnet or Opus sub-agents that write code in its own area (`AGENTS.md`, "Pillars may build with sub-agents"): Sonnet for fixes, Opus for parallel roadmap steps, two at once when a build splits cleanly. The CTO checks in every 15 minutes. Two Sonnet fixers (FIXER-2: merge blockers; FIXER-3: skip crashes) open PRs against the owning branch. OPUS-WORDS (Opus, branch `opus-words`, status `docs/coordination/words.md`) owns the English engine's phrase banks (`data/english/parts/**`); OPUS-PEOPLE keeps the engine.
 - Keep it simple (`AGENTS.md`): two-level population, bookkeeping off in play, one run and one number, build only what the golden path needs, something to play every evening.
 - No session is capped; checklists are an order of work.
 - Owner, Oct 12, 8:49 a.m.:
