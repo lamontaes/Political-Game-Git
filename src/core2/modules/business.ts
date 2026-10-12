@@ -1,7 +1,11 @@
 /**
- * Businesses growing, first cut: every business has an owner, and each
- * month the owner chooses how much of that month's profit to draw, never
- * more than the profit the business has kept. Draws move through the ledger.
+ * Businesses growing: every business has an owner, and each month the owner
+ * chooses how much of that month's profit to draw, never more than the
+ * profit the business has kept. Where a place's market for a kind of
+ * business has room, the owners of that kind's strong businesses choose
+ * first whether to open another location there; if none does, the place's
+ * adults choose whether to found one. Chains are repeated growth, never
+ * scripted. Every payment moves through the ledger.
  */
 import { chooseAct } from "../choice";
 import businessData from "../data/business/business.json" with { type: "json" };
@@ -33,6 +37,16 @@ interface OwnerRow {
   operatingThrough: number;
   /** Profit earned and not yet drawn; the most an owner can take. */
   retainedMinor: number;
+  /** The business this one is a location of, when an owner opened it. */
+  parentId?: string;
+}
+
+interface Market {
+  placeId: string;
+  kindId: string;
+  room: number;
+  incumbents: string[];
+  staff: number;
 }
 
 function store(api: CoreAPI) {
@@ -201,18 +215,27 @@ function month(api: CoreAPI): void {
   }
 }
 
-/** Room in each industry: incumbents' demand above their capacity, as a share of capacity. */
-function marketRoom(
-  api: CoreAPI,
-): Map<string, { room: number; incumbents: string[]; staff: number }> {
+/** Room in each place's market for each kind: incumbents' demand above their capacity, as a share of capacity. */
+function marketRoom(api: CoreAPI): Market[] {
   const c = core(api);
   const out = new Map<
     string,
-    { demand: number; capacity: number; incumbents: string[]; staff: number }
+    {
+      placeId: string;
+      kindId: string;
+      demand: number;
+      capacity: number;
+      incumbents: string[];
+      staff: number;
+    }
   >();
   for (const [id, book] of c.finance.businesses) {
-    if (book.closedAt || !book.capacityMinor) continue;
-    const row = out.get(book.kindId) ?? {
+    const placeId = c.organizations.get(id)?.placeId;
+    if (book.closedAt || !book.capacityMinor || !placeId) continue;
+    const key = `${placeId}|${book.kindId}`;
+    const row = out.get(key) ?? {
+      placeId,
+      kindId: book.kindId,
       demand: 0,
       capacity: 0,
       incumbents: [],
@@ -223,38 +246,92 @@ function marketRoom(
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
     row.staff += c.finance.jobsByOrganization.get(id)?.size ?? 0;
-    out.set(book.kindId, row);
+    out.set(key, row);
   }
-  return new Map(
-    [...out].map(([kind, row]) => [
-      kind,
-      {
-        room: Math.max(0, row.demand / row.capacity - 1),
-        incumbents: row.incumbents,
-        staff: row.staff,
-      },
-    ]),
-  );
+  return [...out.values()].map((row) => ({
+    placeId: row.placeId,
+    kindId: row.kindId,
+    room: Math.max(0, row.demand / row.capacity - 1),
+    incumbents: row.incumbents,
+    staff: row.staff,
+  }));
 }
 
-/** Working-age full people choose whether to start a business where a market has room. */
+/**
+ * Where a place's market has the most room: the owners of strong businesses
+ * of that kind choose first whether to open a location there, then the
+ * place's working-age adults choose whether to found one.
+ */
 function foundings(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const rooms = [...marketRoom(api)]
-    .filter(([, row]) => row.room > 0)
-    .sort((a, b) => b[1].room - a[1].room);
-  if (!rooms.length) return;
-  const [kindId, market] = rooms[0]!;
-  const owners = new Set(
-    (
-      store(api).table("owners").query("all", [true]) as unknown as OwnerRow[]
-    ).map((row) => row.ownerId),
-  );
+  const market = marketRoom(api)
+    .filter((row) => row.room > 0)
+    .sort(
+      (a, b) =>
+        b.room - a.room ||
+        a.placeId.localeCompare(b.placeId) ||
+        a.kindId.localeCompare(b.kindId),
+    )[0];
+  if (!market) return;
+  const traits = businessData.traits;
+  const traitPull = (personId: string) => {
+    const person = c.people.get(personId)!;
+    return (
+      ((person.traits[traits.enterprising] ?? 0) +
+        (person.traits[traits.risk] ?? 0)) /
+      p("macroTraitScaleBoard")
+    );
+  };
+  const ownerRows = store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[];
+  // Owners of the kind's businesses anywhere, strongest books first.
+  const growers = ownerRows
+    .map((row) => {
+      const book = c.finance.businesses.get(row.id);
+      const owner = c.people.get(row.ownerId);
+      if (!book || book.closedAt || book.kindId !== market.kindId) return;
+      if (!owner?.alive) return;
+      const cash = c.organizations.get(row.id)!.liquidMinor;
+      const cushion =
+        (book.annualPayrollMinor / p("macroMonthsPerYear")) *
+        p("businessCushionMonths");
+      // Cash against its cushion, on a sliding scale from -1 (none) toward +1.
+      const strength = cushion > 0 ? (cash - cushion) / (cash + cushion) : 0;
+      return { row, owner, cash, cushion, strength };
+    })
+    .filter((row) => row !== undefined)
+    .sort(
+      (a, b) => b.strength - a.strength || a.row.id.localeCompare(b.row.id),
+    );
+  const decided = new Set<string>();
+  for (const grower of growers) {
+    if (decided.has(grower.owner.id)) continue;
+    decided.add(grower.owner.id);
+    const result = chooseAct(c, grower.owner.id, [
+      option(0, {}),
+      expandOption(market.kindId, {
+        baseline: p("businessExpandBaseline"),
+        room: p("businessFoundRoomWeight") * market.room,
+        traits: p("businessFoundTraitWeight") * traitPull(grower.owner.id),
+        books: p("businessExpandStrengthWeight") * grower.strength,
+      }),
+    ]);
+    if (result.selected!.definition.id !== businessData.actions.expand.id)
+      continue;
+    found(api, grower.owner.id, market, {
+      parentId: grower.row.id,
+      // The parent funds the location from cash above its own cushion.
+      fundsMinor: Math.max(0, grower.cash - grower.cushion),
+      strength: grower.strength,
+    });
+    return;
+  }
+  const owners = new Set(ownerRows.map((row) => row.ownerId));
   const seekers = c.modules.has("jobs")
     ? api.moduleState("jobs").table("seekers")
     : undefined;
-  const traits = businessData.traits;
   for (const person of [...c.people.values()].sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
@@ -263,31 +340,44 @@ function foundings(api: CoreAPI): void {
       p("jobsDaysPerYear");
     if (
       !person.alive ||
+      person.placeId !== market.placeId ||
       owners.has(person.id) ||
       age < p("businessFounderMinimumAge") ||
       age >= p("businessFounderMaximumAge")
     )
       continue;
-    const traitPull =
-      ((person.traits[traits.enterprising] ?? 0) +
-        (person.traits[traits.risk] ?? 0)) /
-      p("macroTraitScaleBoard");
     const unemployed = seekers?.get(person.id) && !person.jobId ? 1 : 0;
     const result = chooseAct(c, person.id, [
       option(0, {}),
-      foundOption(kindId, {
+      foundOption(market.kindId, {
         baseline: p("businessFoundBaseline"),
         room: p("businessFoundRoomWeight") * market.room,
-        traits: p("businessFoundTraitWeight") * traitPull,
+        traits: p("businessFoundTraitWeight") * traitPull(person.id),
         lostWork: p("businessFoundUnemployedWeight") * unemployed,
       }),
     ]);
     if (result.selected!.definition.id !== businessData.actions.found.id)
       continue;
-    found(api, person.id, kindId, market);
-    // One founding a month and town; the next month's room is measured afresh.
+    found(api, person.id, market);
+    // One opening a month; the next month's room is measured afresh.
     return;
   }
+}
+
+function expandOption(
+  kindId: string,
+  reasons: Record<string, number>,
+): ActOffer {
+  const base = foundOption(kindId, reasons);
+  return {
+    ...base,
+    definition: {
+      ...base.definition,
+      id: businessData.actions.expand.id,
+      actKinds: businessData.actions.expand.actKinds,
+    },
+    targetId: `business-expand:${kindId}`,
+  };
 }
 
 function foundOption(
@@ -309,25 +399,33 @@ function foundOption(
 function found(
   api: CoreAPI,
   founderId: string,
-  kindId: string,
-  market: { room: number; incumbents: string[]; staff: number },
+  market: Market,
+  location?: { parentId: string; fundsMinor: number; strength: number },
 ): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  const kindId = market.kindId;
   const founder = c.people.get(founderId)!;
-  const id = `organization:founded:${kindId}:${founderId}:${c.date}`;
+  const id = location
+    ? `organization:location:${location.parentId}:${market.placeId}:${c.date}`
+    : `organization:founded:${kindId}:${founderId}:${c.date}`;
   const source = {
     tag: "ESTIMATED" as const,
     asOf: c.date,
     citation: businessData.source.citation,
-    estimatedFrom: `Founded by ${founderId} where the town's ${kindId} businesses had demand ${(market.room * 100).toFixed(1)} percent above their capacity.`,
+    estimatedFrom: `${location ? `A location of ${location.parentId}, opened by its owner ${founderId}` : `Founded by ${founderId}`} where the place's ${kindId} businesses had demand ${(market.room * 100).toFixed(1)} percent above their capacity.`,
   };
+  const parentName = location
+    ? c.organizations.get(location.parentId)?.name
+    : undefined;
   api.addOrganization({
     id,
-    placeId: founder.placeId,
-    name: businessData.namePattern
-      .replace("{founder}", founder.familyName)
-      .replace("{kind}", kindId),
+    placeId: market.placeId,
+    name:
+      parentName ??
+      businessData.namePattern
+        .replace("{founder}", founder.familyName)
+        .replace("{kind}", kindId),
     kind: "employer",
     liquidMinor: 0,
     source,
@@ -355,44 +453,70 @@ function found(
     costContractIds: [],
     source,
   });
-  const loan = lendForFounding(
-    api,
-    id,
+  const startup =
     ((annualPayrollMinor + annualOtherCostsMinor) / p("macroMonthsPerYear")) *
-      p("businessStartupMonthsOfCosts"),
-    p("businessStartupTermMonths"),
-  );
+    p("businessStartupMonthsOfCosts");
+  // A location is funded first from its parent's spare cash; a loan covers the rest.
+  const funded = location
+    ? transferCash(
+        api,
+        `location-funding:${id}`,
+        location.parentId,
+        id,
+        Math.min(startup, location.fundsMinor),
+        source,
+      )
+    : 0;
+  const loan =
+    startup - funded > 0
+      ? lendForFounding(
+          api,
+          id,
+          startup - funded,
+          p("businessStartupTermMonths"),
+        )
+      : 0;
   const book = c.finance.businesses.get(id)!;
-  store(api).table("owners").put({
-    id,
-    isOwner: true,
-    ownerId: founderId,
-    since: c.date,
-    basis: "founder",
-    salesThrough: book.salesReceivedMinor,
-    wagesThrough: book.wagesPaidMinor,
-    operatingThrough: book.operatingPaidMinor,
-    retainedMinor: 0,
-  });
+  store(api)
+    .table("owners")
+    .put({
+      id,
+      isOwner: true,
+      ownerId: founderId,
+      since: c.date,
+      basis: location ? "location" : "founder",
+      ...(location ? { parentId: location.parentId } : {}),
+      salesThrough: book.salesReceivedMinor,
+      wagesThrough: book.wagesPaidMinor,
+      operatingThrough: book.operatingPaidMinor,
+      retainedMinor: 0,
+    });
   if (c.modules.has("jobs"))
     registerEmployer(api, id, Math.max(1, Math.round(market.staff * share)));
-  store(api).table("foundings").put({
-    id,
-    organizationId: id,
-    founderId,
-    kindId,
-    date: c.date,
-    room: market.room,
-    customersMonthlyMinor: monthly,
-    loanMinor: loan,
-    incumbents: market.incumbents.length,
-  });
+  store(api)
+    .table("foundings")
+    .put({
+      id,
+      organizationId: id,
+      founderId,
+      kindId,
+      placeId: market.placeId,
+      date: c.date,
+      room: market.room,
+      customersMonthlyMinor: monthly,
+      loanMinor: loan,
+      parentFundsMinor: funded,
+      incumbents: market.incumbents.length,
+      ...(location
+        ? { parentId: location.parentId, parentStrength: location.strength }
+        : {}),
+    });
   api.emit({
     id: `event:organization.founded:${id}`,
     date: c.date,
     kind: "organization.founded",
     personIds: [founderId],
-    placeId: founder.placeId,
+    placeId: market.placeId,
     source,
     publicRecord: true,
     topic: id,

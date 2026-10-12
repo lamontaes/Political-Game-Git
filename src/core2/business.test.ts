@@ -140,128 +140,180 @@ describe("owners draw from profit", () => {
   });
 });
 
-describe("founding a business where a market has room", () => {
-  it("an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", async () => {
-    const { CREDIT_MODULE } = await import("./modules/credit");
-    const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
-    const place2 = "place:founding-fixture",
-      residentsId = "residents:founding-fixture";
-    const s2: Source = { ...src, asOf: "2026-10-01" };
-    const base = withCentralBank({
-      seed: "founding-fixture",
-      startedAt: "2026-10-01",
-      people: [
-        {
-          id: "founder",
-          givenName: "Found",
-          familyName: "Fixture",
-          birthDate: "1985-01-01",
-          placeId: place2,
-          householdId: "household:founder",
-          tier: "monthly",
-          traits: {
-            "personality-v1:facet-enterprising": 3,
-            "people-mind-v1:risk": 3,
+async function foundingCore(owner: boolean) {
+  const { CREDIT_MODULE } = await import("./modules/credit");
+  const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
+  const place2 = "place:founding-fixture",
+    residentsId = "residents:founding-fixture";
+  const s2: Source = { ...src, asOf: "2026-10-01" };
+  const person = (
+    id: string,
+    traits: Record<string, number>,
+    job?: string,
+  ) => ({
+    id,
+    givenName: id,
+    familyName: "Fixture",
+    birthDate: "1985-01-01",
+    placeId: place2,
+    householdId: `household:${id}`,
+    tier: "monthly" as const,
+    traits,
+    liquidMinor: 0,
+    livingCostDailyMinor: 0,
+    source: s2,
+    familyIds: [],
+    knownIds: [],
+    ...(job ? { jobId: job } : {}),
+  });
+  const bold = {
+    "personality-v1:facet-enterprising": 3,
+    "people-mind-v1:risk": 3,
+  };
+  const people = [
+    person("founder", bold),
+    ...(owner ? [person("owner", bold, "job:owner")] : []),
+  ];
+  const base = withCentralBank({
+    seed: "founding-fixture",
+    startedAt: "2026-10-01",
+    people,
+    households: people.map((row) => ({
+      id: row.householdId,
+      placeId: place2,
+      memberIds: [row.id],
+      source: s2,
+    })),
+    jobs: owner
+      ? [
+          {
+            id: "job:owner",
+            personId: "owner",
+            organizationId: "diner:a",
+            title: "Owner",
+            hourlyMinor: 1,
+            hoursDaily: 1,
+            wageDailyMinor: 1,
+            source: s2,
           },
-          liquidMinor: 0,
-          livingCostDailyMinor: 0,
-          source: s2,
-          familyIds: [],
-          knownIds: [],
-        },
-      ],
-      households: [
-        {
-          id: "household:founder",
-          placeId: place2,
-          memberIds: ["founder"],
-          source: s2,
-        },
-      ],
-      jobs: [],
-      organizations: [
-        ...["diner:a", "diner:b"].map((id) => ({
-          id,
-          placeId: place2,
-          name: id,
-          kind: "employer",
-          liquidMinor: 1_000_000,
-          source: s2,
-        })),
-        {
-          id: "organization:bank:fixture",
-          placeId: place2,
-          name: "Bank",
-          kind: "bank",
-          liquidMinor: 500_000_000,
-          source: s2,
-        },
-        {
-          id: residentsId,
-          placeId: place2,
-          name: "Residents",
-          kind: "residents",
-          liquidMinor: 100_000_000,
-          source: s2,
-        },
-      ],
-      residents: {
-        version: "core2-residents-v1",
-        accounts: [{ placeId: place2, accountId: residentsId }],
-        households: [],
-        flows: ["diner:a", "diner:b"].map((id) => ({
-          id: `purchase:${id}`,
-          kind: "purchase" as const,
-          financeKind: "household.food",
-          payerId: residentsId,
-          payeeId: id,
-          residentsId,
-          placeId: place2,
-          amountMinor: 300_000,
-          firstAt: "2026-10-12",
-          cadence: { kind: "months" as const, every: 1, day: 12 },
-          salesReceipt: true,
-          marketAdjusted: false,
-          source: s2,
-        })),
+        ]
+      : [],
+    organizations: [
+      ...["diner:a", "diner:b"].map((id) => ({
+        id,
+        placeId: place2,
+        name: id,
+        kind: "employer",
+        liquidMinor: id === "diner:a" && owner ? 50_000_000 : 1_000_000,
+        source: s2,
+      })),
+      {
+        id: "organization:bank:fixture",
+        placeId: place2,
+        name: "Bank",
+        kind: "bank",
+        liquidMinor: 500_000_000,
         source: s2,
       },
-      focusPersonIds: [],
-      focusPlaceIds: [],
-      calendarDates: [],
-      gaps: [],
-    });
-    const core = createLifeCore(base, {
-      data: worldCoreData(),
-      modules: [MACRO_MODULE, CREDIT_MODULE, BUSINESS_MODULE],
-      scheduledWork: false,
-    });
-    for (const id of ["diner:a", "diner:b"]) {
-      const book = {
-        ...books(core),
-        organizationId: id,
-        kindId: "restaurant",
-        annualDemandMinor: 60_000_000,
-        capacityMinor: 40_000_000,
-      };
-      core.finance.businesses.set(id, book as BusinessBooksState);
-    }
-    core.finance.businesses.delete(shop);
+      {
+        id: residentsId,
+        placeId: place2,
+        name: "Residents",
+        kind: "residents",
+        liquidMinor: 100_000_000,
+        source: s2,
+      },
+    ],
+    residents: {
+      version: "core2-residents-v1",
+      accounts: [{ placeId: place2, accountId: residentsId }],
+      households: [],
+      flows: ["diner:a", "diner:b"].map((id) => ({
+        id: `purchase:${id}`,
+        kind: "purchase" as const,
+        financeKind: "household.food",
+        payerId: residentsId,
+        payeeId: id,
+        residentsId,
+        placeId: place2,
+        amountMinor: 300_000,
+        firstAt: "2026-10-12",
+        cadence: { kind: "months" as const, every: 1, day: 12 },
+        salesReceipt: true,
+        marketAdjusted: false,
+        source: s2,
+      })),
+      source: s2,
+    },
+    focusPersonIds: [],
+    focusPlaceIds: [],
+    calendarDates: [],
+    gaps: [],
+  });
+  const core = createLifeCore(base, {
+    data: worldCoreData(),
+    modules: [MACRO_MODULE, CREDIT_MODULE, BUSINESS_MODULE],
+    scheduledWork: false,
+  });
+  for (const id of ["diner:a", "diner:b"]) {
+    const book = {
+      ...books(core),
+      organizationId: id,
+      kindId: "restaurant",
+      annualDemandMinor: 60_000_000,
+      capacityMinor: 40_000_000,
+    };
+    core.finance.businesses.set(id, book as BusinessBooksState);
+  }
+  core.finance.businesses.delete(shop);
+  return core;
+}
+
+type Founding = {
+  founderId: string;
+  kindId: string;
+  customersMonthlyMinor: number;
+  loanMinor: number;
+  parentId?: string;
+  parentFundsMinor: number;
+};
+
+describe("founding a business where a market has room", () => {
+  it("an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", async () => {
+    const core = await foundingCore(false);
     const total = money(core);
     advanceCore(core, "2026-12-15");
     const foundings = api(core).moduleState("business").snapshot().tables
-      .foundings as unknown as {
-      founderId: string;
-      kindId: string;
-      customersMonthlyMinor: number;
-      loanMinor: number;
-    }[];
+      .foundings as unknown as Founding[];
     expect(foundings[0]).toMatchObject({
       founderId: "founder",
       kindId: "restaurant",
     });
+    expect(foundings[0]!.parentId).toBeUndefined();
     expect(foundings[0]!.customersMonthlyMinor).toBeGreaterThan(0);
     expect(foundings[0]!.loanMinor).toBeGreaterThan(0);
+    expect(money(core)).toBe(total);
+  });
+
+  it("the owner of a cash-rich restaurant opens a second location first, funded from its cash; money balances", async () => {
+    const core = await foundingCore(true);
+    const total = money(core);
+    advanceCore(core, "2026-12-15");
+    const t = api(core).moduleState("business").snapshot().tables;
+    const foundings = t.foundings as unknown as Founding[];
+    expect(foundings[0]).toMatchObject({
+      founderId: "owner",
+      kindId: "restaurant",
+      parentId: "diner:a",
+    });
+    expect(foundings[0]!.parentFundsMinor).toBeGreaterThan(0);
+    const owners = t.owners as unknown as {
+      ownerId: string;
+      parentId?: string;
+    }[];
+    expect(
+      owners.filter((row) => row.ownerId === "owner").length,
+    ).toBeGreaterThanOrEqual(2);
     expect(money(core)).toBe(total);
   });
 });

@@ -1143,7 +1143,7 @@
     "id": "SG-WORLD-business-opening-owners",
     "kind": "generated-identity",
     "file": "src/core2/modules/business.ts",
-    "line": 72,
+    "line": 86,
     "whatItFakes": "Each opening business is owned by its highest-paid current worker, as owner-operator.",
     "why": "The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.",
     "addedBy": "OPUS-WORLD",
