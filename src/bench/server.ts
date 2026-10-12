@@ -5,7 +5,7 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { openingShots } from "./opening";
-import { calendarItems, newsItems } from "./calendar";
+import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
@@ -385,7 +385,11 @@ const server = createServer(async (request, response) => {
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/news") {
-      send(200, newsItems(requireCore()));
+      const id = url.searchParams.get("id");
+      send(200, [
+        ...(id ? heardItems(requireCore(), id) : []),
+        ...newsItems(requireCore()),
+      ]);
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/opening") {

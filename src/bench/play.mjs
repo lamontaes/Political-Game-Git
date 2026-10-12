@@ -921,7 +921,7 @@ const sheets = {
             : []),
         ]
       : [];
-    const rows = await api("/api/news");
+    const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
     return [
       ...economy,
       ...rows.slice(0, 30).map((r) =>

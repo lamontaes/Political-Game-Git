@@ -3,6 +3,7 @@ import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import type { ContestRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
+import { storiesHeard } from "../core2/modules/news";
 
 const ELECTIONS = "core2-elections-v1";
 // Engineering window for the calendar screen, not a model value.
@@ -88,5 +89,18 @@ export function newsItems(core: CoreState) {
       date: row.date,
       kind: row.kind,
       facts: (row as { facts?: Record<string, unknown> }).facts ?? {},
+    }));
+}
+
+/** The stories the person has heard (OPUS-PEOPLE's news), newest first. */
+export function heardItems(core: CoreState, personId: string) {
+  if (!core.modules.has("news")) return [];
+  return storiesHeard(coreAPI(core), personId)
+    .slice(0, 30)
+    .map((story) => ({
+      id: story.id,
+      date: story.date,
+      kind: story.kind,
+      facts: story.facts,
     }));
 }
