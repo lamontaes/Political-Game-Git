@@ -158,7 +158,12 @@ const specs: Record<string, () => string> = {
     return `${label(w)}: ${answered.size} answers, ${mine} acts by the chosen person, ${others} acts by others`;
   },
 
-  /** A skip from a random date stops at the earliest stop and says which. */
+  /**
+   * A skip from a random date stops at the earliest thing that needs the
+   * player (a big moment, a deadline) and says which; a routine shift the
+   * character attends on its own never stops it (owner, Oct 12); nothing is
+   * skipped past.
+   */
   "M0-03"() {
     const w = world(),
       player = new BenchPlayer(w.core, w.director),
@@ -178,34 +183,47 @@ const specs: Record<string, () => string> = {
             })
           : player.resume({ kind: "stop", pauseId: result.packet.pauseId })),
       };
-    const at = result.packet.at,
-      known = earliestPlayerStopV1(w.core, {
-        controlledPersonId: chosen.id,
-        through: { date: addDays(makeIsoDate(at.date), 60), minuteOfDay: 0 },
-      });
-    const skip = player.advance("skip"),
+    const at = result.packet.at;
+    // Check-size lookahead (engineering): a month of the character's days.
+    const lookahead = 30;
+    const known = earliestPlayerStopV1(w.core, {
+      controlledPersonId: chosen.id,
+      through: {
+        date: addDays(makeIsoDate(at.date), lookahead),
+        minuteOfDay: 0,
+      },
+    });
+    const knownModuleStop = known?.modules.length ? known : null;
+    const skip = player.advance("skip", undefined, lookahead),
       packet = skip.packet;
-    check(
-      packet.kind === "stop",
-      `Skip ended without a stop (${packet.kind}).`,
-    );
-    const why = [
-      ...(packet.stop.work ? ["fixed commitment"] : []),
-      ...packet.stop.modules.map((row) =>
+    let why: string[] = [];
+    if (packet.kind === "stop") {
+      check(packet.stop.modules.length, "A routine shift stopped the skip.");
+      why = packet.stop.modules.map((row) =>
         row.kind === "interrupt" ? "big moment" : "deadline",
-      ),
-    ];
-    check(why.length, "The stop does not say why.");
-    // Nothing skipped past: the stop is no later than the earliest stop
-    // already known when the skip began (later moments can only be earlier).
-    if (known) {
+      );
+    } else
+      check(
+        packet.kind === "complete" &&
+          packet.at.date === addDays(makeIsoDate(at.date), lookahead),
+        `Skip ended early without a stop (${packet.kind}).`,
+      );
+    // Nothing skipped past: no stop already known when the skip began is
+    // earlier than where it ended (later moments can only be earlier).
+    if (knownModuleStop) {
       const later =
-        packet.at.date > known.at.date ||
-        (packet.at.date === known.at.date &&
-          packet.at.minuteOfDay > known.at.minuteOfDay);
-      check(!later, `Skip passed a known stop at ${JSON.stringify(known.at)}.`);
+        packet.at.date > knownModuleStop.at.date ||
+        (packet.at.date === knownModuleStop.at.date &&
+          packet.at.minuteOfDay > knownModuleStop.at.minuteOfDay);
+      check(
+        !later,
+        `Skip passed a known stop at ${JSON.stringify(knownModuleStop.at)}.`,
+      );
     }
-    return `${label(w)}: from ${at.date}, skip stopped ${packet.at.date} minute ${packet.at.minuteOfDay} for ${why.join(", ")}; ${skip.selfChosen.length} choices the character made itself`;
+    const shifts = skip.selfChosen.filter((row) =>
+      /scheduled-work/.test(row.actionId),
+    ).length;
+    return `${label(w)}: from ${at.date}, skip ${packet.kind === "stop" ? `stopped ${packet.at.date} minute ${packet.at.minuteOfDay} for ${why.join(", ")}` : `ran ${lookahead} days to ${packet.at.date} with nothing needing the player`}; the character attended ${shifts} shift choices and made ${skip.selfChosen.length} choices itself`;
   },
 
   /** Twenty sampled saved items each open a "why" made of saved records. */

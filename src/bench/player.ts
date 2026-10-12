@@ -198,12 +198,13 @@ export class BenchPlayer {
         packet = this.answerForSelf(packet, "skipping");
         continue;
       }
-      // A shift ending needs nothing from the player; the skip carries on.
+      // A routine shift the character attends on its own never stops a
+      // skip (owner, Oct 12): the character answers the shift's choice itself.
       if (
         packet.kind === "stop" &&
         mode === "skip" &&
         !packet.stop.modules.length &&
-        packet.stop.work?.reasons.every((row) => row.boundary === "end")
+        packet.stop.work
       ) {
         packet = resumePlayerV1(this.core, {
           kind: "stop",
