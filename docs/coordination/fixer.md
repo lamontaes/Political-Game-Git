@@ -40,6 +40,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Needs from other sessions
 
 - For the CTO: the Windows package job fails at `check:law-consequence-modules` ("manifest is out of date") on #4020 though the check passes on Linux for `main` and the branch. Not caused by #4020; worth assigning as its own bug.
+- For the CTO: the Mac package job on #4020 fails in the desktop smoke test (`creator-derived-age` never shows "age 27," at `desktop/scripts/creator-drive.mjs:92`). Not caused by #4020; likely a creator-screen regression on `main`.
 
 ## Log
 
