@@ -90,8 +90,18 @@ SLOT_PATTERNS = {
     "count": r"(?:\d{1,3}|" + NUMBER_WORD + r") to (?:\d{1,3}|" + NUMBER_WORD + r"|nothing)",
     "measure": r"(?:the |a |an )?[a-z][\w' -]{2,50}|(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)*",
     "action": r"[a-z][\w' ,-]{3,60}",
-    "money": r"\$\d[\d,.]*(?: (?:million|billion|thousand))?",
+    "money": r"\$\d[\d,.]*(?: (?:million|billion|trillion|thousand))?",
+    # A national count as a speech says one: "800,000", "2 million", "nearly 15 million".
+    "amount": r"(?:more than |nearly |almost |over )?(?:\d[\d,.]*(?: (?:thousand|million|billion))?|"
+    + NUMBER_WORD
+    + r"(?: (?:hundred|thousand|million|billion))+)",
     "purpose": r"[a-z][\w' ,-]{3,50}",
+    # The world's national numbers the opening speech reports.
+    "unemployment_rate": r"\d{1,2}(?:\.\d)?",
+    "inflation_rate": r"\d{1,2}(?:\.\d)?",
+    "growth_rate": r"\d{1,2}(?:\.\d)?",
+    "national_debt": r"\$\d[\d,.]*(?: (?:billion|trillion))?",
+    "deficit_cut": r"\$\d[\d,.]*(?: (?:million|billion|trillion))?",
     "law": r"(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)* (?:Act|Law|Rule|Ordinance)(?: of (?:19|20)\d\d)?",
     "term": r"(?:\d{1,3}|" + NUMBER_WORD + r")(?:[- ](?:and[- ]a[- ]half[- ])?)?(?:Years?|Months?|years?|months?)",
     "crime": r"[A-Za-z][\w' ,-]{3,60}",
@@ -108,10 +118,18 @@ SLOT_PATTERNS = {
     "whose": PROPER + r"'s?",
     "host": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?'s?",
 }
+SLOT_PATTERNS["payee"] = r"(?:the )?[A-Z][\w'.&-]*(?: [A-Z][\w'.&-]*| of| and| for)*"
+# A weather alert as the Weather Service names it, and until when.
+SLOT_PATTERNS["alert"] = r"(?:[A-Z][a-z]+ ){0,3}(?:Warning|Watch|Advisory)"
+SLOT_PATTERNS["until"] = r"(?:\d{1,4}(?::\d\d)? ?(?:AM|PM|a\.m\.|p\.m\.)(?: [A-Z]{3})?|noon|midnight)(?: (?:this evening|tonight|today|tomorrow|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday))?"
+SLOT_PATTERNS["program"] = r"(?:the )?[A-Z][\w'.&-]*(?: [A-Z][\w'.&-]*| of| and| the)*"
+SLOT_PATTERNS["time"] = r"(?:\d{1,2}(?::\d\d)? ?(?:[ap]\.m\.|o'clock)|noon|midnight)"
+for _count in ("jobs_added", "jobless", "population", "votes"):
+    SLOT_PATTERNS[_count] = SLOT_PATTERNS["amount"]
 
 # Slots that hold a proper name. A real sentence fills them with a name, never
 # with a title, a vocative, a speaker label in capitals or a common word.
-PROPER_SLOTS = {"opponent", "group", "who_many", "first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
+PROPER_SLOTS = {"opponent", "program", "group", "who_many", "first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
 NOT_A_NAME = set(
     "mr mrs ms dr miss madam madame chairman chairwoman chair senator representative congressman congresswoman "
     "secretary general admiral director commissioner governor mayor president speaker sir ma'am "
@@ -369,6 +387,10 @@ def build_bank(spec, shapes_path, candidates, seen, documents):
                 by_text[text]["uses"].append(use)
             continue
         docs = list(seen[index].values())
+        # A bank may count only some collections (the opening speech counts
+        # only what Presidents said).
+        if spec.get("sources"):
+            docs = [d for d in docs if d.get("source") in spec["sources"]]
         modern = sorted(
             (
                 d

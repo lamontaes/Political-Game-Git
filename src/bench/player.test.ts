@@ -174,7 +174,9 @@ describe("bench public player adapter", () => {
   });
   it("rejects backward calendar movement and foreign answers before mutation", () => {
     const { player, core } = fixture();
-    expect(() => player.advance("calendar", "2020-01-01")).toThrow(/backward/);
+    expect(() => player.advance("calendar", "2020-01-01")).toThrow(
+      /after today/,
+    );
     const before = core.sequence;
     expect(() =>
       player.resume({

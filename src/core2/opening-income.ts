@@ -9,6 +9,8 @@ import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import type { EntityId } from "../simulation/types";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
+import { DEFAULT_DATA } from "./data";
+import { decisionLean } from "./trait-decisions";
 import { stopgap } from "./stopgaps";
 import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
@@ -193,6 +195,10 @@ export function buildOpeningRetirementIncome(
 ): OpeningIncomeBuild {
   const data = options.data ?? DEFAULT_OPENING_INCOME_DATA;
   const p = (key: string) => parameter(key, options.parameters ?? PARAMETERS);
+  // The shared trait table, read with this build's parameters.
+  const traitData = {
+    data: { ...DEFAULT_DATA, parameters: options.parameters ?? PARAMETERS },
+  };
   const zero = p("zero"),
     one = p("one"),
     months = p("monthsPerYear");
@@ -621,9 +627,13 @@ export function buildOpeningRetirementIncome(
               ? person.liquidMinor /
                 ((dailyCost * p("daysPerMeanYear")) / months)
               : values.claimFullBufferMonths!,
-          deliberation: person.traits["people-mind-v1:deliberation"],
-          reliability: person.traits["people-mind-v1:reliability"],
-          risk: person.traits["people-mind-v1:risk"],
+          patience: decisionLean(
+            traitData,
+            person,
+            "retirement.claim-age",
+            "wait-to-claim",
+            "claim-now",
+          ),
         },
         {
           anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,

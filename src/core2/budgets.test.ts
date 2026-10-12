@@ -54,7 +54,8 @@ describe("M1-07 budgets and taxes (government half, first slice)", () => {
         seed,
         placeKey: place,
         startedAt: START,
-        minimumPeople: 120,
+        // A small town: the year of daily work costs time per person.
+        minimumPeople: 30,
       }),
     );
     openLaws(core);

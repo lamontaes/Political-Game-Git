@@ -78,6 +78,9 @@ export type CampaignAct =
   | "door"
   | "volunteer-door"
   | "speech"
+  | "interview"
+  | "town-hall"
+  | "debate"
   | "retold"
   | "ad"
   | "attack-ad"
@@ -854,7 +857,6 @@ export function giveSpeech(
   },
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, input.filingId);
-  const speaker = api.state.people.get(campaign.candidateId)!;
   const heard = [
     ...new Set([
       ...(
@@ -867,24 +869,54 @@ export function giveSpeech(
       ...campaign.volunteerIds,
     ]),
   ].sort();
+  return makeStatements(api, {
+    ...input,
+    audienceIds: heard,
+    act: "speech",
+    weight: campaignParameter("speechWeight"),
+    faceToFace: true,
+  });
+}
+
+/**
+ * Statements made to an audience (a speech's crowd, an interview's readers or
+ * viewers): each person in it hears the platform with the statements added,
+ * decides for themselves and tells their family, and every statement is
+ * recorded as a promise only its audience heard.
+ */
+export function makeStatements(
+  api: CoreAPI,
+  input: {
+    readonly filingId: string;
+    readonly venue: string;
+    readonly statements: readonly Stance[];
+    readonly audienceIds: readonly string[];
+    readonly act: CampaignAct;
+    readonly weight: number;
+    /** In person: how the meeting goes adds to what they make of it. */
+    readonly faceToFace: boolean;
+  },
+): readonly CauseRow[] {
+  const campaign = campaignFor(api, input.filingId);
+  const speaker = api.state.people.get(campaign.candidateId)!;
   const causes: CauseRow[] = [];
   const withStatements = {
     ...campaign,
     platform: [...campaign.platform, ...input.statements],
   };
-  for (const id of heard) {
+  for (const id of input.audienceIds) {
     const listener = api.state.people.get(id);
     if (!listener) continue;
     const cause = reach(
       api,
       withStatements,
       id,
-      "speech",
+      input.act,
       campaign.candidateId,
       {
         carriesPlatform: true,
-        weight: campaignParameter("speechWeight"),
-        rapport: rapport(speaker, listener) / 2,
+        weight: input.weight,
+        rapport: input.faceToFace ? rapport(speaker, listener) / 2 : 0,
       },
     );
     if (!cause) continue;
@@ -892,7 +924,7 @@ export function giveSpeech(
     retell(api, withStatements, listener, cause);
   }
   for (const [index, stance] of input.statements.entries()) {
-    const promiseId = `promise:${campaign.candidateId}:${api.state.date}:${index}`;
+    const promiseId = `promise:${campaign.candidateId}:${api.state.date}:${input.act}:${index}`;
     table(api, "promises").put({
       id: promiseId,
       candidateId: campaign.candidateId,
@@ -909,7 +941,7 @@ export function giveSpeech(
         value: "heard",
         learnedAt: api.state.date,
         sourceId: cause.id,
-        access: "perceived",
+        access: input.faceToFace ? "perceived" : "public",
       });
   }
   save(api, {
@@ -917,6 +949,16 @@ export function giveSpeech(
     platform: withStatements.platform,
   });
   return causes;
+}
+
+/** Where an ad is bought: an outlet and its followers (the press registers it). */
+let adOutlet:
+  | ((
+      api: CoreAPI,
+    ) => { organizationId: string; followerIds: readonly string[] } | null)
+  | null = null;
+export function registerAdOutlet(fn: typeof adOutlet): void {
+  adOutlet = fn;
 }
 
 /**
@@ -943,7 +985,11 @@ export function runAd(
   const amount = Math.min(input.amountMinor, available);
   void account;
   if (amount <= 0) return [];
-  const media = `organization:media:${townRow(api).townPlaceId}`;
+  // Ad time from the town's own outlets where the press is open: the buyer's
+  // audience is the outlet's followers.
+  const outlet = adOutlet?.(api) ?? null;
+  const media =
+    outlet?.organizationId ?? `organization:media:${townRow(api).townPlaceId}`;
   if (!api.state.organizations.has(media))
     api.addOrganization({
       id: media,
@@ -975,27 +1021,38 @@ export function runAd(
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
   );
-  // stopgapId: SG-GOV-ad-reach-media-habits
-  api.stopgap("SG-GOV-ad-reach-media-habits");
   const town = townRow(api).townPlaceId;
-  const viewers = [...api.state.people.values()]
-    .filter(
-      (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
-    )
-    .map((p) => ({
-      p,
-      work: [
-        ...((api.state as CoreState).work.commitmentsByPerson.get(p.id) ?? []),
-      ].reduce(
-        (s, id) =>
-          s +
-          ((api.state as CoreState).work.commitments.get(id)
-            ?.expectedWeeklyMinutes ?? 0),
-        0,
-      ),
-    }))
-    .sort((a, b) => a.work - b.work || a.p.id.localeCompare(b.p.id))
-    .slice(0, contacts);
+  if (!outlet)
+    // stopgapId: SG-GOV-ad-reach-media-habits
+    api.stopgap("SG-GOV-ad-reach-media-habits");
+  const followers = outlet
+    ? outlet.followerIds
+        .map((id) => api.state.people.get(id))
+        .filter((p): p is PersonState => p !== undefined)
+        .slice(0, contacts)
+        .map((p) => ({ p, work: 0 }))
+    : null;
+  const viewers =
+    followers ??
+    [...api.state.people.values()]
+      .filter(
+        (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
+      )
+      .map((p) => ({
+        p,
+        work: [
+          ...((api.state as CoreState).work.commitmentsByPerson.get(p.id) ??
+            []),
+        ].reduce(
+          (s, id) =>
+            s +
+            ((api.state as CoreState).work.commitments.get(id)
+              ?.expectedWeeklyMinutes ?? 0),
+          0,
+        ),
+      }))
+      .sort((a, b) => a.work - b.work || a.p.id.localeCompare(b.p.id))
+      .slice(0, contacts);
   const target = input.attackFilingId
     ? campaignFor(api, input.attackFilingId)
     : campaign;

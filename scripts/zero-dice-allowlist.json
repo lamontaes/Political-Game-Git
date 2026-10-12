@@ -17,20 +17,6 @@
       "code": "export const COLLAR_BAND_SHARE = 0.03;"
     },
     {
-      "file": "src/presentation/appearance-engine/extract.ts",
-      "kind": "fixed-share",
-      "build": "Build 6",
-      "count": 1,
-      "code": "export const NECKLINE_SHARE = 0.03;"
-    },
-    {
-      "file": "src/presentation/appearance-engine/extract.ts",
-      "kind": "fixed-share",
-      "build": "Build 6",
-      "count": 1,
-      "code": "const OPEN_COLLAR_SHARE = 0.15;"
-    },
-    {
       "file": "src/presentation/appearance-engine/fabric.ts",
       "kind": "fixed-share",
       "build": "Build 6",
@@ -151,6 +137,17 @@
     },
     {
       "file": "src/presentation/appearance-engine/face-extras.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "frames[Math.floor(draw(seed, \"glasses-frame\") * frames.length)]!.id;",
+      "class": "IDENTITY",
+      "keyedBy": "person appearance seed",
+      "reason": "Glasses frame drawn from the person's seed; a look, not an outcome.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/appearance-engine/face-extras.ts",
       "kind": "roll",
       "build": "Build 6",
       "count": 1,
@@ -169,6 +166,28 @@
       "build": "Build 6",
       "count": 1,
       "code": "if (draw(seed, `accessory:${kind}`) < ACCESSORY_SHARE[kind][presentation])"
+    },
+    {
+      "file": "src/presentation/appearance-engine/face-extras.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "Math.floor(draw(seed, `accessory-variant:${kind}`) * variants.length)",
+      "class": "IDENTITY",
+      "keyedBy": "person seed + accessory kind",
+      "reason": "Accessory variant drawn from the person's seed; a look, not an outcome.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/appearance-engine/pose-chooser.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let at = draw(seed, question) * weights.reduce((sum, w) => sum + w, 0);",
+      "class": "PRESENTATION",
+      "keyedBy": "seed + question",
+      "reason": "Pose image chosen with a personality lean; visual only, with no effect on the world.",
+      "replacement": null
     },
     {
       "file": "src/presentation/appearance-engine/pose-chooser.ts",
@@ -213,6 +232,94 @@
       "code": "return draw(seed, \"white\") < (age >= 70 ? 0.5 : 0.2) ? \"white\" : \"gray\";"
     },
     {
+      "file": "src/presentation/appearance-engine/recipe.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return kind[Math.floor(draw(seed, `outfit:${wanted}`) * kind.length)]!;",
+      "class": "IDENTITY",
+      "keyedBy": "person seed + outfit kind",
+      "reason": "Everyday, work or formal outfit family drawn from the person's seed; a look.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/appearance-engine/recipe.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "items[Math.floor(draw(seed, question) * items.length)]!;",
+      "class": "IDENTITY",
+      "keyedBy": "person seed + question (face, hair)",
+      "reason": "Face and hair variant drawn from the person's seed; a look.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/appearance-engine/recipe.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "choice?.shade ?? 1 + Math.floor(draw(seed, \"shade\") * SKIN_RAMPS.length);",
+      "class": "IDENTITY",
+      "keyedBy": "person seed (shade)",
+      "reason": "Skin shade drawn from the person's seed; a look.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/appearance-engine/recipe.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "draw(seed, `color:${outfit.id}:${part}`) * palette.length,",
+      "class": "IDENTITY",
+      "keyedBy": "person seed + outfit id + part",
+      "reason": "Garment color drawn from the person's seed and palette; a look.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/bank-english.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const part = fits[stableHash(pickKey) % fits.length]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "pick key (moment key)",
+      "reason": "Picks among equivalent authored wordings that pass the same fact checks.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/campus-backdrops.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let hash = 2166136261; for (let i = 0; i < name.length; i += 1) { hash = Math.imul(hash ^ name.charCodeAt(i), 16777619) >>> 0; } const sorted = [...records].sort((a, b) => a.campus.localeCompare(b.campus)); return sorted[hash % sorted.length]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "college name hash",
+      "reason": "Stable pick among equally good campus pictures so a college keeps its picture.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/character-components.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return rng.fork(key).pick(sortStrings(families));",
+      "class": "IDENTITY",
+      "keyedBy": "identity key (body family)",
+      "reason": "Body art family chosen among compatible families; an appearance variant.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/character-components.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return rng.fork(key).pick(sorted);",
+      "class": "IDENTITY",
+      "keyedBy": "character-context key (component)",
+      "reason": "Art component chosen among compatible candidates; an appearance variant.",
+      "replacement": null
+    },
+    {
       "file": "src/presentation/character-components.ts",
       "kind": "roll",
       "build": "Build 6",
@@ -220,11 +327,114 @@
       "code": ".next() < (slot.presence_rate ?? 0);"
     },
     {
-      "file": "src/presentation/living-scene-facts.ts",
-      "kind": "place-in-logic",
-      "build": "Build 16",
+      "file": "src/presentation/complete-outfit.ts",
+      "kind": "list-pick",
+      "build": null,
       "count": 1,
-      "code": "const dc = orientation.homeState?.stateUsps === \"DC\";"
+      "code": "const start = bodies.length ? rng.integer(0, bodies.length) : 0;",
+      "class": "IDENTITY",
+      "keyedBy": "appearance seed + initialization version",
+      "reason": "Starting body family drawn from the person's appearance seed; an appearance.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/complete-outfit.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const headStart = heads.length ? rng.integer(0, heads.length) : 0;",
+      "class": "IDENTITY",
+      "keyedBy": "appearance seed + initialization version",
+      "reason": "Starting head family drawn from the person's appearance seed; an appearance.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/complete-outfit.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "initialFamilies[kind] = rng .fork(`wardrobe:${kind}`) .pick(choices);",
+      "class": "IDENTITY",
+      "keyedBy": "appearance seed + wardrobe kind",
+      "reason": "Starting wardrobe family per outfit kind drawn from the person's seed; an appearance.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/complete-outfit.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const hairStart = hairFamilies.length ? rng.integer(0, hairFamilies.length)",
+      "class": "IDENTITY",
+      "keyedBy": "appearance seed + initialization version",
+      "reason": "Starting hair family drawn from the person's appearance seed; an appearance.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/contextual-scenes.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return lines[rng.integer(0, lines.length)]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "world seed + context string",
+      "reason": "Picks one narration line from an authored bank; wording only.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/conversation-subjects.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "return variants[rng.integer(0, variants.length)] as T;",
+      "class": "PRESENTATION",
+      "keyedBy": "world seed + context string",
+      "reason": "Picks among authored variants that must mean the same thing; presentation only.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/engine-people29-data.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "palettes[channel] = rng.fork(channel).pick(choices);",
+      "class": "IDENTITY",
+      "keyedBy": "person seed + channel (skin, hair, top, bottom)",
+      "reason": "Skin, hair and garment palette channel drawn from the seed among authored swatches; a look.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/engine-people29-data.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "variant: rng.fork(kind).pick(choices),",
+      "class": "IDENTITY",
+      "keyedBy": "person seed + feature kind",
+      "reason": "Eye, brow, nose and mouth variant drawn from the seed; a face.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/life-scene.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let accumulator = 0; for (const character of householdId) { accumulator = (accumulator * 31 + character.charCodeAt(0)) % 2_147_483_647; } return available[accumulator % available.length]!;",
+      "class": "PRESENTATION",
+      "keyedBy": "household id",
+      "reason": "Stable domestic room picture for a household; a backdrop with no world effect.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/life-story.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "total = (total * 31 + character.charCodeAt(0)) % 100_000; } return QUIET_ADULT_STEPS[total % QUIET_ADULT_STEPS.length]!;",
+      "class": "DECISION",
+      "keyedBy": "date string (the day the quiet stretch starts)",
+      "reason": "Documented as pacing, but time-command.ts advances the world clock by this many days, so it sets how long a stretch of life passes.",
+      "replacement": "run the stretch to the person's next recorded dated item (a job, a school term, a birthday, a bill coming due) instead of a hashed length"
     },
     {
       "file": "src/presentation/new-game.ts",
@@ -232,6 +442,28 @@
       "build": "Build 7",
       "count": 1,
       "code": "const NORMAL_START_SHARES_A_HOME_THRESHOLD = 62;"
+    },
+    {
+      "file": "src/presentation/opening-prior-service.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const office = rng.pick(options);",
+      "class": "GENERATION",
+      "keyedBy": "the officeholder's office-term key",
+      "reason": "The career that led an opening officeholder to the office: part of their past, keyed to their own tenure record.",
+      "replacement": "the officeholder's recorded career and the office's real requirements from the person record"
+    },
+    {
+      "file": "src/presentation/opening-prior-service.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const years = office.termYears * rng.pick(office.terms);",
+      "class": "GENERATION",
+      "keyedBy": "the officeholder's office-term key",
+      "reason": "Years of prior service before the current office: part of the officeholder's past, keyed to their own tenure record.",
+      "replacement": "the officeholder's recorded years of service from the person record"
     },
     {
       "file": "src/presentation/production-world.ts",
@@ -248,11 +480,88 @@
       "code": "new SeededRng(world.seed).fork(`${key}:same-sex`).next() <"
     },
     {
+      "file": "src/presentation/production-world.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const yearsApart = rng.pick([...siblingAgeGaps(generation)]);",
+      "class": "DECISION",
+      "keyedBy": "world seed + constant label (production-world-v1:household)",
+      "reason": "Sibling age gap is a per-person fact but the stream is keyed only by world and a constant label.",
+      "replacement": "the sibling's age from the player's recorded age and birth order, keyed to the sibling's own id"
+    },
+    {
+      "file": "src/presentation/run-b-conversation.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const hash = stableHash( `${world.seed}:quiet-room:${sceneKey}:${world.currentDate}`, ); const start = Number(BigInt(`0x${hash}`) % BigInt(QUIET_ROOM_LINES.length));",
+      "class": "PRESENTATION",
+      "keyedBy": "world seed + scene key + current date",
+      "reason": "Quiet-room narration line from a date hash; wording only.",
+      "replacement": null
+    },
+    {
+      "file": "src/presentation/story-voice.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const line = lines[stableHash(`${packet.momentKey}:fit`) % lines.length];",
+      "class": "PRESENTATION",
+      "keyedBy": "moment key",
+      "reason": "Picks one authored line among lines that fit the moment; wording only.",
+      "replacement": null
+    },
+    {
+      "file": "src/simulation/candidate-petitions.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let hash = 2166136261; for (const character of input.stableKey) { hash ^= character.charCodeAt(0); hash = Math.imul(hash, 16777619); } const start = (hash >>> 0) % personOrder.length;",
+      "class": "DECISION",
+      "keyedBy": "petition stable key + person order",
+      "reason": "Chooses which people are asked to sign a petition and in what order; who acts is a decision.",
+      "replacement": "each person's recorded civic beliefs and relationships via evaluateDecision"
+    },
+    {
+      "file": "src/simulation/character-history.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "draw -= weights[offset]!;",
+      "class": "GENERATION",
+      "keyedBy": "pre-start child history key (person id)",
+      "reason": "Date of a past childhood event, keyed to the person's own history key; a fact of their past.",
+      "replacement": null
+    },
+    {
       "file": "src/simulation/character-history.ts",
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
       "code": "peerDraw.integer(1, 183) * (peerDraw.next() < 0.5 ? -1 : 1);"
+    },
+    {
+      "file": "src/simulation/citizenship-creation.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "position -= count;",
+      "class": "GENERATION",
+      "keyedBy": "person id",
+      "reason": "Starting citizenship status drawn from real population shares, keyed to the person's own id.",
+      "replacement": null
+    },
+    {
+      "file": "src/simulation/contextual-character-history.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const shared = rng.fork(\"shared-neighborhood-event\").pick([ { key: \"ball\", summary: `You and ${peerName} got to know each other while playing ball near home.`, }, { key: \"books\", summary: `You and ${peerName} got to know each other by lending each other books.`, }, { key: \"walks\", summary: `You and ${peerName} got to k",
+      "class": "GENERATION",
+      "keyedBy": "player person id + stable key",
+      "reason": "Past neighborhood acquaintance with a peer, keyed to the player's own id; a fact of their past.",
+      "replacement": null
     },
     {
       "file": "src/simulation/crisis/disaster.ts",
@@ -332,711 +641,6 @@
       "code": "while (product > limit && count < 25) {"
     },
     {
-      "file": "src/simulation/given-name-cohorts.ts",
-      "kind": "fixed-share",
-      "build": "Build 7",
-      "count": 1,
-      "code": "export const COHORT_GIVEN_NAME_SHARE = 0.6;"
-    },
-    {
-      "file": "src/simulation/given-name-cohorts.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (point < 0) return name;"
-    },
-    {
-      "file": "src/simulation/given-name-cohorts.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
-    },
-    {
-      "file": "src/simulation/justice/clemency.ts",
-      "kind": "fixed-share",
-      "build": "Build 26",
-      "count": 1,
-      "code": "servedShareBeforeTakenUp: 0.5,"
-    },
-    {
-      "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
-      "kind": "fixed-share",
-      "build": "Build 27",
-      "count": 1,
-      "code": "export const CONGRESS_INCUMBENCY_SHARE_BONUS = 0.03;"
-    },
-    {
-      "file": "src/simulation/living-world/congress-candidates.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "lowOpportunityShare: 0.18,"
-    },
-    {
-      "file": "src/simulation/living-world/opening.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "since: drawn < window.startsAt ? window.startsAt : drawn,"
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"found\").next() >= expected) return next;"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
-    },
-    {
-      "file": "src/simulation/living-world/town-families.ts",
-      "kind": "fixed-share",
-      "build": "Build 7",
-      "count": 1,
-      "code": "export const TOWN_FAMILY_CHANCES = {"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "export const EMPLOYED_SHARE_16_PLUS = 0.597;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const CONGREGATION_HOUSEHOLD_SHARE = 0.45;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (point < 0) return shape;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "for (let c = 0; c < children; c += 1)"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
-    },
-    {
-      "file": "src/simulation/national-election-consumer.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "allocationWinnerPersonId: input.unitKey.startsWith(\"ME\")"
-    },
-    {
-      "file": "src/simulation/national-elections.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "(record.unitKey.startsWith(\"ME\") ? null : source.winnerPersonId) ||"
-    },
-    {
-      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
-      "kind": "roll",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (roll < 0) return usps;"
-    },
-    {
-      "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "lowOpportunityShare: 0.18,"
-    },
-    {
-      "file": "src/simulation/nationwide-world/typical-council-size.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const COUNCIL_SIZE_SHARES: readonly Share[] = ["
-    },
-    {
-      "file": "src/simulation/nationwide-world/typical-council-size.ts",
-      "kind": "fixed-share",
-      "build": "Build 25",
-      "count": 1,
-      "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
-    },
-    {
-      "file": "src/simulation/nominations/field-entry.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "favoredShare: 0.55,"
-    },
-    {
-      "file": "src/simulation/nominations/party-nominations.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const WITHIN_REACH_PERMILLE = 100;"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (roll < 0.15) {"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "} else if (roll < 0.7) {"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "} else if (roll < 0.9) {"
-    },
-    {
-      "file": "src/simulation/person-identity.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 2,
-      "code": "likelihoodPerReview: 0.3,"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "parameters: { shareOfPositions: 0.34, minimumPositionsKept: 1 },"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "likelihoodPerReview: 0.1,"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "parameters: { shareOfPositions: 0.15, minimumPositionsKept: 1 },"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "likelihoodPerReview: 0.25,"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "likelihoodPerReview: 0.08,"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "likelihoodPerReview: 0.2,"
-    },
-    {
-      "file": "src/simulation/press/ownership-pack-default.ts",
-      "kind": "fixed-share",
-      "build": "Build 23",
-      "count": 1,
-      "code": "likelihoodPerReview: 0.05,"
-    },
-    {
-      "file": "src/simulation/press/ownership.ts",
-      "kind": "roll",
-      "build": "Build 23",
-      "count": 1,
-      "code": "if (draw < 0) return row;"
-    },
-    {
-      "file": "src/simulation/relationship-absence.ts",
-      "kind": "fixed-share",
-      "build": "Build 22",
-      "count": 1,
-      "code": "const HISTORY_SHARE_BEFORE_DORMANT = 1 / 3;"
-    },
-    {
-      "file": "src/simulation/school-names.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (point < 0) return value;"
-    },
-    {
-      "file": "src/simulation/world-setup/conditions.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (u < cumulative) return regime;"
-    },
-    {
-      "file": "src/presentation/appearance-engine/face-extras.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "frames[Math.floor(draw(seed, \"glasses-frame\") * frames.length)]!.id;",
-      "class": "IDENTITY",
-      "keyedBy": "person appearance seed",
-      "reason": "Glasses frame drawn from the person's seed; a look, not an outcome.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/appearance-engine/face-extras.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "Math.floor(draw(seed, `accessory-variant:${kind}`) * variants.length)",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + accessory kind",
-      "reason": "Accessory variant drawn from the person's seed; a look, not an outcome.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/appearance-engine/pose-chooser.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let at = draw(seed, question) * weights.reduce((sum, w) => sum + w, 0);",
-      "class": "PRESENTATION",
-      "keyedBy": "seed + question",
-      "reason": "Pose image chosen with a personality lean; visual only, with no effect on the world.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/appearance-engine/recipe.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return kind[Math.floor(draw(seed, `outfit:${wanted}`) * kind.length)]!;",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + outfit kind",
-      "reason": "Everyday, work or formal outfit family drawn from the person's seed; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/appearance-engine/recipe.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "items[Math.floor(draw(seed, question) * items.length)]!;",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + question (face, hair)",
-      "reason": "Face and hair variant drawn from the person's seed; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/appearance-engine/recipe.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "choice?.shade ?? 1 + Math.floor(draw(seed, \"shade\") * SKIN_RAMPS.length);",
-      "class": "IDENTITY",
-      "keyedBy": "person seed (shade)",
-      "reason": "Skin shade drawn from the person's seed; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/appearance-engine/recipe.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "draw(seed, `color:${outfit.id}:${part}`) * palette.length,",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + outfit id + part",
-      "reason": "Garment color drawn from the person's seed and palette; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/bank-english.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const part = fits[stableHash(pickKey) % fits.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "pick key (moment key)",
-      "reason": "Picks among equivalent authored wordings that pass the same fact checks.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/browser-world-repository.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "Math.floor(Math.random() * 256)",
-      "class": "IDENTITY",
-      "keyedBy": "none (Math.random byte for a save-slot id)",
-      "reason": "A random byte only makes a save-slot id unique; it decides nothing in the world.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/campus-backdrops.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let hash = 2166136261; for (let i = 0; i < name.length; i += 1) { hash = Math.imul(hash ^ name.charCodeAt(i), 16777619) >>> 0; } const sorted = [...records].sort((a, b) => a.campus.localeCompare(b.campus)); return sorted[hash % sorted.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "college name hash",
-      "reason": "Stable pick among equally good campus pictures so a college keeps its picture.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/character-components.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return rng.fork(key).pick(sortStrings(families));",
-      "class": "IDENTITY",
-      "keyedBy": "identity key (body family)",
-      "reason": "Body art family chosen among compatible families; an appearance variant.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/character-components.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return rng.fork(key).pick(sorted);",
-      "class": "IDENTITY",
-      "keyedBy": "character-context key (component)",
-      "reason": "Art component chosen among compatible candidates; an appearance variant.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const start = bodies.length ? rng.integer(0, bodies.length) : 0;",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting body family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const headStart = heads.length ? rng.integer(0, heads.length) : 0;",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting head family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "initialFamilies[kind] = rng .fork(`wardrobe:${kind}`) .pick(choices);",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + wardrobe kind",
-      "reason": "Starting wardrobe family per outfit kind drawn from the person's seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const hairStart = hairFamilies.length ? rng.integer(0, hairFamilies.length)",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting hair family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/contextual-scenes.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return lines[rng.integer(0, lines.length)]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "world seed + context string",
-      "reason": "Picks one narration line from an authored bank; wording only.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/conversation-subjects.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return variants[rng.integer(0, variants.length)] as T;",
-      "class": "PRESENTATION",
-      "keyedBy": "world seed + context string",
-      "reason": "Picks among authored variants that must mean the same thing; presentation only.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/creator-name-preview.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const givenName = rng.pick(givenNamePoolForCorpus(corpus, gender));",
-      "class": "IDENTITY",
-      "keyedBy": "setup seed + press counter",
-      "reason": "Creator given-name preview drawn from the chosen gender pool; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/creator-name-preview.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const familyName = rng.pick(corpus.familyNames);",
-      "class": "IDENTITY",
-      "keyedBy": "setup seed + press counter",
-      "reason": "Creator family-name preview drawn from the place's corpus; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/creator-name-preview.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "corpus.surnamesCarried === 2 ? `${familyName} ${rng.pick(corpus.familyNames)}`",
-      "class": "IDENTITY",
-      "keyedBy": "setup seed + press counter",
-      "reason": "Second family name for two-surname corpora in the creator preview; a name.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/engine-people29-data.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "palettes[channel] = rng.fork(channel).pick(choices);",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + channel (skin, hair, top, bottom)",
-      "reason": "Skin, hair and garment palette channel drawn from the seed among authored swatches; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/engine-people29-data.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "variant: rng.fork(kind).pick(choices),",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + feature kind",
-      "reason": "Eye, brow, nose and mouth variant drawn from the seed; a face.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/life-scene.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let accumulator = 0; for (const character of householdId) { accumulator = (accumulator * 31 + character.charCodeAt(0)) % 2_147_483_647; } return available[accumulator % available.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "household id",
-      "reason": "Stable domestic room picture for a household; a backdrop with no world effect.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/life-story.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "total = (total * 31 + character.charCodeAt(0)) % 100_000; } return QUIET_ADULT_STEPS[total % QUIET_ADULT_STEPS.length]!;",
-      "class": "DECISION",
-      "keyedBy": "date string (the day the quiet stretch starts)",
-      "reason": "Documented as pacing, but time-command.ts advances the world clock by this many days, so it sets how long a stretch of life passes.",
-      "replacement": "run the stretch to the person's next recorded dated item (a job, a school term, a birthday, a bill coming due) instead of a hashed length"
-    },
-    {
-      "file": "src/presentation/observer-world.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const state = states.splice(rng.integer(0, states.length), 1)[0]!;",
-      "class": "GENERATION",
-      "keyedBy": "observer seed (world-level)",
-      "reason": "Watched world opening state drawn across all places; a world setting, not a person's fact.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/observer-world.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "if (towns.length > 0) return rng.pick(towns);",
-      "class": "GENERATION",
-      "keyedBy": "observer seed (world-level)",
-      "reason": "Watched world opening town within the drawn state; a world setting, not a person's fact.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/opening-prior-service.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const office = rng.pick(options);",
-      "class": "GENERATION",
-      "keyedBy": "the officeholder's office-term key",
-      "reason": "The career that led an opening officeholder to the office: part of their past, keyed to their own tenure record.",
-      "replacement": "the officeholder's recorded career and the office's real requirements from the person record"
-    },
-    {
-      "file": "src/presentation/opening-prior-service.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const years = office.termYears * rng.pick(office.terms);",
-      "class": "GENERATION",
-      "keyedBy": "the officeholder's office-term key",
-      "reason": "Years of prior service before the current office: part of the officeholder's past, keyed to their own tenure record.",
-      "replacement": "the officeholder's recorded years of service from the person record"
-    },
-    {
-      "file": "src/presentation/playtest65-visual-layout.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let hash = 2166136261; for (const c of `${personId}\\0${context.key ?? \"record\"}\\0${context.repertoire ?? \"composed\"}`) hash = Math.imul(hash ^ c.charCodeAt(0), 16777619) >>> 0; return usable[hash % usable.length]!.poseFamily;",
-      "class": "PRESENTATION",
-      "keyedBy": "person id + context key + repertoire",
-      "reason": "Record pose family chosen from available pose images; visual only.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/production-world.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const yearsApart = rng.pick([...siblingAgeGaps(generation)]);",
-      "class": "DECISION",
-      "keyedBy": "world seed + constant label (production-world-v1:household)",
-      "reason": "Sibling age gap is a per-person fact but the stream is keyed only by world and a constant label.",
-      "replacement": "the sibling's age from the player's recorded age and birth order, keyed to the sibling's own id"
-    },
-    {
-      "file": "src/presentation/run-b-conversation.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const hash = stableHash( `${world.seed}:quiet-room:${sceneKey}:${world.currentDate}`, ); const start = Number(BigInt(`0x${hash}`) % BigInt(QUIET_ROOM_LINES.length));",
-      "class": "PRESENTATION",
-      "keyedBy": "world seed + scene key + current date",
-      "reason": "Quiet-room narration line from a date hash; wording only.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/story-voice.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const line = lines[stableHash(`${packet.momentKey}:fit`) % lines.length];",
-      "class": "PRESENTATION",
-      "keyedBy": "moment key",
-      "reason": "Picks one authored line among lines that fit the moment; wording only.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/title-tableau.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const digest = stableHash(`title-tableau-v1:${key}`); let accumulator = 0; for (const character of digest) { accumulator = (accumulator * 31 + character.charCodeAt(0)) % 2_147_483_647; } return ordered[accumulator % ordered.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "title key",
-      "reason": "Deterministic title picture among eligible tableaux so the title does not reshuffle.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/candidate-petitions.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let hash = 2166136261; for (const character of input.stableKey) { hash ^= character.charCodeAt(0); hash = Math.imul(hash, 16777619); } const start = (hash >>> 0) % personOrder.length;",
-      "class": "DECISION",
-      "keyedBy": "petition stable key + person order",
-      "reason": "Chooses which people are asked to sign a petition and in what order; who acts is a decision.",
-      "replacement": "each person's recorded civic beliefs and relationships via evaluateDecision"
-    },
-    {
-      "file": "src/simulation/character-history.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "draw -= weights[offset]!;",
-      "class": "GENERATION",
-      "keyedBy": "pre-start child history key (person id)",
-      "reason": "Date of a past childhood event, keyed to the person's own history key; a fact of their past.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/citizenship-creation.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "position -= count;",
-      "class": "GENERATION",
-      "keyedBy": "person id",
-      "reason": "Starting citizenship status drawn from real population shares, keyed to the person's own id.",
-      "replacement": null
-    },
-    {
-      "file": "src/simulation/contextual-character-history.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const shared = rng.fork(\"shared-neighborhood-event\").pick([ { key: \"ball\", summary: `You and ${peerName} got to know each other while playing ball near home.`, }, { key: \"books\", summary: `You and ${peerName} got to know each other by lending each other books.`, }, { key: \"walks\", summary: `You and ${peerName} got to k",
-      "class": "GENERATION",
-      "keyedBy": "player person id + stable key",
-      "reason": "Past neighborhood acquaintance with a peer, keyed to the player's own id; a fact of their past.",
-      "replacement": null
-    },
-    {
       "file": "src/simulation/crisis/hazard-producer.ts",
       "kind": "list-pick",
       "build": null,
@@ -1082,6 +686,13 @@
     },
     {
       "file": "src/simulation/given-name-cohorts.ts",
+      "kind": "fixed-share",
+      "build": "Build 7",
+      "count": 1,
+      "code": "export const COHORT_GIVEN_NAME_SHARE = 0.6;"
+    },
+    {
+      "file": "src/simulation/given-name-cohorts.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -1090,6 +701,20 @@
       "keyedBy": "caller rng stream (person name)",
       "reason": "Given name weighted by birth-year cohort counts; a name.",
       "replacement": null
+    },
+    {
+      "file": "src/simulation/given-name-cohorts.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "if (point < 0) return name;"
+    },
+    {
+      "file": "src/simulation/given-name-cohorts.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
     },
     {
       "file": "src/simulation/judiciary/opening.ts",
@@ -1114,6 +739,13 @@
       "replacement": "the judge's recorded legal background and the seat's qualification rules"
     },
     {
+      "file": "src/simulation/justice/clemency.ts",
+      "kind": "fixed-share",
+      "build": "Build 26",
+      "count": 1,
+      "code": "servedShareBeforeTakenUp: 0.5,"
+    },
+    {
       "file": "src/simulation/justice/court-reasoning.ts",
       "kind": "list-pick",
       "build": null,
@@ -1134,6 +766,20 @@
       "keyedBy": "world seed + instance key + detail key",
       "reason": "Authored incident wording picked for copy and memory; the outcome does not depend on it.",
       "replacement": null
+    },
+    {
+      "file": "src/simulation/living-world/congress-aggregate-outcome.ts",
+      "kind": "fixed-share",
+      "build": "Build 27",
+      "count": 1,
+      "code": "export const CONGRESS_INCUMBENCY_SHARE_BONUS = 0.03;"
+    },
+    {
+      "file": "src/simulation/living-world/congress-candidates.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "lowOpportunityShare: 0.18,"
     },
     {
       "file": "src/simulation/living-world/opening.ts",
@@ -1170,6 +816,13 @@
     },
     {
       "file": "src/simulation/living-world/opening.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "since: drawn < window.startsAt ? window.startsAt : drawn,"
+    },
+    {
+      "file": "src/simulation/living-world/opening.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -1189,6 +842,27 @@
       "keyedBy": "holder person id (executive)",
       "reason": "Executive's party drawn from the major parties when no political record exists; a party affiliation.",
       "replacement": "the holder's recorded party and affiliation record, with no seeded fallback"
+    },
+    {
+      "file": "src/simulation/living-world/town-businesses.ts",
+      "kind": "roll",
+      "build": "Build 19",
+      "count": 1,
+      "code": "if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;"
+    },
+    {
+      "file": "src/simulation/living-world/town-businesses.ts",
+      "kind": "roll",
+      "build": "Build 19",
+      "count": 1,
+      "code": "if (rng.fork(\"found\").next() >= expected) return next;"
+    },
+    {
+      "file": "src/simulation/living-world/town-employment.ts",
+      "kind": "fixed-share",
+      "build": "Build 19",
+      "count": 1,
+      "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
     },
     {
       "file": "src/simulation/living-world/town-employment.ts",
@@ -1213,6 +887,13 @@
       "replacement": null
     },
     {
+      "file": "src/simulation/living-world/town-families.ts",
+      "kind": "fixed-share",
+      "build": "Build 7",
+      "count": 1,
+      "code": "export const TOWN_FAMILY_CHANCES = {"
+    },
+    {
       "file": "src/simulation/living-world/town-pay.ts",
       "kind": "list-pick",
       "build": null,
@@ -1222,6 +903,20 @@
       "keyedBy": "organization id (pay period stream)",
       "reason": "An employer's pay period is drawn by share weights; a business practice decided by a seeded roll.",
       "replacement": "the employer's recorded payroll calendar, applied without a seeded draw"
+    },
+    {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "export const EMPLOYED_SHARE_16_PLUS = 0.597;"
+    },
+    {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "const CONGREGATION_HOUSEHOLD_SHARE = 0.45;"
     },
     {
       "file": "src/simulation/living-world/town-residents.ts",
@@ -1235,6 +930,34 @@
       "replacement": null
     },
     {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "kind": "roll",
+      "build": "Build 24",
+      "count": 1,
+      "code": "if (point < 0) return shape;"
+    },
+    {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "kind": "roll",
+      "build": "Build 24",
+      "count": 1,
+      "code": "for (let c = 0; c < children; c += 1)"
+    },
+    {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
+    },
+    {
+      "file": "src/simulation/living-world/town-residents.ts",
+      "kind": "roll",
+      "build": "Build 24",
+      "count": 1,
+      "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
+    },
+    {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "kind": "list-pick",
       "build": null,
@@ -1246,6 +969,20 @@
       "replacement": "the appointees' recorded qualifications through the appointment process"
     },
     {
+      "file": "src/simulation/national-election-consumer.ts",
+      "kind": "place-in-logic",
+      "build": "Build 27",
+      "count": 1,
+      "code": "allocationWinnerPersonId: input.unitKey.startsWith(\"ME\")"
+    },
+    {
+      "file": "src/simulation/national-elections.ts",
+      "kind": "place-in-logic",
+      "build": "Build 27",
+      "count": 1,
+      "code": "(record.unitKey.startsWith(\"ME\") ? null : source.winnerPersonId) ||"
+    },
+    {
       "file": "src/simulation/nationwide-world/presidential-turnover.ts",
       "kind": "list-pick",
       "build": null,
@@ -1255,6 +992,48 @@
       "keyedBy": "cycle stable key + party + state label",
       "reason": "Nominee's home state drawn with elector weights; this selects who is nominated.",
       "replacement": "the nominee's recorded home state from the candidate record, not an elector-weighted draw"
+    },
+    {
+      "file": "src/simulation/nationwide-world/presidential-turnover.ts",
+      "kind": "roll",
+      "build": "Build 27",
+      "count": 1,
+      "code": "if (roll < 0) return usps;"
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-legislature-candidates.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "lowOpportunityShare: 0.18,"
+    },
+    {
+      "file": "src/simulation/nationwide-world/typical-council-size.ts",
+      "kind": "fixed-share",
+      "build": "Build 25",
+      "count": 1,
+      "code": "const COUNCIL_SIZE_SHARES: readonly Share[] = ["
+    },
+    {
+      "file": "src/simulation/nationwide-world/typical-council-size.ts",
+      "kind": "fixed-share",
+      "build": "Build 25",
+      "count": 1,
+      "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
+    },
+    {
+      "file": "src/simulation/nominations/field-entry.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "favoredShare: 0.55,"
+    },
+    {
+      "file": "src/simulation/nominations/party-nominations.ts",
+      "kind": "fixed-share",
+      "build": "Build 24",
+      "count": 1,
+      "code": "const WITHIN_REACH_PERMILLE = 100;"
     },
     {
       "file": "src/simulation/opening-federal-geography.ts",
@@ -1299,6 +1078,27 @@
       "keyedBy": "person generationKey",
       "reason": "Income donor for a childhood family drawn from real paid people, keyed to the person's generation key.",
       "replacement": null
+    },
+    {
+      "file": "src/simulation/people.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "if (roll < 0.15) {"
+    },
+    {
+      "file": "src/simulation/people.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "} else if (roll < 0.7) {"
+    },
+    {
+      "file": "src/simulation/people.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "} else if (roll < 0.9) {"
     },
     {
       "file": "src/simulation/people.ts",
@@ -1466,6 +1266,13 @@
       "replacement": null
     },
     {
+      "file": "src/simulation/person-identity.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "at < female ? \"female\" : at < female + male ? \"male\" : \"nonbinary\";"
+    },
+    {
       "file": "src/simulation/press/outlets.ts",
       "kind": "list-pick",
       "build": null,
@@ -1510,6 +1317,62 @@
       "replacement": "the outlet's recorded editorial standard and conduct record via evaluateDecision"
     },
     {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 2,
+      "code": "likelihoodPerReview: 0.3,"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "parameters: { shareOfPositions: 0.34, minimumPositionsKept: 1 },"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "likelihoodPerReview: 0.1,"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "parameters: { shareOfPositions: 0.15, minimumPositionsKept: 1 },"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "likelihoodPerReview: 0.25,"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "likelihoodPerReview: 0.08,"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "likelihoodPerReview: 0.2,"
+    },
+    {
+      "file": "src/simulation/press/ownership-pack-default.ts",
+      "kind": "fixed-share",
+      "build": "Build 23",
+      "count": 1,
+      "code": "likelihoodPerReview: 0.05,"
+    },
+    {
       "file": "src/simulation/press/ownership.ts",
       "kind": "list-pick",
       "build": null,
@@ -1533,6 +1396,13 @@
     },
     {
       "file": "src/simulation/press/ownership.ts",
+      "kind": "roll",
+      "build": "Build 23",
+      "count": 1,
+      "code": "if (draw < 0) return row;"
+    },
+    {
+      "file": "src/simulation/press/ownership.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -1541,6 +1411,13 @@
       "keyedBy": "owner stable key",
       "reason": "Owner company name from the pack's name templates with the outlet's name; a name.",
       "replacement": null
+    },
+    {
+      "file": "src/simulation/relationship-absence.ts",
+      "kind": "fixed-share",
+      "build": "Build 22",
+      "count": 1,
+      "code": "const HISTORY_SHARE_BEFORE_DORMANT = 1 / 3;"
     },
     {
       "file": "src/simulation/school-names.ts",
@@ -1599,6 +1476,13 @@
     },
     {
       "file": "src/simulation/school-names.ts",
+      "kind": "roll",
+      "build": "Build 7",
+      "count": 1,
+      "code": "if (point < 0) return value;"
+    },
+    {
+      "file": "src/simulation/school-names.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -1653,15 +1537,11 @@
       "replacement": null
     },
     {
-      "file": "src/simulation/traits/effects/trait-proof-support.ts",
-      "kind": "list-pick",
-      "build": null,
+      "file": "src/simulation/world-setup/conditions.ts",
+      "kind": "roll",
+      "build": "Build 24",
       "count": 1,
-      "code": "parseInt(stableHash(`${seed}-${index}`).slice(0, 8), 16) % states.length",
-      "class": "GENERATION",
-      "keyedBy": "seed string + index (test harness)",
-      "reason": "Test-harness world place from a seeded hash; a world setting for proofs, not a person's fact.",
-      "replacement": null
+      "code": "if (u < cumulative) return regime;"
     },
     {
       "file": "src/simulation/world-setup/state-tax-service-profiles.ts",
@@ -1675,53 +1555,20 @@
       "replacement": "the state's sourced tax rate from the recorded law"
     },
     {
-      "file": "src/player/CreatorAppearanceStep.tsx",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "items[Math.floor(Math.random() * items.length)]!;",
-      "class": "IDENTITY",
-      "keyedBy": "the player's appearance seed, or the player pressing Randomize",
-      "reason": "The player's own Randomize button picks a look for their character; a look, not an outcome.",
-      "replacement": null
-    },
-    {
-      "file": "src/player/CreatorAppearanceStep.tsx",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "shade: 1 + Math.floor(Math.random() * 7),",
-      "class": "IDENTITY",
-      "keyedBy": "the player's appearance seed, or the player pressing Randomize",
-      "reason": "The player's own Randomize button picks a look for their character; a look, not an outcome.",
-      "replacement": null
-    },
-    {
-      "file": "src/player/PersonAppearanceControls.tsx",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "new SeededRng(person!.appearance!.seed) .fork(`appearance-choice:${++randomSequence.current}`) .pick(values);",
-      "class": "IDENTITY",
-      "keyedBy": "the player's appearance seed, or the player pressing Randomize",
-      "reason": "The player's own Randomize button picks a look for their character; a look, not an outcome.",
-      "replacement": null
-    },
-    {
       "file": "src/core2/central-bank-board.ts",
       "kind": "list-pick",
-      "build": "OPUS-WORLD",
-      "count": 1,
+      "build": null,
+      "count": 2,
       "code": "p(\"macroGovernorMinimumAge\") + rng.next() * p(\"macroGovernorAgeSpan\");",
       "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
+      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
       "reason": "A fictional member's age at appointment: who exists, not what they decide.",
       "replacement": null
     },
     {
       "file": "src/core2/central-bank-board.ts",
       "kind": "list-pick",
-      "build": "OPUS-WORLD",
+      "build": null,
       "count": 1,
       "code": "const career = rng.pick(board.careers);",
       "class": "GENERATION",
@@ -1732,23 +1579,34 @@
     {
       "file": "src/core2/central-bank-board.ts",
       "kind": "list-pick",
-      "build": "OPUS-WORLD",
-      "count": 1,
+      "build": null,
+      "count": 2,
       "code": "givenName: rng.pick(corpus.givenNames),",
       "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
+      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
       "reason": "A fictional member's given name from the Census/SSA corpus.",
       "replacement": null
     },
     {
       "file": "src/core2/central-bank-board.ts",
       "kind": "list-pick",
-      "build": "OPUS-WORLD",
-      "count": 1,
+      "build": null,
+      "count": 2,
       "code": "familyName: rng.pick(corpus.familyNames),",
       "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
+      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
       "reason": "A fictional member's family name from the Census/SSA corpus.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "career: rng.pick(board.careers),",
+      "class": "GENERATION",
+      "keyedBy": "candidate seed (world seed + seat + term)",
+      "reason": "A fictional candidate's past career: who exists; the appointer chooses among candidates by its own reasons.",
       "replacement": null
     },
     {
@@ -1785,6 +1643,28 @@
       "replacement": null
     },
     {
+      "file": "src/core2/officials-identity.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "(gender !== \"nonbinary\" ? drawCohortGivenName(names, gender, Number(birthDate.slice(0, 4))) : null) ?? names.pick(givenNamePoolForCorpus(corpus, gender));",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + seat key",
+      "reason": "A fictional official's given name drawn from the place's name corpus for their birth cohort; who they are, not what they do.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/officials-identity.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const familyName = names.pick(corpus.familyNames);",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + seat key",
+      "reason": "A fictional official's family name drawn from the place's name corpus; who they are, not what they do.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/opening-kin.ts",
       "kind": "list-pick",
       "build": null,
@@ -1815,160 +1695,6 @@
       "class": "GENERATION",
       "keyedBy": "household id (household ages)",
       "reason": "Poisson count for a generated household's size, counted down through its terms; who exists, not what anyone does.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/officials-identity.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "(gender !== \"nonbinary\" ? drawCohortGivenName(names, gender, Number(birthDate.slice(0, 4))) : null) ?? names.pick(givenNamePoolForCorpus(corpus, gender));",
-      "class": "IDENTITY",
-      "keyedBy": "world seed + seat key",
-      "reason": "A fictional official's given name drawn from the place's name corpus for their birth cohort; who they are, not what they do.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/officials-identity.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const familyName = names.pick(corpus.familyNames);",
-      "class": "IDENTITY",
-      "keyedBy": "world seed + seat key",
-      "reason": "A fictional official's family name drawn from the place's name corpus; who they are, not what they do.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const institution = choices.length ? rng.pick(choices) : undefined;",
-      "class": "DECISION",
-      "keyedBy": "place and stage (not the person)",
-      "reason": "Seeded pick among the place's indexed campuses for a school stage (stopgap SG-P15-school-assignment); the school a child attended follows from where the family lived, so this is not generation.",
-      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "stage.namedCampus && institution ? institution.name : `${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;",
-      "class": "GENERATION",
-      "keyedBy": "school id (place and stage)",
-      "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const institution = choices.length ? rng.pick(choices) : undefined;",
-      "class": "DECISION",
-      "keyedBy": "data version + place id + school stage",
-      "reason": "Chooses which recorded campus a child attended by seed; where a child went to school follows from where the family lived and the child's age, so it is a decision, not generation.",
-      "replacement": "the campus whose recorded attendance area or district serves the child's recorded address and grade, with no seeded choice among local campuses"
-    },
-    {
-      "file": "src/core2/deep-past.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "stage.namedCampus && institution ? institution.name : `${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;",
-      "class": "IDENTITY",
-      "keyedBy": "data version + place id + school stage",
-      "reason": "Picks a landscape feature word for the name of a school with no indexed campus; a name, with no effect on what happens to anyone.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "p(\"macroGovernorMinimumAge\") + rng.next() * p(\"macroGovernorAgeSpan\");",
-      "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
-      "reason": "A fictional member's age at appointment: who exists, not what they decide.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const career = rng.pick(board.careers);",
-      "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
-      "reason": "A fictional member's past career: who exists; their votes come from lived inflation and traits.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "givenName: rng.pick(corpus.givenNames),",
-      "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
-      "reason": "A fictional member's given name from the Census/SSA corpus.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "familyName: rng.pick(corpus.familyNames),",
-      "class": "GENERATION",
-      "keyedBy": "member seed (world seed + seat)",
-      "reason": "A fictional member's family name from the Census/SSA corpus.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 2,
-      "code": "p(\"macroGovernorMinimumAge\") + rng.next() * p(\"macroGovernorAgeSpan\");",
-      "class": "GENERATION",
-      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
-      "reason": "A fictional member's age at appointment: who exists, not what they decide.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 2,
-      "code": "givenName: rng.pick(corpus.givenNames),",
-      "class": "GENERATION",
-      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
-      "reason": "A fictional member's given name from the Census/SSA corpus.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 2,
-      "code": "familyName: rng.pick(corpus.familyNames),",
-      "class": "GENERATION",
-      "keyedBy": "member or candidate seed (world seed + seat, and the term for a candidate)",
-      "reason": "A fictional member's family name from the Census/SSA corpus.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/central-bank-board.ts",
-      "kind": "list-pick",
-      "build": "OPUS-WORLD",
-      "count": 1,
-      "code": "career: rng.pick(board.careers),",
-      "class": "GENERATION",
-      "keyedBy": "candidate seed (world seed + seat + term)",
-      "reason": "A fictional candidate's past career: who exists; the appointer chooses among candidates by its own reasons.",
       "replacement": null
     }
   ]

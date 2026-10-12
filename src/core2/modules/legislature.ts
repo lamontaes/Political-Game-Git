@@ -1222,8 +1222,9 @@ function committeeStage(
   api.stopgap("SG-GOV-committee-structure");
   const ranked = [...all].sort(
     (a, b) =>
-      a.startDate.localeCompare(b.startDate) ||
-      memberKey(a).localeCompare(memberKey(b)),
+      (a.serviceStart ?? a.startDate).localeCompare(
+        b.serviceStart ?? b.startDate,
+      ) || memberKey(a).localeCompare(memberKey(b)),
   );
   const size = Math.max(
     3,
@@ -1254,8 +1255,9 @@ function committeeStage(
     .flatMap(([side, list]) => list.slice(0, seatsFor.get(side)))
     .sort(
       (a, b) =>
-        a.startDate.localeCompare(b.startDate) ||
-        memberKey(a).localeCompare(memberKey(b)),
+        (a.serviceStart ?? a.startDate).localeCompare(
+          b.serviceStart ?? b.startDate,
+        ) || memberKey(a).localeCompare(memberKey(b)),
     );
   const chair =
     roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
