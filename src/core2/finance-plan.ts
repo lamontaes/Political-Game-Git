@@ -1,4 +1,5 @@
 import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
+import { bookkeeping } from "./bookkeeping";
 /** Internal read-only preparation. It grants no source authority and never writes cash. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
 import {
@@ -161,12 +162,15 @@ export class FinanceReadGuard {
   #sizes = new Map<ReadonlySet<unknown>, SizeRead>();
   #contents = new Map<ReadonlySet<unknown>, SetContentsRead>();
   #sealed = false;
+  /** Off in play: reads pass straight through and nothing is recorded or replayed. */
+  readonly #on = bookkeeping();
 
   #open(): void {
     if (this.#sealed) throw new Error("Finance read snapshot is sealed.");
   }
 
   field<T extends object, K extends keyof T>(target: T, key: K): T[K] {
+    if (!this.#on) return target[key];
     this.#open();
     const fields =
       this.#fields.get(target) ?? new Map<PropertyKey, FieldRead>();
@@ -187,6 +191,7 @@ export class FinanceReadGuard {
   }
 
   mapGet<K, V>(target: ReadonlyMap<K, V>, key: K): V | undefined {
+    if (!this.#on) return target.get(key);
     this.#open();
     nativeMap(target);
     const entries = this.#maps.get(target) ?? new Map<unknown, MapRead>();
@@ -207,11 +212,13 @@ export class FinanceReadGuard {
   }
 
   mapHas<K, V>(target: ReadonlyMap<K, V>, key: K): boolean {
+    if (!this.#on) return target.has(key);
     this.mapGet(target, key);
     return this.#maps.get(target)!.get(key)!.present;
   }
 
   member<T>(target: ReadonlySet<T>, value: T): boolean {
+    if (!this.#on) return target.has(value);
     this.#open();
     nativeSet(target);
     const members = this.#sets.get(target) ?? new Map<unknown, SetRead>();
@@ -231,6 +238,7 @@ export class FinanceReadGuard {
   }
 
   size<T>(target: ReadonlySet<T>): number {
+    if (!this.#on) return target.size;
     this.#open();
     nativeSet(target);
     let read = this.#sizes.get(target);
@@ -247,6 +255,7 @@ export class FinanceReadGuard {
   }
 
   members<T>(target: ReadonlySet<T>): readonly T[] {
+    if (!this.#on) return [...target];
     this.#open();
     nativeSet(target);
     let read = this.#contents.get(target);
@@ -263,6 +272,7 @@ export class FinanceReadGuard {
   }
 
   array<T>(target: readonly T[], zero: number, one: number): readonly T[] {
+    if (!this.#on) return target.slice(zero);
     const length = this.field(target, "length"),
       result: T[] = [];
     for (let index = zero; index < length; index += one) {
@@ -277,6 +287,7 @@ export class FinanceReadGuard {
 
   /** Bounded record shape reads, verified with the same final preflight. */
   keys(target: object): readonly PropertyKey[] {
+    if (!this.#on) return Reflect.ownKeys(target);
     this.#open();
     const keys = Object.freeze(Reflect.ownKeys(target));
     this.#reads.push({ kind: "keys", target, keys });
@@ -290,6 +301,7 @@ export class FinanceReadGuard {
     one: number,
     seen = new WeakSet<object>(),
   ): void {
+    if (!this.#on) return;
     this.#open();
     if (target === null || typeof target !== "object" || seen.has(target))
       return;
@@ -326,6 +338,7 @@ export class FinanceReadGuard {
   }
 
   verify(): void {
+    if (!this.#on) return;
     for (const read of this.#reads) {
       if (read.kind === "field") {
         // Absence still checks inheritance. No external frozen object is admitted.
@@ -416,11 +429,57 @@ function exact(value: bigint, zero: number, field: string): number {
 }
 
 /** Detached data only. Frozen Map/Set contents also get an independent payload snapshot. */
+/** Play-mode copy: the same detached graph, without descriptor checks or freezing. */
+function plainCopy<T>(
+  value: T,
+  copies: WeakMap<object, object>,
+  owned?: WeakSet<object>,
+): T {
+  if (value === null || typeof value !== "object") return value;
+  if (owned && nativeWeakSetHas.call(owned, value)) return value;
+  const prior = copies.get(value);
+  if (prior) return prior as T;
+  if (value instanceof Map) {
+    const result = new Map();
+    copies.set(value, result);
+    for (const [key, entry] of value)
+      result.set(
+        plainCopy(key, copies, owned),
+        plainCopy(entry, copies, owned),
+      );
+    return result as T;
+  }
+  if (value instanceof Set) {
+    const result = new Set();
+    copies.set(value, result);
+    for (const entry of value) result.add(plainCopy(entry, copies, owned));
+    return result as T;
+  }
+  if (Array.isArray(value)) {
+    const result: unknown[] = new Array(value.length);
+    copies.set(value, result);
+    for (let index = 0; index < value.length; index++)
+      result[index] = plainCopy(value[index], copies, owned);
+    return result as T;
+  }
+  const result: Record<string, unknown> =
+    Object.getPrototypeOf(value) === null ? Object.create(null) : {};
+  copies.set(value, result);
+  for (const key in value)
+    result[key] = plainCopy(
+      (value as Record<string, unknown>)[key],
+      copies,
+      owned,
+    );
+  return result as T;
+}
+
 function detach<T>(
   value: T,
   copies = new WeakMap<object, object>(),
   owned?: WeakSet<object>,
 ): T {
+  if (!bookkeeping()) return plainCopy(value, copies, owned);
   if (
     typeof value === "number" &&
     (!Number.isFinite(value) ||
