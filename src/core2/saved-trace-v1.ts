@@ -1,10 +1,13 @@
 /** Saved evidence inspection only: no evaluator, provider, renderer or writer. */
+import { validateCompactChoice } from "./compact-choice";
 import { FinanceReadGuard } from "./finance-plan";
 import { P } from "./parameters";
 import type {
   CoreState,
+  CompactChoiceTraceV1,
   DecisionReason,
   DecisionResult,
+  Source,
   WeightedReason,
 } from "./types";
 
@@ -17,10 +20,76 @@ export interface SavedSourceResolutionV1 {
   recordedRef: Readonly<SavedRecordRefV1>;
   status: "resolved-saved-record" | "missing-record" | "ambiguous-record";
 }
+/** Factual original settlement evidence. These amounts do not imply an actor utility choice. */
+export interface SavedPaymentCauseV1 {
+  version: "core2-payment-cause-v1";
+  mechanism:
+    | "recorded-payroll-due"
+    | "recorded-standing-transfer"
+    | "recorded-credit-request";
+  receiptId: string;
+  date: string;
+  occurrenceEvidence:
+    | "source-completion-recorded"
+    | "retained-receipt-only"
+    | "component-of-completed-group";
+  completedAt?: string;
+  postedJournalSequence?: number;
+  amounts: Readonly<Record<string, number>>;
+  due: Readonly<{
+    status: "saved" | "not-retained" | "not-applicable";
+    dueAt?: string;
+    fromAt?: string;
+    throughAt?: string;
+    nominalDueAt?: string;
+  }>;
+  priorArrearsStatus: "saved" | "not-retained" | "not-applicable";
+  ownerRefs: readonly Readonly<SavedRecordRefV1>[];
+  /** Credit receipts retain the facility link, not historical borrower/lender IDs. */
+  cashOwnerIdentityStatus: "saved" | "facility-only";
+  sources: Readonly<Record<string, Readonly<Source>>>;
+  recordedReferences?: readonly Readonly<{
+    kind: string;
+    id: string;
+    date: string;
+    source: Readonly<Source>;
+  }>[];
+  payments?: readonly Readonly<{
+    payerId: string;
+    requestedMinor: number;
+    paidMinor: number;
+    payerBeforeMinor: number;
+    payerAfterMinor: number;
+  }>[];
+  components?: readonly Readonly<SavedPaymentCauseV1>[];
+  accountingAttributionRule?: string;
+}
+
+/** Original earned attendance aggregate: it is neither a cash payment nor a utility decision. */
+export interface SavedEarnedPeriodCauseV1 {
+  version: "core2-earned-period-cause-v1";
+  mechanism: "recorded-attendance-accrual";
+  /** Original supporting attendance only; never a period or settlement actor choice. */
+  lastAttendanceChoice?: Readonly<CompactChoiceTraceV1>;
+  supportingChoiceStatus: "saved-attendance-choice" | "none-saved";
+  recordId: string;
+  dates: Readonly<Record<string, string>>;
+  amounts: Readonly<{
+    segmentCount: number;
+    plannedMinutes: number;
+    attendedMinutes: number;
+    earnedMinor: number;
+  }>;
+  ownerRefs: readonly Readonly<SavedRecordRefV1>[];
+  sources: Readonly<Record<string, Readonly<Source>>>;
+}
+
 export type SavedTraceV1 = {
   version: Part1bVersion;
   recordId: string;
   savedSources: readonly Readonly<SavedSourceResolutionV1>[];
+  paymentCause?: Readonly<SavedPaymentCauseV1>;
+  earnedPeriodCause?: Readonly<SavedEarnedPeriodCauseV1>;
 } & (
   | {
       status: "saved";
@@ -29,6 +98,7 @@ export type SavedTraceV1 = {
       reasons?: Readonly<DecisionReason>;
       reasonTerms?: readonly Readonly<WeightedReason>[];
       scores?: DecisionResult["scores"];
+      compactChoice?: Readonly<CompactChoiceTraceV1>;
       scoresStatus: "saved" | "none-saved";
       sourcesStatus: "saved" | "none-saved";
     }
@@ -47,6 +117,9 @@ export type SavedTraceV1 = {
 
 type Row = Record<PropertyKey, unknown>;
 type SavedFields = {
+  earnedPeriodCause?: Readonly<SavedEarnedPeriodCauseV1>;
+  paymentCause?: Readonly<SavedPaymentCauseV1>;
+  compactChoice?: Readonly<CompactChoiceTraceV1>;
   reasonKey?: string;
   reasons?: Readonly<DecisionReason>;
   reasonTerms?: readonly Readonly<WeightedReason>[];
@@ -251,6 +324,486 @@ class SavedLookup {
       for (const id of ids) this.appendRef(refs, "untyped-saved-id", id);
     }
   }
+  /** Project only an actual saved result: never consult current terms to reconstruct old money. */
+  private payment(
+    row: Row,
+    mechanism: "payroll" | "contract" | "credit",
+    refs: SavedRecordRefV1[],
+    component = false,
+  ): SavedPaymentCauseV1 | undefined {
+    const r = this.reads,
+      amounts: Record<string, number> = {},
+      ownerRefs: SavedRecordRefV1[] = [],
+      sources: Record<string, Readonly<Source>> = {},
+      receiptId = text(r.field(row, "id")),
+      date = text(r.field(row, "date"));
+    let completedAt: string | undefined,
+      postedJournalSequence: number | undefined;
+    let occurrenceEvidence: SavedPaymentCauseV1["occurrenceEvidence"] =
+      component ? "component-of-completed-group" : "retained-receipt-only";
+    if (!component) {
+      const rawOwner = this.get(
+        mechanism === "payroll" ? this.work : this.finance,
+        mechanism === "payroll" ? "payrollCashSources" : "cashSources",
+        receiptId,
+      );
+      if (rawOwner !== undefined) {
+        const owner = record(rawOwner);
+        if (
+          r.field(owner, "id") !== receiptId ||
+          r.field(owner, "date") !== date
+        )
+          throw new Error(
+            "Saved payment completion has another original receipt identity.",
+          );
+        const recordedCompletion = r.field(owner, "completedAt"),
+          recordedJournal = r.field(owner, "postedJournalSequence");
+        if (recordedCompletion === undefined && recordedJournal === undefined)
+          return undefined;
+        if (recordedCompletion !== undefined)
+          completedAt = text(recordedCompletion);
+        if (recordedJournal !== undefined) {
+          if (
+            typeof recordedJournal !== "number" ||
+            !Number.isSafeInteger(recordedJournal) ||
+            recordedJournal < P.zero
+          )
+            throw new Error(
+              "Saved payment journal completion marker is malformed.",
+            );
+          postedJournalSequence = recordedJournal;
+        }
+        occurrenceEvidence = "source-completion-recorded";
+      }
+    }
+    const amount = (key: string) => {
+      const value = r.field(row, key);
+      if (
+        typeof value !== "number" ||
+        !Number.isSafeInteger(value) ||
+        value < P.zero
+      )
+        throw new Error(
+          "Saved payment amount is not a nonnegative exact minor value.",
+        );
+      amounts[key] = value;
+      return value;
+    };
+    const owner = (kind: string, key: string) => {
+      const id = text(r.field(row, key));
+      this.appendRef(ownerRefs, kind, id);
+      this.appendRef(refs, kind, id);
+    };
+    for (const key of [
+      "source",
+      "jobSource",
+      "paySource",
+      "scheduleSource",
+      "calendarSource",
+      "earnedPeriodSource",
+      "employerOpeningFundsSource",
+      "attributionSource",
+    ]) {
+      const value = r.field(row, key);
+      if (value !== undefined) {
+        record(value);
+        sources[key] = detach(r, value) as Readonly<Source>;
+      }
+    }
+    if (sources.source === undefined)
+      throw new Error("Saved payment has no actual receipt Source.");
+    const requested = amount("requestedMinor");
+    let due: SavedPaymentCauseV1["due"] = { status: "not-retained" },
+      payments: SavedPaymentCauseV1["payments"],
+      components: SavedPaymentCauseV1["components"],
+      recordedReferences: SavedPaymentCauseV1["recordedReferences"],
+      accountingAttributionRule: string | undefined;
+    if (mechanism === "payroll" && !component) {
+      const originalOwner = this.get(
+        this.work,
+        "payrollCashSources",
+        receiptId,
+      );
+      if (originalOwner !== undefined) {
+        const savedOwner = record(originalOwner);
+        if (
+          r.field(savedOwner, "id") !== receiptId ||
+          r.field(savedOwner, "date") !== date
+        )
+          throw new Error(
+            "Saved payroll references have another original receipt owner.",
+          );
+        const raw = detach(r, r.field(savedOwner, "references"));
+        if (!Array.isArray(raw))
+          throw new Error("Saved payroll references are not an array.");
+        recordedReferences = raw.map((value) => {
+          const reference = record(value),
+            source = r.field(reference, "source");
+          record(source);
+          return {
+            kind: text(r.field(reference, "kind")),
+            id: text(r.field(reference, "id")),
+            date: text(r.field(reference, "date")),
+            source: detach(r, source) as Readonly<Source>,
+          };
+        });
+      }
+    }
+    if (mechanism === "payroll") {
+      for (const key of [
+        "newlyDueMinor",
+        "arrearsBeforeMinor",
+        "paidMinor",
+        "shortfallMinor",
+        "paidArrearsMinor",
+        "paidNewlyDueMinor",
+        "missedNewlyDueMinor",
+        "arrearsAfterMinor",
+      ])
+        amount(key);
+      if (
+        BigInt(requested) !==
+          BigInt(amounts.newlyDueMinor!) +
+            BigInt(amounts.arrearsBeforeMinor!) ||
+        BigInt(requested) !==
+          BigInt(amounts.paidMinor!) + BigInt(amounts.shortfallMinor!) ||
+        BigInt(amounts.paidMinor!) !==
+          BigInt(amounts.paidArrearsMinor!) +
+            BigInt(amounts.paidNewlyDueMinor!) ||
+        BigInt(amounts.newlyDueMinor!) !==
+          BigInt(amounts.paidNewlyDueMinor!) +
+            BigInt(amounts.missedNewlyDueMinor!) ||
+        amounts.paidArrearsMinor! > amounts.arrearsBeforeMinor! ||
+        amounts.arrearsAfterMinor !== amounts.shortfallMinor
+      )
+        throw new Error(
+          "Saved payroll payment amounts do not conserve original due and arrears.",
+        );
+      due = {
+        status: "saved",
+        dueAt: text(r.field(row, "dueAt")),
+        fromAt: text(r.field(row, "fromAt")),
+        throughAt: text(r.field(row, "throughAt")),
+      };
+      owner("person", "personId");
+      owner("organization", "organizationId");
+      owner(
+        this.kind(this.workKinds, "payrollCalendar", "work-payroll-calendar"),
+        "calendarId",
+      );
+      const group = r.field(row, "group");
+      if (group !== undefined && group !== false && group !== true)
+        throw new Error("Saved payroll group discriminator is malformed.");
+      if (group === true) {
+        if (component)
+          throw new Error("Saved payroll components cannot be nested groups.");
+        const raw = detach(r, r.field(row, "components"));
+        if (!Array.isArray(raw) || raw.length <= P.zero)
+          throw new Error(
+            "Saved payroll group has no actual component receipts.",
+          );
+        const ids = new Set<string>();
+        components = raw.map((value) => {
+          const child = record(value),
+            commitmentId = text(r.field(child, "commitmentId"));
+          if (
+            ids.has(commitmentId) ||
+            r.field(child, "groupReceiptId") !== receiptId ||
+            [
+              "personId",
+              "organizationId",
+              "calendarId",
+              "index",
+              "fromAt",
+              "throughAt",
+              "dueAt",
+              "date",
+            ].some((key) => r.field(child, key) !== r.field(row, key))
+          )
+            throw new Error(
+              "Saved payroll component has another original owning group.",
+            );
+          ids.add(commitmentId);
+          const saved = this.payment(child, "payroll", refs, true);
+          if (saved === undefined)
+            throw new Error("Saved completed group lost its actual component.");
+          return saved;
+        });
+        for (const key of Object.keys(amounts))
+          if (
+            components.reduce(
+              (sum, child) => sum + BigInt(child.amounts[key]!),
+              BigInt(P.zero),
+            ) !== BigInt(amounts[key]!)
+          )
+            throw new Error(
+              "Saved payroll component amounts disagree with the original aggregate.",
+            );
+        accountingAttributionRule = text(
+          r.field(row, "accountingAttributionRule"),
+        );
+      } else {
+        owner("job", "jobId");
+        owner(
+          this.kind(this.workKinds, "commitment", "work.commitment"),
+          "commitmentId",
+        );
+      }
+    } else if (mechanism === "contract") {
+      amount("paidMinor");
+      amount("unfundedMinor");
+      amount("arrearsMinor");
+      if (
+        BigInt(requested) !==
+          BigInt(amounts.paidMinor!) + BigInt(amounts.unfundedMinor!) ||
+        amounts.arrearsMinor! > amounts.unfundedMinor!
+      )
+        throw new Error(
+          "Saved standing payment amounts do not conserve the original request.",
+        );
+      owner(
+        this.kind(this.financeRelated, "terms", "finance.standing-terms"),
+        "contractId",
+      );
+      owner("untyped-saved-id", "payeeId");
+      const raw = detach(r, r.field(row, "payments"));
+      if (!Array.isArray(raw) || raw.length <= P.zero)
+        throw new Error("Saved standing payment has no original payer legs.");
+      let remaining = requested;
+      payments = raw.map((value) => {
+        const leg = record(value),
+          payerId = text(r.field(leg, "payerId"));
+        const read = (key: string) => {
+          const amount = r.field(leg, key);
+          if (
+            typeof amount !== "number" ||
+            !Number.isSafeInteger(amount) ||
+            amount < P.zero
+          )
+            throw new Error("Saved standing payer leg has a malformed amount.");
+          return amount;
+        };
+        const requestedMinor = read("requestedMinor"),
+          paidMinor = read("paidMinor");
+        if (requestedMinor !== remaining || paidMinor > requestedMinor)
+          throw new Error(
+            "Saved standing payer legs have another original request order.",
+          );
+        remaining -= paidMinor;
+        this.appendRef(ownerRefs, "untyped-saved-id", payerId);
+        this.appendRef(refs, "untyped-saved-id", payerId);
+        return {
+          payerId,
+          requestedMinor,
+          paidMinor,
+          payerBeforeMinor: read("payerBeforeMinor"),
+          payerAfterMinor: read("payerAfterMinor"),
+        };
+      });
+      if (remaining !== amounts.unfundedMinor)
+        throw new Error(
+          "Saved standing payer legs disagree with the original paid amount.",
+        );
+      const basis = r.field(row, "householdPurchaseCalendarBasis");
+      if (basis !== undefined) {
+        const saved = record(basis);
+        due = {
+          status: "saved",
+          dueAt: text(r.field(saved, "effectiveDueAt")),
+          nominalDueAt: text(r.field(saved, "nominalDueAt")),
+        };
+        const originalSource = r.field(saved, "source");
+        record(originalSource);
+        sources.householdPurchaseCalendarSource = detach(
+          r,
+          originalSource,
+        ) as Readonly<Source>;
+      }
+    } else {
+      amount("transferredMinor");
+      amount("principalBeforeMinor");
+      amount("principalAfterMinor");
+      if (
+        amounts.transferredMinor! > requested ||
+        (BigInt(amounts.principalAfterMinor!) -
+          BigInt(amounts.principalBeforeMinor!) !==
+          BigInt(amounts.transferredMinor!) &&
+          BigInt(amounts.principalBeforeMinor!) -
+            BigInt(amounts.principalAfterMinor!) !==
+            BigInt(amounts.transferredMinor!))
+      )
+        throw new Error(
+          "Saved credit transfer does not conserve original principal.",
+        );
+      owner(
+        this.kind(this.financeRelated, "facility", "finance.facility-terms"),
+        "facilityId",
+      );
+      due = { status: "not-applicable" };
+    }
+    return {
+      version: "core2-payment-cause-v1",
+      mechanism:
+        mechanism === "payroll"
+          ? "recorded-payroll-due"
+          : mechanism === "contract"
+            ? "recorded-standing-transfer"
+            : "recorded-credit-request",
+      receiptId,
+      date,
+      amounts,
+      due,
+      occurrenceEvidence,
+      ...(completedAt === undefined ? {} : { completedAt }),
+      ...(postedJournalSequence === undefined ? {} : { postedJournalSequence }),
+      priorArrearsStatus:
+        mechanism === "payroll"
+          ? "saved"
+          : mechanism === "contract"
+            ? "not-retained"
+            : "not-applicable",
+      ownerRefs,
+      cashOwnerIdentityStatus:
+        mechanism === "credit" ? "facility-only" : "saved",
+      sources,
+      ...(recordedReferences === undefined ? {} : { recordedReferences }),
+      ...(payments === undefined ? {} : { payments }),
+      ...(components === undefined ? {} : { components }),
+      ...(accountingAttributionRule === undefined
+        ? {}
+        : { accountingAttributionRule }),
+    };
+  }
+  private earnedPeriod(
+    row: Row,
+    refs: SavedRecordRefV1[],
+  ): SavedEarnedPeriodCauseV1 {
+    const r = this.reads,
+      ownerRefs: SavedRecordRefV1[] = [],
+      dates: Record<string, string> = {},
+      sources: Record<string, Readonly<Source>> = {};
+    const read = (key: string) => {
+      const value = r.field(row, key);
+      if (
+        typeof value !== "number" ||
+        !Number.isFinite(value) ||
+        ((key === "segmentCount" || key === "earnedMinor") &&
+          !Number.isSafeInteger(value)) ||
+        value < P.zero
+      )
+        throw new Error(
+          "Saved earned period contribution is not an exact nonnegative value.",
+        );
+      return value;
+    };
+    const amounts = {
+      segmentCount: read("segmentCount"),
+      plannedMinutes: read("plannedMinutes"),
+      attendedMinutes: read("attendedMinutes"),
+      earnedMinor: read("earnedMinor"),
+    };
+    if (
+      amounts.segmentCount <= P.zero ||
+      amounts.attendedMinutes > amounts.plannedMinutes
+    )
+      throw new Error(
+        "Saved earned period attendance contribution is inconsistent.",
+      );
+    for (const key of [
+      "fromAt",
+      "throughAt",
+      "dueAt",
+      "firstEarnedAt",
+      "lastEarnedAt",
+    ])
+      dates[key] = text(r.field(row, key));
+    if (
+      dates.firstEarnedAt! < dates.fromAt! ||
+      dates.lastEarnedAt! > dates.throughAt! ||
+      dates.firstEarnedAt! > dates.lastEarnedAt!
+    )
+      throw new Error(
+        "Saved earned period has inconsistent original earning dates.",
+      );
+    for (const [key, kind] of [
+      ["personId", "person"],
+      ["organizationId", "organization"],
+      ["jobId", "job"],
+      [
+        "commitmentId",
+        this.kind(this.workKinds, "commitment", "work.commitment"),
+      ],
+      [
+        "calendarId",
+        this.kind(this.workKinds, "payrollCalendar", "work-payroll-calendar"),
+      ],
+      ["lastWorkResultId", "work.attendance"],
+    ] as const) {
+      const id = text(r.field(row, key));
+      this.appendRef(ownerRefs, kind, id);
+      this.appendRef(refs, kind, id);
+    }
+    for (const key of ["source", "jobSource", "paySource", "scheduleSource"]) {
+      const value = r.field(row, key);
+      record(value);
+      sources[key] = detach(r, value) as Readonly<Source>;
+    }
+    let lastAttendanceChoice: Readonly<CompactChoiceTraceV1> | undefined;
+    const rawBasis = r.field(row, "lastAttendanceBasis");
+    if (rawBasis !== undefined) {
+      const basis = record(rawBasis);
+      if (
+        r.field(basis, "id") !== r.field(row, "lastWorkResultId") ||
+        r.field(basis, "date") !== r.field(row, "lastEarnedAt") ||
+        r.field(basis, "earnedPayPeriodId") !== r.field(row, "id") ||
+        r.field(basis, "payrollCalendarId") !== r.field(row, "calendarId") ||
+        ["personId", "organizationId", "jobId", "commitmentId"].some(
+          (key) => r.field(basis, key) !== r.field(row, key),
+        )
+      )
+        throw new Error(
+          "Saved earned-period supporting attendance has another original owner.",
+        );
+      const choice = r.field(basis, "compactChoice");
+      if (choice !== undefined) {
+        lastAttendanceChoice = detach(
+          r,
+          choice,
+        ) as Readonly<CompactChoiceTraceV1>;
+        validateCompactChoice(lastAttendanceChoice);
+        if (
+          lastAttendanceChoice.actorId !== r.field(row, "personId") ||
+          lastAttendanceChoice.date !== dates.lastEarnedAt ||
+          lastAttendanceChoice.chosen.targetId !== r.field(row, "commitmentId")
+        )
+          throw new Error(
+            "Saved earned-period supporting choice has another original actor or date.",
+          );
+        this.explicitRefs(refs, lastAttendanceChoice.sourceRecordRefs);
+        for (const score of [
+          lastAttendanceChoice.chosen,
+          ...(lastAttendanceChoice.runnerUp
+            ? [lastAttendanceChoice.runnerUp]
+            : []),
+        ])
+          this.reasonRefs(refs, score.reasonTerms);
+      }
+    }
+    return {
+      version: "core2-earned-period-cause-v1",
+      mechanism: "recorded-attendance-accrual",
+      recordId: text(r.field(row, "id")),
+      dates,
+      amounts,
+      ownerRefs,
+      sources,
+      supportingChoiceStatus:
+        lastAttendanceChoice === undefined
+          ? "none-saved"
+          : "saved-attendance-choice",
+      ...(lastAttendanceChoice === undefined ? {} : { lastAttendanceChoice }),
+    };
+  }
   private row(
     raw: unknown,
     id: string,
@@ -258,6 +811,8 @@ class SavedLookup {
     reason: "decision" | "key" | "none",
     aliases: readonly string[] = [],
     extraRefs: readonly SavedRecordRefV1[] = [],
+    payment?: "payroll" | "contract" | "credit",
+    earnedPeriod = false,
   ): Located | undefined {
     if (raw === undefined) return undefined;
     const r = this.reads,
@@ -308,23 +863,74 @@ class SavedLookup {
     ])
       if (r.field(row, key) !== undefined)
         evidence[key] = detach(r, r.field(row, key));
+    const latestChange =
+      kind === "relationship" ? r.field(row, "latestChange") : undefined;
+    const relationshipChange =
+      latestChange === undefined ? undefined : record(latestChange);
+    if (relationshipChange) {
+      const captured = detach(r, relationshipChange);
+      if (
+        captured.actorId === captured.otherId ||
+        captured.kind !== r.field(row, "kind")
+      )
+        throw new Error(
+          "Saved relationship change has conflicting endpoints or kind.",
+        );
+      if (
+        captured.actorId !== r.field(row, "actorId") &&
+        captured.actorId !== r.field(row, "otherId")
+      )
+        throw new Error("Saved relationship change has another endpoint.");
+      if (
+        captured.otherId !== r.field(row, "actorId") &&
+        captured.otherId !== r.field(row, "otherId")
+      )
+        throw new Error("Saved relationship change has another endpoint.");
+      this.explicitRefs(refs, captured.sourceRecordRefs);
+      evidence.relationshipChange = captured;
+    }
     const fields: SavedFields = {},
       outer = reason === "none" ? undefined : r.field(row, "reasonKey");
     if (outer !== undefined) fields.reasonKey = text(outer);
     let conflictingDecision = false;
-    const savedDecision =
-      reason === "decision" ? r.field(row, "decision") : undefined;
+    const savedDecision = relationshipChange
+      ? r.field(relationshipChange, "decision")
+      : reason === "decision"
+        ? r.field(row, "decision")
+        : undefined;
     if (savedDecision !== undefined) {
       const decision = record(savedDecision),
         key = text(r.field(decision, "reasonKey"));
       const actorId = text(r.field(decision, "actorId")),
         date = text(r.field(decision, "date"));
+      if (relationshipChange) {
+        const target = r.field(
+            record(r.field(decision, "selected") ?? {}),
+            "targetId",
+          ),
+          compact = r.field(decision, "compactChoice");
+        if (
+          actorId !== r.field(relationshipChange, "actorId") ||
+          date !== r.field(relationshipChange, "date") ||
+          (target !== undefined &&
+            target !== r.field(relationshipChange, "otherId")) ||
+          (compact !== undefined &&
+            r.field(record(r.field(record(compact), "chosen")), "targetId") !==
+              r.field(relationshipChange, "otherId"))
+        )
+          throw new Error(
+            "Saved relationship decision has another actual change owner, date or target.",
+          );
+      }
       conflictingDecision =
         (fields.reasonKey !== undefined && fields.reasonKey !== key) ||
-        (identity.actorId !== undefined && identity.actorId !== actorId) ||
+        (kind !== "relationship" &&
+          identity.actorId !== undefined &&
+          identity.actorId !== actorId) ||
         (identity.date !== undefined && identity.date !== date);
       if (fields.reasonKey === undefined) fields.reasonKey = key;
-      identity.actorId ??= actorId;
+      if (kind === "relationship") identity.actorId = actorId;
+      else identity.actorId ??= actorId;
       identity.date ??= date;
       const reasons = r.field(decision, "selectedReasons"),
         terms = r.field(decision, "selectedReasonTerms"),
@@ -342,6 +948,45 @@ class SavedLookup {
           throw new Error("Saved trace scores are not an array.");
         fields.scores = copied as DecisionResult["scores"];
       }
+    }
+    const rawCompact =
+      r.field(row, "compactChoice") ??
+      (savedDecision === undefined
+        ? undefined
+        : r.field(record(savedDecision), "compactChoice"));
+    if (rawCompact !== undefined) {
+      const compact = detach(r, rawCompact) as Readonly<CompactChoiceTraceV1>;
+      validateCompactChoice(compact);
+      const selected =
+        savedDecision === undefined
+          ? undefined
+          : r.field(record(savedDecision), "selected");
+      if (selected !== undefined) {
+        const offer = record(selected);
+        if (
+          r.field(offer, "targetId") !== compact.chosen.targetId ||
+          r.field(record(r.field(offer, "definition")), "id") !==
+            compact.chosen.actionId
+        )
+          throw new Error(
+            "Saved compact choice differs from its original selected offer.",
+          );
+      }
+      conflictingDecision ||=
+        (identity.actorId !== undefined &&
+          identity.actorId !== compact.actorId) ||
+        (identity.date !== undefined && identity.date !== compact.date) ||
+        (identity.actionId !== undefined &&
+          identity.actionId !== compact.chosen.actionId) ||
+        (identity.targetId !== undefined &&
+          identity.targetId !== compact.chosen.targetId);
+      fields.compactChoice = compact;
+      this.explicitRefs(refs, compact.sourceRecordRefs);
+      for (const score of [
+        compact.chosen,
+        ...(compact.runnerUp ? [compact.runnerUp] : []),
+      ])
+        this.reasonRefs(refs, score.reasonTerms);
     }
     this.reasonRefs(refs, fields.reasonTerms);
     for (const score of fields.scores ?? [])
@@ -406,6 +1051,11 @@ class SavedLookup {
       detach(r, owned);
       this.appendRef(refs, text(r.field(owned, "kind")), r.field(owned, "id"));
     }
+    if (payment !== undefined) {
+      const saved = this.payment(row, payment, refs);
+      if (saved !== undefined) fields.paymentCause = saved;
+    }
+    if (earnedPeriod) fields.earnedPeriodCause = this.earnedPeriod(row, refs);
     return {
       kind,
       aliases: [kind, ...aliases],
@@ -419,10 +1069,109 @@ class SavedLookup {
   private embeddedRow(raw: unknown, kind: string): void {
     if (raw === undefined) return;
     const id = text(this.reads.field(record(raw), "id")),
-      saved = this.row(raw, id, kind, "none")!;
+      saved = this.row(
+        raw,
+        id,
+        kind,
+        kind === "work.attendance" ? "decision" : "none",
+        [],
+        [],
+        undefined,
+        kind ===
+          this.kind(
+            this.workKinds,
+            "earnedPayPeriod",
+            "work-earned-pay-period",
+          ),
+      )!;
     const rows = this.embedded.get(id) ?? [];
     rows.push(saved);
     this.embedded.set(id, rows);
+    this.cache.delete(id);
+    if (kind === "work.attendance") this.savedAttendanceSelection(raw);
+    if (
+      kind ===
+      this.kind(this.workKinds, "earnedPayPeriod", "work-earned-pay-period")
+    )
+      this.savedPeriodAttendance(raw);
+  }
+  /** The selection actually saved in attendance, not an invented full act log. */
+  private savedAttendanceSelection(raw: unknown): void {
+    const r = this.reads,
+      attendance = record(raw),
+      compact = r.field(attendance, "compactChoice");
+    if (compact === undefined || r.field(attendance, "decision") !== undefined)
+      return;
+    const copied = detach(r, compact) as Readonly<CompactChoiceTraceV1>;
+    validateCompactChoice(copied);
+    if (
+      copied.actorId !== r.field(attendance, "personId") ||
+      copied.date !== r.field(attendance, "date") ||
+      copied.chosen.targetId !== r.field(attendance, "commitmentId")
+    )
+      throw new Error("Saved attendance selection has another actor or date.");
+    const id = text(r.field(attendance, "sourceActId"));
+    let hasFullSelection = false;
+    for (const original of [
+      this.get(this.core, "durableLog", id),
+      this.get(this.work, "cashActSelections", id),
+    ]) {
+      if (original === undefined) continue;
+      const owned = record(original);
+      if (
+        r.field(owned, "id") !== id ||
+        r.field(owned, "actorId") !== copied.actorId ||
+        r.field(owned, "date") !== copied.date ||
+        r.field(owned, "actionId") !== copied.chosen.actionId ||
+        r.field(owned, "targetId") !== copied.chosen.targetId ||
+        r.field(owned, "reasonKey") !== r.field(attendance, "reasonKey")
+      )
+        throw new Error(
+          "Conflicting saved attendance and original selection identity.",
+        );
+      hasFullSelection = true;
+    }
+    if (hasFullSelection) return;
+    const saved = this.row(
+      {
+        id,
+        actorId: copied.actorId,
+        date: copied.date,
+        actionId: copied.chosen.actionId,
+        targetId: copied.chosen.targetId,
+        reasonKey: r.field(attendance, "reasonKey"),
+        compactChoice: copied,
+      },
+      id,
+      "work.saved-selection",
+      "key",
+      [this.actKind],
+    )!;
+    const rows = this.embedded.get(id) ?? [];
+    rows.push(saved);
+    this.embedded.set(id, rows);
+    this.cache.delete(id);
+  }
+  private savedPeriodAttendance(raw: unknown): void {
+    const r = this.reads,
+      period = record(raw),
+      basis = r.field(period, "lastAttendanceBasis");
+    if (basis === undefined) return;
+    const attendance = record(basis);
+    if (
+      r.field(attendance, "id") !== r.field(period, "lastWorkResultId") ||
+      r.field(attendance, "date") !== r.field(period, "lastEarnedAt") ||
+      r.field(attendance, "earnedPayPeriodId") !== r.field(period, "id") ||
+      r.field(attendance, "payrollCalendarId") !==
+        r.field(period, "calendarId") ||
+      ["personId", "organizationId", "commitmentId", "jobId"].some(
+        (key) => r.field(attendance, key) !== r.field(period, key),
+      )
+    )
+      throw new Error(
+        "Saved earned period attendance has lost its actual ownership.",
+      );
+    this.embeddedRow(basis, "work.attendance");
   }
   find(id: string, selectedRecord = false): readonly Located[] {
     const cached = this.cache.get(id);
@@ -457,6 +1206,20 @@ class SavedLookup {
         ),
       );
     }
+    const quiet = this.get(this.core, "quietChoices", id);
+    if (quiet !== undefined) {
+      const actorId = text(r.field(record(quiet), "actorId"));
+      if (this.get(this.core, "quietChoiceByPerson", actorId) !== id)
+        throw new Error(
+          "Saved quiet selection has lost its owning person index.",
+        );
+      add(
+        this.row(quiet, id, "person.acted", "key", [
+          this.actKind,
+          "person.saved-selection",
+        ]),
+      );
+    }
     add(
       this.row(
         this.get(this.work, "cashActSelections", id),
@@ -482,6 +1245,7 @@ class SavedLookup {
           "Saved attendance index has lost its actual owning row.",
         );
       add(this.row(current, id, "work.attendance", "decision"));
+      if (selectedRecord) this.savedAttendanceSelection(current);
     }
     add(
       this.row(
@@ -536,7 +1300,7 @@ class SavedLookup {
         );
       this.explicitRefs(refs, r.field(owner, "references"));
       const result = r.field(owner, "result");
-      add(this.row(result, id, payrollKind, "none", [], refs));
+      add(this.row(result, id, payrollKind, "none", [], refs, "payroll"));
       if (selectedRecord) {
         // These are full original owning records already retained with the selected
         // canonical receipt, not related-reference projections reinterpreted as records.
@@ -578,6 +1342,9 @@ class SavedLookup {
         id,
         payrollKind,
         "none",
+        [],
+        [],
+        "payroll",
       ),
     );
     const receipt = (raw: unknown) => {
@@ -595,6 +1362,9 @@ class SavedLookup {
           id,
           facility !== undefined ? creditKind : contractKind,
           facility !== undefined ? "key" : "none",
+          [],
+          [],
+          facility !== undefined ? "credit" : "contract",
         ),
       );
     };
@@ -690,8 +1460,23 @@ class SavedLookup {
           [],
         ],
       ];
-    for (const [owner, table, kind, aliases] of actualTables)
-      add(this.row(this.get(owner, table, id), id, kind, "none", aliases));
+    for (const [owner, table, kind, aliases] of actualTables) {
+      const raw = this.get(owner, table, id);
+      add(
+        this.row(
+          raw,
+          id,
+          kind,
+          "none",
+          aliases,
+          [],
+          undefined,
+          table === "earnedPayPeriods",
+        ),
+      );
+      if (selectedRecord && raw !== undefined && table === "earnedPayPeriods")
+        this.savedPeriodAttendance(raw);
+    }
     found.push(...(this.embedded.get(id) ?? []));
     this.cache.set(id, freeze(found));
     return found;
@@ -723,6 +1508,9 @@ class SavedLookup {
         "reasons",
         "reasonTerms",
         "scores",
+        "compactChoice",
+        "paymentCause",
+        "earnedPeriodCause",
       ] as const)
         if (
           result.fields[key] !== undefined &&
@@ -802,7 +1590,8 @@ export function resolveSavedTraceV1(
       fields.reasonKey !== undefined ||
       fields.reasons !== undefined ||
       fields.reasonTerms !== undefined ||
-      fields.scores !== undefined
+      fields.scores !== undefined ||
+      fields.compactChoice !== undefined
     )
       result = {
         version: "core2-part1b-v1",
@@ -820,6 +1609,12 @@ export function resolveSavedTraceV1(
         recordId,
         status: "no-saved-reason",
         recordKind: row.kind,
+        ...(fields.paymentCause === undefined
+          ? {}
+          : { paymentCause: fields.paymentCause }),
+        ...(fields.earnedPeriodCause === undefined
+          ? {}
+          : { earnedPeriodCause: fields.earnedPeriodCause }),
         savedSources,
         sourcesStatus,
         scoresStatus: "none-saved",

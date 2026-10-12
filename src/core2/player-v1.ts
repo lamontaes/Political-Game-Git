@@ -4,6 +4,7 @@ import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { advanceDate, duePeople } from "./calendar";
 import type { DuePerson } from "./calendar";
 import { chooseAct } from "./choice";
+import { compactOriginalAnswer } from "./compact-choice";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   activate,
@@ -733,6 +734,11 @@ function resumePlayerV1Impl(
         selectedReasons: score.reasons,
         selectedReasonTerms: score.reasonTerms,
         reasonKey: `controlled:${offer.definition.id}:${offer.targetId}`,
+        compactChoice: compactOriginalAnswer(
+          pending.decision,
+          pending.offers,
+          index,
+        ),
       };
     const evidence = prepareControlledActTraceV1(
         core,
