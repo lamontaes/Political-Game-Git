@@ -28,6 +28,7 @@ import {
 } from "./legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
+import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -299,6 +300,7 @@ function lobbyistFor(
         return (
           c.organizationId === orgId &&
           c.endsAt === undefined &&
+          lobbyingBarredUntil(api, c.personId) === null &&
           person?.placeId === town &&
           decisionLean(
             api.state,

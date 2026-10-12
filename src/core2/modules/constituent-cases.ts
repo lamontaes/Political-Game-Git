@@ -213,7 +213,9 @@ function officeHours(api: CoreAPI): void {
           ?.level ?? 0;
       return (
         level(b) - level(a) ||
-        a.startDate.localeCompare(b.startDate) ||
+        (a.serviceStart ?? a.startDate).localeCompare(
+          b.serviceStart ?? b.startDate,
+        ) ||
         a.id.localeCompare(b.id)
       );
     })[0]!;

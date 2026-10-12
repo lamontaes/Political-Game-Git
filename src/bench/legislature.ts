@@ -14,6 +14,7 @@ import {
 } from "../core2/modules/legislature";
 import type { TermRow } from "../core2/modules/offices";
 import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
+import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import { backdropFile, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -101,9 +102,18 @@ export function seatView(core: CoreState, personId: string) {
       unit: row.unit,
       current: currentAmount(api, row.series),
     })),
-    questions: Object.keys(
-      (effects as unknown as { effects: Record<string, unknown> }).effects,
-    ),
+    // Every law area on GOV's bill catalog: its policies and budget lines.
+    menus: catalogMenus(),
+    questions: [
+      ...new Set([
+        ...Object.keys(
+          (effects as unknown as { effects: Record<string, unknown> }).effects,
+        ),
+        ...catalogMenus().flatMap((menu) =>
+          menu.items.flatMap((item) => (item.question ? [item.question] : [])),
+        ),
+      ]),
+    ],
     bills,
   };
 }
@@ -119,6 +129,8 @@ export function seatAct(
     memberId?: string;
     series?: string;
     question?: string;
+    /** A budget line the bill changes, by the amount in cents. */
+    line?: string;
     value?: number;
     deal?: string;
   },
@@ -130,20 +142,22 @@ export function seatAct(
     case "draft": {
       if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
         throw new Error("You don't sit on that body.");
-      const provision: Provision = input.series
-        ? {
-            kind: "law-amount",
-            series: input.series,
-            value: input.value ?? 0,
-            unit:
-              lawHere(api).find((row) => row.series === input.series)?.unit ??
-              undefined,
-          }
-        : {
-            kind: "policy-question",
-            question: input.question ?? "",
-            value: input.value ?? 1,
-          };
+      const provision: Provision = input.line
+        ? { kind: "budget-line", line: input.line, value: input.value ?? 0 }
+        : input.series
+          ? {
+              kind: "law-amount",
+              series: input.series,
+              value: input.value ?? 0,
+              unit:
+                lawHere(api).find((row) => row.series === input.series)?.unit ??
+                undefined,
+            }
+          : {
+              kind: "policy-question",
+              question: input.question ?? "",
+              value: input.value ?? 1,
+            };
       return draftBill(api, {
         bodyOfficeId: input.officeId!,
         sponsorId: personId,
@@ -195,4 +209,40 @@ export function bodyScene(
     backdrop: backdropFile(place, minute),
     ...stagePeople(core, place, cast),
   };
+}
+
+interface CatalogPolicy {
+  kind: string;
+  name: string;
+  question?: string;
+  line?: string;
+}
+/** The bill catalog's subjects, each with its policy questions and budget lines. */
+function catalogMenus() {
+  const subjects = (
+    billCatalog as unknown as {
+      subjects: {
+        id: string;
+        name: string;
+        topics: { policies?: CatalogPolicy[] }[];
+      }[];
+    }
+  ).subjects;
+  return subjects.map((subject) => ({
+    id: subject.id,
+    name: subject.name,
+    items: subject.topics
+      .flatMap((topic) => topic.policies ?? [])
+      .filter(
+        (row) =>
+          (row.kind === "policy-question" && row.question) ||
+          (row.kind === "budget-line" && row.line),
+      )
+      .map((row) => ({
+        kind: row.kind,
+        name: row.name,
+        ...(row.question ? { question: row.question } : {}),
+        ...(row.line ? { line: row.line } : {}),
+      })),
+  }));
 }

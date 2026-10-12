@@ -3,6 +3,8 @@ import { ballotOf, resultOf } from "../core2/modules/voting";
 import { drawOfficialIdentity } from "../core2/officials-identity";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
+import { backdropFile, hasBackdrop, stagePeople } from "./scene";
+import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
 const OFFICES = "core2-offices-v1";
@@ -107,4 +109,40 @@ export function electionResults(core: CoreState, playerId: string) {
     });
   }
   return out;
+}
+
+/**
+ * Election night's picture: the returns party if you ran in the newest
+ * election, with your household, or the polling place if you voted in it.
+ */
+export function resultsScene(core: CoreState, playerId: string) {
+  const races = electionResults(core, playerId);
+  const newest = races.filter((race) => race.date === races[0]?.date);
+  const ran = newest.some((race) =>
+    race.candidates.some((c) => c.id === playerId),
+  );
+  const voted = newest.some((race) => race.ballot?.voted);
+  if (!ran && !voted) return null;
+  const place = ran
+    ? scenePlaces.electionNight.ran
+    : scenePlaces.electionNight.voted;
+  if (!hasBackdrop(place)) return null;
+  const player = core.people.get(playerId)!;
+  const ids = ran
+    ? [
+        playerId,
+        ...(core.households.get(player.householdId)?.memberIds ?? []).filter(
+          (id) => id !== playerId && core.people.get(id)?.alive,
+        ),
+      ]
+    : [playerId];
+  const cast = ids.map((id) => {
+    const row = core.people.get(id)!;
+    return { id, name: `${row.givenName} ${row.familyName}` };
+  });
+  return {
+    place,
+    backdrop: backdropFile(place, ran ? 22 * 60 : 18 * 60),
+    people: stagePeople(core, place, cast).people,
+  };
 }

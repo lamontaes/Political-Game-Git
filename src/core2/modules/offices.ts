@@ -24,6 +24,7 @@
  * SG-GOV-special-election-appointee).
  */
 import { registerElectorate } from "../electorate";
+import { partyName } from "../appointments";
 import { decisionLean } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
@@ -40,6 +41,10 @@ import {
   type VacancyRule,
 } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
+import { createHash } from "node:crypto";
+import tenure from "../data/offices/tenure.json" with { type: "json" };
+import { POLICY_QUESTIONS } from "../policy-answers";
+import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
@@ -59,6 +64,8 @@ export interface TermRow {
   };
   readonly party: string | null;
   readonly startDate: string;
+  /** When the holder's unbroken service in this seat began (seniority). */
+  readonly serviceStart?: string;
   /** When the term ends; null where the office's term isn't read. */
   readonly endDate: string | null;
   readonly endEstimated: boolean;
@@ -228,12 +235,23 @@ function seatNamedOfficial(
   const role = /legislature|us-house|us-senate/.test(office.kind)
     ? "sitting-legislator-at-opening"
     : "executive-officeholder-at-opening";
+  // A vice president isn't related to the president: no shared family name.
+  const president =
+    seat.id === "seat:US:vice-president"
+      ? (
+          table(api, "terms").query("bySeatStatus", [
+            "seat:US:president",
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0]
+      : undefined;
   const identity = drawOfficialIdentity({
     worldSeed,
     seatKey: seat.id,
     stateUsps,
     role,
     referenceDate: date,
+    ...(president ? { avoidFamilyNames: [president.identity.familyName] } : {}),
     ...(role === "sitting-legislator-at-opening"
       ? {
           legalMinimumAge:
@@ -259,7 +277,7 @@ function seatNamedOfficial(
       birthDate: identity.birthDate,
       homeState: office.jurisdiction,
     },
-    party: seat.party,
+    party: partyName(seat.party),
     startDate: date,
     endDate: termEnd(office, seat, date),
     endEstimated: true,
@@ -291,7 +309,7 @@ function seatResident(
       birthDate: person.birthDate,
       homeState: office.jurisdiction,
     },
-    party: seat.party,
+    party: partyName(seat.party),
     startDate: date,
     endDate: termEnd(office, seat, date),
     endEstimated: true,
@@ -330,13 +348,19 @@ export function openOffices(core: CoreState, worldSeed: string): void {
   ]) {
     putOffice(api, entry);
     for (const seat of entry.seats)
-      seatNamedOfficial(
+      pastTerms(
         api,
         worldSeed,
         entry.office,
         seat,
-        date,
-        "in office at the opening",
+        seatNamedOfficial(
+          api,
+          worldSeed,
+          entry.office,
+          seat,
+          date,
+          "in office at the opening",
+        ),
       );
   }
   table(api, "loaded").put({ id: `state:${stateKey}` });
@@ -361,15 +385,128 @@ export function openOffices(core: CoreState, worldSeed: string): void {
       const holder = residents[index];
       if (!holder) break;
       taken.add(holder.person.id);
-      seatResident(
+      pastTerms(
         api,
+        worldSeed,
         office,
         seat,
-        holder.person.id,
-        date,
-        "in office at the opening",
+        seatResident(
+          api,
+          office,
+          seat,
+          holder.person.id,
+          date,
+          "in office at the opening",
+        ),
       );
     }
+  }
+}
+
+const TENURE = (
+  tenure as unknown as { parameters: Record<string, { value: number }> }
+).parameters;
+const tenureYears = (key: string) => TENURE[key]!.value;
+const shiftYears = (date: string, years: number) =>
+  `${Number(date.slice(0, 4)) + years}${date.slice(4)}`;
+const LEGISLATIVE = /^(council|county-board|legislature-)/;
+const TERM_LIMITS =
+  "us-policy-positions:government-operations.legislative-term-limits";
+
+/**
+ * The career behind a holder at the opening (M1-14 part 2): their current
+ * term began a full term before it ends, and before it they won the seat
+ * some number of times, recorded as ended terms. How many follows the mean
+ * service of sitting officials of that kind (a geometric spread, drawn once
+ * per seat from the world's seed: who exists, not what anyone decides), never
+ * younger than the minimum age at the first term, and never past the state's
+ * legislative term limit where it has one. The presidency keeps its real
+ * record (`federal-executive-2026.json`).
+ */
+function pastTerms(
+  api: CoreAPI,
+  worldSeed: string,
+  office: OfficeInput,
+  seat: SeatInput,
+  term: TermRow,
+): void {
+  const years = office.termYears;
+  const opening = api.state.date;
+  if (!years || !term.endDate || office.kind === "president") return;
+  if (office.kind === "vice-president") return;
+  const start = shiftYears(term.endDate, -years);
+  // A term read as ending more than a full term out began at the opening.
+  if (start > opening) {
+    table(api, "terms").put({
+      ...term,
+      serviceStart: term.startDate,
+    } as unknown as ModuleRow);
+    return;
+  }
+  const tenureKey =
+    office.kind === "us-senate"
+      ? "usSenateTenureYears"
+      : office.kind.startsWith("us-house")
+        ? "usHouseTenureYears"
+        : office.kind.startsWith("legislature-")
+          ? "stateLegislatorTenureYears"
+          : office.level === "state"
+            ? "statewideExecutiveTenureYears"
+            : "localOfficialTenureYears";
+  const mean = Math.max(0, tenureYears(tenureKey) / years - 0.5);
+  const q = mean / (1 + mean);
+  const hash = createHash("sha256")
+    .update(`${worldSeed}:${seat.id}:career`)
+    .digest("hex");
+  const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
+  let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
+  // No one first served younger than the minimum age.
+  const born = Number(term.identity.birthDate.slice(0, 4));
+  const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
+  while (
+    prior > 0 &&
+    firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm")
+  )
+    prior -= 1;
+  // A state that limits legislative terms caps the service before today.
+  const state = (table(api, "loaded").get("town") as { stateKey?: string })
+    ?.stateKey;
+  if (
+    LEGISLATIVE.test(office.kind) &&
+    state &&
+    POLICY_QUESTIONS[TERM_LIMITS]?.answers[state]?.answer === "yes"
+  )
+    prior = Math.max(
+      0,
+      Math.min(
+        prior,
+        Math.ceil(
+          (
+            reachA as unknown as {
+              parameters: Record<string, { value: number }>;
+            }
+          ).parameters.termLimitYears!.value / years,
+        ) - 2,
+      ),
+    );
+  const serviceStart = shiftYears(start, -prior * years);
+  table(api, "terms").put({
+    ...term,
+    startDate: start,
+    serviceStart,
+  } as unknown as ModuleRow);
+  for (let k = prior; k >= 1; k -= 1) {
+    const from = shiftYears(start, -k * years);
+    table(api, "terms").put({
+      ...term,
+      id: `${term.id}:past:${k}`,
+      startDate: from,
+      serviceStart,
+      endDate: shiftYears(from, years),
+      reached: "elected",
+      status: "ended",
+      endedBy: "re-elected",
+    } as unknown as ModuleRow);
   }
 }
 
@@ -394,13 +531,19 @@ export function officesOfState(
         seats: entry.seats.map((s) => ({ ...s, coversTown: false })),
       });
       for (const seat of entry.seats)
-        seatNamedOfficial(
+        pastTerms(
           api,
           town.worldSeed,
           entry.office,
           seat,
-          date,
-          "in office at the opening",
+          seatNamedOfficial(
+            api,
+            town.worldSeed,
+            entry.office,
+            seat,
+            date,
+            "in office at the opening",
+          ),
         );
     }
     table(api, "loaded").put({ id: `state:${stateKey}` });
@@ -619,7 +762,7 @@ function officesCalendarWork(
     ({
       endDate: null,
       endEstimated: true,
-      party: seat.party,
+      party: partyName(seat.party),
     } as unknown as TermRow);
   const filled = fillVacancy(
     api,

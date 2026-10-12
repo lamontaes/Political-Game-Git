@@ -320,7 +320,9 @@ function bringAgenda(
 const senior = (members: readonly TermRow[]) =>
   [...members].sort(
     (a, b) =>
-      a.startDate.localeCompare(b.startDate) || a.id.localeCompare(b.id),
+      (a.serviceStart ?? a.startDate).localeCompare(
+        b.serviceStart ?? b.startDate,
+      ) || a.id.localeCompare(b.id),
   )[0];
 
 function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {

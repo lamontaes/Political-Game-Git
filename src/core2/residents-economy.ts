@@ -443,3 +443,63 @@ export function endFlowPart(
   flow.amountMinor = Math.max(0, flow.amountMinor - amount);
   return true;
 }
+
+/**
+ * A counted worker retires: their place's retirees' income (Social Security
+ * and pensions, paid from outside the town) gains them, at the average the
+ * place's opening retirees draw. One flow per place carries every retiree
+ * added during play, a part each.
+ */
+export function addCountedRetiree(
+  core: CoreState,
+  placeId: string,
+  personId: string,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt) return 0;
+  const opening = [...rt.flows.values()].filter(
+    (flow) =>
+      flow.kind === "retirement" &&
+      !flow.endedAt &&
+      flow.placeId === placeId &&
+      !flow.id.startsWith(RETIREES_ADDED),
+  );
+  const parts = opening.reduce(
+    (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
+    0,
+  );
+  const template = opening[0];
+  if (!template || !parts) return 0;
+  const monthly = Math.round(
+    opening.reduce((n, flow) => n + flow.amountMinor, 0) / parts,
+  );
+  const id = `${RETIREES_ADDED}${placeId}`;
+  const flow = rt.flows.get(id);
+  const key = `retiree:${personId}`;
+  if (flow) {
+    if (flow.amountByContract?.[key] !== undefined) return 0;
+    flow.amountByContract = {
+      ...(flow.amountByContract ?? {}),
+      [key]: monthly,
+    };
+    flow.amountMinor += monthly;
+  } else
+    addResidentFlow(core, {
+      id,
+      kind: "retirement",
+      financeKind: template.financeKind,
+      payerId: template.payerId,
+      payeeId: template.payeeId,
+      residentsId: template.residentsId,
+      placeId,
+      amountMinor: monthly,
+      firstAt: template.nextAt,
+      cadence: template.cadence,
+      salesReceipt: false,
+      marketAdjusted: false,
+      amountByContract: { [key]: monthly },
+      source: template.source,
+    });
+  return monthly;
+}
+const RETIREES_ADDED = "residents:retirement:added:";

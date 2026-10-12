@@ -15,6 +15,7 @@ import calibration from "../../data/source/electoral-calibration-2024/corpus.jso
 import federalExecutiveResearch from "../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import filingResearch from "../../data/research/elections/filing-requirements.json" with { type: "json" };
+import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeDistrictJoin } from "../districts/place-membership";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
@@ -328,6 +329,7 @@ export function federalOffices(
         title: "U.S. Senator",
         seats: 2,
         termYears: 6,
+        termStarts: "01-03",
         elected: true,
         districted: false,
         coversTown: true,
@@ -340,14 +342,17 @@ export function federalOffices(
           estimate: true,
         }),
       },
-      seats: [0, 1].map((index) => ({
-        id: `seat:${stateKey}:us-senate:${index}`,
-        officeId: id,
-        district: null,
-        index,
-        coversTown: true,
-        party: congress.senate?.[index] ?? null,
-      })),
+      seats: senateSeats(stateKey, congress.senate ?? []).map(
+        ({ index, electionYear }) => ({
+          id: `seat:${stateKey}:us-senate:${index}`,
+          officeId: id,
+          district: null,
+          index,
+          coversTown: true,
+          party: congress.senate?.[index] ?? null,
+          ...(electionYear !== undefined ? { electionYear } : {}),
+        }),
+      ),
     });
   }
   const house = districts(usps, "congressional");
@@ -369,6 +374,14 @@ export function federalOffices(
             : "U.S. Representative",
       seats: Math.max(house.length, 1),
       termYears: stateKey === "US-PR" ? 4 : 2,
+      // Every seat is up together: terms end at noon on January 3 of an odd
+      // year (U.S. Const. amend. XX, § 1); Puerto Rico's commissioner is
+      // elected with the presidency.
+      nextElectionYear: congressionalElectionYear(
+        date,
+        stateKey === "US-PR" ? 4 : 2,
+      ),
+      termStarts: "01-03",
       elected: true,
       districted: !delegate,
       coversTown: true,
@@ -547,4 +560,45 @@ export function stateOffices(
     });
   }
   return offices;
+}
+
+const senateClassRows = (
+  senateClasses as unknown as {
+    states: Record<string, { party: string; nextElection: number }[]>;
+  }
+).states;
+
+/**
+ * A state's two Senate seats with each one's next regular (or special)
+ * election from its real class, matched to the seat by its holder's party
+ * as the world's races are (`world-races.ts`).
+ */
+function senateSeats(
+  stateKey: string,
+  parties: readonly string[],
+): { index: number; electionYear?: number }[] {
+  const used = new Set<number>();
+  const years = new Map<number, number>();
+  for (const cls of senateClassRows[stateKey] ?? []) {
+    const index = [0, 1].find((i) => parties[i] === cls.party && !used.has(i));
+    if (index === undefined) continue;
+    used.add(index);
+    years.set(index, cls.nextElection);
+  }
+  return [0, 1].map((index) =>
+    years.has(index) ? { index, electionYear: years.get(index)! } : { index },
+  );
+}
+
+/**
+ * The next November a federal seat elected every `cycle` years is up: an
+ * even year (every four from 2024 for a four-year cycle), this year until
+ * November, else the next one.
+ */
+function congressionalElectionYear(date: string, cycle: number): number {
+  let year = Number(date.slice(0, 4));
+  // Election day falls November 2 to 8.
+  if (date.slice(5) > "11-08") year += 1;
+  while (year % 2 !== 0 || (cycle === 4 && (year - 2024) % 4 !== 0)) year += 1;
+  return year;
 }

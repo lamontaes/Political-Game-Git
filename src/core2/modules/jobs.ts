@@ -23,6 +23,7 @@ import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import {
   addCountedJob,
+  addCountedRetiree,
   countedJobsOf,
   endCountedJob,
   rerateCountedJobs,
@@ -478,9 +479,19 @@ function reviewEmployers(api: CoreAPI): void {
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
     const reach =
       cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
+    // At or above target, a business no longer needs its open positions: it withdraws them.
+    if (target <= jobs.length)
+      while (positions.length) {
+        const position = positions.pop()!;
+        store(api)
+          .table("positions")
+          .put({ ...position, status: "withdrawn" });
+      }
     const gap = target - jobs.length - positions.length;
+    // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
     let need =
-      row.need + p("jobsStaffGapActedPerMonth") * (gap > 0 ? gap * reach : gap);
+      (gap > 0 ? row.need : Math.min(row.need, 0)) +
+      p("jobsStaffGapActedPerMonth") * (gap > 0 ? gap * reach : gap);
     // A new business's first roles come from its template business.
     const from =
       jobs.length || !row.templateFromId ? row.id : row.templateFromId;
@@ -992,6 +1003,33 @@ function runWeek(api: CoreAPI): void {
 }
 
 /** A counted seeker joins the employer's wage flow at the position's pay. */
+/** Each counted person's current job, indexed once a day (a hire takes the person out of the seekers, so one day's index holds). */
+const personJobIndex = new WeakMap<
+  CoreState,
+  { date: string; byPerson: Map<string, string> }
+>();
+function countedJobOfPerson(
+  c: CoreState,
+  personId: string,
+): JobInput | undefined {
+  const rt = residentsRuntime(c);
+  if (!rt) return undefined;
+  let index = personJobIndex.get(c);
+  if (!index || index.date !== c.date) {
+    const byPerson = new Map<string, string>();
+    for (const [jobId, flow] of rt.wageFlowByJob) {
+      const job = rt.jobs.get(jobId);
+      if (job && !job.endsAt && !flow.endedAt)
+        byPerson.set(job.personId, jobId);
+    }
+    personJobIndex.set(c, (index = { date: c.date, byPerson }));
+  }
+  const jobId = index.byPerson.get(personId);
+  const job = jobId ? rt.jobs.get(jobId) : undefined;
+  const flow = jobId ? rt.wageFlowByJob.get(jobId) : undefined;
+  return job && !job.endsAt && flow && !flow.endedAt ? job : undefined;
+}
+
 function hireCounted(
   api: CoreAPI,
   position: PositionRow,
@@ -1018,9 +1056,7 @@ function hireCounted(
     source: source(api, `A counted worker hired to ${position.id}.`),
   };
   const previous = seeker.employed
-    ? [...(residentsRuntime(c)?.wageFlowByJob.keys() ?? [])]
-        .map((id) => residentsRuntime(c)!.jobs.get(id)!)
-        .find((row) => row.personId === seeker.personId && !row.endsAt)
+    ? countedJobOfPerson(c, seeker.personId)
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
   if (!addCountedJob(c, job, template.id)) return false;
@@ -1127,6 +1163,10 @@ function reviewCountedRetirements(api: CoreAPI): void {
   }
   for (const { job, age, score } of strongestPulls(api, "retire", rows)) {
     endCountedJob(c, job.id);
+    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
+    stopgap("SG-WORLD-jobs-counted-retiree-income");
+    const placeId = residentPerson(c, job.personId)?.placeId;
+    if (placeId) addCountedRetiree(c, placeId, job.personId);
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,

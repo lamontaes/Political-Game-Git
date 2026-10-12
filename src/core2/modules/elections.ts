@@ -15,7 +15,15 @@
  * themselves (`requestSignature`).
  */
 import { registerElectorate } from "../electorate";
+import { termLimitReached } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
+import { feeFromFormula, signaturesFromFormula } from "../filing-formulas";
+import {
+  congressionalDistricts,
+  officeSalary,
+  registeredFromVotes,
+  stateVotes2024,
+} from "../filing-context";
 import { decisionLean } from "../trait-decisions";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
@@ -60,7 +68,23 @@ export interface FilingRequirements {
   readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
+  /** The side's own filing deadline where the law sets one apart (independents). */
+  readonly deadline: string | null;
+  /** How a fee or signature count written as a formula was read. */
+  readonly formulas: readonly string[];
 }
+
+/** What a formula needs about the race: the office's salary and term, the district's 2024 vote. */
+export interface FilingContext {
+  readonly salary: number | null;
+  readonly termYears: number | null;
+  readonly votesCast: number;
+  /** The state's congressional districts. */
+  readonly districts?: number;
+}
+
+/** Party candidates and independents file on their own terms. */
+export type FilingSide = "party" | "independent";
 
 /** One rule checked for a would-be candidate: what's required and where they stand. */
 export interface RequirementCheck {
@@ -71,6 +95,7 @@ export interface RequirementCheck {
     | "residency"
     | "registered-voter"
     | "fee-or-signatures"
+    | "term-limit"
     | "fee"
     | "signatures";
   readonly met: boolean;
@@ -196,11 +221,15 @@ interface ReadSide {
   readonly feeInLieuOfSignatures?: boolean;
   readonly petitionInLieuOfFee?: boolean | string;
   readonly feeAndPetitionBothRequired?: boolean;
+  readonly feeFormula?: string | null;
+  readonly signatureFormula?: string | null;
+  readonly deadline2026?: string | null;
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
   readonly filedWith?: string;
   readonly party?: ReadSide;
+  readonly independent?: ReadSide;
   readonly minimumAge?: number | null;
   readonly residency?: string | null;
   readonly registeredVoterRequired?: boolean | null;
@@ -242,9 +271,14 @@ export function deadlineDaysBefore(
 export function filingRequirements(
   stateKey: string,
   family: OfficeFamily,
+  sideName: FilingSide = "party",
+  context: FilingContext | null = null,
 ): FilingRequirements {
   const read = readRequirements(stateKey, family);
-  const side = read?.party;
+  const side =
+    sideName === "independent"
+      ? (read?.independent ?? read?.party)
+      : read?.party;
   const usps = stateKey.slice(3);
   const estimated = (
     filingTerms as unknown as {
@@ -271,9 +305,36 @@ export function filingRequirements(
   const fallback = side
     ? undefined
     : (estimated?.[legacyFamily] ?? Object.values(estimated ?? {})[0]);
-  const fee = typeof side?.feeUSD === "number" ? side.feeUSD : null;
+  // A fee or count written as a formula is worked out from the race.
+  const formulas: string[] = [];
+  let formulaEstimate = false;
+  const feeRead =
+    typeof side?.feeUSD === "number"
+      ? null
+      : side?.feeFormula && context
+        ? feeFromFormula(side.feeFormula, context.salary, context.termYears)
+        : null;
+  const signatureRead =
+    typeof side?.signatures === "number"
+      ? null
+      : side?.signatureFormula && context
+        ? signaturesFromFormula(side.signatureFormula, {
+            votesCast: context.votesCast,
+            registered: registeredFromVotes(context.votesCast),
+            ...(context.districts ? { districts: context.districts } : {}),
+          })
+        : null;
+  for (const r of [feeRead, signatureRead])
+    if (r) {
+      formulas.push(r.basis);
+      formulaEstimate ||= r.estimate;
+    }
+  const fee =
+    typeof side?.feeUSD === "number" ? side.feeUSD : (feeRead?.value ?? null);
   const signatures =
-    typeof side?.signatures === "number" ? side.signatures : null;
+    typeof side?.signatures === "number"
+      ? side.signatures
+      : (signatureRead?.value ?? null);
   const source = [
     read?.citation,
     read?.source,
@@ -297,8 +358,56 @@ export function filingRequirements(
     source:
       source ||
       `data/research/elections/candidate-filing-terms.json: ${fallback?.estimatedFrom ?? "estimated"}`,
-    estimate: read ? (read.estimate ?? false) : true,
+    estimate: read ? (read.estimate ?? false) || formulaEstimate : true,
+    deadline: side?.deadline2026 ?? null,
+    formulas,
   };
+}
+
+/** The filing rules for one contest and side, with its formulas worked out. */
+export function filingRulesFor(
+  api: CoreAPI,
+  contest: ContestRow,
+  side: FilingSide,
+): FilingRequirements {
+  const { stateKey } = town(api);
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as OfficeInput | undefined;
+  const salary = office ? officeSalary(stateKey, office.kind) : null;
+  const rules = filingRequirements(stateKey, contest.family, side, {
+    salary: salary?.dollars ?? null,
+    termYears: office?.termYears ?? null,
+    votesCast: raceVotes2024(api, contest),
+    districts: congressionalDistricts(stateKey),
+  });
+  return salary?.estimate && rules.formulas.length
+    ? { ...rules, estimate: true }
+    : rules;
+}
+
+/** The race's electorate in 2024's vote (for signature shares). */
+function raceVotes2024(api: CoreAPI, contest: ContestRow): number {
+  const { stateKey } = town(api);
+  const state = stateVotes2024(stateKey) ?? 0;
+  const seats = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("seats")
+    .query("byOffice", [contest.officeId]) as unknown as {
+    district: string | null;
+  }[];
+  if (contest.family === "statewideExecutive") return state;
+  if (contest.family === "usHouse" || contest.family === "stateLegislative") {
+    const districts = new Set(seats.map((s) => s.district)).size;
+    return Math.round(state / Math.max(1, districts));
+  }
+  const population = Number(api.state.placeMetadata.referencePopulation);
+  return Number.isFinite(population) && population > 0
+    ? Math.round(
+        population * campaignParameter("localElectorateShareOfPopulation"),
+      )
+    : 0;
 }
 
 function localFilingOfficer(usps: string, family: OfficeFamily): string {
@@ -353,13 +462,45 @@ function contestFor(
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
   const { stateKey, geoid } = town(api);
-  const dates = nextElectionForSeat({
-    office,
-    stateKey,
-    placeGeoid: geoid,
-    termEnd: holder?.endDate ?? null,
-    onDate: api.state.date,
-  });
+  const tomorrow = new Date(
+    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const at = (termEnd: string | null, onDate = api.state.date) =>
+    nextElectionForSeat({
+      office,
+      stateKey,
+      placeGeoid: geoid,
+      termEnd,
+      onDate,
+    });
+  let dates = at(holder?.endDate ?? null);
+  // A holder whose seat's election passed with no one elected holds over;
+  // the seat's next election comes a full term on.
+  if (
+    dates &&
+    dates.electionDate <= api.state.date &&
+    holder?.endDate &&
+    office.termYears
+  )
+    dates = at(
+      `${Number(holder.endDate.slice(0, 4)) + office.termYears}${holder.endDate.slice(4)}`,
+    );
+  // A seat whose election is today (decided, or with no one elected) looks
+  // for the regular election after it.
+  if (dates && dates.electionDate <= api.state.date) {
+    dates = at(null, tomorrow);
+    // With no term recorded either, the seat's next regular election is a
+    // typical term on (an estimate where the office's term isn't read).
+    const years =
+      office.termYears ?? campaignParameter("officeTermYearsEstimate");
+    if (dates && dates.electionDate <= api.state.date)
+      dates = at(
+        `${Number(api.state.date.slice(0, 4)) + years + 1}-01-01`,
+        tomorrow,
+      );
+  }
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   const daysBefore =
@@ -427,11 +568,15 @@ export function openContests(api: CoreAPI): readonly ContestRow[] {
 }
 
 /** Where a contest's filings are taken, and what that place requires. */
-export function filingOfficeFor(api: CoreAPI, contestId: string) {
+export function filingOfficeFor(
+  api: CoreAPI,
+  contestId: string,
+  side: FilingSide = "party",
+) {
   const contest = table(api, "contests").get(
     contestId,
   ) as unknown as ContestRow;
-  return filingRequirements(town(api).stateKey, contest.family);
+  return filingRulesFor(api, contest, side);
 }
 
 /** Every rule for one person filing in one contest, checked today. */
@@ -439,11 +584,15 @@ export function checkEligibility(
   api: CoreAPI,
   personId: string,
   contestId: string,
+  /** The party the person files with; none files as an independent. */
+  party: string | null = "party",
 ): readonly RequirementCheck[] {
   const contest = table(api, "contests").get(
     contestId,
   ) as unknown as ContestRow;
-  const rules = filingRequirements(town(api).stateKey, contest.family);
+  const side: FilingSide = party ? "party" : "independent";
+  const rules = filingRulesFor(api, contest, side);
+  const deadline = rules.deadline ?? contest.filingDeadline;
   const person = api.state.people.get(personId);
   if (!person) throw new Error(`No such person: ${personId}`);
   const today = api.state.date;
@@ -461,8 +610,13 @@ export function checkEligibility(
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
-      met: today <= contest.filingDeadline,
-      required: contest.filingDeadline,
+      met:
+        today <= deadline &&
+        (contest.filingOpens === null || today >= contest.filingOpens),
+      required:
+        contest.filingOpens !== null
+          ? `${contest.filingOpens} to ${deadline}`
+          : deadline,
       actual: today,
       source: contest.sources.join(" ; "),
     },
@@ -499,6 +653,15 @@ export function checkEligibility(
       source: rules.source,
     });
   }
+  // A legislative term limit in force (law-reach, group A).
+  if (termLimitReached(api, personId, contest.officeId))
+    checks.push({
+      rule: "term-limit",
+      met: false,
+      required: "years in this office under the term limit",
+      actual: "limit reached",
+      source: "legislative term limit in force",
+    });
   const fee = rules.feeMinor ?? 0;
   if (rules.feeInLieuOfSignatures && rules.signatures && fee)
     checks.push({
@@ -536,12 +699,21 @@ export function fileCandidacy(
 ):
   | { readonly status: "refused"; readonly unmet: readonly RequirementCheck[] }
   | { readonly status: FilingRow["status"]; readonly filing: FilingRow } {
-  const checks = checkEligibility(api, input.personId, input.contestId);
+  const checks = checkEligibility(
+    api,
+    input.personId,
+    input.contestId,
+    input.party ?? null,
+  );
   const unmet = checks.filter((c) => !c.met);
   const contest = table(api, "contests").get(
     input.contestId,
   ) as unknown as ContestRow;
-  const rules = filingRequirements(town(api).stateKey, contest.family);
+  const rules = filingRulesFor(
+    api,
+    contest,
+    input.party ? "party" : "independent",
+  );
   const person = api.state.people.get(input.personId)!;
   const fee = rules.feeMinor ?? 0;
   const paying =
@@ -709,7 +881,16 @@ export function requestSignature(
     : 0;
   let signed = false;
   let reason: string;
-  if (!signer || !signer.alive) reason = "not-available";
+  const contestOf = table(api, "contests").get(filing.contestId) as unknown as
+    ContestRow | undefined;
+  const closes =
+    (contestOf
+      ? filingRulesFor(api, contestOf, filing.party ? "party" : "independent")
+          .deadline
+      : null) ?? contestOf?.filingDeadline;
+  // Petitions close with filing: no signatures after the deadline.
+  if (closes && today > closes) reason = "petition-closed";
+  else if (!signer || !signer.alive) reason = "not-available";
   else if (already) reason = "already-signed";
   else if (age < 18 || signer.placeId !== town(api).townPlaceId)
     reason = "not-eligible-to-sign";
@@ -748,7 +929,11 @@ export function requestSignature(
     const contest = table(api, "contests").get(
       filing.contestId,
     ) as unknown as ContestRow;
-    const rules = filingRequirements(town(api).stateKey, contest.family);
+    const rules = filingRulesFor(
+      api,
+      contest,
+      filing.party ? "party" : "independent",
+    );
     const count = filing.signatureCount + 1;
     const done =
       filing.status === "gathering-signatures" &&

@@ -44,7 +44,7 @@ export function familyView(core: CoreState, personId: string) {
       backdrop: backdropFile(place, 12 * 60).url,
       figureUrl:
         spotId && age >= 18
-          ? `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}`
+          ? `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}&date=${core.date}`
           : undefined,
     };
   });

@@ -11,18 +11,18 @@
  * name only.
  */
 import { SeededRng } from "../simulation/rng";
-import { generatePersonIdentity } from "../simulation/person-identity";
-import { drawCohortGivenName } from "../simulation/given-name-cohorts";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
+import { drawCohortGivenName } from "./gov-rules/given-name-cohorts";
 import {
   getNameCorpus,
   givenNamePoolForCorpus,
   nameCorpusVersionForPlace,
   PLACE_NAMES_V1_VERSION,
-} from "../simulation/names-data";
+} from "./gov-rules/names-data";
 import {
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "../simulation/invented-person-age";
+} from "./gov-rules/invented-person-age";
 import { isRealOfficeholderName } from "./officials-names";
 import { makeIsoDate } from "../simulation/dates";
 
@@ -42,6 +42,8 @@ export function drawOfficialIdentity(input: {
   readonly role: InventedPersonRole;
   readonly referenceDate: string;
   readonly legalMinimumAge?: number;
+  /** Family names this person mustn't share (an unrelated running mate's or pair's). */
+  readonly avoidFamilyNames?: readonly string[];
 }): OfficialIdentity {
   const rng = new SeededRng(input.worldSeed).fork(`official:${input.seatKey}`);
   const identity = generatePersonIdentity(rng.fork("gender"));
@@ -66,7 +68,10 @@ export function drawOfficialIdentity(input: {
         ? drawCohortGivenName(names, gender, Number(birthDate.slice(0, 4)))
         : null) ?? names.pick(givenNamePoolForCorpus(corpus, gender));
     const familyName = names.pick(corpus.familyNames);
-    if (!isRealOfficeholderName(givenName, familyName))
+    if (
+      !isRealOfficeholderName(givenName, familyName) &&
+      !(input.avoidFamilyNames ?? []).includes(familyName)
+    )
       return {
         givenName,
         familyName,
