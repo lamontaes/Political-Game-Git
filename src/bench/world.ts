@@ -10,6 +10,14 @@ import { createLifeCore } from "../core2/life";
 import { withDrives, createDrivesModule } from "../core2/modules/drives";
 import { createHealthModule } from "../core2/modules/health";
 import { createDirector, type Director } from "../director/ledger";
+import {
+  WORLD_MODULES,
+  withWorldEconomy,
+  worldCoreData,
+} from "../core2/modules/world";
+import { openLaws } from "../core2/modules/laws";
+import { openOffices } from "../core2/modules/offices";
+import { openElections } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
 import { selectBenchPlace } from "./place-selection.mjs";
 
@@ -31,7 +39,8 @@ export interface BenchWorld {
 
 /**
  * The full stack the owner plays: the core with people (always loaded by
- * createLifeCore), work and money, then health, drives and the story director.
+ * createLifeCore), work and money; the economy (OPUS-WORLD); law, offices
+ * and elections (OPUS-GOV); then health, drives and the story director.
  * The director registers its own interrupts as core player stops.
  */
 export function buildBenchWorld(
@@ -57,13 +66,23 @@ export function buildBenchWorld(
   );
   const director = createDirector();
   const core = createLifeCore(
-    { ...input, finance: createOpeningFinance(input) },
+    withWorldEconomy({ ...input, finance: createOpeningFinance(input) }),
     {
       observer: false,
-      data: withDrives(DEFAULT_DATA),
-      modules: [createHealthModule(), createDrivesModule(), director.module],
+      data: worldCoreData(withDrives(DEFAULT_DATA)),
+      modules: [
+        ...WORLD_MODULES,
+        createHealthModule(),
+        createDrivesModule(),
+        director.module,
+      ],
     },
   );
+  // Government: the place's law in force, its offices and seats, and the
+  // next elections with their filing rules (OPUS-GOV).
+  openLaws(core);
+  openOffices(core, seed);
+  openElections(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]

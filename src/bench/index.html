@@ -81,6 +81,67 @@
     <h2>Where they are</h2>
     <p id="scene-caption"></p>
     <div id="scene"></div>
+    <h2>Government</h2>
+    <h3>Law here</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>series</th>
+          <th>value</th>
+          <th>unit</th>
+          <th>estimate</th>
+          <th>governing</th>
+          <th>pending</th>
+        </tr>
+      </thead>
+      <tbody id="law-here"></tbody>
+    </table>
+    <h3>Who governs you</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>level</th>
+          <th>government</th>
+          <th>district</th>
+          <th>holder</th>
+          <th>party</th>
+          <th>endDate</th>
+        </tr>
+      </thead>
+      <tbody id="seats"></tbody>
+    </table>
+    <h3>Open contests</h3>
+    <label><input id="pay-fee" type="checkbox" /> payFee</label>
+    <table>
+      <thead>
+        <tr>
+          <th>title</th>
+          <th>filingDeadline</th>
+          <th>electionDate</th>
+          <th>filedWith</th>
+          <th>feeMinor</th>
+          <th>signatures</th>
+          <th>unmet</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="contests"></tbody>
+    </table>
+    <h3>Filings</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>contestId</th>
+          <th>filedWith</th>
+          <th>status</th>
+          <th>signatureCount</th>
+          <th>feePaidMinor</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="filings"></tbody>
+    </table>
     <h2>Choices</h2>
     <p id="chosen-resident">Choose a living resident to play.</p>
     <button id="play" type="button" disabled>Play this resident</button>

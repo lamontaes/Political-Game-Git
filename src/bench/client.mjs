@@ -187,6 +187,114 @@ async function renderScene(id) {
     `${scene.place} (${scene.backdrop.variant}): ${scene.why}. ${scene.people.map((p) => p.name).join(", ")}${scene.unplaced.length ? `; ${scene.unplaced.length} more not drawn (${[...new Set(scene.unplaced.map((u) => u.reason))].join(", ")})` : ""}.`;
 }
 
+function row(cells, control) {
+  const tr = document.createElement("tr");
+  for (const cell of cells) {
+    const td = document.createElement("td");
+    td.textContent = cell === null || cell === undefined ? "" : String(cell);
+    tr.append(td);
+  }
+  if (control) {
+    const td = document.createElement("td");
+    td.append(control);
+    tr.append(td);
+  }
+  return tr;
+}
+
+function button(label, onClick) {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = label;
+  b.disabled = !playingId || playingId !== selectedId;
+  b.addEventListener("click", () =>
+    onClick().catch((error) => {
+      status.textContent = error.message;
+    }),
+  );
+  return b;
+}
+
+async function renderGovernment(id) {
+  const v = await request(`/api/government?id=${encodeURIComponent(id)}`);
+  element("law-here").replaceChildren(
+    ...v.law.map((law) =>
+      row([
+        law.series,
+        law.value,
+        law.unit,
+        law.estimate,
+        law.governing?.id,
+        law.pending.map((p) => `${p.id}`).join(", "),
+      ]),
+    ),
+  );
+  element("seats").replaceChildren(
+    ...v.seats.map((seat) =>
+      row([
+        seat.title,
+        seat.level,
+        seat.government,
+        seat.district,
+        seat.holder
+          ? `${seat.holder.givenName} ${seat.holder.familyName}`
+          : null,
+        seat.holder?.party,
+        seat.holder?.endDate,
+      ]),
+    ),
+  );
+  element("contests").replaceChildren(
+    ...v.contests.map(({ contest, filingOffice, checks }) =>
+      row(
+        [
+          contest.title,
+          contest.filingDeadline,
+          contest.electionDate,
+          filingOffice.filedWith,
+          filingOffice.feeMinor,
+          filingOffice.signatures,
+          checks
+            .filter((check) => !check.met)
+            .map(
+              (check) => `${check.rule}: ${check.required} / ${check.actual}`,
+            )
+            .join("; "),
+        ],
+        button("File", async () => {
+          const result = await request(
+            `/api/file?${new URLSearchParams({ contestId: contest.id, payFee: String(element("pay-fee").checked) })}`,
+            { method: "POST" },
+          );
+          status.textContent = `File: ${result.status}${result.unmet ? ` (${result.unmet.map((u) => u.rule).join(", ")})` : ""}.`;
+          await renderGovernment(id);
+        }),
+      ),
+    ),
+  );
+  element("filings").replaceChildren(
+    ...v.filings.map((filing) =>
+      row(
+        [
+          filing.contestId,
+          filing.filedWith,
+          filing.status,
+          filing.signatureCount,
+          filing.feePaidMinor,
+        ],
+        button("Request signatures", async () => {
+          const rows = await request(
+            `/api/sign?${new URLSearchParams({ filingId: filing.id })}`,
+            { method: "POST" },
+          );
+          status.textContent = `Request signatures: ${rows.filter((r) => r.signed).length} / ${rows.length} signed.`;
+          await renderGovernment(id);
+        }),
+      ),
+    ),
+  );
+}
+
 function renderChoices(value) {
   element("chosen-resident").textContent =
     `${value.playing ? "Playing" : "Viewing"}: ${value.person.givenName} ${value.person.familyName} (${value.person.id}).`;
@@ -203,6 +311,9 @@ async function inspect(id) {
     renderChoices(value);
     renderScene(id).catch((error) => {
       element("scene-caption").textContent = error.message;
+    });
+    renderGovernment(id).catch((error) => {
+      status.textContent = error.message;
     });
     setTimeControls();
     element("trace-detail").replaceChildren();

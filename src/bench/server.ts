@@ -4,6 +4,11 @@ import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 import { backdropPath, benchScene, figurePng } from "./scene";
+import {
+  askKnownPeopleToSign,
+  fileForOffice,
+  governmentView,
+} from "./government";
 import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
@@ -92,6 +97,38 @@ const server = createServer(async (request, response) => {
           current,
           id,
           player?.personId === id ? player.packet : undefined,
+        ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/government") {
+      send(
+        200,
+        governmentView(requireCore(), url.searchParams.get("id") ?? ""),
+      );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/file") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        fileForOffice(
+          requireCore(),
+          player.personId,
+          url.searchParams.get("contestId") ?? "",
+          url.searchParams.get("payFee") === "true",
+        ),
+      );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/sign") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        askKnownPeopleToSign(
+          requireCore(),
+          player.personId,
+          url.searchParams.get("filingId") ?? "",
         ),
       );
       return;
