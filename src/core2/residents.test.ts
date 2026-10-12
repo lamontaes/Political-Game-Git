@@ -57,7 +57,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(two.people.length).toBeLessThan(full.people.length);
     expect(cash(two)).toBe(cash(full));
     const purchases = two.residents!.flows.filter(
-      (row) => row.kind === "purchase",
+      (row) =>
+        row.kind === "purchase" &&
+        row.financeKind !== "household.outside-living-costs",
     );
     const merged = purchases.reduce(
       (n, row) =>

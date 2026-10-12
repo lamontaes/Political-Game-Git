@@ -12,6 +12,10 @@
  */
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { stopgap } from "./stopgaps";
+import {
+  OUTSIDE_MARKET_KIND,
+  outsideMarketAccount,
+} from "./opening-outside-market";
 import type { FinanceContractInput } from "./finance-types";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import type {
@@ -32,7 +36,12 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
+  | "wages"
+  | "retirement"
+  | "purchase"
+  | "outside-sales"
+  | "outside-costs"
+  | "owner-distribution";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -62,6 +71,9 @@ export interface ResidentFlowInput {
   /** Each counted job's pay per day; amount = round(sum × periodFactor). */
   perDayMinorByJob?: Readonly<Record<string, number>>;
   periodFactor?: number;
+  /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
+  bufferDays?: number;
+  outsideId?: string;
   /** Purchase flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
   source: Source;
@@ -130,6 +142,34 @@ function perDayWageMinor(row: WorkCommitmentInput): number {
 
 const DAYS_PER_YEAR = 365,
   MONTHS_PER_YEAR = 12;
+
+/** A household's monthly living costs paid outside the town, due on the 1st. */
+export function householdOutsideFlow(
+  key: string,
+  payerId: string,
+  placeId: PlaceId,
+  amountMinor: number,
+  start: IsoDate,
+  outsideId: string,
+  residentsId: string,
+  source: Source,
+): ResidentFlowInput {
+  return {
+    id: `residents:outside-living:${key}`,
+    kind: "purchase",
+    financeKind: "household.outside-living-costs",
+    payerId,
+    payeeId: outsideId,
+    residentsId,
+    placeId,
+    amountMinor,
+    firstAt: nextMonthDay(makeIsoDate(addDays(makeIsoDate(start), 1)), 1),
+    cadence: { kind: "months", every: 1, day: 1 },
+    salesReceipt: false,
+    marketAdjusted: false,
+    source,
+  };
+}
 
 /** Who stays a full person: the circle, whole households, and public workers. */
 export function fullPeople(input: CoreInput): Set<PersonId> {
@@ -505,6 +545,152 @@ export function collapseToTwoLevels(
       });
   }
 
+  // Living costs not bought from a local seller (rent above all: HUD fair
+  // market rent is part of each household's assigned cost) are paid outside
+  // the town on the 1st. Counted households share one flow; full ones pay
+  // from their own payer.
+  const outsideAccounts = new Map(
+    input.organizations
+      .filter((row) => row.kind === OUTSIDE_MARKET_KIND)
+      .map((row) => [row.placeId, row]),
+  );
+  const addedOutside: OrganizationInput[] = [];
+  const outsideFor = (placeId: PlaceId) => {
+    let row = outsideAccounts.get(placeId);
+    if (!row) {
+      row = outsideMarketAccount(placeId, start);
+      outsideAccounts.set(placeId, row);
+      addedOutside.push(row);
+    }
+    return row.id;
+  };
+  const boundMonthlyByHome = new Map<string, number>();
+  for (const row of input.finance?.contracts ?? []) {
+    const home = row.householdId;
+    if (!home || !row.kind.startsWith("household.") || row.periodMonths <= 0)
+      continue;
+    boundMonthlyByHome.set(
+      home,
+      (boundMonthlyByHome.get(home) ?? 0) + row.amountMinor / row.periodMonths,
+    );
+  }
+  const livingSource: Source = {
+    tag: "ESTIMATED",
+    asOf: start,
+    citation:
+      "Each household's assigned living cost (BLS CEX basket plus HUD Fair Market Rent) less what it buys from recorded local sellers.",
+    estimatedFrom:
+      "Paid on the 1st to landlords, lenders and sellers outside the town; no local landlord or housing market is modeled yet.",
+  };
+  const countedOutside = new Map<
+    PlaceId,
+    { amount: number; byHome: Record<string, number> }
+  >();
+  for (const home of input.households) {
+    const members = home.memberIds.map((id) => peopleById.get(id)!);
+    const payer = members.find((row) => row.livingCostDailyMinor > 0);
+    if (!payer) continue;
+    const assigned = Math.round(
+      (sum(members.map((row) => row.livingCostDailyMinor)) * DAYS_PER_YEAR) /
+        MONTHS_PER_YEAR,
+    );
+    const unbound = Math.max(
+      0,
+      Math.round(assigned - (boundMonthlyByHome.get(home.id) ?? 0)),
+    );
+    if (unbound <= 0) continue;
+    if (collapsedHomeIds.has(home.id)) {
+      const group = countedOutside.get(home.placeId) ?? {
+        amount: 0,
+        byHome: {},
+      };
+      group.amount += unbound;
+      group.byHome[`household:${home.id}`] = unbound;
+      countedOutside.set(home.placeId, group);
+    } else
+      flows.push(
+        householdOutsideFlow(
+          home.id,
+          payer.id,
+          home.placeId,
+          unbound,
+          start,
+          outsideFor(home.placeId),
+          accountFor(home.placeId),
+          livingSource,
+        ),
+      );
+  }
+  // Workers the opening couldn't place in a town firm (other industries or
+  // jobs outside the town) still earn: the employment target from the
+  // opening's own ACS/CPS receipt, less recorded jobs, at the median recorded
+  // wage, paid every two weeks from outside.
+  const receipt = input.placeMetadata?.openingEmploymentReceipt;
+  const target = receipt
+    ? Number(
+        (JSON.parse(receipt) as { employmentTarget?: number }).employmentTarget,
+      )
+    : NaN;
+  const employed = new Set(input.jobs.map((row) => row.personId)).size;
+  const annualWages = input.jobs
+    .map((row) => row.wageDailyMinor * DAYS_PER_YEAR)
+    .sort((a, b) => a - b);
+  const median = annualWages[Math.floor(annualWages.length / 2)] ?? 0;
+  const adults = (ids: Iterable<PersonId>) => {
+    let n = 0;
+    for (const id of ids) {
+      const born = peopleById.get(id)?.birthDate;
+      if (born && Number(start.slice(0, 4)) - Number(born.slice(0, 4)) >= 18)
+        n++;
+    }
+    return n;
+  };
+  const countedAdults = adults(collapsed),
+    allAdults = adults(peopleById.keys());
+  const unplaced =
+    Number.isFinite(target) && allAdults > 0
+      ? Math.max(0, target - employed) * (countedAdults / allAdults)
+      : 0;
+  if (unplaced > 0 && median > 0 && accountByPlace.size) {
+    const placeId = [...accountByPlace.keys()][0]!;
+    stopgap("SG-CORE-unplaced-workers-income");
+    flows.push({
+      id: `residents:unplaced-wages:${placeId}`,
+      kind: "wages",
+      financeKind: "work.unplaced-residents",
+      payerId: outsideFor(placeId),
+      payeeId: accountFor(placeId),
+      residentsId: accountFor(placeId),
+      placeId,
+      amountMinor: Math.round((unplaced * median * 14) / DAYS_PER_YEAR),
+      firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
+      cadence: { kind: "days", every: 14 },
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: start,
+        citation:
+          "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
+        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model; stopgap SG-CORE-unplaced-workers-income.`,
+      },
+    });
+  }
+  for (const [placeId, group] of countedOutside)
+    flows.push({
+      ...householdOutsideFlow(
+        `counted:${placeId}`,
+        accountFor(placeId),
+        placeId,
+        group.amount,
+        start,
+        outsideFor(placeId),
+        accountFor(placeId),
+        livingSource,
+      ),
+      amountByContract: group.byHome,
+    });
+
   // Full people's ties to collapsed people become husks (met later, filled in then).
   const husks = new Map<PersonId, HuskInput>(
     (input.husks ?? []).map((row) => [row.id, row]),
@@ -568,7 +754,7 @@ export function collapseToTwoLevels(
       (row) => !collapsed.has(row.personId),
     ),
     workPayrollCalendars,
-    organizations: [...input.organizations, ...accounts],
+    organizations: [...input.organizations, ...accounts, ...addedOutside],
     familyLinks: (input.familyLinks ?? []).filter((row) =>
       row.personIds.every((id) => keep.has(id)),
     ),

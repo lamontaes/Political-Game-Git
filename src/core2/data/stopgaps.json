@@ -1018,5 +1018,29 @@
     "addedAt": "2026-10-12",
     "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-distributions",
+    "kind": "business-owners",
+    "file": "src/core2/opening-outside-market.ts",
+    "line": 1,
+    "whatItFakes": "Each firm pays cash above twice its industry's median buffer to owners monthly, a fixed tunable share to the town's residents and the rest outside; no firm has recorded owners, retained-earnings policy, taxes or investment.",
+    "why": "Without payouts, firms kept every dollar of profit and residents ran out of cash within the year (Mill Creek, Oklahoma: firms +$77M, residents $7.7M to $0).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-WORLD's business engine: recorded owners (local people or outside), payout and investment decisions from the firm's own conditions, and business taxes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-unplaced-workers-income",
+    "kind": "missing-jobs",
+    "file": "src/core2/residents.ts",
+    "line": 1,
+    "whatItFakes": "Counted residents the opening couldn't place in a town firm (the employment target from ACS/CPS less recorded jobs) earn the town's median recorded wage, paid every two weeks from outside, without employers, commutes or industries.",
+    "why": "The opening's town workplaces cover only part of the county's industry mix (e.g. 34% in Mill Creek, Oklahoma), so most working residents had no income and the residents' account ran dry within months.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
+    "status": "open"
   }
 ]

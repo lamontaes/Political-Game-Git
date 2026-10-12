@@ -25,6 +25,8 @@ import type {
   PlaceId,
 } from "../types";
 
+const DAYS_PER_YEAR = 365;
+
 export const RESIDENTS_MODULE_ID = "core2-residents-v1";
 // Outside buyers pay first, so a day's receipts can meet that day's payroll.
 const ORDER = {
@@ -34,6 +36,7 @@ const ORDER = {
   purchase: 3,
   // Suppliers are paid after workers, from what is left.
   "outside-costs": 4,
+  "owner-distribution": 5,
 } as const;
 
 interface FlowState extends ResidentFlowInput {
@@ -146,7 +149,61 @@ function end(flow: FlowState, date: IsoDate, reason: string): void {
   flow.endedReason = reason;
 }
 
+/** Cash above the firm's buffer goes to its owners: part local, the rest outside. */
+function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
+  const core = api.state,
+    finance = core.finance,
+    book = finance.businesses.get(flow.payerId);
+  if (!book) return end(flow, core.date, "no-books");
+  if (book.closedAt) return end(flow, core.date, "payer-closed");
+  const daily =
+    (book.annualPayrollMinor + book.annualOtherCostsMinor) / DAYS_PER_YEAR;
+  const target =
+    daily *
+    (flow.bufferDays ?? 0) *
+    api.parameter("ownerDistributionBufferMultiple");
+  const excess = Math.floor(spendable(core, flow.payerId) - target);
+  if (excess <= 0) return;
+  const residents = rt.input.accounts.find(
+    (row) => row.placeId === flow.placeId,
+  )?.accountId;
+  const local = residents
+    ? Math.floor(excess * api.parameter("ownerDistributionLocalShare"))
+    : 0;
+  const accounts = api.accounts();
+  if (local > 0) {
+    transfer(core, api, {
+      id: `${flow.id}@${core.date}:local`,
+      from: accounts.main(flow.payerId),
+      to: accounts.main(residents!),
+      amountMinor: local,
+      reasonKey: flow.financeKind,
+      source: flow.source,
+    });
+    const key = `${core.date.slice(0, 7)}:${flow.placeId}`;
+    finance.paidIncomeByPlaceMonth.set(
+      key,
+      (finance.paidIncomeByPlaceMonth.get(key) ?? 0) + local,
+    );
+    finance.paidIncomeByPlaceMonthKind.set(
+      `${key}:${flow.financeKind}`,
+      (finance.paidIncomeByPlaceMonthKind.get(`${key}:${flow.financeKind}`) ??
+        0) + local,
+    );
+  }
+  if (excess - local > 0)
+    transfer(core, api, {
+      id: `${flow.id}@${core.date}:outside`,
+      from: accounts.main(flow.payerId),
+      to: accounts.main(flow.outsideId ?? flow.payeeId),
+      amountMinor: excess - local,
+      reasonKey: flow.financeKind,
+      source: flow.source,
+    });
+}
+
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
+  if (flow.kind === "owner-distribution") return distribute(api, rt, flow);
   const core = api.state,
     date = core.date,
     finance = core.finance;
@@ -339,7 +396,11 @@ export function releaseResidentHousehold(
 } {
   const rt = runtimes.get(core)!;
   const jobIds = new Set(record.jobs.map((row) => row.id)),
-    contractIds = new Set(record.contracts.map((row) => row.id));
+    contractIds = new Set([
+      ...record.contracts.map((row) => row.id),
+      `household:${record.household.id}`,
+    ]);
+  let outsideLiving: { amount: number; flow: FlowState } | undefined;
   for (const flow of rt.flows.values()) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
       const perDay = { ...flow.perDayMinorByJob };
@@ -366,6 +427,8 @@ export function releaseResidentHousehold(
       if (!removed) continue;
       flow.amountByContract = amounts;
       flow.amountMinor -= removed;
+      if (flow.financeKind === "household.outside-living-costs")
+        outsideLiving = { amount: removed, flow };
     }
   }
   for (const id of jobIds) rt.wageFlowByJob.delete(id);
@@ -376,6 +439,20 @@ export function releaseResidentHousehold(
   const calendars = new Map(
     (rt.input.calendars ?? []).map((row) => [row.id, row]),
   );
+  // The household now pays its own outside living costs from its payer.
+  const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
+  if (outsideLiving && payer) {
+    const flow: FlowState = {
+      ...outsideLiving.flow,
+      id: `residents:outside-living:${record.household.id}`,
+      payerId: payer.id,
+      amountMinor: outsideLiving.amount,
+      amountByContract: undefined,
+      arrearsMinor: 0,
+    };
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
   return {
     calendars,
     cashShare: remaining > 0 ? own / remaining : 0,
