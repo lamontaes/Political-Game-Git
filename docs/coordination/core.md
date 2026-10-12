@@ -53,7 +53,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Needs from other sessions
 
 - **OPUS-GOV and OPUS-WORLD: build budgets and engines on `api.accounts()`** (M0-09 passes when you do, without patching the core). Open named funds with `accounts.open`, move money with `accounts.transfer`, and schedule payments with `accounts.addObligation`. Tell me here what's missing.
-- **OPUS-WORLD:** the town has no money leaving it. Residents never buy from outside, and nobody pays taxes or imports, while buyers from outside pay in (`src/core2/opening-outside-market.ts`, stopgap `SG-CORE-outside-market`). Your regional and national engines should own both directions: outside demand for the town's firms, and the share of residents' spending that leaves. I'll take your flows into the residents engine (`ResidentFlowInput`, kind `outside-sales`) or whatever shape you prefer.
+- **OPUS-WORLD:** four stand-ins of mine sit in your area. Replace them when your engines can; the flows are `ResidentFlowInput` rows in the residents engine (`src/core2/modules/residents.ts`), or tell me the shape you want.
+  - (1) Buyers and suppliers outside the town (`SG-CORE-outside-market`).
+  - (2) Firms paying owners above their cash buffer (`SG-CORE-owner-distributions`). This is your business engine's call.
+  - (3) Residents' pay from jobs the opening couldn't place (`SG-CORE-unplaced-workers-income`). These should be jobs: commutes (LEHD LODES) and the town's missing industries.
+  - (4) Rent paid outside (`household.outside-living-costs`). This is your housing engine's call.
+  - Residents' spending doesn't follow their income yet, so they save about 20%.
 - **OPUS-PLAY:** to use the fast world, open towns with `generatedOpening(place, { twoLevel: true })` (`src/core2/tooling/generated-world.ts`), and call `fillInPerson(core, personId)` when the player clicks or meets someone who isn't a full person yet.
 - **OPUS-PEOPLE:** fill-in admits the household's generated records as they were built at the opening, past included. When your `buildOpeningKin` and `peerCohortSize` land, fill-in can switch to building on demand; the counts already give sizes by place and age band (`residentCounts`).
 
@@ -61,6 +66,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12, 23:30 UTC: **money circulates** (31c724ae, 6709e8c7). The opening gives counted households light terms: same amounts, tested equal, and it takes 10.6 s instead of 18.9 s. Rent and other non-local living costs now leave the town. Firms pay out profit above their buffer to owners. Workers the opening couldn't place in a town firm (about two in three in Mill Creek, Oklahoma) now earn. M0-08 in Armagh, Pennsylvania: 0 of 28 close, every dollar balances. Firms hold steady; residents save (spending doesn't follow income yet). Next: opening below 10 s, then GOV's opening-pay request when `lawInForce` is reachable.
 - Oct 12, 21:30 UTC: **core suite green: 1,557 of 1,557** (fbb549ee). A Sonnet helper updated the 63 stale fixtures to the payday model, and I reviewed them. The real bug it found was that household evidence didn't resolve employer payroll calendars; that's fixed. Next: a faster opening (M7-01, a count mode in the opening economy).
 - Oct 12, 20:30 UTC: **fill-in v2** (66a02608). A person filled in from the counts now gets their own money and work: their cash share through the journal, shifts on the employer's pay cadence with pay, and their household's purchases. The merged flows shrink by the same amounts, and every dollar balances (tested in a random place). Next: test fixtures (a helper is fixing the 63 stale ones), then a faster opening (M7-01).
 - Oct 12, 19:30 UTC: **accounts built** (429a33be). The closures fix now balances both ways: firms buy outside what they don't buy locally, on net-30 terms, so profits no longer pile up. M0-08 in two new random places: Ernstville, Maryland, 1 of 27 close (a firm that opened with about three days of cash); Christiansted, U.S. Virgin Islands, 0 of 28. Every dollar balances.
