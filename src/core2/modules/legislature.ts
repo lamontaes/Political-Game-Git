@@ -21,8 +21,21 @@
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
-import startingLabor from "../../../data/research/laws/starting-law-2026/labor-workforce.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import lawAgricultureNaturalResources from "../../../data/research/laws/starting-law-2026/agriculture-natural-resources.json" with { type: "json" };
+import lawBusinessCommerce from "../../../data/research/laws/starting-law-2026/business-commerce.json" with { type: "json" };
+import lawCivilFamilyCommunity from "../../../data/research/laws/starting-law-2026/civil-family-community.json" with { type: "json" };
+import lawEducation from "../../../data/research/laws/starting-law-2026/education.json" with { type: "json" };
+import lawEnvironmentEnergy from "../../../data/research/laws/starting-law-2026/environment-energy.json" with { type: "json" };
+import lawFiscal from "../../../data/research/laws/starting-law-2026/fiscal.json" with { type: "json" };
+import lawGovernmentOperations from "../../../data/research/laws/starting-law-2026/government-operations.json" with { type: "json" };
+import lawHealthHumanServices from "../../../data/research/laws/starting-law-2026/health-human-services.json" with { type: "json" };
+import lawHousingLandUse from "../../../data/research/laws/starting-law-2026/housing-land-use.json" with { type: "json" };
+import lawJusticePublicSafety from "../../../data/research/laws/starting-law-2026/justice-public-safety.json" with { type: "json" };
+import lawLaborCommerce from "../../../data/research/laws/starting-law-2026/labor-commerce.json" with { type: "json" };
+import lawLaborWorkforce from "../../../data/research/laws/starting-law-2026/labor-workforce.json" with { type: "json" };
+import lawTechnologyPrivacy from "../../../data/research/laws/starting-law-2026/technology-privacy.json" with { type: "json" };
+import lawTransportationInfrastructure from "../../../data/research/laws/starting-law-2026/transportation-infrastructure.json" with { type: "json" };
+import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -113,6 +126,33 @@ export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
 }
+
+type StartingAnswers = Record<
+  string,
+  { answers: Record<string, { preempts?: boolean; answer?: string }> }
+>;
+/** Every recorded starting-law policy question, by key. */
+const POLICY_QUESTIONS: StartingAnswers = Object.assign(
+  {},
+  ...[
+    lawAgricultureNaturalResources,
+    lawBusinessCommerce,
+    lawCivilFamilyCommunity,
+    lawEducation,
+    lawEnvironmentEnergy,
+    lawFiscal,
+    lawGovernmentOperations,
+    lawHealthHumanServices,
+    lawHousingLandUse,
+    lawJusticePublicSafety,
+    lawLaborCommerce,
+    lawLaborWorkforce,
+    lawTechnologyPrivacy,
+    lawTransportationInfrastructure,
+  ].map(
+    (file) => (file as unknown as { questions: StartingAnswers }).questions,
+  ),
+);
 
 const seriesQuestion = (
   provisionQuestions as unknown as {
@@ -208,14 +248,8 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
         };
   }
   if (provision.kind === "policy-question" && provision.question) {
-    const answer = (
-      startingLabor as unknown as {
-        questions: Record<
-          string,
-          { answers: Record<string, { preempts?: boolean; answer?: string }> }
-        >;
-      }
-    ).questions[provision.question]?.answers[chain.stateKey];
+    const answer =
+      POLICY_QUESTIONS[provision.question]?.answers[chain.stateKey];
     if (answer?.preempts)
       return {
         allowed: false,
