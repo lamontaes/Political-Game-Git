@@ -118,6 +118,65 @@ export function addCountedJob(
   return true;
 }
 
+/**
+ * Many counted workers hired at once by an employer with no counted staff
+ * yet (work outside the town): one wage flow, built in one pass, on the
+ * payday cadence of a live wage flow in the place. Returns the jobs added.
+ */
+export function addCountedJobsAt(
+  core: CoreState,
+  organizationId: string,
+  placeId: string,
+  jobs: readonly JobInput[],
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !jobs.length) return 0;
+  const template = [...rt.flows.values()].find(
+    (row) =>
+      row.kind === "wages" &&
+      !row.endedAt &&
+      row.placeId === placeId &&
+      row.organizationId,
+  );
+  const account = rt.input.accounts.find(
+    (row) => row.placeId === placeId,
+  )?.accountId;
+  if (!template || !account) return 0;
+  const perDay: Record<string, number> = {};
+  for (const job of jobs) perDay[job.id] = job.wageDailyMinor;
+  const id = `residents:wages:${organizationId}:${core.date}`;
+  addResidentFlow(core, {
+    id,
+    kind: "wages",
+    financeKind: template.financeKind,
+    payerId: organizationId,
+    payeeId: account,
+    residentsId: account,
+    placeId,
+    amountMinor: 0,
+    firstAt: template.nextAt,
+    cadence: template.cadence,
+    salesReceipt: false,
+    marketAdjusted: false,
+    organizationId,
+    jobIds: jobs.map((job) => job.id),
+    perDayMinorByJob: perDay,
+    ...(template.periodFactor !== undefined
+      ? { periodFactor: template.periodFactor }
+      : {}),
+    source: jobs[0]!.source,
+  });
+  const flow = rt.flows.get(id);
+  if (!flow) return 0;
+  recompute(flow);
+  for (const job of jobs) {
+    rt.jobs.set(job.id, job);
+    rt.wageFlowByJob.set(job.id, flow);
+  }
+  jobIndexes.delete(core);
+  return jobs.length;
+}
+
 /** A standing flow begins mid-run, first due on its own date (never today). */
 export function addResidentFlow(
   core: CoreState,
