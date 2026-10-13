@@ -33,7 +33,6 @@
     "src/**/*.test.tsx",
     "src/cli",
     "src/persistence",
-    "src/source",
-    "src/rules/economy/test-support/resource-earned-source.ts"
+    "src/source"
   ]
 }
