@@ -412,12 +412,11 @@ function playWorld(seed: string) {
   const federalWithheld = territory
     ? taxes.has("federal:social-security") && taxes.has("federal:medicare")
     : taxes.has("federal:income") && taxes.has("federal:social-security");
-  verdicts["taxes are withheld after January 1"] =
-    federalWithheld
-      ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
-      : fail(
-          `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
-        );
+  verdicts["taxes are withheld after January 1"] = federalWithheld
+    ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
+    : fail(
+        `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
+      );
 
   // Break 6: a passed budget changes the adopted spending.
   const bills = rowsOf(core, LEGISLATURE_MODULE_ID, "bills").filter(
