@@ -136,6 +136,16 @@ describe("59 policies in the played world, 90 days", () => {
       {
         const links = WEB_LINKS.filter((l) => l.from === `law:${question}`);
         for (const link of links) {
+          // Attribute a lagged reading to this enactment, not to an older law
+          // or the web's immediate reset to its calibrated baseline.
+          const [year, month, day] = after.date.split("-").map(Number);
+          const causeDate = new Date(
+            Date.UTC(year!, month! - 1 - link.lagMonths, Math.min(day!, 28)),
+          )
+            .toISOString()
+            .slice(0, 10);
+          if (lawInForce(api, question, causeDate).governing?.id !== lawId)
+            continue;
           const delta =
             (after.effects[link.key] ?? 0) - (before.effects[link.key] ?? 0);
           const reading = placeOutcome(api, chain.townPlaceId, link.to);

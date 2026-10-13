@@ -43,6 +43,7 @@ import {
   BUDGETS_MODULE_ID,
   budgetsOf,
   governments,
+  type withholdingOf,
 } from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
@@ -61,6 +62,8 @@ import {
 import { LAWS_MODULE_ID, lawInForce } from "../../src/core2/modules/laws";
 import { PLACE_PRICES_MODULE_ID } from "../../src/core2/modules/place-prices";
 import { outcomeIssueView } from "../../src/core2/modules/views";
+import { withholdingFor } from "../../src/core2/tax-withholding";
+import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { WEB_LINKS } from "../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import type { CoreModule, CoreState } from "../../src/core2/types";
@@ -366,6 +369,14 @@ function playWorld(seed: string) {
         row.date >= law.effectiveDate &&
         lawInForce(api, law.series, row.date).governing?.id === law.id &&
         links.some((link) => {
+          const [year, month, day] = row.date.split("-").map(Number);
+          const causeDate = new Date(
+            Date.UTC(year!, month! - 1 - link.lagMonths, Math.min(day!, 28)),
+          )
+            .toISOString()
+            .slice(0, 10);
+          if (lawInForce(api, law.series, causeDate).governing?.id !== law.id)
+            return false;
           const previous = webMonths
             .filter(
               (other) =>
@@ -428,9 +439,51 @@ function playWorld(seed: string) {
               (changes[index - 1]?.hourlyMinor ?? wagesAtStart.get(jobId)),
         ),
     );
-    if (effect || payment || raise || price || salary)
+    const beforeDate = addDays(makeIsoDate(law.effectiveDate), -1);
+    const withheld = (
+      api
+        .moduleState(BUDGETS_MODULE_ID)
+        .table("withholding")
+        .rows() as unknown as ReturnType<typeof withholdingOf>
+    ).find((row) => {
+      const line = row.lines.find((item) => item.lawId.includes(law.id));
+      if (!line || row.date < law.effectiveDate) return false;
+      const before = withholdingFor({
+        paidMinor: row.paidMinor,
+        periodDays: row.periodDays,
+        yearToDateMinor: row.yearToDateMinor,
+        incomeTax: lawInForce(api, "income-tax", beforeDate),
+        socialSecurity: lawInForce(api, "social-security-tax", beforeDate),
+        medicare: lawInForce(api, "medicare-tax", beforeDate),
+      }).find(
+        (item) =>
+          item.jurisdiction === line.jurisdiction && item.tax === line.tax,
+      );
+      return (
+        line.minor !== (before?.minor ?? 0) &&
+        [...core.cashJournal.detailedReceipts.values()].some(
+          (item) => item.sourceRef.id === row.id && item.grossDebitMinor > 0,
+        )
+      );
+    });
+    const premium = core.modules.has(REACH_A_MODULE_ID)
+      ? api
+          .moduleState(REACH_A_MODULE_ID)
+          .table("premiums")
+          .rows()
+          .find(
+            (row) =>
+              String(row.reason).includes(law.id) &&
+              Number(row.premiumMinor) > 0 &&
+              [...core.cashJournal.detailedReceipts.values()].some(
+                (item) =>
+                  item.sourceRef.id === row.id && item.grossDebitMinor > 0,
+              ),
+          )
+      : undefined;
+    if (effect || payment || raise || price || salary || withheld || premium)
       lawEffects.push(
-        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary![0]}`,
+        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? withheld?.id ?? premium!.id}`,
       );
     else
       ineffective.push(
