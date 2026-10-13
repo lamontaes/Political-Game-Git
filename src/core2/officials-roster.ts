@@ -54,7 +54,8 @@ export const OFFICIALS_DATA = officialsData as unknown as {
     | "wing"
     | "ambition"
     | "press"
-    | "independentReason",
+    | "independentReason"
+    | "executiveParty",
     Weight
   >;
   loyalty: {
@@ -71,6 +72,11 @@ export const OFFICIALS_DATA = officialsData as unknown as {
   stateSample: { perChamber: number };
   colleagues: { hoursPerSharedYear: Weight; maxYears: Weight };
   tier: string;
+  candidacy: {
+    ladder: Record<string, readonly BodyKind[]>;
+    fit: Weight;
+    noRecord: Weight;
+  };
 };
 
 export type PartyKey = "democratic" | "republican" | "other";

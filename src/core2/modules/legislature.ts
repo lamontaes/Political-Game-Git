@@ -50,6 +50,7 @@ import { partyName, partySide } from "../appointments";
 import {
   atLarge,
   currentOfficial,
+  executivePull,
   holderOf,
   officialLean,
   officialOf,
@@ -1737,12 +1738,14 @@ function executiveAction(
       // Two thirds of each body's whole membership (not of those voting).
       const share =
         mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
-      status = tallies.every(
-        (t) =>
-          t.yes >=
-          (mayorRule?.plusOne
-            ? Math.floor(t.members * share) + 1
-            : Math.ceil(t.members * share - 1e-9)),
+      status = overrideVote(
+        api,
+        bill,
+        memberSide(api, key, executive.party),
+        (n) =>
+          mayorRule?.plusOne
+            ? Math.floor(n * share) + 1
+            : Math.ceil(n * share - 1e-9),
       )
         ? "overridden"
         : "vetoed";
@@ -1759,6 +1762,71 @@ function executiveAction(
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
   return enact(api, next);
+}
+
+/**
+ * The vote to override a veto, chamber by chamber: each member decides again
+ * from their own position on the bill, and a member of the executive's own
+ * party also weighs standing with them (OPUS-OFFICIALS: the executive-party
+ * pull, `data/officials/officials.json`). Every vote is on the record; the
+ * override needs the share of each chamber's whole membership.
+ */
+function overrideVote(
+  api: CoreAPI,
+  bill: BillRow,
+  executiveSide: number,
+  needed: (members: number) => number,
+): boolean {
+  for (const chamber of chambersOf(api, bill)) {
+    const roster = members(api, chamber);
+    let yes = 0;
+    for (const member of roster) {
+      const key = memberKey(member);
+      const position = memberPosition(api, bill.id, key);
+      const executive =
+        executiveSide !== 0 &&
+        memberSide(api, key, member.party) === executiveSide
+          ? -executivePull(api, key)
+          : 0;
+      const chosen = table(api, "choices").get(
+        `${bill.id}|${key}|override`,
+      ) as unknown as { vote: "yes" | "no" | "abstain" } | undefined;
+      const total = position.total + executive;
+      const vote =
+        chosen?.vote ??
+        (key === (api.state as CoreState).playerId
+          ? "abstain"
+          : total > 0
+            ? "yes"
+            : total < 0
+              ? "no"
+              : "abstain");
+      if (vote === "yes") yes += 1;
+      table(api, "votes").put({
+        id: `vote:${bill.id}:${key}:override`,
+        billId: bill.id,
+        memberId: key,
+        chamber,
+        vote,
+        override: true,
+        position: { ...position, executive, total },
+      } as unknown as ModuleRow);
+    }
+    if (yes < needed(roster.length)) return false;
+  }
+  return true;
+}
+
+/** A member's party side: an official's caucus or party, else their term's. */
+function memberSide(
+  api: CoreAPI,
+  memberId: string,
+  termParty: string | null | undefined,
+): number {
+  const official = officialOf(api, memberId);
+  return partySide(
+    official ? (official.independent?.caucus ?? official.party) : termParty,
+  );
 }
 
 const MAYOR_VETO = (

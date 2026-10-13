@@ -16,6 +16,7 @@
  */
 import sessions from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 import { leaderOf, presidingOfficer } from "./leadership";
+import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -288,7 +289,11 @@ function bringAgenda(
       )
     : 0;
   const agenda = PLATFORM_QUESTIONS.map((question) => {
-    const want = personStance(input.lean, question);
+    // An official leader wants what they themselves hold, their own causes
+    // included (OPUS-OFFICIALS); anyone else by their lean.
+    const want =
+      (leaderKey ? officialStance(api, leaderKey, question) : null) ??
+      personStance(input.lean, question);
     return { question, want, gap: input.gapFor(question, want) };
   })
     .filter(

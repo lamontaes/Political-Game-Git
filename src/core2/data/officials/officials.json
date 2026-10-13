@@ -205,6 +205,12 @@
       "tag": "TUNABLE",
       "source": "How much more a truly independent member weighs a bill that touches the reason they're independent (Sinclair 2006: independents and centrists build their record on a few defining issues).",
       "spread": [0.3, 1]
+    },
+    "executiveParty": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "On a vote to override a veto, members of the executive's own party weigh standing with them: many who voted for the bill vote to sustain (Cameron 2000, Veto Bargaining: Presidents and the Politics of Negative Power: override votes are more partisan than passage votes, and fewer than one in ten regular presidential vetoes since 1945 were overridden; Senate Historical Office, Vetoes 1789 to present). Checked against that override rate and against governors' vetoes (NCSL and Book of the States Table 4.4: most state vetoes stand).",
+      "spread": [0.3, 1]
     }
   },
   "loyalty": {
@@ -264,5 +270,30 @@
     }
   },
   "tier": "calendar",
-  "tierSource": "Officials outside the town act on the calendar (sessions, votes, elections), not on a daily or monthly routine of their own until the player meets them."
+  "tierSource": "Officials outside the town act on the calendar (sessions, votes, elections), not on a daily or monthly routine of their own until the player meets them.",
+  "candidacy": {
+    "about": "Who runs for a state or federal seat when the other party (or, for an open seat, the holder's party) has no filed candidate. Candidates come from the offices one step down the ladder in that state (Schlesinger 1966, Ambition and Politics: the opportunity structure; Maestas, Fulton, Maisel and Stone 2006, APSR 100(2): state legislators are the main pool of House candidates), or a newcomer with no office. Each weighs it from who they are: their ambition, how far their own views sit from the seat's electorate, and whether they have a record to run on. An officeholder whose own seat is on the same year's ballot stays in that race: many states bar one person from standing for two offices at one election, and members whose seat is up run for higher office far less often (Rohde 1979, 'Risk-Bearing and Progressive Ambition', AJPS 23(1)). The one with the strongest reason runs; nothing is rolled.",
+    "ladder": {
+      "about": "The bodies whose members are in the pool for each office, by the office's kind.",
+      "tag": "SOURCED",
+      "source": "Schlesinger 1966 (the manifest offices leading to each higher office); Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections (experienced challengers come from state legislatures and statewide office).",
+      "us-house": ["legislature"],
+      "us-senate": ["us-house", "executive"],
+      "governor": ["us-house", "us-senate", "executive"],
+      "executive": ["legislature"],
+      "legislature": []
+    },
+    "fit": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much the distance between a would-be candidate's own lean and the seat's electorate weighs against running (Black 1972, 'A Theory of Political Ambition', APSR 66(1): the expected chance of winning). The seat's lean is its two-party margin, read as the electorate's center on the voters' scale.",
+      "spread": [0.5, 1.5]
+    },
+    "noRecord": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "What a newcomer lacks against an officeholder: a record, a donor list and name recognition (Jacobson 1989, 'Strategic Politicians and the Dynamics of U.S. House Elections', APSR 83(3): experienced challengers win several times as often).",
+      "spread": [0.1, 0.5]
+    }
+  }
 }

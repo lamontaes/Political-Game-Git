@@ -41,7 +41,7 @@ import {
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -92,7 +92,15 @@ export const OFFICIALS_MODULE: CoreModule = {
         },
       },
       loaded: {},
+      /** Who runs for a state or federal seat, and the reasons they weighed. */
+      candidates: { indexes: { byContest: { fields: ["contestId"] } } },
     },
+  },
+  eventKinds: ["took-office"],
+  onEvent: (api, event) => {
+    const seatId = event.facts?.["seatId"];
+    const winner = event.personIds[0];
+    if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
   },
 };
 
@@ -1076,4 +1084,318 @@ export function officialParts(
     visibility *
     stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
   return { views, constituents, party, wing, ambition, press };
+}
+
+/** A would-be candidate's reasons for running, as recorded. */
+export interface CandidateRow {
+  /** `<contest id>|<party>`. */
+  readonly id: string;
+  /** Who runs. */
+  readonly personId: string;
+  readonly contestId: string;
+  readonly year: number;
+  readonly seatId: string;
+  readonly party: string;
+  /** The seat they hold now, or null for a newcomer. */
+  readonly fromSeatId: string | null;
+  readonly ambition: number;
+  readonly fit: number;
+  readonly noRecord: number;
+  readonly total: number;
+  /** How many others weighed it and stayed out. */
+  readonly weighed: number;
+  /** A newcomer's own views, kept for the day they take office. */
+  readonly drawn: {
+    readonly ideal: number;
+    readonly wing: string;
+    readonly signature: readonly SignatureIssue[];
+    readonly loyalty: number;
+    readonly ambition: number;
+  } | null;
+}
+
+const candidacy = OFFICIALS_DATA.candidacy;
+
+/** The seat's office, body and lean, from the offices engine. */
+function seatFacts(api: CoreAPI, seatId: string) {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(seatId) as unknown as
+    { officeId: string; district: string | null } | undefined;
+  if (!seat) return null;
+  const office = offices.table("offices").get(seat.officeId) as unknown as {
+    kind: string;
+    jurisdiction: string;
+    termYears: number | null;
+  };
+  const town = offices.table("loaded").get("town") as unknown as {
+    stateKey: string;
+    worldSeed: string;
+  };
+  const stateKey = office.jurisdiction.startsWith("US-")
+    ? office.jurisdiction
+    : town.stateKey;
+  return {
+    seat,
+    office,
+    stateKey,
+    seed: town.worldSeed,
+    body: bodyOf(office.jurisdiction, office.kind),
+    bodyKind: bodyKindOf(office.kind),
+  };
+}
+
+/**
+ * Who runs for a state or federal seat for a party with no filed candidate:
+ * the officeholder one step down the ladder in that state, or a newcomer,
+ * whoever has the strongest reason (their ambition, how near their views sit
+ * to the seat's electorate, what running costs them). They are full people;
+ * a newcomer is filled in the day they file. Null where the officials engine
+ * isn't installed or the office isn't one officials run for (the presidency).
+ */
+export function officialCandidate(
+  api: CoreAPI,
+  contest: {
+    readonly id: string;
+    readonly seatId: string;
+    readonly electionDate: string;
+  },
+  party: string,
+): string | null {
+  if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return null;
+  const side = partySide(party);
+  if (side === 0) return null;
+  const filed = (
+    table(api, "candidates").query("byContest", [
+      contest.id,
+    ]) as unknown as CandidateRow[]
+  ).find((c) => partySide(c.party) === side);
+  if (filed) return filed.personId;
+  const facts = seatFacts(api, contest.seatId);
+  if (!facts || facts.office.kind === "president") return null;
+  const year = Number(contest.electionDate.slice(0, 4));
+  const ladderKey =
+    facts.bodyKind === "executive"
+      ? facts.office.kind === "governor"
+        ? "governor"
+        : "executive"
+      : facts.bodyKind;
+  const pool = new Set(candidacy.ladder[ladderKey] ?? []);
+  const seatLeanNow = seatLean(
+    facts.stateKey,
+    facts.bodyKind,
+    facts.seat.district,
+    party,
+  ).lean;
+  // Anyone already running somewhere this year runs only there.
+  const running = new Set(
+    (table(api, "candidates").rows() as unknown as CandidateRow[])
+      .filter((c) => c.year === year)
+      .map((c) => c.personId),
+  );
+  const holder = currentOfficial(api, contest.seatId)?.id;
+  const reasons = (ambition: number, lean: number, officeholder: boolean) => {
+    const fit = -candidacy.fit.value * Math.abs(lean - seatLeanNow);
+    const noRecord = officeholder ? 0 : -candidacy.noRecord.value;
+    return { ambition, fit, noRecord, total: ambition + fit + noRecord };
+  };
+  const weighed = (
+    table(api, "officials").rows() as unknown as OfficialRow[]
+  ).filter(
+    (row) =>
+      row.ended === null &&
+      row.stateKey === facts.stateKey &&
+      pool.has(row.bodyKind) &&
+      row.seatId !== contest.seatId &&
+      row.id !== holder &&
+      !running.has(row.id) &&
+      // Someone on the ballot for their own seat that year stays there.
+      row.nextElectionYear !== year &&
+      partySide(row.independent?.caucus ?? row.party) === side &&
+      (row.bodyKind !== "executive" ||
+        (row.officeKind !== "governor" && row.officeKind !== "president")) &&
+      api.state.people.get(row.id)?.alive !== false,
+  );
+  // The newcomer: someone with no office who could run, drawn once from the
+  // world's seed for this contest and party.
+  const newcomerId = `official:candidate:${contest.id}:${partyKey(party)}`;
+  const drawn = drawOfficial({
+    seed: facts.seed,
+    key: newcomerId,
+    body: facts.bodyKind,
+    party,
+    districtZ: 0,
+    districtLean: seatLeanNow,
+    leader: false,
+  });
+  let best: {
+    id: string;
+    row: OfficialRow | null;
+    parts: ReturnType<typeof reasons>;
+  } = {
+    id: newcomerId,
+    row: null,
+    parts: reasons(
+      drawn.ambition,
+      Math.max(
+        -1,
+        Math.min(1, drawn.ideal * OFFICIALS_DATA.ideology.leanScale.value),
+      ),
+      false,
+    ),
+  };
+  for (const row of weighed) {
+    const parts = reasons(row.ambition, officialLean(row), true);
+    if (
+      parts.total > best.parts.total ||
+      (parts.total === best.parts.total && row.id < best.id)
+    )
+      best = { id: row.id, row, parts };
+  }
+  if (!best.row) {
+    const identity = drawOfficialIdentity({
+      worldSeed: facts.seed,
+      seatKey: newcomerId,
+      stateUsps: facts.stateKey.slice(3),
+      role: "state-executive-challenger",
+      referenceDate: api.state.date,
+    });
+    fillInIdentity(api.state as CoreState, {
+      id: newcomerId,
+      givenName: identity.givenName,
+      familyName: identity.familyName,
+      birthDate: identity.birthDate,
+      placeId: facts.stateKey,
+      gender: identity.gender,
+      party,
+      seatKey: contest.seatId,
+      traits: drawn.traits,
+      tier: OFFICIALS_DATA.tier,
+      source: source(api.state.date),
+    });
+  }
+  const row: CandidateRow = {
+    id: `${contest.id}|${partyKey(party)}`,
+    personId: best.id,
+    contestId: contest.id,
+    year,
+    seatId: contest.seatId,
+    party,
+    fromSeatId: best.row?.seatId ?? null,
+    ...best.parts,
+    weighed: weighed.length,
+    drawn: best.row
+      ? null
+      : {
+          ideal: drawn.ideal,
+          wing: drawn.wing,
+          signature: drawn.signature,
+          loyalty: drawn.loyalty,
+          ambition: drawn.ambition,
+        },
+  };
+  table(api, "candidates").put(row as unknown as ModuleRow);
+  return best.id;
+}
+
+/**
+ * A state or federal official, or a newcomer who ran, takes a seat: their
+ * record follows them to the new body, and a seat they held below is
+ * vacated the way its office's rule says.
+ */
+function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
+  const facts = seatFacts(api, seatId);
+  if (!facts) return;
+  const term = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+  ).find((t) => t.personId === personId);
+  if (!term) return;
+  const held = officialOf(api, personId);
+  const nextElectionYear = facts.office.termYears
+    ? Number(api.state.date.slice(0, 4)) + facts.office.termYears
+    : null;
+  if (held && held.seatId === seatId) {
+    table(api, "officials").put({
+      ...held,
+      termId: term.id,
+      nextElectionYear,
+      ended: null,
+    } as unknown as ModuleRow);
+    return;
+  }
+  const ran = (
+    table(api, "candidates").rows() as unknown as CandidateRow[]
+  ).find((c) => c.personId === personId && c.seatId === seatId);
+  const base =
+    held ?? (ran?.drawn ? { ...ran.drawn, independent: null } : null);
+  if (!base) return;
+  if (held) {
+    const below = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
+    ).some((t) => t.personId === personId);
+    if (below) vacateSeat(api, held.seatId, "took higher office");
+  }
+  const party = term.party ?? held?.party ?? ran?.party ?? null;
+  const lean = seatLean(
+    facts.stateKey,
+    facts.bodyKind,
+    facts.seat.district,
+    party,
+  );
+  const row: OfficialRow = {
+    id: personId,
+    seatId,
+    termId: term.id,
+    body: facts.body,
+    bodyKind: facts.bodyKind,
+    officeKind: facts.office.kind,
+    stateKey: facts.stateKey,
+    district: facts.seat.district,
+    party,
+    partySource: "elected",
+    ideal: base.ideal,
+    wing: base.wing,
+    signature: base.signature,
+    loyalty: base.loyalty,
+    ambition: base.ambition,
+    independent: base.independent,
+    leadership: null,
+    districtLean: lean.lean,
+    leanSource: lean.source,
+    stateLean: stateLeanOf(facts.stateKey),
+    serviceStart: api.state.date,
+    nextElectionYear,
+    termYears: facts.office.termYears,
+    standsFor: 1,
+    ended: null,
+  };
+  table(api, "officials").put(row as unknown as ModuleRow);
+}
+
+/**
+ * How strongly a member of an executive's own party is pulled to sustain
+ * their veto: the party weight times their loyalty (a resident member with
+ * no official record feels the party weight alone).
+ */
+export function executivePull(api: CoreAPI, memberId: string): number {
+  const row = officialOf(api, memberId);
+  return OFFICIALS_DATA.weights.executiveParty.value * (row?.loyalty ?? 1);
+}
+
+/**
+ * An official's own stance on a question (their position and, on their own
+ * causes, their tilt), on the scale members vote by; null for anyone else.
+ */
+export function officialStance(
+  api: CoreAPI,
+  memberId: string,
+  question: string,
+): number | null {
+  const row = officialOf(api, memberId);
+  return row ? ownStance(row.ideal, row.signature, question) : null;
 }

@@ -60,6 +60,7 @@ import {
   vacancyFilled,
   type TermRow,
 } from "./offices";
+import { officialCandidate } from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -636,11 +637,17 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
           partySide(f.party ?? null) === -partySide(incumbent.party),
       )
     )
-      put(officialCandidateId(`challenger:${contest.id}`), other, "challenger");
+      put(
+        officialCandidate(api, contest, other) ??
+          officialCandidateId(`challenger:${contest.id}`),
+        other,
+        "challenger",
+      );
     // An open seat: the incumbent's party nominates someone new.
     if (termLimited(api, contest, incumbent))
       put(
-        officialCandidateId(`nominee:${contest.id}`),
+        officialCandidate(api, contest, incumbent.party!) ??
+          officialCandidateId(`nominee:${contest.id}`),
         incumbent.party,
         "nominee for an open seat",
       );
@@ -667,7 +674,8 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
         )
       )
         put(
-          officialCandidateId(`nominee:${party}:${contest.id}`),
+          officialCandidate(api, contest, party) ??
+            officialCandidateId(`nominee:${party}:${contest.id}`),
           party,
           "nominee for an open seat",
         );

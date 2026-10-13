@@ -28,7 +28,13 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
-import { allOfficials, officialOf } from "./modules/officials";
+import {
+  allOfficials,
+  officialCandidate,
+  officialOf,
+  OFFICIALS_MODULE_ID,
+  type CandidateRow,
+} from "./modules/officials";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
 import { realLocalities } from "./places";
@@ -182,6 +188,95 @@ describe(
       expect(withCaucus / Math.max(1, independentVotes), where).toBeGreaterThan(
         0.75,
       );
+    });
+
+    it("names who runs for a state or federal seat from the officials, and moves the winner's record", () => {
+      const { core, api, key } = world();
+      const where = `place ${key}, seed ${seed}`;
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      const terms = offices.table("terms");
+      const serving = (seatId: string) =>
+        (
+          terms.query("bySeatStatus", [
+            seatId,
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0];
+      // A seat the town's state elects with a partisan holder: its governor,
+      // else one of its U.S. House seats.
+      const seats = (
+        offices.table("seats").rows() as unknown as {
+          id: string;
+          officeId: string;
+        }[]
+      ).filter((seat) => {
+        const office = offices
+          .table("offices")
+          .get(seat.officeId) as unknown as { kind: string };
+        const holder = serving(seat.id);
+        return (
+          /^(governor|us-house)$/.test(office.kind) &&
+          holder?.personId &&
+          partySide(holder.party) !== 0
+        );
+      });
+      if (!seats.length) return; // a territory with no partisan holder
+      const seat = seats.sort((a, b) => a.id.localeCompare(b.id))[0]!;
+      const holder = serving(seat.id)!;
+      const other = partySide(holder.party) > 0 ? "Democratic" : "Republican";
+      const contest = {
+        id: `contest:test:${seat.id}:2026-11-03`,
+        seatId: seat.id,
+        electionDate: "2026-11-03",
+      };
+      const runner = officialCandidate(api, contest, other)!;
+      expect(runner, where).toBeTruthy();
+      // A full person with traits, never the holder, the same on a second ask.
+      expect(core.people.get(runner), where).toBeDefined();
+      expect(runner).not.toBe(holder.personId);
+      expect(officialCandidate(api, contest, other)).toBe(runner);
+      const why = (
+        api
+          .moduleState(OFFICIALS_MODULE_ID)
+          .table("candidates")
+          .query("byContest", [contest.id]) as unknown as CandidateRow[]
+      )[0]!;
+      expect(why.total).toBeCloseTo(why.ambition + why.fit + why.noRecord);
+      const from = why.fromSeatId;
+      if (from) {
+        // An officeholder whose own seat is on the same ballot stays there.
+        expect(officialOf(api, runner)!.nextElectionYear).not.toBe(2026);
+        expect(partySide(officialOf(api, runner)!.party)).toBe(
+          partySide(other),
+        );
+      }
+      // They win and take the seat: their record follows them, and a seat
+      // they held below is vacated.
+      core.date = "2027-01-05";
+      for (const term of [holder])
+        terms.put({ ...term, status: "ended", endDate: core.date } as never);
+      terms.put({
+        ...holder,
+        id: `term:${seat.id}:${core.date}:elected`,
+        personId: runner,
+        party: other,
+        startDate: core.date,
+        status: "serving",
+      } as never);
+      api.emit({
+        id: `took-office:${seat.id}:${core.date}`,
+        date: core.date,
+        kind: "took-office",
+        personIds: [runner],
+        placeId: key,
+        source: { tag: "SOURCED", citation: "test", asOf: core.date },
+        publicRecord: true,
+        facts: { seatId: seat.id, winnerId: runner },
+      });
+      const now = officialOf(api, runner)!;
+      expect(now.seatId, where).toBe(seat.id);
+      expect(now.party).toBe(other);
+      if (from) expect(serving(from)?.personId ?? null).not.toBe(runner);
     });
   },
 );
