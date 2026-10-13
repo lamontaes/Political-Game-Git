@@ -104,6 +104,67 @@ export function storiesHeard(
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
 }
 
+interface HeardEntry {
+  storyId: string;
+  storyDate: string;
+  heardDate: string;
+}
+
+/**
+ * What each person heard that may still be news, rebuilt from the table when
+ * first read. Telling reads this instead of everything a person ever heard;
+ * entries past the story life are dropped as they are read.
+ */
+const recentHeard = new WeakMap<object, Map<PersonId, HeardEntry[]>>();
+function recentOf(api: CoreAPI): Map<PersonId, HeardEntry[]> {
+  let map = recentHeard.get(api.state);
+  if (!map) {
+    map = new Map();
+    for (const row of heard(api).rows()) {
+      const story = stories(api).get(row.storyId as string) as unknown as
+        Story | undefined;
+      if (!story) continue;
+      const list = map.get(row.personId as string) ?? [];
+      list.push({
+        storyId: story.id,
+        storyDate: story.date,
+        heardDate: row.date as string,
+      });
+      map.set(row.personId as string, list);
+    }
+    recentHeard.set(api.state, map);
+  }
+  return map;
+}
+
+/**
+ * The stories a person heard since `since` whose own date is on or after it,
+ * newest first: the same list and order as `storiesHeard` up to its first
+ * story older than the story life.
+ */
+function recentStoriesHeard(
+  api: CoreAPI,
+  personId: PersonId,
+  since: string,
+): Story[] {
+  const map = recentOf(api);
+  const list = map.get(personId);
+  if (!list) return [];
+  // Days only move forward, so what is too old now stays too old.
+  const kept = list.filter(
+    (row) => row.heardDate >= since && row.storyDate >= since,
+  );
+  if (kept.length) map.set(personId, kept);
+  else map.delete(personId);
+  return kept
+    .sort(
+      (a, b) =>
+        b.storyDate.localeCompare(a.storyDate) ||
+        a.storyId.localeCompare(b.storyId),
+    )
+    .map((row) => stories(api).get(row.storyId) as unknown as Story);
+}
+
 /** How many stories each person has heard, rebuilt from the table when first read. */
 const heardCounts = new WeakMap<object, Map<PersonId, number>>();
 function countsOf(api: CoreAPI): Map<PersonId, number> {
@@ -131,6 +192,14 @@ function hear(
   const id = `${personId}:${story.id}`;
   if (heard(api).get(id)) return false;
   heard(api).put({ id, personId, storyId: story.id, date: api.state.date });
+  const recent = recentOf(api).get(personId);
+  const entry = {
+    storyId: story.id,
+    storyDate: story.date,
+    heardDate: api.state.date,
+  };
+  if (recent) recent.push(entry);
+  else recentOf(api).set(personId, [entry]);
   const counts = countsOf(api);
   counts.set(
     personId,
@@ -150,86 +219,106 @@ function hear(
   return true;
 }
 
-export const newsModule: CoreModule = {
-  id: NEWS_MODULE_ID,
-  state: {
-    schemaVersion: 1,
-    tables: {
-      stories: {},
-      outlets: {},
-      deliveries: { indexes: { byDate: { fields: ["date"] } } },
-      heard: { indexes: { byPerson: { fields: ["personId"] } } },
+/**
+ * The news module. `tellable` lists what a teller can pass on, newest first;
+ * tests swap in the full rescan (`storiesHeard`) to check both tell the same.
+ */
+export function createNewsModule(
+  tellable: (
+    api: CoreAPI,
+    personId: PersonId,
+    since: string,
+  ) => Story[] = recentStoriesHeard,
+): CoreModule {
+  return {
+    id: NEWS_MODULE_ID,
+    state: {
+      schemaVersion: 1,
+      tables: {
+        stories: {},
+        outlets: {},
+        deliveries: { indexes: { byDate: { fields: ["date"] } } },
+        heard: { indexes: { byPerson: { fields: ["personId"] } } },
+      },
     },
-  },
-  eventKinds: ["*"],
-  onEvent(api, event, learnedBy) {
-    if (!event.publicRecord || stories(api).get(event.id)) return;
-    const outletId = `outlet:${event.placeId}`;
-    if (!outlets(api).get(outletId))
-      // One local outlet per place stands for its newspapers, stations and
-      // sites until real outlets are records (stopgap SG-P15-news-habits).
-      outlets(api).put({ id: outletId, placeId: event.placeId, kind: "local" });
-    const story: Story = {
-      id: event.id,
-      outletId,
-      kind: event.kind,
-      date: event.date,
-      placeId: event.placeId,
-      facts: event.facts ?? {},
-    };
-    stories(api).put(story as unknown as { id: string });
-    // The people the event itself reached already know it.
-    for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
-    const maxAge = n(api, "newsMaxAgeDays");
-    for (const personId of readersOf(api, event.placeId)) {
-      if (learnedBy.includes(personId)) continue;
-      const view = viewOf(api, personId);
-      const engagement = view?.engagement ?? api.parameter("zero");
-      if (engagement <= api.parameter("zero")) continue;
-      // People who trust the media less check it less, and hear later.
-      const reach =
-        engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
-      const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
-      if (delay > maxAge) continue;
-      deliveries(api).put({
-        id: `${story.id}:${personId}`,
-        storyId: story.id,
-        personId,
-        date: addDays(makeIsoDate(event.date), delay),
-      });
-    }
-  },
-  relationshipKinds: ["*"],
-  onRelationshipChange(api, notice) {
-    // Only a contact that happened today carries news between the two, and
-    // only when one of them has heard something.
-    if (notice.date !== api.state.date) return;
-    const counts = countsOf(api);
-    if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
-    const maxAge = n(api, "newsMaxAgeDays");
-    const fresh = (story: Story) =>
-      daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=
-      maxAge;
-    // A story still fresh today was heard on or after its own date, so only
-    // what the teller heard within the story life is read (same order).
-    const since = addDays(makeIsoDate(api.state.date), -maxAge);
-    for (const [teller, listener] of [
-      [notice.actorId, notice.otherId],
-      [notice.otherId, notice.actorId],
-    ] as const) {
-      let passed = api.parameter("zero");
-      for (const story of storiesHeard(api, teller, since)) {
-        if (passed >= n(api, "newsStoriesPerContact") || !fresh(story)) break;
-        if (hear(api, listener, story, "told", notice.relationshipId))
-          passed += api.parameter("one");
+    eventKinds: ["*"],
+    onEvent(api, event, learnedBy) {
+      if (!event.publicRecord || stories(api).get(event.id)) return;
+      const outletId = `outlet:${event.placeId}`;
+      if (!outlets(api).get(outletId))
+        // One local outlet per place stands for its newspapers, stations and
+        // sites until real outlets are records (stopgap SG-P15-news-habits).
+        outlets(api).put({
+          id: outletId,
+          placeId: event.placeId,
+          kind: "local",
+        });
+      const story: Story = {
+        id: event.id,
+        outletId,
+        kind: event.kind,
+        date: event.date,
+        placeId: event.placeId,
+        facts: event.facts ?? {},
+      };
+      stories(api).put(story as unknown as { id: string });
+      // The people the event itself reached already know it.
+      for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
+      const maxAge = n(api, "newsMaxAgeDays");
+      for (const personId of readersOf(api, event.placeId)) {
+        if (learnedBy.includes(personId)) continue;
+        const view = viewOf(api, personId);
+        const engagement = view?.engagement ?? api.parameter("zero");
+        if (engagement <= api.parameter("zero")) continue;
+        // People who trust the media less check it less, and hear later.
+        const reach =
+          engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+        const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
+        if (delay > maxAge) continue;
+        deliveries(api).put({
+          id: `${story.id}:${personId}`,
+          storyId: story.id,
+          personId,
+          date: addDays(makeIsoDate(event.date), delay),
+        });
       }
-    }
-  },
-  onAfterDay(api) {
-    for (const row of deliveries(api).query("byDate", [api.state.date])) {
-      const story = stories(api).get(row.storyId as string) as unknown as Story;
-      if (story) hear(api, row.personId as string, story, "public", story.id);
-      deliveries(api).remove(row.id);
-    }
-  },
-};
+    },
+    relationshipKinds: ["*"],
+    onRelationshipChange(api, notice) {
+      // Only a contact that happened today carries news between the two, and
+      // only when one of them has heard something.
+      if (notice.date !== api.state.date) return;
+      const counts = countsOf(api);
+      if (!counts.get(notice.actorId) && !counts.get(notice.otherId)) return;
+      const maxAge = n(api, "newsMaxAgeDays");
+      const fresh = (story: Story) =>
+        daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=
+        maxAge;
+      // A story still fresh today was heard on or after its own date, so only
+      // what the teller heard within the story life is read (same order).
+      const since = addDays(makeIsoDate(api.state.date), -maxAge);
+      for (const [teller, listener] of [
+        [notice.actorId, notice.otherId],
+        [notice.otherId, notice.actorId],
+      ] as const) {
+        let passed = api.parameter("zero");
+        for (const story of tellable(api, teller, since)) {
+          if (passed >= n(api, "newsStoriesPerContact") || !fresh(story)) break;
+          if (hear(api, listener, story, "told", notice.relationshipId))
+            passed += api.parameter("one");
+        }
+      }
+    },
+    onAfterDay(api) {
+      for (const row of deliveries(api).query("byDate", [api.state.date])) {
+        const story = stories(api).get(
+          row.storyId as string,
+        ) as unknown as Story;
+        if (story) hear(api, row.personId as string, story, "public", story.id);
+        deliveries(api).remove(row.id);
+      }
+    },
+  };
+}
+
+export const newsModule: CoreModule = createNewsModule();
