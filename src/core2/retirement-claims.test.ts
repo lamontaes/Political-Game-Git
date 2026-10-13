@@ -142,10 +142,11 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       citation: "Test act raising the full retirement age",
     });
     // Two months in the old law would have started the award; under the new
-    // one (68 for every birth year) this adult waits up to two years more.
+    // one (68 for every birth year) this adult waits 12 months more (born
+    // 1960 or later) to 24 (born 1943-1954), so by mid-2023 at the latest.
     advanceCore(core, "2021-06-01");
     expect(retirementClaims(core).has(adult.id)).toBe(false);
-    advanceCore(core, "2022-12-31");
+    advanceCore(core, "2023-06-30");
     expect(retirementClaims(core).has(adult.id)).toBe(true);
   }, 600_000);
 });

@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { coreAPI } from "./state";
@@ -61,11 +62,14 @@ function kindLean(
   const cached = kindLeans.get(actor as PersonState);
   if (cached) return cached;
   // Callers that wrap a person in a fresh object each time (counted residents'
-  // facts) still pass the same traits record: reuse its lean while its values
-  // are unchanged (a checksum, since a record can be edited in place).
-  const sum = traitChecksum(actor.traits);
+  // facts) still pass the same traits record: reuse its lean. In play a
+  // traits record is written only while its person is built, so the cache
+  // trusts it; with bookkeeping on (tests edit records in place), a checksum
+  // confirms the values are unchanged.
+  const checked = bookkeeping();
   const byTraits = leansByTraits.get(actor.traits);
-  if (byTraits && byTraits.sum === sum) return byTraits.lean;
+  const sum = checked ? traitChecksum(actor.traits) : Number.NaN;
+  if (byTraits && (!checked || byTraits.sum === sum)) return byTraits.lean;
   const p = (key: string) => parameter(key, core.data.parameters);
   const lean: KindLean = { sum: new Map(), perKind: p("zero") };
   const add = (kind: string, value: number) =>

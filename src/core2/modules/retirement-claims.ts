@@ -85,9 +85,7 @@ function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   const cost = person.livingCostDailyMinor;
   // The ages come from the law in force where the laws engine runs, so an
   // enacted change moves the claims dated after it.
-  const law = api.state.modules.has(LAWS_MODULE_ID)
-    ? socialSecurityAges(api, person.birthDate)
-    : undefined;
+  const law = lawAges(api, person.birthDate);
   const months = retirementClaimAgeMonths(
     {
       birthYear: Number(person.birthDate.slice(0, 4)),
@@ -116,6 +114,30 @@ function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   return monthsAfter(person.birthDate, months);
 }
 
+/** The law's ages for this birth date (January 1 counts as the year before), reused within a day. */
+const agesByDay = new WeakMap<
+  CoreAPI["state"],
+  { date: string; byYear: Map<string, ReturnType<typeof socialSecurityAges>> }
+>();
+function lawAges(
+  api: CoreAPI,
+  birthDate: string,
+): ReturnType<typeof socialSecurityAges> | undefined {
+  const core = api.state;
+  if (!core.modules.has(LAWS_MODULE_ID)) return undefined;
+  let cache = agesByDay.get(core);
+  if (!cache || cache.date !== core.date)
+    agesByDay.set(core, (cache = { date: core.date, byYear: new Map() }));
+  const key =
+    birthDate.slice(5) === "01-01"
+      ? `${birthDate.slice(0, 4)}:jan1`
+      : birthDate.slice(0, 4);
+  let found = cache.byYear.get(key);
+  if (!found)
+    cache.byYear.set(key, (found = socialSecurityAges(api, birthDate)));
+  return found;
+}
+
 function schedule(rt: Runtime, date: IsoDate, personId: PersonId): void {
   rt.byDate.set(date, [...(rt.byDate.get(date) ?? []), personId]);
 }
@@ -129,10 +151,11 @@ function index(api: CoreAPI, rt: Runtime): void {
   if (rt.countedIndexedYear !== year) {
     rt.countedIndexedYear = year;
     const [y, m] = core.date.split("-").map(Number) as [number, number];
+    const bounds = lawAges(api, "1960-06-01");
     const soonest =
-      (api.state.modules.has(LAWS_MODULE_ID)
-        ? socialSecurityAges(api, "1960-06-01").earliestMonths
-        : ages.earliestClaimAgeMonths) - 24;
+      (bounds?.earliestMonths ?? ages.earliestClaimAgeMonths) - 24;
+    // Past the last claim age, a claim date is always in the past.
+    const latest = bounds?.delayedMaxMonths ?? ages.latestCreditAgeMonths;
     for (const record of residentsRuntime(core)?.households.values() ?? [])
       for (const person of record.people) {
         if (rt.known.has(person.id)) continue;
@@ -140,7 +163,8 @@ function index(api: CoreAPI, rt: Runtime): void {
           number,
           number,
         ];
-        if ((y - by) * 12 + (m - bm) < soonest) continue;
+        const months = (y - by) * 12 + (m - bm);
+        if (months < soonest || months > latest) continue;
         rt.known.add(person.id);
         if (
           record.contracts.some(
