@@ -16,6 +16,7 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import {
   campusPictureFor,
   campusRecords,
+  campusVariantUrls,
   type CollegeToPicture,
 } from "./campus-backdrops";
 import { backdropUrl } from "./backdrop-urls";
@@ -177,11 +178,30 @@ export function placeBackdrop(
   // campus registry with it when actual place tags are absent or incompatible.
   if (place === "college-quad") {
     const picture = college ? campusPictureFor(college) : null;
-    return picture?.url ? { place, variant: "midday", url: picture.url } : null;
+    if (!picture?.url) return null;
+    // The campus's own morning, night, rain and winter (art/campuses).
+    return pickVariant(
+      place,
+      campusVariantUrls(picture.campus.campus),
+      picture.url,
+      moment,
+      weatherKey,
+    );
   }
   const variants = BY_PLACE.get(place);
   const midday = variants?.get("midday");
   if (!variants || !midday) return null;
+  return pickVariant(place, variants, midday, moment, weatherKey);
+}
+
+/** The light and weather version for this moment, midday where one is missing. */
+function pickVariant(
+  place: string,
+  variants: ReadonlyMap<string, string>,
+  midday: string,
+  moment: SimulationMoment,
+  weatherKey: string,
+): PlaceBackdrop {
   const phase = daylightPhase(moment);
   const month = Number(moment.date.slice(5, 7));
   const pick = (variant: BackdropVariant): PlaceBackdrop | null => {
