@@ -131,6 +131,12 @@
         "low": 0.2,
         "high": 0.6
       }
+    },
+    "valuesUnkeyedSd": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "The spread of a value the Cooperative Election Study 2024 does not measure (transparency) around a neutral start: half the scale's width either way at one standard deviation, about the spread of the surveyed values' residuals (0.41 to 0.62 for the well-measured ones; data/research/views/derive-ces-2024-values.py). Spread 0.4 to 0.6.",
+      "stopgapId": "SG-P15-views-first-version"
     }
   },
   "labels": [

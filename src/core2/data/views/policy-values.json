@@ -1,0 +1,892 @@
+{
+  "version": "policy-values-v1",
+  "source": "Authored policy positions and their bearing on the 14 values, from src/simulation/policy-pack-us-policy-positions.ts (scripts/people/export-policy-principles.ts).",
+  "values": [
+    {
+      "key": "limited-government",
+      "name": "Limited government"
+    },
+    {
+      "key": "collective-provision",
+      "name": "Collective provision"
+    },
+    {
+      "key": "local-control",
+      "name": "Local control"
+    },
+    {
+      "key": "fiscal-restraint",
+      "name": "Fiscal restraint"
+    },
+    {
+      "key": "equal-treatment",
+      "name": "Equal treatment"
+    },
+    {
+      "key": "personal-liberty",
+      "name": "Personal liberty"
+    },
+    {
+      "key": "public-safety",
+      "name": "Public safety"
+    },
+    {
+      "key": "property-rights",
+      "name": "Property rights"
+    },
+    {
+      "key": "environmental-stewardship",
+      "name": "Environmental stewardship"
+    },
+    {
+      "key": "equal-opportunity",
+      "name": "Equal opportunity"
+    },
+    {
+      "key": "tradition",
+      "name": "Tradition"
+    },
+    {
+      "key": "transparency",
+      "name": "Transparency"
+    },
+    {
+      "key": "worker-protection",
+      "name": "Protection for working people"
+    },
+    {
+      "key": "market-competition",
+      "name": "Open competition"
+    }
+  ],
+  "policies": {
+    "fiscal.adopt-income-tax": {
+      "issue": "us-state-and-local:fiscal.income-tax",
+      "bearings": {
+        "collective-provision": 0.85,
+        "equal-opportunity": 0.75,
+        "fiscal-restraint": 0.55,
+        "limited-government": -0.85,
+        "property-rights": -0.65,
+        "market-competition": -0.55
+      }
+    },
+    "fiscal.graduated-income-tax": {
+      "issue": "us-state-and-local:fiscal.income-tax",
+      "bearings": {
+        "equal-opportunity": 0.9,
+        "collective-provision": 0.7,
+        "equal-treatment": -0.85,
+        "property-rights": -0.6,
+        "market-competition": -0.55
+      }
+    },
+    "fiscal.cap-property-tax-growth": {
+      "issue": "us-state-and-local:fiscal.property-tax",
+      "bearings": {
+        "property-rights": 0.9,
+        "limited-government": 0.8,
+        "fiscal-restraint": 0.5,
+        "collective-provision": -0.85,
+        "equal-opportunity": -0.75,
+        "local-control": -0.7
+      }
+    },
+    "fiscal.exempt-groceries-from-sales-tax": {
+      "issue": "us-state-and-local:fiscal.sales-tax",
+      "bearings": {
+        "equal-opportunity": 0.9,
+        "worker-protection": 0.75,
+        "fiscal-restraint": -0.7,
+        "collective-provision": -0.55,
+        "market-competition": -0.45
+      }
+    },
+    "fiscal.balanced-operating-budget": {
+      "issue": "us-state-and-local:fiscal.operating-budget",
+      "bearings": {
+        "fiscal-restraint": 0.95,
+        "limited-government": 0.65,
+        "collective-provision": -0.85,
+        "equal-opportunity": -0.65,
+        "local-control": -0.45
+      }
+    },
+    "fiscal.fund-pensions-to-schedule": {
+      "issue": "us-state-and-local:fiscal.public-pensions",
+      "bearings": {
+        "fiscal-restraint": 0.85,
+        "worker-protection": 0.9,
+        "property-rights": 0.6,
+        "limited-government": -0.6,
+        "collective-provision": -0.4
+      }
+    },
+    "fiscal.minimum-reserve-balance": {
+      "issue": "us-state-and-local:fiscal.reserves",
+      "bearings": {
+        "fiscal-restraint": 0.9,
+        "property-rights": 0.4,
+        "collective-provision": -0.65,
+        "local-control": -0.6
+      }
+    },
+    "government-operations.independent-redistricting": {
+      "issue": "us-state-and-local:government-operations.redistricting",
+      "bearings": {
+        "equal-treatment": 0.95,
+        "transparency": 0.9,
+        "equal-opportunity": 0.8,
+        "local-control": -0.55,
+        "tradition": -0.6,
+        "fiscal-restraint": -0.3
+      }
+    },
+    "government-operations.require-photo-id-to-vote": {
+      "issue": "us-state-and-local:government-operations.election-rules",
+      "bearings": {
+        "public-safety": 0.7,
+        "equal-treatment": -0.95,
+        "transparency": 0.45,
+        "equal-opportunity": -0.9,
+        "personal-liberty": -0.8,
+        "fiscal-restraint": -0.5
+      }
+    },
+    "government-operations.automatic-voter-registration": {
+      "issue": "us-state-and-local:government-operations.election-administration",
+      "bearings": {
+        "equal-opportunity": 0.95,
+        "equal-treatment": 0.85,
+        "collective-provision": 0.7,
+        "fiscal-restraint": 0.55,
+        "limited-government": -0.85,
+        "personal-liberty": -0.8,
+        "transparency": -0.45
+      }
+    },
+    "government-operations.legislative-term-limits": {
+      "issue": "us-state-and-local:government-operations.legislative-procedure",
+      "bearings": {
+        "limited-government": 0.9,
+        "equal-opportunity": 0.85,
+        "local-control": 0.45,
+        "personal-liberty": -0.9,
+        "tradition": -0.7,
+        "collective-provision": -0.55
+      }
+    },
+    "government-operations.ban-lobbying-after-office": {
+      "issue": "us-state-and-local:government-operations.lobbying-regulation",
+      "bearings": {
+        "transparency": 0.95,
+        "equal-treatment": 0.8,
+        "limited-government": 0.6,
+        "personal-liberty": -0.95,
+        "worker-protection": -0.45,
+        "collective-provision": -0.35
+      }
+    },
+    "government-operations.broaden-local-authority": {
+      "issue": "us-state-and-local:government-operations.state-local-powers",
+      "bearings": {
+        "local-control": 0.95,
+        "equal-opportunity": 0.7,
+        "collective-provision": 0.65,
+        "transparency": 0.55,
+        "equal-treatment": -0.85,
+        "limited-government": -0.65,
+        "fiscal-restraint": -0.5
+      }
+    },
+    "education.equalize-school-funding": {
+      "issue": "us-state-and-local:education.school-funding",
+      "bearings": {
+        "equal-opportunity": 0.95,
+        "equal-treatment": 0.8,
+        "collective-provision": 0.8,
+        "local-control": -0.8,
+        "fiscal-restraint": -0.65,
+        "property-rights": -0.45
+      }
+    },
+    "education.public-funds-for-private-schooling": {
+      "issue": "us-state-and-local:education.school-choice",
+      "bearings": {
+        "personal-liberty": 0.95,
+        "market-competition": 0.85,
+        "equal-opportunity": -0.8,
+        "tradition": 0.5,
+        "collective-provision": -0.9,
+        "transparency": -0.75,
+        "fiscal-restraint": -0.65
+      }
+    },
+    "education.raise-teacher-minimum-salary": {
+      "issue": "us-state-and-local:education.teacher-workforce",
+      "bearings": {
+        "worker-protection": 0.95,
+        "equal-opportunity": 0.8,
+        "collective-provision": 0.65,
+        "local-control": -0.8,
+        "fiscal-restraint": -0.75,
+        "market-competition": -0.5
+      }
+    },
+    "education.universal-preschool": {
+      "issue": "us-state-and-local:education.early-childhood",
+      "bearings": {
+        "equal-opportunity": 0.95,
+        "collective-provision": 0.9,
+        "worker-protection": 0.6,
+        "personal-liberty": 0.5,
+        "fiscal-restraint": -0.85,
+        "market-competition": -0.5,
+        "local-control": -0.5
+      }
+    },
+    "education.freeze-public-tuition": {
+      "issue": "us-state-and-local:education.higher-education-tuition-and-aid",
+      "bearings": {
+        "equal-opportunity": 0.95,
+        "collective-provision": 0.75,
+        "personal-liberty": 0.5,
+        "fiscal-restraint": -0.85,
+        "local-control": -0.65,
+        "market-competition": -0.5
+      }
+    },
+    "education.state-curriculum-standards": {
+      "issue": "us-state-and-local:education.curriculum-and-standards",
+      "bearings": {
+        "equal-treatment": 0.9,
+        "equal-opportunity": 0.8,
+        "transparency": 0.65,
+        "collective-provision": 0.6,
+        "local-control": -0.95,
+        "personal-liberty": -0.6,
+        "tradition": -0.5,
+        "fiscal-restraint": -0.45
+      }
+    },
+    "health-human-services.expand-medicaid-eligibility": {
+      "issue": "us-state-and-local:health-human-services.medicaid",
+      "bearings": {
+        "collective-provision": 0.95,
+        "equal-opportunity": 0.8,
+        "public-safety": 0.65,
+        "fiscal-restraint": -0.8,
+        "limited-government": -0.7
+      }
+    },
+    "health-human-services.medicaid-work-requirement": {
+      "issue": "us-state-and-local:health-human-services.medicaid",
+      "bearings": {
+        "limited-government": 0.75,
+        "tradition": 0.65,
+        "fiscal-restraint": 0.6,
+        "collective-provision": -0.9,
+        "equal-opportunity": -0.85,
+        "personal-liberty": -0.6
+      }
+    },
+    "health-human-services.work-requirement-for-assistance": {
+      "issue": "us-state-and-local:health-human-services.food-and-income-assistance",
+      "bearings": {
+        "limited-government": 0.75,
+        "tradition": 0.65,
+        "fiscal-restraint": 0.6,
+        "collective-provision": -0.9,
+        "equal-opportunity": -0.85,
+        "worker-protection": -0.6
+      }
+    },
+    "health-human-services.fund-behavioral-health-crisis-response": {
+      "issue": "us-state-and-local:health-human-services.behavioral-health",
+      "bearings": {
+        "public-safety": 0.9,
+        "collective-provision": 0.85,
+        "personal-liberty": 0.65,
+        "fiscal-restraint": -0.7,
+        "limited-government": -0.55
+      }
+    },
+    "health-human-services.harm-reduction-services": {
+      "issue": "us-state-and-local:health-human-services.substance-use",
+      "bearings": {
+        "collective-provision": 0.85,
+        "public-safety": 0.9,
+        "personal-liberty": 0.65,
+        "tradition": -0.75,
+        "fiscal-restraint": -0.55
+      }
+    },
+    "health-human-services.housing-first-homelessness": {
+      "issue": "us-state-and-local:health-human-services.homelessness-services",
+      "bearings": {
+        "collective-provision": 0.9,
+        "equal-opportunity": 0.85,
+        "personal-liberty": 0.7,
+        "tradition": -0.75,
+        "fiscal-restraint": -0.75
+      }
+    },
+    "justice-public-safety.end-cash-bail": {
+      "issue": "us-state-and-local:justice-public-safety.courts",
+      "bearings": {
+        "equal-treatment": 0.95,
+        "personal-liberty": 0.9,
+        "equal-opportunity": 0.65,
+        "fiscal-restraint": 0.45,
+        "public-safety": -0.65,
+        "market-competition": -0.55
+      }
+    },
+    "justice-public-safety.mandatory-minimum-sentences": {
+      "issue": "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+      "bearings": {
+        "public-safety": 0.85,
+        "equal-treatment": 0.55,
+        "tradition": 0.45,
+        "personal-liberty": -0.9,
+        "equal-opportunity": -0.7,
+        "fiscal-restraint": -0.55
+      }
+    },
+    "justice-public-safety.civilian-oversight-of-police": {
+      "issue": "us-state-and-local:justice-public-safety.policing",
+      "bearings": {
+        "transparency": 0.95,
+        "equal-treatment": 0.8,
+        "public-safety": 0.6,
+        "local-control": 0.55,
+        "worker-protection": -0.55,
+        "fiscal-restraint": -0.4
+      }
+    },
+    "justice-public-safety.permit-to-carry-concealed": {
+      "issue": "us-state-and-local:justice-public-safety.firearms",
+      "bearings": {
+        "public-safety": 0.9,
+        "equal-treatment": 0.45,
+        "personal-liberty": -0.9,
+        "limited-government": -0.75
+      }
+    },
+    "justice-public-safety.raise-juvenile-court-age": {
+      "issue": "us-state-and-local:justice-public-safety.juvenile-justice",
+      "bearings": {
+        "equal-opportunity": 0.9,
+        "personal-liberty": 0.65,
+        "collective-provision": 0.55,
+        "public-safety": -0.7,
+        "tradition": -0.45,
+        "fiscal-restraint": -0.4
+      }
+    },
+    "justice-public-safety.restore-voting-after-sentence": {
+      "issue": "us-state-and-local:justice-public-safety.reentry",
+      "bearings": {
+        "equal-treatment": -0.3,
+        "personal-liberty": 0.8,
+        "equal-opportunity": 0.65,
+        "tradition": -0.65,
+        "public-safety": -0.35
+      }
+    },
+    "housing-land-use.allow-multifamily-in-single-family-zones": {
+      "issue": "us-state-and-local:housing-land-use.housing-supply",
+      "bearings": {
+        "property-rights": 0.9,
+        "market-competition": 0.9,
+        "equal-opportunity": 0.75,
+        "tradition": -0.75,
+        "local-control": -0.7
+      }
+    },
+    "housing-land-use.rent-stabilization": {
+      "issue": "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
+      "bearings": {
+        "worker-protection": 0.9,
+        "equal-opportunity": 0.75,
+        "property-rights": -0.9,
+        "market-competition": -0.85
+      }
+    },
+    "housing-land-use.by-right-permitting": {
+      "issue": "us-state-and-local:housing-land-use.permitting",
+      "bearings": {
+        "property-rights": 0.9,
+        "limited-government": 0.75,
+        "market-competition": 0.8,
+        "local-control": -0.85,
+        "transparency": -0.65
+      }
+    },
+    "housing-land-use.inclusionary-requirement": {
+      "issue": "us-state-and-local:housing-land-use.housing-affordability",
+      "bearings": {
+        "equal-opportunity": 0.9,
+        "collective-provision": 0.8,
+        "property-rights": -0.85,
+        "market-competition": -0.75
+      }
+    },
+    "housing-land-use.preempt-local-housing-limits": {
+      "issue": "us-state-and-local:housing-land-use.state-housing-preemption",
+      "bearings": {
+        "market-competition": 0.9,
+        "property-rights": 0.85,
+        "equal-opportunity": 0.75,
+        "local-control": -0.95,
+        "transparency": -0.65
+      }
+    },
+    "housing-land-use.right-to-counsel-in-eviction": {
+      "issue": "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
+      "bearings": {
+        "equal-treatment": 0.95,
+        "equal-opportunity": 0.85,
+        "collective-provision": 0.75,
+        "fiscal-restraint": -0.85,
+        "limited-government": -0.6
+      }
+    },
+    "transportation-infrastructure.shift-highway-funds-to-transit": {
+      "issue": "us-state-and-local:transportation-infrastructure.transit",
+      "bearings": {
+        "environmental-stewardship": 0.8,
+        "collective-provision": 0.75,
+        "equal-opportunity": 0.65,
+        "fiscal-restraint": -0.65,
+        "local-control": -0.45,
+        "tradition": -0.35
+      }
+    },
+    "transportation-infrastructure.additional-rural-transit-service-hours": {
+      "issue": "us-state-and-local:transportation-infrastructure.transit",
+      "bearings": {
+        "collective-provision": 0.9,
+        "equal-opportunity": 0.9,
+        "public-safety": 0.55,
+        "environmental-stewardship": 0.35,
+        "fiscal-restraint": -0.7,
+        "limited-government": -0.4
+      }
+    },
+    "transportation-infrastructure.fare-free-transit": {
+      "issue": "us-state-and-local:transportation-infrastructure.transit",
+      "bearings": {
+        "collective-provision": 0.9,
+        "equal-opportunity": 0.85,
+        "equal-treatment": 0.55,
+        "fiscal-restraint": -0.85,
+        "market-competition": -0.5
+      }
+    },
+    "transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "issue": "us-state-and-local:transportation-infrastructure.roads-and-bridges",
+      "bearings": {
+        "fiscal-restraint": 0.85,
+        "equal-treatment": 0.75,
+        "transparency": 0.6,
+        "personal-liberty": -0.8,
+        "environmental-stewardship": -0.4,
+        "limited-government": -0.35
+      }
+    },
+    "transportation-infrastructure.public-broadband": {
+      "issue": "us-state-and-local:transportation-infrastructure.broadband",
+      "bearings": {
+        "collective-provision": 0.9,
+        "local-control": 0.85,
+        "equal-opportunity": 0.85,
+        "market-competition": -0.6,
+        "fiscal-restraint": -0.6,
+        "limited-government": -0.55
+      }
+    },
+    "transportation-infrastructure.fix-it-first": {
+      "issue": "us-state-and-local:transportation-infrastructure.capital-construction-and-maintenance",
+      "bearings": {
+        "fiscal-restraint": 0.9,
+        "public-safety": 0.8,
+        "environmental-stewardship": 0.6,
+        "local-control": -0.4,
+        "market-competition": -0.3
+      }
+    },
+    "business-commerce.reduce-occupational-licensing": {
+      "issue": "us-state-and-local:business-commerce.occupational-licensing",
+      "bearings": {
+        "market-competition": 0.9,
+        "limited-government": 0.9,
+        "equal-opportunity": 0.75,
+        "public-safety": -0.85
+      }
+    },
+    "business-commerce.legalize-cannabis-sales": {
+      "issue": "us-state-and-local:business-commerce.alcohol-cannabis-gaming",
+      "bearings": {
+        "personal-liberty": 0.95,
+        "market-competition": 0.8,
+        "tradition": -0.85,
+        "public-safety": -0.75
+      }
+    },
+    "business-commerce.cap-development-incentives": {
+      "issue": "us-state-and-local:business-commerce.development-incentives",
+      "bearings": {
+        "transparency": 0.95,
+        "fiscal-restraint": 0.9,
+        "equal-treatment": 0.75,
+        "market-competition": -0.65,
+        "local-control": -0.6
+      }
+    },
+    "business-commerce.cap-consumer-loan-rates": {
+      "issue": "us-state-and-local:business-commerce.banking-and-credit",
+      "bearings": {
+        "worker-protection": 0.9,
+        "equal-opportunity": 0.75,
+        "market-competition": -0.9,
+        "personal-liberty": -0.65
+      }
+    },
+    "labor-workforce.raise-minimum-wage": {
+      "issue": "us-state-and-local:labor-workforce.minimum-wage",
+      "bearings": {
+        "worker-protection": 0.95,
+        "equal-opportunity": 0.75,
+        "market-competition": -0.85,
+        "limited-government": -0.65
+      }
+    },
+    "labor-workforce.local-minimum-wage-authority": {
+      "issue": "us-state-and-local:labor-workforce.minimum-wage",
+      "bearings": {
+        "local-control": 0.95,
+        "worker-protection": 0.75,
+        "equal-opportunity": 0.65,
+        "market-competition": -0.75,
+        "equal-treatment": -0.6
+      }
+    },
+    "labor-workforce.paid-family-leave": {
+      "issue": "us-state-and-local:labor-workforce.leave-policy",
+      "bearings": {
+        "worker-protection": 0.95,
+        "collective-provision": 0.85,
+        "equal-opportunity": 0.8,
+        "personal-liberty": 0.55,
+        "limited-government": -0.8,
+        "market-competition": -0.65,
+        "fiscal-restraint": -0.55
+      }
+    },
+    "labor-workforce.public-sector-collective-bargaining": {
+      "issue": "us-state-and-local:labor-workforce.collective-bargaining",
+      "bearings": {
+        "worker-protection": 0.95,
+        "personal-liberty": 0.7,
+        "limited-government": -0.8,
+        "fiscal-restraint": -0.7,
+        "equal-treatment": -0.55
+      }
+    },
+    "labor-workforce.right-to-work": {
+      "issue": "us-state-and-local:labor-workforce.collective-bargaining",
+      "bearings": {
+        "personal-liberty": 0.95,
+        "market-competition": 0.7,
+        "limited-government": 0.55,
+        "worker-protection": -0.95,
+        "collective-provision": -0.55,
+        "equal-treatment": -0.6
+      }
+    },
+    "environment-energy.clean-electricity-standard": {
+      "issue": "us-state-and-local:environment-energy.energy-generation-and-grid",
+      "bearings": {
+        "environmental-stewardship": 0.95,
+        "public-safety": 0.75,
+        "worker-protection": 0.5,
+        "market-competition": -0.8,
+        "limited-government": -0.7,
+        "fiscal-restraint": -0.6
+      }
+    },
+    "environment-energy.price-carbon": {
+      "issue": "us-state-and-local:environment-energy.climate-mitigation",
+      "bearings": {
+        "environmental-stewardship": 0.95,
+        "public-safety": 0.7,
+        "market-competition": 0.65,
+        "limited-government": -0.85,
+        "equal-treatment": -0.55,
+        "fiscal-restraint": -0.4
+      }
+    },
+    "environment-energy.ban-new-gas-hookups": {
+      "issue": "us-state-and-local:environment-energy.energy-efficiency",
+      "bearings": {
+        "environmental-stewardship": 0.85,
+        "public-safety": 0.75,
+        "local-control": 0.5,
+        "personal-liberty": -0.9,
+        "market-competition": -0.75,
+        "limited-government": -0.7
+      }
+    },
+    "environment-energy.restrict-building-in-flood-zones": {
+      "issue": "us-state-and-local:environment-energy.climate-resilience",
+      "bearings": {
+        "public-safety": 0.95,
+        "environmental-stewardship": 0.75,
+        "fiscal-restraint": 0.65,
+        "property-rights": -0.9,
+        "market-competition": -0.5,
+        "local-control": -0.45
+      }
+    },
+    "environment-energy.bottle-deposit": {
+      "issue": "us-state-and-local:environment-energy.waste-and-recycling",
+      "bearings": {
+        "environmental-stewardship": 0.9,
+        "public-safety": 0.35,
+        "limited-government": -0.75,
+        "market-competition": -0.55,
+        "fiscal-restraint": -0.5
+      }
+    },
+    "agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "issue": "us-state-and-local:agriculture-natural-resources.water-allocation",
+      "bearings": {
+        "environmental-stewardship": 0.95,
+        "collective-provision": 0.75,
+        "public-safety": 0.6,
+        "property-rights": -0.9,
+        "local-control": -0.6,
+        "fiscal-restraint": -0.55
+      }
+    },
+    "agriculture-natural-resources.protect-farmland-from-development": {
+      "issue": "us-state-and-local:agriculture-natural-resources.farming-and-ranching",
+      "bearings": {
+        "tradition": 0.85,
+        "environmental-stewardship": 0.85,
+        "collective-provision": 0.55,
+        "property-rights": -0.9,
+        "market-competition": -0.7,
+        "fiscal-restraint": -0.5
+      }
+    },
+    "agriculture-natural-resources.expand-public-land-access": {
+      "issue": "us-state-and-local:agriculture-natural-resources.public-lands",
+      "bearings": {
+        "personal-liberty": 0.85,
+        "collective-provision": 0.7,
+        "equal-opportunity": 0.75,
+        "tradition": 0.6,
+        "property-rights": -0.85,
+        "environmental-stewardship": -0.6
+      }
+    },
+    "civil-family-community.ban-discrimination-in-housing-and-work": {
+      "issue": "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
+      "bearings": {
+        "equal-treatment": 0.95,
+        "equal-opportunity": 0.85,
+        "personal-liberty": -0.6,
+        "worker-protection": 0.75,
+        "property-rights": -0.75,
+        "limited-government": -0.55
+      }
+    },
+    "civil-family-community.restrict-abortion": {
+      "issue": "us-state-and-local:civil-family-community.reproductive-policy",
+      "bearings": {
+        "public-safety": -0.9,
+        "tradition": 0.85,
+        "personal-liberty": -0.95,
+        "equal-opportunity": -0.8,
+        "limited-government": -0.7,
+        "fiscal-restraint": -0.4
+      }
+    },
+    "civil-family-community.fund-public-libraries": {
+      "issue": "us-state-and-local:civil-family-community.libraries",
+      "bearings": {
+        "collective-provision": 0.95,
+        "equal-opportunity": 0.85,
+        "personal-liberty": 0.75,
+        "transparency": 0.6,
+        "fiscal-restraint": -0.85,
+        "local-control": -0.55
+      }
+    },
+    "civil-family-community.local-control-of-library-materials": {
+      "issue": "us-state-and-local:civil-family-community.libraries",
+      "bearings": {
+        "local-control": 0.95,
+        "transparency": 0.7,
+        "tradition": 0.55,
+        "personal-liberty": -0.9,
+        "equal-treatment": -0.8,
+        "equal-opportunity": -0.65,
+        "fiscal-restraint": -0.35
+      }
+    },
+    "civil-family-community.dedicated-parks-funding": {
+      "issue": "us-state-and-local:civil-family-community.parks-and-recreation",
+      "bearings": {
+        "collective-provision": 0.9,
+        "equal-opportunity": 0.8,
+        "environmental-stewardship": 0.75,
+        "public-safety": 0.5,
+        "fiscal-restraint": -0.8,
+        "local-control": -0.55,
+        "property-rights": -0.4
+      }
+    },
+    "technology-privacy.consumer-data-privacy-law": {
+      "issue": "us-state-and-local:technology-privacy.privacy-and-data-use",
+      "bearings": {
+        "personal-liberty": 0.95,
+        "transparency": 0.85,
+        "equal-treatment": 0.65,
+        "market-competition": -0.7,
+        "limited-government": -0.6
+      }
+    },
+    "technology-privacy.restrict-government-facial-recognition": {
+      "issue": "us-state-and-local:technology-privacy.artificial-intelligence",
+      "bearings": {
+        "personal-liberty": 0.95,
+        "equal-treatment": 0.85,
+        "transparency": 0.75,
+        "limited-government": 0.7,
+        "public-safety": -0.85
+      }
+    },
+    "technology-privacy.age-verification-for-social-media": {
+      "issue": "us-state-and-local:technology-privacy.platforms-and-social-media",
+      "bearings": {
+        "public-safety": 0.9,
+        "tradition": 0.6,
+        "personal-liberty": -0.9,
+        "transparency": -0.65,
+        "market-competition": -0.55
+      }
+    },
+    "labor-workforce.city-minimum-wage": {
+      "issue": "us-state-and-local:labor-workforce.minimum-wage",
+      "bearings": {
+        "worker-protection": 0.9,
+        "local-control": 0.85,
+        "equal-opportunity": 0.75,
+        "market-competition": -0.8,
+        "limited-government": -0.65,
+        "equal-treatment": -0.55
+      }
+    },
+    "civil-family-community.city-nondiscrimination-ordinance": {
+      "issue": "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
+      "bearings": {
+        "equal-treatment": -0.4,
+        "equal-opportunity": 0.85,
+        "personal-liberty": -0.6,
+        "worker-protection": 0.75,
+        "property-rights": -0.75,
+        "limited-government": -0.55,
+        "local-control": 0.85
+      }
+    },
+    "government-operations.council-term-limits": {
+      "issue": "us-state-and-local:government-operations.legislative-procedure",
+      "bearings": {
+        "limited-government": 0.9,
+        "equal-opportunity": 0.85,
+        "local-control": 0.45,
+        "personal-liberty": -0.9,
+        "tradition": -0.7,
+        "collective-provision": -0.55
+      }
+    },
+    "government-operations.independent-ward-commission": {
+      "issue": "us-state-and-local:government-operations.redistricting",
+      "bearings": {
+        "equal-treatment": 0.95,
+        "transparency": 0.9,
+        "equal-opportunity": 0.8,
+        "local-control": -0.65,
+        "tradition": -0.6,
+        "fiscal-restraint": -0.35
+      }
+    },
+    "justice-public-safety.stand-your-ground": {
+      "issue": "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+      "bearings": {
+        "personal-liberty": 0.9,
+        "tradition": 0.4,
+        "public-safety": -0.8,
+        "equal-treatment": -0.55
+      }
+    },
+    "justice-public-safety.child-access-prevention": {
+      "issue": "us-state-and-local:justice-public-safety.firearms",
+      "bearings": {
+        "public-safety": 0.9,
+        "personal-liberty": -0.65,
+        "limited-government": -0.5
+      }
+    },
+    "justice-public-safety.raise-handgun-purchase-age": {
+      "issue": "us-state-and-local:justice-public-safety.firearms",
+      "bearings": {
+        "public-safety": 0.85,
+        "personal-liberty": -0.85,
+        "equal-treatment": -0.5,
+        "limited-government": -0.4
+      }
+    },
+    "government-operations.same-day-voter-registration": {
+      "issue": "us-state-and-local:government-operations.election-rules",
+      "bearings": {
+        "equal-opportunity": 0.9,
+        "equal-treatment": 0.5,
+        "transparency": -0.5,
+        "fiscal-restraint": -0.4
+      }
+    },
+    "government-operations.all-mail-voting": {
+      "issue": "us-state-and-local:government-operations.election-administration",
+      "bearings": {
+        "equal-opportunity": 0.8,
+        "fiscal-restraint": 0.4,
+        "tradition": -0.55,
+        "transparency": -0.5
+      }
+    },
+    "justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "issue": "us-state-and-local:justice-public-safety.policing",
+      "bearings": {
+        "public-safety": 0.7,
+        "equal-treatment": -0.8,
+        "personal-liberty": -0.6,
+        "limited-government": -0.45
+      }
+    },
+    "environment-energy.clean-air-plan-for-polluted-counties": {
+      "issue": "us-state-and-local:environment-energy.air-quality",
+      "bearings": {
+        "environmental-stewardship": 0.9,
+        "public-safety": 0.7,
+        "equal-opportunity": 0.45,
+        "property-rights": -0.55,
+        "market-competition": -0.5,
+        "fiscal-restraint": -0.5
+      }
+    }
+  }
+}

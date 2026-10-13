@@ -1,0 +1,868 @@
+{
+  "compiledAt": "2026-10-13",
+  "source": {
+    "study": "Cooperative Election Study 2024 Common Content",
+    "authors": "Schaffner, Shih, Ansolabehere and Pope (2025)",
+    "doi": "10.7910/DVN/X11EP6",
+    "files": {
+      "guide": "CES_2024_GUIDE_vv.pdf (Dataverse file 12050326)",
+      "preQuestionnaire": "CCES24_Common_pre.docx (11032062)",
+      "microdata": "CCES24_Common_OUTPUT_vv_topost_final.csv (12050325), not downloaded"
+    },
+    "verification": "Variable names, question text and Support/Oppose codes for the pre-election grids (CC24_321 to CC24_341) were read from the pre-election questionnaire and the guide. Items marked codesVerified:false come from the guide's label order (post-election wave or non-CC24 names); confirm the numeric codes and per-row variable names against the CSV header before use. The post questionnaire was not read."
+  },
+  "values": {
+    "limited-government": {
+      "label": "Limited government",
+      "items": [
+        {
+          "variable": "CC24_328d",
+          "question": "Repeal the Affordable Care Act",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_326f",
+          "question": "Prevent the government from banning gas stove",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_340e",
+          "question": "Renew the federal surveillance programs ... without a search warrant",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Oppose = less government reach."
+        },
+        {
+          "variable": "CC24_341d",
+          "question": "Spend $150 billion a year for 8 years on construction and repair of roads and bridges, rail...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Also loads on fiscal-restraint and collective-provision."
+        },
+        {
+          "variable": "CC24_326a",
+          "question": "Give the Environmental Protection Agency power to regulate carbon dioxide emissions",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Cross-loads with environmental-stewardship; treat as secondary."
+        }
+      ],
+      "strength": "good"
+    },
+    "collective-provision": {
+      "label": "Collective provision",
+      "items": [
+        {
+          "variable": "CC24_328e",
+          "question": "Expand Medicaid to cover individuals making less than $25,000 and families making less than $40,000 a year.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_341d",
+          "question": "Spend $150 billion a year for 8 years on construction and repair of roads and bridges, rail...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_443",
+          "question": "State legislature spending -- Welfare / Health Care / Education / Transportation-Infrastructure (rows of one grid)",
+          "codes": {
+            "1": "Greatly increase",
+            "2": "Slightly increase",
+            "3": "Maintain",
+            "4": "Slightly decrease",
+            "5": "Greatly decrease"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Post-election wave (asked of about 49,000). Rows are welfare, health care, education, law enforcement, transportation/infrastructure; per-row variable suffix not confirmed in the guide. Increase = more.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_328b",
+          "question": "Expand federal tax incentives to encourage developers to build homes for people who make less than half of the average income",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_328f",
+          "question": "Forgive up to $20,000 of student loan debt for each person",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "The codebook questionnaire names this row CC24_323f inside the CC24_328 grid (apparent typo in the questionnaire). Which name the CSV uses is unverified; check both.",
+          "codesVerified": false
+        }
+      ],
+      "strength": "good"
+    },
+    "local-control": {
+      "label": "Local control",
+      "items": [
+        {
+          "variable": "CC24_328a",
+          "question": "Relax local zoning laws in your state to allow for construction of more apartments and condos.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Weak: wording does not say who overrides local rules. Oppose read as keeping local land-use authority."
+        },
+        {
+          "variable": "CC24_445",
+          "question": "Supreme Court decisions -- ... individual states can make their own laws governing abortion",
+          "codes": {
+            "1": "Agree",
+            "2": "Disagree"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Weak: the Dobbs row is about states, not local bodies. Row suffix unconfirmed.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_424",
+          "question": "How much trust do you have in the government of the state where you live ...",
+          "codes": {
+            "1": "A great deal",
+            "2": "A fair amount",
+            "3": "Not very much",
+            "4": "None at all"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Weak proxy: use trust in state minus trust in federal (CC24_423). Higher relative trust in the lower level = more local control.",
+          "codesVerified": false
+        }
+      ],
+      "strength": "weak"
+    },
+    "fiscal-restraint": {
+      "label": "Fiscal restraint",
+      "items": [
+        {
+          "variable": "CC24_443",
+          "question": "State legislature spending (welfare, health care, education, law enforcement, transportation rows)",
+          "codes": {
+            "1": "Greatly increase",
+            "2": "Slightly increase",
+            "3": "Maintain",
+            "4": "Slightly decrease",
+            "5": "Greatly decrease"
+          },
+          "moreValueWhen": [
+            "4",
+            "5"
+          ],
+          "notes": "Decrease = more restraint. Averaged across rows.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_341d",
+          "question": "Spend $150 billion a year for 8 years on construction and repair of roads and bridges, rail...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_328f",
+          "question": "Forgive up to $20,000 of student loan debt for each person",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Questionnaire names this row CC24_323f; see collective-provision note.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_328e",
+          "question": "Expand Medicaid to cover individuals making less than $25,000 ...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_341a",
+          "question": "Extend the tax cuts enacted in 2017 ...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Weak: raising revenue helps balance a budget; a deficit-minded reading. Secondary only."
+        }
+      ],
+      "strength": "good"
+    },
+    "equal-treatment": {
+      "label": "Equal treatment",
+      "items": [
+        {
+          "variable": "CC24_445",
+          "question": "Supreme Court decisions -- The use of race in university admissions violates Equal Protection ...",
+          "codes": {
+            "1": "Agree",
+            "2": "Disagree"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Reads equal treatment as race-blind rules. Conflicts with equal-opportunity reading, so direction depends on the game's definition. Row suffix unconfirmed.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_340c",
+          "question": "Require that all federal agencies recognize same-sex marriages and interracial marriages.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_441_grid",
+          "question": "Racial Resentment rows, e.g. 'Whites get away with offenses that African Americans would never get away with.'",
+          "codes": {
+            "1": "Strongly agree",
+            "2": "Somewhat agree",
+            "3": "Neither agree nor disagree",
+            "4": "Somewhat disagree",
+            "5": "Strongly disagree"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Agree = sees unequal treatment; this is perceived unequal treatment, not support for equal rules. Weak.",
+          "codesVerified": false
+        }
+      ],
+      "strength": "weak"
+    },
+    "personal-liberty": {
+      "label": "Personal liberty",
+      "items": [
+        {
+          "variable": "CC24_324a",
+          "question": "Always allow a woman the right to obtain an abortion as a matter of choice",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_340a",
+          "question": "Prohibit government restrictions on the provision of, and access to, contraceptives.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_340b",
+          "question": "Prohibit government restrictions on the provision of, and access to, abortion services.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_321b",
+          "question": "Make it easier for people to obtain concealed-carry permit",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Liberty reading of gun rights."
+        },
+        {
+          "variable": "CC24_444",
+          "question": "State policies (gender transition surgery for minors; parental consent for pronouns; abortion pills by mail; travel for abortion; age verification)",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Oppose = more liberty for rows on bans; mixed for parental consent. Rows share the CC24_444 stem; suffixes unconfirmed.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_340e",
+          "question": "Renew the federal surveillance programs ... without a search warrant",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": ""
+        }
+      ],
+      "strength": "good"
+    },
+    "public-safety": {
+      "label": "Public safety",
+      "items": [
+        {
+          "variable": "CC24_321c",
+          "question": "Require criminal background checks on all gun sales",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_321a",
+          "question": "Ban assault rifles",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_321d",
+          "question": "Increase the number of police on the street by 10 percent, even if it means fewer funds for other public services",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_321e",
+          "question": "Decrease the number of police on the street by 10 percent, and increase funding for other public services",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_321f",
+          "question": "Increase spending on mental health and school safety; Allow police to confiscate guns from people deemed to be dangerous by a judge; ...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Question text is a bundle of proposals."
+        },
+        {
+          "variable": "CC24_443",
+          "question": "State legislature spending -- Law Enforcement",
+          "codes": {
+            "1": "Greatly increase",
+            "2": "Slightly increase",
+            "3": "Maintain",
+            "4": "Slightly decrease",
+            "5": "Greatly decrease"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Law enforcement row only.",
+          "codesVerified": false
+        }
+      ],
+      "strength": "good"
+    },
+    "property-rights": {
+      "label": "Property rights",
+      "items": [
+        {
+          "variable": "CC24_328a",
+          "question": "Relax local zoning laws in your state to allow for construction of more apartments and condos.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Weak proxy: owners use land freely. Same item is read the opposite way for local-control."
+        },
+        {
+          "variable": "CC24_326e",
+          "question": "Halt new oil and gas leases on federal lands",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Weak proxy: leasing and use of land and minerals."
+        },
+        {
+          "variable": "CC24_326f",
+          "question": "Prevent the government from banning gas stove",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Weak proxy: use of what one owns."
+        }
+      ],
+      "strength": "weak"
+    },
+    "environmental-stewardship": {
+      "label": "Environmental stewardship",
+      "items": [
+        {
+          "variable": "CC24_326a",
+          "question": "Give the Environmental Protection Agency power to regulate carbon dioxide emissions",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_326b",
+          "question": "Require that at least 20 percent of electricity be generated with renewable sources such as wind, solar, or hydroelectric power",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_326c",
+          "question": "Strengthen the Environmental Protection Agency enforcement of the Clean Air Act and Clean Water Act even if it costs U.S. jobs",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_326d",
+          "question": "Increase fossil fuel production in the U.S.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_326e",
+          "question": "Halt new oil and gas leases on federal lands",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        }
+      ],
+      "strength": "good"
+    },
+    "equal-opportunity": {
+      "label": "Equal opportunity",
+      "items": [
+        {
+          "variable": "CC24_328b",
+          "question": "Expand federal tax incentives to encourage developers to build homes for people who make less than half of the average income",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_323d",
+          "question": "Provide permanent resident status to children of immigrants who were brought to the United States by their parents (also known as Dreamers)...",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": ""
+        },
+        {
+          "variable": "CC24_440_grid",
+          "question": "White people in the U.S. have certain advantages because of the color of their skin.",
+          "codes": {
+            "1": "Strongly agree",
+            "2": "Somewhat agree",
+            "3": "Neither agree nor disagree",
+            "4": "Somewhat disagree",
+            "5": "Strongly disagree"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Agree = sees unequal starting points. Rows of one grid; suffix unconfirmed.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_441_grid",
+          "question": "Generations of slavery and discrimination have created conditions that make it difficult for Blacks to work their way out of the lower class.",
+          "codes": {
+            "1": "Strongly agree",
+            "2": "Somewhat agree",
+            "3": "Neither agree nor disagree",
+            "4": "Somewhat disagree",
+            "5": "Strongly disagree"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Agree = starting place limits where one can get. Row suffix unconfirmed.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_328a",
+          "question": "Relax local zoning laws in your state to allow for construction of more apartments and condos.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Housing access; secondary."
+        }
+      ],
+      "strength": "good"
+    },
+    "tradition": {
+      "label": "Tradition",
+      "items": [
+        {
+          "variable": "pew_religimp",
+          "question": "How important is religion in your life?",
+          "codes": {
+            "1": "Very important",
+            "2": "Somewhat important",
+            "3": "Not too important",
+            "4": "Not at all important"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Weak proxy for traditionalism, not for support of old arrangements.",
+          "codesVerified": false
+        },
+        {
+          "variable": "pew_churatd",
+          "question": "Aside from weddings and funerals, how often do you attend religious services?",
+          "codes": {
+            "1": "More than once a week",
+            "2": "Once a week",
+            "3": "Once or twice a month",
+            "4": "A few times a year",
+            "5": "Seldom",
+            "6": "Never",
+            "8": "Don't know"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Weak proxy. Codes assumed from label order (1 = more than once a week ... 6 = never, 8 = don't know in the guide's listing).",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_340c",
+          "question": "Require that all federal agencies recognize same-sex marriages and interracial marriages.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Weak proxy: oppose = favors older marriage norms."
+        },
+        {
+          "variable": "CC24_440_grid",
+          "question": "Women seek to gain power by getting control over men. / Women are too easily offended.",
+          "codes": {
+            "1": "Strongly agree",
+            "2": "Somewhat agree",
+            "3": "Neither agree nor disagree",
+            "4": "Somewhat disagree",
+            "5": "Strongly disagree"
+          },
+          "moreValueWhen": [
+            "1",
+            "2"
+          ],
+          "notes": "Weak proxy for traditional gender attitudes; agree = more.",
+          "codesVerified": false
+        }
+      ],
+      "strength": "weak"
+    },
+    "transparency": {
+      "label": "Transparency",
+      "items": [
+        {
+          "variable": "CC24_421_grid",
+          "question": "Elections in the U.S. are fair / Your state or local government conducted a fair and accurate election in 2024",
+          "codes": {
+            "1": "Strongly agree",
+            "2": "Somewhat agree",
+            "3": "Neither agree nor disagree",
+            "4": "Somewhat disagree",
+            "5": "Strongly disagree"
+          },
+          "moreValueWhen": [
+            "4",
+            "5"
+          ],
+          "notes": "Very weak: measures trust in process, not demand for openness. Disagree used only as a proxy for wanting more scrutiny.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_423",
+          "question": "How much trust do you have in the federal government in Washington ...",
+          "codes": {
+            "1": "A great deal",
+            "2": "A fair amount",
+            "3": "Not very much",
+            "4": "None at all"
+          },
+          "moreValueWhen": [
+            "3",
+            "4"
+          ],
+          "notes": "Very weak: low trust may drive demand for openness.",
+          "codesVerified": false
+        }
+      ],
+      "strength": "none"
+    },
+    "worker-protection": {
+      "label": "Protection for working people",
+      "items": [
+        {
+          "variable": "CC24_328c",
+          "question": "Require able-bodied adults under 64 years of age who do not have dependents to have a job in order to receive Medicaid.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Very weak proxy: oppose = favors protecting low-wage people from conditions. No minimum wage, union or labor item found in the 2024 guide."
+        },
+        {
+          "variable": "CC24_326c",
+          "question": "Strengthen the Environmental Protection Agency enforcement ... even if it costs U.S. jobs",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Very weak: trades jobs against rules. Reverse of worker protection only loosely."
+        }
+      ],
+      "strength": "none"
+    },
+    "market-competition": {
+      "label": "Open competition",
+      "items": [
+        {
+          "variable": "CC24_444",
+          "question": "State policies -- School voucher subsidies for families to send their children to private or charter schools",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Weak proxy: school choice. Row suffix unconfirmed.",
+          "codesVerified": false
+        },
+        {
+          "variable": "CC24_341b",
+          "question": "Raise the corporate income tax rate from 21 percent to 28 percent",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Weak proxy: lower business taxes."
+        },
+        {
+          "variable": "CC24_341c",
+          "question": "Allow tax rates on those earning $400,000 or more a year to rise to 35 percent",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "2"
+          ],
+          "notes": "Weak proxy."
+        },
+        {
+          "variable": "CC24_326d",
+          "question": "Increase fossil fuel production in the U.S.",
+          "codes": {
+            "1": "Support",
+            "2": "Oppose"
+          },
+          "moreValueWhen": [
+            "1"
+          ],
+          "notes": "Weak proxy: production, not competition."
+        }
+      ],
+      "strength": "weak"
+    }
+  },
+  "notes": [
+    "Pre-election grid rows are named CC24_321a-f, CC24_323a-d, CC24_324a-d, CC24_326a-f, CC24_328a-e (plus a row the questionnaire calls CC24_323f), CC24_340a-f, CC24_341a-d. Each has Support=1, Oppose=2, 8=Skipped, 9=Not Asked.",
+    "Post-election items CC24_420 to CC24_445 appear in the guide only as grids or stems; per-row variable names (for example CC24_443_1 or CC24_443a) are not confirmed.",
+    "Immigration items CC24_323a-d and CC24_340f, and CC24_325 (abortion weeks), CC24_324b-d, are not mapped to any value because none fits cleanly. CC24_323b/c and CC24_340f (deny asylum) could be a weak public-safety proxy (support = more).",
+    "The 2024 guide has no trade, tariff, minimum wage, union or voter ID item in the common content. Transparency and worker-protection have no real CES measure.",
+    "CC24_330a (self-rated ideology, 1 Very Liberal to 7 Very Conservative) is available as a general anchor but maps to no single value.",
+    "Several items load on two values (CC24_341d, CC24_328a, CC24_340e, CC24_326e); the game should pick one primary value per use or split weights."
+  ]
+}

@@ -139,7 +139,7 @@ function keepRecent(
 }
 
 /** A stable uniform value in (0, 1) for a key. */
-function uniform(key: string): number {
+export function uniform(key: string): number {
   const digits = v("hashDigits");
   const radix = v("hashRadix");
   const draw = Number.parseInt(stableHash(key).slice(v("zero"), digits), radix);
@@ -147,7 +147,7 @@ function uniform(key: string): number {
 }
 
 /** A standard normal value for a key (Box and Muller 1958). */
-function normal(key: string): number {
+export function normal(key: string): number {
   return (
     Math.sqrt(-v("two") * Math.log(uniform(`${key}:a`))) *
     Math.cos(v("two") * Math.PI * uniform(`${key}:b`))
@@ -337,6 +337,7 @@ export const viewsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       people: {},
+      values: {},
       stances: {
         indexes: {
           byPerson: { fields: ["personId"] },
