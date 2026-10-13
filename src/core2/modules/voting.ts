@@ -501,10 +501,14 @@ export function turnout(
   /** What this election adds to the cost of voting (a primary's lower salience). */
   extraCost = 0,
 ) {
-  // How closely they follow politics, where PEOPLE's views engine runs
-  // (younger people follow less: CES 2024).
+  // Their own sense of duty and reliability, with every trait's lean between
+  // voting and staying home as one input beside them, and how closely they
+  // follow politics, where PEOPLE's views engine runs (younger people follow
+  // less: CES 2024).
   const engagement = engagementOf(api.state as CoreState, voter);
   const duty =
+    (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
+    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
     parameter("traitDecisionWeight") *
       decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home") +
     (engagement === null
