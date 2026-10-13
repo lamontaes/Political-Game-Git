@@ -36,6 +36,8 @@ export interface RegionMonth {
   openingGapPct: number;
   /** People living in the region; moves with net migration from its relative unemployment. */
   population: number;
+  /** The part of the region's output its state and local governments' purchases above their base hold up, percent. */
+  publicGapPct?: number;
 }
 
 type Series = Record<string, Record<string, number>>;
@@ -226,6 +228,8 @@ export function stepRegionMonth(
   nationalBefore: Readonly<MacroMonth>,
   nationalNow: Readonly<MacroMonth>,
   p: MacroParameter,
+  /** The state's and local governments' purchases above their base, as a percent of the state's output. */
+  publicPurchasesPct = 0,
 ): RegionMonth {
   const hundred = p("macroHundred"),
     one = p("one");
@@ -243,10 +247,22 @@ export function stepRegionMonth(
     mixCycle +=
       difference * p(`regionalSector${SECTOR_KEYS[sector]}Beta`) * cycle;
   }
-  const gapBefore = previous.unemploymentPct - nationalBefore.unemploymentPct;
+  // State and local purchases above their base raise the region's output
+  // toward an own-financed multiplier's effect, and unemployment falls by Okun.
+  const okun = p("macroOkunOutputPerUnemploymentPoint");
+  const publicBefore = previous.publicGapPct ?? 0;
+  const publicGapPct =
+    publicBefore +
+    p("macroPublicGapAdjustment") *
+      (p("regionalOwnPurchasesMultiplier") * publicPurchasesPct - publicBefore);
+  const gapBefore =
+    previous.unemploymentPct -
+    nationalBefore.unemploymentPct +
+    publicBefore / okun;
   const unemploymentPct =
     nationalNow.unemploymentPct +
     p("regionalUnemploymentGapPersistence") * gapBefore -
+    publicGapPct / okun -
     mixCycle / p("macroJobsPerUnemploymentPoint");
   const gapNow = unemploymentPct - nationalNow.unemploymentPct;
   // People leave where unemployment runs above the nation's and come where it runs below.
@@ -260,6 +276,7 @@ export function stepRegionMonth(
     id: `${region.id}:${month}`,
     month,
     unemploymentPct,
+    publicGapPct,
     population: previous.population * (one + migration),
     jobsThousands:
       previous.jobsThousands * Math.exp((growth + mixGrowth) / hundred),

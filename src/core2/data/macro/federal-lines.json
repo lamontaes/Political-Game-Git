@@ -1,5 +1,5 @@
 {
-  "source": "Federal outlays by function (Monthly Treasury Statement, fiscal 2025, data/research/money/federal-budget-fy2025.json), split into purchases of goods and services and transfers by BEA's NIPA treatment of each function's main program (NIPA tables 3.2 and 3.16).",
+  "source": "Federal outlays by function (Monthly Treasury Statement, fiscal 2025, data/research/money/federal-budget-fy2025.json), split into purchases of goods and services and transfers by BEA's NIPA treatment of each function's main program (NIPA tables 3.2 and 3.16). State and local lines (Census state and local finances, data/research/money/public-budget-bases.json) split the same way: cash assistance and Medicaid, interest and aid to other governments are transfers.",
   "purchases": [
     "nationalDefense",
     "internationalAffairs",
@@ -16,5 +16,20 @@
     "agriculture",
     "education",
     "netInterest"
-  ]
+  ],
+  "statePurchases": [
+    "schools",
+    "higherEducation",
+    "healthAndHospitals",
+    "highways",
+    "police",
+    "fire",
+    "corrections",
+    "parks",
+    "housing",
+    "naturalResources",
+    "administration",
+    "otherPrograms"
+  ],
+  "stateTransfers": ["welfareAndMedicaid", "interest", "localAid"]
 }

@@ -16,6 +16,7 @@ import {
   stepRegionMonth,
   type RegionMonth,
 } from "../regional-model";
+import { statePurchasesAboveMinor } from "../macro-public";
 import type { EntityId } from "../../simulation/types";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
@@ -94,11 +95,33 @@ export function stepRegional(
   const p = (key: string) => api.parameter(key);
   const months = store(api).table("months");
   const stepped: RegionMonth[] = [];
+  // The town's state's and local governments' purchases above their base, over the state's output.
+  const state = statePurchasesAboveMinor(api);
+  let statePct = 0;
+  if (state && state.aboveMinor !== 0) {
+    let output = 0;
+    for (const region of REGIONS)
+      if (region.stateUsps === state.usps)
+        output +=
+          region.population *
+          (region.perCapitaIncome ?? 0) *
+          p("regionalOutputPerPersonalIncome");
+    if (output > 0)
+      statePct =
+        (state.aboveMinor / p("macroHundred") / output) * p("macroHundred");
+  }
   for (const region of REGIONS) {
     const previous = months.get(
       `${region.id}:${before.month}`,
     ) as unknown as RegionMonth;
-    const row = stepRegionMonth(previous, region, before, now, p);
+    const row = stepRegionMonth(
+      previous,
+      region,
+      before,
+      now,
+      p,
+      state && region.stateUsps === state.usps ? statePct : 0,
+    );
     stepped.push(row);
     months.put({ ...row });
   }

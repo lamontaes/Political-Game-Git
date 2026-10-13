@@ -3,11 +3,15 @@ import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
 import { advanceCore, createLifeCore } from "./life";
-import { federalPurchasesPct } from "./macro-public";
+import { federalPurchasesPct, statePurchasesAboveMinor } from "./macro-public";
 import { historyMonths, stepMacroMonth, type MacroMonth } from "./macro-model";
 import { MACRO_MODULE_ID, macroCoreData } from "./modules/macro";
 import { enactBudget, governments, openBudgets } from "./modules/budgets";
-import { openLaws } from "./modules/laws";
+import { lawChain, openLaws } from "./modules/laws";
+import { REGIONAL_MODULE_ID } from "./modules/regional";
+import { REGIONS, type RegionMonth } from "./regional-model";
+
+const REGION_BY_ID = new Map(REGIONS.map((row) => [row.id, row]));
 import {
   WORLD_MODULES,
   withWorldEconomy,
@@ -62,6 +66,19 @@ describe("public purchases and output", () => {
         nationalDefense: 100e9 * 100,
       },
     );
+    // And the state's own highways budget up by $50 per resident.
+    const state = governments(api).find((g) => g.level === "state")!;
+    const year = Number(opening.startedAt.slice(0, 4));
+    enactBudget(
+      api,
+      state,
+      opening.startedAt.slice(5) >= state.fiscalYearStart ? year : year - 1,
+      "test",
+      { highways: state.residents * 50 * 100 },
+    );
+    expect(statePurchasesAboveMinor(api)!.aboveMinor).toBe(
+      state.residents * 50 * 100,
+    );
     const share = federalPurchasesPct(api);
     expect(share).toBeCloseTo((100e9 / 7.01e12) * 23.3, 2);
     advanceCore(core, `${opening.startedAt.slice(0, 4)}-03-02`);
@@ -72,5 +89,21 @@ describe("public purchases and output", () => {
     const simulated = months.filter((m) => m.kind === "simulated");
     expect(simulated.length).toBeGreaterThan(0);
     for (const m of simulated) expect(m.publicGapPct ?? 0).toBeGreaterThan(0);
+    // Only the town's state's regions hear its budget.
+    const usps = lawChain(api).stateKey.replace(/^US-/, "");
+    const regions = api
+      .moduleState(REGIONAL_MODULE_ID)
+      .table("months")
+      .rows() as unknown as RegionMonth[];
+    const last = simulated.at(-1)!.month;
+    const mine = regions.filter(
+      (r) =>
+        r.month === last && REGION_BY_ID.get(r.regionId)?.stateUsps === usps,
+    );
+    expect(mine.length).toBeGreaterThan(0);
+    for (const r of mine) expect(r.publicGapPct ?? 0).toBeGreaterThan(0);
+    for (const r of regions)
+      if (r.month === last && REGION_BY_ID.get(r.regionId)?.stateUsps !== usps)
+        expect(r.publicGapPct ?? 0).toBe(0);
   }, 600_000);
 });
