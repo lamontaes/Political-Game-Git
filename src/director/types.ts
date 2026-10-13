@@ -100,6 +100,8 @@ export interface Moment {
   causeFactId?: string;
   causeKind: string;
   counterpartIds: readonly PersonId[];
+  /** The causing event names the person among its own people (not only a witness). */
+  selfNamed?: true;
   /** Stored once, when the moment happens. */
   impact: number;
   channels: readonly ChannelContribution[];
