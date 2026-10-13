@@ -82,7 +82,51 @@ export function orgPlace(
   return workplacePlaceFor(null, null, kind);
 }
 
+const RESIDENCES = scenePlaces.officialResidences as unknown as Record<
+  string,
+  Record<"living" | "kitchen" | "bedroom", readonly string[]>
+>;
+const OFFICE_WORK = scenePlaces.officeWorkplaces as unknown as Record<
+  string,
+  readonly string[]
+>;
+
+/** The kinds of office a person is serving in now (core2-offices-v1 terms). */
+function servingOfficeKinds(core: CoreState, personId: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const state = coreAPI(core).moduleState(OFFICES);
+  return (
+    state.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  )
+    .filter((term) => term.status === "serving")
+    .map(
+      (term) =>
+        (
+          state.table("offices").get(term.officeId) as
+            { kind?: string } | undefined
+        )?.kind ?? "",
+    );
+}
+
+/** The first painted picture in the first list that has one. */
+function firstPainted(lists: readonly (readonly string[] | undefined)[]) {
+  for (const list of lists) {
+    const place = list?.find(hasBackdrop);
+    if (place) return place;
+  }
+  return null;
+}
+
 function workplaceOf(core: CoreState, person: PersonState): string {
+  // An officeholder works where the office sits: the president in the Oval
+  // Office, a governor in the governor's office.
+  const office = firstPainted(
+    servingOfficeKinds(core, person.id).map((kind) => OFFICE_WORK[kind]),
+  );
+  if (office) return office;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   if (!job) return "office";
   const org = core.organizations.get(job.organizationId);
@@ -217,6 +261,15 @@ export function homeOf(
   const kind = (household && dwellingKind(coreAPI(core), household)) || "house";
   const pictures = DWELLINGS[kind] ?? DWELLINGS.house!;
   const room = roomAt(minuteOfDay);
+  // A sitting president lives in the White House, a governor in the
+  // governor's residence, in place of their own dwelling.
+  // The residences' own rooms aren't painted yet: the outside of the
+  // residence stands in by day and the large house's room at night.
+  // stopgapId: SG-LOC-residence-rooms
+  const residence = firstPainted(
+    servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
+  );
+  if (residence) return residence;
   const age = person ? ageOn(person.birthDate, core.date) : 30;
   const living = () => {
     const state = stateOf(core.placeMetadata?.placeKey ?? "");
