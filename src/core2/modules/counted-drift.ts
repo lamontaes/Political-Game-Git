@@ -5,7 +5,8 @@
  * set how many; the records set who: each place accumulates its expected
  * deaths and births, and when a whole one is due, the counted person with the
  * highest rate is the one (no roll). Aging needs nothing: ages come from
- * birth dates. Runs on the 1st of each month; one pass over the counts.
+ * birth dates. Deaths follow the state's age-adjusted death rate against the
+ * nation's (NCHS). Runs on the 1st of each month; one pass over the counts.
  *
  * Moves too: each place accrues its leavers from the state's American
  * Community Survey 2024 rate of leaving the county for each adult's age, and
@@ -548,6 +549,10 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
   const date = core.date;
   // The town's state sets the move rates for every counted household.
   const state = stateOfPlaceKey(core.placeMetadata.placeKey ?? "") ?? "";
+  // The state's age-adjusted death rate against the nation's (NCHS); the
+  // same for everyone there, so it sets how many deaths, not who.
+  const mortality =
+    (data.stateMortality.ratioByState as Record<string, number>)[state] ?? 1;
   // Pass 1: how many deaths, births and moves each place has due this month.
   const due = new Map<PlaceId, Due>();
   const owners = mortgagedHouseholds(core);
@@ -568,7 +573,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     const arrive = arrivalRate(state) / 12;
     for (const person of record.people) {
       const age = ageOn(person.birthDate, date);
-      row.deaths += yearlyDeathRate(person, date, age) / 12;
+      row.deaths += (yearlyDeathRate(person, date, age) * mortality) / 12;
       row.births += birthRate(person, date, age) / 12;
       if (age >= 18) {
         const rate = leaveRate(state, person, date, age);

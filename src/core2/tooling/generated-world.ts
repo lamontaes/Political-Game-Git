@@ -131,18 +131,18 @@ function buildOpening(
       return present;
     },
   });
-  let input = applyOpeningSettings(enrichCivicInputs(withPast), settings);
-  // The town's public school district, staffed from workers not yet placed.
-  const schools = withPublicSchoolDistrict(input);
-  input = schools.receipt
-    ? {
-        ...schools.input,
-        placeMetadata: {
-          ...(schools.input.placeMetadata ?? {}),
-          openingPublicSchools: JSON.stringify(schools.receipt),
-        },
-      }
-    : schools.input;
+  // The town's public school district, staffed from workers not yet placed;
+  // built before custom settings so its pay scales like every other job.
+  const schools = withPublicSchoolDistrict(enrichCivicInputs(withPast));
+  let input = applyOpeningSettings(schools.input, settings);
+  if (schools.receipt)
+    input = {
+      ...input,
+      placeMetadata: {
+        ...(input.placeMetadata ?? {}),
+        openingPublicSchools: JSON.stringify(schools.receipt),
+      },
+    };
   const start = makeIsoDate(input.startedAt);
   const player = input.people
     .filter(

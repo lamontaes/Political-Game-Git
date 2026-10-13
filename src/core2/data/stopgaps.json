@@ -2843,11 +2843,11 @@
     "kind": "aggregate-population",
     "file": "src/core2/modules/counted-drift.ts",
     "line": 1,
-    "whatItFakes": "The wider population's deaths and births come from national rates applied to the counts each month (SSA cohort life tables; NCHS 2024 birth rates by age). Whoever has the highest rate is the one who dies or gives birth; nobody's health or family plans decide it.",
+    "whatItFakes": "The wider population's deaths and births come from rates applied to the counts each month: SSA cohort life tables scaled by the state's 2017 age-adjusted death rate against the nation's (NCHS), and NCHS 2024 national birth rates by mother's age. Whoever has the highest rate is the one who dies or gives birth; nobody's health or family plans decide it.",
     "why": "The counted population never changed (owner, Oct 12: the counted rest drifts too).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
-    "replacement": "Place-specific rates (CDC WONDER mortality by county, state fertility) and each counted household's own health and family state once PEOPLE's engines model the counts.",
+    "replacement": "County mortality (CDC WONDER), state fertility rates, and each counted household's own health and family state once PEOPLE's engines model the counts.",
     "status": "open"
   },
   {
