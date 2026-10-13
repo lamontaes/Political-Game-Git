@@ -25,10 +25,12 @@ import ownership from "../data/business/ownership.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import {
+  addResidentFlow,
   countedJobsOf,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
+import { UNION_CLASSIFICATION, unionDuesFlows } from "../membership-dues";
 import { residentPerson, residentsRuntime } from "./residents";
 import { lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
@@ -206,6 +208,7 @@ function open(api: CoreAPI): void {
       });
   }
   store(api).table("state").put({ id: "business:state", openedAt: c.date });
+  fundStaffedEmployers(api);
   scheduleMonth(api);
 }
 
@@ -398,6 +401,112 @@ function succeed(api: CoreAPI): void {
       topic: row.id,
     });
   }
+}
+
+/** An employer's monthly payroll today: its named and counted workers' daily pay. */
+function monthlyPayroll(
+  c: CoreState,
+  organizationId: string,
+  p: (key: string) => number,
+): number {
+  let daily = 0;
+  for (const id of c.finance.jobsByOrganization.get(organizationId) ?? []) {
+    const job = c.jobs.get(id);
+    if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
+  }
+  for (const job of countedJobsOf(c, organizationId))
+    daily += job.wageDailyMinor;
+  return Math.round((daily * p("jobsDaysPerYear")) / p("macroMonthsPerYear"));
+}
+
+/**
+ * Employers with staff and no books of their own are paid for by someone:
+ * a union local by its members' dues, from its place's pooled cash; any
+ * other (a post office, a police or fire department, state offices, a
+ * nonprofit, a cooperative the opening gave no books) from outside the town
+ * at its payroll, kept current each month as staff changes, until its real
+ * funder (a government's budget, a federal or state payroll, donations or
+ * sales) pays it (stopgap). Employers with books, an outside account or a
+ * public pay authority already pay their own staff.
+ */
+function fundStaffedEmployers(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const rt = residentsRuntime(c);
+  if (!rt) return;
+  const unions: { id: string; placeId: string }[] = [];
+  for (const org of [...c.organizations.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    if (
+      org.kind !== "employer" ||
+      org.outsideFlow !== undefined ||
+      org.publicPayAuthority ||
+      c.finance.businesses.has(org.id)
+    )
+      continue;
+    const monthly = monthlyPayroll(c, org.id, p);
+    if (
+      (org as { classification?: string }).classification ===
+      UNION_CLASSIFICATION
+    ) {
+      if (!rt.flows.has(`dues:${org.id}`) && monthly > 0) unions.push(org);
+      continue;
+    }
+    const id = `funding:${org.id}`;
+    const flow = rt.flows.get(id);
+    if (flow) {
+      if (!flow.endedAt) flow.amountMinor = monthly;
+      continue;
+    }
+    if (monthly <= 0) continue;
+    // The outside account of the employer's own place, else the world's outside market (a town government's place may have none).
+    const outsides = [...c.organizations.values()]
+      .filter((row) => row.outsideFlow !== undefined)
+      .sort((a, b) => a.id.localeCompare(b.id));
+    const outside =
+      outsides.find((row) => row.placeId === org.placeId) ??
+      outsides.find((row) => row.id.startsWith("outside-market:"));
+    if (!outside) continue;
+    stopgap("SG-WORLD-business-staff-funding");
+    addResidentFlow(c, {
+      id,
+      kind: "outside-sales",
+      financeKind: "outside.funding.payroll",
+      payerId: outside.id,
+      payeeId: org.id,
+      residentsId: outside.id,
+      placeId: org.placeId,
+      amountMinor: monthly,
+      firstAt: c.date,
+      cadence: { kind: "months", every: 1, day: 1 },
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: businessData.source.citation,
+        estimatedFrom: `Stopgap SG-WORLD-business-staff-funding: ${org.name} has staff and no books; its payroll is paid in from outside the town until its real funder pays it.`,
+      },
+    });
+  }
+  // The dues rule the opening uses, applied here when the opening ran before the wider population existed.
+  for (const flow of unionDuesFlows({
+    unions,
+    jobs: [
+      ...[...c.jobs.values()],
+      ...[...rt.jobs.values()].filter((job) => rt.wageFlowByJob.has(job.id)),
+    ].flatMap((job) => {
+      const placeId = c.organizations.get(job.organizationId)?.placeId;
+      return placeId && job.endsAt === undefined
+        ? [{ placeId, wageDailyMinor: job.wageDailyMinor }]
+        : [];
+    }),
+    accounts: rt.input.accounts,
+    usps: c.placeMetadata?.housingState ?? "",
+    from: c.date,
+  }))
+    addResidentFlow(c, flow);
 }
 
 /** A union local keeps a cushion of its own payroll and sends the rest of its dues to its international, outside the town. */
@@ -626,6 +735,7 @@ function month(api: CoreAPI): void {
     p = (key: string) => api.parameter(key);
   succeed(api);
   reviewClosures(api);
+  fundStaffedEmployers(api);
   membershipPayouts(api);
   payOperatingCosts(api, store(api).table("operating"));
   for (const row of store(api)
