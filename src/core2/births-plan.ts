@@ -26,9 +26,27 @@ export interface BirthCouple {
 
 const HUD_DOLLAR = 100;
 
-/** The place's HUD record: area median income and fair market rents. */
-function placeHousing(api: CoreAPI, placeId: string) {
-  return hudRentRowFor(placeId as EntityId);
+/** The place's HUD record: area median income and fair market rents (fixed tables, read once). */
+const hudRows = new Map<string, ReturnType<typeof hudRentRowFor>>();
+function placeHousing(placeId: string) {
+  if (!hudRows.has(placeId))
+    hudRows.set(placeId, hudRentRowFor(placeId as EntityId));
+  return hudRows.get(placeId)!;
+}
+
+/** The health module's live conditions index, looked up once per world. */
+const conditionIndexes = new WeakMap<
+  object,
+  ReadonlyMap<string, readonly string[]>
+>();
+function conditionsOf(api: CoreAPI, personId: string): number {
+  let index = conditionIndexes.get(api.state);
+  if (!index) {
+    const report = healthReport(api.state);
+    index = report.conditionsByPerson;
+    if (report.initialized) conditionIndexes.set(api.state, index);
+  }
+  return index.get(personId)?.length ?? 0;
 }
 
 /** When the couple got together: their partner fact, else an estimate from their records. */
@@ -107,7 +125,7 @@ export function birthCircumstances(
     (sum, person) => sum + person.liquidMinor,
     p("zero"),
   );
-  const hud = placeHousing(api, mother.placeId);
+  const hud = placeHousing(mother.placeId);
   // HUD's very-low limit is half the area median family income.
   const median =
     hud?.veryLow4 != null
@@ -136,9 +154,7 @@ export function birthCircumstances(
       (row) =>
         row?.otherId === (actor.id === mother.id ? partner.id : mother.id),
     );
-  const conditions =
-    healthReport(api.state).conditionsByPerson.get(mother.id)?.length ??
-    p("zero");
+  const conditions = conditionsOf(api, mother.id);
   const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
   return {

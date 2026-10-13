@@ -10,7 +10,7 @@
  * world's seed, as all generation does. One row per place per month records
  * what moved; nothing is kept per counted person per day.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
 import { SeededRng } from "../simulation/rng";
 import { drawCanonicalNamedIdentity } from "../simulation/people";
@@ -106,7 +106,7 @@ function birthRates(stateName: string): Map<[number, number], number> {
 }
 
 /** SSA cohort qx: the chance of dying within the year at this age, by sex and birth year. */
-function deathChance(
+function cohortDeathChance(
   gender: string | undefined,
   birthYear: number,
   age: number,
@@ -125,16 +125,36 @@ function deathChance(
   return Math.min(1, low + (high - low) * share);
 }
 
-function departureRate(rates: MoverPlace, age: number): number {
-  for (const band of moverRates.ageBands) {
-    const [low, high] = band.replace("+", "-999").split("-").map(Number) as [
-      number,
-      number,
-    ];
-    if (age >= low && age <= high) return rates.departurePerYearByAge[band]!;
+const deathChances = new Map<string, number>();
+/** Cached by sex, birth year and age: the table is fixed. */
+function deathChance(
+  gender: string | undefined,
+  birthYear: number,
+  age: number,
+) {
+  const key = `${gender === "male" ? "m" : "f"}${birthYear}:${age}`;
+  let chance = deathChances.get(key);
+  if (chance === undefined) {
+    chance = cohortDeathChance(gender, birthYear, age);
+    deathChances.set(key, chance);
   }
+  return chance;
+}
+
+/** The ACS departure bands, parsed once: [youngest, oldest, band]. */
+const DEPARTURE_BANDS = moverRates.ageBands.map((band) => {
+  const [low, high] = band.replace("+", "-").split("-");
+  return [Number(low), high ? Number(high) : Infinity, band] as const;
+});
+
+function departureRate(rates: MoverPlace, age: number): number {
+  for (const [low, high, band] of DEPARTURE_BANDS)
+    if (age >= low && age <= high) return rates.departurePerYearByAge[band]!;
   return 0;
 }
+
+/** Plain code-unit order: stable across machines, unlike locale order. */
+const compare = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
 
 const monthlyShare = (perYear: number, months: number) =>
   1 - Math.pow(1 - Math.min(perYear, 1), 1 / months);
@@ -146,8 +166,11 @@ interface Carry {
   arrivals: number;
 }
 
+/** Whole years from birth to `date` (ISO strings; the same rule as ageOnDate). */
 const ageOf = (person: PersonInput, date: string) =>
-  ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
+  Number(date.slice(0, 4)) -
+  Number(person.birthDate.slice(0, 4)) -
+  (date.slice(5) < person.birthDate.slice(5) ? 1 : 0);
 
 /** A woman's partner in her counted household: a relative within one generation. */
 function partnerOf(
@@ -277,8 +300,8 @@ export function applyCountedFlows(
       .sort(
         (a, b) =>
           b.risk - a.risk ||
-          a.person.birthDate.localeCompare(b.person.birthDate) ||
-          a.person.id.localeCompare(b.person.id),
+          compare(a.person.birthDate, b.person.birthDate) ||
+          compare(a.person.id, b.person.id),
       );
     row.expected.deaths = risks.reduce((n, entry) => n + entry.risk, 0);
     carry.deaths += row.expected.deaths;
@@ -300,6 +323,7 @@ export function applyCountedFlows(
         : p("renewalMedianAnnualIncomeMinor");
     const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
+    const today = Date.parse(date);
     const mothers: {
       record: ResidentHouseholdRecord;
       woman: PersonInput;
@@ -317,8 +341,7 @@ export function applyCountedFlows(
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
-            (Date.parse(date) - Date.parse(row.birthDate)) / MS_PER_DAY <
-              spacing,
+            (today - Date.parse(row.birthDate)) / MS_PER_DAY < spacing,
         );
         if (recent) continue;
         const size = record.people.length;
@@ -338,7 +361,7 @@ export function applyCountedFlows(
         });
       }
     mothers.sort(
-      (a, b) => b.standing - a.standing || a.woman.id.localeCompare(b.woman.id),
+      (a, b) => b.standing - a.standing || compare(a.woman.id, b.woman.id),
     );
     carry.births += row.expected.births;
     for (const { record, woman } of mothers) {
@@ -384,7 +407,7 @@ export function applyCountedFlows(
     leaving.sort(
       (a, b) =>
         b.push - a.push ||
-        a.record.household.id.localeCompare(b.record.household.id),
+        compare(a.record.household.id, b.record.household.id),
     );
     for (const { record, adults } of leaving) {
       if (carry.departures < adults) break;
