@@ -539,9 +539,6 @@ function holdDebate(
         : candidateAnswers(api, row.questions, f);
     answers[f.personId] = given;
     if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) continue;
-    // Stopgap SG-PW2-debate-uncounted-candidate (PW-2 install guard): a
-    // candidate who is not a full person here has no campaign to speak for.
-    if (!api.state.people.has(f.personId)) continue;
     const causes = makeStatements(api, {
       filingId: f.id,
       venue: row.id,

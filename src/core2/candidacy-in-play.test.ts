@@ -14,7 +14,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { coreAPI } from "./state";
-import { questionAxis } from "./campaign-views";
+import { campaignParameter, questionAxis } from "./campaign-views";
 import {
   VOTING_MODULE_ID,
   type BallotRow,
@@ -124,8 +124,7 @@ describe(`votes in the played world: ${world.place.key} (seed ${seed})`, () => {
   });
 
   it("casts no ballot against a strongly held view without a reason that outweighs it (E)", () => {
-    const threshold =
-      world.core.data.parameters.votingBallotAgainstViewMax!.value;
+    const threshold = campaignParameter("votingBallotAgainstViewMax");
     const filings = rows<FilingRow>(ELECTIONS_MODULE_ID, "filings");
     const campaigns = rows<{
       filingId: string;

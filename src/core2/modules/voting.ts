@@ -49,6 +49,7 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
+export { candidateIdentity } from "../candidate-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
@@ -586,63 +587,6 @@ function termLimited(
 /** A named official on the ballot who isn't a full person in the world yet. */
 export function officialCandidateId(key: string): string {
   return `official:${key}`;
-}
-
-/**
- * Who a candidate id names, for any kind of candidate: a resident (their own
- * record), a seated official (`official:term:…`, their term's identity), or a
- * drawn challenger or nominee (`official:challenger:…`, `official:nominee:…`,
- * the same identity a win would seat). Record fields only; the words come
- * from the English engine.
- */
-export function candidateIdentity(
-  api: CoreAPI,
-  candidateId: string,
-): {
-  readonly givenName: string;
-  readonly familyName: string;
-  readonly birthDate: string;
-  readonly kind: "resident" | "official" | "drawn";
-} | null {
-  const person = api.state.people.get(candidateId);
-  if (person)
-    return {
-      givenName: person.givenName,
-      familyName: person.familyName,
-      birthDate: person.birthDate,
-      kind: "resident",
-    };
-  if (!candidateId.startsWith("official:")) return null;
-  const key = candidateId.slice("official:".length);
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(key) as unknown as TermRow | undefined;
-  if (term)
-    return {
-      givenName: term.identity.givenName,
-      familyName: term.identity.familyName,
-      birthDate: term.identity.birthDate,
-      kind: "official",
-    };
-  const loaded = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("loaded")
-    .get("town") as unknown as { worldSeed: string } | undefined;
-  if (!loaded) return null;
-  const drawn = drawOfficialIdentity({
-    worldSeed: loaded.worldSeed,
-    seatKey: candidateId,
-    stateUsps: town(api).stateKey.slice(3),
-    role: "state-executive-challenger",
-    referenceDate: api.state.date,
-  });
-  return {
-    givenName: drawn.givenName,
-    familyName: drawn.familyName,
-    birthDate: drawn.birthDate,
-    kind: "drawn",
-  };
 }
 
 /**

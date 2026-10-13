@@ -608,7 +608,7 @@ function publish(
     id: `interview-published:${row.id}`,
     date: api.state.date,
     kind: "interview-published",
-    personIds: [row.candidateId],
+    personIds: api.state.people.has(row.candidateId) ? [row.candidateId] : [],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -687,9 +687,6 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (weekCount(api, outlet.id) >= pressParameter("interviewsPerWeek"))
         break;
       if (already(api, outlet.id, f.id)) continue;
-      // Stopgap SG-PW2-interview-uncounted-candidate (PW-2 install guard): a
-      // candidate who is not a full person here has no campaign to speak for.
-      if (!api.state.people.has(f.personId)) continue;
       if (
         outlet.kind === "television" &&
         worth < pressParameter("televisionBar")

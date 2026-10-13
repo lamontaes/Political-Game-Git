@@ -556,6 +556,12 @@
       "tag": "TUNABLE",
       "source": "What being known in town adds to a candidate's appeal for a counted voter no campaign reached, times the share of the town's named adults who have heard of the candidate. Name recognition is the main cue in low-information local races (Ballotpedia 2024 local election analyses; Kam and Zechmeister 2013, 'Name Recognition and Candidate Support', American Journal of Political Science 57(4):971-986). Set above incumbentRecognition (0.15) so a candidate the whole town knows outdraws a bare incumbent's name. PW-3.",
       "spread": [0.1, 0.6]
+    },
+    "votingBallotAgainstViewMax": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean \u00b11 of \u00b12). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
+      "spread": [0.25, 0.75]
     }
   }
 }

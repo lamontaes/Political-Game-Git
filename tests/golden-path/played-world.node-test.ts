@@ -102,15 +102,14 @@ const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
  */
 const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "every module": { owner: "FIXER-WIRE-ALL-MODULES" },
-  "national races, lawmaking and outcomes are installed": {
-    owner: "FIXER-WIRE-ALL-MODULES",
-  },
   "player turns 18": { owner: "FIXER-PLAYER-START" },
   "school-age people attend school": { owner: "OPUS-CORE" },
-  "taxes are withheld after January 1": { owner: "FIXER-TAXES-BUDGETS" },
-  "a passed budget changes spending": { owner: "FIXER-TAXES-BUDGETS" },
-  "a non-budget bill is introduced": { owner: "FIXER-WIRE-ALL-MODULES" },
-  "every ended term is filled": { owner: "FIXER-OFFICES-ELECTIONS" },
+  // State and federal terms are filled since races elsewhere run in the
+  // played world; some towns still leave local terms unfilled.
+  "every ended term is filled": {
+    owner: "FIXER-OFFICES-ELECTIONS",
+    byTown: true,
+  },
   "nobody serves after moving away": { owner: "FIXER-MOVES" },
   "a named challenger runs": { owner: "OPUS-OFFICIALS" },
   "counted voters vote in local races": { owner: "FIXER-OFFICES-ELECTIONS" },
@@ -434,7 +433,10 @@ function playWorld(seed: string) {
       !budgets.some((adopted) => {
         if (
           adopted.adoptedOn < String(bill.introduced) ||
-          !adopted.adoptedBy.endsWith(`, ${String(bill.number)}`)
+          // Amendments after adoption are appended ("; amended by ...").
+          !adopted.adoptedBy
+            .split("; ")[0]!
+            .endsWith(`, ${String(bill.number)}`)
         )
           return false;
         const before = budgetsOf(api, adopted.governmentId)
