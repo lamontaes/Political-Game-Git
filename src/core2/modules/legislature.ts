@@ -145,18 +145,31 @@ function table(api: CoreAPI, name: string) {
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
 const positionTerms: PositionTerm[] = [];
 const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/** What the executive did with a passed bill on their desk, and why. */
+export interface DeskAction {
+  readonly bill: BillRow;
+  readonly executiveId: string;
+  readonly status: "signed" | "vetoed" | "overridden";
+  readonly position: number;
+  readonly temperament: number;
+}
+const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
 /**
- * Other engines add to a member's reasons (organized interests lobbying) and
- * act on a bill before its votes (groups forming from its fiscal note).
+ * Other engines add to a member's reasons (organized interests lobbying), act
+ * on a bill before its votes (groups forming from its fiscal note) and keep
+ * the executive's desk (what they signed or vetoed).
  */
 export function registerLegislatureHooks(input: {
   readonly positionTerm?: PositionTerm;
   readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+  readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
 }): void {
   if (input.positionTerm && !positionTerms.includes(input.positionTerm))
     positionTerms.push(input.positionTerm);
   if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
     beforeVoteHooks.push(input.beforeVote);
+  if (input.onDesk && !deskHooks.includes(input.onDesk))
+    deskHooks.push(input.onDesk);
 }
 
 type RosterProvider = (
@@ -1682,6 +1695,14 @@ function executiveAction(
       vote: status === "signed" ? "sign" : "veto",
       position,
     } as unknown as ModuleRow);
+    for (const hook of deskHooks)
+      hook(api, {
+        bill,
+        executiveId: key,
+        status: status as DeskAction["status"],
+        position: position.total,
+        temperament: decided ? 0 : signLean,
+      });
   }
   const next: BillRow = { ...bill, status };
   table(api, "bills").put(next as unknown as ModuleRow);

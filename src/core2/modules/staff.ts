@@ -22,6 +22,8 @@ import { campaignParameter, personLean, personStance } from "../campaign-views";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
+import type { ModuleCalendarWork } from "../module-calendar";
+import { addDays, makeIsoDate } from "../../simulation/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { startPublicJob } from "../public-payroll";
@@ -31,6 +33,7 @@ import {
   learnStake,
   members,
   provisionStance,
+  registerLegislatureHooks,
   type BillRow,
   type MemberPosition,
 } from "./legislature";
@@ -71,10 +74,14 @@ export const STAFF_MODULE: CoreModule = {
       work: { indexes: { byStaffer: { fields: ["stafferId"] } } },
     },
   },
+  onCalendarWork: (api, work) => staffReview(api, work),
 };
 
 export function openStaff(core: CoreState): void {
-  if (!core.modules.has(STAFF_MODULE_ID)) registerModule(core, STAFF_MODULE);
+  registerLegislatureHooks({ beforeVote: briefBeforeVote });
+  if (core.modules.has(STAFF_MODULE_ID)) return;
+  registerModule(core, STAFF_MODULE);
+  scheduleReview(coreAPI(core), core.date);
 }
 
 const table = (api: CoreAPI, name: string) =>
@@ -402,6 +409,118 @@ export function workOf(api: CoreAPI, stafferId: string): readonly WorkRecord[] {
   return table(api, "work").query("byStaffer", [
     stafferId,
   ]) as unknown as WorkRecord[];
+}
+
+function scheduleReview(api: CoreAPI, from: string): void {
+  const date = addDays(makeIsoDate(from), campaignParameter("staffReviewDays"));
+  api.moduleCalendar(STAFF_MODULE_ID).schedule({
+    key: `staff-review:${date}`,
+    date,
+    kind: "staff-review",
+    source: {
+      tag: "ESTIMATED",
+      citation: "An official's regular look at their office's work",
+      asOf: api.state.date,
+      estimatedFrom: "staffReviewDays",
+    },
+    sourceRecordIds: [`staff-review:${lawChain(api).townPlaceId}`],
+  });
+}
+
+/**
+ * Each official who is a person in town, holding a seat, with room in their
+ * office for a staffer, decides from their own traits whether to hire; they
+ * choose among people they know and applicants who'd take the post (it pays
+ * more than they earn now), by how well each would do the work, people they
+ * know counting for more.
+ */
+function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind !== "staff-review") return;
+  scheduleReview(api, api.state.date);
+  const state = api.state as CoreState;
+  const postHourly = campaignParameter("staffHourlyMinor");
+  const officials = [
+    ...new Set(
+      townSeats(api)
+        .map((s) => s.holder?.personId)
+        .filter((id): id is string => !!id && id !== state.playerId),
+    ),
+  ].sort();
+  for (const officialId of officials) {
+    const official = api.state.people.get(officialId);
+    if (!official?.alive) continue;
+    if (
+      staffOf(api, officialId).length >= campaignParameter("staffPerOfficial")
+    )
+      continue;
+    if (
+      campaignParameter("staffHireBase") +
+        parameter("traitDecisionWeight") *
+          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") <=
+      0
+    )
+      continue;
+    // stopgapId: SG-GOV-staff-hire-out-of-work
+    api.stopgap("SG-GOV-staff-hire-out-of-work");
+    // Only people out of work: taking the post would end a job that other
+    // records (a business's contracts) may still rely on.
+    const choice = staffCandidates(api, officialId)
+      .filter((c) => {
+        const person = state.people.get(c.personId);
+        if (person?.jobId && state.jobs.get(person.jobId)?.endsAt === undefined)
+          return false;
+        const pay = [...(state.work.commitmentsByPerson.get(c.personId) ?? [])]
+          .map((id) => state.work.commitments.get(id))
+          .filter((row) => row && row.endsAt === undefined)
+          .reduce((max, row) => Math.max(max, row!.hourlyMinor), 0);
+        return pay < postHourly;
+      })
+      .map((c) => ({
+        ...c,
+        score:
+          workQuality(
+            api,
+            {
+              id: "",
+              officialId,
+              personId: c.personId,
+              role: "",
+              hiredOn: api.state.date,
+              hiredFrom: c.from,
+              tasksDone: 0,
+            },
+            null,
+          ).quality +
+          (c.from === "known" ? campaignParameter("staffKnownWeight") : 0),
+      }))
+      .sort(
+        (a, b) => b.score - a.score || a.personId.localeCompare(b.personId),
+      )[0];
+    if (choice)
+      hireStaff(api, {
+        officialId,
+        personId: choice.personId,
+        role: "aide",
+      });
+  }
+}
+
+/** Before a vote, each member with a staffer is briefed on where the others stand. */
+function briefBeforeVote(api: CoreAPI, billId: string): void {
+  if (!api.state.modules.has(STAFF_MODULE_ID)) return;
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  if (!bill) return;
+  for (const term of members(api, bill.bodyOfficeId)) {
+    if (!term.personId) continue;
+    const staffer = [...staffOf(api, term.personId)].sort(
+      (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
+    )[0];
+    if (staffer && api.state.people.get(staffer.personId)?.alive)
+      briefOnBill(api, staffer.id, billId);
+  }
 }
 
 export { coreAPI };

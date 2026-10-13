@@ -41,6 +41,7 @@ import {
   type Stance,
 } from "../campaign-views";
 import { recordAppeal } from "./record";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -993,7 +994,37 @@ export function makeStatements(
     ...campaignFor(api, input.filingId),
     platform: withStatements.platform,
   });
+  // In person (a speech, a town hall), a candidate who is a person is heard
+  // as a speaker on their first statement's question: the speech engine
+  // moves those in the room and lets them retell it at home. Broadcasts
+  // (debates, interviews) reach their audiences through the causes above.
+  const first = input.statements[0];
+  if (
+    input.faceToFace &&
+    speaker &&
+    first &&
+    api.state.modules.has(SPEECH_MODULE_ID)
+  )
+    deliverSpeech(api, {
+      id: statementSpeechId(campaign.candidateId, api.state.date, input),
+      speakerId: speaker.id,
+      placeId: speaker.placeId,
+      topic: first.question,
+      desiredChange: first.position > 0 ? "enact" : "repeal",
+      audienceIds: [...new Set(causes.map((c) => c.voterId))].filter(
+        (id) => id !== speaker.id && api.state.people.get(id)?.alive,
+      ),
+    });
   return causes;
+}
+
+/** The speech a candidate's statements make, by who, when, how and where. */
+export function statementSpeechId(
+  candidateId: string,
+  date: string,
+  input: { readonly act: string; readonly venue: string },
+): string {
+  return `speech:${candidateId}:${date}:${input.act}:${input.venue}`;
 }
 
 /** Where an ad is bought: an outlet and its followers (the press registers it). */
