@@ -452,7 +452,7 @@
     {
       "id": "favor",
       "endsOn": "world-event",
-      "producedBy": [],
+      "producedBy": ["favor.took-in"],
       "stopgapId": "SG-P13-kept-fact-producers"
     },
     {

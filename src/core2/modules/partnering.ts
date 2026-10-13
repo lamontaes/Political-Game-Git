@@ -35,6 +35,8 @@ export const DIVORCED_EVENT = "family.divorced";
 export const SEPARATED_EVENT = "family.separated";
 /** Two people who have each picked the other: dating, not living together. */
 export const COURTING_EVENT = "family.courting";
+/** A relative took in someone who left their partner: a favor (first named did it). */
+export const TOOK_IN_EVENT = "favor.took-in";
 const PART_DECISION = "partnering.part";
 export const PARTNERING_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
@@ -368,21 +370,24 @@ function relativeHome(
   api: CoreAPI,
   leaver: Readonly<PersonState>,
   stayer: Readonly<PersonState>,
-): string | undefined {
+): { householdId: string; kinId: PersonId } | undefined {
   const core = api.state as CoreState;
-  return [...leaver.familyIds]
+  const kin = [...leaver.familyIds]
     .map((id) => core.people.get(id))
     .filter(
-      (kin): kin is PersonState =>
-        !!kin?.alive &&
-        kin.tier !== INACTIVE_TIER &&
-        kin.id !== stayer.id &&
-        kin.householdId !== leaver.householdId &&
-        kin.placeId === leaver.placeId &&
-        ageOf(api, kin) >= q(api, "partneringMinimumAge"),
+      (row): row is PersonState =>
+        !!row?.alive &&
+        row.tier !== INACTIVE_TIER &&
+        row.id !== stayer.id &&
+        row.householdId !== leaver.householdId &&
+        row.placeId === leaver.placeId &&
+        ageOf(api, row) >= q(api, "partneringMinimumAge"),
     )
-    .map((kin) => kin.householdId)
-    .sort()[0];
+    .sort(
+      (a, b) =>
+        a.householdId.localeCompare(b.householdId) || a.id.localeCompare(b.id),
+    )[0];
+  return kin ? { householdId: kin.householdId, kinId: kin.id } : undefined;
 }
 
 /** The pull toward marrying now rather than moving in first: faith and age. */
@@ -713,7 +718,25 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
       kind === COUPLE_KIND ? "separated" : "divorced",
       eventId,
     );
-    if (home) api.moveIntoHouseholdV1(leaver.id, home);
+    if (home) {
+      api.moveIntoHouseholdV1(leaver.id, home.householdId);
+      // Taking someone in is a favor the two remember.
+      api.emit({
+        id: `${TOOK_IN_EVENT}:${api.state.date}:${home.kinId}:${leaver.id}`,
+        date: api.state.date,
+        kind: TOOK_IN_EVENT,
+        personIds: [home.kinId, leaver.id],
+        placeId: leaver.placeId,
+        source: {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: `${home.kinId} took in ${leaver.id}, who left their partner.`,
+          estimatedFrom: STOPGAP,
+        },
+        publicRecord: false,
+        facts: { householdId: home.householdId, partingId: eventId },
+      });
+    }
     partnered.delete(leaver.id);
     partnered.delete(stayer.id);
     store(api).table("partings").put({

@@ -12,6 +12,7 @@ import {
   orientationOf,
   partneringModule,
   PARTNERING_PARAMETERS,
+  TOOK_IN_EVENT,
 } from "./modules/partnering";
 import { movesModule } from "./modules/moves";
 import { buildPopulation } from "./population";
@@ -39,7 +40,7 @@ const towns = [0, 1, 2].map((draw) => {
   const events: CoreEventInput[] = [];
   const recorder: CoreModule = {
     id: "test-recorder",
-    eventKinds: [MARRIED_EVENT, MOVED_IN_EVENT],
+    eventKinds: [MARRIED_EVENT, MOVED_IN_EVENT, TOOK_IN_EVENT],
     onEvent(_api, event) {
       events.push(event);
     },
@@ -208,6 +209,15 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
         ).toBe(true);
       }
     }
+    // Whoever took a leaver in is a relative, and that's a favor on record.
+    for (const { core, events } of towns)
+      for (const event of events.filter((row) => row.kind === TOOK_IN_EVENT)) {
+        const [kinId, leaverId] = event.personIds;
+        expect(core.people.get(leaverId!)!.familyIds.has(kinId!)).toBe(true);
+        expect(event.facts?.householdId).toBe(
+          core.people.get(kinId!)!.householdId,
+        );
+      }
     // 2.4 divorces per 1,000 people a year (NCHS NVSS 2022).
     expect(divorces / people).toBeLessThan(0.0024 * 2.5);
   });

@@ -124,11 +124,11 @@
     "kind": "missing-producer",
     "file": "src/director/data/director.json",
     "line": 1,
-    "whatItFakes": "Lies, favors and promises are kept-fact kinds with no producer, so none is ever recorded.",
+    "whatItFakes": "Promises are a kept-fact kind with no producer, so none is ever recorded. Lies come from conversations (conversation.lie) and favors from a relative taking in someone who left their partner (favor.took-in); other favors (a ride, a loan, help after a loss) have no producer yet.",
     "why": "The new core has no act or event that records a lie, a favor or a promise.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "Producers in the core's conversation and favor modules, listed in producedBy.",
+    "replacement": "Promises from campaigns and negotiations (GOV's platform and deal records), and favors from the drives engine's help-others acts, listed in producedBy.",
     "status": "open"
   },
   {
