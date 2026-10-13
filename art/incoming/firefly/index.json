@@ -4424,50 +4424,6 @@
       "fireflyName": "[place-campaign-rally-town-squar 582580 hbi.ffgenimg"
     },
     {
-      "file": "place-capitol-hallway__midday__2d65dd00.jpg",
-      "assetId": "urn:aaid:sc:US:2d65dd00-1647-426f-9c4d-78a569b3c987",
-      "key": "place-capitol-hallway__midday",
-      "status": "new-place",
-      "place": "capitol-hallway",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-capitol-hallway__midday]  464341 Evd.ffgenimg"
-    },
-    {
-      "file": "place-capitol-hallway__morning__4a247385.jpg",
-      "assetId": "urn:aaid:sc:US:4a247385-ab44-4bcb-8bf1-211cfe0ef32c",
-      "key": "place-capitol-hallway__morning",
-      "status": "new-place",
-      "place": "capitol-hallway",
-      "variant": "morning",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-capitol-hallway__morning] 582580 crw.ffgenimg"
-    },
-    {
-      "file": "place-capitol-hallway__night__89c570c7.jpg",
-      "assetId": "urn:aaid:sc:US:89c570c7-d026-4500-9892-3c310934c49f",
-      "key": "place-capitol-hallway__night",
-      "status": "new-place",
-      "place": "capitol-hallway",
-      "variant": "night",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-capitol-hallway__night] E 764699 aoV.ffgenimg"
-    },
-    {
-      "file": "place-capitol-hallway__rain__f6db62c8.jpg",
-      "assetId": "urn:aaid:sc:US:f6db62c8-aa8f-43e7-846e-8a3fb4d9dfa7",
-      "key": "place-capitol-hallway__rain",
-      "status": "new-place",
-      "place": "capitol-hallway",
-      "variant": "rain",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-capitol-hallway__rain] Ed 387139 Z3S.ffgenimg"
-    },
-    {
       "file": "place-central-bank-board-room____a4869dc4.jpg",
       "assetId": "urn:aaid:sc:US:a4869dc4-ebcc-4247-9020-02015fcec025",
       "key": "place-central-bank-board-room__",
@@ -4488,94 +4444,6 @@
       "gamePlace": null,
       "created": "2026-09-29",
       "fireflyName": "[place-central-bank-lobby__midda 175488 4y9.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-larg__04a04838.jpg",
-      "assetId": "urn:aaid:sc:US:04a04838-d341-4577-b6e0-5598d699b2e1",
-      "key": "place-city-council-chamber-larg",
-      "status": "new-place",
-      "place": "city-council-chamber-larg",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-larg 582580 KJQ.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-larg__3aef3dcf.jpg",
-      "assetId": "urn:aaid:sc:US:3aef3dcf-2d49-4e00-9a8f-9429882de561",
-      "key": "place-city-council-chamber-larg",
-      "status": "new-place",
-      "place": "city-council-chamber-larg",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-larg 764699 lZa.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-larg__a01d3fe1.jpg",
-      "assetId": "urn:aaid:sc:US:a01d3fe1-31ea-44c7-a2dc-db47171e5ebe",
-      "key": "place-city-council-chamber-larg",
-      "status": "new-place",
-      "place": "city-council-chamber-larg",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-larg 764699 RwD.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-larg__e4d87781.jpg",
-      "assetId": "urn:aaid:sc:US:e4d87781-ee9f-42ef-8ab7-55c7593e8a17",
-      "key": "place-city-council-chamber-larg",
-      "status": "new-place",
-      "place": "city-council-chamber-larg",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-larg 387139 hT5.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-smal__406ebd78.jpg",
-      "assetId": "urn:aaid:sc:US:406ebd78-632e-4e0d-a60d-19ad919b3327",
-      "key": "place-city-council-chamber-smal",
-      "status": "new-place",
-      "place": "city-council-chamber-smal",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-smal 764699 GGl.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-smal__9573399e.jpg",
-      "assetId": "urn:aaid:sc:US:9573399e-c764-4a2c-97ff-f6dc3273ea08",
-      "key": "place-city-council-chamber-smal",
-      "status": "new-place",
-      "place": "city-council-chamber-smal",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-smal 387139 x6S.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-smal__a2e11a3c.jpg",
-      "assetId": "urn:aaid:sc:US:a2e11a3c-c6b7-449e-adf4-440c239115f8",
-      "key": "place-city-council-chamber-smal",
-      "status": "new-place",
-      "place": "city-council-chamber-smal",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-smal 582580 njn.ffgenimg"
-    },
-    {
-      "file": "place-city-council-chamber-smal__d9965c5e.jpg",
-      "assetId": "urn:aaid:sc:US:d9965c5e-c1b5-424f-8c47-11dd0edf62f2",
-      "key": "place-city-council-chamber-smal",
-      "status": "new-place",
-      "place": "city-council-chamber-smal",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-city-council-chamber-smal 387139 KSK.ffgenimg"
     },
     {
       "file": "place-clinic-exam-room__4fe75832.jpg",
@@ -4600,50 +4468,6 @@
       "fireflyName": "[place-community-garden] Paint a 135540 dVk.ffgenimg"
     },
     {
-      "file": "place-congressional-office__mid__5930a494.jpg",
-      "assetId": "urn:aaid:sc:US:5930a494-2662-423d-86aa-0d05cb03f5a0",
-      "key": "place-congressional-office__mid",
-      "status": "new-place",
-      "place": "congressional-office",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-congressional-office__mid 382138 7we.ffgenimg"
-    },
-    {
-      "file": "place-congressional-office__mor__53017314.jpg",
-      "assetId": "urn:aaid:sc:US:53017314-b895-400b-86c3-c88b0d96102b",
-      "key": "place-congressional-office__mor",
-      "status": "new-place",
-      "place": "congressional-office",
-      "variant": "morning",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-congressional-office__mor 764699 iiV.ffgenimg"
-    },
-    {
-      "file": "place-congressional-office__nig__71345ef5.jpg",
-      "assetId": "urn:aaid:sc:US:71345ef5-e19d-4e37-80da-2419af03b726",
-      "key": "place-congressional-office__nig",
-      "status": "new-place",
-      "place": "congressional-office",
-      "variant": "night",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-congressional-office__nig 582580 TTk.ffgenimg"
-    },
-    {
-      "file": "place-congressional-office__rai__f274a45b.jpg",
-      "assetId": "urn:aaid:sc:US:f274a45b-94c9-44fb-a5b9-8b9c6a5ed928",
-      "key": "place-congressional-office__rai",
-      "status": "new-place",
-      "place": "congressional-office",
-      "variant": "rain",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-congressional-office__rai 387139 DZ9.ffgenimg"
-    },
-    {
       "file": "C08-county-admin-lobby-midday__d9a07765.jpg",
       "assetId": "urn:aaid:sc:US:d9a07765-e150-43ec-a74b-d2b2205907e0",
       "key": "C08-county-admin-lobby-midday",
@@ -4653,17 +4477,6 @@
       "gamePlace": null,
       "created": "2026-10-06",
       "fireflyName": "[C08-county-admin-lobby-midday]  394509 gWG.ffgenimg"
-    },
-    {
-      "file": "C25-county-commission-rural-mid__d65d4349.jpg",
-      "assetId": "urn:aaid:sc:US:d65d4349-4934-4d2c-9084-a6a674271dfa",
-      "key": "C25-county-commission-rural-mid",
-      "status": "new-place",
-      "place": "county-commission-rural",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C25-county-commission-rural-mid 190762 sd9.ffgenimg"
     },
     {
       "file": "C02-county-courthouse-classical__05446647.jpg",
@@ -6393,50 +6206,6 @@
       "fireflyName": "[place-solar-farm] Paint a new b 135540 51f.ffgenimg"
     },
     {
-      "file": "place-state-house-chamber__midd__a2eff8fd.jpg",
-      "assetId": "urn:aaid:sc:US:a2eff8fd-48e8-443f-8e7e-82084a7db39e",
-      "key": "place-state-house-chamber__midd",
-      "status": "new-place",
-      "place": "state-house-chamber",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-state-house-chamber__midd 582580 d7q.ffgenimg"
-    },
-    {
-      "file": "place-state-house-chamber__morn__40a988af.jpg",
-      "assetId": "urn:aaid:sc:US:40a988af-cec7-486c-a1a8-54e22a5e8262",
-      "key": "place-state-house-chamber__morn",
-      "status": "new-place",
-      "place": "state-house-chamber",
-      "variant": "morning",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-state-house-chamber__morn 764699 Du2.ffgenimg"
-    },
-    {
-      "file": "place-state-house-chamber__nigh__a882ca79.jpg",
-      "assetId": "urn:aaid:sc:US:a882ca79-0ce8-49eb-b872-aa0f9845bfcd",
-      "key": "place-state-house-chamber__nigh",
-      "status": "new-place",
-      "place": "state-house-chamber",
-      "variant": "night",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-state-house-chamber__nigh 387139 Ark.ffgenimg"
-    },
-    {
-      "file": "place-state-house-chamber__rain__5f734403.jpg",
-      "assetId": "urn:aaid:sc:US:5f734403-84a2-4b0a-a33d-e607c5d4d67e",
-      "key": "place-state-house-chamber__rain",
-      "status": "new-place",
-      "place": "state-house-chamber",
-      "variant": "rain",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-state-house-chamber__rain 582580 fRh.ffgenimg"
-    },
-    {
       "file": "place-steakhouse-private-room____6b4f9649.jpg",
       "assetId": "urn:aaid:sc:US:6b4f9649-386b-4dbe-be51-6297caf2064d",
       "key": "place-steakhouse-private-room__",
@@ -6919,17 +6688,6 @@
       "gamePlace": "cemetery-graveside",
       "created": "2026-09-29",
       "fireflyName": "[place-cemetery-graveside__rain] 764699 LP4.ffgenimg"
-    },
-    {
-      "file": "place-committee-hearing-room__m__f845cfee.jpg",
-      "assetId": "urn:aaid:sc:US:f845cfee-6134-449c-9054-703e50160e0c",
-      "key": "place-committee-hearing-room__m",
-      "status": "new-variant",
-      "place": "committee-hearing-room",
-      "variant": null,
-      "gamePlace": "committee-hearing-room",
-      "created": "2026-09-29",
-      "fireflyName": "[place-committee-hearing-room__m 175488 GxA.ffgenimg"
     },
     {
       "file": "place-county-clerk-office__morn__3ea9c057.jpg",

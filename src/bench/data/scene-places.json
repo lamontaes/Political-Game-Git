@@ -17,9 +17,13 @@
     "volunteer-for-cause": ["@target", "community-room"],
     "confront-grudge-target": ["main-street"],
     "seek-standing": ["city-hall-hallway"],
-    "testify-at-hearing": ["committee-hearing-room", "public-meeting-room"],
+    "testify-at-hearing": [
+      "hearing-room-paneled",
+      "committee-hearing-room",
+      "public-meeting-room"
+    ],
     "run-for-office": ["county-clerk-office-rural", "clerk-counter"],
-    "lobby-legislator": ["city-hall-hallway"]
+    "lobby-legislator": ["capitol-hallway", "city-hall-hallway"]
   },
   "organizationKinds": {
     "service:municipal-government": "city-hall",
@@ -106,17 +110,47 @@
     "letter": ["@home"]
   },
   "bodyPlaces": {
-    "about": "Where each kind of elected body meets, by the office kind on its records; a legislature with no upper chamber meets in the one-house chamber.",
-    "council": "council-chamber",
-    "township-board": "public-meeting-room",
-    "county-board": "council-chamber",
-    "school-board": "school-board-room",
-    "legislature-upper": "state-legislative-chamber-bicameral",
-    "legislature-lower": "state-legislative-chamber-bicameral",
-    "legislature-unicameral": "state-legislative-chamber-unicameral",
-    "us-senate": "us-senate-floor",
-    "us-house": "us-house-floor",
-    "default": "public-meeting-room"
+    "about": "Where each kind of elected body meets, by the office kind on its records; the first painted picture in a list is used. A legislature with no upper chamber meets in the one-house chamber. A council or county board picks its list from bodyPlacesBySize first.",
+    "council": ["council-chamber"],
+    "township-board": ["public-meeting-room"],
+    "county-board": ["county-commission", "council-chamber"],
+    "school-board": ["school-board-room"],
+    "legislature-upper": ["state-legislative-chamber-bicameral"],
+    "legislature-lower": [
+      "state-house-chamber",
+      "state-legislative-chamber-bicameral"
+    ],
+    "legislature-unicameral": ["state-legislative-chamber-unicameral"],
+    "us-senate": ["us-senate-floor"],
+    "us-house": ["us-house-floor"],
+    "default": ["public-meeting-room"]
+  },
+  "bodyPlacesBySize": {
+    "about": "A council's room by its number of seats (a small-town council of a handful of members around a table, a big city's in a large chamber), a county board's by the town's reference population (a rural county's commission room). Seat and population bounds are TUNABLE picture choices, checked by eye against the paintings, not model values; each row applies below its bound.",
+    "council": [
+      {
+        "underSeats": 8,
+        "places": ["council-chamber-small", "council-chamber"]
+      },
+      {
+        "underSeats": 13,
+        "places": ["council-chamber"]
+      },
+      {
+        "underSeats": 1000,
+        "places": ["council-chamber-large", "council-chamber"]
+      }
+    ],
+    "county-board": [
+      {
+        "underPopulation": 10000,
+        "places": ["county-commission-rural", "county-commission"]
+      },
+      {
+        "underPopulation": 1000000000,
+        "places": ["county-commission", "council-chamber"]
+      }
+    ]
   },
   "speechPlaces": [
     "rally-courthouse-square",
