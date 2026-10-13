@@ -207,7 +207,14 @@ function record(
     personId: string;
     organizationId: string;
     jobId: string;
-    kind: "hire" | "quit" | "layoff" | "closure" | "left-work";
+    kind:
+      | "hire"
+      | "quit"
+      | "layoff"
+      | "closure"
+      | "left-work"
+      | "started-looking"
+      | "stopped-looking";
     reasonKey: string;
     decidedBy: string;
     values?: Readonly<Record<string, number>>;
@@ -225,7 +232,8 @@ function record(
   store(api)
     .table("changes")
     .put({
-      id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
+      // Starting or stopping a search has no job: the person names the change.
+      id: `job-change:${api.state.date}:${row.jobId || row.personId}:${row.kind}`,
       date: api.state.date,
       ...row,
       values: { ...(row.values ?? {}) },
@@ -1230,8 +1238,17 @@ function reviewCountedEntry(api: CoreAPI): void {
   for (const row of strongestPulls(api, "counted-stop-looking", leaving)) {
     seekers.remove(row.id);
     endClaim(api, store(api).table("claims"), row.id);
+    record(api, {
+      personId: row.id,
+      organizationId: "",
+      jobId: "",
+      kind: "stopped-looking",
+      reasonKey: jobsData.reasons.stoppedLooking,
+      decidedBy: row.id,
+      values: { score: row.score, counted: 1 },
+    });
   }
-  for (const row of strongestPulls(api, "counted-enter", rows))
+  for (const row of strongestPulls(api, "counted-enter", rows)) {
     seekers.put({
       id: row.id,
       isSeeker: true,
@@ -1242,6 +1259,16 @@ function reviewCountedEntry(api: CoreAPI): void {
       reasonKey: jobsData.reasons.startedLooking,
       referenceHourlyMinor: 0,
     });
+    record(api, {
+      personId: row.id,
+      organizationId: "",
+      jobId: "",
+      kind: "started-looking",
+      reasonKey: jobsData.reasons.startedLooking,
+      decidedBy: row.id,
+      values: { score: row.score, counted: 1 },
+    });
+  }
 }
 
 /**
@@ -1560,12 +1587,18 @@ export const JOBS_MODULE: CoreModule = {
     const organizationId = event.id.split(":").slice(2).join(":");
     // The closed business's counted workers look for work too, with their claims.
     const rt = residentsRuntime(core(api));
-    for (const job of rt?.jobs.values() ?? []) {
+    for (const job of [...(rt?.jobs.values() ?? [])]) {
       if (job.organizationId !== organizationId) continue;
       if (job.endsAt && job.endsAt !== api.state.date) continue;
+      // The closed business's wage flow pays until its next payday; its counted jobs end today, so the workers are out of work now, not left on a payroll that won't pay.
       const flow = rt!.wageFlowByJob.get(job.id);
-      if (flow && !flow.endedAt) continue;
-      if (store(api).table("countedSeekers").get(job.personId)) continue;
+      if (!job.endsAt && flow && !flow.endedAt)
+        endCountedJob(core(api), job.id);
+      else if (!job.endsAt && !flow) continue;
+      // Already out of work and looking; one who was looking around while employed is now out of work.
+      const looking = store(api).table("countedSeekers").get(job.personId) as
+        { employed?: boolean } | undefined;
+      if (looking && !looking.employed) continue;
       const person = residentPerson(core(api), job.personId);
       if (!person) continue;
       record(api, {

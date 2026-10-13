@@ -1847,6 +1847,7 @@
     "retired": "retired",
     "lookingAround": "looking-around",
     "startedLooking": "started-looking",
+    "stoppedLooking": "stopped-looking",
     "leftJob": "left-job"
   }
 }
