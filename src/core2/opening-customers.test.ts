@@ -8,7 +8,7 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
 } from "../simulation/government-units";
-import { createStableId } from "../simulation/ids";
+import { createStableId } from "./kernel/ids";
 import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
 import type { FinanceContractInput } from "./finance-types";

@@ -5,7 +5,7 @@ import {
   lifePlaceStateIdentities,
 } from "../simulation/life-places";
 import { SeededRng } from "../simulation/rng";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_CIVIC_INPUTS_DATA,
   enrichCivicInputs,

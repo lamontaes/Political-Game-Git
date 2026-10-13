@@ -1,6 +1,6 @@
 /** Actual selected-act admission and typed consequences for one coupled cash occurrence. */
 import { queueDecisionDetail } from "./decision-detail";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,

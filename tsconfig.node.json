@@ -40,6 +40,7 @@
     "src/presentation/**/*.ts",
     "src/release/**/*.ts",
     "src/simulation/**/*.ts",
+    "src/core2/kernel/**/*.ts",
     "src/source/**/*.ts",
     "tests/e2e/**/*.ts",
     "tests/e2e/support/opening-preparation-fixture.tsx",

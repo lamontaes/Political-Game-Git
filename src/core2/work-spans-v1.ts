@@ -1,5 +1,5 @@
 /** Pure recorded work boundaries only; no cursor, attendance, earnings or cash effects. */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   plannedWorkMinutesBetween,

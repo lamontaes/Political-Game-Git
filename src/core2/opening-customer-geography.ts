@@ -10,7 +10,7 @@ import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "../simulation/place-county-relations.generated";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import type { CoreInput, Source } from "./types";
 

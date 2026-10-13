@@ -17,8 +17,8 @@
  * move into the homes they leave. Leavers' jobs end, and the jobs engine
  * fills the openings from the counts' job seekers, newcomers included.
  */
-import { makeIsoDate } from "../../simulation/dates";
-import { createStableId, stableHash } from "../../simulation/ids";
+import { makeIsoDate } from "../kernel/dates";
+import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import life from "../data/ssa-cohort-life-tables.json" with { type: "json" };
 import data from "../data/counted-drift.json" with { type: "json" };

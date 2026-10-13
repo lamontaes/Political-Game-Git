@@ -5,7 +5,7 @@ import {
   withoutWorldChecks,
 } from "../../simulation/world";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { withPrivateTuition } from "../opening-private-tuition";
 import { staffToCustomers } from "../opening-staffing";
 import { representativeSample } from "../representative-sample";

@@ -6,7 +6,7 @@ import {
 } from "./modules/residents";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,

@@ -7,7 +7,7 @@
  * not a choice of which family goes private. A town without a private school
  * pays none here (the spending stays with the household's other costs).
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import { buildPopulation } from "./population";
 import { OPENING_KIN } from "./opening-kin";
 import { realLocalities } from "./places";

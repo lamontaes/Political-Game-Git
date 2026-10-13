@@ -152,7 +152,13 @@ export function withCountedVoterGroups(
     const source: Source = {
       tag: "ESTIMATED",
       asOf: input.startedAt,
-      citation: `U.S. Census Bureau November 2024 CPS voting table 4c, ${observed.row.recordId} (${observed.national ? "national row; no state row" : `${state!.name}`}); Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (${usps ?? "no state"} two-party share); ${county ? COUNTY_PRESIDENTIAL.citation + "; " : ""}${placeCitizens ? PLACE_CITIZENSHIP.citation : ""}`,
+      citation: [
+        `U.S. Census Bureau November 2024 CPS voting table 4c, ${observed.row.recordId} (${observed.national ? "national row; no state row" : `${state!.name}`}); Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (${usps ?? "no state"} two-party share)`,
+        county ? COUNTY_PRESIDENTIAL.citation : undefined,
+        placeCitizens ? PLACE_CITIZENSHIP.citation : undefined,
+      ]
+        .filter(Boolean)
+        .join("; "),
       estimatedFrom: `Counted adults ${band} (${size}) × citizen share of adults ${citizenShare.toFixed(3)} (${placeCitizens ? `the place's ACS 2020–2024 ${placeCitizens[0]} of ${placeCitizens[1]}, blended with the state's ${observed.citizenShare.toFixed(3)} at ${prior} adults` : "the state's"}) = eligible voters; turnout from citizen turnout; starting lean ${lean.toFixed(3)} from the ${county ? "county's" : "state's"} 2024 presidential two-party margin${share === undefined ? " (no presidential vote recorded: 0)" : ""}${leanShift || turnoutScale !== 1 ? `; custom world: lean shifted ${leanShift}, turnout ×${turnoutScale}` : ""}. Views and elections refine it.`,
     };
     groups.push({

@@ -3,7 +3,7 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
-import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
   RESIDENTS_STOPGAP,

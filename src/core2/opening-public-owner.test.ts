@@ -4,7 +4,7 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
 } from "../simulation/government-units";
-import { createStableId } from "../simulation/ids";
+import { createStableId } from "./kernel/ids";
 import { lifePlaceByKey } from "../simulation/life-places";
 import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
 import {

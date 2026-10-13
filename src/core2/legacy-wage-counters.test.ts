@@ -1,7 +1,7 @@
 /** Actual canonical writers only; SOURCE-ONLY author has not executed these fixtures. */
 import { describe, expect, it } from "vitest";
 import { advanceDate } from "./calendar";
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { coreAPI } from "./state";

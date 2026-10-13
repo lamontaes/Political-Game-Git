@@ -6,8 +6,8 @@ import {
   mayCompactGeneratedHouseholdSources,
   type GeneratedHouseholdSourceBasis,
 } from "./generated-household-source";
-import { addDays, isoDateFromParts, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { addDays, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import {
   OPENING_CUSTOMER_QUALIFICATION_PREFIX,
   openingCustomerQualificationKey,

@@ -1,5 +1,5 @@
 /** Synchronous CASH writer. No caller-supplied source authority or second cash stock. */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { bookkeeping } from "./bookkeeping";
 import { P } from "./parameters";
 import { projectCashJournal } from "./journal";

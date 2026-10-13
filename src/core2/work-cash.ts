@@ -1,6 +1,6 @@
 import { bookkeeping } from "./bookkeeping";
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";

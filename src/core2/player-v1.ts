@@ -1,6 +1,6 @@
 import { runModuleCalendar } from "./module-calendar";
 /** Process-local controlled clock. Client IDs select saved offers, never amounts or motives. */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceDate, duePeople } from "./calendar";
 import type { DuePerson } from "./calendar";
 import { chooseAct } from "./choice";
