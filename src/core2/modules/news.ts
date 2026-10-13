@@ -110,59 +110,108 @@ interface HeardEntry {
   heardDate: string;
 }
 
+/** One person's recent hearing: entries newest first once sorted, and their ids. */
+interface Recent {
+  list: HeardEntry[];
+  ids: Set<string>;
+  sorted: boolean;
+  /** The cutoff the list was last pruned to. */
+  since: string;
+}
+
 /**
  * What each person heard that may still be news, rebuilt from the table when
  * first read. Telling reads this instead of everything a person ever heard;
- * entries past the story life are dropped as they are read.
+ * entries past the story life are dropped once a day, when first read.
  */
-const recentHeard = new WeakMap<object, Map<PersonId, HeardEntry[]>>();
-function recentOf(api: CoreAPI): Map<PersonId, HeardEntry[]> {
+const recentHeard = new WeakMap<object, Map<PersonId, Recent>>();
+function recentOf(api: CoreAPI): Map<PersonId, Recent> {
   let map = recentHeard.get(api.state);
   if (!map) {
     map = new Map();
     for (const row of heard(api).rows()) {
       const story = stories(api).get(row.storyId as string) as unknown as
         Story | undefined;
-      if (!story) continue;
-      const list = map.get(row.personId as string) ?? [];
-      list.push({
-        storyId: story.id,
-        storyDate: story.date,
-        heardDate: row.date as string,
-      });
-      map.set(row.personId as string, list);
+      if (story)
+        addRecent(map, row.personId as string, {
+          storyId: story.id,
+          storyDate: story.date,
+          heardDate: row.date as string,
+        });
     }
     recentHeard.set(api.state, map);
   }
   return map;
 }
 
-/**
- * The stories a person heard since `since` whose own date is on or after it,
- * newest first: the same list and order as `storiesHeard` up to its first
- * story older than the story life.
- */
-function recentStoriesHeard(
+function addRecent(
+  map: Map<PersonId, Recent>,
+  personId: PersonId,
+  entry: HeardEntry,
+) {
+  const recent = map.get(personId);
+  if (!recent) {
+    map.set(personId, {
+      list: [entry],
+      ids: new Set([entry.storyId]),
+      sorted: true,
+      since: "",
+    });
+    return;
+  }
+  recent.list.push(entry);
+  recent.ids.add(entry.storyId);
+  recent.sorted = false;
+}
+
+/** The person's recent entries pruned to `since`, newest first. */
+function recentList(
   api: CoreAPI,
   personId: PersonId,
   since: string,
-): Story[] {
-  const map = recentOf(api);
-  const list = map.get(personId);
-  if (!list) return [];
+): HeardEntry[] {
+  const recent = recentOf(api).get(personId);
+  if (!recent) return [];
   // Days only move forward, so what is too old now stays too old.
-  const kept = list.filter(
-    (row) => row.heardDate >= since && row.storyDate >= since,
-  );
-  if (kept.length) map.set(personId, kept);
-  else map.delete(personId);
-  return kept
-    .sort(
+  if (recent.since !== since) {
+    recent.list = recent.list.filter(
+      (row) => row.heardDate >= since && row.storyDate >= since,
+    );
+    recent.ids = new Set(recent.list.map((row) => row.storyId));
+    recent.since = since;
+  }
+  if (!recent.sorted) {
+    recent.list.sort(
       (a, b) =>
         b.storyDate.localeCompare(a.storyDate) ||
         a.storyId.localeCompare(b.storyId),
-    )
-    .map((row) => stories(api).get(row.storyId) as unknown as Story);
+    );
+    recent.sorted = true;
+  }
+  return recent.list;
+}
+
+/**
+ * The stories a person heard since `since` whose own date is on or after it,
+ * newest first: the same list and order as `storiesHeard` up to its first
+ * story older than the story life. Read one at a time, as telling needs them.
+ */
+function* recentStoriesHeard(
+  api: CoreAPI,
+  personId: PersonId,
+  since: string,
+): Iterable<Story> {
+  for (const row of recentList(api, personId, since))
+    yield stories(api).get(row.storyId) as unknown as Story;
+}
+
+/** Whether the person is known to have heard a recent story (the table has the rest). */
+function heardRecently(
+  api: CoreAPI,
+  personId: PersonId,
+  storyId: string,
+): boolean {
+  return recentOf(api).get(personId)?.ids.has(storyId) ?? false;
 }
 
 /** How many stories each person has heard, rebuilt from the table when first read. */
@@ -192,14 +241,11 @@ function hear(
   const id = `${personId}:${story.id}`;
   if (heard(api).get(id)) return false;
   heard(api).put({ id, personId, storyId: story.id, date: api.state.date });
-  const recent = recentOf(api).get(personId);
-  const entry = {
+  addRecent(recentOf(api), personId, {
     storyId: story.id,
     storyDate: story.date,
     heardDate: api.state.date,
-  };
-  if (recent) recent.push(entry);
-  else recentOf(api).set(personId, [entry]);
+  });
   const counts = countsOf(api);
   counts.set(
     personId,
@@ -228,7 +274,7 @@ export function createNewsModule(
     api: CoreAPI,
     personId: PersonId,
     since: string,
-  ) => Story[] = recentStoriesHeard,
+  ) => Iterable<Story> = recentStoriesHeard,
 ): CoreModule {
   return {
     id: NEWS_MODULE_ID,
@@ -304,6 +350,8 @@ export function createNewsModule(
         let passed = api.parameter("zero");
         for (const story of tellable(api, teller, since)) {
           if (passed >= n(api, "newsStoriesPerContact") || !fresh(story)) break;
+          // Already heard: hear() would refuse it too, without the lookup.
+          if (heardRecently(api, listener, story.id)) continue;
           if (hear(api, listener, story, "told", notice.relationshipId))
             passed += api.parameter("one");
         }
