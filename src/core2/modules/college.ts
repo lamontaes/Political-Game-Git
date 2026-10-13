@@ -197,6 +197,78 @@ function chooses(api: CoreAPI, person: Readonly<PersonState>): boolean {
   return decision.selected?.definition.id === ENROLL.id;
 }
 
+/** The colleges a person could attend from home: those in their county. */
+export function collegeOptionsFor(
+  api: CoreAPI,
+  personId: PersonId,
+): readonly { collegeId: string; name: string; kind: string }[] {
+  const person = api.state.people.get(personId);
+  if (!person) return [];
+  return collegesNear(person).map(([collegeId, name, kind]) => ({
+    collegeId,
+    name,
+    kind,
+  }));
+}
+
+/**
+ * The player's own choice (the screen offers `collegeOptionsFor`): enrolls
+ * them at that college from today, as the engine enrolls anyone. Returns the
+ * enrollment, or null when the person is already enrolled or the college is
+ * not one they could attend from home.
+ */
+export function enrollAt(
+  api: CoreAPI,
+  personId: PersonId,
+  collegeId: string,
+): Enrollment | null {
+  const person = api.state.people.get(personId);
+  const college = person
+    ? collegesNear(person).find(([id]) => id === collegeId)
+    : undefined;
+  if (
+    !person?.alive ||
+    !college ||
+    enrollmentOf(api, personId)?.status === "enrolled"
+  )
+    return null;
+  return record(api, person, college);
+}
+
+function record(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  [collegeId, collegeName, collegeKind]: readonly [string, string, string],
+): Enrollment {
+  const row: Enrollment = {
+    id: person.id,
+    personId: person.id,
+    collegeId,
+    collegeName,
+    collegeKind,
+    startedAt: api.state.date,
+    endsAt: endOf(api, api.state.date, collegeKind),
+    status: "enrolled",
+  };
+  enrollments(api).put(row as unknown as { id: string });
+  api.emit({
+    id: `${ENROLLED_EVENT}:${person.id}:${api.state.date}`,
+    date: api.state.date,
+    kind: ENROLLED_EVENT,
+    personIds: [person.id],
+    placeId: person.placeId,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${person.id} chose to enroll at ${collegeName} (IPEDS ${collegeId}).`,
+      estimatedFrom: STOPGAP,
+    },
+    publicRecord: false,
+    facts: { collegeId, school: collegeName, collegeKind },
+  });
+  return row;
+}
+
 function enroll(api: CoreAPI, person: Readonly<PersonState>): void {
   const near = collegesNear(person);
   if (!near.length) {
@@ -218,33 +290,7 @@ function enroll(api: CoreAPI, person: Readonly<PersonState>): void {
     ),
     api.parameter("seedPlaceHashRadix"),
   );
-  const [collegeId, collegeName, collegeKind] = pool[at % pool.length]!;
-  const row: Enrollment = {
-    id: person.id,
-    personId: person.id,
-    collegeId,
-    collegeName,
-    collegeKind,
-    startedAt: api.state.date,
-    endsAt: endOf(api, api.state.date, collegeKind),
-    status: "enrolled",
-  };
-  enrollments(api).put(row as unknown as { id: string });
-  api.emit({
-    id: `${ENROLLED_EVENT}:${person.id}:${api.state.date}`,
-    date: api.state.date,
-    kind: ENROLLED_EVENT,
-    personIds: [person.id],
-    placeId: person.placeId,
-    source: {
-      tag: "ESTIMATED",
-      asOf: api.state.date,
-      citation: `${person.id} chose to enroll at ${collegeName} (IPEDS ${collegeId}), from their household's schooling and means and their temperament.`,
-      estimatedFrom: STOPGAP,
-    },
-    publicRecord: false,
-    facts: { collegeId, school: collegeName, collegeKind },
-  });
+  record(api, person, pool[at % pool.length]!);
 }
 
 /** The fall term: graduations, then those newly of age choose. */

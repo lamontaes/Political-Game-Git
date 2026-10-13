@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
 import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import {
   collegeModule,
+  collegeOptionsFor,
   COLLEGE_MODULE_ID,
+  enrollAt,
+  enrollmentOf,
   type Enrollment,
 } from "./modules/college";
 import { departuresOf, movesModule } from "./modules/moves";
@@ -94,5 +97,34 @@ describe(`college at 18 in ${towns.map(({ place }) => `${place.name} (seed ${pla
         else expect(row.endsAt > "2021-08-25").toBe(true);
       }
     }
+  });
+
+  it("offers the player the colleges in their county and enrolls them at the one they choose", () => {
+    const town = towns.find(({ core }) =>
+      [...core.people.values()].some(
+        (person) => person.tier !== "husk" && collegesNear(person).length,
+      ),
+    );
+    if (!town) return;
+    const { api, core } = town;
+    const person = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          collegesNear(row).length &&
+          !enrollmentOf(api, row.id),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+    const options = collegeOptionsFor(api, person.id);
+    expect(options.length).toBeGreaterThan(0);
+    expect(enrollAt(api, person.id, "ipeds-unit:not-near")).toBeNull();
+    const row = enrollAt(api, person.id, options[0]!.collegeId)!;
+    expect(row.collegeName).toBe(options[0]!.name);
+    expect(row.startedAt).toBe(core.date);
+    expect(enrollAt(api, person.id, options[0]!.collegeId)).toBeNull();
+    const eventId = `education.enrolled:${person.id}:${core.date}`;
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    expect(api.knows(person.id, `event:${eventId}:experienced`)).toBeDefined();
   });
 });
