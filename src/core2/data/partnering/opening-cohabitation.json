@@ -1,0 +1,13 @@
+{
+  "version": "opening-cohabitation-v1",
+  "about": "The share of a town's opening couples who live together unmarried, by the younger partner's age: adults living with an unmarried partner (Census CPS 2023, historical table AD-3, men and women averaged) against that plus the share married. Couples are drawn as generation of who exists, keyed to the couple.",
+  "citation": "Census CPS 2023 table AD-3 (cohabiting: 18-24 8.4% of men, 11.7% of women; 25-34 15.3%, 16.4%; 35-64 7.0%, 6.3%; 65-74 3.9%, 2.6%; 75+ 2.1%, 1.2%), via data/research/people/cohabitation-2026.json. The married shares by age (18-24 7%, 25-34 41%, 35-64 61%, 65-74 63%, 75+ 46%) are ESTIMATED from Census marital-status tables (CPS 2023 table A1) and should be checked. Overall check: 9.48 million opposite-sex unmarried couples against 60.65 million married (13.5%; CPS 2023 UC1 and ACS 2023).",
+  "stopgapId": "SG-P15-partnering-weights",
+  "bands": [
+    [24, 0.59],
+    [34, 0.28],
+    [64, 0.098],
+    [74, 0.049],
+    [200, 0.035]
+  ]
+}

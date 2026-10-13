@@ -1209,7 +1209,9 @@ export interface CoreAPI {
    * P15 (for OPUS-CORE review): two unpartnered adults become partners
    * mid-run. Adds the partner link, each to the other's family, and a dated
    * `family:partner` fact on each record naming the other and the
-   * partnership's kind. Households are unchanged.
+   * partnership's kind. Households are unchanged. Two who are already each
+   * other's partners (a couple living together who marry) keep their link
+   * and gain a fact recording the new kind.
    */
   formPartnershipV1(
     personIds: readonly [PersonId, PersonId],

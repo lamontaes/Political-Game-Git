@@ -1,0 +1,750 @@
+{
+  "retrievedAt": "2026-10-13",
+  "sources": [
+    {
+      "id": "nhsr64",
+      "title": "First Premarital Cohabitation in the United States: 2006-2010 National Survey of Family Growth (Copen, Daniels, Mosher), NHSR No. 64",
+      "url": "https://www.cdc.gov/nchs/data/nhsr/nhsr064.pdf",
+      "table": "Tables 1, 2, 3, A",
+      "year": "2006-2010 (pub. 2013)"
+    },
+    {
+      "id": "nhsr49",
+      "title": "First Marriages in the United States: Data From the 2006-2010 NSFG, NHSR No. 49",
+      "url": "https://www.cdc.gov/nchs/data/nhsr/nhsr049.pdf",
+      "table": "Abstract",
+      "year": "2006-2010 (pub. 2012)"
+    },
+    {
+      "id": "ncfmr-fp-21-04",
+      "title": "Trends in Cohabitation Prior to Marriage (Manning & Carlson), NCFMR FP-21-04",
+      "url": "https://www.bgsu.edu/content/dam/BGSU/college-of-arts-and-sciences/NCFMR/documents/FP/manning-carlson-trends-cohabitation-marriage-fp-21-04.pdf",
+      "table": "Figures 1-3",
+      "year": "NSFG 2015-2019 (pub. 2021)"
+    },
+    {
+      "id": "ncfmr-fp-25-25",
+      "title": "Trends in Cohabitation Prior to Marriage (Manning & Westrick-Payne), NCFMR FP-25-25",
+      "url": "https://www.bgsu.edu/content/dam/BGSU/college-of-arts-and-sciences/NCFMR/documents/FP/fp-25-25-trends-in-coh-prior-mar-2025-07-14-kkp-cms.pdf",
+      "table": "Figures 1-3",
+      "year": "NSFG 2022-2023, marriages 2020-2022 (pub. 2025)"
+    },
+    {
+      "id": "ncfmr-fp-25-26",
+      "title": "Thirty-five Years of Change in Cohabitation Experience in the U.S., 1987-2022, NCFMR FP-25-26",
+      "url": "https://www.bgsu.edu/content/dam/BGSU/college-of-arts-and-sciences/NCFMR/documents/FP/fp-25-26-35yrs-chng-cohab-2025-07-21-kkp-cms.pdf",
+      "table": "Figure 1 and text",
+      "year": "NSFG 2022-2023 (pub. 2025)"
+    },
+    {
+      "id": "nsfg-keystat-c",
+      "title": "NSFG Key Statistics, C listing (cohabitation)",
+      "url": "https://www.cdc.gov/nchs/nsfg/key_statistics/c-keystat.htm",
+      "table": "Currently cohabiting; ever cohabited",
+      "year": "2015-2017, 2017-2019"
+    },
+    {
+      "id": "nsfg-keystat-b",
+      "title": "NSFG Key Statistics, B listing (births)",
+      "url": "https://www.cdc.gov/nchs/nsfg/key_statistics/b-keystat.htm",
+      "table": "Mother's/father's union status at birth",
+      "year": "2015-2017, 2017-2019"
+    },
+    {
+      "id": "nvsr74-1",
+      "title": "Births: Final Data for 2023, NVSR Vol. 74 No. 1 (Osterman et al., Mar 18 2025)",
+      "url": "https://www.cdc.gov/nchs/data/nvsr/nvsr74/nvsr74-1.pdf",
+      "table": "Text p.5; Table 9; Table IV (by state and territory)",
+      "year": "2023"
+    },
+    {
+      "id": "cps-2023-uc",
+      "title": "America's Families and Living Arrangements: 2023, Tables UC1 and UC3 (CPS ASEC 2023)",
+      "url": "https://www.census.gov/data/tables/2023/demo/families/cps-2023.html",
+      "table": "UC1, UC3",
+      "year": "2023"
+    },
+    {
+      "id": "cps-hist-ad3",
+      "title": "Historical Living Arrangements of Adults, Table AD-3 (all ages and by age group), and Table UC-1",
+      "url": "https://www.census.gov/data/tables/time-series/demo/families/adults.html",
+      "table": "AD-3, AD-3 by age group, UC-1",
+      "year": "1967-2023"
+    },
+    {
+      "id": "acs-ssex-2023",
+      "title": "Characteristics of Same-Sex Couple Households: 2023 ACS 1-year, Tables 1-3",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/same-sex/time-series/ssc-house-characteristics/ssex-tables-2023.xlsx",
+      "table": "Tables 1, 2, 3",
+      "year": "2023"
+    },
+    {
+      "id": "acs-ssex-2024",
+      "title": "Characteristics of Same-Sex Couple Households: 2024 ACS 1-year, Tables 1-3",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/same-sex/time-series/ssc-house-characteristics/ssex-tables-2024.xlsx",
+      "table": "Tables 1, 2, 3",
+      "year": "2024"
+    },
+    {
+      "id": "manning-brown-payne-2014",
+      "title": "Two Decades of Stability and Change in Age at First Union Formation, J. Marriage & Family 76(2):247-260 (Manning, Brown, Payne 2014)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4136537",
+      "table": "Tables 1-6",
+      "year": "NSFG 2006-2010 latest period"
+    },
+    {
+      "id": "lamidi-2019",
+      "title": "Change in the Stability of First Premarital Cohabitation, 1983-2013, Demography 56:427-450 (Lamidi, Manning, Brown 2019)",
+      "url": "https://doi.org/10.1007/s13524-019-00765-7",
+      "table": "Abstract only",
+      "year": "NSFG 2011-2013"
+    }
+  ],
+  "firstMarriagesPrecededByCohabitation": {
+    "women_19_44_ever_married": {
+      "byMarriageCohort": {
+        "1965-74": 0.11,
+        "1975-79": 0.32,
+        "1980-84": 0.41,
+        "1985-89": 0.46,
+        "1990-94": 0.56,
+        "1995-99": 0.59,
+        "2000-04": 0.68,
+        "2005-09": 0.68,
+        "2010-14": 0.72,
+        "2015-19": 0.76,
+        "2020-22": 0.8
+      },
+      "source": "ncfmr-fp-25-25 Figure 1 (2015-19 value 76% also in ncfmr-fp-21-04); NCFMR analyses of NSFG female files",
+      "byEducation_2015_19": {
+        "12years": 0.82,
+        "someCollege": 0.86,
+        "college": 0.72,
+        "note": "read from FP-21-04 Figure 2 bar labels; pairing of labels to bars inferred from text layout, verify against chart"
+      },
+      "byEducation_2020_22": {
+        "12yearsOrSomeCollege": 0.77,
+        "college": 0.83,
+        "note": "FP-25-25 Figure 2; label-to-bar pairing inferred from layout"
+      }
+    },
+    "men": {
+      "value": null,
+      "note": "No published men's share of first marriages preceded by cohabitation for NSFG 2011-2019 found. Nearest: Manning-Brown-Payne 2014 Table 2: share of men's first unions that began as cohabitation, 2006-10 = 82.2% (women 73.7%). That is first unions, not first marriages."
+    },
+    "women_firstUnionsBeganAsCohabitation_2006_10": 0.737,
+    "men_firstUnionsBeganAsCohabitation_2006_10": 0.822,
+    "firstUnionsBeganAsCohabitation_source": "manning-brown-payne-2014 Tables 1-2"
+  },
+  "cohabitingNowByAge": {
+    "source": "cps-hist-ad3 (CPS ASEC 2023), 'Living with partner' column; percent of people in age group",
+    "year": 2023,
+    "allAdults18plus": {
+      "pct": 7.7,
+      "countThousands": 19969,
+      "pct2022": 8.2
+    },
+    "18-24": {
+      "men": 8.4,
+      "women": 11.7
+    },
+    "25-34": {
+      "men": 15.3,
+      "women": 16.4
+    },
+    "35-64": {
+      "men": 7.0,
+      "women": 6.3
+    },
+    "65-74": {
+      "men": 3.9,
+      "women": 2.6
+    },
+    "75+": {
+      "men": 2.1,
+      "women": 1.2
+    },
+    "2022": {
+      "18-24": {
+        "men": 9.1,
+        "women": 13.0
+      },
+      "25-34": {
+        "men": 17.0,
+        "women": 17.1
+      },
+      "35-64": {
+        "men": 7.3,
+        "women": 6.4
+      },
+      "65-74": {
+        "men": 3.3,
+        "women": 2.6
+      },
+      "75+": {
+        "men": 2.5,
+        "women": 1.4
+      }
+    },
+    "note": "AD-3 'living with partner' excludes those living with a spouse (spouse supersedes); footnote does not say whether same-sex partners are excluded.",
+    "nsfgCurrentlyCohabiting_15_49": {
+      "women": {
+        "2015-17": 13.2,
+        "2017-19": 13.9
+      },
+      "men": {
+        "2015-17": 11.9,
+        "2017-19": 12.0
+      },
+      "source": "nsfg-keystat-c, opposite-sex partner, percent"
+    },
+    "nsfgEverCohabited_15_49": {
+      "women": {
+        "2015-17": 56.9,
+        "2017-19": 58.9
+      },
+      "men": {
+        "2015-17": 52.1,
+        "2017-19": 54.3
+      },
+      "source": "nsfg-keystat-c"
+    },
+    "womenEverCohabited_19_44_NCFMR": {
+      "1987": 0.33,
+      "2013": 0.64,
+      "2022": 0.56,
+      "note": "2022 from NSFG 2022-23; 64% of ever-cohabitors had one partner",
+      "source": "ncfmr-fp-25-26"
+    }
+  },
+  "cohabitingCouples": {
+    "oppositeSexUnmarriedCouples_2023_thousands": 9481,
+    "withBiologicalChildUnder18_thousands": 3010,
+    "withoutBiologicalChildUnder18_thousands": 6471,
+    "2022_thousands": 9894,
+    "source": "cps-2023-uc Table UC1 and UC3; cps-hist-ad3 Table UC-1. Since 2007 includes all opposite-sex unmarried couples regardless of householder status; excludes same-sex couples.",
+    "partnerAgeDistribution_2023_pct": {
+      "female": {
+        "15-24": 17.6,
+        "25-29": 20.9,
+        "30-34": 15.6,
+        "35-39": 10.0,
+        "40-44": 8.4,
+        "45-49": 6.3,
+        "50-54": 6.4,
+        "55-59": 4.6,
+        "60+": 10.2
+      },
+      "male": {
+        "15-24": 13.3,
+        "25-29": 18.3,
+        "30-34": 16.2,
+        "35-39": 11.4,
+        "40-44": 9.4,
+        "45-49": 6.3,
+        "50-54": 6.5,
+        "55-59": 5.1,
+        "60+": 13.5
+      },
+      "source": "cps-2023-uc Table UC3"
+    },
+    "ageGap_2023_pct": {
+      "male10plusOlder": 10.0,
+      "male6to9Older": 11.1,
+      "male4to5Older": 10.4,
+      "male2to3Older": 17.0,
+      "within1Year": 32.6,
+      "female2to3Older": 7.3,
+      "female4to5Older": 3.5,
+      "female6to9Older": 4.2,
+      "female10plusOlder": 3.8,
+      "source": "cps-2023-uc Table UC3"
+    },
+    "acs_unmarriedOppositeSexCoupleHouseholds": {
+      "2023": 8951000,
+      "2024": 9042000,
+      "marriedOppositeSexCoupleHouseholds_2023": 60650000,
+      "marriedOppositeSexCoupleHouseholds_2024": 61140000,
+      "source": "acs-ssex-2023/2024 Table 1 (household-level, householder plus spouse/partner)"
+    }
+  },
+  "cohabitationOutcomes3yr": {
+    "population": "First premarital cohabitations of women 15-44, NSFG 2006-2010, life-table estimates",
+    "source": "nhsr64 Table 3",
+    "at1yr": {
+      "intact": 0.67,
+      "married": 0.194,
+      "dissolved": 0.136
+    },
+    "at3yr": {
+      "intact": 0.322,
+      "married": 0.403,
+      "dissolved": 0.274
+    },
+    "at3yrByAgeAtStart": {
+      "under20": {
+        "intact": 0.377,
+        "married": 0.307,
+        "dissolved": 0.315
+      },
+      "20-24": {
+        "intact": 0.285,
+        "married": 0.44,
+        "dissolved": 0.275
+      },
+      "25-29": {
+        "intact": 0.229,
+        "married": 0.584,
+        "dissolved": 0.187
+      },
+      "30-44": {
+        "intact": 0.322,
+        "married": 0.496,
+        "dissolved": 0.182
+      }
+    },
+    "at3yrByEducation_women22_44": {
+      "noHSdiploma": {
+        "intact": 0.432,
+        "married": 0.3,
+        "dissolved": 0.268
+      },
+      "HSorGED": {
+        "intact": 0.358,
+        "married": 0.386,
+        "dissolved": 0.257
+      },
+      "someCollege": {
+        "intact": 0.315,
+        "married": 0.4,
+        "dissolved": 0.284
+      },
+      "bachelorsPlus": {
+        "intact": 0.203,
+        "married": 0.532,
+        "dissolved": 0.266
+      }
+    },
+    "at3yrByRace": {
+      "hispanic": {
+        "intact": 0.435,
+        "married": 0.363,
+        "dissolved": 0.202
+      },
+      "white": {
+        "intact": 0.267,
+        "married": 0.439,
+        "dissolved": 0.294
+      },
+      "black": {
+        "intact": 0.411,
+        "married": 0.308,
+        "dissolved": 0.28
+      }
+    },
+    "pregnancyInFirstYear": "nearly 20% of women (nhsr64 abstract)",
+    "laterEvidence": {
+      "Sassler-Michelmore-Qian-2018": "Demography 55(2): NSFG 2006-2013 women's cohabiting relationships (not strictly first): 44.2% married by 36 months; 52% by 4 yrs; 59% by 5 yrs (Table 2). Read via PMC6443245.",
+      "Lamidi-2019": "abstract: rate of transition to marriage declined from 1983-88 to 2006-13 cohort; no 3-yr split read"
+    }
+  },
+  "nonmaritalBirths": {
+    "national": {
+      "2023": {
+        "pct": 40.0,
+        "count": 1440031,
+        "totalBirths": 3596017
+      },
+      "2022": {
+        "pct": 39.8,
+        "count": 1461305
+      },
+      "peak": "41.0% in 2009",
+      "byRace2023": {
+        "nhWhite": 26.8,
+        "nhBlack": 69.3,
+        "hispanic": 54.2,
+        "nhAsian": 12.0,
+        "nhAIAN": 68.7,
+        "nhNHOPI": 52.7
+      },
+      "source": "nvsr74-1 text p.5, Table 9, Table IV"
+    },
+    "byState": {
+      "year": 2023,
+      "source": "nvsr74-1 Table IV (by mother's residence), all races and origins",
+      "data": {
+        "Alabama": {
+          "unmarriedBirths": 26598,
+          "pctUnmarried": 46.0
+        },
+        "Alaska": {
+          "unmarriedBirths": 3309,
+          "pctUnmarried": 36.7
+        },
+        "Arizona": {
+          "unmarriedBirths": 35556,
+          "pctUnmarried": 45.5
+        },
+        "Arkansas": {
+          "unmarriedBirths": 16244,
+          "pctUnmarried": 46.1
+        },
+        "California": {
+          "unmarriedBirths": 154739,
+          "pctUnmarried": 38.7
+        },
+        "Colorado": {
+          "unmarriedBirths": 14793,
+          "pctUnmarried": 24.1
+        },
+        "Connecticut": {
+          "unmarriedBirths": 12955,
+          "pctUnmarried": 37.5
+        },
+        "Delaware": {
+          "unmarriedBirths": 4889,
+          "pctUnmarried": 46.9
+        },
+        "District of Columbia": {
+          "unmarriedBirths": 3668,
+          "pctUnmarried": 46.5
+        },
+        "Florida": {
+          "unmarriedBirths": 101399,
+          "pctUnmarried": 45.8
+        },
+        "Georgia": {
+          "unmarriedBirths": 57981,
+          "pctUnmarried": 46.3
+        },
+        "Hawaii": {
+          "unmarriedBirths": 6035,
+          "pctUnmarried": 40.8
+        },
+        "Idaho": {
+          "unmarriedBirths": 5947,
+          "pctUnmarried": 26.6
+        },
+        "Illinois": {
+          "unmarriedBirths": 49556,
+          "pctUnmarried": 39.7
+        },
+        "Indiana": {
+          "unmarriedBirths": 33859,
+          "pctUnmarried": 42.9
+        },
+        "Iowa": {
+          "unmarriedBirths": 13039,
+          "pctUnmarried": 36.2
+        },
+        "Kansas": {
+          "unmarriedBirths": 12167,
+          "pctUnmarried": 35.7
+        },
+        "Kentucky": {
+          "unmarriedBirths": 22144,
+          "pctUnmarried": 42.6
+        },
+        "Louisiana": {
+          "unmarriedBirths": 30484,
+          "pctUnmarried": 55.5
+        },
+        "Maine": {
+          "unmarriedBirths": 4260,
+          "pctUnmarried": 36.6
+        },
+        "Maryland": {
+          "unmarriedBirths": 26855,
+          "pctUnmarried": 40.9
+        },
+        "Massachusetts": {
+          "unmarriedBirths": 22645,
+          "pctUnmarried": 33.8
+        },
+        "Michigan": {
+          "unmarriedBirths": 38311,
+          "pctUnmarried": 38.6
+        },
+        "Minnesota": {
+          "unmarriedBirths": 19955,
+          "pctUnmarried": 32.3
+        },
+        "Mississippi": {
+          "unmarriedBirths": 18919,
+          "pctUnmarried": 54.9
+        },
+        "Missouri": {
+          "unmarriedBirths": 26284,
+          "pctUnmarried": 39.2
+        },
+        "Montana": {
+          "unmarriedBirths": 3426,
+          "pctUnmarried": 30.9
+        },
+        "Nebraska": {
+          "unmarriedBirths": 8325,
+          "pctUnmarried": 34.5
+        },
+        "Nevada": {
+          "unmarriedBirths": 15508,
+          "pctUnmarried": 48.8
+        },
+        "New Hampshire": {
+          "unmarriedBirths": 3417,
+          "pctUnmarried": 28.6
+        },
+        "New Jersey": {
+          "unmarriedBirths": 33855,
+          "pctUnmarried": 33.5
+        },
+        "New Mexico": {
+          "unmarriedBirths": 11042,
+          "pctUnmarried": 52.7
+        },
+        "New York": {
+          "unmarriedBirths": 76877,
+          "pctUnmarried": 37.8
+        },
+        "North Carolina": {
+          "unmarriedBirths": 48924,
+          "pctUnmarried": 40.7
+        },
+        "North Dakota": {
+          "unmarriedBirths": 3085,
+          "pctUnmarried": 32.0
+        },
+        "Ohio": {
+          "unmarriedBirths": 53790,
+          "pctUnmarried": 42.4
+        },
+        "Oklahoma": {
+          "unmarriedBirths": 21456,
+          "pctUnmarried": 44.8
+        },
+        "Oregon": {
+          "unmarriedBirths": 14404,
+          "pctUnmarried": 37.6
+        },
+        "Pennsylvania": {
+          "unmarriedBirths": 49205,
+          "pctUnmarried": 38.8
+        },
+        "Rhode Island": {
+          "unmarriedBirths": 4261,
+          "pctUnmarried": 43.5
+        },
+        "South Carolina": {
+          "unmarriedBirths": 25908,
+          "pctUnmarried": 44.9
+        },
+        "South Dakota": {
+          "unmarriedBirths": 3930,
+          "pctUnmarried": 35.1
+        },
+        "Tennessee": {
+          "unmarriedBirths": 35261,
+          "pctUnmarried": 42.5
+        },
+        "Texas": {
+          "unmarriedBirths": 163261,
+          "pctUnmarried": 42.1
+        },
+        "Utah": {
+          "unmarriedBirths": 9581,
+          "pctUnmarried": 21.3
+        },
+        "Vermont": {
+          "unmarriedBirths": 1807,
+          "pctUnmarried": 35.7
+        },
+        "Virginia": {
+          "unmarriedBirths": 32785,
+          "pctUnmarried": 35.4
+        },
+        "Washington": {
+          "unmarriedBirths": 25723,
+          "pctUnmarried": 31.8
+        },
+        "West Virginia": {
+          "unmarriedBirths": 7482,
+          "pctUnmarried": 45.1
+        },
+        "Wisconsin": {
+          "unmarriedBirths": 22157,
+          "pctUnmarried": 37.1
+        },
+        "Wyoming": {
+          "unmarriedBirths": 1970,
+          "pctUnmarried": 32.9
+        },
+        "Puerto Rico": {
+          "unmarriedBirths": 13136,
+          "pctUnmarried": 70.6
+        },
+        "U.S. Virgin Islands": {
+          "unmarriedBirths": 581,
+          "pctUnmarried": 70.6
+        },
+        "Guam": {
+          "unmarriedBirths": 1461,
+          "pctUnmarried": 62.1
+        },
+        "Northern Marianas": {
+          "unmarriedBirths": 352,
+          "pctUnmarried": 60.8
+        },
+        "American Samoa": {
+          "unmarriedBirths": null,
+          "pctUnmarried": null,
+          "note": "'---' data not available in Table IV"
+        }
+      },
+      "range": "Utah 21.3% low; Louisiana 55.5%, Mississippi 54.9%, New Mexico 52.7% highest among states"
+    },
+    "cohabitingShare": {
+      "source": "nsfg-keystat-b, women 15-49, opposite-sex partners",
+      "birthsInPrior5Years_2017_19": {
+        "married": 61.0,
+        "cohabiting": 26.3,
+        "unmarriedNotCohabiting": 12.7
+      },
+      "birthsInPrior5Years_2015_17": {
+        "married": 61.3,
+        "cohabiting": 26.4,
+        "unmarriedNotCohabiting": 12.4
+      },
+      "firstBirth_2017_19": {
+        "marriedOrFormerlyMarried": 50.9,
+        "cohabiting": 24.1,
+        "neither": 25.0
+      },
+      "computed_cohabitingShareOfNonmaritalBirths_prior5yrs_2017_19": 0.674,
+      "computed_cohabitingShareOfNonmaritalFirstBirths_2017_19": 0.491,
+      "computedNote": "Computed by me: 26.3/(26.3+12.7) and 24.1/(24.1+25.0). Note NSFG's 39% nonmarital share of recent births is close to NVSS's ~40%.",
+      "caveat": "The key-statistics page shows identical 2017-19 numbers and SEs for fathers' first-birth status and mothers' births-in-prior-5-years (61.0/26.3/12.7); possible page error, use mothers' row with caution."
+    }
+  },
+  "cohabitationTiming": {
+    "medianDurationFirstPremaritalCohabitation_months": {
+      "all_2006_10": 22,
+      "all_2002": 20,
+      "all_1995": 13,
+      "endedInMarriage_2006_10": 21,
+      "endedInDissolution_2006_10": 18,
+      "stillIntactAtInterview_2006_10": 32,
+      "byGroup_2006_10": {
+        "foreignBornHispanic": 33,
+        "black": 27,
+        "usBornHispanic": 25,
+        "white": 19,
+        "ageUnder20AtStart": 25,
+        "age20plusAtStart": "17-20"
+      },
+      "source": "nhsr64 Table A and Table B text (Kaplan-Meier medians, women 15-44)"
+    },
+    "meanDuration_2006_13_months": {
+      "value": 18,
+      "vs_1983_88": 12,
+      "source": "lamidi-2019 abstract (mean, not median)"
+    },
+    "medianAgeFirstCohabitation": {
+      "women_2006_10": 21.8,
+      "men_2006_10": 23.5,
+      "women_1984_88": 22.8,
+      "men_1983_88": 23.9,
+      "medianAgeFirstUnion_2006_10": {
+        "women": 22.2,
+        "men": 23.7
+      },
+      "medianAgeFirstMarriage_2006_10": {
+        "women": 25.9,
+        "men": 27.6
+      },
+      "byEducation_2006_10": {
+        "women": {
+          "lessThanHS": 18.8,
+          "HS": 19.9,
+          "someCollege": 21.7,
+          "BAplus": 24.7
+        },
+        "men": {
+          "lessThanHS": 20.8,
+          "HS": 23.1,
+          "someCollege": 23.7,
+          "BAplus": 25.7
+        }
+      },
+      "source": "manning-brown-payne-2014 Tables 1-6 (read via PMC summary)"
+    },
+    "probabilityFirstPremaritalCohabitationByAge_women_2006_10": {
+      "by20": 0.26,
+      "by25": 0.55,
+      "by30": 0.74,
+      "source": "nhsr64 Table 2"
+    },
+    "medianAgeFirstMarriage_byPremaritalCohabitation_women": {
+      "2020-22": {
+        "cohabitedFirst": 27,
+        "didNot": 26
+      },
+      "2015-19": {
+        "cohabitedFirst": 27,
+        "didNot": 25
+      },
+      "2005-09": {
+        "cohabitedFirst": 26,
+        "didNot": 23
+      },
+      "source": "ncfmr-fp-25-25 Figure 3 / ncfmr-fp-21-04 Figure 3"
+    },
+    "medianAgeFirstMarriage_nhsr49_2006_10": {
+      "women": 25.8,
+      "men": 28.3
+    }
+  },
+  "sameSexCouples": {
+    "2023": {
+      "marriedHouseholds": 774600,
+      "unmarriedHouseholds": 536900,
+      "totalHouseholds": 1311447,
+      "pctOfAllHouseholds": 1.0,
+      "pctMarried": 59.1,
+      "maleMale": {
+        "married": 360700,
+        "unmarried": 264000
+      },
+      "femaleFemale": {
+        "married": 413900,
+        "unmarried": 272900
+      }
+    },
+    "2024": {
+      "marriedHouseholds": 835900,
+      "unmarriedHouseholds": 551100,
+      "totalHouseholds": 1386990,
+      "pctMarried": 60.3
+    },
+    "computed_shareOfMarriedCoupleHouseholds_2023": 0.0126,
+    "computed_shareOfUnmarriedCoupleHouseholds_2023": 0.0566,
+    "computedNote": "Computed by me: 774,600/(60,650,000+774,600) and 536,900/(8,951,000+536,900), ACS 2023 Tables 1-2.",
+    "withChildren2023": {
+      "marriedSameSex": 0.17,
+      "unmarriedSameSex": 0.1,
+      "marriedOppositeSex": 0.38,
+      "unmarriedOppositeSex": 0.34,
+      "source": "Census story 'same-sex-tables-2023' (Nov 2024)"
+    },
+    "byState2023": "acs-ssex-2023 Table 3 gives count, % of households and % married for all 50 states + DC (range: ND 0.4% / 30.3% married, DC 2.6%); not copied here",
+    "source": "acs-ssex-2023 Tables 1-3; acs-ssex-2024 Tables 1-3"
+  },
+  "gaps": [
+    "No published men's share of first marriages preceded by cohabitation for NSFG 2011-2019; NCFMR profiles are women-only. Nearest men figure: 82.2% of first unions began as cohabitation (2006-10).",
+    "No NCHS update of NHSR 64's 3-year outcome split (married/intact/dissolved) after 2006-2010 found; later work (Lamidi 2019, Sassler 2018) shows declining transition to marriage but I did not read a full 3-way split.",
+    "Median duration and median age at first cohabitation are latest published for 2006-2010 NSFG; NCFMR FP-25-26 only says 'about 2 years'.",
+    "CPS AD-3 gives cohabiting share only for 18-24, 25-34, 35-64, 65-74, 75+ (no finer bands); finer age shares would need CPS microdata.",
+    "American Samoa nonmarital births not reported in NVSS Table IV.",
+    "NSFG key-statistics births table shows a possibly duplicated 2017-19 row (fathers vs mothers); verify before relying on it.",
+    "Education-specific premarital cohabitation shares from NCFMR were read from chart labels; label-to-bar pairing may be off."
+  ]
+}

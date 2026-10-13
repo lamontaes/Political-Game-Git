@@ -12,6 +12,7 @@ import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { stableHash } from "../../simulation/ids";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds, decisionLean } from "../trait-decisions";
+import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import type { Parameter } from "../parameters";
 import type {
   ActionDefinition,
@@ -26,6 +27,8 @@ import type {
 export const PARTNERING_MODULE_ID = "partnering";
 export const MARRIED_EVENT = "family.married";
 export const MARRIAGE_KIND = "legal:marriage";
+export const COUPLE_KIND = "romantic:couple";
+export const MOVED_IN_EVENT = "family.moved-in-together";
 export const PARTNERING_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -80,6 +83,10 @@ export const STAY_AS_IS = action(STAY_ID, false);
 
 export interface Marriage {
   id: string;
+  /** The partner link, shared by a couple's moving in and their marriage. */
+  partnershipId: string;
+  /** A marriage, or a couple moving in together. */
+  kind: string;
   personIds: readonly [PersonId, PersonId];
   date: string;
   /** The pull behind it, by cause, as each partner weighed it. */
@@ -181,11 +188,12 @@ function chooses(
   person: Readonly<PersonState>,
   pull: number,
   otherId: PersonId,
+  stayKey = "partneringStayPull",
 ): boolean {
   const temperament =
     q(api, "partneringTemperamentWeight") *
     decisionLean(api.state, person, DECISION, MARRY_ID, STAY_ID);
-  pending.set(api.state, pull + temperament - q(api, "partneringStayPull"));
+  pending.set(api.state, pull + temperament - q(api, stayKey));
   const offers: ActOffer[] = [STAY_AS_IS, MARRY].map((definition) => ({
     definition,
     targetId: otherId,
@@ -229,6 +237,82 @@ function partneredNow(core: Readonly<CoreState>): Set<PersonId> {
     )
       for (const id of link.personIds) out.add(id);
   return out;
+}
+
+/** The kind of a couple's partnership, from the latest fact on a partner's record. */
+function latestKind(person: Readonly<PersonState>, otherId: PersonId): string {
+  const facts = (person.pastFacts ?? []).filter(
+    (fact) =>
+      fact.kind === "family:partner" && fact.facts?.otherPersonId === otherId,
+  );
+  facts.sort((x, y) => x.date.localeCompare(y.date));
+  return String(facts.at(-1)?.facts?.partnershipKind ?? MARRIAGE_KIND);
+}
+
+/** The pull toward marrying now rather than moving in first: faith and age. */
+function marryFirstPull(api: CoreAPI, person: Readonly<PersonState>): number {
+  const faith =
+    person.pastFacts?.find((row) => row.kind === PROFILE_FACT_KINDS.faith)
+      ?.facts?.group ??
+    profileFor(person, api.state.seed, api.state.startedAt)?.faith;
+  const religious =
+    faith && faith !== "none" ? api.parameter("one") : api.parameter("zero");
+  const peak = q(
+    api,
+    person.looks?.gender === "female"
+      ? "partneringPeakAgeWomen"
+      : "partneringPeakAgeMen",
+  );
+  return (
+    q(api, "partneringFaithWeight") * religious +
+    q(api, "partneringMarryAgeWeight") *
+      ((ageOf(api, person) - peak) / q(api, "partneringAgeSpread"))
+  );
+}
+
+/** Two people unite: a marriage, or a couple moving in together. */
+function unite(
+  api: CoreAPI,
+  pair: [PersonId, PersonId],
+  kind: string,
+  reasons: Record<string, number>,
+): Marriage {
+  const core = api.state as CoreState;
+  const [a, b] = pair.map((id) => core.people.get(id)!);
+  const event = kind === MARRIAGE_KIND ? MARRIED_EVENT : MOVED_IN_EVENT;
+  const eventId = `${event}:${api.state.date}:${[...pair].sort().join(":")}`;
+  const partnershipId = api.formPartnershipV1(pair, kind, eventId);
+  const movedIn =
+    a!.householdId === b!.householdId ? undefined : moveIn(api, a!, b!);
+  const marriage: Marriage = {
+    id: `${partnershipId}:${kind}`,
+    partnershipId,
+    kind,
+    personIds: pair,
+    date: api.state.date,
+    reasons,
+    ...(movedIn ? { movedIn } : {}),
+  };
+  store(api)
+    .table("marriages")
+    .put({ ...marriage });
+  api.emit({
+    id: eventId,
+    date: api.state.date,
+    kind: event,
+    personIds: pair,
+    placeId: a!.placeId,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${kind === MARRIAGE_KIND ? "Marriage" : "Moving in together"} of ${pair.join(" and ")}, chosen by both from their closeness, ages, faith and temperaments.`,
+      estimatedFrom: STOPGAP,
+    },
+    // A marriage license is a public record; living together is not.
+    publicRecord: kind === MARRIAGE_KIND,
+    facts: { partnershipId, partnershipKind: kind },
+  });
+  return marriage;
 }
 
 /** The month's review: each unpartnered adult and the one they are closest to. */
@@ -331,38 +415,49 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
     )
       continue;
     const pair: [PersonId, PersonId] = [person.id, best.other.id];
-    const eventId = `${MARRIED_EVENT}:${api.state.date}:${[...pair].sort().join(":")}`;
-    const partnershipId = api.formPartnershipV1(pair, MARRIAGE_KIND, eventId);
     for (const who of pair) partnered.add(who);
     store(api).table("courtships").remove(pairKey);
-    const movedIn = moveIn(api, person, chosen.other);
-    const marriage: Marriage = {
-      id: partnershipId,
-      personIds: pair,
-      date: api.state.date,
-      reasons: { ...reasons, courtship: pull },
-      ...(movedIn ? { movedIn } : {}),
-    };
-    store(api)
-      .table("marriages")
-      .put({ ...marriage });
-    api.emit({
-      id: eventId,
-      date: api.state.date,
-      kind: MARRIED_EVENT,
-      personIds: pair,
-      placeId: person.placeId,
-      source: {
-        tag: "ESTIMATED",
-        asOf: api.state.date,
-        citation: `Marriage of ${pair.join(" and ")}, chosen by both from their closeness, ages and temperaments.`,
-        estimatedFrom: STOPGAP,
-      },
-      // A marriage license is a public record.
-      publicRecord: true,
-      facts: { partnershipId, partnershipKind: MARRIAGE_KIND },
-    });
-    married.push(marriage);
+    // Marry now, or move in together first: both must want to marry now.
+    const marryNow = [person, chosen.other].every((who) =>
+      chooses(
+        api,
+        who,
+        marryFirstPull(api, who),
+        person.id === who.id ? chosen.other.id : person.id,
+        "partneringMoveInStayPull",
+      ),
+    );
+    married.push(
+      unite(api, pair, marryNow ? MARRIAGE_KIND : COUPLE_KIND, {
+        ...reasons,
+        courtship: pull,
+      }),
+    );
+  }
+  // Couples living together court toward marrying.
+  for (const link of core.familyLinks.values()) {
+    if (link.kind !== "partner") continue;
+    const [a, b] = link.personIds.map((pid) => core.people.get(pid));
+    if (!a?.alive || !b?.alive) continue;
+    if (latestKind(a, b.id) !== COUPLE_KIND) continue;
+    if (
+      [a, b].some(
+        (who) =>
+          who.tier === INACTIVE_TIER ||
+          who.id === (api.state as CoreState).playerId,
+      )
+    )
+      continue;
+    const key = `wed:${[a.id, b.id].sort().join(":")}`;
+    const tie = core.relationships.get([a.id, b.id].sort().join(":"));
+    const pull =
+      courtshipOf(api, key) +
+      (tie?.level ?? q(api, "partneringAcquaintanceLevel")) *
+        q(api, "partneringWeddingPerMonth");
+    store(api).table("courtships").put({ id: key, value: pull });
+    if (!chooses(api, a, pull, b.id) || !chooses(api, b, pull, a.id)) continue;
+    store(api).table("courtships").remove(key);
+    married.push(unite(api, [a.id, b.id], MARRIAGE_KIND, { courtship: pull }));
   }
   return married;
 }

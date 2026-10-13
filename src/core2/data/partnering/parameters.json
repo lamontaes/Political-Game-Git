@@ -128,5 +128,45 @@
       "low": 0.05,
       "high": 0.4
     }
+  },
+  "partneringFaithWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far belonging to a faith pulls a couple to marry before living together.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "partneringMarryAgeWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How far being older than the usual age at first marriage pulls a couple to marry before living together.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0,
+      "high": 2
+    }
+  },
+  "partneringMoveInStayPull": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "The pull of moving in together first rather than marrying, calibrated to the share of first marriages preceded by living together. Measured: 72% of new couples move in together first, against 76% of first marriages preceded by living together (NCFMR from NSFG, 2015-2019).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": -1,
+      "high": 3
+    }
+  },
+  "partneringWeddingPerMonth": {
+    "value": 0.06,
+    "tag": "TUNABLE",
+    "citation": "How much a month of living together adds toward marrying, per unit of the couple's closeness, against the pull of staying as they are; calibrated so marriages in all stay near the national rate. Measured over eight drawn towns: 0.08 gave 7.6 marriages per 1,000 with couples already living together marrying about 30% a year; 0.06 brings that near 22% (NSFG: 40% of first cohabitations marry within three years, NHSR 64).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0.005,
+      "high": 0.1
+    }
   }
 }

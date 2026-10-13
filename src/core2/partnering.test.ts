@@ -4,8 +4,10 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import {
+  COUPLE_KIND,
   MARRIAGE_KIND,
   MARRIED_EVENT,
+  MOVED_IN_EVENT,
   marriagesOf,
   partneringModule,
   PARTNERING_PARAMETERS,
@@ -35,7 +37,7 @@ const towns = [0, 1, 2].map((draw) => {
   const events: CoreEventInput[] = [];
   const recorder: CoreModule = {
     id: "test-recorder",
-    eventKinds: [MARRIED_EVENT],
+    eventKinds: [MARRIED_EVENT, MOVED_IN_EVENT],
     onEvent(_api, event) {
       events.push(event);
     },
@@ -50,17 +52,22 @@ const towns = [0, 1, 2].map((draw) => {
       .filter((link) => link.kind === "partner")
       .flatMap((link) => link.personIds),
   );
+  const pairsBefore = new Set(
+    [...core.familyLinks.values()]
+      .filter((link) => link.kind === "partner")
+      .map((link) => [...link.personIds].sort().join(":")),
+  );
   const knew = new Map(
     [...core.people.values()].map((row) => [row.id, new Set(row.knownIds)]),
   );
   advanceCore(core, "2022-01-01");
-  return { place, core, events, partneredBefore, knew };
+  return { place, core, events, partneredBefore, pairsBefore, knew };
 });
 const rate = PARTNERING_PARAMETERS.partneringMarriageRate!.value;
 
 describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (seed ${place.seed.slice(0, 12)})`).join(", ")}`, () => {
   it("marries only two unpartnered adults who know each other, both chosen", () => {
-    for (const { core, partneredBefore, knew } of towns)
+    for (const { core, partneredBefore, pairsBefore, knew } of towns)
       for (const marriage of marriagesOf(coreAPI(core))) {
         const [a, b] = marriage.personIds.map((id) => core.people.get(id)!);
         // Known since the opening, or introduced by someone they knew.
@@ -71,10 +78,15 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
               knew.get(id)?.has(b!.id),
             ),
           ).toBe(true);
-        expect(a!.looks?.gender).not.toBe(b!.looks?.gender);
+        // New couples are opposite-sex for now (SG-P15-partnering-homes);
+        // a couple together at the opening may not be.
+        if (!pairsBefore.has([a!.id, b!.id].sort().join(":")))
+          expect(a!.looks?.gender).not.toBe(b!.looks?.gender);
         expect(a!.familyIds.has(b!.id)).toBe(true);
         for (const person of [a!, b!]) {
-          expect(partneredBefore.has(person.id)).toBe(false);
+          // Someone partnered at the opening marries only that partner.
+          if (partneredBefore.has(person.id))
+            expect(pairsBefore.has([a!.id, b!.id].sort().join(":"))).toBe(true);
           expect(
             ageOnDate(
               makeIsoDate(person.birthDate),
@@ -86,11 +98,13 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
               (fact) =>
                 fact.kind === "family:partner" &&
                 fact.date === marriage.date &&
-                fact.facts?.partnershipKind === MARRIAGE_KIND,
+                fact.facts?.partnershipKind === marriage.kind,
             ),
           ).toBe(true);
         }
-        expect(core.familyLinks.get(marriage.id)?.kind).toBe("partner");
+        expect(core.familyLinks.get(marriage.partnershipId)?.kind).toBe(
+          "partner",
+        );
         // A newlywed who moved in lives in the spouse's home now, and the
         // home they left still has someone in it.
         if (marriage.movedIn) {
@@ -104,12 +118,12 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
       }
   });
 
-  it("records each marriage as a public event naming both", () => {
+  it("records each union as an event naming both, a marriage in public", () => {
     for (const { core, events } of towns) {
       const marriages = marriagesOf(coreAPI(core));
       expect(events.length).toBe(marriages.length);
       for (const event of events) {
-        expect(event.publicRecord).toBe(true);
+        expect(event.publicRecord).toBe(event.kind === MARRIED_EVENT);
         expect(event.personIds.length).toBe(2);
       }
     }
@@ -119,12 +133,38 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
     let marriages = 0;
     let people = 0;
     for (const { core } of towns) {
-      marriages += marriagesOf(coreAPI(core)).length;
+      marriages += marriagesOf(coreAPI(core)).filter(
+        (row) => row.kind === MARRIAGE_KIND,
+      ).length;
       people += [...core.people.values()].filter(
         (row) => row.tier !== "husk",
       ).length;
     }
     expect(marriages / people).toBeLessThan(rate * 2);
     expect(marriages / people).toBeGreaterThan(rate * 0.4);
+  });
+
+  it("has most new couples move in together before they marry", () => {
+    let together = 0;
+    let marriedFirst = 0;
+    for (const { core, pairsBefore } of towns) {
+      const rows = [...marriagesOf(coreAPI(core))].sort((a, b) =>
+        a.date.localeCompare(b.date),
+      );
+      const first = new Map<string, string>();
+      for (const row of rows)
+        if (!first.has(row.partnershipId))
+          first.set(row.partnershipId, row.kind);
+      for (const row of rows) {
+        if (first.get(row.partnershipId) !== row.kind) continue;
+        if (pairsBefore.has([...row.personIds].sort().join(":"))) continue;
+        if (row.kind === COUPLE_KIND) together += 1;
+        else marriedFirst += 1;
+      }
+    }
+    // About 76% of first marriages follow living together (NSFG 2015-2019).
+    const share = together / Math.max(1, together + marriedFirst);
+    expect(share).toBeGreaterThan(0.5);
+    expect(share).toBeLessThan(0.9);
   });
 });

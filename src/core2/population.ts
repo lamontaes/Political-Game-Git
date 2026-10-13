@@ -30,6 +30,7 @@ import {
   householdMixForJurisdiction,
 } from "../simulation/household-mix";
 import { createStableId, stableHash } from "../simulation/ids";
+import openingCohabitation from "./data/partnering/opening-cohabitation.json" with { type: "json" };
 import {
   lifePlaceByKey,
   lifePlaceByJurisdictionId,
@@ -957,6 +958,32 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         personIds: [adults[p("zero")]!, adults[p("one")]!],
       });
       link(adults[p("zero")]!, adults[p("one")]!);
+      // P15: some opening couples live together unmarried, by the younger
+      // partner's age (Census CPS 2023); generation of who exists, keyed to
+      // the couple.
+      const younger = Math.max(
+        ...[adults[p("zero")]!, adults[p("one")]!].map((personId) =>
+          Number(world.people[personId]!.birthDate.slice(0, 4)),
+        ),
+      );
+      const youngerAge = Number(startedAt.slice(0, 4)) - younger;
+      const cohabiting =
+        openingCohabitation.bands.find(([max]) => youngerAge <= max!)?.[1] ??
+        p("zero");
+      const drawn =
+        Number.parseInt(
+          stableHash(`${world.id}:${id}:cohabiting`).slice(
+            0,
+            p("seedHashDigits"),
+          ),
+          p("seedPlaceHashRadix"),
+        ) /
+        p("seedPlaceHashRadix") ** p("seedHashDigits");
+      const partnershipKind =
+        partnershipsById.get(id)!.kind === "legal:marriage" &&
+        drawn < cohabiting
+          ? "romantic:couple"
+          : partnershipsById.get(id)!.kind;
       recordFamilyPast(
         adults[p("zero")]!,
         adults[p("one")]!,
@@ -964,7 +991,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         partnershipsById.get(id)!.startedAt,
         "partner",
         // P15: a marriage or a couple living together, for the journal.
-        { partnershipKind: partnershipsById.get(id)!.kind },
+        { partnershipKind },
       );
       recordFamilyPast(
         adults[p("one")]!,
@@ -973,7 +1000,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         partnershipsById.get(id)!.startedAt,
         "partner",
         // P15: a marriage or a couple living together, for the journal.
-        { partnershipKind: partnershipsById.get(id)!.kind },
+        { partnershipKind },
       );
     }
     for (const [childMember, parentMember] of parentChildMembers(plan)) {

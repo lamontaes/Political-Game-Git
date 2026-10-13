@@ -13,8 +13,9 @@ import type { CoreAPI, CoreModule, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 
 export const RENEWAL_MODULE_ID = "core2-renewal-v1";
-/** The partnering engine's record of a marriage during play. */
+/** The partnering engine's records of a couple marrying or moving in together during play. */
 const MARRIED_EVENT = "family.married";
+const MOVED_IN_EVENT = "family.moved-in-together";
 const INACTIVE_TIER = "husk";
 const initialized = new WeakSet<object>();
 const source = (api: CoreAPI): Source => ({
@@ -362,7 +363,7 @@ function addMarriedCouple(api: CoreAPI, personIds: readonly string[]): void {
 
 export const RENEWAL_MODULE: CoreModule = {
   id: RENEWAL_MODULE_ID,
-  eventKinds: [MARRIED_EVENT],
+  eventKinds: [MARRIED_EVENT, MOVED_IN_EVENT],
   onEvent(api, event) {
     if (!table(api, "parameters").get("renewalReviewDays")) return;
     addMarriedCouple(api, event.personIds);

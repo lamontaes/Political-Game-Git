@@ -840,13 +840,20 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     formPartnershipV1(personIds, partnershipKind, sourceId) {
       const people = personIds.map((id) => core.people.get(id));
+      const links = [...core.familyLinks.values()].filter(
+        (link) =>
+          link.kind === "partner" &&
+          link.personIds.every((other) => core.people.get(other)?.alive),
+      );
+      // Two partners already together record a new kind on their own link
+      // (a couple living together who marry).
+      const existing = links.find(
+        (link) =>
+          link.personIds.includes(personIds[0]) &&
+          link.personIds.includes(personIds[1]),
+      );
       const partnered = (id: PersonId) =>
-        [...core.familyLinks.values()].some(
-          (link) =>
-            link.kind === "partner" &&
-            link.personIds.includes(id) &&
-            link.personIds.every((other) => core.people.get(other)?.alive),
-        );
+        links.some((link) => link !== existing && link.personIds.includes(id));
       if (
         people.some((person) => !person?.alive) ||
         personIds[0] === personIds[1] ||
@@ -854,12 +861,15 @@ export function coreAPI(core: CoreState): CoreAPI {
         personIds.some(partnered)
       )
         throw new Error("A partnership needs two living, unpartnered people.");
-      const id = `partnership:${core.date}:${[...personIds].sort().join(":")}`;
-      core.familyLinks.set(id, {
-        id,
-        kind: "partner",
-        personIds: [personIds[0], personIds[1]],
-      });
+      const id =
+        existing?.id ??
+        `partnership:${core.date}:${[...personIds].sort().join(":")}`;
+      if (!existing)
+        core.familyLinks.set(id, {
+          id,
+          kind: "partner",
+          personIds: [personIds[0], personIds[1]],
+        });
       for (const [self, other] of [
         [people[0]!, people[1]!],
         [people[1]!, people[0]!],
@@ -868,7 +878,9 @@ export function coreAPI(core: CoreState): CoreAPI {
         self.pastFacts = [
           ...(self.pastFacts ?? []),
           {
-            id: `${id}:past:${self.id}`,
+            id: existing
+              ? `${id}:${partnershipKind}:${core.date}:past:${self.id}`
+              : `${id}:past:${self.id}`,
             date: core.date,
             kind: "family:partner",
             summary: `${other.givenName} ${other.familyName} became this person's partner.`,

@@ -557,4 +557,36 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     );
     expect(text).toContain("I lost my health insurance.");
   });
+
+  it("tells a couple moving in together, as the partnering engine records it", () => {
+    const me = core.people.get(player.id)!;
+    const partnerId = [...me.knownIds]
+      .filter((id) => !me.familyIds.has(id) && core.people.get(id)?.alive)
+      .sort()
+      .at(-1)!;
+    applyCoreEvent(core, {
+      id: "family.moved-in-together:fixture",
+      date: core.date,
+      kind: "family.moved-in-together",
+      personIds: [player.id, partnerId],
+      placeId: me.placeId,
+      publicRecord: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the partnering engine.",
+        estimatedFrom: "Fixture.",
+      },
+      facts: { partnershipKind: "romantic:couple" },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const line = composeJournal(core, director, player.id)
+      .flatMap((chapter) => chapter.lines)
+      .find((row) =>
+        row.sourceRecordIds.includes("family.moved-in-together:fixture"),
+      );
+    expect(line?.text).toBe(
+      `${core.people.get(partnerId)!.givenName} and I moved in together.`,
+    );
+  });
 });

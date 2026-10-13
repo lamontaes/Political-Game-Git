@@ -359,6 +359,12 @@
       "tag": "ESTIMATED",
       "citation": "Losing health coverage, sized as the Social Readjustment Rating Scale's 'Change in financial state', 38 life-change units divided by 100 (Holmes and Rahe 1967); the scale has no item for coverage itself.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.45"
+    },
+    "directorMovedInImpact": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "Moving in with a partner, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100 (Holmes and Rahe 1967); the scale has no item for living together.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.5"
     }
   },
   "channels": [
@@ -594,6 +600,12 @@
       "eventKind": "health.coverage-lost",
       "channel": "money",
       "impactParameter": "directorCoverageLostImpact"
+    },
+    {
+      "eventKind": "family.moved-in-together",
+      "channel": "feeling",
+      "impactParameter": "directorMovedInImpact",
+      "counterparts": "tied"
     }
   ]
 }

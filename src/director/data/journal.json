@@ -563,6 +563,29 @@
           "text": "{{other}} lost {{their}} health insurance."
         }
       ]
+    },
+    {
+      "kindPrefix": "event:family.moved-in-together",
+      "turn": true,
+      "ownWithOther": true,
+      "line": [
+        {
+          "key": "moved-in",
+          "text": "{{name}} and I moved in together."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-moved-in",
+          "text": "{{other}} moved in with {{their}} partner."
+        }
+      ],
+      "title": [
+        {
+          "key": "with",
+          "text": "With {{name}}"
+        }
+      ]
     }
   ],
   "firstTitle": [
