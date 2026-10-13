@@ -10,6 +10,7 @@ import { lifePlaceByKey } from "../../simulation/life-places";
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
+import crosswalk from "../data/housing/place-county-crosswalk.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -80,6 +81,7 @@ const COUNTY_TENURE = housingData.countyTenure as unknown as Record<
 const LEASE_KIND = "household-purchase";
 const NATION = "nation";
 const STATE_PREFIX = "state:";
+const CROSSWALK = crosswalk.places as Readonly<Record<string, string>>;
 const FIPS_OF_USPS = new Map(
   (regions.regions as { stateFips: string; stateUsps: string }[]).map((row) => [
     row.stateUsps,
@@ -172,12 +174,14 @@ function townOf(input: CoreInput): Town | undefined {
     ? lifePlaceByKey(input.placeMetadata.placeKey)
     : null;
   const geoid = place?.sourceGeoid ?? "";
+  // A place whose county changed (Connecticut's planning regions) reads its current one.
   const county =
-    geoid.length === "SSPPPPP".length
+    CROSSWALK[geoid] ??
+    (geoid.length === "SSPPPPP".length
       ? [...countyPopulationSharesForPlace(geoid)].sort(
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
-      : geoid;
+      : geoid);
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
