@@ -6,14 +6,15 @@ After: in a game opening before October 9, 2026, FEMA's real disasters strike on
 
 **Your call:** after FEMA's records end, either the game keeps its own weather record and storms follow it, or later games have no disasters.
 
-**What you need to do:** in the evening build, type an opening date of January 1, 2021, pick a town in Louisiana or Florida, and play through the year.
+**What you need to do:** in the evening build, type an opening date of January 1, 2021, pick a Louisiana or Florida town, and play the year.
 
-**Also read first:** two speed problems (next section): a Woodmere, New York year takes 96.6 seconds, against 53.5 for this morning's code.
+**Also read first:** a Woodmere, New York year now takes 175 seconds, over budget, mostly from 1,614 officials made full people (next section).
 
 ## Known problems
 
-- **Election Day is too slow:** in Woodmere, Election Day took 4.7 seconds against a 3-second budget in one run tonight. In a profile earlier tonight, when it took 5.3 seconds, the government team's voting took 4.1 of them.
-- **A year got much slower today.** Measured back to back tonight, this morning's code runs a Woodmere year in 53.5 seconds and this branch's head in 96.6, 81% slower. Single timings during the evening put most of the slowdown on two main merges with other teams' engines, roughly a third each. The later one is well over the 20% limit; the earlier one may be near it, given how much single runs vary. I've asked the CTO to have the government and people teams look at their parts.
+- **A year is over budget again.** After this branch took tonight's main, a Woodmere year takes 174.8 seconds against a two-minute budget, back to back with 96.6 just before. The town now opens with 2,039 full people instead of about 400. 1,614 of them are state and federal officials who live elsewhere (from the officials team's change, #4120). A full-year profile puts 28.7 seconds in the people team's drives, which plan a day for every one of those officials although the core never runs their days. I've asked the CTO to have the people team skip them.
+- **The day earlier tonight:** this morning's code ran a Woodmere year in 53.5 seconds. Two earlier main merges with other teams' engines slowed it, and tonight's three core fixes took 112.2 seconds back to 96.6 (details under "A faster year").
+- **The speed check stops on this pull request.** It now runs (fixed here) and stops because this pull request changes how a town opens; the guard refuses any such comparison. I've proposed a rule change to the CTO; it needs his sign-off because it changes a guard's test.
 
 ## What changed for the player
 
@@ -44,7 +45,7 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 - The three blocking golden-path checks pass on this branch's head: the suite runs and fits its time (Silver Summit, Utah), the speed check (Carmet, California; it tests only its arithmetic, see "What happens next"), and a played world that runs a full year with every engine (Lamar, Mississippi).
 - Disasters: the test draws places from its seed until one has a disaster beginning in 2021, then checks one news event per disaster, no payment above FEMA's figure, and balanced money. It passed in Winchester, Idaho (1 disaster); Long Beach, New York (3, with one housing-aid payment and three repair payments); and Dyersburg, Tennessee (2), with seeds a1, c3 and e5.
-- Speed and memory in Woodmere (cloud machine, not a minimum-spec PC): a new game loads in 52.9 seconds in one run and a year runs in 96.6, each against a two-minute budget. A year-old save is 15.1 MB compressed against 40 MB. The slowest day fails: 4.7 seconds against 3, in one run.
+- Speed and memory in Woodmere (cloud machine, not a minimum-spec PC): before tonight's main merge, a new game loaded in 52.9 seconds in one run and a year ran in 96.6, each against a two-minute budget; after it, a year takes 174.8. A year-old save is 15.1 MB compressed against 40 MB. The slowest day failed: 4.7 seconds against 3, in one run.
 - The release check, the no-dice check, type checks and the changed files' tests pass.
 
 ## What happens next
