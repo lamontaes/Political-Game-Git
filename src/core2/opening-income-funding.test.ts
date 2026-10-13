@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isoDateFromParts } from "./kernel/dates";
-import { seatOfGovernmentPlace } from "../simulation/life-places";
+import { coreSeatOfGovernmentPlace } from "./place-lookup";
 import { advanceDate } from "./calendar";
 import {
   buildOpeningRetirementIncome,
@@ -348,7 +348,7 @@ describe("source-qualified due retirement flows with zero opening stock", () => 
   });
 
   it("uses the canonical recorded seat for its default external location", () => {
-    const actual = seatOfGovernmentPlace(data.contributorJurisdictionKey);
+    const actual = coreSeatOfGovernmentPlace(data.contributorJurisdictionKey);
     expect(actual).not.toBeNull();
     const result = buildOpeningRetirementFunding(incomeFixture());
     expect(result.receipt.contributorAccounts[p("zero")]!.placeId).toBe(
