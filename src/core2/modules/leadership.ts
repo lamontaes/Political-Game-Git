@@ -449,7 +449,7 @@ function assignCommittees(
     : 0;
   const load = new Map<string, number>();
   const cap = Math.ceil((COMMITTEES.length * size) / all.length);
-  const pick = (
+  const appoint = (
     authorityId: string | null,
     pool: readonly TermRow[],
     n: number,
@@ -477,8 +477,8 @@ function assignCommittees(
   for (const committee of COMMITTEES) {
     const majorityPool = partisan ? majority : all;
     const seated = [
-      ...pick(who.majority, majorityPool, size - minoritySeats),
-      ...(minoritySeats ? pick(who.minority, minority, minoritySeats) : []),
+      ...appoint(who.majority, majorityPool, size - minoritySeats),
+      ...(minoritySeats ? appoint(who.minority, minority, minoritySeats) : []),
     ];
     if (!seated.length) continue;
     const eligible = seated.filter((t) => majorityPool.includes(t));

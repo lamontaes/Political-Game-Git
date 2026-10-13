@@ -1696,6 +1696,17 @@
       "keyedBy": "household id (household ages)",
       "reason": "Poisson count for a generated household's size, counted down through its terms; who exists, not what anyone does.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/gov-rules/given-name-cohorts.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let point = rng.next() * total;",
+      "class": "IDENTITY",
+      "keyedBy": "caller rng stream (person name)",
+      "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from src/simulation/given-name-cohorts.ts); who they are, not what they do.",
+      "replacement": null
     }
   ]
 }
