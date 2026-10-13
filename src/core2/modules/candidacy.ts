@@ -67,6 +67,8 @@ export interface OpenContest {
   feeMinor: number;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
+  /** How many have already decided to run for it. */
+  runners?: number;
   sourceIds: readonly string[];
 }
 
@@ -263,6 +265,8 @@ function reasonsFrom(
         : zero,
     incumbentTie: -c(api, "candidacyIncumbentTieWeight") * person.incumbentTie,
     standing: c(api, "candidacyStandingWeight") * standing,
+    // A crowded race: each person already running lowers the pull.
+    field: -c(api, "candidacyFieldWeight") * (contest.runners ?? zero),
     age:
       c(api, "candidacyAgeWeight") *
       (two * Math.exp(-distance * distance) - one),
@@ -625,7 +629,10 @@ export function weighContest(
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   for (const person of people) {
-    const decision = decideToRun(api, person.id, open);
+    const decision = decideToRun(api, person.id, {
+      ...open,
+      runners: running.length,
+    });
     if (!decision) continue;
     asked.push(person.id);
     if (decision.run) running.push(person.id);

@@ -103,5 +103,11 @@
     "value": 5,
     "tag": "SOURCED",
     "citation": "A full-time work week of five days (BLS American Time Use Survey: employed people work on about 5 of 7 days on average), to read a counted resident's scheduled weekly minutes as daily hours."
+  },
+  "candidacyFieldWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much each person already running for a seat lowers the pull of running for it: would-be candidates weigh their chances and avoid crowded races, entering where the field is thin (strategic entry: Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Cox and Katz 1996, American Journal of Political Science 40(2):478-497). Set so a second challenger enters only when their own pull clears the stay-out bar by half a point, which in drawn towns keeps local seats at one or two challengers. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }
