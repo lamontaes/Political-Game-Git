@@ -141,6 +141,11 @@ type BuildOptions = {
   twoLevel?: boolean;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
+  /**
+   * Sees the finished opening input just before the core starts from it
+   * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
+   */
+  onOpening?: (input: CoreInput) => void;
 };
 type Built = BenchWorld & { playerId?: string };
 
@@ -261,6 +266,7 @@ function* benchWorldStages(
       finance: createOpeningFinance(input),
     });
   yield "core";
+  options.onOpening?.(opening);
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
