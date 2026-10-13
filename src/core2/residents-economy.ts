@@ -5,7 +5,7 @@
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { residentsRuntime } from "./modules/residents";
+import { ownMap, residentsRuntime } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
@@ -567,7 +567,7 @@ export function endFlowPart(
   const flow = residentsRuntime(core)?.flows.get(id);
   const amount = flow?.amountByContract?.[part];
   if (!flow || flow.endedAt || amount === undefined) return false;
-  const parts = { ...flow.amountByContract };
+  const parts = ownMap(flow.amountByContract!);
   delete parts[part];
   flow.amountByContract = parts;
   flow.amountMinor = Math.max(0, flow.amountMinor - amount);
@@ -624,10 +624,9 @@ export function addCountedRetiree(
   const key = `retiree:${personId}`;
   if (flow) {
     if (flow.amountByContract?.[key] !== undefined) return 0;
-    flow.amountByContract = {
-      ...(flow.amountByContract ?? {}),
-      [key]: monthly,
-    };
+    const parts = ownMap(flow.amountByContract ?? {});
+    parts[key] = monthly;
+    flow.amountByContract = parts;
     flow.amountMinor += monthly;
   } else
     addResidentFlow(core, {

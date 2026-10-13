@@ -101,7 +101,14 @@ interface Household {
   state: string;
   county: string;
   city: string;
+  entity: string;
   totalApprovedIhpAmount: number;
+  totalDamage?: number;
+  totalInspected?: number;
+  noFemaInspectedDamage?: number;
+  totalWithModerateDamage?: number;
+  totalWithMajorDamage?: number;
+  totalWithSubstantialDamage?: number;
 }
 const countiesByBase = new Map<string, string>();
 for (const [geoid, name, state] of lookup.counties.rows as [
@@ -110,19 +117,34 @@ for (const [geoid, name, state] of lookup.counties.rows as [
   string,
 ][])
   countiesByBase.set(`${state}|${normalizedGovernmentName(name)}`, geoid);
-const households: Record<string, Record<string, number>> = {};
+/** Per town: [aid approved, owners' FEMA-inspected damage (cents), homes damaged]. */
+const households: Record<string, Record<string, [number, number, number]>> = {};
 let householdsUnmatched = 0;
 for (const r of read<Household[]>("households.json")) {
   const geoid = countiesByBase.get(
     `${r.state}|${normalizedGovernmentName(r.county)}`,
   );
   const city = normalizedGovernmentName(r.city ?? "");
-  if (!geoid || !city || !(r.totalApprovedIhpAmount > 0)) {
+  const damaged =
+    r.entity === "HousingAssistanceOwners"
+      ? Math.max(0, (r.totalInspected ?? 0) - (r.noFemaInspectedDamage ?? 0))
+      : (r.totalWithModerateDamage ?? 0) +
+        (r.totalWithMajorDamage ?? 0) +
+        (r.totalWithSubstantialDamage ?? 0);
+  const damage = Math.round((r.totalDamage ?? 0) * 100);
+  if (
+    !geoid ||
+    !city ||
+    !(r.totalApprovedIhpAmount > 0 || damage > 0 || damaged > 0)
+  ) {
     householdsUnmatched++;
     continue;
   }
   const row = (households[`${geoid}|${r.disasterNumber}`] ??= {});
-  row[city] = (row[city] ?? 0) + Math.round(r.totalApprovedIhpAmount * 100);
+  const town = (row[city] ??= [0, 0, 0]);
+  town[0] += Math.round(r.totalApprovedIhpAmount * 100);
+  town[1] += damage;
+  town[2] += damaged;
 }
 const source =
   "FEMA OpenFEMA DisasterDeclarationsSummaries v2 (declarations since 2000) and PublicAssistanceFundedProjectsSummaries v1 (federal obligated amounts, disasters declared since 2020), U.S. government works (17 U.S.C. 105); fetched by src/core2/tooling/fetch-disasters.ts.";
@@ -138,7 +160,7 @@ writeFileSync(
 writeFileSync(
   "src/core2/data/disasters/households.json",
   JSON.stringify({
-    source: `${source} Household amounts: HousingAssistanceOwners and HousingAssistanceRenters v2, total approved Individuals and Households Program assistance, by city.`,
+    source: `${source} Household amounts: HousingAssistanceOwners and HousingAssistanceRenters v2, by city: [total approved Individuals and Households Program assistance, owners' FEMA-inspected real property damage, homes inspected with damage (owners) or with moderate, major or substantial damage (renters)].`,
     unit: "cents",
     byCountyDisaster: households,
   }) + "\n",

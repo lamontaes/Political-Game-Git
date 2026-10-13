@@ -18,10 +18,16 @@ import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { stateOfPlaceKey } from "../places";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
-import { residentCounts, residentsAccountFor } from "./residents";
+import {
+  outsideMarketFor,
+  residentCounts,
+  residentsAccountFor,
+  residentsRuntime,
+} from "./residents";
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
+const BUILDER_CLASSIFICATION = "enterprise:construction";
 
 /** A government's name reduced to its place name: "Liberty, City of" → "liberty". */
 export function normalizedGovernmentName(name: string): string {
@@ -57,6 +63,8 @@ interface Runtime {
   byDeclared: Map<string, Disaster[]>;
   /** Assistance paid so far: disaster, receiving government, cents. */
   paid: { disaster: number; orgId: string; cents: number }[];
+  /** Repairs households paid: disaster, receiving account, cents. */
+  repairs: { disaster: number; to: string; cents: number }[];
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
 
@@ -135,6 +143,7 @@ function runtime(api: CoreAPI): Runtime {
     byBegin,
     byDeclared,
     paid: [],
+    repairs: [],
   };
   runtimes.set(core, rt);
   return rt;
@@ -146,6 +155,18 @@ const source = (api: CoreAPI, detail: string): Source => ({
   citation: declarations.source,
   estimatedFrom: detail,
 });
+
+/** Homes FEMA found damaged in the town, scaled to the world's share. */
+function damagedHomes(
+  core: CoreState,
+  rt: Runtime,
+  disaster: Disaster,
+  town: PlaceId,
+): { damagedHomes?: string } {
+  const row = townRow(rt, disaster);
+  const homes = row ? Math.round(row[2] * townShare(core, town)) : 0;
+  return homes > 0 ? { damagedHomes: String(homes) } : {};
+}
 
 function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
@@ -166,6 +187,7 @@ function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
       incidentType: disaster.type,
       ...(rt.county ? { countyCode: rt.county } : {}),
       statewide: String(disaster.statewide),
+      ...damagedHomes(core, rt, disaster, town),
     },
     source: source(
       api,
@@ -209,18 +231,23 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   pay(rt.townOrgId, row.towns[rt.townName] ?? 0, "the town's government");
 }
 
-/** FEMA housing assistance approved for the town's households, paid to its residents. */
-function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
-  const core = api.state;
-  const town = core.people.get(core.playerId ?? "")?.placeId;
-  const approved =
-    (households.byCountyDisaster as Record<string, Record<string, number>>)[
-      `${rt.county}|${disaster.number}`
-    ]?.[rt.townName] ?? 0;
-  const to = town ? residentsAccountFor(core, town as PlaceId) : undefined;
-  if (!to || !town || approved <= 0) return;
-  // The world holds a share of the real town: its people over the Census
-  // estimate (a place without one is taken as the whole town).
+type TownRow = [aid: number, damage: number, damagedHomes: number];
+
+/** FEMA's household figures for the town in this disaster, if any. */
+function townRow(rt: Runtime, disaster: Disaster): TownRow | undefined {
+  return (
+    households.byCountyDisaster as unknown as Record<
+      string,
+      Record<string, TownRow>
+    >
+  )[`${rt.county}|${disaster.number}`]?.[rt.townName];
+}
+
+/**
+ * The world's share of the real town: its people over the Census estimate (a
+ * place without one is taken as the whole town).
+ */
+function townShare(core: CoreState, town: PlaceId): number {
   const recorded = placePopulation(
     (core.placeMetadata.placeKey ?? "").replace(/^.*:/, ""),
   );
@@ -229,25 +256,88 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
     if (person.placeId === town) people += 1;
   for (const row of residentCounts(core))
     if (row.placeId === town) people += row.people;
-  const share = recorded && recorded > people ? people / recorded : 1;
-  const cents = Math.round(approved * share);
-  if (cents <= 0) return;
-  api.stopgap(STOPGAP);
-  rt.paid.push({ disaster: disaster.number, orgId: to, cents });
+  return recorded && recorded > people ? people / recorded : 1;
+}
+
+/**
+ * The town's households on the declaration date: FEMA's approved housing
+ * assistance is paid to them, and they pay for repairing the damage FEMA
+ * inspected in owners' homes, to the town's builders by their size (or to
+ * builders outside the town when it has none open).
+ */
+function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
+  const core = api.state;
+  const town = core.people.get(core.playerId ?? "")?.placeId as
+    PlaceId | undefined;
+  const row = townRow(rt, disaster);
+  const residents = town ? residentsAccountFor(core, town) : undefined;
+  if (!row || !town || !residents) return;
+  const share = townShare(core, town);
   const accounts = api.accounts();
-  accounts.transfer({
-    id: `disaster-households:${disaster.number}:${to}`,
-    from: accounts.main(rt.treasuryId!),
-    to,
-    amountMinor: cents,
-    reasonKey: "federal.disaster-household-assistance",
-    source: {
-      tag: "SOURCED",
-      asOf: core.date,
-      citation: households.source,
-      estimatedFrom: `FEMA housing assistance approved for this town's households in disaster ${disaster.number} (${disaster.title}), paid on the declaration date.`,
-    },
+  const aid = Math.round(row[0] * share);
+  const source = (detail: string): Source => ({
+    tag: "SOURCED",
+    asOf: core.date,
+    citation: households.source,
+    estimatedFrom: `${detail} Scaled to the world's share of the town (${share.toFixed(4)} of its Census estimate).`,
   });
+  if (aid > 0) {
+    api.stopgap(STOPGAP);
+    rt.paid.push({ disaster: disaster.number, orgId: residents, cents: aid });
+    accounts.transfer({
+      id: `disaster-households:${disaster.number}:${residents}`,
+      from: accounts.main(rt.treasuryId!),
+      to: residents,
+      amountMinor: aid,
+      reasonKey: "federal.disaster-household-assistance",
+      source: source(
+        `FEMA housing assistance approved for this town's households in disaster ${disaster.number} (${disaster.title}), paid on the declaration date.`,
+      ),
+    });
+  }
+  const damage = Math.round(row[1] * share);
+  if (damage <= 0) return;
+  api.stopgap(STOPGAP);
+  const staff = new Map<string, number>();
+  for (const job of core.jobs.values())
+    staff.set(job.organizationId, (staff.get(job.organizationId) ?? 0) + 1);
+  const builders = [...core.organizations.values()]
+    .filter(
+      (org) =>
+        org.classification === BUILDER_CLASSIFICATION &&
+        org.placeId === town &&
+        !core.finance.closures.has(org.id),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const size = (id: string) => Math.max(1, staff.get(id) ?? 0);
+  const total = builders.reduce((n, org) => n + size(org.id), 0);
+  const parts: [string, number][] = builders.length
+    ? builders.map((org) => [
+        accounts.main(org.id),
+        Math.floor((damage * size(org.id)) / total),
+      ])
+    : [[outsideMarketFor(core, residentsRuntime(core)!, town), damage]];
+  parts[0]![1] += damage - parts.reduce((n, [, v]) => n + v, 0);
+  for (const [to, cents] of parts) {
+    if (cents <= 0) continue;
+    // Households repair what they can pay for now.
+    const receipt = accounts.transfer({
+      id: `disaster-repairs:${disaster.number}:${to}`,
+      from: residents,
+      to,
+      amountMinor: cents,
+      partial: true,
+      reasonKey: "household.disaster-repairs",
+      source: source(
+        `Repairs to the damage FEMA inspected in owners' homes in this town in disaster ${disaster.number} (${disaster.title}), paid to ${builders.length ? "the town's builders by their staff" : "builders outside the town (none open here)"}.`,
+      ),
+    });
+    rt.repairs.push({
+      disaster: disaster.number,
+      to,
+      cents: receipt.paidMinor,
+    });
+  }
 }
 
 export const DISASTERS_MODULE: CoreModule = {
@@ -273,4 +363,11 @@ export function disasterAssistancePaid(
   api: CoreAPI,
 ): readonly { disaster: number; orgId: string; cents: number }[] {
   return runtime(api).paid;
+}
+
+/** Repairs this world's households have paid, for tests and screens. */
+export function disasterRepairsPaid(
+  api: CoreAPI,
+): readonly { disaster: number; to: string; cents: number }[] {
+  return runtime(api).repairs;
 }

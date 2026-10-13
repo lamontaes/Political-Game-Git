@@ -36,11 +36,18 @@ const assistance = await all(
 writeFileSync(join(out, "assistance.json"), JSON.stringify(assistance));
 // Individual Assistance to households (housing), by city, for the same years.
 const households: unknown[] = [];
+// Owners carry FEMA-inspected damage; renters the count of damaged homes.
+const fields: Record<string, string> = {
+  HousingAssistanceOwners:
+    "totalApprovedIhpAmount,repairReplaceAmount,totalDamage,totalInspected,noFemaInspectedDamage",
+  HousingAssistanceRenters:
+    "totalApprovedIhpAmount,totalWithModerateDamage,totalWithMajorDamage,totalWithSubstantialDamage",
+};
 for (const entity of ["HousingAssistanceOwners", "HousingAssistanceRenters"])
   households.push(
     ...(
       await all(
-        `${base}/v2/${entity}?$filter=disasterNumber%20ge%204480&$select=disasterNumber,state,county,city,totalApprovedIhpAmount`,
+        `${base}/v2/${entity}?$filter=disasterNumber%20ge%204480&$select=disasterNumber,state,county,city,${fields[entity]}`,
         entity,
       )
     ).map((row) => ({ ...(row as object), entity })),

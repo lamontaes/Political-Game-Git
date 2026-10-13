@@ -4,13 +4,16 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import assistance from "./data/disasters/assistance.json" with { type: "json" };
 import households from "./data/disasters/households.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { disasterAssistancePaid, townDisasters } from "./modules/disasters";
+import {
+  disasterAssistancePaid,
+  disasterRepairsPaid,
+  townDisasters,
+} from "./modules/disasters";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
-const place = drawPlace(seed, "core2-disasters");
 
 const total = (core: CoreState) =>
   [...core.people.values(), ...core.organizations.values()].reduce(
@@ -22,20 +25,38 @@ const total = (core: CoreState) =>
     0,
   );
 
-describe(`disasters from the record in ${place.name}, ${place.state} (seed ${seed})`, () => {
+describe(`disasters from the record (seed ${seed})`, () => {
   it("happens on FEMA's dates, pays the obligated assistance, and balances", () => {
-    const core = createLifeCore(
-      generatedOpening(place, {
-        twoLevel: true,
-        settings: { population: 1500 },
-      }),
-    );
-    const api = coreAPI(core);
-    const due = townDisasters(api).filter((row) => row.begins <= "2021-12-31");
-    const start = total(core);
-    advanceCore(core, "2021-12-31");
-    const events = [...core.durableLog.values()].filter(
+    // Draw places from the seed until one has a disaster beginning in 2021
+    // (any of the 56 places can be drawn; most years most counties have none).
+    let core: CoreState | undefined,
+      due: ReturnType<typeof townDisasters> = [];
+    let where = "";
+    for (let draw = 0; draw < 12 && !due.length; draw++) {
+      const place = drawPlace(`${seed}:${draw}`, "core2-disasters");
+      where = `${place.name}, ${place.state} (draw ${draw})`;
+      core = createLifeCore(
+        generatedOpening(place, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
+      );
+      due = townDisasters(coreAPI(core)).filter(
+        (row) => row.begins > core!.date && row.begins <= "2021-12-31",
+      );
+    }
+    expect(
+      due.length,
+      `no 2021 disaster in 12 draws; last ${where}`,
+    ).toBeGreaterThan(0);
+    const api = coreAPI(core!);
+    const start = total(core!);
+    advanceCore(core!, "2021-12-31");
+    const events = [...core!.durableLog.values()].filter(
       (row) => row.kind === "hazard.disaster",
+    );
+    console.log(
+      `disasters in ${where}: ${events.length} events in 2021, ${disasterAssistancePaid(api).length} payments, ${disasterRepairsPaid(api).length} repairs`,
     );
     // One public, newsworthy event per declared disaster begun in the year.
     expect(events.length).toBe(due.length);
@@ -49,20 +70,21 @@ describe(`disasters from the record in ${place.name}, ${place.state} (seed ${see
       string,
       { county: number; towns: Record<string, number> }
     >;
-    const homes = households.byCountyDisaster as Record<
+    const homes = households.byCountyDisaster as unknown as Record<
       string,
-      Record<string, number>
+      Record<string, [number, number, number]>
     >;
+    const most = (disaster: number, at: 0 | 1) =>
+      Math.max(
+        0,
+        ...Object.entries(homes)
+          .filter(([key]) => key.endsWith(`|${disaster}`))
+          .flatMap(([, towns]) => Object.values(towns).map((row) => row[at])),
+      );
     for (const row of disasterAssistancePaid(api)) {
       if (row.orgId.startsWith("cash:residents:")) {
         // Households: never more than FEMA approved in any one town.
-        const most = Math.max(
-          0,
-          ...Object.entries(homes)
-            .filter(([key]) => key.endsWith(`|${row.disaster}`))
-            .flatMap(([, towns]) => Object.values(towns)),
-        );
-        expect(row.cents).toBeLessThanOrEqual(most);
+        expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 0));
         continue;
       }
       const county = Object.entries(rows).find(([key]) =>
@@ -74,6 +96,9 @@ describe(`disasters from the record in ${place.name}, ${place.state} (seed ${see
         Object.values(county![1].towns).reduce((n, v) => n + v, 0);
       expect(row.cents).toBeLessThanOrEqual(cap);
     }
-    expect(total(core)).toBe(start);
+    // Repairs: never more than the damage FEMA inspected in any one town.
+    for (const row of disasterRepairsPaid(api))
+      expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 1));
+    expect(total(core!)).toBe(start);
   }, 300_000);
 });

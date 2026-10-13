@@ -270,7 +270,7 @@ export function shiftToOpenSellers(
   }
   targets.forEach((flow, index) => {
     const scale = perYear(closed) / perYear(flow);
-    const amounts = { ...flow.amountByContract! };
+    const amounts = ownMap(flow.amountByContract!);
     for (const [id, add] of Object.entries(added[index]!)) {
       const value = scale === 1 ? add : Math.round(add * scale);
       if (value) amounts[id] = (amounts[id] ?? 0) + value;
@@ -609,7 +609,7 @@ function overCapacity(
 }
 
 /** The place's outside-market account (buyers and sellers outside the town). */
-function outsideMarketFor(
+export function outsideMarketFor(
   core: CoreState,
   rt: ResidentsRuntime,
   placeId: PlaceId,
@@ -776,7 +776,7 @@ export function releaseResidentHousehold(
           break;
         }
       if (!member) continue;
-      const perDay = { ...present };
+      const perDay = ownMap(present);
       for (const id of jobIds) delete perDay[id];
       flow.perDayMinorByJob = perDay;
       flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
@@ -788,7 +788,7 @@ export function releaseResidentHousehold(
       if (!record.contracts.some((row) => present[row.id] !== undefined))
         continue;
       // Each retiree in the household is now paid their own award directly.
-      const amounts = { ...flow.amountByContract };
+      const amounts = ownMap(flow.amountByContract);
       for (const contract of record.contracts) {
         const amount = amounts[contract.id];
         if (amount === undefined || !contract.recipientIncome) continue;
@@ -814,7 +814,7 @@ export function releaseResidentHousehold(
           break;
         }
       if (!member) continue;
-      const amounts = { ...flow.amountByContract };
+      const amounts = ownMap(flow.amountByContract);
       let removed = 0;
       for (const id of contractIds)
         if (amounts[id] !== undefined) {
@@ -1091,7 +1091,7 @@ export function enterResidentMarket(
     for (const [residentsId, group] of byAccount) {
       const taken: Record<string, number> = {};
       for (const flow of group) {
-        const amounts = { ...flow.amountByContract! };
+        const amounts = ownMap(flow.amountByContract!);
         for (const [id, amount] of Object.entries(amounts)) {
           const give = Math.round(amount * share);
           if (!give) continue;
@@ -1184,7 +1184,15 @@ export function countedHouseholdsByPlace(
  * stays as built), then edited without copying thousands of entries per move.
  */
 const ownedMaps = new WeakSet<object>();
-function ownMap(map: Readonly<Record<string, number>>): Record<string, number> {
+/**
+ * A flow's parts map this module may change in place: copied once on the
+ * first change (the opening's maps may be shared or frozen), then reused.
+ * A merged flow holds a part for every counted household, so copying it on
+ * every change was most of fill-in's cost.
+ */
+export function ownMap(
+  map: Readonly<Record<string, number>>,
+): Record<string, number> {
   if (ownedMaps.has(map)) return map as Record<string, number>;
   const copy = { ...map };
   ownedMaps.add(copy);
