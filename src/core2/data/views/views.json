@@ -137,6 +137,26 @@
       "tag": "TUNABLE",
       "citation": "The spread of a value the Cooperative Election Study 2024 does not measure (transparency) around a neutral start: half the scale's width either way at one standard deviation, about the spread of the surveyed values' residuals (0.41 to 0.62 for the well-measured ones; data/research/views/derive-ces-2024-values.py). Spread 0.4 to 0.6.",
       "stopgapId": "SG-P15-views-first-version"
+    },
+    "talkStanceStep": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "citation": "How far a stance passes in conversation, per unit of the teller's stance strength, closeness (0 to 1) and engagement (0 to 1): at most the step of living through an event (stanceStep 0.1), and in practice far less, since a typical tie and teller weigh about 0.1 to 0.3. Discussion with people one is close to moves views (Huckfeldt and Sprague 1995, Citizens, Politics and Social Communication; Kalla and Broockman 2020, deep canvassing); no study sets the size. Spread 0.05 to 0.2.",
+      "stopgapId": "SG-P15-views-first-version",
+      "spread": {
+        "low": 0.05,
+        "high": 0.2
+      }
+    },
+    "talkFreshDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "citation": "How recent a teller's stance must be to come up in conversation: the life of a news story (newsMaxAgeDays 30). Spread 14 to 60.",
+      "stopgapId": "SG-P15-views-first-version",
+      "spread": {
+        "low": 14,
+        "high": 60
+      }
     }
   },
   "labels": [

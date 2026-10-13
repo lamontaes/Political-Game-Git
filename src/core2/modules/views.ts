@@ -13,7 +13,7 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { stableHash } from "../../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import partyJson from "../data/views/ces-2024-party.json" with { type: "json" };
@@ -338,6 +338,7 @@ export const viewsModule: CoreModule = {
     tables: {
       people: {},
       values: {},
+      told: {},
       stances: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -366,6 +367,18 @@ export const viewsModule: CoreModule = {
         Number.isFinite(speechLean) ? v("speechStanceStep") : v("stanceStep"),
         Number.isFinite(speechLean) ? speechLean : undefined,
       );
+  },
+  relationshipKinds: ["*"],
+  onRelationshipChange(api, notice) {
+    // Only a contact that happened today carries talk between the two.
+    if (notice.date !== api.state.date) return;
+    const tie = api.state.relationships.get(notice.relationshipId);
+    if (!tie) return;
+    for (const [teller, listener] of [
+      [notice.actorId, notice.otherId],
+      [notice.otherId, notice.actorId],
+    ] as const)
+      talkStances(api, teller, listener, tie.level);
   },
   reasonProviders: {
     "views-party": (api, actor, _offer, binding) => {
@@ -460,6 +473,65 @@ export function moveStance(
   if (speechLean !== undefined)
     driftToward(api, view, speechLean, nearness, cause.eventId);
   return true;
+}
+
+/**
+ * Talking politics (M1-10): at a real contact, each stance the teller formed
+ * or renewed recently passes to the listener, once per cause, moving the
+ * listener's stance by how close the two are and how closely the teller
+ * follows politics (people who follow it talk about it). The listener's own
+ * engagement holds them steadier, as it does for every cause.
+ */
+const TALK_PREFIX = "talk:";
+/** The event a talked-about stance came from, past every teller. */
+function rootOf(eventId: string): string {
+  let id = eventId;
+  while (id.startsWith(TALK_PREFIX))
+    id = id.slice(id.indexOf(":", TALK_PREFIX.length) + v("one"));
+  return id;
+}
+
+function talkStances(
+  api: CoreAPI,
+  tellerId: PersonId,
+  listenerId: PersonId,
+  closeness: number,
+): void {
+  const stances = stancesOf(api, tellerId);
+  if (!stances.length) return;
+  const teller = viewOf(api, tellerId);
+  if (!teller || !viewOf(api, listenerId)) return;
+  const told = api.moduleState(VIEWS_MODULE_ID).table("told");
+  for (const stance of stances) {
+    const newest = stance.causes.at(-v("one"));
+    if (!newest) continue;
+    if (
+      daysBetween(makeIsoDate(newest.date), makeIsoDate(api.state.date)) >
+      v("talkFreshDays")
+    )
+      continue;
+    // The event behind it, however many people it passed through.
+    const root = rootOf(newest.eventId);
+    const key = `${listenerId}:${stance.topic}:${root}`;
+    if (told.get(key)) continue;
+    told.put({ id: key, date: api.state.date });
+    // Someone who lived it, or heard it already, is not moved again.
+    const own = stancesTable(api).get(`${listenerId}:${stance.topic}`) as
+      Stance | undefined;
+    if (own?.causes.some((cause) => rootOf(cause.eventId) === root)) continue;
+    moveStance(
+      api,
+      listenerId,
+      {
+        eventId: `${TALK_PREFIX}${tellerId}:${root}`,
+        date: api.state.date,
+        topic: stance.topic,
+        desiredChange: stance.desiredChange,
+        size: stance.strength,
+      },
+      v("talkStanceStep") * closeness * teller.engagement,
+    );
+  }
 }
 
 /** How strongly a seven-point party identification holds: its strength word. */

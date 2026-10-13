@@ -1156,11 +1156,11 @@
     "kind": "partial-model",
     "file": "src/core2/modules/views.ts",
     "line": 1,
-    "whatItFakes": "Opening views read the person's state and age band (the CES cell), their education and faith profile (opening-profile.ts, itself a stopgap) and a household heritage. The 14 values form from the same cell and the person's lean (src/core2/views-values.ts), but transparency has no survey item and starts from a neutral estimate, and six values rest on weak items (local control, equal treatment, property rights, tradition, protection for working people, open competition). Stances move on events with a topic, news and speeches; values do not yet move.",
+    "whatItFakes": "Opening views read the person's state and age band (the CES cell), their education and faith profile (opening-profile.ts, itself a stopgap) and a household heritage. The 14 values form from the same cell and the person's lean (src/core2/views-values.ts), but transparency has no survey item and starts from a neutral estimate, and six values rest on weak items (local control, equal treatment, property rights, tradition, protection for working people, open competition). Stances move on events with a topic, news, speeches and conversation (sizes are starting values); values do not yet move.",
     "why": "First version of views on the new core, built while the people records gain education and faith.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Survey items for the values the CES does not measure well (ANES or GSS batteries on government transparency, unions and minimum wage); values moving with conversations and events; opening views from upbringing through CES-derived weights.",
+    "replacement": "Survey items for the values the CES does not measure well (ANES or GSS batteries on government transparency, unions and minimum wage); values moving with events and party cues; conversation and news step sizes checked against panel data; opening views from upbringing through CES-derived weights.",
     "status": "open"
   },
   {
