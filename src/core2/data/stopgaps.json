@@ -1831,7 +1831,7 @@
     "id": "SG-WORLD-jobs-benefits-terms",
     "kind": "assumed-data",
     "file": "src/core2/jobs-benefits.ts",
-    "line": 61,
+    "line": 62,
     "whatItFakes": "In a world without OPUS-GOV's laws module open (the economy run on its own), unemployment insurance pays the states' medians: half the lost weekly pay up to $611 a week for 26 weeks after a waiting week. With the laws open, each state's own terms from its law in force apply.",
     "why": "The economy also runs without the government engines (tests, tooling, the bench's economy-only worlds).",
     "addedBy": "OPUS-WORLD",
