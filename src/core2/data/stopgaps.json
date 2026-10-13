@@ -1903,7 +1903,7 @@
     "id": "SG-WORLD-business-opening-owners",
     "kind": "generated-identity",
     "file": "src/core2/modules/business.ts",
-    "line": 157,
+    "line": 158,
     "whatItFakes": "The opening's largest businesses (by staff, up to the state's estimated share of jobs in multi-establishment firms) belong to firms based outside the town; every other is owned by its highest-paid current worker, as owner-operator.",
     "why": "The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.",
     "addedBy": "OPUS-WORLD",
@@ -1974,7 +1974,7 @@
     "id": "SG-WORLD-business-counted-owner-choice",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/business.ts",
-    "line": 322,
+    "line": 323,
     "whatItFakes": "An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.",
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
@@ -2939,7 +2939,7 @@
     "id": "SG-WORLD-business-founder-home-equity",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/business.ts",
-    "line": 291,
+    "line": 292,
     "whatItFakes": "A homeowner founder's home equity (up to a home-equity line's limit) counts as money they put into a new business, paid from their household's pooled cash; no home-equity loan, payment or lien is recorded against the household.",
     "why": "Counted households' cash is pooled by place (SG-CORE-fill-in-pooled-money) and the town bank has no household home-equity product yet.",
     "addedBy": "OPUS-WORLD",
@@ -2981,6 +2981,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "Each island area's own labor department union statistics, opened and cited.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-cannabis-spending",
+    "kind": "assumed-data",
+    "file": "src/core2/business-cannabis.ts",
+    "line": 74,
+    "whatItFakes": "Each adult 21 and over in a legal place spends one national figure on legal cannabis (about $30 a month, from recalled Colorado and Michigan sales), paid by the wider population from what it sent outside the town; full households buy none, and only existing retailers can be licensed.",
+    "why": "No per-state legal sales table is in the data yet, and the wider population's purchases are pooled by place.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "Each state's own legal sales per adult (state revenue departments), full households' purchases by their own choice, and new dispensaries founded like any business.",
     "status": "open"
   }
 ]

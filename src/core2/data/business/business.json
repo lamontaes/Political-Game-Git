@@ -31,6 +31,14 @@
       "id": "business-close",
       "actKinds": ["change", "self-interest"]
     },
+    "license": {
+      "id": "business-apply-license",
+      "actKinds": ["take-risk", "change"]
+    },
+    "noLicense": {
+      "id": "business-no-license",
+      "actKinds": ["play-safe", "keep-same"]
+    },
     "carryOn": {
       "id": "business-carry-on",
       "actKinds": ["keep-same", "commit"]

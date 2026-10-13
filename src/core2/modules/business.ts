@@ -39,6 +39,7 @@ import { openBuyers, openEntrantBuyers, renewBuyers } from "../business-buyers";
 import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls, strongestPullsBy } from "./jobs";
 import { transferCash } from "../world-transfer";
+import { reviewCannabis } from "../business-cannabis";
 import { homeOf } from "./housing";
 import {
   addRegulatoryCost,
@@ -570,6 +571,63 @@ function closeOffer(
   };
 }
 
+function licenseOffer(
+  apply: boolean,
+  organizationId: string,
+  reasons: Record<string, number>,
+): ActOffer {
+  const row = apply
+    ? businessData.actions.license
+    : businessData.actions.noLicense;
+  return {
+    ...closeOffer(false, organizationId, reasons),
+    definition: {
+      ...closeOffer(false, organizationId, reasons).definition,
+      id: row.id,
+      actKinds: row.actKinds,
+    },
+    targetId: `business-license:${organizationId}:${apply ? 1 : 0}`,
+  };
+}
+
+/** Where cannabis sales are legal, retailers' owners weigh applying for a license (`business-cannabis.ts`). */
+function reviewLicenses(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const owners = store(api).table("owners");
+  reviewCannabis(
+    api,
+    store(api).table("cannabis"),
+    (rows) => {
+      const chosen: string[] = [];
+      const counted = rows.filter((row) => {
+        if (!c.people.has(row.ownerId)) return true;
+        const selected = chooseAct(c, row.ownerId, [
+          licenseOffer(false, row.id, {}),
+          licenseOffer(true, row.id, { pull: row.score }),
+        ]).selected!;
+        if (selected.definition.id === businessData.actions.license.id)
+          chosen.push(row.id);
+        return false;
+      });
+      if (counted.length)
+        for (const row of strongestPulls(api, "cannabis-license", counted))
+          chosen.push(row.id);
+      return chosen;
+    },
+    (id) => (owners.get(id) as OwnerRow | undefined)?.ownerId,
+    (id) => {
+      const book = c.finance.businesses.get(id);
+      return book
+        ? (book.annualDemandMinor -
+            book.annualPayrollMinor -
+            book.annualOtherCostsMinor) /
+            p("macroMonthsPerYear")
+        : 0;
+    },
+  );
+}
+
 /**
  * Each owner weighs closing against carrying on: losses kept over the
  * months (in months of the business's costs) and the owner's years past
@@ -687,6 +745,7 @@ function month(api: CoreAPI): void {
     p = (key: string) => api.parameter(key);
   succeed(api);
   reviewClosures(api);
+  reviewLicenses(api);
   renewBuyers(api, buyerTables(api));
   membershipPayouts(api);
   payOperatingCosts(api, store(api).table("operating"));
@@ -1592,6 +1651,7 @@ export const BUSINESS_MODULE: PreStartModule = {
       foundings: {},
       successions: {},
       closures: {},
+      cannabis: {},
       ages: {},
       operating: { indexes: { all: { fields: ["isRule"] } } },
       choices: {},

@@ -10,6 +10,7 @@
  * whenever the law in force on its key may have changed. The magnitudes are
  * OPUS-GOV's law-reach parameters.
  */
+import { setCannabisLegal } from "./business-cannabis";
 import { setRightToWork } from "./jobs-unions";
 import reachA from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import reachB from "./data/laws/reach-group-b-parameters.json" with { type: "json" };
@@ -238,6 +239,16 @@ const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
   })),
   [`${POLICY}agriculture-natural-resources.protect-farmland-from-development`]:
     zoning((on) => ({ farmlandProtected: on })),
+  // Adult-use cannabis: the place's retailers may apply for a license (business-cannabis.ts).
+  [`${POLICY}business-commerce.legalize-cannabis-sales`]: (api, law) => {
+    if (has(api, "business"))
+      setCannabisLegal(
+        api.moduleState("business").table("cannabis"),
+        law.placeId,
+        law.inForce,
+        gov("cannabisAge"),
+      );
+  },
   // Right-to-work: represented workers needn't join or pay the union, so fewer do (jobs-unions.ts).
   [`${POLICY}labor-workforce.right-to-work`]: (api, law) => {
     if (has(api, "jobs"))
