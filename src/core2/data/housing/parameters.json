@@ -242,5 +242,49 @@
       "unit": "logit",
       "citation": "Firm landlords file evictions more readily than individual owners: 8% likelier with controls in Fulton County, Georgia (Raymond, Duckworth, Miller, Lucas and Pokharel 2016, Atlanta Fed discussion paper 2016-4), 186% more filings in Boston for owners of 15 or more properties (Gomory)."
     }
+  },
+  "housingRefinanceBaseline": {
+    "value": -5,
+    "tag": "TUNABLE",
+    "citation": "How far refinancing sits below keeping the loan before what it saves; checked against 2021, when refinancings came to about a fifth of mortgage debt outstanding (MBA 2021 refinance originations of about $2.3 trillion against about $11.5 trillion outstanding, Federal Reserve Z.1), and against owners who don't refinance when it would pay (Keys, Pope and Pope 2016, about 20 percent).",
+    "spread": {
+      "low": -7,
+      "high": -3,
+      "unit": "score",
+      "citation": "How far refinancing sits below keeping the loan before what it saves; checked against 2021, when refinancings came to about a fifth of mortgage debt outstanding (MBA 2021 refinance originations of about $2.3 trillion against about $11.5 trillion outstanding, Federal Reserve Z.1), and against owners who don't refinance when it would pay (Keys, Pope and Pope 2016, about 20 percent)."
+    }
+  },
+  "housingRefinanceGainWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "How strongly an owner weighs what a refinance saves over the years they'd keep the loan against its closing costs, in log terms (Agarwal, Driscoll and Laibson 2013: the optimal rate gap rises with closing costs and falls with the expected time in the loan).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score per log of savings over costs",
+      "citation": "How strongly an owner weighs what a refinance saves over the years they'd keep the loan against its closing costs, in log terms (Agarwal, Driscoll and Laibson 2013: the optimal rate gap rises with closing costs and falls with the expected time in the loan)."
+    }
+  },
+  "housingRefinanceHorizonMonths": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "The months an owner expects to keep a new loan when weighing a refinance: mortgages are typically paid off or refinanced within five to seven years (Freddie Mac; Agarwal, Driscoll and Laibson 2013 use an expected real mortgage life near ten years at 2013 rates).",
+    "spread": {
+      "low": 36,
+      "high": 120,
+      "unit": "months",
+      "citation": "The months an owner expects to keep a new loan when weighing a refinance: mortgages are typically paid off or refinanced within five to seven years (Freddie Mac; Agarwal, Driscoll and Laibson 2013 use an expected real mortgage life near ten years at 2013 rates)."
+    }
+  },
+  "housingRefinanceCostShare": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Closing costs of a refinance as a share of the loan, rolled into the new balance: Freddie Mac puts them at about 2 to 5 percent of the loan; ClosingCorp's 2021 national average was about $2,400 before taxes, near 1 percent of an average refinance.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.05,
+      "unit": "share of the loan",
+      "citation": "Closing costs of a refinance as a share of the loan, rolled into the new balance: Freddie Mac puts them at about 2 to 5 percent of the loan; ClosingCorp's 2021 national average was about $2,400 before taxes, near 1 percent of an average refinance."
+    }
   }
 }

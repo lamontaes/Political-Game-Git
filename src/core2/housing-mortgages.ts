@@ -106,10 +106,10 @@ export function openingMortgages(input: {
     );
     const last = Math.min(period.toYear, year - 1);
     const at = Math.round(period.fromYear + within * (last - period.fromYear));
-    // Never before the householder turned 18.
+    // Never before the householder turned 18, and never after the start (a world opening before a period's years).
     bought.set(
       owner.id,
-      Math.max(at, owner.oldest + p("housingOwnerMinimumAge")),
+      Math.min(year, Math.max(at, owner.oldest + p("housingOwnerMinimumAge"))),
     );
   });
   // In each age band, the band's share still owes: the most recent buyers, then the least cash.

@@ -31,6 +31,7 @@ import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
+import { reviewRefinances } from "../housing-refinance";
 import {
   buildMonth,
   openStock,
@@ -793,7 +794,19 @@ function buyOffer(
   targetId: string,
   reasons: Record<string, number>,
 ): ActOffer {
-  const row = buy ? housingData.actions.buy : housingData.actions.rent;
+  return housingOffer(
+    buy ? housingData.actions.buy : housingData.actions.rent,
+    targetId,
+    reasons,
+  );
+}
+
+/** A housing choice offered to the shared chooser, its reasons as given. */
+function housingOffer(
+  row: { id: string; actKinds: string[] },
+  targetId: string,
+  reasons: Record<string, number>,
+): ActOffer {
   return {
     definition: {
       id: row.id,
@@ -825,6 +838,43 @@ function buyOffer(
  * outside the town until people move (M1-09). The lease ends; the loan is
  * serviced like any of the bank's loans.
  */
+/** The 30-year mortgage rate in the latest national month, as a share; undefined without the national economy. */
+function marketMortgageRate(api: CoreAPI): number | undefined {
+  if (!core(api).modules.has("macro")) return undefined;
+  const latest = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth: string } | undefined;
+  const month = latest
+    ? (api
+        .moduleState("macro")
+        .table("months")
+        .get(`macro-month:${latest.latestMonth}`) as
+        { mortgage30Pct: number } | undefined)
+    : undefined;
+  return month
+    ? month.mortgage30Pct / api.parameter("macroHundred")
+    : undefined;
+}
+
+/** Owners with a mortgage weigh refinancing at today's rate (`housing-refinance.ts`). */
+function refinance(api: CoreAPI): void {
+  const rate = marketMortgageRate(api);
+  if (rate === undefined) return;
+  reviewRefinances(
+    api,
+    {
+      mortgages: store(api).table("mortgages"),
+      refinances: store(api).table("refinances"),
+    },
+    rate,
+    (yes, targetId, reasons) =>
+      housingOffer(
+        yes ? housingData.actions.refinance : housingData.actions.keepLoan,
+        targetId,
+        reasons,
+      ),
+  );
+}
+
 function buyHomes(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -990,6 +1040,7 @@ function review(api: CoreAPI): void {
     law = steps(api);
   renew(api);
   amortize(api);
+  refinance(api);
   billPropertyTax(api, store(api).table("assessments"), ownedHomes(api));
   build(api);
   payRentHelp(api);
@@ -1637,6 +1688,7 @@ export const HOUSING_MODULE: CoreModule = {
       rentHelp: {},
       renewals: {},
       mortgages: {},
+      refinances: {},
       purchases: {},
       dwellings: {},
       counsel: {},

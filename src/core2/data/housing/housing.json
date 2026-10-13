@@ -38753,6 +38753,14 @@
     "rent": {
       "id": "housing-keep-renting",
       "actKinds": ["keep-same", "play-safe"]
+    },
+    "refinance": {
+      "id": "housing-refinance",
+      "actKinds": ["change", "commit"]
+    },
+    "keepLoan": {
+      "id": "housing-keep-loan",
+      "actKinds": ["keep-same", "play-safe"]
     }
   },
   "mortgage": {

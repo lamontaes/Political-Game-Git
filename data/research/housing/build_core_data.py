@@ -33,7 +33,7 @@ doc = {"version": "housing-data-v1", "source": {"tag": "SOURCED", "asOf": "2026-
 age = json.load(open(HERE / "acs-2024-owner-mortgage-age.json"))
 moved = json.load(open(HERE / "acs-2024-owner-moved-in.json"))
 nar = json.load(open(HERE / "nar-2025-down-payments.json"))
-doc["actions"] = {"buy": {"id": "housing-buy", "actKinds": ["commit", "change", "take-risk"]}, "rent": {"id": "housing-keep-renting", "actKinds": ["keep-same", "play-safe"]}}
+doc["actions"] = {"buy": {"id": "housing-buy", "actKinds": ["commit", "change", "take-risk"]}, "rent": {"id": "housing-keep-renting", "actKinds": ["keep-same", "play-safe"]}, "refinance": {"id": "housing-refinance", "actKinds": ["change", "commit"]}, "keepLoan": {"id": "housing-keep-loan", "actKinds": ["keep-same", "play-safe"]}}
 doc["mortgage"] = {
     "source": "ACS 2020-2024 B25027 mortgage status by age of householder and B25038 year householder moved in (national); NAR 2025 Profile of Home Buyers and Sellers median down payments.",
     "ageBands": [{"minAge": b["minAge"], "maxAgeExclusive": b.get("maxAgeExclusive"), "mortgagedShare": round(b["mortgaged"] / (b["mortgaged"] + b["mortgageFree"]), 4)} for b in age["ageBands"]],
