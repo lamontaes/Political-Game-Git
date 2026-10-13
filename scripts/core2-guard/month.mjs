@@ -9,7 +9,48 @@ import { cpus, hostname } from "node:os";
 import policies from "./policies.json" with { type: "json" };
 const moduleAt = (path) =>
   import(pathToFileURL(resolve(process.cwd(), path)).href);
+/** The bench's opening day (src/bench/m0-check.ts). */
+const PLAYED_OPENING_DATE = "2026-10-12";
+/**
+ * The world the player gets: the bench's two-level town with the economy and
+ * every module it installs (src/bench/world.ts), the same path as
+ * tests/golden-path/played-world.node-test.ts. Revisions whose bench can't
+ * hand over its opening input measure the generated opening below instead.
+ */
+async function preparePlayedWorld({ seed, placeKey }) {
+  const bench = await moduleAt("src/bench/world.ts").catch(() => undefined);
+  if (!bench?.buildBenchWorld) return undefined;
+  const started = performance.now();
+  let input, opened;
+  const world = bench.buildBenchWorld(seed, PLAYED_OPENING_DATE, {
+    twoLevel: true,
+    placeKey,
+    onOpening: (opening) => {
+      input = opening;
+      opened = performance.now();
+    },
+  });
+  if (!input) return undefined;
+  return {
+    input,
+    core: world.core,
+    playedWorld: true,
+    phases: {
+      opening: opened - started,
+      modulesAndGovernment: performance.now() - opened,
+    },
+    place: {
+      key: input.placeMetadata?.placeKey ?? placeKey,
+      name: input.placeMetadata?.placeName ?? world.place.displayName,
+      countyNames: input.placeMetadata?.countyNames,
+      referencePopulation: input.placeMetadata?.referencePopulation,
+    },
+    peers: undefined,
+  };
+}
 export async function prepareWorld({ seed, placeKey }) {
+  const played = await preparePlayedWorld({ seed, placeKey });
+  if (played) return played;
   // The game's path: the two-level opening with the economy (OPUS-CORE's
   // generated world). Older revisions without it time the full-population
   // opening below.
@@ -108,7 +149,13 @@ export async function prepareWorld({ seed, placeKey }) {
 export async function runMonth({ seed, placeKey, output }) {
   if (typeof output !== "string" || !output.trim() || output.startsWith("--"))
     throw new Error("Missing value for --output: supply a receipt path");
-  const { input, phases, place } = await prepareWorld({ seed, placeKey });
+  const {
+    input,
+    phases,
+    place,
+    core: played,
+    playedWorld,
+  } = await prepareWorld({ seed, placeKey });
   const [
     { censusOpeningInput, openingInputBudget },
     { hashMeasuredJson },
@@ -126,13 +173,16 @@ export async function runMonth({ seed, placeKey, output }) {
   const census = censusOpeningInput(input),
     budget = openingInputBudget(census, registry),
     inputHash = hashMeasuredJson(input);
+  // The played world's core is built with its modules in prepareWorld.
   const initStarted = performance.now(),
-    core = createLifeCore(input),
-    initializeMilliseconds = performance.now() - initStarted;
+    core = played ?? createLifeCore(input),
+    initializeMilliseconds = played
+      ? phases.modulesAndGovernment
+      : performance.now() - initStarted;
   const advanceStarted = performance.now(),
     receipt = advanceCore(
       core,
-      addDays(makeIsoDate(input.startedAt), policies.measuredDays),
+      addDays(makeIsoDate(core.date), policies.measuredDays),
     ),
     advanceMilliseconds = performance.now() - advanceStarted;
   if (receipt.simulatedDays !== policies.measuredDays)
@@ -160,6 +210,7 @@ export async function runMonth({ seed, placeKey, output }) {
       scheduledWork: true,
       measuredDays: policies.measuredDays,
       twoLevel: true,
+      playedWorld: Boolean(playedWorld),
     },
     host: {
       hostname: hostname(),

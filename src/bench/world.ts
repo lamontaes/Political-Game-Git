@@ -23,6 +23,16 @@ import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openLegislature } from "../core2/modules/legislature";
 import { openLawEffects } from "../core2/modules/law-effects";
+import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
+import { openStaff } from "../core2/modules/staff";
+import { openInterestGroups } from "../core2/modules/interest-groups";
+import { openWorldLegislating } from "../core2/modules/world-legislating";
+import { openWorldRaces } from "../core2/modules/world-races";
+import { openBallotMeasures } from "../core2/modules/ballot-measures";
+import { openRecalls } from "../core2/modules/recalls";
+import { openPress } from "../core2/modules/press";
+import { openMeetings } from "../core2/modules/meetings";
+import { openCases } from "../core2/modules/constituent-cases";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -62,7 +72,9 @@ export interface BenchWorld {
  * The full stack the owner plays: the core with people (always loaded by
  * createLifeCore), work and money; the economy (OPUS-WORLD); law, offices,
  * elections, parties, voting, campaigns, the record, budgets, legislatures and
- * law effects (OPUS-GOV); health, drives, views, news, who runs, births and
+ * law effects, staff, interest groups, other governments' lawmaking, races
+ * elsewhere, ballot measures, recalls, the press, public meetings and
+ * constituent cases (OPUS-GOV); the outcome web; health, drives, views, news, who runs, births and
  * deaths, and the story director (OPUS-PEOPLE).
  * The director registers its own interrupts as core player stops.
  */
@@ -129,6 +141,11 @@ type BuildOptions = {
   twoLevel?: boolean;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
+  /**
+   * Sees the finished opening input just before the core starts from it
+   * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
+   */
+  onOpening?: (input: CoreInput) => void;
 };
 type Built = BenchWorld & { playerId?: string };
 
@@ -250,12 +267,16 @@ function* benchWorldStages(
       finance: createOpeningFinance(input),
     });
   yield "core";
+  options.onOpening?.(opening);
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
     data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
     modules: [
       ...WORLD_MODULES,
+      // One area of the world moving another (M3-04): reads the economy's
+      // monthly row and every law that takes effect.
+      OUTCOME_WEB_MODULE,
       // Every people engine a played world installs (OPUS-PEOPLE): health,
       // drives, views, news, speeches, who runs, corruption and beliefs.
       ...peopleModules(),
@@ -275,6 +296,20 @@ function* benchWorldStages(
   openBudgets(core);
   openLegislature(core);
   openLawEffects(core);
+  // Everything that works through the government above, in the order the
+  // modules' own tests open them: officials' staff, interest groups (hooks
+  // on every bill's vote), other governments' lawmaking, state and federal
+  // races elsewhere, ballot measures, recalls, the press, public meetings
+  // (debates need the press's outlets) and constituent cases.
+  openStaff(core);
+  openInterestGroups(core);
+  openWorldLegislating(core);
+  openWorldRaces(core);
+  openBallotMeasures(core);
+  openRecalls(core);
+  openPress(core);
+  openMeetings(core);
+  openCases(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]

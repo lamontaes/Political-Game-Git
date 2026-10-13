@@ -86,13 +86,19 @@ export function newsKey(storyId: string): string {
   return `news:${storyId}`;
 }
 
-/** The stories a person has heard, newest first. */
-export function storiesHeard(api: CoreAPI, personId: PersonId): Story[] {
+/** The stories a person has heard (since a date they heard them, if given), newest first. */
+export function storiesHeard(
+  api: CoreAPI,
+  personId: PersonId,
+  heardSince?: string,
+): Story[] {
   return (
     heard(api).query("byPerson", [personId]) as unknown as {
       storyId: string;
+      date: string;
     }[]
   )
+    .filter((row) => !heardSince || row.date >= heardSince)
     .map((row) => stories(api).get(row.storyId) as unknown as Story)
     .filter(Boolean)
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
@@ -204,12 +210,15 @@ export const newsModule: CoreModule = {
     const fresh = (story: Story) =>
       daysBetween(makeIsoDate(story.date), makeIsoDate(api.state.date)) <=
       maxAge;
+    // A story still fresh today was heard on or after its own date, so only
+    // what the teller heard within the story life is read (same order).
+    const since = addDays(makeIsoDate(api.state.date), -maxAge);
     for (const [teller, listener] of [
       [notice.actorId, notice.otherId],
       [notice.otherId, notice.actorId],
     ] as const) {
       let passed = api.parameter("zero");
-      for (const story of storiesHeard(api, teller)) {
+      for (const story of storiesHeard(api, teller, since)) {
         if (passed >= n(api, "newsStoriesPerContact") || !fresh(story)) break;
         if (hear(api, listener, story, "told", notice.relationshipId))
           passed += api.parameter("one");
