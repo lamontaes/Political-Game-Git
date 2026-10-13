@@ -208,7 +208,7 @@
       "golden_path": "world",
       "package": "M1-business",
       "test": "A year's business openings and closings stay within real rates (Census Business Dynamics Statistics); owners' income comes from profit; across multi-year runs, some businesses add locations without being scripted to.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-08-check.ts",
       "passes": false
     },
     {

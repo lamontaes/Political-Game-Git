@@ -18,6 +18,7 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
+import { countedJobsOf } from "./residents-economy";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
@@ -229,6 +230,18 @@ export function buildMonth(
     perMonth *
     (multiValue / multiCost) ** elasticity *
     (z.multifamilyLandShare / opening.multifamilyLandShare) ** landElasticity;
+  // The builder with the most spare crew takes the job: the fewest units under way for its staff.
+  const underway = new Map<string, number>();
+  for (const row of tables.projects.query("all", [
+    true,
+  ]) as unknown as ProjectRow[])
+    if (row.open)
+      underway.set(
+        row.builderId,
+        (underway.get(row.builderId) ?? 0) + row.units,
+      );
+  const load = (id: string) =>
+    (underway.get(id) ?? 0) / Math.max(1, countedJobsOf(c, id).length);
   const builder = [...c.finance.businesses.entries()]
     .filter(
       ([id, book]) =>
@@ -238,8 +251,10 @@ export function buildMonth(
     )
     .sort(
       (a, b) =>
+        load(a[0]) - load(b[0]) ||
         c.organizations.get(b[0])!.liquidMinor -
-          c.organizations.get(a[0])!.liquidMinor || a[0].localeCompare(b[0]),
+          c.organizations.get(a[0])!.liquidMinor ||
+        a[0].localeCompare(b[0]),
     )[0]?.[0];
   const outside = [...c.organizations.values()].find(
     (org) => org.placeId === input.placeId && org.outsideFlow !== undefined,
