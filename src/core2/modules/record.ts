@@ -16,6 +16,7 @@
  * on the voter's ballot as a reason. An attack ad carries a rival's record to
  * the people it reaches.
  */
+import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -80,10 +81,15 @@ export function recordVote(
     .moduleState(RECORD_MODULE_ID)
     .table("votes")
     .put(row as unknown as ModuleRow);
-  // A member who isn't a full person (a state legislator or member of
-  // Congress from elsewhere) is on the record above; the roll call's own story
-  // carries the count, so their vote is not a separate story in every town.
-  if (!api.state.people.has(vote.personId)) return row;
+  // A member from elsewhere (a state legislator or member of Congress whose
+  // seat doesn't cover the town, a person or not) is on the record above; the
+  // roll call's own story carries the count, so their vote is not a separate
+  // story in every town.
+  if (
+    !api.state.people.has(vote.personId) ||
+    !votesAreTownNews(api, vote.personId)
+  )
+    return row;
   api.emit({
     id: `vote-recorded:${row.id}`,
     date: row.date,

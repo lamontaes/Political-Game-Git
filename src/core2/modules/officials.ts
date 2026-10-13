@@ -1401,3 +1401,18 @@ export function officialStance(
   const row = officialOf(api, memberId);
   return row ? ownStance(row.ideal, row.signature, question) : null;
 }
+
+/**
+ * Whether a person's own votes are news in the town: anyone but an official
+ * whose seat doesn't cover it (a member of Congress or a legislator from
+ * elsewhere, whose roll call's own story carries the count).
+ */
+export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
+  const row = officialOf(api, personId);
+  if (!row) return true;
+  const seat = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("seats")
+    .get(row.seatId) as unknown as { coversTown?: boolean } | undefined;
+  return seat?.coversTown === true;
+}
