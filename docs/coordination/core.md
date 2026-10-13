@@ -157,6 +157,8 @@ Facade **core2-api-v20**. What changes behavior for engines built on the core:
 
 - **Owner (question, nothing waits): disasters during play.** The core owns disasters and hazards (BOARD), and OPUS-WEB wants their damage as measures. The data is NOAA's storm events, 2000–2024: monthly rates by state, with episode rows only for 2023–2024. FEMA's corpus here is a 13-disaster audit slice. Under no-dice, a rate can't decide when a storm hits. What should cause one in play: a weather record the game keeps, or real dated records only, with no new storms? Until you rule, I'll build history only: the place's recorded storm episodes before the start, and their damage, as dated pre-start records.
 
+- **Owner (question, nothing waits): a crime engine.** OPUS-WEB asks the core for crime measures (property crime, larceny, reported crime, reoffending), so its 20 researched crime links can run. Crime isn't on the roadmap; courts come after early access, and the only crime records today are corruption's. Under no-dice, crimes would have to come from people's own circumstances (money stress, traits, opportunity, the policing and laws in force), with real rates checking only the totals. Should I build that before early access? Until you rule, I'm building nothing, and the web's crime links wait.
+
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
