@@ -22,7 +22,6 @@ window.__viewJobs = (urls) => {
   for (const [k, u, only] of urls) for (const [v, p] of Object.entries(views)) if (!only || only.includes(v)) jobs.push({ key: `${k}-${v}`, ref: u, prompt: `[${k}-${v}] ` + keep + p + tail });
   return jobs;
 };
-"setup ok";
 // Round 3 helpers (Oct 13): chair removal, seated front/back from the chairless seated picture, turnaround sheet for true side profiles.
 window.__nochairJob = (k, ref) => ({ key: `${k}-sit-nochair-3q`, ref, prompt: `[${k}-sit-nochair-3q] Edit the reference picture. Remove the wooden chair completely, every part of it, so only the person remains. Keep the person exactly as they are: the same seated position with thighs level and knees bent, the same angle, the same face, hair, skin tone, build, clothes and shoes; nothing about the person changes. Where the chair was, show only the plain flat light gray background. No floor, no shadow, no seat, nothing else. Same art style. No text.` });
 window.__seatViewJobs = (k, ref, views) => {
@@ -36,4 +35,29 @@ window.__turnJob = (k, ref) => ({ key: `${k}-turnaround`, ref, prompt: `[${k}-tu
 // After each Generate, wait 8 s; if the dialog's OK button is up, dismiss it and put the job back in line (up to 4 tries).
 window.__dismissOK = () => { const b = []; window.__walk(document, e => { if ((e.tagName === 'SP-BUTTON' || e.tagName === 'BUTTON') && (e.textContent || '').trim() === 'OK') { const r = e.getBoundingClientRect(); if (r.width > 0 && r.height > 0) b.push(e); } }); b.forEach(x => x.click()); return b.length; }; // only a visible OK: Firefly keeps hidden OK buttons in its intro and third-party modals
 window.__runJobs = async (jobs, waitMs = 30000) => { window.__jobStatus = []; window.__dismissOK(); const q = jobs.map(j => ({ ...j, tries: 0 })); let lastRef = null; while (q.length) { if (window.__halt) break; const j = q.shift(); try { if (j.ref !== lastRef) { await window.__ocdSetRefFiles([await window.__ocdFile(j.ref, j.key + "-ref.png", "image/png")]); lastRef = j.ref; } const g = await window.__ocdGenerate(j.prompt); await new Promise(r => setTimeout(r, 8000)); if (window.__dismissOK() > 0) { j.tries++; window.__jobStatus.push([j.key, "throttled", new Date().toISOString()]); if (j.tries < 4) q.push(j); } else window.__jobStatus.push([j.key, g && g.clicked ? "ok" : String(g), new Date().toISOString()]); } catch (e) { window.__jobStatus.push([j.key, "error " + e]); } await new Promise(r => setTimeout(r, Math.max(0, waitMs - 8000))); } window.__jobStatus.push(["done", new Date().toISOString()]); };
+// Outfits (Oct 13): game outfit names from src/bench/data/whole-figures.json, so the picker uses them unchanged.
+// Each outfit is a whole-picture edit of a base source: the standing 3/4 figure, the standing turnaround sheet
+// (front, profile, back, profile), the chairless seated 3/4 figure, and the seated turnaround sheet without cubes.
+window.__OUTFITS = {
+  male: {
+    "business-suit-tie": "a charcoal gray two-piece business suit with a single-breasted jacket buttoned once, a white dress shirt, a solid navy blue tie, a black belt and black leather dress shoes",
+    "business-suit-open-collar": "a navy blue two-piece business suit with a light blue dress shirt open at the collar and no tie, a brown leather belt and brown leather dress shoes",
+    "casual": "a plain navy blue crew-neck t-shirt, medium-blue straight-leg jeans and white sneakers",
+    "polo-khakis": "a forest green short-sleeved polo shirt tucked into tan khaki trousers, a brown belt and brown leather loafers",
+    "flannel-workwear": "a red and black plaid flannel shirt with the sleeves rolled to the forearms, worn tan canvas work pants and brown leather work boots",
+  },
+  female: {
+    "navy-pantsuit-lapel-pin": "a navy blue pantsuit with a tailored one-button jacket and a small gold lapel pin, a white blouse, matching navy trousers and black low-heeled pumps",
+    "skirt-suit": "a charcoal gray skirt suit with a fitted jacket, a pale pink blouse, a knee-length pencil skirt, sheer nude tights and black low-heeled pumps",
+    "business-blazer": "a black blazer over a cream silk blouse, slim black ankle trousers and black flats",
+    "casual-denim": "a light-blue denim button-up shirt with rolled sleeves over a white t-shirt, dark-blue straight-leg jeans and white sneakers",
+    "cardigan-casual": "a long oatmeal-colored knit cardigan over a plain white top, dark gray straight trousers and brown flats",
+  },
+};
+window.__outfitJob = (k, src, ref, outfitKey, text, sheet) => {
+  const who = sheet ? "Keep every figure exactly as it is: the same person, the same face, hair, skin tone, body and build, the same pose, angle and position on the sheet, the same number of figures." : "Keep exactly the same person in exactly the same pose and angle: the same face, hair, skin tone, body and build, the same position of the arms, hands and legs.";
+  const seated = /sit/.test(src);
+  const tail = seated ? " The person sits on nothing: no chair, no seat, no floor, no shadow, only the plain flat light gray background." : " Plain flat light gray background, no floor, no shadow, nothing else.";
+  return { key: `${k}-${outfitKey}-${src}`, ref, prompt: `[${k}-${outfitKey}-${src}] Edit the reference picture. ${who} Change only the clothes: ${sheet ? "every figure" : "the person"} now wears ${text}. The clothes fit this build naturally and are drawn the same from every side. Hands empty.${tail} Whole bodies head to shoes. Same art style: clean dark ink outlines, flat soft cel shading. No text.` };
+};
 "setup ok";
