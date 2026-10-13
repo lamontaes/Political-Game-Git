@@ -54,7 +54,15 @@ import {
 import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
 import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
-import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  type WebMonth,
+} from "../../src/core2/modules/outcome-web";
+import { LAWS_MODULE_ID, lawInForce } from "../../src/core2/modules/laws";
+import { PLACE_PRICES_MODULE_ID } from "../../src/core2/modules/place-prices";
+import { outcomeIssueView } from "../../src/core2/modules/views";
+import { WEB_LINKS } from "../../src/core2/outcome-web-model";
+import type { LawRowInput } from "../../src/core2/laws-starting";
 import type { CoreModule, CoreState } from "../../src/core2/types";
 
 /** The bench's opening day (src/bench/m0-check.ts). */
@@ -330,6 +338,99 @@ function playWorld(seed: string) {
           `Installed modules that never ran: ${idle.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchanged.join(", ") || "none"}.`,
         )
       : pass(`all ${engines.length} engines ran and changed their records`);
+  // A changed law/person table is not evidence that an enacted policy worked.
+  const enactedLaws = (
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows() as unknown as LawRowInput[]
+  ).filter(
+    (law) =>
+      law.terms?.enactedBy &&
+      law.effectiveDate >= OPENING_DATE &&
+      law.effectiveDate <= core.date,
+  );
+  const webMonths = api
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .rows() as unknown as WebMonth[];
+  const lawEffects: string[] = [],
+    ineffective: string[] = [];
+  for (const law of enactedLaws) {
+    const links = WEB_LINKS.filter((link) => link.from === `law:${law.series}`);
+    const effect = webMonths.find(
+      (row) =>
+        row.date >= law.effectiveDate &&
+        lawInForce(api, law.series, row.date).governing?.id === law.id &&
+        links.some((link) => {
+          const previous = webMonths
+            .filter(
+              (other) =>
+                other.placeId === row.placeId && other.date < law.effectiveDate,
+            )
+            .sort((a, b) => b.date.localeCompare(a.date))[0];
+          if (
+            !previous ||
+            row.effects[link.key] === previous.effects[link.key] ||
+            row.values[link.to] === previous.values[link.to]
+          )
+            return false;
+          return (
+            outcomeIssueView(api, row.placeId, law.series, 0.5).recordIds
+              .length > 0
+          );
+        }),
+    );
+    const payment = [...core.cashJournal.detailedReceipts.values()].find(
+      (row) =>
+        row.date >= law.effectiveDate &&
+        row.sourceRef.id.includes(law.id) &&
+        row.grossDebitMinor > 0,
+    );
+    const raise = api
+      .moduleState(LAWS_MODULE_ID)
+      .table("raises")
+      .rows()
+      .find(
+        (row) =>
+          String(row.lawId).includes(law.id) &&
+          Number(row.toMinor) > Number(row.fromMinor) &&
+          (core.jobs.get(String(row.jobId))?.hourlyMinor ?? 0) >=
+            Number(row.toMinor),
+      );
+    const previousLaw = lawInForce(
+      api,
+      law.series,
+      addDays(makeIsoDate(law.effectiveDate), -1),
+    );
+    const price =
+      previousLaw.value !== law.value
+        ? api
+            .moduleState(PLACE_PRICES_MODULE_ID)
+            .table("rules")
+            .rows()
+            .find(
+              (row) =>
+                String(row.cause).includes(law.id) && Number(row.value) !== 0,
+            )
+        : undefined;
+    if (effect || payment || raise || price)
+      lawEffects.push(
+        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price!.id}`,
+      );
+    else
+      ineffective.push(
+        `${law.id} (${law.series}): no changed read measure, wage/price, or attributable payment`,
+      );
+  }
+  verdicts["enacted laws change money or read measures"] = !enactedLaws.length
+    ? {
+        state: "unobserved",
+        why: "No law enacted during this run; LAW-LINK independently enacts all 59.",
+      }
+    : ineffective.length
+      ? fail(ineffective.join("; "))
+      : pass(lawEffects.join("; "));
   const missing = [
     WORLD_RACES_MODULE_ID,
     WORLD_LEGISLATING_MODULE_ID,
@@ -700,6 +801,7 @@ for (const [index, seed] of seeds.entries()) {
       });
     };
     alive("every module");
+    alive("enacted laws change money or read measures");
     alive("national races, lawmaking and outcomes are installed");
     alive("people choose varied acts");
     alive("player turns 18");
