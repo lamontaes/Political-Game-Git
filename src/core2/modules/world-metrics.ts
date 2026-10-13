@@ -68,18 +68,29 @@ export function townMetrics(api: CoreAPI) {
   };
   const placeOf = (organizationId: string) =>
     c.organizations.get(organizationId)?.placeId;
+  // Employment counts where the worker lives, as unemployment does (BLS LAUS); pay counts where the job is.
+  const homeOf = (personId: string) => {
+    const full = c.people.get(personId);
+    if (full) return full.placeId;
+    const householdId = rt?.householdOfPerson.get(personId);
+    return householdId
+      ? rt!.households.get(householdId)?.household.placeId
+      : undefined;
+  };
   for (const job of c.jobs.values()) {
-    const placeId = placeOf(job.organizationId);
-    if (job.endsAt !== undefined || !placeId) continue;
-    at(placeId).employed += 1;
-    if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
+    if (job.endsAt !== undefined) continue;
+    const placeId = placeOf(job.organizationId),
+      home = homeOf(job.personId);
+    if (home) at(home).employed += 1;
+    if (placeId && job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
   }
   for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
     const job = rt!.jobs.get(jobId);
-    const placeId = flow.organizationId && placeOf(flow.organizationId);
-    if (!job || job.endsAt !== undefined || flow.endedAt || !placeId) continue;
-    at(placeId).employed += 1;
-    if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
+    if (!job || job.endsAt !== undefined || flow.endedAt) continue;
+    const placeId = flow.organizationId && placeOf(flow.organizationId),
+      home = homeOf(job.personId);
+    if (home) at(home).employed += 1;
+    if (placeId && job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
   }
   for (const table of ["seekers", "countedSeekers"])
     for (const row of rows(api, "jobs", table) as unknown as {

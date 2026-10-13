@@ -17,13 +17,9 @@ import type { CoreAPI, CoreState, JobInput, Source } from "./types";
 
 const UNPLACED = "residents:unplaced-wages:";
 
-/** Places the unplaced workers in jobs elsewhere; returns the employer and its staff, if any. */
-export function placeElsewhere(
-  api: CoreAPI,
-  isJobless: (personId: string) => boolean,
-): { organizationId: string; placeId: string; staff: number } | undefined {
-  const c = api.state as CoreState,
-    p = (key: string) => api.parameter(key);
+/** The stand-in's pooled pay for unplaced workers: its flow, the town's median recorded pay a day, and how many workers it pays. */
+function unplaced(api: CoreAPI) {
+  const c = api.state as CoreState;
   const rt = residentsRuntime(c);
   if (!rt) return undefined;
   const flow = [...rt.flows.values()].find(
@@ -45,6 +41,30 @@ export function placeElsewhere(
   const count = Math.round(
     flow.amountMinor / (medianDaily * flow.cadence.every),
   );
+  return { flow, medianDaily, count };
+}
+
+/** Where the stand-in's pooled pay goes and how many workers it stands for, if there is one. */
+export function unplacedWorkers(
+  api: CoreAPI,
+): { placeId: string; count: number } | undefined {
+  const found = unplaced(api);
+  return found
+    ? { placeId: found.flow.placeId, count: found.count }
+    : undefined;
+}
+
+/** Places the unplaced workers in jobs elsewhere; returns the employer and its staff, if any. */
+export function placeElsewhere(
+  api: CoreAPI,
+  isJobless: (personId: string) => boolean,
+): { organizationId: string; placeId: string; staff: number } | undefined {
+  const c = api.state as CoreState,
+    p = (key: string) => api.parameter(key);
+  const rt = residentsRuntime(c),
+    found = unplaced(api);
+  if (!rt || !found) return undefined;
+  const { flow, medianDaily, count } = found;
   // Working-age adults with no job, closest to prime working age first (CPS: employment peaks at 35 to 49).
   const year = Number(c.date.slice(0, 4));
   const prime = p("jobsElsewherePrimeAge");

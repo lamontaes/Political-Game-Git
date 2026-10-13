@@ -22,7 +22,11 @@ import { ownerOf } from "./business";
 import { REGIONAL_MODULE_ID, regionalMonth } from "./regional";
 import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
-import { elsewhereTarget, placeElsewhere } from "../jobs-elsewhere";
+import {
+  elsewhereTarget,
+  placeElsewhere,
+  unplacedWorkers,
+} from "../jobs-elsewhere";
 import {
   addCountedJob,
   addCountedRetiree,
@@ -349,7 +353,11 @@ function openSeekers(api: CoreAPI, unemploymentPct: number): void {
 }
 
 /** The wider population's seekers at the opening: jobless working-age adults in the households with the fewest earners, as many as the rate implies. */
-function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
+function openCountedSeekers(
+  api: CoreAPI,
+  unemploymentPct: number,
+  elsewhere?: { placeId: string; count: number },
+): void {
   const c = core(api),
     rt = residentsRuntime(c);
   if (!rt) return;
@@ -358,8 +366,18 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
   const working = new Set(
     [...rt.wageFlowByJob.keys()].map((id) => rt.jobs.get(id)?.personId),
   );
-  const candidates: { personId: string; placeId: string; share: number }[] = [];
+  // Each place's own unemployed, against the workers who live there (and those it sends to work elsewhere).
+  const workersByPlace = new Map<string, number>();
+  if (elsewhere) workersByPlace.set(elsewhere.placeId, elsewhere.count);
+  const candidates = new Map<
+    string,
+    { personId: string; placeId: string; share: number }[]
+  >();
   for (const record of rt.households.values()) {
+    const placeId = record.household.placeId;
+    for (const person of record.people)
+      if (working.has(person.id))
+        workersByPlace.set(placeId, (workersByPlace.get(placeId) ?? 0) + 1);
     const adults = record.people.filter((person) => {
       const age =
         daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
@@ -369,33 +387,35 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
     if (!adults.length) continue;
     const share =
       adults.filter((person) => working.has(person.id)).length / adults.length;
+    const list = candidates.get(placeId) ?? [];
     for (const person of adults)
       if (!working.has(person.id))
-        candidates.push({
-          personId: person.id,
-          placeId: person.placeId,
-          share,
-        });
+        list.push({ personId: person.id, placeId: person.placeId, share });
+    candidates.set(placeId, list);
   }
-  const count = Math.round(
-    (working.size * unemploymentPct) /
-      (api.parameter("macroHundred") - unemploymentPct),
-  );
-  candidates
-    .sort((a, b) => a.share - b.share || a.personId.localeCompare(b.personId))
-    .slice(0, count)
-    .forEach((row) =>
-      store(api).table("countedSeekers").put({
-        id: row.personId,
-        isSeeker: true,
-        personId: row.personId,
-        placeId: row.placeId,
-        employed: false,
-        since: c.date,
-        reasonKey: "opening-unemployed",
-        referenceHourlyMinor: 0,
-      }),
+  for (const [placeId, list] of [...candidates].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    const count = Math.round(
+      ((workersByPlace.get(placeId) ?? 0) * unemploymentPct) /
+        (api.parameter("macroHundred") - unemploymentPct),
     );
+    list
+      .sort((a, b) => a.share - b.share || a.personId.localeCompare(b.personId))
+      .slice(0, count)
+      .forEach((row) =>
+        store(api).table("countedSeekers").put({
+          id: row.personId,
+          isSeeker: true,
+          personId: row.personId,
+          placeId: row.placeId,
+          employed: false,
+          since: c.date,
+          reasonKey: "opening-unemployed",
+          referenceHourlyMinor: 0,
+        }),
+      );
+  }
 }
 
 /** The place's pay index against the opening (the macro's wage price factor), 1 without one. */
@@ -418,24 +438,6 @@ function realSales(c: CoreState): Map<string, number> {
 
 function open(api: CoreAPI): void {
   const c = core(api);
-  // The opening's unplaced residents get jobs elsewhere, before anyone is counted as looking.
-  const working = new Set<string>();
-  const rt0 = residentsRuntime(c);
-  for (const [jobId, flow] of rt0?.wageFlowByJob ?? []) {
-    const job = rt0!.jobs.get(jobId);
-    if (job && job.endsAt === undefined && !flow.endedAt)
-      working.add(job.personId);
-  }
-  const elsewhere = placeElsewhere(api, (id) => !working.has(id));
-  if (elsewhere)
-    store(api).table("employers").put({
-      id: elsewhere.organizationId,
-      isEmployer: true,
-      openingStaff: elsewhere.staff,
-      need: 0,
-      elsewhere: true,
-      townPlaceId: elsewhere.placeId,
-    });
   const sales = realSales(c);
   for (const [id, book] of c.finance.businesses)
     if (!book.closedAt)
@@ -477,8 +479,31 @@ function open(api: CoreAPI): void {
     region?.unemploymentPct ??
     nation?.unemploymentPct ??
     api.parameter("macroNaturalUnemploymentPct");
-  openCountedSeekers(api, opening);
+  // The opening's unemployed first, against a labor force that includes the residents working elsewhere.
+  openCountedSeekers(api, opening, unplacedWorkers(api));
   openSeekers(api, opening);
+  // Then the residents the opening couldn't place get jobs elsewhere, from the jobless who aren't looking.
+  const working = new Set<string>();
+  const rt0 = residentsRuntime(c);
+  for (const [jobId, flow] of rt0?.wageFlowByJob ?? []) {
+    const job = rt0!.jobs.get(jobId);
+    if (job && job.endsAt === undefined && !flow.endedAt)
+      working.add(job.personId);
+  }
+  const looking = store(api).table("countedSeekers");
+  const elsewhere = placeElsewhere(
+    api,
+    (id) => !working.has(id) && !looking.get(id),
+  );
+  if (elsewhere)
+    store(api).table("employers").put({
+      id: elsewhere.organizationId,
+      isEmployer: true,
+      openingStaff: elsewhere.staff,
+      need: 0,
+      elsewhere: true,
+      townPlaceId: elsewhere.placeId,
+    });
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   // Where each place's people work at the opening: the places a seeker can look for work.
   const links: Record<string, string[]> = {};
