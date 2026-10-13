@@ -1,26 +1,9 @@
-import { existsSync, readFileSync } from "node:fs";
-import { PNG } from "pngjs";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
   homePlaceFor,
   workplacePlaceFor,
 } from "../presentation/place-backdrops";
-import {
-  backdropStaging,
-  spotFigure,
-  spotPose,
-  spotView,
-  type StagingSpot,
-} from "../presentation/backdrop-people";
-import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
-import { placeWear } from "../presentation/dress-code";
-import {
-  composeEnginePerson,
-  mirrorToFace,
-  type EngineRecipe,
-} from "../presentation/appearance-engine/pack";
-import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
-import type { Raster } from "../presentation/appearance-engine/raster";
+import { backdropStaging, type StagingSpot } from "./staging";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -28,12 +11,10 @@ import { HOUSING_MODULE_ID, dwellingKind } from "../core2/modules/housing";
 import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
-import { wholeFigureFor } from "./whole-figures";
+import { wholeFigureFor, type WholeFigure } from "./whole-figures";
 
-type Person = Parameters<typeof engineRecipeFor>[0];
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
-const PACK_DIR = new URL("../../art/people-engine/v1/", import.meta.url);
 const BACKDROP_DIR = new URL("../../art/backdrops/", import.meta.url);
 // The presentation's hasBackdrop reads Vite's file glob; the bench reads the manifest.
 const PICTURED = new Set(
@@ -52,20 +33,17 @@ export interface BenchScene {
   why: string;
   backdrop: { file: string; variant: string; url: string };
   people: BenchScenePerson[];
-  /** People who are there but have no spot or no adult artwork yet. */
+  /** People who are there but have no spot or no approved figure that fits one. */
   unplaced: { personId: string; reason: string }[];
 }
 export interface BenchScenePerson {
   personId: string;
   name: string;
   spotId: string;
-  figure: ReturnType<typeof spotFigure> & {
-    mirrored?: boolean;
-    shadow?: boolean;
-  };
+  figure: WholeFigure["figure"];
   figureUrl: string;
-  /** "whole" for an owner-approved whole figure, "engine" for the layered people engine. */
-  art?: "whole" | "engine";
+  /** Only owner-approved whole figures are ever drawn (owner, Oct 13). */
+  art: "whole";
 }
 
 export function orgPlace(
@@ -428,49 +406,6 @@ export function looksOf(core: CoreState, id: string): Looks | null {
     : null;
 }
 
-/** Engine recipes are read from the person's own seed and recorded looks. */
-function recipeFor(
-  core: CoreState,
-  id: string,
-  spot: StagingSpot,
-  place: string,
-): EngineRecipe | null {
-  const looks = looksOf(core, id);
-  if (!looks) return null;
-  const base: Person = {
-    id: looks.id,
-    birthDate: looks.birthDate,
-    ...(looks.gender ? { identity: { gender: looks.gender } } : {}),
-    ...(looks.seed ? { appearance: { seed: looks.seed } } : {}),
-  } as unknown as Person;
-  const view = spotView(spot);
-  const pose = spotPose(spot, undefined, looks.id, { view });
-  // People dress for the place: formal where government is done in
-  // public, business in offices, a coat outdoors in the cold months.
-  const recipe = engineRecipeFor(base, core.date, PEOPLE_PACK, {
-    pose,
-    view,
-    wear: placeWear(place, core.date),
-  });
-  if (!recipe) return null;
-  if (spot.facing !== "left" && spot.facing !== "right") return recipe;
-  return {
-    ...recipe,
-    mirrored: mirrorToFace(
-      PEOPLE_PACK.presentations[recipe.presentation],
-      recipe,
-      spot.x,
-      spot.facing === "left" ? spot.x - 10 : spot.x + 10,
-      packFile,
-    ),
-  };
-}
-
-const packFile = (file: string) => existsSync(new URL(file, PACK_DIR));
-
-/** Where the people engine stood in for a whole figure (place:pose), for the log. */
-export const wholeFallbacks = new Set<string>();
-
 /** An official: someone known only by their term, or a resident holding a seat. */
 function isOfficial(core: CoreState, id: string): boolean {
   if (!core.people.has(id)) return true;
@@ -480,7 +415,12 @@ function isOfficial(core: CoreState, id: string): boolean {
   ).some((row) => row.status === "serving");
 }
 
-/** Puts each id on the place's spots: the first on the hero spot, the rest behind. */
+/**
+ * Puts each id on the place's spots: the first on the hero spot, the rest
+ * behind. Only approved whole figures are drawn (owner, Oct 13): a person no
+ * figure fits on a spot moves to the next spot that one fits, and where none
+ * does, nobody is drawn for them.
+ */
 export function stagePeople(
   core: CoreState,
   place: string,
@@ -500,59 +440,40 @@ export function stagePeople(
         Number(a.y > hero.y) - Number(b.y > hero.y) ||
         (a.y > hero.y ? a.y - b.y : b.y - a.y),
     );
-  const spots = [hero, ...rest];
-  for (const [index, { id, name }] of ids.entries()) {
-    const spot = spots[index];
-    if (!spot) {
-      unplaced.push({ personId: id, reason: "no-spot" });
+  const free: StagingSpot[] = [hero, ...rest];
+  for (const { id, name } of ids) {
+    const looks = looksOf(core, id);
+    if (!looks) {
+      unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
-    // The whole figure first (owner, Oct 12); the people engine where none fits.
-    const looks = looksOf(core, id);
-    const whole = looks
-      ? wholeFigureFor(
-          core,
-          {
-            id,
-            birthDate: looks.birthDate,
-            ...(looks.gender ? { gender: looks.gender } : {}),
-            official: isOfficial(core, id),
-          },
-          place,
-          stage,
-          spot,
-        )
-      : null;
-    if (whole) {
+    const who = {
+      id,
+      birthDate: looks.birthDate,
+      ...(looks.gender ? { gender: looks.gender } : {}),
+      official: isOfficial(core, id),
+    };
+    let placed = false;
+    for (const [index, spot] of free.entries()) {
+      const whole = wholeFigureFor(core, who, place, stage, spot);
+      if (!whole) continue;
+      free.splice(index, 1);
       people.push({
         personId: id,
         name,
-        spotId,
+        spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
         figure: whole.figure,
         figureUrl: whole.url,
         art: "whole",
       });
-      continue;
+      placed = true;
+      break;
     }
-    const fallback = `${place}:${spot.pose ?? "stand"}`;
-    if (!wholeFallbacks.has(fallback)) {
-      wholeFallbacks.add(fallback);
-      console.log(`whole figure: people engine stands in at ${fallback}`);
-    }
-    const recipe = recipeFor(core, id, spot, place);
-    if (!recipe) {
-      unplaced.push({ personId: id, reason: "no-adult-artwork" });
-      continue;
-    }
-    people.push({
-      personId: id,
-      name,
-      spotId,
-      art: "engine",
-      figure: spotFigure(stage, spot, recipe),
-      figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}&date=${core.date}`,
-    });
+    if (!placed)
+      unplaced.push({
+        personId: id,
+        reason: free.length ? "no-whole-figure" : "no-spot",
+      });
   }
   return { people, unplaced };
 }
@@ -580,47 +501,6 @@ export function benchScene(
     people,
     unplaced,
   };
-}
-
-const rasters = new Map<string, Raster>();
-function packImage(file: string): Raster {
-  let raster = rasters.get(file);
-  if (!raster) {
-    const png = PNG.sync.read(readFileSync(new URL(file, PACK_DIR)));
-    raster = {
-      width: png.width,
-      height: png.height,
-      data: new Uint8ClampedArray(png.data),
-    };
-    rasters.set(file, raster);
-  }
-  return raster;
-}
-
-/** One person drawn for one spot, as a PNG. */
-export function figurePng(
-  core: CoreState,
-  personId: string,
-  place: string,
-  spotId: string,
-): Buffer {
-  const stage = backdropStaging(place);
-  const spot = stage?.spots.find(
-    (row, index) => (row.id ?? `${place}:spot:${index}`) === spotId,
-  );
-  if (!spot || !looksOf(core, personId))
-    throw new Error("Unknown person or spot.");
-  const recipe = recipeFor(core, personId, spot, place);
-  if (!recipe) throw new Error("No adult artwork for this person yet.");
-  const { raster } = composeEnginePerson(
-    PEOPLE_PACK,
-    packImage,
-    recipe,
-    packFile,
-  );
-  const png = new PNG({ width: raster.width, height: raster.height });
-  png.data = Buffer.from(raster.data.buffer);
-  return PNG.sync.write(png);
 }
 
 export function backdropPath(file: string): URL {

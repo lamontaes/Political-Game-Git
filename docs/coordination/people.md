@@ -3,6 +3,7 @@
 Owner: Lamontae. Written by the Opus CTO on Oct 13, 2026, from the code at main `d39511ac2`.
 
 You are the one session that owns **how people are drawn in scenes**:
+
 - which figure stands for a person;
 - where and how they stand or sit;
 - which way they face;
@@ -47,7 +48,7 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
   - Angles: 165 three-quarter, 6 back, 6 side.
   - Ages: adult 123, older 30, teen 12, child 12.
   - **Teens have 4 looks:** a boy in a hoodie with a skateboard, a boy in shorts with a basketball, a girl in a hoodie with a backpack walking, and a girl in a varsity jacket carrying something. Children also have 4 looks.
-  - Each look was painted doing one thing (`activity`: skateboard, laptop, reading and so on).
+  - Each look was painted doing one thing (`activity`: skateboard, laptop, reading and so on). The owner wants plain poses instead (item 7).
 - **The player** is drawn with the teen figures until 18, then an adult casual figure. Nothing ties the adult look to the teen look, so they're different people.
 - **The opening** (`src/bench/opening.ts`) uses the same `stagePeople`. That's why the president is the old seated model in the Oval Office.
 
@@ -77,17 +78,18 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
    - Draw the contact shadow at the feet: at `footY` within the figure, as wide as the stance, and soft.
    - A seated person's shadow goes under the chair, or there's none when the desk hides it.
    - Shadows must line up with where the person stands.
-7. **Choose figures by what the person is doing and where they are.**
-   - Tag each figure's activity in `art/people-whole/manifest.json` as data the picker reads: at home, working at a desk, talking, listening, eating, carrying, exercising, and so on.
-   - Pick from the person's current act (`doing()` in `scene.ts`), the place, the time and the people with them.
-   - No skateboard or basketball indoors. A laptop only when the person is working or studying.
+7. **Plain poses first; the simulation decides what people are doing.**
+   - Owner, Oct 13, 2026: "regular poses, not with a laptop or a book or something. You don't decide that. The simulation decides what they're doing." Then: "I want plain poses first."
+   - Every person is drawn in a plain pose by default: standing or seated, three-quarter, side or back, hands empty. No prop is ever baked into the only version of a look.
+   - Pick the plain pose that fits the spot (stand or sit, which way it faces) and the person's sex, age and build.
+   - Prop versions (phone, book, coffee, carrying) come later, after the plain set. When they exist, the picker uses one only when the person's current act in the simulation (`doing()` in `scene.ts`) is that act. Otherwise it's always the plain pose. A skateboard or ball is never indoors.
 8. **No twins.** Two people in the same scene never share a look. Siblings and household members get different looks.
 9. **The player's figure** keeps one identity as they age. Their adult look comes from the same look family as their teen look when one exists. Add a `family` field to the manifest so a look can carry ages. The figure must update at 18, and the screen must show the new age.
 10. **Who is there (screen 40).** Only the household, or people with a recorded reason, are in the home scene. If the household moved, the scene must show the new home only after the move is recorded, and the journal or news must say so. Match each figure to their real age, so the father isn't drawn as a young man.
 11. **Art requests.** Write `docs/coordination/people-art-requests.md`, which the CTO reads and generates from. List, per look:
     - seated poses for each chair kind (office chair behind a desk, legislative desk seat, dais chair, couch, bench or pew, kitchen chair, pulled up to a table);
     - side and back views;
-    - activity variants;
+    - plain poses only for now (no props): standing and seated, three-quarter, side and back. Prop versions are a later request, used only when the simulation's act calls for them;
     - and **teen and child looks:** at least 12 per sex per band, everyday clothes for home and school, sports and work clothes, with different builds, skin tones and hair. Plus the adult version of each teen look for continuity.
     - Give the exact framing rules the code needs (foot line, canvas size, facing), so the CTO's output drops straight in.
 
@@ -103,7 +105,7 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
   - a conversation;
   - the intro.
   - Count figures by source in each: whole versus anything else. The "anything else" count must be zero.
-- **One PR per area,** each merging as soon as it's ready: removing the old models, shadows, facing and staging fixes, the activity picker, no twins, the player's identity, then seated figures when the art lands.
+- **One PR per area,** each merging as soon as it's ready: removing the old models, shadows, facing and staging fixes, the plain-pose picker, no twins, the player's identity, then seated figures when the art lands.
 - Each PR gets a release note in `docs/release/changes/`.
 - **Checks:** prettier, eslint and tsc on changed files, plus the changed tests and the played-world test. Never run the whole suite.
 - American English.
@@ -111,3 +113,16 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 - Never a real politician.
 - Never hard-code a person's figure. It always comes from data and their record.
 - Open each PR ready, not as a draft. The CTO's merge queue merges any ready PR with no conflicts.
+
+## Status (PEOPLE session)
+
+Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx scripts/people/scene-shots.ts <out> [seed ...]` builds fresh games in random places and renders the intro, home, a workplace, the council, the state chamber, the U.S. House and Senate, the Oval Office and a conversation, with a count of figures by source.
+
+- [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
+- [ ] 6. Shadows at the feet (PR 2).
+- [ ] 3–5. Facing, staging, size (PR 3).
+- [ ] 7–10. Plain-pose picker (props only when the simulation calls for them), no twins, the player's identity, who is there (PR 4).
+- [ ] 2. Seated figures: wiring ready for the CTO's seated art (PR 5).
+- [x] 11. Art requests: `docs/coordination/people-art-requests.md`.
+
+Left in place on purpose: `src/presentation/complete-outfit.ts`, `engine-people29-data.ts`, `private-candidate-manifests.ts`, `runtime-art.ts` and `bundled-art.ts`. Nothing from `/play` reaches them, but old scene and prose tooling still imports them (`scripts/prose-corpus`, `src/presentation/scene-registry.ts`); they go with the old-core removal.
