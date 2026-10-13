@@ -115,10 +115,15 @@ const kinds = new Set(
     }[]
   ).map((row) => row.kind ?? ""),
 );
-const bodyPlaces = scenePlaces.bodyPlaces as Record<string, string>;
-for (const [kind, place] of Object.entries(bodyPlaces))
-  if (kind === "default" || kinds.has(kind))
+const bodyPlaces = scenePlaces.bodyPlaces as unknown as Record<
+  string,
+  string[]
+>;
+for (const [kind, places] of Object.entries(bodyPlaces)) {
+  const place = places.find?.(hasBackdrop);
+  if (place && (kind === "default" || kinds.has(kind)))
     check(`body ${kind}`, place, backdropFile(place, 19 * 60).file, [], 0);
+}
 for (const place of scenePlaces.speechPlaces)
   check(`speech ${place}`, place, backdropFile(place, 18 * 60).file, [], 0);
 

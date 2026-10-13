@@ -1,5 +1,7 @@
 # PEOPLE: art requests for the CTO
 
+> **Owner ruling, Oct 13, 2026: plain poses first.** "Regular poses, not with a laptop or a book or something. You don't decide that. The simulation decides what they're doing." Paint every figure in a plain pose with empty hands: standing or seated, three-quarter, side and back. No props. Prop versions come later (section 7), and the game uses one only when the simulation's act calls for it. The CTO edited this file to match.
+
 Written by the PEOPLE session on Oct 13, 2026. The CTO reads this file and makes the art in Firefly. Each request says what to paint, how many, and the exact framing so the output drops straight into `art/people-whole/` and the game picks it up from `art/people-whole/manifest.json` with no code change.
 
 Only approved whole figures are drawn. Where no figure fits a spot (every seat today), nobody is drawn there. So the seated art below is what fills the chambers, the Oval Office, the dais and the couches.
@@ -29,11 +31,7 @@ Every row keeps today's fields (`file`, `look`, `build`, `sex`, `ageBand`, `age`
   - **Scale:** paint a seated figure at the same scale as the same look's standing figure (the same number of pixels per meter), on a canvas 1000 px tall. The game sizes it from the standing figure's foot line.
   - Paint the chair out: only the person, sitting on nothing. The painted room supplies the chair, and a desk or dais front hides the legs where the staging says so.
   - `footY`: the row the feet rest on, even if a desk will hide them.
-- `activity`: from the list below, one per file. It is what the person is doing in the picture, and the game picks figures by it.
-
-### Activity words the picker reads
-
-`talking`, `listening`, `explaining`, `speaking` (to a room), `reading`, `writing`, `phone`, `laptop`, `coffee`, `eating`, `cooking`, `serving`, `carrying`, `carrying-groceries`, `walking`, `waving`, `greeting`, `handshake`, `pointing`, `standing`, `hands-folded`, `playing`, `homework`, `tv`, `resting`, `exercising`, `sports-outdoors`, `skateboard` (outdoors only), `basketball` (outdoors only), `cane`.
+- `activity`: `standing`, `talking` or `listening` for plain poses (hands empty; talking is an open-hand gesture, listening is attentive). Seated plain poses use `sitting`. Prop activities are added later with the section 7 art.
 
 ## 1. Seated poses (needed first)
 
@@ -45,7 +43,7 @@ For **every adult and older look** (looks 001 to 064 that are adult or older, pl
 | ------------------ | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `office-chair`     | Upright in a high-backed desk chair, forearms on the desk line, hands visible | Oval Office (the Resolute desk), governor's and mayor's offices, any office desk         | three-quarter, profile  | The desk hides everything below the chest (the staging's `clipBelowY`). Paint the whole body anyway, legs bent at the knee. |
 | `legislative-seat` | Seated at a legislative desk, upright, attentive                              | U.S. House and Senate floors, both state chambers                                        | **back**, three-quarter | Most members face the rostrum, away from the camera: `back` first.                                                          |
-| `dais-chair`       | Seated at a raised dais, hands folded or holding papers                       | Council chamber, county commission, school board, township board, committee hearing room | three-quarter, profile  | The dais front hides the legs.                                                                                              |
+| `dais-chair`       | Seated at a raised dais, hands folded on the dais                               | Council chamber, county commission, school board, township board, committee hearing room | three-quarter, profile  | The dais front hides the legs.                                                                                              |
 | `couch`            | Relaxed on a sofa, one arm resting                                            | Every home, the Oval Office's two couches                                                | three-quarter, profile  | Lower seat: knees higher than hips.                                                                                         |
 | `bench`            | On a bench or pew, upright                                                    | Church supper hall, courtrooms, park, waiting rooms, school gym                          | back, three-quarter     | Audience: `back` first.                                                                                                     |
 | `kitchen-chair`    | On a kitchen or dining chair, turned to the table                             | Home kitchens, diner, tavern                                                             | three-quarter, profile  |                                                                                                                             |
@@ -57,17 +55,15 @@ Minimum to fill the owner's scenes: the official looks (business suits, pantsuit
 
 Today only looks 001 and 002 have `profile` and `back` views. Paint **`profile` and `back` standing views for every look**, so people in a scene can face each other and face the front of a room instead of the camera.
 
-## 3. Activity variants
+## 3. Plain pose variants
 
-Each look today is painted doing one thing, so a person is stuck with it (a skateboard indoors, a laptop at the dinner table). For each **household look** (casual, teen and child outfits), paint these standing variants:
+Each look today is painted doing one thing, so a person is stuck with it (a skateboard indoors, a laptop at the dinner table). For **every look**, paint these plain standing variants, hands empty, no props:
 
-- `talking` and `listening` (the everyday pair for conversations),
 - `standing` (hands at the sides, relaxed),
-- `carrying` (a bag, box or groceries),
-- `phone`,
-- `reading` (a book or paper).
+- `talking` (an open-hand gesture),
+- `listening` (attentive, arms relaxed or folded).
 
-For each **work look** (uniforms, suits, scrubs, aprons, workwear): `talking`, `listening`, `standing`, `writing` or `clipboard`, and one doing the job (`serving`, `cooking`, `carrying-papers`, `tablet-explaining`).
+Each in `three-quarter`, `profile` and `back`.
 
 ## 4. Teen and child looks
 
@@ -78,8 +74,8 @@ Paint **at least 12 looks per sex for teens (13 to 17) and 12 per sex for childr
 - everyday home clothes (t-shirts, sweaters, flannel, hoodies without props) and school clothes;
 - some in sports clothes and some in work clothes (a fast-food uniform, a grocery apron for older teens);
 - the whole range of builds, skin tones and hair: straight, curly, coily, braids, locs, short, long, covered;
-- **no props by default.** A skateboard, a ball or a backpack is an activity variant (`skateboard`, `basketball`, `carrying`), never the only version of a look;
-- each in `talking`, `listening`, `standing` and `homework`, three-quarter angle, then `profile` and `back`.
+- **no props.** No skateboard, ball, backpack, phone or book. Those come later as section 7 prop versions;
+- each in `standing`, `talking` and `listening`, plus seated (`couch`, `kitchen-chair`, `table-chair`), in three-quarter, `profile` and `back`.
 
 ## 5. Adult versions of each teen look (continuity)
 
@@ -91,7 +87,11 @@ The same holds for children: each child look gets a teen version with the same `
 
 A father drawn as a young man next to a gray-haired mother looks wrong. Paint an **older version (60 to 75)** of each adult household look, with the same `family` id, so parents and grandparents can be matched to their real age.
 
+## 7. Prop versions (later, after the plain set)
+
+Only after sections 1 to 6 are painted: prop versions of each look (`phone`, `reading`, `coffee`, `carrying`, `writing`; outdoor-only `skateboard` and `basketball`; work tasks like `serving` and `cooking`). The game uses one only when the person's current act in the simulation is that act; otherwise it draws the plain pose.
+
 ## How the game uses it
 
-- `src/bench/whole-figures.ts` reads every row whose file exists. A new row with `pose: "sit"` and `seat` goes to the matching seats (each seat's chair kind is read from its staging group; see `seatKinds` in `src/bench/data/whole-figures.json`); a row with `angle: "back"` or `"profile"` goes to spots facing away or sideways; `activity` is matched to what the person is doing; `family` keeps the player's look across ages.
+- `src/bench/whole-figures.ts` reads every row whose file exists. A new row with `pose: "sit"` and `seat` goes to the matching seats (each seat's chair kind is read from its staging group; see `seatKinds` in `src/bench/data/whole-figures.json`); a row with `angle: "back"` or `"profile"` goes to spots facing away or sideways; plain poses are the default; a prop version (section 7, later) is used only when the person's current act in the simulation is that act; `family` keeps the player's look across ages.
 - Nothing else needs changing: commit the PNGs and the manifest rows.
