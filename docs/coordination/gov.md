@@ -106,6 +106,17 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 01:35 UTC: M5-02 governor play; executive research verified:
+  - **The governor's priorities change real spending and reach people:** an adopted budget carrying the executive's priorities now tells the budget-line effects which lines changed, as an amendment does. Before, the books changed and no one was reached.
+    - **Nebraska (new `governor-priorities.test.ts`):** a 10% highways priority was adopted 49–0, highway spending went from $1.128 billion to $1.241 billion, and the added money reached the people the line serves.
+  - **Executive research verified:** a Sonnet helper fetched sources and checked `executive-powers-2026.json`.
+    - **Pardon authority:** 52 places checked against the CCRC 50-state comparison, with 10 corrected (AK, AR, IN, WA, ME, MO, NJ, ND, WY, and RI to governor with senate consent).
+    - **Cabinet confirmation:** 16 states cited, with Michigan corrected to Senate consent.
+    - **Voting-rights orders:** Virginia (case by case; 66,085 restored in 2026; amendment on the November 2026 ballot), Kentucky (2019 order stands) and Iowa (2020 order, flagged unverified).
+    - **Federal appointees:** cited to the Partnership for Public Service.
+    - **Still estimated:** most cabinet lists and the local structures. SG-GOV-executive-powers-research stays open for those.
+  - **Legislature test:** where the state gives the mayor no veto, the player-mayor's ordinance becomes law without waiting on a signature.
+
 - 2026-10-13 01:20 UTC: M3-05, the executive's desk (new `executive.ts`):
   - **Mayors' real veto powers:** a mayor vetoes only where the state's law gives the office a veto, above any population line, and is overridden by the state's own share (`data/research/local-government/mayor-veto-2026.json`).
     - **Source:** a Sonnet helper extracted the rules from the state baselines' statute notes. 42 of 56 places are sourced, including Alabama (cities over 12,000) and Iowa (over 500); Minnesota's statutory plans have no veto, and Washington overrides by a majority plus one.

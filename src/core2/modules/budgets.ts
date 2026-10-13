@@ -557,6 +557,45 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     news: true,
     facts: { governmentId: gov.id, fiscalYear: String(fy) },
   });
+  // The executive's priorities the body adopted reach whatever each line
+  // pays for, as an amendment's change does (law-effects handlers).
+  if (voted) {
+    const base = budgetFor(
+      gov,
+      lawChain(api).stateKey,
+      fy,
+      api.state.date,
+      "base",
+    );
+    for (const line of Object.keys(
+      budgetPriorities(api, gov.id)?.changes ?? {},
+    ).sort()) {
+      const delta =
+        (budget.spendingMinor[line] ?? 0) - (base.spendingMinor[line] ?? 0);
+      if (delta === 0) continue;
+      api.emit({
+        id: `budget-line-changed:${budget.id}:${line}:adopted`,
+        date: api.state.date,
+        kind: "budget-line-changed",
+        personIds: [],
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `Budget adopted with the executive's priorities (${budget.adoptedBy})`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: false,
+        facts: {
+          governmentId: gov.id,
+          level: gov.level,
+          line,
+          deltaMinor: String(delta),
+          measureId: `budget:${gov.id}:${fy}`,
+        },
+      });
+    }
+  }
   api.moduleCalendar(BUDGETS_MODULE_ID).schedule({
     key: `adopt:${gov.id}:${fy + 1}`,
     date: `${fy + 1}-${gov.fiscalYearStart}`,

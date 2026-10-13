@@ -2,7 +2,7 @@
   "meta": {
     "title": "Executive powers 2026",
     "generated": "2026-10-13",
-    "status": "first pass from background knowledge; no live fetches this session; every row estimated",
+    "status": "2026-10-13: pardon authority verified against CCRC 50-state comparison for 52 jurisdictions; voting-restoration orders (VA, KY, IA) and 16 states' cabinet confirmation rules checked; everything else still estimated",
     "patronageModel": "estimate = round(120 + 9*sqrt(population in thousands), -1), low = 0.5x, high = 2x"
   },
   "places": {
@@ -104,9 +104,9 @@
       },
       "pardon": {
         "authority": "board-alone",
-        "detail": "board-alone (state board of pardons/paroles)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "independent board appointed by governor; governor acts in capital cases",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -246,10 +246,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-board-advice",
+        "detail": "governor decides; parole board must be consulted, advice not binding",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -373,9 +373,9 @@
       },
       "pardon": {
         "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may not act without affirmative clemency board recommendation",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -524,10 +524,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-board-advice",
+        "detail": "governor decides; parole board must be consulted, advice not binding",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -649,13 +649,18 @@
           "board-of-equalization"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://codes.findlaw.com/ca/government-code/gov-sect-1322/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor; court recommendation required for twice-convicted felons (Cal. Const. art. V s.8)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides; recidivists need state supreme court recommendation",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -793,9 +798,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -934,9 +939,9 @@
       },
       "pardon": {
         "authority": "board-alone",
-        "detail": "board-alone (state board of pardons/paroles)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "board decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1081,9 +1086,9 @@
       },
       "pardon": {
         "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may not act without affirmative pardon board recommendation (board chaired by lieutenant governor)",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1221,9 +1226,9 @@
       },
       "pardon": {
         "authority": "board-with-governor",
-        "detail": "clemency board on which the governor sits; governor's vote required (FL, MN, NE) or board incl. supreme court justices (NV)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor plus three Cabinet officials",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1345,13 +1350,18 @@
           "public-service-commission"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "no legislative confirmation of governor-appointed department heads (statutory exceptions possible)",
+          "source": "https://law.georgia.gov/opinions/2003-5",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "board-alone",
-        "detail": "board-alone (state board of pardons/paroles)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "board decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1493,13 +1503,18 @@
         ],
         "electedInstead": ["lieutenant-governor"],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://www.staradvertiser.com/?p=1237360",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides; parole board may be consulted",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1633,9 +1648,9 @@
       },
       "pardon": {
         "authority": "board-alone",
-        "detail": "board-alone (state board of pardons/paroles)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "independent board decides all but violent and drug offenses, which the governor must approve",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1760,13 +1775,18 @@
           "comptroller"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://csgmidwest.org/2020/09/15/confirming-state-agency-heads-is-usually-a-straightforward-process/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides; Prisoner Review Board authorized to advise",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -1901,13 +1921,18 @@
           "auditor"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "no legislative confirmation of governor-appointed department heads (statutory exceptions possible)",
+          "source": "https://csgmidwest.org/2020/09/15/confirming-state-agency-heads-is-usually-a-straightforward-process/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
-        "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-board-advice",
+        "detail": "governor decides; parole board makes advisory, non-binding recommendations",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -2041,9 +2066,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -2058,8 +2083,11 @@
         },
         {
           "key": "restore-voting-after-sentence",
-          "basis": "Gov. Reynolds's Executive Order 7 (Aug. 2020) restored voting after sentence completion; before it, Iowa restored only case by case. Later legislative changes unverified.",
-          "confidence": "precedent"
+          "basis": "Gov. Reynolds's 2020 executive order restored voting rights after sentence completion (excluding murder, attempted murder, fetal homicide and some sex offenses, which still require petitioning the governor). A future governor could rescind it. A 2024 law change was not found in the sources fetched, so status after 2020 is not fully verified.",
+          "confidence": "precedent",
+          "source": "https://www.fox29.com/news/iowa-governor-signs-order-restoring-felon-voting-rights",
+          "retrieved": "2026-10-13",
+          "unverified": "current status after the cited source not confirmed"
         },
         {
           "key": "emergency-declaration",
@@ -2177,9 +2205,9 @@
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor must seek advice of the prisoner review board but is not bound",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -2313,9 +2341,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -2340,8 +2368,11 @@
         },
         {
           "key": "restore-voting-after-sentence",
-          "basis": "Kentucky Constitution s.145 and s.77 let the governor restore rights; Gov. Beshear's EO 2019-003 restored voting to about 140,000 people after sentence, Gov. Bevin had rescinded the earlier order.",
-          "confidence": "precedent"
+          "basis": "Gov. Beshear's Dec. 12, 2019 executive order automatically restored voting rights for people with nonviolent felony convictions who finished sentences (about 140,000 to 175,000; excludes violent offenses, sex offenses, bribery, treason). It remains the mechanism in the latest coverage found (Aug. 2025); a future governor could rescind it. A bipartisan constitutional amendment push was planned for the 2026 session, outcome not verified.",
+          "confidence": "precedent",
+          "source": "https://www.wuky.org/wuky-news/2025-08-26/kentucky-lawmakers-signal-voting-right-restoration-amendment-could-be-back-on-the-table-in-2026",
+          "retrieved": "2026-10-13",
+          "unverified": "current status after the cited source not confirmed"
         },
         {
           "key": "emergency-declaration",
@@ -2454,9 +2485,9 @@
       },
       "pardon": {
         "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may pardon only on favorable recommendation of the Board of Pardons",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -2588,10 +2619,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-with-council-consent",
-        "detail": "governor with consent/advice of the elected/executive council",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-board-advice",
+        "detail": "governor decides; non-statutory advisory scheme, board makes confidential recommendations",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute. In NH, MA and ME many actions also need the elected/executive council.",
@@ -2740,9 +2771,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -2881,9 +2912,9 @@
       },
       "pardon": {
         "authority": "governor-with-council-consent",
-        "detail": "governor with consent/advice of the elected/executive council",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may not act without affirmative recommendation of the Governor's Council",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute. In NH, MA and ME many actions also need the elected/executive council.",
@@ -2929,79 +2960,79 @@
             "key": "budget",
             "title": "Budget Director / Finance Secretary",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "revenue",
             "title": "Revenue / Tax Commissioner",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "transportation",
             "title": "Transportation Secretary",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "health",
             "title": "Health Commissioner",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "human-services",
             "title": "Human Services Secretary",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "corrections",
             "title": "Corrections Commissioner",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "labor",
             "title": "Labor / Workforce Commissioner",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "environment",
             "title": "Environment / Natural Resources Secretary",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "public-safety",
             "title": "Public Safety Commissioner",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "commerce",
             "title": "Commerce / Economic Development Secretary",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "general-services",
             "title": "Administration / General Services Director",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "military",
             "title": "Adjutant General",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "agriculture",
             "title": "Agriculture Commissioner/Director",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           },
           {
             "key": "education",
@@ -3013,7 +3044,7 @@
             "key": "treasurer",
             "title": "Treasurer",
             "appointedBy": "governor",
-            "confirmedBy": "none"
+            "confirmedBy": "senate"
           }
         ],
         "electedInstead": [
@@ -3022,13 +3053,18 @@
           "secretary-of-state"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://www.legislature.mi.gov/documents/publications/MichiganManual/2009-2010/09-10_MM_IV_pp_06-08_GuberAppoint.pdf",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides; parole board must be consulted, advice not binding",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3173,13 +3209,18 @@
           "auditor"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://www.cbsnews.com/minnesota/news/senate-confirms-much-of-daytons-cabinet",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "board-with-governor",
-        "detail": "clemency board on which the governor sits; governor's vote required (FL, MN, NE) or board incl. supreme court justices (NV)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "board with governor",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3314,9 +3355,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3444,10 +3485,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-board-advice",
+        "detail": "governor decides; parole board must be consulted, advice not binding",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3586,9 +3627,9 @@
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides and must consult the board of pardons and paroles; may act against its recommendation since 2015",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3717,9 +3758,9 @@
       },
       "pardon": {
         "authority": "board-with-governor",
-        "detail": "clemency board on which the governor sits; governor's vote required (FL, MN, NE) or board incl. supreme court justices (NV)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "board with governor",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3848,9 +3889,9 @@
       },
       "pardon": {
         "authority": "board-with-governor",
-        "detail": "clemency board on which the governor sits; governor's vote required (FL, MN, NE) or board incl. supreme court justices (NV)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "board with governor",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -3989,9 +4030,9 @@
       },
       "pardon": {
         "authority": "governor-with-council-consent",
-        "detail": "governor with consent/advice of the elected/executive council",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor acts on advice of the Executive Council; traditionally not without majority recommendation",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute. In NH, MA and ME many actions also need the elected/executive council.",
@@ -4128,13 +4169,18 @@
         ],
         "electedInstead": ["lieutenant-governor"],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://newjerseyglobe.com/legislature/state-senate-confirms-five-more-sherrill-nominees/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
-        "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-alone",
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -4270,13 +4316,18 @@
           "land-commissioner"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://nm.news/?p=1665730",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -4425,9 +4476,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -4559,13 +4610,18 @@
           "labor-commissioner"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://nclawyersweekly.com/2017/04/19/nc-senate-confirms-3-more-of-governors-agency-heads/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -4693,13 +4749,18 @@
           "public-service-commission"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "no legislative confirmation of governor-appointed department heads (statutory exceptions possible)",
+          "source": "https://csgmidwest.org/2020/09/15/confirming-state-agency-heads-is-usually-a-straightforward-process/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
-        "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-alone",
+        "detail": "governor decides; may appoint a pardon advisory board",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -4824,13 +4885,18 @@
           "auditor"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://csgmidwest.org/2020/09/15/confirming-state-agency-heads-is-usually-a-straightforward-process/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides; parole board must be consulted, advice not binding",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -4967,9 +5033,9 @@
       },
       "pardon": {
         "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may not act without affirmative recommendation of the board of pardons and parole",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -5102,9 +5168,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -5244,13 +5310,18 @@
           "auditor-general"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://www.cityandstatepa.com/politics/2022/12/how-are-state-cabinet-secretaries-selected-and-appointed/381380/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may not act without affirmative recommendation of the pardon board chaired by lieutenant governor",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -5392,10 +5463,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-senate-consent",
+        "detail": "governor pardons with the advice and consent of the senate",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -5524,9 +5595,9 @@
       },
       "pardon": {
         "authority": "board-alone",
-        "detail": "board-alone (state board of pardons/paroles)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "independent board decides; governor acts in capital cases",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -5783,13 +5854,18 @@
           "comptroller",
           "attorney-general"
         ],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "no legislative confirmation of governor-appointed department heads (statutory exceptions possible)",
+          "source": "https://en.wikipedia.org/wiki/Tennessee_Governor%27s_Cabinet",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides, advised by the parole board",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -5926,13 +6002,18 @@
           "railroad-commission"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://tcjl.com/governor-greg-abbott-submits-formal-appointments-to-texas-senate/",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor may not act without affirmative recommendation of the Board of Pardons and Paroles",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6066,9 +6147,9 @@
       },
       "pardon": {
         "authority": "board-alone",
-        "detail": "board-alone (state board of pardons/paroles)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "board decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6202,9 +6283,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6349,9 +6430,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6386,8 +6467,10 @@
         },
         {
           "key": "restore-voting-after-sentence",
-          "basis": "Virginia Constitution art. II s.1 lets the governor restore rights; Northam restored by order (2021), Youngkin returned to case-by-case. A constitutional amendment for automatic restoration is on the Nov. 2026 ballot (status as of Oct. 2026 unverified).",
-          "confidence": "precedent"
+          "basis": "Virginia Constitution art. II s.1 disenfranchises felons until the governor restores rights; the Supreme Court of Virginia (2016) requires case-by-case restoration, no blanket orders. Youngkin ended the streamlined process; Gov. Spanberger has restored rights to 66,085 people since January 2026. A constitutional amendment for automatic restoration is on the Nov. 3, 2026 ballot (result not yet known); if adopted the governor's role largely ends.",
+          "confidence": "precedent",
+          "source": "https://virginiamercury.com/2026/07/31/spanberger-restores-voting-rights-to-more-than-60000-virginians/",
+          "retrieved": "2026-10-13"
         },
         {
           "key": "emergency-declaration",
@@ -6501,10 +6584,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-with-board-recommendation",
-        "detail": "governor may grant only after a favorable board recommendation",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-with-board-advice",
+        "detail": "governor decides; clemency board must be consulted, recommendation advisory",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6637,9 +6720,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6758,13 +6841,18 @@
           "superintendent"
         ],
         "chosenByLegislatureOrCourt": [],
-        "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "estimated": "Position list is a typical core set, not the state's exact org chart; the confirmation rule for governor-appointed heads was checked (see verifiedConfirmation). Individual exceptions not verified.",
+        "verifiedConfirmation": {
+          "rule": "senate confirms governor-appointed department heads",
+          "source": "https://captimes.com/news/local/govt-and-politics/tony-evers-cabinet-picks-continue-to-work-through-committee-process-as-they-await-confirmation-from/article_6174b607-3e08-59ce-9be4-bb81d1ce2a16.html",
+          "retrieved": "2026-10-13"
+        }
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -6906,10 +6994,10 @@
         "estimated": "Typical core set, not the state's exact organization chart; department names, merged agencies and confirmation details vary. Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
       },
       "pardon": {
-        "authority": "governor-with-board-advice",
-        "detail": "governor decides; board reviews and advises (non-binding)",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "authority": "governor-alone",
+        "detail": "governor decides; no board, application reviewed by governor's staff",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -7048,9 +7136,9 @@
       },
       "pardon": {
         "authority": "president",
-        "detail": "the President pardons D.C. Code offenses; the Mayor has no clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "President decides under a non-statutory advisory scheme; no local governor",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Mayor's orders bind D.C. executive agencies; Congress and the Council can override; Mayor has no pardon power.",
@@ -7191,9 +7279,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -7471,9 +7559,9 @@
       },
       "pardon": {
         "authority": "governor-alone",
-        "detail": "governor holds clemency power",
-        "source": "src-ncsl-rrp (NCSL / Restoration of Rights Project; CCRC)",
-        "estimated": "Compiled from background knowledge of the cited references; not re-fetched in this session, so treat as estimated until spot-checked."
+        "detail": "governor decides",
+        "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+        "retrieved": "2026-10-13"
       },
       "executiveOrders": {
         "scope": "Orders bind executive-branch agencies and employees, take effect without the legislature, cannot override statute or the constitution, and can be reversed by the next executive or voided by courts or statute.",
@@ -7955,8 +8043,9 @@
         "estimate": 4000,
         "low": 3500,
         "high": 4400,
-        "sourced": "Partnership for Public Service / Plum Book: about 4,000 presidential appointments, roughly 1,300 Senate-confirmed (PPS figures cited from memory)",
-        "source": "src-ppp"
+        "sourced": "Partnership for Public Service: more than 4,000 presidential political appointees (Plum Book), about 1,200 Senate-confirmed (PPS letters 2021); Lewis list counts 1,340 Senate-confirmed positions",
+        "source": "src-ppp-plum",
+        "retrieved": "2026-10-13"
       },
       "estimated": "Cabinet list is approximate; pardon and executive-power rows rest on the Constitution and statutes cited."
     }
@@ -8259,9 +8348,9 @@
     },
     {
       "id": "src-ncsl-rrp",
-      "title": "NCSL pardon/clemency overview and Collateral Consequences Resource Center Restoration of Rights Project (50-state clemency)",
-      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisonjudicial-expungement-sealing-and-set-aside-2/",
-      "retrieved": "not retrieved this session; cited from background knowledge"
+      "title": "CCRC Restoration of Rights Project: 50-State Comparison, Characteristics of Pardon Authorities",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncharacteristics-of-pardon-authorities-2/",
+      "retrieved": "2026-10-13"
     },
     {
       "id": "src-brennan",
@@ -8284,8 +8373,8 @@
     {
       "id": "src-ppp",
       "title": "Partnership for Public Service / U.S. Plum Book (presidential appointees)",
-      "url": "https://ourpublicservice.org/",
-      "retrieved": "not retrieved this session; cited from background knowledge"
+      "url": "https://presidentialtransition.org/presidential-appointments-are-hard-to-track-and-growing/",
+      "retrieved": "2026-10-13"
     },
     {
       "id": "src-icma",
@@ -8310,6 +8399,54 @@
       "title": "U.S. Census Bureau 2020 apportionment populations (used in the patronage scaling)",
       "url": "https://www.census.gov/",
       "retrieved": "not retrieved this session; cited from background knowledge"
+    },
+    {
+      "id": "src-ppp-plum",
+      "title": "Partnership for Public Service: Plum Book letters (4,000+ appointees, ~1,200 Senate-confirmed)",
+      "url": "https://presidentialtransition.org/press/partnership-for-public-service-lauds-modernization-of-the-plum-book-included-in-the-2023-ndaa",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-va-mercury",
+      "title": "Virginia Mercury: Spanberger restores voting rights (2026-07-31)",
+      "url": "https://virginiamercury.com/2026/07/31/spanberger-restores-voting-rights-to-more-than-60000-virginians/",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-va-amend",
+      "title": "29News: Virginians to vote on automatic restoration (2026-08-06)",
+      "url": "https://www.29news.com/2026/08/06/virginians-vote-automatic-voting-rights-restoration-people-with-felony-convictions/",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-ky-wuky",
+      "title": "WUKY: Kentucky restoration amendment (2025-08-26)",
+      "url": "https://www.wuky.org/wuky-news/2025-08-26/kentucky-lawmakers-signal-voting-right-restoration-amendment-could-be-back-on-the-table-in-2026",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-ia-reynolds",
+      "title": "Fox/Courthouse News: Iowa governor signs order restoring felon voting rights (2020)",
+      "url": "https://www.fox29.com/news/iowa-governor-signs-order-restoring-felon-voting-rights",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-csg-confirm",
+      "title": "CSG Midwest: Confirming state agency heads (2020)",
+      "url": "https://csgmidwest.org/2020/09/15/confirming-state-agency-heads-is-usually-a-straightforward-process/",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-mi-manual",
+      "title": "Michigan Manual 2009-2010 ch. IV",
+      "url": "https://www.legislature.mi.gov/documents/publications/MichiganManual/2009-2010/09-10_MM_IV_pp_06-08_GuberAppoint.pdf",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "src-ga-ag",
+      "title": "Georgia AG Opinion 2003-5",
+      "url": "https://law.georgia.gov/opinions/2003-5",
+      "retrieved": "2026-10-13"
     }
   ]
 }
