@@ -2801,5 +2801,17 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
+  },
+  {
+    "id": "SG-PW8-partnership-start",
+    "kind": "estimated-record",
+    "file": "src/core2/births-plan.ts",
+    "line": 1,
+    "whatItFakes": "When a couple has no dated partner fact (or it is dated the opening day), the partnership start is estimated: one birth-spacing interval before their first child, else the mother reaching the usual age of a first union.",
+    "why": "The opening writes partnerships without a start date for many couples, so a long marriage looked brand new on the opening day.",
+    "addedBy": "PW-8 (Opus builder)",
+    "addedAt": "2026-10-13",
+    "replacement": "Partnerships carry their own recorded start date from the opening's partnership model (OPUS-PEOPLE, opening-partnership).",
+    "status": "open"
   }
 ]
