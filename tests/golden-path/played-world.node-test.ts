@@ -407,9 +407,9 @@ function playWorld(seed: string) {
   // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
   // the Virgin Islands, American Samoa and the Northern Marianas pay their
   // own territorial income tax instead), but Social Security and Medicare
-  // still apply. A place's key starts with its state or territory FIPS code.
-  const territory = ["60", "66", "69", "72", "78"].includes(
-    String(place.key).padStart(7, "0").slice(0, 2),
+  // still apply. The place record names its state or territory.
+  const territory = ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"].includes(
+    world.place.stateJurisdictionKey ?? "",
   );
   const federalWithheld = territory
     ? taxes.has("federal:social-security") && taxes.has("federal:medicare")
