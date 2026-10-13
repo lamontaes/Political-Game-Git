@@ -282,6 +282,16 @@
       "passes": false
     },
     {
+      "id": "PW-02",
+      "milestone": "M1",
+      "title": "Every built module runs in the played world",
+      "golden_path": "world",
+      "package": "PW-2",
+      "test": "Building the world the owner plays in a random place, every module under src/core2/modules is installed or exempted with a reason in src/core2/data/played-world-exemptions.json, and no exemption names an installed module.",
+      "command": "node node_modules/vitest/vitest.mjs run tests/golden-path/module-guard.test.ts",
+      "passes": true
+    },
+    {
       "id": "M2-02",
       "milestone": "M2",
       "title": "Election calendars and filing rules",
