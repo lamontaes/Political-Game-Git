@@ -17,7 +17,12 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "../modules/laws";
 import { countedJob, residentsRuntime } from "../modules/residents";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -662,6 +667,18 @@ export function raiseToSalaryFloor(
     if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
     const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
     api.rerateJob(job.id, to, source(api, `Teacher minimum salary (${lawId})`));
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("raises")
+      .put({
+        id: `raise:${job.id}:${api.state.date}`,
+        personId: job.personId,
+        jobId: job.id,
+        date: api.state.date,
+        fromMinor: hourly,
+        toMinor: to,
+        lawId,
+      });
     out.set(job.id, { fromMinor: hourly, toMinor: to });
   }
   return out;
