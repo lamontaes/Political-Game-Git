@@ -1,0 +1,72 @@
+{
+  "collegeMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "The age at which young adults leave high school and choose college: the usual age at high school completion (NCES Digest table 302.10 counts recent high school completers as 16 to 24, most of them 18)."
+  },
+  "collegeDegreeAtHomeWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The pull toward college when an adult at home holds a degree (and against it when none does). Students whose parents hold a bachelor's degree enroll far more often (about 82% against 54% for parents with a high school diploma, NCES, 1990s cohorts, via data/research/education/college-enrollment-2026.json); the size of the pull is fitted to the national rate of enrolling right after high school.",
+    "stopgapId": "SG-P15-college-enrollment",
+    "spread": {
+      "low": 0.2,
+      "high": 1.2
+    }
+  },
+  "collegeMeansWeight": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "The pull toward college per unit of the log of household yearly pay against the national median. Recent high school completers from high-income families enroll at 82.5% against 65% from low and middle (NCES Digest 302.30, 2016, the table's last year).",
+    "stopgapId": "SG-P15-college-enrollment",
+    "spread": {
+      "low": 0.1,
+      "high": 1
+    }
+  },
+  "collegeTemperamentWeight": {
+    "value": 0.9,
+    "tag": "TUNABLE",
+    "citation": "How far a person's own traits (through the shared trait table, about -1 to 1) pull toward enrolling or not. No study sets it; spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-college-enrollment",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5
+    }
+  },
+  "collegeStayPull": {
+    "value": -1.3,
+    "tag": "TUNABLE",
+    "citation": "The pull of working or waiting instead, fitted so about 62% of those turning 18 enroll (NCES, Condition of Education 2024, immediate college enrollment rate of high school completers, 2022: 62%). Checked in src/core2/college.test.ts. Fitted Oct 13, 2026 over six drawn towns (seeds k1-k6, college-cal draw; 41 residents turning 18 at the 2021 fall term): 15% enroll at 0, 39% at -0.8, 59% at -1.2 (10 at a college in their county, 14 leaving town for one); set at -1.3.",
+    "stopgapId": "SG-P15-college-enrollment",
+    "spread": {
+      "low": -1.6,
+      "high": -1
+    }
+  },
+  "collegeMedianIncomeMinor": {
+    "value": 7771900,
+    "tag": "SOURCED",
+    "citation": "U.S. median household income, 2023: $77,719 (Census Bureau, American Community Survey 2023 1-year, table B19013), in cents."
+  },
+  "collegeFourYearYears": {
+    "value": 4.3,
+    "tag": "ESTIMATED",
+    "citation": "Years from first enrolling to a bachelor's degree: median 52 months for 2015-16 graduates who started at a four-year college (NCES, Time to Degree, Baccalaureate and Beyond 2016).",
+    "estimatedFrom": "NCES B&B:16 time to degree; spread 4 to 6",
+    "spread": {
+      "low": 4,
+      "high": 6
+    }
+  },
+  "collegeCommunityYears": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "Years from first enrolling to an associate degree at a community college: about three for full-time starters who finish (NCES, Beginning Postsecondary Students 2012/17; the program's nominal length is two).",
+    "estimatedFrom": "NCES BPS:12/17; spread 2 to 4",
+    "spread": {
+      "low": 2,
+      "high": 4
+    }
+  }
+}

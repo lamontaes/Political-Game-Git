@@ -630,6 +630,22 @@
           "actKinds": ["change", "withdraw", "self-interest"]
         }
       ]
+    },
+    {
+      "id": "college.enroll",
+      "site": "src/core2/modules/college.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "work-or-wait",
+          "actKinds": ["keep-same", "play-safe", "self-interest"]
+        },
+        {
+          "id": "enroll",
+          "actKinds": ["commit", "take-risk", "change"]
+        }
+      ]
     }
   ],
   "outside": [

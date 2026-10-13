@@ -1,7 +1,7 @@
 import rows from "./data/renewal/parameters.json" with { type: "json" };
 import type { CoreAPI } from "./types";
 import type { Parameter } from "./parameters";
-export const RENEWAL_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
+export const RENEWAL_PARAMETERS = rows as unknown as Readonly<Record<string, Parameter>>;
 
 /** Module numbers remain tagged without copying every ordinary actor's registry. */
 export function renewalParameter(api: CoreAPI, key: string): number {

@@ -26,7 +26,7 @@ import type {
 import { moveStance, stanceSize, viewOf, type StanceCause } from "./views";
 
 export const NEWS_MODULE_ID = "news";
-const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
+const PARAMETERS = rows as unknown as Readonly<Record<string, Parameter>>;
 const n = (api: CoreAPI, key: string) => {
   const row = PARAMETERS[key];
   if (!row) return api.parameter(key);

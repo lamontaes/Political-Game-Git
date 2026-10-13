@@ -25,6 +25,9 @@ import type { CoreInput, PersonInput } from "./types";
 export const COLLEGE_STOPGAP = "SG-P15-college-enrollment";
 export const COLLEGE_FACT_KIND = "school:cohort-estimate";
 export const COLLEGE_STAGE = "college";
+/** The fall term's first day, month-day. */
+export const COLLEGE_TERM_START = (collegesJson as { termStart: string })
+  .termStart;
 
 type CollegeRow = readonly [id: string, name: string, kind: string];
 const COLLEGES = collegesJson as unknown as {
@@ -42,7 +45,9 @@ const COLLEGES = collegesJson as unknown as {
 
 const p = (key: string) => parameter(key);
 
-function countyGeoids(person: PersonInput): string[] {
+type Located = Pick<PersonInput, "placeId" | "countyId">;
+
+function countyGeoids(person: Located): readonly string[] {
   const county = person.countyId
     ? lifePlaceByJurisdictionId(person.countyId as never)
     : null;
@@ -52,7 +57,7 @@ function countyGeoids(person: PersonInput): string[] {
 }
 
 /** The colleges in the person's county, if any. */
-export function collegesNear(person: PersonInput): readonly CollegeRow[] {
+export function collegesNear(person: Located): readonly CollegeRow[] {
   return countyGeoids(person).flatMap(
     (geoid) => COLLEGES.counties[geoid] ?? [],
   );
