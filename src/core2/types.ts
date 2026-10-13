@@ -715,6 +715,11 @@ export interface WorkData {
 }
 
 export interface CoreInput {
+  /**
+   * P15 (M7-01): households whose relatives were not built at the opening,
+   * for fill-in to build with `buildDeferredKin` (population.ts).
+   */
+  deferredKin?: import("./population").DeferredKin;
   /** Explicit exact-version module snapshots; absent tables start empty. */
   moduleState?: readonly ModuleStateSnapshot[];
   voterGroups?: readonly VoterGroup[];

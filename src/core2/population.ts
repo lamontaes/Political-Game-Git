@@ -112,7 +112,11 @@ import { birthCohortGivenName } from "../simulation/given-name-cohorts";
 import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import { SeededRng } from "../simulation/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
+import {
+  buildOpeningKin,
+  OPENING_KIN,
+  type KinHouseholdInput,
+} from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
@@ -140,6 +144,19 @@ export interface PopulationOptions {
    * player is a 17-year-old who turns 18 in play).
    */
   cohortAge?: number;
+  /**
+   * The households whose relatives outside the home are built now (M7-01:
+   * the full people's, decided before generation); others get theirs when
+   * filled in, from the same household-keyed seed. All when left out.
+   */
+  kinHouseholdIds?: ReadonlySet<string>;
+  /**
+   * Chooses those households from the generated residents, before any
+   * relatives are built (the core's player and sample rule).
+   */
+  chooseKinHouseholds?: (
+    residents: readonly PersonInput[],
+  ) => ReadonlySet<string>;
 }
 
 interface CountyContext {
@@ -1259,21 +1276,67 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     organizations: publicPay.organizations,
     workCommitments: publicPay.workCommitments,
   });
+  const naming: KinNaming = {
+    worldId: world.id,
+    worldSeed: world.seed,
+    corpusVersion: nameCorpusVersionForWorld(world, town),
+  };
+  const kinInputs = plans.map((plan) => kinInputOf(world, plan));
+  // M7-01: relatives now only for the households chosen before generation
+  // (the full people's); the rest are kept to build when filled in.
+  const kinHouseholdIds =
+    options.kinHouseholdIds ?? options.chooseKinHouseholds?.(people);
+  const stateId = place.stateJurisdictionKey
+    ? stateJurisdictionForKey(place.stateJurisdictionKey)?.id
+    : undefined;
+  const stateKey = place.stateJurisdictionKey ?? undefined;
   const family = openingFamilies({
     seed: options.seed,
-    world,
+    naming,
     town,
-    stateId: place.stateJurisdictionKey
-      ? stateJurisdictionForKey(place.stateJurisdictionKey)?.id
-      : undefined,
-    stateKey: place.stateJurisdictionKey ?? undefined,
+    ...(stateId ? { stateId } : {}),
+    ...(stateKey ? { stateKey } : {}),
     startedAt,
-    plans,
+    kinInputs,
     people,
     source,
+    ...(kinHouseholdIds ? { kinHouseholdIds } : {}),
   });
+  const deferredKin: DeferredKin | undefined = kinHouseholdIds
+    ? {
+        seed: options.seed,
+        naming,
+        town,
+        ...(stateId ? { stateId } : {}),
+        ...(stateKey ? { stateKey } : {}),
+        startedAt,
+        source,
+        households: Object.fromEntries(
+          kinInputs
+            .filter((row) => !kinHouseholdIds.has(row.id))
+            .map((row) => [row.id, row]),
+        ),
+        traits: Object.fromEntries(
+          people
+            .filter((person) => !kinHouseholdIds.has(person.householdId))
+            .map((person) => [
+              person.id,
+              {
+                traits: person.traits,
+                ...(person.traitSources
+                  ? { traitSources: person.traitSources }
+                  : {}),
+                ...(person.sharedTraitSource
+                  ? { sharedTraitSource: person.sharedTraitSource }
+                  : {}),
+              },
+            ]),
+        ),
+      }
+    : undefined;
   stopgap("SG-P15-kin-generation");
   return {
+    ...(deferredKin ? { deferredKin } : {}),
     seed: options.seed,
     startedAt,
     people: family.people,
@@ -1339,15 +1402,110 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
 
 interface OpeningFamilyInput {
   seed: string;
-  world: World;
+  naming: KinNaming;
   town: EntityId;
   stateId?: string;
   /** The state's USPS jurisdiction key ("US-CA"), for its ACS leaving rates. */
   stateKey?: string;
   startedAt: WorldDate;
-  plans: readonly HouseholdPlan[];
+  /** Each household's kin input, built from its plan. */
+  kinInputs: readonly KinHouseholdInput[];
   people: readonly PersonInput[];
   source: Source;
+  /** Only these households' relatives (each built from its own seed). */
+  kinHouseholdIds?: ReadonlySet<string>;
+}
+
+/** What naming a relative needs from the generated world: its seed, id and name corpus. */
+export interface KinNaming {
+  worldId: string;
+  worldSeed: string;
+  corpusVersion: string;
+}
+
+/**
+ * The relatives not built at the opening (M7-01), kept so a household filled
+ * in later gets the relatives and temperaments a full build would have given
+ * it: each household's kin input and its residents' upbringing.
+ */
+export interface DeferredKin {
+  seed: string;
+  naming: KinNaming;
+  town: EntityId;
+  stateId?: string;
+  stateKey?: string;
+  startedAt: WorldDate;
+  source: Source;
+  households: Readonly<Record<string, KinHouseholdInput>>;
+  /** Each deferred resident's traits and their sources, before temperament. */
+  traits: Readonly<
+    Record<
+      string,
+      Pick<PersonInput, "traits" | "traitSources" | "sharedTraitSource">
+    >
+  >;
+}
+
+/** The kin input for one household plan: its members' roles, birth dates, genders and names. */
+function kinInputOf(world: World, plan: HouseholdPlan): KinHouseholdInput {
+  return {
+    id: plan.id,
+    stableKey: plan.stableKey,
+    couple:
+      plan.skeleton.shape === "couple" ||
+      plan.skeleton.shape === "couple-with-children",
+    ...(plan.countyId ? { countyId: plan.countyId } : {}),
+    members: plan.ids.map((id, member) => ({
+      id,
+      // A grown child at home is their parent's child in the kin model.
+      role: plan.grownChildren?.includes(member)
+        ? ("child" as const)
+        : plan.skeleton.members[member]!.role,
+      birthDate: world.people[id]!.birthDate,
+      ...(world.people[id]!.identity
+        ? { gender: world.people[id]!.identity!.gender }
+        : {}),
+      familyName: world.people[id]!.familyName,
+    })),
+  };
+}
+
+/**
+ * A deferred household's relatives, built when it is filled in: the same
+ * people, homes, links and family facts, and the same temperaments for its
+ * residents, as the full build gives it. `residents` are the household's own
+ * records as admitted; their family facts and temperament are added.
+ */
+export function buildDeferredKin(
+  deferred: DeferredKin,
+  householdId: string,
+  residents: readonly PersonInput[],
+): {
+  people: PersonInput[];
+  households: HouseholdInput[];
+  familyLinks: FamilyLink[];
+} | null {
+  const kinInput = deferred.households[householdId];
+  if (!kinInput) return null;
+  return openingFamilies({
+    seed: deferred.seed,
+    naming: deferred.naming,
+    town: deferred.town,
+    ...(deferred.stateId ? { stateId: deferred.stateId } : {}),
+    ...(deferred.stateKey ? { stateKey: deferred.stateKey } : {}),
+    startedAt: deferred.startedAt,
+    kinInputs: [kinInput],
+    people: residents.map((person) => {
+      const before = deferred.traits[person.id];
+      if (!before) return person;
+      // The traits as they were before temperament, with their own sources.
+      const rest: PersonInput = { ...person };
+      delete (rest as { traitSources?: unknown }).traitSources;
+      delete (rest as { sharedTraitSource?: unknown }).sharedTraitSource;
+      return { ...rest, ...before };
+    }),
+    source: deferred.source,
+  });
 }
 
 /**
@@ -1359,32 +1517,15 @@ function openingFamilies(input: OpeningFamilyInput): {
   households: HouseholdInput[];
   familyLinks: FamilyLink[];
 } {
-  const { world, startedAt, source } = input;
-  const corpusVersion = nameCorpusVersionForWorld(world, input.town);
+  const { startedAt, source } = input;
+  const { corpusVersion, worldId, worldSeed } = input.naming;
   const kin = buildOpeningKin(
-    input.plans.map((plan) => ({
-      id: plan.id,
-      stableKey: plan.stableKey,
-      couple:
-        plan.skeleton.shape === "couple" ||
-        plan.skeleton.shape === "couple-with-children",
-      ...(plan.countyId ? { countyId: plan.countyId } : {}),
-      members: plan.ids.map((id, member) => ({
-        id,
-        // A grown child at home is their parent's child in the kin model.
-        role: plan.grownChildren?.includes(member)
-          ? ("child" as const)
-          : plan.skeleton.members[member]!.role,
-        birthDate: world.people[id]!.birthDate,
-        ...(world.people[id]!.identity
-          ? { gender: world.people[id]!.identity!.gender }
-          : {}),
-        familyName: world.people[id]!.familyName,
-      })),
-    })),
+    input.kinInputs.filter(
+      (row) => !input.kinHouseholdIds || input.kinHouseholdIds.has(row.id),
+    ),
     {
       seed: input.seed,
-      worldId: world.id,
+      worldId,
       startedAt,
       townId: input.town,
       ...(input.stateId ? { stateId: input.stateId } : {}),
@@ -1395,7 +1536,7 @@ function openingFamilies(input: OpeningFamilyInput): {
       name: ({ stableKey, gender, birthDate, familyName }) => {
         const key = gender as GenderIdentityKey;
         const named = drawCanonicalNamedIdentity(
-          new SeededRng(world.seed).fork(stableKey).fork("name"),
+          new SeededRng(worldSeed).fork(stableKey).fork("name"),
           { gender: key, pronouns: defaultPronounsForGender(key) },
           { corpusVersion },
         );
@@ -1404,7 +1545,7 @@ function openingFamilies(input: OpeningFamilyInput): {
           familyName: surname,
           givenName:
             corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(world.seed, stableKey, {
+              ? birthCohortGivenName(worldSeed, stableKey, {
                   givenName: named.givenName,
                   familyName: surname,
                   birthDate: makeIsoDate(birthDate),

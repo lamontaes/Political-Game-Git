@@ -386,14 +386,14 @@ export function buildOpeningKin(
     ) => {
       const age = movedAt.get(key);
       if (age === undefined) return;
-      out.moves.push({
-        personId: person.id,
-        date: addDays(
-          makeIsoDate(person.birthDate),
-          Math.floor(age * p("daysPerMeanYear")),
-        ) as IsoDate,
-        kind,
-      });
+      // A parent's line is drawn in whole years from a rounded birth year, so
+      // the move can land on or after the opening: it hasn't happened yet.
+      const date = addDays(
+        makeIsoDate(person.birthDate),
+        Math.floor(age * p("daysPerMeanYear")),
+      );
+      if (date >= startedAt) return;
+      out.moves.push({ personId: person.id, date: date as IsoDate, kind });
     };
     const newHome = (key: string, local: boolean): Home => {
       const row = {
