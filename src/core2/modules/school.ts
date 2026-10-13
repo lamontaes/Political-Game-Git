@@ -129,8 +129,15 @@ function schoolDay(api: CoreAPI): void {
   if (!isSchoolDay(date)) return;
   const action = api.state.data.actions.find((row) => row.id === data.actionId);
   if (!action) return;
+  // Light relatives who live elsewhere (inactive tiers) make no choices here.
+  const inactive = new Set(
+    api.state.data.tiers
+      .filter((tier) => tier.cadence === "inactive")
+      .map((tier) => tier.id),
+  );
   for (const person of api.state.people.values()) {
     if (!person.alive || person.id === api.state.playerId) continue;
+    if (inactive.has(person.tier)) continue;
     if (!due(api, person)) continue;
     const school = schoolFor(api, person);
     const attend = offer(api, person, action, school);
