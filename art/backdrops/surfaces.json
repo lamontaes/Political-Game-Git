@@ -9,6 +9,20 @@
         "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
+    "apartment-kitchen": {
+      "checked": ["apartment-kitchen__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-nice-living": {
+      "checked": ["apartment-nice-living__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "apartment-older-walkup": {
       "checked": ["apartment-older-walkup__midday.jpg"],
       "surfaces": [],
@@ -21,6 +35,20 @@
       "surfaces": [],
       "skipped": [
         "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-rundown-living": {
+      "checked": ["apartment-rundown-living__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-starter-living": {
+      "checked": ["apartment-starter-living__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "apartment-student-shared": {
@@ -68,6 +96,13 @@
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "bedroom-plain": {
+      "checked": ["bedroom-plain__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "bedroom-teen": {
@@ -168,6 +203,13 @@
         "papers on the tables: under 36 px tall (the left-table sheet is about 34-36 px)",
         "rolling stand in the middle: an empty rack frame, no painted board face",
         "storefront windows and door: windows"
+      ]
+    },
+    "capitol-hallway": {
+      "checked": ["capitol-hallway__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "cemetery-graveside": {
@@ -482,6 +524,13 @@
         "no painted screens, posters, papers or boards; stage back wall is plain wall, windows and door excluded"
       ]
     },
+    "congressional-office": {
+      "checked": ["congressional-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "construction-site": {
       "checked": [
         "construction-site__midday.jpg",
@@ -547,6 +596,20 @@
         "no painted screens, posters, papers or boards"
       ]
     },
+    "council-chamber-large": {
+      "checked": ["council-chamber-large__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "council-chamber-small": {
+      "checked": ["council-chamber-small__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "county-clerk-office-rural": {
       "checked": ["county-clerk-office-rural__midday.jpg"],
       "surfaces": [],
@@ -585,6 +648,13 @@
         }
       ],
       "skipped": ["nameplates on the dais: under 36 px tall"]
+    },
+    "county-commission-rural": {
+      "checked": ["county-commission-rural__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
     },
     "county-courthouse": {
       "checked": [
@@ -987,6 +1057,13 @@
         "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
       ]
     },
+    "hearing-room-paneled": {
+      "checked": ["hearing-room-paneled__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "high-school-cafeteria": {
       "checked": ["high-school-cafeteria__midday.jpg"],
       "surfaces": [],
@@ -1094,6 +1171,13 @@
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
+    "house-bedroom": {
+      "checked": ["house-bedroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "house-gulf-coast-raised": {
       "checked": ["house-gulf-coast-raised__midday.jpg"],
       "surfaces": [],
@@ -1115,11 +1199,25 @@
         "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
+    "house-rural-kitchen": {
+      "checked": ["house-rural-kitchen__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "house-southwest-adobe": {
       "checked": ["house-southwest-adobe__midday.jpg"],
       "surfaces": [],
       "skipped": [
         "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-suburban-living": {
+      "checked": ["house-suburban-living__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "jail-visiting-room": {
@@ -1420,6 +1518,13 @@
       "skipped": [
         "desk blotter (about x 770-895, y 400-408): under 36 px tall",
         "no painted screens, posters, papers or boards (windows, curtains and doors excluded)"
+      ]
+    },
+    "oval-office-resolute": {
+      "checked": ["oval-office-resolute__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "park": {
@@ -2302,6 +2407,13 @@
         "PLACEHOLDER RESEARCH REQUEST: inspect morning, midday, night, rain, and winter pictures; record painted screens, posters, papers, and TVs before live content uses them."
       ]
     },
+    "state-house-chamber": {
+      "checked": ["state-house-chamber__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "state-legislative-chamber-bicameral": {
       "checked": [
         "state-legislative-chamber-bicameral__midday.jpg",
@@ -2414,6 +2526,13 @@
       "surfaces": [],
       "skipped": [
         "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "trailer-home-living": {
+      "checked": ["trailer-home-living__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "tv-studio": {
