@@ -80,8 +80,12 @@ export interface BenchWorld {
  */
 // M0's entry age, as in progress.ts: an exhibit choice, not a simulation rule.
 const ENTRY_AGE = 18;
-/** The golden path's first step: a resident at 18, else the oldest at 17. */
-function entrantOf(input: CoreInput, placeId: string): string {
+/**
+ * The golden path's first step is turning 18 in play: the 17-year-old whose
+ * 18th birthday comes soonest after the opening, else the 18-year-old who
+ * turned 18 most recently.
+ */
+export function entrantOf(input: CoreInput, placeId: string): string {
   const at = makeIsoDate(input.startedAt);
   const ages = input.people
     .filter((person) => person.placeId === placeId)
@@ -93,8 +97,10 @@ function entrantOf(input: CoreInput, placeId: string): string {
     .filter((row) => row.age === ENTRY_AGE || row.age === ENTRY_AGE - 1)
     .sort(
       (a, b) =>
-        b.age - a.age ||
-        a.birthDate.localeCompare(b.birthDate) ||
+        a.age - b.age ||
+        (a.age < ENTRY_AGE
+          ? a.birthDate.localeCompare(b.birthDate)
+          : b.birthDate.localeCompare(a.birthDate)) ||
         a.id.localeCompare(b.id),
     );
   if (!ages[0]) throw new Error("No resident at or near 18 here.");
@@ -136,7 +142,7 @@ type BuildOptions = {
   /**
    * The two-level world (OPUS-CORE): the player, their household and
    * circle and the officials are full people; everyone else is counts,
-   * filled in when met. The player is the resident at or nearest 18.
+   * filled in when met. The player is the 17-year-old who turns 18 soonest.
    */
   twoLevel?: boolean;
   /** A custom world (M6-04): what the player changed from real data. */
