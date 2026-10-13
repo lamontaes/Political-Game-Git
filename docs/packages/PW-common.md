@@ -14,16 +14,16 @@ The world the owner plays is built by `buildBenchWorld` in `src/bench/world.ts`.
 
 ## Order
 
-| Package | Builds | Branch | Lands |
-| --- | --- | --- | --- |
-| PW-1 | The played-world test: the gate everything else is measured by | `pw/played-world-test` | First |
-| PW-2 | Install every module in the played world, with a guard | `pw/wire-all-modules` | Second |
-| PW-3 | People decide to run, counted voters vote, ballots follow views | `pw/candidacy-and-votes` | After PW-2 |
-| PW-4 | Laws reach people as money and services; taxes don't stop; budgets move spending | `pw/laws-reach-people` | After PW-2 |
-| PW-5 | Elections and terms dated by the state's rules; the player votes | `pw/elections-and-terms` | After PW-2 |
-| PW-6 | The player turns 18 in play and an idle young adult has a life | `pw/player-start` | After PW-1 |
-| PW-7 | Money reaches accounts: pay, loans, owner draws, home values, layoffs | `pw/money-paths` | After PW-1 |
-| PW-8 | Births happen and the counted population drifts | `pw/births-and-counts` | After PW-1 |
+| Package | Builds                                                                           | Branch                   | Lands      |
+| ------- | -------------------------------------------------------------------------------- | ------------------------ | ---------- |
+| PW-1    | The played-world test: the gate everything else is measured by                   | `pw/played-world-test`   | First      |
+| PW-2    | Install every module in the played world, with a guard                           | `pw/wire-all-modules`    | Second     |
+| PW-3    | People decide to run, counted voters vote, ballots follow views                  | `pw/candidacy-and-votes` | After PW-2 |
+| PW-4    | Laws reach people as money and services; taxes don't stop; budgets move spending | `pw/laws-reach-people`   | After PW-2 |
+| PW-5    | Elections and terms dated by the state's rules; the player votes                 | `pw/elections-and-terms` | After PW-2 |
+| PW-6    | The player turns 18 in play and an idle young adult has a life                   | `pw/player-start`        | After PW-1 |
+| PW-7    | Money reaches accounts: pay, loans, owner draws, home values, layoffs            | `pw/money-paths`         | After PW-1 |
+| PW-8    | Births happen and the counted population drifts                                  | `pw/births-and-counts`   | After PW-1 |
 
 PW-3, PW-4 and PW-5 all touch `src/core2/modules/voting.ts` or `elections.ts`. PW-5 owns the dating code in those files; PW-3 owns the ballot and candidacy code; PW-4 stays out of both and works in `laws.ts`, `budgets.ts`, `law-effects.ts` and `src/core2/law-reach/`. If you must touch a line another package owns, stop and write the need in your PR body instead.
 
@@ -43,6 +43,7 @@ Opus at **high** for every PW package: each one is a correctness problem in the 
    ```
 
    Then run the played-world check from PW-1 (once it exists; see PW-1 for the command) with that seed and the whole module list on. Name the place it drew, the seed, and the record ids your claim rests on. Run it a second time on a second fresh seed before you call anything done. Never tune anything to Greenfields, Pennsylvania or Juliaetta, Idaho, the two towns in the report; the owner said so.
+
 5. **Speed.** A town's game year must stay under two minutes, and your change may not make it more than 20% slower. Measure before and after on the same machine, one process at a time, with the yearly command. Put both numbers in the PR body.
 6. **Finish.** Update `docs/roadmap/PROGRESS.md` with what works now, what failed and why. Add `docs/release/changes/<branch-id>.md` (frontmatter `id`, `impact`, `section`, `title`). Leave the branch mergeable against `main`.
 
