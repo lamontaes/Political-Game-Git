@@ -146,7 +146,8 @@ jobs:
     runs-on: ubuntu-latest
     # Owner rule (Oct 1, 2026): never run the full suite. Run only the test
     # files this change adds or edits, the same rule the CTO's merge gate uses.
-    timeout-minutes: 45
+    # Each of the 59 policy cases builds a world and runs at least 90 days.
+    timeout-minutes: 120
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
@@ -187,7 +188,25 @@ jobs:
           fi
           printf 'Running %s changed test file(s):\n' "${#files[@]}"
           printf '  %s\n' "${files[@]}"
-          npx vitest run "${files[@]}"
+          core_files=()
+          other_files=()
+          for file in "${files[@]}"; do
+            if [[ "$file" == "src/core2/law-link.test.ts" ]]; then
+              # This test supports Node directly. Avoid the Vite transform's
+              # second copy of the world, and collect each finished world.
+              node --max-old-space-size=6144 --expose-gc --import tsx --test "$file"
+            elif [[ "$file" == src/core2/* ]]; then
+              core_files+=("$file")
+            else
+              other_files+=("$file")
+            fi
+          done
+          if [[ ${#core_files[@]} -gt 0 ]]; then
+            npx vitest run --config src/core2/tooling/vitest.config.ts "${core_files[@]}"
+          fi
+          if [[ ${#other_files[@]} -gt 0 ]]; then
+            npx vitest run --maxWorkers=1 "${other_files[@]}"
+          fi
 
   validate:
     name: validate
