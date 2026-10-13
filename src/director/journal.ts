@@ -312,12 +312,24 @@ export function composeJournal(
     if (selfCount)
       ownEvents.set(`${rowOf(moment)!.kindPrefix}|${moment.date}`, selfCount);
   }
+  // Only a line that can be written tells the event (a destination with no
+  // place name leaves the event's own line to tell the move).
   const toldSameDay = new Set(
     moments.flatMap((moment) => {
-      const sameDay = rowOf(moment)?.sameDay;
-      return sameDay && ownEvents.has(`${sameDay}|${moment.date}`)
-        ? [`${sameDay}|${moment.date}`]
-        : [];
+      const row = rowOf(moment);
+      const key = `${row?.sameDay}|${moment.date}`;
+      if (!row?.sameDay || !ownEvents.has(key)) return [];
+      const facts = factsFor(moment);
+      const told =
+        facts &&
+        render(
+          `journal-line:${row.kindPrefix}:check`,
+          row.groupLine ?? row.line,
+          facts,
+          moment.id,
+          [moment.causeId],
+        );
+      return told ? [key] : [];
     }),
   );
   const toldOnce = new Set<string>();

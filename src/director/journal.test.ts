@@ -5,6 +5,7 @@ import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
 import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
@@ -360,6 +361,48 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const text = lines.map((line) => line.text);
     expect(text).toContain("We moved away.");
     expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(false);
+
+    // When the person's place changes that day, the move is told once, with
+    // the new place; a place with no name leaves the event's own line.
+    const book = director.ledger.people.get(moverId)!;
+    const own = book.moments.find((moment) => moment.causeId === eventId)!;
+    const movedMoment: Moment = {
+      ...own,
+      id: `${moverId}:${own.date}:${mover.householdId}`,
+      label: "home:moved",
+      causeId: mover.householdId,
+      causeKind: "moved",
+      counterpartIds: [],
+    };
+    delete (movedMoment as { selfNamed?: true }).selfNamed;
+    const fixture = {
+      ...director,
+      ledger: {
+        ...director.ledger,
+        people: new Map([[moverId, { ...book, moments: [own, movedMoment] }]]),
+      },
+    } as Director;
+    const told = (placeId: string) =>
+      composeJournal(
+        {
+          ...core,
+          people: new Map([
+            ...core.people,
+            [moverId, { ...core.people.get(moverId)!, placeId }],
+          ]),
+        } as CoreState,
+        fixture,
+        moverId,
+      )
+        .flatMap((row) => row.lines)
+        .map((line) => line.text);
+    const named = told(mover.placeId);
+    expect(named.filter((line) => /moved/.test(line))).toEqual([
+      `We moved to ${lifePlaceByJurisdictionId(mover.placeId as never)!.displayName}.`,
+    ]);
+    expect(
+      told("jurisdiction_unnamed").filter((line) => /moved/.test(line)),
+    ).toEqual(["We moved away."]);
   });
 
   it("writes starting at a school once, however many stages were spent there", () => {
