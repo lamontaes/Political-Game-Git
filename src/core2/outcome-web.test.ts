@@ -25,6 +25,7 @@ import {
 } from "./outcome-web-model";
 import { coreAPI } from "./state";
 import { openLaws, enactLaw, lawChain, lawInForce } from "./modules/laws";
+import { regionPanel } from "./modules/world-panels";
 import { outcomeIssueView } from "./modules/views";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
@@ -244,6 +245,14 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     );
 
     const read = outcomeIssueView(api, town, series, 0.5);
+    const shown = regionPanel(api, town).outcomes.find(
+      (row) => row.measure === "program.snap-receipt",
+    );
+    expect(shown).toBeDefined();
+    expect(shown!.factor).toBe(
+      outcomeWebFactor(api, town, "program.snap-receipt"),
+    );
+    expect(shown!.recordId).toBe(`web:${town}:${shown!.month}`);
     expect(read.recordIds).toContain(at("2021-07").id);
     expect(read.salience).toBeGreaterThan(0);
     expect(read.position).toBeGreaterThan(0.5);

@@ -3,6 +3,8 @@
  * game time or writes a record. Words come from the English engine; these
  * return record data only.
  */
+import { KEPT_OUTCOMES } from "../outcome-web-model";
+import { placeOutcome, outcomeWebFactor } from "./outcome-web";
 import { nationalPanel } from "./macro";
 import { regionalLevel } from "./regional";
 import { JOBS_DATA } from "./jobs";
@@ -35,7 +37,20 @@ export function regionPanel(api: CoreAPI, placeId: string) {
           row.stateFips === region.stateFips && row.month === region.month,
       )
     : [];
-  return { region, stateRegions: state, nation };
+  const outcomes = KEPT_OUTCOMES.flatMap((measure) => {
+    const reading = placeOutcome(api, placeId, measure);
+    return reading
+      ? [
+          {
+            measure,
+            ...reading,
+            factor: outcomeWebFactor(api, placeId, measure),
+            recordId: `web:${placeId}:${reading.month}`,
+          },
+        ]
+      : [];
+  });
+  return { region, stateRegions: state, nation, outcomes };
 }
 
 /** One person's job history: every change with its reason and who decided it. */
