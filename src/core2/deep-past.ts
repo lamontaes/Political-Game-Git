@@ -8,6 +8,7 @@ import {
   type OpeningPeerData,
 } from "./opening-peer-network";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
+import privateSchoolsJson from "./data/opening-private-schools.json" with { type: "json" };
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -41,6 +42,17 @@ const SCHOOLS = schoolsJson as unknown as {
   byGeoid: Readonly<Record<string, readonly SchoolRow[]>>;
   placesByCounty: Readonly<Record<string, readonly string[]>>;
   bucketsByState: Readonly<Record<string, readonly string[]>>;
+};
+
+/** NCES PSS private schools by county, with each state's private share. */
+const PRIVATE_SCHOOLS = privateSchoolsJson as unknown as {
+  asOf: string;
+  citation: string;
+  shareCitation: string;
+  byCounty: Readonly<
+    Record<string, readonly (readonly [...SchoolRow, orientation: string])[]>
+  >;
+  shareByState: Readonly<Record<string, number>>;
 };
 
 const OPENING_COWORKER_DATA = coworkerJson as OpeningPeerData;
@@ -326,6 +338,114 @@ export function buildDeepPast(
     return rows.at(-p("one"));
   };
 
+  // P15: which households with children at home send them to private school.
+  // Their own means decide who (household earnings and savings, each ranked
+  // among the state's households with children in this town); the state's
+  // private share (NCES) sets how many, among households whose county has a
+  // private school.
+  const countyGeoidsOf = (placeId: string, countyId?: string) => {
+    const county = countyId
+      ? lifePlaceByJurisdictionId(countyId as EntityId)
+      : null;
+    const place = lifePlaceByJurisdictionId(placeId as EntityId);
+    return county?.sourceGeoid
+      ? [county.sourceGeoid]
+      : place?.sourceGeoid
+        ? countyGeoidsForPlace(place.sourceGeoid)
+        : [];
+  };
+  const privateHouseholds = new Set<string>();
+  {
+    const childAge = p("benchmarkAdultMinimumAge");
+    const households = new Map<
+      string,
+      { state: string; earnings: number; savings: number }
+    >();
+    const withChildren = new Set(
+      input.people
+        .filter(
+          (person) =>
+            person.tier !== OPENING_KIN.kinTier &&
+            ageOnDate(makeIsoDate(person.birthDate), opening) < childAge,
+        )
+        .map((person) => person.householdId),
+    );
+    for (const person of input.people) {
+      if (
+        person.tier === OPENING_KIN.kinTier ||
+        !withChildren.has(person.householdId)
+      )
+        continue;
+      const state = lifePlaceByJurisdictionId(person.placeId as EntityId)
+        ?.stateJurisdictionKey?.split("-")
+        .at(-p("one"));
+      const hasPrivate = countyGeoidsOf(person.placeId, person.countyId).some(
+        (geoid) => PRIVATE_SCHOOLS.byCounty[geoid]?.length,
+      );
+      if (!state || !hasPrivate) continue;
+      const row = households.get(person.householdId) ?? {
+        state,
+        earnings: p("zero"),
+        savings: p("zero"),
+      };
+      const job = person.jobId ? jobById.get(person.jobId) : undefined;
+      row.earnings += job?.wageDailyMinor ?? p("zero");
+      row.savings += person.liquidMinor ?? p("zero");
+      households.set(person.householdId, row);
+    }
+    const byState = new Map<string, string[]>();
+    for (const [id, row] of households)
+      byState.set(row.state, [...(byState.get(row.state) ?? []), id]);
+    for (const [state, ids] of byState) {
+      const rank = (field: "earnings" | "savings") => {
+        const sorted = [...ids].sort(
+          (a, b) =>
+            households.get(a)![field] - households.get(b)![field] ||
+            a.localeCompare(b),
+        );
+        return new Map(sorted.map((id, at) => [id, at]));
+      };
+      const earnings = rank("earnings");
+      const savings = rank("savings");
+      const count = Math.round(
+        (PRIVATE_SCHOOLS.shareByState[state] ?? p("zero")) * ids.length,
+      );
+      [...ids]
+        .sort(
+          (a, b) =>
+            earnings.get(b)! +
+              savings.get(b)! -
+              (earnings.get(a)! + savings.get(a)!) || a.localeCompare(b),
+        )
+        .slice(p("zero"), count)
+        .forEach((id) => privateHouseholds.add(id));
+    }
+  }
+  const privateRows = (
+    placeId: string,
+    countyId: string | undefined,
+    entryGrade: string,
+  ): readonly SchoolRow[] => {
+    const entry = grade(entryGrade)!;
+    return countyGeoidsOf(placeId, countyId).flatMap((geoid) =>
+      (PRIVATE_SCHOOLS.byCounty[geoid] ?? [])
+        .filter(([, , lowest, highest]) => {
+          const low = grade(lowest);
+          const high = grade(highest);
+          return (
+            low !== undefined &&
+            high !== undefined &&
+            low <= entry &&
+            entry <= high
+          );
+        })
+        .map(
+          ([id, name, lowest, highest, enrollment]) =>
+            [id, name, lowest, highest, enrollment] as const,
+        ),
+    );
+  };
+
   const people = input.people.map((person): PersonInput => {
     // Relatives living elsewhere never act, so their own schooling and era
     // history is left until the game simulates them; they keep their family
@@ -483,11 +603,21 @@ export function buildDeepPast(
         );
         // Only a school the national directory lists by the year this cohort
         // started there (audit 1: no 2015 campus for a 1960s class).
+        // A child whose household chose private school attends one in the
+        // county teaching their grade, where one is listed.
+        const privateOpen =
+          privateHouseholds.has(person.householdId) &&
+          ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge")
+            ? privateRows(placeId, countyId, stage.entryGrade)
+            : [];
+        const isPrivate = privateOpen.length > p("zero");
         const listed = schoolRows(placeId, countyId, stage.entryGrade);
         const opened = listed.filter(([id]) => schoolOpenBy(id, year));
-        const open = broadLists.has(listed)
-          ? catchment(opened, placeId)
-          : opened;
+        const open = isPrivate
+          ? privateOpen
+          : broadLists.has(listed)
+            ? catchment(opened, placeId)
+            : opened;
         const school = schoolFor(
           open,
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
@@ -499,7 +629,13 @@ export function buildDeepPast(
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
-          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS.source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."}`,
+          citation: `${data.schools.source}${
+            school && isPrivate
+              ? ` ${PRIVATE_SCHOOLS.citation} NCES-PSS:${campusId}, ${campusName}. ${PRIVATE_SCHOOLS.shareCitation}`
+              : school
+                ? ` ${SCHOOLS.citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS.source.citation}`
+                : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."
+          }`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
         add({
@@ -517,10 +653,13 @@ export function buildDeepPast(
             ...(school
               ? {
                   institutionSourceId: campusId!,
-                  institutionSourceKey: "NCES-CCD",
+                  institutionSourceKey: isPrivate ? "NCES-PSS" : "NCES-CCD",
+                  ...(isPrivate ? { schoolControl: "private" } : {}),
                   institutionName: campusName!,
                   institutionKind: stage.id,
-                  directoryAsOf: SCHOOLS.asOf,
+                  directoryAsOf: isPrivate
+                    ? PRIVATE_SCHOOLS.asOf
+                    : SCHOOLS.asOf,
                 }
               : {}),
             campusIdentity: school ? "historical-name-proxy" : "generated",
