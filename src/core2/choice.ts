@@ -18,6 +18,15 @@ interface KindLean {
   count: Map<string, number>;
 }
 const kindLeans = new WeakMap<PersonState, KindLean>();
+const leansByTraits = new WeakMap<object, { sum: number; lean: KindLean }>();
+
+/** Every trait value, weighted by its place, so any edit changes the sum. */
+function traitChecksum(traits: Readonly<Record<string, number>>): number {
+  let sum = 0,
+    i = 1;
+  for (const key in traits) sum += (traits[key]! + 3) * i++ * 1.0000001;
+  return sum + i;
+}
 
 /** Preserve existing utility cache across the light writer's shallow canonical actor replacement. */
 export function carryTraitScores(
@@ -51,6 +60,12 @@ function kindLean(
 ): KindLean {
   const cached = kindLeans.get(actor as PersonState);
   if (cached) return cached;
+  // Callers that wrap a person in a fresh object each time (counted residents'
+  // facts) still pass the same traits record: reuse its lean while its values
+  // are unchanged (a checksum, since a record can be edited in place).
+  const sum = traitChecksum(actor.traits);
+  const byTraits = leansByTraits.get(actor.traits);
+  if (byTraits && byTraits.sum === sum) return byTraits.lean;
   const p = (key: string) => parameter(key, core.data.parameters);
   const lean: KindLean = { sum: new Map(), count: new Map() };
   const add = (kind: string, value: number) => {
@@ -67,6 +82,7 @@ function kindLean(
     for (const kind of side.away ?? []) add(kind, -weight);
   }
   kindLeans.set(actor as PersonState, lean);
+  leansByTraits.set(actor.traits, { sum, lean });
   return lean;
 }
 
