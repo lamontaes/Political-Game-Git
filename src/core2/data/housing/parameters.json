@@ -215,5 +215,32 @@
     "value": 0.3,
     "tag": "SOURCED",
     "citation": "HUD Housing Choice Voucher program: the family's share of rent is generally 30% of adjusted monthly income (24 CFR 982.505, 982.515)."
+  },
+  "housingIndividualShareSmallHomes": {
+    "value": 0.702,
+    "tag": "TUNABLE",
+    "citation": "Census Rental Housing Finance Survey 2021 (CRS R47332, 2022; HUD release pr22-242): individual investors own most rental units in properties of four or fewer units (70.2%), LLCs, LPs and LLPs most units in the largest properties.",
+    "spread": {
+      "low": 0.6,
+      "high": 0.8,
+      "unit": "share of small-home rentals",
+      "citation": "Census Rental Housing Finance Survey 2021 (CRS R47332, 2022; HUD release pr22-242): individual investors own most rental units in properties of four or fewer units (70.2%), LLCs, LPs and LLPs most units in the largest properties."
+    }
+  },
+  "housingIndividualShareAll": {
+    "value": 0.376,
+    "tag": "SOURCED",
+    "citation": "Census Rental Housing Finance Survey 2021: individual investors own 37.6% of rental units (CRS R47332, Ownership of the U.S. Rental Housing Stock by Investor Type, 2022)."
+  },
+  "housingNoticeFirmWeight": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "Firm landlords file evictions more readily than individual owners: 8% likelier with controls in Fulton County, Georgia (Raymond, Duckworth, Miller, Lucas and Pokharel 2016, Atlanta Fed discussion paper 2016-4), 186% more filings in Boston for owners of 15 or more properties (Gomory).",
+    "spread": {
+      "low": 0.08,
+      "high": 1.05,
+      "unit": "logit",
+      "citation": "Firm landlords file evictions more readily than individual owners: 8% likelier with controls in Fulton County, Georgia (Raymond, Duckworth, Miller, Lucas and Pokharel 2016, Atlanta Fed discussion paper 2016-4), 186% more filings in Boston for owners of 15 or more properties (Gomory)."
+    }
   }
 }

@@ -231,6 +231,46 @@ function withKinds(
 }
 
 /** Annual pay of a household's members from their recorded current jobs. */
+/** Rentals owned by the town's own individual landlords; firms own the rest. */
+const LOCAL_LANDLORDS = "organization:local-landlords:";
+
+/**
+ * Which rentals individual owners hold, an even spread through each kind:
+ * small homes (houses, rowhouses, mobile homes) at their RHFS share, and
+ * apartments at whatever share brings the town to the national share of
+ * rental units individuals own.
+ */
+function individualOwned(
+  kinded: readonly [string, "own" | "rent", number, string][],
+): Set<string> {
+  const rentals = kinded
+    .filter((row) => row[1] === "rent")
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  const small = rentals.filter((row) => row[3] !== "apartment"),
+    large = rentals.filter((row) => row[3] === "apartment");
+  const smallShare = pv("housingIndividualShareSmallHomes");
+  const largeShare = large.length
+    ? Math.min(
+        1,
+        Math.max(
+          0,
+          (pv("housingIndividualShareAll") * rentals.length -
+            smallShare * small.length) /
+            large.length,
+        ),
+      )
+    : 0;
+  const out = new Set<string>();
+  for (const [rows, share] of [
+    [small, smallShare],
+    [large, largeShare],
+  ] as const)
+    rows.forEach((row, i) => {
+      if (Math.floor((i + 1) * share) > Math.floor(i * share)) out.add(row[0]);
+    });
+  return out;
+}
+
 function householdIncome(
   jobs: readonly JobInput[],
   memberIds: readonly string[],
@@ -458,11 +498,32 @@ export function withHousing(input: CoreInput): CoreInput {
   const billed = new Set(mortgages.contracts.map((row) => row.householdId));
   for (const row of mortgages.terms)
     if (!billed.has(row.householdId)) add(row.householdId, row.paymentMinor);
+  const kinded = withKinds(input, town.county, households, dwellings);
+  // Who owns each rental: individual owners (most small homes) or firms (most apartments), to RHFS's national shares.
+  const local = individualOwned(kinded);
+  const localLandlordId = `${LOCAL_LANDLORDS}${town.placeId}`;
+  for (const [i, row] of leases.entries())
+    if (row.householdId && local.has(row.householdId))
+      leases[i] = { ...row, payeeId: localLandlordId };
+  for (const [i, flow] of flows.entries())
+    if (flow.id.startsWith("rent:") && local.has(flow.id.slice("rent:".length)))
+      flows[i] = { ...flow, payeeId: localLandlordId };
   return withoutOutsideShelter(
     {
       ...input,
       organizations: [
         ...input.organizations,
+        {
+          id: localLandlordId,
+          placeId: town.placeId,
+          name: housingData.localLandlordsNamePattern.replace(
+            "{place}",
+            input.placeMetadata?.placeName?.split(",")[0] ?? town.placeId,
+          ),
+          kind: "employer",
+          liquidMinor: 0,
+          source,
+        },
         {
           id: landlordId,
           placeId: town.placeId,
@@ -493,9 +554,7 @@ export function withHousing(input: CoreInput): CoreInput {
         ...input.placeMetadata,
         housingState: town.usps,
         housingCounty: town.county,
-        [DWELLINGS_KEY]: JSON.stringify(
-          withKinds(input, town.county, households, dwellings),
-        ),
+        [DWELLINGS_KEY]: JSON.stringify(kinded),
         ...(mortgages.terms.length
           ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
           : {}),
@@ -671,11 +730,17 @@ function landlordPayout(api: CoreAPI): void {
   // One ownerless landlord until rentals have owners (businesses growing); see the stopgap.
   stopgap("SG-WORLD-housing-landlord");
   for (const landlord of c.organizations.values()) {
-    if (!landlord.id.startsWith("organization:landlord:")) continue;
-    const outside = [...c.organizations.values()].find(
-      (row) =>
-        row.placeId === landlord.placeId && row.outsideFlow !== undefined,
-    );
+    const local = landlord.id.startsWith(LOCAL_LANDLORDS);
+    if (!local && !landlord.id.startsWith("organization:landlord:")) continue;
+    // A firm's owners and suppliers are mostly outside the town; the town's own landlords are its residents.
+    const outside = local
+      ? residentsRuntime(c)?.input.accounts.find(
+          (row) => row.placeId === landlord.placeId,
+        )?.accountId
+      : [...c.organizations.values()].find(
+          (row) =>
+            row.placeId === landlord.placeId && row.outsideFlow !== undefined,
+        )?.id;
     if (!outside) continue;
     let monthly = 0;
     for (const row of c.finance.contracts.values())
@@ -690,14 +755,15 @@ function landlordPayout(api: CoreAPI): void {
         api,
         `landlord-payout:${landlord.id}:${c.date}`,
         landlord.id,
-        outside.id,
+        outside,
         excess,
         {
           tag: "ESTIMATED",
           asOf: c.date,
           citation: housingData.source.citation,
-          estimatedFrom:
-            "Rent above a month's receipts goes to rentals' owners and suppliers outside the town.",
+          estimatedFrom: local
+            ? "Rent above a month's receipts goes to the town's own landlords, its residents."
+            : "Rent above a month's receipts goes to rentals' owners and suppliers outside the town.",
         },
       );
   }
@@ -947,6 +1013,10 @@ function review(api: CoreAPI): void {
       months: owed,
       score:
         api.parameter("housingNoticeBaseline") +
+        // Firms serve notice more readily than the town's own landlords.
+        (row.payeeId.startsWith(LOCAL_LANDLORDS)
+          ? 0
+          : api.parameter("housingNoticeFirmWeight")) +
         api.parameter("housingNoticeArrearsWeight") * owed +
         api.parameter("housingNoticeLateWeight") * months,
     });

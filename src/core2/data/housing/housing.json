@@ -60301,5 +60301,6 @@
         "2026-Q2": 526.96
       }
     }
-  }
+  },
+  "localLandlordsNamePattern": "{place} Area Landlords"
 }
