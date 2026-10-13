@@ -92,5 +92,11 @@
     "tag": "TUNABLE",
     "citation": "Weight on the person's recorded relationship with the incumbent (-1 to 1): a friend of the officeholder stays out, someone at odds with them is drawn to run. Challengers emerge most against incumbents they see as vulnerable or opposed to them (Maestas, Fulton, Maisel and Stone 2006, American Political Science Review 100(2):195-208). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyDecisionLeadDays": {
+    "value": 365,
+    "tag": "ESTIMATED",
+    "citation": "How long before a contest's filing deadline the town's adults weigh running. Most candidates for state and local office decide within the year before the election, and well before they file: in the Candidate Emergence Study, potential House candidates' decisions formed over the cycle before filing (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96); local candidates report deciding months ahead (Lawless and Fox 2010, It Still Takes a Candidate, ch. 2). The decision is kept, and the runner files once the filing window opens.",
+    "estimatedFrom": "Candidate Emergence Study and Lawless and Fox citizen political ambition panels; spread 180 to 540 days"
   }
 }

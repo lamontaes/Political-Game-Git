@@ -6,6 +6,7 @@ import {
   CANDIDACY_MODULE_ID,
   type CandidacyDecision,
   type WeighedContest,
+  weighingDate,
 } from "./modules/candidacy";
 import {
   ELECTIONS_MODULE_ID,
@@ -58,38 +59,31 @@ const rows = <T>(module: string, name: string) =>
   api.moduleState(module).table(name).rows() as unknown as T[];
 
 describe(`who runs in the played world: ${world.place.key} ${world.place.context.jurisdiction.name ?? ""} (seed ${seed})`, () => {
-  it("asks every named adult in town about each local contest whose filing opened, and keeps the reasons", () => {
-    const weighed = weighedRows().filter((w) =>
-      contests().some((c) => c.id === w.contestId && local(c)),
-    );
-    // A town whose next local filing opens after a year has nothing to weigh.
-    if (!weighed.length)
-      expect(
-        contests().filter(
-          (c) =>
-            local(c) &&
-            c.filingDeadline >= addDay(opening) &&
-            c.filingDeadline <= yearEnd,
-        ),
-      ).toEqual([]);
+  it("weighs every contest whose weighing day came in the year, asking every named adult in town about local seats, with reasons", () => {
+    const held = new Map(weighedRows().map((w) => [w.contestId, w]));
     const decisions = api
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[];
-    for (const w of weighed) {
-      expect(w.askedIds.length).toBeGreaterThan(0);
-      for (const personId of w.askedIds) {
+    for (const c of contests()) {
+      if (c.filingDeadline <= opening || weighingDate(api, c) >= yearEnd)
+        continue;
+      const w = held.get(c.id);
+      expect(w, c.id).toBeDefined();
+      if (local(c)) expect(w!.askedIds.length, c.id).toBeGreaterThan(0);
+      for (const personId of w!.askedIds) {
         const d = decisions.find(
-          (row) => row.contestId === w.contestId && row.personId === personId,
+          (row) => row.contestId === c.id && row.personId === personId,
         )!;
         expect(d).toBeDefined();
         expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
-        expect(d.run).toBe(w.runIds.includes(personId));
+        expect(d.run).toBe(w!.runIds.includes(personId));
       }
     }
   });
 
-  it("files every runner with the place's filing office", () => {
+  it("files every runner with the place's filing office once filing opens", () => {
+    const filedOn = new Map(weighedRows().map((w) => [w.contestId, w.filedOn]));
     const filings = api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
@@ -98,8 +92,8 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[]) {
-      if (!d.run) continue;
-      expect(d.filing).toBeDefined();
+      if (!d.run || !filedOn.get(d.contestId)) continue;
+      expect(d.filing, d.id).toBeDefined();
       if (d.filing!.filingId)
         expect(
           filings.find((f) => f.id === d.filing!.filingId)?.filedWith,

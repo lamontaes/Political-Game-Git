@@ -246,13 +246,15 @@ export function decisionOf(
   );
 }
 
-/** A contest whose filing window has opened, and who was asked to weigh it. */
+/** A contest the town's adults weighed, who was asked, who ran and when they filed. */
 export interface WeighedContest {
   readonly id: string;
   readonly contestId: string;
   readonly date: string;
   readonly askedIds: readonly PersonId[];
   readonly runIds: readonly PersonId[];
+  /** The day the runners filed, once the filing window opened. */
+  readonly filedOn: string | null;
 }
 
 /** How high an office sits, for "the next seat up". */
@@ -280,39 +282,71 @@ export function filingWindowOpens(api: CoreAPI, contest: ContestRow): string {
   );
 }
 
-/** Contests not yet weighed, soonest window first; rebuilt when contests are added. */
-const queues = new WeakMap<object, { size: number; queue: ContestRow[] }>();
+/**
+ * The day the town's adults weigh a contest: a lead time before its filing
+ * deadline (people decide to run well before they file), or the day filing
+ * opens if that comes first.
+ */
+export function weighingDate(api: CoreAPI, contest: ContestRow): string {
+  const lead = addDays(
+    contest.filingDeadline,
+    -c(api, "candidacyDecisionLeadDays"),
+  );
+  const opens = filingWindowOpens(api, contest);
+  return lead < opens ? lead : opens;
+}
 
-function dueContests(api: CoreAPI): ContestRow[] {
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+interface Queues {
+  size: number;
+  /** The most local office rank on the town's ballots. */
+  localRank: number;
+  weigh: ContestRow[];
+  file: { contest: ContestRow; opens: string }[];
+}
+const queues = new WeakMap<object, Queues>();
+
+/** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
+function queuesFor(api: CoreAPI): Queues | null {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return null;
   const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
-  let held = queues.get(api.state);
-  if (!held || held.size !== contests.size) {
-    const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
-    held = {
-      size: contests.size,
-      queue: (contests.rows() as unknown as ContestRow[])
-        .filter(
-          (row) => row.filingDeadline >= api.state.date && !weighed.get(row.id),
-        )
-        .sort(
-          (a, b) =>
-            filingWindowOpens(api, a).localeCompare(
-              filingWindowOpens(api, b),
-            ) || a.id.localeCompare(b.id),
+  const held = queues.get(api.state);
+  if (held && held.size === contests.size) return held;
+  const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+  const rows = (contests.rows() as unknown as ContestRow[]).filter(
+    (row) => row.filingDeadline >= api.state.date,
+  );
+  const built: Queues = {
+    size: contests.size,
+    localRank: Math.max(
+      LOCAL_RANK,
+      Math.min(
+        Number.POSITIVE_INFINITY,
+        ...(contests.rows() as unknown as ContestRow[]).map(
+          (row) => FAMILY_RANK[row.family],
         ),
-    };
-    queues.set(api.state, held);
-  }
-  const due: ContestRow[] = [];
-  while (
-    held.queue[0] &&
-    filingWindowOpens(api, held.queue[0]) <= api.state.date
-  ) {
-    const next = held.queue.shift()!;
-    if (next.filingDeadline >= api.state.date) due.push(next);
-  }
-  return due;
+      ),
+    ),
+    weigh: rows
+      .filter((row) => !weighed.get(row.id))
+      .sort(
+        (a, b) =>
+          weighingDate(api, a).localeCompare(weighingDate(api, b)) ||
+          a.id.localeCompare(b.id),
+      ),
+    file: rows
+      .filter((row) => {
+        const w = weighed.get(row.id) as unknown as WeighedContest | undefined;
+        return !w || w.filedOn === null;
+      })
+      .map((contest) => ({ contest, opens: filingWindowOpens(api, contest) }))
+      .sort(
+        (a, b) =>
+          a.opens.localeCompare(b.opens) ||
+          a.contest.id.localeCompare(b.contest.id),
+      ),
+  };
+  queues.set(api.state, built);
+  return built;
 }
 
 /** Each serving officeholder who is a person here, with the rank of their highest seat. */
@@ -404,14 +438,15 @@ function filingStatus(api: CoreAPI, filingId: string): FilingRow["status"] {
 }
 
 /**
- * A contest's filing window opens: every named adult who lives in town
- * weighs a local seat; an officeholder weighs the seat one level above their
- * own; the incumbent weighs keeping theirs. Each decision is kept, and each
- * runner files.
+ * The town's adults weigh a contest: every named adult who lives in town
+ * weighs a local seat (where the town has no city or county seats, its most
+ * local ones); an officeholder weighs the seat one level above their own;
+ * the incumbent weighs keeping theirs. Each decision is kept.
  */
 export function weighContest(
   api: CoreAPI,
   contest: ContestRow,
+  localRank: number = LOCAL_RANK,
 ): WeighedContest {
   const town = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -442,7 +477,7 @@ export function weighContest(
           rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         (p.id === incumbentId ||
-          rank <= LOCAL_RANK ||
+          rank <= localRank ||
           holders.get(p.id) === rank - 1),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -458,10 +493,7 @@ export function weighContest(
     const decision = decideToRun(api, person.id, open);
     if (!decision) continue;
     asked.push(person.id);
-    if (!decision.run) continue;
-    running.push(person.id);
-    const filing = fileFor(api, person, contest, Boolean(incumbent?.party));
-    table(api).put({ ...decision, filing } as unknown as { id: string });
+    if (decision.run) running.push(person.id);
   }
   const row: WeighedContest = {
     id: contest.id,
@@ -469,12 +501,54 @@ export function weighContest(
     date,
     askedIds: asked,
     runIds: running,
+    filedOn: null,
   };
   api
     .moduleState(CANDIDACY_MODULE_ID)
     .table("weighed")
     .put(row as unknown as { id: string });
   return row;
+}
+
+/** Filing opens: each runner files with the place's filing office. */
+export function fileRunners(api: CoreAPI, contest: ContestRow): void {
+  const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+  const row = weighed.get(contest.id) as unknown as WeighedContest | undefined;
+  if (!row || row.filedOn !== null) return;
+  const incumbent = contest.incumbentTermId
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    : undefined;
+  for (const personId of row.runIds) {
+    const decision = decisionOf(api, contest.id, personId);
+    const person = api.state.people.get(personId);
+    if (!decision || !person) continue;
+    const filing: NonNullable<CandidacyDecision["filing"]> = person.alive
+      ? fileFor(api, person, contest, Boolean(incumbent?.party))
+      : { status: "refused", filingId: null, unmet: ["not-available"] };
+    table(api).put({ ...decision, filing } as unknown as { id: string });
+  }
+  weighed.put({ ...row, filedOn: api.state.date } as unknown as {
+    id: string;
+  });
+}
+
+/** Each day: weigh the contests whose weighing day has come, then file for those whose window opened. */
+function candidacyDay(api: CoreAPI): void {
+  const held = queuesFor(api);
+  if (!held) return;
+  const today = api.state.date;
+  while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
+    const contest = held.weigh.shift()!;
+    if (contest.filingDeadline >= today)
+      weighContest(api, contest, held.localRank);
+  }
+  while (held.file[0] && held.file[0].opens <= today) {
+    const { contest } = held.file.shift()!;
+    if (contest.filingDeadline >= today) fileRunners(api, contest);
+  }
 }
 
 export const candidacyModule: CoreModule = {
@@ -489,7 +563,7 @@ export const candidacyModule: CoreModule = {
     },
   },
   onDay: (api) => {
-    for (const contest of dueContests(api)) weighContest(api, contest);
+    candidacyDay(api);
   },
   reasonProviders: {
     "candidacy-circumstances": (api, actor, offer, binding) => {
