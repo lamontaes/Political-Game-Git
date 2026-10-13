@@ -813,6 +813,51 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    formPartnershipV1(personIds, partnershipKind, sourceId) {
+      const people = personIds.map((id) => core.people.get(id));
+      const partnered = (id: PersonId) =>
+        [...core.familyLinks.values()].some(
+          (link) =>
+            link.kind === "partner" &&
+            link.personIds.includes(id) &&
+            link.personIds.every((other) => core.people.get(other)?.alive),
+        );
+      if (
+        people.some((person) => !person?.alive) ||
+        personIds[0] === personIds[1] ||
+        !sourceId.trim() ||
+        personIds.some(partnered)
+      )
+        throw new Error("A partnership needs two living, unpartnered people.");
+      const id = `partnership:${core.date}:${[...personIds].sort().join(":")}`;
+      core.familyLinks.set(id, {
+        id,
+        kind: "partner",
+        personIds: [personIds[0], personIds[1]],
+      });
+      for (const [self, other] of [
+        [people[0]!, people[1]!],
+        [people[1]!, people[0]!],
+      ] as const) {
+        self.familyIds.add(other.id);
+        self.pastFacts = [
+          ...(self.pastFacts ?? []),
+          {
+            id: `${id}:past:${self.id}`,
+            date: core.date,
+            kind: "family:partner",
+            summary: `${other.givenName} ${other.familyName} became this person's partner.`,
+            source: {
+              tag: "SOURCED",
+              asOf: core.date,
+              citation: `Recorded partnership ${id} (${sourceId}).`,
+            },
+            facts: { otherPersonId: other.id, partnershipKind },
+          },
+        ];
+      }
+      return id;
+    },
     addBornPersonV1(input, parents, relations) {
       const zero = parameter("zero", core.data.parameters);
       const household = core.households.get(input.householdId);

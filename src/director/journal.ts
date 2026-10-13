@@ -327,8 +327,14 @@ export function composeJournal(
     const facts = factsFor(moment);
     if (!facts) continue;
     const sourceIds = [moment.causeId];
+    // A line naming someone is still the person's own when the record names
+    // them too (their own marriage), never a relative's.
     const own =
-      !facts.other || moment.causeKind === "family:child" || !!row.ownWithOther;
+      !facts.other ||
+      moment.causeKind === "family:child" ||
+      (!!row.ownWithOther &&
+        (core.durableLog.get(moment.causeId)?.personIds.includes(personId) ??
+          true));
     const field = own || !row.otherLine ? "line" : "otherLine";
     const rows = (own ? row.line : (row.otherLine ?? row.line)).flatMap(
       (variant) => withParts("journal", row.kindPrefix, field, variant),

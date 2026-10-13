@@ -468,4 +468,69 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         : `${partner.givenName} and I got together.`,
     );
   });
+
+  it("tells a marriage in play, the person's own and a relative's", () => {
+    const me = core.people.get(player.id)!;
+    const known = [...me.knownIds]
+      .filter((id) => !me.familyIds.has(id) && core.people.get(id)?.alive)
+      .sort();
+    const [spouseId, otherId] = known;
+    // A watched person with a relative in town, close enough for that
+    // relative's news to be a moment.
+    const inTown = (id: string) => {
+      const row = core.people.get(id);
+      return !!row?.alive && row.tier !== "husk";
+    };
+    const watcherId = [...director.ledger.people.keys()]
+      .sort()
+      .find(
+        (id) =>
+          inTown(id) &&
+          [...core.people.get(id)!.familyIds].some(
+            (other) => other !== id && inTown(other),
+          ),
+      )!;
+    const relativeId = [...core.people.get(watcherId)!.familyIds]
+      .filter((id) => id !== watcherId && inTown(id))
+      .sort()[0]!;
+    const married = (id: string, personIds: string[]) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "family.married",
+        personIds,
+        placeId: me.placeId,
+        publicRecord: true,
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: "Fixture shaped like the partnering engine.",
+          estimatedFrom: "Fixture.",
+        },
+        facts: { partnershipKind: "legal:marriage" },
+      });
+    married("family.married:fixture-own", [player.id, spouseId!]);
+    married(
+      "family.married:fixture-relative",
+      [relativeId, otherId === relativeId ? spouseId! : otherId!].filter(
+        (id) => id !== watcherId,
+      ),
+    );
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const lines = composeJournal(core, director, player.id).flatMap(
+      (chapter) => chapter.lines,
+    );
+    const own = lines.find((line) =>
+      line.sourceRecordIds.includes("family.married:fixture-own"),
+    );
+    expect(own?.text).toBe(
+      `I married ${core.people.get(spouseId!)!.givenName}.`,
+    );
+    const relative = composeJournal(core, director, watcherId)
+      .flatMap((chapter) => chapter.lines)
+      .find((line) =>
+        line.sourceRecordIds.includes("family.married:fixture-relative"),
+      );
+    expect(relative?.text).toMatch(/^My \w+ got married\.$/);
+  });
 });

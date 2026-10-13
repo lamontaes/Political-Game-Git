@@ -524,6 +524,29 @@
           "text": "With {{name}}"
         }
       ]
+    },
+    {
+      "kindPrefix": "event:family.married",
+      "turn": true,
+      "ownWithOther": true,
+      "line": [
+        {
+          "key": "married",
+          "text": "I married {{name}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-married",
+          "text": "{{other}} got married."
+        }
+      ],
+      "title": [
+        {
+          "key": "with",
+          "text": "With {{name}}"
+        }
+      ]
     }
   ],
   "firstTitle": [

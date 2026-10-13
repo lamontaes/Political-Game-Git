@@ -582,6 +582,22 @@
           "actKinds": ["change", "take-risk"]
         }
       ]
+    },
+    {
+      "id": "partnering.marry",
+      "site": "src/core2/modules/partnering.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-as-is",
+          "actKinds": ["keep-same", "play-safe", "withdraw"]
+        },
+        {
+          "id": "marry",
+          "actKinds": ["commit", "bond", "take-risk"]
+        }
+      ]
     }
   ],
   "outside": [

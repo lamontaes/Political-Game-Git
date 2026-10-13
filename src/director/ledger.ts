@@ -818,7 +818,8 @@ export function createDirector(
           const tied = row.event.personIds.find((id) => book.threads.has(id));
           const thread = tied ? book.threads.get(tied) : undefined;
           if (!thread) continue;
-          if (rule.counterparts === "thread") about = [tied!];
+          if (rule.counterparts === "thread" || rule.counterparts === "tied")
+            about = [tied!];
           raw *=
             importanceOf(book, thread, date) /
             (one + importanceOf(book, thread, date));

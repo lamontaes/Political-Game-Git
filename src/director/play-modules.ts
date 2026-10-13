@@ -15,6 +15,7 @@ import { HEALTH_MODULE } from "../core2/modules/health";
 import { encountersModule } from "../core2/modules/encounters";
 import { groupsModule } from "../core2/modules/groups";
 import { movesModule } from "../core2/modules/moves";
+import { partneringModule } from "../core2/modules/partnering";
 import { RENEWAL_MODULE } from "../core2/modules/renewal";
 import { renewalData } from "../core2/births-setup";
 import { newsModule } from "../core2/modules/news";
@@ -44,6 +45,7 @@ export function peopleModules(): CoreModule[] {
     movesModule,
     groupsModule,
     encountersModule,
+    partneringModule,
     beliefsModule,
   ];
 }

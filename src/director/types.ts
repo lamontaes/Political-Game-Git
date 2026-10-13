@@ -65,7 +65,8 @@ export interface DirectorData {
     selfFact?: string;
     selfImpactParameter?: string;
     /** "thread": a named person's moment names no one else (their opponents), and a relative's names only the person they are tied to. */
-    counterparts?: "thread";
+    /** "tied": the event's people name each other, and a relative's moment names only the person they are tied to. */
+    counterparts?: "thread" | "tied";
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };

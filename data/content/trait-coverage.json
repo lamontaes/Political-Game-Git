@@ -30,7 +30,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -59,7 +60,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "people-mind-v1:conflict": {
@@ -87,7 +89,8 @@
         "jobs.counted-retire",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "partnering.marry"
       ]
     },
     "people-mind-v1:deliberation": {
@@ -115,7 +118,8 @@
         "retirement.claim-age",
         "conversation.believe-claim",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -140,7 +144,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "people-mind-v1:reliability": {
@@ -166,7 +171,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -215,7 +221,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -244,7 +251,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "people-mind-v1:sociability": {
@@ -261,7 +269,8 @@
         "jobs.counted-apply",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -286,7 +295,8 @@
         "retirement.claim-age",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:action-despite-fear": {
@@ -317,7 +327,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -345,7 +356,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -404,7 +416,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -444,7 +457,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-acquisitive": {
@@ -498,7 +512,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -523,7 +538,8 @@
         "retirement.claim-age",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-ambitious": {
@@ -551,7 +567,8 @@
         "retirement.claim-age",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -580,7 +597,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -605,7 +623,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -633,7 +652,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -718,7 +738,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -809,7 +830,8 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -830,7 +852,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-brooding": {
@@ -857,7 +880,8 @@
         "retirement.claim-age",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -882,7 +906,8 @@
         "retirement.claim-age",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-calm": {
@@ -915,7 +940,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -939,7 +965,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-charming": {
@@ -957,7 +984,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -972,7 +1000,8 @@
         "jobs.counted-apply",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-closeness-seeking": {
@@ -999,7 +1028,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1026,7 +1056,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -1055,7 +1086,8 @@
         "bring-it-up.blame",
         "conversation.believe-claim",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1080,7 +1112,8 @@
         "bring-it-up.blame",
         "conversation.believe-claim",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -1115,7 +1148,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-competitive": {
@@ -1142,7 +1176,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1182,7 +1217,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1210,7 +1246,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-cruel": {
@@ -1264,7 +1301,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1293,7 +1331,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -1336,7 +1375,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1454,7 +1494,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-dramatic": {
@@ -1494,7 +1535,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-duty-bound": {
@@ -1559,7 +1601,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1588,7 +1631,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -1666,7 +1710,8 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-excitable": {
@@ -1693,7 +1738,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -1723,7 +1769,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-fair-minded": {
@@ -1862,7 +1909,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-generous": {
@@ -1904,7 +1952,8 @@
         "business.counted-found",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-gentle": {
@@ -1951,7 +2000,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2081,7 +2131,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2110,7 +2161,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-independent": {
@@ -2191,7 +2243,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -2223,7 +2276,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2248,7 +2302,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-inventive": {
@@ -2278,7 +2333,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2307,7 +2363,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -2416,7 +2473,8 @@
         "jobs.counted-apply",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-meticulous": {
@@ -2442,7 +2500,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2513,7 +2572,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -2539,7 +2599,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "drives.respond",
@@ -2564,7 +2625,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-nurturing": {
@@ -2599,7 +2661,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-observant": {
@@ -2622,7 +2685,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2647,7 +2711,8 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -2704,7 +2769,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-opportunistic": {
@@ -2733,7 +2799,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2762,7 +2829,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -2789,7 +2857,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2807,7 +2876,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-philanthropic": {
@@ -2852,7 +2922,8 @@
         "business.counted-found",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-polite": {
@@ -2901,7 +2972,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -2926,7 +2998,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-proud": {
@@ -3053,7 +3126,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3078,7 +3152,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-self-serving": {
@@ -3131,7 +3206,8 @@
         "bring-it-up.blame",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3147,7 +3223,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-shy": {
@@ -3170,7 +3247,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3186,7 +3264,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-sincere": {
@@ -3248,7 +3327,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -3275,7 +3355,8 @@
         "retirement.claim-age",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3292,7 +3373,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-smug": {
@@ -3318,7 +3400,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "drives.respond",
@@ -3345,7 +3428,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-studious": {
@@ -3372,7 +3456,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3399,7 +3484,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-supportive": {
@@ -3434,7 +3520,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-tactful": {
@@ -3460,7 +3547,8 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "moves.move-away",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3520,7 +3608,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-tender-hearted": {
@@ -3582,7 +3671,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3611,7 +3701,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -3657,7 +3748,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3684,7 +3776,8 @@
         "retirement.claim-age",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     },
     "personality-v1:facet-zealous": {
@@ -3716,7 +3809,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3744,7 +3838,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:initial-trust": {
@@ -3784,7 +3879,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:method-revision": {
@@ -3814,7 +3910,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -3842,7 +3939,8 @@
         "conversation.believe-claim",
         "moves.move-away",
         "groups.belong",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:outward-emotional-display": {
@@ -3882,7 +3980,8 @@
         "bring-it-up.blame",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:patience": {
@@ -3915,7 +4014,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -4023,7 +4123,8 @@
         "bring-it-up.blame",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -4052,7 +4153,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:truthfulness": {
@@ -4105,7 +4207,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -4132,7 +4235,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -4161,7 +4265,8 @@
         "moves.move-away",
         "groups.belong",
         "groups.attend",
-        "views.party-change"
+        "views.party-change",
+        "partnering.marry"
       ],
       "low": [
         "life.daily-act",
@@ -4189,7 +4294,8 @@
         "bring-it-up.blame",
         "moves.move-away",
         "groups.belong",
-        "groups.attend"
+        "groups.attend",
+        "partnering.marry"
       ]
     }
   }

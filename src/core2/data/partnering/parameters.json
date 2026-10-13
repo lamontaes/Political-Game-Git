@@ -1,0 +1,102 @@
+{
+  "partneringMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "The age of majority, at which a person marries without a parent's consent in nearly every state; the youngest age the game pairs."
+  },
+  "partneringPeakAgeWomen": {
+    "value": 28.2,
+    "tag": "SOURCED",
+    "citation": "U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC): women's median age at first marriage, 2022."
+  },
+  "partneringPeakAgeMen": {
+    "value": 30.1,
+    "tag": "SOURCED",
+    "citation": "U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC): men's median age at first marriage, 2022."
+  },
+  "partneringAgeSpread": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Years from the median age at first marriage over which the pull of one's age fades (first marriages spread over roughly ages 20 to 40, and remarriage later).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 6,
+      "high": 15
+    }
+  },
+  "partneringAgeGapSpread": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "Years of age difference between partners over which the pull fades; U.S. Census Bureau, America's Families and Living Arrangements (CPS ASEC 2022), Table FG3: most married couples are within five years of each other's age.",
+    "estimatedFrom": "Census CPS ASEC 2022 Table FG3 age difference of spouses; spread 4 to 7",
+    "spread": {
+      "low": 4,
+      "high": 7
+    }
+  },
+  "partneringClosenessWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How far a close tie pulls two people toward marrying, against the pull of staying as they are.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 1,
+      "high": 6
+    }
+  },
+  "partneringAgeWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far being near the usual age at first marriage pulls toward marrying.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0,
+      "high": 2
+    }
+  },
+  "partneringGapWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far an age gap between two people pulls against their marrying.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0,
+      "high": 2
+    }
+  },
+  "partneringTemperamentWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How far a person's temperament (every trait's lean toward committing over keeping things as they are, from the shared trait table) moves the choice.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0,
+      "high": 1.5
+    }
+  },
+  "partneringStayPull": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying as one is, calibrated so marriages among a town's full people run near the national rate (CDC/NCHS National Vital Statistics System, provisional number of marriages and marriage rate, United States, 2000-2022: 6.2 marriages per 1,000 total population in 2022).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 1,
+      "high": 6
+    }
+  },
+  "partneringMarriageRate": {
+    "value": 0.0062,
+    "tag": "SOURCED",
+    "citation": "CDC/NCHS National Vital Statistics System, provisional number of marriages and marriage rate, United States, 2000-2022: 6.2 marriages per 1,000 total population in 2022. The check, never a draw."
+  },
+  "partneringCourtshipPerMonth": {
+    "value": 0.07,
+    "tag": "TUNABLE",
+    "citation": "How much a month of courting adds, per unit of how well two people suit each other, toward the pull of staying as they are; calibrated so marriages among a town's full people run near the national rate (CDC/NCHS NVSS, 6.2 marriages per 1,000 population in 2022).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0.01,
+      "high": 0.3
+    }
+  }
+}

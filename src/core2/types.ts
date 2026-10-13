@@ -1205,6 +1205,17 @@ export interface CoreAPI {
       inverse: string;
     }[],
   ): PersonState;
+  /**
+   * P15 (for OPUS-CORE review): two unpartnered adults become partners
+   * mid-run. Adds the partner link, each to the other's family, and a dated
+   * `family:partner` fact on each record naming the other and the
+   * partnership's kind. Households are unchanged.
+   */
+  formPartnershipV1(
+    personIds: readonly [PersonId, PersonId],
+    partnershipKind: string,
+    sourceId: string,
+  ): string;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,

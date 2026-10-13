@@ -348,6 +348,11 @@
       "tag": "ESTIMATED",
       "citation": "Going to a town hall, sized as the Social Readjustment Rating Scale's 'Change in social activities', 18 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.11 to 0.24"
+    },
+    "directorMarriedImpact": {
+      "value": 0.5,
+      "tag": "SOURCED",
+      "citation": "Marrying, the Social Readjustment Rating Scale's anchor item 'Marriage', 50 life-change units divided by 100 (Holmes and Rahe 1967), as the director's past partnership moment is."
     }
   },
   "channels": [
@@ -572,6 +577,12 @@
       "selfFact": "hostId",
       "selfImpactParameter": "directorTownHallHostImpact",
       "counterpartFact": "hostId"
+    },
+    {
+      "eventKind": "family.married",
+      "channel": "feeling",
+      "impactParameter": "directorMarriedImpact",
+      "counterparts": "tied"
     }
   ]
 }

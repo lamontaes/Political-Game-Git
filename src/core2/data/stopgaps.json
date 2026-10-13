@@ -2825,5 +2825,29 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-partnering-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/partnering/parameters.json",
+    "line": 1,
+    "whatItFakes": "How strongly closeness, being near the usual age at first marriage, an age gap and temperament pull two unpartnered people toward marrying, and the pull of staying as they are.",
+    "why": "No study gives these weights on the game's scale; the stay pull is calibrated so marriages among a town's full people run near the national rate.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-13",
+    "replacement": "Weights checked against first-marriage and remarriage rates by age and sex (NCHS, NSFG) across drawn places, cohabitation before marriage, and divorce.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-partnering-homes",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/modules/partnering.ts",
+    "line": 1,
+    "whatItFakes": "Couples who marry during play keep their separate homes, so renewal never counts them for births; only opposite-sex couples form; cohabiting without marrying and divorce are not modeled.",
+    "why": "Moving a person into another household mid-run needs a core call (OPUS-CORE) and the housing engine (OPUS-WORLD); same-sex attraction and cohabitation need their own records.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-13",
+    "replacement": "A new couple moves into one home (CORE household move, WORLD housing) and joins renewal's couples; same-sex couples at the measured share; cohabitation and divorce.",
+    "status": "open"
   }
 ]
