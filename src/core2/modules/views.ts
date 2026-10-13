@@ -349,58 +349,22 @@ export const viewsModule: CoreModule = {
   onEvent(api, event, learnedBy) {
     // Only an event with a topic and a wanted change carries a stance.
     if (!event.topic || !event.desiredChange) return;
-    const impulse =
-      Math.abs(event.moodImpulse ?? v("zero")) +
-      Math.max(v("zero"), event.stressImpulse ?? v("zero"));
-    const size = impulse > v("zero") ? impulse : v("one");
-    for (const personId of learnedBy) {
-      const view = viewOf(api, personId);
-      if (!view) continue;
-      const id = `${personId}:${event.topic}`;
-      const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
-      // A speech persuades listeners in proportion to how near their lean is
-      // to the speaker's; one far away is not moved.
-      const speechLean = Number(event.facts?.[VIEWS_SPEECH_LEAN_KEY]);
-      const nearness = Number.isFinite(speechLean)
-        ? Math.max(
-            v("zero"),
-            v("one") -
-              Math.abs(view.lean - speechLean) / (v("leanMax") - v("leanMin")),
-          )
-        : v("one");
-      const change =
-        (Number.isFinite(speechLean)
-          ? v("speechStanceStep")
-          : v("stanceStep")) *
-        size *
-        nearness *
-        (v("one") - v("tightness") * view.engagement);
-      if (change <= v("zero")) continue;
-      const same = prior?.desiredChange === event.desiredChange;
-      const strength = Math.min(
-        v("one"),
-        prior
-          ? same
-            ? prior.strength + change
-            : prior.strength - change
-          : change,
-      );
-      const stance: Stance = {
-        id,
+    const speechLean = Number(event.facts?.[VIEWS_SPEECH_LEAN_KEY]);
+    const cause = {
+      eventId: event.id,
+      date: event.date,
+      topic: event.topic,
+      desiredChange: event.desiredChange,
+      size: stanceSize(event),
+    };
+    for (const personId of learnedBy)
+      moveStance(
+        api,
         personId,
-        topic: event.topic,
-        // A stance pushed past zero turns toward the new change.
-        desiredChange:
-          prior && !same && strength > v("zero")
-            ? prior.desiredChange
-            : event.desiredChange,
-        strength: Math.abs(strength),
-        ...keepRecent(prior, { eventId: event.id, date: event.date, change }),
-      };
-      stancesTable(api).put(stance as unknown as { id: string });
-      if (Number.isFinite(speechLean))
-        driftToward(api, view, speechLean, nearness, event.id);
-    }
+        cause,
+        Number.isFinite(speechLean) ? v("speechStanceStep") : v("stanceStep"),
+        Number.isFinite(speechLean) ? speechLean : undefined,
+      );
   },
   reasonProviders: {
     "views-party": (api, actor, _offer, binding) => {
@@ -416,6 +380,86 @@ export const viewsModule: CoreModule = {
     },
   },
 };
+
+/** What an event carries toward a stance: its topic, wanted change and size. */
+export interface StanceCause {
+  eventId: string;
+  date: string;
+  topic: string;
+  desiredChange: string;
+  size: number;
+}
+
+/** An event's size for a stance: its appraised impulse, else one. */
+export function stanceSize(event: {
+  moodImpulse?: number;
+  stressImpulse?: number;
+}): number {
+  const impulse =
+    Math.abs(event.moodImpulse ?? v("zero")) +
+    Math.max(v("zero"), event.stressImpulse ?? v("zero"));
+  return impulse > v("zero") ? impulse : v("one");
+}
+
+/**
+ * Moves one person's stance on a cause's topic by `step` per unit of its
+ * size, less for someone who follows politics closely. A speech's lean
+ * (`speechLean`) persuades in proportion to how near the listener's lean is.
+ * Returns whether the stance moved.
+ */
+export function moveStance(
+  api: CoreAPI,
+  personId: PersonId,
+  cause: StanceCause,
+  step: number,
+  speechLean?: number,
+): boolean {
+  const view = viewOf(api, personId);
+  if (!view) return false;
+  const id = `${personId}:${cause.topic}`;
+  const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
+  // A speech persuades listeners in proportion to how near their lean is
+  // to the speaker's; one far away is not moved.
+  const nearness =
+    speechLean === undefined
+      ? v("one")
+      : Math.max(
+          v("zero"),
+          v("one") -
+            Math.abs(view.lean - speechLean) / (v("leanMax") - v("leanMin")),
+        );
+  const change =
+    step *
+    cause.size *
+    nearness *
+    (v("one") - v("tightness") * view.engagement);
+  if (change <= v("zero")) return false;
+  const same = prior?.desiredChange === cause.desiredChange;
+  const strength = Math.min(
+    v("one"),
+    prior ? (same ? prior.strength + change : prior.strength - change) : change,
+  );
+  const stance: Stance = {
+    id,
+    personId,
+    topic: cause.topic,
+    // A stance pushed past zero turns toward the new change.
+    desiredChange:
+      prior && !same && strength > v("zero")
+        ? prior.desiredChange
+        : cause.desiredChange,
+    strength: Math.abs(strength),
+    ...keepRecent(prior, {
+      eventId: cause.eventId,
+      date: cause.date,
+      change,
+    }),
+  };
+  stancesTable(api).put(stance as unknown as { id: string });
+  if (speechLean !== undefined)
+    driftToward(api, view, speechLean, nearness, cause.eventId);
+  return true;
+}
 
 /** How strongly a seven-point party identification holds: its strength word. */
 function strengthOf(party: string): string {

@@ -36,5 +36,15 @@
     "value": 0.31,
     "tag": "SOURCED",
     "citation": "Gallup, 'Americans' Trust in Media Remains at Trend Low', September 3-15, 2024 (n=1,007): a great deal or fair amount of trust in the mass media. All adults: 31%."
+  },
+  "newsStanceStep": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "How far a story heard secondhand (from an outlet or from someone who heard it) moves the hearer's stance on its topic, per unit of the event's size, in place of the views engine's stanceStep (0.1) for people the event itself reached: half of it, since hearing about something moves views less than living through it. Bounded above by persuasion experiments' effects of persuasive information on policy views (about 5 percentage points; Coppock 2023, Persuasion in Parallel), which a plain news report is not. No study sets the share; spread 0.025 to 0.1.",
+    "spread": {
+      "low": 0.025,
+      "high": 0.1
+    },
+    "stopgapId": "SG-P15-views-first-version"
   }
 }

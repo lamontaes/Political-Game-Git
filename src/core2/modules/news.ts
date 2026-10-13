@@ -23,7 +23,7 @@ import type {
   KnownFact,
   PersonId,
 } from "../types";
-import { viewOf } from "./views";
+import { moveStance, stanceSize, viewOf, type StanceCause } from "./views";
 
 export const NEWS_MODULE_ID = "news";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -42,6 +42,8 @@ export interface Story {
   date: string;
   placeId: string;
   facts: Readonly<Record<string, string>>;
+  /** What a story with a topic carries toward its hearers' stances. */
+  stance?: StanceCause;
 }
 
 const stories = (api: CoreAPI) =>
@@ -204,6 +206,10 @@ function hear(
   learned(newsKey(story.id), story.kind);
   learned(`${newsKey(story.id)}:outlet`, story.outletId);
   for (const [key, value] of Object.entries(story.facts)) learned(key, value);
+  // Hearing about it secondhand moves a stance too, less than living it (the
+  // people the event reached were moved by the event itself).
+  if (story.stance && access !== "perceived")
+    moveStance(api, personId, story.stance, n(api, "newsStanceStep"));
   return true;
 }
 
@@ -238,6 +244,17 @@ export const newsModule: CoreModule = {
       date: event.date,
       placeId: event.placeId,
       facts: event.facts ?? {},
+      ...(event.topic && event.desiredChange
+        ? {
+            stance: {
+              eventId: event.id,
+              date: event.date,
+              topic: event.topic,
+              desiredChange: event.desiredChange,
+              size: stanceSize(event),
+            },
+          }
+        : {}),
     };
     stories(api).put(story as unknown as { id: string });
     // The people the event itself reached already know it.

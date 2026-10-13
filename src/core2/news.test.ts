@@ -3,7 +3,7 @@ import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { newsKey, newsModule, trustOf } from "./modules/news";
-import { viewOf, viewsModule } from "./modules/views";
+import { stancesOf, viewOf, viewsModule } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 
@@ -117,6 +117,47 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
       api.knows(id, newsKey("fixture-county-story")),
     );
     expect(heard.length).toBeGreaterThan(0);
+  });
+
+  it("moves the stance of people who hear a story with a topic, less than the people it reached", () => {
+    const eventId = "fixture-park-vote";
+    const reached = residents.slice(0, 3);
+    applyCoreEvent(core, {
+      id: eventId,
+      date: core.date,
+      kind: "legislative-vote",
+      personIds: reached,
+      placeId: subject.placeId,
+      publicRecord: true,
+      topic: "fixture:parks",
+      desiredChange: "build",
+      source: { tag: "SOURCED", citation: "Fixture vote.", asOf: core.date },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 20));
+    const moved = (id: string) =>
+      stancesOf(api, id)
+        .find((row) => row.topic === "fixture:parks")
+        ?.causes.find((row) => row.eventId === eventId)?.change ?? 0;
+    const direct = reached.map(moved);
+    const secondhand = residents
+      .filter((id) => !reached.includes(id))
+      .map((id) => ({
+        id,
+        change: moved(id),
+        heard: api.knows(id, newsKey(eventId)),
+      }));
+    expect(direct.every((change) => change > 0)).toBe(true);
+    const heard = secondhand.filter((row) => row.heard);
+    expect(heard.length).toBeGreaterThan(0);
+    // Everyone who heard it moved, by less than the step for living it ...
+    for (const row of heard) {
+      expect(row.change).toBeGreaterThan(0);
+      const view = viewOf(api, row.id)!;
+      expect(row.change).toBeCloseTo(0.05 * (1 - 0.5 * view.engagement));
+    }
+    // ... and no one who never heard it was moved.
+    for (const row of secondhand.filter((row) => !row.heard))
+      expect(row.change).toBe(0);
   });
 
   it("drops a story past its life from memory, while what people learned stays", () => {
