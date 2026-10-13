@@ -427,7 +427,7 @@ function rescaleOutside(
   return changed;
 }
 
-/** Each business's customers' spending a year, today: from outside the town and in all. */
+/** Each business's customers' spending a year, today: from outside the town and in all (households' purchases, outside buyers and contracts). */
 export function customerSalesByBusiness(
   core: CoreState,
 ): Map<string, { outsideMinor: number; allMinor: number }> {
@@ -439,6 +439,21 @@ export function customerSalesByBusiness(
     row.allMinor += amount;
     if (flow.kind === "outside-sales") row.outsideMinor += amount;
     out.set(flow.payeeId, row);
+  }
+  // Full households' and other buyers' own contracts with the business (loans aside).
+  for (const contract of core.finance.contracts.values()) {
+    if (
+      contract.endedAt ||
+      contract.creditFacilityId ||
+      contract.interestFacilityId ||
+      !core.finance.businesses.has(contract.payeeId) ||
+      !(contract.periodMonths > 0)
+    )
+      continue;
+    const row = out.get(contract.payeeId) ?? { outsideMinor: 0, allMinor: 0 };
+    row.allMinor +=
+      (contract.amountMinor * MONTHS_PER_YEAR) / contract.periodMonths;
+    out.set(contract.payeeId, row);
   }
   return out;
 }
