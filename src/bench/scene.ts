@@ -354,7 +354,7 @@ export function stagePeople(
     // A spot where they'd be mostly hidden behind (or hide) someone
     // already there is taken only when nothing else fits.
     const fits = (spot: StagingSpot) =>
-      figureOn(look, band, stage, spot) !== null;
+      figureOn(look, band, place, stage, spot) !== null;
     const clear = (spot: StagingSpot) =>
       placed.every((row) => !hides(stage, spot, row.spot));
     let index = free.findIndex((spot) => clear(spot) && fits(spot));
@@ -379,7 +379,7 @@ export function stagePeople(
       placed.map((row) => row.spot),
       front,
     );
-    const whole = figureOn(look, band, stage, spot, turn)!;
+    const whole = figureOn(look, band, place, stage, spot, turn)!;
     people.push({
       personId: id,
       name,
@@ -428,7 +428,7 @@ export function hides(
 }
 
 type Who = FigurePerson;
-type Turn = NonNullable<Parameters<typeof figureOn>[4]>;
+type Turn = NonNullable<Parameters<typeof figureOn>[5]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
 // as in front of them, how much farther that makes it, how near in depth two
 // people are to be side by side, and how near the front's line a person is

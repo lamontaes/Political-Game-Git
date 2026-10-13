@@ -27,6 +27,12 @@ export interface Figure {
   /** The same person painted at other ages share a family (manifest `family`). */
   family?: string;
   angle: string;
+  /** Standing when absent; a seated figure ("sit") also records its chair kind and hip line. */
+  pose?: "stand" | "sit";
+  /** The chair kind a seated figure sits on (see `seatKinds` in whole-figures.json). */
+  seat?: string;
+  /** A seated figure's hip line on the cushion, in pixels from the top. */
+  seatY?: number;
   facing: "left" | "right";
   width: number;
   height: number;
@@ -35,15 +41,57 @@ export interface Figure {
 const PAINTED = (manifest.figures as Figure[]).filter((row) =>
   existsSync(new URL(`../../art/people-whole/${row.file}`, import.meta.url)),
 );
-/** Looks are chosen from the three-quarter views; side and back views are the same look turned. */
-const FIGURES = PAINTED.filter((row) => row.angle === "three-quarter");
+/** Looks are chosen from the standing three-quarter views; side and back views are the same look turned. */
+const FIGURES = PAINTED.filter(
+  (row) => row.angle === "three-quarter" && (row.pose ?? "stand") === "stand",
+);
+/** The same looks seated, by chair kind, as the CTO's seated art lands. */
+const SEATED = PAINTED.filter((row) => row.pose === "sit");
 /** A look and build seen from the side ("profile") or from behind ("back"), where painted. */
 function turned(figure: Figure, view: "profile" | "back"): Figure | undefined {
   return PAINTED.find(
     (row) =>
       row.look === figure.look &&
       row.build === figure.build &&
-      row.angle === view,
+      row.angle === view &&
+      (row.pose ?? "stand") === "stand",
+  );
+}
+
+const SEAT_WORDS = rules.seatKinds
+  .byGroupWord as unknown as readonly (readonly [string, string])[];
+/**
+ * What kind of chair a seat is: from the words in its group's name (data),
+ * else a desk chair where a desk hides the legs, a couch at home, a plain
+ * chair elsewhere. At home a table chair is a kitchen chair.
+ */
+export function seatKindOf(place: string, spot: StagingSpot): string {
+  const home = rules.homePlaces.includes(place);
+  const group = spot.group ?? "";
+  const match = SEAT_WORDS.find(([word]) => group.includes(word))?.[1];
+  const kind =
+    match ??
+    (spot.clipBelowY !== undefined
+      ? "office-chair"
+      : home
+        ? "couch"
+        : "kitchen-chair");
+  return home && kind === "table-chair" ? "kitchen-chair" : kind;
+}
+/** The person's own look and build seated on this kind of chair, seen from where they face. */
+function seatedFor(
+  front: Figure,
+  kind: string,
+  view?: "profile" | "back",
+): Figure | undefined {
+  const rows = SEATED.filter(
+    (row) =>
+      row.look === front.look && row.build === front.build && row.seat === kind,
+  );
+  return (
+    rows.find((row) => row.angle === (view ?? "three-quarter")) ??
+    rows.find((row) => row.angle === "three-quarter") ??
+    rows[0]
   );
 }
 
@@ -59,6 +107,10 @@ const AGE_WINDOWS = [6, 12];
 const FEET_BAND = 0.035;
 const SHADOW_SPREAD = 1.3;
 const SHADOW_FLATNESS = 0.22;
+// A seated figure without a recorded hip line sits at this share of its
+// picture's height, and its shadow under the chair is this share of its width.
+const SEATED_HIP = 0.6;
+const SEATED_SHADOW = 0.9;
 const AGE_OF = { child: 8, teen: 15, adult: 40, older: 70 } as const;
 
 function hash(text: string): number {
@@ -307,47 +359,36 @@ export function wholeFigureFor(
   stage: PlaceStaging,
   spot: StagingSpot,
   /** Who they're with: which way to turn, and whether to show their side or back. */
-  turn: { toward?: "left" | "right"; view?: "profile" | "back" } = {},
+  turn: Turn = {},
   taken?: ReadonlySet<string>,
 ): WholeFigure | null {
-  if (spot.pose && spot.pose !== "stand") return null;
   const front = pickLook(core, person, place, taken);
   if (!front) return null;
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
-  return figureOn(front, ageBand(age), stage, spot, turn);
+  return figureOn(front, ageBand(age), place, stage, spot, turn);
 }
 
 /** A chosen look drawn on a standing spot: sized for the person's age and the floor, turned, with its shadow. */
 export function figureOn(
   front: Figure,
   band: Figure["ageBand"],
+  place: string,
   stage: PlaceStaging,
   spot: StagingSpot,
-  turn: { toward?: "left" | "right"; view?: "profile" | "back" } = {},
+  turn: Turn = {},
 ): WholeFigure | null {
-  if (spot.pose && spot.pose !== "stand") return null;
+  if (spot.pose === "sit") {
+    // Seated: the same look on this kind of chair, or nobody here.
+    const seated = seatedFor(front, seatKindOf(place, spot), turn.view);
+    return seated ? placeSeated(seated, front, band, stage, spot, turn) : null;
+  }
+  // Standing, leaning on a wall or at a podium: the standing figure.
   const chosen = (turn.view && turned(front, turn.view)) || front;
-  const meters =
-    spot.floorMetersPercent ??
-    (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
-    stage.metersPercent;
-  const horizonY = spot.floorHorizonY ?? stage.horizonY;
   const heightPercent =
-    rules.heightMeters[band] *
-    meters *
-    (spot.y - horizonY) *
-    (chosen.height / chosen.footY);
+    personPercent(band, stage, spot) * (chosen.height / chosen.footY);
   const widthPercent =
     (heightPercent * (chosen.width / chosen.height)) / BACKDROP_ASPECT;
-  // Turned toward who they're with; alone, the spot's own facing, else the middle.
-  const toward =
-    turn.toward ??
-    (spot.facing === "left" || spot.facing === "right"
-      ? spot.facing
-      : spot.x < 50
-        ? "right"
-        : "left");
-  const mirrored = chosen.facing !== toward;
+  const mirrored = chosen.facing !== towardOf(spot, turn);
   const leftPercent = spot.x - widthPercent / 2;
   // The shadow sits on the foot point, under the feet as drawn (mirrored
   // with the figure), unless a desk or counter hides the feet.
@@ -381,6 +422,85 @@ export function figureOn(
         ? null
         : {
             leftPercent: (feetLeft + feetRight) / 2 - shadowWidth / 2,
+            topPercent: spot.y - shadowHeight / 2,
+            widthPercent: shadowWidth,
+            heightPercent: shadowHeight,
+          },
+    },
+  };
+}
+
+type Turn = { toward?: "left" | "right"; view?: "profile" | "back" };
+
+/** How tall the person stands at this spot, in percent of the picture: their age band's height on the spot's floor. */
+function personPercent(
+  band: Figure["ageBand"],
+  stage: PlaceStaging,
+  spot: StagingSpot,
+): number {
+  const meters =
+    spot.floorMetersPercent ??
+    (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
+    stage.metersPercent;
+  const horizonY = spot.floorHorizonY ?? stage.horizonY;
+  return rules.heightMeters[band] * meters * (spot.y - horizonY);
+}
+
+/** Turned toward who they're with; alone, the spot's own facing, else the middle. */
+function towardOf(spot: StagingSpot, turn: Turn): "left" | "right" {
+  return (
+    turn.toward ??
+    (spot.facing === "left" || spot.facing === "right"
+      ? spot.facing
+      : spot.x < 50
+        ? "right"
+        : "left")
+  );
+}
+
+/**
+ * A seated figure on a seat: painted at its standing look's scale, its hip
+ * line on the seat cushion (`seatY`), centered on the seat, cut off below a
+ * desk at `clipBelowY`. Its shadow is under the chair, or none where a desk
+ * hides the floor.
+ */
+export function placeSeated(
+  seated: Figure,
+  standing: Figure,
+  band: Figure["ageBand"],
+  stage: PlaceStaging,
+  spot: StagingSpot,
+  turn: Turn = {},
+): WholeFigure {
+  // Percent of the picture per pixel: the standing look's feet-to-head is the person's height.
+  const scale = personPercent(band, stage, spot) / standing.footY;
+  const heightPercent = seated.height * scale;
+  const widthPercent =
+    (heightPercent * (seated.width / seated.height)) / BACKDROP_ASPECT;
+  const hip = seated.seatY ?? seated.height * SEATED_HIP;
+  const leftPercent = spot.x - widthPercent / 2;
+  const shadowWidth = widthPercent * SEATED_SHADOW;
+  const shadowHeight = shadowWidth * SHADOW_FLATNESS * BACKDROP_ASPECT;
+  const hidden =
+    spot.clipBelowY !== undefined && spot.clipBandEndY === undefined;
+  return {
+    file: seated.file,
+    url: `/art/people-whole/${seated.file}`,
+    figure: {
+      leftPercent,
+      topPercent: (spot.seatY ?? spot.y) - hip * scale,
+      widthPercent,
+      heightPercent,
+      clipBelowPercent: spot.clipBelowY ?? null,
+      clipBandEndPercent:
+        spot.clipBelowY !== undefined && spot.clipBandEndY !== undefined
+          ? spot.clipBandEndY
+          : null,
+      mirrored: seated.facing !== towardOf(spot, turn),
+      shadow: hidden
+        ? null
+        : {
+            leftPercent: spot.x - shadowWidth / 2,
             topPercent: spot.y - shadowHeight / 2,
             widthPercent: shadowWidth,
             heightPercent: shadowHeight,
