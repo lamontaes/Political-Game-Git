@@ -77,7 +77,20 @@ export function openWorldLegislating(core: CoreState): void {
     scheduleMeeting(api, office, "localAgendaMeetingsPerYear");
   for (const session of sessionRows[stateKey] ?? []) {
     const date = agendaDate(session.adjournAt, session.conveneAt);
-    if (date <= core.date) continue;
+    if (date <= core.date) {
+      // A session already over when the world opens comes back on the same
+      // day the next year it can, as a held session carries itself forward.
+      let next = date;
+      while (next <= core.date)
+        next = `${Number(next.slice(0, 4)) + 1}${next.slice(4)}`;
+      scheduleSession(api, stateKey, next, {
+        tag: "ESTIMATED",
+        citation: "the recorded session's end, carried forward a year",
+        asOf: core.date,
+        estimatedFrom: session.sourceUrl ?? "NCSL 2026 session calendar",
+      });
+      continue;
+    }
     scheduleSession(api, stateKey, date, {
       tag: "SOURCED",
       citation:
