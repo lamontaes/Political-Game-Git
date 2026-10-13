@@ -84,6 +84,15 @@ describe("M3-04 laws change specific people's records", () => {
       );
       if (!council) continue;
       for (const question of Object.keys(effects.effects)) {
+        // A policy a wider law already sets here isn't the town's to repeal.
+        if (
+          [...core.people.keys()].some((id) =>
+            effectsOn(api, id).some(
+              (e) => e.question === question && e.endedOn === null,
+            ),
+          )
+        )
+          continue;
         const bill = draftBill(api, {
           bodyOfficeId: council.office.id,
           sponsorId: council.holder!.personId!,
