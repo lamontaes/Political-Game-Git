@@ -483,9 +483,13 @@ export function turnout(
   /** What this election adds to the cost of voting (a primary's lower salience). */
   extraCost = 0,
 ) {
+  // Their own sense of duty and reliability, with every trait's lean between
+  // voting and staying home as one input beside them.
   const duty =
+    (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
+    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
     parameter("traitDecisionWeight") *
-    decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home");
+      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home");
   const totals = Object.values(appeal).map((a) => a.total);
   // How much they care: the strength of their strongest feeling in the race.
   const interest = totals.length ? Math.max(...totals.map(Math.abs)) : 0;
