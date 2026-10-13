@@ -24,6 +24,7 @@ import { WORLD_METRICS_MODULE } from "./world-metrics";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
 import { registerWorldLawReach } from "../world-law-reach";
 import { withMembershipDues } from "../membership-dues";
+import { declareSnapshotCovered } from "../snapshot";
 
 // Laws in force reach the economy's engines through OPUS-GOV's policy handlers.
 registerWorldLawReach();
@@ -38,6 +39,11 @@ export const WORLD_MODULES = [
   PLACE_PRICES_MODULE,
   WORLD_METRICS_MODULE,
 ] as const;
+
+// Every economy engine keeps its state in its module tables; its per-world
+// maps are caches that rebuild themselves (a world restored from a snapshot
+// runs on identically: the round trip in two drawn places, Oct 13).
+declareSnapshotCovered(...WORLD_MODULES.map((module) => module.id));
 
 export function withWorldEconomy(input: CoreInput): CoreInput {
   const economy = withMembershipDues(
