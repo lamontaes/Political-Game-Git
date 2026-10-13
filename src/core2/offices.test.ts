@@ -100,11 +100,22 @@ describe("M2-01 offices and seats, every level", () => {
   });
 
   it("a holder's death opens a vacancy filled by that office's real rule", () => {
-    const core = world(randomPlace("vacancy").key);
-    const api = coreAPI(core);
-    const local = townSeats(api).filter(
-      (s) => s.holder?.personId && s.office.level !== "federal",
-    );
+    // A place with a resident in a local seat (some places have none).
+    let core = world(randomPlace("vacancy").key);
+    let api = coreAPI(core);
+    const residentSeats = () =>
+      townSeats(api).filter(
+        (s) => s.holder?.personId && s.office.level !== "federal",
+      );
+    for (let n = 1; !residentSeats().length && n < 10; n += 1) {
+      core = world(randomPlace(`vacancy:${n}`).key);
+      api = coreAPI(core);
+    }
+    const local = residentSeats();
+    expect(
+      local.length,
+      "no place with a resident officeholder",
+    ).toBeGreaterThan(0);
     const { office, seat, holder } = pick(local, "seat");
     const placeId = core.people.get(holder!.personId!)!.placeId;
     // The holder dies (as the life engine records a death), then the event.

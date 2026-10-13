@@ -106,6 +106,20 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 01:20 UTC: M3-05, the executive's desk (new `executive.ts`):
+  - **Mayors' real veto powers:** a mayor vetoes only where the state's law gives the office a veto, above any population line, and is overridden by the state's own share (`data/research/local-government/mayor-veto-2026.json`).
+    - **Source:** a Sonnet helper extracted the rules from the state baselines' statute notes. 42 of 56 places are sourced, including Alabama (cities over 12,000) and Iowa (over 500); Minnesota's statutory plans have no veto, and Washington overrides by a majority plus one.
+    - **Effect:** where the mayor has no veto, a passed ordinance is law without a signature. The town's form follows: strong mayor, weak mayor-council or council-manager.
+  - **Appointments:**
+    - **Town department heads** come from the form's list of posts. The authority the form names (mayor, council, or city manager) chooses among the town's adults by views, qualification (temperament and experience in that department) and acquaintance; the council confirms where the form says. One post per person, all reasons recorded.
+    - **The player** names their own choice with `appoint`. Where the player holds the appointing seat, their posts wait for them.
+    - **State cabinets:** each governor chooses among three fictional people drawn for each post, confirmed by the state senate. Confirming bodies now defer to the executive (`confirmationTolerance`; the U.S. Senate has rejected only nine cabinet nominees). Before this, a strict party-line confirmation left Virginia's cabinet empty.
+    - **Runs:** a Michigan strong-mayor town filled 8 posts with 8 residents; Virginia and New Mexico filled their full cabinets.
+  - **Executive orders:** `issueOrder` makes a law row the next executive can revoke, reaching people like a statute. Only restoring voting rights after a sentence is offered, where governors have done it by order (Iowa, Kentucky, Virginia).
+  - **Stopgaps:** the research behind cabinets, orders and local posts was written from memory (every row an estimate; SG-GOV-executive-powers-research). Appointees draw no salary yet (SG-GOV-appointee-pay, needs CORE's public payroll).
+  - **Tests:** new `executive.test.ts` (2 of 2). The offices vacancy test now draws again where a place has no resident officeholder. The legislature, world-legislating, offices and meetings suites pass.
+  - **Next:** verify the executive research against sources (helper with web access), pardons once records of convictions exist (PEOPLE/CORE), emergencies once hazards exist (CORE).
+
 - 2026-10-13 00:49 UTC: M5-01, the state legislator career, end to end (new `state-legislator-career.test.ts`):
   - **The path:** in a random state the player picks the real numbered seat covering their town, files against its holder, walks a petition, knocks doors, and the voters decide. A win seats them on the term's first day in place of that holder, and they sponsor and vote on a bill with colleagues.
     - **Montana:** the player won the State Senate seat 4,672 to 4,011 against the Democratic holder; their minimum-wage bill failed on the floor.

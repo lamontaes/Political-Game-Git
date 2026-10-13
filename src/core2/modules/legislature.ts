@@ -45,6 +45,7 @@ import {
   type GovernmentRow,
 } from "./budgets";
 import { partyName, partySide } from "../appointments";
+import mayorVetoData from "../../../data/research/local-government/mayor-veto-2026.json" with { type: "json" };
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -1482,7 +1483,10 @@ function executiveAction(
       )[0]
     : undefined;
   let status: BillRow["status"] = "enacted";
-  if (executive) {
+  // A mayor vetoes only where the state's law gives the office a veto (and
+  // above any population line), overridden by the state's own share.
+  const mayorRule = executiveOffice?.kind === "mayor" ? mayorVeto(api) : null;
+  if (executive && (!mayorRule || mayorRule.veto)) {
     const key = memberKey(executive);
     const position = memberPosition(api, bill.id, key);
     const decided = table(api, "choices").get(
@@ -1500,10 +1504,14 @@ function executiveAction(
     const vetoes = decided ? !decided.sign : position.total < 0;
     if (vetoes) {
       // Two thirds of each body's whole membership (not of those voting).
+      const share =
+        mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
       status = tallies.every(
         (t) =>
           t.yes >=
-          Math.ceil(t.members * campaignParameter("vetoOverrideShare") - 1e-9),
+          (mayorRule?.plusOne
+            ? Math.floor(t.members * share) + 1
+            : Math.ceil(t.members * share - 1e-9)),
       )
         ? "overridden"
         : "vetoed";
@@ -1520,6 +1528,44 @@ function executiveAction(
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
   return enact(api, next);
+}
+
+const MAYOR_VETO = (
+  mayorVetoData as unknown as {
+    states: Record<
+      string,
+      {
+        mayorCouncil: {
+          veto: boolean;
+          minPopulation: number | null;
+          overrideShare: number;
+          overridePlusOne?: boolean;
+        };
+      }
+    >;
+  }
+).states;
+
+/**
+ * Whether the town's mayor holds a veto under the state's law for its
+ * mayor-council cities (`data/research/local-government/mayor-veto-2026.json`,
+ * from the state baselines' statute notes), and the override it takes.
+ */
+export function mayorVeto(api: CoreAPI): {
+  veto: boolean;
+  overrideShare: number;
+  plusOne: boolean;
+} {
+  const rule = MAYOR_VETO[lawChain(api).stateKey]?.mayorCouncil;
+  const population = Number(api.state.placeMetadata.referencePopulation) || 0;
+  return {
+    veto:
+      (rule?.veto ?? true) &&
+      (rule?.minPopulation == null || population >= rule.minPopulation),
+    overrideShare:
+      rule?.overrideShare ?? campaignParameter("vetoOverrideShare"),
+    plusOne: rule?.overridePlusOne ?? false,
+  };
 }
 
 /** A member's own vote on a bill, cast before the vote is held (the player's). */

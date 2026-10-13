@@ -550,6 +550,18 @@
       "tag": "TUNABLE",
       "source": "Seniority counts only slightly in choosing leaders and committee members in every chamber type (data/research/legislature/chamber-leadership.json: seniorityImportance 'slight' for all, from NCSL, House and Senate rules and NLC): about a twentieth of a party-line difference per year served.",
       "spread": [0, 0.15]
+    },
+    "appointmentExperienceWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
+      "spread": [0.1, 0.5]
+    },
+    "confirmationTolerance": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
+      "spread": [1, 2]
     }
   }
 }
