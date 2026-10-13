@@ -22,7 +22,7 @@
       "committee-hearing-room",
       "public-meeting-room"
     ],
-    "run-for-office": ["county-clerk-office-rural", "clerk-counter"],
+    "run-for-office": ["county-clerk-office-urban", "clerk-counter"],
     "lobby-legislator": ["capitol-hallway", "city-hall-hallway"]
   },
   "organizationKinds": {
@@ -48,10 +48,12 @@
     "service:fire": "fire-station",
     "service:police": "police-station",
     "enterprise:agriculture": "farm-yard",
-    "service:public-health": "hospital-lobby",
+    "service:public-health": "county-health-department",
     "sector:state-government-office": "dmv-office",
     "service:municipal-government": "mayor-office",
-    "membership:labor-union": "union-hall"
+    "membership:labor-union": "union-hall",
+    "service:county-government": "county-admin-lobby",
+    "service:jail": "county-jail-booking"
   },
   "variantByHour": [
     {
@@ -73,16 +75,22 @@
   ],
   "filingOffices": [
     {
-      "match": "county",
+      "match": "registrar|election",
       "places": [
-        "county-clerk-office-rural",
-        "county-clerk-office-urban",
+        "county-elections-office",
+        "big-city-elections-office",
+        "registrar-of-voters-worn",
+        "election-office",
         "clerk-counter"
       ]
     },
     {
-      "match": "registrar|board of elections|elections",
-      "places": ["registrar-of-voters-worn", "election-office", "clerk-counter"]
+      "match": "county",
+      "places": [
+        "county-clerk-office-urban",
+        "clerk-counter",
+        "county-clerk-office-rural"
+      ]
     },
     {
       "match": "secretary of state",
@@ -162,7 +170,9 @@
     "rally-airport-hangar",
     "city-hall-steps-event",
     "lodge-hall",
-    "church-supper-hall"
+    "church-supper-hall",
+    "courthouse-steps",
+    "courthouse-square"
   ],
   "dwellingPlaces": {
     "about": "The home pictures for each kind of dwelling OPUS-WORLD's housing records (dwellingKind), by room and by the household's third among the town's homes of the same kind (value for owners, rent for renters). Each household gets one picture per room from its own id, so the same home always looks the same; a state's regional house styles join every third of 'house'. A list may name pictures still to be painted: the first painted ones are used.",
@@ -283,13 +293,13 @@
     "us-house-delegate": ["congressional-office", "us-capitol-exterior"],
     "legislature-upper": ["capitol-hallway", "committee-hearing-room"],
     "legislature-lower": ["capitol-hallway", "committee-hearing-room"],
-    "county-executive": ["county-admin-lobby", "county-courthouse"],
+    "county-executive": ["county-admin-lobby", "@courthouse"],
     "county-sheriff": [
       "county-sheriff-front-desk",
       "sheriff-office-lobby",
       "police-station"
     ],
-    "county-prosecutor": ["district-attorney-office", "county-courthouse"],
+    "county-prosecutor": ["district-attorney-office", "@courthouse"],
     "county-clerk": ["county-clerk-office-urban", "county-clerk-office-rural"],
     "county-treasurer": [
       "county-treasurer-office",
@@ -298,6 +308,7 @@
     ],
     "county-assessor": [
       "county-recorder-office",
+      "county-office-cramped",
       "county-admin-lobby",
       "clerk-counter"
     ],
@@ -360,5 +371,37 @@
   "electionNight": {
     "ran": "election-night-venue",
     "voted": "polling-place"
+  },
+  "courthouseByState": {
+    "about": "'@courthouse' in any list is the county courthouse in the style its state's courthouses are usually built in (USPS codes); a state in no row gets the classical one. Styles follow the regional courthouse traditions: New England town greens, Midwestern Romanesque Revival, Southwestern adobe and mission, the sparse Plains and Mountain West, and postwar modern on the Pacific and in the territories.",
+    "county-courthouse-new-england": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "county-courthouse-romanesque": [
+      "PA",
+      "OH",
+      "IN",
+      "IL",
+      "MI",
+      "WI",
+      "MN",
+      "IA",
+      "MO",
+      "KS",
+      "NE"
+    ],
+    "county-courthouse-southwest": ["AZ", "NM", "NV", "TX"],
+    "county-courthouse-rural": ["ND", "SD", "MT", "WY", "ID"],
+    "county-courthouse-modern": [
+      "CA",
+      "WA",
+      "OR",
+      "HI",
+      "AK",
+      "GU",
+      "AS",
+      "MP",
+      "VI",
+      "PR"
+    ],
+    "default": ["county-courthouse-classical", "county-courthouse"]
   }
 }

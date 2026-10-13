@@ -7249,6 +7249,705 @@
       "fireflyAssetId": "urn:aaid:sc:US:5f734403-84a2-4b0a-a33d-e607c5d4d67e",
       "approval": "owner-placeholder-2026-10-13",
       "tags": ["kind:state-house-chamber", "uses:shared-location"]
+    },
+    {
+      "place": "big-city-elections-office",
+      "variant": "midday",
+      "file": "big-city-elections-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1ae17d7856b33f3f8cabd60448ab18b31fa360f11319dcce3cd88cbd598ca18a",
+      "sourceFile": "place-big-city-elections-office~4d206dde.png",
+      "sourceSha256": "1128f4f79e34b7681e9154bb23faa026e9d60424c3230c36e47156943395f60f",
+      "fireflyAssetId": "urn:aaid:sc:US:4d206dde-46a2-45d4-a1c4-ef6e273da142",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:big-city-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "big-city-elections-office",
+      "variant": "morning",
+      "file": "big-city-elections-office__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6c8ab87bdd6d9c406f70492710d954758e649717d6dfa19940ab05667f381c17",
+      "sourceFile": "place-big-city-elections-office~4dd851c5.png",
+      "sourceSha256": "23d435fd8f1eee571e91ce605c6ac2f6a76d535960f095e72483b11a9ad39882",
+      "fireflyAssetId": "urn:aaid:sc:US:4dd851c5-332f-41f3-8777-18ef2192057e",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:big-city-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "big-city-elections-office",
+      "variant": "night",
+      "file": "big-city-elections-office__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "558203d0a3fa597b967e4adf00d2e390416b0da7f0c89331e1ab379cb52e6331",
+      "sourceFile": "place-big-city-elections-office~d275bddd.png",
+      "sourceSha256": "07fbe8f308db755da369c00e3c55b5d050b294413fd4d5c32b6b666eb1568023",
+      "fireflyAssetId": "urn:aaid:sc:US:d275bddd-f7f5-4ccf-8160-bbaf5ad89e7a",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:big-city-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "big-city-elections-office",
+      "variant": "rain",
+      "file": "big-city-elections-office__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6c6a47b66b26dc490e7681b599512197786d9c314d92dc66641b4488d351263d",
+      "sourceFile": "place-big-city-elections-office~42d614b9.png",
+      "sourceSha256": "4e13fc3cfdfc4b78e05b20779308b4dce9b8c6f14ff23cf7390a35cd1bc26f86",
+      "fireflyAssetId": "urn:aaid:sc:US:42d614b9-f94e-4508-9d66-2931fa0258a1",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:big-city-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "county-admin-lobby",
+      "variant": "midday",
+      "file": "county-admin-lobby__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "37161bafa4b5c5f0b9187afc1eaed98b4de3b2f6fff62ab3dc61d7a2e7178491",
+      "sourceFile": "C08-county-admin-lobby-midday~d9a07765.png",
+      "sourceSha256": "43d17fcd98bd55642256526aee31ebb3d10c56726e7ae35b48934859ff5cbff0",
+      "fireflyAssetId": "urn:aaid:sc:US:d9a07765-e150-43ec-a74b-d2b2205907e0",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-admin-lobby",
+        "uses:shared-location",
+        "county-office"
+      ]
+    },
+    {
+      "place": "county-courthouse-classical",
+      "variant": "midday",
+      "file": "county-courthouse-classical__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "f1cc08e216b068ac91c93184014a3e5c19f267b98b832a7775b9be3498506bff",
+      "sourceFile": "C02-county-courthouse-classical~05446647.png",
+      "sourceSha256": "79c93fc23fc78298048a14bd774578ca996e807170a0ffd5f5263a797cd3c38a",
+      "fireflyAssetId": "urn:aaid:sc:US:05446647-f8e9-4f3d-adce-8f31f8336519",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-courthouse-classical", "uses:shared-location"]
+    },
+    {
+      "place": "county-courthouse-modern",
+      "variant": "midday",
+      "file": "county-courthouse-modern__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "312e6398318c3849b8e8f095f973dd24143912b3296e187bdd998f9600d51ec0",
+      "sourceFile": "C03-county-courthouse-modern-mi~0b3ee6e8.png",
+      "sourceSha256": "63ccbe499da9d3ae70f2786b6100cc656ca123e8934ee144b057ab2571458082",
+      "fireflyAssetId": "urn:aaid:sc:US:0b3ee6e8-e16d-460a-8135-5a9c4e3d3e46",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-courthouse-modern", "uses:shared-location"]
+    },
+    {
+      "place": "county-courthouse-new-england",
+      "variant": "midday",
+      "file": "county-courthouse-new-england__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "2a1851ee46b0fef8d37af20d3c899aa988964f1fb928f43a757cea3dc695afed",
+      "sourceFile": "C06-county-courthouse-newenglan~ebd9bc7f.png",
+      "sourceSha256": "7607335ab161d48f784f4cc6d44c7f2bf5877d7dbb5cfed61298585444899dec",
+      "fireflyAssetId": "urn:aaid:sc:US:ebd9bc7f-8ad3-4dfa-b0db-ed19be584ad1",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-courthouse-new-england", "uses:shared-location"]
+    },
+    {
+      "place": "county-courthouse-romanesque",
+      "variant": "midday",
+      "file": "county-courthouse-romanesque__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "bebecfba1a8076020ec76461b29780afee707e97eacb1ee594007ca2bf5cfb48",
+      "sourceFile": "C01-county-courthouse-romanesqu~f6d1ce83.png",
+      "sourceSha256": "ca6b50e6b933211311374b0ad3ae63d6c33da466f3e0df136d8a23d1c4212f69",
+      "fireflyAssetId": "urn:aaid:sc:US:f6d1ce83-0d56-4e60-ba50-583e6999ab36",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-courthouse-romanesque", "uses:shared-location"]
+    },
+    {
+      "place": "county-courthouse-rural",
+      "variant": "midday",
+      "file": "county-courthouse-rural__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "b853ba38fe6d298b9a1ce527c64820354ef0a03ff1bf8aef90f6772bbe81dba3",
+      "sourceFile": "C04-county-courthouse-rural-mid~3bc6210e.png",
+      "sourceSha256": "1e9d6cf9528d83d27539d505fc542e79221e01b22da08bf855cecb7f19058b55",
+      "fireflyAssetId": "urn:aaid:sc:US:3bc6210e-721a-4ef1-99be-2fae645d34f9",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-courthouse-rural", "uses:shared-location"]
+    },
+    {
+      "place": "county-courthouse-southwest",
+      "variant": "midday",
+      "file": "county-courthouse-southwest__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "185c8068041f73657b4b1ebe0b7d48406d9b6ec89a15cb44586352faa23864d0",
+      "sourceFile": "C05-county-courthouse-southwest~50137f5b.png",
+      "sourceSha256": "d8ba2ae30c6419f1b3da900b346daa0c7783cd951e3e307d6dd1809757e02596",
+      "fireflyAssetId": "urn:aaid:sc:US:50137f5b-33ca-436f-9c57-2075d6addf2a",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-courthouse-southwest", "uses:shared-location"]
+    },
+    {
+      "place": "county-elections-counting-room",
+      "variant": "midday",
+      "file": "county-elections-counting-room__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "da1db47f6c1612af2484f9e3fda4afd086ff79f637b02244facacec3f00b2139",
+      "sourceFile": "C10-county-elections-office-mid~b20d3a89.png",
+      "sourceSha256": "81d475fc7de6c0203db8c79d981a466edbddd5dbbd9cab6cca56aab7839d412f",
+      "fireflyAssetId": "urn:aaid:sc:US:b20d3a89-c09e-4dc0-ab39-a006e70773f7",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-elections-counting-room",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "county-elections-office",
+      "variant": "midday",
+      "file": "county-elections-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "761fd99aff0dcdee2e1ef11264e7469a9a932a39bddb135040f379ab9014eaa1",
+      "sourceFile": "place-county-elections-office__~d888a74b.png",
+      "sourceSha256": "a0b9f5fb4f22c9980590278d831819937af7b4fcfa41fae5821f8fc62d15a18c",
+      "fireflyAssetId": "urn:aaid:sc:US:d888a74b-18ab-447c-8e62-70d14f556107",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "county-elections-office",
+      "variant": "morning",
+      "file": "county-elections-office__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "d4825864487c01a3281fcb9394449709ae15b18cb9e6adb6c173bb2749cb6438",
+      "sourceFile": "place-county-elections-office__~7b495824.png",
+      "sourceSha256": "76f9a1c5c1c1479e337939b393bfb0631e1533d10616fb1da1ac283e537c454d",
+      "fireflyAssetId": "urn:aaid:sc:US:7b495824-87f6-4b29-b2bb-5e4261976e96",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "county-elections-office",
+      "variant": "night",
+      "file": "county-elections-office__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "4ae6b687bb2ed2b56dceeb033c66bb89c156f1bead88abe47ea83feaf3c1cf63",
+      "sourceFile": "place-county-elections-office__~275ea56d.png",
+      "sourceSha256": "fd01f0e2a56871ef81f18a1faa640c123bc26f5ec2f472dbe1f2285f29c28668",
+      "fireflyAssetId": "urn:aaid:sc:US:275ea56d-da03-4428-b3ad-588ca0fe9335",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "county-elections-office",
+      "variant": "rain",
+      "file": "county-elections-office__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "ccfdaa3925cf0a3ff2acf5e1d4d0176c9585d1cb45741d8d6a4bae3540c97158",
+      "sourceFile": "place-county-elections-office__~1e4dad9a.png",
+      "sourceSha256": "da739c14565214679b60fa102ee8c63fa369edb3474fce4c6d5e6141b72cd631",
+      "fireflyAssetId": "urn:aaid:sc:US:1e4dad9a-a390-495b-898a-7629532a2a88",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-elections-office",
+        "uses:shared-location",
+        "elections-office"
+      ]
+    },
+    {
+      "place": "county-emergency-operations",
+      "variant": "midday",
+      "file": "county-emergency-operations__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "db6b87d8024cbd662a5af345b99567d2a007b970a76f05f88318a2203a879962",
+      "sourceFile": "C23-county-emergency-ops-midday~0084f28e.png",
+      "sourceSha256": "e76a7d2d841749f56a503837632f438bcf7f2c1a0c27b4e56acf6afc4f571c80",
+      "fireflyAssetId": "urn:aaid:sc:US:0084f28e-9df0-489c-9a4d-545c4b522a8d",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-emergency-operations",
+        "uses:shared-location",
+        "emergency-management"
+      ]
+    },
+    {
+      "place": "county-extension-office",
+      "variant": "midday",
+      "file": "county-extension-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "184f8a8fb99245aa260545f8644aa8b094dc3a53a168f99ed655889b2b033907",
+      "sourceFile": "C24-county-extension-office-mid~17e51e19.png",
+      "sourceSha256": "066fffb16911bf136b1845311613352832a4bddd6a2f8c8dc611a509fb95d792",
+      "fireflyAssetId": "urn:aaid:sc:US:17e51e19-483c-4554-8f80-9b97c2f83eb0",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-extension-office",
+        "uses:shared-location",
+        "agriculture-extension"
+      ]
+    },
+    {
+      "place": "county-fair-exhibit-hall",
+      "variant": "midday",
+      "file": "county-fair-exhibit-hall__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "be2772247e9c5127f0a5abbe1252bb630102762788f3868ab4af5cf429301c51",
+      "sourceFile": "C20-county-fair-exhibit-hall-mi~9a92f04b.png",
+      "sourceSha256": "4ea59e188be32c0c5999855bc038aa4442a1bfce2ad86f7024eee03ef883ad30",
+      "fireflyAssetId": "urn:aaid:sc:US:9a92f04b-1087-489f-877a-72f841f485e8",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-fair-exhibit-hall",
+        "uses:shared-location",
+        "recreation"
+      ]
+    },
+    {
+      "place": "county-fairgrounds",
+      "variant": "midday",
+      "file": "county-fairgrounds__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "55cda16c27b2ac347d0633f9c5fec744722ae773c7afdb31ecb5dd8e86c4ee6e",
+      "sourceFile": "C19-county-fairgrounds-midday~17e59db8.png",
+      "sourceSha256": "1b298489af6726b08c4afa8818f5a385ff89643b35b5e0d97fa6b8e693312504",
+      "fireflyAssetId": "urn:aaid:sc:US:17e59db8-49e0-4cd4-a0fa-5a99638b3959",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-fairgrounds", "uses:shared-location", "recreation"]
+    },
+    {
+      "place": "county-health-department",
+      "variant": "midday",
+      "file": "county-health-department__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "f709811b73efaaaa8129d60c7580e840fe67f24a4b6640bc99386a52a60e9d15",
+      "sourceFile": "C22-county-health-department-mi~e2a24a0e.png",
+      "sourceSha256": "27753d4bda1866b38ca5d412ee3a4854ad4ec4100d2201dccce487f48f79f4f4",
+      "fireflyAssetId": "urn:aaid:sc:US:e2a24a0e-3126-4581-9008-7ba46026976d",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-health-department",
+        "uses:shared-location",
+        "public-health"
+      ]
+    },
+    {
+      "place": "county-jail-booking",
+      "variant": "midday",
+      "file": "county-jail-booking__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "6cc2578f5b5e3351c2c1accb659ad429a960f2a02dfb3b34ff4480dcd59090dc",
+      "sourceFile": "C15-county-jail-booking-midday~494475bb.png",
+      "sourceSha256": "365be5da3ef25e6222b13484e4c143a1f7cd37602b26db30fd0889a53fe2b27e",
+      "fireflyAssetId": "urn:aaid:sc:US:494475bb-abcd-407c-bfa8-d6f85600ba56",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-jail-booking", "uses:shared-location", "jail"]
+    },
+    {
+      "place": "county-jail-exterior",
+      "variant": "midday",
+      "file": "county-jail-exterior__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "fc91a53aa3fb869a00b0c0e126757700350695c55342828291d92e48bff12190",
+      "sourceFile": "C26-county-jail-exterior-new-mi~9c455e3e.png",
+      "sourceSha256": "1a7a0b6919c11fb31f4e93225b47c17deeaee6f7b5f361444a7c09eb868cb756",
+      "fireflyAssetId": "urn:aaid:sc:US:9c455e3e-ed78-47f4-a4f5-2757a71f5fd2",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-jail-exterior", "uses:shared-location", "jail"]
+    },
+    {
+      "place": "county-jail-visiting",
+      "variant": "midday",
+      "file": "county-jail-visiting__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "58f327f3154a68bf21b7901153ab27548559821c3aa70a11661a8df494c7ea4b",
+      "sourceFile": "C14-county-jail-visiting-midday~b6368017.png",
+      "sourceSha256": "ee9fe699103b1ca432e0566955fa089d03fdd2807ff0f01a1c66e6bb4dd9ead4",
+      "fireflyAssetId": "urn:aaid:sc:US:b6368017-6fb8-4a8e-8709-1eb8cd48befd",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-jail-visiting", "uses:shared-location", "jail"]
+    },
+    {
+      "place": "county-office-cramped",
+      "variant": "midday",
+      "file": "county-office-cramped__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "9c5c2c9c7d70fe7d7bfbd5470deccf9b5fbba5b9d5a6d48c567cc05615b0cd92",
+      "sourceFile": "place-county-office-cramped__mi__2afe00de.jpg",
+      "sourceSha256": "0ffc6361ee0f26e5475db38ee1feb5d725d206a2267771ca9e52f2a20fec82d2",
+      "fireflyAssetId": "urn:aaid:sc:US:2afe00de-fe3d-4b12-9ca4-e1a20463b1ca",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-office-cramped",
+        "uses:shared-location",
+        "county-office"
+      ]
+    },
+    {
+      "place": "county-recorder-office",
+      "variant": "midday",
+      "file": "county-recorder-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "665d79408b2f9e90373f2ad1b7e383f70c738745ad8a2e79bddbf6b01ea6ad7b",
+      "sourceFile": "C09-county-recorder-office-midd~7f4898a8.png",
+      "sourceSha256": "d8122908ba701d25666f2c6812c971218c0d7949ba7bf42db99bc5fa028d1a6a",
+      "fireflyAssetId": "urn:aaid:sc:US:7f4898a8-eea2-424c-8f5f-299bc6dd38cd",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-recorder-office",
+        "uses:shared-location",
+        "county-office"
+      ]
+    },
+    {
+      "place": "county-road-garage",
+      "variant": "midday",
+      "file": "county-road-garage__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "da7cffdc422735ce206eb59f2f7a27947b51d46cbd999e46216ae0f3285cbbd7",
+      "sourceFile": "C21-county-road-garage-midday~78c4edc5.png",
+      "sourceSha256": "b889e71c47dbb4913594cf168579a7dc75628a905b5db71d2293945ea2a5cc80",
+      "fireflyAssetId": "urn:aaid:sc:US:78c4edc5-66f5-4490-9a00-0d547e6bff8c",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-road-garage",
+        "uses:shared-location",
+        "public-works"
+      ]
+    },
+    {
+      "place": "county-sheriff-exterior",
+      "variant": "midday",
+      "file": "county-sheriff-exterior__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "8b57fe2c669a5ca404f36d3b3b1a89de9e835d7eb411308270d2996d19181d5e",
+      "sourceFile": "C12-sheriff-office-exterior-mid~06075384.png",
+      "sourceSha256": "d6aa0ec880cbd6753c4d30488cc16e44575bc9eefa2c0aea80a8154c0f6f29d9",
+      "fireflyAssetId": "urn:aaid:sc:US:06075384-d041-4d4c-ad53-99f34b856572",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-sheriff-exterior",
+        "uses:shared-location",
+        "sheriff"
+      ]
+    },
+    {
+      "place": "county-sheriff-front-desk",
+      "variant": "midday",
+      "file": "county-sheriff-front-desk__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "97aa77a04aff7694f09a2608253fa015ebda466bce830fa5a6bebcaf16b1982d",
+      "sourceFile": "C13-sheriff-office-front-midday~656b6608.png",
+      "sourceSha256": "9867b98cbf50fa94fca930d32f5598205d592a49ae704a4aa62f72a7df1c5611",
+      "fireflyAssetId": "urn:aaid:sc:US:656b6608-964d-4d1a-8bf9-d23e74135a1c",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-sheriff-front-desk",
+        "uses:shared-location",
+        "sheriff"
+      ]
+    },
+    {
+      "place": "county-treasurer-office",
+      "variant": "midday",
+      "file": "county-treasurer-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1ab60025f92c61bbb1dd56a3716d8afe1f367b4f2b4c77c7775f98cff2462687",
+      "sourceFile": "C11-county-treasurer-office-mid~98f4b446.png",
+      "sourceSha256": "16a9041244e8166a7e58401eb5271acb24b651f363c10dee573eaff799912171",
+      "fireflyAssetId": "urn:aaid:sc:US:98f4b446-4324-4e29-a837-49e383da8265",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:county-treasurer-office",
+        "uses:shared-location",
+        "county-office"
+      ]
+    },
+    {
+      "place": "county-trial-courtroom",
+      "variant": "midday",
+      "file": "county-trial-courtroom__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "948688f7a9af89a18d194c46afe885cdbe5697425007cbfa9c501a66c0873858",
+      "sourceFile": "place-courtroom-county-trial__m__bfc1f773.jpg",
+      "sourceSha256": "eced70ce6565c488618b8cb85bfb8ba527279698b67150ead0193ccf57484583",
+      "fireflyAssetId": "urn:aaid:sc:US:bfc1f773-e329-4a8b-81d3-e89a8659503d",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:county-trial-courtroom", "uses:shared-location"]
+    },
+    {
+      "place": "courthouse-hallway",
+      "variant": "night",
+      "file": "courthouse-hallway__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e290c8c34a4fd810fab4b85070a6bee5487566dd0f91402590501bbe21973327",
+      "sourceFile": "place-courthouse-hallway__night~ae24a0d2.png",
+      "sourceSha256": "d8d6780bf54a0be1843c3318410c15c713578e340104fb65b08a41cddc876ed2",
+      "fireflyAssetId": "urn:aaid:sc:US:ae24a0d2-a2ce-48ba-be6d-c1c8f933e530",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:courthouse-hallway", "uses:shared-location"]
+    },
+    {
+      "place": "courthouse-square",
+      "variant": "midday",
+      "file": "courthouse-square__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "2cbd331d4e9c38841dac5eebd854f2ea483b6c5a3b3cf2c56168f7f26d2c93ab",
+      "sourceFile": "C07-courthouse-square-midday~936cc0d1.png",
+      "sourceSha256": "89da6af29873578633244d0dd3ae4342375bafe9bafca491528c712162cd483b",
+      "fireflyAssetId": "urn:aaid:sc:US:936cc0d1-5a60-4eea-b7c3-ac14a94a6994",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:courthouse-square", "uses:shared-location"]
+    },
+    {
+      "place": "courthouse-steps",
+      "variant": "midday",
+      "file": "courthouse-steps__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "a715ec99dd8c599b7101d96767bc48084ac175a81fb6698854b4fa5810497ee6",
+      "sourceFile": "place-courthouse-steps__midday~9fc6a2cf.png",
+      "sourceSha256": "2866edf2f90f30815b1b32d14f2641825337247d0903fec70759143fb2058b5c",
+      "fireflyAssetId": "urn:aaid:sc:US:9fc6a2cf-d3c2-414f-9fa1-b61e7e0dd728",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:courthouse-steps", "uses:shared-location"]
+    },
+    {
+      "place": "courthouse-steps",
+      "variant": "morning",
+      "file": "courthouse-steps__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "9e94be42c8d2f3907e80352de77da101907b3cca05e3e738c4795eb0e3cfff53",
+      "sourceFile": "place-courthouse-steps__morning~6e5a8ce9.png",
+      "sourceSha256": "8e4b4b515b117fcff154c0dfd6c5008ab6990eeeaec66df4f8f305c0a055a3f1",
+      "fireflyAssetId": "urn:aaid:sc:US:6e5a8ce9-663f-41c4-937a-0af9ed3f03a0",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:courthouse-steps", "uses:shared-location"]
+    },
+    {
+      "place": "courthouse-steps",
+      "variant": "night",
+      "file": "courthouse-steps__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "25a09eef0a42eb0fd9304c8aa03b2b675bf7e69558dc3f0bb04cd18d66d9ad69",
+      "sourceFile": "place-courthouse-steps__night~49ff04eb.png",
+      "sourceSha256": "bb2a0c2cf9a70d191707569cd98f9a77221bba5640feca5a92d201391391c003",
+      "fireflyAssetId": "urn:aaid:sc:US:49ff04eb-5a5f-451d-bc33-4ab56dc03a85",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:courthouse-steps", "uses:shared-location"]
+    },
+    {
+      "place": "courthouse-steps",
+      "variant": "rain",
+      "file": "courthouse-steps__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "a816434e07bf707efb59644d020951cc63dd0800b2ff9e5cd238714a97bb24f0",
+      "sourceFile": "place-courthouse-steps__rain~1d6033d3.png",
+      "sourceSha256": "77932a57dc888ccb2fb522ec49ef2b5983f11310ac6bfcc3c6f9411a0ccfd17d",
+      "fireflyAssetId": "urn:aaid:sc:US:1d6033d3-4a3a-45da-a3ed-5295f007289b",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:courthouse-steps", "uses:shared-location"]
+    },
+    {
+      "place": "district-attorney-office",
+      "variant": "midday",
+      "file": "district-attorney-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "1f40c35f843a186d67faebb484df0bb3002465f99b4abe225d8b851c54495adf",
+      "sourceFile": "C17-district-attorney-office-mi~f6bb1be3.png",
+      "sourceSha256": "f5b20b63e39d0fbdd668a178cb55e7dabff8fe75f42000f8f55a9ca9fc61129a",
+      "fireflyAssetId": "urn:aaid:sc:US:f6bb1be3-78d3-46b1-914f-554d52edf8ee",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:district-attorney-office",
+        "uses:shared-location",
+        "legal-services"
+      ]
+    },
+    {
+      "place": "family-court",
+      "variant": "midday",
+      "file": "family-court__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "aaf4b835fcf9476764d894254c459611b1dbbc2f88707d463e1c69fc0bf32c8a",
+      "sourceFile": "place-family-court~2d4aebf8.png",
+      "sourceSha256": "2e992d6259a4042b347fcac5e536c3dc0e749ad43680cd25a6ec077722035a60",
+      "fireflyAssetId": "urn:aaid:sc:US:2d4aebf8-35a4-4529-800a-fbcc298823f5",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:family-court", "uses:shared-location"]
+    },
+    {
+      "place": "jail-visiting-room",
+      "variant": "morning",
+      "file": "jail-visiting-room__morning.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "d095d0102b187daee9b48550d8b68b4bdb1d49ceecd91f0b56f7cba3255a2635",
+      "sourceFile": "place-jail-visiting-room__morni~3017c40b.png",
+      "sourceSha256": "93a73582d3ae6c0e76a81b88bd7870a0582ad7c378cd1ba5a6cabf7d6ffbf032",
+      "fireflyAssetId": "urn:aaid:sc:US:3017c40b-9d97-489a-8b93-4d1edde3f591",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:jail-visiting-room", "uses:shared-location"]
+    },
+    {
+      "place": "jail-visiting-room",
+      "variant": "night",
+      "file": "jail-visiting-room__night.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "31a5bb1797a823f3e9e01398354f1f2dc58bb8227cfe3d2bb9a51eb8da0b3000",
+      "sourceFile": "place-jail-visiting-room__night~9213b027.png",
+      "sourceSha256": "fc2c40374cd568cbcc9b392bd6f401c1c12f426a612ef7c9fcbb0f3e5740a9db",
+      "fireflyAssetId": "urn:aaid:sc:US:9213b027-0f49-480c-8f00-ae01012b0b53",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:jail-visiting-room", "uses:shared-location"]
+    },
+    {
+      "place": "jail-visiting-room",
+      "variant": "rain",
+      "file": "jail-visiting-room__rain.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "241e649c7e6529b52dbd6d6c5d474ac8fea50eebcfae06da5acfa87d55dce9d3",
+      "sourceFile": "place-jail-visiting-room__rain~0968f92a.png",
+      "sourceSha256": "3af3ba9eea2c9ecb1209b8592a839b92115a7fcef173e205712e9f686d82d573",
+      "fireflyAssetId": "urn:aaid:sc:US:0968f92a-3498-4024-af1b-767c1676e836",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:jail-visiting-room", "uses:shared-location"]
+    },
+    {
+      "place": "jury-room",
+      "variant": "midday",
+      "file": "jury-room__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "7ba7de53e16a447a2877f8a12bcef1484a75328876aa6a45ba1dfee8506d7b49",
+      "sourceFile": "place-jury-room__midday__d660c0a9.jpg",
+      "sourceSha256": "4d3d77bb9d5ca4fda5d5eba8b752d8e971dbae72e79286f0b8d7ee70a9613826",
+      "fireflyAssetId": "urn:aaid:sc:US:d660c0a9-7fa0-40b7-92d0-101fc5c2dc05",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:jury-room", "uses:shared-location"]
+    },
+    {
+      "place": "probate-family-court",
+      "variant": "midday",
+      "file": "probate-family-court__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "5d77e540d068df804da5f71ada621c704bcc8edaa04cf323038ff1d3d8b6c400",
+      "sourceFile": "C16-probate-family-court-midday~3836077f.png",
+      "sourceSha256": "4b61a1dab4db409ecdb0390f2279dd0ffe916bee08ab2efcae00e96950f49b76",
+      "fireflyAssetId": "urn:aaid:sc:US:3836077f-d6af-49f1-a208-03a58c4d9bdb",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:probate-family-court", "uses:shared-location"]
+    },
+    {
+      "place": "public-defender-office",
+      "variant": "midday",
+      "file": "public-defender-office__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "40c7e66bd1df7456fa014912c80551537a2dd8aadd66604da2b76bc4bf364340",
+      "sourceFile": "C18-public-defender-office-midd~4b429d27.png",
+      "sourceSha256": "4dbdbee4368bd372daf4a290a2e479f36a2ef37bd067a5dc0835d18aeb99b040",
+      "fireflyAssetId": "urn:aaid:sc:US:4b429d27-b8f8-42c9-80cd-7d7011c96443",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": [
+        "kind:public-defender-office",
+        "uses:shared-location",
+        "legal-services"
+      ]
+    },
+    {
+      "place": "sheriff-office-lobby",
+      "variant": "midday",
+      "file": "sheriff-office-lobby__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "4ae828c2b824a343f34229b2b18a128489b43a481ffc669767cca0806b2eab29",
+      "sourceFile": "place-sheriff-office~46b82168.png",
+      "sourceSha256": "ce32743f444829493b449e65cbdb198b2f9e48626dd74e9fac4e61725edb2902",
+      "fireflyAssetId": "urn:aaid:sc:US:46b82168-023b-43a5-89ad-8dc59cd88cad",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:sheriff-office-lobby", "uses:shared-location", "sheriff"]
+    },
+    {
+      "place": "treasurer-counter",
+      "variant": "midday",
+      "file": "treasurer-counter__midday.jpg",
+      "width": 1672,
+      "height": 941,
+      "sha256": "272cb8817a9acc1750f43b2b5ce28318767c75208a2d869662d60a7d99cd85b6",
+      "sourceFile": "place-treasurer-counter~7cacafcd.png",
+      "sourceSha256": "b1521484c181ddc949848b8e4defb938e44824db170be4961aeb58f147a15d01",
+      "fireflyAssetId": "urn:aaid:sc:US:7cacafcd-9325-4c89-8fe5-1725e9e911d4",
+      "approval": "owner-placeholder-2026-10-13",
+      "tags": ["kind:treasurer-counter", "uses:shared-location", "treasurer"]
     }
   ]
 }

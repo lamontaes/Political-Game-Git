@@ -106,10 +106,32 @@ function servingOfficeKinds(core: CoreState, personId: string): string[] {
     );
 }
 
-/** The first painted picture in the first list that has one. */
-function firstPainted(lists: readonly (readonly string[] | undefined)[]) {
+const COURTHOUSES = scenePlaces.courthouseByState as unknown as Record<
+  string,
+  readonly string[]
+>;
+/** The county courthouse in its state's usual style. */
+function courthouseOf(core: CoreState): string | null {
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  const style = Object.entries(COURTHOUSES).find(
+    ([place, states]) =>
+      place !== "about" && place !== "default" && states.includes(state),
+  )?.[0];
+  return (
+    [...(style ? [style] : []), ...COURTHOUSES.default!].find(hasBackdrop) ??
+    null
+  );
+}
+
+/** The first painted picture in the first list that has one ('@courthouse' is the state's style). */
+function firstPainted(
+  core: CoreState,
+  lists: readonly (readonly string[] | undefined)[],
+) {
   for (const list of lists) {
-    const place = list?.find(hasBackdrop);
+    const place = list
+      ?.map((row) => (row === "@courthouse" ? courthouseOf(core) : row))
+      .find((row): row is string => !!row && hasBackdrop(row));
     if (place) return place;
   }
   return null;
@@ -119,6 +141,7 @@ function workplaceOf(core: CoreState, person: PersonState): string {
   // An officeholder works where the office sits: the president in the Oval
   // Office, a governor in the governor's office.
   const office = firstPainted(
+    core,
     servingOfficeKinds(core, person.id).map((kind) => OFFICE_WORK[kind]),
   );
   if (office) return office;
@@ -262,6 +285,7 @@ export function homeOf(
   // residence stands in by day and the large house's room at night.
   // stopgapId: SG-LOC-residence-rooms
   const residence = firstPainted(
+    core,
     servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
   );
   if (residence) return residence;

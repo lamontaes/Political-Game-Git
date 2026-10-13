@@ -3995,50 +3995,6 @@
       "fireflyName": "[place-benefits-office] Paint a  563304 bjv.ffgenimg"
     },
     {
-      "file": "place-big-city-elections-office__42d614b9.jpg",
-      "assetId": "urn:aaid:sc:US:42d614b9-f94e-4508-9d66-2931fa0258a1",
-      "key": "place-big-city-elections-office",
-      "status": "new-place",
-      "place": "big-city-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-big-city-elections-office 582580 ySA.ffgenimg"
-    },
-    {
-      "file": "place-big-city-elections-office__4d206dde.jpg",
-      "assetId": "urn:aaid:sc:US:4d206dde-46a2-45d4-a1c4-ef6e273da142",
-      "key": "place-big-city-elections-office",
-      "status": "new-place",
-      "place": "big-city-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-big-city-elections-office 582580 VaN.ffgenimg"
-    },
-    {
-      "file": "place-big-city-elections-office__4dd851c5.jpg",
-      "assetId": "urn:aaid:sc:US:4dd851c5-332f-41f3-8777-18ef2192057e",
-      "key": "place-big-city-elections-office",
-      "status": "new-place",
-      "place": "big-city-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-big-city-elections-office 764699 TPF.ffgenimg"
-    },
-    {
-      "file": "place-big-city-elections-office__d275bddd.jpg",
-      "assetId": "urn:aaid:sc:US:d275bddd-f7f5-4ccf-8160-bbaf5ad89e7a",
-      "key": "place-big-city-elections-office",
-      "status": "new-place",
-      "place": "big-city-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-big-city-elections-office 387139 93F.ffgenimg"
-    },
-    {
       "file": "place-bus-stop__087c4edd.jpg",
       "assetId": "urn:aaid:sc:US:087c4edd-04de-46f9-b8d1-7283177783fe",
       "key": "place-bus-stop",
@@ -4237,281 +4193,6 @@
       "fireflyName": "[place-community-garden] Paint a 135540 dVk.ffgenimg"
     },
     {
-      "file": "C08-county-admin-lobby-midday__d9a07765.jpg",
-      "assetId": "urn:aaid:sc:US:d9a07765-e150-43ec-a74b-d2b2205907e0",
-      "key": "C08-county-admin-lobby-midday",
-      "status": "new-place",
-      "place": "county-admin-lobby",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C08-county-admin-lobby-midday]  394509 gWG.ffgenimg"
-    },
-    {
-      "file": "C02-county-courthouse-classical__05446647.jpg",
-      "assetId": "urn:aaid:sc:US:05446647-f8e9-4f3d-adce-8f31f8336519",
-      "key": "C02-county-courthouse-classical",
-      "status": "new-place",
-      "place": "county-courthouse-classical",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C02-county-courthouse-classical 100405 Ghz.ffgenimg"
-    },
-    {
-      "file": "C03-county-courthouse-modern-mi__0b3ee6e8.jpg",
-      "assetId": "urn:aaid:sc:US:0b3ee6e8-e16d-460a-8135-5a9c4e3d3e46",
-      "key": "C03-county-courthouse-modern-mi",
-      "status": "new-place",
-      "place": "county-courthouse-modern-mi",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C03-county-courthouse-modern-mi 147531 Yw9.ffgenimg"
-    },
-    {
-      "file": "C06-county-courthouse-newenglan__ebd9bc7f.jpg",
-      "assetId": "urn:aaid:sc:US:ebd9bc7f-8ad3-4dfa-b0db-ed19be584ad1",
-      "key": "C06-county-courthouse-newenglan",
-      "status": "new-place",
-      "place": "county-courthouse-newenglan",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C06-county-courthouse-newenglan 100405 UlZ.ffgenimg"
-    },
-    {
-      "file": "C01-county-courthouse-romanesqu__f6d1ce83.jpg",
-      "assetId": "urn:aaid:sc:US:f6d1ce83-0d56-4e60-ba50-583e6999ab36",
-      "key": "C01-county-courthouse-romanesqu",
-      "status": "new-place",
-      "place": "county-courthouse-romanesqu",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C01-county-courthouse-romanesqu 190762 lis.ffgenimg"
-    },
-    {
-      "file": "C04-county-courthouse-rural-mid__3bc6210e.jpg",
-      "assetId": "urn:aaid:sc:US:3bc6210e-721a-4ef1-99be-2fae645d34f9",
-      "key": "C04-county-courthouse-rural-mid",
-      "status": "new-place",
-      "place": "county-courthouse-rural",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C04-county-courthouse-rural-mid 394509 KhV.ffgenimg"
-    },
-    {
-      "file": "C05-county-courthouse-southwest__50137f5b.jpg",
-      "assetId": "urn:aaid:sc:US:50137f5b-33ca-436f-9c57-2075d6addf2a",
-      "key": "C05-county-courthouse-southwest",
-      "status": "new-place",
-      "place": "county-courthouse-southwest",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C05-county-courthouse-southwest 190762 3Ov.ffgenimg"
-    },
-    {
-      "file": "place-county-elections-office____1e4dad9a.jpg",
-      "assetId": "urn:aaid:sc:US:1e4dad9a-a390-495b-898a-7629532a2a88",
-      "key": "place-county-elections-office__",
-      "status": "new-place",
-      "place": "county-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-county-elections-office__ 582580 eg6.ffgenimg"
-    },
-    {
-      "file": "place-county-elections-office____275ea56d.jpg",
-      "assetId": "urn:aaid:sc:US:275ea56d-da03-4428-b3ad-588ca0fe9335",
-      "key": "place-county-elections-office__",
-      "status": "new-place",
-      "place": "county-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-county-elections-office__ 387139 gYx.ffgenimg"
-    },
-    {
-      "file": "place-county-elections-office____7b495824.jpg",
-      "assetId": "urn:aaid:sc:US:7b495824-87f6-4b29-b2bb-5e4261976e96",
-      "key": "place-county-elections-office__",
-      "status": "new-place",
-      "place": "county-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-county-elections-office__ 764699 inZ.ffgenimg"
-    },
-    {
-      "file": "place-county-elections-office____d888a74b.jpg",
-      "assetId": "urn:aaid:sc:US:d888a74b-18ab-447c-8e62-70d14f556107",
-      "key": "place-county-elections-office__",
-      "status": "new-place",
-      "place": "county-elections-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-county-elections-office__ 764699 49Q.ffgenimg"
-    },
-    {
-      "file": "C10-county-elections-office-mid__b20d3a89.jpg",
-      "assetId": "urn:aaid:sc:US:b20d3a89-c09e-4dc0-ab39-a006e70773f7",
-      "key": "C10-county-elections-office-mid",
-      "status": "new-place",
-      "place": "county-elections-office",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C10-county-elections-office-mid 100405 4t7.ffgenimg"
-    },
-    {
-      "file": "C23-county-emergency-ops-midday__0084f28e.jpg",
-      "assetId": "urn:aaid:sc:US:0084f28e-9df0-489c-9a4d-545c4b522a8d",
-      "key": "C23-county-emergency-ops-midday",
-      "status": "new-place",
-      "place": "county-emergency-ops",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C23-county-emergency-ops-midday 147531 IhY.ffgenimg"
-    },
-    {
-      "file": "C24-county-extension-office-mid__17e51e19.jpg",
-      "assetId": "urn:aaid:sc:US:17e51e19-483c-4554-8f80-9b97c2f83eb0",
-      "key": "C24-county-extension-office-mid",
-      "status": "new-place",
-      "place": "county-extension-office",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C24-county-extension-office-mid 394509 QMk.ffgenimg"
-    },
-    {
-      "file": "C20-county-fair-exhibit-hall-mi__9a92f04b.jpg",
-      "assetId": "urn:aaid:sc:US:9a92f04b-1087-489f-877a-72f841f485e8",
-      "key": "C20-county-fair-exhibit-hall-mi",
-      "status": "new-place",
-      "place": "county-fair-exhibit-hall-mi",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C20-county-fair-exhibit-hall-mi 394509 Spe.ffgenimg"
-    },
-    {
-      "file": "C19-county-fairgrounds-midday__17e59db8.jpg",
-      "assetId": "urn:aaid:sc:US:17e59db8-49e0-4cd4-a0fa-5a99638b3959",
-      "key": "C19-county-fairgrounds-midday",
-      "status": "new-place",
-      "place": "county-fairgrounds",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C19-county-fairgrounds-midday]  147531 IUK.ffgenimg"
-    },
-    {
-      "file": "C22-county-health-department-mi__e2a24a0e.jpg",
-      "assetId": "urn:aaid:sc:US:e2a24a0e-3126-4581-9008-7ba46026976d",
-      "key": "C22-county-health-department-mi",
-      "status": "new-place",
-      "place": "county-health-department-mi",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C22-county-health-department-mi 100405 ErO.ffgenimg"
-    },
-    {
-      "file": "C15-county-jail-booking-midday__494475bb.jpg",
-      "assetId": "urn:aaid:sc:US:494475bb-abcd-407c-bfa8-d6f85600ba56",
-      "key": "C15-county-jail-booking-midday",
-      "status": "new-place",
-      "place": "county-jail-booking",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C15-county-jail-booking-midday] 147531 uvg.ffgenimg"
-    },
-    {
-      "file": "C26-county-jail-exterior-new-mi__9c455e3e.jpg",
-      "assetId": "urn:aaid:sc:US:9c455e3e-ed78-47f4-a4f5-2757a71f5fd2",
-      "key": "C26-county-jail-exterior-new-mi",
-      "status": "new-place",
-      "place": "county-jail-exterior-new-mi",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C26-county-jail-exterior-new-mi 100405 2IZ.ffgenimg"
-    },
-    {
-      "file": "C14-county-jail-visiting-midday__b6368017.jpg",
-      "assetId": "urn:aaid:sc:US:b6368017-6fb8-4a8e-8709-1eb8cd48befd",
-      "key": "C14-county-jail-visiting-midday",
-      "status": "new-place",
-      "place": "county-jail-visiting",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C14-county-jail-visiting-midday 100405 jdI.ffgenimg"
-    },
-    {
-      "file": "place-county-office-cramped__mi__2afe00de.jpg",
-      "assetId": "urn:aaid:sc:US:2afe00de-fe3d-4b12-9ca4-e1a20463b1ca",
-      "key": "place-county-office-cramped__mi",
-      "status": "new-place",
-      "place": "county-office-cramped",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-county-office-cramped__mi 175488 hpA.ffgenimg"
-    },
-    {
-      "file": "C09-county-recorder-office-midd__7f4898a8.jpg",
-      "assetId": "urn:aaid:sc:US:7f4898a8-eea2-424c-8f5f-299bc6dd38cd",
-      "key": "C09-county-recorder-office-midd",
-      "status": "new-place",
-      "place": "county-recorder-office",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C09-county-recorder-office-midd 190762 Gyo.ffgenimg"
-    },
-    {
-      "file": "C21-county-road-garage-midday__78c4edc5.jpg",
-      "assetId": "urn:aaid:sc:US:78c4edc5-66f5-4490-9a00-0d547e6bff8c",
-      "key": "C21-county-road-garage-midday",
-      "status": "new-place",
-      "place": "county-road-garage",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C21-county-road-garage-midday]  190762 9XC.ffgenimg"
-    },
-    {
-      "file": "C11-county-treasurer-office-mid__98f4b446.jpg",
-      "assetId": "urn:aaid:sc:US:98f4b446-4324-4e29-a837-49e383da8265",
-      "key": "C11-county-treasurer-office-mid",
-      "status": "new-place",
-      "place": "county-treasurer-office",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C11-county-treasurer-office-mid 147531 p7J.ffgenimg"
-    },
-    {
-      "file": "C07-courthouse-square-midday__936cc0d1.jpg",
-      "assetId": "urn:aaid:sc:US:936cc0d1-5a60-4eea-b7c3-ac14a94a6994",
-      "key": "C07-courthouse-square-midday",
-      "status": "new-place",
-      "place": "courthouse-square",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C07-courthouse-square-midday] P 147531 A79.ffgenimg"
-    },
-    {
       "file": "place-courthouse-steps__midday__2a9da695.jpg",
       "assetId": "urn:aaid:sc:US:2a9da695-3ee2-44e3-8492-f36f4fe92cd0",
       "key": "place-courthouse-steps__midday",
@@ -4523,59 +4204,15 @@
       "fireflyName": "[place-courthouse-steps__midday] 841933 zr1.ffgenimg"
     },
     {
-      "file": "place-courthouse-steps__midday__9fc6a2cf.jpg",
-      "assetId": "urn:aaid:sc:US:9fc6a2cf-d3c2-414f-9fa1-b61e7e0dd728",
+      "file": "place-courthouse-steps__midday__2a9da695.jpg",
+      "assetId": "urn:aaid:sc:US:2a9da695-3ee2-44e3-8492-f36f4fe92cd0",
       "key": "place-courthouse-steps__midday",
       "status": "new-place",
       "place": "courthouse-steps",
       "variant": "midday",
       "gamePlace": null,
       "created": "2026-09-29",
-      "fireflyName": "[place-courthouse-steps__midday] 91674 QeC.ffgenimg"
-    },
-    {
-      "file": "place-courthouse-steps__morning__6e5a8ce9.jpg",
-      "assetId": "urn:aaid:sc:US:6e5a8ce9-663f-41c4-937a-0af9ed3f03a0",
-      "key": "place-courthouse-steps__morning",
-      "status": "new-place",
-      "place": "courthouse-steps",
-      "variant": "morning",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-courthouse-steps__morning 582580 PGo.ffgenimg"
-    },
-    {
-      "file": "place-courthouse-steps__night__49ff04eb.jpg",
-      "assetId": "urn:aaid:sc:US:49ff04eb-5a5f-451d-bc33-4ab56dc03a85",
-      "key": "place-courthouse-steps__night",
-      "status": "new-place",
-      "place": "courthouse-steps",
-      "variant": "night",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-courthouse-steps__night]  764699 ld7.ffgenimg"
-    },
-    {
-      "file": "place-courthouse-steps__rain__1d6033d3.jpg",
-      "assetId": "urn:aaid:sc:US:1d6033d3-4a3a-45da-a3ed-5295f007289b",
-      "key": "place-courthouse-steps__rain",
-      "status": "new-place",
-      "place": "courthouse-steps",
-      "variant": "rain",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-courthouse-steps__rain] E 387139 JCa.ffgenimg"
-    },
-    {
-      "file": "place-courtroom-county-trial__m__bfc1f773.jpg",
-      "assetId": "urn:aaid:sc:US:bfc1f773-e329-4a8b-81d3-e89a8659503d",
-      "key": "place-courtroom-county-trial__m",
-      "status": "new-place",
-      "place": "courtroom-county-trial",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-courtroom-county-trial__m 175488 TIl.ffgenimg"
+      "fireflyName": "[place-courthouse-steps__midday] 841933 zr1.ffgenimg"
     },
     {
       "file": "place-courtroom-state-supreme____7f6ebf64.jpg",
@@ -4653,17 +4290,6 @@
       "gamePlace": null,
       "created": "2026-09-29",
       "fireflyName": "[place-distillery-rickhouse__rai 764699 CrP.ffgenimg"
-    },
-    {
-      "file": "C17-district-attorney-office-mi__f6bb1be3.jpg",
-      "assetId": "urn:aaid:sc:US:f6bb1be3-78d3-46b1-914f-554d52edf8ee",
-      "key": "C17-district-attorney-office-mi",
-      "status": "new-place",
-      "place": "district-attorney-office-mi",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C17-district-attorney-office-mi 190762 yDm.ffgenimg"
     },
     {
       "file": "place-doctor-exam-room__midday__ecf902a8.jpg",
@@ -4952,17 +4578,6 @@
       "fireflyName": "[place-factory-exterior__rain] E 387139 s27.ffgenimg"
     },
     {
-      "file": "place-family-court__2d4aebf8.jpg",
-      "assetId": "urn:aaid:sc:US:2d4aebf8-35a4-4529-800a-fbcc298823f5",
-      "key": "place-family-court",
-      "status": "new-place",
-      "place": "family-court",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-12",
-      "fireflyName": "[place-family-court] Paint a new 135540 wr9.ffgenimg"
-    },
-    {
       "file": "place-farm-field__midday__55d2f6a0.jpg",
       "assetId": "urn:aaid:sc:US:55d2f6a0-d91a-4f18-83b9-83c26aa0614d",
       "key": "place-farm-field__midday",
@@ -5236,17 +4851,6 @@
       "gamePlace": null,
       "created": "2026-09-29",
       "fireflyName": "[place-hospital-waiting-room__mi 175488 qtq.ffgenimg"
-    },
-    {
-      "file": "place-jury-room__midday__d660c0a9.jpg",
-      "assetId": "urn:aaid:sc:US:d660c0a9-7fa0-40b7-92d0-101fc5c2dc05",
-      "key": "place-jury-room__midday",
-      "status": "new-place",
-      "place": "jury-room",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-09-29",
-      "fireflyName": "[place-jury-room__midday] Use th 175488 KMs.ffgenimg"
     },
     {
       "file": "place-lawyer-office__midday__24b5027b.jpg",
@@ -5524,17 +5128,6 @@
       "fireflyName": "[place-prison-cellblock] Paint a 135540 iuu.ffgenimg"
     },
     {
-      "file": "C16-probate-family-court-midday__3836077f.jpg",
-      "assetId": "urn:aaid:sc:US:3836077f-d6af-49f1-a208-03a58c4d9bdb",
-      "key": "C16-probate-family-court-midday",
-      "status": "new-place",
-      "place": "probate-family-court",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C16-probate-family-court-midday 394509 BRc.ffgenimg"
-    },
-    {
       "file": "place-protest-at-capitol__midda__b08bb0d5.jpg",
       "assetId": "urn:aaid:sc:US:b08bb0d5-ed9f-4a43-b7a9-82b3503b29cc",
       "key": "place-protest-at-capitol__midda",
@@ -5577,17 +5170,6 @@
       "gamePlace": null,
       "created": "2026-09-29",
       "fireflyName": "[place-protest-at-capitol__rain] 582580 Mxt.ffgenimg"
-    },
-    {
-      "file": "C18-public-defender-office-midd__4b429d27.jpg",
-      "assetId": "urn:aaid:sc:US:4b429d27-b8f8-42c9-80cd-7d7011c96443",
-      "key": "C18-public-defender-office-midd",
-      "status": "new-place",
-      "place": "public-defender-office",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C18-public-defender-office-midd 100405 yln.ffgenimg"
     },
     {
       "file": "place-public-works-garage__ee4778f1.jpg",
@@ -5676,39 +5258,6 @@
       "gamePlace": null,
       "created": "2026-10-12",
       "fireflyName": "[place-school-library] Paint a n 135540 1Ig.ffgenimg"
-    },
-    {
-      "file": "place-sheriff-office__46b82168.jpg",
-      "assetId": "urn:aaid:sc:US:46b82168-023b-43a5-89ad-8dc59cd88cad",
-      "key": "place-sheriff-office",
-      "status": "new-place",
-      "place": "sheriff-office",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-12",
-      "fireflyName": "[place-sheriff-office] Paint a n 563304 an8.ffgenimg"
-    },
-    {
-      "file": "C12-sheriff-office-exterior-mid__06075384.jpg",
-      "assetId": "urn:aaid:sc:US:06075384-d041-4d4c-ad53-99f34b856572",
-      "key": "C12-sheriff-office-exterior-mid",
-      "status": "new-place",
-      "place": "sheriff-office-exterior",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C12-sheriff-office-exterior-mid 394509 Nqu.ffgenimg"
-    },
-    {
-      "file": "C13-sheriff-office-front-midday__656b6608.jpg",
-      "assetId": "urn:aaid:sc:US:656b6608-964d-4d1a-8bf9-d23e74135a1c",
-      "key": "C13-sheriff-office-front-midday",
-      "status": "new-place",
-      "place": "sheriff-office-front",
-      "variant": "midday",
-      "gamePlace": null,
-      "created": "2026-10-06",
-      "fireflyName": "[C13-sheriff-office-front-midday 190762 8Ht.ffgenimg"
     },
     {
       "file": "place-sidewalk-downtown__midday__4aa6aeb3.jpg",
@@ -5885,17 +5434,6 @@
       "gamePlace": null,
       "created": "2026-10-12",
       "fireflyName": "[place-train-platform] Paint a n 135540 xTo.ffgenimg"
-    },
-    {
-      "file": "place-treasurer-counter__7cacafcd.jpg",
-      "assetId": "urn:aaid:sc:US:7cacafcd-9325-4c89-8fe5-1725e9e911d4",
-      "key": "place-treasurer-counter",
-      "status": "new-place",
-      "place": "treasurer-counter",
-      "variant": null,
-      "gamePlace": null,
-      "created": "2026-10-12",
-      "fireflyName": "[place-treasurer-counter] Paint  135540 puE.ffgenimg"
     },
     {
       "file": "place-tv-debate-green-room__mid__f6577d33.jpg",
@@ -6270,39 +5808,6 @@
       "gamePlace": "courthouse-hallway",
       "created": "2026-09-29",
       "fireflyName": "[place-courthouse-hallway__night 841933 lHM.ffgenimg"
-    },
-    {
-      "file": "election-office-morning__6e6a73df.jpg",
-      "assetId": "urn:aaid:sc:US:6e6a73df-40ae-492c-a986-f9f9f8812266",
-      "key": "election-office-morning",
-      "status": "new-variant",
-      "place": "election-office",
-      "variant": "morning",
-      "gamePlace": "election-office-warehouse",
-      "created": "2026-10-06",
-      "fireflyName": "[election-office-morning] Keep e 147531 VDa.ffgenimg"
-    },
-    {
-      "file": "election-office-night__65b3e416.jpg",
-      "assetId": "urn:aaid:sc:US:65b3e416-18eb-473b-8eb7-f5058a314c0a",
-      "key": "election-office-night",
-      "status": "new-variant",
-      "place": "election-office",
-      "variant": "night",
-      "gamePlace": "election-office-warehouse",
-      "created": "2026-10-06",
-      "fireflyName": "[election-office-night] Keep eve 147531 rWS.ffgenimg"
-    },
-    {
-      "file": "election-office-rain__45958311.jpg",
-      "assetId": "urn:aaid:sc:US:45958311-cb17-4b5f-9dbd-1afc7ffb6389",
-      "key": "election-office-rain",
-      "status": "new-variant",
-      "place": "election-office",
-      "variant": "rain",
-      "gamePlace": "election-office-warehouse",
-      "created": "2026-10-06",
-      "fireflyName": "[election-office-rain] Keep ever 147531 XJQ.ffgenimg"
     },
     {
       "file": "place-election-office-warehouse__a5613a04.jpg",
@@ -6798,39 +6303,6 @@
       "gamePlace": "house-northwest-craftsman",
       "created": "2026-09-29",
       "fireflyName": "[place-house-northwest-craftsman 464341 87h.ffgenimg"
-    },
-    {
-      "file": "place-jail-visiting-room__morni__3017c40b.jpg",
-      "assetId": "urn:aaid:sc:US:3017c40b-9d97-489a-8b93-4d1edde3f591",
-      "key": "place-jail-visiting-room__morni",
-      "status": "new-variant",
-      "place": "jail-visiting-room",
-      "variant": "morning",
-      "gamePlace": "jail-visiting-room",
-      "created": "2026-09-29",
-      "fireflyName": "[place-jail-visiting-room__morni 582580 JC8.ffgenimg"
-    },
-    {
-      "file": "place-jail-visiting-room__night__9213b027.jpg",
-      "assetId": "urn:aaid:sc:US:9213b027-0f49-480c-8f00-ae01012b0b53",
-      "key": "place-jail-visiting-room__night",
-      "status": "new-variant",
-      "place": "jail-visiting-room",
-      "variant": "night",
-      "gamePlace": "jail-visiting-room",
-      "created": "2026-09-29",
-      "fireflyName": "[place-jail-visiting-room__night 764699 ZOC.ffgenimg"
-    },
-    {
-      "file": "place-jail-visiting-room__rain__0968f92a.jpg",
-      "assetId": "urn:aaid:sc:US:0968f92a-3498-4024-af1b-767c1676e836",
-      "key": "place-jail-visiting-room__rain",
-      "status": "new-variant",
-      "place": "jail-visiting-room",
-      "variant": "rain",
-      "gamePlace": "jail-visiting-room",
-      "created": "2026-09-29",
-      "fireflyName": "[place-jail-visiting-room__rain] 387139 CBZ.ffgenimg"
     },
     {
       "file": "place-national-convention-floor__4b75dc1d.jpg",
