@@ -110,7 +110,8 @@ function dropOldCircleActs(core: CoreState): void {
 
 /**
  * The finance engine's detailed receipt for a circle member's payment (who
- * paid what, balances before and after) is kept circleDecisionDetailDays,
+ * paid what, balances before and after), and each of their shifts' attendance
+ * detail, is kept circleDecisionDetailDays,
  * like the circle's decision detail; the player's own stay. The money itself
  * is in the balances and the journal, which the screens read.
  */
@@ -134,5 +135,13 @@ function dropOldReceiptDetail(core: CoreState): void {
     )
       continue;
     Map.prototype.delete.call(receipts, id);
+  }
+  // Each shift's attendance detail likewise (the latest per job stays in
+  // lastAttendanceByJob, which pay reads).
+  const shifts = core.work.detailedAttendance;
+  for (const [id, shift] of shifts) {
+    if (shift.date >= before) break;
+    if (shift.personId === player) continue;
+    Map.prototype.delete.call(shifts, id);
   }
 }
