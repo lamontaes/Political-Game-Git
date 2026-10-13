@@ -580,6 +580,12 @@
       "tag": "ESTIMATED",
       "source": "Hourly pay of an appointed town department head: BLS Occupational Employment and Wage Statistics, May 2023, local government excluding schools and hospitals (OEWS designation), management occupations (11-0000), median hourly wage about $46. Small towns pay less and large cities more.",
       "spread": [3000, 7000]
+    },
+    "specialFilingDaysBefore": {
+      "value": 45,
+      "tag": "TUNABLE",
+      "source": "Days before a special election its filing closes where the place's own deadline isn't read; state special-election calendars commonly close filing six to eight weeks ahead.",
+      "spread": [20, 75]
     }
   }
 }

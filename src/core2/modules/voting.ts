@@ -35,6 +35,7 @@ import {
 import { townDistrict } from "../offices-state";
 import {
   openNextContest,
+  openSpecialContest,
   ELECTIONS_MODULE_ID,
   ballot,
   checkEligibility,
@@ -50,7 +51,12 @@ import {
   impressionOf,
   parsePlatform,
 } from "./campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  registerSpecialElections,
+  vacancyFilled,
+  type TermRow,
+} from "./offices";
 import type { SeatInput } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { partiesHere, partyTie } from "./parties";
@@ -143,6 +149,13 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  // A vacancy's special election runs as a real race.
+  registerSpecialElections((a, race) => {
+    if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
+    const contest = openSpecialContest(a, race);
+    if (contest) scheduleContest(a, contest);
+    return contest !== null;
+  });
   for (const contest of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -177,14 +190,17 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
   )
     .toISOString()
     .slice(0, 10);
-  if (LOCAL_LEVELS.has(contest.level) && contest.filingDeadline > date)
-    calendar.schedule({
-      key: `candidacy-window:${contest.id}`,
-      date: lead > date ? lead : date,
-      kind: "candidacy-window",
-      source,
-      sourceRecordIds: [contest.id],
-    });
+  if (LOCAL_LEVELS.has(contest.level) && contest.filingDeadline > date) {
+    if (lead > date)
+      calendar.schedule({
+        key: `candidacy-window:${contest.id}`,
+        date: lead,
+        kind: "candidacy-window",
+        source,
+        sourceRecordIds: [contest.id],
+      });
+    else residentsDecide(api, contest.id);
+  }
   if (contest.primaryDate && contest.primaryDate > date)
     calendar.schedule({
       key: `primary:${contest.id}`,
@@ -502,6 +518,32 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
         "nominee for an open seat",
       );
   }
+  // A partisan state or federal seat with no one holding it (a special
+  // election's vacancy): each major party with no filed candidate nominates.
+  const seatParty = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("seats")
+      .get(contest.seatId) as unknown as { party?: string | null } | undefined
+  )?.party;
+  if (
+    (contest.level === "federal" || contest.level === "state") &&
+    !(incumbent && alive) &&
+    seatParty
+  )
+    for (const party of ["Democratic", "Republican"])
+      if (
+        !ballot(api, contestId).some(
+          (f) =>
+            f.status === "on-ballot" &&
+            partySide(f.party ?? null) === partySide(party),
+        )
+      )
+        put(
+          officialCandidateId(`nominee:${party}:${contest.id}`),
+          party,
+          "nominee for an open seat",
+        );
 }
 
 /**
@@ -1178,9 +1220,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         .table("terms")
         .get(contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
-  const takesOffice =
-    incumbent?.endDate ??
-    `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`;
+  // A special election's winner takes the vacant seat at once.
+  const takesOffice = contest.special
+    ? date
+    : (incumbent?.endDate ??
+      `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
   const result: ResultRow = {
     id: `result:${contestId}`,
     contestId,
@@ -1506,21 +1550,28 @@ function takeOffice(api: CoreAPI, resultId: string): void {
         result.winnerId === officialCandidateId(contest.incumbentTermId!)
       ? previous.identity
       : officialIdentity(api, contest, result.winnerId);
+  const termId = `term:${contest.seatId}:${api.state.date}:elected`;
   terms.put({
-    id: `term:${contest.seatId}:${api.state.date}:elected`,
+    id: termId,
     seatId: contest.seatId,
     officeId: contest.officeId,
     personId: winner ? winner.id : null,
     identity,
     party: filing?.party ?? null,
     startDate: api.state.date,
-    endDate: office.termYears
-      ? `${Number(api.state.date.slice(0, 4)) + office.termYears}${api.state.date.slice(4)}`
-      : null,
+    // A special election's winner serves out the unexpired term.
+    endDate: contest.special
+      ? contest.special.termEnd
+      : office.termYears
+        ? `${Number(api.state.date.slice(0, 4)) + office.termYears}${api.state.date.slice(4)}`
+        : null,
     endEstimated: false,
-    reached: `elected ${contest.electionDate}`,
+    reached: contest.special
+      ? `elected in a special election ${contest.electionDate}`
+      : `elected ${contest.electionDate}`,
     status: "serving",
   } as unknown as ModuleRow);
+  if (contest.special) vacancyFilled(api, contest.special.vacancyId, termId);
   api.emit({
     id: `took-office:${contest.seatId}:${api.state.date}`,
     date: api.state.date,

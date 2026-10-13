@@ -767,24 +767,72 @@ function fillVacancy(
     status: "awaiting-election",
     electionDate: addMonths(date, 3),
   };
-  api.moduleCalendar(OFFICES_MODULE_ID).schedule({
-    key: `special:${seat.id}:${date}`,
-    date: scheduled.electionDate!,
-    kind: "special-election",
-    source: source(rule.citation ?? office.source, date, true),
-    sourceRecordIds: [vacancy.id],
-  });
-  if (rule.method === "appointment-then-special") {
-    const interim = appoint(
-      `appointed by ${rule.appointedBy ?? "the appointing authority"} until a special election`,
-    );
-    return {
-      ...interim,
-      status: "awaiting-election",
+  // An interim appointee serves until the special election, where the law
+  // makes one; they stand in it as the incumbent.
+  const interim =
+    rule.method === "appointment-then-special"
+      ? appoint(
+          `appointed by ${rule.appointedBy ?? "the appointing authority"} until a special election`,
+        )
+      : null;
+  // Where the elections engine runs, the special election is a real race
+  // (filing, residents deciding to run, the vote); else a stand-in.
+  const opened =
+    specialElections?.(api, {
+      vacancyId: vacancy.id,
+      seatId: seat.id,
       electionDate: scheduled.electionDate!,
-    };
-  }
-  return scheduled;
+      termEnd: previous.endDate,
+    }) ?? false;
+  if (!opened)
+    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
+      key: `special:${seat.id}:${date}`,
+      date: scheduled.electionDate!,
+      kind: "special-election",
+      source: source(rule.citation ?? office.source, date, true),
+      sourceRecordIds: [vacancy.id],
+    });
+  return interim
+    ? {
+        ...interim,
+        status: "awaiting-election",
+        electionDate: scheduled.electionDate!,
+      }
+    : scheduled;
+}
+
+let specialElections:
+  | ((
+      api: CoreAPI,
+      race: {
+        readonly vacancyId: string;
+        readonly seatId: string;
+        readonly electionDate: string;
+        readonly termEnd: string | null;
+      },
+    ) => boolean)
+  | null = null;
+/** The elections engine opens a real race for a seat awaiting a special election. */
+export function registerSpecialElections(
+  open: NonNullable<typeof specialElections>,
+): void {
+  specialElections = open;
+}
+
+/** A special election's winner fills the vacancy. */
+export function vacancyFilled(
+  api: CoreAPI,
+  vacancyId: string,
+  termId: string,
+): void {
+  const vacancy = table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+  if (vacancy)
+    table(api, "vacancies").put({
+      ...vacancy,
+      status: "filled",
+      filledBy: termId,
+    } as unknown as ModuleRow);
 }
 
 function addMonths(date: string, months: number): string {
