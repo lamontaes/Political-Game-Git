@@ -17,12 +17,6 @@
     "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
-  "candidacyMoneyWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on cash on hand against the filing fee, -1 to 1. Spread 0.5 to 2.",
-    "stopgapId": "SG-P15-candidacy-weights"
-  },
   "candidacyTimeWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -53,9 +47,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
-    "value": 5.0,
+    "value": 4.0,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Spread 4.8 to 5.4.",
+    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Those counts were taken when a money term (cash against the filing fee, weight 1) still sat in the sum, near its full weight for almost everyone (a median of 0.96 to 1.0 across the named adults of two played worlds, Oct 13, 2026); filing fees were removed (owner, Oct 13), and the bar came down by that weight to keep the same people over it. Spread 3.8 to 4.4.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyIncumbencyWeight": {
@@ -108,6 +102,12 @@
     "value": 0.5,
     "tag": "TUNABLE",
     "citation": "How much each person already running for a seat lowers the pull of running for it: would-be candidates weigh their chances and avoid crowded races, entering where the field is thin (strategic entry: Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Cox and Katz 1996, American Journal of Political Science 40(2):478-497). Set so a second challenger enters only when their own pull clears the stay-out bar by half a point, which in drawn towns keeps local seats at one or two challengers. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCountywideWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The pull a countywide race loses against a town seat: more ground, more voters and a costlier campaign. Checked against the share of county races with more than one candidate in the general election: 34% of county legislative races (2,170 of 6,423) and 26% of sheriff races (316 of 1,244) were contested in November 2020 (BallotReady, 'Nothing to Lose: Uncontested Races in 2020 and Their Implications', https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications); Ballotpedia counted 25% of the 36,068 local and state elections it covered through October 2024 as contested, with county offices among the least contested (https://news.ballotpedia.org/2024/11/01/67-of-elections-in-kentucky-are-uncontested/). In four played worlds run a year from Oct 12, 2026 (seeds 540f49ac, 551e6d5a, bd3a60c4 and e2761fc3; 38 county races on Nov 3, 2026), 7 races were contested (18%) at 0.45 and 16 (42%) at 0.3; 0.375 sits between them, at about 30%. With filing fees removed (owner, Oct 13, 2026), four played worlds run a year from Oct 12, 2026 (seeds 2e5c4afb, 9eb38ac7, e591f227 and b670243f; 25 county races on Nov 3, 2026) had 15 contested (60%) at 0.375 and 8 (32%) at 0.5, against 10 (40%) with the fee at 0.375. Spread 0.4 to 0.6.",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }

@@ -438,7 +438,7 @@ function renderFiling(value) {
         {},
         el("b", { textContent: value.filedWith }),
         value.result.filing
-          ? `${value.result.status} · ${value.result.filing.signatureCount} · ${dollars(value.result.filing.feePaidMinor)}`
+          ? `${value.result.status} · ${value.result.filing.signatureCount}`
           : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
       ),
     );

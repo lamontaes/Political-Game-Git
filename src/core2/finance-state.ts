@@ -1,8 +1,12 @@
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
-import { countedWagesEarned, residentWageShortfall } from "./modules/residents";
-import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
+import {
+  countedWagesEarned,
+  residentWageShortfall,
+  supplierBillsOwedTo,
+} from "./modules/residents";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -62,6 +66,9 @@ export function emptyFinanceRuntime(at: string): FinanceRuntime {
     detailedReceipts: new Map(),
     closures: new Map(),
     totalsByKind: new Map(),
+    livingPlans: new Map(),
+    livingDueAt: new Map(),
+    obligationsByHousehold: new Map(),
   };
 }
 
@@ -445,10 +452,9 @@ export function admitFinanceContract(
   input: FinanceContractInput,
   openingBook?: BusinessBooksInput,
 ): void {
-  const householdPurchaseCalendar = validateHouseholdPurchaseCalendarAdmission(
-    input,
-    core.date,
-  );
+  // A household's purchases are one everyday-living amount, not bills.
+  if (isEverydayPurchase(core, input))
+    return admitEverydayPurchase(core, input);
   policy(api);
   financeSettlementPhase(api, input);
   validateRecipientIncome(core, api, input);
@@ -529,23 +535,6 @@ export function admitFinanceContract(
     api.stopgap(policy(api).salesReceiptBudgetStopgapId);
   const row = {
     ...input,
-    ...(householdPurchaseCalendar
-      ? {
-          householdPurchaseCalendar,
-          nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
-          householdPurchaseCalendarBasis: {
-            nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
-            effectiveDueAt: dueAt,
-            mode: "opening" as const,
-            references: householdPurchaseCalendar.openingBasisIds.map((id) => ({
-              id,
-              kind: "opening-basis" as const,
-              source: { ...householdPurchaseCalendar.source },
-            })),
-            source: { ...householdPurchaseCalendar.source },
-          },
-        }
-      : {}),
     ...(input.recipientIncome
       ? { recipientIncome: { ...input.recipientIncome } }
       : {}),
@@ -566,6 +555,8 @@ export function admitFinanceContract(
     );
   if (row.endsAt)
     financeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+  if (row.householdId && row.accruesArrears)
+    financeIndex(core.finance.obligationsByHousehold, row.householdId, row.id);
   for (const id of [...row.payerIds, row.payeeId])
     if (core.organizations.has(id))
       financeIndex(core.finance.contractsByBusiness, id, row.id);
@@ -1465,7 +1456,28 @@ export function closeBusinessByChoice(
         source,
       });
   }
+  // Then its suppliers: bills already owed are paid before the owner's share.
+  const bills = supplierBillsOwedTo(core, organizationId);
+  if (bills && bills.owedMinor > 0) {
+    const amount = Math.min(
+      bills.owedMinor,
+      Math.max(0, accounts.balance(accounts.main(organizationId))),
+    );
+    if (amount > 0)
+      accounts.transfer({
+        id: `${id}:supplier-bills`,
+        from: accounts.main(organizationId),
+        to: accounts.main(bills.supplierId),
+        amountMinor: amount,
+        reasonKey: "business.supplier-bills",
+        source,
+      });
+  }
+  // And its lenders: an open credit line's balance is the lender's, not the owner's.
   let held = 0;
+  for (const facility of core.finance.facilities.values())
+    if (facility.borrowerId === organizationId)
+      held += facility.principalMinor + facility.interestArrearsMinor;
   for (const ledger of core.work.payrollLedgerByCommitment.values())
     if (ledger.organizationId === organizationId)
       held += ledger.accruedMinor + ledger.arrearsMinor;

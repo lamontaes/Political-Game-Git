@@ -97,7 +97,6 @@ describe("campaign calibration on totals", () => {
           personId: player.id,
           contestId: contest.id,
           platform: [],
-          payFee: true,
           party: null,
         });
         if (r.status === "refused") continue;

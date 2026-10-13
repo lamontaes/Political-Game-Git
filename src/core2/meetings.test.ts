@@ -116,7 +116,6 @@ function fileAndQualify(
     personId,
     contestId,
     platform,
-    payFee: true,
   });
   if (result.status === "refused") return null;
   let filing = result.filing;

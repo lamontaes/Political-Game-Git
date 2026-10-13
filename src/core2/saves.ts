@@ -9,11 +9,21 @@
  * Every player action goes through `runCommand`, so it is recorded. Engines
  * register their own command kinds with `registerCommand`.
  */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { CORE_API_VERSION } from "./data";
 import { advanceCore, createLifeCore } from "./life";
-import { advancePlayerV1, resumePlayerV1 } from "./player-v1";
+import {
+  advancePlayerV1,
+  playerClockAtRestV1,
+  resumePlayerV1,
+} from "./player-v1";
 import { preStartWindow, runPreStart } from "./pre-start";
+import {
+  restoreWorld,
+  snapshotWorld,
+  uncoveredModules,
+  type WorldSnapshot,
+} from "./snapshot";
 import { coreAPI, fillInIdentity, fillInPerson } from "./state";
 import {
   generatedOpening,
@@ -52,8 +62,15 @@ export interface SaveV1 {
   format: typeof SAVE_FORMAT;
   coreApiVersion: string;
   recipe: GameRecipe;
+  /** Every command, so the save loads under any later version. */
   commands: readonly SaveCommand[];
   savedAt: IsoDate;
+  /**
+   * The world as it stood (owner's ruling 7), and how many of the commands it
+   * already includes. Loading under the same version restores it and replays
+   * only the commands after; otherwise the save replays from the opening.
+   */
+  snapshot?: { world: WorldSnapshot; commandCount: number };
 }
 
 export interface Game {
@@ -159,24 +176,63 @@ export function runCommand<R = unknown>(
   return handler(game.core, command.payload as never) as R;
 }
 
-export function saveGame(game: Game): SaveV1 {
+/**
+ * The save: the recipe and every command, plus a snapshot of the world when
+ * every installed engine's state is covered and the player clock is at rest
+ * (`snapshot: false` leaves it out).
+ */
+export function saveGame(
+  game: Game,
+  options: { snapshot?: boolean } = {},
+): SaveV1 {
+  const snapshot =
+    options.snapshot !== false &&
+    uncoveredModules(game.core).length === 0 &&
+    playerClockAtRestV1(game.core)
+      ? {
+          world: snapshotWorld(game.core),
+          commandCount: game.commands.length,
+        }
+      : undefined;
   return {
     format: SAVE_FORMAT,
     coreApiVersion: CORE_API_VERSION,
     recipe: JSON.parse(JSON.stringify(game.recipe)),
     commands: JSON.parse(JSON.stringify(game.commands)),
     savedAt: makeIsoDate(game.core.date),
+    ...(snapshot ? { snapshot } : {}),
   };
 }
 
-/** Rebuild the world and replay the player's commands, skipping what no longer applies. */
+/** The world restored from the save's snapshot, or undefined when it can't be. */
+function fromSnapshot(save: SaveV1, options: GameOptions): Game | undefined {
+  const snapshot = save.snapshot;
+  if (!snapshot || save.coreApiVersion !== CORE_API_VERSION) return undefined;
+  // The snapshot already holds the history before the start.
+  const game = newGame({ ...save.recipe, preStart: false }, options);
+  if (uncoveredModules(game.core).length) return undefined;
+  restoreWorld(game.core, snapshot.world);
+  game.recipe = save.recipe;
+  game.commands = save.commands.slice(0, snapshot.commandCount);
+  return game;
+}
+
+/**
+ * Load a save: from its snapshot when it can (then only later commands
+ * replay), else rebuild the world and replay every command, skipping what no
+ * longer applies.
+ */
 export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
   if (save.format !== SAVE_FORMAT)
     throw new Error(`Unknown save format: ${String(save.format)}`);
-  const game = newGame(save.recipe, options);
+  const restored = fromSnapshot(save, options);
+  const game = restored ?? newGame(save.recipe, options);
   if (save.coreApiVersion !== CORE_API_VERSION)
     game.upgradedFrom = save.coreApiVersion;
-  for (const command of save.commands) {
+  const later = restored
+    ? save.commands.slice(save.snapshot!.commandCount)
+    : save.commands;
+  for (const command of later) {
     try {
       if (command.date > game.core.date)
         runCommand(game, "advance", { through: command.date });

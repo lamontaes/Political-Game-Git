@@ -1618,7 +1618,7 @@ describe.each(["public", "visitor"] as const)(
           expect(financial(core)).toBe(before);
         });
     }
-    it("checks every saved staff job and forbids pruning a now invalid second staff basis", () => {
+    it("lets a second saved staff job end with its worker and still forbids pruning the saved registry", () => {
       const original = canonicalFixture(domain),
         input = structuredClone(original.input);
       const secondPersonId = "person:second-original-product-worker",
@@ -1718,6 +1718,14 @@ describe.each(["public", "visitor"] as const)(
               (basis) => basis.recordId === jobId,
             );
           });
+        if (!prune) {
+          // The second worker's job ended; the job still held carries the agreement.
+          expect(
+            coreAPI(core).settleFinanceContract(original.ids[p("zero")]!)
+              .paidMinor,
+          ).toBe(60);
+          continue;
+        }
         const before = financial(core);
         expect(() =>
           coreAPI(core).settleFinanceContract(original.ids[p("zero")]!),

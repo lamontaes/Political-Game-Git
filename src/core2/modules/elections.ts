@@ -5,11 +5,14 @@
  * election date, the primary and the filing deadline from
  * `elections-calendar.ts`. A person files at the office that takes that
  * contest's filings (`filingOfficeFor`), once, if they meet what that place's
- * rules require: age, residency, registration, and a fee or signatures, read
- * from `data/research/elections/filing-requirements.json` (or the estimated
- * terms in `candidate-filing-terms.json` where a place isn't read yet). The
- * filing, the fee and every signature become records; an unmet rule comes
- * back as structured reasons the English engine words.
+ * rules require: age, residency, registration, and signatures where the
+ * place takes a petition on its own, read from
+ * `data/research/elections/filing-requirements.json` (or the estimated terms
+ * in `candidate-filing-terms.json` where a place isn't read yet). No one pays
+ * to file (owner, Oct 13: the simulation is the depth), so a signature route
+ * that only stood in for a fee is gone with it. The filing and every
+ * signature become records; an unmet rule comes back as structured reasons
+ * the English engine words.
  *
  * Signatures are gathered from real people: each signer decides for
  * themselves (`requestSignature`).
@@ -17,7 +20,7 @@
 import { registerElectorate } from "../electorate";
 import { termLimitReached } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
-import { feeFromFormula, signaturesFromFormula } from "../filing-formulas";
+import { signaturesFromFormula } from "../filing-formulas";
 import {
   congressionalDistricts,
   officeSalary,
@@ -29,16 +32,14 @@ import filingTerms from "../../../data/research/elections/candidate-filing-terms
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import type { CashJournalSourceSlot } from "../journal-state";
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { nextElectionForSeat, type ElectionDates } from "../elections-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import type { OfficeInput } from "../offices-local";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
-const FILING_FEE_KIND = "elections:filing-fee";
 
 export type OfficeFamily =
   | "statewideExecutive"
@@ -65,9 +66,8 @@ export interface ContestRow extends ElectionDates {
 
 export interface FilingRequirements {
   readonly filedWith: string;
-  readonly feeMinor: number | null;
+  /** Petition signatures the place requires on their own; none pay to file. */
   readonly signatures: number | null;
-  readonly feeInLieuOfSignatures: boolean;
   readonly minimumAge: number;
   readonly residency: string | null;
   readonly registeredVoter: boolean;
@@ -75,7 +75,7 @@ export interface FilingRequirements {
   readonly estimate: boolean;
   /** The side's own filing deadline where the law sets one apart (independents). */
   readonly deadline: string | null;
-  /** How a fee or signature count written as a formula was read. */
+  /** How a signature count written as a formula was read. */
   readonly formulas: readonly string[];
 }
 
@@ -99,9 +99,7 @@ export interface RequirementCheck {
     | "minimum-age"
     | "residency"
     | "registered-voter"
-    | "fee-or-signatures"
     | "term-limit"
-    | "fee"
     | "signatures";
   readonly met: boolean;
   readonly required: string;
@@ -118,7 +116,6 @@ export interface FilingRow {
   readonly platform: readonly string[];
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
-  readonly feePaidMinor: number;
   readonly signatureCount: number;
   readonly status: "gathering-signatures" | "on-ballot" | "withdrawn";
 }
@@ -130,17 +127,6 @@ export interface SignatureRow {
   readonly date: string;
   readonly signed: boolean;
   readonly reason: string;
-}
-
-interface FeeRecord {
-  readonly id: string;
-  readonly date: string;
-  readonly source: Source;
-  readonly postings: readonly {
-    id: string;
-    accountId: string;
-    deltaMinor: number;
-  }[];
 }
 
 export const ELECTIONS_MODULE: CoreModule = {
@@ -166,46 +152,10 @@ export const ELECTIONS_MODULE: CoreModule = {
           bySigner: { fields: ["signerId"] },
         },
       },
-      fees: {},
       town: {},
     },
   },
-  journalSourceProviders: {
-    [FILING_FEE_KIND]: (api, reference) => feeSlot(api, reference.id),
-  },
 };
-
-/**
- * The journal writes its posted marker into the canonical fee record, so each
- * fee resolves to one live object per world.
- */
-const feeSlots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
-function feeSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
-  const slots =
-    feeSlots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
-  feeSlots.set(api.state, slots);
-  const cached = slots.get(id);
-  if (cached) return cached;
-  const fee = table(api, "fees").get(id) as unknown as FeeRecord | undefined;
-  if (!fee) return undefined;
-  const resolved = {
-    kind: FILING_FEE_KIND,
-    id: fee.id,
-    date: fee.date,
-    source: fee.source,
-    expectedPostings: fee.postings.map((p) => ({ ...p })),
-    requiredRelatedRefs: [],
-    relatedRecords: [],
-  };
-  const slot = {
-    resolved,
-    marker: resolved,
-    retainFull: false,
-    metadata: [],
-  } as unknown as CashJournalSourceSlot;
-  slots.set(id, slot);
-  return slot;
-}
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(ELECTIONS_MODULE_ID).table(name);
@@ -223,9 +173,6 @@ export function officeFamily(office: OfficeInput): OfficeFamily {
 interface ReadSide {
   readonly feeUSD?: number | null;
   readonly signatures?: number | null;
-  readonly feeInLieuOfSignatures?: boolean;
-  readonly petitionInLieuOfFee?: boolean | string;
-  readonly feeAndPetitionBothRequired?: boolean;
   readonly feeFormula?: string | null;
   readonly signatureFormula?: string | null;
   readonly deadline2026?: string | null;
@@ -293,8 +240,6 @@ export function filingRequirements(
           string,
           {
             feeMinorUnits: number;
-            signatures: number;
-            feeInLieuOfSignatures: boolean;
             estimatedFrom?: string;
           }
         >
@@ -310,17 +255,18 @@ export function filingRequirements(
   const fallback = side
     ? undefined
     : (estimated?.[legacyFamily] ?? Object.values(estimated ?? {})[0]);
-  // A fee or count written as a formula is worked out from the race.
+  // No one pays to file. Where the place took a fee, any petition it also
+  // names only ever stood in for that fee (the fee filed on its own), so it
+  // goes with it; a petition stays only where it is the place's one route.
+  const tookFee = side
+    ? (typeof side.feeUSD === "number" && side.feeUSD > 0) ||
+      Boolean(side.feeFormula)
+    : (fallback?.feeMinorUnits ?? 0) > 0;
+  // A count written as a formula is worked out from the race.
   const formulas: string[] = [];
   let formulaEstimate = false;
-  const feeRead =
-    typeof side?.feeUSD === "number"
-      ? null
-      : side?.feeFormula && context
-        ? feeFromFormula(side.feeFormula, context.salary, context.termYears)
-        : null;
   const signatureRead =
-    typeof side?.signatures === "number"
+    tookFee || typeof side?.signatures === "number"
       ? null
       : side?.signatureFormula && context
         ? signaturesFromFormula(side.signatureFormula, {
@@ -329,15 +275,13 @@ export function filingRequirements(
             ...(context.districts ? { districts: context.districts } : {}),
           })
         : null;
-  for (const r of [feeRead, signatureRead])
-    if (r) {
-      formulas.push(r.basis);
-      formulaEstimate ||= r.estimate;
-    }
-  const fee =
-    typeof side?.feeUSD === "number" ? side.feeUSD : (feeRead?.value ?? null);
-  const signatures =
-    typeof side?.signatures === "number"
+  if (signatureRead) {
+    formulas.push(signatureRead.basis);
+    formulaEstimate ||= signatureRead.estimate;
+  }
+  const signatures = tookFee
+    ? null
+    : typeof side?.signatures === "number"
       ? side.signatures
       : (signatureRead?.value ?? null);
   const source = [
@@ -349,14 +293,7 @@ export function filingRequirements(
     .join(" ; ");
   return {
     filedWith: read?.filedWith ?? localFilingOfficer(usps, family),
-    feeMinor:
-      fee !== null ? Math.round(fee * 100) : (fallback?.feeMinorUnits ?? null),
-    signatures: signatures ?? fallback?.signatures ?? null,
-    feeInLieuOfSignatures: side
-      ? side.feeAndPetitionBothRequired !== true &&
-        (side.feeInLieuOfSignatures === true ||
-          side.petitionInLieuOfFee === true)
-      : (fallback?.feeInLieuOfSignatures ?? true),
+    signatures: signatures && signatures > 0 ? signatures : null,
     minimumAge: read?.minimumAge ?? 18,
     residency: read?.residency ?? null,
     registeredVoter: read?.registeredVoterRequired ?? true,
@@ -660,7 +597,6 @@ export function checkEligibility(
     ]) as unknown as FilingRow[]
   ).some((f) => f.status !== "withdrawn" && f.contestId === contestId);
   const resident = person.placeId === town(api).townPlaceId;
-  const cash = person.liquidMinor;
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
@@ -716,30 +652,12 @@ export function checkEligibility(
       actual: "limit reached",
       source: "legislative term limit in force",
     });
-  const fee = rules.feeMinor ?? 0;
-  if (rules.feeInLieuOfSignatures && rules.signatures && fee)
-    checks.push({
-      rule: "fee-or-signatures",
-      met: true,
-      required: `${fee} minor units, or ${rules.signatures} signatures`,
-      actual: `${cash} minor units on hand`,
-      source: rules.source,
-    });
-  else if (fee)
-    checks.push({
-      rule: "fee",
-      met: cash >= fee,
-      required: String(fee),
-      actual: String(cash),
-      source: rules.source,
-    });
   return checks;
 }
 
 /**
- * File once. Pays the fee from the candidate's own cash where the person
- * chooses the fee (or the place requires it); otherwise the filing waits for
- * its signatures and goes on the ballot when they're in.
+ * File once, at no charge. Where the place takes a petition the filing waits
+ * for its signatures and goes on the ballot when they're in.
  */
 export function fileCandidacy(
   api: CoreAPI,
@@ -747,7 +665,6 @@ export function fileCandidacy(
     readonly personId: string;
     readonly contestId: string;
     readonly platform: readonly string[];
-    readonly payFee: boolean;
     readonly party?: string | null;
   },
 ):
@@ -768,23 +685,10 @@ export function fileCandidacy(
     contest,
     input.party ? "party" : "independent",
   );
-  const person = api.state.people.get(input.personId)!;
-  const fee = rules.feeMinor ?? 0;
-  const paying =
-    fee > 0 &&
-    (input.payFee || !rules.signatures || !rules.feeInLieuOfSignatures);
-  if (paying && person.liquidMinor < fee)
-    unmet.push({
-      rule: "fee",
-      met: false,
-      required: String(fee),
-      actual: String(person.liquidMinor),
-      source: rules.source,
-    });
   if (unmet.length) return { status: "refused", unmet };
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
-  const needsSignatures = !paying && (rules.signatures ?? 0) > 0;
+  const needsSignatures = (rules.signatures ?? 0) > 0;
   const filing: FilingRow = {
     id,
     contestId: input.contestId,
@@ -793,97 +697,12 @@ export function fileCandidacy(
     filedWith: rules.filedWith,
     platform: [...input.platform],
     party: input.party ?? null,
-    feePaidMinor: paying ? fee : 0,
     signatureCount: 0,
     status: needsSignatures ? "gathering-signatures" : "on-ballot",
   };
   table(api, "filings").put(filing as unknown as ModuleRow);
-  if (paying) payFee(api, filing, contest, rules, fee);
   if (filing.status === "on-ballot") announce(api, filing, contest);
   return { status: filing.status, filing };
-}
-
-function governmentFor(api: CoreAPI, contest: ContestRow): string {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput;
-  // The government's own account: its treasury where the budgets engine
-  // opened one, else any of its accounts that can take a payment (an
-  // outside payer from the opening can't).
-  const accounts = [...api.state.organizations.values()]
-    .filter(
-      (org) =>
-        org.governmentFacts?.governmentKey === office.jurisdiction &&
-        !org.outsideFlow,
-    )
-    .sort(
-      (a, b) =>
-        Number(b.kind === "government-treasury") -
-          Number(a.kind === "government-treasury") || a.id.localeCompare(b.id),
-    );
-  if (accounts[0]) return accounts[0].id;
-  // The government that takes the filing isn't in the world yet: record it.
-  const id = `organization:government:${office.jurisdiction}`;
-  if (!api.state.organizations.has(id))
-    api.addOrganization({
-      id,
-      placeId: town(api).townPlaceId,
-      name: office.governmentName,
-      kind: "government",
-      liquidMinor: 0,
-      source: {
-        tag: "SOURCED",
-        citation: office.source,
-        asOf: api.state.date,
-      },
-      governmentFacts: { governmentKey: office.jurisdiction },
-    });
-  return id;
-}
-
-function payFee(
-  api: CoreAPI,
-  filing: FilingRow,
-  contest: ContestRow,
-  rules: FilingRequirements,
-  fee: number,
-): void {
-  const government = governmentFor(api, contest);
-  const id = `fee:${filing.id}`;
-  const record: FeeRecord = {
-    id,
-    date: api.state.date,
-    source: rules.estimate
-      ? {
-          tag: "ESTIMATED",
-          citation: rules.source,
-          asOf: api.state.date,
-          estimatedFrom: rules.source,
-        }
-      : { tag: "SOURCED", citation: rules.source, asOf: api.state.date },
-    postings: [
-      {
-        id: `${id}:out`,
-        accountId: `cash:${filing.personId}:residual`,
-        deltaMinor: -fee,
-      },
-      {
-        id: `${id}:in`,
-        accountId: `cash:${government}:residual`,
-        deltaMinor: fee,
-      },
-    ],
-  };
-  table(api, "fees").put(record as unknown as ModuleRow);
-  const state = api.state as CoreState;
-  api.postJournal({
-    id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,
-    date: api.state.date,
-    expectedSequence: state.cashJournal.nextSequence,
-    sourceRef: { kind: FILING_FEE_KIND, id },
-    postings: record.postings,
-  });
 }
 
 function announce(api: CoreAPI, filing: FilingRow, contest: ContestRow): void {

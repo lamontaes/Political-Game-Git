@@ -1,5 +1,5 @@
 /** Complete owning product evidence. Hashes bind representation, never authority. */
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import type { Source } from "./types";
 
 export const OPENING_CUSTOMER_QUALIFICATION_PREFIX =

@@ -25,11 +25,11 @@ import type {
   PlaceDistrictPopulationRecord,
 } from "../../src/source/domains/place-county-relations/index";
 import type { NormalizedCorpus } from "../../src/source/core/index";
-import { NATIONAL_COUNTIES_ROWS } from "../../src/simulation/national-counties.generated";
+import { NATIONAL_COUNTIES_ROWS } from "../../src/core2/reference/national-counties.generated";
 import { REPO_ROOT, domainDataDir } from "./registry";
 
 export const PLACE_COUNTY_OUTPUT_PATH =
-  "src/simulation/place-county-relations.generated.ts";
+  "src/core2/reference/place-county-relations.generated.ts";
 
 /**
  * Connecticut's eight 2020 counties were replaced as county equivalents by

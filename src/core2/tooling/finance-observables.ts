@@ -1,5 +1,5 @@
 /** Developer-only snapshots of retained authoritative ledgers; never an engine target. */
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { FinanceReadGuard } from "../finance-plan";
 import type { FinanceTotals } from "../finance-types";

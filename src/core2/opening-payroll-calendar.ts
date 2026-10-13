@@ -1,8 +1,8 @@
 /** Fresh opening WHO payroll calendars. This producer never earns or pays wages. */
 import rows from "./data/opening-payroll-calendar.json" with { type: "json" };
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
-import type { IsoDate } from "../simulation/types";
-import { stableHash } from "../simulation/ids";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import type { IsoDate } from "./kernel/brands";
+import { stableHash } from "./kernel/ids";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";

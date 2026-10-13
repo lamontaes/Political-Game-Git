@@ -7,7 +7,7 @@ import type {
 import { parameter } from "../parameters";
 import { readLegacyDiscretionaryWages } from "../legacy-wage-counters";
 import type { CoreState } from "../types";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { FinanceReadGuard } from "../finance-plan";
 import { admittedWorkPayrollCalendarMatches } from "../work-attendance";
 import {

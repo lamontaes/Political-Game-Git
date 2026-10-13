@@ -69,14 +69,12 @@ export function fileForOffice(
   core: CoreState,
   personId: string,
   contestId: string,
-  payFee: boolean,
   choices: { platform?: readonly string[]; party?: string | null } = {},
 ) {
   return fileCandidacy(coreAPI(core), {
     personId,
     contestId,
     platform: choices.platform ?? [],
-    payFee,
     party: choices.party ?? null,
   });
 }

@@ -1,5 +1,5 @@
 /** Proposed recorded-payday cash owner. Attendance creates no cash or choice here. */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";

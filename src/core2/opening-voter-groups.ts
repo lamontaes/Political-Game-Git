@@ -7,11 +7,11 @@
  * Views and elections refine lean and turnout from residents' own records.
  */
 import cps from "../../data/source/census-voting-registration/corpus.json" with { type: "json" };
+import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
+import { parameter } from "./parameters";
+import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
 import { ELECTORAL_CALIBRATION } from "../simulation/world-setup/political-start";
-import {
-  lifePlaceByKey,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import { stopgap } from "./stopgaps";
 import type { VoterGroup } from "./voter-groups";
 import type { CoreInput, Source } from "./types";
@@ -63,6 +63,34 @@ function turnoutFor(stateName: string, band: string) {
  * world's politics settings shift the starting lean (−1 to 1, positive more
  * Republican) and multiply turnout (capped at everyone voting).
  */
+/** Democratic and Republican 2024 votes summed over the town's recorded counties. */
+function countyResult(
+  countyNames: string | undefined,
+  usps: string | undefined,
+): [number, number] | undefined {
+  if (!countyNames || !usps) return undefined;
+  const table = COUNTY_PRESIDENTIAL.byStateCounty as unknown as Record<
+    string,
+    [number, number]
+  >;
+  const stateName = countyNames.split(", ").at(-1)!;
+  let dem = 0,
+    rep = 0,
+    found = false;
+  for (const name of countyNames
+    .slice(0, countyNames.length - stateName.length)
+    .split(/;\s*|,\s*/)
+    .map((part) => part.trim())
+    .filter(Boolean)) {
+    const row = table[`${usps}|${name}`];
+    if (!row) continue;
+    dem += row[0];
+    rep += row[1];
+    found = true;
+  }
+  return found ? [dem, rep] : undefined;
+}
+
 export function withCountedVoterGroups(
   input: CoreInput,
   custom: { leanShift?: number; turnout?: number } = {},
@@ -71,14 +99,17 @@ export function withCountedVoterGroups(
   const placeKey = input.placeMetadata?.placeKey;
   if (!residents || !placeKey) return input;
   stopgap("SG-CORE-voter-groups-starting-lean");
-  const place = lifePlaceByKey(placeKey);
+  const place = corePlaceByKey(placeKey);
   const usps = place?.stateJurisdictionKey?.replace(/^US-/, "");
-  const state = lifePlaceStateIdentities().find((row) => row.usps === usps);
+  const state = corePlaceStateIdentities().find((row) => row.usps === usps);
   const presidential = ELECTORAL_CALIBRATION.presidentialByState?.find(
     (row) => row.stateUsps === usps,
   );
-  const dem = presidential?.totalsByParty.democratic ?? 0,
-    rep = presidential?.totalsByParty.republican ?? 0;
+  // The town's county result where one is recorded (Alaska reports by house
+  // district, so it keeps the state's); else the state's.
+  const county = countyResult(input.placeMetadata?.countyNames, usps);
+  const dem = county?.[0] ?? presidential?.totalsByParty.democratic ?? 0,
+    rep = county?.[1] ?? presidential?.totalsByParty.republican ?? 0;
   const share = dem + rep > 0 ? dem / (dem + rep) : undefined;
   const leanShift = custom.leanShift ?? 0,
     turnoutScale = custom.turnout ?? 1;
@@ -86,6 +117,9 @@ export function withCountedVoterGroups(
     -1,
     Math.min(1, (share === undefined ? 0 : 1 - 2 * share) + leanShift),
   );
+  const placeCitizens = (
+    PLACE_CITIZENSHIP.byPlace as unknown as Record<string, [number, number]>
+  )[placeKey];
   const start = Number(input.startedAt.slice(0, 4));
   // Groups stand for the town's whole counted population. Relatives counted
   // elsewhere (county or state) are a sample of those places, not their voters.
@@ -105,11 +139,24 @@ export function withCountedVoterGroups(
     const [placeId, band] = key.split("|") as [string, string];
     const observed = state ? turnoutFor(state.name, band) : undefined;
     if (!observed) continue;
+    // The place's ACS citizen share of adults, blended with the state's for
+    // the band so a small place's noisy sample leans on its state.
+    const prior = parameter("citizenShareStatePriorAdults");
+    const citizenShare = placeCitizens
+      ? (placeCitizens[0] + prior * observed.citizenShare) /
+        (placeCitizens[1] + prior)
+      : observed.citizenShare;
     const source: Source = {
       tag: "ESTIMATED",
       asOf: input.startedAt,
-      citation: `U.S. Census Bureau November 2024 CPS voting table 4c, ${observed.row.recordId} (${observed.national ? "national row; no state row" : `${state!.name}`}); Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (${usps ?? "no state"} two-party share).`,
-      estimatedFrom: `Counted adults ${band} (${size}) × the state's citizen share of adults ${observed.citizenShare.toFixed(3)} = eligible voters; turnout from citizen turnout; starting lean ${lean.toFixed(3)} from the state's 2024 presidential two-party margin${share === undefined ? " (no presidential vote recorded: 0)" : ""}${leanShift || turnoutScale !== 1 ? `; custom world: lean shifted ${leanShift}, turnout ×${turnoutScale}` : ""}. Views and elections refine it.`,
+      citation: [
+        `U.S. Census Bureau November 2024 CPS voting table 4c, ${observed.row.recordId} (${observed.national ? "national row; no state row" : `${state!.name}`}); Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (${usps ?? "no state"} two-party share)`,
+        county ? COUNTY_PRESIDENTIAL.citation : undefined,
+        placeCitizens ? PLACE_CITIZENSHIP.citation : undefined,
+      ]
+        .filter(Boolean)
+        .join("; "),
+      estimatedFrom: `Counted adults ${band} (${size}) × citizen share of adults ${citizenShare.toFixed(3)} (${placeCitizens ? `the place's ACS 2020–2024 ${placeCitizens[0]} of ${placeCitizens[1]}, blended with the state's ${observed.citizenShare.toFixed(3)} at ${prior} adults` : "the state's"}) = eligible voters; turnout from citizen turnout; starting lean ${lean.toFixed(3)} from the ${county ? "county's" : "state's"} 2024 presidential two-party margin${share === undefined ? " (no presidential vote recorded: 0)" : ""}${leanShift || turnoutScale !== 1 ? `; custom world: lean shifted ${leanShift}, turnout ×${turnoutScale}` : ""}. Views and elections refine it.`,
     };
     groups.push({
       id: `residents:${placeId}:${band}`,
@@ -117,12 +164,14 @@ export function withCountedVoterGroups(
       ageBand: band,
       lean,
       turnout: Math.min(1, observed.turnout * turnoutScale),
-      size: Math.round(size * observed.citizenShare),
+      size: Math.round(size * citizenShare),
       asOf: input.startedAt,
       source,
       sourceRecordIds: [
         observed.row.recordId,
-        `presidential-2024:${usps ?? "none"}`,
+        county
+          ? `presidential-2024:${usps}:${input.placeMetadata?.countyNames}`
+          : `presidential-2024:${usps ?? "none"}`,
       ],
     });
   }

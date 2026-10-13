@@ -1,7 +1,8 @@
+import { queueDecisionDetail } from "./decision-detail";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { carryTraitScores } from "./choice";
@@ -27,6 +28,7 @@ import type {
   WorkAttendanceResult,
   WorkResultInput,
 } from "./types";
+import { registerSnapshotPart } from "./snapshot";
 
 const nativeSet = Map.prototype.set,
   nativeDelete = Map.prototype.delete,
@@ -76,6 +78,19 @@ const admittedCalendars = new WeakMap<
   CoreState,
   Map<string, WorkPayrollCalendarInput>
 >();
+// A world snapshot saves which calendars were admitted; the restored world
+// admits its restored calendar records under the same ids.
+registerSnapshotPart("core2-work-admitted-calendars", {
+  save: (core) => [...(admittedCalendars.get(core)?.keys() ?? [])],
+  restore: (core, ids) => {
+    const map = new Map<string, WorkPayrollCalendarInput>();
+    for (const id of (ids as string[] | undefined) ?? []) {
+      const calendar = core.work.payrollCalendars.get(id);
+      if (calendar) map.set(id, calendar);
+    }
+    nativeWeakSet.call(admittedCalendars, core, map);
+  },
+});
 /** Exact owner-admitted immutable identity, never a caller freeze or Source/citation claim. */
 export function admittedWorkPayrollCalendarMatches(
   core: CoreState,
@@ -1068,6 +1083,7 @@ export function recordWorkAttendance(
     const logs = r.field(core, "durableLog");
     if (r.mapHas(logs, sourceActId))
       throw new Error("Actual attendance act trace already exists.");
+    queueDecisionDetail(core, date, sourceActId);
     batch.map(logs, sourceActId, {
       id: sourceActId,
       date,

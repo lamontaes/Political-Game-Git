@@ -3,7 +3,9 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
+  CANDIDACY_PARAMETERS,
   candidacyModule,
+  candidacyReasons,
   candidatesFor,
   decideToRun,
   RUN,
@@ -13,8 +15,8 @@ import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 
 // M2-04: every candidate filed through their own choice, with its reasons:
-// how closely they follow politics, the cause they carry, temperament, money
-// against the fee, work hours and age. A recorded cause can change who runs.
+// how closely they follow politics, the cause they carry, temperament, work
+// hours and age. A recorded cause can change who runs.
 const seed = process.env.GOLDEN_PATH_SEED ?? "candidacy-a";
 const input = buildDeepPast(
   buildPopulation({
@@ -37,7 +39,6 @@ const contest = (id: string) => ({
   contestId: id,
   officeName: "City council",
   filingDeadline: "2021-03-01",
-  feeMinor: 5000,
   sourceIds: [`fixture-contest:${id}`],
 });
 const decisions = adults.map((row) => decideToRun(api, row.id, contest("a"))!);
@@ -62,7 +63,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
           "field",
           "incumbency",
           "incumbentTie",
-          "money",
+          "reach",
           "standing",
           "temperament",
           "time",
@@ -100,7 +101,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       strength: 1,
     });
     const again = decideToRun(api, near.personId, contest("b"))!;
-    expect(again.reasons.cause).toBeGreaterThan(near.reasons.cause);
+    expect(again.reasons.cause).toBeGreaterThan(near.reasons.cause!);
     expect(again.run).toBe(true);
   });
 
@@ -115,5 +116,24 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     ).length;
     expect(again / sample.length).toBeGreaterThan(0.65);
     expect(again / sample.length).toBeLessThan(0.95);
+  });
+
+  // No one pays to file (owner, Oct 13): what filing would cost is no
+  // reason at all; a countywide race weighs only its wider reach.
+  it("weighs no filing cost, and a countywide race's reach", () => {
+    const county = {
+      ...contest("county"),
+      officeName: "County commissioner",
+      countywide: true,
+    };
+    for (const row of adults) {
+      const reasons = candidacyReasons(api, row, county);
+      expect(reasons).not.toHaveProperty("money");
+      // A countywide race costs the same reach for everyone.
+      expect(reasons.reach).toBe(
+        -CANDIDACY_PARAMETERS.candidacyCountywideWeight!.value,
+      );
+      expect(candidacyReasons(api, row, contest("town")).reach).toBe(0);
+    }
   });
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
-import { stableHash } from "../simulation/ids";
+import { corePlaceStateIdentities } from "./place-lookup";
+import { stableHash } from "./kernel/ids";
 import { buildPopulation } from "./population";
 import { OPENING_KIN } from "./opening-kin";
 import { realLocalities } from "./places";
@@ -118,7 +118,7 @@ describe("opening-only employment source and preservation", () => {
   it("uses one generic supported-role/source-gap route across every sourced state and territory", () => {
     const localities = realLocalities(),
       seen = new Set<string>();
-    for (const state of lifePlaceStateIdentities()) {
+    for (const state of corePlaceStateIdentities()) {
       const available = localities
         .filter(
           (row) =>
@@ -178,6 +178,6 @@ describe("opening-only employment source and preservation", () => {
         ),
       ).toBe(true);
     }
-    expect(seen.size).toBe(lifePlaceStateIdentities().length);
+    expect(seen.size).toBe(corePlaceStateIdentities().length);
   });
 });

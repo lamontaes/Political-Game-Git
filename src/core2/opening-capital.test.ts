@@ -1128,6 +1128,24 @@ describe("qualified private-owner opening capital", () => {
       },
     );
     expect(input).toEqual(inputBefore);
+    // Households' purchases no longer record provider qualifications (their
+    // everyday living is one amount), so the qualification a public or
+    // outside agreement would record on this provider is supplied here.
+    const qualifiedInput: CoreInput = {
+      ...customers.input,
+      organizations: customers.input.organizations.map((row) =>
+        row.id === input.organizations[0]!.id
+          ? {
+              ...row,
+              governmentFacts: {
+                ...row.governmentFacts,
+                [`${OPENING_CUSTOMER_QUALIFICATION_PREFIX}fixture`]: "{}",
+              },
+            }
+          : row,
+      ),
+    };
+    customers.input = qualifiedInput;
     const owner = customers.input.organizations.find(
       (row) => row.id === input.organizations[0]!.id,
     )!;
