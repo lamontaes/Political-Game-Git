@@ -1300,7 +1300,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/health.json",
     "line": 3,
-    "whatItFakes": "The opening chronic conditions, the serious-illness onset and the death of the Ruling 29/38/39 mortality rule run in core2, for everyone at the opening and everyone admitted later (a newborn, someone filled in), and the course after onset reads the person's health coverage where the coverage engine runs. Conditions beginning during life, poverty onset causes and injuries are absent.",
+    "whatItFakes": "The opening chronic conditions, the serious-illness onset and the death of the Ruling 29/38/39 mortality rule run in core2, for everyone at the opening and everyone admitted later (a newborn, someone filled in), and the course after onset reads the person's health coverage where the coverage engine runs. Chronic conditions that rise with age (heart disease, cancer, COPD, stroke, diabetes) begin during life at each person's own line against the share of their age who have them; conditions that fall with age (substance use) never begin or end during life, nothing causes a condition beyond age (no income, behavior or place gradient: the pack has none), and poverty onset causes and injuries are absent.",
     "why": "P10 needs a real recorded death from illness; no core2 health engine exists.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",

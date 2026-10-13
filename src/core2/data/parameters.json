@@ -4695,5 +4695,10 @@
       "unit": "hours",
       "citation": "Typical public school days across states and districts."
     }
+  },
+  "srrsPersonalIllness": {
+    "value": 53,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 6, personal injury or illness: 53 units."
   }
 }

@@ -697,6 +697,47 @@
           "text": "{{other}} finished at {{school}}."
         }
       ]
+    },
+    {
+      "kindPrefix": "event:health.condition-began",
+      "turn": false,
+      "eventFacts": {
+        "condition": {
+          "fact": "condition",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "condition-diagnosed",
+          "text": "I was diagnosed with {{condition}}.",
+          "stages": ["diagnosed"]
+        },
+        {
+          "key": "condition-stroke",
+          "text": "I had a stroke.",
+          "stages": ["stroke"]
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-condition-diagnosed",
+          "text": "{{other}} was diagnosed with {{condition}}.",
+          "stages": ["diagnosed"]
+        },
+        {
+          "key": "other-condition-stroke",
+          "text": "{{other}} had a stroke.",
+          "stages": ["stroke"]
+        }
+      ],
+      "stageOf": {
+        "fact": "conditionKey",
+        "values": {
+          "stroke": "stroke"
+        },
+        "otherwise": "diagnosed"
+      }
     }
   ],
   "firstTitle": [

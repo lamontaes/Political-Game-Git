@@ -33,5 +33,11 @@
     "Conditions that begin during life, coverage records and the below-poverty-line onset cause are not ported; only opening conditions and the serious-illness onset and death they lead to run.",
     "Injury, sudden illness and births have no core2 producer yet.",
     "Household income for the opening condition ranking uses recorded job pay; households without recorded pay sort as unknown, as in the old rule."
-  ]
+  ],
+  "conditionEventKind": "health.condition-began",
+  "conditionSeverity": {
+    "lifeChangeUnitsParameter": "srrsPersonalIllness",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  }
 }

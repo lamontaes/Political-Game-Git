@@ -818,4 +818,38 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       )?.text,
     ).toBe("I started at Fixture Community College.");
   });
+
+  it("tells a chronic condition beginning, as the health engine records it", () => {
+    const me = core.people.get(player.id)!;
+    const event = (id: string, key: string, label: string) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "health.condition-began",
+        personIds: [player.id],
+        placeId: me.placeId,
+        publicRecord: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: "Fixture shaped like the health engine.",
+          estimatedFrom: "Fixture.",
+        },
+        facts: { condition: label, conditionKey: key },
+      });
+    event("health.condition-began:fixture-diabetes", "diabetes", "diabetes");
+    event("health.condition-began:fixture-stroke", "stroke", "a past stroke");
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const lines = composeJournal(core, director, player.id).flatMap(
+      (chapter) => chapter.lines,
+    );
+    const said = (id: string) =>
+      lines.find((line) => line.sourceRecordIds.includes(id))?.text;
+    expect(said("health.condition-began:fixture-diabetes")).toBe(
+      "I was diagnosed with diabetes.",
+    );
+    expect(said("health.condition-began:fixture-stroke")).toBe(
+      "I had a stroke.",
+    );
+  });
 });

@@ -381,6 +381,11 @@
       "value": 0.26,
       "tag": "SOURCED",
       "citation": "Starting or finishing college, the Social Readjustment Rating Scale's 'Begin or end school', 26 life-change units divided by 100 (Holmes and Rahe 1967), as the director's past school-stage moment is."
+    },
+    "directorConditionBeganImpact": {
+      "value": 0.53,
+      "tag": "SOURCED",
+      "citation": "Learning one has a chronic condition, the Social Readjustment Rating Scale's 'Personal injury or illness', 53 life-change units divided by 100 (Holmes and Rahe 1967)."
     }
   },
   "channels": [
@@ -646,6 +651,11 @@
       "channel": "feeling",
       "impactParameter": "directorSchoolStartImpact",
       "counterparts": "tied"
+    },
+    {
+      "eventKind": "health.condition-began",
+      "channel": "health",
+      "impactParameter": "directorConditionBeganImpact"
     }
   ]
 }

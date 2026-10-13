@@ -7,7 +7,10 @@ import {
   makeIsoDate,
 } from "../../simulation/dates";
 import {
+  CONDITION_PACK,
   conditionHazard,
+  conditionLabel,
+  conditionPrevalence,
   startingConditionAssignments,
 } from "../../simulation/crisis/condition-pack";
 import { remainingDaysAfterOnset } from "../../simulation/crisis/death-causes";
@@ -48,6 +51,9 @@ export interface HealthData {
   stopgapId: string;
   calibrationCategory: "equal-mixture" | "male" | "female";
   onsetEventKind: string;
+  /** A chronic condition beginning during life. */
+  conditionEventKind: string;
+  conditionSeverity: Severity;
   deathEventKind: string;
   topicPrefix: string;
   desiredChangePrefix: string;
@@ -93,6 +99,21 @@ interface HealthRuntime {
   resilienceLines: Map<PersonId, bigint>;
   /** How many people the engine has planned for, to notice arrivals. */
   seenPeople: number;
+  /** Conditions that begin during life, by the day they begin: "person|condition". */
+  conditionOnsets: Map<IsoDate, Set<string>>;
+  /** Each person's course inputs, to recompute when a condition begins. */
+  courses: Map<
+    PersonId,
+    {
+      start: ReturnType<typeof makeIsoDate>;
+      threshold: ReturnType<typeof thresholdUnits>;
+      multipliers: {
+        effectiveAt: ReturnType<typeof makeIsoDate>;
+        micros: number;
+      }[];
+    }
+  >;
+  conditionsBegun: number;
   onsets: number;
   deaths: number;
 }
@@ -113,6 +134,9 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       conditionsByPerson: new Map(),
       resilienceLines: new Map(),
       seenPeople: zero,
+      conditionOnsets: new Map(),
+      courses: new Map(),
+      conditionsBegun: zero,
       onsets: zero,
       deaths: zero,
     };
@@ -235,19 +259,46 @@ function planCase(
     if (!strongest || hazard.micros > strongest.micros)
       strongest = { key, micros: hazard.micros };
   }
+  row.courses.set(person.id, {
+    start,
+    threshold,
+    multipliers: [{ effectiveAt: start, micros }],
+  });
+  scheduleConditionOnsets(api, data, row, person, conditions, start, age);
+  scheduleCourse(api, data, row, person, start, strongest?.key, micros);
+}
+
+/**
+ * The day a person's strain first crosses their line, from their course's
+ * weights so far, scheduled as the onset of a serious illness.
+ */
+function scheduleCourse(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  person: Readonly<PersonState>,
+  from: ReturnType<typeof makeIsoDate>,
+  conditionKey: string | undefined,
+  micros: number,
+): void {
+  const p = (key: string) => api.parameter(key);
+  const course = row.courses.get(person.id)!;
+  const conditions = row.conditionsByPerson.get(person.id) ?? [];
   const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
-  if (horizon <= start) return;
+  if (horizon <= from) return;
   const onset = firstThresholdDay(
     {
       birthDate: makeIsoDate(person.birthDate),
       category: data.calibrationCategory,
-      exposureStart: start,
-      multipliers: [{ effectiveAt: start, micros }],
+      exposureStart: course.start,
+      multipliers: course.multipliers,
     },
-    threshold,
-    start,
+    course.threshold,
+    from,
     horizon,
   );
+  const start = from;
+  const strongest = conditionKey ? { key: conditionKey } : undefined;
   if (!onset) return;
   // A crossing on the start day is heard on the next simulated day.
   const due = onset <= start ? addDays(start, p("one")) : onset;
@@ -259,6 +310,131 @@ function planCase(
     onsetDate: due,
   });
   index(row.onsetsByDate, due, person.id);
+}
+
+/** The chronic conditions whose prevalence rises with age: these can begin during life. */
+const LIFELONG = CONDITION_PACK.filter(
+  (condition) =>
+    !condition.infant &&
+    !condition.childhood &&
+    condition.prevalence.length > 1 &&
+    condition.prevalence.at(-1)!.percent > condition.prevalence[0]!.percent,
+);
+
+/**
+ * When each chronic condition begins for a person, if it does: their own
+ * line for it is a generation fact keyed to them, below the share of people
+ * their age who have it if they already do, above it if not; it begins on the
+ * birthday the share for their age first reaches their line. So conditions
+ * appear as people age at about the rates of people their age, and no one is
+ * drawn on any day.
+ */
+function scheduleConditionOnsets(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  person: Readonly<PersonState>,
+  held: readonly string[],
+  start: ReturnType<typeof makeIsoDate>,
+  age: number,
+): void {
+  const p = (key: string) => api.parameter(key);
+  const digits = api.parameter("resilienceHashDigits");
+  const radix = api.parameter("seedPlaceHashRadix");
+  for (const condition of LIFELONG) {
+    if (held.includes(condition.key)) continue;
+    const now = conditionPrevalence(condition, age, data.calibrationCategory);
+    const unit =
+      Number.parseInt(
+        stableHash(
+          `${api.state.seed}:${data.resilienceKey}:condition:${condition.key}:${person.id}`,
+        ).slice(p("zero"), digits),
+        radix,
+      ) /
+      radix ** digits;
+    const line = now + unit * (p("one") - now);
+    // The month the share for their age first reaches their line: the year
+    // first, then the month within it.
+    const reaches = (at: number) =>
+      conditionPrevalence(condition, at, data.calibrationCategory) >= line;
+    let year = age + p("one");
+    while (year <= SSA_2023_MAX_AGE && !reaches(year)) year += p("one");
+    if (year > SSA_2023_MAX_AGE) continue;
+    const step = p("one") / p("monthsPerYear");
+    let at = Math.max(age + step, year - p("one") + step);
+    while (at < year && !reaches(at)) at += step;
+    const date = addDays(
+      makeIsoDate(person.birthDate),
+      Math.round(Math.min(at, year) * p("daysPerMeanYear")),
+    );
+    if (date <= start) continue;
+    const key = `${person.id}|${condition.key}`;
+    const set = row.conditionOnsets.get(date) ?? new Set<string>();
+    set.add(key);
+    row.conditionOnsets.set(date, set);
+  }
+}
+
+/**
+ * A condition begins: it joins the person's record, the people close to them
+ * hear, and their course is recomputed with its weight from today.
+ */
+function beginCondition(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  personId: PersonId,
+  key: string,
+): void {
+  const person = api.state.people.get(personId);
+  const course = row.courses.get(personId);
+  if (!person?.alive || !course) return;
+  const held = row.conditionsByPerson.get(personId) ?? [];
+  if (held.includes(key)) return;
+  api.stopgap(data.stopgapId);
+  const today = makeIsoDate(api.state.date);
+  const conditions = [...held, key];
+  row.conditionsByPerson.set(personId, conditions);
+  row.conditionsBegun += api.parameter("one");
+  const age = exactAge(api, person.birthDate, today);
+  let micros = MULTIPLIER_ONE;
+  let strongest: { key: string; micros: number } | undefined;
+  for (const held of conditions) {
+    const hazard = conditionHazard(
+      api.state.seed,
+      person.id as EntityId,
+      held,
+      age,
+    );
+    micros = Math.round((micros * hazard.micros) / MULTIPLIER_ONE);
+    if (!strongest || hazard.micros > strongest.micros)
+      strongest = { key: held, micros: hazard.micros };
+  }
+  const id = `${data.conditionEventKind}:${person.id}:${key}:${api.state.date}`;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: data.conditionEventKind,
+    personIds: [person.id],
+    witnessIds: hearers(api, person, false),
+    placeId: person.placeId,
+    topic: `${data.topicPrefix}:${key}`,
+    desiredChange: `${data.desiredChangePrefix}:${key}`,
+    ...severityImpulse(api, data.conditionSeverity),
+    source: { ...data.source, asOf: api.state.date },
+    facts: {
+      [`event:${id}:${data.conditionFactKey}`]: key,
+      condition: conditionLabel(key) ?? key,
+      conditionKey: key,
+    },
+  });
+  // A serious illness already under way keeps its course.
+  const found = row.cases.get(personId);
+  if (found?.onsetEventId) return;
+  if (found) row.onsetsByDate.get(found.onsetDate)?.delete(personId);
+  row.cases.delete(personId);
+  course.multipliers.push({ effectiveAt: today, micros });
+  scheduleCourse(api, data, row, person, today, strongest?.key, micros);
 }
 
 /**
@@ -355,6 +531,11 @@ export function createHealthModule(
       if (!row.initialized) initialize(api, data, row);
       else planArrivals(api, data, row);
       const date = makeIsoDate(api.state.date);
+      for (const due of [...(row.conditionOnsets.get(date) ?? [])].sort()) {
+        const [personId, key] = due.split("|") as [PersonId, string];
+        beginCondition(api, data, row, personId, key);
+      }
+      row.conditionOnsets.delete(date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
