@@ -17,6 +17,8 @@ import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
 import { decisionLean } from "../trait-decisions";
+import { WEB_LINKS, WEB_SETTINGS } from "../outcome-web-model";
+import { placeOutcome } from "./outcome-web";
 import { viewOf } from "./views";
 
 export const NEWS_MODULE_ID = "news";
@@ -291,44 +293,18 @@ export function createNewsModule(
     eventKinds: ["*"],
     onEvent(api, event, learnedBy) {
       if (!event.publicRecord || stories(api).get(event.id)) return;
-      const outletId = `outlet:${event.placeId}`;
-      if (!outlets(api).get(outletId))
-        // One local outlet per place stands for its newspapers, stations and
-        // sites until real outlets are records (stopgap SG-P15-news-habits).
-        outlets(api).put({
-          id: outletId,
+      publishStory(
+        api,
+        {
+          id: event.id,
+          outletId: `outlet:${event.placeId}`,
+          kind: event.kind,
+          date: event.date,
           placeId: event.placeId,
-          kind: "local",
-        });
-      const story: Story = {
-        id: event.id,
-        outletId,
-        kind: event.kind,
-        date: event.date,
-        placeId: event.placeId,
-        facts: event.facts ?? {},
-      };
-      stories(api).put(story as unknown as { id: string });
-      // The people the event itself reached already know it.
-      for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
-      const maxAge = n(api, "newsMaxAgeDays");
-      for (const personId of readersOf(api, event.placeId)) {
-        if (learnedBy.includes(personId)) continue;
-        const view = viewOf(api, personId);
-        const engagement = view?.engagement ?? api.parameter("zero");
-        if (engagement <= api.parameter("zero")) continue;
-        // People who trust the media less check it less, and hear later.
-        const reach =
-          engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
-        const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
-        if (delay > maxAge) continue;
-        deliveries(api).put({
-          id: `${story.id}:${personId}`,
-          storyId: story.id,
-          personId,
-          date: addDays(makeIsoDate(event.date), delay),
-        });
-      }
+          facts: event.facts ?? {},
+        },
+        learnedBy,
+      );
     },
     relationshipKinds: ["*"],
     onRelationshipChange(api, notice) {
@@ -378,6 +354,45 @@ export function createNewsModule(
       }
     },
     onAfterDay(api) {
+      if (
+        Number(api.state.date.slice(-2)) === WEB_SETTINGS.schedule.dayOfMonth
+      ) {
+        for (const placeId of api.state.visiblePlaceIds) {
+          for (const link of WEB_LINKS) {
+            if (!link.from.startsWith("law:") || !link.size) continue;
+            const row = placeOutcome(api, placeId, link.to);
+            if (!row || row.base === undefined || !row.base) continue;
+            const range = (link as typeof link & { range?: readonly number[] })
+              .range;
+            const spread =
+              range?.length === 2
+                ? Math.abs(range[1]! - range[0]!) / 2
+                : Math.abs(link.size);
+            if (Math.abs(row.value / row.base - 1) <= spread) continue;
+            const id = `web:${placeId}:${row.month}:${link.to}`;
+            if (stories(api).get(id)) continue;
+            publishStory(
+              api,
+              {
+                id,
+                outletId: `outlet:${placeId}`,
+                kind: "world-metrics",
+                date: api.state.date,
+                placeId,
+                facts: {
+                  measure: link.to,
+                  value: String(row.value),
+                  base: String(row.base),
+                  spread: String(spread),
+                  recordId: `web:${placeId}:${row.month}`,
+                  question: link.from.slice("law:".length),
+                },
+              },
+              [],
+            );
+          }
+        }
+      }
       for (const row of deliveries(api).query("byDate", [api.state.date])) {
         const story = stories(api).get(
           row.storyId as string,
@@ -390,3 +405,39 @@ export function createNewsModule(
 }
 
 export const newsModule: CoreModule = createNewsModule();
+
+function publishStory(
+  api: CoreAPI,
+  story: Story,
+  learnedBy: readonly PersonId[],
+): void {
+  if (!outlets(api).get(story.outletId))
+    // One local outlet per place stands for its newspapers, stations and
+    // sites until real outlets are records (stopgap SG-P15-news-habits).
+    outlets(api).put({
+      id: story.outletId,
+      placeId: story.placeId,
+      kind: "local",
+    });
+  stories(api).put(story as unknown as { id: string });
+  // The people the event itself reached already know it.
+  for (const id of learnedBy) hear(api, id, story, "perceived", story.id);
+  const maxAge = n(api, "newsMaxAgeDays");
+  for (const personId of readersOf(api, story.placeId)) {
+    if (learnedBy.includes(personId)) continue;
+    const view = viewOf(api, personId);
+    const engagement = view?.engagement ?? api.parameter("zero");
+    if (engagement <= api.parameter("zero")) continue;
+    // People who trust the media less check it less, and hear later.
+    const reach =
+      engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+    const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
+    if (delay > maxAge) continue;
+    deliveries(api).put({
+      id: `${story.id}:${personId}`,
+      storyId: story.id,
+      personId,
+      date: addDays(makeIsoDate(story.date), delay),
+    });
+  }
+}
