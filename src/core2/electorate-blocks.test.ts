@@ -135,7 +135,7 @@ describe("the simulated electorate", () => {
     );
   });
 
-  it("a midterm draws fewer voters, the least reliable falling off most", () => {
+  it("a midterm draws fewer voters, and a costlier vote keeps the least reliable home most", () => {
     const blocks = stateBlocks(usps);
     const share = campaignParameter("midtermShareOfPresidential");
     const full = countBlocks(blocks, [candidate(-1), candidate(1)], conditions);
@@ -145,8 +145,17 @@ describe("the simulated electorate", () => {
       cycleShare: share,
     });
     expect(mid.cast / full.cast).toBeCloseTo(share, 2);
-    const block = mid.blocks[0]!,
-      was = full.blocks[0]!;
+    const costly = countBlocks(blocks, [candidate(-1), candidate(1)], {
+      ...conditions,
+      lawCostChange: 0.03,
+    });
+    expect(costly.cast).toBeLessThan(full.cast);
+    // The largest block, so every group holds whole voters.
+    const largest = full.blocks.indexOf(
+      [...full.blocks].sort((a, b) => b.cast - a.cast)[0]!,
+    );
+    const block = costly.blocks[largest]!,
+      was = full.blocks[largest]!;
     const kept = (g: string) => block.byGroup[g]!.cast / was.byGroup[g]!.cast;
     expect(kept("independent")).toBeLessThan(kept("strong-republican"));
     expect(kept("independent")).toBeLessThan(kept("strong-democrat"));

@@ -22,7 +22,7 @@
  * penalty, and in the town's own county the town's jobs and crime against
  * the seat's incumbent party. Turnout follows the cycle (presidential,
  * midterm, off-cycle) and the election laws in force, with the groups that
- * vote least moving most. A county already more partisan moves less, since
+ * vote least moving most when the cost of voting changes. A county already more partisan moves less, since
  * it holds fewer persuadable voters.
  *
  * Nothing is rolled: the same inputs always give the same votes, and every
@@ -606,7 +606,7 @@ function groupSplit(
 
 /**
  * Count a race across its blocks. Each block's groups turn out at the cycle's
- * rate (the least reliable groups falling off most) and the laws' cost, then
+ * rate and the laws' cost (the least reliable groups moving most), then
  * split by party and every candidate's appeal. The town's own voters, counted
  * apart, come out of its county's block.
  */
@@ -639,18 +639,15 @@ export function countBlocks(
     const lift = GROUPS.map((g) => 1 - g.turnout);
     const meanLift = mix.reduce((s, m, i) => s + m * lift[i]!, 0) || 1;
     const weight = lift.map((l) => l / meanLift);
-    // The cycle's turnout: lower-turnout groups fall off most.
-    let factors = weight.map((w) => Math.pow(conditions.cycleShare, w));
-    const scale =
-      (conditions.cycleShare /
-        (mix.reduce((s, m, i) => s + m * factors[i]!, 0) || 1)) *
-      (1 - conditions.barredChange);
-    factors = factors.map((f, i) =>
+    // The cycle's turnout falls evenly across the groups (its tilt against
+    // the president's party is the midterm penalty); a change in the cost
+    // of voting moves the groups that vote least the most.
+    const factors = weight.map((w) =>
       Math.max(
         0,
-        f *
-          scale *
-          (1 - p("lawTurnoutPerCost") * conditions.lawCostChange * weight[i]!),
+        conditions.cycleShare *
+          (1 - conditions.barredChange) *
+          (1 - p("lawTurnoutPerCost") * conditions.lawCostChange * w),
       ),
     );
     const inTown = block === townBlock;
