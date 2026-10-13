@@ -140,9 +140,7 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       expect(Object.keys(row.reasons).some((k) => k.startsWith("hold:"))).toBe(
         true,
       );
-      expect(row.destinationId).not.toBe(
-        core.people.get(row.personId)!.placeId,
-      );
+      expect(row.destinationId).not.toBe(row.fromPlaceId);
       expect(core.eventIds.has(row.id)).toBe(true);
       for (const id of row.withIds) {
         const person = core.people.get(id)!;
@@ -150,6 +148,38 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
         expect(person.jobId).toBeUndefined();
       }
     }
+  });
+
+  it("moves leavers to their destination: their place, household and the town's residents change with them", () => {
+    // Break 13 of the October 12 three-year trace: every leaver still had
+    // the town as their place and their household kept them.
+    expect(departures.length).toBeGreaterThan(0);
+    const town = departures[0]!.fromPlaceId;
+    for (const row of departures) {
+      for (const id of row.withIds) {
+        const person = core.people.get(id)!;
+        const home = core.households.get(person.householdId)!;
+        expect(person.placeId).toBe(row.destinationId);
+        expect(home.placeId).toBe(row.destinationId);
+        expect(home.memberIds).toContain(id);
+        expect(core.peopleByPlace.get(row.fromPlaceId)?.has(id)).toBe(false);
+        expect(core.peopleByPlace.get(row.destinationId)?.has(id)).toBe(true);
+        // No household left in town still lists them.
+        for (const other of core.households.values())
+          if (other.placeId === town) expect(other.memberIds).not.toContain(id);
+      }
+      // The ones who stayed keep their own household in town.
+      for (const id of core.households.get(row.householdId)?.memberIds ?? [])
+        if (!row.withIds.includes(id) && core.people.get(id)!.tier !== "husk")
+          expect(core.people.get(id)!.placeId).toBe(row.fromPlaceId);
+    }
+    // The town's resident list (what voting, the bench and the screens read)
+    // no longer counts anyone who left.
+    const left = new Set(departures.flatMap((row) => row.withIds));
+    const residents = [...core.people.values()].filter(
+      (row) => row.alive && row.placeId === town,
+    );
+    expect(residents.some((row) => left.has(row.id))).toBe(false);
   });
 
   it("lets a grown child living with a parent leave alone, and takes a householder's partner and children along", () => {

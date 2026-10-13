@@ -2644,8 +2644,8 @@
     "why": "The core has no call to change a person's place or household mid-run.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "A core call (OPUS-CORE) that moves a person to the destination place and out of their household, so counts, voter rolls and screens read the new place.",
-    "status": "open"
+    "replacement": "A core call (OPUS-CORE) that moves a person to the destination place and out of their household, so counts, voter rolls and screens read the new place. Done Oct 13 (FIXER-MOVES): the core's relocatePeopleV1 moves leavers to the destination place and county, and out of their household (whole households move with them), so counts, voter rolls and screens read the new place.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-moves-owners-stay",
