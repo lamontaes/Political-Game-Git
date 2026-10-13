@@ -7,6 +7,7 @@ import {
   OUTCOME_WEB_MODULE,
   OUTCOME_WEB_MODULE_ID,
   outcomesOn,
+  lawValue,
   outcomeWebFactor,
   type WebMonth,
 } from "./modules/outcome-web";
@@ -23,6 +24,8 @@ import {
   type WebLink,
 } from "./outcome-web-model";
 import { coreAPI } from "./state";
+import { openLaws, enactLaw, lawChain, lawInForce } from "./modules/laws";
+import { outcomeIssueView } from "./modules/views";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -240,6 +243,11 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
       foodBase * (1 + toFood.size! * snapBase * toParticipation.size!),
     );
 
+    const read = outcomeIssueView(api, town, series, 0.5);
+    expect(read.recordIds).toContain(at("2021-07").id);
+    expect(read.salience).toBeGreaterThan(0);
+    expect(read.position).toBeGreaterThan(0.5);
+
     // A named adult aged 18 to 54 with no child at home carries the law's
     // effect on their record: first at zero, then when it reached them.
     const date = core.date;
@@ -292,5 +300,46 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
       monthOf(api, town, "2021-09").values["household.food-insecurity"],
     ).toBeCloseTo(foodBase);
     expect((core as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)).toBe(true);
+  }, 300_000);
+});
+
+describe("outcome laws use the same legal resolution as paying engines", () => {
+  it("respects a future effective date and repeal through the actual law writer", () => {
+    const place = drawPlace(seed, "law-link-repeal");
+    const core = createLifeCore(
+      generatedOpening(place, {
+        twoLevel: true,
+        settings: { population: 1500 },
+      }),
+      { modules: [OUTCOME_WEB_MODULE] },
+    );
+    openLaws(core);
+    const api = coreAPI(core),
+      chain = lawChain(api);
+    const series = "us-policy-positions:justice-public-safety.end-cash-bail";
+    for (const [date, value] of [
+      ["2021-01-01", 0],
+      ["2021-02-01", 1],
+      ["2021-03-01", 0],
+    ] as const)
+      enactLaw(api, {
+        jurisdiction: chain.stateKey,
+        level: "state",
+        series,
+        value,
+        effectiveDate: date,
+        measureId: `test:${date}`,
+        citation: "Test enactment and repeal.",
+      });
+    for (const [date, value] of [
+      ["2021-01-15", 0],
+      ["2021-02-15", 1],
+      ["2021-03-15", 0],
+    ] as const) {
+      expect(lawValue(api, series, date)).toBe(value);
+      expect(lawValue(api, series, date)).toBe(
+        lawInForce(api, series, date).value,
+      );
+    }
   }, 300_000);
 });

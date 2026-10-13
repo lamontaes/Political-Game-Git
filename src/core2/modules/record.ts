@@ -16,6 +16,7 @@
  * on the voter's ballot as a reason. An attack ad carries a rival's record to
  * the people it reaches.
  */
+import { outcomeIssueView } from "./views";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -169,7 +170,21 @@ export function recordAppeal(
   const weight = campaignParameter("recordVoteWeight");
   const reasons: RecordReason[] = [];
   for (const vote of votesOf(api, officeholderId)) {
-    const own = personStance(lean, vote.stance.question);
+    const view = outcomeIssueView(
+      api,
+      voter.placeId,
+      vote.stance.question,
+      personStance(lean, vote.stance.question),
+    );
+    const own = view.position;
+    // The same recorded consequence is read by named voters and counted groups.
+    for (const itemId of view.recordIds)
+      reasons.push({
+        kind: "vote",
+        itemId,
+        question: vote.stance.question,
+        effect: weight * view.salience * own * vote.stance.position,
+      });
     reasons.push({
       kind: "vote",
       itemId: vote.id,

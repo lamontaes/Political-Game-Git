@@ -12,6 +12,12 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import {
+  OUTCOME_WEB_MODULE_ID,
+  placeOutcome,
+  outcomeWebFactor,
+} from "./outcome-web";
+import { WEB_LINKS } from "../outcome-web-model";
 import { stableHash } from "../../simulation/ids";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
@@ -314,3 +320,34 @@ export const viewsModule: CoreModule = {
     }
   },
 };
+
+/** Observed consequences make an issue more salient to a voter, in their own direction. */
+export function outcomeIssueView(
+  api: CoreAPI,
+  placeId: string,
+  question: string,
+  own: number,
+): {
+  position: number;
+  salience: number;
+  recordIds: readonly string[];
+} {
+  if (!api.state.modules.has(OUTCOME_WEB_MODULE_ID))
+    return { position: own, salience: 0, recordIds: [] };
+  let salience = 0;
+  const recordIds = new Set<string>();
+  for (const link of WEB_LINKS) {
+    if (link.from !== `law:${question}`) continue;
+    const row = placeOutcome(api, placeId, link.to);
+    if (!row || row.base === undefined) continue;
+    recordIds.add(`web:${placeId}:${row.month}`);
+    const move = Math.abs(outcomeWebFactor(api, placeId, link.to) - 1);
+    salience = Math.max(salience, move);
+    if (move) recordIds.add(`web:${placeId}:${row.month}`);
+  }
+  return {
+    position: Math.max(-1, Math.min(1, own * (1 + salience))),
+    salience,
+    recordIds: [...recordIds],
+  };
+}
