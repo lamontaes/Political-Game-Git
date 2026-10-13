@@ -264,16 +264,23 @@ describe("real-place one-time population import", () => {
       expect(person.pastFacts?.every((fact) => fact.date <= startedAt)).toBe(
         true,
       );
-      expect(Object.keys(person.traits).length).toBeLessThan(
-        PERSONALITY_TRAIT_REGISTRY.length,
+      // Every anchored trait (OPUS-TRAITS) plus the five temperament
+      // dimensions, never more.
+      expect(Object.keys(person.traits).length).toBeLessThanOrEqual(
+        PERSONALITY_TRAIT_REGISTRY.length + 5,
       );
       for (const [key, value] of Object.entries(person.traits)) {
         expect(Number.isFinite(value)).toBe(true);
-        expect(recordedTraitSource(person, key)?.estimatedFrom).toContain(
-          key.startsWith(`${PEOPLE_MIND_VERSION}:`)
-            ? "Generated opening temperament"
-            : "Canonical sparse upbringing trait projection",
-        );
+        // The five dimensions come from the temperament model; every other
+        // trait is either anchored to them (also the temperament model) or
+        // recorded from upbringing.
+        const from = recordedTraitSource(person, key)?.estimatedFrom ?? "";
+        expect(
+          from.includes("Generated opening temperament") ||
+            (!key.startsWith(`${PEOPLE_MIND_VERSION}:`) &&
+              from.includes("Canonical sparse upbringing trait projection")),
+          `${key}: ${from}`,
+        ).toBe(true);
       }
       expect(Number.isSafeInteger(person.liquidMinor)).toBe(true);
       expect(Number.isSafeInteger(person.livingCostDailyMinor)).toBe(true);

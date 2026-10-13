@@ -19,6 +19,7 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { stopgap } from "./stopgaps";
 import collegesJson from "./data/opening-colleges.json" with { type: "json" };
 import { profileFor } from "./opening-profile";
+import keysJson from "./data/views/ces-2024-views.json" with { type: "json" };
 import { parameter } from "./parameters";
 import type { CoreInput, PersonInput } from "./types";
 
@@ -30,6 +31,21 @@ export const COLLEGE_TERM_START = (collegesJson as { termStart: string })
   .termStart;
 
 type CollegeRow = readonly [id: string, name: string, kind: string];
+const VIEWS_KEYS = keysJson as unknown as {
+  nationalEducationShares: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
+  states: Readonly<
+    Record<
+      string,
+      {
+        educationShares: Readonly<
+          Record<string, Readonly<Record<string, number>> | null>
+        >;
+      }
+    >
+  >;
+};
 const COLLEGES = collegesJson as unknown as {
   version: string;
   citation: string;
@@ -44,6 +60,18 @@ const COLLEGES = collegesJson as unknown as {
 };
 
 const p = (key: string) => parameter(key);
+/** The survey's youngest age band, holding everyone 18 to 24. */
+const YOUNG_BAND = "18-29";
+
+/** A number from 0 to 1 keyed to a string: who someone is, never a choice. */
+function unit(key: string): number {
+  const digits = p("seedHashDigits");
+  const radix = p("seedPlaceHashRadix");
+  return (
+    Number.parseInt(stableHash(key).slice(p("zero"), digits), radix) /
+    radix ** digits
+  );
+}
 
 type Located = Pick<PersonInput, "placeId" | "countyId">;
 
@@ -70,95 +98,60 @@ export function enrollCollegeStudents(input: CoreInput): CoreInput {
     ageOnDate(makeIsoDate(person.birthDate), opening);
   const schoolingOf = (person: PersonInput) =>
     profileFor(person, input.seed, input.startedAt)?.education;
-  const jobs = new Map(input.jobs.map((job) => [job.id, job]));
-  // Each household's means and whether an adult in it holds a degree.
-  const homes = new Map<
-    string,
-    { earnings: number; savings: number; degree: boolean }
-  >();
+  // A degree held in the home, from each adult's own profile: it decides the
+  // kind of college. Read per household, so a household filled in later gets
+  // the same answer as in the whole town.
+  const members = new Map<string, PersonInput[]>();
+  for (const person of input.people)
+    members.set(person.householdId, [
+      ...(members.get(person.householdId) ?? []),
+      person,
+    ]);
+  const degreeAtHome = (person: PersonInput) =>
+    (members.get(person.householdId) ?? []).some(
+      (other) =>
+        other.id !== person.id &&
+        ageOf(other) > COLLEGES.maximumAge &&
+        schoolingOf(other) === "college",
+    );
+  const enrolled = new Map<string, CollegeRow>();
   for (const person of input.people) {
     if (person.tier === "husk") continue;
-    const row = homes.get(person.householdId) ?? {
-      earnings: p("zero"),
-      savings: p("zero"),
-      degree: false,
-    };
-    row.earnings += person.jobId
-      ? (jobs.get(person.jobId)?.wageDailyMinor ?? p("zero"))
-      : p("zero");
-    row.savings += person.liquidMinor ?? p("zero");
-    if (
-      ageOf(person) > COLLEGES.maximumAge &&
-      schoolingOf(person) === "college"
-    )
-      row.degree = true;
-    homes.set(person.householdId, row);
-  }
-  const young = input.people.filter(
-    (person) =>
-      person.tier !== "husk" &&
-      ageOf(person) >= COLLEGES.minimumAge &&
-      ageOf(person) <= COLLEGES.maximumAge,
-  );
-  const stateOf = (person: PersonInput) =>
-    lifePlaceByJurisdictionId(person.placeId as never)
-      ?.stateJurisdictionKey?.split("-")
-      .at(-p("one"));
-  const byState = new Map<string, PersonInput[]>();
-  for (const person of young) {
-    const state = stateOf(person) ?? "";
-    byState.set(state, [...(byState.get(state) ?? []), person]);
-  }
-  const enrolled = new Map<string, CollegeRow>();
-  for (const [state, people] of byState) {
+    const age = ageOf(person);
+    if (age < COLLEGES.minimumAge || age > COLLEGES.maximumAge) continue;
+    const level = schoolingOf(person);
+    if (level !== "some-college" && level !== "college") continue;
+    const near = collegesNear(person);
+    if (!near.length) continue;
+    // Who is enrolled is who exists at the opening: the person's own line,
+    // under the state's share enrolled divided by the share of their age
+    // with some college (the same survey their schooling comes from), so
+    // the state's share holds without ranking anyone against anyone.
+    const state =
+      lifePlaceByJurisdictionId(person.placeId as never)
+        ?.stateJurisdictionKey?.split("-")
+        .at(-p("one")) ?? "";
     const share = COLLEGES.shareByState[state] ?? COLLEGES.nationalShare;
-    const count = Math.round(share * people.length);
-    const rank = (field: "earnings" | "savings") =>
-      new Map(
-        [...homes.entries()]
-          .sort(([a, x], [b, y]) => x[field] - y[field] || a.localeCompare(b))
-          .map(([id], at) => [id, at]),
-      );
-    const earnings = rank("earnings");
-    const savings = rank("savings");
-    const means = (person: PersonInput) =>
-      (earnings.get(person.householdId) ?? p("zero")) +
-      (savings.get(person.householdId) ?? p("zero"));
-    const median = homes.size;
-    const candidates = people
-      .filter((person) => {
-        const level = schoolingOf(person);
-        return (
-          (level === "some-college" || level === "college") &&
-          collegesNear(person).length > p("zero")
-        );
-      })
-      .sort(
-        (a, b) =>
-          Number(homes.get(b.householdId)?.degree) -
-            Number(homes.get(a.householdId)?.degree) ||
-          means(b) - means(a) ||
-          a.id.localeCompare(b.id),
-      )
-      .slice(p("zero"), count);
-    for (const person of candidates) {
-      const near = collegesNear(person);
-      const fourYear =
-        homes.get(person.householdId)?.degree || means(person) >= median;
-      const want = fourYear ? "four-year" : "community";
-      const fitting = near.filter(([, , kind]) => kind === want);
-      const pool = fitting.length ? fitting : near;
-      // SG-P15-college-enrollment: which college of the kind, keyed to the
-      // person, until colleges carry their enrollment.
-      const at = Number.parseInt(
-        stableHash(`${input.seed}:college:${person.id}`).slice(
-          p("zero"),
-          p("seedHashDigits"),
-        ),
-        p("seedPlaceHashRadix"),
-      );
-      enrolled.set(person.id, pool[at % pool.length]!);
-    }
+    const shares =
+      VIEWS_KEYS.states[state]?.educationShares[YOUNG_BAND] ??
+      VIEWS_KEYS.nationalEducationShares[YOUNG_BAND]!;
+    const withCollege =
+      (shares["some-college"] ?? p("zero")) + (shares.college ?? p("zero"));
+    const line = Math.min(p("one"), share / withCollege);
+    if (unit(`${input.seed}:college:enrolled:${person.id}`) >= line) continue;
+    const want = degreeAtHome(person) ? "four-year" : "community";
+    const fitting = near.filter(([, , kind]) => kind === want);
+    const pool = fitting.length ? fitting : near;
+    // SG-P15-college-enrollment: which college of the kind, keyed to the
+    // person, until colleges carry their enrollment.
+    const at = Number.parseInt(
+      stableHash(`${input.seed}:college:${person.id}`).slice(
+        p("zero"),
+        p("seedHashDigits"),
+      ),
+      p("seedPlaceHashRadix"),
+    );
+    enrolled.set(person.id, pool[at % pool.length]!);
   }
   if (!enrolled.size) return input;
   stopgap(COLLEGE_STOPGAP);
