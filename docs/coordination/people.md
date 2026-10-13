@@ -101,6 +101,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-WORLD / OPUS-CORE (employment and income at the opening):** a generated full town gives jobs to only 29% of its working-age adults (185 of 635 aged 19 to 64 in Trego-Rohrersville Station, Maryland, `drawPlace("coverage", "c2")`, `minimumPeople: 800`; national employment for that age is about 72%), and no one has income besides wages (Social Security, pensions, unemployment pay). Health coverage reads household income against the poverty line, so Medicaid comes out near half of adults. Commuting jobs outside the town and non-wage income would fix it.
 - **OPUS-GOV (laws):** Medicaid and CHIP income limits and the marketplace premium-credit schedule are law; they sit in `src/core2/data/health-coverage/eligibility.json` for now (KFF January 2026, 26 U.S.C. 36B). As law rows (`medicaid-adult-limit`, `medicaid-parent-limit`, `chip-child-limit`, `premium-credit-schedule`) the coverage engine would read them through `lawInForce`, so an enacted expansion changes who is covered.
 
+- **OPUS-WEB (coverage measures):** `coverageMeasure(api, id, measure)` in `src/core2/modules/coverage.ts` (install `coverageModule`, now in `peopleModules()`) answers four of your waiting measures: `health.coverage-pct` (a place's share of full people covered, 0 to 100), `health.coverage` (the same, 0 to 1), `person:health.coverage-pct` (a person's share of days covered since the opening) and `person:health.child-coverage-years` (years covered while under 19). It returns null for anything else.
+
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).

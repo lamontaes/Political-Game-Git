@@ -128,7 +128,14 @@ describe(`health coverage in ${input.placeMetadata?.placeName} (seed ${seed})`, 
         person.id,
         "person:health.child-coverage-years",
       )!;
-      if (age(person.birthDate) >= p("coverageChildAge")) expect(years).toBe(0);
+      // Someone already an adult at the opening has no child years here.
+      if (
+        ageOnDate(
+          makeIsoDate(person.birthDate),
+          makeIsoDate(input.startedAt),
+        ) >= p("coverageChildAge")
+      )
+        expect(years).toBe(0);
     }
     expect(coverageMeasure(api, people[0]!.id, "health.depression")).toBeNull();
   });
