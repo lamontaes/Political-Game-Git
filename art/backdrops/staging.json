@@ -20448,6 +20448,172 @@
       "measuredFrom": "kitchenette counter 0.9 m foot 86 top 49 and folding table 0.75 m foot 60 top 44 give horizon ~32-33; sofa-bed mattress 0.45 m foot 78 top 67 (0.53) and stool seat 0.65 m foot 68 top 56 (0.5); settled 33 / 0.6 (standing eye height)",
       "surfaceSlots": []
     },
+    "apartment-kitchen": {
+      "horizonY": 38,
+      "metersPercent": 0.74,
+      "spots": [
+        {
+          "x": 50,
+          "y": 82,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 82,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-kitchen:spot:0"
+        },
+        {
+          "x": 44,
+          "y": 70,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 70,
+          "role": "general",
+          "id": "apartment-kitchen:spot:1"
+        },
+        {
+          "x": 62,
+          "y": 70,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 70,
+          "role": "general",
+          "id": "apartment-kitchen:spot:2"
+        },
+        {
+          "x": 33,
+          "y": 78,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 78,
+          "role": "general",
+          "id": "apartment-kitchen:spot:3"
+        },
+        {
+          "x": 79,
+          "y": 72,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 72,
+          "seatY": 62,
+          "clipBelowY": 61,
+          "group": "table",
+          "role": "general",
+          "id": "apartment-kitchen:spot:4"
+        },
+        {
+          "x": 86,
+          "y": 79,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 79,
+          "seatY": 67,
+          "group": "table",
+          "role": "general",
+          "id": "apartment-kitchen:spot:5"
+        }
+      ],
+      "measuredFrom": "counter 0.9 m foot 67 top 48 and refrigerator 1.75 m foot 93 top 22 solve to horizon 38, 0.74",
+      "surfaceSlots": []
+    },
+    "apartment-nice-living": {
+      "horizonY": 38,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50,
+          "y": 82,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 82,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-nice-living:spot:0"
+        },
+        {
+          "x": 45,
+          "y": 63,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 63,
+          "seatY": 55,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-nice-living:spot:1"
+        },
+        {
+          "x": 58,
+          "y": 63,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 63,
+          "seatY": 55,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-nice-living:spot:2"
+        },
+        {
+          "x": 35,
+          "y": 66,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-nice-living:spot:3"
+        },
+        {
+          "x": 77,
+          "y": 66,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-nice-living:spot:4"
+        },
+        {
+          "x": 24,
+          "y": 70,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 70,
+          "role": "general",
+          "id": "apartment-nice-living:spot:5"
+        },
+        {
+          "x": 86,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "apartment-nice-living:spot:6"
+        },
+        {
+          "x": 35,
+          "y": 76,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 76,
+          "role": "general",
+          "id": "apartment-nice-living:spot:7"
+        },
+        {
+          "x": 68,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "apartment-nice-living:spot:8"
+        }
+      ],
+      "measuredFrom": "sectional seat 0.45 m foot 66 top 58 and far sofa back seat foot 61 top 55 solve to horizon ~38, 0.65; tall plant reads ~1.9 m",
+      "surfaceSlots": []
+    },
     "apartment-older-walkup": {
       "horizonY": 47,
       "metersPercent": 1.1,
@@ -20567,6 +20733,182 @@
         }
       ],
       "measuredFrom": "kitchen counter 0.9 m foot 68 top 47 and refrigerator 1.75 m foot 75 top 25 solve to horizon 37, 0.75; side table 0.6 m foot 97 top 68 (0.8) agrees",
+      "surfaceSlots": []
+    },
+    "apartment-rundown-living": {
+      "horizonY": 38,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 48,
+          "y": 84,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 84,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-rundown-living:spot:0"
+        },
+        {
+          "x": 48,
+          "y": 66,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-rundown-living:spot:1"
+        },
+        {
+          "x": 58,
+          "y": 66,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-rundown-living:spot:2"
+        },
+        {
+          "x": 40,
+          "y": 66,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-rundown-living:spot:3"
+        },
+        {
+          "x": 78,
+          "y": 71,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 71,
+          "role": "general",
+          "id": "apartment-rundown-living:spot:4"
+        },
+        {
+          "x": 28,
+          "y": 72,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 72,
+          "role": "general",
+          "id": "apartment-rundown-living:spot:5"
+        },
+        {
+          "x": 84,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "apartment-rundown-living:spot:6"
+        },
+        {
+          "x": 62,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "apartment-rundown-living:spot:7"
+        }
+      ],
+      "measuredFrom": "sofa seat 0.45 m foot 65 top 57 and back wall floor-to-ceiling 2.4 m foot 60 top 14 give horizon ~38, 0.75",
+      "surfaceSlots": []
+    },
+    "apartment-starter-living": {
+      "horizonY": 41,
+      "metersPercent": 0.9,
+      "spots": [
+        {
+          "x": 46,
+          "y": 82,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 82,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-starter-living:spot:0"
+        },
+        {
+          "x": 42,
+          "y": 66,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-starter-living:spot:1"
+        },
+        {
+          "x": 55,
+          "y": 66,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66,
+          "seatY": 58,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-starter-living:spot:2"
+        },
+        {
+          "x": 80,
+          "y": 67,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 67,
+          "seatY": 57,
+          "group": "table",
+          "role": "general",
+          "id": "apartment-starter-living:spot:3"
+        },
+        {
+          "x": 93,
+          "y": 77,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 77,
+          "seatY": 64,
+          "group": "table",
+          "role": "general",
+          "id": "apartment-starter-living:spot:4"
+        },
+        {
+          "x": 62,
+          "y": 79,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 79,
+          "role": "general",
+          "id": "apartment-starter-living:spot:5"
+        },
+        {
+          "x": 28,
+          "y": 72,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 72,
+          "role": "general",
+          "id": "apartment-starter-living:spot:6"
+        },
+        {
+          "x": 68,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "apartment-starter-living:spot:7"
+        }
+      ],
+      "measuredFrom": "sofa seat 0.45 m foot 65 top 58, back wall 2.4 m foot 61 top 17 and folding chair seat 0.45 m foot 77 top 63 solve to horizon ~41, 0.9",
       "surfaceSlots": []
     },
     "apartment-student-shared": {
@@ -22463,6 +22805,64 @@
       "measuredFrom": "guest chair backs 0.9 m foot 67 top 52 (0.5), tile rows converge near 34; teller counter 1.0 m; standing scale 0.5 from 34",
       "surfaceSlots": []
     },
+    "bedroom-plain": {
+      "horizonY": 26,
+      "metersPercent": 0.95,
+      "spots": [
+        {
+          "x": 18,
+          "y": 72,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 72,
+          "hero": true,
+          "role": "general",
+          "id": "bedroom-plain:spot:0"
+        },
+        {
+          "x": 84,
+          "y": 68,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 68,
+          "role": "general",
+          "id": "bedroom-plain:spot:1"
+        },
+        {
+          "x": 24,
+          "y": 66,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 66,
+          "role": "general",
+          "id": "bedroom-plain:spot:2"
+        },
+        {
+          "x": 42,
+          "y": 77,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 77,
+          "seatY": 68,
+          "group": "bed",
+          "role": "general",
+          "id": "bedroom-plain:spot:3"
+        },
+        {
+          "x": 58,
+          "y": 77,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 77,
+          "seatY": 68,
+          "group": "bed",
+          "role": "general",
+          "id": "bedroom-plain:spot:4"
+        }
+      ],
+      "measuredFrom": "nightstand 0.6 m foot 62 top 40 and bed 1.6 m wide about 45% of the picture width (close-up camera) solve to horizon ~26, 0.95; closet door reads 2 m",
+      "surfaceSlots": []
+    },
     "cemetery-graveside": {
       "horizonY": 48,
       "metersPercent": 0.4,
@@ -23867,6 +24267,231 @@
       "measuredFrom": "armchair seat 0.45 m foot 74 seat 63.5 (23 per m), back wall base 63.8 with 2.7 m wall to 14 (17 per m); 38 / 0.65",
       "surfaceSlots": []
     },
+    "house-bedroom": {
+      "horizonY": 35,
+      "metersPercent": 0.83,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "house-bedroom:spot:0"
+        },
+        {
+          "x": 26,
+          "y": 70,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 70,
+          "role": "general",
+          "id": "house-bedroom:spot:1"
+        },
+        {
+          "x": 82,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "house-bedroom:spot:2"
+        },
+        {
+          "x": 42,
+          "y": 80,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 80,
+          "seatY": 71,
+          "group": "bed",
+          "role": "general",
+          "id": "house-bedroom:spot:3"
+        },
+        {
+          "x": 58,
+          "y": 80,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 80,
+          "seatY": 71,
+          "group": "bed",
+          "role": "general",
+          "id": "house-bedroom:spot:4"
+        }
+      ],
+      "measuredFrom": "nightstand 0.6 m foot 66 top 51 and closet door 2 m foot 71 top 5 solve to horizon ~35, 0.83",
+      "surfaceSlots": []
+    },
+    "house-rural-kitchen": {
+      "horizonY": 30,
+      "metersPercent": 0.55,
+      "spots": [
+        {
+          "x": 30,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "house-rural-kitchen:spot:0"
+        },
+        {
+          "x": 48,
+          "y": 88,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 88,
+          "seatY": 75,
+          "group": "table",
+          "role": "general",
+          "id": "house-rural-kitchen:spot:1"
+        },
+        {
+          "x": 81,
+          "y": 86,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 86,
+          "seatY": 74,
+          "group": "table",
+          "role": "general",
+          "id": "house-rural-kitchen:spot:2"
+        },
+        {
+          "x": 71,
+          "y": 97,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 97,
+          "seatY": 82,
+          "group": "table",
+          "role": "general",
+          "id": "house-rural-kitchen:spot:3"
+        },
+        {
+          "x": 62,
+          "y": 77,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 77,
+          "seatY": 72,
+          "clipBelowY": 68,
+          "group": "table",
+          "role": "general",
+          "id": "house-rural-kitchen:spot:4"
+        },
+        {
+          "x": 32,
+          "y": 73,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 73,
+          "role": "general",
+          "id": "house-rural-kitchen:spot:5"
+        },
+        {
+          "x": 41,
+          "y": 71,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 71,
+          "role": "general",
+          "id": "house-rural-kitchen:spot:6"
+        },
+        {
+          "x": 88,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "house-rural-kitchen:spot:7"
+        }
+      ],
+      "measuredFrom": "counter 0.9 m foot 71 top 51 and table 0.75 m near foot 94 top 68 solve to horizon ~30, 0.55; chair seat 0.45 m foot 90 top 77 agrees",
+      "surfaceSlots": []
+    },
+    "house-suburban-living": {
+      "horizonY": 38,
+      "metersPercent": 0.9,
+      "spots": [
+        {
+          "x": 52,
+          "y": 84,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 84,
+          "hero": true,
+          "role": "general",
+          "id": "house-suburban-living:spot:0"
+        },
+        {
+          "x": 33,
+          "y": 68,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 68,
+          "seatY": 57,
+          "group": "sofa",
+          "role": "general",
+          "id": "house-suburban-living:spot:1"
+        },
+        {
+          "x": 46,
+          "y": 64,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 64,
+          "seatY": 56,
+          "group": "sofa",
+          "role": "general",
+          "id": "house-suburban-living:spot:2"
+        },
+        {
+          "x": 12,
+          "y": 82,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 82,
+          "seatY": 67,
+          "role": "general",
+          "id": "house-suburban-living:spot:3"
+        },
+        {
+          "x": 68,
+          "y": 74,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 74,
+          "role": "general",
+          "id": "house-suburban-living:spot:4"
+        },
+        {
+          "x": 80,
+          "y": 72,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 72,
+          "role": "general",
+          "id": "house-suburban-living:spot:5"
+        },
+        {
+          "x": 62,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 88,
+          "role": "general",
+          "id": "house-suburban-living:spot:6"
+        }
+      ],
+      "measuredFrom": "fireplace mantel ~1.3 m foot 66 top 30 and recliner/sofa seat 0.45 m (recliner foot 82 seat 66, sofa foot 66 seat 58) solve to horizon ~38, 0.9",
+      "surfaceSlots": []
+    },
     "jail-visiting-room": {
       "horizonY": 50,
       "metersPercent": 0.78,
@@ -24394,6 +25019,86 @@
         }
       ],
       "measuredFrom": "folding chair back 0.85 m foot 92.5 top 58 (40 per m), board table 0.75 m foot 47 top 33.5 (18 per m); 11 / 0.50",
+      "surfaceSlots": []
+    },
+    "trailer-home-living": {
+      "horizonY": 35,
+      "metersPercent": 0.45,
+      "spots": [
+        {
+          "x": 52,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "trailer-home-living:spot:0"
+        },
+        {
+          "x": 36,
+          "y": 88,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 88,
+          "seatY": 79,
+          "group": "sofa",
+          "role": "general",
+          "id": "trailer-home-living:spot:1"
+        },
+        {
+          "x": 28,
+          "y": 77,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 77,
+          "seatY": 68,
+          "group": "sofa",
+          "role": "general",
+          "id": "trailer-home-living:spot:2"
+        },
+        {
+          "x": 38,
+          "y": 71,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 71,
+          "seatY": 62,
+          "group": "table",
+          "role": "general",
+          "id": "trailer-home-living:spot:3"
+        },
+        {
+          "x": 47,
+          "y": 76,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 76,
+          "seatY": 67,
+          "group": "table",
+          "role": "general",
+          "id": "trailer-home-living:spot:4"
+        },
+        {
+          "x": 56,
+          "y": 70,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 70,
+          "role": "general",
+          "id": "trailer-home-living:spot:5"
+        },
+        {
+          "x": 62,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "trailer-home-living:spot:6"
+        }
+      ],
+      "measuredFrom": "refrigerator 1.7 m foot 66 top 42 and kitchen counter end 0.9 m foot 75 top 59 solve to horizon ~35, 0.45 (narrow hallway view)",
       "surfaceSlots": []
     },
     "white-house-exterior": {
