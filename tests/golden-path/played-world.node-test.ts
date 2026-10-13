@@ -111,8 +111,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     byTown: true,
   },
   "nobody serves after moving away": { owner: "FIXER-MOVES" },
-  "a named challenger runs": { owner: "OPUS-OFFICIALS" },
-  "counted voters vote in local races": { owner: "FIXER-OFFICES-ELECTIONS" },
   "the counted population changes": { owner: "OPUS-CORE" },
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
   "homes have values and rents": { owner: "FIXER-ECONOMY" },
