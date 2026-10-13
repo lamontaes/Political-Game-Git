@@ -8,8 +8,8 @@ import {
   ageOnDate,
   daysBetween,
   makeIsoDate,
-} from "../../simulation/dates";
-import { stableHash } from "../../simulation/ids";
+} from "../kernel/dates";
+import { stableHash } from "../kernel/ids";
 import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
 import { developerBanners } from "../stopgaps";

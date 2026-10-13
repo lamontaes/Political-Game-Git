@@ -3,7 +3,7 @@ import {
   resolveGeneratedHouseholdSourceFromInput,
 } from "./generated-household-source";
 import { describe, expect, it } from "vitest";
-import { estimatedMonthlyHouseholdLivingCosts } from "../simulation/living-costs-data";
+import { estimatedMonthlyHouseholdLivingCosts } from "./reference/living-costs-data";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "./business-books";
 import type {
   CreditFacilityInput,

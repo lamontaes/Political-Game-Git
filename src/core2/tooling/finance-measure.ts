@@ -12,7 +12,7 @@ import {
 import { dirname, relative, resolve, sep } from "node:path";
 import { performance } from "node:perf_hooks";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION } from "../data";
 import { createLifeCore } from "../life";
 import { createOpeningFinance } from "../opening-finance";
