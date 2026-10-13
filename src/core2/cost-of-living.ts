@@ -1,0 +1,286 @@
+/**
+ * A household's cost of living (owner, Oct 13, 2026: "it's just rent. That's
+ * it. Or mortgage"). Money out of a household is two things: its housing
+ * payment (the lease or the mortgage with its escrow, standing bills from
+ * housing that fall behind and can end in eviction) and one everyday-living
+ * amount a month, paid from what its members hold.
+ *
+ * The everyday amount is the household's opening purchases: the BLS Consumer
+ * Expenditure Survey's spending for its region and size (living-costs-data),
+ * at the town's sellers in the shares the opening gave them. Every household
+ * purchase the opening or fill-in hands the core arrives here as one plan per
+ * household, not one bill per store on a payday calendar.
+ *
+ * Each month, on the household's day: the members keep back what their home
+ * costs this month (rent or mortgage first), and spend up to the everyday
+ * amount from the rest, at the sellers still open. What they can't afford goes
+ * unbought; it is never a debt. Each seller's sale goes through the sales tax
+ * at the seller's place, so sales-tax laws still collect.
+ */
+import { transfer } from "./accounts";
+import { makeIsoDate } from "./kernel/dates";
+import type { FinanceContractInput } from "./finance-types";
+import type { CoreAPI, CoreState, IsoDate, Source } from "./types";
+
+export const EVERYDAY_LIVING_KIND = "household.everyday-living";
+
+/** One household's everyday spending: its monthly amount, split among sellers. */
+export interface LivingPlan {
+  householdId: string;
+  dueAt: IsoDate;
+  billingDay: number;
+  /** Monthly amount at each seller, by seller id. */
+  sellers: Map<string, number>;
+  monthlyMinor: number;
+  source: Source;
+  /** Last month's spending, for the household's month and the player's view. */
+  lastAt?: IsoDate;
+  lastRequestedMinor: number;
+  lastPaidMinor: number;
+}
+
+/** A household purchase: a budget a household spends at a seller, not a debt. */
+export function isEverydayPurchase(
+  core: CoreState,
+  input: FinanceContractInput,
+): boolean {
+  return (
+    input.householdId !== undefined &&
+    input.salesReceipt === true &&
+    !input.accruesArrears &&
+    !input.recipientIncome &&
+    !input.creditFacilityId &&
+    !input.interestFacilityId &&
+    !input.salesReceiptBudget &&
+    !input.externalInflow &&
+    input.payerIds.every((id) => core.people.has(id))
+  );
+}
+
+function index(core: CoreState, dueAt: IsoDate, id: string): void {
+  const ids = core.finance.livingDueAt.get(dueAt) ?? new Set<string>();
+  ids.add(id);
+  core.finance.livingDueAt.set(dueAt, ids);
+}
+
+function unindex(core: CoreState, dueAt: IsoDate, id: string): void {
+  const ids = core.finance.livingDueAt.get(dueAt);
+  ids?.delete(id);
+  if (ids && !ids.size) core.finance.livingDueAt.delete(dueAt);
+}
+
+/** Folds one household purchase into the household's plan. */
+export function admitEverydayPurchase(
+  core: CoreState,
+  input: FinanceContractInput,
+): void {
+  if (!core.cashJournal.residualAccountByOwner.has(input.payeeId))
+    throw new Error(`Unknown seller account: ${input.payeeId}`);
+  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
+    throw new Error(`Invalid household purchase amount: ${input.id}`);
+  const householdId = input.householdId!;
+  const monthly = Math.round(input.amountMinor / input.periodMonths);
+  let plan = core.finance.livingPlans.get(householdId);
+  if (!plan) {
+    const day = Number(input.dueAt.slice(8));
+    let dueAt: IsoDate = makeIsoDate(input.dueAt);
+    while (dueAt < core.date) dueAt = nextMonth(dueAt, day);
+    plan = {
+      householdId,
+      dueAt,
+      billingDay: day,
+      sellers: new Map(),
+      monthlyMinor: 0,
+      source: {
+        tag: "ESTIMATED",
+        asOf: input.source.asOf,
+        citation: input.source.citation,
+        estimatedFrom:
+          "The household's opening purchases (BLS Consumer Expenditure Survey spending for its region and size), merged into one monthly everyday-living amount at the town's sellers.",
+      },
+      lastRequestedMinor: 0,
+      lastPaidMinor: 0,
+    };
+    core.finance.livingPlans.set(householdId, plan);
+    index(core, plan.dueAt, householdId);
+  }
+  plan.sellers.set(
+    input.payeeId,
+    (plan.sellers.get(input.payeeId) ?? 0) + monthly,
+  );
+  plan.monthlyMinor += monthly;
+}
+
+/** The household no longer lives here: its everyday spending ends. */
+export function endLivingPlan(core: CoreState, householdId: string): void {
+  const plan = core.finance.livingPlans.get(householdId);
+  if (!plan) return;
+  unindex(core, plan.dueAt, householdId);
+  core.finance.livingPlans.delete(householdId);
+}
+
+/** The household's plan, if it spends here. */
+export function livingPlan(
+  core: CoreState,
+  householdId: string,
+): Readonly<LivingPlan> | undefined {
+  return core.finance.livingPlans.get(householdId);
+}
+
+/** The same day of the next month, or that month's last day. */
+function nextMonth(at: IsoDate, day: number): IsoDate {
+  const date = new Date(`${at}T00:00:00.000Z`);
+  const year = date.getUTCFullYear(),
+    month = date.getUTCMonth() + 1;
+  const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+  return makeIsoDate(
+    new Date(Date.UTC(year, month, Math.min(day, last)))
+      .toISOString()
+      .slice(0, 10),
+  );
+}
+
+function mainBalance(core: CoreState, ownerId: string): number {
+  const owner = core.people.get(ownerId);
+  if (!owner) return 0;
+  let allocated = 0;
+  for (const id of core.cashJournal.accountsByOwner.get(ownerId) ?? [])
+    allocated += core.cashJournal.accounts.get(id)?.allocatedMinor ?? 0;
+  return Math.max(0, owner.liquidMinor - allocated);
+}
+
+/** What the household's home and debts cost this month, kept back first. */
+function housingThisMonth(core: CoreState, householdId: string): number {
+  let owed = 0;
+  for (const id of core.finance.obligationsByHousehold.get(householdId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    owed += row.amountMinor / row.periodMonths + row.arrearsMinor;
+  }
+  return Math.ceil(owed);
+}
+
+function settle(
+  api: CoreAPI,
+  plan: LivingPlan,
+  notify: (sale: {
+    id: string;
+    sellerId: string;
+    buyerIds: string[];
+    paidMinor: number;
+  }) => void,
+): void {
+  const core = api.state,
+    date = core.date;
+  const members = (core.households.get(plan.householdId)?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter(
+      (person) =>
+        person?.alive && core.cashJournal.residualAccountByOwner.has(person.id),
+    );
+  if (!members.length) return endLivingPlan(core, plan.householdId);
+  const held = members.reduce(
+    (n, person) => n + mainBalance(core, person!.id),
+    0,
+  );
+  const budget = Math.max(
+    0,
+    Math.min(
+      plan.monthlyMinor,
+      held - housingThisMonth(core, plan.householdId),
+    ),
+  );
+  // Sellers still open take the closed ones' shares, in proportion.
+  const open = [...plan.sellers]
+    .filter(([id]) => {
+      const book = core.finance.businesses.get(id);
+      return core.organizations.has(id) && !book?.closedAt;
+    })
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  const weight = open.reduce((n, [, amount]) => n + amount, 0);
+  let paidTotal = 0,
+    left = budget,
+    payer = 0;
+  for (const [index, [sellerId, amount]] of open.entries()) {
+    if (left <= 0 || weight <= 0) break;
+    let share =
+      index === open.length - 1 ? left : Math.floor((budget * amount) / weight);
+    share = Math.min(share, left);
+    let paid = 0,
+      leg = 0;
+    while (share - paid > 0 && payer < members.length) {
+      const from = members[payer]!;
+      const receipt = transfer(core, api, {
+        id: `living:${plan.householdId}:${date}:${sellerId}:${leg}`,
+        from: core.cashJournal.residualAccountByOwner.get(from.id)!,
+        to: core.cashJournal.residualAccountByOwner.get(sellerId)!,
+        amountMinor: share - paid,
+        reasonKey: EVERYDAY_LIVING_KIND,
+        source: plan.source,
+        partial: true,
+      });
+      paid += receipt.paidMinor;
+      leg += 1;
+      if (paid < share) payer += 1;
+    }
+    left -= paid;
+    paidTotal += paid;
+    if (paid <= 0) continue;
+    const book = core.finance.businesses.get(sellerId);
+    if (book) {
+      book.receivedMinor += paid;
+      book.salesReceivedMinor += paid;
+    }
+    notify({
+      id: `living:${plan.householdId}:${date}:${sellerId}`,
+      sellerId,
+      buyerIds: members.map((person) => person!.id),
+      paidMinor: paid,
+    });
+  }
+  plan.lastAt = date;
+  plan.lastRequestedMinor = plan.monthlyMinor;
+  plan.lastPaidMinor = paidTotal;
+  const totals = core.finance.totalsByKind.get(EVERYDAY_LIVING_KIND) ?? {
+    requestedMinor: 0,
+    paidMinor: 0,
+    unfundedMinor: 0,
+    borrowedMinor: 0,
+    repaidMinor: 0,
+  };
+  core.finance.totalsByKind.set(EVERYDAY_LIVING_KIND, {
+    ...totals,
+    requestedMinor: totals.requestedMinor + plan.monthlyMinor,
+    paidMinor: totals.paidMinor + paidTotal,
+    unfundedMinor: totals.unfundedMinor + (plan.monthlyMinor - paidTotal),
+  });
+}
+
+/** Today's everyday spending for every household whose day it is. */
+export function settleLivingDay(
+  api: CoreAPI,
+  notify: (sale: {
+    id: string;
+    sellerId: string;
+    buyerIds: string[];
+    paidMinor: number;
+  }) => void,
+): void {
+  const core = api.state;
+  const due = [...core.finance.livingDueAt.keys()]
+    .filter((at) => at <= core.date)
+    .sort();
+  const ids: string[] = [];
+  for (const at of due) {
+    ids.push(...[...core.finance.livingDueAt.get(at)!].sort());
+    core.finance.livingDueAt.delete(at);
+  }
+  for (const id of ids) {
+    const plan = core.finance.livingPlans.get(id);
+    if (!plan) continue;
+    settle(api, plan, notify);
+    if (!core.finance.livingPlans.has(id)) continue;
+    plan.dueAt = nextMonth(plan.dueAt, plan.billingDay);
+    index(core, plan.dueAt, id);
+  }
+}
