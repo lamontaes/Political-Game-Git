@@ -23,6 +23,7 @@ import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openLegislature } from "../core2/modules/legislature";
 import { openLawEffects } from "../core2/modules/law-effects";
+import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -274,6 +275,9 @@ function* benchWorldStages(
   openBudgets(core);
   openLegislature(core);
   openLawEffects(core);
+  // Every engine built under src/core2/modules runs here (PW-2): other
+  // governments legislate on their own.
+  openWorldLegislating(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
