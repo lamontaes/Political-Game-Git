@@ -4592,5 +4592,21 @@
       "unit": "months",
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
+  },
+  "openingTeacherAnnualWageUsd": {
+    "value": 63970,
+    "tag": "SOURCED",
+    "citation": "BLS Occupational Employment and Wage Statistics, May 2025, national median annual wage for the game's teacher occupation (profession:teacher), as the town pay table records it (src/simulation/living-world/town-pay.ts, nationalMedianAnnualWage). Used only where a town has no recorded teacher job to copy."
+  },
+  "openingTeacherHoursDaily": {
+    "value": 7.5,
+    "tag": "TUNABLE",
+    "citation": "A full-time teacher's school day where the town has no recorded teacher to copy; the town generator's recorded teacher roles are the reference.",
+    "spread": {
+      "low": 7,
+      "high": 8.5,
+      "unit": "hours a day",
+      "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
+    }
   }
 }
