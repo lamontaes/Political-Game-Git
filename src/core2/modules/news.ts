@@ -132,8 +132,7 @@ function recentOf(api: CoreAPI): Map<PersonId, Recent> {
     map = new Map();
     for (const row of heard(api).rows()) {
       const story = stories(api).get(row.storyId as string) as unknown as
-        | Story
-        | undefined;
+        Story | undefined;
       if (story)
         addRecent(map, row.personId as string, {
           storyId: story.id,
