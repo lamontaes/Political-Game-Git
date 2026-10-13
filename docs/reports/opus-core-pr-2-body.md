@@ -38,7 +38,7 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 ## Checks
 
-- The three blocking golden-path checks pass on this branch after today's merge with main: the suite runs and fits its time (Idaville, Indiana), the speed guard (Taos, Missouri), and a played world that runs a full year with every engine (Cruz Bay, U.S. Virgin Islands).
+- The three blocking golden-path checks pass on this branch's head: the suite runs and fits its time (Silver Summit, Utah), the speed guard (Carmet, California), and a played world that runs a full year with every engine (Lamar, Mississippi).
 - Disasters: the test draws places from its seed until one has a disaster beginning in 2021, then checks one news event per disaster, no payment above FEMA's figure, and balanced money. It passed in Winchester, Idaho (1 disaster); Long Beach, New York (3, with one housing-aid payment and three repair payments); and Dyersburg, Tennessee (2), with seeds a1, c3 and e5.
 - The speed guard compares a change with its own base in its own drawn town. I don't know yet why it passed the two main merges that slowed Woodmere's year by more than 20%, and I've added that question for the CTO.
 - Speed and memory in Woodmere (cloud machine, not a minimum-spec PC): a new game loads in 67.8 seconds and a year runs in 108.6, each against a two-minute budget. A year-old save is 15.1 MB compressed against 40 MB. The slowest day fails, as above.
@@ -46,11 +46,11 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 ## What happens next
 
-- Woodmere's year, measured on each commit in turn: 58.5 seconds this morning; 78.3 after the 11:20 a.m. main merge; 80.8 before and 110.3 after the 1:23 p.m. merge; 122.3 at this branch's head before the fix; 108.6 after it. Between the two merges, the core's own commits (school days among them, already on main) added 2.5 seconds. Between the 1:23 p.m. merge and the head, the core's later work added 12 seconds (11%), under the 20% limit. Of that, 3.5 seconds came before the disasters work and 8.5 after it, but load times alone vary from 52 to 79 seconds between runs of the same commit, so neither step is clearly more than noise.
+- Woodmere's year, measured on each commit in turn: 58.5 seconds this morning; 78.3 after the 11:20 a.m. main merge; 80.8 before and 110.3 after the 1:23 p.m. merge; 122.3 at this branch's head before the fix; 108.6 after it. Between the two merges, the core's own commits (school days among them, already on main) added 2.5 seconds. Between the 1:23 p.m. merge and the head, the core's later work added 12 seconds (11%), under the 20% limit. Of that, 3.5 seconds came before the disasters work and 8.5 after it. A year's time repeats within about 3 seconds: two commits with the same game code measured 121.2 and 122.3 seconds, and this morning's commit measured 55.8 then and 58.5 tonight. So the 8.5 seconds after the disasters work is likely real, and I'll trace it next. The other teams' slowdowns of 19.8 and 29.5 seconds, and the fix's 13.7 seconds, are each well beyond that range. Load times vary far more: this morning's commit loaded in 55.7 seconds then and 93 seconds tonight. So the 67.8-second load is one reading, not a settled figure.
 - The research for each place's citizenship rule at birth is ready for the people and government teams; full people don't carry citizenship yet.
 - Three retired parameters are gone, and two more estimates are settled (the share of a career with covered work, and the mood baseline).
 - Eleven more core files read the core's own date, id and reference folders instead of the old engine's.
 
 ## Method
 
-Measured on this branch on October 13, 2026, one run each, in the cloud. Woodmere used seed m701-a, one process at a time, with bookkeeping off. Gonzales used seed ida. Details for every run are in `docs/coordination/core.md`.
+Measured on this branch on October 13, 2026, in the cloud, one run each except the two repeats named under "What happens next". Woodmere used seed m701-a, one process at a time, with bookkeeping off. Gonzales used seed ida. Details for every run are in `docs/coordination/core.md`.
