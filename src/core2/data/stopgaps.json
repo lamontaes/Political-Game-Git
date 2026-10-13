@@ -92,8 +92,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 13 (OPUS-CORE): 0 is definitional (mood is a deviation from each person's own set point); recorded as such with a citation.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-moodHalfLifeDays",
