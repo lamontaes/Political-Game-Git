@@ -26,6 +26,7 @@ import { openLawEffects } from "../core2/modules/law-effects";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { openWorldRaces } from "../core2/modules/world-races";
 import { peopleData, peopleModules } from "../director/play-modules";
+import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
@@ -260,6 +261,9 @@ function* benchWorldStages(
       // Every people engine a played world installs (OPUS-PEOPLE): health,
       // drives, views, news, speeches, who runs, corruption and beliefs.
       ...peopleModules(),
+      // The outcome web (PW-2): crime, schooling, coverage and the other
+      // outcomes, moved by their researched causes each month.
+      OUTCOME_WEB_MODULE,
       director.module,
     ],
   });
