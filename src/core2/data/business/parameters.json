@@ -35,12 +35,12 @@
   "businessCushionMonths": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016).",
+    "citation": "Median small business cash buffer of about 27 days of outflows, pay and other costs alike (JPMorgan Chase Institute 2016, Cash is King).",
     "spread": {
       "low": 0.5,
       "high": 3,
-      "unit": "months of payroll",
-      "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016)."
+      "unit": "months of outflows",
+      "citation": "Median small business cash buffer of about 27 days of outflows, pay and other costs alike (JPMorgan Chase Institute 2016, Cash is King)."
     }
   },
   "businessDaysPerMonth": {

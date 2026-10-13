@@ -237,6 +237,18 @@ function scheduleMonth(api: CoreAPI): void {
   });
 }
 
+/** The cash a business keeps for its outflows: a month or so of its pay and its other costs (JPMorgan Chase Institute: about 27 days of outflows). */
+function cushionOf(
+  book: { annualPayrollMinor: number; annualOtherCostsMinor: number },
+  p: (key: string) => number,
+): number {
+  return (
+    ((book.annualPayrollMinor + book.annualOtherCostsMinor) /
+      p("macroMonthsPerYear")) *
+    p("businessCushionMonths")
+  );
+}
+
 /** A business's cash less what it owes on its credit lines. */
 function netCash(c: CoreState, organizationId: string): number {
   let owed = 0;
@@ -597,9 +609,7 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
   const net = netCash(c, row.id);
   const retained = row.retainedMinor + (net - (row.netThrough ?? net));
   const cash = c.organizations.get(row.id)!.liquidMinor;
-  const cushion =
-    (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-    p("businessCushionMonths");
+  const cushion = cushionOf(book, p);
   const swept =
     retained > 0
       ? transferCash(
@@ -656,9 +666,7 @@ function month(api: CoreAPI): void {
     // Losses carry: an owner draws only from profit the business has kept, net of losses since.
     const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
-    const cushion =
-      (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-      p("businessCushionMonths");
+    const cushion = cushionOf(book, p);
     const ownerDays =
       owner.livingCostDailyMinor > 0
         ? owner.liquidMinor / owner.livingCostDailyMinor
@@ -947,9 +955,7 @@ function foundings(api: CoreAPI): void {
       if (!book || book.closedAt || book.kindId !== market.kindId) return;
       if (!owner?.alive) return;
       const cash = c.organizations.get(row.id)!.liquidMinor;
-      const cushion =
-        (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-        p("businessCushionMonths");
+      const cushion = cushionOf(book, p);
       // Cash against its cushion, on a sliding scale from -1 (none) toward +1.
       const strength = cushion > 0 ? (cash - cushion) / (cash + cushion) : 0;
       return { row, owner, cash, cushion, strength };
