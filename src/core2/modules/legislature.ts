@@ -36,6 +36,7 @@ import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
 import {
+  BUDGETS_MODULE_ID,
   amendBudget,
   budgetPriorities,
   proposedBudget,
@@ -346,6 +347,45 @@ function councilBudget(
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
   return budget;
+}
+
+/**
+ * What each member of the bodies that vote a government's budget thinks of
+ * one proposed line change on its own: their views and their constituents'
+ * on that change (the budget's other terms are the same for every line).
+ * For staff advice on budget priorities; null where no body votes it.
+ */
+export function budgetLineStakes(
+  api: CoreAPI,
+  governmentId: string,
+  line: string,
+  delta: number,
+): { chamber: string; memberId: string; stake: number }[] | null {
+  const gov = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("governments")
+    .get(governmentId) as unknown as GovernmentRow | undefined;
+  const chambers = gov ? budgetChambers(api, gov) : null;
+  if (!chambers) return null;
+  const trial = {
+    id: `trial:${governmentId}:${line}`,
+    number: "",
+    bodyOfficeId: chambers.introducedIn,
+    sponsorId: "",
+    introduced: api.state.date,
+    provisions: [{ kind: "budget-line", line, value: delta }],
+    costEstimate: { workersRaised: 0, annualPayMinor: 0, note: "" },
+    authority: [],
+    status: "drafted",
+    deals: [],
+  } as unknown as BillRow;
+  return chambers.chambers.flatMap((chamber) =>
+    members(api, chamber).map((m) => {
+      const memberId = memberKey(m);
+      const p = positionOn(api, trial, memberId);
+      return { chamber, memberId, stake: p.views + p.constituents };
+    }),
+  );
 }
 
 /**

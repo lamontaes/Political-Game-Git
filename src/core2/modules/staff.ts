@@ -22,6 +22,7 @@ import { campaignParameter, personLean, personStance } from "../campaign-views";
 import { lawChain } from "./laws";
 import {
   LEGISLATURE_MODULE_ID,
+  budgetLineStakes,
   learnStake,
   members,
   provisionStance,
@@ -271,6 +272,70 @@ export function briefOnBill(
     of: body.length,
   });
   return { work, stakes };
+}
+
+/**
+ * Advice on budget priorities: for each proposed line change, the staffer
+ * reads as many members of each voting chamber as their work covers and
+ * reports who favors and who opposes it; a change opposed by more of those
+ * read than favor it, in any chamber, is at risk of being dropped when the
+ * budget is negotiated.
+ */
+export function adviseOnBudget(
+  api: CoreAPI,
+  stafferId: string,
+  governmentId: string,
+  changes: Readonly<Record<string, number>>,
+): {
+  work: WorkRecord;
+  lines: readonly {
+    line: string;
+    delta: number;
+    chambers: readonly {
+      chamber: string;
+      read: number;
+      of: number;
+      favor: number;
+      oppose: number;
+    }[];
+    atRisk: boolean;
+  }[];
+} | null {
+  const staffer = table(api, "staff").get(stafferId) as unknown as StafferRow;
+  const q = workQuality(api, staffer, null);
+  const lines = [];
+  for (const [line, delta] of Object.entries(changes).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    const stakes = budgetLineStakes(api, governmentId, line, delta);
+    if (!stakes) return null;
+    const chambers = [...new Set(stakes.map((s) => s.chamber))].map(
+      (chamber) => {
+        const body = stakes
+          .filter((s) => s.chamber === chamber)
+          .sort((a, b) => a.memberId.localeCompare(b.memberId));
+        const read = body.slice(0, Math.round(q.quality * body.length));
+        return {
+          chamber,
+          read: read.length,
+          of: body.length,
+          favor: read.filter((s) => s.stake > 0).length,
+          oppose: read.filter((s) => s.stake < 0).length,
+        };
+      },
+    );
+    lines.push({
+      line,
+      delta,
+      chambers,
+      atRisk: chambers.some((c) => c.oppose > c.favor),
+    });
+  }
+  const work = record(api, staffer, "budget-advice", q, {
+    governmentId,
+    lines: lines.length,
+  });
+  return { work, lines };
 }
 
 /**
