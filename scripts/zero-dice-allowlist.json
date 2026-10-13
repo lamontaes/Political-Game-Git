@@ -1696,6 +1696,17 @@
       "keyedBy": "household id (household ages)",
       "reason": "Poisson count for a generated household's size, counted down through its terms; who exists, not what anyone does.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/population.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "new SeededRng(seedWorld.seed) .fork(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}:cohort`) .next() * total;",
+      "class": "GENERATION",
+      "keyedBy": "the opening household's own key",
+      "reason": "Whether the family that brings the player's cohort into a town with none is a couple or a single parent with children: who exists at the opening, in the place's split of family households, keyed to that household.",
+      "replacement": "the place's own family households by shape from a fuller survey sample"
     }
   ]
 }
