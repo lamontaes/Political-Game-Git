@@ -3,6 +3,7 @@
 Owner: Lamontae. Written by the Opus CTO on Oct 13, 2026, from the code at main `d39511ac2`.
 
 You are the one session that owns **how people are drawn in scenes**:
+
 - which figure stands for a person;
 - where and how they stand or sit;
 - which way they face;
@@ -111,3 +112,16 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 - Never a real politician.
 - Never hard-code a person's figure. It always comes from data and their record.
 - Open each PR ready, not as a draft. The CTO's merge queue merges any ready PR with no conflicts.
+
+## Status (PEOPLE session)
+
+Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx scripts/people/scene-shots.ts <out> [seed ...]` builds fresh games in random places and renders the intro, home, a workplace, the council, the state chamber, the U.S. House and Senate, the Oval Office and a conversation, with a count of figures by source.
+
+- [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
+- [ ] 6. Shadows at the feet (PR 2).
+- [ ] 3–5. Facing, staging, size (PR 3).
+- [ ] 7–10. Activity picker, no twins, the player's identity, who is there (PR 4).
+- [ ] 2. Seated figures: wiring ready for the CTO's seated art (PR 5).
+- [x] 11. Art requests: `docs/coordination/people-art-requests.md`.
+
+Left in place on purpose: `src/presentation/complete-outfit.ts`, `engine-people29-data.ts`, `private-candidate-manifests.ts`, `runtime-art.ts` and `bundled-art.ts`. Nothing from `/play` reaches them, but old scene and prose tooling still imports them (`scripts/prose-corpus`, `src/presentation/scene-registry.ts`); they go with the old-core removal.
