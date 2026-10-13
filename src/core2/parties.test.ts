@@ -14,12 +14,10 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   ballot,
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type FilingRow,
 } from "./modules/elections";
 import { knockDoors, openCampaigns } from "./modules/campaigns";
@@ -135,19 +133,10 @@ describe("M2-08 parties", () => {
           platform: [
             `${pick(PLATFORM_QUESTIONS, "q")}=${party.side > 0 ? 1 : -1}`,
           ],
-          payFee: true,
           party: party.name,
         });
         if (r.status === "refused") break;
-        let f = r.filing;
-        for (const n of [...core.people.keys()].sort()) {
-          if (f.status === "on-ballot") break;
-          requestSignature(api, f.id, n);
-          f = api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(f.id) as unknown as FilingRow;
-        }
+        const f = r.filing;
         if (f.status === "on-ballot") filed.push(f);
       }
       if (filed.length === 2) {

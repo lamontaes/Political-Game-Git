@@ -162,7 +162,6 @@ export function chooseAtCounter(
       core,
       state.visit.playerId,
       action.contestId,
-      action.payFee,
       filing,
     );
     state.visit.lines.push({

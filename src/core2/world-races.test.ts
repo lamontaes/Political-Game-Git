@@ -1,8 +1,8 @@
 /**
  * M2-10 (first slice): in an election year every state and federal race
  * resolves: the town's own races with named voters (voting.ts) and every
- * other seat at the coarse level from its electorate's lean, the national
- * environment and incumbency. Winners are seated on the real dates.
+ * other seat counted in its blocks of simulated voters
+ * (electorate-blocks.ts). Winners are seated on the real dates.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -93,10 +93,14 @@ describe("M2-10 state and federal races in the world", () => {
     expect(senate.length).toBeGreaterThanOrEqual(30);
     for (const r of races) {
       expect(r.date).toBe("2026-11-03");
+      // Counted in its blocks: the share is the blocks' votes, and every
+      // race keeps each party's reasons.
+      expect(r.blocks, r.seatId).toBeGreaterThan(0);
       expect(r.republicanShare).toBeCloseTo(
-        r.lean + r.environment + r.incumbency,
+        r.votes!.republican / (r.votes!.republican + r.votes!.democratic),
         9,
       );
+      expect(r.reasons?.length).toBe(2);
       if (r.republicanShare !== 0.5)
         expect(sideOf(r.winnerParty)).toBe(r.republicanShare > 0.5 ? 1 : -1);
     }
@@ -144,7 +148,9 @@ describe("M2-10 state and federal races in the world", () => {
           .slice(0, 25),
       }),
     );
-  });
+    // Building the town and counting every race in the country takes about
+    // 18 seconds alone; beside other worlds in a parallel run, more.
+  }, 120_000);
 
   it("the presidency is won in the electoral college, and the winner and running mate take office January 20", () => {
     const state = pick(states, "pres:state");
@@ -208,5 +214,5 @@ describe("M2-10 state and federal races in the world", () => {
           .map((s) => `${s.stateKey}:${s.republicanShare.toFixed(3)}`),
       }),
     );
-  });
+  }, 120_000);
 });

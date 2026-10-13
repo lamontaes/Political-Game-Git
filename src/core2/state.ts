@@ -2006,7 +2006,6 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     api.addFinanceContract({
       ...contract,
       dueAt,
-      householdPurchaseCalendar: undefined,
     });
   }
   // Full people who already name a newcomer as family (it was their husk).
@@ -2080,6 +2079,10 @@ export interface RecordedIdentity {
   gender?: string;
   party?: string;
   seatKey?: string;
+  /** Who they are, drawn by the caller from the world's seed (officials: OPUS-OFFICIALS). */
+  traits?: Readonly<Record<string, number>>;
+  /** Their cadence: an official outside the town acts on the calendar. */
+  tier?: string;
   source: Source;
 }
 
@@ -2157,8 +2160,8 @@ export function fillInIdentity(
     placeId: identity.placeId,
     ...(identity.countyId ? { countyId: identity.countyId } : {}),
     householdId,
-    tier: "monthly",
-    traits,
+    tier: identity.tier ?? "monthly",
+    traits: identity.traits ? { ...identity.traits } : traits,
     liquidMinor: 0,
     livingCostDailyMinor: 0,
     source: identity.source,

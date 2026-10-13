@@ -21,9 +21,7 @@ import {
   ballot,
   fileCandidacy,
   openElections,
-  requestSignature,
   type ContestRow,
-  type FilingRow,
 } from "./modules/elections";
 import {
   askForDonation,
@@ -128,23 +126,11 @@ describe("M4-06 the record follows you", () => {
       .sort(
         (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
       )[0]!;
-    const filed = fileCandidacy(api, {
+    fileCandidacy(api, {
       personId: challenger.id,
       contestId: contest!.id,
       platform: [],
-      payFee: true,
     });
-    if (filed.status !== "refused") {
-      let f = filed.filing;
-      for (const n of [...core!.people.keys()].sort()) {
-        if (f.status === "on-ballot") break;
-        requestSignature(api, f.id, n);
-        f = api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .get(f.id) as unknown as FilingRow;
-      }
-    }
     // The incumbent campaigns on a promise, in a real speech to people who know them.
     // A question voters divide on (under the views stand-in, a question with
     // no left-right split moves nobody).

@@ -118,9 +118,6 @@ for (const drawn of seeds) {
   };
   const terms = {
     filedWith: "City Clerk",
-    feeMinor: 2500,
-    signatures: 50,
-    feeInLieuOfSignatures: true,
     source: "fixture",
   };
   pickContest(

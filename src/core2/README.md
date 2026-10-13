@@ -20,8 +20,6 @@ Measured: Strict types, lint, formatting, and no-dice checks passed for the 15 a
 
 Inferred: Each provider retains each complete service qualification once. [Provider qualification owner](opening-customers.ts#L985)
 
-Inferred: Default household contracts retain a short evidence reference that resolves against their actual household, catalog, parameters and calendars. Supplied evidence remains complete. These references supply provenance rather than payment authority. [Household evidence resolution](generated-household-source.ts#L262)
-
 Inferred: Private qualification metadata no longer makes a private firm count as a government institution. Genuine government evidence still excludes institutional books from the private route. The valid no-income calendar chain rebuilds; self-references and cycles reject. [Opening finance admission](opening-finance.ts#L686)
 
 Inferred: The measurement guard limits input size to 80,554 bytes per resident and a 74.9142% declared conservative Source share. Those ceilings add chosen engineering margins of 10% and five percentage points to this opening measurement. The guard prints the census and rejects oversized inputs before exports or world initialization. [Technical input limits](tooling/opening-input-budgets.json#L2)

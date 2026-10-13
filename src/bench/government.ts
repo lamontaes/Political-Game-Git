@@ -6,7 +6,6 @@ import {
   fileCandidacy,
   filingOfficeFor,
   openContests,
-  requestSignature,
   type FilingRow,
 } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
@@ -69,28 +68,12 @@ export function fileForOffice(
   core: CoreState,
   personId: string,
   contestId: string,
-  payFee: boolean,
   choices: { platform?: readonly string[]; party?: string | null } = {},
 ) {
   return fileCandidacy(coreAPI(core), {
     personId,
     contestId,
     platform: choices.platform ?? [],
-    payFee,
     party: choices.party ?? null,
   });
-}
-
-/** Ask each person the candidate knows to sign; every answer is the signer's. */
-export function askKnownPeopleToSign(
-  core: CoreState,
-  personId: string,
-  filingId: string,
-) {
-  const person = core.people.get(personId);
-  if (!person) throw new Error("No such person.");
-  const api = coreAPI(core);
-  return [...person.knownIds]
-    .sort()
-    .map((signerId) => requestSignature(api, filingId, signerId));
 }

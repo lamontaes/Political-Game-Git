@@ -126,9 +126,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   },
   // Alive where officials move away; unobserved where none do.
   "nobody serves after moving away": { owner: "FIXER-MOVES", byTown: true },
-  // Local races draw named challengers (PW-3); a town whose only races in
-  // the year are state or federal ones waits on officials who are people.
-  "a named challenger runs": { owner: "OPUS-OFFICIALS", byTown: true },
   // Full couples of childbearing age are rare among the full people today
   // (OPUS-CORE, BOARD item 4: a representative sample).
   "a baby is born": { owner: "OPUS-CORE", byTown: true },

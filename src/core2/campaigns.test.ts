@@ -14,11 +14,9 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type FilingRow,
 } from "./modules/elections";
 import {
@@ -76,18 +74,9 @@ function fileAndQualify(
     personId,
     contestId,
     platform,
-    payFee: true,
   });
   if (result.status === "refused") return null;
-  let filing = result.filing;
-  for (const neighbor of [...api.state.people.keys()].sort()) {
-    if (filing.status === "on-ballot") break;
-    if (neighbor !== personId) requestSignature(api, filing.id, neighbor);
-    filing = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow;
-  }
+  const filing = result.filing;
   return filing.status === "on-ballot" ? filing : null;
 }
 

@@ -32,8 +32,18 @@ import {
   type Appointment,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { campaignParameter, personLean } from "../campaign-views";
-import { mayorVeto, memberKey, members } from "./legislature";
+import { campaignParameter, personLean, personStance } from "../campaign-views";
+import {
+  leanOf,
+  mayorVeto,
+  memberKey,
+  members,
+  registerLegislatureHooks,
+  type DeskAction,
+} from "./legislature";
+import { answerIn } from "./world-legislating";
+import type { ModuleCalendarWork } from "../module-calendar";
+import { addDays, makeIsoDate } from "../../simulation/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { startPublicJob } from "../public-payroll";
 
@@ -83,8 +93,11 @@ export const EXECUTIVE_MODULE: CoreModule = {
     tables: {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
+      desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
+      review: {},
     },
   },
+  onCalendarWork: (api, work) => deskReview(api, work),
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -112,11 +125,14 @@ export function townForm(
  * cabinet at the opening (who holds them then; vacancies come later).
  */
 export function openExecutive(core: CoreState, worldSeed: string): void {
+  registerLegislatureHooks({ onDesk: recordDesk });
   if (core.modules.has(EXECUTIVE_MODULE_ID)) return;
   registerModule(core, EXECUTIVE_MODULE);
   const api = coreAPI(core);
   appointTownDepartments(api);
   appointStateCabinet(api, worldSeed);
+  table(api, "review").put({ id: "seed", worldSeed } as unknown as ModuleRow);
+  scheduleReview(api, core.date);
 }
 
 function townAppointer(api: CoreAPI, by: string): TermRow | null {
@@ -172,6 +188,7 @@ function fillTownPost(
   api: CoreAPI,
   spec: PostSpec,
   chosenId?: string,
+  outOfWork = false,
 ): AppointmentRow | null {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
@@ -194,7 +211,10 @@ function fillTownPost(
         ageOn(p, date) >= 25 &&
         p.id !== appointer?.personId &&
         !holding.has(p.id) &&
-        (!chosenId || p.id === chosenId),
+        (!chosenId || p.id === chosenId) &&
+        (!outOfWork ||
+          !p.jobId ||
+          (api.state as CoreState).jobs.get(p.jobId)?.endsAt !== undefined),
     );
   if (!pool.length) return null;
   const relationships = (api.state as CoreState).relationships;
@@ -294,7 +314,11 @@ export function appoint(
  * people who exist for it (drawn from the world's seed), the governor
  * choosing among them, confirmed by the state senate where required.
  */
-function appointStateCabinet(api: CoreAPI, worldSeed: string): void {
+function appointStateCabinet(
+  api: CoreAPI,
+  worldSeed: string,
+  round = "",
+): void {
   const chain = lawChain(api);
   const state = chain.stateKey;
   const posts = RESEARCH.places[state]?.cabinet?.positions ?? [];
@@ -324,7 +348,7 @@ function appointStateCabinet(api: CoreAPI, worldSeed: string): void {
     const pool = [0, 1, 2].map((n) => {
       const identity = drawOfficialIdentity({
         worldSeed,
-        seatKey: `cabinet:${state}:${spec.key}:${n}`,
+        seatKey: `cabinet:${state}:${spec.key}:${round}${n}`,
         stateUsps: state.slice(3),
         role: "executive-officeholder-at-opening",
         referenceDate: date,
@@ -335,7 +359,7 @@ function appointStateCabinet(api: CoreAPI, worldSeed: string): void {
       seatKey: `cabinet:${state}:${spec.key}`,
       appointerSide: side,
       candidates: pool.map(({ n }) => ({
-        id: `official:cabinet:${state}:${spec.key}:${n}`,
+        id: `official:cabinet:${state}:${spec.key}:${round}${n}`,
         // Candidates for a governor's cabinet come from the governor's side;
         // how far each sits from it is who they are.
         lean: side * campaignParameter("identityLeanScale") * (1 - n * 0.25),
@@ -432,4 +456,132 @@ export function issueOrder(
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
+}
+
+export interface DeskRow {
+  readonly id: string;
+  readonly billId: string;
+  readonly number: string;
+  readonly executiveId: string;
+  readonly date: string;
+  readonly status: DeskAction["status"];
+  /** The executive's own position on the bill, and their temperament's lean toward signing. */
+  readonly position: number;
+  readonly temperament: number;
+}
+
+/** A passed bill on an executive's desk: what they did with it, and why. */
+function recordDesk(api: CoreAPI, action: DeskAction): void {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return;
+  table(api, "desk").put({
+    id: `desk:${action.bill.id}`,
+    billId: action.bill.id,
+    number: action.bill.number,
+    executiveId: action.executiveId,
+    date: api.state.date,
+    status: action.status,
+    position: action.position,
+    temperament: action.temperament,
+  } satisfies DeskRow as unknown as ModuleRow);
+}
+
+export function deskOf(api: CoreAPI, executiveId: string): readonly DeskRow[] {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+  return table(api, "desk").query("byExecutive", [
+    executiveId,
+  ]) as unknown as DeskRow[];
+}
+
+function scheduleReview(api: CoreAPI, from: string): void {
+  const date = addDays(
+    makeIsoDate(from),
+    campaignParameter("executiveReviewDays"),
+  );
+  api.moduleCalendar(EXECUTIVE_MODULE_ID).schedule({
+    key: `desk-review:${date}`,
+    date,
+    kind: "desk-review",
+    source: {
+      tag: "ESTIMATED",
+      citation: "The executive's regular review of posts and orders",
+      asOf: api.state.date,
+      estimatedFrom: "executiveReviewDays",
+    },
+    sourceRecordIds: [`desk-review:${lawChain(api).townPlaceId}`],
+  });
+}
+
+/** Who holds a seat, across terms: the same person re-elected is the same holder. */
+const holderOf = (term: TermRow) =>
+  term.personId ??
+  `${term.identity.givenName}|${term.identity.familyName}|${term.identity.birthDate}`;
+
+/**
+ * The executive's regular review: a department head who died or moved away
+ * is replaced by the appointer; a newly seated governor names their own
+ * cabinet; and the governor orders what their office may set alone where
+ * the law in force is not what they want.
+ */
+function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind !== "desk-review") return;
+  scheduleReview(api, api.state.date);
+  const town = lawChain(api).townPlaceId;
+  const playerId = (api.state as CoreState).playerId;
+  const posts = RESEARCH.local.city[townForm(api)] ?? [];
+  for (const row of appointmentsIn(api, town)) {
+    const holder = api.state.people.get(row.holderId);
+    if (holder?.alive && holder.placeId === town) continue;
+    const spec = posts.find((p) => p.key === row.post);
+    if (!spec) continue;
+    // The player's own posts wait for their choice (`appoint`).
+    if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
+    // stopgapId: SG-GOV-staff-hire-out-of-work
+    api.stopgap("SG-GOV-staff-hire-out-of-work");
+    fillTownPost(api, spec, undefined, true);
+  }
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor" && s.holder,
+  )?.holder;
+  if (!governor) return;
+  const state = lawChain(api).stateKey;
+  const cabinet = appointmentsIn(api, state);
+  const before = cabinet[0]
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(cabinet[0].appointedBy.slice("official:".length)) as unknown as
+        TermRow | undefined)
+    : undefined;
+  const worldSeed = (
+    table(api, "review").get("seed") as unknown as
+      { worldSeed: string } | undefined
+  )?.worldSeed;
+  if (
+    worldSeed &&
+    cabinet.length &&
+    memberKey(governor) !== cabinet[0]!.appointedBy &&
+    (!before || holderOf(before) !== holderOf(governor))
+  )
+    appointStateCabinet(api, worldSeed, `${governor.id}:`);
+  const executiveId = memberKey(governor);
+  if (executiveId === playerId) return;
+  const lean = leanOf(api, executiveId);
+  const given = table(api, "orders").rows() as unknown as {
+    executiveId: string;
+    order: string;
+    revoke: boolean;
+  }[];
+  for (const order of orderableBy(api)) {
+    const question = ORDERABLE[order]!;
+    const want = Math.sign(personStance(lean, question));
+    const now = answerIn(api, state, question);
+    // An order sets what the office may set alone; one can undo only an
+    // earlier executive's order, never a statute.
+    const undoable = given.some(
+      (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,
+    );
+    if (want > 0 && now !== 1) issueOrder(api, { executiveId, order });
+    else if (want < 0 && now === 1 && undoable)
+      issueOrder(api, { executiveId, order, revoke: true });
+  }
 }
