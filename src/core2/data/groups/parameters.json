@@ -5,9 +5,9 @@
     "citation": "The youngest age in the survey tabulation of group membership (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json)."
   },
   "groupsStayOutCongregation": {
-    "value": 0.62,
+    "value": 1.06,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out of a congregation's activities, calibrated over three drawn towns so a town's share lands near the survey's 19.4% taking part in a religious organization beyond services (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "The pull of staying out of a congregation's activities, fitted over 14 drawn towns (each kind among adults whose town lists one, with the education, engagement, age, job and temperament weights) so a town's share lands near the survey's 19.4% taking part in a religious organization beyond services (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -15,9 +15,9 @@
     }
   },
   "groupsStayOutSchool": {
-    "value": 0.2,
+    "value": 0.83,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out of a school group or neighborhood association, calibrated over three drawn towns toward the survey's 13.9% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "The pull of staying out of a school group or neighborhood association, fitted over 14 drawn towns (each kind among adults whose town lists one, with the education, engagement, age, job and temperament weights) toward the survey's 13.9% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -25,9 +25,9 @@
     }
   },
   "groupsStayOutService": {
-    "value": 1.08,
+    "value": 1.45,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out of a service or civic organization (service clubs, veterans' posts, fraternal and business groups), calibrated over three drawn towns toward the survey's 6.8% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "The pull of staying out of a service or civic organization (service clubs, veterans' posts, fraternal and business groups), fitted over 14 drawn towns (each kind among adults whose town lists one, with the education, engagement, age, job and temperament weights) toward the survey's 6.8% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -35,9 +35,9 @@
     }
   },
   "groupsStayOutSports": {
-    "value": 1.0,
+    "value": 1.36,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out of a sports or recreation organization, calibrated over three drawn towns toward the survey's 9.9% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "The pull of staying out of a sports or recreation organization, fitted over 14 drawn towns (each kind among adults whose town lists one, with the education, engagement, age, job and temperament weights) toward the survey's 9.9% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -45,9 +45,9 @@
     }
   },
   "groupsStayOutOther": {
-    "value": 1.06,
+    "value": 1.49,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out of other groups (advocacy, volunteer and arts groups), calibrated over three drawn towns toward the survey's 5.0% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "The pull of staying out of other groups (advocacy, volunteer and arts groups), fitted over 14 drawn towns (each kind among adults whose town lists one, with the education, engagement, age, job and temperament weights) toward the survey's 5.0% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -55,9 +55,9 @@
     }
   },
   "groupsEducationWeight": {
-    "value": 0.5,
+    "value": 0.11,
     "tag": "TUNABLE",
-    "citation": "How much schooling pulls toward belonging: in the survey, adults with a bachelor's degree took part in some group at 47.8% against 26.8% for high school graduates (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "How much schooling pulls toward belonging: in the survey, adults with a bachelor's degree took part in some group at 47.8% against 26.8% for high school graduates (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json). Fitted with the stay-outs over 14 drawn towns to the survey's shares by kind, age and schooling (Census Bureau, CPS Civic Engagement Supplement, November 2013; data/research/groups/membership-rates.json); checked in src/core2/groups-calibration.test.ts.",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0.2,
@@ -65,9 +65,9 @@
     }
   },
   "groupsEngagementWeight": {
-    "value": 0.5,
+    "value": 1.09,
     "tag": "TUNABLE",
-    "citation": "How much following public life pulls toward belonging; a starting value.",
+    "citation": "How much following public life pulls toward belonging; a starting value. Fitted with the stay-outs over 14 drawn towns to the survey's shares by kind, age and schooling (Census Bureau, CPS Civic Engagement Supplement, November 2013; data/research/groups/membership-rates.json); checked in src/core2/groups-calibration.test.ts.",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0.1,
@@ -75,9 +75,9 @@
     }
   },
   "groupsAgeWeight": {
-    "value": 0.2,
+    "value": 0.11,
     "tag": "TUNABLE",
-    "citation": "How much age pulls toward belonging: in the survey, taking part in some group rises from 28.3% at 18-29 to 40.9% at 65 and over (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "citation": "How much age pulls toward belonging: in the survey, taking part in some group rises from 28.3% at 18-29 to 40.9% at 65 and over (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json). Fitted with the stay-outs over 14 drawn towns to the survey's shares by kind, age and schooling (Census Bureau, CPS Civic Engagement Supplement, November 2013; data/research/groups/membership-rates.json); checked in src/core2/groups-calibration.test.ts.",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -95,9 +95,9 @@
     }
   },
   "groupsJobTimeWeight": {
-    "value": 0.1,
+    "value": 0.19,
     "tag": "TUNABLE",
-    "citation": "How much a job's hours pull against evenings out; a starting value.",
+    "citation": "How much a job's hours pull against evenings out; a starting value. Fitted with the stay-outs over 14 drawn towns to the survey's shares by kind, age and schooling (Census Bureau, CPS Civic Engagement Supplement, November 2013; data/research/groups/membership-rates.json); checked in src/core2/groups-calibration.test.ts.",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
@@ -174,13 +174,23 @@
     "stopgapId": "SG-P15-group-membership"
   },
   "groupsStayOutNeighborhood": {
-    "value": 1.2,
+    "value": 1.4,
     "tag": "TUNABLE",
     "citation": "The pull of staying out of a neighborhood association, calibrated over six drawn towns with parent-teacher groups toward the survey's 13.9% in school or neighborhood groups (Census CPS Civic Engagement Supplement, November 2013, OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
     "spread": {
       "low": 0,
       "high": 3
+    }
+  },
+  "groupsTemperamentWeight": {
+    "value": 0.71,
+    "tag": "TUNABLE",
+    "citation": "How far a person's temperament (every trait's lean toward joining over staying out, from the shared trait table) moves the choice to belong, calibrated over drawn towns so shares by kind, age and schooling land near the survey's (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 2
     }
   }
 }

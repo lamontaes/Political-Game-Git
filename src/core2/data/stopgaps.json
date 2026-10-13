@@ -1836,10 +1836,10 @@
     "file": "src/core2/data/groups/parameters.json",
     "line": 1,
     "whatItFakes": "How strongly sociability, schooling, interest in public life, age and work hours pull toward belonging to each kind of group, the pull of staying out, and how often groups gather.",
-    "why": "The survey gives how many adults belong to each kind of group by age, schooling and parenthood (CPS Civic Engagement Supplement, November 2013), not each reason's size in this model.",
+    "why": "Weights fitted over 14 drawn towns and checked over four freshly drawn towns (src/core2/groups-calibration.test.ts): each kind lands near the survey overall, rises with schooling and follows its age pattern, but adults 18-29 join at about 12% against the survey's 28% and adults without college at 21% against 25%.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against the survey's shares by kind, age and schooling across drawn places.",
+    "replacement": "Young adults' membership reaching the survey's share (students' school, campus and sports groups; a lighter engagement tie for the young), and every town listing the groups it really has (SG-P15-group-names).",
     "status": "open"
   },
   {

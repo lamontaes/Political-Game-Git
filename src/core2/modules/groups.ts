@@ -31,7 +31,7 @@ import type {
   PersonState,
   Relationship,
 } from "../types";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds, decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
 
 export const GROUPS_MODULE_ID = "groups";
@@ -129,8 +129,16 @@ export function belongingReasons(
         api.parameter("one")),
     // Time a full-time job leaves for evenings out.
     time: person.jobId ? -g(api, "groupsJobTimeWeight") : zero,
+    // Every trait's lean toward joining over staying out, through the shared
+    // trait table (about -1 to 1): the sociable join sooner than the reserved.
+    temperament:
+      g(api, "groupsTemperamentWeight") *
+      decisionLean(api.state, person, "groups.belong", BELONG_ID, STAY_OUT_ID),
   };
 }
+
+const BELONG_ID = "groups-belong";
+const STAY_OUT_ID = "groups-stay-out";
 
 function action(
   decisionId: string,
@@ -158,8 +166,8 @@ function action(
     ],
   };
 }
-export const BELONG = action("groups.belong", "groups-belong", true);
-export const STAY_OUT = action("groups.belong", "groups-stay-out", false);
+export const BELONG = action("groups.belong", BELONG_ID, true);
+export const STAY_OUT = action("groups.belong", STAY_OUT_ID, false);
 export const ATTEND = action("groups.attend", "groups-attend", true);
 export const SKIP = action("groups.attend", "groups-skip", false);
 
