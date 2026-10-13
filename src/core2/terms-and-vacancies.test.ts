@@ -111,9 +111,7 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
         contest.electionDate < holder.endDate,
         `${placeKey} ${seat.id}: elected ${contest.electionDate}, term ends ${holder.endDate}`,
       ).toBe(true);
-      expect(termStartAfter(office, contest.electionDate)).toBe(
-        holder.endDate,
-      );
+      expect(termStartAfter(office, contest.electionDate)).toBe(holder.endDate);
       // The term won then runs a full term, and that seat's next regular
       // election is the one a full term later, not the next one on the
       // calendar.
@@ -167,9 +165,7 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
       .table("terms")
       .query("byPerson", [personId]) as unknown as TermRow[];
     expect(terms.every((t) => t.status === "ended")).toBe(true);
-    expect(terms.find((t) => t.id === holder!.id)!.endedBy).toBe(
-      "moved away",
-    );
+    expect(terms.find((t) => t.id === holder!.id)!.endedBy).toBe("moved away");
     const vacancy = (
       api
         .moduleState(OFFICES_MODULE_ID)
