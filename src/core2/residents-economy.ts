@@ -574,6 +574,22 @@ export function endFlowPart(
   return true;
 }
 
+/** One household's part of a merged flow changes (a counted household's mortgage refinanced). */
+export function setFlowPart(
+  core: CoreState,
+  id: string,
+  part: string,
+  amountMinor: number,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  const amount = flow?.amountByContract?.[part];
+  if (!flow || flow.endedAt || amount === undefined) return false;
+  const next = Math.max(0, Math.round(amountMinor));
+  flow.amountByContract = { ...flow.amountByContract, [part]: next };
+  flow.amountMinor = Math.max(0, flow.amountMinor - amount + next);
+  return true;
+}
+
 /**
  * A counted worker retires: their place's retirees' income (Social Security
  * and pensions, paid from outside the town) gains them, at the average the
