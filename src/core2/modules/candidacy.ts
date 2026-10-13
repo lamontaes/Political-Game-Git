@@ -22,7 +22,9 @@ import type {
   ActOffer,
   CoreAPI,
   CoreModule,
+  CoreState,
   PersonId,
+  PersonInput,
   PersonState,
 } from "../types";
 import { decisionKinds, decisionLean } from "../trait-decisions";
@@ -41,7 +43,16 @@ import {
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
-import { VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
+import {
+  VIEWS_DATA,
+  VIEWS_KEYS,
+  VIEWS_MODULE_ID,
+  viewCell,
+  viewOf,
+} from "./views";
+import { residentPerson } from "./residents";
+import { countedResidents, type CountedVoter } from "../electorate";
+import { fillInPerson } from "../state";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -83,6 +94,24 @@ function c(api: CoreAPI, key: string): number {
   return row.value;
 }
 
+/** What a person's record says that bears on running. */
+interface RunFacts {
+  readonly id: PersonId;
+  readonly birthDate: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly liquidMinor: number;
+  /** Recorded work hours a day. */
+  readonly workHoursDaily: number;
+  /** How many people know them. */
+  readonly known: number;
+  /** How closely they follow politics, 0 to 1. */
+  readonly engagement: number;
+  /** Their strongest recorded cause, 0 to 1. */
+  readonly cause: number;
+  /** Their recorded relationship with the incumbent, -1 to 1. */
+  readonly incumbentTie: number;
+}
+
 /** Each recorded reason for running, as a signed pull. */
 export function candidacyReasons(
   api: CoreAPI,
@@ -91,30 +120,11 @@ export function candidacyReasons(
 ): Record<string, number> {
   const zero = api.parameter("zero");
   const one = api.parameter("one");
-  const two = api.parameter("two");
   const view = viewOf(api, person.id);
   let cause = zero;
   for (const drive of person.drives.values())
     cause = Math.max(cause, Math.min(one, drive.strength));
-  // Every trait, through the shared trait table: how much more the person
-  // leans toward running than staying out, about -1..1.
-  const temperament = decisionLean(
-    api.state,
-    person,
-    "candidacy.run",
-    "candidacy-run",
-    "candidacy-stay-out",
-  );
-  const fee = contest.feeMinor;
-  const money = (person.liquidMinor - fee) / (person.liquidMinor + fee + one);
   const job = person.jobId ? api.state.jobs.get(person.jobId) : undefined;
-  const hours = job ? job.hoursDaily / c(api, "candidacyFullShiftHours") : zero;
-  const age = ageOnDate(
-    makeIsoDate(person.birthDate),
-    makeIsoDate(api.state.date),
-  );
-  const distance =
-    (age - c(api, "candidacyAgeCenter")) / c(api, "candidacyAgeSpread");
   // How they stand with the incumbent: someone close to the officeholder
   // doesn't run against them; someone at odds with them is drawn to.
   let incumbentTie = zero;
@@ -128,16 +138,121 @@ export function candidacyReasons(
       )
         incumbentTie = Math.max(-one, Math.min(one, row.level));
     }
+  return reasonsFrom(
+    api,
+    {
+      id: person.id,
+      birthDate: person.birthDate,
+      traits: person.traits,
+      liquidMinor: person.liquidMinor,
+      workHoursDaily: job?.hoursDaily ?? zero,
+      known: person.knownIds.size,
+      engagement: view?.engagement ?? zero,
+      cause,
+      incumbentTie,
+    },
+    contest,
+  );
+}
+
+/**
+ * The same reasons for a counted resident, from what their counted record
+ * holds: their traits, age, cash, scheduled work and the people who know
+ * them. How closely they follow politics is the average for their state and
+ * age (CES 2024, the cell their own view will be read from once they are
+ * filled in); no cause is recorded for them yet.
+ */
+export function countedCandidacyReasons(
+  api: CoreAPI,
+  voter: CountedVoter,
+  contest: OpenContest,
+): Record<string, number> {
+  const zero = api.parameter("zero");
+  const record = residentPerson(api.state as CoreState, voter.id);
+  return reasonsFrom(
+    api,
+    {
+      id: voter.id,
+      birthDate: voter.birthDate,
+      traits: voter.traits,
+      liquidMinor: record?.liquidMinor ?? zero,
+      workHoursDaily:
+        voter.weeklyMinutes /
+        api.parameter("minutesPerHour") /
+        c(api, "candidacyWorkDaysPerWeek"),
+      known: record?.knownIds.length ?? zero,
+      engagement: cellEngagement(api, voter, record),
+      cause: zero,
+      incumbentTie: zero,
+    },
+    contest,
+  );
+}
+
+/** The CES cell's average engagement for a counted resident's state and age. */
+function cellEngagement(
+  api: CoreAPI,
+  voter: CountedVoter,
+  record: PersonInput | undefined,
+): number {
+  const cache = engagementCells.get(api.state) ?? new Map<string, number>();
+  engagementCells.set(api.state, cache);
+  const age = ageOnDate(
+    makeIsoDate(voter.birthDate),
+    makeIsoDate(api.state.startedAt),
+  );
+  const key = `${voter.placeId}|${age}`;
+  const hit = cache.get(key);
+  if (hit !== undefined) return hit;
+  const person = {
+    ...(record ?? {}),
+    id: voter.id,
+    birthDate: voter.birthDate,
+    placeId: voter.placeId,
+    traits: voter.traits,
+  } as unknown as PersonState;
+  const { cell } = viewCell(person, api.state.startedAt, api.state.seed);
+  const value = cell.engagement ?? VIEWS_KEYS.national.engagement!;
+  cache.set(key, value);
+  return value;
+}
+const engagementCells = new WeakMap<object, Map<string, number>>();
+
+function reasonsFrom(
+  api: CoreAPI,
+  person: RunFacts,
+  contest: OpenContest,
+): Record<string, number> {
+  const zero = api.parameter("zero");
+  const one = api.parameter("one");
+  const two = api.parameter("two");
+  // Every trait, through the shared trait table: how much more the person
+  // leans toward running than staying out, about -1..1.
+  const temperament = decisionLean(
+    api.state,
+    person,
+    "candidacy.run",
+    "candidacy-run",
+    "candidacy-stay-out",
+  );
+  const fee = contest.feeMinor;
+  const money = (person.liquidMinor - fee) / (person.liquidMinor + fee + one);
+  const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
+  const age = ageOnDate(
+    makeIsoDate(person.birthDate),
+    makeIsoDate(api.state.date),
+  );
+  const distance =
+    (age - c(api, "candidacyAgeCenter")) / c(api, "candidacyAgeSpread");
   // Standing in town: how many people know them, against the circle a local
   // campaign starts from.
   const standing = Math.min(
     one,
-    person.knownIds.size / c(api, "candidacyStandingCircle"),
+    person.known / c(api, "candidacyStandingCircle"),
   );
   return {
-    engagement:
-      c(api, "candidacyEngagementWeight") * (view?.engagement ?? zero),
-    cause: c(api, "candidacyCauseWeight") * cause,
+    engagement: c(api, "candidacyEngagementWeight") * person.engagement,
+    cause: c(api, "candidacyCauseWeight") * person.cause,
     temperament: c(api, "candidacyTemperamentWeight") * temperament,
     money:
       c(api, "candidacyMoneyWeight") * Math.max(-one, Math.min(one, money)),
@@ -146,7 +261,7 @@ export function candidacyReasons(
       contest.incumbentId === person.id
         ? c(api, "candidacyIncumbencyWeight")
         : zero,
-    incumbentTie: -c(api, "candidacyIncumbentTieWeight") * incumbentTie,
+    incumbentTie: -c(api, "candidacyIncumbentTieWeight") * person.incumbentTie,
     standing: c(api, "candidacyStandingWeight") * standing,
     age:
       c(api, "candidacyAgeWeight") *
@@ -253,6 +368,10 @@ export interface WeighedContest {
   readonly date: string;
   readonly askedIds: readonly PersonId[];
   readonly runIds: readonly PersonId[];
+  /** How many counted adults in town weighed it from their counted records. */
+  readonly countedWeighed: number;
+  /** Counted adults whose records drew them to it, filled in to decide in full. */
+  readonly filledInIds: readonly PersonId[];
   /** The day the runners filed, once the filing window opened. */
   readonly filedOn: string | null;
 }
@@ -468,19 +587,6 @@ export function weighContest(
   const date = api.state.date;
   const asked: PersonId[] = [];
   const running: PersonId[] = [];
-  const people = [...api.state.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === town.townPlaceId &&
-        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
-          rules.minimumAge &&
-        !isExplicitlyControlledPersonV1(api.state, p.id) &&
-        (p.id === incumbentId ||
-          rank <= localRank ||
-          holders.get(p.id) === rank - 1),
-    )
-    .sort((a, b) => a.id.localeCompare(b.id));
   const open: OpenContest = {
     contestId: contest.id,
     officeName: contest.title,
@@ -489,6 +595,35 @@ export function weighContest(
     ...(incumbentId ? { incumbentId } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
   };
+  // Someone already running on this election day runs for one seat only.
+  const committed = committedOn(api, contest.electionDate);
+  // A local seat: the town's counted adults weigh it from their counted
+  // records; those it draws are filled in and decide in full like anyone.
+  let countedWeighed = 0;
+  const filledInIds: PersonId[] = [];
+  if (rank <= localRank) {
+    const screen = countedScreen(api, open, town.townPlaceId, rules.minimumAge);
+    countedWeighed = screen.weighed;
+    for (const id of screen.drawn) {
+      if (committed.has(id)) continue;
+      fillInPerson(api.state as CoreState, id);
+      filledInIds.push(id);
+    }
+  }
+  const people = [...api.state.people.values()]
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === town.townPlaceId &&
+        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
+          rules.minimumAge &&
+        !isExplicitlyControlledPersonV1(api.state, p.id) &&
+        !committed.has(p.id) &&
+        (p.id === incumbentId ||
+          rank <= localRank ||
+          holders.get(p.id) === rank - 1),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
   for (const person of people) {
     const decision = decideToRun(api, person.id, open);
     if (!decision) continue;
@@ -501,6 +636,8 @@ export function weighContest(
     date,
     askedIds: asked,
     runIds: running,
+    countedWeighed,
+    filledInIds,
     filedOn: null,
   };
   api
@@ -508,6 +645,79 @@ export function weighContest(
     .table("weighed")
     .put(row as unknown as { id: string });
   return row;
+}
+
+/** Everyone who decided to run in a contest held on this election day. */
+function committedOn(api: CoreAPI, electionDate: string): Set<PersonId> {
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const out = new Set<PersonId>();
+  for (const row of api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("weighed")
+    .rows() as unknown as WeighedContest[]) {
+    const held = contests.get(row.contestId) as unknown as
+      ContestRow | undefined;
+    if (held?.electionDate === electionDate)
+      for (const id of row.runIds) out.add(id);
+  }
+  return out;
+}
+
+/** Each counted adult's pull to run apart from the fee, cached for the year. */
+const countedBases = new WeakMap<
+  object,
+  { year: string; rows: { voter: CountedVoter; base: number }[] }
+>();
+
+/**
+ * The town's counted adults weigh a local seat from their counted records:
+ * every reason the record holds, against the same pull of staying out.
+ * Returns how many weighed it and those it draws, strongest pull first.
+ */
+function countedScreen(
+  api: CoreAPI,
+  open: OpenContest,
+  townPlaceId: string,
+  minimumAge: number,
+): { weighed: number; drawn: PersonId[] } {
+  const year = api.state.date.slice(0, 4);
+  let held = countedBases.get(api.state);
+  if (!held || held.year !== year) {
+    const free: OpenContest = { ...open, feeMinor: api.parameter("zero") };
+    held = {
+      year,
+      rows: countedResidents(api.state as CoreState)
+        .filter((voter) => voter.placeId === townPlaceId)
+        .map((voter) => {
+          const reasons = countedCandidacyReasons(api, voter, free);
+          let base = api.parameter("zero");
+          for (const [key, value] of Object.entries(reasons))
+            if (key !== "money") base += value;
+          return { voter, base };
+        })
+        .sort(
+          (a, b) => b.base - a.base || a.voter.id.localeCompare(b.voter.id),
+        ),
+    };
+    countedBases.set(api.state, held);
+  }
+  const date = makeIsoDate(api.state.date);
+  const bar = c(api, "candidacyStayOutPull");
+  const most = c(api, "candidacyMoneyWeight");
+  let weighed = api.parameter("zero");
+  const drawn: PersonId[] = [];
+  for (const { voter, base } of held.rows) {
+    if (api.state.people.has(voter.id)) continue;
+    if (ageOnDate(makeIsoDate(voter.birthDate), date) < minimumAge) continue;
+    weighed += api.parameter("one");
+    // Sorted by pull: past here no one's money could lift them over.
+    if (base + most <= bar) continue;
+    const reasons = countedCandidacyReasons(api, voter, open);
+    let pull = api.parameter("zero");
+    for (const value of Object.values(reasons)) pull += value;
+    if (pull > bar) drawn.push(voter.id);
+  }
+  return { weighed, drawn };
 }
 
 /** Filing opens: each runner files with the place's filing office. */
