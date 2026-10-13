@@ -3,8 +3,8 @@
  * October 10, 2026). A visit to someone meets the people who live with them;
  * joining a group meets its other members. Each meeting is a dated fact naming
  * the place and the other person, and the first tie holds the hours spent
- * together, so closeness grows only through later contact. A new coworker
- * comes with jobs changing during play (M1).
+ * together, so closeness grows only through later contact. A new hire
+ * meets the coworkers already working there.
  */
 import data from "./data/encounters.json" with { type: "json" };
 import type { CoreAPI } from "./types";
@@ -67,6 +67,38 @@ export function meetAtJoin(
         placeId: place,
         sourceId: `membership:${organizationId}:${personId}`,
         cause: data.causes.metInGroup,
+        hours,
+      })
+    )
+      met += api.parameter("one");
+  }
+  return met;
+}
+
+/** The coworkers already at the employer, met by a new hire on the first shift. */
+export function meetAtWork(
+  api: CoreAPI,
+  personId: string,
+  organizationId: string,
+  coworkerIds: readonly string[],
+  hours: number,
+  sourceId: string,
+): number {
+  api.stopgap(data.stopgapId);
+  const person = api.state.people.get(personId);
+  if (!person) return api.parameter("zero");
+  const place =
+    api.state.organizations.get(organizationId)?.placeId ?? person.placeId;
+  let met = api.parameter("zero");
+  for (const id of coworkerIds) {
+    const coworker = api.state.people.get(id);
+    if (id === personId || !coworker?.alive || person.knownIds.has(id))
+      continue;
+    if (
+      api.meet(personId, id, {
+        placeId: place,
+        sourceId,
+        cause: data.causes.metAtWork,
         hours,
       })
     )
