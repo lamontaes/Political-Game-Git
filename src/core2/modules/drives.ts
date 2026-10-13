@@ -724,7 +724,7 @@ export function respond(
           api,
         );
       }
-      drive.formations.push(trace);
+      retain(api, drive.formations, trace);
       trace.strengthAdded = reinforce(
         api,
         drive,

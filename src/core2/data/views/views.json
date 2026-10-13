@@ -112,6 +112,15 @@
         "low": 0.05,
         "high": 0.4
       }
+    },
+    "stanceCausesKept": {
+      "value": 12,
+      "tag": "TUNABLE",
+      "citation": "How many of a stance's most recent causes are kept whole; older ones fold into a count and their total change, so memory stays flat over a long game (owner, Oct 12, ruling 5).",
+      "spread": {
+        "low": 4,
+        "high": 24
+      }
     }
   },
   "labels": [

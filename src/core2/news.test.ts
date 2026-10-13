@@ -118,4 +118,15 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     );
     expect(heard.length).toBeGreaterThan(0);
   });
+
+  it("drops a story past its life from memory, while what people learned stays", () => {
+    // Pruned on the first of the month after its 30 days (owner's ruling 5).
+    expect(
+      api.moduleState("news").table("stories").get(storyId),
+    ).toBeUndefined();
+    expect(
+      api.moduleState("news").table("heard").query("byStory", [storyId]),
+    ).toEqual([]);
+    expect(residents.some((id) => known(id))).toBe(true);
+  });
 });

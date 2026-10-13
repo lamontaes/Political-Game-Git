@@ -107,7 +107,35 @@ export interface Stance {
   /** The change the person wants, and how strongly (0 to 1). */
   desiredChange: string;
   strength: number;
+  /** The most recent causes, newest last (stanceCausesKept of them). */
   causes: readonly { eventId: string; date: string; change: number }[];
+  /** Older causes folded away to keep memory small: how many, and their total change. */
+  earlier?: { count: number; change: number };
+}
+
+/**
+ * A stance's causes with a new one added: the newest few kept whole, older
+ * ones folded into a count and a total (owner, Oct 12, ruling 5: memory
+ * stays small).
+ */
+function keepRecent(
+  prior: Stance | undefined,
+  cause: Stance["causes"][number],
+): Pick<Stance, "causes" | "earlier"> {
+  const all = [...(prior?.causes ?? []), cause];
+  const kept = v("stanceCausesKept");
+  const folded = all.slice(v("zero"), Math.max(v("zero"), all.length - kept));
+  const earlier = folded.reduce(
+    (sum, row) => ({
+      count: sum.count + v("one"),
+      change: sum.change + row.change,
+    }),
+    prior?.earlier ?? { count: v("zero"), change: v("zero") },
+  );
+  return {
+    causes: all.slice(-kept),
+    ...(earlier.count > v("zero") ? { earlier } : {}),
+  };
 }
 
 /** A stable uniform value in (0, 1) for a key. */
@@ -365,10 +393,7 @@ export const viewsModule: CoreModule = {
             ? prior.desiredChange
             : event.desiredChange,
         strength: Math.abs(strength),
-        causes: [
-          ...(prior?.causes ?? []),
-          { eventId: event.id, date: event.date, change },
-        ],
+        ...keepRecent(prior, { eventId: event.id, date: event.date, change }),
       };
       stancesTable(api).put(stance as unknown as { id: string });
       if (Number.isFinite(speechLean))

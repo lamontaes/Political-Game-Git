@@ -152,6 +152,32 @@ function countsOf(api: CoreAPI): Map<PersonId, number> {
   return map;
 }
 
+function pruneStories(api: CoreAPI): void {
+  const maxAge = n(api, "newsMaxAgeDays");
+  const counts = countsOf(api);
+  for (const row of stories(api).rows() as unknown as Story[]) {
+    if (
+      daysBetween(makeIsoDate(row.date), makeIsoDate(api.state.date)) <= maxAge
+    )
+      continue;
+    for (const seen of heard(api).query("byStory", [row.id]) as unknown as {
+      id: string;
+      personId: PersonId;
+    }[]) {
+      heard(api).remove(seen.id);
+      counts.set(
+        seen.personId,
+        Math.max(
+          api.parameter("zero"),
+          (counts.get(seen.personId) ?? api.parameter("zero")) -
+            api.parameter("one"),
+        ),
+      );
+    }
+    stories(api).remove(row.id);
+  }
+}
+
 function hear(
   api: CoreAPI,
   personId: PersonId,
@@ -189,7 +215,12 @@ export const newsModule: CoreModule = {
       stories: {},
       outlets: {},
       deliveries: { indexes: { byDate: { fields: ["date"] } } },
-      heard: { indexes: { byPerson: { fields: ["personId"] } } },
+      heard: {
+        indexes: {
+          byPerson: { fields: ["personId"] },
+          byStory: { fields: ["storyId"] },
+        },
+      },
     },
   },
   eventKinds: ["*"],
@@ -258,6 +289,10 @@ export const newsModule: CoreModule = {
     }
   },
   onAfterDay(api) {
+    // Memory stays small (owner, Oct 12, ruling 5): once a month, stories
+    // past their life are dropped with who heard them; what people learned
+    // from them stays in their own knowledge.
+    if (api.state.date.endsWith("-01")) pruneStories(api);
     for (const row of deliveries(api).query("byDate", [api.state.date])) {
       const story = stories(api).get(row.storyId as string) as unknown as Story;
       if (story) hear(api, row.personId as string, story, "public", story.id);
