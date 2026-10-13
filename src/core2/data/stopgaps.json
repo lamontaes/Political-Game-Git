@@ -2051,7 +2051,7 @@
     "id": "SG-WORLD-property-tax-rate",
     "kind": "assumed-data",
     "file": "src/core2/housing-property-tax.ts",
-    "line": 113,
+    "line": 115,
     "whatItFakes": "Owners pay the county's recorded effective rate where the laws are open (else the state's average), always to the outside account, with no assessment cap.",
     "why": "The county's rate in force, its cap and its treasury are OPUS-GOV's law in force (lawInForce(api, \"property-tax\")), on its branch.",
     "addedBy": "OPUS-WORLD",
@@ -2063,12 +2063,12 @@
     "id": "SG-WORLD-property-tax-monthly",
     "kind": "faked-mechanic",
     "file": "src/core2/housing-property-tax.ts",
-    "line": 147,
-    "whatItFakes": "Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.",
-    "why": "Counties bill once or twice a year on their own dates; the dates come with each county's law.",
+    "line": 177,
+    "whatItFakes": "An owner with a mortgage pays a twelfth of the year's property tax each month straight to the county, as if the escrow paid it on receipt; a servicer holds escrow and pays on the due dates.",
+    "why": "The town bank and outside mortgage holders keep no escrow accounts yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
+    "replacement": "An escrow account at the mortgage holder, filled monthly with the payment and paid to the county on the place's due dates.",
     "status": "open"
   },
   {
@@ -2921,6 +2921,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "A home-equity line from the town bank to the founder's household, drawn into the business and repaid from the household's income.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-property-tax-due-dates-unverified",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-property-tax.ts",
+    "line": 145,
+    "whatItFakes": "Each place's property tax installments and due dates are the statewide default or most common county or town schedule, from cited statutes that were recalled rather than opened (all but Anchorage, Guam and the U.S. Virgin Islands); Ohio, Maine, Rhode Island, Vermont, Puerto Rico, the U.S. Virgin Islands and the Northern Mariana Islands are estimates.",
+    "why": "A research pass gathered the schedules for all 56 places in one sitting without fetching each statute; counties and towns set their own dates in several states.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "Each county's due dates from its own law in force (OPUS-GOV's laws), with each statute citation checked against the official text.",
     "status": "open"
   }
 ]

@@ -1,0 +1,809 @@
+{
+  "source": {
+    "tag": "ESTIMATED",
+    "asOf": "2026-10-13",
+    "citation": "Each place's property tax law or its most common county or town schedule (citations per place); the statute cites were recalled, not opened, except Anchorage, Guam and the U.S. Virgin Islands.",
+    "stopgapId": "SG-WORLD-property-tax-due-dates-unverified"
+  },
+  "convention": "Each month and day is the last day to pay that installment without penalty.",
+  "places": {
+    "AL": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Ala. Code 40-10-1; https://www.revenue.alabama.gov/property-tax/",
+      "note": "Due Oct 1, delinquent after Dec 31; one payment."
+    },
+    "AK": {
+      "installments": [
+        {
+          "month": 6,
+          "day": 30
+        },
+        {
+          "month": 8,
+          "day": 31
+        }
+      ],
+      "basis": "common-county",
+      "citation": "https://www.muni.org/Departments/finance/treasury/PropTax/Pages/RealEstatePropertyTaxes.aspx",
+      "note": "No state tax; boroughs/cities set dates. Anchorage (about 40% of residents): full by June 30 or halves June 30 and Aug 31, set yearly by Assembly resolution."
+    },
+    "AZ": {
+      "installments": [
+        {
+          "month": 11,
+          "day": 1
+        },
+        {
+          "month": 5,
+          "day": 1
+        }
+      ],
+      "basis": "statute",
+      "citation": "A.R.S. 42-18052",
+      "note": "First half due Oct 1, delinquent after 5 p.m. Nov 1; second half due Mar 1, delinquent after 5 p.m. May 1."
+    },
+    "AR": {
+      "installments": [
+        {
+          "month": 10,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "Ark. Code 26-36-201; https://www.dfa.arkansas.gov/",
+      "note": "Due by Oct 15 of the year after assessment; one payment (installment plans optional)."
+    },
+    "CA": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 10
+        },
+        {
+          "month": 4,
+          "day": 10
+        }
+      ],
+      "basis": "statute",
+      "citation": "Cal. Rev. & Tax. Code 2617, 2618; https://www.boe.ca.gov/proptaxes/faqs/generalinfo.htm",
+      "note": "First installment due Nov 1, delinquent after Dec 10; second due Feb 1, delinquent after Apr 10."
+    },
+    "CO": {
+      "installments": [
+        {
+          "month": 2,
+          "day": 28
+        },
+        {
+          "month": 6,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "C.R.S. 39-10-104.5",
+      "note": "Full by Apr 30, or halves by last day of Feb and June 15."
+    },
+    "CT": {
+      "installments": [
+        {
+          "month": 8,
+          "day": 1
+        },
+        {
+          "month": 2,
+          "day": 1
+        }
+      ],
+      "basis": "common-county",
+      "citation": "Conn. Gen. Stat. 12-142, 12-146",
+      "note": "Towns set dates; most bill semiannually, due July 1 and Jan 1 with a one-month grace (dates listed are grace-period ends). Some towns quarterly; small bills due in one payment."
+    },
+    "DE": {
+      "installments": [
+        {
+          "month": 9,
+          "day": 30
+        }
+      ],
+      "basis": "common-county",
+      "citation": "https://www.newcastlede.gov/ (New Castle County Treasury); Del. Code tit. 9",
+      "note": "All three counties bill once a year, due Sept 30 (school tax included)."
+    },
+    "FL": {
+      "installments": [
+        {
+          "month": 3,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Fla. Stat. 197.162, 197.333; https://floridarevenue.com/property/",
+      "note": "Bills mailed Nov 1, 4% discount in Nov declining to 0% in March; delinquent Apr 1. Optional quarterly installment plan."
+    },
+    "GA": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 20
+        }
+      ],
+      "basis": "statute",
+      "citation": "O.C.G.A. 48-5-23",
+      "note": "Statutory default Dec 20; many counties set their own date (often Oct-Dec) or two installments."
+    },
+    "HI": {
+      "installments": [
+        {
+          "month": 8,
+          "day": 20
+        },
+        {
+          "month": 2,
+          "day": 20
+        }
+      ],
+      "basis": "common-county",
+      "citation": "https://www.realpropertyhonolulu.com/; Rev. Ord. Honolulu ch. 8",
+      "note": "Counties set it; all four counties use halves due Aug 20 and Feb 20."
+    },
+    "ID": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 20
+        },
+        {
+          "month": 6,
+          "day": 20
+        }
+      ],
+      "basis": "statute",
+      "citation": "Idaho Code 63-903",
+      "note": "Full or first half by Dec 20, second half by June 20."
+    },
+    "IL": {
+      "installments": [
+        {
+          "month": 6,
+          "day": 1
+        },
+        {
+          "month": 9,
+          "day": 1
+        }
+      ],
+      "basis": "statute",
+      "citation": "35 ILCS 200/21-15, 21-25, 21-30",
+      "note": "Statutory default two installments (counties under 3 million), often later in practice; Cook County first installment Mar 1, second usually late summer/fall."
+    },
+    "IN": {
+      "installments": [
+        {
+          "month": 5,
+          "day": 10
+        },
+        {
+          "month": 11,
+          "day": 10
+        }
+      ],
+      "basis": "statute",
+      "citation": "Ind. Code 6-1.1-22-9; https://www.in.gov/dlgf/",
+      "note": "Two installments, May 10 and Nov 10."
+    },
+    "IA": {
+      "installments": [
+        {
+          "month": 9,
+          "day": 30
+        },
+        {
+          "month": 3,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Iowa Code 445.36, 445.37",
+      "note": "Halves due Sept 1 and Mar 1, delinquent Oct 1 and Apr 1."
+    },
+    "KS": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 20
+        },
+        {
+          "month": 5,
+          "day": 10
+        }
+      ],
+      "basis": "statute",
+      "citation": "K.S.A. 79-2004",
+      "note": "First half by Dec 20, second half by May 10."
+    },
+    "KY": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "KRS 134.015; https://revenue.ky.gov/Property/",
+      "note": "Bills about Sept 15; 2% discount through Nov 1, face amount through Dec 31."
+    },
+    "LA": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "La. R.S. 47:2127; https://latax.state.la.us/",
+      "note": "Bills in Nov, due by Dec 31."
+    },
+    "ME": {
+      "installments": [
+        {
+          "month": 10,
+          "day": 15
+        },
+        {
+          "month": 4,
+          "day": 15
+        }
+      ],
+      "basis": "estimate",
+      "citation": "36 M.R.S. 505",
+      "note": "Towns set dates and installments; most use two, some quarterly. Months are a representative pattern, not a statute."
+    },
+    "MD": {
+      "installments": [
+        {
+          "month": 9,
+          "day": 30
+        },
+        {
+          "month": 12,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Md. Code, Tax-Prop. 14-704; https://dat.maryland.gov/",
+      "note": "Bills July 1; owner-occupied homes pay semiannually (Sept 30, Dec 31) unless they pay in full."
+    },
+    "MA": {
+      "installments": [
+        {
+          "month": 8,
+          "day": 1
+        },
+        {
+          "month": 11,
+          "day": 1
+        },
+        {
+          "month": 2,
+          "day": 1
+        },
+        {
+          "month": 5,
+          "day": 1
+        }
+      ],
+      "basis": "common-county",
+      "citation": "M.G.L. c. 59 s. 57C; https://www.mass.gov/info-details/property-tax-bills",
+      "note": "Most municipalities use quarterly preliminary/actual bills due Aug 1, Nov 1, Feb 1, May 1; some semiannual."
+    },
+    "MI": {
+      "installments": [
+        {
+          "month": 9,
+          "day": 14
+        },
+        {
+          "month": 2,
+          "day": 14
+        }
+      ],
+      "basis": "statute",
+      "citation": "MCL 211.44, 211.44a, 211.905b",
+      "note": "Summer tax (July 1) payable without penalty by Sept 14; winter tax (Dec 1) by Feb 14."
+    },
+    "MN": {
+      "installments": [
+        {
+          "month": 5,
+          "day": 15
+        },
+        {
+          "month": 10,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "Minn. Stat. 279.01",
+      "note": "First half May 15, second half Oct 15 (Nov 15 for farm land)."
+    },
+    "MS": {
+      "installments": [
+        {
+          "month": 2,
+          "day": 1
+        }
+      ],
+      "basis": "statute",
+      "citation": "Miss. Code 27-41-1",
+      "note": "Due by Feb 1 of the following year; some counties allow installments."
+    },
+    "MO": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "RSMo 140.010",
+      "note": "Due by Dec 31."
+    },
+    "MT": {
+      "installments": [
+        {
+          "month": 11,
+          "day": 30
+        },
+        {
+          "month": 5,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "MCA 15-16-102",
+      "note": "Halves due Nov 30 and May 31."
+    },
+    "NE": {
+      "installments": [
+        {
+          "month": 4,
+          "day": 30
+        },
+        {
+          "month": 8,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Neb. Rev. Stat. 77-204",
+      "note": "Halves delinquent May 1 and Sept 1 (Apr 1 and Aug 1 in the three largest counties)."
+    },
+    "NV": {
+      "installments": [
+        {
+          "month": 8,
+          "day": 18
+        },
+        {
+          "month": 10,
+          "day": 6
+        },
+        {
+          "month": 1,
+          "day": 5
+        },
+        {
+          "month": 3,
+          "day": 2
+        }
+      ],
+      "basis": "statute",
+      "citation": "NRS 361.483",
+      "note": "Due 3rd Monday of Aug, or four installments: 3rd Mon Aug, 1st Mon Oct, 1st Mon Jan, 1st Mon Mar (days shown are approximate)."
+    },
+    "NH": {
+      "installments": [
+        {
+          "month": 7,
+          "day": 1
+        },
+        {
+          "month": 12,
+          "day": 1
+        }
+      ],
+      "basis": "common-county",
+      "citation": "RSA 76:15-a",
+      "note": "Towns bill semiannually; dates vary (first bill often due early July, second early Dec)."
+    },
+    "NJ": {
+      "installments": [
+        {
+          "month": 2,
+          "day": 1
+        },
+        {
+          "month": 5,
+          "day": 1
+        },
+        {
+          "month": 8,
+          "day": 1
+        },
+        {
+          "month": 11,
+          "day": 1
+        }
+      ],
+      "basis": "statute",
+      "citation": "N.J.S.A. 54:4-66; https://www.nj.gov/treasury/taxation/lpt/",
+      "note": "Quarterly, with a 10-day grace period."
+    },
+    "NM": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 10
+        },
+        {
+          "month": 5,
+          "day": 10
+        }
+      ],
+      "basis": "statute",
+      "citation": "NMSA 7-38-38; https://www.tax.newmexico.gov/",
+      "note": "Halves due Nov 10 and Apr 10, delinquent after Dec 10 and May 10."
+    },
+    "NY": {
+      "installments": [
+        {
+          "month": 9,
+          "day": 30
+        },
+        {
+          "month": 1,
+          "day": 31
+        }
+      ],
+      "basis": "common-county",
+      "citation": "RPTL 924, 925; https://www.tax.ny.gov/pit/property/learn/proptaxcal.htm",
+      "note": "Outside NYC: school tax due about Sept-Oct and town/county tax due by Jan 31 (Feb 1 often penalty date). NYC: quarterly Jul 1/Oct 1/Jan 1/Apr 1 for assessed value up to $250,000."
+    },
+    "NC": {
+      "installments": [
+        {
+          "month": 1,
+          "day": 5
+        }
+      ],
+      "basis": "statute",
+      "citation": "N.C.G.S. 105-360",
+      "note": "Due Sept 1, payable without interest until Jan 5."
+    },
+    "ND": {
+      "installments": [
+        {
+          "month": 3,
+          "day": 1
+        },
+        {
+          "month": 10,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "N.D.C.C. 57-20-01, 57-20-09",
+      "note": "Due Jan 1; 5% discount if paid by Feb 15; else first half by Mar 1, second half by Oct 15."
+    },
+    "OH": {
+      "installments": [
+        {
+          "month": 2,
+          "day": 1
+        },
+        {
+          "month": 7,
+          "day": 15
+        }
+      ],
+      "basis": "estimate",
+      "citation": "Ohio Rev. Code 323.12, 323.17",
+      "note": "Halves by statute (Dec 31, June 20) but county auditors routinely extend; most counties collect about late Jan/Feb and late June/July. Days are representative."
+    },
+    "OK": {
+      "installments": [
+        {
+          "month": 12,
+          "day": 31
+        },
+        {
+          "month": 3,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "68 O.S. 2913",
+      "note": "Due Nov 1, delinquent Jan 1; may pay half by Dec 31 and half by Mar 31."
+    },
+    "OR": {
+      "installments": [
+        {
+          "month": 11,
+          "day": 15
+        },
+        {
+          "month": 2,
+          "day": 15
+        },
+        {
+          "month": 5,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "ORS 311.505, 311.507",
+      "note": "Full by Nov 15 (3% discount), two-thirds (2%), or thirds Nov 15, Feb 15, May 15."
+    },
+    "PA": {
+      "installments": [
+        {
+          "month": 6,
+          "day": 30
+        },
+        {
+          "month": 10,
+          "day": 31
+        }
+      ],
+      "basis": "common-county",
+      "citation": "72 P.S. 5511.10 (Local Tax Collection Law)",
+      "note": "Separate county/municipal bill (about Mar 1, discount through Apr, face by about June 30) and school bill (about July 1, face by about Oct 31). Philadelphia: one bill due Mar 31. Dates are typical."
+    },
+    "RI": {
+      "installments": [
+        {
+          "month": 7,
+          "day": 31
+        },
+        {
+          "month": 10,
+          "day": 31
+        },
+        {
+          "month": 1,
+          "day": 31
+        },
+        {
+          "month": 4,
+          "day": 30
+        }
+      ],
+      "basis": "estimate",
+      "citation": "R.I. Gen. Laws 44-5-7",
+      "note": "Municipalities set dates; most bill quarterly starting in July. Days are representative."
+    },
+    "SC": {
+      "installments": [
+        {
+          "month": 1,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "S.C. Code 12-45-70",
+      "note": "Due by Jan 15."
+    },
+    "SD": {
+      "installments": [
+        {
+          "month": 4,
+          "day": 30
+        },
+        {
+          "month": 10,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "SDCL 10-21-2",
+      "note": "Halves due Apr 30 and Oct 31."
+    },
+    "TN": {
+      "installments": [
+        {
+          "month": 2,
+          "day": 28
+        }
+      ],
+      "basis": "statute",
+      "citation": "Tenn. Code 67-5-2010",
+      "note": "Due first Monday of Oct, delinquent Mar 1."
+    },
+    "TX": {
+      "installments": [
+        {
+          "month": 1,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Tex. Tax Code 31.02, 31.03, 31.031; https://comptroller.texas.gov/taxes/property-tax/",
+      "note": "Bills about Oct 1, due by Jan 31; optional split (halves Nov 30/June 30) or quarterly for homesteads 65+/disabled."
+    },
+    "UT": {
+      "installments": [
+        {
+          "month": 11,
+          "day": 30
+        }
+      ],
+      "basis": "statute",
+      "citation": "Utah Code 59-2-1331",
+      "note": "Due Nov 30."
+    },
+    "VT": {
+      "installments": [
+        {
+          "month": 8,
+          "day": 15
+        },
+        {
+          "month": 2,
+          "day": 15
+        }
+      ],
+      "basis": "estimate",
+      "citation": "32 V.S.A. 4772",
+      "note": "Towns set the number of installments (one to four) and dates; semiannual is common. Months are representative."
+    },
+    "VA": {
+      "installments": [
+        {
+          "month": 6,
+          "day": 5
+        },
+        {
+          "month": 12,
+          "day": 5
+        }
+      ],
+      "basis": "common-county",
+      "citation": "Va. Code 58.1-3916",
+      "note": "Localities set dates; June 5 and Dec 5 halves are the most common pattern (many cities/counties), others annual Dec 5."
+    },
+    "WA": {
+      "installments": [
+        {
+          "month": 4,
+          "day": 30
+        },
+        {
+          "month": 10,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "RCW 84.56.020",
+      "note": "Full or first half by Apr 30, second half by Oct 31."
+    },
+    "WV": {
+      "installments": [
+        {
+          "month": 9,
+          "day": 30
+        },
+        {
+          "month": 3,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "W. Va. Code 11A-1-3",
+      "note": "Halves payable Sept 1 and Mar 1, delinquent Oct 1 and Apr 1; 2.5% discount if paid early."
+    },
+    "WI": {
+      "installments": [
+        {
+          "month": 1,
+          "day": 31
+        },
+        {
+          "month": 7,
+          "day": 31
+        }
+      ],
+      "basis": "statute",
+      "citation": "Wis. Stat. 74.11",
+      "note": "Full by Jan 31, or installments with the last by July 31 (many municipalities allow more installments)."
+    },
+    "WY": {
+      "installments": [
+        {
+          "month": 11,
+          "day": 10
+        },
+        {
+          "month": 5,
+          "day": 10
+        }
+      ],
+      "basis": "statute",
+      "citation": "Wyo. Stat. 39-13-108",
+      "note": "First half due Sept 1, delinquent after Nov 10; second half due Mar 1, delinquent after May 10."
+    },
+    "DC": {
+      "installments": [
+        {
+          "month": 3,
+          "day": 31
+        },
+        {
+          "month": 9,
+          "day": 15
+        }
+      ],
+      "basis": "statute",
+      "citation": "D.C. Code 47-811; https://otr.cfo.dc.gov/page/real-property-tax-payment-due-dates",
+      "note": "First half Mar 31, second half Sept 15."
+    },
+    "PR": {
+      "installments": [
+        {
+          "month": 7,
+          "day": 1
+        },
+        {
+          "month": 1,
+          "day": 1
+        }
+      ],
+      "basis": "estimate",
+      "citation": "Ley 7-2020 Codigo Municipal de PR (formerly Ley 83-1991); https://www.crimpr.net/",
+      "note": "CRIM bills semiannually, understood to be due about July 1 and Jan 1, with discount for early full payment; owner-occupied homes are exempt on the first $15,000 of assessed value (pre-1958 value basis), so most homeowners owe little or nothing. Dates not confirmed from an official source."
+    },
+    "GU": {
+      "installments": [
+        {
+          "month": 2,
+          "day": 20
+        },
+        {
+          "month": 4,
+          "day": 20
+        }
+      ],
+      "basis": "statute",
+      "citation": "https://www.guamtax.com/notices/2018DUEDATEANDEXEMPTIONREMINDERNOTICE.pdf; 11 GCA ch. 24",
+      "note": "Two installments, about Feb 20 and Apr 20 (2025: Feb 21 and Apr 21); 2025 bills were delayed and extended to Dec 31."
+    },
+    "VI": {
+      "installments": [
+        {
+          "month": 8,
+          "day": 30
+        }
+      ],
+      "basis": "estimate",
+      "citation": "https://stthomassource.com/content/2025/08/27/property-taxes-due-before-aug-30/; 33 V.I.C. ch. 89",
+      "note": "Single annual bill; recent bills dated June 30 payable without penalty to Aug 30 by legislation; billing has often run late, so dates vary by year."
+    },
+    "AS": {
+      "installments": [],
+      "basis": "statute",
+      "citation": "American Samoa Code Annotated title 11 (taxes) contains no real property tax",
+      "note": "No residential real property tax; most land is communally held and the territory levies no general real property tax."
+    },
+    "MP": {
+      "installments": [],
+      "basis": "estimate",
+      "citation": "CNMI Code title 4 (taxation); https://finance.gov.mp/",
+      "note": "No general real property tax is understood to be levied; land ownership is restricted to persons of NMI descent under Constitution Art. XII. Not confirmed from an official CNMI source."
+    }
+  }
+}

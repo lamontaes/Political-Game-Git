@@ -1,7 +1,8 @@
 /**
- * Property tax on owners' homes: each month an owner household pays a
- * twelfth of its home's assessed value times the rate in force, through the
- * ledger, to the taxing government. The assessed value follows the home's
+ * Property tax on owners' homes: a household with a mortgage pays a twelfth
+ * of its home's assessed value times the rate in force each month, through
+ * its escrow; one without pays each installment in the month it falls due
+ * (its place's schedule), through the ledger, to the taxing government. The assessed value follows the home's
  * value each January, but where the law caps assessment growth it rises no
  * faster than the cap (a home bought since is assessed at its price).
  *
@@ -15,6 +16,7 @@
  * assessments rise (`setPropertyTaxCap`).
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
+import dueDates from "./data/housing/property-tax-due-dates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
@@ -130,7 +132,24 @@ interface AssessmentRow {
   year: number;
 }
 
-/** Bills every owner household for this month's tax (a twelfth, as through a mortgage escrow); returns what was paid. */
+/** The share of a year's tax due this month for a home without a mortgage, by its place's installments; undefined where no schedule is recorded. */
+function dueShare(usps: string, month: number): number | undefined {
+  const row = (
+    dueDates.places as Record<
+      string,
+      { installments: { month: number; day: number }[] }
+    >
+  )[usps];
+  if (!row) return undefined;
+  if (!row.installments.length) return 0;
+  stopgap("SG-WORLD-property-tax-due-dates-unverified");
+  return (
+    row.installments.filter((due) => due.month === month).length /
+    row.installments.length
+  );
+}
+
+/** Bills every owner household for what falls due this month (a twelfth through escrow, or its installment); returns what was paid. */
 export function billPropertyTax(
   api: CoreAPI,
   assessments: ModuleTable,
@@ -143,8 +162,19 @@ export function billPropertyTax(
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
-  // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
-  stopgap("SG-WORLD-property-tax-monthly");
+  // Owners with a mortgage pay monthly into escrow (paid straight to the county here); the rest on the place's due dates.
+  const usps = c.placeMetadata?.housingState ?? "",
+    due = dueShare(usps, Number(c.date.slice(5, 7)));
+  const escrowed = new Set<string>();
+  for (const row of api
+    .moduleState("housing")
+    .table("mortgages")
+    .rows() as unknown as {
+    householdId: string;
+    monthsLeft: number;
+  }[])
+    if (row.monthsLeft > 0) escrowed.add(row.householdId);
+  if (escrowed.size) stopgap("SG-WORLD-property-tax-monthly");
   const pooled = new Map<string, number>();
   const byPlace = new Map<string, PropertyTaxTerms>();
   const termsFor = (placeId: string) => {
@@ -179,7 +209,10 @@ export function billPropertyTax(
         assessedMinor: assessed,
         year,
       });
-    const bill = Math.round((assessed * t.rate) / months);
+    const share = escrowed.has(home.householdId)
+      ? 1 / months
+      : (due ?? 1 / months);
+    const bill = Math.round(assessed * t.rate * share);
     if (bill <= 0) continue;
     const household = c.households.get(home.householdId);
     const to = payee(home.placeId, t);

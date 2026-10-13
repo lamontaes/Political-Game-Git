@@ -1,4 +1,4 @@
-/** Property tax bills on owners: a twelfth of assessed value times the rate each month, with an assessment cap where the law sets one. */
+/** Property tax bills on owners: a twelfth of assessed value times the rate each month through a mortgage's escrow, else each installment when it falls due, with an assessment cap where the law sets one. */
 import { afterEach, describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import {
@@ -88,13 +88,13 @@ function input(): CoreInput {
 afterEach(() => registerPropertyTax(() => undefined));
 
 describe("property tax bills", () => {
-  it("without a county rate in force, the owner pays the state's average effective rate outside the town", () => {
+  it("without a county rate in force, the owner pays the state's average effective rate outside the town, a quarter on New Jersey's February due date", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
         modules: [HOUSING_MODULE],
       }),
       api = coreAPI(core);
-    advanceCore(core, "2021-01-02");
+    advanceCore(core, "2021-02-02");
     const table = api.moduleState("housing").table("assessments");
     const homes = [
       {
@@ -104,7 +104,50 @@ describe("property tax bills", () => {
       },
     ];
     const paid = billPropertyTax(api, table, homes);
+    expect(paid).toBe(Math.round((40_000_000 * stateEffectiveRate("NJ")) / 4));
+  });
+  it("an owner with a mortgage pays a twelfth each month through escrow, due date or not", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [HOUSING_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-02");
+    api.moduleState("housing").table("mortgages").put({
+      id: "mortgage:household:owner",
+      householdId: "household:owner",
+      balanceMinor: 20_000_000,
+      monthsLeft: 300,
+    });
+    const table = api.moduleState("housing").table("assessments");
+    const paid = billPropertyTax(api, table, [
+      {
+        householdId: "household:owner",
+        placeId: place,
+        valueMinor: 40_000_000,
+      },
+    ]);
     expect(paid).toBe(Math.round((40_000_000 * stateEffectiveRate("NJ")) / 12));
+  });
+  it("an owner without a mortgage owes nothing in a month with no installment due", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [HOUSING_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-02");
+    const paid = billPropertyTax(
+      api,
+      api.moduleState("housing").table("assessments"),
+      [
+        {
+          householdId: "household:owner",
+          placeId: place,
+          valueMinor: 40_000_000,
+        },
+      ],
+    );
+    expect(paid).toBe(0);
   });
   it("a county's rate and a 2% assessment cap: a 10% rise in value raises the bill 2% the next January", () => {
     registerPropertyTax(() => ({
@@ -118,18 +161,18 @@ describe("property tax bills", () => {
         modules: [HOUSING_MODULE],
       }),
       api = coreAPI(core);
-    advanceCore(core, "2021-01-02");
+    advanceCore(core, "2021-02-02");
     const table = api.moduleState("housing").table("assessments");
     const home = { householdId: "household:owner", placeId: place };
     const first = billPropertyTax(api, table, [
       { ...home, valueMinor: 40_000_000 },
     ]);
-    expect(first).toBe(Math.round((40_000_000 * 0.02) / 12));
-    advanceCore(core, "2022-01-05");
+    expect(first).toBe(Math.round((40_000_000 * 0.02) / 4));
+    advanceCore(core, "2022-02-05");
     const second = billPropertyTax(api, table, [
       { ...home, valueMinor: 44_000_000 },
     ]);
-    expect(second).toBe(Math.round((40_800_000 * 0.02) / 12));
+    expect(second).toBe(Math.round((40_800_000 * 0.02) / 4));
     expect(core.organizations.get(county)!.liquidMinor).toBe(first + second);
   });
   it("with the laws open, an owner in a generated world pays the county's recorded rate", () => {
@@ -154,9 +197,20 @@ describe("property tax bills", () => {
         ? percent / 100
         : stateEffectiveRate(opening.placeMetadata?.housingState ?? "");
     const table = api.moduleState("housing").table("assessments");
+    const householdId = opening.households[0]!.id;
+    // Paid through a mortgage's escrow, so the bill is this month's twelfth whatever the place's due dates.
+    api
+      .moduleState("housing")
+      .table("mortgages")
+      .put({
+        id: `mortgage:${householdId}`,
+        householdId,
+        balanceMinor: 10_000_000,
+        monthsLeft: 300,
+      });
     const paid = billPropertyTax(api, table, [
       {
-        householdId: opening.households[0]!.id,
+        householdId,
         placeId: opening.households[0]!.placeId,
         valueMinor: 30_000_000,
       },
