@@ -447,4 +447,25 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       impact("election-result:fixture-mayor"),
     );
   });
+
+  it("tells a marriage or a couple getting together, by the partnership's record", () => {
+    const partnered = [...director.ledger.people.keys()]
+      .map((id) => core.people.get(id)!)
+      .find((person) =>
+        (person.pastFacts ?? []).some((fact) => fact.kind === "family:partner"),
+      )!;
+    expect(partnered).toBeDefined();
+    const fact = partnered.pastFacts!.find(
+      (row) => row.kind === "family:partner",
+    )!;
+    const partner = core.people.get(fact.facts!.otherPersonId!)!;
+    const line = composeJournal(core, director, partnered.id)
+      .flatMap((chapter) => chapter.lines)
+      .find((row) => row.sourceRecordIds.includes(fact.id));
+    expect(line?.text).toBe(
+      fact.facts!.partnershipKind === "legal:marriage"
+        ? `I married ${partner.givenName}.`
+        : `${partner.givenName} and I got together.`,
+    );
+  });
 });

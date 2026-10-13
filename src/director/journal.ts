@@ -33,6 +33,14 @@ interface LineRow {
   eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
   /** A fact naming a person (the winner) picks the line's stage: `self` when it names who the line is about, else `other`. */
   stageFact?: { fact: string; self: string; other: string };
+  /** A fact's value picks the line's stage (a marriage or a couple), from the event or the past fact behind the moment. */
+  stageOf?: {
+    fact: string;
+    values: Readonly<Record<string, string>>;
+    otherwise: string;
+  };
+  /** The person's own line even though it names someone (their partner). */
+  ownWithOther?: boolean;
   line: readonly { key: string; text: string }[];
   otherLine?: readonly { key: string; text: string }[];
   repeatLine?: readonly { key: string; text: string }[];
@@ -319,7 +327,8 @@ export function composeJournal(
     const facts = factsFor(moment);
     if (!facts) continue;
     const sourceIds = [moment.causeId];
-    const own = !facts.other || moment.causeKind === "family:child";
+    const own =
+      !facts.other || moment.causeKind === "family:child" || !!row.ownWithOther;
     const field = own || !row.otherLine ? "line" : "otherLine";
     const rows = (own ? row.line : (row.otherLine ?? row.line)).flatMap(
       (variant) => withParts("journal", row.kindPrefix, field, variant),
@@ -387,7 +396,20 @@ export function composeJournal(
         ? stageNamed === about
           ? row.stageFact.self
           : row.stageFact.other
-        : undefined,
+        : row.stageOf
+          ? (row.stageOf.values[
+              String(
+                core.durableLog.get(moment.causeId)?.facts?.[
+                  row.stageOf.fact
+                ] ??
+                  (moment.causeFactId
+                    ? factsById.get(moment.causeFactId)?.facts?.[
+                        row.stageOf.fact
+                      ]
+                    : undefined),
+              )
+            ] ?? row.stageOf.otherwise)
+          : undefined,
     );
     if (!rendered) continue;
     const line: JournalLine = {

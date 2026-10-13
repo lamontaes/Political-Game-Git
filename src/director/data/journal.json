@@ -494,6 +494,36 @@
           "text": "{{other}} held a town hall."
         }
       ]
+    },
+    {
+      "kindPrefix": "family:partner",
+      "turn": true,
+      "ownWithOther": true,
+      "stageOf": {
+        "fact": "partnershipKind",
+        "values": {
+          "legal:marriage": "married"
+        },
+        "otherwise": "together"
+      },
+      "line": [
+        {
+          "key": "married",
+          "text": "I married {{name}}.",
+          "stages": ["married"]
+        },
+        {
+          "key": "together",
+          "text": "{{name}} and I got together.",
+          "stages": ["together"]
+        }
+      ],
+      "title": [
+        {
+          "key": "with",
+          "text": "With {{name}}"
+        }
+      ]
     }
   ],
   "firstTitle": [

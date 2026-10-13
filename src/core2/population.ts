@@ -904,6 +904,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     id: string,
     date: WorldDate,
     relation: string,
+    extra: Readonly<Record<string, string>> = {},
   ) => {
     const other = world.people[otherId]!;
     const rows = familyPast.get(personId) ?? [];
@@ -914,7 +915,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       summary: `${other.givenName} ${other.familyName} is recorded as this person's ${relation} in the generated opening household.`,
       source,
       // M0-06: the relative's own record, not only their name in the summary.
-      facts: { otherPersonId: otherId },
+      facts: { otherPersonId: otherId, ...extra },
     });
     familyPast.set(personId, rows);
   };
@@ -962,6 +963,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         id,
         partnershipsById.get(id)!.startedAt,
         "partner",
+        // P15: a marriage or a couple living together, for the journal.
+        { partnershipKind: partnershipsById.get(id)!.kind },
       );
       recordFamilyPast(
         adults[p("one")]!,
@@ -969,6 +972,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         id,
         partnershipsById.get(id)!.startedAt,
         "partner",
+        // P15: a marriage or a couple living together, for the journal.
+        { partnershipKind: partnershipsById.get(id)!.kind },
       );
     }
     for (const [childMember, parentMember] of parentChildMembers(plan)) {
