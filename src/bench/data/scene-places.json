@@ -30,26 +30,69 @@
     "community:organizing-nonprofit": "organizing",
     "membership:labor-union": "union",
     "enterprise:political-consulting": "campaign-staff",
-    "enterprise:food-service": "restaurant",
     "enterprise:transportation": "trucking",
     "enterprise:professional-services": "professional",
     "enterprise:telecommunications": "information",
     "enterprise:lodging": "inn",
     "enterprise:real-estate": "realty",
-    "enterprise:personal-services": "personal-care",
-    "service:nursing-home": "care-home",
-    "service:public-health": "clinic"
+    "enterprise:personal-services": "personal-care"
   },
   "placesWithoutKind": {
-    "service:fire": "fire-station",
-    "service:police": "police-station",
-    "enterprise:agriculture": "farm-yard",
-    "service:public-health": "county-health-department",
-    "sector:state-government-office": "dmv-office",
-    "service:municipal-government": "mayor-office",
-    "membership:labor-union": "union-hall",
-    "service:county-government": "county-admin-lobby",
-    "service:jail": "county-jail-booking"
+    "about": "Pictures for an organization classification that has no business kind of its own; where a classification has several, each organization gets one from its own id, and the first painted pictures are the choices.",
+    "service:fire": ["fire-station"],
+    "service:police": ["police-station", "police-station-lobby"],
+    "service:corrections": ["prison-cellblock"],
+    "service:jail": [
+      "county-jail-booking",
+      "county-jail-visiting",
+      "jail-visiting-room"
+    ],
+    "enterprise:agriculture": ["farm-yard", "farm-field"],
+    "service:public-health": ["county-health-department", "hospital-lobby"],
+    "service:clinic": ["doctor-exam-room", "clinic-exam-room"],
+    "service:hospital": [
+      "hospital-lobby",
+      "hospital-emergency-waiting",
+      "hospital-hallway"
+    ],
+    "service:nursing-home": ["nursing-home-commons"],
+    "sector:state-government-office": [
+      "dmv-office",
+      "unemployment-office",
+      "workforce-center",
+      "benefits-office"
+    ],
+    "sector:federal-government-office": [
+      "post-office",
+      "veterans-office",
+      "benefits-office"
+    ],
+    "service:municipal-government": ["mayor-office"],
+    "service:county-government": [
+      "county-admin-lobby",
+      "county-clerk-office-urban"
+    ],
+    "enterprise:utility": [
+      "power-plant",
+      "water-treatment",
+      "solar-farm",
+      "wind-farm"
+    ],
+    "enterprise:banking": ["bank-lobby"],
+    "enterprise:food-service": [
+      "diner",
+      "diner-counter",
+      "coffee-shop",
+      "tavern"
+    ],
+    "enterprise:retail": [
+      "store",
+      "general-store",
+      "hardware-store-interior",
+      "grocery-store",
+      "gas-station"
+    ],
+    "membership:labor-union": ["union-hall"]
   },
   "variantByHour": [
     {
@@ -137,6 +180,8 @@
     "city-hall-steps-event",
     "lodge-hall",
     "church-supper-hall",
+    "rally-town-square",
+    "rally-high-school-gym",
     "courthouse-steps",
     "courthouse-square"
   ],

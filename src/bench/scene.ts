@@ -44,7 +44,16 @@ const PICTURED = new Set(
 export const hasBackdrop = (place: string) => PICTURED.has(place);
 const ACTIONS = scenePlaces.actions as Record<string, readonly string[]>;
 const ORG_KINDS = scenePlaces.organizationKinds as Record<string, string>;
-const ORG_PLACES = scenePlaces.placesWithoutKind as Record<string, string>;
+const ORG_PLACES = scenePlaces.placesWithoutKind as unknown as Record<
+  string,
+  readonly string[]
+>;
+
+/** A classification's own picture for one organization, chosen by its id among the painted ones. */
+function classPlace(classification: string, orgId: string): string | null {
+  const options = ORG_PLACES[classification]?.filter?.(hasBackdrop) ?? [];
+  return options.length ? pickFor(orgId, options) : null;
+}
 
 /** The bench's picture of where a person is and who is there with them. */
 export interface BenchScene {
@@ -75,7 +84,8 @@ export function orgPlace(
   const org = orgId ? core.organizations.get(orgId) : undefined;
   const classification = org?.classification;
   if (!classification) return null;
-  if (ORG_PLACES[classification]) return ORG_PLACES[classification]!;
+  const own = classPlace(classification, org.id);
+  if (own) return own;
   const kind =
     ORG_KINDS[classification] ??
     classification.slice(classification.indexOf(":") + 1);
@@ -154,8 +164,8 @@ function workplaceOf(core: CoreState, person: PersonState): string {
   if (!job) return "office";
   const org = core.organizations.get(job.organizationId);
   const classification = org?.classification;
-  if (classification && ORG_PLACES[classification])
-    return ORG_PLACES[classification]!;
+  const own = classification ? classPlace(classification, org!.id) : null;
+  if (own) return own;
   const kind = classification
     ? (ORG_KINDS[classification] ??
       classification.slice(classification.indexOf(":") + 1))
