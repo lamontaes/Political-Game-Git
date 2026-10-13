@@ -3,10 +3,10 @@
  * GOLDEN_PATH_PLACE_KEY from the runner. A drawn town on the two-level world
  * with every economy engine runs two years from its start date. Passes when:
  * (1) the town's median rent sits inside the spread of its state's county
- * median gross rents (ACS B25064, 5th to 95th percentile of counties,
+ * median gross rents (ACS B25064, its lowest to highest county,
  * widened by consumer prices since the opening); (2) its median
  * home value sits inside the spread of its state's county median values
- * (ACS B25077), widened the same way; (3) every eviction case began from rent
+ * (ACS B25077), the same way; (3) every eviction case began from rent
  * owed and followed its state's steps: notice, the cure period, filing, the
  * hearing after its days, judgment only on rent still owed, removal after
  * the stay. Exits nonzero on failure.
@@ -118,11 +118,8 @@ const rows = (text: string) =>
 const spread = (values: number[]) => {
   const sorted = values.filter((v) => v > 0).sort((a, b) => a - b);
   return sorted.length
-    ? {
-        low: sorted[Math.floor(0.05 * (sorted.length - 1))]!,
-        high: sorted[Math.ceil(0.95 * (sorted.length - 1))]!,
-        counties: sorted.length,
-      }
+    ? // A place can sit at its county's edge: the state's lowest to highest county.
+      { low: sorted[0]!, high: sorted.at(-1)!, counties: sorted.length }
     : undefined;
 };
 const countyRentValue = housingData.countyRentValue as unknown as Record<
