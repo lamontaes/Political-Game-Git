@@ -210,6 +210,7 @@ let liftedOperatingLimits = new Map<
 let endedComplianceCosts = new Map<string, string>();
 let careWorkEligibility = new Map<string, boolean>();
 let constructionDecisions = new Map<string, string>();
+let minimumWageNoOps = new Map<string, string>();
 /** Counts calls and observes completed payments without retaining full game history. */
 function countCalls(core: CoreState) {
   cashPayments = new Map();
@@ -217,6 +218,7 @@ function countCalls(core: CoreState) {
   endedComplianceCosts = new Map();
   careWorkEligibility = new Map();
   constructionDecisions = new Map();
+  minimumWageNoOps = new Map();
   calls = new Map();
   const count = (id: string) => calls.set(id, (calls.get(id) ?? 0) + 1);
   const wrap = <F extends (...args: never[]) => unknown>(id: string, f: F) =>
@@ -355,6 +357,49 @@ function countCalls(core: CoreState) {
                 expanded &&
                   eligible.has(admission.personId) &&
                   workLimited.has(admission.personId),
+              );
+          }
+        }
+        const work = args[1] as
+          { kind?: string; sourceRecordIds?: readonly string[] } | undefined;
+        if (id === LAWS_MODULE_ID && work?.kind === "law-takes-effect") {
+          const wage = lawInForce(api, "minimum-wage");
+          if (
+            wage.governing &&
+            wage.governing.id === work.sourceRecordIds?.[0] &&
+            wage.value !== null
+          ) {
+            const state = api.state as CoreState;
+            const jobs = [
+              ...[...state.work.commitments.values()]
+                .filter((row) => !row.endsAt || row.endsAt > state.date)
+                .map((row) => ({
+                  id: row.jobId,
+                  organizationId: row.organizationId,
+                  hourlyMinor: row.hourlyMinor,
+                })),
+              ...[...(residentsRuntime(state)?.jobs.values() ?? [])].filter(
+                (row) => !row.endsAt,
+              ),
+            ].filter((row) => {
+              const employer = state.organizations.get(row.organizationId);
+              return (
+                employer &&
+                (!state.visiblePlaceIds.size ||
+                  state.visiblePlaceIds.has(employer.placeId))
+              );
+            });
+            if (
+              jobs.length &&
+              jobs.every(
+                (row) =>
+                  Number.isFinite(row.hourlyMinor) &&
+                  row.hourlyMinor! >= wage.value!,
+              )
+            )
+              minimumWageNoOps.set(
+                wage.governing.id,
+                `no-op at wage enforcement on ${state.date}: all ${jobs.length} active town jobs already meet floor ${wage.value}; job=${jobs[0]!.id}; minimum recorded rate=${Math.min(...jobs.map((row) => row.hourlyMinor!))}`,
               );
           }
         }
@@ -829,7 +874,8 @@ function playWorld(seed: string) {
               (changes[index - 1]?.hourlyMinor ?? wagesAtStart.get(jobId)),
         ),
     );
-    let engineNoOp: string | undefined = constructionDecisions.get(law.id);
+    let engineNoOp: string | undefined =
+      constructionDecisions.get(law.id) ?? minimumWageNoOps.get(law.id);
     if (
       law.series ===
       "us-policy-positions:education.raise-teacher-minimum-salary"
@@ -1158,7 +1204,14 @@ function playWorld(seed: string) {
         .rows() as unknown as ReturnType<typeof withholdingOf>
     ).find((row) => {
       const line = row.lines.find((item) => item.lawId.includes(law.id));
-      if (!line || row.date < law.effectiveDate) return false;
+      const repealedIncomeTax =
+        law.series === "income-tax" &&
+        law.value === 0 &&
+        lawInForce(api, "income-tax", row.date).levels.some(
+          (level) => level.row?.id === law.id && !level.setAside,
+        );
+      if ((!line && !repealedIncomeTax) || row.date < law.effectiveDate)
+        return false;
       const before = withholdingFor({
         paidMinor: row.paidMinor,
         periodDays: row.periodDays,
@@ -1168,10 +1221,18 @@ function playWorld(seed: string) {
         medicare: lawInForce(api, "medicare-tax", beforeDate),
       }).find(
         (item) =>
-          item.jurisdiction === line.jurisdiction && item.tax === line.tax,
+          item.jurisdiction === (line?.jurisdiction ?? law.jurisdiction) &&
+          item.tax === (line?.tax ?? "income"),
       );
+      const afterMinor =
+        line?.minor ??
+        row.lines.find(
+          (item) =>
+            item.jurisdiction === law.jurisdiction && item.tax === "income",
+        )?.minor ??
+        0;
       return (
-        line.minor !== (before?.minor ?? 0) &&
+        afterMinor !== (before?.minor ?? 0) &&
         paidReceipts.some(
           (item) => item.sourceRef.id === row.id && item.grossDebitMinor > 0,
         )
