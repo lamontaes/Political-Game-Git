@@ -2855,7 +2855,7 @@
     "kind": "aggregate-population",
     "file": "src/core2/modules/counted-drift.ts",
     "line": 1,
-    "whatItFakes": "Newcomers to the wider population arrive only into homes a counted household just left, as a household of the same ages and genders with the home's cash, new names drawn from the town's recorded names, and no retirement income or job (the jobs engine may hire them). The town's own state rates apply to every counted household, including relatives' households elsewhere. Leavers' cash stays in town.",
+    "whatItFakes": "Newcomers to the wider population arrive only into homes a counted household just left, as a household of the same ages and genders with the home's cash, given names people born their year were called (SSA) and a family name drawn from the town's recorded names, and no retirement income or job (the jobs engine may hire them). The town's own state rates apply to every counted household, including relatives' households elsewhere. Leavers' cash stays in town.",
     "why": "The counted population should move in and out (owner, Oct 12, ruling 4), and no housing market places counted newcomers yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
@@ -2880,10 +2880,10 @@
     "file": "src/core2/modules/counted-drift.ts",
     "line": 1,
     "whatItFakes": "A baby born in the wider population takes a given name already recorded among the town's youngest residents of the same gender.",
-    "why": "The name engine (PEOPLE's) names newborns only for full parents; a counted mother has no full record to pass it.",
+    "why": "The name engine (PEOPLE's) names newborns only for full parents; a counted mother has no full record to pass it. Resolved Oct 13 (OPUS-CORE): newborns and newcomers draw a given name people born that year were called (SSA top names by decade, src/core2/gov-rules/given-name-cohorts.ts), not a housemate's.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
     "replacement": "PEOPLE exports the newborn identity used by births-people.ts (seeded name and gender) for any mother, full or counted.",
-    "status": "open"
+    "status": "resolved"
   }
 ]

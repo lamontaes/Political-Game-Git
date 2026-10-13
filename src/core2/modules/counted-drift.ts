@@ -23,6 +23,7 @@ import life from "../data/ssa-cohort-life-tables.json" with { type: "json" };
 import data from "../data/counted-drift.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
+import { drawCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { countedVoterGroupId } from "../opening-voter-groups";
 import { stateOfPlaceKey } from "../places";
 import type { ResidentHouseholdRecord } from "../residents";
@@ -270,12 +271,18 @@ function addNewborn(
     parseInt(stableHash(`${core.seed}:${id}:gender`).slice(0, 8), 16) % 2
       ? "female"
       : "male";
-  api.stopgap(data.newbornNamesStopgapId);
-  // A given name already recorded among the town's youngest of that gender.
   const youngest = youngestByGender.get(gender);
   const baby: PersonInput = {
     id,
-    givenName: youngest?.givenName ?? mother.givenName,
+    givenName:
+      cohortName(
+        `${core.seed}:${id}:given`,
+        gender,
+        core.date,
+        record.people,
+      ) ??
+      youngest?.givenName ??
+      mother.givenName,
     familyName: mother.familyName,
     birthDate: makeIsoDate(core.date),
     placeId: mother.placeId,
@@ -388,6 +395,29 @@ const pick = <T>(list: readonly T[], key: string): T | undefined =>
     : undefined;
 
 /**
+ * A given name people born that year were called (SSA top names by decade),
+ * not one a housemate already has. Seeded: generation of who exists.
+ */
+function cohortName(
+  key: string,
+  gender: string,
+  birthDate: string,
+  housemates: readonly PersonInput[],
+): string | undefined {
+  const rng = {
+    next: () => parseInt(stableHash(key).slice(0, 8), 16) / 2 ** 32,
+  } as Parameters<typeof drawCohortGivenName>[0];
+  return (
+    drawCohortGivenName(
+      rng,
+      gender === "male" ? "male" : "female",
+      Number(birthDate.slice(0, 4)),
+      housemates.map((row) => row.givenName),
+    ) ?? undefined
+  );
+}
+
+/**
  * A household moves away; when newcomers are due, a household of the same
  * makeup moves into the home (stopgap: until a housing market places
  * newcomers, they arrive only into homes left empty, with the home's cash and
@@ -431,6 +461,12 @@ function moveHousehold(
     return {
       id,
       givenName:
+        cohortName(
+          `${core.seed}:${id}:given`,
+          gender,
+          person.birthDate,
+          record.people,
+        ) ??
         pick(names.given.get(gender) ?? [], `${core.seed}:${id}:given`) ??
         person.givenName,
       familyName: family,

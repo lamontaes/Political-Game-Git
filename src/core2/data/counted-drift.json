@@ -1,7 +1,6 @@
 {
   "version": "core2-counted-drift-v1",
   "stopgapId": "SG-CORE-counted-drift",
-  "newbornNamesStopgapId": "SG-CORE-counted-newborn-names",
   "births": {
     "citation": "NCHS Data Brief No. 535, Births in the United States, 2024 (https://www.cdc.gov/nchs/products/databriefs/db535.htm): births per 1,000 women by age of mother, 2024.",
     "ratesPerThousand": [
