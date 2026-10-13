@@ -42,6 +42,7 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { createHash } from "node:crypto";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
+import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
@@ -72,6 +73,11 @@ export interface TermRow {
   readonly reached: string;
   readonly status: "serving" | "ended";
   readonly endedBy?: string;
+  /**
+   * The election that seated the holder, for terms the world opened with
+   * (history before the start): its date and the winner's estimated share.
+   */
+  readonly elected?: { readonly date: string; readonly share: number };
 }
 
 export interface VacancyRow {
@@ -489,10 +495,13 @@ function pastTerms(
       ),
     );
   const serviceStart = shiftYears(start, -prior * years);
+  const won = (from: string) =>
+    office.elected ? { elected: electionBehind(office, from) } : {};
   table(api, "terms").put({
     ...term,
     startDate: start,
     serviceStart,
+    ...won(start),
   } as unknown as ModuleRow);
   for (let k = prior; k >= 1; k -= 1) {
     const from = shiftYears(start, -k * years);
@@ -505,8 +514,72 @@ function pastTerms(
       reached: "elected",
       status: "ended",
       endedBy: "re-elected",
+      ...won(from),
     } as unknown as ModuleRow);
   }
+}
+
+/**
+ * The election that seated a term starting on a date: the general election
+ * the November before a January start, else a local election some weeks
+ * before; the winner's share is the average for that kind of office (an
+ * estimate; the history only has to fit the world it opens).
+ */
+function electionBehind(
+  office: OfficeInput,
+  start: string,
+): { date: string; share: number } {
+  const year = Number(start.slice(0, 4));
+  const date =
+    start.slice(5, 7) <= "03"
+      ? novemberGeneralElectionDay(year - 1)
+      : new Date(
+          Date.parse(`${start}T00:00:00Z`) -
+            tenureYears("localElectionLeadDays") * 86_400_000,
+        )
+          .toISOString()
+          .slice(0, 10);
+  const key =
+    office.kind === "us-senate"
+      ? "usSenateWinnerShare"
+      : office.kind.startsWith("us-house")
+        ? "usHouseWinnerShare"
+        : office.kind.startsWith("legislature-")
+          ? "stateLegislatorWinnerShare"
+          : office.level === "state" || office.level === "federal"
+            ? "statewideExecutiveWinnerShare"
+            : "localWinnerShare";
+  return { date, share: tenureYears(key) };
+}
+
+/** A seat's elections before the start, oldest first (history to the opening). */
+export function pastElections(
+  api: CoreAPI,
+  seatId: string,
+): readonly {
+  readonly termId: string;
+  readonly date: string;
+  readonly share: number;
+  readonly party: string | null;
+  readonly holder: string;
+}[] {
+  return ["serving", "ended"]
+    .flatMap(
+      (status) =>
+        table(api, "terms").query("bySeatStatus", [
+          seatId,
+          status,
+        ]) as unknown as TermRow[],
+    )
+    .filter((t) => t.elected)
+    .map((t) => ({
+      termId: t.id,
+      date: t.elected!.date,
+      share: t.elected!.share,
+      party: t.party,
+      holder: `${t.identity.givenName} ${t.identity.familyName}`,
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 /** Another state's offices, created the first time anything reads them. */

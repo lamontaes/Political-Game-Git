@@ -36,6 +36,42 @@
       "tag": "ESTIMATED",
       "source": "The youngest common minimum age for state legislative and local office (21 to 25 in most states; 18 in some localities).",
       "spread": [18, 25]
+    },
+    "usHouseWinnerShare": {
+      "value": 0.64,
+      "tag": "ESTIMATED",
+      "source": "Average two-party share of winning U.S. House candidates in recent cycles, about 64% (MIT Election Data and Science Lab House returns; most seats are safe). Used only to record the past elections behind sitting holders.",
+      "spread": [0.58, 0.7]
+    },
+    "usSenateWinnerShare": {
+      "value": 0.57,
+      "tag": "ESTIMATED",
+      "source": "Average two-party share of winning U.S. Senate candidates in recent cycles, mid-to-high 50s (MIT Election Data and Science Lab Senate returns).",
+      "spread": [0.52, 0.64]
+    },
+    "stateLegislatorWinnerShare": {
+      "value": 0.635,
+      "tag": "ESTIMATED",
+      "source": "Ballotpedia: the average margin of victory in contested 2024 state legislative races was 27.3 points, a winner's share near 0.635.",
+      "spread": [0.58, 0.7]
+    },
+    "statewideExecutiveWinnerShare": {
+      "value": 0.56,
+      "tag": "ESTIMATED",
+      "source": "Governors and statewide officers usually win with mid-50s shares (NGA and state election returns, recent cycles).",
+      "spread": [0.52, 0.62]
+    },
+    "localWinnerShare": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "source": "Local incumbents usually win comfortably in low-turnout contests (Ballotpedia local election analyses); about 0.6 of the vote.",
+      "spread": [0.52, 0.7]
+    },
+    "localElectionLeadDays": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "source": "Days between a local election and the term it fills, where the term doesn't start in January (most local terms start one to two months after the election).",
+      "spread": [30, 120]
     }
   }
 }

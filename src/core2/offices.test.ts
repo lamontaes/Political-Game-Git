@@ -16,6 +16,7 @@ import {
   OFFICES_MODULE_ID,
   officesOfState,
   openOffices,
+  pastElections,
   townSeats,
   type TermRow,
   type VacancyRow,
@@ -211,6 +212,18 @@ describe("M2-01 offices and seats, every level", () => {
     }
     expect(before, placeKey).toBeGreaterThan(0);
     expect(withPast, placeKey).toBeGreaterThan(0);
+    // Each elected term carries the election that seated it, before its start.
+    for (const t of serving.filter((t) => t.elected)) {
+      expect(t.elected!.date < t.startDate, `${placeKey} ${t.seatId}`).toBe(
+        true,
+      );
+      expect(t.elected!.share).toBeGreaterThan(0.5);
+      const history = pastElections(api, t.seatId);
+      expect(history.at(-1)?.termId).toBe(t.id);
+      // One election per term, oldest first, each before the next.
+      for (let i = 1; i < history.length; i += 1)
+        expect(history[i]!.date > history[i - 1]!.date).toBe(true);
+    }
     govReport(
       "offices-careers",
       JSON.stringify({

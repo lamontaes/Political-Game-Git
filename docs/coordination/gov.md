@@ -90,6 +90,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
 - **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
 - **OPUS-CORE: retirement reads the law.** `socialSecurityAges(api, birthDate)` in `src/core2/modules/laws.ts` returns `{ earliestMonths, fullMonths, delayedMaxMonths }` from the federal law in force (Congress can change them). Your retirement choice should decide within those ages, and the benefit should be reduced or credited by the claim age against `fullMonths`.
+- **OPUS-PLAY: careers and past elections in Politics.** Each term in `townSeats(api)` now carries `serviceStart` (unbroken service), its real `startDate` and `endDate`, `party`, and `elected` ({ date, share }); `pastElections(api, seatId)` lists the seat's elections before the start.
 - **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
 - **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
@@ -103,6 +104,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-13 00:27 UTC: History before the start, past elections (owner's D1: history back to 2000, light and only there to fit the world):
+  - **What's recorded:** every elected term the world opens with, current and past, carries the election that seated it. It's dated by the real cycle (the November general election before a January start, otherwise 60 days earlier, tunable) and has the winner's share, estimated from researched averages by office: House 0.64, Senate 0.57, state legislators 0.635 (Ballotpedia: 27.3-point average margin in 2024), statewide 0.56, local 0.6.
+  - **Reading it:** `pastElections(api, seatId)` lists a seat's elections oldest first, for PLAY's Politics view. With the careers already in place, the screen can show each official's party, term, service start and past results.
+  - **Tests:** the offices test checks one election per term, before its start and in order; it passes on three draws. Filing, world-races and two-level tests pass.
+  - **Seen, not fixed:** `laws.test.ts` failed once in 13 draws ("expected undefined to be 515": a level row missing in some place). It didn't reproduce in 12 more draws; the cause is still open.
+  - **Next:** executive acts (orders, emergency declarations, appointments of department heads).
 
 - 2026-10-13 00:07 UTC: Social Security's retirement ages are federal law (owner's request, Oct 12):
   - **The law rows:** the full retirement age by birth year under the 1983 amendments (65 through 1937, rising two months a year to 66 for 1943–1954, then to 67 for 1960 and later), the earliest claim at 62 and delayed credits to 70 are federal law rows (42 U.S.C. § 416(l), § 402(a), § 402(w); `src/core2/data/laws/social-security-ages.json`).
