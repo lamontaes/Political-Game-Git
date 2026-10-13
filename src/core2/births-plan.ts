@@ -167,6 +167,15 @@ export function birthCircumstances(
     timing:
       p("renewalTimingWeight") *
       (p("two") * since * Math.exp(p("one") - since) - p("one")),
+    // A recent birth: the mother's recovery pulls against another pregnancy,
+    // fading smoothly over about two years.
+    recovery: births.length
+      ? -p("renewalRecoveryWeight") *
+        Math.exp(
+          -daysBetween(makeIsoDate(births.at(-p("one"))!), makeIsoDate(asOf)) /
+            p("renewalRecoveryDays"),
+        )
+      : p("zero"),
     income:
       (p("renewalIncomeWeight") * (ratio - p("one"))) / (ratio + p("one")),
     work: p("renewalJobWeight") * (employed - p("one")),

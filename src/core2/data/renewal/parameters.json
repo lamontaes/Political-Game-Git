@@ -240,5 +240,29 @@
       "unit": "days",
       "citation": "Twelve to eighteen months between births; the town's yearly total is set by the rates either way."
     }
+  },
+  "renewalRecoveryWeight": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "PW-8: how strongly a recent birth pulls against planning another pregnancy, as weight x exp(-days since the birth / renewalRecoveryDays). WHO recommends waiting at least 24 months after a live birth before the next pregnancy (Report of a WHO Technical Consultation on Birth Spacing, 2005). The size is tunable.",
+    "spread": {
+      "low": 4,
+      "high": 8,
+      "unit": "score",
+      "citation": "Checked against the played-world runs: at 6, a couple three months after a birth waits; at two years the pull is under 0.3."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalRecoveryDays": {
+    "value": 240,
+    "tag": "ESTIMATED",
+    "citation": "PW-8: how fast the recovery pull fades (days for it to fall by e). Chosen so the pull has nearly faded by the WHO's recommended 24 months after a live birth (Report of a WHO Technical Consultation on Birth Spacing, 2005).",
+    "estimatedFrom": "WHO 24-month birth-to-pregnancy recommendation; about three e-folds by two years.",
+    "spread": {
+      "low": 180,
+      "high": 300,
+      "unit": "days",
+      "citation": "Two to four e-folds within the recommended 24 months."
+    }
   }
 }

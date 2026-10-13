@@ -127,4 +127,31 @@ describe("family-planning circumstances (PW-8)", () => {
     const dated = createRenewalCore(couple(30_000), { scheduledWork: false });
     expect(partnershipStart(coreAPI(dated), row(dated), [])).toBe("2023-07-01");
   });
+
+  it("weighs a recent birth against another pregnancy, fading over about two years", () => {
+    const core = createRenewalCore(couple(30_000), { scheduledWork: false });
+    const api = coreAPI(core);
+    const baby = core.people.get("father")!;
+    // Stand in a child born on a date the test chooses.
+    const pull = (born: string) => {
+      const original = baby.birthDate;
+      baby.birthDate = born;
+      const values = birthCircumstances(api, core.people.get("mother")!, {
+        ...row(core),
+        childIds: ["father"],
+      });
+      baby.birthDate = original;
+      return values.recovery;
+    };
+    const weight = renewalParameter(api, "renewalRecoveryWeight");
+    const recent = pull(core.date);
+    const year = pull(core.date.replace(/^(\d{4})/, (y) => String(+y - 1)));
+    const two = pull(core.date.replace(/^(\d{4})/, (y) => String(+y - 2)));
+    expect(recent).toBeCloseTo(-weight, 6);
+    expect(year).toBeGreaterThan(recent);
+    expect(two).toBeGreaterThan(year);
+    expect(two).toBeGreaterThan(-weight / 10);
+    const none = birthCircumstances(api, core.people.get("mother")!, row(core));
+    expect(none.recovery).toBe(0);
+  });
 });
