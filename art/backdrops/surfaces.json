@@ -205,6 +205,13 @@
         "storefront windows and door: windows"
       ]
     },
+    "capitol-hallway": {
+      "checked": ["capitol-hallway__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "cemetery-graveside": {
       "checked": ["cemetery-graveside__midday.jpg"],
       "surfaces": [],
@@ -517,6 +524,13 @@
         "no painted screens, posters, papers or boards; stage back wall is plain wall, windows and door excluded"
       ]
     },
+    "congressional-office": {
+      "checked": ["congressional-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "construction-site": {
       "checked": [
         "construction-site__midday.jpg",
@@ -582,6 +596,20 @@
         "no painted screens, posters, papers or boards"
       ]
     },
+    "council-chamber-large": {
+      "checked": ["council-chamber-large__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "council-chamber-small": {
+      "checked": ["council-chamber-small__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "county-clerk-office-rural": {
       "checked": ["county-clerk-office-rural__midday.jpg"],
       "surfaces": [],
@@ -620,6 +648,13 @@
         }
       ],
       "skipped": ["nameplates on the dais: under 36 px tall"]
+    },
+    "county-commission-rural": {
+      "checked": ["county-commission-rural__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
     },
     "county-courthouse": {
       "checked": [
@@ -1020,6 +1055,13 @@
       "surfaces": [],
       "skipped": [
         "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "hearing-room-paneled": {
+      "checked": ["hearing-room-paneled__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "high-school-cafeteria": {
@@ -2363,6 +2405,13 @@
       "surfaces": [],
       "skipped": [
         "PLACEHOLDER RESEARCH REQUEST: inspect morning, midday, night, rain, and winter pictures; record painted screens, posters, papers, and TVs before live content uses them."
+      ]
+    },
+    "state-house-chamber": {
+      "checked": ["state-house-chamber__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "state-legislative-chamber-bicameral": {
