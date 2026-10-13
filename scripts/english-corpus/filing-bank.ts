@@ -2,7 +2,7 @@
  * Turns the mined clerk bank (`data/english/parts/filing-visit.json`) into the
  * filing visit's words (`src/director/filing-visit.ts`). The clerk speaks only
  * sentences a public-domain election record says; what no record says (the
- * signature count, the player's own picks) is left empty here, and
+ * player's own picks) is left empty here, and
  * the screen shows it as the filing record's data.
  *
  * Slots map onto the visit's facts: a rule's value is `{{required}}` (the age,
@@ -36,7 +36,6 @@ const RULES: Record<string, { choice: string; slot?: string }> = {
   "minimum-age": { choice: "age", slot: "age" },
   residency: { choice: "live", slot: "place" },
   "registered-voter": { choice: "register" },
-  signatures: { choice: "short-signatures" },
 };
 
 function directorText(text: string, valueSlot?: string): string {
@@ -70,11 +69,10 @@ export function filingWordsFromBank(
     version: "words-filing-visit-v1",
     greet: of("clerk", "greet"),
     pick: of("player", "pick"),
-    // The deadline is said in every case; signatures are record data on the
-    // screen until a record says them.
+    // The deadline is said in every case.
     terms: of("clerk", "terms", "deadline").map((variant) => ({
       ...variant,
-      stages: ["signatures", "none"],
+      stages: ["none"],
     })),
     rules: Object.fromEntries(
       Object.entries(RULES).map(([rule, { choice, slot }]) => [
@@ -83,6 +81,5 @@ export function filingWordsFromBank(
       ]),
     ),
     accept: of("player", "accept"),
-    gather: of("player", "gather"),
   };
 }

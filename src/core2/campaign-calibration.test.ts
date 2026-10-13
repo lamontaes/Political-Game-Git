@@ -16,11 +16,9 @@ import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type FilingRow,
 } from "./modules/elections";
 import {
@@ -101,14 +99,6 @@ describe("campaign calibration on totals", () => {
         });
         if (r.status === "refused") continue;
         filing = r.filing;
-        for (const n of [...core.people.keys()].sort()) {
-          if (filing.status === "on-ballot") break;
-          requestSignature(api, filing.id, n);
-          filing = api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(filing.id) as unknown as FilingRow;
-        }
         break;
       }
       if (!filing) continue;

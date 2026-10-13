@@ -1,7 +1,7 @@
 /**
  * The filing visit (golden path step 3): the player at the office that takes
  * filings, where that place's records say it is. The clerk asks which office,
- * states the deadline and any signatures from the record, explains each
+ * states the deadline from the record, explains each
  * rule that stops the filing, and otherwise offers the ways to file. The
  * records are GOV's (`openContests`, `filingOfficeFor`, `checkEligibility`),
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`.
@@ -19,7 +19,6 @@ interface VisitWords {
   terms: Variant[];
   rules: Readonly<Record<string, Variant[]>>;
   accept: Variant[];
-  gather: Variant[];
 }
 export const FILING_VISIT_WORDS = visitJson as VisitWords;
 
@@ -32,7 +31,6 @@ export interface FilingContest {
 /** GOV's `FilingRequirements`. */
 export interface FilingTerms {
   filedWith: string;
-  signatures: number | null;
   source: string;
 }
 /** GOV's `RequirementCheck`. */
@@ -160,9 +158,6 @@ export function pickContest(
     office: { text: contest.title, sourceRecordIds: ids },
     deadline: { text: longDate(contest.filingDeadline), sourceRecordIds: ids },
   };
-  if (terms.signatures)
-    facts.signatures = { text: String(terms.signatures), sourceRecordIds: ids };
-  const stage = terms.signatures ? "signatures" : "none";
   const stated = say(
     core,
     visit,
@@ -170,7 +165,7 @@ export function pickContest(
     "terms",
     FILING_VISIT_WORDS.terms,
     facts,
-    stage,
+    "none",
   );
   if (stated) visit.lines.push({ speaker: "clerk", ...stated });
 
@@ -211,9 +206,6 @@ export function pickContest(
     offer("accept", FILING_VISIT_WORDS.accept, { kind: "done" });
     return visit;
   }
-  if (terms.signatures)
-    offer("gather", FILING_VISIT_WORDS.gather, { kind: "file", contestId });
-  if (!visit.choices.length)
-    offer("file", FILING_VISIT_WORDS.accept, { kind: "file", contestId });
+  offer("file", FILING_VISIT_WORDS.accept, { kind: "file", contestId });
   return visit;
 }

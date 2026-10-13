@@ -118,7 +118,6 @@ for (const drawn of seeds) {
   };
   const terms = {
     filedWith: "City Clerk",
-    signatures: 50,
     source: "fixture",
   };
   pickContest(
