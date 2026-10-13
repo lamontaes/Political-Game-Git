@@ -6,7 +6,7 @@
  * governments, so each sees the results of the ones before it. Nothing here
  * runs during play.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import type {
   CoreAPI,

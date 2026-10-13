@@ -6,7 +6,7 @@
  * sized as the opening sizes awards. Claims are indexed by date; nothing scans
  * the town each day.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { retirementClaimAgeMonths } from "../retirement-claim";

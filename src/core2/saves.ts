@@ -9,7 +9,7 @@
  * Every player action goes through `runCommand`, so it is recorded. Engines
  * register their own command kinds with `registerCommand`.
  */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { CORE_API_VERSION } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import {

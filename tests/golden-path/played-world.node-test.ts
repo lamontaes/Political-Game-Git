@@ -102,7 +102,6 @@ const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
  */
 const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "every module": { owner: "FIXER-WIRE-ALL-MODULES" },
-  "player turns 18": { owner: "FIXER-PLAYER-START" },
   "school-age people attend school": { owner: "OPUS-CORE" },
   // State and federal terms are filled since races elsewhere run in the
   // played world; some towns still leave local terms unfilled.
@@ -110,12 +109,16 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     owner: "FIXER-OFFICES-ELECTIONS",
     byTown: true,
   },
-  "nobody serves after moving away": { owner: "FIXER-MOVES" },
-  "a named challenger runs": { owner: "OPUS-OFFICIALS" },
-  "counted voters vote in local races": { owner: "FIXER-OFFICES-ELECTIONS" },
-  "the counted population changes": { owner: "OPUS-CORE" },
+  // Alive where officials move away; unobserved where none do.
+  "nobody serves after moving away": { owner: "FIXER-MOVES", byTown: true },
+  // Local races draw named challengers (PW-3); a town whose only races in
+  // the year are state or federal ones waits on officials who are people.
+  "a named challenger runs": { owner: "OPUS-OFFICIALS", byTown: true },
+  // Full couples of childbearing age are rare among the full people today
+  // (OPUS-CORE, BOARD item 4: a representative sample).
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
-  "homes have values and rents": { owner: "FIXER-ECONOMY" },
+  // Alive in some towns; others still leave a home unpriced.
+  "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
   "a new business's loan fits its founder": {
     owner: "FIXER-ECONOMY",
@@ -405,9 +408,9 @@ function playWorld(seed: string) {
   // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
   // the Virgin Islands, American Samoa and the Northern Marianas pay their
   // own territorial income tax instead), but Social Security and Medicare
-  // still apply. A place's key starts with its state or territory FIPS code.
-  const territory = ["60", "66", "69", "72", "78"].includes(
-    String(place.key).padStart(7, "0").slice(0, 2),
+  // still apply. The place record names its state or territory.
+  const territory = ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"].includes(
+    world.place.stateJurisdictionKey ?? "",
   );
   const federalWithheld = territory
     ? taxes.has("federal:social-security") && taxes.has("federal:medicare")
@@ -573,8 +576,10 @@ function playWorld(seed: string) {
         );
 
   // Break 12: the counted population changes.
+  // A full couple's own decision, not a counted birth: counted births are
+  // rates applied to totals and show in the counted population's change.
   const births = rowsOf(core, "core2-renewal-v1", "births").filter(
-    (b) => String(b.date) >= start,
+    (b) => String(b.date) >= start && b.counted !== true,
   );
   // Filling in a counted person moves them to the full people; that is not
   // a change in who lives here.
@@ -592,7 +597,7 @@ function playWorld(seed: string) {
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(
-        `No baby was born in ${years} year(s) among full or counted people. Births (src/core2/modules/renewal.ts) must follow couples' circumstances, and the counted population must have births.`,
+        `No full couple had a baby in ${years} year(s). Births (src/core2/modules/renewal.ts) must follow couples' circumstances; counted births show in the counted population's change.`,
       );
 
   // Break 16: homes have prices.

@@ -4,7 +4,7 @@
  * begin through their employer's wage flow, and an engine can add a standing
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput } from "./types";

@@ -5,8 +5,8 @@ import {
   ageOnDate,
   daysBetween,
   isoDateFromParts,
-} from "../simulation/dates";
-import { createStableId, stableHash } from "../simulation/ids";
+} from "./kernel/dates";
+import { createStableId, stableHash } from "./kernel/ids";
 import { jailTermOn } from "../simulation/justice/jail-terms";
 import { organizationProfileAt } from "../simulation/life-queries";
 import {

@@ -1,13 +1,9 @@
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import dataJson from "./data/opening-income.json" with { type: "json" };
-import {
-  daysBetween,
-  isoDateFromParts,
-  makeIsoDate,
-} from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import { decisionLean } from "./trait-decisions";

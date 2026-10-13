@@ -8,8 +8,8 @@
  * for estimates such as polls and views. The counted voter groups still cast
  * the counted people's votes, so weights are for estimating, not voting.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import data from "./data/representative-sample.json" with { type: "json" };
 import type { CoreInput, PersonId } from "./types";
 

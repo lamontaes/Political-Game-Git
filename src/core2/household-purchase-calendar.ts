@@ -1,5 +1,5 @@
 /** Estimated calendar phase only; this module neither creates income nor writes cash. */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type {
   FinanceContractInput,
   FinanceContractState,
@@ -25,7 +25,7 @@ import type {
   SingleWorkPayrollCashSourceState,
   WorkPayrollJobReceipt,
 } from "./work-payroll-cash";
-import type { IsoDate } from "../simulation/types";
+import type { IsoDate } from "./kernel/brands";
 import type { Source } from "./types";
 
 const ruleId = "generated-household-income-calendar-at-or-after-nominal";

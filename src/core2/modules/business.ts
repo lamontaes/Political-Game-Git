@@ -258,7 +258,7 @@ function cushionOf(
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
 function netCash(c: CoreState, organizationId: string): number {
   // Supplier bills accrued on its sales are owed already, though not yet billed.
-  let owed = supplierBillsOwed(c, organizationId)?.owedMinor ?? 0;
+  let owed = supplierBillsOwed(c, organizationId);
   for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
     owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
   return (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed;

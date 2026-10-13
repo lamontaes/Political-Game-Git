@@ -1,5 +1,5 @@
 import { runModuleCalendar } from "./module-calendar";
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import {
   advanceDate,
   duePeople,

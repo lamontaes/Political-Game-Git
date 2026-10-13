@@ -10,7 +10,7 @@
  * CTO and the owner can compare closures with and without it.
  */
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import type { CoreInput, PersonId } from "./types";
 
 export interface StaffingReceipt {

@@ -1,6 +1,6 @@
 /** Controlled source-only admission fixtures. Runtime attendance/pay is root-owned. */
 import { describe, expect, it } from "vitest";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import {
   prepareOpeningPublicPayAuthorities,
   type OpeningPublicEmployerIdentity,

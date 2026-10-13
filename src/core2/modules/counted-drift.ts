@@ -5,7 +5,8 @@
  * set how many; the records set who: each place accumulates its expected
  * deaths and births, and when a whole one is due, the counted person with the
  * highest rate is the one (no roll). Aging needs nothing: ages come from
- * birth dates. Runs on the 1st of each month; one pass over the counts.
+ * birth dates. Deaths follow the state's age-adjusted death rate against the
+ * nation's (NCHS). Runs on the 1st of each month; one pass over the counts.
  *
  * Moves too: each place accrues its leavers from the state's American
  * Community Survey 2024 rate of leaving the county for each adult's age, and
@@ -16,18 +17,20 @@
  * move into the homes they leave. Leavers' jobs end, and the jobs engine
  * fills the openings from the counts' job seekers, newcomers included.
  */
-import { makeIsoDate } from "../../simulation/dates";
-import { createStableId, stableHash } from "../../simulation/ids";
+import { makeIsoDate } from "../kernel/dates";
+import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import life from "../data/ssa-cohort-life-tables.json" with { type: "json" };
 import data from "../data/counted-drift.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
+import { drawCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { countedVoterGroupId } from "../opening-voter-groups";
 import { stateOfPlaceKey } from "../places";
 import type { ResidentHouseholdRecord } from "../residents";
 import { endCountedJob, endFlowPart } from "../residents-economy";
 import { voterGroups } from "../voter-groups";
+import { RENEWAL_MODULE_ID } from "./renewal";
 import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
@@ -270,12 +273,18 @@ function addNewborn(
     parseInt(stableHash(`${core.seed}:${id}:gender`).slice(0, 8), 16) % 2
       ? "female"
       : "male";
-  api.stopgap(data.newbornNamesStopgapId);
-  // A given name already recorded among the town's youngest of that gender.
   const youngest = youngestByGender.get(gender);
   const baby: PersonInput = {
     id,
-    givenName: youngest?.givenName ?? mother.givenName,
+    givenName:
+      cohortName(
+        `${core.seed}:${id}:given`,
+        gender,
+        core.date,
+        record.people,
+      ) ??
+      youngest?.givenName ??
+      mother.givenName,
     familyName: mother.familyName,
     birthDate: makeIsoDate(core.date),
     placeId: mother.placeId,
@@ -388,6 +397,29 @@ const pick = <T>(list: readonly T[], key: string): T | undefined =>
     : undefined;
 
 /**
+ * A given name people born that year were called (SSA top names by decade),
+ * not one a housemate already has. Seeded: generation of who exists.
+ */
+function cohortName(
+  key: string,
+  gender: string,
+  birthDate: string,
+  housemates: readonly PersonInput[],
+): string | undefined {
+  const rng = {
+    next: () => parseInt(stableHash(key).slice(0, 8), 16) / 2 ** 32,
+  } as Parameters<typeof drawCohortGivenName>[0];
+  return (
+    drawCohortGivenName(
+      rng,
+      gender === "male" ? "male" : "female",
+      Number(birthDate.slice(0, 4)),
+      housemates.map((row) => row.givenName),
+    ) ?? undefined
+  );
+}
+
+/**
  * A household moves away; when newcomers are due, a household of the same
  * makeup moves into the home (stopgap: until a housing market places
  * newcomers, they arrive only into homes left empty, with the home's cash and
@@ -431,6 +463,12 @@ function moveHousehold(
     return {
       id,
       givenName:
+        cohortName(
+          `${core.seed}:${id}:given`,
+          gender,
+          person.birthDate,
+          record.people,
+        ) ??
         pick(names.given.get(gender) ?? [], `${core.seed}:${id}:given`) ??
         person.givenName,
       familyName: family,
@@ -512,6 +550,10 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
   const date = core.date;
   // The town's state sets the move rates for every counted household.
   const state = stateOfPlaceKey(core.placeMetadata.placeKey ?? "") ?? "";
+  // The state's age-adjusted death rate against the nation's (NCHS); the
+  // same for everyone there, so it sets how many deaths, not who.
+  const mortality =
+    (data.stateMortality.ratioByState as Record<string, number>)[state] ?? 1;
   // Pass 1: how many deaths, births and moves each place has due this month.
   const due = new Map<PlaceId, Due>();
   const owners = mortgagedHouseholds(core);
@@ -532,7 +574,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     const arrive = arrivalRate(state) / 12;
     for (const person of record.people) {
       const age = ageOn(person.birthDate, date);
-      row.deaths += yearlyDeathRate(person, date, age) / 12;
+      row.deaths += (yearlyDeathRate(person, date, age) * mortality) / 12;
       row.births += birthRate(person, date, age) / 12;
       if (age >= 18) {
         const rate = leaveRate(state, person, date, age);
@@ -668,6 +710,10 @@ export const COUNTED_DRIFT_MODULE: CoreModule = {
   id: COUNTED_DRIFT_MODULE_ID,
   onDay(api) {
     if (!api.state.date.endsWith("-01")) return undefined;
+    // Where the renewal engine runs, its counted flows (PW-8,
+    // births-counted.ts) move the counts; this engine stands down so no
+    // birth, death or move happens twice.
+    if (api.state.modules.has(RENEWAL_MODULE_ID)) return undefined;
     let rt = runtimes.get(api.state);
     if (!rt)
       runtimes.set(

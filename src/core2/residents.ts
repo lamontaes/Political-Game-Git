@@ -10,7 +10,7 @@
  * purchases. The residents engine then moves that money through the one
  * balanced journal on recorded dates.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import {
   OUTSIDE_MARKET_KIND,

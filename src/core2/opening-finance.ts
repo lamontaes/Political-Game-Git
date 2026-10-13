@@ -9,7 +9,7 @@ import {
 } from "./generated-household-source";
 import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
@@ -22,7 +22,7 @@ import {
   type LivingCostsRegion,
 } from "../simulation/living-costs-data";
 import { LIVING_COSTS_CATEGORY_SOURCES } from "../simulation/living-costs-category-data";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
   projectOpeningBusiness,

@@ -6,6 +6,7 @@ import { collapseToTwoLevels, fullPeople } from "./residents";
 import { representativeSample } from "./representative-sample";
 import { countedDrift } from "./modules/counted-drift";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
+import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
@@ -389,7 +390,13 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("lets a full person's relative wait in the counts as a husk", () => {
     const full = two.people.find((row) => row.id === two.playerId)!;
-    const relative = two.residents!.households[0]!.people[0]!;
+    // Someone the opening hasn't already made a husk (the builder does that for
+    // a kept person's own relatives, e.g. seed dc27fe8a0505956b38264457df7fbb42).
+    const waiting = new Set((two.husks ?? []).map((row) => row.id));
+    expect(waiting.size).toBe((two.husks ?? []).length);
+    const relative = two
+      .residents!.households.flatMap((row) => row.people)
+      .find((row) => !waiting.has(row.id))!;
     const input = {
       ...two,
       people: two.people.map((row) =>
@@ -439,7 +446,14 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const eligible = groups.reduce((n, row) => n + row.size, 0);
     expect(groups.every((row) => row.placeId === town)).toBe(true);
     expect(eligible).toBeLessThanOrEqual(adults);
-    expect(eligible).toBeGreaterThan(adults * 0.75);
+    // The town's own ACS citizen share of adults sets the floor.
+    const citizens = (
+      placeCitizenship.byPlace as unknown as Record<string, [number, number]>
+    )[two.placeMetadata!.placeKey!];
+    const floor = citizens
+      ? Math.min(0.75, (0.8 * citizens[0]) / citizens[1])
+      : 0.75;
+    expect(eligible).toBeGreaterThan(adults * floor);
     for (const row of groups) {
       expect(row.turnout).toBeGreaterThan(0);
       expect(row.turnout).toBeLessThanOrEqual(1);

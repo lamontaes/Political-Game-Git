@@ -1,7 +1,7 @@
 import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
 import type { CoreInput, JobInput, PublicOrganization, Source } from "./types";

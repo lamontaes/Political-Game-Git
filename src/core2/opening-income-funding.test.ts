@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isoDateFromParts } from "../simulation/dates";
+import { isoDateFromParts } from "./kernel/dates";
 import { seatOfGovernmentPlace } from "../simulation/life-places";
 import { advanceDate } from "./calendar";
 import {

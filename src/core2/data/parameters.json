@@ -4608,5 +4608,60 @@
       "unit": "hours a day",
       "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
     }
+  },
+  "citizenShareStatePriorAdults": {
+    "value": 200,
+    "tag": "TUNABLE",
+    "citation": "How many adults' worth of the state's CPS citizen share a place's ACS share is blended with, so a small place's noisy sample (ACS 5-year margins) leans on its state.",
+    "spread": {
+      "low": 50,
+      "high": 1000,
+      "unit": "adults",
+      "citation": "From trusting a place of a few hundred adults nearly fully to leaning on the state until a place has thousands of adults."
+    }
+  },
+  "budgetNewGameLoadSeconds": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "Owner, M7 work order (docs/packages/M7-early-access.md): a new game loads within two minutes while the loading story plays.",
+    "spread": {
+      "low": 60,
+      "high": 120,
+      "unit": "seconds",
+      "citation": "The owner's two-minute ceiling; lower is better."
+    }
+  },
+  "budgetYearSeconds": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "Owner rule (AGENTS.md, Speed): a town's game year must run in under two minutes.",
+    "spread": {
+      "low": 30,
+      "high": 120,
+      "unit": "seconds",
+      "citation": "The owner's two-minute ceiling; lower is better."
+    }
+  },
+  "budgetSlowestDaySeconds": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "M7-01: a day advances without visible waiting; the slowest day of a played year must stay under this.",
+    "spread": {
+      "low": 1,
+      "high": 5,
+      "unit": "seconds",
+      "citation": "From an instant-feeling day to the longest a player waits without a progress indicator."
+    }
+  },
+  "budgetSaveCompressedMegabytes": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "M7-01 save-size budget: The Political Process's saves are 23 to 28 MB at any game length (owner's saves, BOARD Oct 12); ours must stay nowhere near 1.6 GB.",
+    "spread": {
+      "low": 25,
+      "high": 100,
+      "unit": "megabytes, compressed",
+      "citation": "From The Political Process's size to four times it."
+    }
   }
 }

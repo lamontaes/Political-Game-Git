@@ -618,7 +618,7 @@
       "golden_path": "release",
       "package": "M7-early-access",
       "test": "On a minimum-spec PC a town's game year runs in under two minutes and a day advances without visible waiting; a new game loads within two minutes while the loading story plays; install size and save size stay within their recorded budgets; minimum specs are measured and listed.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --max-old-space-size=8000 --import tsx scripts/core2-year/speed-memory.mjs",
       "passes": false
     },
     {

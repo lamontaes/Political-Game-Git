@@ -13,7 +13,7 @@
  * accounts.obligation(id); // nextDueAt, arrearsMinor, paidMinor, lastReceipt
  * ```
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CashJournalPosting } from "./journal";
 import type { CashJournalSourceSlot } from "./journal-state";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "./types";

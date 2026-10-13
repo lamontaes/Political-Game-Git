@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
 import { parameter as p } from "./parameters";
 import { advanceDate } from "./calendar";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { createLifeCore, chooseAct } from "./life";
 import { coreAPI } from "./state";
 import { payrollStockObservables } from "./tooling/payroll-observables";

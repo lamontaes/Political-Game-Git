@@ -9,8 +9,8 @@
  * department's record, so it is paid the way the town's other public employers
  * are. Opening generation only.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import data from "./data/opening-public-schools.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { openingWorkCommitments } from "./modules/work";

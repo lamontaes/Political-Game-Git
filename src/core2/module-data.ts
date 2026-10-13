@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import type { Source } from "./types";
 
 export type ModuleValue =

@@ -11,7 +11,7 @@
  * by its own effect. Acts planned for a later date are kept here and happen on
  * that date, so their effects land when they occur.
  */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
   closenessAfter,

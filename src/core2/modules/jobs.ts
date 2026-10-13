@@ -10,7 +10,7 @@
  * job change is a record with its reason and, for a layoff, who decided it.
  */
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
-import { chooseAct } from "../choice";
+import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
@@ -22,6 +22,7 @@ import { ownerOf } from "./business";
 import { REGIONAL_MODULE_ID, regionalMonth } from "./regional";
 import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
+import { meetAtWork } from "../encounters";
 import {
   elsewhereTarget,
   placeElsewhere,
@@ -42,6 +43,7 @@ import type {
   CoreModule,
   CoreState,
   JobInput,
+  WorkCommitmentInput,
   PersonState,
   Source,
 } from "../types";
@@ -1048,12 +1050,19 @@ function raisePay(api: CoreAPI): void {
   rerateCountedJobs(c, counted);
 }
 
-/** Jobless working-age adults choose whether to look for work, pushed by how few days their money covers. */
+/** Jobless working-age adults choose whether to look for work, pushed by how few days their household's money covers. */
 function reviewJobless(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     [young, old] = jobsData.workingAge as [number, number];
   const worked = new Set([...c.jobs.values()].map((job) => job.personId));
+  const twoLevel = residentsRuntime(c) !== undefined;
+  // Light relatives who live elsewhere (inactive tiers) make no choices here.
+  const inactive = new Set(
+    c.data.tiers
+      .filter((tier) => tier.cadence === "inactive")
+      .map((tier) => tier.id),
+  );
   for (const person of c.people.values()) {
     if (
       !person.alive ||
@@ -1061,17 +1070,26 @@ function reviewJobless(api: CoreAPI): void {
       store(api).table("seekers").get(person.id)
     )
       continue;
-    if (!c.households.has(person.householdId)) continue;
-    // Only people who have worked in this world are in its labor market; the rest are the wider population (see the opening-seekers stopgap).
-    if (!worked.has(person.id)) continue;
+    if (!c.households.has(person.householdId) || inactive.has(person.tier))
+      continue;
+    // Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
+    // With it, the counts hold the wider population, so every full person of working age is in it, a first job included.
+    if (!twoLevel && !worked.has(person.id)) continue;
     const age =
       daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
       p("jobsDaysPerYear");
     if (age < young || age >= old) continue;
-    const days =
-      person.livingCostDailyMinor > 0
-        ? person.liquidMinor / person.livingCostDailyMinor
-        : Number.POSITIVE_INFINITY;
+    // A dependent's own living cost is carried by the household, so the
+    // pressure is how few days the household's money covers its costs.
+    let liquid = 0,
+      cost = 0;
+    for (const memberId of c.households.get(person.householdId)!.memberIds) {
+      const member = c.people.get(memberId);
+      if (!member?.alive) continue;
+      liquid += member.liquidMinor;
+      cost += member.livingCostDailyMinor;
+    }
+    const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
       offer("look", person.id, {
@@ -1154,7 +1172,7 @@ function runWeek(api: CoreAPI): void {
     const person = c.people.get(seeker.personId);
     if (!nearby || !person || !person.alive) continue;
     const reference = seeker.referenceHourlyMinor;
-    const result = chooseAct(c, person.id, [
+    const scored = scoreOffers(c, person.id, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>
         offer("apply", position.id, {
@@ -1165,9 +1183,17 @@ function runWeek(api: CoreAPI): void {
         }),
       ),
     ]);
+    const result = decisionFromScores(c, person.id, scored);
     if (result.selected!.definition.id !== jobsData.actions.apply.id) continue;
-    const id = result.selected!.targetId;
-    apply(id, seeker);
+    // The pick is the recorded choice; like a counted seeker, the person also
+    // applies to every other opening worth more than waiting.
+    const wait = scored[0]!.score;
+    for (const row of scored)
+      if (
+        row.offer.definition.id === jobsData.actions.apply.id &&
+        row.score > wait
+      )
+        apply(row.offer.targetId, seeker);
   }
   // Counted seekers apply to every opening in their place; they decide nothing through the chooser until filled in (stopgap).
   const counted = (
@@ -1208,8 +1234,8 @@ function runWeek(api: CoreAPI): void {
   // Each seeker's fit for an occupation, worked out once a week.
   const fits = new Map<string, number>();
   for (const position of positions) {
-    // A role copied from a counted worker can go only to a counted seeker until full roles exist there.
-    const fullRole = c.jobs.has(position.templateJobId);
+    // A full person can take only a role whose schedule is on record.
+    const fullRole = roleTemplate(c, position) !== undefined;
     const applicants = applications
       .get(position.id)
       ?.filter((row) => fullRole || isCounted(api, row.personId));
@@ -1756,6 +1782,83 @@ function experienceYears(
   return years;
 }
 
+const countedRoles = new WeakMap<
+  object,
+  {
+    byJob: Map<string, WorkCommitmentInput>;
+    byOrganization: Map<string, WorkCommitmentInput>;
+    calendars: Map<string, WorkPayrollCalendarInput>;
+  }
+>();
+
+/**
+ * The role a position copies: its job, work schedule and payday calendar.
+ * A full worker's role is read from the core; a counted worker's from the
+ * opening records the counts keep, so a full person can take a role first
+ * held in the wider population (a first job included). A role copied from a
+ * counted hire made during play has no schedule of its own and takes the
+ * employer's opening schedule for counted staff.
+ */
+function roleTemplate(
+  c: CoreState,
+  position: PositionRow,
+):
+  | {
+      template: JobInput;
+      commitment: WorkCommitmentInput;
+      calendar: WorkPayrollCalendarInput;
+    }
+  | undefined {
+  // A closed business hires no one, though its opening may still be listed.
+  if (c.finance.businesses.get(position.organizationId)?.closedAt)
+    return undefined;
+  const full = c.jobs.get(position.templateJobId);
+  if (full) {
+    const commitment = [
+      ...(c.work.commitmentsByPerson.get(full.personId) ?? []),
+    ]
+      .map((id) => c.work.commitments.get(id)!)
+      .find((row) => row.jobId === full.id);
+    const calendarId =
+      commitment && c.work.payrollCalendarByCommitment.get(commitment.id);
+    const calendar = calendarId
+      ? c.work.payrollCalendars.get(calendarId)
+      : undefined;
+    return commitment && calendar
+      ? { template: full, commitment, calendar }
+      : undefined;
+  }
+  const rt = residentsRuntime(c);
+  const template = rt?.jobs.get(position.templateJobId);
+  if (!rt || !template) return undefined;
+  let roles = countedRoles.get(rt.input);
+  if (!roles) {
+    roles = {
+      byJob: new Map(),
+      byOrganization: new Map(),
+      calendars: new Map(
+        (rt.input.calendars ?? []).map((row) => [row.id, row]),
+      ),
+    };
+    for (const record of rt.input.households)
+      for (const row of record.workCommitments) {
+        roles.byJob.set(row.jobId, row);
+        if (!roles.byOrganization.has(row.organizationId))
+          roles.byOrganization.set(row.organizationId, row);
+      }
+    countedRoles.set(rt.input, roles);
+  }
+  const commitment =
+    roles.byJob.get(template.id) ??
+    roles.byOrganization.get(position.organizationId);
+  const calendar = commitment?.payrollCalendarId
+    ? roles.calendars.get(commitment.payrollCalendarId)
+    : undefined;
+  return commitment && calendar
+    ? { template, commitment, calendar }
+    : undefined;
+}
+
 function hire(
   api: CoreAPI,
   position: PositionRow,
@@ -1764,21 +1867,9 @@ function hire(
 ): void {
   const c = core(api),
     person = c.people.get(seeker.personId)!;
-  // A counted worker's role has no schedule a full person can be given yet.
-  const template = c.jobs.get(position.templateJobId);
-  if (!template) return;
-  const templateCommitment = [
-    ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
-  ]
-    .map((id) => c.work.commitments.get(id)!)
-    .find((row) => row.jobId === template.id);
-  const calendarId =
-    templateCommitment &&
-    c.work.payrollCalendarByCommitment.get(templateCommitment.id);
-  const calendar = calendarId
-    ? c.work.payrollCalendars.get(calendarId)
-    : undefined;
-  if (!templateCommitment || !calendar) return;
+  const role = roleTemplate(c, position);
+  if (!role) return;
+  const { template, commitment: templateCommitment, calendar } = role;
   if (person.jobId && pinned(c).has(person.jobId)) return;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
@@ -1797,6 +1888,9 @@ function hire(
     });
   }
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
+  const coworkerIds = fullJobs(api, position.organizationId).map(
+    (row) => row.personId,
+  );
   const jobId = `job:${position.id}:${person.id}`,
     commitmentId = `work-commitment:${jobId}`;
   const jobSource = source(
@@ -1821,7 +1915,10 @@ function hire(
     organizationId: position.organizationId,
     id: `payroll-calendar:${jobId}`,
     workCommitmentIds: [commitmentId],
-    basisRecordIds: [position.organizationId, template.id],
+    // A counted template is not a saved core record; the employer is the basis.
+    basisRecordIds: c.jobs.has(template.id)
+      ? [position.organizationId, template.id]
+      : [position.organizationId],
     effectiveFrom: [startsAt, calendar.effectiveFrom].sort().at(-1)!,
     source: jobSource,
   };
@@ -1858,6 +1955,15 @@ function hire(
     .put({ ...position, status: "filled", filledBy: person.id });
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
+  // The new hire meets the full people already working there.
+  meetAtWork(
+    api,
+    person.id,
+    position.organizationId,
+    coworkerIds,
+    template.hoursDaily,
+    `job-change:${api.state.date}:${jobId}:hire`,
+  );
   record(api, {
     personId: person.id,
     organizationId: position.organizationId,

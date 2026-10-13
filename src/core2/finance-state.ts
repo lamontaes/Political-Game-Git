@@ -2,11 +2,11 @@ import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import {
   countedWagesEarned,
   residentWageShortfall,
-  supplierBillsOwed,
+  supplierBillsOwedTo,
 } from "./modules/residents";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -1470,7 +1470,7 @@ export function closeBusinessByChoice(
       });
   }
   // Then its suppliers: bills already owed are paid before the owner's share.
-  const bills = supplierBillsOwed(core, organizationId);
+  const bills = supplierBillsOwedTo(core, organizationId);
   if (bills && bills.owedMinor > 0) {
     const amount = Math.min(
       bills.owedMinor,

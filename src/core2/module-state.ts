@@ -51,6 +51,7 @@ interface Store {
   busy: boolean;
 }
 const stores = new WeakMap<CoreState, Map<string, Store>>();
+const facades = new WeakMap<Store, ModuleStateStore>();
 function freshTable(definition: ModuleTableDefinition): Table {
   return {
     definition,
@@ -151,6 +152,10 @@ export function moduleState(
   const store = stores.get(core)?.get(moduleKey(moduleId));
   if (!store || core.modules.get(moduleId) !== store.module)
     throw new Error("Module has no registered state.");
+  // One facade per store: engines ask for it per row, and every method below
+  // checks ownership on each use, so reusing it changes nothing but speed.
+  const cached = facades.get(store);
+  if (cached) return cached;
   const check = () => {
     if (core.modules.get(moduleId) !== store.module || store.busy)
       throw new Error("Module state owner is stale or reentrant.");
@@ -164,16 +169,19 @@ export function moduleState(
       store.busy = false;
     }
   };
-  return Object.freeze({
+  const tableFacades = new Map<string, ModuleTable>();
+  const facade: ModuleStateStore = Object.freeze({
     moduleId,
     schemaVersion: store.schemaVersion,
     table(name: string): ModuleTable {
       check();
+      const known = tableFacades.get(name);
+      if (known) return known;
       moduleKey(name);
       if (!store.tables.has(name))
         throw new Error(`Unregistered module table: ${name}`);
       const current = () => store.tables.get(name)!;
-      return Object.freeze({
+      const facade: ModuleTable = Object.freeze({
         get(id: string) {
           check();
           return current().rows.get(moduleKey(id));
@@ -212,6 +220,8 @@ export function moduleState(
           return current().rows.size;
         },
       });
+      tableFacades.set(name, facade);
+      return facade;
     },
     snapshot() {
       check();
@@ -252,6 +262,8 @@ export function moduleState(
       });
     },
   });
+  facades.set(store, facade);
+  return facade;
 }
 
 /** Rows in each module table, by "module/table" (memory checks and the bench). */

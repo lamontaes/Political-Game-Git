@@ -1,10 +1,6 @@
 import dataJson from "./data/opening-income-funding.json" with { type: "json" };
-import {
-  daysBetween,
-  isoDateFromParts,
-  makeIsoDate,
-} from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { seatOfGovernmentPlace } from "../simulation/life-places";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
