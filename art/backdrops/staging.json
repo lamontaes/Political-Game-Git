@@ -24607,6 +24607,116 @@
       "measuredFrom": "chair seat 0.45 m foot 73 top 63.5 (about 21 per m), stool 0.5 m foot 82 seat 69 (25 per m), stool foot 72 (17 per m); 50 / 0.78",
       "surfaceSlots": []
     },
+    "oval-office-resolute": {
+      "horizonY": 28,
+      "metersPercent": 0.8,
+      "spots": [
+        {
+          "x": 50,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "oval-office-resolute:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 57,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 57,
+          "seatY": 47,
+          "clipBelowY": 46,
+          "group": "desk",
+          "role": "general",
+          "id": "oval-office-resolute:spot:1"
+        },
+        {
+          "x": 20,
+          "y": 70,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 70,
+          "seatY": 57,
+          "group": "sofa-left",
+          "role": "general",
+          "id": "oval-office-resolute:spot:2"
+        },
+        {
+          "x": 13,
+          "y": 84,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 84,
+          "seatY": 65,
+          "group": "sofa-left",
+          "role": "general",
+          "id": "oval-office-resolute:spot:3"
+        },
+        {
+          "x": 80,
+          "y": 70,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 70,
+          "seatY": 58,
+          "group": "sofa-right",
+          "role": "general",
+          "id": "oval-office-resolute:spot:4"
+        },
+        {
+          "x": 87,
+          "y": 84,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 84,
+          "seatY": 65,
+          "group": "sofa-right",
+          "role": "general",
+          "id": "oval-office-resolute:spot:5"
+        },
+        {
+          "x": 45,
+          "y": 78,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 78,
+          "role": "general",
+          "id": "oval-office-resolute:spot:6"
+        },
+        {
+          "x": 57,
+          "y": 78,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 78,
+          "role": "general",
+          "id": "oval-office-resolute:spot:7"
+        },
+        {
+          "x": 32,
+          "y": 56,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 56,
+          "role": "general",
+          "id": "oval-office-resolute:spot:8"
+        },
+        {
+          "x": 69,
+          "y": 57,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 57,
+          "role": "general",
+          "id": "oval-office-resolute:spot:9"
+        }
+      ],
+      "measuredFrom": "Resolute desk 0.76 m foot 70 top 45 and arched door 2.1 m foot 49 top 16 solve to horizon ~28, 0.8; sofa seat 0.45 m foot 88 top 67 agrees",
+      "surfaceSlots": []
+    },
     "supreme-court-exterior": {
       "horizonY": 55,
       "metersPercent": 0.47,
