@@ -25,10 +25,13 @@ const records: PolicyHandler = (api, change) =>
 
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
-  none: [records],
+  engine: [records],
+  "outcome-web": [records],
   // The credit engine reads the cap when it prices a household loan.
   credit: [records],
   housing: [records],
+  jobs: [records],
+  business: [records],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
@@ -43,7 +46,7 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
 export function registerGroupA(): void {
   for (const [key, policy] of Object.entries(POLICIES)) {
     // The minimum wage as an amount runs in the laws engine itself.
-    if (!policy.reaches.length && policy.mechanic === "none") continue;
+    if (!policy.reaches.length && policy.mechanic === "engine") continue;
     const handlers = MECHANICS[policy.mechanic];
     if (!handlers) throw new Error(`No law-reach mechanic: ${policy.mechanic}`);
     for (const handler of handlers) registerPolicyHandler(key, handler);

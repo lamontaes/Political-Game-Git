@@ -18,6 +18,7 @@
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
+import { lawInForce } from "./laws";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
   baseOf,
@@ -172,14 +173,10 @@ export function lawValue(
   const laws = SETTINGS.lawsModule;
   const open = (api.state as CoreState).modules.has(laws.moduleId);
   if (realOnly && !open) return 0;
-  const rows = (open
-    ? api
-        .moduleState(laws.moduleId)
-        .table(laws.table)
-        .query(laws.index, [series])
-    : store(api)
-        .table("laws")
-        .query("bySeries", [series])) as unknown as readonly {
+  if (open) return lawInForce(api, series, date).value === 1 ? 1 : 0;
+  const rows = store(api)
+    .table("laws")
+    .query("bySeries", [series]) as unknown as readonly {
     jurisdiction: string;
     value: unknown;
     effectiveDate: string;
@@ -494,6 +491,8 @@ function run(api: CoreAPI): void {
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
+  // stopgapId: SG-LAW-LINK-calibration
+  api.stopgap("SG-LAW-LINK-calibration");
   for (const placeId of placesOf(api))
     land(api, recordMonth(api, placeId, state));
 }
@@ -583,6 +582,7 @@ export function placeOutcome(
   placeId: string,
   measure: string,
 ): { value: number; base?: number; month: string } | undefined {
+  if (!api.state.modules.has(OUTCOME_WEB_MODULE_ID)) return undefined;
   const rows = store(api)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[];

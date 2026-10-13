@@ -55,7 +55,7 @@
       "source": "Model of flexible highway-to-transit funding (23 U.S.C. 104(f), FHWA flex funding)"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "medicaid-eligible",
       "kind": "eligibility",
       "people": {
@@ -67,11 +67,10 @@
         "incomeLimitShare": "medicaidExpansionIncomeShare"
       },
       "enforcer": "state Medicaid agency",
-      "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) (the Affordable Care Act expansion group)",
-      "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
+      "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) (the Affordable Care Act expansion group)"
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "medicaid-ended-for-work-hours",
       "kind": "rule",
       "people": {
@@ -85,11 +84,10 @@
         "hoursPerMonth": "medicaidWorkHoursPerMonth"
       },
       "enforcer": "state Medicaid agency",
-      "source": "Pub. L. 119-21 (2025), sec. 71119 (community engagement requirement)",
-      "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
+      "source": "Pub. L. 119-21 (2025), sec. 71119 (community engagement requirement)"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "assistance-time-limited-for-work-hours",
       "kind": "rule",
       "people": {
@@ -103,11 +101,10 @@
         "hoursPerWeek": "snapWorkHoursPerWeek"
       },
       "enforcer": "state human services agency",
-      "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102",
-      "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
+      "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102"
     },
     "us-policy-positions:education.universal-preschool": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "preschool-eligible",
       "kind": "eligibility",
       "people": {
@@ -115,11 +112,10 @@
         "ageBelow": "preschoolAgeBelow"
       },
       "enforcer": "state education department",
-      "source": "Model of universal pre-K laws (NIEER, The State of Preschool 2024)",
-      "stopgapId": "SG-GOV-REACH-B-preschool-enrollment"
+      "source": "Model of universal pre-K laws (NIEER, The State of Preschool 2024)"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "school-voucher-eligible",
       "kind": "eligibility",
       "people": {
@@ -131,8 +127,7 @@
         "amountDollars": "voucherAmountDollars"
       },
       "enforcer": "state treasurer and education department",
-      "source": "Model of education savings account and voucher laws (EdChoice, The ABCs of School Choice 2025)",
-      "stopgapId": "SG-GOV-REACH-B-voucher-payment"
+      "source": "Model of education savings account and voucher laws (EdChoice, The ABCs of School Choice 2025)"
     },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "mechanic": "teacher-floor",
@@ -167,7 +162,7 @@
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "property-tax-growth-capped",
       "kind": "right",
       "people": {
@@ -178,11 +173,10 @@
         "capShare": "propertyTaxGrowthCapShare"
       },
       "enforcer": "county assessor",
-      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)",
-      "stopgapId": "SG-GOV-REACH-B-property-tax-bills"
+      "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)"
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "groceries-sales-tax-exempt",
       "kind": "price",
       "people": {
@@ -244,7 +238,7 @@
       "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
-      "mechanic": "records",
+      "mechanic": "outcome-web",
       "effect": "clean-air-plan-limits",
       "kind": "compliance",
       "organizations": [
@@ -293,7 +287,7 @@
       "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-      "mechanic": "records",
+      "mechanic": "outcome-web",
       "effect": "groundwater-allocation",
       "kind": "compliance",
       "organizations": [
@@ -309,7 +303,7 @@
       "stopgapId": "SG-GOV-REACH-B-business-cost"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
-      "mechanic": "records",
+      "mechanic": "outcome-web",
       "effect": "farmland-development-restricted",
       "kind": "rule",
       "organizations": [
@@ -333,7 +327,7 @@
       "source": "The law in force on income tax (laws module); collected by payroll withholding (src/core2/modules/budgets.ts)"
     },
     "sales-tax": {
-      "mechanic": "records",
+      "mechanic": "engine",
       "effect": "sales-tax-rate",
       "kind": "price",
       "people": {

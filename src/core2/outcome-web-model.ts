@@ -61,7 +61,12 @@ interface BaseDefinition {
   readonly places: Readonly<Record<string, number>>;
 }
 
-export const WEB_LINKS = web.links as unknown as readonly WebLink[];
+// Core2's catalog rows use the same researched link format. A local row
+// replaces its matching research key; all other research remains available.
+export const WEB_LINKS = [
+  ...web.links.filter((row) => !local.links.some((own) => own.key === row.key)),
+  ...local.links,
+] as unknown as readonly WebLink[];
 export const WEB_VERSION = web.version;
 /** The date the research's base levels describe; laws in force then are the baseline. */
 export const CALIBRATED_AT = web.calibratedAt;

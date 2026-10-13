@@ -56,7 +56,7 @@ import {
 import { amendBudget } from "../modules/budgets";
 
 type Mechanic =
-  | "records"
+  | "outcome-web"
   | "engine"
   | "transit-fares"
   | "highway-shift"
@@ -385,9 +385,8 @@ function runPolicy(
       return;
     }
     case "engine":
-      // The owning engine pulls the law at its action; reach is supplementary.
-      break;
-    case "records":
+    // falls through: the owning engine reads the law; reach is supplementary.
+    case "outcome-web":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");
         terms.ratePercent = answer.value ?? 0;
