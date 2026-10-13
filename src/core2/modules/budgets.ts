@@ -9,8 +9,8 @@
  *   from the Census Bureau's state and local finances (fiscal 2022, carried to
  *   the opening year by NASBO's calibration; `public-budget-bases.json`) per
  *   resident times its residents, and the Treasury's fiscal 2025 statement for
- *   the federal government. Local spending is shared between county and city
- *   by function (stand-in: SG-GOV-local-budget-split). Each new fiscal year's
+ *   the federal government. Local spending divides between county and city
+ *   by each function's real shares in the state (Census 2022). Each new fiscal year's
  *   budget is adopted on its start date by the old rule (carry the year's
  *   amounts forward) until a council or legislature votes it (M3):
  *   SG-GOV-budget-adopted-by-rule. A budget bill the legislature passes adds
@@ -23,8 +23,8 @@
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { stopgap } from "../stopgaps";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -43,6 +43,24 @@ export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
 
 /** Spending functions a county carries; the rest of local spending is the city's or township's. */
+type TypeShares = {
+  county: number;
+  municipal: number;
+  township: number;
+};
+const LOCAL_SPLIT = localSplit as unknown as {
+  national: Record<string, TypeShares>;
+  states: Record<string, Record<string, TypeShares>>;
+};
+/** The county's share of a function's local spending against the city's. */
+function countyShare(stateKey: string, fn: string): number {
+  const row = LOCAL_SPLIT.states[stateKey]?.[fn] ?? LOCAL_SPLIT.national[fn];
+  const city = (row?.municipal ?? 0) + (row?.township ?? 0);
+  const total = (row?.county ?? 0) + city;
+  return total > 0 ? row!.county / total : COUNTY_FUNCTIONS.has(fn) ? 1 : 0;
+}
+
+/** Functions a county carries where the survey shows no local spending on them. */
 const COUNTY_FUNCTIONS = new Set([
   "welfareAndMedicaid",
   "healthAndHospitals",
@@ -230,11 +248,16 @@ function budgetFor(
     for (const [k, v] of Object.entries(place.state.spending))
       spending[k] = minor(v, gov.residents, factor);
   } else if (place?.local) {
-    stopgap("SG-GOV-local-budget-split");
+    // Each function's local spending divides between county and city by the
+    // state's real shares (Census 2022, by type of government); school and
+    // special districts' shares divide the same way, as the game has no
+    // separate districts.
     const county = gov.level === "county";
-    for (const [k, v] of Object.entries(place.local.spending))
-      if (COUNTY_FUNCTIONS.has(k) === county)
-        spending[k] = minor(v, gov.residents, factor);
+    for (const [k, v] of Object.entries(place.local.spending)) {
+      const share = countyShare(stateKey, k);
+      const mine = county ? share : 1 - share;
+      if (mine > 0) spending[k] = minor(v * mine, gov.residents, factor);
+    }
     const share =
       Object.values(spending).reduce((a, b) => a + b, 0) /
       Math.max(
