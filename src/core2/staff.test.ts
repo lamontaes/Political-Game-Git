@@ -8,6 +8,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
+import { governments, openBudgets } from "./modules/budgets";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { lawInForce, openLaws } from "./modules/laws";
@@ -18,6 +19,7 @@ import { draftBill, openLegislature } from "./modules/legislature";
 import { allCases, openCases } from "./modules/constituent-cases";
 import {
   briefOnBill,
+  adviseOnBudget,
   hireStaff,
   openStaff,
   staffCandidates,
@@ -78,6 +80,7 @@ describe("M3-06 staff", () => {
       openLegislature(core);
       openStaff(core);
       openCases(core);
+      openBudgets(core);
       const api = coreAPI(core);
       const seat = townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
@@ -126,13 +129,60 @@ describe("M3-06 staff", () => {
       for (const b of briefings)
         expect(b.stakes.length).toBe(b.work.result.covered as number);
       expect(workOf(api, aide.id).length).toBe(5);
+      // Advice on the city's budget priorities: who favors each change.
+      const city = governments(api).find((g) => g.level === "city");
+      const advice = city
+        ? adviseOnBudget(api, aide.id, city.id, {
+            parks: 10_000_000,
+            police: -5_000_000,
+          })
+        : null;
+      if (advice) {
+        expect(advice.lines.map((l) => l.line)).toEqual(["parks", "police"]);
+        for (const l of advice.lines)
+          for (const c of l.chambers) {
+            expect(c.read).toBe(Math.round(advice.work.quality * c.of));
+            expect(c.favor + c.oppose).toBeLessThanOrEqual(c.read);
+            expect(l.atRisk || c.oppose <= c.favor).toBe(true);
+          }
+      }
       // Cases this office handles go to its staff, and say who did them.
       advanceCore(core, "2026-02-20");
+      // The aide is on the payroll of the government the official serves,
+      // and paydays have paid them from its treasury.
+      const aideJob = core.people.get(aide.personId)!.jobId;
+      const employer = aideJob ? core.jobs.get(aideJob)?.organizationId : null;
+      const town = governments(api).find((g) =>
+        ["city", "county"].includes(g.level),
+      );
+      const payroll = aideJob
+        ? core.work.latestPayrollByJob.get(aideJob)
+        : undefined;
+      if (town) {
+        expect(aideJob).toMatch(/^job:public:staff:/);
+        expect(
+          governments(api).some((g) => g.organizationId === employer),
+        ).toBe(true);
+        // Paydays pay the post's pay from that treasury.
+        // Paid, unless the treasury holds less than what's owed (a small
+        // village can't carry a full-time aide).
+        const owed =
+          (payroll as unknown as { requestedMinor?: number } | undefined)
+            ?.requestedMinor ?? 0;
+        const cash = core.organizations.get(employer!)?.liquidMinor ?? 0;
+        expect(owed, key).toBeGreaterThan(0);
+        expect(
+          (payroll?.paidMinor ?? 0) > 0 || cash < owed,
+          `${key}: owed ${owed}, treasury ${cash}`,
+        ).toBe(true);
+      }
       const staffed = allCases(api).filter(
         (c) => c.officialId === official && c.handledBy === "staff",
       );
       for (const c of staffed) expect(c.stafferId).toBeTruthy();
       report = {
+        budgetAdvice: advice?.lines ?? null,
+        aidePay: { job: aideJob, employer, lastPaidMinor: payroll?.paidMinor },
         seed,
         state,
         place: key,

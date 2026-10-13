@@ -10,18 +10,15 @@ import {
 import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
 import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { makeIsoDate } from "./kernel/dates";
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../simulation/life-places";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
   estimatedMonthlyHouseholdLivingCosts,
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
   type LivingCostsRegion,
-} from "../simulation/living-costs-data";
-import { LIVING_COSTS_CATEGORY_SOURCES } from "../simulation/living-costs-category-data";
+} from "./reference/living-costs-data";
+import { LIVING_COSTS_CATEGORY_SOURCES } from "./reference/living-costs-category-data";
 import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -1014,9 +1011,9 @@ export function createOpeningFinance(
     // not establish any place fact until the accepted provider returns a match.
     const place = supplied
       ? undefined
-      : (lifePlaceByJurisdictionId(household.placeId as EntityId) ??
+      : (corePlaceByJurisdictionId(household.placeId as EntityId) ??
         (input.placeMetadata?.placeKey
-          ? lifePlaceByKey(input.placeMetadata.placeKey)
+          ? corePlaceByKey(input.placeMetadata.placeKey)
           : null));
     const region =
       supplied ??

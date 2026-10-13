@@ -102,7 +102,6 @@ const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
  */
 const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "every module": { owner: "FIXER-WIRE-ALL-MODULES" },
-  "school-age people attend school": { owner: "OPUS-CORE" },
   // State and federal terms are filled since races elsewhere run in the
   // played world; some towns still leave local terms unfilled.
   "every ended term is filled": {

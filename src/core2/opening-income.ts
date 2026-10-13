@@ -2,7 +2,7 @@ import { retirementClaimAgeMonths } from "./retirement-claim";
 import dataJson from "./data/opening-income.json" with { type: "json" };
 import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -84,8 +84,6 @@ export interface OpeningIncomeData {
     benefitReferenceCoveredMonths: string;
     benefitFactorMinimum: string;
     benefitFactorMaximum: string;
-    /** Deprecated compatibility key; new payers have no prepaid stock. */
-    payerReserveMonths: string;
     periodMonths: string;
   };
   labels: { coverage: string; claim: string; award: string };
@@ -248,7 +246,6 @@ export function buildOpeningRetirementIncome(
     values.periodMonths !== one ||
     values.coveredFraction! <= zero ||
     values.coveredFraction! > one ||
-    values.payerReserveMonths! < zero ||
     values.benefitFactorMinimum! <= zero ||
     values.benefitFactorMaximum! < values.benefitFactorMinimum!
   )
@@ -418,7 +415,7 @@ export function buildOpeningRetirementIncome(
       if (!prior.name.trim()) throw new Error("Unnamed opening income place.");
       return prior;
     }
-    const actual = lifePlaceByJurisdictionId(placeId as EntityId);
+    const actual = corePlaceByJurisdictionId(placeId as EntityId);
     if (!actual) return undefined;
     const row = {
       id: placeId,

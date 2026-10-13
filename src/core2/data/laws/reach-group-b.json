@@ -5,7 +5,9 @@
       "mechanic": "transit-fares",
       "effect": "transit-fare-free",
       "kind": "price",
-      "people": { "ageFrom": "transitRiderAgeFrom" },
+      "people": {
+        "ageFrom": "transitRiderAgeFrom"
+      },
       "organizations": ["enterprise:transportation"],
       "terms": {
         "fareboxPerResidentDollars": "transitFareboxPerResidentDollars"
@@ -18,8 +20,12 @@
       "mechanic": "records",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
-      "people": { "ageFrom": "drivingAge" },
-      "terms": { "centsPerMile": "mileageFeeCentsPerMile" },
+      "people": {
+        "ageFrom": "drivingAge"
+      },
+      "terms": {
+        "centsPerMile": "mileageFeeCentsPerMile"
+      },
       "enforcer": "department of transportation",
       "source": "Model of road usage charge laws (Oregon ORS 319.885 OReGO; Utah Code 72-1-213.1)",
       "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
@@ -28,9 +34,14 @@
       "mechanic": "records",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
-      "people": { "ageFrom": "adultAge", "householdHead": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "householdHead": true
+      },
       "organizations": ["enterprise:telecommunications"],
-      "terms": { "monthlyDollars": "broadbandMonthlyDollars" },
+      "terms": {
+        "monthlyDollars": "broadbandMonthlyDollars"
+      },
       "enforcer": "public utility board",
       "source": "Model of municipal broadband utilities (Institute for Local Self-Reliance community network list 2024)",
       "stopgapId": "SG-GOV-REACH-B-broadband-bill"
@@ -39,7 +50,9 @@
       "mechanic": "highway-shift",
       "effect": "highway-funds-moved-to-transit",
       "kind": "rule",
-      "terms": { "share": "highwayShareShifted" },
+      "terms": {
+        "share": "highwayShareShifted"
+      },
       "enforcer": "department of transportation",
       "source": "Model of flexible highway-to-transit funding (23 U.S.C. 104(f), FHWA flex funding)"
     },
@@ -52,7 +65,9 @@
         "ageBelow": "medicaidExpansionAgeBelow",
         "incomeBelowPovertyShare": "medicaidExpansionIncomeShare"
       },
-      "terms": { "incomeLimitShare": "medicaidExpansionIncomeShare" },
+      "terms": {
+        "incomeLimitShare": "medicaidExpansionIncomeShare"
+      },
       "enforcer": "state Medicaid agency",
       "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) (the Affordable Care Act expansion group)",
       "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
@@ -68,7 +83,9 @@
         "hoursBelowPerMonth": "medicaidWorkHoursPerMonth",
         "noChildBelow": "medicaidWorkExemptChildBelow"
       },
-      "terms": { "hoursPerMonth": "medicaidWorkHoursPerMonth" },
+      "terms": {
+        "hoursPerMonth": "medicaidWorkHoursPerMonth"
+      },
       "enforcer": "state Medicaid agency",
       "source": "Pub. L. 119-21 (2025), sec. 71119 (community engagement requirement)",
       "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
@@ -84,7 +101,9 @@
         "hoursBelowPerWeek": "snapWorkHoursPerWeek",
         "noChildBelow": "snapWorkExemptChildBelow"
       },
-      "terms": { "hoursPerWeek": "snapWorkHoursPerWeek" },
+      "terms": {
+        "hoursPerWeek": "snapWorkHoursPerWeek"
+      },
       "enforcer": "state human services agency",
       "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102",
       "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
@@ -105,9 +124,14 @@
       "mechanic": "records",
       "effect": "school-voucher-eligible",
       "kind": "eligibility",
-      "people": { "ageFrom": "schoolAgeFrom", "ageBelow": "schoolAgeBelow" },
+      "people": {
+        "ageFrom": "schoolAgeFrom",
+        "ageBelow": "schoolAgeBelow"
+      },
       "organizations": ["service:private-school"],
-      "terms": { "amountDollars": "voucherAmountDollars" },
+      "terms": {
+        "amountDollars": "voucherAmountDollars"
+      },
       "enforcer": "state treasurer and education department",
       "source": "Model of education savings account and voucher laws (EdChoice, The ABCs of School Choice 2025)",
       "stopgapId": "SG-GOV-REACH-B-voucher-payment"
@@ -116,7 +140,9 @@
       "mechanic": "teacher-floor",
       "effect": "teacher-salary-floor",
       "kind": "compliance",
-      "terms": { "floorDollars": "teacherMinimumSalaryDollars" },
+      "terms": {
+        "floorDollars": "teacherMinimumSalaryDollars"
+      },
       "enforcer": "state education department",
       "source": "Arkansas LEARNS Act (Act 237 of 2023); New Mexico HB 13 (2022)"
     },
@@ -124,7 +150,10 @@
       "mechanic": "income-tax-adopt",
       "effect": "income-tax-adopted",
       "kind": "rule",
-      "people": { "ageFrom": "adultAge", "employed": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "employed": true
+      },
       "enforcer": "department of revenue",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025; Local Income Taxes (2019)"
     },
@@ -132,7 +161,10 @@
       "mechanic": "income-tax-graduated",
       "effect": "income-tax-graduated",
       "kind": "rule",
-      "people": { "ageFrom": "adultAge", "employed": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "employed": true
+      },
       "enforcer": "department of revenue",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
@@ -140,8 +172,13 @@
       "mechanic": "records",
       "effect": "property-tax-growth-capped",
       "kind": "right",
-      "people": { "ageFrom": "adultAge", "householdHead": true },
-      "terms": { "capShare": "propertyTaxGrowthCapShare" },
+      "people": {
+        "ageFrom": "adultAge",
+        "householdHead": true
+      },
+      "terms": {
+        "capShare": "propertyTaxGrowthCapShare"
+      },
       "enforcer": "county assessor",
       "source": "California Constitution art. XIII A; Lincoln Institute, Significant Features of the Property Tax (2023)",
       "stopgapId": "SG-GOV-REACH-B-property-tax-bills"
@@ -150,11 +187,13 @@
       "mechanic": "records",
       "effect": "groceries-sales-tax-exempt",
       "kind": "price",
-      "people": { "ageFrom": "adultAge", "householdHead": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "householdHead": true
+      },
       "organizations": ["enterprise:retail"],
       "enforcer": "department of revenue",
-      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)",
-      "stopgapId": "SG-GOV-REACH-B-sales-tax-collection"
+      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)"
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "mechanic": "balanced-budget",
@@ -167,7 +206,9 @@
       "mechanic": "pension-funding",
       "effect": "pension-contribution-funded",
       "kind": "rule",
-      "terms": { "perResidentDollars": "pensionShortfallPerResidentDollars" },
+      "terms": {
+        "perResidentDollars": "pensionShortfallPerResidentDollars"
+      },
       "enforcer": "the pension board",
       "source": "Pew, The State Pension Funding Gap (2023): paying the actuarially determined contribution"
     },
@@ -175,7 +216,9 @@
       "mechanic": "reserve",
       "effect": "minimum-reserve-held",
       "kind": "rule",
-      "terms": { "share": "reserveShareOfSpending" },
+      "terms": {
+        "share": "reserveShareOfSpending"
+      },
       "enforcer": "the treasurer",
       "source": "GFOA, Fund Balance Guidelines for the General Fund (2015)"
     },
@@ -192,9 +235,14 @@
       "mechanic": "records",
       "effect": "clean-electricity-standard",
       "kind": "price",
-      "people": { "ageFrom": "adultAge", "householdHead": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "householdHead": true
+      },
       "organizations": ["enterprise:utility"],
-      "terms": { "priceShare": "cleanElectricityPriceShare" },
+      "terms": {
+        "priceShare": "cleanElectricityPriceShare"
+      },
       "enforcer": "public utility commission",
       "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update",
       "stopgapId": "SG-GOV-REACH-B-energy-price"
@@ -221,7 +269,9 @@
         "enterprise:food-service",
         "enterprise:wholesale"
       ],
-      "terms": { "depositCents": "bottleDepositCents" },
+      "terms": {
+        "depositCents": "bottleDepositCents"
+      },
       "enforcer": "the state or city environmental agency",
       "source": "Model of container deposit laws (Container Recycling Institute)",
       "stopgapId": "SG-GOV-REACH-B-retail-price"
@@ -230,7 +280,10 @@
       "mechanic": "records",
       "effect": "carbon-priced",
       "kind": "price",
-      "people": { "ageFrom": "adultAge", "householdHead": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "householdHead": true
+      },
       "organizations": [
         "enterprise:utility",
         "enterprise:manufacturing",
@@ -254,7 +307,9 @@
         "enterprise:mining",
         "enterprise:utility"
       ],
-      "terms": { "withdrawalShare": "groundwaterWithdrawalShare" },
+      "terms": {
+        "withdrawalShare": "groundwaterWithdrawalShare"
+      },
       "enforcer": "state water agency",
       "source": "Kansas Local Enhanced Management Areas (K.S.A. 82a-1041); Nebraska natural resources district allocations",
       "stopgapId": "SG-GOV-REACH-B-business-cost"
@@ -276,7 +331,10 @@
       "mechanic": "income-tax-rate",
       "effect": "income-tax-withheld",
       "kind": "price",
-      "people": { "ageFrom": "adultAge", "employed": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "employed": true
+      },
       "enforcer": "department of revenue",
       "source": "The law in force on income tax (laws module); collected by payroll withholding (src/core2/modules/budgets.ts)"
     },
@@ -284,23 +342,29 @@
       "mechanic": "records",
       "effect": "sales-tax-rate",
       "kind": "price",
-      "people": { "ageFrom": "adultAge", "householdHead": true },
+      "people": {
+        "ageFrom": "adultAge",
+        "householdHead": true
+      },
       "organizations": ["enterprise:retail", "enterprise:food-service"],
       "enforcer": "department of revenue",
-      "source": "The law in force on sales tax (laws module)",
-      "stopgapId": "SG-GOV-REACH-B-sales-tax-collection"
+      "source": "The law in force on sales tax (laws module)"
     }
   },
   "budgetLines": {
     "highways": {
       "effect": "road-service-level",
-      "people": { "ageFrom": "drivingAge" },
+      "people": {
+        "ageFrom": "drivingAge"
+      },
       "organizations": ["enterprise:transportation", "enterprise:construction"],
       "stopgapId": "SG-GOV-REACH-B-road-condition"
     },
     "transit": {
       "effect": "transit-service-level",
-      "people": { "ageFrom": "transitRiderAgeFrom" },
+      "people": {
+        "ageFrom": "transitRiderAgeFrom"
+      },
       "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
     },
     "healthAndHospitals": {
@@ -317,7 +381,10 @@
     },
     "schools": {
       "effect": "school-service-level",
-      "people": { "ageFrom": "schoolAgeFrom", "ageBelow": "schoolAgeBelow" },
+      "people": {
+        "ageFrom": "schoolAgeFrom",
+        "ageBelow": "schoolAgeBelow"
+      },
       "payroll": {
         "classifications": ["service:school"],
         "standIn": ["service:private-school"],
@@ -326,7 +393,10 @@
     },
     "higherEducation": {
       "effect": "college-support-level",
-      "people": { "ageFrom": "collegeAgeFrom", "ageBelow": "collegeAgeBelow" },
+      "people": {
+        "ageFrom": "collegeAgeFrom",
+        "ageBelow": "collegeAgeBelow"
+      },
       "stopgapId": "SG-GOV-REACH-B-tuition"
     },
     "welfareAndMedicaid": {

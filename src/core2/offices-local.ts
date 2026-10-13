@@ -10,13 +10,13 @@
  */
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
-import { lifePlaceByKey } from "../simulation/life-places";
+import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules";
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
-import type { GovernmentUnitIdentity } from "../simulation/government-units";
+import type { GovernmentUnitIdentity } from "./reference/government-units";
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
 
@@ -181,7 +181,7 @@ function boardOffices(
 
 /** Every local office whose seats cover the place. */
 export function localOfficesForPlace(placeKey: string): readonly OfficeInput[] {
-  const place = lifePlaceByKey(placeKey);
+  const place = corePlaceByKey(placeKey);
   const units = placeLocalGovernmentUnits(place);
   return [
     ...units.municipal.flatMap(cityOffices),

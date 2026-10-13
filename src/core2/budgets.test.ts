@@ -8,17 +8,22 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
+import { buildBenchWorld } from "../bench/world";
+import { PURCHASE_TAX_MODULE_ID, purchaseTaxes } from "./modules/purchase-tax";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { lawInForce, openLaws } from "./modules/laws";
+import { lawChain, lawInForce, openLaws } from "./modules/laws";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
   governments,
+  outsideRevenueOf,
   openBudgets,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
+import { billPropertyTax } from "./housing-property-tax";
+import { HOUSING_MODULE_ID } from "./modules/housing";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
@@ -110,11 +115,29 @@ describe(
             p.accountId,
             (received.get(p.accountId) ?? 0) + p.deltaMinor,
           );
-      // Every withheld dollar is in a treasury (nothing else pays into them yet).
+      // Every withheld dollar, every sales-tax dollar and every dollar of
+      // revenue from outside the town is in a treasury (nothing else pays
+      // into them, and nothing in this world spends from them).
+      const salesTax = purchaseTaxes(core);
       for (const gov of govs)
-        expect(cash(gov.organizationId)).toBe(
-          received.get(`cash:${gov.organizationId}:residual`) ?? 0,
+        expect(cash(gov.organizationId), gov.id).toBe(
+          (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
+            (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
+            outsideRevenueOf(api, gov.id),
         );
+      // Aid, fees and the rest arrive each month for the local governments.
+      for (const gov of govs.filter((g) => g.level !== "federal"))
+        expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);
+      // The sales tax in force is collected wherever purchases are taxed.
+      const stateRate = lawInForce(api, "sales-tax").levels.find(
+        (l) => l.level === "state",
+      )?.row?.value;
+      const stateGov = govs.find((g) => g.level === "state")!;
+      if (core.modules.has(PURCHASE_TAX_MODULE_ID) && (stateRate ?? 0) > 0)
+        expect(
+          salesTax.get(`sales-tax:${stateGov.id}`)?.collectedMinor ?? 0,
+          `${place}: no state sales tax collected`,
+        ).toBeGreaterThan(0);
       // Recompute the worker's paycheck from the law in force on its date.
       const lines = withholdingFor({
         paidMinor: worker.paidMinor,
@@ -135,7 +158,148 @@ describe(
             return `${g.name} (${g.level}): FY${b.fiscalYear} adopted ${b.adoptedOn}, spending $${Math.round(Object.values(b.spendingMinor).reduce((a, c) => a + c, 0) / 100)}, received $${(cash(g.organizationId) / 100).toFixed(2)} in withholding`;
           }),
           paychecks: records.length,
+          salesTax: Object.fromEntries(
+            [...salesTax.values()].map((t) => [
+              t.id,
+              `${t.ratePercent.toFixed(3)}%: $${(t.collectedMinor / 100).toFixed(2)}`,
+            ]),
+          ),
           oneWorker: worker,
+        }),
+      );
+    });
+    it("the sales tax in force is collected on the town's purchases, each level's share to its treasury", () => {
+      for (let attempt = 0; attempt < 12; attempt += 1) {
+        // The bench's world on the opening date: households and the counted
+        // residents shop, and budgets (with the sales tax) are open.
+        const { core } = buildBenchWorld(`${seed}:${attempt}`, "2026-10-12", {
+          twoLevel: true,
+        });
+        const govs = governments(coreAPI(core));
+        const place = {
+          name: core.placeMetadata.placeName,
+          state: lawChain(coreAPI(core)).stateKey,
+        };
+        const api = coreAPI(core);
+        const answer = lawInForce(api, "sales-tax");
+        if (!((answer.value ?? 0) > 0)) continue;
+        advanceCore(
+          core,
+          new Date(Date.parse(`${core.date}T00:00:00Z`) + 20 * 86_400_000)
+            .toISOString()
+            .slice(0, 10),
+        );
+        const where = `${place.name}, ${place.state} (seed ${seed}:${attempt})`;
+        const taxes = [...purchaseTaxes(core).values()].filter(
+          (t) => t.ratePercent > 0,
+        );
+        const total = taxes.reduce((a, t) => a + t.collectedMinor, 0);
+        expect(total, where).toBeGreaterThan(0);
+        // Each level's share of the tax inside a price is its rate over
+        // (100 + the combined rate); the shares add up to the combined rate.
+        const combined = answer.value!;
+        const shares = taxes.map(
+          (t) => (100 + combined) * (t.ratePercent / (100 + t.ratePercent)),
+        );
+        expect(
+          shares.reduce((a, b) => a + b, 0),
+          where,
+        ).toBeCloseTo(combined, 6);
+        // Every collected dollar is in its treasury.
+        for (const t of taxes) {
+          const gov = govs.find((g) => `sales-tax:${g.id}` === t.id)!;
+          expect(
+            core.organizations.get(gov.organizationId)!.liquidMinor,
+          ).toBeGreaterThanOrEqual(t.collectedMinor);
+        }
+        govReport(
+          "budgets-sales-tax",
+          JSON.stringify({
+            where,
+            combinedRate: combined,
+            collected: Object.fromEntries(
+              taxes.map((t) => [t.id, (t.collectedMinor / 100).toFixed(2)]),
+            ),
+          }),
+        );
+        return;
+      }
+      throw new Error(`no taxed place in twelve draws (seed ${seed})`);
+    });
+    it("owners' property tax is the county's rate in force, paid to the treasury that collects it", () => {
+      // A place with a recorded rate (some territories have none; WORLD's
+      // stand-in rate applies there).
+      let attempt = 0;
+      let built = buildBenchWorld(`${seed}:property:0`, "2026-10-12", {
+        twoLevel: true,
+      });
+      while (
+        !((lawInForce(coreAPI(built.core), "property-tax").value ?? 0) > 0) &&
+        attempt < 8
+      ) {
+        attempt += 1;
+        built = buildBenchWorld(`${seed}:property:${attempt}`, "2026-10-12", {
+          twoLevel: true,
+        });
+      }
+      const { core } = built;
+      const api = coreAPI(core);
+      const govs = governments(api);
+      const county =
+        govs.find((g) => g.level === "county") ??
+        govs.find((g) => g.level === "city") ??
+        govs.find((g) => g.level === "state")!;
+      const collector = `organization:tax-collector:${county.id}`;
+      const where = `${core.placeMetadata.placeName}, ${lawChain(api).stateKey} (seed ${seed}:property:${attempt})`;
+      const rate = lawInForce(api, "property-tax").value!;
+      expect(rate, where).toBeGreaterThan(0);
+      // WORLD's bench dwellings carry no owner values yet (Needs for
+      // OPUS-WORLD), so the town's full households are billed at the
+      // stated value.
+      const town = lawChain(api).townPlaceId;
+      const homes = [...core.households.values()]
+        .filter((h) => h.placeId === town)
+        .slice(0, 20)
+        .map((h) => ({
+          householdId: h.id,
+          placeId: town,
+          valueMinor: 25_000_000,
+        }));
+      expect(homes.length, where).toBeGreaterThan(0);
+      const before = core.organizations.get(collector)!.liquidMinor;
+      const paid = billPropertyTax(
+        api,
+        api.moduleState(HOUSING_MODULE_ID).table("assessments"),
+        homes,
+      );
+      expect(paid, where).toBeGreaterThan(0);
+      // Every dollar paid is with the county's tax collector, none outside.
+      expect(
+        core.organizations.get(collector)!.liquidMinor - before,
+        where,
+      ).toBe(paid);
+      // No more than a twelfth of the homes' value times the rate in force.
+      const due = homes.reduce(
+        (a, h) => a + Math.round((h.valueMinor * rate) / 100 / 12),
+        0,
+      );
+      expect(paid, where).toBeLessThanOrEqual(due * 1.2);
+      // On the first of the month the collector passes it all on to the
+      // governments that levy it.
+      const first = new Date(`${core.date.slice(0, 7)}-01T00:00:00Z`);
+      first.setUTCMonth(first.getUTCMonth() + 1);
+      first.setUTCDate(2);
+      advanceCore(core, first.toISOString().slice(0, 10));
+      expect(core.organizations.get(collector)!.liquidMinor, where).toBe(0);
+      govReport(
+        "budgets-property-tax",
+        JSON.stringify({
+          where,
+          ratePercent: rate,
+          collector: county.name,
+          homes: homes.length,
+          paid: (paid / 100).toFixed(2),
+          due: (due / 100).toFixed(2),
         }),
       );
     });

@@ -12,7 +12,7 @@ import {
   countyGeoidsForPlace,
   governmentUnitsForPlace,
 } from "../simulation/government-units";
-import { lifePlaceByKey } from "../simulation/life-places";
+import { corePlaceByKey } from "./place-lookup";
 
 export type LawLevelName = "federal" | "state" | "county" | "city";
 
@@ -82,7 +82,7 @@ const data = startingLaw as unknown as {
 };
 
 export function lawChainForPlace(placeKey: string): LawChain {
-  const place = lifePlaceByKey(placeKey);
+  const place = corePlaceByKey(placeKey);
   if (!place) throw new Error(`Law chain needs a recorded place: ${placeKey}`);
   const stateKey = place.stateJurisdictionKey;
   if (!stateKey)

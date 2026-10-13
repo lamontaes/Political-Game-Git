@@ -1,9 +1,6 @@
 /** Opening record/term fixtures; generated-world outcomes are measured separately. */
 import { describe, expect, it } from "vitest";
-import {
-  lifePlaceStateIdentities,
-  lifePlaceByKey,
-} from "../simulation/life-places";
+import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
@@ -1309,7 +1306,7 @@ describe("opening customer producer", () => {
     );
   });
 
-  it.each(lifePlaceStateIdentities())(
+  it.each(corePlaceStateIdentities())(
     "uses the same household/public rule for $name ($jurisdictionKey)",
     (identity) => {
       const result = buildOpeningCustomers(
@@ -1341,7 +1338,7 @@ describe("opening customer producer", () => {
 /** UNEXECUTED: actual historical identity inside controlled opening term fixtures. */
 function historicalCountyCustomerFixture() {
   const original = fixture();
-  const locality = lifePlaceByKey("4840342")!;
+  const locality = corePlaceByKey("4840342")!;
   const unit = governmentUnit("gus2025:194116")!;
   const countyPlaceId = governmentUnitJurisdictionId(unit);
   const worldId = createStableId(

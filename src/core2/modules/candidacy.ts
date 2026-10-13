@@ -2,9 +2,10 @@
  * Who runs for office (M2-04). When a contest opens, each adult it reaches
  * weighs running against staying out through the core's one chooser, from
  * their own record: how closely they follow politics (views), the strongest
- * cause they carry (drives), their temperament, their money against the
- * filing fee, their work hours, their age, how they stand with the
- * incumbent and how many people in town know them. The decision and every
+ * cause they carry (drives), their temperament, what filing costs against
+ * what they have and earn, their work hours, their age, how they stand with
+ * the incumbent, how many people in town know them and, for a county seat,
+ * the wider ground a countywide race covers. The decision and every
  * reason behind it are kept, so each candidate on a ballot filed through a
  * choice that can be explained. Filing itself is GOV's (`fileCandidacy`).
  *
@@ -51,7 +52,7 @@ import {
   viewCell,
   viewOf,
 } from "./views";
-import { residentPerson } from "./residents";
+import { residentPerson, residentsRuntime } from "./residents";
 import { stableHash } from "../../simulation/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
@@ -67,6 +68,10 @@ export interface OpenContest {
   filingDeadline: string;
   /** The filing fee in minor units; zero where signatures are the route. */
   feeMinor: number;
+  /** Signatures that file in place of the fee, where the law accepts them. */
+  signaturesInLieu?: number;
+  /** The seat's government is the county's: a countywide campaign. */
+  countywide?: boolean;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
   /** How many have already decided to run for it. */
@@ -104,6 +109,8 @@ interface RunFacts {
   readonly birthDate: string;
   readonly traits: Readonly<Record<string, number>>;
   readonly liquidMinor: number;
+  /** What comes in a day: their job's pay, else what their record lives on. */
+  readonly incomeDailyMinor: number;
   /** Recorded work hours a day. */
   readonly workHoursDaily: number;
   /** How many people know them. */
@@ -149,6 +156,10 @@ export function candidacyReasons(
       birthDate: person.birthDate,
       traits: person.traits,
       liquidMinor: person.liquidMinor,
+      incomeDailyMinor: Math.max(
+        job && !job.endsAt ? job.wageDailyMinor : zero,
+        person.livingCostDailyMinor,
+      ),
       workHoursDaily: job?.hoursDaily ?? zero,
       known: person.knownIds.size,
       engagement: view?.engagement ?? zero,
@@ -173,6 +184,9 @@ export function countedCandidacyReasons(
 ): Record<string, number> {
   const zero = api.parameter("zero");
   const record = residentPerson(api.state as CoreState, voter.id);
+  const job = record?.jobId
+    ? residentsRuntime(api.state as CoreState)?.jobs.get(record.jobId)
+    : undefined;
   return reasonsFrom(
     api,
     {
@@ -180,6 +194,10 @@ export function countedCandidacyReasons(
       birthDate: voter.birthDate,
       traits: voter.traits,
       liquidMinor: record?.liquidMinor ?? zero,
+      incomeDailyMinor: Math.max(
+        job && !job.endsAt ? job.wageDailyMinor : zero,
+        record?.livingCostDailyMinor ?? zero,
+      ),
       workHoursDaily:
         voter.weeklyMinutes /
         api.parameter("minutesPerHour") /
@@ -268,8 +286,20 @@ function reasonsFrom(
     "candidacy-run",
     "candidacy-stay-out",
   );
-  const fee = contest.feeMinor;
-  const money = (person.liquidMinor - fee) / (person.liquidMinor + fee + one);
+  // What filing costs them: the fee, less the share their own circle's
+  // signatures cover where the law takes signatures in place of it (the
+  // route they file by when the fee is beyond them).
+  const fee =
+    contest.feeMinor *
+    (contest.signaturesInLieu
+      ? Math.max(zero, one - person.known / contest.signaturesInLieu)
+      : one);
+  // Against what they have and what comes in while filing is open: their
+  // pay, or for someone without a job (a retiree), what they live on.
+  const means =
+    person.liquidMinor +
+    person.incomeDailyMinor * c(api, "candidacyFilingWindowDays");
+  const money = (means - fee) / (means + fee + one);
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
   const age = ageOnDate(
     makeIsoDate(person.birthDate),
@@ -301,6 +331,8 @@ function reasonsFrom(
     age:
       c(api, "candidacyAgeWeight") *
       (two * Math.exp(-distance * distance) - one),
+    // A countywide race: more ground and more voters to reach than a town seat.
+    reach: contest.countywide ? -c(api, "candidacyCountywideWeight") : zero,
   };
 }
 
@@ -643,6 +675,10 @@ export function weighContest(
     officeName: contest.title,
     filingDeadline: rules.deadline ?? contest.filingDeadline,
     feeMinor: rules.feeMinor ?? 0,
+    ...(rules.feeInLieuOfSignatures && rules.signatures
+      ? { signaturesInLieu: rules.signatures }
+      : {}),
+    ...(contest.family === "countyOffice" ? { countywide: true } : {}),
     ...(incumbentId ? { incumbentId } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
   };
@@ -718,7 +754,7 @@ function committedOn(api: CoreAPI, electionDate: string): Set<PersonId> {
   return out;
 }
 
-/** Each counted adult's pull to run apart from the fee, cached for the year. */
+/** Each counted adult's pull to run apart from the seat's own costs, cached for the year. */
 const countedBases = new WeakMap<
   object,
   { year: string; rows: { voter: CountedVoter; base: number }[] }
@@ -746,8 +782,10 @@ function countedScreen(
         .map((voter) => {
           const reasons = countedCandidacyReasons(api, voter, free);
           let base = api.parameter("zero");
+          // The seat's own costs (its fee, a countywide race) only
+          // lower the pull, so the rest bounds it from above.
           for (const [key, value] of Object.entries(reasons))
-            if (key !== "money") base += value;
+            if (key !== "money" && key !== "reach") base += value;
           return { voter, base };
         })
         .sort(

@@ -127,6 +127,7 @@ const energy: PolicyHandler = (api, law) => {
       (carbon ? carbonShare(api, "electricity") : 0),
     fuel: carbon ? carbonShare(api, "fuel") : 0,
   };
+  const payeeId = carbon ? treasury(api, law.level) : undefined;
   for (const good of ["electricity", "fuel"] as const)
     if (shares[good] > 0)
       adjustPrice(api, {
@@ -134,7 +135,7 @@ const energy: PolicyHandler = (api, law) => {
         good,
         share: shares[good],
         // A carbon price's revenue goes to the government that levies it.
-        ...(carbon ? { payeeId: treasury(api, law.level) } : {}),
+        ...(payeeId ? { payeeId } : {}),
         cause: law.lawId,
         source: source(
           api,

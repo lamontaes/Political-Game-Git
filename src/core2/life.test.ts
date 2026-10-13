@@ -7,6 +7,8 @@ import { assertCoreIntegrity, coreAPI } from "./state";
 import { ACCOUNTS_MODULE } from "./accounts";
 import { LIFE_MODULE } from "./modules/life";
 import { PEOPLE_MODULE_ID } from "./modules/people";
+import { SCHOOL_MODULE_ID } from "./modules/school";
+import { DISASTERS_MODULE_ID } from "./modules/disasters";
 import { WORK_MODULE } from "./modules/work";
 import type {
   ActionDefinition,
@@ -898,13 +900,16 @@ describe("controller boundary and data extension", () => {
       { data },
     );
     const openingMoney = money(core);
-    // createLifeCore always registers life, people, recorded work and the
-    // accounts module; the new action adds no module of its own.
-    expect(core.modules.size).toBe(p("two") + p("two"));
+    // createLifeCore always registers life, people, school days, disasters,
+    // recorded work and the accounts module; the new action adds no module of
+    // its own.
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         LIFE_MODULE.id,
         PEOPLE_MODULE_ID,
+        SCHOOL_MODULE_ID,
+        DISASTERS_MODULE_ID,
         WORK_MODULE.id,
         ACCOUNTS_MODULE.id,
       ].sort(),
@@ -923,9 +928,11 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two") + p("two") + p("two"));
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
+        SCHOOL_MODULE_ID,
+        DISASTERS_MODULE_ID,
         LIFE_MODULE.id,
         PEOPLE_MODULE_ID,
         WORK_MODULE.id,

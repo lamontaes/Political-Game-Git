@@ -201,16 +201,18 @@
   },
   "moodBaseline": {
     "value": 0,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moodBaseline",
+    "tag": "ESTIMATED",
+    "citation": "A definition, not a measured figure: the mood channel is signed affect relative to each person's own set point (affect research treats day-to-day mood as deviation around a stable personal baseline; Kuppens, Oravecz & Tuerlinckx 2010, J. Pers. Soc. Psychol. 99(6), 'Feelings change: accounting for individual differences in the temporal dynamics of affect'). Before any recorded event a person sits at their own set point, which is 0 on this scale.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0,
+      "high": 0,
+      "unit": "signed affect relative to the person's set point",
+      "citation": "Definitional; see citation."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Zero by construction; individual differences live in traits and appraisal weights, not in this baseline."
   },
   "moodHalfLifeDays": {
     "value": 1,
@@ -1755,15 +1757,15 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "value": 0.75,
+    "value": 0.73,
     "tag": "ESTIMATED",
-    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
-    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67. BLS CPS 2019 annual averages, Table 3 (https://www.bls.gov/cps/aa2019/cpsaat03.pdf): employment-population ratio 42.6% at 18–19 and 66.4% at 20–24.",
+    "estimatedFrom": "Recomputed on the game's span, which starts at 18, not SSA's 22: 41 years (22 to a claim near 63) at SSA's 0.75 plus 4 years (18–21) at about 0.58 (between the monthly employment ratios of 18–21-year-olds, about 0.52, and the higher share who work at some time in a year), over 45 years: (41 × 0.75 + 4 × 0.58) / 45 = 0.73. One value for everyone until people's own work histories carry it.",
     "spread": {
-      "low": 0.66,
-      "high": 0.84,
-      "unit": "share of adult years with covered earnings",
-      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
+      "low": 0.65,
+      "high": 0.82,
+      "unit": "share of adult years from 18 with covered earnings",
+      "citation": "Same arithmetic with SSA Bulletin 65(1) women 0.66 and youth 0.52 (low), men 0.84 and youth 0.65 (high)."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -1815,52 +1817,10 @@
     "tag": "SOURCED",
     "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
-  "openingRetirementPayerReserveMonths": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Deprecated compatibility parameter. CTO REVIEW 15 rejects prepaid retirement reserve stocks: new paying views and the outside-flow owner start at zero independent of this key. Dated genuine obligations, not annual outlays or survival targets, authorize later outside payments. Zero is the accounting policy, not an unobserved Treasury/program cash value.",
-    "estimatedFrom": "Retired stock-generation control; it is retained only for compatibility and supplies no new opening cash.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; active outside-due flows do not read it. No observed payer cash-stock dispersion is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
-  },
   "openingRetirementPeriodMonths": {
     "value": 1,
     "tag": "SOURCED",
     "citation": "Sourced monthly benefit cadence only. The first bill on the first day of the next month and later fixed-day successors in opening-income.ts remain an explicitly ESTIMATED calendar prior. They do not implement 20 CFR 404.1807 insured-worker cycling, exceptions or holiday/early-payment rules; see src/core2/data/research/retirement-opening-2021.json observations.ssaPaymentDayRule2020."
-  },
-  "openingRetirementFundingEnvelopeShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
-  },
-  "openingRetirementFundingLiquidShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; exact recorded due-income flows replace stock allocation. No observed program liquid-stock interval is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
   },
   "openingRetirementFundingPublicAnnualOutlayMinor": {
     "value": 95236200000000,
@@ -4662,6 +4622,18 @@
       "high": 100,
       "unit": "megabytes, compressed",
       "citation": "From The Political Process's size to four times it."
+    }
+  },
+  "schoolDayHours": {
+    "value": 6.7,
+    "tag": "ESTIMATED",
+    "citation": "NCES Schools and Staffing Survey 2011–12: public schools' average school day was about 6.7 hours.",
+    "estimatedFrom": "The national average length of a public school day, used for every school.",
+    "spread": {
+      "low": 6,
+      "high": 7.5,
+      "unit": "hours",
+      "citation": "Typical public school days across states and districts."
     }
   }
 }

@@ -8,6 +8,20 @@
       "spread": [0.05, 0.2],
       "stopgapId": "SG-GOV-views-stand-in"
     },
+    "personalityLeanCorrelation": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "source": "How much of where a person stands left or right their personality accounts for, as a correlation: the rest comes from upbringing, family and life. A meta-analysis of 232 samples (N = 575,691) found openness correlates with conservatism at r = -0.145 and conscientiousness at r = 0.076, the two largest Big Five links (Osborne, Satherley and Sibley 2023, University of Auckland ResearchSpace 2292/56390); a German panel replication found r = -0.07 and 0.06 (Krieger et al. 2019, 'Big-Five Personality and Political Orientation: Results from Four Panel Studies with Representative German Samples', DIW Berlin). Combined, the Big Five predict ideology at a multiple correlation near 0.2 in the United States (Gerber, Huber, Doherty, Dowling and Ha 2010, American Political Science Review 104(1)).",
+      "spread": [0.1, 0.3],
+      "stopgapId": "SG-GOV-views-stand-in"
+    },
+    "householdLeanShare": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "Share of a person's opening lean, beyond their personality, that their household holds in common, as in PEOPLE's views engine: parent-child correlations of political orientation run about 0.4 to 0.6 (Jennings, Stoker and Bowers 2009, Journal of Politics 71(3):782-799), and spouses correlate about 0.6 on ideology (Alford, Hatemi, Hibbing, Martin and Eaves 2011, Journal of Politics 73(2):362-379).",
+      "spread": [0.4, 0.6],
+      "stopgapId": "SG-GOV-views-stand-in"
+    },
     "leanPerGenerous": {
       "value": -0.08,
       "tag": "ESTIMATED",
@@ -165,7 +179,7 @@
     "brokenPromiseWeight": {
       "value": -0.4,
       "tag": "TUNABLE",
-      "source": "How much a broken promise the voter agreed with takes away; larger than a kept one (negativity bias: Soroka 2014; Bonilla 2022).",
+      "source": "How much a broken promise the voter agreed with takes away; larger than a kept one (negativity bias: Soroka 2014; Bonilla 2022). Checked against pledge experiments with real government pledges (N = 13,000 and 10,000): broken pledges weigh more in voters' evaluations than kept ones (Naurin, Soroka and Markwat 2019, 'Asymmetric Accountability', Comparative Political Studies 52(13-14):2207-2234), and voters care even more that the decision itself matches their own view (Markwat, 'Pledge-based accountability: Voter responses to fulfilled and broken election pledges', doctoral thesis, University of Gothenburg, GUPEA 2077/68335), so a broken promise weighs a little less than the vote that broke it does with a voter who held the promised view (recordVoteWeight times 1.5).",
       "spread": [-0.8, -0.1]
     },
     "sponsorRelationshipWeight": {
@@ -569,6 +583,42 @@
       "source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 counts each house present). FIXER stand-in figures, Oct 12, SG-GOV-veto-override-rule.",
       "spread": [0.5, 0.75]
     },
+    "leadershipSeniorityWeight": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Seniority counts only slightly in choosing leaders and committee members in every chamber type (data/research/legislature/chamber-leadership.json: seniorityImportance 'slight' for all, from NCSL, House and Senate rules and NLC): about a twentieth of a party-line difference per year served.",
+      "spread": [0, 0.15]
+    },
+    "appointmentExperienceWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
+      "spread": [0.1, 0.5]
+    },
+    "confirmationTolerance": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
+      "spread": [1, 2]
+    },
+    "appointeeHourlyMinor": {
+      "value": 4600,
+      "tag": "ESTIMATED",
+      "source": "Hourly pay of an appointed town department head: BLS Occupational Employment and Wage Statistics, May 2023, local government excluding schools and hospitals (OEWS designation), management occupations (11-0000), median hourly wage about $46. Small towns pay less and large cities more.",
+      "spread": [3000, 7000]
+    },
+    "specialFilingDaysBefore": {
+      "value": 45,
+      "tag": "TUNABLE",
+      "source": "Days before a special election its filing closes where the place's own deadline isn't read; state special-election calendars commonly close filing six to eight weeks ahead.",
+      "spread": [20, 75]
+    },
+    "turnoutEngagementWeight": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How much following politics closely (PEOPLE's views engine, CES 2024 news interest, 0 to 1) adds to a person's reason to vote, against the national average. Checked against turnout by age: in the 2022 midterm about 23% of citizens 18 to 24 voted and about 65% of those 65 and over (U.S. Census Bureau, CPS Voting and Registration Supplement 2022).",
+      "spread": [0, 6]
+    },
     "ballotRelationshipWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -584,7 +634,7 @@
     "votingBallotAgainstViewMax": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean \u00b11 of \u00b12). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
+      "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
     }
   }

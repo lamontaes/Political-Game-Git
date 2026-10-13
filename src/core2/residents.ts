@@ -37,6 +37,7 @@ import type {
   Source,
   WorkCommitmentInput,
 } from "./types";
+import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -702,7 +703,16 @@ export function collapseToTwoLevels(
   const annualWages = input.jobs
     .map((row) => row.wageDailyMinor * DAYS_PER_YEAR)
     .sort((a, b) => a - b);
-  const median = annualWages[Math.floor(annualWages.length / 2)] ?? 0;
+  // What the town's residents with earnings earn (ACS median earnings, the
+  // place's own where its sample is firm enough), else the town's median
+  // recorded wage. Many unplaced workers commute, so the town's own firms'
+  // pay isn't theirs.
+  const placeEarnings = (
+    PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>
+  )[input.placeMetadata?.placeKey ?? ""];
+  const median = placeEarnings
+    ? placeEarnings * 100
+    : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
   const adults = (ids: Iterable<PersonId>) => {
     let n = 0;
     for (const id of ids) {
@@ -742,9 +752,10 @@ export function collapseToTwoLevels(
       source: {
         tag: "ESTIMATED",
         asOf: start,
-        citation:
-          "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model; stopgap SG-CORE-unplaced-workers-income.`,
+        citation: placeEarnings
+          ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
+          : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
+        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; stopgap SG-CORE-unplaced-workers-income.`,
       },
     });
   }

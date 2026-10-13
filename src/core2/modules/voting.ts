@@ -15,7 +15,12 @@
  * named voters leaving the polls and report what they said.
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
-import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  NATIONAL_ENGAGEMENT,
+  countedResidents,
+  engagementOf,
+  type CountedVoter,
+} from "../electorate";
 import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,
@@ -37,6 +42,7 @@ import {
 import { townDistrict } from "../offices-state";
 import {
   openNextContest,
+  specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
   type ContestRow,
@@ -48,7 +54,12 @@ import {
   impressionOf,
   parsePlatform,
 } from "./campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  registerSpecialElections,
+  vacancyFilled,
+  type TermRow,
+} from "./offices";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -162,6 +173,13 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  // A vacancy's special election runs as a real race.
+  registerSpecialElections((a, race) => {
+    if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
+    const contest = specialContestFor(a, race);
+    if (contest) scheduleContest(a, contest);
+    return contest !== null;
+  });
   for (const contest of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -484,12 +502,19 @@ export function turnout(
   extraCost = 0,
 ) {
   // Their own sense of duty and reliability, with every trait's lean between
-  // voting and staying home as one input beside them.
+  // voting and staying home as one input beside them, and how closely they
+  // follow politics, where PEOPLE's views engine runs (younger people follow
+  // less: CES 2024).
+  const engagement = engagementOf(api.state as CoreState, voter);
   const duty =
     (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
     (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
     parameter("traitDecisionWeight") *
-      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home");
+      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home") +
+    (engagement === null
+      ? 0
+      : campaignParameter("turnoutEngagementWeight") *
+        (engagement - NATIONAL_ENGAGEMENT));
   const totals = Object.values(appeal).map((a) => a.total);
   // How much they care: the strength of their strongest feeling in the race.
   const interest = totals.length ? Math.max(...totals.map(Math.abs)) : 0;
@@ -602,7 +627,16 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     partySide(incumbent.party) !== 0
   ) {
     const other = partySide(incumbent.party) > 0 ? "Democratic" : "Republican";
-    put(officialCandidateId(`challenger:${contest.id}`), other, "challenger");
+    // Only where no one from the other major party filed (the player, a
+    // resident): a filed candidate is that party's challenger.
+    if (
+      !onBallot.some(
+        (f) =>
+          f.status === "on-ballot" &&
+          partySide(f.party ?? null) === -partySide(incumbent.party),
+      )
+    )
+      put(officialCandidateId(`challenger:${contest.id}`), other, "challenger");
     // An open seat: the incumbent's party nominates someone new.
     if (termLimited(api, contest, incumbent))
       put(
@@ -611,6 +645,32 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
         "nominee for an open seat",
       );
   }
+  // A partisan state or federal seat with no one holding it (a special
+  // election's vacancy): each major party with no filed candidate nominates.
+  const seatParty = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("seats")
+      .get(contest.seatId) as unknown as { party?: string | null } | undefined
+  )?.party;
+  if (
+    (contest.level === "federal" || contest.level === "state") &&
+    !(incumbent && alive) &&
+    seatParty
+  )
+    for (const party of ["Democratic", "Republican"])
+      if (
+        !ballot(api, contestId).some(
+          (f) =>
+            f.status === "on-ballot" &&
+            partySide(f.party ?? null) === partySide(party),
+        )
+      )
+        put(
+          officialCandidateId(`nominee:${party}:${contest.id}`),
+          party,
+          "nominee for an open seat",
+        );
 }
 
 /**
@@ -1266,16 +1326,19 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         .table("terms")
         .get(contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
-  // The new term starts on the office's own start day after the regular
+  // A special election's winner takes the vacant seat at once; otherwise
+  // the new term starts on the office's own start day after the regular
   // election (a second election after a tie keeps the regular one's term).
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput | undefined;
-  const takesOffice = office
-    ? termStartAfter(office, regularElectionDate(contest))
-    : (incumbent?.endDate ??
-      `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
+  const takesOffice = contest.special
+    ? date
+    : office
+      ? termStartAfter(office, regularElectionDate(contest))
+      : (incumbent?.endDate ??
+        `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
   const result: ResultRow = {
     id: `result:${contestId}`,
     contestId,
@@ -1470,9 +1533,10 @@ const districtShares = new Map(
 /**
  * The electorate the world doesn't name votes as groups: lean bands around the
  * town's lean, each sized from the electorate, turning out at the named
- * people's rate, and voting for the candidate their band's named people chose
- * most (a band with no named voters goes to the candidate whose platform and
- * party sit closest).
+ * people's rate. In the town's own races a band splits the way its named
+ * people chose; in a state or district race the bands past the town vote by
+ * the party nearest their lean (BOARD item 6: a statewide vote followed about
+ * 32 named townspeople). A band with no named voters goes by party.
  */
 function groupVote(
   api: CoreAPI,
@@ -1518,7 +1582,27 @@ function groupVote(
           : 1 / bands;
     const votes = Math.round(unnamed * share);
     if (!votes) continue;
-    // The group splits the way its named people chose.
+    // Who the band votes for: past the town (a state or district race read
+    // from its real lean) a band never heard the town's campaign and votes
+    // by the party nearest its lean; inside it, or where the parties tie at
+    // the center, the band splits the way its named people chose.
+    const closest = filings
+      .map((f) => {
+        const facts = candidateFacts(api, f, contest);
+        return {
+          id: f.personId,
+          score: mid * partySide(facts.party),
+        };
+      })
+      .sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+    const byParty =
+      closest.length === 1 || closest[0]!.score !== closest[1]!.score
+        ? closest[0]!.id
+        : null;
+    if (right !== null && byParty) {
+      groupVotes[byParty] = (groupVotes[byParty] ?? 0) + votes;
+      continue;
+    }
     const counts = new Map<string, number>();
     for (const v of inBand)
       if (v.choice) counts.set(v.choice, (counts.get(v.choice) ?? 0) + 1);
@@ -1531,17 +1615,7 @@ function groupVote(
     }
     // A band none of the town's voters fall in never heard a platform: it
     // goes by the party on the ballot, and leaves a nonpartisan race blank.
-    const closest = filings
-      .map((f) => {
-        const facts = candidateFacts(api, f, contest);
-        return {
-          id: f.personId,
-          score: mid * partySide(facts.party),
-        };
-      })
-      .sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
-    if (closest.length > 1 && closest[0]!.score === closest[1]!.score) continue;
-    groupVotes[closest[0]!.id] = (groupVotes[closest[0]!.id] ?? 0) + votes;
+    if (byParty) groupVotes[byParty] = (groupVotes[byParty] ?? 0) + votes;
   }
   void namedEligible;
   return { groupVotes, electorate };
@@ -1593,20 +1667,27 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     : previous
       ? previous.identity
       : officialIdentity(api, contest, result.winnerId);
+  const termId = `term:${contest.seatId}:${api.state.date}:elected`;
   terms.put({
-    id: `term:${contest.seatId}:${api.state.date}:elected`,
+    id: termId,
     seatId: contest.seatId,
     officeId: contest.officeId,
     personId: winner ? winner.id : null,
     identity,
     party: filing?.party ?? null,
     startDate: api.state.date,
-    // The term runs to the start of the one elected a full term on.
-    endDate: termEndAfter(office, regularElectionDate(contest)),
+    // A special election's winner serves out the unexpired term; otherwise
+    // the term runs to the start of the one elected a full term on.
+    endDate: contest.special
+      ? contest.special.termEnd
+      : termEndAfter(office, regularElectionDate(contest)),
     endEstimated: false,
-    reached: `elected ${contest.electionDate}`,
+    reached: contest.special
+      ? `elected in a special election ${contest.electionDate}`
+      : `elected ${contest.electionDate}`,
     status: "serving",
   } as unknown as ModuleRow);
+  if (contest.special) vacancyFilled(api, contest.special.vacancyId, termId);
   api.emit({
     id: `took-office:${contest.seatId}:${api.state.date}`,
     date: api.state.date,

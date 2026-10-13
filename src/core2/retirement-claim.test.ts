@@ -50,4 +50,26 @@ describe("the retirement claim, a decision inside the law", () => {
       ),
     ).toBe(70 * 12);
   });
+
+  it("follows the law in force when it's given: a later full age moves the claim", () => {
+    const base = { birthYear: 1965, bufferMonths: 24 };
+    const statute = {
+      earliestMonths: 744,
+      fullMonths: 804,
+      delayedMaxMonths: 840,
+    };
+    expect(retirementClaimAgeMonths({ ...base, law: statute }, weights)).toBe(
+      retirementClaimAgeMonths(base, weights),
+    );
+    const raised = { ...statute, fullMonths: 816, earliestMonths: 768 };
+    expect(retirementClaimAgeMonths({ ...base, law: raised }, weights)).toBe(
+      retirementClaimAgeMonths(base, weights) + 12,
+    );
+    expect(
+      retirementClaimAgeMonths(
+        { ...base, bufferMonths: 0, risk: 1, law: raised },
+        { ...weights, needPullYears: 20 },
+      ),
+    ).toBe(768);
+  });
 });

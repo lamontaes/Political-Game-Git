@@ -44,7 +44,11 @@ describe(`a legal cannabis market (${drawn.name}, ${drawn.state}, seed ${drawn.s
     if (!retailers.length) return;
     const year = Number(opening.startedAt.slice(0, 4));
     const enact = (value: number, date: string, measureId: string) => {
-      const level = lawChain(api).levels.at(-1)!;
+      // Adult-use sales are a state law: change it there.
+      const levels = lawChain(api).levels;
+      const level =
+        levels.find((row) => /state|territory/.test(String(row.level))) ??
+        levels[0]!;
       enactLaw(api, {
         jurisdiction: level.jurisdiction,
         level: level.level,

@@ -9,13 +9,12 @@
  * resident says: the Census unit type, the "(balance)" tag and a merged
  * county name are dropped from the display name and kept on `formalName`.
  */
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-  type LifePlace,
-} from "../simulation/life-places";
 import authoredPlaces from "../../data/research/authored-life-places.json" with { type: "json" };
+import {
+  corePlaceByKey,
+  corePlaceStateIdentities,
+  type CorePlace,
+} from "./place-lookup";
 import countyNames from "./data/places/county-names.json" with { type: "json" };
 import localityData from "./data/places/localities.json" with { type: "json" };
 import states from "./data/places/states.json" with { type: "json" };
@@ -136,19 +135,25 @@ export function placeLocalities(
   return byState.get(stateJurisdictionKey) ?? [];
 }
 
-let localities: readonly LifePlace[] | undefined;
+let localities: readonly CorePlace[] | undefined;
 
-/** The old list() API is the authored shortlist; the accepted search corpus contains all 56. */
-export function realLocalities(): readonly LifePlace[] {
-  if (!localities) {
-    const limit = lifePlaceCoverage().placeCount;
-    localities = lifePlaceStateIdentities().flatMap((state) =>
-      lifePlaceSearch("", limit, {
-        stateJurisdictionKey: state.jurisdictionKey,
-        scope: "locality",
-      }),
+/**
+ * Every locality, state by state in the state identities' order, each state's
+ * by name (case-insensitive) then key: the old search corpus's order, which
+ * seeded place draws depend on (`place-lookup.test.ts` checks it).
+ */
+export function realLocalities(): readonly CorePlace[] {
+  if (!localities)
+    localities = corePlaceStateIdentities().flatMap((state) =>
+      placeLocalities(state.jurisdictionKey)
+        .map((row) => corePlaceByKey(row.key)!)
+        .sort(
+          (a, b) =>
+            a.displayName.localeCompare(b.displayName, "en", {
+              sensitivity: "base",
+            }) || a.key.localeCompare(b.key, "en"),
+        ),
     );
-  }
   return localities;
 }
 

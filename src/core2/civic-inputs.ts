@@ -1,6 +1,6 @@
 import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
@@ -246,7 +246,7 @@ export function enrichCivicInputs(
   }
 
   for (const placeId of [...placeIds].sort()) {
-    const place = lifePlaceByJurisdictionId(placeId as EntityId);
+    const place = corePlaceByJurisdictionId(placeId as EntityId);
     const scope = place
       ? data.directoryScopes.find((row) => row.scope === place.scope)
       : undefined;

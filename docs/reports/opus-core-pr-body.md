@@ -1,16 +1,17 @@
-# Businesses keep their cash steady, the town's population changes, long games load fast, and laws reach real people
+# Children go to school, a year runs faster, the town's population changes, and laws reach real people
 
-Before: in Vonore, Tennessee, employers' cash doubled in a year, from $43.6 million to $93.6 million. In three towns, 8 of 46 workers the player can meet never went to a shift. Sales taxes collected nothing; no town had a public school.
+Before: Vonore, Tennessee's employers doubled their cash in a year ($43.6 million to $93.6 million). 8 of 46 workers the player can meet (three towns) never went to a shift, children never went to school, and sales taxes collected nothing.
 
-After: Vonore's employers end the year with $44.9 million of their own. In those towns, every such worker goes to work. Sales taxes pay the treasury; each town has public school teachers. Money balanced in every run.
+After: Vonore's employers end the year with $44.9 million of their own. Those workers work, children attend school, and sales taxes pay the treasury. A full-game year in Woodmere, New York takes 56 seconds, not 84.
 
 **What you need to do:** after the merge, pass a sales tax in the evening build and watch the treasury.
 
-**Also read first:** two problems on main this doesn't fix, and one call waiting on the CTO (next section).
+**Also read first:** three problems and one CTO call (next section). The evening build won't show public school teachers or the town sample yet.
 
 ## Known problems and a pending call
 
 - **On main, not fixed here:** Scenic, Arizona and Camp Pendleton Mainside, California won't open; the people team has the cause and is fixing it, so pick another town until then. A game year also runs slower on main than it did on October 12: 26.9 seconds in Vonore against 11.3, because every household now gets its relatives when a town opens. I've asked the people team to build relatives only when the player meets a household.
+- **The played game skips five of the core's opening steps:** the public school district, private-school families, the sample of the town, matching buyers from outside town to each business's industry, and custom-world settings. The play team's opening needs to call them (more under "What happens next").
 - **Waiting on the CTO:** whether businesses should be staffed to match what their customers buy. I recommend leaving it off (details under "What happens next").
 
 ## What changed for the player
@@ -19,11 +20,14 @@ After: Vonore's employers end the year with $44.9 million of their own. In those
 - People work their shifts, part-time and full-time in realistic shares.
 - Older people claim Social Security when it suits them, between 62 and 70, and start drawing it during play, whether the player has met them or not.
 - A sales-tax law collects on every purchase in town and pays the treasury.
-- Every town has a public school district with teachers for its children, so school pay laws reach real teachers.
+- Towns get a public school district with teachers for their children, so school pay laws reach real teachers. The district copies how the town pays its police department, so a town without one gets no district; I haven't counted how many towns that is. The evening build doesn't have it yet (see the problems above).
 - Officials the game fills in from a name and office get their own personalities instead of blank ones.
 - The rest of the town changes year to year: people die, babies are born, and households move away while others move in.
-- The people the game fully simulates now include a sample of the whole town (young and old, lower and higher pay), not only the player's circle.
+- The people the game fully simulates now include a sample of the whole town (young and old, lower and higher pay), not only the player's circle. Also not in the evening build yet.
 - A saved game loads from a snapshot of the town instead of replaying every day since the start, so a year-old game loads in about a third of the time.
+- Children aged 5 to 17 go to school on school days.
+- In Woodmere, New York, with every team's engines running, a game year takes about 56 seconds instead of 84, and Election Day no longer stalls for 10 seconds.
+- The town's voters start from their county's 2024 vote and their town's own share of citizens, not the state's.
 
 ## Why each fix works
 
@@ -50,7 +54,7 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 
 **Sales tax reaches every purchase.** What the code does now (inferred from the code): a tax in force on a place takes its share out of each paid sale there, from named and counted households alike. The seller pays it to the treasury the same day (`src/core2/modules/purchase-tax.ts:87`). Measured in Carolina, West Virginia (seed tax-a), at 7% with general stores exempt: 238 taxed sales worth $674,373 paid the treasury $44,116.71, exactly the tax inside them. The 132 exempt sales paid nothing.
 
-**Towns have public schools.** What the code does now (inferred from the code): each town gets a public school district. The number of teachers is the town's children aged 5 to 17, times the 0.87 share in public school, divided by 15.4 pupils per teacher. Both figures come from the National Center for Education Statistics (`src/core2/opening-public-schools.ts:85`). The teachers are workers the opening hadn't given a job. Measured: North Palm Beach, Florida got 65 teachers for 1,159 children; Vonore got 129 for 2,289.
+**Towns have public schools.** What the code does now (inferred from the code): each town with a police department gets a public school district, paid the way the town pays its police (a town without one gets none). The number of teachers is the town's children aged 5 to 17, times the 0.87 share in public school, divided by 15.4 pupils per teacher. Both figures come from the National Center for Education Statistics (`src/core2/opening-public-schools.ts:85`). The teachers are workers the opening hadn't given a job. Measured: North Palm Beach, Florida got 65 teachers for 1,159 children; Vonore got 129 for 2,289.
 
 **No one is paid for days before the game starts.** What the code did (inferred from the code): when the opening grouped the counted workers' pay, the first payday paid a whole pay period, even when most of it fell before the opening. Now it pays only the days since the opening, as it already did for named workers (the grouping, `src/core2/residents.ts:370`). Measured in Interlochen, Michigan: a kitchen owed a month of wages on January 5, 2021 had closed, along with 2 other businesses (3 of 28). After the fix, 1 of 28 closed.
 
@@ -66,12 +70,19 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 
 **Memory stays smaller.** What the code did (inferred from the code): every choice by someone in the player's circle kept every option's score forever. Now, after 30 days, only the chosen option and its reasons stay, and a year later the routine entry goes. The player's own choices and anything they were part of stay in full (`src/core2/decision-detail.ts:40`). Measured over three played years in Juliaetta, Idaho: memory grows about 6.6 MB a month in the last two years. Before this change it grew about 17 MB a month in the same town.
 
+**Children go to school.** What the code does now (inferred from the code): on each weekday of the school year, every school-age person the game simulates in full decides whether to attend. The decision works like deciding to go to a work shift. Because school is required, the pull to go is as strong as any pull can be (`src/core2/modules/school.ts:1`). The player gets "attend school" among their own choices. Measured over a played month in Ramona, California: all 21 school-age children the game simulates in full in town attended all 15 school days. Real attendance is about 94% a day; illness and truancy aren't modeled yet.
+
+**A faster year, and Election Day no longer stalls.** What the code did (inferred from the code): each time an engine looked something up in its own records, the core first set up a fresh way in to those records. The voting engine looks things up once per voter. Now that way in is set up once and reused, with the same safety checks on every use (`src/core2/module-state.ts:148`). Measured in Woodmere, New York, over a full game year with every engine: Election Day went from 10.6 seconds to 2.5. The whole year went from 83.5 seconds to 55.8.
+
+**Voters start where their county does.** What the code did (inferred from the code): every counted voter group started at its state's 2024 presidential margin, with the state's share of adults who are citizens. Now each starts at its county's 2024 margin and its town's own citizen share from the Census Bureau's 2020–2024 survey (`src/core2/opening-voter-groups.ts:97`). Measured as the 2024 two-party margin in points: Oakvale, West Virginia (Mercer County) starts 58 points Republican, where West Virginia's 43 applied before. Windham County, Vermont starts 44 points Democratic, where Vermont's 33 applied before.
+
 ## Checks
 
 - The blocking golden-path checks pass.
 - The year-long business check isn't blocking yet. It passes in 7 of 8 places: Interlochen, Michigan; Lavalette, West Virginia; Sherwood, North Dakota; Washington, D.C.; Las Piedras, Puerto Rico; Oneonta, Alabama; and Sunnyvale, California. Aniak, Alaska fails with 3 of 21 businesses closed (the limit is under 10%). Money balanced in all eight.
 - New golden-path checks. A custom world with different wages, household cash, outside demand, political lean and turnout showed each setting (Hopelawn, New Jersey). An old build's save loaded and played on (Greenville, Delaware).
-- Speed: a year in Vonore takes 27.3 seconds on this branch and 26.9 seconds on main (measured before the population changes and the sample were added). With both added, a year in Jacksonville, Georgia takes 35.0 seconds against 32.9 seconds without them, 6% slower.
+- Speed and memory, the new early-access check (cloud machine, not a minimum-spec PC): in Woodmere, New York, a new game loads in 55.7 seconds and a full year runs in 55.8, each against a two-minute budget. The slowest day takes 2.9 seconds against a 3-second budget, and a year-old save is 15.6 MB compressed against a 40 MB budget.
+- Speed, earlier: a year in Vonore takes 27.3 seconds on this branch and 26.9 seconds on main (measured before the population changes and the sample were added). With both added, a year in Jacksonville, Georgia takes 35.0 seconds against 32.9 seconds without them, 6% slower.
 
 ## What happens next
 
@@ -80,8 +91,9 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 - Opening Vonore takes 34.8 seconds on main, against 11.1 seconds before. Most of it goes to generating everyone in full before the town keeps only its full people; the same request would shorten it.
 - Games are meant to open in 2026, matching today's laws. The opening can do that now: Biddle, Montana; Mina, Nevada; Aniak, Alaska; and Amonate, Virginia each ran two months from January 1, 2026, with money balanced. The switch waits for the CTO to schedule it, because every team's tests use 2021 dates.
 
+- The played game's opening (the play team's `src/bench/world.ts`) builds without five of the core's steps. Without them it has no public school district, no private-school families, no representative sample and no custom-world settings. I've asked the play team, through the CTO, to build from the core's opening.
 - For saves to load from a snapshot in the full game, each team marks its engines' state as saved (`declareSnapshotCovered`). A round trip of the full game in two towns differed in one place: the people team's birth engine sets up opening pregnancies again after loading. The three-line fix is in `docs/coordination/core.md`.
 
 ## Method
 
-Measured on this branch on October 12 and 13, 2026, one run each, in the cloud. Vonore used seed hours-a, Jacksonville rs-speed-a and Finley snapm-a; details for every run are in `docs/coordination/core.md`.
+Measured on this branch on October 12 and 13, 2026, one run each, in the cloud. Vonore used seed hours-a, Jacksonville rs-speed-a, Finley snapm-a and Woodmere m701-a; details for every run are in `docs/coordination/core.md`.

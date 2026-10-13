@@ -46,6 +46,13 @@
       "goalKind": "care",
       "parameters": {},
       "stopgapId": "SG-P15-free-block-plan"
+    },
+    {
+      "id": "schooling",
+      "evaluator": "school-day",
+      "goalKind": "learn",
+      "parameters": {},
+      "stopgapId": "SG-CORE-school-days"
     }
   ],
   "actions": [
@@ -202,6 +209,17 @@
           "operation": "has-drive"
         }
       ]
+    },
+    {
+      "id": "attend-school",
+      "actKinds": ["follow-rules", "self-interest", "commit"],
+      "goalKinds": ["learn"],
+      "need": "schooling",
+      "effortParameter": "schoolDayHours",
+      "effectParameter": "one",
+      "targetKind": "child-school",
+      "effect": "school-day",
+      "stopgapId": "SG-CORE-school-days"
     }
   ],
   "tiers": [
