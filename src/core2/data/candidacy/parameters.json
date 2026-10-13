@@ -20,7 +20,7 @@
   "candidacyMoneyWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on cash on hand against the filing fee, -1 to 1. Spread 0.5 to 2.",
+    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on what filing costs (the fee, less the share the person's own circle can cover by petition where signatures are taken in place of it) against their cash on hand plus what comes in over the filing window (their pay, or for someone without a job, what they live on), -1 to 1. Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyTimeWeight": {
@@ -67,7 +67,7 @@
   "candidacyFilingWindowDays": {
     "value": 60,
     "tag": "ESTIMATED",
-    "citation": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections').",
+    "citation": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections'). The same window is the time a would-be candidate has to find the fee from what comes in.",
     "estimatedFrom": "NCSL and Ballotpedia filing periods; spread 14 to 120 days"
   },
   "candidacyPlatformQuestions": {
@@ -108,6 +108,12 @@
     "value": 0.5,
     "tag": "TUNABLE",
     "citation": "How much each person already running for a seat lowers the pull of running for it: would-be candidates weigh their chances and avoid crowded races, entering where the field is thin (strategic entry: Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Cox and Katz 1996, American Journal of Political Science 40(2):478-497). Set so a second challenger enters only when their own pull clears the stay-out bar by half a point, which in drawn towns keeps local seats at one or two challengers. Spread 0.25 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCountywideWeight": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "The pull a countywide race loses against a town seat: more ground, more voters and a costlier campaign. Checked against the share of county races with more than one candidate in the general election: 34% of county legislative races (2,170 of 6,423) and 26% of sheriff races (316 of 1,244) were contested in November 2020 (BallotReady, 'Nothing to Lose: Uncontested Races in 2020 and Their Implications', https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications); Ballotpedia counted 25% of the 36,068 local and state elections it covered through October 2024 as contested (https://news.ballotpedia.org/2024/11/01/67-of-elections-in-kentucky-are-uncontested/), with county offices among the least contested. In eight drawn worlds in seven states (Oct 13, 2026; 7 to 13 county seats each), the counted adults whose strongest county pull clears the stay-out bar number about 0.37 per seat at 0.45 (0.51 at 0.4, 0.24 at 0.5), and each runs for one seat. Spread 0.35 to 0.6.",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }
