@@ -55,33 +55,69 @@ const states = [...lifePlaceStateIdentities()]
   )
   .sort();
 
+function world() {
+  const state = pick(states, "state");
+  const places = [
+    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    }),
+  ].sort((a, b) => a.key.localeCompare(b.key));
+  const key = pick(places, "place").key;
+  const where = `seed ${seed}, ${state} place ${key}`;
+  const core = createLifeCore(
+    buildPopulation({
+      seed,
+      placeKey: key,
+      startedAt: START,
+      minimumPeople: 200,
+    }),
+  );
+  openLaws(core);
+  openOffices(core, seed);
+  openElections(core);
+  openCampaigns(core);
+  openRecord(core);
+  openLegislature(core);
+  openLeadership(core);
+  const api = coreAPI(core);
+  return { state, where, core, api };
+}
+
+/** The post is the largest caucus's, or a coalition's holding a majority of the body. */
+function expectHeldByMajority(
+  api: ReturnType<typeof coreAPI>,
+  chamber: string,
+  where: string,
+): void {
+  const all = members(api, chamber);
+  const sideCount = new Map<number, number>();
+  for (const t of all)
+    sideCount.set(
+      partySide(t.party),
+      (sideCount.get(partySide(t.party)) ?? 0) + 1,
+    );
+  const majoritySide = [...sideCount.entries()].sort(
+    (a, b) => b[1] - a[1] || a[0] - b[0],
+  )[0]![0];
+  const byKey = new Map(all.map((t) => [memberKey(t), t]));
+  const presiding = presidingOfficer(api, chamber);
+  expect(presiding, `${where} ${chamber}`).not.toBeNull();
+  const post = organize(api, chamber).find((p) => p.holderId === presiding)!;
+  if (post.heldBy === "coalition")
+    expect(
+      (post.votes[presiding!] ?? 0) * 2,
+      `${where} ${chamber}`,
+    ).toBeGreaterThan(all.length);
+  else
+    expect(partySide(byKey.get(presiding!)!.party), `${where} ${chamber}`).toBe(
+      majoritySide,
+    );
+}
+
 describe("chamber leadership and committees", () => {
   it("chambers elect their leaders by members' own votes and seat committees by the party ratio", () => {
-    const state = pick(states, "state");
-    const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
-        stateJurisdictionKey: state,
-        scope: "locality",
-      }),
-    ].sort((a, b) => a.key.localeCompare(b.key));
-    const key = pick(places, "place").key;
-    const where = `seed ${seed}, ${state} place ${key}`;
-    const core = createLifeCore(
-      buildPopulation({
-        seed,
-        placeKey: key,
-        startedAt: START,
-        minimumPeople: 200,
-      }),
-    );
-    openLaws(core);
-    openOffices(core, seed);
-    openElections(core);
-    openCampaigns(core);
-    openRecord(core);
-    openLegislature(core);
-    openLeadership(core);
-    const api = coreAPI(core);
+    const { state, where, core, api } = world();
     const chambers = (
       api
         .moduleState(OFFICES_MODULE_ID)
@@ -107,16 +143,11 @@ describe("chamber leadership and committees", () => {
           (sideCount.get(partySide(t.party)) ?? 0) + 1,
         );
       const majoritySide = [...sideCount.entries()].sort(
-        (a, b) => b[1] - a[1],
+        (a, b) => b[1] - a[1] || a[0] - b[0],
       )[0]![0];
       const byKey = new Map(all.map((t) => [memberKey(t), t]));
       // The presiding officer is a member, from the majority (party votes hold).
-      const presiding = presidingOfficer(api, chamber);
-      expect(presiding, `${where} ${chamber}`).not.toBeNull();
-      expect(
-        partySide(byKey.get(presiding!)!.party),
-        `${where} ${chamber}`,
-      ).toBe(majoritySide);
+      expectHeldByMajority(api, chamber, where);
       // Leaders come from their own caucus.
       const majorityLeader = leaderOf(api, chamber, "majority-leader");
       if (majorityLeader)
@@ -170,5 +201,37 @@ describe("chamber leadership and committees", () => {
       expect((after.votes[id] ?? 0) >= 1, where).toBe(true);
     }
     govReport("leadership", JSON.stringify({ where, report }));
+  }, 300_000);
+
+  it("a chamber split one seat apart, with a member outside both caucuses, keeps the larger caucus's presiding officer", () => {
+    // The shape that put a minority speaker in the chair: one caucus a seat
+    // larger, a seat held outside both (a vacancy the roster left without a
+    // party), and the smaller caucus longer serving, so a tie broken by
+    // service went its way. A tie is not a majority; the larger caucus keeps
+    // the chair unless a coalition holds a majority of the whole body.
+    const { state, where, api } = world();
+    const chamber = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [state]) as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    )
+      .filter((o) => o.kind.startsWith("legislature-"))
+      .map((o) => o.id)
+      .sort()[0]!;
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    const all = members(api, chamber);
+    const half = Math.floor((all.length - 2) / 2);
+    all.forEach((t, i) =>
+      terms.put({
+        ...t,
+        party: i <= half ? "Democratic" : i <= 2 * half ? "Republican" : null,
+        serviceStart: i <= half ? t.startDate : "2000-01-07",
+      } as never),
+    );
+    expectHeldByMajority(api, chamber, `${where} (split)`);
   }, 300_000);
 });

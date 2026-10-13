@@ -66,6 +66,8 @@ export interface PostRow {
   readonly holderId: string | null;
   readonly since: string;
   readonly votes: Readonly<Record<string, number>>;
+  /** For a post the floor fills between caucus nominees: who put its holder there. */
+  readonly heldBy?: "majority-caucus" | "coalition";
 }
 
 export interface CommitteeRow {
@@ -233,6 +235,36 @@ function elect(
   return { winner, votes };
 }
 
+/**
+ * The floor chooses between the caucuses' nominees. The majority caucus's
+ * nominee holds the post unless another nominee wins a majority of the whole
+ * body, which only a coalition across caucuses (or with members outside
+ * them) can give; that post is recorded as held by a coalition. A tie or a
+ * plurality short of a majority is not a coalition, so the largest caucus
+ * keeps the post (as when a chamber splits evenly or a seat stands vacant).
+ */
+function floorVote(
+  api: CoreAPI,
+  chamber: string,
+  post: string,
+  all: readonly TermRow[],
+  majority: readonly TermRow[],
+  nominees: readonly TermRow[],
+): {
+  winner: TermRow | null;
+  votes: Record<string, number>;
+  heldBy: "majority-caucus" | "coalition";
+} {
+  const result = elect(api, chamber, post, all, nominees, true);
+  const own = nominees.find((t) => majority.includes(t)) ?? null;
+  const winner = result.winner;
+  if (!winner || winner === own || !own)
+    return { ...result, heldBy: "majority-caucus" };
+  if ((result.votes[memberKey(winner)] ?? 0) * 2 > all.length)
+    return { ...result, heldBy: "coalition" };
+  return { winner: own, votes: result.votes, heldBy: "majority-caucus" };
+}
+
 /** Who may stand: members who said they would (the player), else every member. */
 function standing(
   api: CoreAPI,
@@ -300,7 +332,11 @@ function organizeNow(
   const open = (pool: readonly TermRow[]) =>
     pool.filter((t) => !holders.has(memberKey(t)));
   for (const post of field<Post[]>(template, "posts")) {
-    let result: { winner: TermRow | null; votes: Record<string, number> };
+    let result: {
+      winner: TermRow | null;
+      votes: Record<string, number>;
+      heldBy?: "majority-caucus" | "coalition";
+    };
     if (post.selection === "caucus-vote") {
       const caucus = post.key.startsWith("minority") ? minority : majority;
       result = elect(
@@ -327,7 +363,7 @@ function organizeNow(
             ).winner,
         )
         .filter((t): t is TermRow => t !== null);
-      result = elect(api, chamber, post.key, all, nominees, partisan);
+      result = floorVote(api, chamber, post.key, all, majority, nominees);
     } else
       result = elect(
         api,
@@ -345,6 +381,7 @@ function organizeNow(
       holderId: result.winner ? memberKey(result.winner) : null,
       since: date,
       votes: result.votes,
+      ...(result.heldBy ? { heldBy: result.heldBy } : {}),
     };
     table(api, "posts").put(row as unknown as ModuleRow);
     posts.push(row);
