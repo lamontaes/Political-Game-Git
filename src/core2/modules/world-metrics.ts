@@ -1,7 +1,7 @@
 /**
  * The town's economy as dated records: on the second of each month, after
- * the month's reviews, one row per place with jobs, unemployment, pay and
- * low-wage jobs, prices, businesses, rent, home values, eviction filings, mortgages and bank lending, read from the
+ * the month's reviews, one row per place with jobs, unemployment, the employment rate, pay and
+ * low-wage jobs, prices, businesses, rent, home values, eviction filings, households' past-due bills, mortgages and bank lending, read from the
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
@@ -40,6 +40,9 @@ export function townMetrics(api: CoreAPI) {
     {
       employed: number;
       unemployed: number;
+      adults: number;
+      pastDueMinor: number;
+      householdsPastDue: number;
       hourly: number[];
       open: number;
       closedThisMonth: number;
@@ -56,6 +59,9 @@ export function townMetrics(api: CoreAPI) {
         (row = {
           employed: 0,
           unemployed: 0,
+          adults: 0,
+          pastDueMinor: 0,
+          householdsPastDue: 0,
           hourly: [],
           open: 0,
           closedThisMonth: 0,
@@ -91,6 +97,30 @@ export function townMetrics(api: CoreAPI) {
       home = homeOf(job.personId);
     if (home) at(home).employed += 1;
     if (placeId && job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
+  }
+  // Residents 16 and over, the employment rate's base (BLS CPS).
+  const year = Number(c.date.slice(0, 4)),
+    adultAge = api.parameter("jobsLaborForceMinimumAge");
+  const adult = (birthDate: string) =>
+    year - Number(birthDate.slice(0, 4)) >= adultAge;
+  for (const person of c.people.values())
+    if (person.alive && adult(person.birthDate)) at(person.placeId).adults += 1;
+  for (const record of rt?.households.values() ?? [])
+    for (const person of record.people)
+      if (adult(person.birthDate)) at(record.household.placeId).adults += 1;
+  // What households owe past due on their recorded bills (rent, mortgage, loans).
+  const pastDue = new Map<string, number>();
+  for (const row of c.finance.contracts.values())
+    if (!row.endedAt && row.householdId && row.arrearsMinor > 0)
+      pastDue.set(
+        row.householdId,
+        (pastDue.get(row.householdId) ?? 0) + row.arrearsMinor,
+      );
+  for (const [householdId, owed] of pastDue) {
+    const placeId = c.households.get(householdId)?.placeId;
+    if (!placeId) continue;
+    at(placeId).pastDueMinor += owed;
+    at(placeId).householdsPastDue += 1;
   }
   for (const table of ["seekers", "countedSeekers"])
     for (const row of rows(api, "jobs", table) as unknown as {
@@ -153,12 +183,17 @@ export function townMetrics(api: CoreAPI) {
     .map(([placeId, row]) => ({
       placeId,
       date: c.date,
+      adults: row.adults,
       employed: row.employed,
       unemployed: row.unemployed,
       unemploymentRate:
         row.employed + row.unemployed > 0
           ? row.unemployed / (row.employed + row.unemployed)
           : 0,
+      // Employed residents per resident 16 and over (BLS's employment-population ratio).
+      employmentRate: row.adults > 0 ? row.employed / row.adults : 0,
+      pastDueMinor: row.pastDueMinor,
+      householdsPastDue: row.householdsPastDue,
       medianHourlyMinor: median(row.hourly),
       businessesOpen: row.open,
       businessesFoundedThisMonth: row.foundedThisMonth,

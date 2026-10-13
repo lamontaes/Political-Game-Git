@@ -388,5 +388,10 @@
       "unit": "years",
       "citation": "The years of tenure whose return a worker weighs; returns to tenure flatten after about ten years (Topel 1991)."
     }
+  },
+  "jobsLaborForceMinimumAge": {
+    "value": 16,
+    "tag": "SOURCED",
+    "citation": "BLS Current Population Survey: the labor force and the employment-population ratio count the civilian noninstitutional population 16 years and over."
   }
 }
