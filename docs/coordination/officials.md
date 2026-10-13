@@ -53,6 +53,7 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 
 ## Log
 
+- 2026-10-13 (second session, evidence): played-world passes on two fresh seeds (Calais, Maine 16/0; Pattison, Mississippi 15/0) and two earlier ones; 13,867 of 13,872 legislative votes over five played years carry a trait lean; 72 of 96 roll calls are not pure party line; a Mississippi Republican governor vetoed a bill that passed with every Democrat, on his state's lean and the press; named challengers in every seed. Speed on Calais: main 136 s, branch 151 s (+11%). Found and fixed a doubling: each member of Congress's vote was a separate news story in the town (record.ts).
 - 2026-10-13 (second session): merged main (keeps main's trait lean beside the officials' reasons; the stand-in party lean in `leanOf` stays retired). Named state and federal challengers, override roll calls, leaders' own agendas. No sub-agents ran.
 
 - 2026-10-13: steps 1 to 3 (first slice) on `opus-officials`.
