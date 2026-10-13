@@ -74,6 +74,10 @@ const questions = [
 ].sort();
 const seed = process.env.LAW_LINK_SEED ?? randomBytes(16).toString("hex");
 const drawn = drawPlace(seed, "law-link");
+if (process.env.GITHUB_ACTIONS)
+  console.log(
+    `::notice title=LAW-LINK draw::${JSON.stringify({ seed, place: drawn })}`,
+  );
 const evidence = new Map<
   string,
   {
@@ -989,6 +993,10 @@ describe("59 policies in the played world, 90 days or the next required event", 
           total: questions.length,
         }),
       );
+      if (process.env.GITHUB_ACTIONS && !evidence.has(question))
+        console.log(
+          `::error title=LAW-LINK policy::${JSON.stringify({ policy: question, seed, place: drawn.key, reason: reasons.get(question) })}`,
+        );
       assert.ok(evidence.get(question), reasons.get(question));
     });
 });

@@ -58,7 +58,12 @@ import {
   checkEligibility,
   incumbentOf,
 } from "../../src/core2/modules/elections";
-import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
+import {
+  officialCandidateId,
+  resultOf,
+  VOTING_MODULE_ID,
+  type BallotRow,
+} from "../../src/core2/modules/voting";
 import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import {
@@ -78,6 +83,7 @@ import {
   termLimitReached,
   TERM_LIMITS,
   RESTORE_VOTE,
+  PHOTO_ID,
 } from "../../src/core2/law-reach/group-a-voting";
 import { purchaseTaxes } from "../../src/core2/modules/purchase-tax";
 import { jobsAt } from "../../src/core2/law-reach/group-b-money";
@@ -88,7 +94,7 @@ import {
 } from "../../src/core2/law-reach/group-b-people";
 
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
-import { WEB_LINKS } from "../../src/core2/outcome-web-model";
+import { WEB_LINKS, WEB_SETTINGS } from "../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import type { CoreAPI, CoreModule, CoreState } from "../../src/core2/types";
 
@@ -509,27 +515,33 @@ function playWorld(seed: string) {
     }
     day = next;
   }
-  // A restoration rule needs an election. Continue this played world to
-  // its next recorded election when the annual window ended before it.
-  const restoration = rowsOf(core, LAWS_MODULE_ID, "laws")
+  const gc = (globalThis as { gc?: () => void }).gc;
+  if (!gc)
+    throw new Error(
+      "Run with --expose-gc so memory is measured after collection.",
+    );
+  gc();
+  const annualHeapMB = process.memoryUsage().heapUsed / 1e6;
+  // Changed voting rules need an election. Continue to the next recorded
+  // contest when the annual window ended before it.
+  const votingChanges = rowsOf(core, LAWS_MODULE_ID, "laws")
     .filter(
       (row) =>
-        row.series === RESTORE_VOTE &&
+        [RESTORE_VOTE, PHOTO_ID].includes(String(row.series)) &&
         String(row.effectiveDate) >= start &&
         String(row.effectiveDate) <= core.date &&
         lawInForce(
           coreAPI(core),
-          RESTORE_VOTE,
+          String(row.series),
           addDays(makeIsoDate(String(row.effectiveDate)), -1),
         ).value !== row.value,
     )
     .sort((a, b) =>
       String(a.effectiveDate).localeCompare(String(b.effectiveDate)),
-    )
-    .at(-1);
-  if (restoration) {
+    );
+  for (const change of votingChanges) {
     const contests = rowsOf(core, ELECTIONS_MODULE_ID, "contests").filter(
-      (row) => String(row.electionDate) >= String(restoration.effectiveDate),
+      (row) => String(row.electionDate) >= String(change.effectiveDate),
     );
     const observed = contests.some((row) =>
       resultOf(coreAPI(core), String(row.id)),
@@ -541,17 +553,26 @@ function playWorld(seed: string) {
       )[0];
     if (!observed && next) {
       end = addDays(makeIsoDate(String(next.electionDate)), 1);
+      console.log(
+        JSON.stringify({
+          electionExtension: change.id,
+          from: core.date,
+          to: end,
+          contest: next.id,
+        }),
+      );
       advanceCore(core, end);
     }
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
-  const gc = (globalThis as { gc?: () => void }).gc;
-  if (!gc)
-    throw new Error(
-      "Run with --expose-gc so memory is measured after collection.",
-    );
   gc();
   const heapMB = process.memoryUsage().heapUsed / 1e6;
+  const elapsedYears = Math.max(
+    years,
+    (Date.parse(core.date) - Date.parse(start)) /
+      (365.25 * 24 * 60 * 60 * 1000),
+  );
+  const extendedHeapBoundMB = 1_500 + 500 * elapsedYears;
 
   const paidReceipts = [
     ...observedPayments.values(),
@@ -690,7 +711,14 @@ function playWorld(seed: string) {
       registeredCause &&
       links.find((link) => {
         const due = new Date(`${law.effectiveDate}T00:00:00Z`);
-        due.setUTCMonth(due.getUTCMonth() + link.lagMonths);
+        const effectiveDay = due.getUTCDate();
+        const landingDay = WEB_SETTINGS.schedule.dayOfMonth;
+        due.setUTCDate(landingDay);
+        due.setUTCMonth(
+          due.getUTCMonth() +
+            link.lagMonths +
+            (effectiveDay > landingDay ? 1 : 0),
+        );
         return (
           link.size !== null &&
           Number.isFinite(link.size) &&
@@ -901,17 +929,23 @@ function playWorld(seed: string) {
     if (
       law.series ===
         "us-policy-positions:labor-workforce.local-minimum-wage-authority" &&
-      lawInForce(api, law.series).governing?.id === law.id
+      lawInForce(api, law.series, law.effectiveDate).governing?.id === law.id
     ) {
       const authority = api
         .moduleState(LAWS_MODULE_ID)
         .table("enactments")
         .query("bySeries", ["local-minimum-wage-authority"])
         .find((row) => row.measureId === law.id);
-      const decision = authorityFor(api, {
+      // Read the actual law/enactment history at this act's date. Later
+      // amendments must not erase the decision this earlier rule supplied.
+      const historicalApi: CoreAPI = {
+        ...api,
+        state: { ...api.state, date: law.effectiveDate },
+      };
+      const decision = authorityFor(historicalApi, {
         kind: "law-amount",
         series: "minimum-wage",
-        value: (lawInForce(api, "minimum-wage").value ?? 0) + 1,
+        value: (lawInForce(historicalApi, "minimum-wage").value ?? 0) + 1,
       });
       if (
         authority &&
@@ -963,6 +997,52 @@ function playWorld(seed: string) {
         )
       )
         engineNoOp = `no-op in this window: superseded by ${superseded.id} before an election could use this rule`;
+    }
+    if (law.series === PHOTO_ID) {
+      const activeAt = (date: string) =>
+        lawChain(api).levels.flatMap((level) => {
+          const latest = (
+            api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .query("bySeries", [
+                level.jurisdiction,
+                PHOTO_ID,
+              ]) as unknown as LawRowInput[]
+          )
+            .filter((row) => row.effectiveDate <= date)
+            .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+          return latest?.value === 1 ? [latest.id] : [];
+        });
+      const beforeRules = activeAt(addDays(makeIsoDate(law.effectiveDate), -1));
+      const afterRules = activeAt(law.effectiveDate);
+      if (Boolean(beforeRules.length) === Boolean(afterRules.length)) {
+        engineNoOp = `no-op: photo-ID requirement unchanged across active levels; rules=${afterRules.join(",") || "none"}`;
+      } else {
+        const decision = (
+          api
+            .moduleState(VOTING_MODULE_ID)
+            .table("ballots")
+            .rows() as unknown as BallotRow[]
+        ).find(
+          (row) =>
+            row.date >= law.effectiveDate &&
+            row.date < observedUntil &&
+            lawInForce(api, PHOTO_ID, row.date).governing?.id === law.id &&
+            Number.isFinite(row.turnoutReasons.cost),
+        );
+        if (decision)
+          engineNoOp = `photo-ID turnout decision: ${decision.id}; requirement ${beforeRules.length > 0} -> ${afterRules.length > 0}; recorded cost=${decision.turnoutReasons.cost}`;
+        else if (
+          superseded &&
+          !rowsOf(core, ELECTIONS_MODULE_ID, "contests").some(
+            (row) =>
+              String(row.electionDate) >= law.effectiveDate &&
+              String(row.electionDate) < observedUntil,
+          )
+        )
+          engineNoOp = `no-op in this window: superseded by ${superseded.id} before an election could use the photo-ID rule`;
+      }
     }
     const constructionPrice =
       law.series ===
@@ -1434,12 +1514,17 @@ function playWorld(seed: string) {
       place: `${world.place.displayName} (${place.key})`,
       placeSeed: place.seed,
       years,
+      elapsedYears,
+      annualHeapMB: Math.round(annualHeapMB),
+      extendedHeapBoundMB: Math.round(extendedHeapBoundMB),
       buildSeconds: Math.round(buildSeconds),
       runSeconds: Math.round(runSeconds),
       heapMB: Math.round(heapMB),
       modules: core.modules.size,
     },
     heapMB,
+    annualHeapMB,
+    extendedHeapBoundMB,
     verdicts,
   };
 }
@@ -1499,10 +1584,14 @@ for (const [index, seed] of seeds.entries()) {
     alive("homes have values and rents");
     alive("pay reaches a spendable account");
     alive("a new business's loan fits its founder");
-    it(`memory at the end stays under ${HEAP_BOUND_MB} MB`, () => {
+    it(`memory after ${years} year(s) stays under ${HEAP_BOUND_MB} MB and extensions keep the same yearly allowance`, () => {
       assert.ok(
-        result!.heapMB < HEAP_BOUND_MB,
-        `The played world held ${Math.round(result!.heapMB)} MB after ${years} year(s), over the ${HEAP_BOUND_MB} MB bound: something keeps history it should let go (OPUS-CORE).`,
+        result!.annualHeapMB < HEAP_BOUND_MB,
+        `Annual heap ${Math.round(result!.annualHeapMB)} MB exceeds ${HEAP_BOUND_MB} MB (OPUS-CORE).`,
+      );
+      assert.ok(
+        result!.heapMB < result!.extendedHeapBoundMB,
+        `Extended heap ${Math.round(result!.heapMB)} MB exceeds ${Math.round(result!.extendedHeapBoundMB)} MB for the actual elapsed years (OPUS-CORE).`,
       );
     });
   });
