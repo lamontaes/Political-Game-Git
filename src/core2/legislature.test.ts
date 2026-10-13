@@ -22,6 +22,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
 import {
   budgetsOf,
+  enactedBudgetChanges,
   governments,
   openBudgets,
   setBudgetPriorities,
@@ -34,6 +35,7 @@ import {
   learnStake,
   castMemberVote,
   executiveDecision,
+  LEGISLATURE_MODULE_ID,
   memberPosition,
   obligationsOf,
   offerDeal,
@@ -388,6 +390,67 @@ describe(
         }),
       );
     }, 120_000); // a whole fiscal year of daily work in one town; 30 s is too tight on slower runners
+
+    it("a budget bill that passes changes the adopted budget by its lines; one that fails carries the enacted lines", () => {
+      const { core, api, key } = town(
+        Object.keys(authority).sort(),
+        "budget-lines",
+      );
+      openBudgets(core);
+      const city = governments(api).find((g) => g.level === "city");
+      if (!city) return;
+      // No priorities set: the elected executive proposes from their own lean.
+      const before = budgetsOf(api, city.id)[0]!;
+      const start = `${before.fiscalYear + 1}-${city.fiscalYearStart}`;
+      advanceCore(core, start);
+      const next = budgetsOf(api, city.id).find(
+        (b) => b.fiscalYear === before.fiscalYear + 1,
+      )!;
+      const councils = new Set(
+        townSeats(api)
+          .filter((s) => s.office.kind === "council")
+          .map((s) => s.office.id),
+      );
+      const bill = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          kind?: string;
+          status: string;
+          number: string;
+          bodyOfficeId: string;
+          provisions: { line?: string; value: number }[];
+        }[]
+      ).find(
+        (b) =>
+          b.kind === "budget" &&
+          councils.has(b.bodyOfficeId) &&
+          next.adoptedBy.includes(b.number),
+      );
+      const label = `${key}, seed ${seed}: ${next.adoptedBy}`;
+      expect(bill, label).toBeDefined();
+      const changes: Record<string, number> = {};
+      if (bill!.status === "enacted")
+        for (const p of bill!.provisions)
+          changes[p.line!] = (changes[p.line!] ?? 0) + p.value;
+      for (const line of new Set([
+        ...Object.keys(before.spendingMinor),
+        ...Object.keys(changes),
+      ]))
+        expect(next.spendingMinor[line] ?? 0, `${label}: ${line}`).toBe(
+          Math.max(0, (before.spendingMinor[line] ?? 0) + (changes[line] ?? 0)),
+        );
+      expect(enactedBudgetChanges(api, city.id), label).toEqual(changes);
+      govReport(
+        "legislature",
+        JSON.stringify({
+          budgetBill: bill!.number,
+          status: bill!.status,
+          changes,
+        }),
+      );
+    }, 120_000); // a whole fiscal year of daily work in one town
 
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");
