@@ -1097,7 +1097,7 @@
     "id": "SG-GOV-who-runs-stand-in",
     "kind": "missing-engine",
     "file": "src/core2/modules/voting.ts",
-    "line": 363,
+    "line": 507,
     "whatItFakes": "When filing closes, the incumbent stands again if alive, and each state or federal race gets a named challenger from the other major party.",
     "why": "OPUS-PEOPLE's 'who runs' (M2-04) isn't built: people deciding to run from their drives, views and circumstances.",
     "addedBy": "OPUS-GOV",
@@ -2812,6 +2812,18 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PW3-counted-engagement-copy",
+    "kind": "missing-core-api",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 208,
+    "whatItFakes": "A counted resident's engagement with politics, computed with a copy of the views engine's formula (their own key spread around the CES cell average) so the candidacy screen matches the value they get when filled in.",
+    "why": "The views engine (src/core2/modules/views.ts, OPUS-PEOPLE) keeps the formula private to viewOf; the counted screen needs the same value without filling everyone in.",
+    "addedBy": "PW-3",
+    "addedAt": "2026-10-13",
+    "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
     "status": "open"
   }
 ]
