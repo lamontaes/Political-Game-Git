@@ -9,7 +9,24 @@
     "homeTime": "home-time",
     "openingHome": "opening-home",
     "openingFamily": "opening-family",
-    "metAtWork": "met-at-work"
+    "metAtWork": "met-at-work",
+    "metAtMeeting": "met-at-meeting"
   },
-  "jobStartedEvent": "work.job-started"
+  "jobStartedEvent": "work.job-started",
+  "meetingEvents": {
+    "townHall": "town-hall",
+    "publicComment": "public-comment"
+  },
+  "parameters": {
+    "encounterMeetingHours": {
+      "value": 1.5,
+      "tag": "ESTIMATED",
+      "citation": "Hours of a public meeting or town hall that two people who meet there spend in the same room; the same figure as a club gathering (ATUS 2023: about 2 hours a day of volunteer and organizational activities on the days people do them).",
+      "estimatedFrom": "ATUS 2023 organizational activities; spread 1 to 2.5 hours",
+      "spread": {
+        "low": 1,
+        "high": 2.5
+      }
+    }
+  }
 }

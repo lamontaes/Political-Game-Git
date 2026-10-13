@@ -150,3 +150,43 @@ export function meetAtWork(
   }
   return met;
 }
+
+/**
+ * People at a public meeting who meet there, from the meeting's own record: a
+ * town hall's attendees meet its host; at a hearing each speaker meets the
+ * speakers just before and after them. No one meets the whole room.
+ */
+export function meetAtMeeting(
+  api: CoreAPI,
+  event: Readonly<{
+    id: string;
+    kind: string;
+    placeId: string;
+    personIds: readonly string[];
+  }>,
+): number {
+  api.stopgap(data.stopgapId);
+  const people = event.personIds.filter(
+    (id) => api.state.people.get(id)?.alive,
+  );
+  const pairs: [string, string][] =
+    event.kind === data.meetingEvents.townHall
+      ? people
+          .slice(api.parameter("one"))
+          .map((id) => [people[api.parameter("zero")]!, id])
+      : people.slice(api.parameter("one")).map((id, at) => [people[at]!, id]);
+  let met = api.parameter("zero");
+  for (const [a, b] of pairs) {
+    if (a === b) continue;
+    if (
+      api.meet(a, b, {
+        placeId: event.placeId || api.state.people.get(a)!.placeId,
+        sourceId: event.id,
+        cause: data.causes.metAtMeeting,
+        hours: data.parameters.encounterMeetingHours.value,
+      })
+    )
+      met += api.parameter("one");
+  }
+  return met;
+}
