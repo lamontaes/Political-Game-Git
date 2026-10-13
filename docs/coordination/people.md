@@ -119,8 +119,8 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx scripts/people/scene-shots.ts <out> [seed ...]` builds fresh games in random places and renders the intro, home, a workplace, the council, the state chamber, the U.S. House and Senate, the Oval Office and a conversation, with a count of figures by source.
 
 - [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
-- [ ] 6. Shadows at the feet (PR 2).
-- [ ] 3–5. Facing, staging, size (PR 3).
+- [x] 6. Shadows at the feet (PR 2): measured from each figure's pixels, on the foot point, none behind a desk.
+- [x] 3–5. Facing, staging, size (PR 3): people turn toward who they're with, or a room's front (`roomFronts` in `src/bench/data/whole-figures.json`); companions take the nearest spots that don't hide anyone; council chamber and U.S. House scale raised to full size; 4 home stand spots moved off the open floor; 5 looks' recorded facing corrected. Check sheets: `scripts/people/staging-sheet.ts`. Checked by eye: 29 places (homes, chambers, offices, the owner's scenes). Open: the other 149 places' spots and scale are not yet checked one by one.
 - [ ] 7–10. Plain-pose picker (props only when the simulation calls for them), no twins, the player's identity, who is there (PR 4).
 - [ ] 2. Seated figures: wiring ready for the CTO's seated art (PR 5).
 - [x] 11. Art requests: `docs/coordination/people-art-requests.md`.

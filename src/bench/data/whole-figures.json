@@ -78,5 +78,30 @@
       "green-blazer-black-trousers"
     ]
   },
-  "heightMeters": { "child": 1.25, "teen": 1.66, "adult": 1.72, "older": 1.68 }
+  "heightMeters": {
+    "child": 1.25,
+    "teen": 1.66,
+    "adult": 1.72,
+    "older": 1.68
+  },
+  "roomFronts": {
+    "about": "Rooms with a front people face (a rostrum, a dais, a bench, a board): the front's x, in percent of the picture. Everyone in the room turns toward it, seen from behind where their spot faces away. Read from each painting.",
+    "council-chamber": 50,
+    "county-commission": 50,
+    "public-meeting-room": 50,
+    "school-board-room": 50,
+    "township-board": 50,
+    "committee-hearing-room": 50,
+    "state-legislative-chamber-bicameral": 50,
+    "state-legislative-chamber-unicameral": 50,
+    "us-house-floor": 50,
+    "us-senate-floor": 50,
+    "county-courtroom": 50,
+    "appellate-courtroom": 50,
+    "supreme-courtroom": 50,
+    "federal-district-courtroom": 50,
+    "university-lecture-hall": 50,
+    "elementary-classroom": 50,
+    "classroom": 50
+  }
 }

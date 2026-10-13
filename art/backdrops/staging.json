@@ -4069,7 +4069,7 @@
     },
     "council-chamber": {
       "horizonY": 26,
-      "metersPercent": 0.42,
+      "metersPercent": 0.6,
       "floors": {
         "dais": 0.8
       },
@@ -8583,8 +8583,8 @@
           "id": "mobile-home:spot:1"
         },
         {
-          "x": 61,
-          "y": 63,
+          "x": 66,
+          "y": 58,
           "pose": "stand",
           "facing": "left",
           "depth": 63,
@@ -12412,8 +12412,8 @@
           "id": "small-apartment:spot:1"
         },
         {
-          "x": 60,
-          "y": 62,
+          "x": 64,
+          "y": 56,
           "pose": "stand",
           "facing": "left",
           "depth": 62,
@@ -17626,8 +17626,8 @@
           "id": "suburban-house:spot:3"
         },
         {
-          "x": 60,
-          "y": 60,
+          "x": 76,
+          "y": 57,
           "pose": "stand",
           "facing": "left",
           "depth": 60,
@@ -18404,7 +18404,7 @@
     },
     "us-house-floor": {
       "horizonY": 36,
-      "metersPercent": 0.45,
+      "metersPercent": 0.65,
       "floors": {
         "rostrum": 0.94,
         "speaker": 3.3,
@@ -21058,8 +21058,8 @@
           "id": "apartment-suburban-garden:spot:5"
         },
         {
-          "x": 60,
-          "y": 78,
+          "x": 76,
+          "y": 72,
           "pose": "stand",
           "facing": "viewer",
           "depth": 78,
