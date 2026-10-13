@@ -6,6 +6,7 @@ import { collapseToTwoLevels, fullPeople } from "./residents";
 import { representativeSample } from "./representative-sample";
 import { countedDrift } from "./modules/counted-drift";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
+import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
@@ -442,7 +443,14 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const eligible = groups.reduce((n, row) => n + row.size, 0);
     expect(groups.every((row) => row.placeId === town)).toBe(true);
     expect(eligible).toBeLessThanOrEqual(adults);
-    expect(eligible).toBeGreaterThan(adults * 0.75);
+    // The town's own ACS citizen share of adults sets the floor.
+    const citizens = (
+      placeCitizenship.byPlace as unknown as Record<string, [number, number]>
+    )[two.placeMetadata!.placeKey!];
+    const floor = citizens
+      ? Math.min(0.75, (0.8 * citizens[0]) / citizens[1])
+      : 0.75;
+    expect(eligible).toBeGreaterThan(adults * floor);
     for (const row of groups) {
       expect(row.turnout).toBeGreaterThan(0);
       expect(row.turnout).toBeLessThanOrEqual(1);

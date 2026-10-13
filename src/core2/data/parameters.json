@@ -4608,5 +4608,16 @@
       "unit": "hours a day",
       "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
     }
+  },
+  "citizenShareStatePriorAdults": {
+    "value": 200,
+    "tag": "TUNABLE",
+    "citation": "How many adults' worth of the state's CPS citizen share a place's ACS share is blended with, so a small place's noisy sample (ACS 5-year margins) leans on its state.",
+    "spread": {
+      "low": 50,
+      "high": 1000,
+      "unit": "adults",
+      "citation": "From trusting a place of a few hundred adults nearly fully to leaning on the state until a place has thousands of adults."
+    }
   }
 }
