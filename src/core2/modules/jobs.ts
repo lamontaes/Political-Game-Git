@@ -686,10 +686,39 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
-  const since = commitment?.startsAt ?? api.state.startedAt;
-  return (
+  const started = api.state.startedAt,
+    since =
+      commitment?.startsAt ??
+      (job.source.asOf > started ? job.source.asOf : started);
+  const years =
     daysBetween(makeIsoDate(since), makeIsoDate(api.state.date)) /
-    api.parameter("jobsDaysPerYear")
+    api.parameter("jobsDaysPerYear");
+  if (since > started) return years;
+  // A job held at the opening was held for years before it: the median for the worker's age then (BLS Employee Tenure).
+  const person =
+    core(api).people.get(job.personId) ??
+    residentPerson(core(api), job.personId);
+  if (!person) return years;
+  const age =
+    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(started)) /
+    api.parameter("jobsDaysPerYear");
+  const band = jobsData.tenureByAge.bands.find(
+    (row) =>
+      age >= row.minAge &&
+      (row.maxAgeExclusive === null || age < row.maxAgeExclusive),
+  );
+  const workingYears = Math.max(0, age - jobsData.workingAge[0]!);
+  return years + Math.min(band?.medianYears ?? 0, workingYears);
+}
+
+/** The pay a worker gives up by moving: their pay with what their years at the employer have added (job-specific skill). */
+function tenuredPay(api: CoreAPI, job: JobInput): number {
+  const p = (key: string) => api.parameter(key);
+  return (
+    (job.hourlyMinor ?? 0) *
+    (p("one") +
+      p("jobsTenureReturnPerYear") *
+        Math.min(tenureYears(api, job), p("jobsTenureReturnYearsCap")))
   );
 }
 
@@ -864,7 +893,7 @@ function reviewWorkers(api: CoreAPI): void {
     const person = c.people.get(job.personId);
     if (!person || !person.alive || store(api).table("seekers").get(person.id))
       continue;
-    const pay = job.hourlyMinor ?? 0;
+    const pay = tenuredPay(api, job);
     const payGap =
       pay > 0
         ? Math.max(
@@ -1550,14 +1579,6 @@ function reviewCountedQuits(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     hundred = p("macroHundred");
-  const going = new Map<string, number>();
-  for (const position of store(api)
-    .table("positions")
-    .query("byStatus", ["open"]) as unknown as PositionRow[])
-    going.set(
-      position.occupation,
-      Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
-    );
   const seekers = store(api).table("countedSeekers");
   const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
     [];
@@ -1580,15 +1601,12 @@ function reviewCountedQuits(api: CoreAPI): void {
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
-      const payGap = Math.max(
-        0,
-        (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
-      );
+      // A better-paid opening sends a worker looking while still employed (reviewCountedLooking), not out of work.
       rows.push({
         id: job.id,
         job,
         placeId: person.placeId,
-        score: base + p("jobsPayGapWeight") * payGap,
+        score: base,
       });
     }
   }
@@ -1651,7 +1669,7 @@ function reviewCountedLooking(api: CoreAPI): void {
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
-      const pay = job.hourlyMinor ?? 0;
+      const pay = tenuredPay(api, job);
       if (!person || pay <= 0) continue;
       const payGap = Math.max(
         0,
@@ -1690,7 +1708,7 @@ function reviewCountedLooking(api: CoreAPI): void {
       employed: true,
       since: c.date,
       reasonKey: jobsData.reasons.lookingAround,
-      referenceHourlyMinor: job.hourlyMinor ?? 0,
+      referenceHourlyMinor: tenuredPay(api, job),
     });
 }
 

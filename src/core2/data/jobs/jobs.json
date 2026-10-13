@@ -1849,5 +1849,45 @@
     "startedLooking": "started-looking",
     "leftJob": "left-job",
     "letGo": "let-go"
+  },
+  "tenureByAge": {
+    "source": "BLS, Employee Tenure in 2022 (USDL-22-1894), Table 1: median years with current employer, wage and salary workers, January 2022.",
+    "bands": [
+      {
+        "minAge": 16,
+        "maxAgeExclusive": 20,
+        "medianYears": 0.8
+      },
+      {
+        "minAge": 20,
+        "maxAgeExclusive": 25,
+        "medianYears": 1.5
+      },
+      {
+        "minAge": 25,
+        "maxAgeExclusive": 35,
+        "medianYears": 2.8
+      },
+      {
+        "minAge": 35,
+        "maxAgeExclusive": 45,
+        "medianYears": 4.7
+      },
+      {
+        "minAge": 45,
+        "maxAgeExclusive": 55,
+        "medianYears": 6.9
+      },
+      {
+        "minAge": 55,
+        "maxAgeExclusive": 65,
+        "medianYears": 9.8
+      },
+      {
+        "minAge": 65,
+        "maxAgeExclusive": null,
+        "medianYears": 9.9
+      }
+    ]
   }
 }
