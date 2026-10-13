@@ -5,7 +5,7 @@ import { buildPopulation } from "../core2/population";
 import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
-// records (contest, deadline, signatures, each eligibility rule).
+// records (contest, deadline, each eligibility rule).
 const core = createLifeCore(
   buildDeepPast(
     buildPopulation({
@@ -24,7 +24,6 @@ const contest = {
 };
 const terms = {
   filedWith: "City Clerk",
-  signatures: 50,
   source: "Fixture state election code",
 };
 const check = (
@@ -41,7 +40,7 @@ const check = (
 });
 
 describe("the filing visit", () => {
-  it("states the terms from the record and offers the ways to file", () => {
+  it("states the terms from the record and offers to file", () => {
     const visit = openFilingVisit(core, player.id, [contest]);
     expect(visit.lines[0]!.text).toBe("Which office are you filing for?");
     expect(visit.choices.map((row) => row.text)).toEqual([
@@ -52,7 +51,6 @@ describe("the filing visit", () => {
     ]);
     const said = visit.lines.at(-1)!.text;
     expect(said).toContain("March 5, 2021");
-    expect(said).toContain("50 signatures");
     expect(visit.choices.map((row) => row.action)).toEqual([
       { kind: "file", contestId: contest.id },
     ]);

@@ -33,11 +33,7 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import {
-  askKnownPeopleToSign,
-  fileForOffice,
-  governmentView,
-} from "./government";
+import { fileForOffice, governmentView } from "./government";
 import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
@@ -632,18 +628,6 @@ const server = createServer(async (request, response) => {
           requireCore(),
           player.personId,
           url.searchParams.get("contestId") ?? "",
-        ),
-      );
-      return;
-    }
-    if (request.method === "POST" && url.pathname === "/api/sign") {
-      if (!player?.personId) throw new Error("Choose a resident first.");
-      send(
-        200,
-        askKnownPeopleToSign(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("filingId") ?? "",
         ),
       );
       return;

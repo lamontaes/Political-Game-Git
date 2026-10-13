@@ -430,7 +430,7 @@ function renderFiling(value) {
       return b;
     }),
   );
-  // The filing's record once it is made: its status and what it was paid.
+  // The filing's record once it is made: its status.
   if (value.result)
     $("talk-lines").append(
       el(
@@ -438,7 +438,7 @@ function renderFiling(value) {
         {},
         el("b", { textContent: value.filedWith }),
         value.result.filing
-          ? `${value.result.status} · ${value.result.filing.signatureCount}`
+          ? value.result.status
           : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
       ),
     );
@@ -1396,23 +1396,14 @@ const sheets = {
   },
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    const filings = v.filings.map((f) => {
-      const b = el("button", {
-        type: "button",
-        textContent: "Request signatures",
-      });
-      b.addEventListener("click", async () => {
-        await post(`/api/sign?${new URLSearchParams({ filingId: f.id })}`);
-        openSheet("politics");
-      });
-      return el(
+    const filings = v.filings.map((f) =>
+      el(
         "div",
         { className: "row" },
         el("b", { textContent: f.status }),
-        `${f.filedWith} · ${f.signatureCount} `,
-        b,
-      );
-    });
+        f.filedWith,
+      ),
+    );
     const campaigns = await campaignRows();
     // Filing happens only at the office's counter, one race at a time.
     const offices = (

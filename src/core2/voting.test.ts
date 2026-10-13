@@ -25,7 +25,6 @@ import {
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -127,15 +126,7 @@ describe("M2-07 elections", () => {
           platform,
         });
         if (result.status === "refused") break;
-        let filing = result.filing;
-        for (const neighbor of [...core.people.keys()].sort()) {
-          if (filing.status === "on-ballot") break;
-          requestSignature(api, filing.id, neighbor);
-          filing = api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .get(filing.id) as unknown as FilingRow;
-        }
+        const filing = result.filing;
         if (filing.status === "on-ballot") filed.push(filing);
       }
       if (filed.length === 2) {

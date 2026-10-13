@@ -38,7 +38,6 @@ import {
   fileCandidacy,
   filingRulesFor,
   officeFamily,
-  requestSignature,
   type ContestRow,
   type FilingRow,
   type OfficeFamily,
@@ -552,7 +551,7 @@ export function platformFromViews(api: CoreAPI, personId: PersonId): string[] {
     .map((row) => `${row.question}=${Math.sign(row.stance)}`);
 }
 
-/** File for a runner, with signatures from people who know them where the place takes a petition. */
+/** File for a runner: no fee and no petition, so a filing is on the ballot. */
 function fileFor(
   api: CoreAPI,
   person: Readonly<PersonState>,
@@ -577,11 +576,6 @@ function fileFor(
       filingId: null,
       unmet: result.unmet.map((row) => row.rule),
     };
-  if (result.status === "gathering-signatures")
-    for (const id of [...person.knownIds].sort()) {
-      requestSignature(api, result.filing.id, id);
-      if (filingStatus(api, result.filing.id) === "on-ballot") break;
-    }
   return {
     status: filingStatus(api, result.filing.id),
     filingId: result.filing.id,
@@ -832,7 +826,6 @@ function weighClosedContest(
       filedWith: rules.filedWith,
       platform: platformFromViews(api, personId),
       party,
-      signatureCount: 0,
       status: "on-ballot",
     };
     filings.put(filing as unknown as ModuleRow);

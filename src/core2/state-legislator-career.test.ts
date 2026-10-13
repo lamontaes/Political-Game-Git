@@ -22,13 +22,8 @@ import {
   openContests,
   openElections,
   type ContestRow,
-  type FilingRow,
 } from "./modules/elections";
-import {
-  circulatePetition,
-  knockDoors,
-  openCampaigns,
-} from "./modules/campaigns";
+import { knockDoors, openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { openVoting, resultOf } from "./modules/voting";
 import { openRecord } from "./modules/record";
@@ -136,9 +131,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
           (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
         )
         .find((p) =>
-          checkEligibility(api, p.id, contest.id, "party").every(
-            (c) => c.met || c.rule === "signatures",
-          ),
+          checkEligibility(api, p.id, contest.id, "party").every((c) => c.met),
         );
       if (!runner) {
         tried.push("no resident qualifies");
@@ -158,37 +151,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         tried.push(`refused: ${filed.unmet.map((u) => u.rule).join(",")}`);
         continue;
       }
-      let filing = filed.filing;
-      // Walk the petition door to door, four hours a day, until it fills or
-      // filing closes.
-      for (
-        let day = 0;
-        filing.status === "gathering-signatures" &&
-        api.state.date <= contest.filingDeadline &&
-        day < 60;
-        day += 1
-      ) {
-        circulatePetition(api, {
-          filingId: filing.id,
-          circulatorId: runner.id,
-          hours: 4,
-        });
-        filing = api
-          .moduleState(ELECTIONS_MODULE_ID)
-          .table("filings")
-          .get(filing.id) as unknown as FilingRow;
-        if (filing.status === "gathering-signatures")
-          advanceCore(
-            core,
-            new Date(Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000)
-              .toISOString()
-              .slice(0, 10),
-          );
-      }
-      if (filing.status !== "on-ballot") {
-        tried.push(`short of signatures (${filing.signatureCount})`);
-        continue;
-      }
+      const filing = filed.filing;
       // The race is for the seat the player lives in, against its holder.
       expect(contest.seatId, where).toBe(seat.seat.id);
       expect(seat.office.coversTown, where).toBe(true);

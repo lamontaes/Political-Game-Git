@@ -12,7 +12,6 @@ const fact = (text: string): Fact => ({ text, sourceRecordIds: ids });
 const facts: Record<string, Fact> = {
   office: fact("City Council, Seat 2"),
   deadline: fact("March 5, 2021"),
-  signatures: fact("50"),
   required: fact("18"),
   actual: fact("17"),
   "filing-office": fact("the City Clerk's Office"),
@@ -59,7 +58,7 @@ describe("the mined clerk bank in the filing visit", () => {
     expect(words.greet.length).toBeGreaterThan(0);
     expect(words.terms.length).toBeGreaterThan(0);
     say("greet", words.greet);
-    say("terms", words.terms, "signatures");
+    say("terms", words.terms, "none");
     for (const [rule, variants] of Object.entries(words.rules))
       say(`rule:${rule}`, variants);
     say("accept", words.accept);
