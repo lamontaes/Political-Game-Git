@@ -368,7 +368,7 @@
     "citation": "BLS American Time Use Survey 2023: employed people worked about 7.9 hours on the days they worked."
   },
   "jobsTenureReturnPerYear": {
-    "value": 0.02,
+    "value": 0.01,
     "tag": "TUNABLE",
     "citation": "What a year with the employer adds to the pay a worker would give up by moving (job-specific skill and seniority): Topel 1991 (JPE) estimates about 25 percent over ten years, Altonji and Shakotko 1987 under 1 percent a year; checked against JOLTS quits.",
     "spread": {
