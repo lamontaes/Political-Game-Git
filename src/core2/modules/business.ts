@@ -32,7 +32,7 @@ import {
 import { residentPerson, residentsRuntime } from "./residents";
 import { openBuyers, renewBuyers } from "../business-buyers";
 import { lendForFounding } from "./credit";
-import { registerEmployer, strongestPulls } from "./jobs";
+import { registerEmployer, strongestPulls, strongestPullsBy } from "./jobs";
 import { transferCash } from "../world-transfer";
 import {
   addRegulatoryCost,
@@ -723,9 +723,12 @@ function month(api: CoreAPI): void {
   }
 }
 
-/** Room in each place's market for each kind: incumbents' demand above their capacity, as a share of capacity. */
+/** Room in each place's market for each kind: how far its customers' demand has grown past what its incumbents opened to serve, as a share. */
 function marketRoom(api: CoreAPI): Market[] {
   const c = core(api);
+  const employers = c.modules.has("jobs")
+    ? api.moduleState("jobs").table("employers")
+    : undefined;
   const out = new Map<
     string,
     {
@@ -736,6 +739,8 @@ function marketRoom(api: CoreAPI): Market[] {
       capacity: number;
       incumbents: string[];
       staff: number;
+      target: number;
+      openingStaff: number;
     }
   >();
   for (const [id, book] of c.finance.businesses) {
@@ -750,37 +755,52 @@ function marketRoom(api: CoreAPI): Market[] {
       capacity: 0,
       incumbents: [],
       staff: 0,
+      target: 0,
+      openingStaff: 0,
     };
+    const staff =
+      [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
+        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+      ).length + countedJobsOf(c, id).length;
     // Real demand, in the business's own opening prices.
     row.demand += book.annualDemandMinor / (book.price / book.anchorPrice || 1);
     row.nominal += book.annualDemandMinor;
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
-    row.staff +=
-      [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
-        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-      ).length + countedJobsOf(c, id).length;
+    row.staff += staff;
+    // The staff its customers' spending calls for (the jobs engine's target), against its staff when it opened.
+    const employer = employers?.get(id) as
+      { target?: number; openingStaff?: number } | undefined;
+    row.target += employer?.target ?? staff;
+    row.openingStaff += employer?.openingStaff ?? staff;
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
     placeId: row.placeId,
     kindId: row.kindId,
-    room: Math.max(0, row.demand / row.capacity - 1),
+    // Where the jobs engine runs, room is how far the work customers bring has grown past the staff the incumbents opened with.
+    room: Math.max(
+      0,
+      employers
+        ? row.target / Math.max(1, row.openingStaff) - 1
+        : row.demand / row.capacity - 1,
+    ),
     incumbents: row.incumbents,
     staff: row.staff,
     demandMinor: row.nominal,
   }));
 }
 
-/** A new business starts small: a startup's staff against the market's, never more than an equal share. */
-function entrantShare(api: CoreAPI, market: Market): number {
+/** A new business starts small: a startup's staff (or a new location's, its parent's) against the market's, never more than an equal share. */
+function entrantShare(api: CoreAPI, market: Market, staff?: number): number {
   return Math.min(
     1 / (market.incumbents.length + 1),
-    api.parameter("businessStartupStaff") / Math.max(1, market.staff),
+    (staff ?? api.parameter("businessStartupStaff")) /
+      Math.max(1, market.staff),
   );
 }
 
-/** What an entrant could make a month: its share of the market at its kind's margin. */
+/** What a founder would make a month: a startup's share of the market at its kind's margin. */
 function prospectMonthly(api: CoreAPI, market: Market): number {
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === market.kindId,
@@ -862,11 +882,16 @@ function foundings(api: CoreAPI): void {
     const income = Math.max(monthlyIncome, floor);
     return income > 0 ? Math.log((prospectMonthly(api, row) + 1) / income) : 0;
   };
-  const market = marketRoom(api)
+  const candidates = marketRoom(api)
     .filter(
       (row) =>
         purchaseShareOf(c, new Set(row.incumbents), entrantShare(api, row)) > 0,
     )
+    .sort(
+      (a, b) =>
+        a.placeId.localeCompare(b.placeId) || a.kindId.localeCompare(b.kindId),
+    );
+  const market = candidates
     .map((row) => ({
       row,
       score:
@@ -999,12 +1024,24 @@ function foundings(api: CoreAPI): void {
     // One opening a month; the next month's room is measured afresh.
     return;
   }
-  // The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
+  // The wider population weighs every market by the same reasons, as summed pulls (stopgap), until filled in: each market draws its own founders.
   if (!c.modules.has("jobs")) return;
   const countedSeekers = api.moduleState("jobs").table("countedSeekers");
-  const rows: { id: string; score: number }[] = [];
-  for (const record of residentsRuntime(c)?.households.values() ?? []) {
-    if (record.household.placeId !== market.placeId) continue;
+  const rows: {
+    id: string;
+    personId: string;
+    market: Market;
+    score: number;
+  }[] = [];
+  // Each adult's own terms once, each market's once.
+  const adults: {
+    id: string;
+    placeId: string;
+    common: number;
+    income: number;
+    cash: number;
+  }[] = [];
+  for (const record of residentsRuntime(c)?.households.values() ?? [])
     for (const person of record.people) {
       const age =
         daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
@@ -1017,23 +1054,58 @@ function foundings(api: CoreAPI): void {
         continue;
       const seeker = countedSeekers.get(person.id) as
         { employed: boolean } | undefined;
-      rows.push({
+      adults.push({
         id: person.id,
-        score:
+        placeId: record.household.placeId,
+        common:
           p("businessCountedFoundBaseline") +
-          p("businessFoundRoomWeight") * gaps +
           p("businessFoundTraitWeight") * foundLean(person) +
           p("businessFoundUnemployedWeight") *
-            (seeker && !seeker.employed ? 1 : 0) +
+            (seeker && !seeker.employed ? 1 : 0),
+        income: incomeOf(person.id),
+        cash: person.liquidMinor,
+      });
+    }
+  for (const each of candidates) {
+    // Founders come in proportion to the businesses already in a market (BDS entry as a share of establishments).
+    const marketTerm =
+      Math.log(each.incumbents.length) +
+      p("businessFoundRoomWeight") * gapsOf(each);
+    const monthly = prospectMonthly(api, each),
+      cost = startupCost(api, each),
+      floor = medianPay(each.placeId) * p("businessProspectIncomeFloorShare");
+    for (const adult of adults) {
+      if (adult.placeId !== each.placeId) continue;
+      const income = Math.max(adult.income, floor);
+      const reach =
+        Math.max(0, adult.cash) +
+        adult.income *
+          p("macroMonthsPerYear") *
+          p("businessFounderLoanIncomeMultiple");
+      rows.push({
+        id: `${adult.id}|${each.kindId}`,
+        personId: adult.id,
+        market: each,
+        score:
+          adult.common +
+          marketTerm +
           p("businessFoundProspectWeight") *
-            prospect(market, incomeOf(person.id)) -
+            (income > 0 ? Math.log((monthly + 1) / income) : 0) -
           p("businessFoundCapitalWeight") *
-            capital(market, incomeOf(person.id), person.liquidMinor),
+            Math.max(0, Math.log((cost + 1) / (reach + 1))),
       });
     }
   }
-  const founder = strongestPulls(api, "found", rows)[0];
-  if (founder) found(api, founder.id, market);
+  for (const row of strongestPullsBy(
+    api,
+    "found",
+    rows,
+    (row) => `${row.market.placeId}|${row.market.kindId}`,
+  )) {
+    if (owners.has(row.personId)) continue;
+    found(api, row.personId, row.market);
+    owners.add(row.personId);
+  }
 }
 
 function expandOption(
@@ -1090,7 +1162,13 @@ function found(
   const parentName = location
     ? c.organizations.get(location.parentId)?.name
     : undefined;
-  const share = entrantShare(api, market);
+  // A chain's new location opens at its parent's size; a startup small.
+  const parentStaff = location
+    ? [...(c.finance.jobsByOrganization.get(location.parentId) ?? [])].filter(
+        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+      ).length + countedJobsOf(c, location.parentId).length
+    : undefined;
+  const share = entrantShare(api, market, parentStaff);
   // No customers to win (no buyers reach this market's businesses): nothing to found.
   if (purchaseShareOf(c, new Set(market.incumbents), share) <= 0) return false;
   api.addOrganization({

@@ -43,6 +43,7 @@ const core = createLifeCore(input, {
 });
 const api = coreAPI(core);
 advanceCore(core, input.startedAt);
+const opened = Date.now();
 
 type Band = { mean: number; p05: number; p95: number };
 const industries = jobsData.turnover.industries as unknown as Record<
@@ -197,6 +198,7 @@ console.log(
       changes: byKind,
       namedLayoff: named,
       seconds: Math.round((Date.now() - started) / 1000),
+      yearSeconds: Math.round((Date.now() - opened) / 1000),
       failures,
     },
     null,

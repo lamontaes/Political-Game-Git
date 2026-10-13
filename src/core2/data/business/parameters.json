@@ -141,25 +141,25 @@
     }
   },
   "businessCountedFoundBaseline": {
-    "value": -13,
+    "value": -11,
     "tag": "TUNABLE",
-    "citation": "One adult's monthly pull toward founding an employer business, before room, prospect, capital, traits and losing work, summed over the wider population. Set so a steady town's establishments grow about as fast as real net establishment growth while exits are rare (Absecon, 2021-2023: 2 openings among 27 businesses); gross churn needs voluntary closure. Checked against Census BDS 2023 entry and exit rates.",
+    "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, summed over the wider population; checked against Census BDS 2023 establishment entry (about 10% a year).",
     "spread": {
-      "low": -12,
-      "high": -8,
+      "low": -12.5,
+      "high": -9.5,
       "unit": "score",
-      "citation": "One adult's monthly pull toward founding an employer business, before room, prospect, capital, traits and losing work, summed over the wider population. Set so a steady town's establishments grow about as fast as real net establishment growth while exits are rare (Absecon, 2021-2023: 2 openings among 27 businesses); gross churn needs voluntary closure. Checked against Census BDS 2023 entry and exit rates."
+      "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, summed over the wider population; checked against Census BDS 2023 establishment entry (about 10% a year)."
     }
   },
   "businessFoundProspectWeight": {
-    "value": 2,
+    "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "An entrant weighs an equal share of the market's margin against what they earn now, in log terms (owners' business income against wages: Hamilton 2000; Census Annual Business Survey).",
+    "citation": "A founder weighs what a startup of the kind would make (a startup's share of the market at the kind's margin) against what they earn now, in log terms; a tilt, since entry runs at similar shares of establishments across industries (Census BDS) (owners' business income against wages: Hamilton 2000, JPE).",
     "spread": {
-      "low": 0.5,
-      "high": 4,
+      "low": 0.25,
+      "high": 2,
       "unit": "score per log of prospect over income",
-      "citation": "An entrant weighs an equal share of the market's margin against what they earn now, in log terms (owners' business income against wages: Hamilton 2000; Census Annual Business Survey)."
+      "citation": "A founder weighs what a startup of the kind would make (a startup's share of the market at the kind's margin) against what they earn now, in log terms; a tilt, since entry runs at similar shares of establishments across industries (Census BDS) (owners' business income against wages: Hamilton 2000, JPE)."
     }
   },
   "businessProspectIncomeFloorShare": {

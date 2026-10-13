@@ -80,6 +80,8 @@ interface EmployerRow {
   openingStaff: number;
   /** Its customers' spending a year when its staff was `openingStaff`, over the place's pay index then. */
   openingRealSalesMinor?: number;
+  /** The staff its customers' spending called for at the last review. */
+  target?: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
   /** A new business's template for its first roles. */
@@ -603,6 +605,8 @@ function reviewEmployers(api: CoreAPI): void {
       .put({
         ...row,
         need,
+        // Without the season: what its customers call for over the year.
+        target: target / seasonalStaffing(book.kindId, c.date, opened),
         ...(openingSales ? { openingRealSalesMinor: openingSales } : {}),
       });
   }
@@ -996,9 +1000,14 @@ function lastPay(api: CoreAPI, personId: string): number {
 function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const positions = store(api)
-    .table("positions")
-    .query("byStatus", ["open"]) as unknown as PositionRow[];
+  const positions = (
+    store(api)
+      .table("positions")
+      .query("byStatus", ["open"]) as unknown as PositionRow[]
+  ).filter(
+    // A closed business's openings went with it.
+    (row) => !c.finance.businesses.get(row.organizationId)?.closedAt,
+  );
   if (!positions.length) return;
   const inPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
@@ -1288,9 +1297,11 @@ export function strongestPulls<T extends { id: string; score: number }>(
 }
 
 /**
- * The same, separately within each group (each employer): a group's own
- * pulls decide how many of its members act, so a business where few would
- * leave isn't emptied by one where many would.
+ * The same, shared among groups (each employer, each market): the summed
+ * pulls decide how many act, with one carry; each act goes to the group
+ * furthest behind its own accumulated pulls, and within it to the strongest
+ * pull. A business where few would leave isn't emptied by one where many
+ * would, and small groups act on time rather than all at once.
  */
 export function strongestPullsBy<T extends { id: string; score: number }>(
   api: CoreAPI,
@@ -1298,16 +1309,52 @@ export function strongestPullsBy<T extends { id: string; score: number }>(
   rows: readonly T[],
   groupOf: (row: T) => string,
 ): T[] {
+  stopgap("SG-WORLD-jobs-counted-choices");
+  const state = store(api).table("state");
+  const saved = (state.get(`pulls:${key}`) as
+    { carry: number; owed?: Record<string, number> } | undefined) ?? {
+    carry: 0,
+  };
+  const owed = { ...(saved.owed ?? {}) };
   const groups = new Map<string, T[]>();
+  let total = saved.carry;
   for (const row of rows) {
     const group = groupOf(row);
+    const pull = 1 / (1 + Math.exp(-row.score));
+    total += pull;
+    owed[group] = (owed[group] ?? 0) + pull;
     const list = groups.get(group);
     if (list) list.push(row);
     else groups.set(group, [row]);
   }
-  return [...groups]
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .flatMap(([group, list]) => strongestPulls(api, `${key}:${group}`, list));
+  for (const list of groups.values())
+    list.sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+  let count = Math.floor(total);
+  const chosen: T[] = [];
+  while (count > 0) {
+    const next = [...groups]
+      .filter(([, list]) => list.length)
+      .sort(
+        (a, b) =>
+          (owed[b[0]] ?? 0) - (owed[a[0]] ?? 0) || a[0].localeCompare(b[0]),
+      )[0];
+    if (!next) break;
+    chosen.push(next[1].shift()!);
+    owed[next[0]] = (owed[next[0]] ?? 0) - 1;
+    count -= 1;
+  }
+  // A group with no one left to act this month keeps what it's owed, never more than a month's worth.
+  for (const [group, list] of groups)
+    if (!list.length && (owed[group] ?? 0) > 0)
+      owed[group] = Math.min(owed[group]!, 1);
+  for (const group of Object.keys(owed))
+    if (!groups.has(group)) delete owed[group];
+  state.put({
+    id: `pulls:${key}`,
+    carry: total - Math.floor(total) + count,
+    owed,
+  });
+  return chosen;
 }
 
 /** Counted workers 62 and over weigh retiring by the same reasons as full people, without the chooser (stopgap). */
@@ -1755,6 +1802,11 @@ export const JOBS_MODULE: CoreModule = {
     if (!store(api).table("state").get("jobs:state")) return;
     // The closure event's id ends with the closed business.
     const organizationId = event.id.split(":").slice(2).join(":");
+    // Its openings close with it.
+    for (const position of openPositions(api, organizationId))
+      store(api)
+        .table("positions")
+        .put({ ...position, status: "withdrawn" });
     // The closed business's counted workers look for work too, with their claims.
     const rt = residentsRuntime(core(api));
     for (const job of rt?.jobs.values() ?? []) {
