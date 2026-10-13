@@ -238,7 +238,7 @@
       "source": "LBNL, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
-      "mechanic": "outcome-web",
+      "mechanic": "engine",
       "effect": "clean-air-plan-limits",
       "kind": "compliance",
       "organizations": [
@@ -287,7 +287,7 @@
       "source": "Model of carbon pricing (Washington Climate Commitment Act, RCW 70A.65)"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-      "mechanic": "outcome-web",
+      "mechanic": "engine",
       "effect": "groundwater-allocation",
       "kind": "compliance",
       "organizations": [

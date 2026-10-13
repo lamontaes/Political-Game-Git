@@ -543,6 +543,99 @@ describe("a closure names its owner", () => {
 });
 const api = (core: CoreState) => coreAPI(core);
 
+describe("groundwater limits reach sales", () => {
+  it("reads the live law at the business month and restores sales after repeal", () => {
+    const recorded = input();
+    const core = createLifeCore(
+      {
+        ...recorded,
+        organizations: recorded.organizations.map((org) =>
+          org.id === "organization:customer"
+            ? { ...org, kind: "residents" }
+            : org,
+        ),
+        residents: {
+          version: "core2-residents-v1",
+          accounts: [{ placeId: place, accountId: "organization:customer" }],
+          households: [],
+          flows: [
+            {
+              id: "fixture:farm-sales",
+              kind: "outside-sales",
+              financeKind: "outside.sales.agriculture",
+              payerId: "organization:customer",
+              payeeId: shop,
+              residentsId: "organization:customer",
+              placeId: place,
+              amountMinor: 10000,
+              firstAt: "2021-02-02",
+              cadence: { kind: "months", every: 1, day: 2 },
+              salesReceipt: true,
+              marketAdjusted: false,
+              source: src,
+            },
+          ],
+          source: src,
+        },
+      },
+      {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE, LAWS_MODULE],
+        scheduledWork: false,
+      },
+    );
+    const a = api(core);
+    core.observer = true;
+    books(core).kindId = "agriculture";
+    core.organizations.get(shop)!.classification = "enterprise:agriculture";
+    a.moduleState(LAWS_MODULE.id)
+      .table("chain")
+      .put({
+        id: "chain",
+        placeKey: "fixture",
+        placeName: "Fixture",
+        townPlaceId: place,
+        stateKey: "state:fixture",
+        countyGeoids: [],
+        incorporated: false,
+        levels: [{ level: "state", jurisdiction: "state:fixture" }],
+      });
+    const enact = (value: number) =>
+      enactLaw(a, {
+        jurisdiction: "state:fixture",
+        level: "state",
+        series:
+          "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+        value,
+        effectiveDate: core.date,
+        measureId: `fixture:water:${value}`,
+        citation: "Technical irrigation-market fixture.",
+      });
+    enact(1);
+    const total = money(core);
+    advanceCore(core, "2021-02-03");
+    const receipts = () => [...core.cashJournal.detailedReceipts.values()];
+    expect(
+      receipts().find((r) =>
+        r.sourceRef.id.startsWith("fixture:farm-sales@2021-02-02:"),
+      )?.grossDebitMinor,
+    ).toBe(9100);
+    enact(0);
+    advanceCore(core, "2021-03-03");
+    expect(
+      receipts().find((r) => r.sourceRef.id === "fixture:farm-sales@2021-03-02")
+        ?.grossDebitMinor,
+    ).toBe(10000);
+    expect(
+      a
+        .moduleState("business")
+        .table("operating")
+        .get(`limit:${shop}:groundwater`),
+    ).toBeUndefined();
+    expect(money(core)).toBe(total);
+  });
+});
+
 describe("closing by choice", () => {
   it("an owner whose business has kept 15 months of losses closes it and takes what's left; money balances", () => {
     const core = createLifeCore(input(), {

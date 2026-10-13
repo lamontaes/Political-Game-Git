@@ -40,6 +40,7 @@ import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
 import {
   addRegulatoryCost,
+  countyNonattainment,
   endOperatingRule,
   payOperatingCosts,
   setOperatingLimit,
@@ -48,6 +49,8 @@ import {
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
+import resourceReach from "../data/laws/reach-group-b.json" with { type: "json" };
+import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 
 export const BUSINESS_MODULE_ID = "business";
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
@@ -660,6 +663,17 @@ function month(api: CoreAPI): void {
       api,
       "us-policy-positions:technology-privacy.age-verification-for-social-media",
     );
+    const waterQuestion =
+      "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal";
+    const airQuestion =
+      "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
+    const water = lawInForce(api, waterQuestion);
+    const air = lawInForce(api, airQuestion);
+    const polluted = lawChain(api).countyGeoids.some((county) =>
+      countyNonattainment(county, Number(c.date.slice(0, 4))).some(
+        (standard) => !standard.revoked,
+      ),
+    );
     for (const [organizationId, book] of c.finance.businesses) {
       if (book.closedAt) continue;
       const org = c.organizations.get(organizationId);
@@ -683,7 +697,7 @@ function month(api: CoreAPI): void {
             asOf: c.date,
             citation: `${law.governing.id}: ${String(law.governing.source)}`,
             estimatedFrom:
-              "data/laws/reach-group-a-parameters.json recurring compliance cost share.",
+              "Registered recurring compliance-cost share from the business and law parameter tables.",
           },
         });
       };
@@ -698,6 +712,41 @@ function month(api: CoreAPI): void {
           ageCheck,
           lawParameters.parameters.ageVerificationShareOfCosts.value,
         );
+      if (
+        resourceReach.policies[airQuestion].organizations.includes(
+          org.classification ?? "",
+        )
+      )
+        sync(
+          airQuestion,
+          polluted ? air : { ...air, value: 0 },
+          p("businessComplianceShareOfCosts"),
+        );
+      // SG-GOV-REACH-B-business-cost: the existing irrigation elasticity is a
+      // farm aggregate; it is not evidence for a mine or utility's water use.
+      if (org.classification === "enterprise:agriculture") {
+        const id = `limit:${organizationId}:groundwater`;
+        if (water.value === 1 && water.governing)
+          setBusinessOperatingLimit(api, {
+            organizationId,
+            input: "groundwater",
+            share:
+              1 -
+              resourceParameters.parameters.groundwaterWithdrawalShare.value,
+            cause: waterQuestion,
+            source: {
+              tag: "ESTIMATED",
+              asOf: c.date,
+              citation: `${water.governing.id}: ${String(water.governing.source)}`,
+              estimatedFrom:
+                "Existing aggregate irrigation-output elasticity applied to the statutory pumping reduction; farm-level irrigation exposure is not recorded.",
+            },
+          });
+        else {
+          const prior = store(api).table("operating").get(id);
+          if (prior?.cause === waterQuestion) endBusinessOperatingRule(api, id);
+        }
+      }
     }
   }
   payOperatingCosts(api, store(api).table("operating"));
