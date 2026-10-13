@@ -8,7 +8,7 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 ## What the owner can play now
 
 - **Officials are people (Oct 13):** a new game makes every member of Congress (535 voting members plus the delegates), every governor, the town's state's statewide officials and its whole legislature, and each other state legislature's three leaders plus a sample of eight members per chamber into full people: about 1,600 in all. Each has a fictional name, a party (the real one holding the seat), a career, traits, a home state and district, colleagues they know (their state's delegation, their chamber's party leader), their own left-right position drawn from their party's real spread (Voteview, 119th Congress), a wing (liberal, mainstream or moderate for Democrats; moderate, mainstream or conservative for Republicans) and three issues of their own.
-- **Votes vary (Oct 13):** a member's position on a bill is the sum of recorded reasons: their views, their district, their party's leadership, their wing, ambition and the next election, press attention, organized interests, the sponsor and any deal. In a Missouri game, about 60% of House and Senate votes on the 54 policy questions split the parties, members vote with their party about 95% of the time on those, and popular policies pass with members of both parties.
+- **Votes vary (Oct 13):** a member's position on a bill is the sum of recorded reasons: their views, their district, their party's leadership, their wing, ambition and the next election, press attention, organized interests, the sponsor and any deal. A member's own view is their lean plus how widely state legislatures have already made the policy law; their district reads the polls. Over the 54 policy questions in a Missouri game, 47 to 49 votes split the parties in each chamber, members side with their party 96 to 97% of the time, and settled, widely adopted policies draw both parties.
 - **Independents (Oct 13):** the two independent senators caucus with the Democrats and California's independent House member with the Republicans (congress-legislators roster). They vote with their caucus on 90 to 98% of party votes. An independent legislator the roster doesn't place caucuses with the party nearest their views, or with no one if they sit between the parties; a truly independent member feels no party pressure and weighs the issues behind their reason more.
 
 ## Checklist (M1-12)
@@ -16,12 +16,27 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 - [x] 1. Officials generated at the opening as people through the core's fill-in, seated into the offices engine's terms (opening 81 s vs 76 s before, one Missouri seed).
 - [x] 2. Views vary within a party (wings from data); independents record caucus and reason.
 - [x] 3. Positions from many weighted influences; party-line stand-in retired from `leanOf`/`positionOn`/`congressMembers`.
-- [ ] 4. Proof in two random places over a game year with world-legislating on.
+- [x] 4. Proof over a game year with world races and legislating switched on (`node --import tsx src/core2/tooling/officials-year.ts <seed> [placeKey]`), until FIXER's wiring puts them in `/play`:
+  - **A Mississippi town (place 2849520, seed officials-proof-1):** the legislature repealed public broadband 80–42 and the state income tax 78–44 (two Republicans voted no, and one state senator) and enacted term limits 81–41. Congress: stand-your-ground 222–211 in the House (3 Democrats yes), right-to-work 221–212 (2 Democrats), voter ID 221–212 and 54–46 in the Senate (1 Democrat); each died at the Senate's 60-vote cloture. The town's truly independent state representative (caucuses with no one, "between the parties") voted no, yes, no, yes on the four state bills.
+  - **The same town, another seed (officials-proof-3):** different people, different votes: term limits passed 79–43 instead of 81–41, the House's stand-your-ground vote was 219–214 with no Democrats, and the independent representative caucuses with the Democrats this time and voted no on all four.
+  - **An Idaho town (place 1616120, seed officials-proof-2):** the legislature repealed same-day registration, Medicaid expansion (34–1 in the House, one Republican no) and restored voting after a sentence; the federal votes split 220–213 to 223–210 with 1 to 4 Democrats crossing.
+  - **Independents:** both caucusing senators voted with the Democrats on every federal bill in all three games; the California independent with the Republicans.
+  - **Speed:** same place and seed on main versus this branch: opening 61 s and 61 s, year 566 s and 550 to 574 s (no slowdown); memory after the opening 3.55 GB on main against 3.6 to 3.8 GB here. Officials use the `calendar` tier and never act on their own.
+  - **Not yet in `/play`:** world races and legislating are installed by FIXER's `fixer/wire-all-modules`. Officials themselves are in `/play` now: `openLegislature` seats them.
 
 ## Needs from other sessions
 
 - **OPUS-CORE:** `fillInIdentity` now takes optional `traits` and `tier` (two lines in `src/core2/state.ts`, on this branch). Officials use the `calendar` tier so they don't add daily or monthly acts.
 - **FIXER (wire-all-modules):** world-legislating and world-races in the played world, for step 4.
+
+- **OPUS-GOV:** the offices engine files Idaho's House as 35 seats, one per district, but each district elects an A and a B seat (70 members; `rosterDistrict` misses "10A"/"10B"). The unmatched seats' holders get an estimated party (SG-OFFICIALS-unrecorded-party). The town's Idaho state votes therefore show 35 members and no Democrats.
+- **OPUS-GOV:** world-legislating's leader now brings what they themselves want (`leanOf`), not their party's side at a fixed scale.
+
+## Next (my area)
+
+- Donors: each official's donor coalition (OpenSecrets sector shares by party) as a weighted reason on bills that touch those sectors.
+- A second, social dimension of views (The Political Process keeps economic and social ideology), with questions tagged by domain.
+- Officials who retire, run for higher office and lose (with OPUS-GOV's races): the people stay, with their careers.
 
 ## Questions for the owner
 
@@ -30,3 +45,4 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 ## Log
 
 - 2026-10-13: steps 1 to 3 (first slice) on `opus-officials`.
+- 2026-10-13: members read policies the way legislatures do (adoption share), caucusing independents sit in their caucus's range, officials test in a random place, year proof in two places plus a second seed (step 4). No sub-agents ran.
