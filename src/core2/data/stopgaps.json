@@ -1097,7 +1097,7 @@
     "id": "SG-GOV-who-runs-stand-in",
     "kind": "missing-engine",
     "file": "src/core2/modules/voting.ts",
-    "line": 363,
+    "line": 507,
     "whatItFakes": "When filing closes, the incumbent stands again if alive, and each state or federal race gets a named challenger from the other major party.",
     "why": "OPUS-PEOPLE's 'who runs' (M2-04) isn't built: people deciding to run from their drives, views and circumstances.",
     "addedBy": "OPUS-GOV",
