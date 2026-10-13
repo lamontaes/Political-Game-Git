@@ -353,6 +353,17 @@ function newsBetween(
     const stage = event ? news.kinds[event.kind] : undefined;
     if (!event || !stage || event.date < since) continue;
     const childId = event.facts?.childId;
+    // The speaker's own news: told in the first person.
+    if (event.personIds.includes(speaker.id) && speaker.id !== childId) {
+      out.push({
+        id: `news:${event.id}`,
+        kind: "news",
+        aboutId: speaker.id,
+        stage: `own-${stage}`,
+        facts: {},
+      });
+      continue;
+    }
     const aboutId = event.personIds.find(
       (id) =>
         id !== speaker.id &&

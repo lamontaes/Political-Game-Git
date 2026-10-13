@@ -316,4 +316,27 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(told).toBe(true);
     expect(talk.choices.map((row) => row.text)).toContain("That's wonderful.");
   });
+
+  it("tells one's own news in the first person", () => {
+    const teller = strangers[0]!;
+    applyCoreEvent(core, {
+      id: "work.job-lost:fixture-news",
+      date: core.date,
+      kind: "work.job-lost",
+      personIds: [teller.id],
+      placeId: teller.placeId,
+      publicRecord: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the jobs engine.",
+        estimatedFrom: "Fixture.",
+      },
+    });
+    const own = subjectsBetween(core, teller.id, me.id).find(
+      (row) => row.id === "news:work.job-lost:fixture-news",
+    );
+    expect(own?.stage).toBe("own-job-lost");
+    expect(own?.aboutId).toBe(teller.id);
+  });
 });

@@ -695,6 +695,26 @@
           "key": "job-lost",
           "text": "{{name}} lost {{their}} job.",
           "stages": ["job-lost"]
+        },
+        {
+          "key": "own-married",
+          "text": "I got married.",
+          "stages": ["own-married"]
+        },
+        {
+          "key": "own-moved-in",
+          "text": "I moved in with my partner.",
+          "stages": ["own-moved-in"]
+        },
+        {
+          "key": "own-baby",
+          "text": "We had a baby.",
+          "stages": ["own-baby"]
+        },
+        {
+          "key": "own-job-lost",
+          "text": "I lost my job.",
+          "stages": ["own-job-lost"]
         }
       ],
       "answers": [
@@ -704,9 +724,14 @@
           "stages": ["married", "moved-in", "baby"]
         },
         {
+          "key": "congratulations",
+          "text": "Congratulations.",
+          "stages": ["own-married", "own-moved-in", "own-baby"]
+        },
+        {
           "key": "sorry",
           "text": "I'm sorry to hear that.",
-          "stages": ["moved-away", "job-lost"]
+          "stages": ["moved-away", "job-lost", "own-job-lost"]
         },
         {
           "key": "didnt-know",
