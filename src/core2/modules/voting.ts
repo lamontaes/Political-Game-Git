@@ -1288,9 +1288,10 @@ const districtShares = new Map(
 /**
  * The electorate the world doesn't name votes as groups: lean bands around the
  * town's lean, each sized from the electorate, turning out at the named
- * people's rate, and voting for the candidate their band's named people chose
- * most (a band with no named voters goes to the candidate whose platform and
- * party sit closest).
+ * people's rate. In the town's own races a band splits the way its named
+ * people chose; in a state or district race the bands past the town vote by
+ * the party nearest their lean (BOARD item 6: a statewide vote followed about
+ * 32 named townspeople). A band with no named voters goes by party.
  */
 function groupVote(
   api: CoreAPI,
@@ -1336,7 +1337,27 @@ function groupVote(
           : 1 / bands;
     const votes = Math.round(unnamed * share);
     if (!votes) continue;
-    // The group splits the way its named people chose.
+    // Who the band votes for: past the town (a state or district race read
+    // from its real lean) a band never heard the town's campaign and votes
+    // by the party nearest its lean; inside it, or where the parties tie at
+    // the center, the band splits the way its named people chose.
+    const closest = filings
+      .map((f) => {
+        const facts = candidateFacts(api, f, contest);
+        return {
+          id: f.personId,
+          score: mid * partySide(facts.party),
+        };
+      })
+      .sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
+    const byParty =
+      closest.length === 1 || closest[0]!.score !== closest[1]!.score
+        ? closest[0]!.id
+        : null;
+    if (right !== null && byParty) {
+      groupVotes[byParty] = (groupVotes[byParty] ?? 0) + votes;
+      continue;
+    }
     const counts = new Map<string, number>();
     for (const v of inBand)
       if (v.choice) counts.set(v.choice, (counts.get(v.choice) ?? 0) + 1);
@@ -1349,17 +1370,7 @@ function groupVote(
     }
     // A band none of the town's voters fall in never heard a platform: it
     // goes by the party on the ballot, and leaves a nonpartisan race blank.
-    const closest = filings
-      .map((f) => {
-        const facts = candidateFacts(api, f, contest);
-        return {
-          id: f.personId,
-          score: mid * partySide(facts.party),
-        };
-      })
-      .sort((x, y) => y.score - x.score || x.id.localeCompare(y.id));
-    if (closest.length > 1 && closest[0]!.score === closest[1]!.score) continue;
-    groupVotes[closest[0]!.id] = (groupVotes[closest[0]!.id] ?? 0) + votes;
+    if (byParty) groupVotes[byParty] = (groupVotes[byParty] ?? 0) + votes;
   }
   void namedEligible;
   return { groupVotes, electorate };
