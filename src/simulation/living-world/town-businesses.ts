@@ -113,9 +113,15 @@ export interface TownBusiness {
   }[];
 }
 
-const WORKPLACE_BY_KEY = new Map(
-  TOWN_WORKPLACES.map((workplace) => [workplace.key, workplace]),
-);
+// Read on first use: the workplaces module may still be loading when this
+// one is (the two import each other through the employment engine).
+let workplaceByKey: ReadonlyMap<string, (typeof TOWN_WORKPLACES)[number]>;
+const WORKPLACE_BY_KEY = {
+  get: (key: string) =>
+    (workplaceByKey ??= new Map(
+      TOWN_WORKPLACES.map((workplace) => [workplace.key, workplace]),
+    )).get(key),
+};
 
 /** The town's businesses open today, in stable-key order. */
 export function townBusinesses(

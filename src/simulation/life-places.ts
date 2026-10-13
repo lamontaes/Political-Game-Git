@@ -3,12 +3,10 @@ import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { legislativeWorkKey } from "./legislative-work-key";
 import {
   ALASKA_CONTEXT,
-  KENTUCKY_CONTEXT,
-  NEBRASKA_CONTEXT,
-} from "./legislation-scenarios";
-import {
   DEMO_START_DATE,
+  KENTUCKY_CONTEXT,
   LEXINGTON_DEMO_CONTEXT,
+  NEBRASKA_CONTEXT,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 import { createStableId } from "./ids";

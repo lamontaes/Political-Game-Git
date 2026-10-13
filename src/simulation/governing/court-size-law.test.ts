@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import {
   bodyForChamber,
   committeeMembers,
-  createLegislativeScenario,
   dispositionsFromCounts,
   type LegislativeScenario,
 } from "../legislation-scenarios";
+import { createLegislativeScenario } from "../legislation-scenario-world";
 import { addDays } from "../dates";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {

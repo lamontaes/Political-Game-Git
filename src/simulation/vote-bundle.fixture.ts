@@ -5,10 +5,10 @@ import {
 } from "./character-history";
 import {
   bodyForChamber,
-  createLegislativeScenario,
   type LegislativeScenario,
   type SeatedMember,
 } from "./legislation-scenarios";
+import { createLegislativeScenario } from "./legislation-scenario-world";
 import {
   introduceMeasure,
   offerFloorAmendment,

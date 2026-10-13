@@ -32,10 +32,10 @@ import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import {
   committeeMembers,
   bodyForChamber,
-  createLegislativeScenario,
   dispositionsFromCounts,
   type LegislativeScenario,
 } from "./legislation-scenarios";
+import { createLegislativeScenario } from "./legislation-scenario-world";
 import {
   enrollMeasure,
   measurePosition,

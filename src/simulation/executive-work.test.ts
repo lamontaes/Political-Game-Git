@@ -1,11 +1,11 @@
 import { activeLifePathWorkers } from "./life-paths2-workers";
 import {
-  createLegislativeScenario,
   bodyForChamber,
   committeeMembers,
   dispositionsFromCounts,
   type LegislativeScenario,
 } from "./legislation-scenarios";
+import { createLegislativeScenario } from "./legislation-scenario-world";
 import {
   introduceMeasure,
   referMeasure,
