@@ -182,6 +182,20 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
     expect(residents.some((row) => left.has(row.id))).toBe(false);
   });
 
+  it("never moves someone away from the household their recorded income is paid into", () => {
+    // A pension or Social Security award names its household; the core
+    // refuses the next payment once its person lives elsewhere.
+    for (const row of core.finance.contracts.values()) {
+      const term = row.recipientIncome;
+      if (!term || row.endedAt) continue;
+      const person = core.people.get(term.personId)!;
+      expect(person.householdId).toBe(term.householdId);
+      expect(core.households.get(term.householdId)!.memberIds).toContain(
+        person.id,
+      );
+    }
+  });
+
   it("lets a grown child living with a parent leave alone, and takes a householder's partner and children along", () => {
     for (const row of departures) {
       if (parentsAtHome.has(row.personId))

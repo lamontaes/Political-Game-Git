@@ -52,6 +52,7 @@ const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
 const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
+const INCOME_STOPGAP = "SG-FIXER-moves-income-household";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -594,6 +595,28 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     })
   ) {
     api.stopgap(PINNED_STOPGAP);
+    return null;
+  }
+  // A recorded income award (a pension, Social Security) names the household
+  // it is paid into; a mover who would leave that household behind keeps
+  // it until an award can follow its person (registered stopgap).
+  const core = api.state as CoreState;
+  const home = core.households.get(person.householdId);
+  if (
+    home?.memberIds.some((id) => !going.includes(id)) &&
+    going.some((id) =>
+      [...(core.finance.incomeContractsByPerson.get(id) ?? [])].some(
+        (contractId) => {
+          const row = core.finance.contracts.get(contractId);
+          return (
+            !row?.endedAt &&
+            row?.recipientIncome?.householdId === person.householdId
+          );
+        },
+      ),
+    )
+  ) {
+    api.stopgap(INCOME_STOPGAP);
     return null;
   }
   pending.set(api.state, { pull });
