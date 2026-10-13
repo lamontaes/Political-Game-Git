@@ -20,6 +20,7 @@ import { applyCoreEvent, coreAPI } from "../../core2/state";
 import { bringItUp } from "../bring-it-up";
 import { openConversation, say } from "../conversation";
 import { openFilingVisit, pickContest } from "../filing-visit";
+import { answerInterview, openInterview } from "../interview";
 import { composeJournal, composeLookBack } from "../journal";
 import { createDirector } from "../ledger";
 import { composeScene } from "../scene";
@@ -152,6 +153,58 @@ for (const drawn of seeds) {
       },
     ],
   );
+  // A campaign interview with GOV-shaped records: two issues, on the record.
+  const interview = openInterview(core, player.id, {
+    id: `interview:${drawn}`,
+    outlet: { id: `outlet:${me.placeId}`, name: "the local paper" },
+    contest: { id: contest.id, title: contest.title },
+    place: { id: me.placeId, name: place.split(",")[0] ?? place },
+    issues: [
+      {
+        topic: "fixture:park",
+        label: "the downtown park",
+        change: "build the downtown park",
+        desiredChange: "build-park",
+        sourceIds: ["fixture:issue-park"],
+      },
+      {
+        topic: "fixture:roads",
+        label: "road repairs",
+        change: "repave Main Street",
+        desiredChange: "repave-main",
+        sourceIds: ["fixture:issue-roads"],
+      },
+    ],
+    terms: "on-record",
+  });
+  for (const answer of ["support", "redirect"]) {
+    const pick = interview.choices.find((row) => row.answer === answer);
+    if (pick) answerInterview(core, interview, pick.key);
+  }
+  // A relative moving away and economy events, shaped as their engines emit them.
+  const relative = [...me.familyIds].find((id) => {
+    const other = core.people.get(id);
+    return other?.alive && other.tier !== "husk";
+  });
+  for (const [kind, ids] of [
+    ["person.moved-away", relative ? [relative] : []],
+    ["housing.eviction", [player.id]],
+    ["housing.purchase", [player.id]],
+  ] as const) {
+    if (!ids.length) continue;
+    applyCoreEvent(core, {
+      id: `${kind}:grading:${drawn}`,
+      date: core.date,
+      kind,
+      personIds: [...ids],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: kind !== "person.moved-away",
+      source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
+    });
+  }
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  composeJournal(core, director, player.id);
   // A closure, brought up along a chain of people.
   const org = core.jobs.get(me.jobId!)!.organizationId;
   const closure = `organization.closed:${org}:${core.date}`;
@@ -190,9 +243,9 @@ const batch = items.filter((row) => {
 });
 const surface = (bank: string) => bank.split(":")[0]!.replaceAll("-", " ");
 const lines = [
-  "# English engine: grading batch, October 12, 2026",
+  "# English engine: grading batch, October 13, 2026",
   "",
-  `Real engine output from generated lives in ${[...new Set(batch.map((row) => row.place))].join("; ")} (seeds ${seeds.join(", ")}). Each line is the first one a different template wrote, so no two items are alike. ${batch.length} items; the engine has no more distinct templates yet, so this batch is shorter than 100.`,
+  `Real engine output from generated lives in ${[...new Set(batch.map((row) => row.place))].join("; ")} (seeds ${seeds.join(", ")}). Each line is the first one a different template wrote, so no two items are alike. ${batch.length} items${batch.length < 100 ? "; the engine has no more distinct templates yet, so this batch is shorter than 100" : ""}.`,
   "",
   "Grade each line from 1 (wrong or unnatural) to 5 (exactly how a person would say or write it), and add a note where it helps. Grades feed the engine; they never block a merge.",
   "",

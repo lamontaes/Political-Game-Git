@@ -9,7 +9,7 @@
  * carries it to readers and their views can move.
  */
 import { P } from "../core2/parameters";
-import { stancesOf } from "../core2/modules/views";
+import { stancesOf, VIEWS_MODULE_ID } from "../core2/modules/views";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import interviewJson from "./data/interview.json" with { type: "json" };
@@ -131,12 +131,14 @@ function ask(core: Readonly<CoreState>, interview: Interview): void {
   }
   const facts = issueFacts(setup, issue);
   // The candidate's own recorded stance on this issue, where there is one.
-  const stance = stancesOf(coreAPI(core as CoreState), interview.playerId).find(
-    (row) =>
-      row.topic === issue.topic &&
-      row.desiredChange === issue.desiredChange &&
-      row.strength > P.zero,
-  );
+  const stance = (core as CoreState).modules.has(VIEWS_MODULE_ID)
+    ? stancesOf(coreAPI(core as CoreState), interview.playerId).find(
+        (row) =>
+          row.topic === issue.topic &&
+          row.desiredChange === issue.desiredChange &&
+          row.strength > P.zero,
+      )
+    : undefined;
   const question = stance
     ? speak(
         core,
