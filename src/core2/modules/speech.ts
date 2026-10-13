@@ -181,6 +181,15 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
   return out;
 }
 
+/** Who heard a speech, and who retold it. */
+export function retellingsOf(
+  api: CoreAPI,
+  speechId: string,
+): readonly Retelling[] {
+  if (!api.state.modules.has(SPEECH_MODULE_ID)) return [];
+  return table(api).query("bySpeech", [speechId]) as unknown as Retelling[];
+}
+
 export const speechModule: CoreModule = {
   id: SPEECH_MODULE_ID,
   state: {
