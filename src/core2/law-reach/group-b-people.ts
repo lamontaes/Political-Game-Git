@@ -69,6 +69,8 @@ export interface ResidentFacts {
   readonly named: boolean;
   readonly householdId: string;
   readonly age: number;
+  /** Who in a household is oldest is read from this, not from whole-year ages. */
+  readonly birthDate: string;
   readonly weeklyMinutes: number;
   readonly employed: boolean;
 }
@@ -147,6 +149,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
         named: true,
         householdId,
         age,
+        birthDate: person.birthDate,
         weeklyMinutes: namedMinutes.get(id) ?? 0,
         employed: working,
       });
@@ -180,6 +183,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           named: false,
           householdId: record.household.id,
           age,
+          birthDate: person.birthDate,
           weeklyMinutes: minutes.get(person.id) ?? 0,
           employed: workers.has(person.id),
         });
@@ -253,11 +257,17 @@ export function selectResidents(
     out.push(r);
   }
   if (!selector.householdHead) return out.sort(byId);
-  // One per household: its oldest matching member.
+  // One per household: its oldest matching member, by birth date. Whole-year
+  // ages tie for part of each year between members born months apart, which
+  // moved the record from one to the other on each birthday.
   const heads = new Map<string, ResidentFacts>();
   for (const r of out) {
     const prior = heads.get(r.householdId);
-    if (!prior || r.age > prior.age || (r.age === prior.age && r.id < prior.id))
+    if (
+      !prior ||
+      r.birthDate < prior.birthDate ||
+      (r.birthDate === prior.birthDate && r.id < prior.id)
+    )
       heads.set(r.householdId, r);
   }
   return [...heads.values()].sort(byId);
