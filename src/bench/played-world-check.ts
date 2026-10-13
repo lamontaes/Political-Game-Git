@@ -71,7 +71,6 @@ export const CREDIT_DTI_PARAMETER = "creditDtiReferencePct";
 
 /** Checks that fail today, by letter, with the package that owns the fix. */
 export const EXPECTED_FAILURES: Readonly<Record<string, string>> = {
-  B: "PW-2",
   C: "PW-3",
   D: "PW-3",
   E: "PW-3",
