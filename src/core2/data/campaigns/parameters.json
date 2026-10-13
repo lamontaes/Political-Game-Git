@@ -237,11 +237,23 @@
       "source": "How much a member's duty to keep the government funded weighs toward adopting a budget, beside their views on its changes. Checked against how rarely councils fail to adopt a budget (most charters carry the prior budget forward when they do).",
       "spread": [0.1, 0.6]
     },
-    "sessionAgendaBills": {
-      "value": 3,
+    "floorBillsPerLegislativeDay": {
+      "value": 6,
       "tag": "TUNABLE",
-      "source": "How many of the majority leader's priority policy bills reach the floor in a session (the major partisan measures of a session, out of the hundreds of bills a legislature passes). Checked against states' enacted headline measures per session (state legislative session summaries, 2023 to 2025: typically two to six).",
-      "spread": [1, 8]
+      "source": "How many bills a legislative chamber's floor takes up in one floor day (each bill reached is debated and voted on; the rest die at adjournment). Checked against official session totals: Kentucky 2024, 212 bills became law in 60 legislative days (3.5 a day, each passing both chambers); Florida 2024, 313 bills passed both chambers in a 60-day session (about 5 a day); the floor also takes up bills that fail (data/research/lawmaking-throughput/throughput-evidence.json).",
+      "spread": [3, 12]
+    },
+    "legislativeDaysPerWeek": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Floor days a week while a state legislature is in session, applied to the session's recorded length (NCSL 2026 session calendar). Checked against Kentucky 2024: 60 legislative days between January 2 and April 15, about four a week (Kentucky Legislative Research Commission, General Assembly Action: 2024 Regular Session).",
+      "spread": [2, 5]
+    },
+    "congressFloorDaysPerYear": {
+      "value": 110,
+      "tag": "TUNABLE",
+      "source": "Days a year Congress's floor sits to take up bills. Checked against the House calendar's statistical summary: 184 legislative days in 2023, counting pro forma days with no votes (House Calendars, March 1, 2024, 118th Congress, https://www.govinfo.gov/content/pkg/CCAL-118hcal-2024-03-01/html/CCAL-118hcal-2024-03-01-pt19.htm), and the 118th Congress's 274 public laws in two years (Clerk of the House, final calendar of the 118th Congress).",
+      "spread": [90, 185]
     },
     "fullYearSessionAgendaMonth": {
       "value": 6,
@@ -260,17 +272,29 @@
       "tag": "SOURCED",
       "source": "U.S. Senate Standing Rules, Rule XXII(2): debate on a measure ends only when three-fifths of the senators duly chosen and sworn vote for cloture; the bill then passes by a majority of those voting. https://www.rules.senate.gov/rules-of-the-senate"
     },
-    "localAgendaMeetingsPerYear": {
-      "value": 4,
+    "localRegularMeetingsPerYear": {
+      "value": 24,
       "tag": "TUNABLE",
-      "source": "How many of a council's or county board's regular meetings in a year carry a policy ordinance from the presiding member's own agenda (councils meet once or twice a month; most meetings carry routine business: National League of Cities, City Councils in the U.S., 2023).",
-      "spread": [1, 12]
+      "source": "Regular meetings a year of a town council or county board, each with legislation on its agenda: most councils meet once or twice a month (National League of Cities, City Councils in the U.S., 2023).",
+      "spread": [12, 52]
     },
-    "localAgendaBills": {
-      "value": 1,
+    "localMeetingAgendaMinutes": {
+      "value": 150,
       "tag": "TUNABLE",
-      "source": "How many of the presiding member's own policy ordinances come up at such a meeting.",
-      "spread": [1, 3]
+      "source": "Minutes of a regular council or board meeting given to legislation, after consent items and reports (regular meetings commonly run two to four hours; National League of Cities, City Councils in the U.S., 2023).",
+      "spread": [60, 240]
+    },
+    "policyOrdinanceMinutes": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Minutes one policy ordinance takes on a meeting's agenda: its staff report, public comment and the members' debate and vote. Checked against Minneapolis 2024: 48 ordinances introduced and 47 enacted over the year, besides 449 resolutions (Minneapolis City Council tracking report, data/research/lawmaking-throughput/throughput-evidence.json).",
+      "spread": [15, 60]
+    },
+    "defeatedMeasureWaitDays": {
+      "value": 180,
+      "tag": "TUNABLE",
+      "source": "Days after a council or board votes a measure down before the same measure may come back: Robert's Rules of Order (12th ed., 38:1) lets a defeated motion be renewed only at a later session, and council rules of procedure commonly bar a defeated ordinance for six months to a year.",
+      "spread": [30, 365]
     },
     "recallOrganizerEffort": {
       "value": 0.5,

@@ -16,6 +16,7 @@ import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
+import { campaignParameter } from "./campaign-views";
 import { openLegislature } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
 import { effectsOn, openLawEffects } from "./modules/law-effects";
@@ -230,8 +231,33 @@ describe("M3-10 other governments legislate", () => {
         (b) => b.id === (s as { bodyOfficeId?: string }).bodyOfficeId,
       ),
     );
-    // Every body met once by now, each meeting on the record with its bills.
-    expect(meetings.length, `${state} ${key}`).toBe(bodies.length);
+    // Every body met at each of its regular meetings by now, each on the
+    // record with its bills; each meeting took up what its agenda time
+    // allowed, and no change it voted down came back within the wait.
+    const interval = Math.round(
+      365 / campaignParameter("localRegularMeetingsPerYear"),
+    );
+    const elapsed =
+      (Date.parse("2026-04-15T00:00:00Z") - Date.parse(`${START}T00:00:00Z`)) /
+      86_400_000;
+    expect(meetings.length, `${state} ${key}`).toBe(
+      bodies.length * Math.floor(elapsed / interval),
+    );
+    const defeated = new Map<string, string>();
+    for (const meeting of [...meetings].sort((a, b) =>
+      a.date.localeCompare(b.date),
+    )) {
+      const voted = meeting.bills.filter((b) => b.fate === "voted");
+      expect(voted.length).toBeLessThanOrEqual(meeting.floorTime);
+      for (const bill of voted) {
+        const id = `${meeting.bodyOfficeId}|${bill.question}|${bill.change}`;
+        expect(defeated.has(id), `${id} came back`).toBe(false);
+        if (
+          !["enacted", "overridden", "awaiting-signature"].includes(bill.status)
+        )
+          defeated.set(id, meeting.date);
+      }
+    }
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
     for (const meeting of meetings)
       for (const bill of meeting.bills.filter((b) =>
