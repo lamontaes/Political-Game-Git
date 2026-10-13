@@ -40,6 +40,7 @@ import {
   budgetPriorities,
   proposedBudget,
   putBudget,
+  setBudgetPriorities,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -229,49 +230,107 @@ function councilBudget(
   });
   // Each member's duty to adopt a budget sits beside their views on its
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
-  const tallies: string[] = [];
-  let adopted = true;
-  for (const chamber of chambers.chambers) {
-    let yes = 0;
-    let no = 0;
-    for (const member of members(api, chamber)) {
-      const key = memberKey(member);
-      const position = memberPosition(api, bill.id, key);
-      const total =
-        position.total -
-        position.sponsor +
-        campaignParameter("budgetAdoptionDuty");
-      if (total > 0) yes += 1;
-      else if (total < 0) no += 1;
-      table(api, "votes").put({
-        id: `vote:${bill.id}:${key}`,
-        billId: bill.id,
-        memberId: key,
-        chamber,
-        vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
-        position: { ...position, total },
-      } as unknown as ModuleRow);
+  const roll = (kept: readonly Provision[]) => {
+    const trial = { ...bill, provisions: kept } as BillRow;
+    const tallies: string[] = [];
+    const rows: ModuleRow[] = [];
+    for (const chamber of chambers.chambers) {
+      let yes = 0;
+      let no = 0;
+      const against: string[] = [];
+      for (const member of members(api, chamber)) {
+        const key = memberKey(member);
+        const position = positionOn(api, trial, key);
+        const total =
+          position.total -
+          position.sponsor +
+          campaignParameter("budgetAdoptionDuty");
+        if (total > 0) yes += 1;
+        else if (total < 0) {
+          no += 1;
+          against.push(key);
+        }
+        rows.push({
+          id: `vote:${bill.id}:${key}`,
+          billId: bill.id,
+          memberId: key,
+          chamber,
+          vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
+          position: { ...position, total },
+        } as unknown as ModuleRow);
+      }
+      tallies.push(`${yes}-${no}`);
+      const cloture =
+        chamber === FEDERAL_SENATE &&
+        yes <
+          Math.ceil(
+            members(api, chamber).length *
+              campaignParameter("senateClotureShare"),
+          );
+      if (yes <= no || cloture)
+        return { adopted: false, tallies, rows, against };
     }
-    tallies.push(`${yes}-${no}`);
-    const cloture =
-      chamber === FEDERAL_SENATE &&
-      yes <
-        Math.ceil(
-          members(api, chamber).length *
-            campaignParameter("senateClotureShare"),
+    return { adopted: true, tallies, rows, against: [] as string[] };
+  };
+  // A rejected budget is negotiated, not abandoned: the leaders drop the
+  // change its opponents in the failing chamber object to most and vote
+  // again, until it passes or no change is left (then last year's carries).
+  let kept: readonly Provision[] = provisions;
+  let result = roll(kept);
+  const dropped: string[] = [];
+  while (!result.adopted && kept.length) {
+    const objection = (p: Provision) =>
+      result.against.reduce((sum, key) => {
+        const one = positionOn(
+          api,
+          { ...bill, provisions: [p] } as BillRow,
+          key,
         );
-    if (yes <= no || cloture) {
-      adopted = false;
-      break;
-    }
+        return sum + one.views + one.constituents;
+      }, 0);
+    const worst = [...kept]
+      .map((p) => ({ p, o: objection(p) }))
+      .sort(
+        (a, b) =>
+          a.o - b.o ||
+          String((a.p as { line?: string }).line).localeCompare(
+            String((b.p as { line?: string }).line),
+          ),
+      )[0]!.p;
+    dropped.push(String((worst as { line?: string }).line));
+    kept = kept.filter((p) => p !== worst);
+    result = roll(kept);
   }
+  for (const row of result.rows) table(api, "votes").put(row);
+  const tallies = result.tallies;
+  const adopted = result.adopted;
+  // The adopted changes: a stored priority is amended to what passed; the
+  // executive's own (unstored) changes are applied to the proposal below.
+  const passed = Object.fromEntries(
+    kept.map((p) => {
+      const line = p as unknown as { line: string; value: number };
+      return [line.line, line.value];
+    }),
+  );
+  const stored = budgetPriorities(api, gov.id);
+  if (stored && dropped.length)
+    setBudgetPriorities(api, {
+      governmentId: gov.id,
+      setBy: stored.setBy,
+      changes: passed,
+    });
   const votes = tallies.join(", ");
-  const proposal = proposedBudget(
+  const drafted = proposedBudget(
     api,
     gov,
     fy,
-    `${chambers.body} vote ${votes}, ${bill.number}`,
+    `${chambers.body} vote ${votes}, ${bill.number}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}`,
   );
+  const spending = { ...drafted.spendingMinor };
+  if (!stored)
+    for (const [line, delta] of Object.entries(passed))
+      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  const proposal = { ...drafted, spendingMinor: spending };
   const budget: BudgetRow = adopted
     ? proposal
     : {
@@ -282,6 +341,7 @@ function councilBudget(
   putBudget(api, budget);
   table(api, "bills").put({
     ...bill,
+    provisions: kept,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
