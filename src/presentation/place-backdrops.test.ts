@@ -12,7 +12,7 @@ import {
   placeBackdrop,
   workplacePlaceFor,
 } from "./place-backdrops";
-import { backdropStaging } from "./backdrop-people";
+import { backdropStaging } from "../bench/staging";
 import type { SimulationMoment } from "../simulation/types";
 
 const at = (date: string, hour: number, minute = 0): SimulationMoment => ({
