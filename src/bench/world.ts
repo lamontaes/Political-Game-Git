@@ -25,6 +25,7 @@ import { openLegislature } from "../core2/modules/legislature";
 import { openLawEffects } from "../core2/modules/law-effects";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { openWorldRaces } from "../core2/modules/world-races";
+import { openInterestGroups } from "../core2/modules/interest-groups";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { renewalData } from "../core2/births-setup";
@@ -285,6 +286,8 @@ function* benchWorldStages(
   // (the presidency among them) are decided.
   openWorldLegislating(core);
   openWorldRaces(core);
+  // Groups organize against bills that cost their members, and lobby.
+  openInterestGroups(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
