@@ -8,6 +8,7 @@
  * a couple.
  */
 import rows from "../data/partnering/parameters.json" with { type: "json" };
+import orientationJson from "../data/partnering/orientation.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { stableHash } from "../../simulation/ids";
 import { decisionFromScores, scoreOffers } from "../choice";
@@ -141,6 +142,78 @@ function moveIn(
   }
   api.stopgap(HOMES_STOPGAP);
   return undefined;
+}
+
+const ORIENTATION = orientationJson as unknown as {
+  bands: readonly number[];
+  shares: Readonly<Record<string, { gay: number; bisexual: number }>>;
+};
+type Orientation = "straight" | "gay" | "bisexual";
+
+/**
+ * Whom someone can partner with: generation of who exists, keyed to the
+ * person, from the shares by age (at the opening) and sex (NHIS 2024). A
+ * partner already on record settles it: someone with a same-sex partner is
+ * gay, or bisexual if they have also had a partner of the other sex.
+ */
+export function orientationOf(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): Orientation {
+  const core = api.state as CoreState;
+  const partners = (person.pastFacts ?? [])
+    .filter((fact) => fact.kind === "family:partner")
+    .map((fact) => core.people.get(String(fact.facts?.otherPersonId ?? "")))
+    .filter((other): other is PersonState => !!other);
+  const same = partners.some(
+    (other) => other.looks?.gender === person.looks?.gender,
+  );
+  const different = partners.some(
+    (other) => other.looks?.gender !== person.looks?.gender,
+  );
+  if (same) return different ? "bisexual" : "gay";
+  const age = ageOnDate(
+    makeIsoDate(person.birthDate),
+    makeIsoDate(api.state.startedAt),
+  );
+  const band =
+    [...ORIENTATION.bands].reverse().find((start) => age >= start) ??
+    ORIENTATION.bands[0]!;
+  const share = ORIENTATION.shares[`${person.looks?.gender}:${band}`];
+  if (!share) return "straight";
+  const digits = api.parameter("seedHashDigits");
+  const radix = api.parameter("seedPlaceHashRadix");
+  const draw =
+    Number.parseInt(
+      stableHash(`${api.state.seed}:orientation:${person.id}`).slice(
+        api.parameter("zero"),
+        digits,
+      ),
+      radix,
+    ) /
+    radix ** digits;
+  const drawn: Orientation =
+    draw < share.gay
+      ? "gay"
+      : draw < share.gay + share.bisexual
+        ? "bisexual"
+        : "straight";
+  // Someone with only partners of the other sex on record is not gay.
+  return drawn === "gay" && different ? "bisexual" : drawn;
+}
+
+/** Whether two people are each open to the other's sex. */
+function compatible(
+  api: CoreAPI,
+  a: Readonly<PersonState>,
+  b: Readonly<PersonState>,
+): boolean {
+  const same = a.looks?.gender === b.looks?.gender;
+  const open = (who: Readonly<PersonState>) => {
+    const o = orientationOf(api, who);
+    return o === "bisexual" || (o === "gay" ? same : !same);
+  };
+  return open(a) && open(b);
 }
 
 /** Who can marry now: alive, in town, an adult, of a recorded gender. */
@@ -414,7 +487,7 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
       if (
         !eligible(api, other, partnered) ||
         other.id === id ||
-        other.looks?.gender === person.looks?.gender ||
+        !compatible(api, person, other) ||
         person.familyIds.has(other.id)
       )
         return;

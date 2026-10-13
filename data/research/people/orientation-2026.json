@@ -1,0 +1,564 @@
+{
+  "retrievedAt": "2026-10-13",
+  "notes": "All NHIS percentages are COMPUTED by this research from NCHS public-use Sample Adult microdata (weighted by WTFA_A, point estimates only, no variance/SE computed). Denominator = adults answering ORIENT_A codes 1-5 (gay/lesbian, straight, bisexual, something else, I don't know the answer); refused (7) and not ascertained (8) excluded. Ages grouped from AGEP_A (85+ topcoded as 97). n = unweighted respondents. These are not NCHS-published tables; NCHS has not (as far as found) published a 2022-2024 brief of SO prevalence by age and sex.",
+  "sources": [
+    {
+      "id": "nhis2024",
+      "title": "2024 National Health Interview Survey, Sample Adult public-use file (adult24.csv) and codebook (version 18 June 2025)",
+      "url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NHIS/2024/adult24csv.zip",
+      "table": "Variables ORIENT_A, SEX_A, AGEP_A, MARITAL_A, SPOUSESEX_A, PRTNRSEX_A, WTFA_A; codebook p.535-550 (https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NHIS/2024/adult-codebook.pdf)",
+      "year": 2024
+    },
+    {
+      "id": "nhis2023",
+      "title": "2023 National Health Interview Survey, Sample Adult public-use file (adult23.csv)",
+      "url": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NHIS/2023/adult23csv.zip",
+      "table": "Same variables as 2024",
+      "year": 2023
+    },
+    {
+      "id": "censusSSC2023",
+      "title": "Characteristics of Same-Sex Couple Households: 2023 American Community Survey (ssex-tables-2023.xlsx)",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/same-sex/time-series/ssc-house-characteristics/ssex-tables-2023.xlsx",
+      "table": "Table 1 (opposite-sex vs same-sex household totals); Table 2 (same-sex by married/unmarried and male-male/female-female); Table 3 (US row)",
+      "year": 2023
+    },
+    {
+      "id": "censusSSC2024",
+      "title": "Characteristics of Same-Sex Couple Households: 2024 American Community Survey (ssex-tables-2024.xlsx)",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/same-sex/time-series/ssc-house-characteristics/ssex-tables-2024.xlsx",
+      "table": "Tables 1-3",
+      "year": 2024
+    },
+    {
+      "id": "pew2025ssc",
+      "title": "Pew Research Center, Rising number of U.S. households are headed by married same-sex couples (June 12, 2025)",
+      "url": "https://www.pewresearch.org/social-trends/2025/06/12/rising-number-of-u-s-households-are-headed-by-married-same-sex-couples/",
+      "table": "text, citing Census ssc-house-characteristics tables",
+      "year": 2023
+    },
+    {
+      "id": "pew2019bi",
+      "title": "Pew Research Center, Bisexual adults are far less likely than gay men and lesbians to be 'out' to the people in their lives (June 18, 2019)",
+      "url": "https://www.pewresearch.org/short-reads/2019/06/18/bisexual-adults-are-far-less-likely-than-gay-men-and-lesbians-to-be-out-to-the-people-in-their-lives/",
+      "table": "text; data from Stanford How Couples Meet and Stay Together 2017 (HCMST 2017)",
+      "year": 2017
+    },
+    {
+      "id": "gallup2026",
+      "title": "Gallup, LGBTQ+ Identification Holds at 9% in U.S. (Feb 16, 2026; 2025 data, n=13,454)",
+      "url": "https://news.gallup.com/poll/702206/lgbtq-identification-holds.aspx",
+      "table": "article text and charts",
+      "year": 2025
+    },
+    {
+      "id": "gallup2025",
+      "title": "Gallup, LGBTQ+ Identification in U.S. Rises to 9.3% (Feb 20, 2025; 2024 data, n=14,162)",
+      "url": "https://news.gallup.com/poll/656708/lgbtq-identification-rises.aspx",
+      "table": "article text and charts",
+      "year": 2024
+    }
+  ],
+  "identification": {
+    "sourceId": "nhis2024",
+    "computed": true,
+    "overall": {
+      "gayLesbian": 2.01,
+      "bisexual": 2.94,
+      "full": {
+        "n": 31263,
+        "gayLesbian": 2.01,
+        "straight": 93.63,
+        "bisexual": 2.94,
+        "somethingElse": 0.7,
+        "dontKnow": 0.73
+      }
+    },
+    "byAge": {
+      "18-29": {
+        "n": 3924,
+        "gayLesbian": 3.05,
+        "straight": 84.85,
+        "bisexual": 8.72,
+        "somethingElse": 1.78,
+        "dontKnow": 1.6
+      },
+      "30-44": {
+        "n": 7322,
+        "gayLesbian": 2.39,
+        "straight": 92.61,
+        "bisexual": 3.5,
+        "somethingElse": 0.92,
+        "dontKnow": 0.58
+      },
+      "45-64": {
+        "n": 9494,
+        "gayLesbian": 1.78,
+        "straight": 96.75,
+        "bisexual": 0.82,
+        "somethingElse": 0.24,
+        "dontKnow": 0.41
+      },
+      "65+": {
+        "n": 10519,
+        "gayLesbian": 1.01,
+        "straight": 98.1,
+        "bisexual": 0.2,
+        "somethingElse": 0.15,
+        "dontKnow": 0.55
+      }
+    },
+    "bySex": {
+      "male": {
+        "n": 14362,
+        "gayLesbian": 2.48,
+        "straight": 95.18,
+        "bisexual": 1.45,
+        "somethingElse": 0.31,
+        "dontKnow": 0.58
+      },
+      "female": {
+        "n": 16896,
+        "gayLesbian": 1.57,
+        "straight": 92.2,
+        "bisexual": 4.32,
+        "somethingElse": 1.05,
+        "dontKnow": 0.86
+      }
+    },
+    "byAgeSex": {
+      "male_18-29": {
+        "n": 1927,
+        "gayLesbian": 3.11,
+        "straight": 91.19,
+        "bisexual": 4.17,
+        "somethingElse": 0.54,
+        "dontKnow": 0.98
+      },
+      "male_30-44": {
+        "n": 3478,
+        "gayLesbian": 2.98,
+        "straight": 94.38,
+        "bisexual": 1.54,
+        "somethingElse": 0.52,
+        "dontKnow": 0.57
+      },
+      "male_45-64": {
+        "n": 4406,
+        "gayLesbian": 2.48,
+        "straight": 96.51,
+        "bisexual": 0.49,
+        "somethingElse": 0.11,
+        "dontKnow": 0.41
+      },
+      "male_65+": {
+        "n": 4551,
+        "gayLesbian": 1.26,
+        "straight": 97.99,
+        "bisexual": 0.17,
+        "somethingElse": 0.13,
+        "dontKnow": 0.45
+      },
+      "female_18-29": {
+        "n": 1994,
+        "gayLesbian": 2.97,
+        "straight": 78.62,
+        "bisexual": 13.2,
+        "somethingElse": 2.97,
+        "dontKnow": 2.24
+      },
+      "female_30-44": {
+        "n": 3842,
+        "gayLesbian": 1.8,
+        "straight": 90.88,
+        "bisexual": 5.45,
+        "somethingElse": 1.27,
+        "dontKnow": 0.59
+      },
+      "female_45-64": {
+        "n": 5088,
+        "gayLesbian": 1.11,
+        "straight": 96.98,
+        "bisexual": 1.13,
+        "somethingElse": 0.37,
+        "dontKnow": 0.41
+      },
+      "female_65+": {
+        "n": 5968,
+        "gayLesbian": 0.79,
+        "straight": 98.18,
+        "bisexual": 0.23,
+        "somethingElse": 0.16,
+        "dontKnow": 0.64
+      }
+    },
+    "nhis2023": {
+      "sourceId": "nhis2023",
+      "computed": true,
+      "overall": {
+        "n": 28100,
+        "gayLesbian": 2.02,
+        "straight": 94.03,
+        "bisexual": 2.48,
+        "somethingElse": 0.77,
+        "dontKnow": 0.69
+      },
+      "byAge": {
+        "18-29": {
+          "n": 3615,
+          "gayLesbian": 2.96,
+          "straight": 86.48,
+          "bisexual": 7.01,
+          "somethingElse": 2.0,
+          "dontKnow": 1.54
+        },
+        "30-44": {
+          "n": 6505,
+          "gayLesbian": 2.54,
+          "straight": 92.54,
+          "bisexual": 3.01,
+          "somethingElse": 1.13,
+          "dontKnow": 0.77
+        },
+        "45-64": {
+          "n": 8674,
+          "gayLesbian": 1.75,
+          "straight": 97.16,
+          "bisexual": 0.67,
+          "somethingElse": 0.15,
+          "dontKnow": 0.28
+        },
+        "65+": {
+          "n": 9300,
+          "gayLesbian": 0.99,
+          "straight": 98.18,
+          "bisexual": 0.31,
+          "somethingElse": 0.12,
+          "dontKnow": 0.4
+        }
+      },
+      "bySex": {
+        "male": {
+          "n": 12842,
+          "gayLesbian": 2.34,
+          "straight": 95.18,
+          "bisexual": 1.43,
+          "somethingElse": 0.56,
+          "dontKnow": 0.49
+        },
+        "female": {
+          "n": 15254,
+          "gayLesbian": 1.72,
+          "straight": 92.96,
+          "bisexual": 3.49,
+          "somethingElse": 0.96,
+          "dontKnow": 0.87
+        }
+      },
+      "byAgeSex": {
+        "male_18-29": {
+          "n": 1782,
+          "gayLesbian": 2.95,
+          "straight": 90.66,
+          "bisexual": 4.12,
+          "somethingElse": 1.31,
+          "dontKnow": 0.97
+        },
+        "male_30-44": {
+          "n": 2949,
+          "gayLesbian": 2.82,
+          "straight": 94.58,
+          "bisexual": 1.39,
+          "somethingElse": 0.77,
+          "dontKnow": 0.45
+        },
+        "male_45-64": {
+          "n": 4115,
+          "gayLesbian": 2.31,
+          "straight": 96.77,
+          "bisexual": 0.41,
+          "somethingElse": 0.17,
+          "dontKnow": 0.34
+        },
+        "male_65+": {
+          "n": 3992,
+          "gayLesbian": 1.2,
+          "straight": 98.09,
+          "bisexual": 0.25,
+          "somethingElse": 0.15,
+          "dontKnow": 0.31
+        },
+        "female_18-29": {
+          "n": 1830,
+          "gayLesbian": 2.98,
+          "straight": 82.35,
+          "bisexual": 9.9,
+          "somethingElse": 2.69,
+          "dontKnow": 2.08
+        },
+        "female_30-44": {
+          "n": 3555,
+          "gayLesbian": 2.26,
+          "straight": 90.51,
+          "bisexual": 4.64,
+          "somethingElse": 1.49,
+          "dontKnow": 1.1
+        },
+        "female_45-64": {
+          "n": 4559,
+          "gayLesbian": 1.19,
+          "straight": 97.54,
+          "bisexual": 0.92,
+          "somethingElse": 0.13,
+          "dontKnow": 0.22
+        },
+        "female_65+": {
+          "n": 5308,
+          "gayLesbian": 0.81,
+          "straight": 98.26,
+          "bisexual": 0.36,
+          "somethingElse": 0.09,
+          "dontKnow": 0.47
+        }
+      }
+    },
+    "codebookUnweightedFrequencies2024": {
+      "sourceId": "nhis2024",
+      "read": true,
+      "ORIENT_A": {
+        "gayLesbian": 667,
+        "straight": 29456,
+        "bisexual": 753,
+        "somethingElse": 182,
+        "dontKnow": 205,
+        "refused": 186,
+        "notAscertained": 1180
+      }
+    },
+    "crossCheckGallup": {
+      "2025data": {
+        "sourceId": "gallup2026",
+        "read": {
+          "lgbtqPlus": 9.0,
+          "heterosexual": 86,
+          "noResponse": 5,
+          "bisexualOfAllAdults": 5.3,
+          "bisexualShareOfLgbtq": 58.6,
+          "gayShareOfLgbtq": 17,
+          "lesbianShareOfLgbtq": 16,
+          "transShareOfLgbtq": 12,
+          "otherShareOfLgbtq": 6,
+          "lgbtqUnder30": 23,
+          "lgbtq30to49": 10,
+          "lgbtq50plus": "3 or less"
+        },
+        "computed": {
+          "gayOfAllAdults": 1.5,
+          "lesbianOfAllAdults": 1.4,
+          "note": "share-of-LGBTQ x 9.0%"
+        },
+        "unconfirmed": {
+          "womenLgbtq": 10.5,
+          "menLgbtq": 5.6,
+          "note": "seen only in a search-result summary, not on the fetched page"
+        }
+      },
+      "2024data": {
+        "sourceId": "gallup2025",
+        "read": {
+          "lgbtqPlus": 9.3,
+          "bisexual": 5.2,
+          "gay": 2.0,
+          "lesbian": 1.4,
+          "transgender": 1.3,
+          "other": "just under 1",
+          "declined": 5,
+          "lgbtqByGeneration": {
+            "genZ_1997_2006_avg2023_2024": 22.7,
+            "millennials": 12.0,
+            "genX": 4.8,
+            "preBoomer_born_before_1946": 1.8
+          },
+          "bisexualShareOfLgbtqByGeneration": {
+            "genZ": 59,
+            "millennials": 52,
+            "genX": 44,
+            "boomers": 19,
+            "silent": 11
+          }
+        }
+      },
+      "caveat": "Gallup's 'no response' (~5%) and different wording give higher LGB shares than NHIS, especially bisexual among young adults."
+    }
+  },
+  "bisexualPartnerSex": {
+    "pew": {
+      "sourceId": "pew2019bi",
+      "read": {
+        "partneredBisexualWithOppositeSexPartnerPct": 88
+      },
+      "note": "HCMST 2017 data; sample too small to split by sex"
+    },
+    "nhis2024": {
+      "sourceId": "nhis2024",
+      "computed": true,
+      "definition": "married (SPOUSESEX_A) or cohabiting (PRTNRSEX_A) sample adults; partner sex vs own sex",
+      "bisexual": {
+        "all": {
+          "n": 285,
+          "differentSexPct": 86.5,
+          "sameSexPct": 13.5
+        },
+        "male": {
+          "n": 54,
+          "differentSexPct": 85.6,
+          "sameSexPct": 14.4
+        },
+        "female": {
+          "n": 231,
+          "differentSexPct": 86.8,
+          "sameSexPct": 13.2
+        }
+      },
+      "gayLesbian": {
+        "all": {
+          "n": 252,
+          "differentSexPct": 5.4,
+          "sameSexPct": 94.6
+        },
+        "male": {
+          "n": 136,
+          "differentSexPct": 4.5,
+          "sameSexPct": 95.5
+        },
+        "female": {
+          "n": 116,
+          "differentSexPct": 6.8,
+          "sameSexPct": 93.2
+        }
+      },
+      "partneredPct": {
+        "bisexual": 42.9,
+        "gayLesbian": 45.9,
+        "straight": 62.3
+      }
+    },
+    "nhis2023": {
+      "sourceId": "nhis2023",
+      "computed": true,
+      "bisexual": {
+        "all": {
+          "n": 239,
+          "differentSexPct": 87.4,
+          "sameSexPct": 12.6
+        },
+        "male": {
+          "n": 50,
+          "differentSexPct": 73.4,
+          "sameSexPct": 26.6
+        },
+        "female": {
+          "n": 189,
+          "differentSexPct": 91.7,
+          "sameSexPct": 8.3
+        }
+      },
+      "gayLesbian": {
+        "all": {
+          "n": 236,
+          "differentSexPct": 11.1,
+          "sameSexPct": 88.9
+        },
+        "male": {
+          "n": 130,
+          "differentSexPct": 13.2,
+          "sameSexPct": 86.8
+        },
+        "female": {
+          "n": 106,
+          "differentSexPct": 8.2,
+          "sameSexPct": 91.8
+        }
+      },
+      "partneredPct": {
+        "bisexual": 47.7,
+        "gayLesbian": 47.1,
+        "straight": 61.3
+      }
+    },
+    "note": "Small n (bisexual men ~50 partnered per year): the male/female split is noisy; pooled ~86-87% different-sex agrees with Pew 88%."
+  },
+  "sameSexCouples": {
+    "acs2023": {
+      "sourceId": "censusSSC2023",
+      "read": {
+        "sameSexMarried": 774600,
+        "sameSexMarriedSE": 10410,
+        "sameSexUnmarried": 536900,
+        "sameSexUnmarriedSE": 9061,
+        "sameSexTotal": 1311000,
+        "sameSexTotalExactTable3": 1311447,
+        "marriedMaleMale": 360700,
+        "marriedFemaleFemale": 413900,
+        "unmarriedMaleMale": 264000,
+        "unmarriedFemaleFemale": 272900,
+        "totalMaleMale": 624600,
+        "totalFemaleFemale": 686800,
+        "oppositeSexMarried": 60650000,
+        "oppositeSexUnmarried": 8951000,
+        "allHouseholds": 131332360,
+        "sameSexPctOfAllHouseholds": 1.0,
+        "pctSameSexThatAreMarried": 59.1
+      },
+      "computed": {
+        "sameSexShareOfAllMarriedCoupleHouseholdsPct": 1.26,
+        "sameSexShareOfAllUnmarriedCoupleHouseholdsPct": 5.66,
+        "maleMaleShareOfSameSexMarriedPct": 46.6,
+        "maleMaleShareOfSameSexUnmarriedPct": 49.2,
+        "maleMaleShareOfAllSameSexPct": 47.6
+      },
+      "crossCheck": {
+        "sourceId": "pew2025ssc",
+        "read": {
+          "married": 774553,
+          "cohabiting": 536894,
+          "shareOfAllMarriedPct": 1.3,
+          "shareOfAllCohabitingPct": 5.6
+        }
+      }
+    },
+    "acs2024": {
+      "sourceId": "censusSSC2024",
+      "read": {
+        "sameSexMarried": 835900,
+        "sameSexUnmarried": 551100,
+        "sameSexTotal": 1387000,
+        "sameSexTotalExactTable3": 1386990,
+        "marriedMaleMale": 386300,
+        "marriedFemaleFemale": 449600,
+        "unmarriedMaleMale": 266000,
+        "unmarriedFemaleFemale": 285100,
+        "totalMaleMale": 652300,
+        "totalFemaleFemale": 734700,
+        "oppositeSexMarried": 61140000,
+        "oppositeSexUnmarried": 9042000,
+        "allHouseholds": 132737146,
+        "pctSameSexThatAreMarried": 60.3
+      },
+      "computed": {
+        "sameSexShareOfAllMarriedCoupleHouseholdsPct": 1.35,
+        "sameSexShareOfAllUnmarriedCoupleHouseholdsPct": 5.74,
+        "maleMaleShareOfSameSexMarriedPct": 46.2,
+        "maleMaleShareOfSameSexUnmarriedPct": 48.3
+      }
+    }
+  },
+  "gaps": [
+    "No NCHS-published 2022-2024 NHIS table of sexual orientation prevalence by age and sex was found; NHIS figures here are computed point estimates from public-use microdata without standard errors (use design variables PSTRAT/PPSU for SEs if needed).",
+    "NSFG 2022-2023 (ages 18-49) sexual identity estimates were not retrieved.",
+    "NHIS age bands are 18-29/30-44/45-64/65+ (chosen here), not generations; Gallup gives generations but no gay/lesbian/bisexual split by generation in the 2025-data article.",
+    "Gallup LGBTQ+ by sex (10.5% women vs 5.6% men) seen only in a search summary, not confirmed on the page.",
+    "Pew 88% is from HCMST 2017, a small bisexual sample, not split by sex. NHIS partnered-bisexual-men n is about 50 per year.",
+    "NHIS excludes ~4% refused/not ascertained on ORIENT_A; shares are among valid answers."
+  ]
+}

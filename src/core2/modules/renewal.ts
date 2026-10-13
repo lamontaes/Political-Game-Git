@@ -324,7 +324,11 @@ function initialize(api: CoreAPI): void {
 function addMarriedCouple(api: CoreAPI, personIds: readonly string[]): void {
   const people = personIds.map((id) => api.state.people.get(id));
   const mother = people.find((person) => person?.looks?.gender === "female");
-  const other = people.find((person) => person && person !== mother);
+  // A pregnancy is planned by a woman and a man (SG-P15-partnering-homes:
+  // same-sex couples' children through adoption or donors are not modeled).
+  const other = people.find(
+    (person) => person && person !== mother && person.looks?.gender === "male",
+  );
   if (
     !mother?.alive ||
     !other?.alive ||

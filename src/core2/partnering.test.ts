@@ -9,6 +9,7 @@ import {
   MARRIED_EVENT,
   MOVED_IN_EVENT,
   marriagesOf,
+  orientationOf,
   partneringModule,
   PARTNERING_PARAMETERS,
 } from "./modules/partnering";
@@ -79,10 +80,13 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
               knew.get(id)?.has(b!.id),
             ),
           ).toBe(true);
-        // New couples are opposite-sex for now (SG-P15-partnering-homes);
-        // a couple together at the opening may not be.
-        if (!pairsBefore.has([a!.id, b!.id].sort().join(":")))
-          expect(a!.looks?.gender).not.toBe(b!.looks?.gender);
+        // A new couple of the same sex are both gay or bisexual.
+        if (
+          !pairsBefore.has([a!.id, b!.id].sort().join(":")) &&
+          a!.looks?.gender === b!.looks?.gender
+        )
+          for (const who of [a!, b!])
+            expect(orientationOf(coreAPI(core), who)).not.toBe("straight");
         expect(a!.familyIds.has(b!.id)).toBe(true);
         for (const person of [a!, b!]) {
           // Someone partnered at the opening marries only that partner.

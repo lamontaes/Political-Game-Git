@@ -1,0 +1,40 @@
+{
+  "version": "orientation-v1",
+  "citation": "Sexual orientation by age and sex: CDC/NCHS National Health Interview Survey 2024, public-use sample adult file (ORIENT_A, weighted by WTFA_A), shares among adults who answered; computed by OPUS-PEOPLE's research helper (data/research/people/orientation-2026.json). 'Something else' and 'don't know' are counted with straight for partnering. Checks: same-sex couples are 1.26% of married and 5.66% of unmarried couple households (Census ACS 2023, same-sex couples Table 2); 86.5% of partnered bisexual adults have a different-sex partner (NHIS 2024; Pew 2019: 88%).",
+  "stopgapId": "SG-P15-partnering-weights",
+  "bands": [18, 30, 45, 65],
+  "shares": {
+    "male:18": {
+      "gay": 0.0311,
+      "bisexual": 0.0417
+    },
+    "male:30": {
+      "gay": 0.0298,
+      "bisexual": 0.0154
+    },
+    "male:45": {
+      "gay": 0.0248,
+      "bisexual": 0.0049
+    },
+    "male:65": {
+      "gay": 0.0126,
+      "bisexual": 0.0017
+    },
+    "female:18": {
+      "gay": 0.0297,
+      "bisexual": 0.132
+    },
+    "female:30": {
+      "gay": 0.018,
+      "bisexual": 0.0545
+    },
+    "female:45": {
+      "gay": 0.0111,
+      "bisexual": 0.0113
+    },
+    "female:65": {
+      "gay": 0.0079,
+      "bisexual": 0.0023
+    }
+  }
+}
