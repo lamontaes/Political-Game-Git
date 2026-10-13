@@ -20,6 +20,7 @@ import { SSA_2023_MAX_AGE } from "../../simulation/crisis/mortality-table";
 import { survivalThresholdFromDraws } from "../../simulation/crisis/fixed-point";
 import { stableHash } from "../../simulation/ids";
 import { parameter } from "../parameters";
+import { COVERAGE_MODULE_ID, coverageOf } from "./coverage";
 import type { EntityId } from "../../simulation/types";
 import type {
   CoreAPI,
@@ -90,11 +91,15 @@ interface HealthRuntime {
   conditionsByPerson: Map<PersonId, readonly string[]>;
   /** Generation fact per person: their own resilience line (fixed-point integrated hazard). */
   resilienceLines: Map<PersonId, bigint>;
+  /** How many people the engine has planned for, to notice arrivals. */
+  seenPeople: number;
   onsets: number;
   deaths: number;
 }
 
 const runtimes = new WeakMap<object, HealthRuntime>();
+/** The coverage engine's kind for no coverage. */
+const UNINSURED = "uninsured";
 
 function runtime(state: Readonly<CoreState>): HealthRuntime {
   let row = runtimes.get(state);
@@ -107,6 +112,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       deathsByDate: new Map(),
       conditionsByPerson: new Map(),
       resilienceLines: new Map(),
+      seenPeople: zero,
       onsets: zero,
       deaths: zero,
     };
@@ -181,55 +187,112 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
     })),
   );
-  for (const person of alive) {
-    const line = resilienceLine(api, data, person.id);
-    row.resilienceLines.set(person.id, line);
-    const threshold = thresholdUnits(
-      (line * BigInt(MULTIPLIER_ONE)) /
-        BigInt(Math.round(p(data.resilienceScaleParameter) * MULTIPLIER_ONE)),
-    );
-    const conditions = assignments.get(person.id as EntityId) ?? [];
-    row.conditionsByPerson.set(person.id, conditions);
-    const age = exactAge(api, person.birthDate, start);
-    let micros = MULTIPLIER_ONE;
-    let strongest: { key: string; micros: number } | undefined;
-    for (const key of conditions) {
-      const hazard = conditionHazard(
-        api.state.seed,
-        person.id as EntityId,
-        key,
-        age,
-      );
-      micros = Math.round((micros * hazard.micros) / MULTIPLIER_ONE);
-      if (!strongest || hazard.micros > strongest.micros)
-        strongest = { key, micros: hazard.micros };
-    }
-    const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
-    if (horizon <= start) continue;
-    const onset = firstThresholdDay(
-      {
-        birthDate: makeIsoDate(person.birthDate),
-        category: data.calibrationCategory,
-        exposureStart: start,
-        multipliers: [{ effectiveAt: start, micros }],
-      },
-      threshold,
+  for (const person of alive)
+    planCase(
+      api,
+      data,
+      row,
+      person,
+      assignments.get(person.id as EntityId) ?? [],
       start,
-      horizon,
     );
-    if (!onset) continue;
-    // An opening-day crossing is heard on the first simulated day.
-    const due = onset <= start ? addDays(start, p("one")) : onset;
-    row.cases.set(person.id, {
-      personId: person.id,
-      conditions,
-      ...(strongest ? { conditionKey: strongest.key } : {}),
-      severity: micros / MULTIPLIER_ONE,
-      onsetDate: due,
-    });
-    index(row.onsetsByDate, due, person.id);
-  }
+  row.seenPeople = api.state.people.size;
   row.initialized = true;
+}
+
+/**
+ * A person's course from a start day: their own resilience line, their
+ * recorded conditions' weights, and the day their strain first crosses the
+ * line, if it does within the life table.
+ */
+function planCase(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  person: Readonly<PersonState>,
+  conditions: readonly string[],
+  start: ReturnType<typeof makeIsoDate>,
+): void {
+  const p = (key: string) => api.parameter(key);
+  const line = resilienceLine(api, data, person.id);
+  row.resilienceLines.set(person.id, line);
+  const threshold = thresholdUnits(
+    (line * BigInt(MULTIPLIER_ONE)) /
+      BigInt(Math.round(p(data.resilienceScaleParameter) * MULTIPLIER_ONE)),
+  );
+  row.conditionsByPerson.set(person.id, conditions);
+  const age = exactAge(api, person.birthDate, start);
+  let micros = MULTIPLIER_ONE;
+  let strongest: { key: string; micros: number } | undefined;
+  for (const key of conditions) {
+    const hazard = conditionHazard(
+      api.state.seed,
+      person.id as EntityId,
+      key,
+      age,
+    );
+    micros = Math.round((micros * hazard.micros) / MULTIPLIER_ONE);
+    if (!strongest || hazard.micros > strongest.micros)
+      strongest = { key, micros: hazard.micros };
+  }
+  const horizon = dateAtAge(makeIsoDate(person.birthDate), SSA_2023_MAX_AGE);
+  if (horizon <= start) return;
+  const onset = firstThresholdDay(
+    {
+      birthDate: makeIsoDate(person.birthDate),
+      category: data.calibrationCategory,
+      exposureStart: start,
+      multipliers: [{ effectiveAt: start, micros }],
+    },
+    threshold,
+    start,
+    horizon,
+  );
+  if (!onset) return;
+  // A crossing on the start day is heard on the next simulated day.
+  const due = onset <= start ? addDays(start, p("one")) : onset;
+  row.cases.set(person.id, {
+    personId: person.id,
+    conditions,
+    ...(strongest ? { conditionKey: strongest.key } : {}),
+    severity: micros / MULTIPLIER_ONE,
+    onsetDate: due,
+  });
+  index(row.onsetsByDate, due, person.id);
+}
+
+/**
+ * People admitted after the opening (a newborn, someone filled in, a
+ * newcomer) get their course from the day they arrive, with the conditions
+ * the pack's cells give them; read only when the number of people changes.
+ */
+function planArrivals(api: CoreAPI, data: HealthData, row: HealthRuntime) {
+  if (api.state.people.size === row.seenPeople) return;
+  row.seenPeople = api.state.people.size;
+  const today = makeIsoDate(api.state.date);
+  const arrivals = [...api.state.people.values()].filter(
+    (person) => person.alive && !row.resilienceLines.has(person.id),
+  );
+  if (!arrivals.length) return;
+  const pay = householdMonthlyPay(api);
+  const assignments = startingConditionAssignments(
+    arrivals.map((person) => ({
+      personId: person.id as EntityId,
+      placeKey: person.placeId,
+      age: exactAge(api, person.birthDate, today),
+      category: data.calibrationCategory,
+      monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
+    })),
+  );
+  for (const person of arrivals)
+    planCase(
+      api,
+      data,
+      row,
+      person,
+      assignments.get(person.id as EntityId) ?? [],
+      today,
+    );
 }
 
 function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
@@ -290,6 +353,7 @@ export function createHealthModule(
     onDay(api) {
       const row = runtime(api.state);
       if (!row.initialized) initialize(api, data, row);
+      else planArrivals(api, data, row);
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
@@ -305,10 +369,14 @@ export function createHealthModule(
           data.onsetSeverity,
           false,
         );
+        // Whether they have health coverage, where the coverage engine runs.
+        const coverage = api.state.modules.has(COVERAGE_MODULE_ID)
+          ? coverageOf(api, id)
+          : undefined;
         const days = remainingDaysAfterOnset({
           age: ageOnDate(makeIsoDate(person.birthDate), date),
           severity: found.severity,
-          covered: null,
+          covered: coverage ? coverage.kind !== UNINSURED : null,
         });
         found.onsetEventId = event.id;
         found.deathDate = addDays(date, days);
