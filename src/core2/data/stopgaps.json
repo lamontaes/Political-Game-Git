@@ -2644,8 +2644,8 @@
     "why": "The core has no call to change a person's place or household mid-run.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "A core call (OPUS-CORE) that moves a person to the destination place and out of their household, so counts, voter rolls and screens read the new place.",
-    "status": "open"
+    "replacement": "A core call (OPUS-CORE) that moves a person to the destination place and out of their household, so counts, voter rolls and screens read the new place. Done Oct 13 (FIXER-MOVES): the core's relocatePeopleV1 moves leavers to the destination place and county, and out of their household (whole households move with them), so counts, voter rolls and screens read the new place.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-moves-owners-stay",
@@ -2669,6 +2669,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
+    "status": "open"
+  },
+  {
+    "id": "SG-FIXER-moves-income-household",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "A person whose recorded income award (a pension, Social Security) is paid into a household other members stay in does not move away yet.",
+    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment.",
+    "addedBy": "FIXER-MOVES",
+    "addedAt": "2026-10-13",
+    "replacement": "A core call (OPUS-CORE) that lets a recorded income award follow its person to a new household when they move, with its own dated record; then these people can move like anyone else.",
     "status": "open"
   },
   {

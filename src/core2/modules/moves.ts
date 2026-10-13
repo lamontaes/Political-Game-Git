@@ -12,8 +12,11 @@
  * elsewhere, else where people from their county most often move (IRS).
  *
  * A leaver's records stay. Their job ends, the household's rent and spending
- * here end, and they are no longer simulated in town (the same inactive tier
- * as relatives who live elsewhere). The ACS rates check a year's totals.
+ * here end, they take the destination as their place (with their household,
+ * or in a new one there when others stay), so the town's residents and voter
+ * rolls no longer list them, and they are no longer simulated in town (the
+ * same inactive tier as relatives who live elsewhere). The ACS rates check a
+ * year's totals.
  */
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { stableHash } from "../../simulation/ids";
@@ -46,10 +49,10 @@ export const MOVES_PARAMETERS = rows as unknown as Readonly<
 >;
 export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
-const PLACE_STOPGAP = "SG-P15-moves-place-kept";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
 const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
+const INCOME_STOPGAP = "SG-FIXER-moves-income-household";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -75,6 +78,8 @@ export interface Departure {
   withIds: readonly PersonId[];
   householdId: string;
   date: string;
+  /** The town they left. */
+  fromPlaceId: string;
   /** The place they went: a county or state jurisdiction, from a record. */
   destinationId: string;
   destinationBasis: "relative" | "county-flow" | "state";
@@ -337,7 +342,9 @@ function destinationFor(
   api: CoreAPI,
   person: Readonly<PersonState>,
   goingIds: ReadonlySet<PersonId>,
-): Pick<Departure, "destinationId" | "destinationBasis"> {
+): Pick<Departure, "destinationId" | "destinationBasis"> & {
+  countyId?: string;
+} {
   const core = api.state as CoreState;
   const kin = kinOf(core);
   const close = [
@@ -349,7 +356,11 @@ function destinationFor(
     if (goingIds.has(id)) continue;
     const relative = core.people.get(id);
     if (relative?.alive && relative.placeId !== person.placeId)
-      return { destinationId: relative.placeId, destinationBasis: "relative" };
+      return {
+        destinationId: relative.placeId,
+        destinationBasis: "relative",
+        ...(relative.countyId ? { countyId: relative.countyId } : {}),
+      };
   }
   const county = person.countyId
     ? lifePlaceByJurisdictionId(person.countyId as EntityId)
@@ -360,7 +371,8 @@ function destinationFor(
   const to = top
     ? lifePlaceByKey(`county:${top}`)?.context.jurisdiction.id
     : undefined;
-  if (to) return { destinationId: to, destinationBasis: "county-flow" };
+  if (to)
+    return { destinationId: to, destinationBasis: "county-flow", countyId: to };
   const place = lifePlaceByJurisdictionId(person.placeId as EntityId);
   const state = place?.stateJurisdictionKey
     ? lifePlaceByKey(place.stateJurisdictionKey)?.context.jurisdiction.id
@@ -418,7 +430,8 @@ function leave(
 ): Departure {
   const core = api.state as CoreState;
   const going = goingWith(api, person);
-  const where = destinationFor(api, person, new Set(going));
+  const { countyId, ...where } = destinationFor(api, person, new Set(going));
+  const fromPlaceId = person.placeId;
   const household = core.households.get(person.householdId);
   const staying = (household?.memberIds ?? []).filter(
     (id) => inTown(core, id) && !going.includes(id),
@@ -429,6 +442,7 @@ function leave(
     withIds: going,
     householdId: person.householdId,
     date: api.state.date,
+    fromPlaceId,
     ...where,
     reasons: {
       ...pull.causes,
@@ -437,9 +451,18 @@ function leave(
       ),
     },
   };
-  // The person record keeps its town place until the core can move it
-  // (registered stopgap); the inactive tier takes them out of town life.
-  api.stopgap(PLACE_STOPGAP);
+  // The inactive tier takes them out of town life; the new place takes them
+  // off the town's residents and voter rolls.
+  const witnessIds = [
+    ...new Set([
+      ...staying,
+      ...going.flatMap((id) =>
+        [...core.people.get(id)!.familyIds].filter(
+          (other) => !going.includes(other) && inTown(core, other),
+        ),
+      ),
+    ]),
+  ].sort();
   for (const id of going) {
     const mover = core.people.get(id)!;
     if (mover.jobId) api.endJob(mover.jobId, departure.id);
@@ -447,6 +470,23 @@ function leave(
     store(api).table("pulls").remove(id);
   }
   if (!staying.length) closeHousehold(api, person.householdId);
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: api.state.date,
+    citation: `${person.givenName} ${person.familyName} moved away (${where.destinationBasis}).`,
+    estimatedFrom: STOPGAP,
+  };
+  api.relocatePeopleV1({
+    personIds: going,
+    placeId: where.destinationId,
+    ...(countyId ? { countyId } : {}),
+    // A whole household moves as itself; those who leave others behind
+    // start a household at the new place.
+    householdId: household?.memberIds.every((id) => going.includes(id))
+      ? person.householdId
+      : `${person.householdId}:moved:${person.id}:${api.state.date}`,
+    source,
+  });
   store(api)
     .table("departures")
     .put(departure as unknown as { id: string });
@@ -456,25 +496,11 @@ function leave(
     kind: MOVED_AWAY_EVENT,
     personIds: going,
     // Their relatives and housemates who stay in town know they left.
-    witnessIds: [
-      ...new Set([
-        ...staying,
-        ...going.flatMap((id) =>
-          [...core.people.get(id)!.familyIds].filter(
-            (other) => !going.includes(other) && inTown(core, other),
-          ),
-        ),
-      ]),
-    ].sort(),
-    placeId: person.placeId,
+    witnessIds,
+    placeId: fromPlaceId,
     publicRecord: false,
     topic: where.destinationId,
-    source: {
-      tag: "ESTIMATED",
-      asOf: api.state.date,
-      citation: `${person.givenName} ${person.familyName} moved away (${where.destinationBasis}).`,
-      estimatedFrom: STOPGAP,
-    },
+    source,
     facts: Object.fromEntries(
       going.map((id) => [`person:${id}:residence`, where.destinationId]),
     ),
@@ -569,6 +595,28 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     })
   ) {
     api.stopgap(PINNED_STOPGAP);
+    return null;
+  }
+  // A recorded income award (a pension, Social Security) names the household
+  // it is paid into; a mover who would leave that household behind keeps
+  // it until an award can follow its person (registered stopgap).
+  const core = api.state as CoreState;
+  const home = core.households.get(person.householdId);
+  if (
+    home?.memberIds.some((id) => !going.includes(id)) &&
+    going.some((id) =>
+      [...(core.finance.incomeContractsByPerson.get(id) ?? [])].some(
+        (contractId) => {
+          const row = core.finance.contracts.get(contractId);
+          return (
+            !row?.endedAt &&
+            row?.recipientIncome?.householdId === person.householdId
+          );
+        },
+      ),
+    )
+  ) {
+    api.stopgap(INCOME_STOPGAP);
     return null;
   }
   pending.set(api.state, { pull });

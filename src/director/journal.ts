@@ -33,6 +33,17 @@ interface LineRow {
   otherLine?: readonly { key: string; text: string }[];
   repeatLine?: readonly { key: string; text: string }[];
   title?: readonly { key: string; text: string }[];
+  /** The person's own moment when the causing event names them among its people. */
+  selfWhenNamed?: boolean;
+  /** The own line when the causing event names others with them ("we"). */
+  groupLine?: readonly { key: string; text: string }[];
+  /**
+   * The kind of the person's own event this line tells on the same day: that
+   * event's line is not written again, and its others make this the group line.
+   */
+  sameDay?: string;
+  /** A fact told once: a later moment with the same text for it is skipped. */
+  oncePer?: string;
 }
 
 export interface JournalData {
@@ -287,6 +298,41 @@ export function composeJournal(
   const moments = book.moments
     .filter((moment) => moment.date <= through)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+  const rowOf = (moment: Moment) =>
+    data.lines.find((entry) => moment.causeKind.startsWith(entry.kindPrefix));
+  // The events that name the person among their own people (a household
+  // move), by kind and date, with how many people each names.
+  const selfNamed = (moment: Moment) =>
+    rowOf(moment)?.selfWhenNamed && moment.selfNamed
+      ? moment.counterpartIds.length + one
+      : undefined;
+  const ownEvents = new Map<string, number>();
+  for (const moment of moments) {
+    const selfCount = selfNamed(moment);
+    if (selfCount)
+      ownEvents.set(`${rowOf(moment)!.kindPrefix}|${moment.date}`, selfCount);
+  }
+  // Only a line that can be written tells the event (a destination with no
+  // place name leaves the event's own line to tell the move).
+  const toldSameDay = new Set(
+    moments.flatMap((moment) => {
+      const row = rowOf(moment);
+      const key = `${row?.sameDay}|${moment.date}`;
+      if (!row?.sameDay || !ownEvents.has(key)) return [];
+      const facts = factsFor(moment);
+      const told =
+        facts &&
+        render(
+          `journal-line:${row.kindPrefix}:check`,
+          row.groupLine ?? row.line,
+          facts,
+          moment.id,
+          [moment.causeId],
+        );
+      return told ? [key] : [];
+    }),
+  );
+  const toldOnce = new Set<string>();
   const chapters: JournalChapter[] = [];
   let chapter: JournalChapter | undefined;
   let chapterKind: string | undefined;
@@ -302,15 +348,33 @@ export function composeJournal(
   };
 
   for (const moment of moments) {
-    const row = data.lines.find((entry) =>
-      moment.causeKind.startsWith(entry.kindPrefix),
-    );
+    const row = rowOf(moment);
     if (!row) continue;
+    const selfCount = selfNamed(moment);
+    // The person's own event already told by the line of its day.
+    if (selfCount && toldSameDay.has(`${row.kindPrefix}|${moment.date}`))
+      continue;
     const facts = factsFor(moment);
     if (!facts) continue;
+    const once = row.oncePer ? facts[row.oncePer]?.text : undefined;
+    if (once !== undefined) {
+      if (toldOnce.has(`${row.kindPrefix}|${once}`)) continue;
+      toldOnce.add(`${row.kindPrefix}|${once}`);
+    }
     const sourceIds = [moment.causeId];
-    const own = !facts.other || moment.causeKind === "family:child";
-    const rows = own ? row.line : (row.otherLine ?? row.line);
+    const own =
+      !!selfCount || !facts.other || moment.causeKind === "family:child";
+    const together =
+      (selfCount ??
+        (row.sameDay
+          ? ownEvents.get(`${row.sameDay}|${moment.date}`)
+          : undefined) ??
+        one) > one;
+    const rows = own
+      ? together
+        ? (row.groupLine ?? row.line)
+        : row.line
+      : (row.otherLine ?? row.line);
     // A turn opens a chapter, unless the chapter already began with the same
     // kind of turn (the schools of a childhood, the children of a family).
     if (!chapter || (row.turn && chapterKind !== row.kindPrefix)) {
@@ -361,7 +425,7 @@ export function composeJournal(
       continue;
     }
     const rendered = render(
-      `journal-line:${row.kindPrefix}:${own ? "own" : "other"}`,
+      `journal-line:${row.kindPrefix}:${own ? (together ? "group" : "own") : "other"}`,
       rows,
       facts,
       moment.id,
