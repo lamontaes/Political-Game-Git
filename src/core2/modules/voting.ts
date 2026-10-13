@@ -232,13 +232,19 @@ function town(api: CoreAPI) {
   };
 }
 function townLean(api: CoreAPI): number {
-  return (
+  // Read once a day: the counted electorate asks it once per voter.
+  const held = townLeans.get(api.state);
+  if (held?.date === api.state.date) return held.lean;
+  const lean = (
     api
       .moduleState(CAMPAIGNS_MODULE_ID)
       .table("town")
       .get("town") as unknown as { lean: number }
   ).lean;
+  townLeans.set(api.state, { date: api.state.date, lean });
+  return lean;
 }
+const townLeans = new WeakMap<object, { date: string; lean: number }>();
 
 /** A party's side of the left-right scale: -1 for the Democratic family, +1 Republican, 0 otherwise. */
 function partySide(party: string | null): number {

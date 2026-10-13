@@ -756,17 +756,20 @@ function countedScreen(
     };
     countedBases.set(api.state, held);
   }
-  const date = makeIsoDate(api.state.date);
   const bar = c(api, "candidacyStayOutPull");
   const most = c(api, "candidacyMoneyWeight");
+  // Old enough to file: born on or before this day minus the minimum age.
+  const today = api.state.date;
+  const bornBy = `${Number(today.slice(0, 4)) - minimumAge}${today.slice(4)}`;
   let weighed = api.parameter("zero");
+  for (const { voter } of held.rows)
+    if (voter.birthDate <= bornBy && !api.state.people.has(voter.id))
+      weighed += api.parameter("one");
   const drawn: PersonId[] = [];
   for (const { voter, base } of held.rows) {
-    if (api.state.people.has(voter.id)) continue;
-    if (ageOnDate(makeIsoDate(voter.birthDate), date) < minimumAge) continue;
-    weighed += api.parameter("one");
     // Sorted by pull: past here no one's money could lift them over.
-    if (base + most <= bar) continue;
+    if (base + most <= bar) break;
+    if (voter.birthDate > bornBy || api.state.people.has(voter.id)) continue;
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
     for (const value of Object.values(reasons)) pull += value;
