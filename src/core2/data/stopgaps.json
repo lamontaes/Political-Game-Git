@@ -2029,7 +2029,7 @@
     "id": "SG-WORLD-business-union-members",
     "kind": "assumed-data",
     "file": "src/core2/jobs-unions.ts",
-    "line": 163,
+    "line": 167,
     "whatItFakes": "Workplaces are covered by a union at the opening (largest first in each industry, to BLS's 2025 state and industry rates), but which represented workers join is a population share (the state's members per represented worker, or right-to-work states' average once that law changes), not each worker's choice; members' dues come from the wider population's pooled cash.",
     "why": "Counted workers choose through summed pulls only until they're filled in, and their cash is pooled by place.",
     "addedBy": "OPUS-WORLD",

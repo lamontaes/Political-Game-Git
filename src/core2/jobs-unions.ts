@@ -88,8 +88,10 @@ export function reviewUnions(
   const count = (organizationId: string, wageDailyMinor: number) => {
     staff.set(organizationId, (staff.get(organizationId) ?? 0) + 1);
     const placeId = c.organizations.get(organizationId)?.placeId;
-    if (placeId)
-      pay.set(placeId, [...(pay.get(placeId) ?? []), wageDailyMinor]);
+    if (!placeId) return;
+    const list = pay.get(placeId);
+    if (list) list.push(wageDailyMinor);
+    else pay.set(placeId, [wageDailyMinor]);
   };
   for (const [jobId, flow] of rt.wageFlowByJob) {
     const job = rt.jobs.get(jobId);
@@ -118,7 +120,9 @@ export function reviewUnions(
         { classification?: string } | undefined;
       if (org?.classification === UNION) continue;
       const industry = industryOf(id);
-      groups.set(industry, [...(groups.get(industry) ?? []), [id, n]]);
+      const group = groups.get(industry);
+      if (group) group.push([id, n]);
+      else groups.set(industry, [[id, n]]);
     }
     for (const [industry, list] of groups) {
       const share = Math.min(
