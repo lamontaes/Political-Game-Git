@@ -7,6 +7,7 @@ import {
 import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { withPrivateTuition } from "../opening-private-tuition";
+import { staffToCustomers } from "../opening-staffing";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
@@ -84,6 +85,8 @@ export function generatedOpening(
     settings?: WorldSettings;
     /** The opening date; January 2021 by default (M1-14 moves games to 2026). */
     startedAt?: string;
+    /** Opt-in: staff each business to what its customers buy (src/core2/opening-staffing.ts). */
+    staffToCustomers?: boolean;
   } = {},
 ): CoreInput {
   const settings = options.settings ?? {};
@@ -96,7 +99,12 @@ export function generatedOpening(
 
 function buildOpening(
   place: { seed: string; key: string },
-  options: { economy?: boolean; twoLevel?: boolean; startedAt?: string },
+  options: {
+    economy?: boolean;
+    twoLevel?: boolean;
+    startedAt?: string;
+    staffToCustomers?: boolean;
+  },
   settings: WorldSettings,
 ): CoreInput {
   const population = buildPopulation({
@@ -169,18 +177,29 @@ function buildOpening(
       )
     : undefined;
   const outsideDemand = settings.economy?.outsideDemand ?? 1;
-  if (options.economy !== false)
-    input = scaleOutsideSales(
-      outsideDemand,
-      addOutsideMarket(
-        withPrivateTuition(
-          buildOpeningEconomy(input, {
-            finance: { countedHouseholdIds },
-            customers: { countedHouseholdIds },
-          }).input,
-        ),
-      ),
+  const economy = (from: CoreInput) =>
+    withPrivateTuition(
+      buildOpeningEconomy(from, {
+        finance: { countedHouseholdIds },
+        customers: { countedHouseholdIds },
+      }).input,
     );
+  if (options.economy !== false) {
+    let built = economy(input);
+    // Opt-in: staff each business to what its customers buy, then rebuild.
+    if (options.staffToCustomers) {
+      const staffed = staffToCustomers(input, built, keep ?? fullPeople(input));
+      built = economy(staffed.input);
+      built = {
+        ...built,
+        placeMetadata: {
+          ...(built.placeMetadata ?? {}),
+          openingStaffing: JSON.stringify(staffed.receipts),
+        },
+      };
+    }
+    input = scaleOutsideSales(outsideDemand, addOutsideMarket(built));
+  }
   // The generator's temporary world is done; let its indexes go.
   releaseRecentHistory();
   forgetLastValidatedWorld();
