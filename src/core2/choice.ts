@@ -106,16 +106,22 @@ export function traitLean(
   actor: Pick<PersonState, "traits">,
   actKinds: readonly string[],
 ): number {
-  const p = (key: string) => parameter(key, core.data.parameters);
+  // Called millions of times on a busy day: no per-call closures.
+  const parameters = core.data.parameters;
+  const zero = parameter("zero", parameters);
   const lean = kindLean(core, actor);
-  let sum = p("zero");
-  for (const kind of actKinds) sum += lean.sum.get(kind) ?? p("zero");
-  return actKinds.length && lean.perKind > p("zero")
+  let sum = zero;
+  for (let i = 0; i < actKinds.length; i++)
+    sum += lean.sum.get(actKinds[i]!) ?? zero;
+  return actKinds.length && lean.perKind > zero
     ? Math.max(
-        p("negativeOne"),
-        Math.min(p("one"), sum / (actKinds.length * lean.perKind)),
+        parameter("negativeOne", parameters),
+        Math.min(
+          parameter("one", parameters),
+          sum / (actKinds.length * lean.perKind),
+        ),
       )
-    : p("zero");
+    : zero;
 }
 
 function traitScore(
