@@ -42,7 +42,11 @@ import {
   townOrganizations,
   townPeople,
 } from "./law-reach/group-a-records";
-import { budgetToday, leavePremiumsOf } from "./law-reach/group-a-money";
+import {
+  baseLine,
+  budgetToday,
+  leavePremiumsOf,
+} from "./law-reach/group-a-money";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import {
   ALL_MAIL,
@@ -480,7 +484,14 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
     const key = "budget-line:housing";
     const gov = cityGov();
-    const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
+    // Above the line's base: a budget the council passed may have cut it.
+    const today = budgetToday(api, gov)!;
+    const shortfall = Math.max(
+      0,
+      baseLine(api, gov, today, "housing") - (today.spendingMinor.housing ?? 0),
+    );
+    const delta =
+      shortfall + reachParameter("housingAssistanceAnnualMinor") * 3;
     amendBudget(api, {
       governmentId: gov.id,
       line: "housing",
@@ -550,8 +561,10 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
         hired: hired.length,
       };
       if (employers.length && before > 0) {
+        // Staff follow the line against its base (a passed budget may have moved it).
+        const base = baseLine(api, gov, budgetToday(api, gov)!, line);
         expect(funded[0]!.positions, where).toBeCloseTo(
-          funded[0]!.baseStaff * ((2 * amount) / amount),
+          funded[0]!.baseStaff * ((2 * amount) / base),
         );
         expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
         for (const row of hired)

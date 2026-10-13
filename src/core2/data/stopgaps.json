@@ -1134,7 +1134,7 @@
     "id": "SG-GOV-budget-adopted-by-rule",
     "kind": "missing-engine",
     "file": "src/core2/modules/budgets.ts",
-    "line": 596,
+    "line": 654,
     "whatItFakes": "Each new fiscal year's budget is adopted on its start date by carrying the year's amounts forward.",
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
@@ -2818,12 +2818,36 @@
     "id": "SG-GOV-public-pay-not-from-treasury",
     "kind": "missing-core-api",
     "file": "src/core2/modules/budgets.ts",
-    "line": 821,
+    "line": 879,
     "whatItFakes": "A public employer's payroll is booked against its government's spending line in force (draws), but the cash still comes from the opening's outside public payer, not from the government's treasury.",
     "why": "The core's fundPublicPay accepts only an organization of kind \"government\", and the budgets treasuries are \"government-treasury\" (elections routes filing fees by that kind), so no public pay authority can be linked to a treasury from the budgets module.",
     "addedBy": "PW-4 (OPUS-GOV area)",
     "addedAt": "2026-10-13",
     "replacement": "OPUS-CORE lets fundPublicPay accept a budgets treasury; the budgets module links each public pay authority to its government's treasury, so each payroll payment moves the treasury's cash under the line it is booked against.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-snap-simplified-test",
+    "kind": "estimated-rule",
+    "file": "src/core2/law-reach/law-payments.ts",
+    "line": 298,
+    "whatItFakes": "SNAP's monthly test counts only wages as income and takes only the earned-income and standard deductions (no shelter, dependent-care or medical deductions, no asset test, no broad-based categorical eligibility), and every eligible household is paid without applying.",
+    "why": "The people engines record wages but not unearned income, rent burden or a household's choice to apply (PW-4 step 3 makes the law pay; the full test needs those records).",
+    "addedBy": "PW-4 (OPUS-GOV area)",
+    "addedAt": "2026-10-13",
+    "replacement": "The full 7 U.S.C. 2014 test from each household's recorded income, rent and costs, and an application each household decides on from its need and what it knows (OPUS-PEOPLE), checked against USDA's participation rate by state.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-sales-tax-base-all-sales",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 424,
+    "whatItFakes": "The sales tax in force is collected on every recorded sale by a seller in the town, groceries and services included, at the state rate plus the place's local rate.",
+    "why": "Sellers' classifications don't say which sales a state's base exempts, and the grocery exemption policy reaches records only (PW-4 step 3 switches the collection on from the law in force).",
+    "addedBy": "PW-4 (OPUS-GOV area)",
+    "addedAt": "2026-10-13",
+    "replacement": "Each state's sales tax base (exempt groceries, services, clothing) as data, applied by the purchase kind and the seller's NAICS classification.",
     "status": "open"
   }
 ]

@@ -1,0 +1,635 @@
+{
+  "id": "law-reach-classes",
+  "about": "For each law the game can hold in force: who it reaches (people, businesses, officeholders, a budget line or the town's government), how (payment to them, payment from them, service, compliance, price, rule, eligibility, right) and how often, and the records the engine leaves (evidence). Policy questions are classified from their reach specs; law series from their statutes. Built by scripts/research/build-law-reach-classes.py.",
+  "classes": {
+    "income-tax": {
+      "who": ["people"],
+      "how": "payment-from",
+      "often": "each paycheck",
+      "evidence": ["withholding"],
+      "what": "income tax withheld from pay",
+      "engine": "series"
+    },
+    "local-income-tax-authority": {
+      "who": ["government"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["local-government"],
+      "what": "whether the town's government may levy an income tax",
+      "engine": "series"
+    },
+    "local-minimum-wage-authority": {
+      "who": ["government"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["local-government"],
+      "what": "whether the town's government may set its own minimum wage",
+      "engine": "series"
+    },
+    "local-sales-tax-average": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "each sale",
+      "evidence": ["sellers"],
+      "what": "sellers collect the local sales tax on each taxable sale",
+      "engine": "series"
+    },
+    "medicaid-match": {
+      "who": ["budget-line"],
+      "how": "payment",
+      "often": "each year",
+      "evidence": ["state-line:welfareAndMedicaid"],
+      "what": "the federal government pays its share of the state's Medicaid spending (42 U.S.C. 1396d(b))",
+      "engine": "series"
+    },
+    "medicare-tax": {
+      "who": ["people"],
+      "how": "payment-from",
+      "often": "each paycheck",
+      "evidence": ["withholding"],
+      "what": "Medicare tax withheld from pay (26 U.S.C. 3101(b))",
+      "engine": "series"
+    },
+    "minimum-wage": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["employers"],
+      "what": "every employer pays at least the floor (29 U.S.C. 206 and state and local wage laws)",
+      "engine": "series"
+    },
+    "property-tax": {
+      "who": ["people"],
+      "how": "payment-from",
+      "often": "each year",
+      "evidence": ["property-tax"],
+      "what": "owners pay the property tax on their homes",
+      "engine": "series"
+    },
+    "sales-tax": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "each sale",
+      "evidence": ["sellers"],
+      "what": "sellers collect the sales tax on each taxable sale",
+      "engine": "series"
+    },
+    "snap-maximum": {
+      "who": ["people"],
+      "how": "payment",
+      "often": "each month",
+      "evidence": ["payments"],
+      "what": "eligible households are paid a monthly food allotment (7 U.S.C. 2017(a))",
+      "engine": "series"
+    },
+    "social-security-tax": {
+      "who": ["people"],
+      "how": "payment-from",
+      "often": "each paycheck",
+      "evidence": ["withholding"],
+      "what": "Social Security tax withheld from pay (26 U.S.C. 3101(a))",
+      "engine": "series"
+    },
+    "unemployment-insurance": {
+      "who": ["people"],
+      "how": "payment",
+      "often": "each week of a claim",
+      "evidence": ["payments", "claims"],
+      "what": "a worker who loses a job through no choice of their own is paid a weekly benefit",
+      "engine": "series"
+    },
+    "unemployment-weekly-maximum": {
+      "who": ["people"],
+      "how": "payment",
+      "often": "each week of a claim",
+      "evidence": ["claims"],
+      "what": "the most a weekly unemployment benefit pays",
+      "engine": "series"
+    },
+    "unemployment-weekly-minimum": {
+      "who": ["people"],
+      "how": "payment",
+      "often": "each week of a claim",
+      "evidence": ["claims"],
+      "what": "the least a weekly unemployment benefit pays",
+      "engine": "series"
+    },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "who": ["people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "federal-minimum-wage"
+    },
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": [
+        "enterprise:agriculture",
+        "enterprise:mining",
+        "enterprise:utility"
+      ]
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "who": ["businesses"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": [
+        "enterprise:agriculture",
+        "enterprise:construction",
+        "enterprise:real-estate"
+      ]
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "who": ["businesses", "people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "who": ["businesses", "people"],
+      "how": "service",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "parks-funding"
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "who": ["businesses", "people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": ["service:private-school"]
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "who": ["people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "teacher-floor",
+      "organizations": []
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "who": ["people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": []
+    },
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": ["enterprise:construction", "enterprise:utility"]
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": [
+        "enterprise:retail",
+        "enterprise:food-service",
+        "enterprise:wholesale"
+      ]
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": [
+        "enterprise:manufacturing",
+        "enterprise:mining",
+        "enterprise:utility"
+      ]
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "who": ["businesses", "people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": ["enterprise:utility"]
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "who": ["businesses", "people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": [
+        "enterprise:utility",
+        "enterprise:manufacturing",
+        "enterprise:mining",
+        "enterprise:transportation"
+      ]
+    },
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "who": ["people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "income-tax-adopt",
+      "organizations": []
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "who": ["budget-line"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "balanced-budget",
+      "organizations": []
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": []
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "who": ["businesses", "people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": ["enterprise:retail"]
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "who": ["budget-line"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "pension-funding",
+      "organizations": []
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "who": ["people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "income-tax-graduated",
+      "organizations": []
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "who": ["budget-line"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "reserve",
+      "organizations": []
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "voting"
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "voting"
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "who": ["officeholders"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "office-limits"
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "who": ["businesses", "officeholders"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "who": ["officeholders"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "who": ["officeholders"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "office-limits"
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "who": ["people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "voting"
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "voting"
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "who": ["people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": []
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "who": ["people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": []
+    },
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "who": ["people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": []
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "who": ["businesses", "people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "who": ["businesses"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "who": ["people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "who": ["people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "who": ["people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "voting"
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "who": ["people"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "who": ["businesses"],
+      "how": "right",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "local-wage-authority"
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "paid-leave-premium"
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "who": ["people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "raise-minimum-wage"
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "who": ["businesses", "people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "who": ["businesses", "people"],
+      "how": "compliance",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "who": ["businesses", "people"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group A",
+      "mechanic": "none"
+    },
+    "us-policy-positions:transportation-infrastructure.fare-free-transit": {
+      "who": ["budget-line", "businesses", "people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "transit-fares",
+      "organizations": ["enterprise:transportation"]
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "who": ["people"],
+      "how": "price",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": []
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "who": ["businesses", "people"],
+      "how": "eligibility",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "records",
+      "organizations": ["enterprise:telecommunications"]
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "who": ["budget-line"],
+      "how": "rule",
+      "often": "while in force",
+      "evidence": ["policy-records"],
+      "engine": "law-reach group B",
+      "mechanic": "highway-shift",
+      "organizations": []
+    }
+  }
+}

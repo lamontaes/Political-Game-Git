@@ -40,6 +40,7 @@ import {
 } from "../../simulation/government-units";
 import { lawChain, lawInForce } from "./laws";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
+import { purchaseTaxes } from "./purchase-tax";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -388,7 +389,64 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       sourceRecordIds: [gov.id],
     });
   }
+  openSalesTaxes(api, govs);
   return govs;
+}
+
+/**
+ * The sales tax in force at each level, collected on every recorded sale by a
+ * seller in the town (`purchase-tax.ts`) and remitted to that level's
+ * treasury: the state's rate to the state, the local rate (the place's own,
+ * or the state's average local rate) to the city, else the county.
+ */
+function openSalesTaxes(api: CoreAPI, govs: readonly GovernmentRow[]): void {
+  const answer = lawInForce(api, "sales-tax");
+  const town = lawChain(api).townPlaceId;
+  const local =
+    govs.find((g) => g.level === "city") ??
+    govs.find((g) => g.level === "county");
+  for (const level of answer.levels) {
+    const row = level.row;
+    if (!row || level.setAside || !(Number(row.value) > 0)) continue;
+    const gov =
+      level.level === "state"
+        ? govs.find((g) => g.level === "state")
+        : level.level === "federal"
+          ? undefined
+          : local;
+    const payee = gov
+      ? (api.state as CoreState).cashJournal.residualAccountByOwner.get(
+          gov.organizationId,
+        )
+      : undefined;
+    if (!payee) continue;
+    // stopgapId: SG-GOV-sales-tax-base-all-sales
+    api.stopgap("SG-GOV-sales-tax-base-all-sales");
+    api.setPurchaseTax({
+      id: `sales-tax:${row.id}`,
+      placeId: town,
+      ratePercent: Number(row.value),
+      payeeAccountId: payee,
+      source: {
+        tag: row.estimate ? "ESTIMATED" : "SOURCED",
+        citation: `${row.id} (${Array.isArray(row.source) ? row.source.join(" ; ") : String(row.source)})`,
+        asOf: api.state.date,
+        ...(row.estimate ? { estimatedFrom: String(row.source) } : {}),
+      },
+    });
+  }
+}
+
+/** The sales taxes collected in the town, by law row. */
+export function salesTaxesCollected(
+  api: CoreAPI,
+): readonly { lawId: string; collectedMinor: number }[] {
+  return [...purchaseTaxes(api.state as CoreState).values()]
+    .filter((t) => t.id.startsWith("sales-tax:"))
+    .map((t) => ({
+      lawId: t.id.slice("sales-tax:".length),
+      collectedMinor: t.collectedMinor,
+    }));
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */

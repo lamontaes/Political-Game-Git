@@ -1,0 +1,73 @@
+{
+  "about": "Numbers the law payments use (src/core2/law-reach/law-payments.ts): SNAP's benefit formula and how a state's unemployment benefit fraction becomes a share of weekly pay. Each is tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it's checked against).",
+  "parameters": {
+    "snapGrossIncomeLimitShareOfPoverty": {
+      "value": 1.3,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2014(c): a household's gross income may not exceed 130 percent of the poverty line."
+    },
+    "snapBenefitReductionRate": {
+      "value": 0.3,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2017(a): the allotment is the maximum less 30 percent of the household's net income."
+    },
+    "snapEarnedIncomeDeduction": {
+      "value": 0.2,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2014(e)(2)(B): 20 percent of earned income is deducted."
+    },
+    "snapStandardDeductionSmallMinor": {
+      "value": 20900,
+      "tag": "ESTIMATED",
+      "source": "USDA Food and Nutrition Service, SNAP fiscal year 2026 cost-of-living adjustments: standard deduction for households of 1 to 3 in the 48 states and D.C., $209 a month.",
+      "spread": [19500, 22000]
+    },
+    "snapStandardDeductionLargeMinor": {
+      "value": 26100,
+      "tag": "ESTIMATED",
+      "source": "USDA Food and Nutrition Service, SNAP fiscal year 2026 cost-of-living adjustments: standard deduction for households of 4 to 6 in the 48 states and D.C., $223 to $299 a month; the middle figure ($261, five people) stands for them.",
+      "spread": [22300, 29900]
+    },
+    "snapLargeHouseholdFrom": {
+      "value": 4,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2014(e)(1): the standard deduction rises for households of four or more."
+    },
+    "snapMinimumBenefitMinor": {
+      "value": 2400,
+      "tag": "ESTIMATED",
+      "source": "USDA Food and Nutrition Service, SNAP fiscal year 2026 cost-of-living adjustments: minimum benefit for households of one or two, 8 percent of the one-person maximum, about $24.",
+      "spread": [2300, 2500]
+    },
+    "snapMinimumBenefitMaxSize": {
+      "value": 2,
+      "tag": "SOURCED",
+      "source": "7 U.S.C. 2017(a): the minimum benefit applies to households of one or two."
+    },
+    "highQuarterWeeks": {
+      "value": 13,
+      "tag": "SOURCED",
+      "source": "A calendar quarter is 13 weeks: a benefit stated as a fraction of high-quarter wages is that fraction times 13 weeks of pay."
+    },
+    "twoQuarterWeeks": {
+      "value": 26,
+      "tag": "SOURCED",
+      "source": "Two calendar quarters are 26 weeks: a fraction of two quarters' wages is that fraction times 26 weeks of pay."
+    },
+    "basePeriodWeeks": {
+      "value": 52,
+      "tag": "SOURCED",
+      "source": "A base period is four calendar quarters, 52 weeks: a fraction of base-period wages is that fraction times 52 weeks of pay."
+    },
+    "centsPerDollar": {
+      "value": 100,
+      "tag": "SOURCED",
+      "source": "U.S. currency; the core keeps money in cents (minor units)."
+    },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "source": "Calendar year."
+    }
+  }
+}

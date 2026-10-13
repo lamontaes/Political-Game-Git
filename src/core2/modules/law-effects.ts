@@ -8,6 +8,12 @@
  * effect from `data/laws/policy-effects.json` and the people it reaches from
  * their own records (age, work). Money effects (a minimum wage's raises, a
  * tax's withholding) run in the laws and budgets modules.
+ *
+ * Each month the module pays what the law in force pays (SNAP; unemployment
+ * benefits are recorded under the state's program), as `payment` records, and
+ * audits who every law in force reached (`reach`), writing a `no-local-effect`
+ * record with the place fact where a law reaches nothing here
+ * (`law-reach/law-payments.ts`, `law-reach/law-reach-audit.ts`).
  */
 import effects from "../data/laws/policy-effects.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -21,9 +27,18 @@ import type {
 import type { ModuleRow } from "../module-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
 import { registerLawReach } from "../law-reach";
+import { addMonths } from "../law-reach/group-b-dates";
+import {
+  payLaws,
+  registerLawUnemploymentTerms,
+} from "../law-reach/law-payments";
+import { auditLawReach } from "../law-reach/law-reach-audit";
+import type { ModuleCalendarWork } from "../module-calendar";
 import type { LawRowInput } from "../laws-starting";
+import { addDays, makeIsoDate } from "../../simulation/dates";
 
 export const LAW_EFFECTS_MODULE_ID = "core2-law-effects-v1";
+const REVIEW_KIND = "law-effects-review";
 
 interface Effect {
   readonly kind: "eligibility" | "right" | "compliance" | "price" | "rule";
@@ -66,17 +81,57 @@ export const LAW_EFFECTS_MODULE: CoreModule = {
           byQuestion: { fields: ["question", "endedOn"] },
         },
       },
+      /** Payments, services and no-local-effect findings (`law-reach/law-records.ts`). */
+      records: {
+        indexes: {
+          byLaw: { fields: ["lawId"] },
+          byRecipient: { fields: ["recipientId"] },
+        },
+      },
+      /** Who each law in force reached at the last review. */
+      reach: {},
+      /** Unemployment benefits already recorded, by claim. */
+      paidSoFar: {},
     },
   },
   eventKinds: ["law-took-effect", "budget-line-changed"],
   onEvent: (api, event) => applyLaw(api, event),
+  onCalendarWork: (api, work) => review(api, work),
 };
+
+/** The monthly review: pay what the law pays, then record who each law reached. */
+function review(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind !== REVIEW_KIND) return;
+  payLaws(api);
+  auditLawReach(api);
+  scheduleReview(api, addMonths(api.state.date));
+}
+
+function scheduleReview(api: CoreAPI, date: string): void {
+  api.moduleCalendar(LAW_EFFECTS_MODULE_ID).schedule({
+    key: `review:${date}`,
+    date,
+    kind: REVIEW_KIND,
+    source: {
+      tag: "SOURCED",
+      citation:
+        "Benefit programs pay and review monthly (7 CFR 273.10, 273.12)",
+      asOf: api.state.date,
+    },
+    sourceRecordIds: [lawChain(api).townPlaceId],
+  });
+}
 
 export function openLawEffects(core: CoreState): void {
   registerLawReach();
+  registerLawUnemploymentTerms();
   const first = !core.modules.has(LAW_EFFECTS_MODULE_ID);
   if (!core.modules.has(LAW_EFFECTS_MODULE_ID))
     registerModule(core, LAW_EFFECTS_MODULE);
+  if (first && core.modules.has(LAWS_MODULE_ID)) {
+    const api = coreAPI(core);
+    scheduleReview(api, addDays(makeIsoDate(api.state.date), 1));
+  }
   // The policies already law at the opening reach people from the first day.
   if (first && core.modules.has(LAWS_MODULE_ID)) {
     const api = coreAPI(core);
