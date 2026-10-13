@@ -35,11 +35,35 @@ export function isSchoolDay(date: string): boolean {
   const inYear =
     md >= data.schoolYear.firstDay || md <= data.schoolYear.lastDay;
   if (!inYear) return false;
-  return !data.breaks.some((row) =>
-    row.from <= row.to
-      ? md >= row.from && md <= row.to
-      : md >= row.from || md <= row.to,
-  );
+  if (
+    data.breaks.some((row) =>
+      row.from <= row.to
+        ? md >= row.from && md <= row.to
+        : md >= row.from || md <= row.to,
+    )
+  )
+    return false;
+  return !data.holidays.some((row) => onHoliday(date, row));
+}
+
+/** The holiday's date that year: the nth (or, at -1, the last) given weekday of its month. */
+function onHoliday(
+  date: string,
+  row: { month: number; weekday: number; nth: number; days: number },
+): boolean {
+  const year = Number(date.slice(0, 4));
+  let day: number;
+  if (row.nth > 0) {
+    const first = new Date(Date.UTC(year, row.month - 1, 1)).getUTCDay();
+    day = 1 + ((row.weekday - first + 7) % 7) + (row.nth - 1) * 7;
+  } else {
+    const lastDate = new Date(Date.UTC(year, row.month, 0));
+    day =
+      lastDate.getUTCDate() - ((lastDate.getUTCDay() - row.weekday + 7) % 7);
+  }
+  const start = Date.UTC(year, row.month - 1, day);
+  const at = Date.parse(`${date}T00:00:00Z`);
+  return at >= start && at < start + row.days * 86_400_000;
 }
 
 const table = (api: CoreAPI) =>

@@ -15,6 +15,17 @@ describe(`school days in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(isSchoolDay("2021-01-09")).toBe(false); // a Saturday
     expect(isSchoolDay("2021-07-14")).toBe(false); // summer
     expect(isSchoolDay("2020-12-28")).toBe(false); // winter break
+    // Holidays by their federal rules, which move year to year.
+    expect(isSchoolDay("2021-11-25")).toBe(false); // Thanksgiving 2021
+    expect(isSchoolDay("2021-11-26")).toBe(false); // the day after
+    expect(isSchoolDay("2022-11-24")).toBe(false); // Thanksgiving 2022
+    expect(isSchoolDay("2022-11-25")).toBe(false);
+    expect(isSchoolDay("2022-11-23")).toBe(true);
+    expect(isSchoolDay("2021-09-06")).toBe(false); // Labor Day
+    expect(isSchoolDay("2021-01-18")).toBe(false); // Martin Luther King Jr. Day
+    expect(isSchoolDay("2021-02-15")).toBe(false); // Presidents' Day
+    expect(isSchoolDay("2021-05-31")).toBe(false); // Memorial Day
+    expect(isSchoolDay("2021-05-24")).toBe(true);
   });
 
   it("sends the town's school-age full people to its school on school days", () => {

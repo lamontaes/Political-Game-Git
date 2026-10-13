@@ -8,11 +8,6 @@
   },
   "breaks": [
     {
-      "from": "11-26",
-      "to": "11-27",
-      "name": "Thanksgiving"
-    },
-    {
       "from": "12-21",
       "to": "01-02",
       "name": "winter break"
@@ -21,14 +16,47 @@
       "from": "03-23",
       "to": "03-27",
       "name": "spring break"
-    },
-    {
-      "from": "05-25",
-      "to": "05-25",
-      "name": "Memorial Day"
     }
   ],
   "actionId": "attend-school",
   "stopgapId": "SG-CORE-school-days",
-  "placeTargetPrefix": "schools-of:"
+  "placeTargetPrefix": "schools-of:",
+  "holidays": [
+    {
+      "name": "Labor Day",
+      "month": 9,
+      "weekday": 1,
+      "nth": 1,
+      "days": 1
+    },
+    {
+      "name": "Thanksgiving and the day after",
+      "month": 11,
+      "weekday": 4,
+      "nth": 4,
+      "days": 2
+    },
+    {
+      "name": "Martin Luther King Jr. Day",
+      "month": 1,
+      "weekday": 1,
+      "nth": 3,
+      "days": 1
+    },
+    {
+      "name": "Presidents' Day",
+      "month": 2,
+      "weekday": 1,
+      "nth": 3,
+      "days": 1
+    },
+    {
+      "name": "Memorial Day",
+      "month": 5,
+      "weekday": 1,
+      "nth": -1,
+      "days": 1
+    }
+  ],
+  "holidaysCitation": "Federal holidays schools close for, by their rules in 5 U.S.C. 6103: Labor Day (first Monday in September), Thanksgiving (fourth Thursday in November, with the Friday after as most districts do), Martin Luther King Jr. Day and Washington's Birthday (third Mondays of January and February), Memorial Day (last Monday in May)."
 }
