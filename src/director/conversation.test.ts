@@ -350,7 +350,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       id: "person-birth:fixture-news",
       date: core.date,
       kind: "person-birth",
-      personIds: [aboutId],
+      personIds: [aboutId!],
       witnessIds: [me.id],
       placeId: me.placeId,
       publicRecord: false,
@@ -362,7 +362,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       },
     });
     const talk = openConversation(core, me.id, listener.id);
-    const name = core.people.get(aboutId)!.givenName;
+    const name = core.people.get(aboutId!)!.givenName;
     let told = false;
     for (let turn = 0; turn < 12 && !told; turn += 1) {
       const tell = talk.choices.find((row) =>

@@ -203,8 +203,59 @@ for (const drawn of seeds) {
       source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
     });
   }
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  // Life and civic events in play, shaped as their engines emit them.
+  const known = [...me.knownIds]
+    .filter((id) => !me.familyIds.has(id) && core.people.get(id)?.alive)
+    .sort();
+  const [partner, friend, other] = known;
+  const office = "City Council, Seat 2";
+  const staged: [string, string[], Record<string, string>, string[]][] = [
+    ["family.moved-in-together", partner ? [player.id, partner] : [], {}, []],
+    ["family.married", partner ? [player.id, partner] : [], {}, []],
+    ["family.divorced", partner ? [player.id, partner] : [], {}, []],
+    ["health.coverage-lost", [player.id], { from: "employer" }, []],
+    ["election-result", [player.id], { office, winnerId: player.id }, []],
+    ["took-office", [player.id], { office }, []],
+    [
+      "legislative-vote",
+      [player.id],
+      { number: "Ordinance 2026-4", yes: "5", no: "2" },
+      [],
+    ],
+    ["town-hall", [player.id], { hostId: player.id }, []],
+    // News a friend saw: someone the player knows got married.
+    [
+      "family.married",
+      other && friend ? [other, partner ?? player.id] : [],
+      {},
+      friend ? [friend] : [],
+    ],
+  ];
+  staged.forEach(([kind, ids, facts, witnesses], index) => {
+    if (!ids.length) return;
+    applyCoreEvent(core, {
+      id: `${kind}:grading:${drawn}:${index}`,
+      date: core.date,
+      kind,
+      personIds: ids,
+      ...(witnesses.length ? { witnessIds: witnesses } : {}),
+      placeId: me.placeId,
+      publicRecord: true,
+      facts,
+      source: { tag: "SOURCED", citation: "fixture", asOf: core.date },
+    });
+    // Each on its own day, so the story keeps their order.
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  });
   composeJournal(core, director, player.id);
+  if (friend) {
+    const talk = openConversation(core, player.id, friend);
+    for (let turn = 0; turn < 8 && talk.choices.length; turn += 1) {
+      const quiet =
+        talk.choices.find((row) => !row.raises) ?? talk.choices.at(-1)!;
+      say(core, talk, quiet.key);
+    }
+  }
   // A closure, brought up along a chain of people.
   const org = core.jobs.get(me.jobId!)!.organizationId;
   const closure = `organization.closed:${org}:${core.date}`;
