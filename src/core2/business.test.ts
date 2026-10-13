@@ -5,6 +5,7 @@ import { BUSINESS_MODULE, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
+import { residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
 
@@ -160,7 +161,7 @@ describe("owners draw from profit", () => {
   });
 });
 
-async function foundingCore(owner: boolean, cook = false) {
+async function foundingCore(owner: boolean, cook = false, big = false) {
   const { CREDIT_MODULE } = await import("./modules/credit");
   const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
   const place2 = "place:founding-fixture",
@@ -191,7 +192,8 @@ async function foundingCore(owner: boolean, cook = false) {
     "people-mind-v1:risk": 3,
   };
   const people = [
-    { ...person("founder", bold), liquidMinor: 20_000_000 },
+    // $20,000 of savings: not enough to open without a loan.
+    { ...person("founder", bold), liquidMinor: 2_000_000 },
     ...(owner ? [person("owner", bold, "job:owner")] : []),
     ...(cook ? [person("cook", {}, "job:cook")] : []),
   ];
@@ -258,28 +260,54 @@ async function foundingCore(owner: boolean, cook = false) {
         liquidMinor: 100_000_000,
         source: s2,
       },
+      {
+        id: "outside:founding-fixture",
+        placeId: place2,
+        name: "Outside suppliers",
+        kind: "employer",
+        liquidMinor: 0,
+        source: s2,
+      },
     ],
     residents: {
       version: "core2-residents-v1",
       accounts: [{ placeId: place2, accountId: residentsId }],
       households: [],
-      flows: ["diner:a", "diner:b"].map((id) => ({
-        id: `purchase:${id}`,
-        kind: "purchase" as const,
-        financeKind: "household.food",
-        payerId: residentsId,
-        payeeId: id,
-        residentsId,
-        placeId: place2,
-        amountMinor: 300_000,
-        // The counted households' own parts, as a generated world records them.
-        amountByContract: { [`household:counted-${id}`]: 300_000 },
-        firstAt: "2026-10-12",
-        cadence: { kind: "months" as const, every: 1, day: 12 },
-        salesReceipt: true,
-        marketAdjusted: false,
-        source: s2,
-      })),
+      flows: [
+        // What each diner doesn't buy locally it buys from outside suppliers.
+        ...["diner:a", "diner:b"].map((id) => ({
+          id: `outside-costs:${id}`,
+          kind: "outside-costs" as const,
+          financeKind: "outside.supplier.restaurant",
+          payerId: id,
+          payeeId: "outside:founding-fixture",
+          residentsId: "outside:founding-fixture",
+          placeId: place2,
+          amountMinor: 0,
+          firstAt: "2026-10-05",
+          cadence: { kind: "days" as const, every: 7 },
+          salesReceipt: false,
+          marketAdjusted: false,
+          source: s2,
+        })),
+        ...["diner:a", "diner:b"].map((id) => ({
+          id: `purchase:${id}`,
+          kind: "purchase" as const,
+          financeKind: "household.food",
+          payerId: residentsId,
+          payeeId: id,
+          residentsId,
+          placeId: place2,
+          amountMinor: 300_000,
+          // The counted households' own parts, as a generated world records them.
+          amountByContract: { [`household:counted-${id}`]: 300_000 },
+          firstAt: "2026-10-12",
+          cadence: { kind: "months" as const, every: 1, day: 12 },
+          salesReceipt: true,
+          marketAdjusted: false,
+          source: s2,
+        })),
+      ],
       source: s2,
     },
     focusPersonIds: [],
@@ -297,8 +325,8 @@ async function foundingCore(owner: boolean, cook = false) {
       ...books(core),
       organizationId: id,
       kindId: "restaurant",
-      annualDemandMinor: 100_000_000,
-      capacityMinor: 40_000_000,
+      annualDemandMinor: big ? 10_000_000_000 : 100_000_000,
+      capacityMinor: big ? 4_000_000_000 : 40_000_000,
     };
     core.finance.businesses.set(id, book as BusinessBooksState);
   }
@@ -311,6 +339,9 @@ type Founding = {
   kindId: string;
   customersMonthlyMinor: number;
   loanMinor: number;
+  equityMinor?: number;
+  staff: number;
+  scale: number;
   parentId?: string;
   parentFundsMinor: number;
 };
@@ -328,7 +359,61 @@ describe("founding a business where a market has room", () => {
     });
     expect(foundings[0]!.parentId).toBeUndefined();
     expect(foundings[0]!.customersMonthlyMinor).toBeGreaterThan(0);
+    // The founder puts in their savings; the bank lends the rest, no more than the SBA's equity rule allows.
+    const equity = foundings[0]!.equityMinor!;
+    expect(equity).toBeGreaterThan(0);
     expect(foundings[0]!.loanMinor).toBeGreaterThan(0);
+    expect(foundings[0]!.loanMinor).toBeLessThanOrEqual(equity * 9);
+    // What the founder has left is their savings less their equity, plus what the business has paid them.
+    const drawn = api(core)
+      .moduleState("business")
+      .table("draws")
+      .rows()
+      .filter((row) => row.ownerId === "founder")
+      .reduce((n, row) => n + Number(row.drawnMinor), 0);
+    expect(core.people.get("founder")!.liquidMinor).toBe(
+      2_000_000 - equity + drawn,
+    );
+    expect(
+      api(core)
+        .moduleState("credit")
+        .table("applications")
+        .rows()
+        .find((row) => row.kind === "startup"),
+    ).toMatchObject({ borrowerId: "founder", approved: true });
+    expect(money(core)).toBe(total);
+  });
+
+  it("a founder of modest means in a big market opens small, borrows what the bank underwrites, buys its supplies and pays its owner", async () => {
+    const core = await foundingCore(false, false, true);
+    const total = money(core);
+    advanceCore(core, "2027-01-15");
+    const t = api(core).moduleState("business").snapshot().tables;
+    const founding = (
+      t.foundings as unknown as (Founding & {
+        organizationId: string;
+      })[]
+    )[0]!;
+    expect(founding).toMatchObject({ founderId: "founder" });
+    // An equal share of this market would cost far more to open than $20,000 and what it supports.
+    expect(founding.scale).toBeLessThan(0.2);
+    const equity = founding.equityMinor!;
+    expect(founding.loanMinor).toBeLessThanOrEqual(equity * 9);
+    const book = core.finance.businesses.get(founding.organizationId)!;
+    expect(book.annualDemandMinor).toBeLessThan((2 * 10_000_000_000 * 0.2) / 3);
+    // It pays the outside suppliers for what it sells.
+    const supplies = residentsRuntime(core)!.flows.get(
+      `outside-costs:${founding.organizationId}`,
+    )!;
+    expect(supplies.outsidePaidMinor ?? 0).toBeGreaterThan(0);
+    // And its owner takes a share of the profit it keeps.
+    const draws = (
+      t.draws as unknown as {
+        organizationId: string;
+        drawnMinor: number;
+      }[]
+    ).filter((row) => row.organizationId === founding.organizationId);
+    expect(draws.some((row) => row.drawnMinor > 0)).toBe(true);
     expect(money(core)).toBe(total);
   });
 

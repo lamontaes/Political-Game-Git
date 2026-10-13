@@ -233,5 +233,48 @@
       "unit": "share of deposits",
       "citation": "Community banks' cash and balances due from other banks against deposits (FDIC Quarterly Banking Profile, community banks, 2019-2024)."
     }
+  },
+  "creditStartupEquityShare": {
+    "value": 0.1,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 8 (effective June 1, 2025): a startup borrower injects equity of at least 10 percent of total project cost; the loan covers at most the rest."
+  },
+  "creditStartupDebtServiceCoverage": {
+    "value": 1.15,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 7.1 and 50 10 8: a 7(a) loan to a new business needs projected cash flow of at least 1.15 times its debt service."
+  },
+  "creditFamilyHelpShareOfSpare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much of what a relative can spare they give a household that ran short, at full closeness. Federal Reserve, Economic Well-Being of U.S. Households in 2018 (May 2019): one in 10 adults, and over a quarter of adults under 30, receive financial support from someone living outside their home, mostly between parents and adult children, often for general expenses.",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "share of the relative's spare cash",
+      "citation": "Federal Reserve, Economic Well-Being of U.S. Households in 2018 (May 2019): one in 10 adults, and over a quarter of adults under 30, receive financial support from someone living outside their home, mostly between parents and adult children, often for general expenses."
+    }
+  },
+  "creditFamilyHelpReserveMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "A relative keeps a few months of their own living costs before helping (CFPB emergency savings guidance: about three months of expenses).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months of the relative's living costs",
+      "citation": "CFPB emergency savings guidance: about three months of expenses."
+    }
+  },
+  "creditHomeEquityCombinedLoanToValue": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "Home equity lines lend up to 80 to 90 percent of a home's value less what is owed on it (CFPB, What you should know about home equity lines of credit, 2021).",
+    "spread": {
+      "low": 0.8,
+      "high": 0.9,
+      "unit": "share of home value, all liens",
+      "citation": "CFPB, What you should know about home equity lines of credit (2021): lenders typically limit combined borrowing to 80 to 90 percent of the home's value."
+    }
   }
 }

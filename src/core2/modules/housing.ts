@@ -146,7 +146,12 @@ function townOf(input: CoreInput): Town | undefined {
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
-  const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
+  // The played town itself; a county the opening also generates can hold more households.
+  const own = place?.context.jurisdiction.id;
+  const placeId =
+    own && counts.has(own)
+      ? own
+      : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
   if (!placeId || !usps) return undefined;
   // A place no county table covers (the island areas) uses the nation's figures, estimated.
@@ -368,6 +373,12 @@ export function withHousing(input: CoreInput): CoreInput {
     estimatedFrom: `The town's ACS owner share (${tenure[1]} of ${tenure[0]} homes) and county ${town.county}'s median gross rent (${medianRent} dollars), scaled by each household's income.`,
   };
   const offset = medianIncome * pv("housingIncomeOffsetShare");
+  // A home's value and rent scale with its household's income; with no recorded income in town, the median.
+  const incomeScale = (income: number) =>
+    medianIncome > 0
+      ? ((income + offset) / (medianIncome + offset)) **
+        pv("housingRentIncomeElasticity")
+      : 1;
   const dueAt =
     addDays(
       makeIsoDate(`${input.startedAt.slice(0, "YYYY-MM".length)}-01`),
@@ -403,10 +414,7 @@ export function withHousing(input: CoreInput): CoreInput {
           // ACS values are dated mid-2022; the state's house price index moves them to the start.
           homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
           // A household without pay (most often retired) owns a home like its neighbors': the county's median.
-          (row.income > 0
-            ? ((row.income + offset) / (medianIncome + offset || 1)) **
-              pv("housingRentIncomeElasticity")
-            : 1),
+          (row.income > 0 ? incomeScale(row.income) : 1),
       ),
     }));
   for (const row of ownerRows) dwellings.push([row.id, "own", row.valueMinor]);
@@ -439,9 +447,7 @@ export function withHousing(input: CoreInput): CoreInput {
       stopgap("SG-WORLD-housing-unmodeled-renters");
       continue;
     }
-    const scale =
-      ((row.income + offset) / (medianIncome + offset || 1)) **
-      pv("housingRentIncomeElasticity");
+    const scale = incomeScale(row.income);
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)
@@ -1743,6 +1749,40 @@ export function ownedHomes(
     });
   }
   return out;
+}
+
+/** A household's own home: its value today and what its mortgage still owes; undefined for renters. */
+export function homeOf(
+  api: CoreAPI,
+  householdId: string,
+): { valueMinor: number; owedMinor: number } | undefined {
+  const c = api.state as CoreState;
+  if (!c.modules.has(HOUSING_MODULE_ID)) return undefined;
+  const row = store(api).table("dwellings").get(`dwelling:${householdId}`) as
+    { tenure: string; valueMinor?: number; basis: string } | undefined;
+  if (row?.tenure !== "own" || !row.valueMinor) return undefined;
+  const opened =
+    (
+      store(api).table("state").get("housing:state") as
+        { openedAt: string } | undefined
+    )?.openedAt ?? c.date;
+  const ratio =
+    row.basis === "opening"
+      ? homePriceRatio(
+          c.placeMetadata?.housingState ?? "",
+          opened,
+          c.date,
+          macroPrices(api),
+        )
+      : 1;
+  const loan = store(api)
+    .table("mortgages")
+    .get(`${MORTGAGE_PREFIX}${householdId}`) as
+    { balanceMinor: number } | undefined;
+  return {
+    valueMinor: Math.round(row.valueMinor * ratio),
+    owedMinor: loan?.balanceMinor ?? 0,
+  };
 }
 
 /** The kind of home a household lives in (house, rowhouse, apartment, mobile-home, farmhouse), for the home picture. */

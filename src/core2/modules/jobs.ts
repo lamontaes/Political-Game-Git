@@ -1116,9 +1116,17 @@ function runWeek(api: CoreAPI): void {
     apply(id, seeker);
   }
   // Counted seekers apply to every opening in their place; they decide nothing through the chooser until filled in (stopgap).
-  const counted = store(api)
-    .table("countedSeekers")
-    .query("all", [true]) as unknown as SeekerRow[];
+  const counted = (
+    store(api)
+      .table("countedSeekers")
+      .query("all", [true]) as unknown as SeekerRow[]
+  ).filter((seeker) => {
+    // A seeker who has moved away or died is no longer looking here.
+    if (residentPerson(c, seeker.personId) || c.people.has(seeker.personId))
+      return true;
+    store(api).table("countedSeekers").remove(seeker.personId);
+    return false;
+  });
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
   for (const seeker of counted) {
     // The same reasons a full person weighs: pay against their reference,
@@ -1870,9 +1878,9 @@ export const JOBS_MODULE: CoreModule = {
       if (job.organizationId !== organizationId) continue;
       if (job.endsAt && job.endsAt !== api.state.date) continue;
       if (store(api).table("countedSeekers").get(job.personId)) continue;
-      // A forced closure ends full people's jobs; a counted job still on the closed payroll ends with it.
-      const flow = rt!.wageFlowByJob.get(job.id);
-      if (flow && !flow.endedAt) endCountedJob(core(api), job.id);
+      // The job ends with the employer today; its wage flow stops paying at its next date.
+      if (!job.endsAt && !endCountedJob(core(api), job.id))
+        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
       const person = residentPerson(core(api), job.personId);
       if (!person) continue;
       record(api, {
