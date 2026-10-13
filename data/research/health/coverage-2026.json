@@ -1,0 +1,2876 @@
+{
+ "retrievedAt": "2026-10-13",
+ "scope": "Figures to assign each simulated US resident a health coverage status from age, job, employer size, household income relative to the poverty line, and state; plus totals to check the result. Percentages are percent (0-100). Income limits are percent of the federal poverty level (FPL) for the household size.",
+ "sources": [
+  {
+   "id": "kff-elig-2026",
+   "title": "KFF State Health Facts: Medicaid Income Eligibility Limits for Adults as a Percent of the FPL; Medicaid and CHIP Income Eligibility Limits for Children; ... for Pregnant Women",
+   "url": "https://www.kff.org/affordable-care-act/state-indicator/medicaid-income-eligibility-limits-for-adults-as-a-percent-of-the-federal-poverty-level/",
+   "table": "State indicator tables (also .../medicaid-and-chip-income-eligibility-limits-for-children-as-a-percent-of-the-federal-poverty-level/ and .../medicaid-and-chip-income-eligibility-limits-for-pregnant-women-as-a-percent-of-the-federal-poverty-level/)",
+   "year": "As of January 2026",
+   "notes": "Only timeframe the live pages publish. Based on the KFF / Georgetown University Center for Children and Families annual 50-state survey. Limits are MAGI-converted and include the 5-percentage-point FPL disregard (so ACA expansion shows as 138). Parents are % of FPL for a family of three; other adults for an individual. Values parsed from the data embedded in each page. Children 'children' = KFF 'Upper Income Limit' (highest Medicaid or CHIP limit for any child 0-18). Pregnant = higher of the Medicaid and CHIP pregnancy columns; the FCEP (unborn-child CHIP) column is kept separately because it covers the pregnancy, not the woman's full Medicaid."
+  },
+  {
+   "id": "kff-expansion-2026",
+   "title": "KFF State Health Facts: Status of State Medicaid Expansion Decisions",
+   "url": "https://www.kff.org/affordable-care-act/state-indicator/state-activity-around-expanding-medicaid-under-the-affordable-care-act/",
+   "table": "Status of Medicaid Expansion Decision; Expansion Implementation Date",
+   "year": "As of October 2026",
+   "notes": "41 adopted (incl. DC), 10 not adopted: AL, FL, GA, KS, MS, SC, TN, TX, WI, WY. Same list in 2024 and 2025 (latest implementations NC 12/1/2023, SD 7/1/2023)."
+  },
+  {
+   "id": "cms-elig-2023",
+   "title": "CMS Medicaid.gov: Medicaid, Children's Health Insurance Program, & Basic Health Program Eligibility Levels",
+   "url": "https://www.medicaid.gov/medicaid/national-medicaid-chip-program-information/medicaid-childrens-health-insurance-program-basic-health-program-eligibility-levels",
+   "table": "Eligibility levels table",
+   "year": "As of December 1, 2023",
+   "notes": "Checked only as a cross-reference; CMS figures exclude the 5% disregard (e.g., expansion shows 133) and are older than KFF's. Not used for values."
+  },
+  {
+   "id": "macpac-territories-2021",
+   "title": "MACPAC fact sheet: Medicaid and CHIP in the Territories",
+   "url": "https://www.macpac.gov/wp-content/uploads/2019/07/Medicaid-and-CHIP-in-the-Territories.pdf",
+   "table": "Text and Tables 1-2",
+   "year": "February 2021",
+   "notes": "Federal advisory commission to Congress."
+  },
+  {
+   "id": "hhs-fpg-2024",
+   "title": "HHS Annual Update of the HHS Poverty Guidelines (Federal Register 89 FR 2961-2963, Jan 17, 2024, FR Doc 2024-00796); ASPE 2024 computations page",
+   "url": "https://www.govinfo.gov/content/pkg/FR-2024-01-17/html/2024-00796.htm",
+   "table": "2024 Poverty Guidelines for the 48 Contiguous States and DC / Alaska / Hawaii",
+   "year": "2024",
+   "notes": "ASPE computations page: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines/prior-hhs-poverty-guidelines-federal-register-references/2024-poverty-guidelines-computations"
+  },
+  {
+   "id": "meps-ic-national",
+   "title": "AHRQ MEPS-Insurance Component, private-sector national tables (Series I), via the AHRQ Data Tools MEPS-IC dashboard export",
+   "url": "https://datatools.ahrq.gov/meps-ic/wp-content/uploads/sites/6/2026/07/508CompliantExport-for-MEPSICDasboardData_PrivateNatl_July2026.xlsx",
+   "table": "I.A.2 (establishments offering), I.B.2 (employees in offering establishments), I.B.2.a (eligible), I.B.2.a.(1) (eligible who enroll = take-up), I.B.2.b (enrolled), I.B.3.b.(1)/(1).(a) full-time, I.B.4.b.(1)/(1).(a) part-time",
+   "year": "2023 (also 2024, 2025 in the same export)",
+   "notes": "Dashboard page: https://datatools.ahrq.gov/meps-ic/ . The file is strict-OOXML; parsed by streaming the sheet XML. Firm size = employees of the whole firm, not the establishment."
+  },
+  {
+   "id": "meps-ic-state-2023",
+   "title": "AHRQ MEPS-IC private-sector state tables (Series II), 2023, one workbook per state",
+   "url": "https://meps.ahrq.gov/mepsweb/data_stats/summ_tables/insr/excel/2023/Alabama2023.xlsx",
+   "table": "Sheet 'Table II': II.A.2, II.B.2, II.B.2.a, II.B.2.a.(1)",
+   "year": "2023",
+   "notes": "Pattern .../excel/2023/<StateNameNoSpaces>2023.xlsx, listed at https://meps.ahrq.gov/mepsweb/data_stats/state_tables.jsp?regionid=-1&year=2023 . UnitedStates2023.xlsx total offer rate 46.3 matches the national table."
+  },
+  {
+   "id": "acs-2023-s2701",
+   "title": "Census Bureau, American Community Survey 2023 1-year, Subject Table S2701 Selected Characteristics of Health Insurance Coverage in the United States",
+   "url": "https://data.census.gov/table/ACSST1Y2023.S2701",
+   "table": "S2701 (column C05 Percent Uninsured)",
+   "year": "2023",
+   "notes": "Fetched from data.census.gov table API (ACSST1Y2023.S2701) for the US and each state + PR. ACS = coverage at time of interview; civilian noninstitutionalized population."
+  },
+  {
+   "id": "acs-2023-s2703-s2704",
+   "title": "ACS 2023 1-year Subject Tables S2703 (Private Health Insurance Coverage by Type) and S2704 (Public Health Insurance Coverage by Type)",
+   "url": "https://data.census.gov/table/ACSST1Y2023.S2703",
+   "table": "S2703 / S2704, column C03 percent, 'alone or in combination'",
+   "year": "2023",
+   "notes": "S2704 URL: https://data.census.gov/table/ACSST1Y2023.S2704 . Types are not mutually exclusive. Percent denominators are the age group's civilian noninstitutionalized population (checked: 17,223,079 employer 65+ / 57,891,441 = 29.8)."
+  },
+  {
+   "id": "acs-2023-b27016",
+   "title": "ACS 2023 1-year Detailed Table B27016 Health Insurance Coverage Status and Type by Ratio of Income to Poverty Level in the Past 12 Months by Age",
+   "url": "https://data.census.gov/table/ACSDT1Y2023.B27016",
+   "table": "B27016, 19 to 64 years rows",
+   "year": "2023",
+   "notes": "Percentages computed here from counts (count / bracket population 19-64). Types not mutually exclusive. Poverty ratio uses Census poverty thresholds, not HHS guidelines."
+  },
+  {
+   "id": "census-p60-284",
+   "title": "Census Bureau P60-284, Health Insurance Coverage in the United States: 2023 (Keisler-Starkey, Bunch, Lindstrom), September 2024",
+   "url": "https://www.census.gov/library/publications/2024/demo/p60-284.html",
+   "table": "Table 1, Table A-1, Table A-2, Figure 6",
+   "year": "2023 (CPS ASEC 2024)",
+   "notes": "PDF: https://www2.census.gov/library/publications/2024/demo/p60-284.pdf . CPS ASEC counts a person uninsured only if uninsured the whole calendar year; types are any time in the year and not mutually exclusive."
+  },
+  {
+   "id": "medicare-trustees-2024",
+   "title": "2024 Annual Report of the Boards of Trustees of the Federal Hospital Insurance and Federal Supplementary Medical Insurance Trust Funds",
+   "url": "https://www.cms.gov/oact/tr/2024",
+   "table": "Highlights 'In 2023' and Table II.B1 enrollment; Glossary (Disability, Medicare)",
+   "year": "2023 enrollment",
+   "notes": ""
+  }
+ ],
+ "medicaidByState": {
+  "AK": {
+   "expanded": true,
+   "expansionDate": "9/1/2015",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 208,
+   "childrenDetail": {
+    "medicaidInfants0to1": 177,
+    "medicaidAges1to5": 177,
+    "medicaidAges6to18": 177,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 230,
+   "pregnantDetail": {
+    "medicaid": 230,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "AL": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 18,
+   "children": 317,
+   "childrenDetail": {
+    "medicaidInfants0to1": 146,
+    "medicaidAges1to5": 146,
+    "medicaidAges6to18": 146,
+    "separateChip": 317,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 146,
+   "pregnantDetail": {
+    "medicaid": 146,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 317
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "AR": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 216,
+   "childrenDetail": {
+    "medicaidInfants0to1": 147,
+    "medicaidAges1to5": 147,
+    "medicaidAges6to18": 147,
+    "separateChip": 216,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 214,
+   "pregnantDetail": {
+    "medicaid": 214,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 214
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "AZ": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 230,
+   "childrenDetail": {
+    "medicaidInfants0to1": 152,
+    "medicaidAges1to5": 146,
+    "medicaidAges6to18": 138,
+    "separateChip": 230,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 161,
+   "pregnantDetail": {
+    "medicaid": 161,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "CA": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 266,
+   "childrenDetail": {
+    "medicaidInfants0to1": 208,
+    "medicaidAges1to5": 142,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 213,
+   "pregnantDetail": {
+    "medicaid": 213,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 322
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "CO": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 265,
+   "childrenDetail": {
+    "medicaidInfants0to1": 147,
+    "medicaidAges1to5": 147,
+    "medicaidAges6to18": 147,
+    "separateChip": 265,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 260,
+   "pregnantDetail": {
+    "medicaid": 195,
+    "chip": 260,
+    "fromConceptionToEndOfPregnancyCHIP": 265
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "CT": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 323,
+   "childrenDetail": {
+    "medicaidInfants0to1": 201,
+    "medicaidAges1to5": 201,
+    "medicaidAges6to18": 201,
+    "separateChip": 323,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 263,
+   "pregnantDetail": {
+    "medicaid": 263,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 263
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "DC": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 324,
+   "childrenDetail": {
+    "medicaidInfants0to1": 324,
+    "medicaidAges1to5": 324,
+    "medicaidAges6to18": 324,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 324,
+   "pregnantDetail": {
+    "medicaid": 324,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 324
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Effective Jan 1, 2026 DC cut parents from 221% to 138% and other adults from 215% to 138% FPL and moved adults 138-200% FPL to the Healthy DC Plan (a Basic Health Program). For 2025 use parents 221, adultsNoKids 215 (KFF footnote)."
+  },
+  "DE": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 217,
+   "childrenDetail": {
+    "medicaidInfants0to1": 217,
+    "medicaidAges1to5": 147,
+    "medicaidAges6to18": 138,
+    "separateChip": 217,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 217,
+   "pregnantDetail": {
+    "medicaid": 217,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "FL": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 26,
+   "children": 215,
+   "childrenDetail": {
+    "medicaidInfants0to1": 211,
+    "medicaidAges1to5": 145,
+    "medicaidAges6to18": 138,
+    "separateChip": 215,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 196,
+   "pregnantDetail": {
+    "medicaid": 196,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Florida did not answer the 2026 survey; KFF carried prior-year levels confirmed from public information."
+  },
+  "GA": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": 100,
+   "parents": 100,
+   "children": 252,
+   "childrenDetail": {
+    "medicaidInfants0to1": 210,
+    "medicaidAges1to5": 154,
+    "medicaidAges6to18": 138,
+    "separateChip": 252,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 225,
+   "pregnantDetail": {
+    "medicaid": 225,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Not an ACA expansion state; covers parents and other adults to 100% FPL through the Pathways section 1115 waiver only if they meet a work requirement (KFF footnote)."
+  },
+  "HI": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 313,
+   "childrenDetail": {
+    "medicaidInfants0to1": 191,
+    "medicaidAges1to5": 139,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 196,
+   "pregnantDetail": {
+    "medicaid": 196,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "IA": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 307,
+   "childrenDetail": {
+    "medicaidInfants0to1": 305,
+    "medicaidAges1to5": 172,
+    "medicaidAges6to18": 172,
+    "separateChip": 307,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 220,
+   "pregnantDetail": {
+    "medicaid": 220,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "KFF footnote: pregnancy Medicaid limit cut from 375% to 215% FPL (table value shown is 220); infant upper limit cut from 380% to 307% effective Jan 1, 2025."
+  },
+  "ID": {
+   "expanded": true,
+   "expansionDate": "1/1/2020",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 190,
+   "childrenDetail": {
+    "medicaidInfants0to1": 147,
+    "medicaidAges1to5": 147,
+    "medicaidAges6to18": 138,
+    "separateChip": 190,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 138,
+   "pregnantDetail": {
+    "medicaid": 138,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "IL": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 318,
+   "childrenDetail": {
+    "medicaidInfants0to1": 142,
+    "medicaidAges1to5": 142,
+    "medicaidAges6to18": 142,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 213,
+   "pregnantDetail": {
+    "medicaid": 213,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 213
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "IN": {
+   "expanded": true,
+   "expansionDate": "2/1/2015",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 255,
+   "childrenDetail": {
+    "medicaidInfants0to1": 213,
+    "medicaidAges1to5": 163,
+    "medicaidAges6to18": 163,
+    "separateChip": 255,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 213,
+   "pregnantDetail": {
+    "medicaid": 213,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "KS": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 38,
+   "children": 255,
+   "childrenDetail": {
+    "medicaidInfants0to1": 171,
+    "medicaidAges1to5": 154,
+    "medicaidAges6to18": 138,
+    "separateChip": 255,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 171,
+   "pregnantDetail": {
+    "medicaid": 171,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "KY": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 218,
+   "childrenDetail": {
+    "medicaidInfants0to1": 195,
+    "medicaidAges1to5": 142,
+    "medicaidAges6to18": 109,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 218,
+   "pregnantDetail": {
+    "medicaid": 195,
+    "chip": 218,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "LA": {
+   "expanded": true,
+   "expansionDate": "7/1/2016",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 255,
+   "childrenDetail": {
+    "medicaidInfants0to1": 142,
+    "medicaidAges1to5": 142,
+    "medicaidAges6to18": 142,
+    "separateChip": 255,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 138,
+   "pregnantDetail": {
+    "medicaid": 138,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 214
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "MA": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "childrenDetail": {
+    "medicaidInfants0to1": 205,
+    "medicaidAges1to5": 155,
+    "medicaidAges6to18": 155,
+    "separateChip": 305,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 205,
+   "pregnantDetail": {
+    "medicaid": 205,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 205
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "MD": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 322,
+   "childrenDetail": {
+    "medicaidInfants0to1": 194,
+    "medicaidAges1to5": 138,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 264,
+   "pregnantDetail": {
+    "medicaid": 264,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 264
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "ME": {
+   "expanded": true,
+   "expansionDate": "1/10/2019",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "childrenDetail": {
+    "medicaidInfants0to1": 305,
+    "medicaidAges1to5": 305,
+    "medicaidAges6to18": 305,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 214,
+   "pregnantDetail": {
+    "medicaid": 214,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 213
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "MI": {
+   "expanded": true,
+   "expansionDate": "4/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 217,
+   "childrenDetail": {
+    "medicaidInfants0to1": 195,
+    "medicaidAges1to5": 160,
+    "medicaidAges6to18": 160,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 200,
+   "pregnantDetail": {
+    "medicaid": 200,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 200
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Covers pregnant people and children up to 400% FPL affected by the Flint water crisis (not reflected in the figures)."
+  },
+  "MN": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 288,
+   "childrenDetail": {
+    "medicaidInfants0to1": 288,
+    "medicaidAges1to5": 280,
+    "medicaidAges6to18": 280,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 283,
+   "pregnantDetail": {
+    "medicaid": 283,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 283
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Basic Health Program (MinnesotaCare) covers adults 138-200% FPL (KFF footnote)."
+  },
+  "MO": {
+   "expanded": true,
+   "expansionDate": "10/1/2021",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "childrenDetail": {
+    "medicaidInfants0to1": 201,
+    "medicaidAges1to5": 148,
+    "medicaidAges6to18": 148,
+    "separateChip": 305,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 305,
+   "pregnantDetail": {
+    "medicaid": 196,
+    "chip": 305,
+    "fromConceptionToEndOfPregnancyCHIP": 305
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "MS": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 21,
+   "children": 214,
+   "childrenDetail": {
+    "medicaidInfants0to1": 199,
+    "medicaidAges1to5": 148,
+    "medicaidAges6to18": 138,
+    "separateChip": 214,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 199,
+   "pregnantDetail": {
+    "medicaid": 199,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "MT": {
+   "expanded": true,
+   "expansionDate": "1/1/2016",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 266,
+   "childrenDetail": {
+    "medicaidInfants0to1": 148,
+    "medicaidAges1to5": 148,
+    "medicaidAges6to18": 133,
+    "separateChip": 266,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 162,
+   "pregnantDetail": {
+    "medicaid": 162,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "NC": {
+   "expanded": true,
+   "expansionDate": "12/1/2023",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 216,
+   "childrenDetail": {
+    "medicaidInfants0to1": 194,
+    "medicaidAges1to5": 141,
+    "medicaidAges6to18": 107,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 201,
+   "pregnantDetail": {
+    "medicaid": 201,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Expansion implemented 12/1/2023."
+  },
+  "ND": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "childrenDetail": {
+    "medicaidInfants0to1": 147,
+    "medicaidAges1to5": 147,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 175,
+   "pregnantDetail": {
+    "medicaid": 175,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "NE": {
+   "expanded": true,
+   "expansionDate": "10/1/2020",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 218,
+   "childrenDetail": {
+    "medicaidInfants0to1": 162,
+    "medicaidAges1to5": 145,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 199,
+   "pregnantDetail": {
+    "medicaid": 199,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 202
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "NH": {
+   "expanded": true,
+   "expansionDate": "8/15/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 323,
+   "childrenDetail": {
+    "medicaidInfants0to1": 196,
+    "medicaidAges1to5": 196,
+    "medicaidAges6to18": 196,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 201,
+   "pregnantDetail": {
+    "medicaid": 201,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "NJ": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 355,
+   "childrenDetail": {
+    "medicaidInfants0to1": 199,
+    "medicaidAges1to5": 147,
+    "medicaidAges6to18": 147,
+    "separateChip": 355,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 205,
+   "pregnantDetail": {
+    "medicaid": 194,
+    "chip": 205,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "NM": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "childrenDetail": {
+    "medicaidInfants0to1": 240,
+    "medicaidAges1to5": 240,
+    "medicaidAges6to18": 190,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 255,
+   "pregnantDetail": {
+    "medicaid": 255,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "NV": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "childrenDetail": {
+    "medicaidInfants0to1": 165,
+    "medicaidAges1to5": 165,
+    "medicaidAges6to18": 138,
+    "separateChip": 205,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 205,
+   "pregnantDetail": {
+    "medicaid": 205,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Pregnancy limit raised from 190% to 205% FPL effective July 1, 2025."
+  },
+  "NY": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 405,
+   "childrenDetail": {
+    "medicaidInfants0to1": 223,
+    "medicaidAges1to5": 154,
+    "medicaidAges6to18": 154,
+    "separateChip": 405,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 223,
+   "pregnantDetail": {
+    "medicaid": 223,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 223
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Essential Plan (Basic Health Program) covers adults 138-250% FPL (KFF footnote)."
+  },
+  "OH": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 211,
+   "childrenDetail": {
+    "medicaidInfants0to1": 156,
+    "medicaidAges1to5": 156,
+    "medicaidAges6to18": 156,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 205,
+   "pregnantDetail": {
+    "medicaid": 205,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "OK": {
+   "expanded": true,
+   "expansionDate": "7/1/2021",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 210,
+   "childrenDetail": {
+    "medicaidInfants0to1": 210,
+    "medicaidAges1to5": 210,
+    "medicaidAges6to18": 210,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 210,
+   "pregnantDetail": {
+    "medicaid": 210,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 210
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "OR": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "childrenDetail": {
+    "medicaidInfants0to1": 185,
+    "medicaidAges1to5": 133,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 190,
+   "pregnantDetail": {
+    "medicaid": 190,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 190
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Basic Health Program covers adults 138-200% FPL (KFF footnote)."
+  },
+  "PA": {
+   "expanded": true,
+   "expansionDate": "1/1/2015",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 319,
+   "childrenDetail": {
+    "medicaidInfants0to1": 220,
+    "medicaidAges1to5": 162,
+    "medicaidAges6to18": 138,
+    "separateChip": 319,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 220,
+   "pregnantDetail": {
+    "medicaid": 220,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "RI": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 266,
+   "childrenDetail": {
+    "medicaidInfants0to1": 190,
+    "medicaidAges1to5": 142,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 258,
+   "pregnantDetail": {
+    "medicaid": 190,
+    "chip": 258,
+    "fromConceptionToEndOfPregnancyCHIP": 258
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "SC": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 67,
+   "children": 213,
+   "childrenDetail": {
+    "medicaidInfants0to1": 194,
+    "medicaidAges1to5": 143,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 199,
+   "pregnantDetail": {
+    "medicaid": 199,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "SD": {
+   "expanded": true,
+   "expansionDate": "7/1/2023",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 209,
+   "childrenDetail": {
+    "medicaidInfants0to1": 187,
+    "medicaidAges1to5": 187,
+    "medicaidAges6to18": 187,
+    "separateChip": 209,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 138,
+   "pregnantDetail": {
+    "medicaid": 138,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 138
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Expansion implemented 7/1/2023."
+  },
+  "TN": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 105,
+   "children": 255,
+   "childrenDetail": {
+    "medicaidInfants0to1": 195,
+    "medicaidAges1to5": 142,
+    "medicaidAges6to18": 133,
+    "separateChip": 255,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 255,
+   "pregnantDetail": {
+    "medicaid": 255,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 255
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "TX": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 15,
+   "children": 206,
+   "childrenDetail": {
+    "medicaidInfants0to1": 203,
+    "medicaidAges1to5": 149,
+    "medicaidAges6to18": 138,
+    "separateChip": 206,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 203,
+   "pregnantDetail": {
+    "medicaid": 203,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 207
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Parent limit is for a single-parent family of three; based on monthly dollar amounts (KFF footnote)."
+  },
+  "UT": {
+   "expanded": true,
+   "expansionDate": "1/1/2020",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "childrenDetail": {
+    "medicaidInfants0to1": 144,
+    "medicaidAges1to5": 144,
+    "medicaidAges6to18": 138,
+    "separateChip": 205,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 144,
+   "pregnantDetail": {
+    "medicaid": 144,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "VA": {
+   "expanded": true,
+   "expansionDate": "1/1/2019",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "childrenDetail": {
+    "medicaidInfants0to1": 148,
+    "medicaidAges1to5": 148,
+    "medicaidAges6to18": 148,
+    "separateChip": 205,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 205,
+   "pregnantDetail": {
+    "medicaid": 143,
+    "chip": 205,
+    "fromConceptionToEndOfPregnancyCHIP": 205
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Section 1931 parent limit varies by region; value is region 2 (KFF footnote)."
+  },
+  "VT": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 317,
+   "childrenDetail": {
+    "medicaidInfants0to1": 317,
+    "medicaidAges1to5": 317,
+    "medicaidAges6to18": 317,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 213,
+   "pregnantDetail": {
+    "medicaid": 213,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "WA": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 317,
+   "childrenDetail": {
+    "medicaidInfants0to1": 215,
+    "medicaidAges1to5": 215,
+    "medicaidAges6to18": 215,
+    "separateChip": 317,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 215,
+   "pregnantDetail": {
+    "medicaid": 215,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 215
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "WI": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": 100,
+   "parents": 100,
+   "children": 306,
+   "childrenDetail": {
+    "medicaidInfants0to1": 306,
+    "medicaidAges1to5": 191,
+    "medicaidAges6to18": 133,
+    "separateChip": 306,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 306,
+   "pregnantDetail": {
+    "medicaid": 306,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": 306
+   },
+   "sourceId": "kff-elig-2026",
+   "note": "Not an ACA expansion state; covers adults to 100% FPL in regular Medicaid (KFF footnote)."
+  },
+  "WV": {
+   "expanded": true,
+   "expansionDate": "1/1/2014",
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "childrenDetail": {
+    "medicaidInfants0to1": 163,
+    "medicaidAges1to5": 146,
+    "medicaidAges6to18": 138,
+    "separateChip": 305,
+    "chipModel": "separate CHIP"
+   },
+   "pregnant": 305,
+   "pregnantDetail": {
+    "medicaid": 185,
+    "chip": 305,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  },
+  "WY": {
+   "expanded": false,
+   "expansionDate": null,
+   "adultsNoKids": null,
+   "parents": 43,
+   "children": 205,
+   "childrenDetail": {
+    "medicaidInfants0to1": 154,
+    "medicaidAges1to5": 154,
+    "medicaidAges6to18": 133,
+    "separateChip": null,
+    "chipModel": "Medicaid-expansion CHIP only"
+   },
+   "pregnant": 159,
+   "pregnantDetail": {
+    "medicaid": 159,
+    "chip": null,
+    "fromConceptionToEndOfPregnancyCHIP": null
+   },
+   "sourceId": "kff-elig-2026"
+  }
+ },
+ "medicaidNationalMedians2026": {
+  "parents": 138,
+  "adultsNoKids": 138,
+  "childrenUpperLimit": 255,
+  "pregnantMedicaid": 201,
+  "pregnantChip": 258,
+  "sourceId": "kff-elig-2026",
+  "note": "KFF 'United States' row = median across states."
+ },
+ "medicaidRulesNotes": [
+  "Values are January 2026. Changes between 2025 and January 2026 that KFF footnotes: DC adults/parents (see DC note). Others listed in state notes are earlier changes. No state changed ACA expansion status in 2024-2026.",
+  "In non-expansion states, adultsNoKids is null: no full Medicaid for non-disabled, non-pregnant adults without dependent children at any income (except GA's work-requirement waiver and WI's 100% coverage).",
+  "Disabled and 65+ Medicaid eligibility (SSI-related, medically needy, Medicare Savings Programs) is not in these tables.",
+  "Immigration status rules (5-year bar for many lawful immigrants; undocumented ineligible for full Medicaid) apply on top of income limits and are not in these tables."
+ ],
+ "territories": {
+  "sourceId": "macpac-territories-2021",
+  "summary": "Territories are treated as states for Medicaid except that federal funding is capped each year (Section 1108(g) allotment, grown by medical CPI-U), the federal match (FMAP) is set in statute (55% in the 2021 fact sheet, temporarily raised by later laws), and they may set eligibility by a measure other than the FPL. HHS poverty guidelines are not defined for Puerto Rico or other outlying jurisdictions (FR 2024).",
+  "PR": {
+   "incomeStandard": "Puerto Rico local poverty level (set by state plan amendment)",
+   "acaAdultGroup": "Adopted, up to 133% of local poverty level",
+   "chip": "Medicaid-expansion CHIP; only territory using CHIP for children above regular Medicaid limits",
+   "enrolledJune2019": 1209026,
+   "pctPopulationEnrolledJune2019": 37.9,
+   "acs2023UninsuredPct": 5.3
+  },
+  "GU": {
+   "incomeStandard": "Guam local poverty level",
+   "acaAdultGroup": "Adopted, up to 133% of local poverty level",
+   "enrolledJune2019": 35499,
+   "pctPopulationEnrolledJune2019": 21.2
+  },
+  "VI": {
+   "incomeStandard": "USVI local poverty level",
+   "acaAdultGroup": "Adopted, up to 133% of local poverty level",
+   "enrolledJune2019": 29033,
+   "pctPopulationEnrolledJune2019": 27.2
+  },
+  "AS": {
+   "incomeStandard": "No individual eligibility or enrollment. Federal funds pay for care in proportion to the share of the population below 200% FPL (presumptive method under a Section 1902(j) waiver).",
+   "enrolledJune2019Estimate": 37829,
+   "pctPopulationJune2019": 68.4
+  },
+  "MP": {
+   "incomeStandard": "SSI income and asset standards (CNMI is the only territory in SSI); Section 1902(j) waiver",
+   "enrolledJune2019": 16336,
+   "pctPopulationEnrolledJune2019": 28.6
+  },
+  "section1108AllotmentsMillions": {
+   "FY2019": {
+    "AS": 12.2,
+    "MP": 6.7,
+    "GU": 18.0,
+    "PR": 366.7,
+    "VI": 18.3
+   },
+   "FY2022_projectedBaseline": {
+    "AS": 13.0,
+    "MP": 7.2,
+    "GU": 19.2,
+    "PR": 392.5,
+    "VI": 19.6
+   },
+   "note": "FY2020-21 were raised by P.L. 116-94 and FFCRA (PR about $2.7-2.8 billion). Later laws changed funding again; not researched here."
+  }
+ },
+ "povertyGuidelines2024": {
+  "sourceId": "hhs-fpg-2024",
+  "contiguous48AndDC": {
+   "base1Person": 15060,
+   "perAdditionalPerson": 5380,
+   "bySize": {
+    "1": 15060,
+    "2": 20440,
+    "3": 25820,
+    "4": 31200,
+    "5": 36580,
+    "6": 41960,
+    "7": 47340,
+    "8": 52720
+   }
+  },
+  "alaska": {
+   "base1Person": 18810,
+   "perAdditionalPerson": 6730,
+   "bySize": {
+    "1": 18810,
+    "2": 25540,
+    "3": 32270,
+    "4": 39000,
+    "5": 45730,
+    "6": 52460,
+    "7": 59190,
+    "8": 65920
+   }
+  },
+  "hawaii": {
+   "base1Person": 17310,
+   "perAdditionalPerson": 6190,
+   "bySize": {
+    "1": 17310,
+    "2": 23500,
+    "3": 29690,
+    "4": 35880,
+    "5": 42070,
+    "6": 48260,
+    "7": 54450,
+    "8": 60640
+   }
+  },
+  "formula": "guideline(n) = base1Person + perAdditionalPerson * (n - 1); exact for every size in the 2024 tables",
+  "territories": "Not defined for Puerto Rico or other outlying jurisdictions; each federal program decides (FR text).",
+  "context2026": {
+   "individual": 15960,
+   "familyOf3": 27320,
+   "note": "2026 contiguous-state figures quoted in the KFF notes; the KFF percentages are relative to these."
+  }
+ },
+ "employerCoverage": {
+  "sourceId": "meps-ic-national",
+  "universe": "Private-sector establishments and their employees; firm size counts employees of the whole firm.",
+  "year": 2023,
+  "offerByFirmSize": {
+   "Less than 10 employees": 22.5,
+   "10-24 employees": 51.8,
+   "25-99 employees": 76.7,
+   "100-999 employees": 95.6,
+   "1000 or more employees": 97.6,
+   "Less than 50 employees": 30.1,
+   "50 or more employees": 95.9,
+   "Total": 46.3
+  },
+  "offerByFirmSizeStdErr": {
+   "Less than 10 employees": 0.9,
+   "50 or more employees": 0.4,
+   "Total": 0.5,
+   "1000 or more employees": 0.5,
+   "10-24 employees": 1.4,
+   "25-99 employees": 1.1,
+   "100-999 employees": 0.6,
+   "Less than 50 employees": 0.7
+  },
+  "employeesInOfferingEstablishmentsByFirmSize": {
+   "Less than 10 employees": 30.2,
+   "10-24 employees": 55.0,
+   "25-99 employees": 80.2,
+   "100-999 employees": 97.8,
+   "1000 or more employees": 98.6,
+   "Less than 50 employees": 49.2,
+   "50 or more employees": 97.6,
+   "Total": 84.9
+  },
+  "eligibleShare": {
+   "Less than 10 employees": 82.8,
+   "10-24 employees": 79.5,
+   "25-99 employees": 76.9,
+   "100-999 employees": 77.9,
+   "1000 or more employees": 79.4,
+   "Less than 50 employees": 79.4,
+   "50 or more employees": 78.7,
+   "Total": 78.8
+  },
+  "takeUp": {
+   "Less than 10 employees": 72.6,
+   "10-24 employees": 65.5,
+   "25-99 employees": 64.0,
+   "100-999 employees": 67.0,
+   "1000 or more employees": 70.8,
+   "Less than 50 employees": 66.6,
+   "50 or more employees": 69.2,
+   "Total": 68.8
+  },
+  "enrolledShareOfAllEmployeesInOffering": {
+   "Less than 10 employees": 60.1,
+   "10-24 employees": 52.1,
+   "25-99 employees": 49.2,
+   "100-999 employees": 52.2,
+   "1000 or more employees": 56.1,
+   "Less than 50 employees": 52.9,
+   "50 or more employees": 54.4,
+   "Total": 54.2
+  },
+  "fullTime": {
+   "eligibleShare": {
+    "Less than 10 employees": 92.7,
+    "10-24 employees": 92.8,
+    "25-99 employees": 92.7,
+    "100-999 employees": 91.7,
+    "1000 or more employees": 91.6,
+    "Less than 50 employees": 92.7,
+    "50 or more employees": 91.7,
+    "Total": 91.9
+   },
+   "takeUp": {
+    "Less than 10 employees": 74.2,
+    "10-24 employees": 66.7,
+    "25-99 employees": 65.6,
+    "100-999 employees": 68.5,
+    "1000 or more employees": 72.2,
+    "Less than 50 employees": 67.9,
+    "50 or more employees": 70.6,
+    "Total": 70.2
+   }
+  },
+  "partTime": {
+   "eligibleShare": {
+    "Less than 10 employees": 32.9,
+    "10-24 employees": 16.6,
+    "25-99 employees": 15.6,
+    "100-999 employees": 19.0,
+    "1000 or more employees": 23.7,
+    "Less than 50 employees": 20.1,
+    "50 or more employees": 21.5,
+    "Total": 21.3
+   },
+   "takeUp": {
+    "Less than 10 employees": 50.1,
+    "10-24 employees": 35.4,
+    "25-99 employees": 27.9,
+    "100-999 employees": 37.9,
+    "1000 or more employees": 46.2,
+    "Less than 50 employees": 39.3,
+    "50 or more employees": 42.6,
+    "Total": 42.1
+   }
+  },
+  "offerByEstablishmentCharacteristic2023": {
+   "Percent age 50 or older employees": {
+    "75% or more": 23.2,
+    "50-74%": 50.5,
+    "Less than 25%": 41.9,
+    "25-49%": 71.4
+   },
+   "Multi/single status": {
+    "2 or more locations": 92.8,
+    "1 location only": 30.1
+   },
+   "Industry group": {
+    "Professional services": 50.1,
+    "Wholesale trade": 51.2,
+    "Retail trade": 49.7,
+    "Mining and manufacturing": 57.4,
+    "Utilities and transportation": 43.8,
+    "Ag/forestry/fishing": 24.7,
+    "Construction": 31.6,
+    "Other services": 39.2,
+    "Fin. svs. and real est.": 58.6
+   },
+   "Percent full-time employees": {
+    "50-74%": 45.6,
+    "Less than 25%": 18.0,
+    "25-49%": 50.1,
+    "75% or more": 52.2
+   },
+   "Percent women employees": {
+    "50-74%": 55.7,
+    "75% or more": 42.5,
+    "25-49%": 63.2,
+    "Less than 25%": 36.3
+   },
+   "Percent low-wage employees": {
+    "Less than 50% low wage": 50.7,
+    "50% or more low wage": 31.0
+   },
+   "Ownership": {
+    "Nonprofit": 58.6,
+    "For profit, unincorporated": 36.7,
+    "For profit, incorporated": 47.9
+   },
+   "Age of firm": {
+    "20 or more years": 66.9,
+    "Less than 5 years": 18.3,
+    "5-9 years": 26.1,
+    "10-19 years": 35.7
+   },
+   "Union presence": {
+    "No union employees": 44.2,
+    "Has union employees": 79.4
+   }
+  },
+  "takeUpByCharacteristic2023": {
+   "Percent age 50 or older employees": {
+    "50-74%": 70.2,
+    "75% or more": 63.8,
+    "25-49%": 72.5,
+    "Less than 25%": 64.1
+   },
+   "Percent full-time employees": {
+    "50-74%": 61.8,
+    "75% or more": 71.1,
+    "25-49%": 52.2,
+    "Less than 25%": 42.0
+   },
+   "Ownership": {
+    "For profit, incorporated": 68.5,
+    "For profit, unincorporated": 67.6,
+    "Nonprofit": 71.3
+   },
+   "Age of firm": {
+    "10-19 years": 59.5,
+    "Less than 5 years": 59.7,
+    "20 or more years": 70.7,
+    "5-9 years": 63.1
+   },
+   "Industry group": {
+    "Utilities and transportation": 68.9,
+    "Other services": 57.4,
+    "Ag/forestry/fishing": 59.1,
+    "Mining and manufacturing": 75.3,
+    "Retail trade": 63.4,
+    "Fin. svs. and real est.": 77.0,
+    "Construction": 67.6,
+    "Professional services": 70.7,
+    "Wholesale trade": 75.6
+   },
+   "Percent low-wage employees": {
+    "50% or more low wage": 49.4,
+    "Less than 50% low wage": 70.4
+   },
+   "Union presence": {
+    "No union employees": 67.5,
+    "Has union employees": 74.6
+   },
+   "Percent women employees": {
+    "50-74%": 66.6,
+    "75% or more": 66.5,
+    "Less than 25%": 70.1,
+    "25-49%": 70.9
+   },
+   "Multi/single status": {
+    "2 or more locations": 70.5,
+    "1 location only": 64.8
+   }
+  },
+  "eligibleByCharacteristic2023": {
+   "Age of firm": {
+    "5-9 years": 73.9,
+    "Less than 5 years": 76.4,
+    "20 or more years": 79.4,
+    "10-19 years": 77.8
+   },
+   "Ownership": {
+    "For profit, unincorporated": 73.4,
+    "Nonprofit": 76.6,
+    "For profit, incorporated": 80.5
+   },
+   "Union presence": {
+    "Has union employees": 80.9,
+    "No union employees": 78.4
+   },
+   "Percent women employees": {
+    "50-74%": 70.9,
+    "25-49%": 83.2,
+    "Less than 25%": 86.9,
+    "75% or more": 74.8
+   },
+   "Industry group": {
+    "Professional services": 80.5,
+    "Construction": 83.2,
+    "Mining and manufacturing": 93.7,
+    "Fin. svs. and real est.": 93.2,
+    "Utilities and transportation": 86.5,
+    "Retail trade": 75.2,
+    "Other services": 60.0,
+    "Wholesale trade": 92.4,
+    "Ag/forestry/fishing": 78.1
+   },
+   "Percent low-wage employees": {
+    "50% or more low wage": 51.1,
+    "Less than 50% low wage": 82.5
+   },
+   "Multi/single status": {
+    "1 location only": 77.0,
+    "2 or more locations": 79.6
+   },
+   "Percent age 50 or older employees": {
+    "25-49%": 81.7,
+    "50-74%": 82.9,
+    "Less than 25%": 74.5,
+    "75% or more": 79.0
+   },
+   "Percent full-time employees": {
+    "Less than 25%": 24.5,
+    "75% or more": 89.5,
+    "50-74%": 67.2,
+    "25-49%": 39.2
+   }
+  },
+  "laterYears": {
+   "2024": {
+    "offerByFirmSize": {
+     "Less than 10 employees": 24.6,
+     "10-24 employees": 51.4,
+     "25-99 employees": 77.8,
+     "100-999 employees": 94.6,
+     "1000 or more employees": 98.2,
+     "Less than 50 employees": 32.2,
+     "50 or more employees": 96.1,
+     "Total": 49.0
+    },
+    "eligibleShare": {
+     "Less than 10 employees": 81.0,
+     "10-24 employees": 79.8,
+     "25-99 employees": 77.7,
+     "100-999 employees": 77.6,
+     "1000 or more employees": 81.9,
+     "Less than 50 employees": 79.6,
+     "50 or more employees": 80.3,
+     "Total": 80.2
+    },
+    "takeUp": {
+     "Less than 10 employees": 71.9,
+     "10-24 employees": 64.3,
+     "25-99 employees": 65.1,
+     "100-999 employees": 65.3,
+     "1000 or more employees": 71.6,
+     "Less than 50 employees": 66.6,
+     "50 or more employees": 69.4,
+     "Total": 69.0
+    }
+   },
+   "2025": {
+    "offerByFirmSize": {
+     "Less than 10 employees": 23.8,
+     "10-24 employees": 53.4,
+     "25-99 employees": 75.9,
+     "100-999 employees": 94.2,
+     "1000 or more employees": 96.6,
+     "Less than 50 employees": 32.1,
+     "50 or more employees": 94.8,
+     "Total": 49.2
+    },
+    "eligibleShare": {
+     "Less than 10 employees": 82.0,
+     "10-24 employees": 78.4,
+     "25-99 employees": 76.1,
+     "100-999 employees": 78.5,
+     "1000 or more employees": 80.9,
+     "Less than 50 employees": 78.6,
+     "50 or more employees": 79.8,
+     "Total": 79.6
+    },
+    "takeUp": {
+     "Less than 10 employees": 73.8,
+     "10-24 employees": 65.3,
+     "25-99 employees": 64.2,
+     "100-999 employees": 66.9,
+     "1000 or more employees": 69.6,
+     "Less than 50 employees": 66.4,
+     "50 or more employees": 68.6,
+     "Total": 68.2
+    }
+   }
+  },
+  "definitions": "eligibleShare = % of employees in offering establishments who are eligible; takeUp = % of eligible employees who enroll; enrolledShare = % of all employees in offering establishments who enroll (= eligible x takeUp). 'Percent low-wage employees' group in the characteristic tables uses MEPS-IC's low-wage definition (an hourly wage cutoff set by MEPS-IC each year).",
+  "offerByState": {
+   "sourceId": "meps-ic-state-2023",
+   "year": 2023,
+   "note": "Private-sector, all firm sizes unless named. Small-state subgroup values can carry wide errors; check the source sheet's '*' (relative SE > 30%) markers before relying on a firm-size cell.",
+   "states": {
+    "AL": {
+     "establishmentsOffering": 55.6,
+     "establishmentsOfferingUnder50": 34.8,
+     "establishmentsOffering50plus": 98.8,
+     "employeesInOfferingEstablishments": 88.9,
+     "eligibleShare": 82.7,
+     "takeUp": 71.3
+    },
+    "AK": {
+     "establishmentsOffering": 31.3,
+     "establishmentsOfferingUnder50": 13.6,
+     "establishmentsOffering50plus": 94.2,
+     "employeesInOfferingEstablishments": 70.4,
+     "eligibleShare": 81.4,
+     "takeUp": 68.1
+    },
+    "AZ": {
+     "establishmentsOffering": 42.8,
+     "establishmentsOfferingUnder50": 21.6,
+     "establishmentsOffering50plus": 93.6,
+     "employeesInOfferingEstablishments": 87.7,
+     "eligibleShare": 81.8,
+     "takeUp": 73.2
+    },
+    "AR": {
+     "establishmentsOffering": 45.6,
+     "establishmentsOfferingUnder50": 23.3,
+     "establishmentsOffering50plus": 95.0,
+     "employeesInOfferingEstablishments": 83.3,
+     "eligibleShare": 83.3,
+     "takeUp": 73.5
+    },
+    "CA": {
+     "establishmentsOffering": 48.3,
+     "establishmentsOfferingUnder50": 35.0,
+     "establishmentsOffering50plus": 96.1,
+     "employeesInOfferingEstablishments": 86.8,
+     "eligibleShare": 79.6,
+     "takeUp": 71.8
+    },
+    "CO": {
+     "establishmentsOffering": 36.9,
+     "establishmentsOfferingUnder50": 22.9,
+     "establishmentsOffering50plus": 92.2,
+     "employeesInOfferingEstablishments": 84.7,
+     "eligibleShare": 76.2,
+     "takeUp": 70.3
+    },
+    "CT": {
+     "establishmentsOffering": 48.5,
+     "establishmentsOfferingUnder50": 27.0,
+     "establishmentsOffering50plus": 96.7,
+     "employeesInOfferingEstablishments": 83.3,
+     "eligibleShare": 77.1,
+     "takeUp": 68.4
+    },
+    "DE": {
+     "establishmentsOffering": 44.8,
+     "establishmentsOfferingUnder50": 28.8,
+     "establishmentsOffering50plus": 91.8,
+     "employeesInOfferingEstablishments": 84.9,
+     "eligibleShare": 81.8,
+     "takeUp": 67.7
+    },
+    "DC": {
+     "establishmentsOffering": 72.0,
+     "establishmentsOfferingUnder50": 57.0,
+     "establishmentsOffering50plus": 96.9,
+     "employeesInOfferingEstablishments": 92.1,
+     "eligibleShare": 83.4,
+     "takeUp": 75.4
+    },
+    "FL": {
+     "establishmentsOffering": 36.2,
+     "establishmentsOfferingUnder50": 20.9,
+     "establishmentsOffering50plus": 96.5,
+     "employeesInOfferingEstablishments": 83.7,
+     "eligibleShare": 87.1,
+     "takeUp": 64.5
+    },
+    "GA": {
+     "establishmentsOffering": 41.3,
+     "establishmentsOfferingUnder50": 22.8,
+     "establishmentsOffering50plus": 94.7,
+     "employeesInOfferingEstablishments": 82.3,
+     "eligibleShare": 78.9,
+     "takeUp": 67.5
+    },
+    "HI": {
+     "establishmentsOffering": 76.9,
+     "establishmentsOfferingUnder50": 71.8,
+     "establishmentsOffering50plus": 90.8,
+     "employeesInOfferingEstablishments": 93.1,
+     "eligibleShare": 78.0,
+     "takeUp": 75.1
+    },
+    "ID": {
+     "establishmentsOffering": 33.1,
+     "establishmentsOfferingUnder50": 20.5,
+     "establishmentsOffering50plus": 93.1,
+     "employeesInOfferingEstablishments": 75.7,
+     "eligibleShare": 76.1,
+     "takeUp": 73.8
+    },
+    "IL": {
+     "establishmentsOffering": 47.6,
+     "establishmentsOfferingUnder50": 32.1,
+     "establishmentsOffering50plus": 95.9,
+     "employeesInOfferingEstablishments": 86.6,
+     "eligibleShare": 78.6,
+     "takeUp": 70.4
+    },
+    "IN": {
+     "establishmentsOffering": 43.0,
+     "establishmentsOfferingUnder50": 23.2,
+     "establishmentsOffering50plus": 94.5,
+     "employeesInOfferingEstablishments": 83.3,
+     "eligibleShare": 79.5,
+     "takeUp": 72.7
+    },
+    "IA": {
+     "establishmentsOffering": 57.2,
+     "establishmentsOfferingUnder50": 42.3,
+     "establishmentsOffering50plus": 98.6,
+     "employeesInOfferingEstablishments": 87.3,
+     "eligibleShare": 80.1,
+     "takeUp": 65.7
+    },
+    "KS": {
+     "establishmentsOffering": 48.3,
+     "establishmentsOfferingUnder50": 31.7,
+     "establishmentsOffering50plus": 96.4,
+     "employeesInOfferingEstablishments": 85.1,
+     "eligibleShare": 77.4,
+     "takeUp": 71.9
+    },
+    "KY": {
+     "establishmentsOffering": 47.2,
+     "establishmentsOfferingUnder50": 27.7,
+     "establishmentsOffering50plus": 95.6,
+     "employeesInOfferingEstablishments": 85.7,
+     "eligibleShare": 80.6,
+     "takeUp": 70.0
+    },
+    "LA": {
+     "establishmentsOffering": 44.8,
+     "establishmentsOfferingUnder50": 26.6,
+     "establishmentsOffering50plus": 96.8,
+     "employeesInOfferingEstablishments": 80.6,
+     "eligibleShare": 77.3,
+     "takeUp": 67.3
+    },
+    "ME": {
+     "establishmentsOffering": 44.9,
+     "establishmentsOfferingUnder50": 32.3,
+     "establishmentsOffering50plus": 94.9,
+     "employeesInOfferingEstablishments": 81.8,
+     "eligibleShare": 79.9,
+     "takeUp": 71.3
+    },
+    "MD": {
+     "establishmentsOffering": 51.9,
+     "establishmentsOfferingUnder50": 35.7,
+     "establishmentsOffering50plus": 97.3,
+     "employeesInOfferingEstablishments": 87.4,
+     "eligibleShare": 78.4,
+     "takeUp": 65.2
+    },
+    "MA": {
+     "establishmentsOffering": 54.1,
+     "establishmentsOfferingUnder50": 39.0,
+     "establishmentsOffering50plus": 98.4,
+     "employeesInOfferingEstablishments": 88.3,
+     "eligibleShare": 76.6,
+     "takeUp": 66.2
+    },
+    "MI": {
+     "establishmentsOffering": 44.9,
+     "establishmentsOfferingUnder50": 29.3,
+     "establishmentsOffering50plus": 97.1,
+     "employeesInOfferingEstablishments": 86.4,
+     "eligibleShare": 80.5,
+     "takeUp": 69.2
+    },
+    "MN": {
+     "establishmentsOffering": 41.9,
+     "establishmentsOfferingUnder50": 27.1,
+     "establishmentsOffering50plus": 94.5,
+     "employeesInOfferingEstablishments": 84.9,
+     "eligibleShare": 70.2,
+     "takeUp": 63.7
+    },
+    "MS": {
+     "establishmentsOffering": 55.3,
+     "establishmentsOfferingUnder50": 39.4,
+     "establishmentsOffering50plus": 94.7,
+     "employeesInOfferingEstablishments": 84.4,
+     "eligibleShare": 81.3,
+     "takeUp": 68.9
+    },
+    "MO": {
+     "establishmentsOffering": 56.0,
+     "establishmentsOfferingUnder50": 38.6,
+     "establishmentsOffering50plus": 97.7,
+     "employeesInOfferingEstablishments": 86.3,
+     "eligibleShare": 76.4,
+     "takeUp": 65.5
+    },
+    "MT": {
+     "establishmentsOffering": 34.9,
+     "establishmentsOfferingUnder50": 23.9,
+     "establishmentsOffering50plus": 92.5,
+     "employeesInOfferingEstablishments": 71.6,
+     "eligibleShare": 80.2,
+     "takeUp": 77.2
+    },
+    "NE": {
+     "establishmentsOffering": 36.9,
+     "establishmentsOfferingUnder50": 21.1,
+     "establishmentsOffering50plus": 92.1,
+     "employeesInOfferingEstablishments": 79.3,
+     "eligibleShare": 79.0,
+     "takeUp": 70.4
+    },
+    "NV": {
+     "establishmentsOffering": 55.0,
+     "establishmentsOfferingUnder50": 38.8,
+     "establishmentsOffering50plus": 95.6,
+     "employeesInOfferingEstablishments": 87.6,
+     "eligibleShare": 75.3,
+     "takeUp": 71.4
+    },
+    "NH": {
+     "establishmentsOffering": 50.3,
+     "establishmentsOfferingUnder50": 33.7,
+     "establishmentsOffering50plus": 99.0,
+     "employeesInOfferingEstablishments": 85.7,
+     "eligibleShare": 77.7,
+     "takeUp": 68.5
+    },
+    "NJ": {
+     "establishmentsOffering": 46.8,
+     "establishmentsOfferingUnder50": 33.4,
+     "establishmentsOffering50plus": 96.7,
+     "employeesInOfferingEstablishments": 82.2,
+     "eligibleShare": 77.7,
+     "takeUp": 67.3
+    },
+    "NM": {
+     "establishmentsOffering": 45.9,
+     "establishmentsOfferingUnder50": 24.4,
+     "establishmentsOffering50plus": 96.3,
+     "employeesInOfferingEstablishments": 79.1,
+     "eligibleShare": 77.3,
+     "takeUp": 62.3
+    },
+    "NY": {
+     "establishmentsOffering": 43.9,
+     "establishmentsOfferingUnder50": 32.0,
+     "establishmentsOffering50plus": 95.6,
+     "employeesInOfferingEstablishments": 85.3,
+     "eligibleShare": 73.9,
+     "takeUp": 61.5
+    },
+    "NC": {
+     "establishmentsOffering": 41.3,
+     "establishmentsOfferingUnder50": 25.1,
+     "establishmentsOffering50plus": 96.0,
+     "employeesInOfferingEstablishments": 82.3,
+     "eligibleShare": 80.5,
+     "takeUp": 70.8
+    },
+    "ND": {
+     "establishmentsOffering": 46.3,
+     "establishmentsOfferingUnder50": 31.6,
+     "establishmentsOffering50plus": 96.8,
+     "employeesInOfferingEstablishments": 83.6,
+     "eligibleShare": 76.3,
+     "takeUp": 74.1
+    },
+    "OH": {
+     "establishmentsOffering": 50.2,
+     "establishmentsOfferingUnder50": 30.3,
+     "establishmentsOffering50plus": 90.5,
+     "employeesInOfferingEstablishments": 83.8,
+     "eligibleShare": 75.6,
+     "takeUp": 68.5
+    },
+    "OK": {
+     "establishmentsOffering": 49.9,
+     "establishmentsOfferingUnder50": 34.7,
+     "establishmentsOffering50plus": 95.3,
+     "employeesInOfferingEstablishments": 84.7,
+     "eligibleShare": 80.8,
+     "takeUp": 69.7
+    },
+    "OR": {
+     "establishmentsOffering": 46.0,
+     "establishmentsOfferingUnder50": 30.8,
+     "establishmentsOffering50plus": 97.5,
+     "employeesInOfferingEstablishments": 82.8,
+     "eligibleShare": 80.9,
+     "takeUp": 78.8
+    },
+    "PA": {
+     "establishmentsOffering": 52.1,
+     "establishmentsOfferingUnder50": 34.7,
+     "establishmentsOffering50plus": 98.2,
+     "employeesInOfferingEstablishments": 86.6,
+     "eligibleShare": 77.0,
+     "takeUp": 70.5
+    },
+    "RI": {
+     "establishmentsOffering": 46.8,
+     "establishmentsOfferingUnder50": 31.5,
+     "establishmentsOffering50plus": 97.3,
+     "employeesInOfferingEstablishments": 85.1,
+     "eligibleShare": 72.6,
+     "takeUp": 64.1
+    },
+    "SC": {
+     "establishmentsOffering": 43.1,
+     "establishmentsOfferingUnder50": 20.5,
+     "establishmentsOffering50plus": 97.2,
+     "employeesInOfferingEstablishments": 80.0,
+     "eligibleShare": 78.3,
+     "takeUp": 71.3
+    },
+    "SD": {
+     "establishmentsOffering": 46.7,
+     "establishmentsOfferingUnder50": 33.3,
+     "establishmentsOffering50plus": 94.6,
+     "employeesInOfferingEstablishments": 79.4,
+     "eligibleShare": 78.3,
+     "takeUp": 68.7
+    },
+    "TN": {
+     "establishmentsOffering": 53.2,
+     "establishmentsOfferingUnder50": 30.5,
+     "establishmentsOffering50plus": 96.5,
+     "employeesInOfferingEstablishments": 84.3,
+     "eligibleShare": 75.9,
+     "takeUp": 69.9
+    },
+    "TX": {
+     "establishmentsOffering": 46.4,
+     "establishmentsOfferingUnder50": 28.7,
+     "establishmentsOffering50plus": 94.9,
+     "employeesInOfferingEstablishments": 84.7,
+     "eligibleShare": 77.3,
+     "takeUp": 67.9
+    },
+    "UT": {
+     "establishmentsOffering": 35.6,
+     "establishmentsOfferingUnder50": 20.8,
+     "establishmentsOffering50plus": 95.1,
+     "employeesInOfferingEstablishments": 82.1,
+     "eligibleShare": 69.3,
+     "takeUp": 72.0
+    },
+    "VT": {
+     "establishmentsOffering": 40.9,
+     "establishmentsOfferingUnder50": 25.3,
+     "establishmentsOffering50plus": 96.2,
+     "employeesInOfferingEstablishments": 76.4,
+     "eligibleShare": 77.0,
+     "takeUp": 65.6
+    },
+    "VA": {
+     "establishmentsOffering": 53.8,
+     "establishmentsOfferingUnder50": 35.9,
+     "establishmentsOffering50plus": 97.9,
+     "employeesInOfferingEstablishments": 88.6,
+     "eligibleShare": 86.8,
+     "takeUp": 66.7
+    },
+    "WA": {
+     "establishmentsOffering": 47.2,
+     "establishmentsOfferingUnder50": 31.0,
+     "establishmentsOffering50plus": 97.2,
+     "employeesInOfferingEstablishments": 83.4,
+     "eligibleShare": 76.1,
+     "takeUp": 73.5
+    },
+    "WV": {
+     "establishmentsOffering": 49.3,
+     "establishmentsOfferingUnder50": 25.1,
+     "establishmentsOffering50plus": 96.7,
+     "employeesInOfferingEstablishments": 86.0,
+     "eligibleShare": 82.1,
+     "takeUp": 65.3
+    },
+    "WI": {
+     "establishmentsOffering": 52.0,
+     "establishmentsOfferingUnder50": 31.3,
+     "establishmentsOffering50plus": 97.0,
+     "employeesInOfferingEstablishments": 85.3,
+     "eligibleShare": 81.9,
+     "takeUp": 67.3
+    },
+    "WY": {
+     "establishmentsOffering": 31.8,
+     "establishmentsOfferingUnder50": 18.3,
+     "establishmentsOffering50plus": 94.7,
+     "employeesInOfferingEstablishments": 68.6,
+     "eligibleShare": 72.4,
+     "takeUp": 70.0
+    }
+   }
+  }
+ },
+ "coverageTotals": {
+  "national": {
+   "acs2023": {
+    "sourceId": "acs-2023-s2701, acs-2023-s2703-s2704",
+    "measure": "coverage at time of interview; types alone or in combination",
+    "civilianNoninstitutionalizedPop": 329987997,
+    "uninsuredPct": 7.9,
+    "uninsuredCount": 26169652,
+    "insuredPct": 92.1,
+    "employerBasedPct": 54.7,
+    "directPurchasePct": 13.9,
+    "tricarePct": 2.8,
+    "medicarePct": 18.8,
+    "medicaidMeansTestedPct": 21.3,
+    "vaPct": 2.2,
+    "anyPrivatePct": 67.0,
+    "anyPublicPct": 37.4
+   },
+   "cpsAsec2024_forCY2023": {
+    "sourceId": "census-p60-284",
+    "measure": "uninsured = no coverage all calendar year; types = any time in year",
+    "totalThousands": 331700,
+    "uninsuredPct": 8.0,
+    "uninsuredThousands": 26440,
+    "anyPrivatePct": 65.4,
+    "employmentBasedPct": 53.7,
+    "directPurchasePct": 10.2,
+    "marketplaceThousands": 13320,
+    "tricarePct": 2.6,
+    "anyPublicPct": 36.3,
+    "medicarePct": 18.9,
+    "medicaidPct": 18.9,
+    "vaChampvaPct": 1.0,
+    "countsThousands": {
+     "employmentBased": 178200,
+     "directPurchase": 33850,
+     "medicare": 62550,
+     "medicaid": 62700,
+     "tricare": 8721
+    }
+   }
+  },
+  "byAge": {
+   "acs2023": {
+    "under19": {
+     "uninsuredPct": 5.4,
+     "employerBasedPct": 52.4,
+     "directPurchasePct": 7.9,
+     "tricarePct": 2.7,
+     "medicarePct": 0.6,
+     "medicaidMeansTestedPct": 39.0,
+     "vaPct": 0.2,
+     "pop": 77057243
+    },
+    "19to64": {
+     "uninsuredPct": 11.0,
+     "employerBasedPct": 63.0,
+     "directPurchasePct": 12.0,
+     "tricarePct": 2.0,
+     "medicarePct": 3.3,
+     "medicaidMeansTestedPct": 16.4,
+     "vaPct": 1.8,
+     "pop": 195039313
+    },
+    "65plus": {
+     "uninsuredPct": 0.8,
+     "employerBasedPct": 29.8,
+     "directPurchasePct": 28.0,
+     "tricarePct": 5.4,
+     "medicarePct": 95.1,
+     "medicaidMeansTestedPct": 14.4,
+     "vaPct": 6.4,
+     "pop": 57891441
+    },
+    "uninsuredByDetailedAge": {
+     "under6": 4.6,
+     "6to18": 5.7,
+     "19to25": 13.1,
+     "26to34": 13.8,
+     "35to44": 11.8,
+     "45to54": 9.8,
+     "55to64": 7.3,
+     "65to74": 1.0,
+     "75plus": 0.5
+    },
+    "uninsured19to64ByWork": {
+     "employed": 9.8,
+     "unemployed": 23.4,
+     "notInLaborForce": 13.8,
+     "workedFullTimeYearRound": 8.7,
+     "workedLessThanFullTimeYearRound": 14.3,
+     "didNotWork": 14.2
+    },
+    "uninsuredNoncitizens": 30.1,
+    "uninsuredWithDisability": 5.1
+   },
+   "cpsAsec2024_forCY2023": {
+    "under19": {
+     "uninsuredPct": 5.8,
+     "privatePct": 61.2,
+     "publicPct": 36.2
+    },
+    "19to64": {
+     "uninsuredPct": 10.9,
+     "privatePct": 73.1,
+     "publicPct": 18.9
+    },
+    "65plus": {
+     "uninsuredPct": 0.9,
+     "privatePct": 45.2,
+     "publicPct": 93.8
+    },
+    "19to64ByWork": {
+     "workedFullTimeYearRound": {
+      "uninsuredPct": 8.9,
+      "privatePct": 84.7,
+      "publicPct": 8.6
+     },
+     "workedLessThanFullTimeYearRound": {
+      "uninsuredPct": 12.9,
+      "privatePct": 67.0,
+      "publicPct": 23.8
+     },
+     "didNotWork": {
+      "uninsuredPct": 14.7,
+      "privatePct": 46.7,
+      "publicPct": 42.8
+     }
+    },
+    "note": "P60-284 Table A-1/A-2 give private/public by age, not each subtype by age."
+   }
+  },
+  "uninsuredByState": {
+   "sourceId": "acs-2023-s2701",
+   "year": 2023,
+   "fields": "all = percent uninsured all ages (moe = 90% margin); under19, age19to64, age65plus; below138FPL = all ages below 138% of poverty threshold; pop = civilian noninstitutionalized",
+   "states": {
+    "AL": {
+     "all": 8.5,
+     "moe": 0.3,
+     "under19": 3.9,
+     "age19to64": 12.9,
+     "age65plus": 0.4,
+     "below138FPL": 15.4,
+     "pop": 5022427
+    },
+    "AK": {
+     "all": 10.4,
+     "moe": 0.7,
+     "under19": 6.9,
+     "age19to64": 14.1,
+     "age65plus": 1.3,
+     "below138FPL": 14.3,
+     "pop": 702315
+    },
+    "AZ": {
+     "all": 9.9,
+     "moe": 0.3,
+     "under19": 8.6,
+     "age19to64": 13.5,
+     "age65plus": 0.9,
+     "below138FPL": 14.8,
+     "pop": 7321507
+    },
+    "AR": {
+     "all": 8.9,
+     "moe": 0.4,
+     "under19": 6.7,
+     "age19to64": 12.4,
+     "age65plus": 0.6,
+     "below138FPL": 13.4,
+     "pop": 3013015
+    },
+    "CA": {
+     "all": 6.4,
+     "moe": 0.1,
+     "under19": 3.2,
+     "age19to64": 9.0,
+     "age65plus": 1.1,
+     "below138FPL": 9.7,
+     "pop": 38495524
+    },
+    "CO": {
+     "all": 6.7,
+     "moe": 0.2,
+     "under19": 4.1,
+     "age19to64": 9.2,
+     "age65plus": 0.6,
+     "below138FPL": 10.2,
+     "pop": 5776484
+    },
+    "CT": {
+     "all": 5.7,
+     "moe": 0.4,
+     "under19": 3.4,
+     "age19to64": 8.1,
+     "age65plus": 0.8,
+     "below138FPL": 10.9,
+     "pop": 3573821
+    },
+    "DE": {
+     "all": 6.5,
+     "moe": 0.8,
+     "under19": 4.8,
+     "age19to64": 9.3,
+     "age65plus": 0.8,
+     "below138FPL": 12.2,
+     "pop": 1017865
+    },
+    "DC": {
+     "all": 2.7,
+     "moe": 0.5,
+     "under19": 1.3,
+     "age19to64": 3.5,
+     "age65plus": 0.7,
+     "below138FPL": 5.1,
+     "pop": 669458
+    },
+    "FL": {
+     "all": 10.7,
+     "moe": 0.2,
+     "under19": 7.5,
+     "age19to64": 15.5,
+     "age65plus": 1.0,
+     "below138FPL": 17.1,
+     "pop": 22276397
+    },
+    "GA": {
+     "all": 11.4,
+     "moe": 0.2,
+     "under19": 6.4,
+     "age19to64": 16.1,
+     "age65plus": 1.1,
+     "below138FPL": 19.2,
+     "pop": 10832829
+    },
+    "HI": {
+     "all": 3.2,
+     "moe": 0.3,
+     "under19": 3.0,
+     "age19to64": 4.4,
+     "age65plus": 0.5,
+     "below138FPL": 6.4,
+     "pop": 1378162
+    },
+    "ID": {
+     "all": 8.9,
+     "moe": 0.5,
+     "under19": 6.6,
+     "age19to64": 12.4,
+     "age65plus": 0.5,
+     "below138FPL": 11.1,
+     "pop": 1938023
+    },
+    "IL": {
+     "all": 6.2,
+     "moe": 0.2,
+     "under19": 3.2,
+     "age19to64": 8.8,
+     "age65plus": 0.8,
+     "below138FPL": 10.2,
+     "pop": 12378557
+    },
+    "IN": {
+     "all": 6.9,
+     "moe": 0.3,
+     "under19": 5.9,
+     "age19to64": 9.1,
+     "age65plus": 0.4,
+     "below138FPL": 9.7,
+     "pop": 6764280
+    },
+    "IA": {
+     "all": 5.0,
+     "moe": 0.3,
+     "under19": 3.4,
+     "age19to64": 7.1,
+     "age65plus": 0.4,
+     "below138FPL": 9.3,
+     "pop": 3162048
+    },
+    "KS": {
+     "all": 8.4,
+     "moe": 0.4,
+     "under19": 5.6,
+     "age19to64": 11.9,
+     "age65plus": 0.8,
+     "below138FPL": 16.1,
+     "pop": 2876621
+    },
+    "KY": {
+     "all": 5.4,
+     "moe": 0.2,
+     "under19": 3.4,
+     "age19to64": 7.7,
+     "age65plus": 0.5,
+     "below138FPL": 7.8,
+     "pop": 4442248
+    },
+    "LA": {
+     "all": 6.9,
+     "moe": 0.3,
+     "under19": 4.3,
+     "age19to64": 10.0,
+     "age65plus": 0.6,
+     "below138FPL": 9.7,
+     "pop": 4477873
+    },
+    "ME": {
+     "all": 5.9,
+     "moe": 0.4,
+     "under19": 4.2,
+     "age19to64": 8.6,
+     "age65plus": 0.4,
+     "below138FPL": 8.0,
+     "pop": 1378322
+    },
+    "MD": {
+     "all": 6.3,
+     "moe": 0.3,
+     "under19": 4.7,
+     "age19to64": 8.5,
+     "age65plus": 0.8,
+     "below138FPL": 13.9,
+     "pop": 6087312
+    },
+    "MA": {
+     "all": 2.6,
+     "moe": 0.2,
+     "under19": 1.5,
+     "age19to64": 3.5,
+     "age65plus": 0.7,
+     "below138FPL": 4.8,
+     "pop": 6934075
+    },
+    "MI": {
+     "all": 4.5,
+     "moe": 0.1,
+     "under19": 3.0,
+     "age19to64": 6.4,
+     "age65plus": 0.4,
+     "below138FPL": 7.5,
+     "pop": 9931639
+    },
+    "MN": {
+     "all": 4.2,
+     "moe": 0.2,
+     "under19": 3.4,
+     "age19to64": 5.7,
+     "age65plus": 0.3,
+     "below138FPL": 7.8,
+     "pop": 5678023
+    },
+    "MS": {
+     "all": 10.3,
+     "moe": 0.5,
+     "under19": 6.0,
+     "age19to64": 15.2,
+     "age65plus": 0.6,
+     "below138FPL": 17.1,
+     "pop": 2874290
+    },
+    "MO": {
+     "all": 7.5,
+     "moe": 0.3,
+     "under19": 5.4,
+     "age19to64": 10.6,
+     "age65plus": 0.4,
+     "below138FPL": 13.4,
+     "pop": 6094536
+    },
+    "MT": {
+     "all": 8.4,
+     "moe": 0.6,
+     "under19": 6.8,
+     "age19to64": 11.9,
+     "age65plus": 0.4,
+     "below138FPL": 13.7,
+     "pop": 1115486
+    },
+    "NE": {
+     "all": 6.1,
+     "moe": 0.4,
+     "under19": 3.7,
+     "age19to64": 8.8,
+     "age65plus": 0.6,
+     "below138FPL": 13.0,
+     "pop": 1951731
+    },
+    "NV": {
+     "all": 10.8,
+     "moe": 0.5,
+     "under19": 7.9,
+     "age19to64": 14.6,
+     "age65plus": 1.5,
+     "below138FPL": 16.8,
+     "pop": 3154027
+    },
+    "NH": {
+     "all": 4.7,
+     "moe": 0.4,
+     "under19": 3.4,
+     "age19to64": 6.7,
+     "age65plus": 0.2,
+     "below138FPL": 8.4,
+     "pop": 1386016
+    },
+    "NJ": {
+     "all": 7.2,
+     "moe": 0.2,
+     "under19": 4.1,
+     "age19to64": 10.2,
+     "age65plus": 1.2,
+     "below138FPL": 14.0,
+     "pop": 9204137
+    },
+    "NM": {
+     "all": 9.1,
+     "moe": 0.5,
+     "under19": 5.9,
+     "age19to64": 13.3,
+     "age65plus": 0.9,
+     "below138FPL": 11.2,
+     "pop": 2076456
+    },
+    "NY": {
+     "all": 4.8,
+     "moe": 0.1,
+     "under19": 2.8,
+     "age19to64": 6.8,
+     "age65plus": 0.8,
+     "below138FPL": 7.1,
+     "pop": 19372405
+    },
+    "NC": {
+     "all": 9.2,
+     "moe": 0.3,
+     "under19": 5.2,
+     "age19to64": 13.3,
+     "age65plus": 0.8,
+     "below138FPL": 16.2,
+     "pop": 10623208
+    },
+    "ND": {
+     "all": 4.5,
+     "moe": 0.5,
+     "under19": 3.6,
+     "age19to64": 6.1,
+     "age65plus": 0.4,
+     "below138FPL": 8.8,
+     "pop": 763538
+    },
+    "OH": {
+     "all": 6.1,
+     "moe": 0.2,
+     "under19": 4.9,
+     "age19to64": 8.4,
+     "age65plus": 0.5,
+     "below138FPL": 9.5,
+     "pop": 11616141
+    },
+    "OK": {
+     "all": 11.4,
+     "moe": 0.3,
+     "under19": 7.5,
+     "age19to64": 16.1,
+     "age65plus": 0.7,
+     "below138FPL": 16.3,
+     "pop": 3967096
+    },
+    "OR": {
+     "all": 5.5,
+     "moe": 0.3,
+     "under19": 3.0,
+     "age19to64": 8.0,
+     "age65plus": 0.4,
+     "below138FPL": 7.9,
+     "pop": 4193025
+    },
+    "PA": {
+     "all": 5.4,
+     "moe": 0.2,
+     "under19": 5.2,
+     "age19to64": 7.1,
+     "age65plus": 0.6,
+     "below138FPL": 8.7,
+     "pop": 12779387
+    },
+    "RI": {
+     "all": 4.5,
+     "moe": 0.5,
+     "under19": 3.3,
+     "age19to64": 6.1,
+     "age65plus": 0.8,
+     "below138FPL": 6.1,
+     "pop": 1079737
+    },
+    "SC": {
+     "all": 9.1,
+     "moe": 0.3,
+     "under19": 6.1,
+     "age19to64": 13.2,
+     "age65plus": 0.5,
+     "below138FPL": 16.2,
+     "pop": 5276214
+    },
+    "SD": {
+     "all": 8.3,
+     "moe": 0.7,
+     "under19": 7.0,
+     "age19to64": 11.3,
+     "age65plus": 0.5,
+     "below138FPL": 18.3,
+     "pop": 900264
+    },
+    "TN": {
+     "all": 9.3,
+     "moe": 0.3,
+     "under19": 5.6,
+     "age19to64": 13.3,
+     "age65plus": 0.6,
+     "below138FPL": 16.2,
+     "pop": 7033220
+    },
+    "TX": {
+     "all": 16.4,
+     "moe": 0.2,
+     "under19": 11.9,
+     "age19to64": 21.7,
+     "age65plus": 1.9,
+     "below138FPL": 26.8,
+     "pop": 30020476
+    },
+    "UT": {
+     "all": 8.0,
+     "moe": 0.4,
+     "under19": 6.6,
+     "age19to64": 10.1,
+     "age65plus": 0.6,
+     "below138FPL": 15.7,
+     "pop": 3391381
+    },
+    "VT": {
+     "all": 3.4,
+     "moe": 0.4,
+     "under19": 2.1,
+     "age19to64": 5.0,
+     "age65plus": 0.2,
+     "below138FPL": 4.7,
+     "pop": 642064
+    },
+    "VA": {
+     "all": 6.4,
+     "moe": 0.2,
+     "under19": 4.6,
+     "age19to64": 8.7,
+     "age65plus": 0.9,
+     "below138FPL": 10.7,
+     "pop": 8489257
+    },
+    "WA": {
+     "all": 6.3,
+     "moe": 0.2,
+     "under19": 3.3,
+     "age19to64": 8.9,
+     "age65plus": 0.7,
+     "below138FPL": 10.5,
+     "pop": 7693927
+    },
+    "WV": {
+     "all": 5.9,
+     "moe": 0.4,
+     "under19": 3.0,
+     "age19to64": 9.1,
+     "age65plus": 0.2,
+     "below138FPL": 8.5,
+     "pop": 1736140
+    },
+    "WI": {
+     "all": 4.9,
+     "moe": 0.2,
+     "under19": 4.1,
+     "age19to64": 6.6,
+     "age65plus": 0.4,
+     "below138FPL": 9.7,
+     "pop": 5851267
+    },
+    "WY": {
+     "all": 10.7,
+     "moe": 1.0,
+     "under19": 7.2,
+     "age19to64": 15.6,
+     "age65plus": 0.2,
+     "below138FPL": 19.5,
+     "pop": 573746
+    },
+    "PR": {
+     "all": 5.3,
+     "moe": 0.3,
+     "under19": 2.2,
+     "age19to64": 8.0,
+     "age65plus": 0.8,
+     "below138FPL": 5.5,
+     "pop": 3180620
+    }
+   }
+  },
+  "uninsuredByPoverty": {
+   "acs2023_allAges": {
+    "sourceId": "acs-2023-s2701",
+    "below100": 13.5,
+    "below138": 13.3,
+    "138to399": 10.1,
+    "400plus": 3.6
+   },
+   "acs2023_19to64": {
+    "sourceId": "acs-2023-b27016",
+    "note": "Computed from counts. Coverage-type shares overlap.",
+    "brackets": {
+     "Under 0.50 of poverty threshold": {
+      "pop19to64": 11494468,
+      "uninsured": 2468921,
+      "uninsuredPct": 21.5,
+      "employerBased": 2387153,
+      "employerPct": 20.8,
+      "directPurchase": 1555086,
+      "directPct": 13.5,
+      "medicare": 734290,
+      "medicaidMeansTested": 5309103,
+      "medicaidPct": 46.2
+     },
+     "0.50 to .99 of poverty threshold": {
+      "pop19to64": 10710952,
+      "uninsured": 2030488,
+      "uninsuredPct": 19.0,
+      "employerBased": 2239471,
+      "employerPct": 20.9,
+      "directPurchase": 1244129,
+      "directPct": 11.6,
+      "medicare": 1143118,
+      "medicaidMeansTested": 5453276,
+      "medicaidPct": 50.9
+     },
+     "1.00 to 1.37 of poverty threshold": {
+      "pop19to64": 9229535,
+      "uninsured": 1922052,
+      "uninsuredPct": 20.8,
+      "employerBased": 2462990,
+      "employerPct": 26.7,
+      "directPurchase": 1145878,
+      "directPct": 12.4,
+      "medicare": 766764,
+      "medicaidMeansTested": 3900637,
+      "medicaidPct": 42.3
+     },
+     "1.38 to 1.49 of poverty threshold": {
+      "pop19to64": 2904682,
+      "uninsured": 607060,
+      "uninsuredPct": 20.9,
+      "employerBased": 896880,
+      "employerPct": 30.9,
+      "directPurchase": 380052,
+      "directPct": 13.1,
+      "medicare": 196772,
+      "medicaidMeansTested": 1084866,
+      "medicaidPct": 37.3
+     },
+     "1.50 to 1.99 of poverty threshold": {
+      "pop19to64": 14539639,
+      "uninsured": 2816638,
+      "uninsuredPct": 19.4,
+      "employerBased": 6259217,
+      "employerPct": 43.0,
+      "directPurchase": 2001689,
+      "directPct": 13.8,
+      "medicare": 702216,
+      "medicaidMeansTested": 3891547,
+      "medicaidPct": 26.8
+     },
+     "2.00 to 2.49 of poverty threshold": {
+      "pop19to64": 14304760,
+      "uninsured": 2390612,
+      "uninsuredPct": 16.7,
+      "employerBased": 7511631,
+      "employerPct": 52.5,
+      "directPurchase": 1905065,
+      "directPct": 13.3,
+      "medicare": 538630,
+      "medicaidMeansTested": 2904495,
+      "medicaidPct": 20.3
+     },
+     "2.50 to 2.99 of poverty threshold": {
+      "pop19to64": 15152173,
+      "uninsured": 2142551,
+      "uninsuredPct": 14.1,
+      "employerBased": 9168226,
+      "employerPct": 60.5,
+      "directPurchase": 1976270,
+      "directPct": 13.0,
+      "medicare": 461238,
+      "medicaidMeansTested": 2265821,
+      "medicaidPct": 15.0
+     },
+     "3.00 to 3.99 of poverty threshold": {
+      "pop19to64": 27138945,
+      "uninsured": 2908760,
+      "uninsuredPct": 10.7,
+      "employerBased": 18680072,
+      "employerPct": 68.8,
+      "directPurchase": 3318272,
+      "directPct": 12.2,
+      "medicare": 660970,
+      "medicaidMeansTested": 2901188,
+      "medicaidPct": 10.7
+     },
+     "4.00 of poverty threshold and over": {
+      "pop19to64": 87496294,
+      "uninsured": 4146485,
+      "uninsuredPct": 4.7,
+      "employerBased": 71900739,
+      "employerPct": 82.2,
+      "directPurchase": 9352559,
+      "directPct": 10.7,
+      "medicare": 1158759,
+      "medicaidMeansTested": 4061888,
+      "medicaidPct": 4.6
+     }
+    }
+   },
+   "cpsAsec2024_19to64_byExpansion": {
+    "sourceId": "census-p60-284",
+    "table": "Figure 6",
+    "expansionStates2023": {
+     "below100": 18.7,
+     "100to399": 13.3,
+     "400plus": 3.5,
+     "total": 8.9
+    },
+    "nonExpansionStates2023": {
+     "below100": 32.5,
+     "100to399": 21.4,
+     "400plus": 5.4,
+     "total": 15.5
+    },
+    "expansionStates2022": {
+     "below100": 17.0,
+     "100to399": 12.4,
+     "400plus": 3.3,
+     "total": 8.4
+    },
+    "nonExpansionStates2022": {
+     "below100": 37.9,
+     "100to399": 20.5,
+     "400plus": 5.4,
+     "total": 16.2
+    },
+    "note": "Expansion status as of Jan 1, 2023 (NC and SD counted as non-expansion). Nonexpansion below-100% estimate rests on a small sample (P60 text)."
+   },
+   "cpsAsec2024_byMedicaidExpansionAllAges": {
+    "livedInExpansionState": {
+     "uninsuredPct": 6.4,
+     "privatePct": 65.9,
+     "publicPct": 37.8
+    },
+    "didNotLiveInExpansionState": {
+     "uninsuredPct": 11.3,
+     "privatePct": 64.2,
+     "publicPct": 33.0
+    },
+    "sourceId": "census-p60-284"
+   }
+  }
+ },
+ "medicare": {
+  "acs2023": {
+   "sourceId": "acs-2023-s2703-s2704",
+   "pct65plusWithMedicare": 95.1,
+   "count65plusWithMedicare": 55040569,
+   "countUnder65WithMedicare": 6863024,
+   "countUnder19WithMedicare": 488896,
+   "count19to64WithMedicare": 6374128,
+   "pct19to64WithMedicare": 3.3,
+   "note": "countUnder65 = under-19 + 19-64 counts from S2704 (sum computed here)."
+  },
+  "cpsAsec2024": {
+   "sourceId": "census-p60-284",
+   "publicCoverage65plusPct": 93.8,
+   "uninsured65plusPct": 0.9
+  },
+  "enrollment2023": {
+   "sourceId": "medicare-trustees-2024",
+   "totalMillions": 66.7,
+   "aged65plusMillions": 59.1,
+   "disabledUnder65Millions": 7.6,
+   "partAAged": 58.7,
+   "partADisabled": 7.6,
+   "partBAged": 53.8,
+   "partBDisabled": 7.0,
+   "partDAged": 44.8,
+   "partDDisabled": 6.6
+  },
+  "under65Rule": "People under 65 get Medicare after receiving Social Security Disability Insurance for 24 months (after a 5-month wait for the cash benefit, so about 29 months after disability onset); the waiting period is waived for ALS. People with end-stage renal disease also qualify. (Trustees Report glossary.)",
+  "eligibilityAt65": "Most people qualify at 65 through their own or a spouse's work record (not separately sourced here)."
+ },
+ "gaps": [
+  "Medicaid limits are KFF's January 2026 snapshot; the live KFF pages no longer publish the January 2025 timeframe and the Wayback Machine was unreachable. The only 2025-to-2026 change KFF footnotes for adults/parents is DC (2025: parents 221, adults 215). Some small child/pregnancy changes during 2025 may not be footnoted.",
+  "CMS Medicaid.gov eligibility table is dated December 1, 2023 and leaves out the 5% disregard, so it was not used for values.",
+  "Territories: no current income limits as % of FPL. Local poverty levels for PR, GU and VI are set by state plan amendment and were not found in a federal table. MACPAC fact sheet is February 2021; section 1108 funding and PR's eligibility have changed since (e.g., later appropriations laws) and were not researched. ACS gives a PR uninsured rate (5.3%) but no ACS 1-year for other territories.",
+  "MEPS-IC offer rates are for private-sector employers only. Public-sector (state and local government) employer data exists in the MEPS-IC 'Public' export and was not extracted. Federal employees not covered.",
+  "MEPS-IC state values: only the four headline measures by state were extracted (all firm sizes, under/over 50). Firm-size cells for small states are often marked unreliable ('*') or suppressed in the source; flags are kept in scratch extract meps_state_extract.json but not carried into this file except via the warning.",
+  "Uninsured by income-to-poverty for 19-64 by state was not pulled (B27016 by state is available from the same API).",
+  "ACS and CPS measure different things (point-in-time vs full-year uninsured; ACS 'direct-purchase' is higher than CPS because of reporting differences). Check a simulation against one source consistently.",
+  "No source here gives employer-coverage take-up as a function of household income or of a spouse's coverage; MEPS-IC gives take-up by establishment wage mix only ('Percent low-wage employees').",
+  "Marketplace subsidy rules (premium tax credits 100/138-400% FPL, enhanced credits through 2025, family glitch fix) and immigration-status rules were out of scope and not sourced.",
+  "Medicare: the Trustees 'disabled' count is under-65 entitlement and may include ESRD-only beneficiaries; a separate SSDI-only Medicare count was not pulled (CMS Program Statistics 'Medicare Total Enrollment' tables have it by entitlement reason)."
+ ]
+}

@@ -2849,5 +2849,29 @@
     "addedAt": "2026-10-13",
     "replacement": "The housing engine finding a new couple a home of their own (OPUS-WORLD) and the core moving both there; same-sex couples at the measured share; cohabitation and divorce.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-coverage-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/health-coverage/parameters.json",
+    "line": 1,
+    "whatItFakes": "How strongly need (age), cost against income and temperament pull an adult to enroll in an employer plan or buy a marketplace plan, and the pulls of declining.",
+    "why": "No study gives these weights on the game's scale; the declining pulls are calibrated to employer take-up (MEPS-IC 2023) and the uninsured share of adults 19 to 64 (ACS 2023).",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-13",
+    "replacement": "Weights checked against uninsured rates by income and by state (ACS 2023) across drawn places, and take-up by wage level (MEPS-IC).",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-coverage-gaps",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/modules/coverage.ts",
+    "line": 1,
+    "whatItFakes": "Territories use 133% of the federal poverty guideline for Medicaid (their own poverty levels are not sourced); no Medicare before 65 for disability; part-time workers are never offered a plan; premiums are not paid from anyone's money; Medicaid limits are a data table, not law rows; immigration status and employer size beyond the town's own records are not modeled; counted people in a two-level town have no coverage record.",
+    "why": "First version: coverage from each full person's own circumstances; these pieces need sources (territorial poverty levels), other engines (law rows from OPUS-GOV, premiums through the money ledger from OPUS-CORE) or the counted population's records.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-13",
+    "replacement": "Medicaid and CHIP limits and the premium-credit schedule as law rows (OPUS-GOV) read through lawInForce; premiums paid each month from household cash; disability Medicare after 24 months of SSDI; territorial standards; part-time eligibility at the measured share.",
+    "status": "open"
   }
 ]

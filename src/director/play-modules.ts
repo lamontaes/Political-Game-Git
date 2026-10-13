@@ -12,6 +12,7 @@ import {
   withDrives,
 } from "../core2/modules/drives";
 import { HEALTH_MODULE } from "../core2/modules/health";
+import { coverageModule } from "../core2/modules/coverage";
 import { encountersModule } from "../core2/modules/encounters";
 import { groupsModule } from "../core2/modules/groups";
 import { movesModule } from "../core2/modules/moves";
@@ -46,6 +47,7 @@ export function peopleModules(): CoreModule[] {
     groupsModule,
     encountersModule,
     partneringModule,
+    coverageModule,
     beliefsModule,
   ];
 }

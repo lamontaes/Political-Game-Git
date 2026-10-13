@@ -1,0 +1,87 @@
+{
+  "coverageMedicareAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Medicare eligibility at 65 (Social Security Act, Title XVIII); 95.1% of people 65 and over have it (Census ACS 2023)."
+  },
+  "coverageChildAge": {
+    "value": 19,
+    "tag": "SOURCED",
+    "citation": "Medicaid and CHIP cover children through age 18; the Census coverage tables group people under 19 (ACS 2023, S2701)."
+  },
+  "coverageEmployeeShareSingle": {
+    "value": 140100,
+    "tag": "SOURCED",
+    "citation": "Average annual worker contribution for single coverage, 2023: $1,401 (KFF Employer Health Benefits Survey 2023, Summary of Findings), in minor units."
+  },
+  "coverageEmployeeShareFamily": {
+    "value": 657500,
+    "tag": "SOURCED",
+    "citation": "Average annual worker contribution for family coverage, 2023: $6,575 (KFF Employer Health Benefits Survey 2023, Summary of Findings), in minor units."
+  },
+  "coverageBenchmarkPremium": {
+    "value": 572400,
+    "tag": "ESTIMATED",
+    "citation": "The yearly benchmark (second-lowest-cost silver) marketplace premium for a 40-year-old with no subsidy, about $477 a month in 2024 (KFF, Marketplace Average Benchmark Premiums, 2024), in minor units.",
+    "estimatedFrom": "KFF 2024 national average benchmark; spread $400 to $600 a month by state",
+    "spread": {
+      "low": 480000,
+      "high": 720000
+    }
+  },
+  "coverageNeedWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How far age (the need for care rising from 19 to 64) pulls toward having coverage.",
+    "stopgapId": "SG-P15-coverage-weights",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "coverageCostWeight": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "How far the yearly cost as a share of the household's income pulls against coverage.",
+    "stopgapId": "SG-P15-coverage-weights",
+    "spread": {
+      "low": 1,
+      "high": 15
+    }
+  },
+  "coverageTemperamentWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How far a person's temperament (every trait's lean toward taking cover over going without, from the shared trait table) moves the choice.",
+    "stopgapId": "SG-P15-coverage-weights",
+    "spread": {
+      "low": 0,
+      "high": 1.5
+    }
+  },
+  "coverageEmployerStayPull": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The pull of declining an employer's plan, calibrated so take-up among eligible employees lands near 68.8% (AHRQ MEPS-IC 2023).",
+    "stopgapId": "SG-P15-coverage-weights",
+    "spread": {
+      "low": -1,
+      "high": 2
+    }
+  },
+  "coverageMarketStayPull": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The pull of going without rather than buying a marketplace plan, calibrated so adults 19 to 64 are uninsured near 11.0% (Census ACS 2023, S2701).",
+    "stopgapId": "SG-P15-coverage-weights",
+    "spread": {
+      "low": -1,
+      "high": 2
+    }
+  },
+  "coverageFullTimeHoursWeekly": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "The ACA's full-time employee works 30 or more hours a week (26 U.S.C. 4980H(c)(4)); 91.9% of full-time employees in offering establishments are eligible against 21.3% of part-time (AHRQ MEPS-IC 2023)."
+  }
+}

@@ -1,0 +1,522 @@
+{
+ "version": "coverage-eligibility-v1",
+ "citation": "data/research/health/coverage-2026.json: KFF Medicaid and CHIP income eligibility limits (January 2026 snapshot, KFF/Georgetown survey, with the 5-point disregard); HHS poverty guidelines 2024 (Federal Register, January 17, 2024); AHRQ MEPS-Insurance Component 2023, private sector; Census ACS 2023 table S2701 for the checks.",
+ "medicaidLimitPctFpl": {
+  "AK": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 208,
+   "expanded": true
+  },
+  "AL": {
+   "adultsNoKids": null,
+   "parents": 18,
+   "children": 317,
+   "expanded": false
+  },
+  "AR": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 216,
+   "expanded": true
+  },
+  "AZ": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 230,
+   "expanded": true
+  },
+  "CA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 266,
+   "expanded": true
+  },
+  "CO": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 265,
+   "expanded": true
+  },
+  "CT": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 323,
+   "expanded": true
+  },
+  "DC": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 324,
+   "expanded": true
+  },
+  "DE": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 217,
+   "expanded": true
+  },
+  "FL": {
+   "adultsNoKids": null,
+   "parents": 26,
+   "children": 215,
+   "expanded": false
+  },
+  "GA": {
+   "adultsNoKids": 100,
+   "parents": 100,
+   "children": 252,
+   "expanded": false
+  },
+  "HI": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 313,
+   "expanded": true
+  },
+  "IA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 307,
+   "expanded": true
+  },
+  "ID": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 190,
+   "expanded": true
+  },
+  "IL": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 318,
+   "expanded": true
+  },
+  "IN": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 255,
+   "expanded": true
+  },
+  "KS": {
+   "adultsNoKids": null,
+   "parents": 38,
+   "children": 255,
+   "expanded": false
+  },
+  "KY": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 218,
+   "expanded": true
+  },
+  "LA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 255,
+   "expanded": true
+  },
+  "MA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "expanded": true
+  },
+  "MD": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 322,
+   "expanded": true
+  },
+  "ME": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "expanded": true
+  },
+  "MI": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 217,
+   "expanded": true
+  },
+  "MN": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 288,
+   "expanded": true
+  },
+  "MO": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "expanded": true
+  },
+  "MS": {
+   "adultsNoKids": null,
+   "parents": 21,
+   "children": 214,
+   "expanded": false
+  },
+  "MT": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 266,
+   "expanded": true
+  },
+  "NC": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 216,
+   "expanded": true
+  },
+  "ND": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "expanded": true
+  },
+  "NE": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 218,
+   "expanded": true
+  },
+  "NH": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 323,
+   "expanded": true
+  },
+  "NJ": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 355,
+   "expanded": true
+  },
+  "NM": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "expanded": true
+  },
+  "NV": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "expanded": true
+  },
+  "NY": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 405,
+   "expanded": true
+  },
+  "OH": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 211,
+   "expanded": true
+  },
+  "OK": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 210,
+   "expanded": true
+  },
+  "OR": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "expanded": true
+  },
+  "PA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 319,
+   "expanded": true
+  },
+  "RI": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 266,
+   "expanded": true
+  },
+  "SC": {
+   "adultsNoKids": null,
+   "parents": 67,
+   "children": 213,
+   "expanded": false
+  },
+  "SD": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 209,
+   "expanded": true
+  },
+  "TN": {
+   "adultsNoKids": null,
+   "parents": 105,
+   "children": 255,
+   "expanded": false
+  },
+  "TX": {
+   "adultsNoKids": null,
+   "parents": 15,
+   "children": 206,
+   "expanded": false
+  },
+  "UT": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "expanded": true
+  },
+  "VA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 205,
+   "expanded": true
+  },
+  "VT": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 317,
+   "expanded": true
+  },
+  "WA": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 317,
+   "expanded": true
+  },
+  "WI": {
+   "adultsNoKids": 100,
+   "parents": 100,
+   "children": 306,
+   "expanded": false
+  },
+  "WV": {
+   "adultsNoKids": 138,
+   "parents": 138,
+   "children": 305,
+   "expanded": true
+  },
+  "WY": {
+   "adultsNoKids": null,
+   "parents": 43,
+   "children": 205,
+   "expanded": false
+  },
+  "PR": {
+   "adultsNoKids": 133,
+   "parents": 133,
+   "children": 133,
+   "expanded": true,
+   "territory": true
+  },
+  "GU": {
+   "adultsNoKids": 133,
+   "parents": 133,
+   "children": 133,
+   "expanded": true,
+   "territory": true
+  },
+  "VI": {
+   "adultsNoKids": 133,
+   "parents": 133,
+   "children": 133,
+   "expanded": true,
+   "territory": true
+  },
+  "AS": {
+   "adultsNoKids": 133,
+   "parents": 133,
+   "children": 133,
+   "expanded": true,
+   "territory": true
+  },
+  "MP": {
+   "adultsNoKids": 133,
+   "parents": 133,
+   "children": 133,
+   "expanded": true,
+   "territory": true
+  }
+ },
+ "povertyGuideline": {
+  "contiguous": [
+   15060,
+   5380
+  ],
+  "AK": [
+   18810,
+   6730
+  ],
+  "HI": [
+   17310,
+   6190
+  ]
+ },
+ "employerOfferBySize": [
+  [
+   9,
+   0.225
+  ],
+  [
+   24,
+   0.518
+  ],
+  [
+   99,
+   0.767
+  ],
+  [
+   999,
+   0.956
+  ],
+  [
+   null,
+   0.976
+  ]
+ ],
+ "checks": {
+  "uninsuredByAge": {
+   "under19": 5.4,
+   "19to64": 11.0,
+   "65plus": 0.8
+  },
+  "uninsuredByState": {
+   "AL": 12.9,
+   "AK": 14.1,
+   "AZ": 13.5,
+   "AR": 12.4,
+   "CA": 9.0,
+   "CO": 9.2,
+   "CT": 8.1,
+   "DE": 9.3,
+   "DC": 3.5,
+   "FL": 15.5,
+   "GA": 16.1,
+   "HI": 4.4,
+   "ID": 12.4,
+   "IL": 8.8,
+   "IN": 9.1,
+   "IA": 7.1,
+   "KS": 11.9,
+   "KY": 7.7,
+   "LA": 10.0,
+   "ME": 8.6,
+   "MD": 8.5,
+   "MA": 3.5,
+   "MI": 6.4,
+   "MN": 5.7,
+   "MS": 15.2,
+   "MO": 10.6,
+   "MT": 11.9,
+   "NE": 8.8,
+   "NV": 14.6,
+   "NH": 6.7,
+   "NJ": 10.2,
+   "NM": 13.3,
+   "NY": 6.8,
+   "NC": 13.3,
+   "ND": 6.1,
+   "OH": 8.4,
+   "OK": 16.1,
+   "OR": 8.0,
+   "PA": 7.1,
+   "RI": 6.1,
+   "SC": 13.2,
+   "SD": 11.3,
+   "TN": 13.3,
+   "TX": 21.7,
+   "UT": 10.1,
+   "VT": 5.0,
+   "VA": 8.7,
+   "WA": 8.9,
+   "WV": 9.1,
+   "WI": 6.6,
+   "WY": 15.6,
+   "PR": 8.0
+  },
+  "employerTakeUp": 0.688,
+  "employerBasedPct": 54.7,
+  "medicaidPct": 21.3
+ },
+ "marketplaceContribution": {
+  "citation": "The share of household income a family pays toward the benchmark marketplace plan after the premium tax credit, by income as a percent of the poverty guideline: 26 U.S.C. 36B(b)(3)(A) as amended by the American Rescue Plan Act of 2021, section 9661, and extended through 2025 by the Inflation Reduction Act of 2022, section 12001; from 2026 the original schedule indexed by IRS Rev. Proc. 2025-25 (2.10% to 9.96%, and no credit above 400%). Below 100% no credit applies.",
+  "schedules": [
+   {
+    "from": "2021-01-01",
+    "until": "2026-01-01",
+    "points": [
+     [
+      100,
+      0
+     ],
+     [
+      150,
+      0
+     ],
+     [
+      200,
+      2
+     ],
+     [
+      250,
+      4
+     ],
+     [
+      300,
+      6
+     ],
+     [
+      400,
+      8.5
+     ],
+     [
+      1000000000.0,
+      8.5
+     ]
+    ]
+   },
+   {
+    "from": "2026-01-01",
+    "until": null,
+    "points": [
+     [
+      100,
+      2.1
+     ],
+     [
+      133,
+      3.14
+     ],
+     [
+      150,
+      4.19
+     ],
+     [
+      200,
+      6.6
+     ],
+     [
+      250,
+      8.44
+     ],
+     [
+      300,
+      9.96
+     ],
+     [
+      400,
+      9.96
+     ]
+    ],
+    "aboveLastNoCredit": true
+   }
+  ],
+  "estimated": "The 2026 points are as recalled from Rev. Proc. 2025-25 and should be checked against it."
+ }
+}
