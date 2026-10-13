@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./kernel/dates";
+import { bookkeeping } from "./bookkeeping";
 import type { Source } from "./types";
 
 export type ModuleValue =
@@ -16,8 +17,22 @@ export function moduleKey(value: string): string {
   return value;
 }
 
+/**
+ * A plain copy, without checks or freezing (bookkeeping off): the stored row
+ * still never shares a container with the caller. Tests run the checked copy.
+ */
+function plainData(value: unknown): unknown {
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) return value.map(plainData);
+  const result: Record<string, unknown> = Object.create(null);
+  for (const key in value as Record<string, unknown>)
+    result[key] = plainData((value as Record<string, unknown>)[key]);
+  return result;
+}
+
 /** Serializable data only. Never retain caller objects, accessors, or mutable containers. */
 export function moduleData<T>(input: T): T {
+  if (!bookkeeping()) return plainData(input) as T;
   const active = new Set<object>();
   function copy(value: unknown): unknown {
     if (
