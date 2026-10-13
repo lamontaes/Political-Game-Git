@@ -776,8 +776,12 @@ function raisePay(api: CoreAPI): void {
     ...[...c.jobs.values()].filter(
       (job) => job.endsAt === undefined && c.people.get(job.personId)?.alive,
     ),
-    ...[...c.finance.businesses.keys()].flatMap((id) => countedJobsOf(c, id)),
+    ...[...c.organizations.keys()].flatMap((id) => countedJobsOf(c, id)),
   ];
+  const bargainingRaises = new Map<
+    string,
+    { personId: string; fromMinor: number; lawId: string }
+  >();
   for (const job of jobs) {
     const placeId = c.organizations.get(job.organizationId)?.placeId;
     if (!placeId || !job.hourlyMinor) continue;
@@ -824,6 +828,16 @@ function raisePay(api: CoreAPI): void {
           `Pay level ${level.toFixed(4)} to ${now.toFixed(4)}; bargaining factor ${priorBargaining} to ${bargainingFactor}${bargaining?.governing ? ` under ${bargaining.governing.id}` : ""}.`,
         ),
       );
+    if (
+      counted.has(job.id) &&
+      bargaining?.governing &&
+      bargainingFactor !== priorBargaining
+    )
+      bargainingRaises.set(job.id, {
+        personId: job.personId,
+        fromMinor: job.hourlyMinor,
+        lawId: bargaining.governing.id,
+      });
     pay.put({
       id: job.id,
       level: now,
@@ -833,6 +847,26 @@ function raisePay(api: CoreAPI): void {
     });
   }
   rerateCountedJobs(c, counted);
+  for (const [jobId, change] of bargainingRaises) {
+    const current = residentsRuntime(c)?.jobs.get(jobId);
+    if (
+      current?.hourlyMinor === undefined ||
+      current.hourlyMinor === change.fromMinor
+    )
+      continue;
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("raises")
+      .put({
+        id: `raise:${jobId}:${c.date}`,
+        personId: change.personId,
+        jobId,
+        date: c.date,
+        fromMinor: change.fromMinor,
+        toMinor: current.hourlyMinor,
+        lawId: change.lawId,
+      });
+  }
 }
 
 /** Jobless working-age adults choose whether to look for work, pushed by how few days their household's money covers. */
