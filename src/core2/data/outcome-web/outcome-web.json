@@ -213,7 +213,7 @@
       "source": {
         "tag": "ESTIMATED",
         "asOf": "2024-07-01",
-        "citation": "State enabling statutes summarized in National Employment Law Project, City Minimum Wage Laws. An index of local wage-setting authority doubles from restricted baseline when enabled; no wage increase is inferred.",
+        "citation": "State enabling statutes summarized in National Employment Law Project, City Minimum Wage Laws. Enabling authority alone does not quantify a realized wage increase.",
         "estimatedFrom": "Normalized opening exposure; no absolute local count is inferred. Link sizes and uncertainty remain attached to their source rows."
       }
     },
@@ -2414,7 +2414,7 @@
       "lagMonths": 0,
       "group": "place",
       "evidence": "ESTIMATED",
-      "source": "State enabling statutes summarized in National Employment Law Project, City Minimum Wage Laws. An index of local wage-setting authority doubles from restricted baseline when enabled; no wage increase is inferred. No quantitative service or pay effect inferred from enabling authority alone; awaits an exercised local decision.",
+      "source": "State enabling statutes summarized in National Employment Law Project, City Minimum Wage Laws. Enabling authority alone does not quantify a realized wage increase. No quantitative service or pay effect inferred from enabling authority alone; awaits an exercised local decision.",
       "range": [0, 0]
     },
     {
