@@ -336,6 +336,18 @@
       "tag": "ESTIMATED",
       "citation": "A business closing, sized as the Social Readjustment Rating Scale's 'Business readjustment', 39 life-change units divided by 100 (Holmes and Rahe 1967), as its founding is.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.28 to 0.45"
+    },
+    "directorTownHallHostImpact": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Holding a town hall, sized as the Social Readjustment Rating Scale's 'Change in work hours or conditions', 20 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.11 to 0.29"
+    },
+    "directorTownHallImpact": {
+      "value": 0.18,
+      "tag": "ESTIMATED",
+      "citation": "Going to a town hall, sized as the Social Readjustment Rating Scale's 'Change in social activities', 18 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.11 to 0.24"
     }
   },
   "channels": [
@@ -552,6 +564,14 @@
       "eventKind": "business.closed",
       "channel": "feeling",
       "impactParameter": "directorBusinessClosedImpact"
+    },
+    {
+      "eventKind": "town-hall",
+      "channel": "cause",
+      "impactParameter": "directorTownHallImpact",
+      "selfFact": "hostId",
+      "selfImpactParameter": "directorTownHallHostImpact",
+      "counterpartFact": "hostId"
     }
   ]
 }

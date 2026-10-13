@@ -478,6 +478,22 @@
           "text": "{{other}} closed {{business}}."
         }
       ]
+    },
+    {
+      "kindPrefix": "event:town-hall",
+      "turn": false,
+      "line": [
+        {
+          "key": "held-town-hall",
+          "text": "I held a town hall."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-held-town-hall",
+          "text": "{{other}} held a town hall."
+        }
+      ]
     }
   ],
   "firstTitle": [

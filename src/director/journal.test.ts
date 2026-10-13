@@ -382,6 +382,35 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(text).toContain("I lost the race for Mayor.");
     expect(text).toContain("I took office as City Council, Seat 2.");
     expect(text).toContain("We voted on Ordinance 2021-4, 5 to 2.");
+    // As GOV's meetings engine records a town hall: one the player held, and
+    // one a relative held that the player went to.
+    const relativeId = [...me.familyIds].find(
+      (id) => id !== player.id && core.people.get(id)?.alive,
+    )!;
+    gov("town-hall:fixture-own", "town-hall", [player.id, opponentId], {
+      townHallId: "fixture-own",
+      hostId: player.id,
+      attendees: "1",
+      questions: "",
+    });
+    gov("town-hall:fixture-relative", "town-hall", [relativeId, player.id], {
+      townHallId: "fixture-relative",
+      hostId: relativeId,
+      attendees: "1",
+      questions: "",
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const halls = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) => / held a town hall\.$/.test(line.text));
+    expect(halls.map((line) => line.text)).toContain("I held a town hall.");
+    expect(
+      halls.some(
+        (line) =>
+          line.text !== "I held a town hall." &&
+          line.sourceRecordIds.includes("town-hall:fixture-relative"),
+      ),
+    ).toBe(true);
     // As WORLD's business engine records an owner's business closing.
     const business = [...core.organizations.values()]
       .map((row) => row.id)
