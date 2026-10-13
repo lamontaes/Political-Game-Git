@@ -2006,7 +2006,6 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     api.addFinanceContract({
       ...contract,
       dueAt,
-      householdPurchaseCalendar: undefined,
     });
   }
   // Full people who already name a newcomer as family (it was their husk).

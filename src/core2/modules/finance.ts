@@ -9,6 +9,7 @@ export function notifySalesReceipt(
   for (const module of api.state.modules.values())
     module.onSalesReceipt?.(api, sale);
 }
+import { EVERYDAY_LIVING_KIND, settleLivingDay } from "../cost-of-living";
 import { UnstaffedSupplierError } from "../finance-cash";
 import { financeSettlementPhase } from "../finance-state";
 import { observeWorkPayrollForFinance } from "../work-payroll-dispatch";
@@ -66,6 +67,17 @@ function runFinanceDay(api: CoreAPI): void {
           counted: false,
         });
     }
+    // Households spend on everyday living after income, before restocking.
+    if (phase.id === api.state.data.finance!.defaultPhases.household)
+      settleLivingDay(api, (sale) =>
+        notifySalesReceipt(api, {
+          ...sale,
+          date: api.state.date,
+          kind: EVERYDAY_LIVING_KIND,
+          placeId: api.state.organizations.get(sale.sellerId)?.placeId ?? "",
+          counted: false,
+        }),
+      );
   }
 }
 
