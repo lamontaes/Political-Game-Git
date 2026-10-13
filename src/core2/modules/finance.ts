@@ -10,6 +10,7 @@ export function notifySalesReceipt(
     module.onSalesReceipt?.(api, sale);
 }
 import { EVERYDAY_LIVING_KIND, settleLivingDay } from "../cost-of-living";
+import { UnstaffedSupplierError } from "../finance-cash";
 import { financeSettlementPhase } from "../finance-state";
 import { observeWorkPayrollForFinance } from "../work-payroll-dispatch";
 
@@ -44,8 +45,16 @@ function runFinanceDay(api: CoreAPI): void {
     const rows = byPhase.get(phase.id) ?? [];
     if (phase.operation === "procure") api.prepareFinanceProcurement(rows);
     for (const id of rows) {
-      const receipt = api.settleFinanceContract(id),
-        terms = finance.contracts.get(id)!;
+      let receipt;
+      try {
+        receipt = api.settleFinanceContract(id);
+      } catch (error) {
+        // A supplier with no one left to make its product can't serve the agreement: it ends.
+        if (!(error instanceof UnstaffedSupplierError)) throw error;
+        api.endStandingContract(id);
+        continue;
+      }
+      const terms = finance.contracts.get(id)!;
       if (terms.salesReceipt && receipt.paidMinor > 0)
         notifySalesReceipt(api, {
           id: receipt.id,
