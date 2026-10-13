@@ -46,7 +46,7 @@ import {
   impressionOf,
   parsePlatform,
 } from "./campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, putTerm, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -126,6 +126,17 @@ export const VOTING_MODULE: CoreModule = {
     },
   },
   onCalendarWork: votingCalendarWork,
+  // A seat left open (a term run out, a death, a move away) gets its next
+  // regular contest, dated from the rules, if it has none open.
+  eventKinds: ["seat-vacated"],
+  onEvent: (api, event) => {
+    const seatId = event.facts?.seatId;
+    if (
+      typeof seatId === "string" &&
+      api.state.modules.has(ELECTIONS_MODULE_ID)
+    )
+      openNextCycle(api, seatId);
+  },
 };
 
 function table(api: CoreAPI, name: string) {
@@ -1416,7 +1427,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     : previous
       ? previous.identity
       : officialIdentity(api, contest, result.winnerId);
-  terms.put({
+  putTerm(api, {
     id: `term:${contest.seatId}:${api.state.date}:elected`,
     seatId: contest.seatId,
     officeId: contest.officeId,
@@ -1433,7 +1444,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     endEstimated: false,
     reached: `elected ${contest.electionDate}`,
     status: "serving",
-  } as unknown as ModuleRow);
+  });
   api.emit({
     id: `took-office:${contest.seatId}:${api.state.date}`,
     date: api.state.date,

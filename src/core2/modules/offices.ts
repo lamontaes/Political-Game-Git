@@ -39,6 +39,7 @@ import { governmentUnit } from "../../simulation/government-units";
 import type { EntityId } from "../../simulation/types";
 import {
   electionInYear,
+  nextElectionForSeat,
   staggeredSeatElection,
   termStartAfter,
 } from "../elections-calendar";
@@ -60,6 +61,8 @@ import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "js
 import { isRealOfficeholderName } from "../officials-names";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
+/** The voting engine's state, read (not imported: it imports this module) for a seat's pending winner. */
+const VOTING_MODULE_KEY = "core2-voting-v1";
 
 export interface TermRow {
   readonly id: string;
@@ -297,6 +300,85 @@ function withRuleTerm<T extends OfficeInput>(office: T, stateKey: string): T {
   };
 }
 
+/**
+ * Record a term; a serving term with an end date gets its last day on the
+ * calendar, where it ends unless the seat's winner takes office that day.
+ */
+export function putTerm(api: CoreAPI, term: TermRow): void {
+  table(api, "terms").put(term as unknown as ModuleRow);
+  if (term.status !== "serving" || !term.endDate) return;
+  if (term.endDate < api.state.date) return;
+  const calendar = api.moduleCalendar(OFFICES_MODULE_ID);
+  const key = `term-ends:${term.id}:${term.endDate}`;
+  if (calendar.get(key)) return;
+  const office = table(api, "offices").get(term.officeId) as unknown as
+    OfficeInput | undefined;
+  calendar.schedule({
+    key,
+    date: term.endDate,
+    kind: "term-ends",
+    source: source(
+      office?.source ?? "the office's term",
+      api.state.date,
+      term.endEstimated,
+    ),
+    sourceRecordIds: [term.id],
+  });
+}
+
+/**
+ * The day the winner of a seat's next regular election from `date` takes
+ * office, by the office's term rule; a typical term on where none is held.
+ */
+function nextTermStart(
+  api: CoreAPI,
+  office: OfficeInput,
+  seat: SeatInput,
+  date: string,
+): string | null {
+  const town = table(api, "loaded").get("town") as unknown as
+    { stateKey: string; geoid: string } | undefined;
+  const stateKey = office.jurisdiction.startsWith("US-")
+    ? office.jurisdiction
+    : (town?.stateKey ?? "");
+  const next = nextElectionForSeat({
+    office,
+    stateKey,
+    placeGeoid: town?.geoid ?? "",
+    termEnd: null,
+    onDate: date,
+  });
+  if (next) return termStartAfter(office, next.electionDate, town?.stateKey);
+  return termEnd(api, office, seat, date);
+}
+
+/**
+ * A term's last day: the holder leaves unless the seat's winner takes office
+ * today (the voting engine ends the term then). A seat left with no one
+ * elected is filled by the office's vacancy rule until the next winner.
+ */
+function termEnds(api: CoreAPI, termId: string): void {
+  const term = table(api, "terms").get(termId) as unknown as
+    TermRow | undefined;
+  const today = api.state.date;
+  if (!term || term.status !== "serving" || term.endDate !== today) return;
+  const results = api.moduleState(VOTING_MODULE_KEY).table("results");
+  const seating = (
+    results.rows() as unknown as {
+      contestId: string;
+      winnerId: string | null;
+      takesOffice: string | null;
+    }[]
+  ).some(
+    (r) =>
+      r.contestId.startsWith(`contest:${term.seatId}:`) &&
+      r.winnerId &&
+      r.takesOffice === today,
+  );
+  if (seating) return;
+  vacateSeat(api, term.seatId, "term ended");
+}
+
 function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
   table(api, "offices").put(entry.office as unknown as ModuleRow);
   for (const seat of entry.seats)
@@ -366,7 +448,7 @@ function seatNamedOfficial(
     reached,
     status: "serving",
   };
-  table(api, "terms").put(term as unknown as ModuleRow);
+  putTerm(api, term);
   return term;
 }
 
@@ -398,7 +480,7 @@ function seatResident(
     reached,
     status: "serving",
   };
-  table(api, "terms").put(term as unknown as ModuleRow);
+  putTerm(api, term);
   return term;
 }
 
@@ -758,12 +840,17 @@ function fillVacancy(
           date,
           reached,
         );
-    const finished = {
+    // The appointee serves out the term; a term that has run out is held
+    // until the winner of the seat's next regular election takes office.
+    const ended = !previous.endDate || previous.endDate <= date;
+    const finished: TermRow = {
       ...term,
-      endDate: previous.endDate,
-      endEstimated: previous.endEstimated,
+      endDate: ended
+        ? nextTermStart(api, office, seat, date)
+        : previous.endDate,
+      endEstimated: ended ? true : previous.endEstimated,
     };
-    table(api, "terms").put(finished as unknown as ModuleRow);
+    putTerm(api, finished);
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
   if (rule.method === "remains-vacant") return vacancy;
@@ -809,6 +896,10 @@ function officesCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
+  if (work.kind === "term-ends") {
+    termEnds(api, work.sourceRecordIds[0]!);
+    return;
+  }
   if (work.kind !== "special-election") return;
   const vacancy = table(api, "vacancies").get(
     work.sourceRecordIds[0]!,
