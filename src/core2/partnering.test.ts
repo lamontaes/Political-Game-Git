@@ -15,7 +15,8 @@ import { coreAPI } from "./state";
 import type { CoreEventInput, CoreModule } from "./types";
 
 // Couples forming in play (SG-P15-partnering-weights): over a year in three
-// drawn towns, two unpartnered adults with a tie marry when both choose to;
+// drawn towns, two unpartnered adults who know each other (or are introduced
+// by someone they know) marry when both choose to;
 // each marriage is a partner link, a dated fact on both records and a public
 // event, and the rate stays within reach of the national one.
 const towns = [0, 1, 2].map((draw) => {
@@ -58,11 +59,18 @@ const towns = [0, 1, 2].map((draw) => {
 const rate = PARTNERING_PARAMETERS.partneringMarriageRate!.value;
 
 describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (seed ${place.seed.slice(0, 12)})`).join(", ")}`, () => {
-  it("marries only two unpartnered adults who knew each other, both chosen", () => {
+  it("marries only two unpartnered adults who know each other, both chosen", () => {
     for (const { core, partneredBefore, knew } of towns)
       for (const marriage of marriagesOf(coreAPI(core))) {
         const [a, b] = marriage.personIds.map((id) => core.people.get(id)!);
-        expect(knew.get(a!.id)!.has(b!.id)).toBe(true);
+        // Known since the opening, or introduced by someone they knew.
+        expect(a!.knownIds.has(b!.id)).toBe(true);
+        if (!knew.get(a!.id)!.has(b!.id))
+          expect(
+            [...a!.familyIds, ...knew.get(a!.id)!].some((id) =>
+              knew.get(id)?.has(b!.id),
+            ),
+          ).toBe(true);
         expect(a!.looks?.gender).not.toBe(b!.looks?.gender);
         expect(a!.familyIds.has(b!.id)).toBe(true);
         for (const person of [a!, b!]) {
@@ -97,7 +105,7 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
     }
   });
 
-  it("marries at no more than twice the national rate, and someone where couples could form", () => {
+  it("marries near the national rate", () => {
     let marriages = 0;
     let people = 0;
     for (const { core } of towns) {
@@ -107,6 +115,6 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
       ).length;
     }
     expect(marriages / people).toBeLessThan(rate * 2);
-    expect(marriages).toBeGreaterThan(0);
+    expect(marriages / people).toBeGreaterThan(rate * 0.4);
   });
 });

@@ -90,13 +90,43 @@
     "citation": "CDC/NCHS National Vital Statistics System, provisional number of marriages and marriage rate, United States, 2000-2022: 6.2 marriages per 1,000 total population in 2022. The check, never a draw."
   },
   "partneringCourtshipPerMonth": {
-    "value": 0.07,
+    "value": 0.018,
     "tag": "TUNABLE",
     "citation": "How much a month of courting adds, per unit of how well two people suit each other, toward the pull of staying as they are; calibrated so marriages among a town's full people run near the national rate (CDC/NCHS NVSS, 6.2 marriages per 1,000 population in 2022).",
     "stopgapId": "SG-P15-partnering-weights",
     "spread": {
       "low": 0.01,
       "high": 0.3
+    }
+  },
+  "partneringIntroductionWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How close two people introduced by a mutual friend start out, as a share of the two ties that link them. Meeting through friends is one of the main ways American couples meet (Rosenfeld, Thomas and Hausen 2019, PNAS 116(36):17753, How Couples Meet and Stay Together 2017: about 20% of heterosexual couples who met in 2017, down from about a third earlier).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0.2,
+      "high": 1
+    }
+  },
+  "partneringIntroductionHours": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "Hours two people introduced by a friend spend together when they first meet: an evening out.",
+    "estimatedFrom": "An evening's social time; ATUS 2023 socializing and communicating on days people do it is about 2 to 3 hours.",
+    "spread": {
+      "low": 1,
+      "high": 4
+    }
+  },
+  "partneringAcquaintanceLevel": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "How close two people who know each other by name but have no recorded tie (a classmate, a coworker) count when courting begins, on the 0-to-1 closeness scale.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0.05,
+      "high": 0.4
     }
   }
 }

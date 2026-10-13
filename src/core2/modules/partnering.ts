@@ -35,6 +35,7 @@ const HOMES_STOPGAP = "SG-P15-partnering-homes";
 const INACTIVE_TIER = "husk";
 const REVIEW_KIND = "partnering-review";
 const DECISION = "partnering.marry";
+const INTRODUCED_CAUSE = "met-through-friend";
 const MARRY_ID = "marry";
 const STAY_ID = "stay-as-is";
 
@@ -199,24 +200,60 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
     const person = core.people.get(id);
     if (!eligible(api, person, partnered)) continue;
     // The closest tie to someone who could marry them (not kin).
-    let best: { other: Readonly<PersonState>; level: number } | undefined;
-    for (const relationshipId of core.relationshipsByPerson.get(id) ?? []) {
-      const tie = core.relationships.get(relationshipId);
-      if (!tie || tie.kind === "family") continue;
-      const otherId = tie.actorId === id ? tie.otherId : tie.actorId;
-      const other = core.people.get(otherId);
+    let best:
+      | { other: Readonly<PersonState>; level: number; via?: PersonId }
+      | undefined;
+    const consider = (
+      other: Readonly<PersonState> | undefined,
+      level: number,
+      via?: PersonId,
+    ) => {
       if (
         !eligible(api, other, partnered) ||
+        other.id === id ||
         other.looks?.gender === person.looks?.gender ||
         person.familyIds.has(other.id)
       )
-        continue;
+        return;
       if (
         !best ||
-        tie.level > best.level ||
-        (tie.level === best.level && other.id < best.other.id)
+        level > best.level ||
+        (level === best.level && other.id < best.other.id)
       )
-        best = { other, level: tie.level };
+        best = { other, level, ...(via ? { via } : {}) };
+    };
+    const introduction = q(api, "partneringIntroductionWeight");
+    const acquaintance = q(api, "partneringAcquaintanceLevel");
+    // How close two people are: their tie if they have one, else someone
+    // known by name (a classmate, a coworker) starts as an acquaintance.
+    const closeness = (a: Readonly<PersonState>, otherId: PersonId) => {
+      const tie = core.relationships.get([a.id, otherId].sort().join(":"));
+      if (tie) return tie.kind === "family" ? null : tie.level;
+      return a.knownIds.has(otherId) ? acquaintance : null;
+    };
+    for (const otherId of person.knownIds) {
+      const level = closeness(person, otherId);
+      if (level !== null) consider(core.people.get(otherId), level);
+    }
+    // Someone a relative or friend knows, met through them: as close as the
+    // two links together, weighed by how often couples meet that way.
+    for (const relationshipId of core.relationshipsByPerson.get(id) ?? []) {
+      const tie = core.relationships.get(relationshipId);
+      if (!tie) continue;
+      const friend = core.people.get(
+        tie.actorId === id ? tie.otherId : tie.actorId,
+      );
+      if (!friend?.alive) continue;
+      for (const otherId of friend.knownIds) {
+        if (otherId === id || person.knownIds.has(otherId)) continue;
+        const second = closeness(friend, otherId);
+        if (second === null) continue;
+        consider(
+          core.people.get(otherId),
+          introduction * tie.level * second,
+          friend.id,
+        );
+      }
     }
     if (!best) continue;
     const reasons = coupleReasons(api, person, best.other, best.level);
@@ -226,7 +263,20 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
     );
     // Courting builds month by month with how well the two suit each other;
     // a pair that suits each other less builds slower, or not at all.
-    const pairKey = [person.id, best.other.id].sort().join(":");
+    const chosen = best as {
+      other: Readonly<PersonState>;
+      level: number;
+      via?: PersonId;
+    };
+    const pairKey = [person.id, chosen.other.id].sort().join(":");
+    // Two people introduced by a friend meet before they court.
+    if (chosen.via && !person.knownIds.has(chosen.other.id))
+      api.meet(person.id, chosen.other.id, {
+        placeId: person.placeId,
+        sourceId: `introduced:${api.state.date}:${chosen.via}:${pairKey}`,
+        cause: INTRODUCED_CAUSE,
+        hours: q(api, "partneringIntroductionHours"),
+      });
     const pull =
       courtshipOf(api, pairKey) +
       Math.max(api.parameter("zero"), attraction) *
