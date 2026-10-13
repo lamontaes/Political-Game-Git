@@ -208,6 +208,9 @@ function* benchWorldStages(
     startedAt: makeIsoDate(date),
     placeKey: place.key,
     ...(minimumPeople ? { minimumPeople } : {}),
+    // Every place opens with the player's cohort, even one whose own survey
+    // sample shows no family with children (`entrantOf`).
+    cohortAge: ENTRY_AGE - 1,
   });
   yield "past";
   const input = applyWorldSettings(
