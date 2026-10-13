@@ -6,14 +6,14 @@
  * stays: a repeal lowers the floor, not anyone's pay). Local minimum-wage
  * authority is the state's enacted answer the laws engine reads.
  */
-import type { CoreAPI, CoreState, Source } from "../types";
+import type { CoreAPI, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import {
   enactLaw,
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
-  raiseOne,
+  raiseToFloor,
 } from "../modules/laws";
 import type { PolicyHandler } from "../modules/law-effects";
 import {
@@ -197,6 +197,5 @@ export const localWageAuthority: PolicyHandler = (api, change) => {
     citation: `Local minimum wage authority granted by ${change.lawId}`,
     asOf: api.state.date,
   };
-  for (const id of [...(api.state as CoreState).work.commitments.keys()])
-    raiseOne(api, id, source);
+  raiseToFloor(api, source);
 };

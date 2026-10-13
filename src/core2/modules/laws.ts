@@ -412,7 +412,7 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * Raise every job in the town paying under the minimum wage now in force.
  * Jobs at an employer outside the town's chain keep their own law.
  */
-function raiseToFloor(api: CoreAPI, source: Source): void {
+export function raiseToFloor(api: CoreAPI, source: Source): void {
   const core = api.state as CoreState;
   for (const commitment of [...core.work.commitments.values()])
     raiseOne(api, commitment.id, source);
