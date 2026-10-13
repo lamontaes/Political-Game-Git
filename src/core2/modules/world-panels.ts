@@ -138,6 +138,17 @@ export function benefitsPanel(api: CoreAPI) {
   return rows(api, "jobs", "claims");
 }
 
+/** Unions by month: each place's members, represented workers, right-to-work and dues, oldest first; and the workplaces covered. */
+export function unionPanel(api: CoreAPI) {
+  const all = rows(api, "jobs", "unions");
+  return {
+    months: all
+      .filter((row) => String(row.id).startsWith("union-month:"))
+      .sort((a, b) => String(a.id).localeCompare(String(b.id))),
+    covered: all.filter((row) => String(row.id).startsWith("covered:")),
+  };
+}
+
 /** The central bank's seats: who holds each, since when, until when, and how they lean. */
 export function boardPanel(api: CoreAPI) {
   return rows(api, "macro", "members");
