@@ -19,6 +19,7 @@ import {
   setBusinessOperatingLimit,
 } from "./modules/business";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { baseLine, budgetToday } from "./law-reach/group-a-money";
 import {
   setHousingZoning,
   setRentIncreaseCap,
@@ -38,6 +39,7 @@ import {
   PLACE_PRICES_MODULE_ID,
   setPlacePrice,
   setPlaceTax,
+  setRoadCondition,
 } from "./modules/place-prices";
 import { setPropertyTaxCap } from "./housing-property-tax";
 import type { CoreAPI, CoreState, Source } from "./types";
@@ -148,7 +150,38 @@ const energy: PolicyHandler = (api, law) => {
     else endPlaceRule(api, law.placeId, good, "share");
 };
 
+/** The share of roads in poor condition with the highway budget against its base: less money, worse roads, on a sliding scale. */
+const roads: PolicyHandler = (api, law) => {
+  if (!has(api, PLACE_PRICES_MODULE_ID) || !has(api, BUDGETS_MODULE_ID)) return;
+  const gov = governments(api).find((row) => row.level === law.level);
+  const budget = gov ? budgetToday(api, gov) : null;
+  if (!gov || !budget) return;
+  const base = baseLine(api, gov, budget, "highways");
+  const now = budget.spendingMinor.highways ?? 0;
+  if (!(base > 0)) return;
+  if (now === base) {
+    endPlaceRule(api, law.placeId, "vehicle-repair", "road");
+    return;
+  }
+  setRoadCondition(api, {
+    placeId: law.placeId,
+    poorShare: Math.min(
+      1,
+      api.parameter("pricesRoadPoorShareBase") *
+        (base / Math.max(1, now)) **
+          api.parameter("pricesRoadSpendingElasticity"),
+    ),
+    cause: law.lawId,
+    source: source(
+      api,
+      law.lawId,
+      `The ${law.level} highway budget at ${(now / base).toFixed(3)} of its base.`,
+    ),
+  });
+};
+
 const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
+  "budget-line:highways": roads,
   [`${POLICY}housing-land-use.allow-multifamily-in-single-family-zones`]:
     zoning((on) => ({
       multifamilyLandShare: on ? 1 : openingZoning().multifamilyLandShare,

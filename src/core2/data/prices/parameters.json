@@ -117,5 +117,21 @@
     "value": 160,
     "tag": "SOURCED",
     "citation": "EIA Electric Power Monthly, U.S. residential retail price, 2023 average (16.0 cents a kilowatt-hour)."
+  },
+  "pricesRoadPoorShareBase": {
+    "value": 0.226,
+    "tag": "SOURCED",
+    "citation": "TRIP, Bumpy Roads Ahead (2022): 22.6% of major urban roads in poor condition nationally; the same base the vehicle-repair good uses."
+  },
+  "pricesRoadSpendingElasticity": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How the share of roads in poor condition answers highway spending against its base, as an elasticity: FHWA's Conditions and Performance report (24th edition) finds spending below the maintain-conditions level lets poor pavement grow, and above it shrink; checked against TRIP's state poor-road shares.",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "elasticity",
+      "citation": "How the share of roads in poor condition answers highway spending against its base, as an elasticity: FHWA's Conditions and Performance report (24th edition) finds spending below the maintain-conditions level lets poor pavement grow, and above it shrink; checked against TRIP's state poor-road shares."
+    }
   }
 }

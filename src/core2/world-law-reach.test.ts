@@ -3,7 +3,8 @@ import { randomUUID } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
 import { advanceCore, createLifeCore } from "./life";
-import { openBudgets, governments } from "./modules/budgets";
+import { amendBudget, governments, openBudgets } from "./modules/budgets";
+import { baseLine, budgetToday } from "./law-reach/group-a-money";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import { openLawEffects } from "./modules/law-effects";
 import { enactLaw, lawChain, openLaws } from "./modules/laws";
@@ -137,6 +138,27 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.se
       expect(rule("vehicle-miles", "per-unit")?.value).toBe(2);
       expect(rule("broadband", "offer")?.value).toBe(6000);
     }
+  }, 600_000);
+
+  it("halving a highway budget leaves more roads in poor condition", () => {
+    const gov = governments(api).find((row) => {
+      const budget = budgetToday(api, row);
+      return budget && (budget.spendingMinor.highways ?? 0) > 0;
+    });
+    if (!gov) return;
+    const budget = budgetToday(api, gov)!;
+    const base = baseLine(api, gov, budget, "highways");
+    amendBudget(api, {
+      governmentId: gov.id,
+      line: "highways",
+      deltaMinor: -Math.round((budget.spendingMinor.highways ?? 0) / 2),
+      measureId: "TEST-roads",
+    });
+    const now = budgetToday(api, gov)!.spendingMinor.highways ?? 0;
+    expect(rule("vehicle-repair", "road")?.value).toBeCloseTo(
+      0.226 * (base / now) ** 0.5,
+      6,
+    );
   }, 600_000);
 
   it("a repeal ends the rule", () => {
