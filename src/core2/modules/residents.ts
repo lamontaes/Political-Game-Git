@@ -11,7 +11,7 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import laborReach from "../data/laws/reach-group-a.json" with { type: "json" };
 import laborLawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { transfer } from "../accounts";
@@ -399,9 +399,45 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
+  let feeDifference = 0;
+  let feeLawId: string | undefined;
+  let salesLawId: string | undefined;
+  if (
+    flow.kind === "outside-sales" &&
+    core.modules.has("business") &&
+    core.modules.has(LAWS_MODULE_ID)
+  ) {
+    const rule = api
+      .moduleState("business")
+      .table("operating")
+      .get(`limit:${flow.payeeId}:groundwater`);
+    const question =
+      "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal";
+    const reduction =
+      Number(rule?.share ?? 0) *
+      api.parameter("businessGroundwaterOutputElasticity");
+    if (
+      rule?.cause === question &&
+      reduction > 0 &&
+      reduction < 1 &&
+      Math.round(flow.amountMinor / (1 - reduction)) > flow.amountMinor
+    ) {
+      const current = lawInForce(api, question);
+      const citation = String(
+        (rule.source as { citation?: string } | undefined)?.citation,
+      );
+      if (
+        current.value === 1 &&
+        current.governing &&
+        citation.includes(current.governing.id)
+      )
+        salesLawId = current.governing.id;
+    }
+  }
   if (
     flow.financeKind === "household.union-dues" &&
-    core.modules.has(LAWS_MODULE_ID)
+    core.modules.has(LAWS_MODULE_ID) &&
+    flow.placeId === lawChain(api).townPlaceId
   ) {
     const rightToWork = lawInForce(
       api,
@@ -409,27 +445,27 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     );
     // Voluntary members' dues remain. Only the estimated represented nonmembers'
     // agency-fee portion disappears where compulsory private-sector fees are barred.
-    if (rightToWork.value !== 1) {
-      let privateDues = 0;
-      for (const household of rt.households.values()) {
-        const jobs = household.jobs.filter((job) => rt.jobs.has(job.id));
-        if (
-          !jobs.length ||
-          jobs.some((job) =>
-            laborReach.selectors.publicEmployers.includes(
-              core.organizations.get(job.organizationId)?.classification ?? "",
-            ),
-          )
+    let privateDues = 0;
+    for (const household of rt.households.values()) {
+      const jobs = household.jobs.filter((job) => rt.jobs.has(job.id));
+      if (
+        !jobs.length ||
+        jobs.some((job) =>
+          laborReach.selectors.publicEmployers.includes(
+            core.organizations.get(job.organizationId)?.classification ?? "",
+          ),
         )
-          continue;
-        for (const contract of household.contracts)
-          privateDues += flow.amountByContract?.[contract.id] ?? 0;
-      }
-      base += Math.round(
-        privateDues *
-          laborLawParameters.parameters.unionAgencyFeeShareOfDues.value,
-      );
+      )
+        continue;
+      for (const contract of household.contracts)
+        privateDues += flow.amountByContract?.[contract.id] ?? 0;
     }
+    feeDifference = Math.round(
+      privateDues *
+        laborLawParameters.parameters.unionAgencyFeeShareOfDues.value,
+    );
+    if (rightToWork.value !== 1) base += feeDifference;
+    else if (feeDifference > 0) feeLawId = rightToWork.governing?.id;
   }
   const earnedDays = flow.earnedDaysByDue?.[date];
   if (earnedDays !== undefined && flow.perDayMinorByJob) {
@@ -475,17 +511,33 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       ),
     );
   }
-  if (flow.marketAdjusted && payeeBook && payeeBook.anchorAnnualDemandMinor > 0)
-    base = Math.floor(
+  if (
+    flow.marketAdjusted &&
+    payeeBook &&
+    payeeBook.anchorAnnualDemandMinor > 0
+  ) {
+    const adjusted = Math.floor(
       (base * payeeBook.annualDemandMinor) / payeeBook.anchorAnnualDemandMinor,
     );
+    if (feeDifference > 0)
+      feeDifference =
+        Math.floor(
+          ((base + feeDifference) * payeeBook.annualDemandMinor) /
+            payeeBook.anchorAnnualDemandMinor,
+        ) - adjusted;
+    base = adjusted;
+  }
   // Counted households' purchases follow their income (monthly scale).
   if (
     flow.kind === "purchase" &&
     flow.payerId === flow.residentsId &&
     flow.financeKind !== FIXED_SPENDING
-  )
-    base = Math.round(base * (rt.spendScale.get(flow.residentsId) ?? 1));
+  ) {
+    const scale = rt.spendScale.get(flow.residentsId) ?? 1;
+    feeDifference =
+      Math.round((base + feeDifference) * scale) - Math.round(base * scale);
+    base = Math.round(base * scale);
+  }
   let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
   const payer = core.organizations.get(flow.payerId);
   const outside = payer?.outsideFlow !== undefined;
@@ -518,7 +570,18 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       requested -= elsewhere;
     }
   }
-  if (paid > 0) post(api, rt, flow, paid);
+  if (paid > 0)
+    post(
+      api,
+      rt,
+      flow,
+      paid,
+      // Attribute only a binding sales limit or avoided fee, and only when
+      // the payer could actually have paid at least one cent more.
+      paid === requested && (outside || spendable(core, flow.payerId) > paid)
+        ? (salesLawId ?? (feeDifference > 0 ? feeLawId : undefined))
+        : undefined,
+    );
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);
@@ -595,6 +658,7 @@ function post(
   rt: ResidentsRuntime,
   flow: FlowState,
   paid: number,
+  lawId?: string,
 ): void {
   const core = api.state;
   const account =
@@ -610,7 +674,7 @@ function post(
     else if (flow.kind === "purchase") month.scaledMinor += paid;
   }
   transfer(core, api, {
-    id: `${flow.id}@${core.date}`,
+    id: `${flow.id}@${core.date}${lawId ? `:${lawId}` : ""}`,
     from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
     to: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
     amountMinor: paid,
