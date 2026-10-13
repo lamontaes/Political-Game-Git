@@ -901,6 +901,8 @@ function creditOffer(
 /** What the town bank would lend to start a business, and why: the founder's own money and income, against the module's ceilings. */
 export interface StartupLoanOffer {
   founderId: string;
+  /** The founder's household, which guarantees the loan. */
+  householdId: string;
   requestedMinor: number;
   equityMinor: number;
   /** The founder's household's monthly pay, the income the loan is guaranteed against. */
@@ -928,6 +930,7 @@ export function startupLoanOffer(
   api: CoreAPI,
   input: {
     founderId: string;
+    householdId: string;
     requestedMinor: number;
     equityMinor: number;
     monthlyIncomeMinor: number;
@@ -976,6 +979,7 @@ export function startupLoanOffer(
   const offered = Math.floor(Math.min(requested * yes, room));
   return {
     founderId: input.founderId,
+    householdId: input.householdId,
     requestedMinor: Math.round(requested),
     equityMinor: Math.round(input.equityMinor),
     monthlyIncomeMinor: Math.round(income),
@@ -1042,7 +1046,8 @@ export function lendStartup(
       id: `loan:startup:${firmId}`,
       isLoan: true,
       open: true,
-      householdId: firmId,
+      // The founder's household guarantees the loan; the business pays it.
+      householdId: offer.householdId,
       borrowerId: firmId,
       guarantorId: offer.founderId,
       lenderId: bank.organizationId,

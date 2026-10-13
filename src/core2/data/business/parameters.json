@@ -278,5 +278,16 @@
     "value": 10,
     "tag": "SOURCED",
     "citation": "A decade: the span the age weight is read over (ten years)."
+  },
+  "businessDrawSpareWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "An owner takes out the cash the business holds beyond its buffer: pass-through owners take most of their firms' net income as distributions (IRS SOI, S corporation and partnership returns), and the median small business keeps about a month of cash (JPMorgan Chase Institute 2016).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score per share drawn",
+      "citation": "An owner takes out the cash the business holds beyond its buffer (IRS SOI pass-through distributions; JPMorgan Chase Institute 2016)."
+    }
   }
 }

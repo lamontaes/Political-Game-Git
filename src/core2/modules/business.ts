@@ -31,6 +31,7 @@ import {
   shiftPurchaseShare,
 } from "../residents-economy";
 import { UNION_CLASSIFICATION, unionDuesFlows } from "../membership-dues";
+import outsideMarketData from "../data/outside-market.json" with { type: "json" };
 import { residentPerson, residentsRuntime } from "./residents";
 import { lendStartup, monthlyIncome, startupLoanOffer } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
@@ -784,6 +785,9 @@ function month(api: CoreAPI): void {
         ? owner.liquidMinor / owner.livingCostDailyMinor
         : Number.POSITIVE_INFINITY;
     const short = cushion > 0 ? Math.max(0, 1 - cash / cushion) : 0;
+    // Cash beyond the cushion, on a sliding scale from 0 (none) toward 1.
+    const spare =
+      cushion > 0 ? Math.max(0, cash - cushion) / (cash + cushion) : 0;
     const need = 1 / (1 + ownerDays / p("businessDaysPerMonth"));
     let drawn = 0,
       share = 0;
@@ -794,6 +798,7 @@ function month(api: CoreAPI): void {
         businessData.drawShares.map((s) =>
           option(s, {
             need: p("businessDrawNeedWeight") * need * s,
+            spare: p("businessDrawSpareWeight") * spare * s,
             keep: -p("businessDrawKeepWeight") * short * s,
             size: -p("businessDrawSizeWeight") * s * s,
           }),
@@ -828,6 +833,16 @@ function month(api: CoreAPI): void {
         drawnMinor: drawn,
         cashMinor: cash,
         cushionMinor: cushion,
+        // Why: no profit kept to draw from, or what the owner weighed (their own money, the business's spare cash and its cushion).
+        reasonKey:
+          retained <= 0
+            ? businessData.reasons.noProfit
+            : drawn > 0
+              ? businessData.reasons.drew
+              : businessData.reasons.kept,
+        ownerNeed: need,
+        spare,
+        short,
       });
     store(api)
       .table("owners")
@@ -1225,15 +1240,17 @@ function found(
       ? undefined
       : startupLoanOffer(api, {
           founderId,
+          householdId: founder.householdId,
           requestedMinor: planned - equity,
           equityMinor: equity,
           monthlyIncomeMinor: founderIncome(api, founderId),
           termMonths: p("businessStartupTermMonths"),
         });
   const financed = equity + (offer?.offeredMinor ?? 0);
-  // The business starts at the size its money pays for: a share of the market in proportion.
+  // The business starts at the size its money pays for: a share of the market in proportion, and never smaller than one worker's share of an equal-sized business.
   const scale = planned > 0 ? Math.min(1, financed / planned) : 0;
-  if (scale <= 0) {
+  const oneWorker = 1 / Math.max(1, market.staff * fullShare);
+  if (scale < oneWorker) {
     store(api)
       .table("unfunded")
       .put({
@@ -1244,6 +1261,8 @@ function found(
         date: c.date,
         plannedMinor: Math.round(planned),
         equityMinor: Math.round(equity),
+        // The smallest business it could start: one worker's share of an equal-sized one.
+        smallestMinor: Math.round(planned * oneWorker),
         ...(location ? { parentId: location.parentId } : {}),
         ...(offer
           ? {
@@ -1354,6 +1373,35 @@ function found(
     costContractIds: [],
     source,
   });
+  // What it doesn't buy from local suppliers it buys outside, at its booked cost share of what it takes in, as the opening's firms do.
+  const outsideMarket = [...c.organizations.values()]
+    .filter((row) => row.outsideFlow !== undefined)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const supplier =
+    outsideMarket.find(
+      (row) =>
+        row.placeId === market.placeId && row.id.startsWith("outside-market:"),
+    ) ?? outsideMarket.find((row) => row.placeId === market.placeId);
+  if (supplier && residentsRuntime(c))
+    addResidentFlow(c, {
+      id: `outside-costs:${id}`,
+      kind: "outside-costs",
+      financeKind: `outside.supplier.${kindId}`,
+      payerId: id,
+      payeeId: supplier.id,
+      residentsId: supplier.id,
+      placeId: market.placeId,
+      amountMinor: 0,
+      firstAt: addDays(makeIsoDate(c.date), outsideMarketData.firstOffsetDays),
+      cadence: { kind: "days", every: outsideMarketData.cadenceDays },
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: {
+        ...source,
+        estimatedFrom:
+          "Operating costs from the business's books not bought from a recorded local supplier are bought outside the town.",
+      },
+    });
   // A location is funded from its parent's spare cash; a founder puts in their own money, then the bank lends what it offered.
   const funded =
     equity > 0

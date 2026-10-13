@@ -160,6 +160,7 @@ describe("startup loans (PW-7)", () => {
     ) =>
       startupLoanOffer(api, {
         founderId: "earner",
+        householdId: "household:earner",
         requestedMinor,
         equityMinor,
         monthlyIncomeMinor,

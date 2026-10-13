@@ -316,6 +316,61 @@ type Founding = {
   founderEquityMinor: number;
 };
 
+describe("owners draw from profit, whatever their own means (PW-7)", () => {
+  it("an owner with years of their own money still draws when the business holds cash beyond its cushion, and every month records why", () => {
+    const base = input();
+    const core = createLifeCore(
+        {
+          ...base,
+          people: base.people.map((row) =>
+            row.id === "owner" ? { ...row, liquidMinor: 500_000_000 } : row,
+          ),
+          organizations: base.organizations.map((row) =>
+            row.id === shop ? { ...row, liquidMinor: 50_000_000 } : row,
+          ),
+        },
+        {
+          data: worldCoreData(),
+          modules: [BUSINESS_MODULE],
+          scheduledWork: false,
+        },
+      ),
+      api = coreAPI(core),
+      book = books(core),
+      total = money(core);
+    advanceCore(core, "2021-01-15");
+    const draws = () =>
+      api.moduleState("business").table("draws").rows() as unknown as {
+        date: string;
+        drawnMinor: number;
+        reasonKey: string;
+      }[];
+    advanceCore(core, "2021-02-02");
+    // No profit kept yet: no draw, and the record says so.
+    expect(draws().find((row) => row.date === "2021-02-01")).toMatchObject({
+      drawnMinor: 0,
+      reasonKey: "no-profit-kept",
+    });
+    book.salesReceivedMinor = 2_000_000;
+    transferCash(
+      api,
+      "fixture:sale",
+      "organization:customer",
+      shop,
+      2_000_000,
+      {
+        ...src,
+        asOf: "2021-02-02",
+      },
+    );
+    advanceCore(core, "2021-03-02");
+    const march = draws().find((row) => row.date === "2021-03-01")!;
+    expect(march.drawnMinor).toBeGreaterThan(0);
+    expect(march.reasonKey).toBe("owner-drew");
+    expect(money(core)).toBe(total);
+  });
+});
+
 describe("founding a business where a market has room", () => {
   it("an enterprising adult founds a restaurant; it wins a share of the households' purchases, paid for with the founder's own money, and with no income to guarantee it the bank lends nothing (PW-7); money balances", async () => {
     const core = await foundingCore(false);

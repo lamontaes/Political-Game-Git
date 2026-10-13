@@ -50,6 +50,9 @@
     "noSuccessor": "no-successor",
     "losses": "losses-kept",
     "retiring": "owner-retiring",
-    "unfunded": "no-startup-capital"
+    "unfunded": "no-startup-capital",
+    "drew": "owner-drew",
+    "kept": "owner-kept-profit",
+    "noProfit": "no-profit-kept"
   }
 }
