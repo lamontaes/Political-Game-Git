@@ -478,6 +478,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
     }
     const rates = scalePayroll(api, {
       key,
+      lawId,
       jobs,
       townDeltaMinor: service.deltaTownMinor,
       compensationShare: reachParameter(def.payroll.compensationShare),

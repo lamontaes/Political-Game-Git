@@ -184,6 +184,7 @@ export function scalePayroll(
   api: CoreAPI,
   input: {
     readonly key: string;
+    readonly lawId: string;
     readonly jobs: readonly JobInput[];
     readonly townDeltaMinor: number;
     readonly compensationShare: number;
@@ -222,7 +223,7 @@ export function scalePayroll(
     api.rerateJob(
       base.jobId,
       hourly,
-      source(api, `Budget line ${input.key} as amended`),
+      source(api, `Budget line ${input.key} as amended by ${input.lawId}`),
     );
     out.set(base.jobId, hourly);
   }
