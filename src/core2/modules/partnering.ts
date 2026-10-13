@@ -33,6 +33,8 @@ export const COUPLE_KIND = "romantic:couple";
 export const MOVED_IN_EVENT = "family.moved-in-together";
 export const DIVORCED_EVENT = "family.divorced";
 export const SEPARATED_EVENT = "family.separated";
+/** Two people who have each picked the other: dating, not living together. */
+export const COURTING_EVENT = "family.courting";
 const PART_DECISION = "partnering.part";
 export const PARTNERING_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
@@ -44,6 +46,7 @@ const INACTIVE_TIER = "husk";
 const REVIEW_KIND = "partnering-review";
 const DECISION = "partnering.marry";
 const INTRODUCED_CAUSE = "met-through-friend";
+const ONLINE_CAUSE = "met-online";
 const MARRY_ID = "marry";
 const STAY_ID = "stay-as-is";
 
@@ -472,6 +475,13 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
   const partnered = partneredNow(core);
   const married: Marriage[] = [];
   const ids = [...core.people.keys()].sort();
+  // The adults who could partner this month, read once (only for those with
+  // no one suited in their circle).
+  let pool: PersonId[] | undefined;
+  const seekers = () =>
+    (pool ??= ids.filter((id) =>
+      eligible(api, core.people.get(id), partnered),
+    ));
   for (const id of ids) {
     const person = core.people.get(id);
     if (!eligible(api, person, partnered)) continue;
@@ -531,6 +541,38 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
         );
       }
     }
+    // Someone with no one suited in their circle looks further, the way most
+    // couples now meet online: the best-suited adult in town open to them.
+    let online = false;
+    if (!best) {
+      const level = q(api, "partneringOnlineLevel");
+      let top: { other: Readonly<PersonState>; value: number } | undefined;
+      for (const otherId of seekers()) {
+        const other = core.people.get(otherId);
+        if (
+          !eligible(api, other, partnered) ||
+          other.id === id ||
+          other.placeId !== person.placeId ||
+          person.knownIds.has(other.id) ||
+          person.familyIds.has(other.id) ||
+          !compatible(api, person, other)
+        )
+          continue;
+        const value = Object.values(
+          coupleReasons(api, person, other, level),
+        ).reduce((sum, row) => sum + row, api.parameter("zero"));
+        if (
+          !top ||
+          value > top.value ||
+          (value === top.value && other.id < top.other.id)
+        )
+          top = { other, value };
+      }
+      if (top) {
+        best = { other: top.other, level };
+        online = true;
+      }
+    }
     if (!best) continue;
     const reasons = coupleReasons(api, person, best.other, best.level);
     const attraction = Object.values(reasons).reduce(
@@ -553,11 +595,40 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
         cause: INTRODUCED_CAUSE,
         hours: q(api, "partneringIntroductionHours"),
       });
+    if (online)
+      api.meet(person.id, chosen.other.id, {
+        placeId: person.placeId,
+        sourceId: `met-online:${api.state.date}:${pairKey}`,
+        cause: ONLINE_CAUSE,
+        hours: q(api, "partneringIntroductionHours"),
+      });
     const pull =
       courtshipOf(api, pairKey) +
       Math.max(api.parameter("zero"), attraction) *
         q(api, "partneringCourtshipPerMonth");
-    store(api).table("courtships").put({ id: pairKey, value: pull });
+    // Courting is mutual once each has picked the other: they are dating.
+    const held = store(api).table("courtships").get(pairKey) as
+      { by?: readonly PersonId[] } | undefined;
+    const by = [...new Set([...(held?.by ?? []), person.id])].sort();
+    store(api)
+      .table("courtships")
+      .put({ id: pairKey, value: pull, date: api.state.date, by });
+    if (by.length === api.parameter("two") && held?.by?.length !== by.length)
+      api.emit({
+        id: `courting:${pairKey}:${api.state.date}`,
+        date: api.state.date,
+        kind: COURTING_EVENT,
+        personIds: [person.id, chosen.other.id],
+        placeId: person.placeId,
+        source: {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: `${pairKey} each chose to court the other, from their closeness, ages and temperaments.`,
+          estimatedFrom: STOPGAP,
+        },
+        publicRecord: false,
+        facts: { courtshipId: pairKey },
+      });
     // Both choose, each by their own temperament.
     if (
       !chooses(api, person, pull, best.other.id) ||

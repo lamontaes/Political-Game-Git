@@ -1195,7 +1195,7 @@ export interface CoreAPI {
     entry: MarketEntry,
   ): { financeKind: string; annualDemandMinor: number }[];
   addOrganization(input: OrganizationInput): void;
-  /** v11: zero-stock newborn admission through the canonical person writer. */
+  /** v11: zero-stock newborn admission through the canonical person writer, into the first parent's (the mother's) household; another parent may live elsewhere. */
   addBornPersonV1(
     input: PersonInput,
     parents: readonly [PersonId, PersonId],

@@ -18,6 +18,8 @@ export interface BirthCouple {
   otherParentId: string;
   startedAt: string;
   childIds: readonly string[];
+  /** A couple who are dating, not living together: their courtship's id. */
+  courtshipId?: string;
 }
 
 /** The outcome web's factor on the place's birth rate, 1 where the web is not running. */
@@ -137,7 +139,7 @@ export function birthCircumstances(
     partnership:
       mother.householdId === partner.householdId
         ? p("one")
-        : -p("renewalWaitPull"),
+        : -p("renewalApartPull"),
     // The place's conditions: the outcome web's factor on the birth rate
     // (1 where nothing moves it, or the web is not running).
     place:

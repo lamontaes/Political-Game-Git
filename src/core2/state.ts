@@ -941,12 +941,11 @@ export function coreAPI(core: CoreState): CoreAPI {
         household.placeId !== input.placeId ||
         household.memberIds.includes(input.id) ||
         core.husks.has(input.id) ||
-        parents.some(
-          (id) =>
-            !core.people.has(id) ||
-            core.people.get(id)!.householdId !== input.householdId ||
-            !household.memberIds.includes(id),
-        ) ||
+        // The mother's home is the baby's; another parent may live
+        // elsewhere (a couple who are dating, not living together).
+        parents.some((id) => !core.people.has(id)) ||
+        core.people.get(parents[0])!.householdId !== input.householdId ||
+        !household.memberIds.includes(parents[0]) ||
         relations.some(
           (row) => row.otherId === input.id || !core.people.has(row.otherId),
         ) ||

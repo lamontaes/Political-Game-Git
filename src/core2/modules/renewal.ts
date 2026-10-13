@@ -16,6 +16,9 @@ export const RENEWAL_MODULE_ID = "core2-renewal-v1";
 /** The partnering engine's records of a couple marrying or moving in together during play. */
 const MARRIED_EVENT = "family.married";
 const MOVED_IN_EVENT = "family.moved-in-together";
+/** Two people who each chose to court the other (partnering's record). */
+const COURTING_EVENT = "family.courting";
+const PARTNERING_MODULE_ID = "partnering";
 const INACTIVE_TIER = "husk";
 const initialized = new WeakSet<object>();
 const source = (api: CoreAPI): Source => ({
@@ -41,6 +44,25 @@ function scheduleReview(api: CoreAPI, row: BirthCouple, date: string): void {
   });
 }
 
+/** Whether a dating couple still court: their courtship was renewed lately. */
+function stillCourting(api: CoreAPI, courtshipId: string): boolean {
+  if (
+    !(api.state as { modules: Map<string, unknown> }).modules.has(
+      PARTNERING_MODULE_ID,
+    )
+  )
+    return false;
+  const row = api
+    .moduleState(PARTNERING_MODULE_ID)
+    .table("courtships")
+    .get(courtshipId) as { date?: string } | undefined;
+  return (
+    !!row?.date &&
+    daysBetween(makeIsoDate(row.date), makeIsoDate(api.state.date)) <=
+      renewalParameter(api, "renewalReviewDays")
+  );
+}
+
 function review(
   api: CoreAPI,
   row: BirthCouple,
@@ -55,7 +77,9 @@ function review(
   // plans here.
   if (
     parents.some((person) => !person?.alive || person.tier === INACTIVE_TIER) ||
-    parents[0]!.householdId !== parents[1]!.householdId
+    (row.courtshipId
+      ? !stillCourting(api, row.courtshipId)
+      : parents[0]!.householdId !== parents[1]!.householdId)
   ) {
     table(api, "couples").put({
       ...row,
@@ -157,7 +181,9 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
     table(api, "pregnancies").put({ ...row, status: "moved-away" });
     return;
   }
-  if (!mother.alive || mother.householdId !== father.householdId) {
+  // The baby is born into the mother's home, whether or not the other parent
+  // lives there (a dating couple, or one that parted during the pregnancy).
+  if (!mother.alive || !father) {
     // SG-M1-births-circumstances: postpartum/relocation medicine is outside this prototype.
     table(api, "pregnancies").put({
       ...row,
@@ -332,14 +358,21 @@ function addMarriedCouple(api: CoreAPI, personIds: readonly string[]): void {
   if (
     !mother?.alive ||
     !other?.alive ||
-    mother.householdId !== other.householdId ||
-    (
-      table(api, "couples").query("byMother", [mother.id]) as unknown as {
-        status: string;
-      }[]
-    ).some((row) => row.status === "active")
+    mother.householdId !== other.householdId
   )
     return;
+  // Living together ends her dating plans; their own plan takes over.
+  const rows = table(api, "couples").query("byMother", [
+    mother.id,
+  ]) as unknown as (BirthCouple & { status: string })[];
+  for (const row of rows)
+    if (row.status === "active" && row.courtshipId)
+      table(api, "couples").put({
+        ...row,
+        childIds: [...row.childIds],
+        status: "inactive",
+      });
+  if (rows.some((row) => row.status === "active" && !row.courtshipId)) return;
   const link = [...api.state.familyLinks.values()].find(
     (row) =>
       row.kind === "partner" &&
@@ -369,12 +402,63 @@ function addMarriedCouple(api: CoreAPI, personIds: readonly string[]): void {
   review(api, row);
 }
 
+/**
+ * Two people who each chose to court the other, living apart, weigh a child
+ * the same way a couple at home does (living apart weighs against it), for as
+ * long as they keep courting.
+ */
+function addDatingCouple(
+  api: CoreAPI,
+  personIds: readonly string[],
+  courtshipId: string,
+): void {
+  const people = personIds.map((id) => api.state.people.get(id));
+  const mother = people.find((person) => person?.looks?.gender === "female");
+  const other = people.find(
+    (person) => person && person !== mother && person.looks?.gender === "male",
+  );
+  if (
+    !mother?.alive ||
+    !other?.alive ||
+    [mother, other].some((person) => person.tier === INACTIVE_TIER) ||
+    (
+      table(api, "couples").query("byMother", [mother.id]) as unknown as {
+        status: string;
+      }[]
+    ).some((row) => row.status === "active")
+  )
+    return;
+  const childIds = [...api.state.familyLinks.values()]
+    .filter(
+      (row) =>
+        row.kind === "parent-child" &&
+        (row.personIds[0] === mother.id || row.personIds[0] === other.id),
+    )
+    .map((row) => row.personIds[1]);
+  const row: BirthCouple = {
+    id: `dating:${courtshipId}`,
+    motherId: mother.id,
+    otherParentId: other.id,
+    startedAt: api.state.date,
+    childIds: [...new Set(childIds)],
+    courtshipId,
+  };
+  table(api, "couples").put({
+    ...row,
+    childIds: [...row.childIds],
+    status: "active",
+  });
+  review(api, row);
+}
+
 export const RENEWAL_MODULE: CoreModule = {
   id: RENEWAL_MODULE_ID,
-  eventKinds: [MARRIED_EVENT, MOVED_IN_EVENT],
+  eventKinds: [MARRIED_EVENT, MOVED_IN_EVENT, COURTING_EVENT],
   onEvent(api, event) {
     if (!table(api, "parameters").get("renewalReviewDays")) return;
-    addMarriedCouple(api, event.personIds);
+    if (event.kind === COURTING_EVENT)
+      addDatingCouple(api, event.personIds, String(event.facts?.courtshipId));
+    else addMarriedCouple(api, event.personIds);
   },
   state: {
     schemaVersion: 1,

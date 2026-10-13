@@ -198,5 +198,15 @@
       "low": 0.002,
       "high": 0.005
     }
+  },
+  "partneringOnlineLevel": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "How close two people who met online start out, for someone with no one suited in their circle (below an acquaintance known by name, 0.2, so a known person comes first). Meeting online is now the most common way couples meet: about 39% of heterosexual couples who met in 2017 (Rosenfeld, Thomas and Hausen 2019, PNAS 116(36):17753), and about two thirds of same-sex couples, whose partners are scarcer in any one circle (Rosenfeld and Thomas 2012, American Sociological Review 77(4):523). Checked by the same-sex share of new unions against Census ACS 2023 (1.26% of married and 5.66% of unmarried couple households).",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2
+    }
   }
 }

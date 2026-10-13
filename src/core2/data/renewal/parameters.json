@@ -158,5 +158,15 @@
       "status": "unmeasured",
       "reason": "A starting value; 0.5 to 3 to be checked against the web's factor and a year's births once places differ in their web factors."
     }
+  },
+  "renewalApartPull": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How much living apart weighs against a child in a dating couple's plan (a couple at home weighs +1). Checked by the share of births to mothers with no partner at home: about 40% of US births are to unmarried mothers (NCHS NVSS, Births: Final Data for 2022) and about 58% of those to cohabiting couples (NSFG 2015-2019, NCHS NHSR 179), leaving about 17% of births to mothers with no partner at home.",
+    "spread": {
+      "low": 0.5,
+      "high": 2
+    },
+    "stopgapId": "SG-M1-births-circumstances"
   }
 }
