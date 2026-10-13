@@ -1748,11 +1748,11 @@
     "kind": "aggregate-voters",
     "file": "src/core2/opening-voter-groups.ts",
     "line": 1,
-    "whatItFakes": "Counted adults in the town vote as one group per age band: eligible voters are the count times the state's CPS 2024 citizen share of adults for the band, turnout is the state's CPS 2024 citizen turnout (national rows where no state row exists, as for the island areas), and every group starts with the state's 2024 presidential two-party margin as its lean.",
+    "whatItFakes": "Counted adults in the town vote as one group per age band: eligible voters are the count times the state's CPS 2024 citizen share of adults for the band, turnout is the state's CPS 2024 citizen turnout (national rows where no state row exists, as for the island areas), and every group starts with its county's 2024 presidential two-party margin as its lean (the state's in Alaska, which reports by house district).",
     "why": "In a two-level town only about 60 named people vote individually; elections need the counted population to vote from its own records (PLAY's report on GOV's elections).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Place-level 2024 results and residents' own views (PEOPLE's views engine) set each group's lean, refined by GOV's elections; ACS place citizenship (B05003) replaces the state share.",
+    "replacement": "Residents' own views (PEOPLE's views engine) set each group's lean, refined by GOV's elections; ACS place citizenship (B05003) replaces the state share.",
     "status": "open"
   },
   {

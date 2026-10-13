@@ -389,7 +389,10 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("lets a full person's relative wait in the counts as a husk", () => {
     const full = two.people.find((row) => row.id === two.playerId)!;
-    const relative = two.residents!.households[0]!.people[0]!;
+    const husks = new Set((two.husks ?? []).map((row) => row.id));
+    const relative = two
+      .residents!.households.flatMap((row) => row.people)
+      .find((row) => !husks.has(row.id))!;
     const input = {
       ...two,
       people: two.people.map((row) =>
