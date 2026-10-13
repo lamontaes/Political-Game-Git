@@ -11,16 +11,18 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 Nothing on a screen of its own yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`, and the bench reads it through `worldPanels` (more panels are listed for PLAY under Needs). A town opens with its real history since 2000 and runs on its own:
 
-- **The nation and the central bank:** a national economy, and a board whose seats turn over on their real dates.
-- **Regions:** state and metro economies.
+- **The nation and the central bank:** a national economy, and a board whose open seats the president fills and the Senate confirms.
+- **Regions:** state and metro economies; a town's pay follows its region.
 - **Jobs:**
-  - Jobs open, hire, raise pay and lay off for reasons.
-  - Young people start looking for work as they leave school, and the unemployed eventually stop looking.
-  - Laid-off workers draw unemployment insurance.
-- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons.
-- **The town bank** lends to businesses and households.
+  - Workers quit for better pay or just leave; moving to another job takes a raise.
+  - Employers let go weak matches and refill the role, and lay people off when their customers' spending falls; layoffs run near the real national rate.
+  - A business's staff follows what its customers actually spend.
+  - People look for work wherever their neighbors commute to; young people start looking as they leave school.
+  - Laid-off workers draw unemployment insurance on their own state's terms.
+- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons; startups open small and spread across the town's kinds of business at about the real rate.
+- **The town bank** lends to businesses and households, and holds the residents' savings on deposit, paying interest.
 - **Homes:**
-  - Homes in the place's real mix, with FHFA prices, mortgages and property tax bills.
+  - Homes in the place's real mix, priced like the county's, with FHFA prices, mortgages and property tax at the county's rate.
   - Builders put up houses and apartment buildings as value outruns cost, and new vacancy lowers rents.
   - Landlords serve notice after about two months owed, and evictions follow the state's steps.
 - **What laws can do,** waiting for GOV's handlers:
@@ -29,6 +31,7 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
   - Property tax rates and caps.
   - Electricity and fuel prices, transit fares, mileage fees, bottle deposits, public broadband and road condition.
   - Groundwater limits and clean-air compliance costs.
+- **Checks the golden path runs on my items:** M1-02 (the nation), M1-03 (regions), M1-04 (jobs), M1-05 (housing), M1-06 (credit) and M1-08 (businesses), each in a drawn place.
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
