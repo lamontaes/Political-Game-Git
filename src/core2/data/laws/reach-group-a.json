@@ -12,82 +12,43 @@
       "sector:local-government-office",
       "sector:state-government-office"
     ],
-    "businesses": [
-      "enterprise:"
-    ],
-    "builders": [
-      "enterprise:construction",
-      "enterprise:real-estate"
-    ],
-    "retailers": [
-      "enterprise:retail"
-    ],
-    "police": [
-      "service:police"
-    ],
-    "unions": [
-      "membership:labor-union"
-    ],
-    "cityGovernment": [
-      "service:municipal-government"
-    ],
+    "businesses": ["enterprise:"],
+    "builders": ["enterprise:construction", "enterprise:real-estate"],
+    "retailers": ["enterprise:retail"],
+    "police": ["service:police"],
+    "unions": ["membership:labor-union"],
+    "cityGovernment": ["service:municipal-government"],
     "healthProviders": [
       "service:public-health",
       "service:hospital",
       "service:nursing-home",
       "enterprise:health"
     ],
-    "online": [
-      "enterprise:telecommunications"
-    ],
-    "parks": [
-      "enterprise:recreation"
-    ],
-    "legislators": [
-      "council",
-      "county-board",
-      "legislature-"
-    ]
+    "online": ["enterprise:telecommunications"],
+    "parks": ["enterprise:recreation"],
+    "legislators": ["council", "county-board", "legislature-"]
   },
   "staffing": {
     "budget-line:police": {
       "employers": "police",
-      "levels": [
-        "city",
-        "county"
-      ]
+      "levels": ["city", "county"]
     },
     "budget-line:fire": {
       "employers": "fireEmployers",
-      "levels": [
-        "city",
-        "county"
-      ]
+      "levels": ["city", "county"]
     },
     "budget-line:corrections": {
       "employers": "correctionsEmployers",
-      "levels": [
-        "county",
-        "city",
-        "state"
-      ]
+      "levels": ["county", "city", "state"]
     },
     "budget-line:administration": {
       "employers": "cityGovernment",
-      "levels": [
-        "city",
-        "county"
-      ]
+      "levels": ["city", "county"]
     }
   },
   "extraSelectors": {
-    "fireEmployers": [
-      "service:fire"
-    ],
-    "correctionsEmployers": [
-      "service:corrections",
-      "service:jail"
-    ]
+    "fireEmployers": ["service:fire"],
+    "correctionsEmployers": ["service:corrections", "service:jail"]
   },
   "policies": {
     "minimum-wage": {
@@ -283,8 +244,7 @@
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "source": "State and city laws allowing two to four homes on single-family lots (Oregon HB 2001 of 2019, California SB 9 of 2021, Minneapolis 2040 plan).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-housing-supply",
+      "mechanic": "housing",
       "reaches": [
         {
           "id": "builders",
@@ -327,8 +287,7 @@
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "source": "Inclusionary housing ordinances: a share of new homes set aside as affordable (Grounded Solutions Network, Inclusionary Housing Database, 2021).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-affordable-units",
+      "mechanic": "housing",
       "reaches": [
         {
           "id": "builders",
@@ -345,8 +304,7 @@
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "source": "Rent stabilization laws capping yearly rent increases (California AB 1482 of 2019, Oregon SB 608 of 2019, St. Paul ordinance of 2021).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-rent-contracts",
+      "mechanic": "housing",
       "reaches": [
         {
           "id": "tenants",
@@ -374,8 +332,7 @@
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "source": "City right-to-counsel ordinances (National Coalition for a Civil Right to Counsel, 2024).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-eviction-cases",
+      "mechanic": "housing",
       "reaches": [
         {
           "id": "city",

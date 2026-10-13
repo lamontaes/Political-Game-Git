@@ -28,6 +28,7 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   none: [records],
   // The credit engine reads the cap when it prices a household loan.
   credit: [records],
+  housing: [records],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
