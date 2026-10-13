@@ -3,6 +3,8 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
+import bringWords from "./data/bring-it-up.json" with { type: "json" };
+import { isWordingOf } from "./parts";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
   BRING_IT_UP_DATA,
@@ -68,8 +70,27 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
         core.jobs.get(core.people.get(id)!.jobId!)!.organizationId !== org,
     )!;
     const said = bringItUp(core, worker.id, friendId)!;
-    expect(said.lines.map((row) => row.text)[0]).toMatch(/ closed\.$/);
-    expect(said.lines[1]!.text).toMatch(/^That was .+(?:'s|s') doing\.$/);
+    const closed = bringWords.changes.find(
+      (row) => row.eventKind === "organization.closed",
+    )!;
+    expect(
+      isWordingOf(
+        "bring-it-up",
+        "change",
+        closed.eventKind,
+        closed.line,
+        said.lines[0]!.text,
+      ),
+    ).toBe(true);
+    expect(
+      isWordingOf(
+        "bring-it-up",
+        "blame",
+        "record",
+        bringWords.blame.record,
+        said.lines[1]!.text,
+      ),
+    ).toBe(true);
     const [heard] = changesKnownTo(core, friendId);
     expect(believedCause(core, friendId, heard!)).toMatchObject({
       how: "told",

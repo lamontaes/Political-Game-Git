@@ -12,6 +12,7 @@ import { applyCoreEvent } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import bringJson from "./data/bring-it-up.json" with { type: "json" };
+import { withParts } from "./parts";
 import { renderLine, type Variant } from "./render";
 import { markWordsStopgap } from "./stopgaps";
 import { possessive, properName } from "./words";
@@ -192,6 +193,7 @@ export function bringItUp(
   const words = data.changes.find((row) => row.eventKind === change.kind)!;
   const say = (
     part: string,
+    field: string,
     variants: Variant[],
     facts: Record<string, { text: string; sourceRecordIds: readonly string[] }>,
   ) =>
@@ -201,13 +203,15 @@ export function bringItUp(
       holderId: speakerId,
       bankKey: `bring-it-up:${part}`,
       version: data.version,
-      variants,
+      variants: variants.flatMap((variant) =>
+        withParts("bring-it-up", part.split(":")[P.zero]!, field, variant),
+      ),
       facts,
       momentKey: `${speakerId}:${listenerId}:${change.eventId}:${core.date}:${part}`,
       fallbackSourceId: change.eventId,
     });
   const lines = [];
-  const first = say("change", words.line, {
+  const first = say("change", change.kind, words.line, {
     subject: {
       text: subject,
       sourceRecordIds: [change.eventId, change.institutionId],
@@ -217,6 +221,7 @@ export function bringItUp(
   const who = attribution.blamedId ? nameOf(core, attribution.blamedId) : null;
   const second = say(
     `blame:${attribution.how}`,
+    who ? attribution.how : "unknown",
     data.blame[who ? attribution.how : "unknown"],
     who
       ? {

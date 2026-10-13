@@ -12,6 +12,8 @@
  */
 import conversationParts from "../../data/english/parts/conversation.json" with { type: "json" };
 import journalParts from "../../data/english/parts/journal.json" with { type: "json" };
+import filingVisitParts from "../../data/english/parts/filing-visit.json" with { type: "json" };
+import bringItUpParts from "../../data/english/parts/bring-it-up.json" with { type: "json" };
 import heldJson from "./data/parts-held.json" with { type: "json" };
 import type { Variant } from "./render";
 
@@ -35,6 +37,8 @@ interface PartsFile {
 const REGISTERS: Readonly<Record<string, PartsFile>> = {
   conversation: conversationParts as unknown as PartsFile,
   journal: journalParts as unknown as PartsFile,
+  "filing-visit": filingVisitParts as unknown as PartsFile,
+  "bring-it-up": bringItUpParts as unknown as PartsFile,
 };
 
 /** A part's slots ("{my_employer}") as the engine's ("{{my-employer}}"). */
@@ -104,4 +108,24 @@ export function withParts(
     });
   }
   return out;
+}
+
+/** Whether a rendered line is one of a choice's wordings (for checks). */
+export function isWordingOf(
+  register: string,
+  group: string,
+  field: string,
+  variants: readonly Variant[],
+  text: string,
+): boolean {
+  return variants
+    .flatMap((variant) => withParts(register, group, field, variant))
+    .some((variant) =>
+      new RegExp(
+        `^${variant.text
+          .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+          .replace(/\\\{\\\{[a-z][a-z0-9-]*\\\}\\\}/g, ".+")}$`,
+        "i",
+      ).test(text),
+    );
 }

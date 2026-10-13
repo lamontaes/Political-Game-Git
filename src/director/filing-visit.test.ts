@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
+import filingWords from "./data/filing-visit.json" with { type: "json" };
+import { isWordingOf } from "./parts";
 import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
@@ -45,10 +47,17 @@ const check = (
 describe("the filing visit", () => {
   it("states the terms from the record and offers the ways to file", () => {
     const visit = openFilingVisit(core, player.id, [contest]);
-    expect(visit.lines[0]!.text).toBe("Which office are you filing for?");
-    expect(visit.choices.map((row) => row.text)).toEqual([
-      "City Council, Seat 2.",
-    ]);
+    expect(
+      isWordingOf(
+        "filing-visit",
+        "clerk",
+        "greet",
+        filingWords.greet,
+        visit.lines[0]!.text,
+      ),
+    ).toBe(true);
+    expect(visit.choices).toHaveLength(1);
+    expect(visit.choices[0]!.text).toContain("City Council, Seat 2");
     pickContest(core, visit, contest.id, terms, [
       check("minimum-age", true, "18", "40"),
     ]);

@@ -19,6 +19,10 @@
     "journal.contact-line-saw.i-met-other": "meeting is its own record; this row is a later contact",
     "journal.contact-line-saw.i-visited-other": "says where the contact happened; no record holds that",
     "journal.contact-line-saw.i-went-to-see-other": "says where the contact happened; no record holds that",
-    "journal.look-back-line-died.i-was-born-in-place": "birthplace is not what 'always' records"
+    "journal.look-back-line-died.i-was-born-in-place": "birthplace is not what 'always' records",
+    "filing-visit.clerk-rule-register.you-must-be-a-registered-or-pre-registered-voter": "names a county and pre-registration; the rule is each place's own record",
+    "bring-it-up.blame-unknown-unknown.nobody-knows-why": "claims what everyone else knows",
+    "bring-it-up.blame-unknown-unknown.i-dont-know-what-happened": "the speaker knows what happened; only who is behind it is unknown",
+    "bring-it-up.blame-unknown-unknown.nobody-knows": "claims what everyone else knows"
   }
 }

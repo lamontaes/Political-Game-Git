@@ -9,6 +9,7 @@
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import visitJson from "./data/filing-visit.json" with { type: "json" };
+import { withParts } from "./parts";
 import { renderLine, type Fact, type Variant } from "./render";
 import { markWordsStopgap } from "./stopgaps";
 
@@ -101,7 +102,10 @@ function say(
       speaker === "clerk" ? (visit.clerkId ?? visit.playerId) : visit.playerId,
     bankKey: `filing-visit:${part}`,
     version: FILING_VISIT_WORDS.version,
-    variants,
+    // Mined speech files a rule's line under "rule" and the rule's own key.
+    variants: variants?.flatMap((variant) =>
+      withParts("filing-visit", speaker, part.split(":")[P.zero]!, variant),
+    ),
     facts,
     momentKey: `${visit.playerId}:${core.date}:${visit.lines.length}:${part}`,
     ...(stage ? { stage } : {}),
