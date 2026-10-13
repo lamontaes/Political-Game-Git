@@ -3,6 +3,8 @@ import authoredPlaces from "../../data/research/authored-life-places.json" with 
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
+  lifePlaceCoverage,
+  lifePlaceSearch,
   lifePlaceStateIdentities,
   seatOfGovernmentPlace,
 } from "../simulation/life-places";
@@ -15,6 +17,7 @@ import {
   corePlaceStateIdentities,
   coreSeatOfGovernmentPlace,
 } from "./place-lookup";
+import { realLocalities } from "./places";
 
 const json = (value: unknown) => JSON.stringify(value);
 
@@ -71,4 +74,14 @@ describe("core place lookup matches the old provider", () => {
     );
     console.log(`place-lookup parity: ${identities.length} states + seats`);
   });
+
+  it("lists every locality in the old search corpus's order", () => {
+    const old = corePlaceStateIdentities().flatMap((state) =>
+      lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state.jurisdictionKey,
+        scope: "locality",
+      }),
+    );
+    expect(JSON.stringify(realLocalities())).toBe(JSON.stringify(old));
+  }, 300_000);
 });
