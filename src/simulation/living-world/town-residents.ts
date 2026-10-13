@@ -307,14 +307,19 @@ function pickShape(rng: SeededRng, town: EntityId): HouseholdShape {
   return shares.at(-1)![0];
 }
 
-/** Household `index` of the town: its shape and its members' ages. Cheap. */
+/**
+ * Household `index` of the town: its shape and its members' ages. Cheap.
+ * `shape` sets the household's shape instead of drawing it from the town's
+ * mix (the opening's household for the player's cohort, core2/population.ts).
+ */
 export function townHouseholdSkeleton(
   world: World,
   town: EntityId,
   index: number,
+  shape?: HouseholdShape,
 ): TownHouseholdSkeleton {
   const rng = householdRng(world, town, index);
-  const shape = pickShape(rng.fork("shape"), town);
+  shape ??= pickShape(rng.fork("shape"), town);
   const members: SkeletonMember[] = [];
   const push = (age: number) => {
     members.push({ age, role: "adult" });
@@ -420,8 +425,13 @@ export function townHouseholdPeople(
   world: World,
   town: EntityId,
   index: number,
+  shape?: HouseholdShape,
 ): readonly CharacterHistoryContextPersonInput[] {
-  return namedMembers(world, town, townHouseholdSkeleton(world, town, index));
+  return namedMembers(
+    world,
+    town,
+    townHouseholdSkeleton(world, town, index, shape),
+  );
 }
 
 function namedMembers(
