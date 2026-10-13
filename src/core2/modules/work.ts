@@ -1,12 +1,7 @@
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 /** Opening terms and chronological scheduled work; no legacy World or tick. */
 import { DEFAULT_WORK_DATA } from "../work-data";
-import {
-  addDays,
-  ageOnDate,
-  daysBetween,
-  makeIsoDate,
-} from "../../simulation/dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
 import { FinanceReadGuard } from "../finance-plan";

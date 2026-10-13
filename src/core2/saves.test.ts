@@ -77,4 +77,48 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     ).toBe("core2-api-v1");
     expect(digest(loaded.core)).toBe(digest(game.core));
   }, 300_000);
+
+  it("loads from a snapshot of the world and replays only the commands after it", () => {
+    const recipe = {
+      place: { seed: place.seed, key: place.key },
+      twoLevel: true,
+      settings: { population: 1500 },
+      preStart: false as const,
+    };
+    const game = newGame(recipe);
+    runCommand(game, "advance", { through: "2021-01-20" });
+    const counted = [...residentsRuntime(game.core)!.households.values()].find(
+      (row) => row.people.length,
+    )!;
+    runCommand(game, "fill-in", { personId: counted.people[0]!.id });
+    runCommand(game, "advance", { through: "2021-02-15" });
+    const save = JSON.parse(JSON.stringify(saveGame(game))) as ReturnType<
+      typeof saveGame
+    >;
+    expect(save.snapshot?.commandCount).toBe(game.commands.length);
+    // A command given after the snapshot replays on top of it.
+    const later = {
+      ...save,
+      commands: [
+        ...save.commands,
+        {
+          date: save.savedAt,
+          kind: "advance",
+          payload: { through: "2021-02-20" },
+        },
+      ],
+      savedAt: "2021-02-20",
+    } as typeof save;
+    const loaded = loadGame(later);
+    expect(loaded.skipped).toEqual([]);
+    expect(loaded.commands.length).toBe(game.commands.length + 1);
+    runCommand(game, "advance", { through: "2021-02-20" });
+    expect(digest(loaded.core)).toBe(digest(game.core));
+    runCommand(game, "advance", { through: "2021-03-20" });
+    runCommand(loaded, "advance", { through: "2021-03-20" });
+    expect(digest(loaded.core)).toBe(digest(game.core));
+    // Under another version the snapshot is set aside and every command replays.
+    const replayed = loadGame({ ...save, coreApiVersion: "core2-api-v1" });
+    expect(replayed.core.date).toBe(save.savedAt);
+  }, 600_000);
 });

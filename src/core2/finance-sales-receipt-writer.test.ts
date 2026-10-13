@@ -96,7 +96,9 @@ function input(
   }));
   const sale: FinanceContractInput = {
     id: saleId,
-    householdId: `household:${customer}`,
+    // A plain sale settled directly; a household's purchases would be its
+    // everyday-living plan (cost-of-living.ts) instead.
+    settlementPhaseId: "household-purchases",
     payerIds: [customer],
     payeeId: buyer,
     kind: "fixture:household-budget",

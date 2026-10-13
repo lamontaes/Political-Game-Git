@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "../simulation/government-units";
-import { createStableId } from "../simulation/ids";
-import { lifePlaceByKey } from "../simulation/life-places";
+} from "./reference/government-units";
+import { createStableId } from "./kernel/ids";
+import { corePlaceByKey } from "./place-lookup";
 import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
 import {
   DEFAULT_OPENING_PUBLIC_OWNER_DATA,
@@ -57,7 +57,7 @@ function fixture(date = at) {
     liquidMinor: p("minorPerDollar"),
     source: { ...fixtureSource, asOf: date },
   };
-  const locality = lifePlaceByKey("4840342")!;
+  const locality = corePlaceByKey("4840342")!;
   const input: CoreInput = {
     seed: "bounded-historical-public-owner-fixture",
     startedAt: date,
@@ -250,7 +250,7 @@ describe("actual observed county identity projected once at opening", () => {
   });
 
   it("rejects a wrong canonical jurisdiction and a renamed workplace", () => {
-    const locality = lifePlaceByKey("4840342")!;
+    const locality = corePlaceByKey("4840342")!;
     expect(
       openingHistoricalCountyOwnerFacts({
         ...projectionInput(),
@@ -305,7 +305,7 @@ describe("represented county-to-place purchase coverage", () => {
 
   it("rejects a countyId whose purported home place is outside the recorded county relation", () => {
     const { organization, input } = fixture();
-    const outside = lifePlaceByKey("3200500")!;
+    const outside = corePlaceByKey("3200500")!;
     const result = openingHistoricalCountyPurchaseCoverage(organization, {
       ...input,
       people: input.people.map((person) => ({

@@ -3,7 +3,7 @@ import type {
   WorkPayrollCashReceipt,
   WorkPayrollGroupReceipt,
 } from "./work-payroll-cash";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import { FinancePlanningSession, FinanceReadGuard } from "./finance-plan";
 import { ensureFinanceCashModule } from "./finance-cash";

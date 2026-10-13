@@ -41,6 +41,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -54,7 +57,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -95,6 +99,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -108,7 +115,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "people-mind-v1:conflict": {
@@ -134,6 +142,8 @@
         "campaigns.retell",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -176,7 +186,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "people-mind-v1:deliberation": {
@@ -217,6 +228,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -231,7 +245,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -267,6 +282,7 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -276,7 +292,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ]
     },
     "people-mind-v1:reliability": {
@@ -310,6 +327,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -319,7 +339,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -346,6 +367,8 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -358,7 +381,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "people-mind-v1:risk": {
@@ -397,6 +421,9 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -406,7 +433,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -447,6 +475,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -458,7 +489,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "people-mind-v1:sociability": {
@@ -487,6 +519,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -499,7 +534,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -536,6 +572,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -549,7 +588,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:action-despite-fear": {
@@ -590,6 +630,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -602,7 +645,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -640,6 +684,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -654,7 +701,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -699,6 +747,7 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -710,7 +759,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -745,6 +795,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -754,7 +807,8 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -786,6 +840,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -797,7 +854,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -827,6 +885,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -870,6 +931,8 @@
         "campaigns.volunteer",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "constituent-cases.handle-case",
         "staff.follow-through",
@@ -877,7 +940,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -902,7 +966,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ]
     },
     "personality-v1:facet-affectionate": {
@@ -932,6 +997,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -944,7 +1012,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -979,6 +1048,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -991,7 +1063,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-ambitious": {
@@ -1026,6 +1099,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1038,7 +1114,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1077,6 +1154,9 @@
         "campaigns.volunteer",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -1087,7 +1167,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -1170,6 +1251,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -1177,7 +1261,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -1205,6 +1290,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1238,13 +1326,17 @@
         "campaigns.donate",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ]
     },
     "personality-v1:facet-arbitrary": {
@@ -1316,12 +1408,15 @@
         "ballot-measures.vote",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "news.pass-on"
+        "news.pass-on",
+        "school.attend"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -1344,6 +1439,7 @@
         "campaigns.volunteer",
         "campaigns.endorse",
         "campaigns.retell",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -1370,6 +1466,9 @@
         "campaigns.volunteer",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -1393,6 +1492,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -1417,6 +1517,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -1443,6 +1545,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -1466,6 +1569,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -1509,6 +1614,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1518,7 +1624,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1542,6 +1649,7 @@
         "recalls.organize",
         "campaigns.donate",
         "campaigns.endorse",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.budget-priorities",
@@ -1590,6 +1698,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1602,7 +1713,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1637,6 +1749,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1649,7 +1764,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-calm": {
@@ -1691,6 +1807,9 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -1705,7 +1824,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1777,6 +1897,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1789,7 +1912,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1816,6 +1940,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1826,7 +1953,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-closeness-seeking": {
@@ -1863,6 +1991,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1877,7 +2008,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1912,6 +2044,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1921,7 +2056,8 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -1959,6 +2095,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -1969,7 +2106,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2000,6 +2138,7 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.sign-or-veto",
@@ -2007,7 +2146,8 @@
         "world-legislating.bring-agenda",
         "constituent-cases.bring-case",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -2036,6 +2176,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2049,7 +2192,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2073,6 +2217,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2118,6 +2265,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2146,6 +2296,9 @@
         "campaigns.volunteer",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -2192,6 +2345,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2203,7 +2359,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2238,6 +2395,8 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -2273,7 +2432,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2332,6 +2492,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2381,6 +2544,9 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -2390,7 +2556,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -2416,7 +2583,8 @@
         "offices.accept-appointment",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2432,6 +2600,9 @@
         "campaigns.open-door",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -2466,6 +2637,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2478,7 +2652,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2506,6 +2681,7 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -2514,7 +2690,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "press.follow-news"
+        "press.follow-news",
+        "school.attend"
       ]
     },
     "personality-v1:facet-defensive": {
@@ -2588,6 +2765,9 @@
         "campaigns.volunteer",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -2595,7 +2775,8 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2649,6 +2830,7 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2660,7 +2842,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2695,6 +2878,8 @@
         "recalls.vote",
         "campaigns.volunteer",
         "campaigns.donate",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
@@ -2702,7 +2887,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-dramatic": {
@@ -2729,6 +2915,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2776,6 +2965,9 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -2819,13 +3011,15 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "staff.follow-through",
         "news.pass-on",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2878,6 +3072,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2892,7 +3089,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2929,6 +3127,9 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -2938,7 +3139,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -2967,6 +3169,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -2977,7 +3180,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2999,13 +3203,17 @@
         "campaigns.donate",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ]
     },
     "personality-v1:facet-envious": {
@@ -3034,6 +3242,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.hold-hearing",
@@ -3046,7 +3257,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3081,6 +3293,8 @@
         "elections.sign-petition",
         "campaigns.volunteer",
         "campaigns.donate",
+        "parties.attend",
+        "staff.hire",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -3127,6 +3341,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -3180,6 +3397,8 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -3224,7 +3443,8 @@
         "world-legislating.bring-agenda",
         "staff.follow-through",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3279,6 +3499,7 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -3286,7 +3507,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "news.pass-on",
-        "press.follow-news"
+        "press.follow-news",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3322,6 +3544,7 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -3329,7 +3552,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "news.pass-on",
-        "press.follow-news"
+        "press.follow-news",
+        "school.attend"
       ]
     },
     "personality-v1:facet-forgiving": {
@@ -3350,6 +3574,9 @@
         "campaigns.open-door",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -3399,6 +3626,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -3440,6 +3670,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -3454,7 +3687,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-generous": {
@@ -3478,6 +3712,9 @@
         "campaigns.open-door",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -3485,7 +3722,8 @@
         "legislature.sign-or-veto",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3518,6 +3756,8 @@
         "elections.sign-petition",
         "campaigns.volunteer",
         "campaigns.donate",
+        "parties.attend",
+        "staff.hire",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -3527,7 +3767,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-gentle": {
@@ -3617,6 +3858,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -3627,7 +3871,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3651,6 +3896,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -3684,6 +3932,9 @@
         "campaigns.open-door",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -3708,6 +3959,9 @@
         "campaigns.open-door",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -3740,6 +3994,7 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -3808,6 +4063,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "parties.join",
+        "staff.hire",
         "interest-groups.lobbyist",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -3817,7 +4073,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3842,6 +4099,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -3850,7 +4108,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-imaginative": {
@@ -3881,6 +4140,8 @@
         "ballot-measures.vote",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
@@ -3923,6 +4184,9 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -3932,7 +4196,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-independent": {
@@ -3970,13 +4235,17 @@
         "campaigns.donate",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3993,6 +4262,9 @@
         "campaigns.donate",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -4019,6 +4291,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "constituent-cases.bring-case",
@@ -4026,7 +4299,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4059,12 +4333,15 @@
         "ballot-measures.vote",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "news.pass-on"
+        "news.pass-on",
+        "school.attend"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -4109,6 +4386,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4123,7 +4403,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4156,6 +4437,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4169,7 +4453,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-inventive": {
@@ -4206,6 +4491,8 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -4247,12 +4534,15 @@
         "ballot-measures.vote",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "news.pass-on"
+        "news.pass-on",
+        "school.attend"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -4289,6 +4579,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4300,7 +4593,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4336,6 +4630,7 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -4344,7 +4639,8 @@
         "world-legislating.bring-agenda",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ]
     },
     "personality-v1:facet-manipulative": {
@@ -4372,6 +4668,7 @@
         "campaigns.endorse",
         "campaigns.open-door",
         "campaigns.retell",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "constituent-cases.bring-case",
@@ -4379,7 +4676,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4399,7 +4697,8 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-mediating": {
@@ -4425,6 +4724,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4465,6 +4767,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4475,7 +4780,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-meticulous": {
@@ -4506,13 +4812,17 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4539,7 +4849,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-mischievous": {
@@ -4582,7 +4893,8 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4615,12 +4927,15 @@
         "ballot-measures.vote",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "news.pass-on"
+        "news.pass-on",
+        "school.attend"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -4657,6 +4972,7 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4695,6 +5011,8 @@
         "ballot-measures.vote",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
@@ -4729,6 +5047,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4742,7 +5063,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -4766,6 +5088,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4802,6 +5127,9 @@
         "campaigns.donate",
         "campaigns.endorse",
         "campaigns.open-door",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -4844,6 +5172,9 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -4853,7 +5184,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -4891,6 +5223,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -4942,6 +5277,8 @@
         "elections.sign-petition",
         "campaigns.volunteer",
         "campaigns.answer-poll",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -4988,6 +5325,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5000,7 +5340,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5037,6 +5378,9 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -5046,7 +5390,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -5085,6 +5430,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5094,7 +5442,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5124,6 +5473,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5135,7 +5487,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-philanthropic": {
@@ -5162,6 +5515,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5173,7 +5529,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5206,6 +5563,8 @@
         "elections.sign-petition",
         "campaigns.volunteer",
         "campaigns.donate",
+        "parties.attend",
+        "staff.hire",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -5215,7 +5574,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-polite": {
@@ -5237,6 +5597,9 @@
         "campaigns.volunteer",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
@@ -5244,7 +5607,8 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5264,7 +5628,8 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-practical": {
@@ -5298,6 +5663,8 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
         "legislature.hold-hearing",
@@ -5343,13 +5710,15 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ]
     },
     "personality-v1:facet-proud": {
@@ -5372,6 +5741,7 @@
         "campaigns.volunteer",
         "campaigns.endorse",
         "campaigns.retell",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -5402,6 +5772,8 @@
         "campaigns.volunteer",
         "campaigns.endorse",
         "campaigns.retell",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -5451,6 +5823,7 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5460,7 +5833,8 @@
         "constituent-cases.bring-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5496,6 +5870,7 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.budget-priorities",
@@ -5503,7 +5878,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "news.pass-on",
-        "press.follow-news"
+        "press.follow-news",
+        "school.attend"
       ]
     },
     "personality-v1:facet-sassy": {
@@ -5523,6 +5899,7 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -5546,6 +5923,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -5590,6 +5969,7 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5603,7 +5983,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5637,6 +6018,7 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5670,7 +6052,8 @@
         "offices.accept-appointment",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5727,6 +6110,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5737,7 +6123,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5762,6 +6149,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5773,7 +6163,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-shy": {
@@ -5808,6 +6199,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5821,7 +6215,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -5849,6 +6244,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -5859,7 +6257,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-sincere": {
@@ -5884,6 +6283,7 @@
         "campaigns.open-door",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "constituent-cases.bring-case",
@@ -5892,7 +6292,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "drives.respond",
@@ -5912,6 +6313,8 @@
         "campaigns.open-door",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "constituent-cases.bring-case",
@@ -5984,11 +6387,15 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -6025,6 +6432,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6037,7 +6447,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6065,6 +6476,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6075,7 +6489,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-smug": {
@@ -6111,6 +6526,9 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -6150,6 +6568,8 @@
         "recalls.organize",
         "recalls.sign",
         "recalls.vote",
+        "parties.attend",
+        "staff.hire",
         "legislature.member-position",
         "legislature.sign-or-veto",
         "legislature.budget-priorities",
@@ -6192,6 +6612,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6205,7 +6628,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6245,6 +6669,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6258,7 +6685,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-supportive": {
@@ -6287,6 +6715,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6300,7 +6731,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6324,6 +6756,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6367,6 +6802,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6377,7 +6814,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6394,6 +6832,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.sign-or-veto",
@@ -6437,6 +6877,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -6482,6 +6924,9 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -6547,7 +6992,8 @@
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ]
     },
     "personality-v1:facet-thrill-seeking": {
@@ -6590,6 +7036,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6602,7 +7051,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6639,6 +7089,9 @@
         "recalls.vote",
         "campaigns.donate",
         "campaigns.endorse",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -6648,7 +7101,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -6682,7 +7136,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6734,6 +7189,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6745,7 +7203,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6785,6 +7244,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6798,7 +7260,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:facet-zealous": {
@@ -6841,6 +7304,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6854,7 +7320,8 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -6890,6 +7357,9 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "offices.accept-appointment",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -6899,7 +7369,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:initial-trust": {
@@ -6925,6 +7396,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -6973,6 +7447,7 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -6982,7 +7457,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "school.attend"
       ]
     },
     "personality-v1:method-revision": {
@@ -7019,6 +7495,9 @@
         "campaigns.volunteer",
         "campaigns.answer-poll",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -7063,6 +7542,8 @@
         "elections.sign-petition",
         "campaigns.volunteer",
         "campaigns.answer-poll",
+        "parties.attend",
+        "staff.hire",
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
@@ -7100,6 +7581,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7149,6 +7633,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7160,7 +7647,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:patience": {
@@ -7202,6 +7690,9 @@
         "campaigns.endorse",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "offices.accept-appointment",
         "legislature.member-position",
@@ -7214,7 +7705,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -7249,6 +7741,9 @@
         "campaigns.donate",
         "campaigns.endorse",
         "campaigns.open-door",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "legislature.member-position",
@@ -7259,7 +7754,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:playful-manner": {
@@ -7300,6 +7796,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7345,6 +7844,8 @@
         "campaigns.volunteer",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
         "interest-groups.employer-join",
         "legislature.budget-priorities",
         "world-legislating.bring-agenda",
@@ -7352,7 +7853,8 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:self-confidence": {
@@ -7393,6 +7895,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7407,7 +7912,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -7448,6 +7954,9 @@
         "campaigns.answer-poll",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7462,7 +7971,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:truthfulness": {
@@ -7487,6 +7997,7 @@
         "campaigns.open-door",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "constituent-cases.bring-case",
@@ -7495,7 +8006,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -7514,6 +8026,8 @@
         "campaigns.endorse",
         "campaigns.retell",
         "campaigns.answer-poll",
+        "parties.attend",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "constituent-cases.bring-case",
@@ -7562,6 +8076,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7574,7 +8091,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -7609,6 +8127,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7622,7 +8143,8 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -7659,6 +8181,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7672,7 +8197,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ],
       "low": [
         "life.daily-act",
@@ -7713,6 +8239,9 @@
         "campaigns.open-door",
         "campaigns.rival-hours",
         "parties.join",
+        "parties.attend",
+        "staff.hire",
+        "interest-groups.member-join",
         "interest-groups.employer-join",
         "interest-groups.lobbyist",
         "offices.accept-appointment",
@@ -7727,7 +8256,8 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "school.attend"
       ]
     }
   }

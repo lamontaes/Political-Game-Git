@@ -2,8 +2,11 @@ import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
-import { collapseToTwoLevels } from "./residents";
+import { collapseToTwoLevels, fullPeople } from "./residents";
+import { representativeSample } from "./representative-sample";
+import { countedDrift } from "./modules/counted-drift";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
+import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
@@ -26,7 +29,11 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let collapsed: CoreInput;
   beforeAll(() => {
     full = generatedOpening(place);
-    collapsed = collapseToTwoLevels(full);
+    // The game's opening keeps a representative sample full too.
+    const keep = fullPeople(full);
+    collapsed = collapseToTwoLevels(full, {
+      keep: new Set([...keep, ...representativeSample(full, keep).personIds]),
+    });
     // The opening the game uses: counted households get light economy terms.
     two = generatedOpening(place, { twoLevel: true });
   }, 600_000);
@@ -99,14 +106,55 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       outside += row.netMinor;
     expect(closing).toBe(opening - outside);
     const counts = residentCounts(core);
+    // The counts change on the 1st (counted drift).
+    let drift = 0;
+    for (const row of countedDrift(core).values())
+      drift += row.births - row.deaths + row.movedIn - row.movedOut;
     expect(counts.reduce((n, row) => n + row.people, 0)).toBe(
-      full.people.length - two.people.length,
+      full.people.length - two.people.length + drift,
     );
     const sales = [...core.finance.businesses.values()].reduce(
       (n, row) => n + row.salesReceivedMinor,
       0,
     );
     expect(sales).toBeGreaterThan(0);
+  }, 300_000);
+
+  it("pays counted workers only for days worked since the opening", () => {
+    const start = two.startedAt;
+    const wages = two.residents!.flows.filter((row) => row.kind === "wages");
+    const early = wages.filter(
+      (row) => Object.keys(row.earnedDaysByDue ?? {}).length,
+    );
+    for (const row of wages) expect(row.firstAt >= start).toBe(true);
+    for (const row of early)
+      for (const [due, days] of Object.entries(row.earnedDaysByDue!)) {
+        expect(due >= start).toBe(true);
+        expect(days).toBeGreaterThanOrEqual(0);
+        expect(days).toBeLessThanOrEqual(31);
+      }
+    // A payday whose whole period came before the opening pays nothing.
+    const flow = early.find((row) =>
+      Object.values(row.earnedDaysByDue!).includes(0),
+    );
+    if (!flow) return;
+    const due = Object.entries(flow.earnedDaysByDue!).find(
+      ([, days]) => days === 0,
+    )![0];
+    const core = createLifeCore(two);
+    if (due <= start) {
+      // The opening day isn't run: that payday passes and the calendar holds.
+      const next = Object.keys(flow.earnedDaysByDue!)
+        .filter((date) => date > start)
+        .sort()[0];
+      if (next)
+        expect(residentsRuntime(core)!.flows.get(flow.id)!.nextAt).toBe(next);
+      return;
+    }
+    advanceCore(core, due);
+    const state = residentsRuntime(core)!.flows.get(flow.id)!;
+    expect(state.earnedDaysByDue?.[due]).toBeUndefined();
+    expect(state.arrearsMinor).toBe(0);
   }, 300_000);
 
   it("fills in a counted worker who matches the employer's books", () => {
@@ -398,7 +446,14 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const eligible = groups.reduce((n, row) => n + row.size, 0);
     expect(groups.every((row) => row.placeId === town)).toBe(true);
     expect(eligible).toBeLessThanOrEqual(adults);
-    expect(eligible).toBeGreaterThan(adults * 0.75);
+    // The town's own ACS citizen share of adults sets the floor.
+    const citizens = (
+      placeCitizenship.byPlace as unknown as Record<string, [number, number]>
+    )[two.placeMetadata!.placeKey!];
+    const floor = citizens
+      ? Math.min(0.75, (0.8 * citizens[0]) / citizens[1])
+      : 0.75;
+    expect(eligible).toBeGreaterThan(adults * floor);
     for (const row of groups) {
       expect(row.turnout).toBeGreaterThan(0);
       expect(row.turnout).toBeLessThanOrEqual(1);

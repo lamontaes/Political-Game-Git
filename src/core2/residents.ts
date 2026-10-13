@@ -10,7 +10,7 @@
  * purchases. The residents engine then moves that money through the one
  * balanced journal on recorded dates.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import {
   OUTSIDE_MARKET_KIND,
@@ -18,7 +18,12 @@ import {
 } from "./opening-outside-market";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import type { FinanceContractInput } from "./finance-types";
-import type { WorkPayrollCalendarInput } from "./work-pay-period";
+import { FinanceReadGuard } from "./finance-plan";
+import {
+  nextWorkPayrollPeriod,
+  workPayPeriodAtIndex,
+  type WorkPayrollCalendarInput,
+} from "./work-pay-period";
 import type {
   CoreInput,
   HouseholdInput,
@@ -32,6 +37,7 @@ import type {
   Source,
   WorkCommitmentInput,
 } from "./types";
+import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json" };
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -72,6 +78,11 @@ export interface ResidentFlowInput {
   /** Each counted job's pay per day; amount = round(sum × periodFactor). */
   perDayMinorByJob?: Readonly<Record<string, number>>;
   periodFactor?: number;
+  /**
+   * Wages: paydays at the opening whose period began before it pay only the
+   * days worked since the opening, as full workers' earned pay does.
+   */
+  earnedDaysByDue?: Readonly<Record<string, number>>;
   /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
   bufferDays?: number;
   outsideId?: string;
@@ -182,6 +193,15 @@ export function householdOutsideFlow(
     marketAdjusted: false,
     source,
   };
+}
+
+function daysBetweenInclusive(from: IsoDate, through: string): number {
+  return (
+    Math.round(
+      (Date.parse(`${through}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
+        86_400_000,
+    ) + 1
+  );
 }
 
 /** Who stays a full person: the circle, whole households, and public workers. */
@@ -348,9 +368,28 @@ export function collapseToTwoLevels(
       perDayMinorByJob: group.perDayByJob,
       source: group.source,
     };
-    const first = makeIsoDate(
-      calendar.firstPaydayAt < start ? start : calendar.firstPaydayAt,
-    );
+    // Paydays from the opening on: the first ones may cover days before it,
+    // which no one is owed in the game (full workers earn from attendance).
+    const reads = new FinanceReadGuard(),
+      units = { zero: 0, one: 1, monthsPerYear: MONTHS_PER_YEAR };
+    const earnedDaysByDue: Record<string, number> = {};
+    let period = nextWorkPayrollPeriod(reads, calendar, start, start, units);
+    const firstDue = makeIsoDate(period.dueAt);
+    while (period.fromAt < start) {
+      const from = period.fromAt < start ? start : period.fromAt;
+      earnedDaysByDue[period.dueAt] =
+        period.throughAt < from
+          ? 0
+          : daysBetweenInclusive(makeIsoDate(from), period.throughAt);
+      period = workPayPeriodAtIndex(
+        reads,
+        calendar,
+        period.index + 1,
+        start,
+        units,
+      );
+    }
+    const first = firstDue;
     if (calendar.periodDays) {
       flows.push({
         ...base,
@@ -359,6 +398,7 @@ export function collapseToTwoLevels(
         periodFactor: calendar.periodDays,
         firstAt: first,
         cadence: { kind: "days", every: calendar.periodDays },
+        earnedDaysByDue,
       });
     } else {
       const months = calendar.periodMonths ?? 1;
@@ -377,6 +417,7 @@ export function collapseToTwoLevels(
             (DAYS_PER_YEAR / MONTHS_PER_YEAR) * (months / days.length),
           firstAt: nextMonthDay(first, day),
           cadence: { kind: "months", every: months, day },
+          earnedDaysByDue,
         }),
       );
     }
@@ -662,7 +703,16 @@ export function collapseToTwoLevels(
   const annualWages = input.jobs
     .map((row) => row.wageDailyMinor * DAYS_PER_YEAR)
     .sort((a, b) => a - b);
-  const median = annualWages[Math.floor(annualWages.length / 2)] ?? 0;
+  // What the town's residents with earnings earn (ACS median earnings, the
+  // place's own where its sample is firm enough), else the town's median
+  // recorded wage. Many unplaced workers commute, so the town's own firms'
+  // pay isn't theirs.
+  const placeEarnings = (
+    PLACE_EARNINGS.byPlace as Readonly<Record<string, number>>
+  )[input.placeMetadata?.placeKey ?? ""];
+  const median = placeEarnings
+    ? placeEarnings * 100
+    : (annualWages[Math.floor(annualWages.length / 2)] ?? 0);
   const adults = (ids: Iterable<PersonId>) => {
     let n = 0;
     for (const id of ids) {
@@ -702,9 +752,10 @@ export function collapseToTwoLevels(
       source: {
         tag: "ESTIMATED",
         asOf: start,
-        citation:
-          "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
-        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model; stopgap SG-CORE-unplaced-workers-income.`,
+        citation: placeEarnings
+          ? `Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the place's median earnings. ${PLACE_EARNINGS.citation}`
+          : "Opening employment target (ACS county employed/civilian population by age, CPS where missing) less recorded jobs, at the town's median recorded wage (BLS OEWS-based job pay).",
+        estimatedFrom: `${Math.round(unplaced)} counted workers in industries or places the opening doesn't model, each earning $${Math.round(median / 100)} a year${placeEarnings ? " (the place's median earnings)" : " (the town's median recorded wage; no firm place estimate)"}; stopgap SG-CORE-unplaced-workers-income.`,
       },
     });
   }

@@ -1,5 +1,5 @@
 /** Explicit module-owned stop records. Queries invoke no module or numeric callback. */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import { assertFactoryCoreV1 } from "./state";
 import type { CoreState, CoreModule, Source } from "./types";

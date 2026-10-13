@@ -1,5 +1,5 @@
 /** Pure, finite procurement plans from already received sales; never a cash writer. */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { P } from "./parameters";
 import type { SalesReceiptBudgetAllocation } from "./finance-types";
 

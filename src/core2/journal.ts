@@ -1,5 +1,5 @@
 /** Pure CASH admission. Projection never mutates cash, accounts, receipts or IDs. */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { P } from "./parameters";
 import type { IsoDate, Source } from "./types";
 

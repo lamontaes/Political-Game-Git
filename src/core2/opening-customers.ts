@@ -1,13 +1,5 @@
-import {
-  defaultGeneratedHouseholdCatalogs,
-  defaultGeneratedHouseholdCalendarData,
-  generatedHouseholdSourceBasis,
-  compactGeneratedHouseholdSource,
-  mayCompactGeneratedHouseholdSources,
-  type GeneratedHouseholdSourceBasis,
-} from "./generated-household-source";
-import { addDays, isoDateFromParts, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { addDays, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import {
   OPENING_CUSTOMER_QUALIFICATION_PREFIX,
   openingCustomerQualificationKey,
@@ -19,10 +11,9 @@ import {
   type OpeningCustomerProviderQualification,
 } from "./opening-customer-qualification";
 export type { OpeningCustomerProviderQualification } from "./opening-customer-qualification";
-import type { LivingCostsRegion } from "../simulation/living-costs-data";
+import type { LivingCostsRegion } from "./reference/living-costs-data";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
 import financePolicyDataJson from "./data/finance.json" with { type: "json" };
-import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
 import {
   createOpeningCustomerGeographyProvider,
   type OpeningCustomerGeographyProvider,
@@ -31,21 +22,11 @@ import {
 } from "./opening-customer-geography";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import {
-  createOpeningPurchaseCalendar,
-  DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
-  type OpeningPurchaseCalendarChoice,
-} from "./opening-purchase-calendar";
-import {
   OPENING_COUNTY_BUYER_CLASSIFICATION,
   openingHistoricalCountyPurchaseCoverage,
 } from "./opening-public-owner";
 import customerDataJson from "./data/opening-customers.json" with { type: "json" };
-import type {
-  CoreInput,
-  OrganizationInput,
-  PersonInput,
-  Source,
-} from "./types";
+import type { CoreInput, OrganizationInput, Source } from "./types";
 
 interface HouseholdService {
   key: string;
@@ -368,11 +349,6 @@ export function buildOpeningCustomers(
 ): { input: CoreInput; receipt: OpeningCustomerBuildReceipt } {
   const data = options.data ?? DEFAULT_OPENING_CUSTOMER_DATA;
   const registry = options.parameters ?? DEFAULT_OPENING_CUSTOMER_PARAMETERS;
-  const compactDefaultHouseholdSources =
-    defaultGeneratedHouseholdCatalogs("service", data, registry) &&
-    defaultGeneratedHouseholdCalendarData(
-      DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
-    );
   const usedParameters = new Set<string>();
   const p = (key: string) => {
     const value = parameter(key, registry);
@@ -669,50 +645,6 @@ export function buildOpeningCustomers(
     contract.kind === data.outsideHouseholds.contractKind
       ? savedGeneratedVisitorIds.has(contract.id)
       : contract.id.startsWith(ownedPrefix);
-  // Build one calendar from the actual owned work/income and original terms.
-  // A rebuilding producer does not treat its own generated component as a
-  // newly observed payment or expense calendar.
-  const calendarHouseholdIds = new Set(
-    input.households
-      .filter((household) =>
-        household.memberIds.some((id) => {
-          const person = people.get(id);
-          return (
-            person &&
-            person.livingCostDailyMinor > zero &&
-            makeIsoDate(person.birthDate) <= priorAt
-          );
-        }),
-      )
-      .map((household) => household.id),
-  );
-  const calendarPeople = input.people.filter((person) =>
-    calendarHouseholdIds.has(person.householdId),
-  );
-  const calendarPersonIds = new Set(calendarPeople.map((person) => person.id));
-  const purchaseCalendar = createOpeningPurchaseCalendar(
-    {
-      ...input,
-      households: input.households.filter((household) =>
-        calendarHouseholdIds.has(household.id),
-      ),
-      people: calendarPeople,
-      workCommitments: input.workCommitments?.filter((row) =>
-        calendarPersonIds.has(row.personId),
-      ),
-    },
-    originalContracts.filter(
-      (contract) =>
-        !owned(contract) &&
-        (contract.householdId
-          ? calendarHouseholdIds.has(contract.householdId)
-          : contract.recipientIncome
-            ? calendarHouseholdIds.has(contract.recipientIncome.householdId)
-            : false),
-    ),
-    DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
-    registry,
-  );
   const existingOriginalCashMinor = sum(
     [
       ...input.people.map((person) => person.liquidMinor),
@@ -1258,12 +1190,13 @@ export function buildOpeningCustomers(
         asOf: at,
         citation,
         estimatedFrom:
-          "Counted household (two-level population): the same CEX budget and equal seller shares as a simulated household, without per-household evidence; merged into the residents' purchase flows.",
+          "The household's share of the BLS Consumer Expenditure Survey budget for this service, in equal shares at the town's sellers of it; part of its everyday living (cost-of-living.ts), or of the residents' purchase flows for a counted household.",
       };
       countedSources.set(citation, source);
     }
     return source;
   };
+  const householdContractIds = new Set<string>();
   const appendContract = (contract: OpeningCustomerContract) => {
     const existing = contractById.get(contract.id);
     if (existing) {
@@ -1347,8 +1280,6 @@ export function buildOpeningCustomers(
     externalInflow?: CustomerExternalInflow;
     firstDueAt?: string;
     firstDueSource?: Source;
-    householdCalendar?: OpeningPurchaseCalendarChoice;
-    generatedSourceBasis?: GeneratedHouseholdSourceBasis;
   }) => {
     const calendar = agreementCalendar(
       args.agreementId,
@@ -1379,35 +1310,7 @@ export function buildOpeningCustomers(
         .filter(Boolean)
         .join(" "),
     };
-    // Generated household Sources and markers are reconstructed independently
-    // from actual current calendar inputs, never from the saved marker Source.
-    const source: Source =
-      args.generatedSourceBasis &&
-      args.householdCalendar &&
-      !calendar.actualSuppliedDate &&
-      !end.endsAt &&
-      mayCompactGeneratedHouseholdSources(
-        args.sellerRows.map(
-          (seller) =>
-            contractById.get(`${args.agreementId}:contract:${seller.id}`)
-              ?.source,
-        ),
-      )
-        ? compactGeneratedHouseholdSource(
-            args.generatedSourceBasis,
-            at,
-            fullSource.generationPriorVintage,
-          )
-        : compactDefaultHouseholdSources &&
-            args.householdCalendar &&
-            !calendar.actualSuppliedDate &&
-            !end.endsAt
-          ? {
-              ...fullSource,
-              citation: `${args.source.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
-              estimatedFrom: `${args.source.estimatedFrom} Calendar marker ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.recurringHouseholdDueRule}; household ${args.householdId}; basis ${canonical(args.householdCalendar.basisIds)}; result ${calendar.firstDueAt}. ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.stopgapId}`,
-            }
-          : fullSource;
+    const source = fullSource;
     const contractAmountsMinor: Record<string, number> = {};
     const contractSourceMap: Record<string, Source> = {};
     const contractTermsById: Record<
@@ -1498,17 +1401,6 @@ export function buildOpeningCustomers(
           citation: `${source.citation} Prior agreement ${args.agreementId}; seller ${share.id}.`,
         },
       };
-      if (
-        args.householdId &&
-        args.householdCalendar &&
-        !calendar.actualSuppliedDate
-      )
-        contract.householdPurchaseCalendar =
-          createHouseholdPurchaseCalendarMarker(
-            args.householdId,
-            args.householdCalendar,
-            DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
-          );
       if (args.externalInflow)
         contract.externalInflow = {
           ...args.externalInflow,
@@ -1577,45 +1469,6 @@ export function buildOpeningCustomers(
   ) => ({
     providerQualifications: canonical(rows),
   });
-  const appendPast = (
-    personId: string,
-    record: OpeningCustomerEvidenceRecord,
-  ) => {
-    const person = people.get(personId)!;
-    if (makeIsoDate(person.birthDate) > makeIsoDate(record.occurredAt))
-      throw new Error(`Customer agreement predates subject: ${record.id}`);
-    const fact: NonNullable<PersonInput["pastFacts"]>[number] = {
-      id: record.id,
-      date: record.occurredAt,
-      kind: record.kind,
-      summary:
-        "An opening service-purchase budget was recorded with named counterparties.",
-      source: record.source,
-      facts: {
-        ...record.facts,
-        subjectIds: canonical(record.subjectIds),
-        counterpartyIds: canonical(record.counterpartyIds),
-        placeId: record.placeId,
-        basisRecordIds: canonical(record.basisRecordIds),
-      },
-    };
-    const matching =
-      person.pastFacts?.filter((row) => row.id === fact.id) ?? [];
-    if (matching.length > one)
-      throw new Error(`Duplicate opening customer past fact: ${fact.id}`);
-    const prior = matching[zero];
-    if (prior) {
-      if (canonical(prior) !== canonical(fact))
-        throw new Error(`Conflicting opening customer past fact: ${fact.id}`);
-      return;
-    }
-    people.set(personId, {
-      ...person,
-      pastFacts: [...(person.pastFacts ?? []), fact],
-    });
-    newPastFactIds.push(fact.id);
-    evidence.push(record);
-  };
   const householdTerms = new Map<string, FinanceContractInput[]>();
   for (const contract of originalContracts) {
     if (!contract.householdId) continue;
@@ -1645,8 +1498,6 @@ export function buildOpeningCustomers(
       );
       continue;
     }
-    const householdCalendar = purchaseCalendar.household(household);
-    for (const gap of householdCalendar.gaps) gaps.add(gap);
     const priorTerms = householdTerms.get(household.id) ?? [];
     const existingOtherMonthly = priorTerms
       .filter((row) => !owned(row))
@@ -1724,7 +1575,6 @@ export function buildOpeningCustomers(
       needs.map((row) => ({ id: row.service.key, weight: row.monthly })),
     );
     let bound = zero;
-    const counted = options.countedHouseholdIds?.has(household.id) === true;
     for (const allocation of allocations) {
       if (allocation.amount <= zero) continue;
       const need = needs.find((row) => row.service.key === allocation.id)!;
@@ -1742,102 +1592,31 @@ export function buildOpeningCustomers(
         continue;
       }
       const agreementId = `${ownedPrefix}household:${household.id}:${service.key}`;
-      if (counted) {
-        // Same equal seller shares as bindBudget, as light counted terms.
-        for (const share of apportion(
-          allocation.amount,
-          sellerRows.map((row) => ({ id: row.id, weight: one })),
-        )) {
-          if (share.amount <= zero) continue;
-          contracts.push({
-            id: `${agreementId}:contract:${share.id}`,
-            householdId: household.id,
-            payerIds: payers.map((person) => person.id),
-            payeeId: share.id,
-            kind: service.contractKind,
-            amountMinor: share.amount * periodMonths,
-            dueAt: householdCalendar.dueAt,
-            periodMonths,
-            accruesArrears: false,
-            marketAdjusted: false,
-            salesReceipt: true,
-            salesReceiptBudget: false,
-            settlementPhaseId: data.settlementPhaseIds.householdPurchases,
-            source: countedSource(service.citation),
-          });
-        }
-        bound += allocation.amount;
-        continue;
-      }
-      let source = generatedSource(
-        service.citation,
-        `${service.label} CEX component with ${sizeKey}/${region} parent scaling, original household envelope cap, and equal recorded opening vendor shares. ${service.stopgapId}`,
-      );
-      const boundTerms = bindBudget({
-        buyerIds: payers.map((person) => person.id),
-        householdId: household.id,
-        sellerRows,
-        budgetMonthlyMinor: allocation.amount,
-        kind: service.contractKind,
-        serviceKey: service.key,
-        agreementId,
-        source,
-        parameterRefs: need.refs,
-        phase: data.settlementPhaseIds.householdPurchases,
-        firstDueAt: householdCalendar.dueAt,
-        firstDueSource: householdCalendar.source,
-        householdCalendar,
-        ...(compactDefaultHouseholdSources
-          ? {
-              generatedSourceBasis: generatedHouseholdSourceBasis({
-                domain: "service",
-                household,
-                key: service.key,
-                region,
-                sizeColumn: sizeKey,
-                parameterRefs: need.refs,
-                calendarDueAt: householdCalendar.dueAt,
-                calendarBasisIds: householdCalendar.basisIds,
-                missingIncome: householdCalendar.gaps.includes(
-                  `${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.missingIncomeGap}:${household.id}`,
-                ),
-              }),
-            }
-          : {}),
-      });
-      source = boundTerms.source;
-      const record: OpeningCustomerEvidenceRecord = {
-        id: agreementId,
-        kind: "household-service-agreement",
-        occurredAt: at,
-        subjectIds: payers.map((person) => person.id),
-        counterpartyIds: qualificationSellerIds(boundTerms.qualifications),
-        placeId: household.placeId,
-        basisRecordIds: [
-          household.id,
-          ...boundTerms.calendarBasisIds,
-          ...householdCalendar.basisIds,
-          ...need.refs,
-          ...qualificationBasisIds(boundTerms.qualifications),
-        ],
-        facts: {
-          ...qualificationFacts(boundTerms.qualifications),
+      // Equal seller shares, one monthly amount each; the core folds a
+      // household's purchases into its everyday living (cost-of-living.ts).
+      for (const share of apportion(
+        allocation.amount,
+        sellerRows.map((row) => ({ id: row.id, weight: one })),
+      )) {
+        if (share.amount <= zero) continue;
+        householdContractIds.add(`${agreementId}:contract:${share.id}`);
+        appendContract({
+          id: `${agreementId}:contract:${share.id}`,
           householdId: household.id,
-          serviceKey: service.key,
-          monthlyBudgetMinor: String(allocation.amount),
-          supplierIds: canonical(
-            qualificationSellerIds(boundTerms.qualifications),
-          ),
-          contractIds: canonical(boundTerms.contractIds),
-          contractAmountsMinor: canonical(boundTerms.contractAmountsMinor),
-          periodMonths: String(periodMonths),
-          effectiveFrom: boundTerms.firstDueAt,
-          ...boundTerms.end,
-          status: "fictional-recorded-opening-budget-not-delivery",
-        },
-        source,
-      };
-      appendPast(payers[zero]!.id, record);
+          payerIds: payers.map((person) => person.id),
+          payeeId: share.id,
+          kind: service.contractKind,
+          amountMinor: share.amount * periodMonths,
+          dueAt,
+          periodMonths,
+          accruesArrears: false,
+          marketAdjusted: false,
+          salesReceipt: true,
+          salesReceiptBudget: false,
+          settlementPhaseId: data.settlementPhaseIds.householdPurchases,
+          source: countedSource(service.citation),
+        });
+      }
       bound += allocation.amount;
     }
     householdBudgets.push({
@@ -2823,9 +2602,10 @@ export function buildOpeningCustomers(
       gaps.add(
         `opening-customers:no-source-qualified-outside-visit-market:${placeId}`,
       );
-  const resolvedBuilderContracts = new Set(
-    plans.map((plan) => plan.contractId),
-  );
+  const resolvedBuilderContracts = new Set([
+    ...plans.map((plan) => plan.contractId),
+    ...householdContractIds,
+  ]);
   for (const contract of originalContracts)
     if (owned(contract) && !resolvedBuilderContracts.has(contract.id))
       throw new Error(

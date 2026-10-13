@@ -7,7 +7,7 @@ import {
   type OpeningIncomeOptions,
 } from "./opening-income";
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
