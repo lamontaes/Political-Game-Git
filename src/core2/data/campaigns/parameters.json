@@ -463,12 +463,6 @@
       "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
       "spread": [0.05, 0.2]
     },
-    "presidentialIncumbentPartyShift": {
-      "value": 0.01,
-      "tag": "TUNABLE",
-      "source": "How far the party holding the presidency loses two-party share in a presidential year with no economy or record read yet (the 'time for change' term in Abramowitz's model, about 1 to 2 points after two terms); replaced once WORLD's economy and the president's record feed the race.",
-      "spread": [0, 0.03]
-    },
     "primaryTurnoutCost": {
       "value": 1.4,
       "tag": "TUNABLE",

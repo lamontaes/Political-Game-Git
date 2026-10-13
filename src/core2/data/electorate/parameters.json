@@ -1,0 +1,170 @@
+{
+  "about": "The simulated electorate: voters the world doesn't name, counted in blocks (each county's 2024 presidential voters, Alaska by state house district and D.C. by ward; one block per U.S. House district; one per state legislative district), split into the seven party-identification groups of the American National Election Studies. Each group turns out and chooses from its own inputs. Read by src/core2/electorate-blocks.ts. Every number is tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Vote effects are in shares of the two-party vote in an evenly split electorate; the engine converts them to the groups' own scale.",
+  "groups": {
+    "about": "The seven ANES party-identification groups among voters, from most Democratic to most Republican. shareOfVoters is each group's share of presidential voters nationally; loyalty is the share of the group's two-party vote that goes to its own party's presidential nominee (the pure independents' is the Republican share); turnout is the share of the group's eligible citizens who vote in a presidential year, which sets how far the group's turnout moves when the costs of voting change.",
+    "tag": "ESTIMATED",
+    "source": "American National Election Studies 2020 Time Series and Cumulative Data File: party identification of voters (strong, not very strong and leaning partisans, pure independents) and the presidential vote by group. Loyalty: strong partisans backed their party's nominee 95 to 99%, not very strong 75 to 88% and leaners 78 to 89% in 2008 to 2016 (ANES, as summarized by Old North State Politics, Feb. 2018), rising since with polarization; Pew Research Center's validated voters 2024 (June 26, 2025): independents and leaners split 48% to 48%. Turnout: ANES validated and self-reported turnout by strength of party identification; pure independents vote least.",
+    "spread": "shares within 3 points; loyalty within 5 points; turnout within 10 points",
+    "rows": [
+      {
+        "id": "strong-democrat",
+        "side": -1,
+        "shareOfVoters": 0.25,
+        "loyalty": 0.97,
+        "turnout": 0.85
+      },
+      {
+        "id": "weak-democrat",
+        "side": -1,
+        "shareOfVoters": 0.12,
+        "loyalty": 0.86,
+        "turnout": 0.68
+      },
+      {
+        "id": "leaning-democrat",
+        "side": -1,
+        "shareOfVoters": 0.12,
+        "loyalty": 0.88,
+        "turnout": 0.66
+      },
+      {
+        "id": "independent",
+        "side": 0,
+        "shareOfVoters": 0.08,
+        "loyalty": 0.5,
+        "turnout": 0.45
+      },
+      {
+        "id": "leaning-republican",
+        "side": 1,
+        "shareOfVoters": 0.11,
+        "loyalty": 0.88,
+        "turnout": 0.66
+      },
+      {
+        "id": "weak-republican",
+        "side": 1,
+        "shareOfVoters": 0.1,
+        "loyalty": 0.86,
+        "turnout": 0.68
+      },
+      {
+        "id": "strong-republican",
+        "side": 1,
+        "shareOfVoters": 0.22,
+        "loyalty": 0.97,
+        "turnout": 0.85
+      }
+    ]
+  },
+  "typicalSpendPerVoteMinor": {
+    "about": "What one major-party candidate typically spends in a general election, per two-party vote cast in the race, by office family, in cents. A candidate the world records no campaign for spends this; a recorded campaign spends what its books show.",
+    "tag": "ESTIMATED",
+    "source": "OpenSecrets, Cost of Election and race totals, 2022 and 2024: the average major-party House general-election candidate spends about $1 to $2 million in a district of about 300,000 two-party votes; Senate and governor candidates about $10 to $30 million in states of 2 to 6 million votes; each 2024 presidential campaign about $1.5 billion of about 152 million two-party votes. National Institute on Money in Politics (FollowTheMoney), state legislative candidates 2022: about $50,000 to $250,000 per candidate in districts of 20,000 to 100,000 votes.",
+    "spread": "half to twice each value",
+    "byFamily": {
+      "usHouse": 500,
+      "statewideExecutive": 500,
+      "president": 1000,
+      "stateLegislative": 250
+    }
+  },
+  "parameters": {
+    "experiencedCandidateShare": {
+      "value": 0.03,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share a non-incumbent who has held elected office gains over a political amateur: about 3 points in House races (Jacobson and Carson, The Politics of Congressional Elections, 2020 edition; Carson, Engstrom and Roberts, American Political Science Review, 2007).",
+      "spread": [0.015, 0.05]
+    },
+    "scandalShare": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share a candidate tainted by a public scandal loses: incumbents who stood again lost about 5 points on average, more for corruption and with a strong challenger (Basinger, Political Research Quarterly, 2013; Praino, Stockemer and Moscardelli, Social Science Quarterly, 2013).",
+      "spread": [0.03, 0.08]
+    },
+    "spendingSharePerLogUnit": {
+      "value": 0.015,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share a candidate gains per natural-log unit of their own spending against the typical: Jacobson's House models put challenger spending in logs with about 2 to 4 points per log unit, incumbents' less; Sides, Vavreck and Warshaw (American Political Science Review, 2022) find television advertising advantages move a few tenths of a point in presidential races and more down the ballot.",
+      "spread": [0.005, 0.04]
+    },
+    "spendingFloorShareOfTypical": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Coverage, a party label and the ballot itself reach voters even for a candidate who spends nothing, so spending counts from a floor of this share of the typical race's spending. Checked against Jacobson's finding that challengers spending almost nothing still win about a third of the two-party vote in districts their party could compete in.",
+      "spread": [0.01, 0.2]
+    },
+    "unemploymentShare": {
+      "value": 0.008,
+      "tag": "ESTIMATED",
+      "source": "The two-party share the president's party loses per point the national unemployment rate rose since the opening: about 0.5 to 1.5 points (Kramer, American Political Science Review, 1971; Lewis-Beck and Stegmaier, Annual Review of Political Science, 2000).",
+      "spread": [0.003, 0.015]
+    },
+    "inflationShare": {
+      "value": 0.0072,
+      "tag": "ESTIMATED",
+      "source": "The two-party share the president's party loses per point of annual inflation above the opening's: 0.72 points in Fair's presidential vote equation (Fair, Predicting Presidential Elections and Other Things, 2020 update).",
+      "spread": [0.003, 0.01]
+    },
+    "downBallotNationalShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "The share of the national economy's pull on the president's party that reaches state offices: state legislative and governor elections follow the national tide (Rogers, American Political Science Review, 2016) while governors are also judged on their state (Carsey and Wright, American Journal of Political Science, 1998). Checked against a quarter to the whole.",
+      "spread": [0.25, 1]
+    },
+    "localUnemploymentShare": {
+      "value": 0.003,
+      "tag": "ESTIMATED",
+      "source": "The two-party share the seat's incumbent party loses in the town's own county per point the town's unemployment rose: local conditions move votes far less than national ones (Healy and Lenz, Journal of Politics, 2017).",
+      "spread": [0, 0.008]
+    },
+    "localCrimeShare": {
+      "value": 0.002,
+      "tag": "TUNABLE",
+      "source": "The two-party share the seat's incumbent party loses in the town's own county per tenth that the town's recorded crime rose above its base: small next to party and the economy (Baumer and Wolff, Public Opinion Quarterly, 2014, on crime salience). Checked against zero to half a point.",
+      "spread": [0, 0.005]
+    },
+    "recordShareWeight": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "The two-party share an officeholder's recorded votes move per unit of the record's appeal (the same appeal named voters weigh, src/core2/modules/record.ts), weighed at the race's own lean. Checked against roll-call ideology costing incumbents about 1 to 4 points when they vote against their district (Canes-Wrone, Brady and Cogan, American Political Science Review, 2002).",
+      "spread": [0, 0.05]
+    },
+    "lawTurnoutPerCost": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How a change in the election laws' turnout cost (src/core2/data/laws/reach-group-a-parameters.json, whose rows are sized in turnout points from GAO-15-19, Grumbach and Hill 2022, Gerber, Huber and Hill 2013 and others) moves an average block's turnout share; lower-turnout groups move more.",
+      "spread": [0.5, 1.5]
+    },
+    "calibrationBound": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "source": "How far, in standard units of party identification, a block's center may sit from the nation's while it is fit to its 2024 vote; past it the block's groups shift as a whole. Checked against every county's 2024 two-party share being reached within 0.001.",
+      "spread": [4, 8]
+    },
+    "calibrationSteps": {
+      "value": 50,
+      "tag": "TUNABLE",
+      "source": "Halvings of the search that fits each block to its 2024 vote; 50 reaches the vote within far less than one voter in every county.",
+      "spread": [30, 60]
+    },
+    "typicalVoterAgeYears": {
+      "value": 48,
+      "tag": "ESTIMATED",
+      "source": "The age of the typical eligible voter, at which the election laws' cost is read for a block: the median age of adult citizens is about 48 (U.S. Census Bureau, American Community Survey 2023, citizen voting-age population by age).",
+      "spread": [46, 50]
+    },
+    "typicalWeeklyWorkMinutes": {
+      "value": 1400,
+      "tag": "ESTIMATED",
+      "source": "The scheduled weekly work of the typical adult, at which the election laws' cost is read for a block: about 60% of adults are employed (BLS, Current Population Survey 2024 employment-population ratio) at about 39 hours a week, about 23 hours across all adults.",
+      "spread": [1200, 1600]
+    },
+    "crimeChangeUnit": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The rise in the town's recorded crime above its base (a share) that localCrimeShare is stated per: a tenth.",
+      "spread": [0.1, 0.1]
+    }
+  }
+}
