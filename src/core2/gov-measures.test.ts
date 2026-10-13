@@ -77,6 +77,18 @@ describe("GOV measures for the outcome web", () => {
       expect(vote).toBeGreaterThanOrEqual(0);
       expect(vote).toBeLessThanOrEqual(1);
     }
+    // Shares lie between 0 and 1; the minimum wage reads in dollars.
+    for (const m of [
+      "voting.youth-turnout",
+      "voting.party-share",
+      "labor.minimum-wage-to-median",
+    ] as const)
+      if (read[m] !== null) {
+        expect(read[m]!, `${where} ${m}`).toBeGreaterThanOrEqual(0);
+        if (m !== "labor.minimum-wage-to-median")
+          expect(read[m]!, `${where} ${m}`).toBeLessThanOrEqual(1);
+      }
+    expect(read["labor.minimum-wage"], where).toBeGreaterThanOrEqual(7.25);
     const city = governments(api).find((g) => g.level === "city");
     if (city && budgetsOf(api, city.id).length) {
       const before = govMeasure(api, "budget.parks-added-pct");

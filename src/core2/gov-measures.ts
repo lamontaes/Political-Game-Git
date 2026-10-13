@@ -15,9 +15,16 @@
  *   latest decided local race (0 to 1).
  * - `budget.parks-added-pct`: the city's parks line above its Census base this
  *   fiscal year, in percent.
+ * - `labor.minimum-wage`: the governing minimum wage, dollars an hour.
+ * - `labor.minimum-wage-to-median`: that wage over the median hourly pay of
+ *   the town's current jobs (0 to about 1).
+ * - `voting.youth-turnout`: the share of the town's named 18- to 24-year-old
+ *   eligible voters who voted in its latest decided race (0 to 1).
+ * - `voting.party-share`: the Democratic share of the two-party vote in the
+ *   latest decided partisan race covering the town (0 to 1).
  */
 import type { CoreAPI, CoreState } from "./types";
-import { lawInForce } from "./modules/laws";
+import { lawChain, lawInForce } from "./modules/laws";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -40,6 +47,10 @@ export const GOV_MEASURES = [
   "election.incumbent-reelection",
   "voting.local-turnout",
   "budget.parks-added-pct",
+  "labor.minimum-wage",
+  "labor.minimum-wage-to-median",
+  "voting.youth-turnout",
+  "voting.party-share",
 ] as const;
 
 const daysBefore = (date: string, days: number) =>
@@ -159,6 +170,63 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
           .parks ?? 0) - (budgetPriorities(api, city.id)?.changes.parks ?? 0);
       const now = budget.spendingMinor.parks ?? 0;
       return base ? ((now - base) / base) * 100 : null;
+    }
+    case "labor.minimum-wage": {
+      const now = lawInForce(api, "minimum-wage", date).value;
+      return now === null ? null : now / 100;
+    }
+    case "labor.minimum-wage-to-median": {
+      const now = lawInForce(api, "minimum-wage", date).value;
+      const town = lawChain(api).townPlaceId;
+      const pay = [...api.state.jobs.values()]
+        .filter(
+          (j) =>
+            j.endsAt === undefined &&
+            (j.hourlyMinor ?? 0) > 0 &&
+            api.state.organizations.get(j.organizationId)?.placeId === town,
+        )
+        .map((j) => j.hourlyMinor!)
+        .sort((a, b) => a - b);
+      if (now === null || !pay.length) return null;
+      return now / pay[Math.floor(pay.length / 2)]!;
+    }
+    case "voting.youth-turnout": {
+      const race = decided(api)[0];
+      if (!race) return null;
+      const youth = (
+        api
+          .moduleState(VOTING_MODULE_ID)
+          .table("ballots")
+          .rows() as unknown as {
+          contestId: string;
+          voterId: string;
+          voted: boolean;
+        }[]
+      ).filter((b) => {
+        if (b.contestId !== race.contest.id) return false;
+        const p = api.state.people.get(b.voterId);
+        if (!p) return false;
+        const age =
+          Number(race.contest.electionDate.slice(0, 4)) -
+          Number(p.birthDate.slice(0, 4));
+        return age >= 18 && age <= 24;
+      });
+      return youth.length
+        ? youth.filter((b) => b.voted).length / youth.length
+        : null;
+    }
+    case "voting.party-share": {
+      for (const race of decided(api)) {
+        let dem = 0;
+        let rep = 0;
+        for (const f of ballot(api, race.contest.id)) {
+          const votes = race.result.totals[f.personId] ?? 0;
+          if (f.party === "Democratic") dem += votes;
+          if (f.party === "Republican") rep += votes;
+        }
+        if (dem > 0 && rep > 0) return dem / (dem + rep);
+      }
+      return null;
     }
     default:
       return null;
