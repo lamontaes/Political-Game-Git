@@ -410,7 +410,6 @@ async function renderGovernment(id) {
           contest.filingDeadline,
           contest.electionDate,
           filingOffice.filedWith,
-          filingOffice.signatures,
           checks
             .filter((check) => !check.met)
             .map(
@@ -436,17 +435,7 @@ async function renderGovernment(id) {
           filing.contestId,
           filing.filedWith,
           filing.status,
-          filing.signatureCount,
-        ],
-        button("Request signatures", async () => {
-          const rows = await request(
-            `/api/sign?${new URLSearchParams({ filingId: filing.id })}`,
-            { method: "POST" },
-          );
-          status.textContent = `Request signatures: ${rows.filter((r) => r.signed).length} / ${rows.length} signed.`;
-          await renderGovernment(id);
-        }),
-      ),
+        ]),
     ),
   );
 }

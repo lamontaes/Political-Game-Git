@@ -579,7 +579,6 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       filedWith: how,
       platform: [],
       party,
-      signatureCount: 0,
       status: "on-ballot",
     } as unknown as ModuleRow);
   };

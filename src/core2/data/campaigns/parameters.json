@@ -445,12 +445,6 @@
       "source": "Primary voters as a share of the same year's general-election voters: 2022 statewide primaries cast about 21% of registered voters' ballots against about 46% in November (Bipartisan Policy Center and U.S. Elections Project), so about 0.45.",
       "spread": [0.3, 0.6]
     },
-    "electionsSignKnownPull": {
-      "value": 1,
-      "tag": "TUNABLE",
-      "source": "A stranger's petition is signed when the person's trait lean toward signing (about -1 to 1) is above zero; knowing the candidate adds this much, so a known candidate gets the signature from nearly everyone (people sign for those they know; OPUS-TRAITS, Oct 12, 2026).",
-      "spread": [0.5, 1.5]
-    },
     "partiesJoinBase": {
       "value": 0.5,
       "tag": "TUNABLE",

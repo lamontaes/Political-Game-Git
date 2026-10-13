@@ -34,7 +34,6 @@ import {
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
 import {
-  askKnownPeopleToSign,
   fileForOffice,
   governmentView,
 } from "./government";
@@ -632,18 +631,6 @@ const server = createServer(async (request, response) => {
           requireCore(),
           player.personId,
           url.searchParams.get("contestId") ?? "",
-        ),
-      );
-      return;
-    }
-    if (request.method === "POST" && url.pathname === "/api/sign") {
-      if (!player?.personId) throw new Error("Choose a resident first.");
-      send(
-        200,
-        askKnownPeopleToSign(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("filingId") ?? "",
         ),
       );
       return;
