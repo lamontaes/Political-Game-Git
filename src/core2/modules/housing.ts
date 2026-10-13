@@ -56,7 +56,7 @@ import type {
   Source,
 } from "../types";
 
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 
@@ -604,12 +604,14 @@ function renew(api: CoreAPI): void {
         : 1;
     const marketRent =
       row.amountMinor * (level.hourlyEarnings / last.regionPay) * vacancyFactor;
-    const stabilization = c.modules.has(LAWS_MODULE_ID)
-      ? lawInForce(
-          api,
-          "us-policy-positions:housing-land-use.rent-stabilization",
-        )
-      : undefined;
+    const stabilization =
+      c.modules.has(LAWS_MODULE_ID) &&
+      household?.placeId === lawChain(api).townPlaceId
+        ? lawInForce(
+            api,
+            "us-policy-positions:housing-land-use.rent-stabilization",
+          )
+        : undefined;
     const rent = Math.round(
       stabilization?.value === 1
         ? Math.min(
@@ -1216,7 +1218,10 @@ function build(api: CoreAPI): void {
     if (!landlord.id.startsWith("organization:landlord:")) continue;
     const town = townFigures(api, landlord.placeId);
     if (!town.homeValueMinor || !town.rentMinor) continue;
-    if (c.modules.has(LAWS_MODULE_ID)) {
+    if (
+      c.modules.has(LAWS_MODULE_ID) &&
+      landlord.placeId === lawChain(api).townPlaceId
+    ) {
       const multifamily = lawInForce(
         api,
         "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
@@ -1359,12 +1364,13 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string): void {
   const c = core(api);
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
-  const right = c.modules.has(LAWS_MODULE_ID)
-    ? lawInForce(
-        api,
-        "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-      ).value === 1
-    : row?.inForce;
+  const right =
+    c.modules.has(LAWS_MODULE_ID) && placeId === lawChain(api).townPlaceId
+      ? lawInForce(
+          api,
+          "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+        ).value === 1
+      : row?.inForce;
   const fundedById =
     row?.fundedById ??
     (c.modules.has(BUDGETS_MODULE_ID)
@@ -1406,12 +1412,14 @@ function counselPlan(
   if (!household) return undefined;
   const counsel = store(api).table("counsel").get(household.placeId) as
     { inForce?: boolean } | undefined;
-  const right = c.modules.has(LAWS_MODULE_ID)
-    ? lawInForce(
-        api,
-        "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-      ).value === 1
-    : counsel?.inForce;
+  const right =
+    c.modules.has(LAWS_MODULE_ID) &&
+    household.placeId === lawChain(api).townPlaceId
+      ? lawInForce(
+          api,
+          "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+        ).value === 1
+      : counsel?.inForce;
   if (!right) return undefined;
   let daily = 0;
   for (const id of household.memberIds) {
