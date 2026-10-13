@@ -110,6 +110,20 @@ function stablePick(
   return sorted[hash % sorted.length]!;
 }
 
+/** Each campus's pictures by light and weather (midday, morning, night, rain, winter). */
+const BY_CAMPUS = new Map<string, Map<string, string>>();
+for (const record of manifest.campuses as readonly CampusRecord[]) {
+  const url = urls[`../../art/campuses/${record.file}`];
+  if (!url) continue;
+  const variants = BY_CAMPUS.get(record.campus) ?? new Map<string, string>();
+  variants.set(record.variant, url);
+  BY_CAMPUS.set(record.campus, variants);
+}
+
+export function campusVariantUrls(campus: string): ReadonlyMap<string, string> {
+  return BY_CAMPUS.get(campus) ?? new Map();
+}
+
 export function campusRecords(): readonly CampusRecord[] {
   return MIDDAY;
 }
