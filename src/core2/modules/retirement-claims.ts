@@ -13,6 +13,7 @@ import fundingData from "../data/opening-income-funding.json" with { type: "json
 import { retirementClaimAgeMonths } from "../retirement-claim";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { decisionLean } from "../trait-decisions";
+import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { residentPerson, residentsRuntime } from "./residents";
 import type {
   CoreAPI,
@@ -82,9 +83,15 @@ interface Claimant {
 function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   const p = (key: string) => api.parameter(key);
   const cost = person.livingCostDailyMinor;
+  // The ages come from the law in force where the laws engine runs, so an
+  // enacted change moves the claims dated after it.
+  const law = api.state.modules.has(LAWS_MODULE_ID)
+    ? socialSecurityAges(api, person.birthDate)
+    : undefined;
   const months = retirementClaimAgeMonths(
     {
       birthYear: Number(person.birthDate.slice(0, 4)),
+      ...(law ? { law } : {}),
       bufferMonths:
         cost > 0
           ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
@@ -122,7 +129,10 @@ function index(api: CoreAPI, rt: Runtime): void {
   if (rt.countedIndexedYear !== year) {
     rt.countedIndexedYear = year;
     const [y, m] = core.date.split("-").map(Number) as [number, number];
-    const soonest = ages.earliestClaimAgeMonths - 24;
+    const soonest =
+      (api.state.modules.has(LAWS_MODULE_ID)
+        ? socialSecurityAges(api, "1960-06-01").earliestMonths
+        : ages.earliestClaimAgeMonths) - 24;
     for (const record of residentsRuntime(core)?.households.values() ?? [])
       for (const person of record.people) {
         if (rt.known.has(person.id)) continue;

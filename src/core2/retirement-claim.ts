@@ -22,6 +22,15 @@ export interface ClaimContext {
   deliberation?: number;
   reliability?: number;
   risk?: number;
+  /**
+   * The person's ages under the law in force, in months (GOV's
+   * `socialSecurityAges`). Without it, the core's table of the same statute.
+   */
+  law?: {
+    earliestMonths: number;
+    fullMonths: number;
+    delayedMaxMonths: number;
+  };
 }
 
 export interface ClaimWeights {
@@ -48,7 +57,8 @@ export function retirementClaimAgeMonths(
   context: ClaimContext,
   weights: ClaimWeights,
 ): number {
-  const full = fullRetirementAgeMonths(context.birthYear);
+  const full =
+    context.law?.fullMonths ?? fullRetirementAgeMonths(context.birthYear);
   const patience =
     context.patience ??
     ((context.deliberation ?? 0) +
@@ -65,7 +75,10 @@ export function retirementClaimAgeMonths(
     need * weights.needPullYears;
   const months = Math.round(full + years * 12);
   return Math.max(
-    ages.earliestClaimAgeMonths,
-    Math.min(ages.latestCreditAgeMonths, months),
+    context.law?.earliestMonths ?? ages.earliestClaimAgeMonths,
+    Math.min(
+      context.law?.delayedMaxMonths ?? ages.latestCreditAgeMonths,
+      months,
+    ),
   );
 }
