@@ -242,11 +242,29 @@
       "tag": "SOURCED",
       "source": "Container Recycling Institute, bottle bill states 2024: the common deposit is 5 cents (10 cents in Michigan and Oregon)."
     },
+    "preschoolAnnualDollars": {
+      "value": 11000,
+      "tag": "ESTIMATED",
+      "source": "NIEER State of Preschool 2024, total spending per enrolled child, rounded national planning cost. Local program costs vary.",
+      "spread": [7000, 16000]
+    },
     "acuteCareCostMinor": {
       "value": 1500000,
       "tag": "ESTIMATED",
       "source": "AHRQ HCUP, national inpatient stay cost summaries (2021-2022). Rounded serious-illness admission cost; not a hospital charge or a condition-specific quote.",
       "spread": [800000, 3000000]
+    },
+    "juvenileCourtsShareOfAdministration": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "source": "Census 2022 government finance E25/F25 judicial and legal costs are included in administration (export-public-budget-bases.py); OJJDP juvenile court caseload. Estimated juvenile share of the aggregate administration line, pending matched expenditure data.",
+      "spread": [0.01, 0.1]
+    },
+    "civilRightsShareOfAdministration": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "Census 2022 E25/F25 judicial and legal costs; HUD and EEOC enforcement caseloads. Estimated civil-rights share of aggregate administration spending, pending matched expenditure data.",
+      "spread": [0.005, 0.05]
     }
   },
   "povertyGuidelineByState": {

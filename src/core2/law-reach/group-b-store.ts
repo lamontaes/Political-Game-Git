@@ -277,8 +277,32 @@ function scheduleReview(api: CoreAPI): void {
   putRow(api, "taken", { id: "review:next", key: "review", date });
 }
 
+/** Eligibility is refreshed in the calendar phase, before accounts settle a benefit payday. */
+export function scheduleBenefitReview(api: CoreAPI, date: string): void {
+  const calendar = api.moduleCalendar(REACH_B_MODULE_ID);
+  const key = `benefit-review:${date}`;
+  if (date <= api.state.date || calendar.get(key)) return;
+  calendar.schedule({
+    key,
+    date,
+    kind: REVIEW_KIND,
+    source: source(api),
+    sourceRecordIds: [REVIEW_KIND],
+  });
+}
+
 function runReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== REVIEW_KIND) return;
+  if (work.key.startsWith("benefit-review:")) {
+    review?.(api);
+    if (
+      reachTable(api, "taken")
+        .rows()
+        .some((row) => String(row.key).startsWith("benefit|"))
+    )
+      scheduleBenefitReview(api, addMonths(api.state.date));
+    return;
+  }
   reachTable(api, "taken").remove("review:next");
   review?.(api);
   if (reachTable(api, "active").rows().length) scheduleReview(api);

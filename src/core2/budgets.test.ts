@@ -13,14 +13,18 @@ import { PURCHASE_TAX_MODULE_ID, purchaseTaxes } from "./modules/purchase-tax";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { lawChain, lawInForce, openLaws } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
   governments,
   outsideRevenueOf,
   openBudgets,
+  proposedBudget,
 } from "./modules/budgets";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { generatedOpening } from "./tooling/generated-world";
+import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
 import { withholdingFor } from "./tax-withholding";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
@@ -305,3 +309,42 @@ describe(
     });
   },
 );
+
+it("court caseload moves the existing administration budget line", () => {
+  const place = drawPlace(seed, "law-link-budget");
+  const core = createLifeCore(
+    generatedOpening(place, {
+      twoLevel: true,
+      startedAt: "2026-01-01",
+      settings: { population: 1500 },
+    }),
+    { modules: [OUTCOME_WEB_MODULE] },
+  );
+  openLaws(core);
+  openBudgets(core);
+  const api = coreAPI(core),
+    chain = lawChain(api);
+  const government = governments(api).find((row) => row.level === "state")!;
+  const question =
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age";
+  const enact = (value: number) =>
+    enactLaw(api, {
+      jurisdiction: chain.stateKey,
+      level: "state",
+      series: question,
+      value,
+      effectiveDate: core.date,
+      measureId: `court:${value}`,
+      citation: "Test juvenile-court jurisdiction change.",
+    });
+  enact(0);
+  advanceCore(core, "2026-01-04");
+  const before = proposedBudget(api, government, 2026, "test");
+  enact(1);
+  advanceCore(core, "2026-02-04");
+  const after = proposedBudget(api, government, 2026, "test");
+  expect(after.spendingMinor.administration).toBeGreaterThan(
+    before.spendingMinor.administration!,
+  );
+  expect(after.spendingMinor.police).toBe(before.spendingMinor.police);
+}, 300_000);

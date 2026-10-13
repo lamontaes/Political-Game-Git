@@ -28,7 +28,7 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { getRow, putRow, rowsOf } from "./group-b-store";
+import { getRow, putRow, rowsOf, scheduleBenefitReview } from "./group-b-store";
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -262,16 +262,33 @@ export function payBenefits(
   const residentsOrg = rt?.input.accounts.find(
     (a) => a.placeId === town,
   )?.accountId;
-  const named = input.heads.filter((h) => h.named);
-  const counted = input.heads.length - named.length;
+  const requirement = lawInForce(
+    api,
+    "us-policy-positions:health-human-services.work-requirement-for-assistance",
+  );
+  const facts = townFacts(api, town);
+  const heads = input.heads.filter(
+    (h) =>
+      requirement.value !== 1 ||
+      h.age < reachParameter("snapWorkAgeFrom") ||
+      h.age >= reachParameter("snapWorkAgeBelow") ||
+      (facts.households.get(h.householdId)?.ages ?? []).some(
+        (age) => age < reachParameter("snapWorkExemptChildBelow"),
+      ) ||
+      h.weeklyMinutes >=
+        reachParameter("snapWorkHoursPerWeek") *
+          reachParameter("minutesPerHour"),
+  );
+  const named = heads.filter((h) => h.named);
+  const counted = heads.length - named.length;
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
-    if (!gov || delta <= 0 || !input.heads.length) continue;
+    if (!gov || delta <= 0 || !heads.length) continue;
     const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / input.heads.length,
+      (delta * input.modeledShare) / months / heads.length,
     );
     if (perHousehold <= 0) continue;
     for (const head of named) {
@@ -306,6 +323,7 @@ export function payBenefits(
     const [governmentId, recipientId] = pair.split("|") as [string, string];
     const gov = governments(api).find((g) => g.id === governmentId)!;
     const obligationId = `reach-b:benefit:${pair}:${api.state.date}`;
+    scheduleBenefitReview(api, first);
     accounts.addObligation({
       id: obligationId,
       from: accounts.main(gov.organizationId),

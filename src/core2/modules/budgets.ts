@@ -34,9 +34,12 @@ import {
   countyGovernmentUnit,
   governmentUnitsForPlace,
 } from "../../simulation/government-units";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { townFacts, selectResidents } from "../law-reach/group-b-people";
+import { transferCash } from "../world-transfer";
+import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import { outcomeWebFactor } from "./outcome-web";
+import { lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
-import type { LawRowInput } from "../laws-starting";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
@@ -505,6 +508,7 @@ function receiveOutsideRevenue(
         amountMinor: receipt.paidMinor,
       } as unknown as ModuleRow);
     }
+  paySchoolEligibility(api);
   scheduleOutsideRevenue(api, api.state.date);
 }
 
@@ -585,6 +589,13 @@ function propertyTaxTerms(api: CoreAPI) {
     : (row.source as string);
   return {
     rate: answer.value / 100,
+    ...(lawInForce(api, "us-policy-positions:fiscal.cap-property-tax-growth")
+      .value === 1
+      ? {
+          assessmentCapShare:
+            lawParameters.parameters.propertyTaxGrowthCapShare.value,
+        }
+      : {}),
     payeeId: collector,
     source: {
       tag: "ESTIMATED" as const,
@@ -671,19 +682,7 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
 }
 
 function groceryExemptionInForce(api: CoreAPI): boolean {
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  const date = api.state.date;
-  return lawChain(api).levels.some(({ jurisdiction }) => {
-    const latest = (
-      laws.query("bySeries", [
-        jurisdiction,
-        GROCERY_EXEMPTION,
-      ]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
+  return lawInForce(api, GROCERY_EXEMPTION).value === 1;
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
@@ -765,6 +764,28 @@ function legislatedBudget(
     adoptedBy,
   );
   const spending = { ...base.spendingMinor };
+  const place = lawChain(api).townPlaceId;
+  for (const [line, measure] of [
+    ["police", "crime.violent"],
+    ["corrections", "justice.pretrial-detained"],
+  ]) {
+    if (spending[line!] !== undefined)
+      spending[line!] = Math.round(
+        spending[line!]! * outcomeWebFactor(api, place, measure!),
+      );
+  }
+  // Census judicial/legal spending is inside administration, not a separate line.
+  if (spending.administration !== undefined) {
+    const p = lawParameters.parameters;
+    const pressure =
+      p.juvenileCourtsShareOfAdministration.value *
+        (outcomeWebFactor(api, place, "justice.juvenile-court-caseload") - 1) +
+      p.civilRightsShareOfAdministration.value *
+        (outcomeWebFactor(api, place, "justice.civil-rights-caseload") - 1);
+    spending.administration = Math.round(
+      spending.administration * (1 + pressure),
+    );
+  }
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
@@ -1084,4 +1105,70 @@ export function withholdingOf(
   return table(api, "withholding").query("byPerson", [
     personId,
   ]) as unknown as WithholdingRecord[];
+}
+
+/** Eligibility spends only when an eligible child and an actual provider exist. */
+function paySchoolEligibility(api: CoreAPI): void {
+  const chain = lawChain(api);
+  const treasury = governments(api).find((g) => g.level === "state");
+  if (!treasury) return;
+  const facts = townFacts(api, chain.townPlaceId);
+  const params = lawParameters.parameters;
+  const pay = (
+    question: string,
+    ageFrom: string,
+    ageBelow: string,
+    classifications: readonly string[],
+    annualDollars: number,
+  ) => {
+    const law = lawInForce(api, question);
+    if (law.value !== 1 || !law.governing) return;
+    const providers = [...api.state.organizations.values()].filter(
+      (o) =>
+        o.placeId === chain.townPlaceId &&
+        classifications.includes(o.classification ?? ""),
+    );
+    if (!providers.length) return;
+    const children = selectResidents(
+      facts,
+      { ageFrom, ageBelow },
+      chain.stateKey,
+    );
+    if (!children.length) return;
+    // Counts pay for seats, never fabricated full children. Existing local providers share the seats.
+    const amount = Math.round(
+      (children.length * annualDollars * params.centsPerDollar.value) /
+        params.monthsPerYear.value /
+        providers.length,
+    );
+    for (const provider of providers)
+      transferCash(
+        api,
+        `school-eligibility:${law.governing.id}:${provider.id}:${api.state.date}`,
+        treasury.organizationId,
+        provider.id,
+        amount,
+        {
+          tag: "ESTIMATED",
+          asOf: api.state.date,
+          citation: String(law.governing.source),
+          estimatedFrom:
+            "Eligible children from town records, times data/laws/reach-group-b-parameters.json annual cost, in monthly installments.",
+        },
+      );
+  };
+  pay(
+    "us-policy-positions:education.universal-preschool",
+    "preschoolAgeFrom",
+    "preschoolAgeBelow",
+    ["service:public-school", "service:school", "service:private-school"],
+    params.preschoolAnnualDollars.value,
+  );
+  pay(
+    "us-policy-positions:education.public-funds-for-private-schooling",
+    "schoolAgeFrom",
+    "schoolAgeBelow",
+    ["service:private-school"],
+    params.voucherAmountDollars.value,
+  );
 }
