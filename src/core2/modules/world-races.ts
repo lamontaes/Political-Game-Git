@@ -1,19 +1,18 @@
 /**
- * State and federal races in the world (M2-10, first slice): every state and
- * federal seat the town only sees from afar is elected on the real general
- * election day, at the coarse level, and its winner is seated on the real
- * date. (Races covering the town run with named voters in `voting.ts`.)
+ * State and federal races in the world (M2-10): every state and federal
+ * seat the town only sees from afar is elected on the real general election
+ * day, and its winner is seated on the real date. (Races covering the town
+ * run with named voters in `voting.ts`.)
  *
- * Each race is decided by the seat's electorate as a whole: its two-party
- * lean (the district's 2024 House vote, the state's 2024 presidential vote,
- * or for a state legislative district without a read result, the holder's
- * party at an estimated typical margin), the national environment from a
- * cause (in a midterm year, the president's party loses ground, as it has in
- * nearly every midterm since 1946), and the incumbent party's advantage.
- * Nothing is rolled: the same inputs always give the same winner, and every
- * race records its parts.
+ * Each race is counted in its blocks of simulated voters on the same engine
+ * as the town's own races (`electorate-blocks.ts`): a House district's 2024
+ * voters, a state's counties for the Senate and the presidency, a state
+ * legislative district's share of its state. Each block's party groups turn
+ * out and choose from the candidates' standing (the holder's incumbency),
+ * the national economy since the opening, the midterm penalty and the
+ * election laws in force. Nothing is rolled: the same inputs always give the
+ * same winner, and every race keeps its votes by block and its reasons.
  */
-import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -25,7 +24,28 @@ import { partySide } from "../appointments";
 import { lawChain } from "./laws";
 import { FEDERAL_HOUSE, members } from "./legislature";
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
-import { openNextCycle, resultOf, VOTING_MODULE_ID } from "./voting";
+import {
+  electionCycle,
+  openNextCycle,
+  resultOf,
+  VOTING_MODULE_ID,
+} from "./voting";
+import {
+  countBlocks,
+  houseBlock,
+  legislativeBlock,
+  stateBlocks,
+  type Block,
+  type CandidateInputs,
+  type CandidateReasons,
+  type ElectorateResult,
+} from "../electorate-blocks";
+import {
+  candidateInputs,
+  presidentSide,
+  raceConditions,
+  rememberOpeningElectorate,
+} from "../electorate-inputs";
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
@@ -47,6 +67,12 @@ export interface RaceRow {
   readonly winnerParty: string;
   readonly seatedOn: string;
   readonly leanSource: string;
+  /** The blocks' votes for each major party. */
+  readonly votes?: { readonly republican: number; readonly democratic: number };
+  /** Each party's candidate's reasons, as vote shares in an evenly split electorate. */
+  readonly reasons?: readonly CandidateReasons[];
+  /** How many blocks counted it. */
+  readonly blocks?: number;
 }
 
 export const WORLD_RACES_MODULE: CoreModule = {
@@ -57,6 +83,8 @@ export const WORLD_RACES_MODULE: CoreModule = {
       races: { indexes: { byDate: { fields: ["date"] } } },
       /** Congress seats outside the town's state: who holds them now. */
       seats: {},
+      /** Each counted block's votes in a race, by party-identification group. */
+      blocks: { indexes: { byRace: { fields: ["raceId"] } } },
     },
   },
   onCalendarWork: (api, work) => raceWork(api, work),
@@ -69,6 +97,7 @@ export function openWorldRaces(core: CoreState): void {
   if (!core.modules.has(WORLD_RACES_MODULE_ID))
     registerModule(core, WORLD_RACES_MODULE);
   const api = coreAPI(core);
+  rememberOpeningElectorate(api);
   let year = Number(core.date.slice(0, 4));
   if (year % 2) year += 1;
   if (novemberGeneralElectionDay(year) <= core.date) year += 2;
@@ -91,30 +120,6 @@ function scheduleElection(api: CoreAPI, year: number): void {
   });
 }
 
-const houseShare = new Map(
-  (
-    calibration as unknown as {
-      house: {
-        stateUsps: string;
-        districtCode: string;
-        democraticTwoPartyShare: number | null;
-      }[];
-    }
-  ).house.map((h) => [
-    `${h.stateUsps}-${h.districtCode}`,
-    h.democraticTwoPartyShare,
-  ]),
-);
-const stateShare = new Map(
-  (
-    calibration as unknown as {
-      presidentialByState: {
-        stateUsps: string;
-        democraticTwoPartyShare: number | null;
-      }[];
-    }
-  ).presidentialByState.map((s) => [s.stateUsps, s.democraticTwoPartyShare]),
-);
 const classes = (
   senateClasses as unknown as {
     states: Record<
@@ -136,8 +141,10 @@ const congress = (
 interface Race {
   readonly seatId: string;
   readonly office: string;
+  readonly usps: string;
+  /** A House district's two-digit code. */
+  readonly code: string;
   readonly incumbentParty: string | null;
-  readonly lean: number | null;
   readonly leanSource: string;
   readonly seatedOn: string;
   readonly offices?: {
@@ -211,22 +218,58 @@ export interface PresidentialRow {
 /**
  * The electors vote: each state's electors go to its statewide winner. The
  * town's state is its own popular vote, counted from named voters and the
- * state's voter groups (voting.ts); every other state is its 2024 lean plus
- * the year's environment. A majority of electors (270) wins; a tie goes to
+ * state's blocks (voting.ts); every other state is counted in its own
+ * counties' blocks on the same engine, with the same candidates where the
+ * town's ballot names them. A majority of electors (270) wins; a tie goes to
  * the House, voting by state delegation (U.S. Const. amend. XII).
  */
 function electoralCollege(api: CoreAPI, year: number): void {
   const { stateKey } = lawChain(api);
   const town = townPresidentialVote(api, year);
+  const date = api.state.date;
+  const conditions = raceConditions(api, {
+    date,
+    federal: true,
+    family: "president",
+    cycle: "presidential",
+    cycleShare: cycleShare("presidential"),
+    townsState: false,
+    town: null,
+  });
   const holder = presidentSide(api);
-  // stopgapId: SG-GOV-presidential-environment
-  api.stopgap("SG-GOV-presidential-environment");
-  const environment =
-    -holder * campaignParameter("presidentialIncumbentPartyShift");
   const states = Object.entries(electors.states).map(([key, count]) => {
     const own = key === stateKey && town ? town.republicanShare : null;
-    const lean = 1 - (stateShare.get(key.slice(3)) ?? 0.5);
-    const share = own ?? lean + environment;
+    const blocks = own === null ? stateBlocks(key.slice(3)) : [];
+    const votes = blocks.reduce((s, b) => s + b.votes, 0);
+    const lean = votes
+      ? blocks.reduce((s, b) => s + b.votes * b.target, 0) / votes
+      : 0.5;
+    const field = town?.inputs.length
+      ? town.inputs
+      : [-1, 1].map((side) =>
+          candidateInputs(api, {
+            id: `party:${side > 0 ? "R" : "D"}`,
+            party: side > 0 ? "Republican" : "Democratic",
+            filingId: null,
+            incumbent: false,
+            seatParty: null,
+            raceLean: 2 * lean - 1,
+            side,
+            seatSide: holder,
+          }),
+        );
+    let share = own;
+    if (share === null) {
+      const counted = countBlocks(blocks, field, conditions);
+      let r = 0,
+        d = 0;
+      for (const c of field) {
+        if (c.side > 0) r += counted.votes[c.id] ?? 0;
+        if (c.side < 0) d += counted.votes[c.id] ?? 0;
+      }
+      share = r + d ? r / (r + d) : lean;
+      recordBlocks(api, `presidential:${year}:${key}`, counted);
+    }
     return {
       stateKey: key,
       electors: count,
@@ -235,7 +278,7 @@ function electoralCollege(api: CoreAPI, year: number): void {
       from:
         own !== null
           ? "the state's own count"
-          : "2024 lean and the year's environment",
+          : "the state's counties, counted on the election engine",
     };
   });
   const republican = states
@@ -286,6 +329,8 @@ function townPresidentialVote(
 ): {
   republicanShare: number;
   candidates: { personId: string; party: string | null }[];
+  /** The same candidates as every other state's blocks see them. */
+  inputs: CandidateInputs[];
 } | null {
   if (!api.state.modules.has(VOTING_MODULE_ID)) return null;
   const contests = (
@@ -312,7 +357,20 @@ function townPresidentialVote(
       if (side > 0) r += result.totals[c.personId] ?? 0;
       if (side < 0) d += result.totals[c.personId] ?? 0;
     }
-    if (r + d > 0) return { republicanShare: r / (r + d), candidates };
+    const lean = r + d ? r / (r + d) : 0.5;
+    const inputs = ballot(api, contest.id).map((f) =>
+      candidateInputs(api, {
+        id: f.personId,
+        party: f.party ?? null,
+        filingId: f.id,
+        incumbent:
+          (result.electorateReasons?.find((c) => c.id === f.personId)
+            ?.incumbency ?? 0) > 0,
+        seatParty: null,
+        raceLean: 2 * lean - 1,
+      }),
+    );
+    if (r + d > 0) return { republicanShare: r / (r + d), candidates, inputs };
   }
   return null;
 }
@@ -399,18 +457,6 @@ function inaugurate(api: CoreAPI, rowId: string): void {
     openNextCycle(api, "seat:US:president");
 }
 
-/** The president's side, from the seated president. */
-function presidentSide(api: CoreAPI): number {
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-  const term = (
-    terms.query("bySeatStatus", [
-      "seat:US:president",
-      "serving",
-    ]) as unknown as TermRow[]
-  )[0];
-  return partySide(term?.party ?? null);
-}
-
 /** Every race this year the town's named voters don't decide. */
 function racesIn(api: CoreAPI, year: number): readonly Race[] {
   const races: Race[] = [];
@@ -447,24 +493,15 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
     )[0];
     const code = (seat.district ?? "00").padStart(2, "0");
-    // A House district's 2024 vote; a state legislative seat with no
-    // recorded holder party leans like its state.
-    const dShare = house
-      ? houseShare.get(`${stateKey.slice(3)}-${code}`)
-      : holder?.party
-        ? undefined
-        : stateShare.get(stateKey.slice(3));
     races.push({
       seatId: seat.id,
       office: office.kind,
+      usps: stateKey.slice(3),
+      code,
       incumbentParty: holder?.party ?? null,
-      lean: dShare != null ? 1 - dShare : null,
-      leanSource:
-        dShare == null
-          ? "holder's party at the typical margin"
-          : house
-            ? "2024 House vote in the district"
-            : "2024 presidential vote in the state (no recorded holder)",
+      leanSource: house
+        ? "2024 House vote in the district"
+        : "the state's 2024 two-party vote over its districts, the holder's party at the typical margin",
       seatedOn: house
         ? congressStart
         : (holder?.endDate ?? `${year + 1}-01-01`),
@@ -487,12 +524,12 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         continue;
       const code = district.padStart(2, "0");
       const seatId = `seat:${state}:us-house:${code}`;
-      const dShare = houseShare.get(`${usps}-${code}`);
       races.push({
         seatId,
         office: "us-house",
+        usps,
+        code,
         incumbentParty: currentParty(api, seatId, parties[0] ?? null),
-        lean: dShare != null ? 1 - dShare : null,
         leanSource: "2024 House vote in the district",
         seatedOn: congressStart,
       });
@@ -507,13 +544,13 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       if ((year - cls.nextElection) % 6 !== 0 || year < cls.nextElection)
         continue;
       const seatId = `seat:${state}:us-senate:${index}`;
-      const dShare = stateShare.get(usps);
       races.push({
         seatId,
         office: "us-senate",
+        usps,
+        code: "00",
         incumbentParty: currentParty(api, seatId, cls.party),
-        lean: dShare != null ? 1 - dShare : null,
-        leanSource: "2024 presidential vote in the state",
+        leanSource: "2024 presidential vote in the state's counties",
         seatedOn: congressStart,
       });
     }
@@ -531,20 +568,99 @@ function currentParty(
   return row && row.since <= api.state.date ? row.party : start;
 }
 
+/** A race's blocks: the House district's, the state's counties, or the legislative district's. */
+function raceBlocks(api: CoreAPI, race: Race): readonly Block[] {
+  const usps = race.usps;
+  if (race.office === "us-house") {
+    const block = houseBlock(usps, race.code);
+    return block ? [block] : [];
+  }
+  if (race.office === "us-senate") return stateBlocks(usps);
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const districts = new Set(
+    (
+      offices
+        .table("seats")
+        .query("byOffice", [race.offices!.officeId]) as unknown as {
+        district: string | null;
+      }[]
+    ).map((s) => s.district),
+  ).size;
+  const block = legislativeBlock(
+    usps,
+    race.seatId,
+    districts,
+    sideOf(race.incumbentParty),
+    null,
+  );
+  return block ? [block] : [];
+}
+
+/** Independents in Congress caucus with the Democrats. */
+const sideOf = (party: string | null) =>
+  partySide(party) || (/independent/i.test(party ?? "") ? -1 : 0);
+
+/**
+ * Decide a race the town doesn't vote in: its blocks count it on the same
+ * engine as the town's own races. The seat's holder stands for their party
+ * (an incumbent official the world doesn't name, with the typical
+ * campaign); the other major party fields a typical challenger.
+ */
 function decide(api: CoreAPI, race: Race, year: number): void {
-  const side =
-    partySide(race.incumbentParty) ||
-    (/independent/i.test(race.incumbentParty ?? "") ? -1 : 0);
+  const side = sideOf(race.incumbentParty);
   // stopgapId: SG-GOV-world-race-lean
   api.stopgap("SG-GOV-world-race-lean");
-  const lean =
-    race.lean ?? 0.5 + side * campaignParameter("legislativeSeatMargin");
-  const midterm = year % 4 === 2;
-  const environment = midterm
-    ? -presidentSide(api) * campaignParameter("midtermSwing")
-    : 0;
-  const incumbency = side * campaignParameter("incumbencyShare");
-  const share = lean + environment + incumbency;
+  const blocks = raceBlocks(api, race);
+  const date = api.state.date;
+  const votesAt2024 = blocks.reduce((s, b) => s + b.votes, 0);
+  const lean = votesAt2024
+    ? blocks.reduce((s, b) => s + b.votes * b.target, 0) / votesAt2024
+    : 0.5 + side * campaignParameter("legislativeSeatMargin");
+  const cycle = electionCycle(date);
+  const conditions = raceConditions(api, {
+    date,
+    federal: race.office.startsWith("us-"),
+    family:
+      race.office === "us-house"
+        ? "usHouse"
+        : race.office === "us-senate"
+          ? "statewideExecutive"
+          : "stateLegislative",
+    cycle,
+    cycleShare: cycleShare(cycle),
+    townsState: `US-${race.usps}` === lawChain(api).stateKey,
+    town: null,
+  });
+  const parties =
+    side === 0
+      ? [
+          { party: "Democratic", side: -1, incumbent: false },
+          { party: "Republican", side: 1, incumbent: false },
+        ]
+      : [
+          { party: race.incumbentParty!, side, incumbent: true },
+          {
+            party: side > 0 ? "Democratic" : "Republican",
+            side: -side,
+            incumbent: false,
+          },
+        ];
+  const candidates = parties.map((c) =>
+    candidateInputs(api, {
+      id: `party:${c.side > 0 ? "R" : "D"}`,
+      party: c.party,
+      filingId: null,
+      incumbent: c.incumbent,
+      seatParty: race.incumbentParty,
+      raceLean: 2 * lean - 1,
+      side: c.side,
+      seatSide: side,
+    }),
+  );
+  const counted = countBlocks(blocks, candidates, conditions);
+  const rep = counted.votes["party:R"] ?? 0,
+    dem = counted.votes["party:D"] ?? 0;
+  const share = rep + dem ? rep / (rep + dem) : lean;
   const winnerSide = share > 0.5 ? 1 : share < 0.5 ? -1 : side;
   const winnerParty =
     winnerSide === side && race.incumbentParty
@@ -552,11 +668,19 @@ function decide(api: CoreAPI, race: Race, year: number): void {
       : winnerSide > 0
         ? "Republican"
         : "Democratic";
+  const reasonsOf = (s: number) => counted.candidates.find((c) => c.side === s);
+  const r = reasonsOf(1),
+    d = reasonsOf(-1);
+  const environment =
+    (r ? r.economy + r.midterm : 0) - (d ? d.economy + d.midterm : 0);
+  const incumbency =
+    (r ? r.incumbency + r.experience : 0) -
+    (d ? d.incumbency + d.experience : 0);
   const row: RaceRow = {
     id: `race:${race.seatId}:${year}`,
     seatId: race.seatId,
     office: race.office,
-    date: api.state.date,
+    date,
     incumbentParty: race.incumbentParty,
     lean,
     environment,
@@ -565,11 +689,15 @@ function decide(api: CoreAPI, race: Race, year: number): void {
     winnerParty,
     seatedOn: race.seatedOn,
     leanSource: race.leanSource,
+    votes: { republican: rep, democratic: dem },
+    reasons: counted.candidates,
+    blocks: counted.blocks.length,
   };
   table(api, "races").put({
     ...row,
     offices: race.offices ?? null,
   } as unknown as ModuleRow);
+  recordBlocks(api, row.id, counted);
   api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
     key: `seat:${row.id}`,
     date: race.seatedOn > api.state.date ? race.seatedOn : api.state.date,
@@ -581,6 +709,43 @@ function decide(api: CoreAPI, race: Race, year: number): void {
     },
     sourceRecordIds: [row.id],
   });
+}
+
+/** The cycle's turnout against a presidential year's. */
+function cycleShare(cycle: ReturnType<typeof electionCycle>): number {
+  return cycle === "presidential"
+    ? 1
+    : cycle === "midterm"
+      ? campaignParameter("midtermShareOfPresidential")
+      : campaignParameter("offCycleShareOfPresidential");
+}
+
+/** Keep each block's votes by group under its race. */
+function recordBlocks(
+  api: CoreAPI,
+  raceId: string,
+  counted: ElectorateResult,
+): void {
+  const rows = table(api, "blocks");
+  for (const block of counted.blocks)
+    rows.put({
+      ...block,
+      id: `block:${raceId}:${block.id}`,
+      blockId: block.id,
+      raceId,
+    } as unknown as ModuleRow);
+}
+
+/** Each counted block's votes in a race (a seat's, or a state's presidential vote). */
+export function raceBlocksOf(
+  api: CoreAPI,
+  raceId: string,
+): readonly (ElectorateResult["blocks"][number] & { blockId: string })[] {
+  return table(api, "blocks").query("byRace", [
+    raceId,
+  ]) as unknown as (ElectorateResult["blocks"][number] & {
+    blockId: string;
+  })[];
 }
 
 /** Seat the winner on the term's first day. */

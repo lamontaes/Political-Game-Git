@@ -1085,8 +1085,8 @@
     "id": "SG-GOV-voter-groups-stand-in",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 1481,
-    "whatItFakes": "Voters the world doesn't name vote as lean bands around the place's lean, sized from the district's 2024 votes (state and federal races) or the town's population times the 2024 share of people who voted (local races), each band voting with its named people. The figures are researched: 0.46 of residents vote on a presidential date, scaled by cycle (midterm 0.72, off-cycle 0.39; Hajnal and Green 2024); what stays a stand-in is the groups themselves.",
+    "line": 1517,
+    "whatItFakes": "In a nonpartisan or local race, voters the world doesn't name vote as lean bands around the place's lean, sized from the town's population times the 2024 share of people who voted, each band voting with its named people. (Partisan state and federal races now count them in blocks: src/core2/electorate-blocks.ts.) The figures are researched: 0.46 of residents vote on a presidential date, scaled by cycle (midterm 0.72, off-cycle 0.39; Hajnal and Green 2024); what stays a stand-in is the local groups themselves.",
     "why": "CORE's voter groups exist as a table but generated worlds don't populate them yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
@@ -1219,12 +1219,12 @@
     "id": "SG-GOV-world-race-lean",
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
-    "line": 539,
-    "whatItFakes": "A race the town doesn't vote in is decided by the seat's whole electorate at once: its 2024 lean (House district or state presidential vote; a state legislative district without a read result leans to its holder's party at the typical margin), the midterm environment and incumbency; candidates are a party, not people with records.",
-    "why": "District-level voter groups and fictional candidates with records for every seat in the country aren't built (CORE voter groups; PEOPLE's who runs).",
+    "line": 611,
+    "whatItFakes": "A race the town doesn't vote in is counted in its blocks of simulated voters (a House district's, the state's counties', a legislative district's) on the same engine as the town's races, but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
+    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each race run on the election engine with fictional candidates who have records and campaigns, and voter groups by district.",
+    "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
     "status": "open"
   },
   {
@@ -1233,11 +1233,11 @@
     "file": "src/core2/modules/world-races.ts",
     "line": 223,
     "whatItFakes": "A presidential year's national environment is a fixed shift against the party holding the presidency, with no economy or presidential record behind it.",
-    "why": "WORLD's economy and the president's record don't feed the race yet; the shift is the campaign parameter presidentialIncumbentPartyShift (TUNABLE).",
+    "why": "WORLD's economy and the president's record don't feed the race yet; the shift is the campaign parameter presidentialIncumbentPartyShift (TUNABLE). Resolved by SIM-ELECTORATE (2026-10-13): every state's presidential vote is counted in its counties' blocks, and the national environment is read from the economy since the opening (WORLD macro) and the candidates' records (src/core2/electorate-blocks.ts); the missing approval is SG-GOV-electorate-approval.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "A national environment read from the economy (WORLD macro) and the president's record, replacing the fixed incumbent-party shift.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-residents-cadence",
@@ -2981,6 +2981,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
     "replacement": "PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-electorate-approval",
+    "kind": "missing-data",
+    "file": "src/core2/electorate-inputs.ts",
+    "line": 100,
+    "whatItFakes": "The national mood that moves every block's vote for the president's party is read from the national economy since the opening (unemployment and inflation) and the midterm penalty, with no presidential approval behind it.",
+    "why": "No engine records the president's approval yet (the executive's record and the public's view of it).",
+    "addedBy": "SIM-ELECTORATE",
+    "addedAt": "2026-10-13",
+    "replacement": "Presidential approval read from the president's own record and the public's views (the executive engine and the views engine), moving the president's party's candidates by its measured effect on the vote.",
     "status": "open"
   }
 ]
