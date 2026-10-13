@@ -49,6 +49,7 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   POLICY_QUESTIONS,
+  authorityFor,
 } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -80,7 +81,11 @@ import {
 } from "../../src/core2/law-reach/group-a-voting";
 import { purchaseTaxes } from "../../src/core2/modules/purchase-tax";
 import { jobsAt } from "../../src/core2/law-reach/group-b-money";
-import { reachParameter } from "../../src/core2/law-reach/group-b-people";
+import {
+  reachParameter,
+  townFacts,
+  selectResidents,
+} from "../../src/core2/law-reach/group-b-people";
 
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { WEB_LINKS } from "../../src/core2/outcome-web-model";
@@ -196,11 +201,13 @@ let liftedOperatingLimits = new Map<
   { recordId: string; date: string; before: number; after: number }
 >();
 let endedComplianceCosts = new Map<string, string>();
+let careWorkEligibility = new Map<string, boolean>();
 /** Counts calls and observes completed payments without retaining full game history. */
 function countCalls(core: CoreState) {
   cashPayments = new Map();
   liftedOperatingLimits = new Map();
   endedComplianceCosts = new Map();
+  careWorkEligibility = new Map();
   calls = new Map();
   const count = (id: string) => calls.set(id, (calls.get(id) ?? 0) + 1);
   const wrap = <F extends (...args: never[]) => unknown>(id: string, f: F) =>
@@ -298,6 +305,50 @@ function countCalls(core: CoreState) {
                     ),
                 )
             : [];
+        if (id === "core2-health-producer-p10-v1") {
+          const admissions = healthReport(api.state as CoreState).cases.filter(
+            (row) => row.onsetDate === api.state.date,
+          );
+          if (admissions.length) {
+            const chain = lawChain(api);
+            const facts = townFacts(api, chain.townPlaceId);
+            const eligible = new Set(
+              selectResidents(
+                facts,
+                {
+                  ageFrom: "medicaidExpansionAgeFrom",
+                  ageBelow: "medicaidExpansionAgeBelow",
+                  incomeBelowPovertyShare: "medicaidExpansionIncomeShare",
+                },
+                chain.stateKey,
+              ).map((row) => row.id),
+            );
+            const workLimited = new Set(
+              selectResidents(
+                facts,
+                {
+                  ageFrom: "medicaidExpansionAgeFrom",
+                  ageBelow: "medicaidExpansionAgeBelow",
+                  hoursBelowPerMonth: "medicaidWorkHoursPerMonth",
+                  noChildBelow: "medicaidWorkExemptChildBelow",
+                },
+                chain.stateKey,
+              ).map((row) => row.id),
+            );
+            const expanded =
+              lawInForce(
+                api,
+                "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              ).value === 1;
+            for (const admission of admissions)
+              careWorkEligibility.set(
+                `${admission.personId}:${admission.onsetDate}`,
+                expanded &&
+                  eligible.has(admission.personId) &&
+                  workLimited.has(admission.personId),
+              );
+          }
+        }
         const result = f(...forwarded);
         for (const held of flows) {
           if (
@@ -819,6 +870,56 @@ function playWorld(seed: string) {
       )
         engineNoOp = `no-op: Medicaid expansion was inactive at every care admission; payments=${cases.map((row) => row.carePaymentId ?? row.personId).join(",")}`;
     }
+    if (
+      law.series ===
+        "us-policy-positions:health-human-services.medicaid-work-requirement" &&
+      !engineNoOp
+    ) {
+      const cases = healthReport(core).cases.filter(
+        (row) =>
+          row.onsetDate >= law.effectiveDate && row.onsetDate < observedUntil,
+      );
+      if (
+        cases.length &&
+        cases.every(
+          (row) =>
+            careWorkEligibility.get(`${row.personId}:${row.onsetDate}`) ===
+            false,
+        )
+      )
+        engineNoOp = `no-op: no admitted patient was both Medicaid-eligible and subject to the work rule at admission; inspected=${cases.map((row) => row.carePaymentId ?? row.personId).join(",")}`;
+      const served = cases.find(
+        (row) =>
+          careWorkEligibility.get(`${row.personId}:${row.onsetDate}`) ===
+            true &&
+          row.covered === true &&
+          (row.carePaidMinor ?? 0) > 0,
+      );
+      if (law.value === 0 && served && previousLaw.value === 1)
+        engineNoOp = `eligibility that paid after work-rule repeal: ${served.carePaymentId}; paid=${served.carePaidMinor}`;
+    }
+    if (
+      law.series ===
+        "us-policy-positions:labor-workforce.local-minimum-wage-authority" &&
+      lawInForce(api, law.series).governing?.id === law.id
+    ) {
+      const authority = api
+        .moduleState(LAWS_MODULE_ID)
+        .table("enactments")
+        .query("bySeries", ["local-minimum-wage-authority"])
+        .find((row) => row.measureId === law.id);
+      const decision = authorityFor(api, {
+        kind: "law-amount",
+        series: "minimum-wage",
+        value: (lawInForce(api, "minimum-wage").value ?? 0) + 1,
+      });
+      if (
+        authority &&
+        authority.answer === (law.value === 1 ? "yes" : "no") &&
+        decision.allowed === (law.value === 1)
+      )
+        engineNoOp = `local wage decision: ${authority.id}; allowed=${decision.allowed}; reason=${decision.reason}`;
+    }
     if (law.series === RESTORE_VOTE) {
       const grantsAt = (date: string) =>
         lawChain(api).levels.flatMap((level) => {
@@ -1229,12 +1330,23 @@ function playWorld(seed: string) {
       Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
         (n, v) => n + v,
         0,
-      ) === 0,
+      ) === 0 && resultOf(api, String(c.id))!.countedTurnout === 0,
   );
+  // Turning out but leaving an indistinguishable race blank is a decision,
+  // not missing counted voters. Never require the engine to invent a choice.
+  const blank = local.filter((c) => {
+    const result = resultOf(api, String(c.id))!;
+    return (
+      result.countedTurnout > 0 &&
+      Object.values(result.countedVotes).every((votes) => votes === 0)
+    );
+  });
   verdicts["counted voters vote in local races"] = !local.length
     ? unobserved("no local race was decided in the run")
     : !silent.length
-      ? pass(`counted voters voted in all ${local.length} local races`)
+      ? pass(
+          `counted voters participated in all ${local.length} local races; ${blank.length} had turnout with blank choices; results=${blank.map((c) => resultOf(api, String(c.id))!.id).join(",")}`,
+        )
       : fail(
           `${silent.length} of ${local.length} local races decided in the run had no votes from the counted population (for example ${silent
             .slice(0, 3)
