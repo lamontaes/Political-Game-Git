@@ -1439,12 +1439,20 @@ function openingFamilies(input: OpeningFamilyInput): {
     sharedTraitSource: Source | undefined,
   ) => {
     const core = temperament.get(id) ?? {};
-    // A recorded facet from upbringing outranks the generated estimate; the
-    // five temperament dimensions always come from the temperament model.
+    // A recorded facet from upbringing shifts the generated level by its
+    // recorded value (within the -2..2 levels), so the record counts and a
+    // person can still sit low; the five temperament dimensions always come
+    // from the temperament model.
     const recorded = Object.fromEntries(
-      Object.entries(traits).filter(
-        ([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`),
-      ),
+      Object.entries(traits)
+        .filter(([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+        .map(([key, value]) => [
+          key,
+          Math.max(
+            -p("two"),
+            Math.min(p("two"), (core[key] ?? p("zero")) + value),
+          ),
+        ]),
     );
     // Every generated trait shares one temperament source; recorded facets
     // keep the source they already had.

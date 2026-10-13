@@ -19,6 +19,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
   LEGISLATURE_MODULE_ID,
@@ -175,9 +177,13 @@ export function workQuality(
     (person.traits["people-mind-v1:deliberation"] ?? 0) *
     campaignParameter("staffTraitWeight");
   // Experience: what they've learned from tasks done, at their own rate.
+  // Deliberation speeds or slows learning on the trait scale; even the least
+  // deliberate still learn (at -2 the old /2 made the rate zero).
   const rate =
     campaignParameter("staffLearningBase") *
-    (1 + (person.traits["people-mind-v1:deliberation"] ?? 0) / 2);
+    (1 +
+      (person.traits["people-mind-v1:deliberation"] ?? 0) /
+        (2 * parameter("traitScale")));
   const experience =
     campaignParameter("staffExperienceCeiling") *
     (1 - Math.exp(-rate * staffer.tasksDone));
@@ -286,7 +292,20 @@ export function staffDecision(
   )[0];
   if (!staffer) return null;
   const q = workQuality(api, staffer, null);
-  const help = q.quality >= campaignParameter("staffCaseFollowThrough");
+  // Ability is the work's quality; whether they see it through also leans on
+  // every trait they have.
+  const person = api.state.people.get(staffer.personId)!;
+  const help =
+    q.quality +
+      parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          person,
+          "staff.follow-through",
+          "follow-through",
+          "decline",
+        ) >=
+    campaignParameter("staffCaseFollowThrough");
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }

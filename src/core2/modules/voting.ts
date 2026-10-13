@@ -23,6 +23,8 @@ import {
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { decisionLean } from "../trait-decisions";
+import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -352,6 +354,18 @@ function appealFor(
     // The candidate's party side against the voter's own views; their party
     // tie is one influence beside it, kept apart in the record.
     const party = facts.party ? lean * partySide(facts.party) : 0;
+    // The incumbent's side of a voter's traits: stay with the known or try
+    // someone new.
+    const trait = facts.isIncumbent
+      ? parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          voter,
+          "voting.back-incumbent",
+          "incumbent",
+          "challenger",
+        )
+      : 0;
     // The incumbent's record (votes, promises kept or broken), weighed by a
     // voter who knows the officeholder (golden path step 11).
     const knows =
@@ -365,7 +379,14 @@ function appealFor(
       campaignParameter("ballotRelationshipWeight") *
       relationshipWith(api, voter, filing.personId);
     appeal[filing.personId] = {
-      total: warmth + (agreement ?? 0) + party + loyal + record + relationship,
+      total:
+        warmth +
+        (agreement ?? 0) +
+        party +
+        loyal +
+        record +
+        relationship +
+        trait,
       warmth,
       agreement,
       party,
@@ -462,9 +483,13 @@ export function turnout(
   /** What this election adds to the cost of voting (a primary's lower salience). */
   extraCost = 0,
 ) {
+  // Their own sense of duty and reliability, with every trait's lean between
+  // voting and staying home as one input beside them.
   const duty =
     (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
-    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2;
+    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
+    parameter("traitDecisionWeight") *
+      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home");
   const totals = Object.values(appeal).map((a) => a.total);
   // How much they care: the strength of their strongest feeling in the race.
   const interest = totals.length ? Math.max(...totals.map(Math.abs)) : 0;
@@ -478,8 +503,7 @@ export function turnout(
     );
   // The election laws in force (voter ID, registration, mail voting).
   const cost =
-    weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
-    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2 +
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes") +
     electionLawTurnoutCost(api, voter, weeklyWork);
   return {
     duty,
@@ -544,7 +568,29 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   const weighed = incumbent?.personId
     ? decisionOf(api, contestId, incumbent.personId)
     : null;
-  if (incumbent && alive && !weighed && !termLimited(api, contest, incumbent))
+  const incumbentPerson = incumbent?.personId
+    ? api.state.people.get(incumbent.personId)
+    : undefined;
+  // A full person stands from their own traits; a placeholder incumbent
+  // keeps the standing rule.
+  const stands =
+    !incumbentPerson ||
+    campaignParameter("votingStandAgainBase") +
+      decisionLean(
+        api.state,
+        incumbentPerson,
+        "voting.stand-again",
+        "stand",
+        "retire",
+      ) >
+      0;
+  if (
+    incumbent &&
+    alive &&
+    !weighed &&
+    stands &&
+    !termLimited(api, contest, incumbent)
+  )
     put(
       incumbent.personId ?? officialCandidateId(incumbent.id),
       incumbent.party,
@@ -685,7 +731,17 @@ export function holdPrimary(
       for (const f of field)
         appeal[f.personId] = {
           total:
-            f === incumbent ? campaignParameter("incumbentRecognition") : 0,
+            f === incumbent
+              ? campaignParameter("incumbentRecognition") +
+                parameter("traitDecisionWeight") *
+                  decisionLean(
+                    api.state,
+                    voter,
+                    "voting.back-incumbent",
+                    "incumbent",
+                    "challenger",
+                  )
+              : 0,
         };
       const t = turnout(api, voter, appeal, voter.weeklyMinutes, extraCost);
       if (!t.votes) continue;
@@ -1071,7 +1127,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ? null
       : choice === null
         ? "left-blank"
-        : (voter.traits["people-mind-v1:conflict"] ?? 0) < 0
+        : decisionLean(
+              api.state,
+              voter,
+              "voting.exit-poll",
+              "tell",
+              "decline",
+            ) < 0
           ? "declined"
           : choice;
     if (t.votes) {
@@ -1118,6 +1180,19 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     countedEligible += 1;
     const lean = personLean(api.state.people, voter, townLean(api));
     const appeal = countedAppeal(lean, field);
+    // The incumbent's side of a voter's traits: stay with the known or try
+    // someone new.
+    for (const entry of field)
+      if (entry.isIncumbent)
+        appeal[entry.id]!.total +=
+          parameter("traitDecisionWeight") *
+          decisionLean(
+            api.state,
+            voter,
+            "voting.back-incumbent",
+            "incumbent",
+            "challenger",
+          );
     const t = atThePolls(
       api,
       voter,

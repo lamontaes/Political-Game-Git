@@ -142,6 +142,17 @@
       "citation": "Module reasons outweigh one trait pull in the shared chooser."
     }
   },
+  "benefitsFileBase": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "spread": {
+      "low": 0.3,
+      "high": 0.9,
+      "unit": "scaled trait lean (about -1 to 1)",
+      "citation": "Unemployment insurance recipiency among eligible unemployed workers is well below 100%, about 0.7 to 0.8 take-up among eligibles (Auray, Fuller & Lkhagvasuren 2019). A worker files when this base plus their traits' scaled lean toward filing over skipping is above zero."
+    },
+    "citation": "How readily an eligible worker files for unemployment insurance before their traits tilt it (OPUS-TRAITS, Oct 12, 2026)."
+  },
   "jobsDaysPerYear": {
     "value": 365,
     "tag": "SOURCED",

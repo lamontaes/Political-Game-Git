@@ -16,6 +16,7 @@ import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
+import { decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
 
 export const NEWS_MODULE_ID = "news";
@@ -347,9 +348,28 @@ export function createNewsModule(
         [notice.actorId, notice.otherId],
         [notice.otherId, notice.actorId],
       ] as const) {
+        // How many stories they pass on leans on every trait they have.
+        const tellerPerson = api.state.people.get(teller);
+        const toTell = Math.round(
+          n(api, "newsStoriesPerContact") *
+            Math.max(
+              api.parameter("zero"),
+              api.parameter("one") +
+                (tellerPerson
+                  ? n(api, "traitDecisionWeight") *
+                    decisionLean(
+                      api.state,
+                      tellerPerson,
+                      "news.pass-on",
+                      "tell",
+                      "keep",
+                    )
+                  : api.parameter("zero")),
+            ),
+        );
         let passed = api.parameter("zero");
         for (const story of tellable(api, teller, since)) {
-          if (passed >= n(api, "newsStoriesPerContact") || !fresh(story)) break;
+          if (passed >= toTell || !fresh(story)) break;
           // Already heard: hear() would refuse it too, without the lookup.
           if (heardRecently(api, listener, story.id)) continue;
           if (hear(api, listener, story, "told", notice.relationshipId))

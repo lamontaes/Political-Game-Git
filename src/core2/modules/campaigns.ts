@@ -18,6 +18,8 @@ import { registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -449,6 +451,12 @@ function retell(
   teller: Readonly<PersonState>,
   cause: CauseRow,
 ): void {
+  const telling = Math.max(
+    0,
+    1 +
+      api.parameter("traitDecisionWeight") *
+        decisionLean(api.state, teller, "campaigns.retell", "tell", "keep"),
+  );
   for (const id of teller.familyIds) {
     const listener = api.state.people.get(id);
     if (!listener?.alive || ageOn(listener, api.state.date) < 18) continue;
@@ -457,7 +465,8 @@ function retell(
       weight:
         campaignParameter("secondhandWeight") *
         Math.abs(cause.warmthAfter - cause.warmthBefore) *
-        2,
+        2 *
+        telling,
       rapport: 0,
       target: cause.warmthAfter,
     });
@@ -545,17 +554,17 @@ export function knockDoors(
     const athome = home.adults.filter(
       (a) => !a.slots.some((c) => atWork(c!, api.state.date, minute)),
     );
-    // The most outgoing one home opens to a stranger if they're willing.
+    // The one home whose traits lean most toward opening answers a stranger
+    // if they're willing.
     // Older residents answer more (contact rates rise with age in field
     // experiments; Green and Gerber 2019).
     const willing = (a: {
       traits: Readonly<Record<string, number>>;
       birthDate: string;
     }) =>
-      (a.traits["people-mind-v1:sociability"] ?? 0) +
-      ((a.traits["people-mind-v1:conflict"] ?? 0) +
-        (a.traits["people-mind-v1:risk"] ?? 0)) /
-        2 +
+      // Every trait's lean, on the trait scale the threshold was set on.
+      parameter("traitScale") *
+        decisionLean(api.state, a, "campaigns.open-door", "open", "ignore") +
       (ageOn(a, api.state.date) - campaignParameter("doorAnswerPivotAge")) /
         campaignParameter("doorAnswerAgeSpan");
     const opener = athome
@@ -664,7 +673,7 @@ export function askToVolunteer(
     return false;
   const warmth = impressionOf(api, personId, campaign.candidateId)?.warmth ?? 0;
   // Whether they give their evenings to it: how much they like the
-  // candidate, how close they are, their temperament (outgoing, dutiful),
+  // candidate, how close they are, every trait's lean toward volunteering,
   // against the hours their work already takes.
   const core = api.state as CoreState;
   const tie =
@@ -677,9 +686,14 @@ export function askToVolunteer(
   const drive =
     warmth +
     campaignParameter("volunteerClosenessWeight") * (tie + family) +
-    ((person.traits["people-mind-v1:sociability"] ?? 0) +
-      (person.traits["personality-v1:facet-duty-bound"] ?? 0)) /
-      2 -
+    parameter("traitScale") *
+      decisionLean(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+      ) -
     weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
   const yes = drive > campaignParameter("volunteerThreshold");
   if (yes && !campaign.volunteerIds.includes(personId))
@@ -770,7 +784,11 @@ export function askForDonation(
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
   const warmth = impressionOf(api, donorId, campaign.candidateId)?.warmth ?? 0;
-  if (warmth <= 0 || donor.liquidMinor <= 0) return 0;
+  const leaned =
+    warmth +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(api.state, donor, "campaigns.donate", "give", "keep");
+  if (leaned <= 0 || donor.liquidMinor <= 0) return 0;
   const limit = contributionLimit(api, campaign.contestId);
   const given = (table(api, "money").rows() as unknown as MoneyRecord[])
     .filter(
@@ -782,7 +800,7 @@ export function askForDonation(
     .reduce((sum, m) => sum + Math.max(0, m.postings[1]!.deltaMinor), 0);
   const want = Math.floor(
     donor.liquidMinor *
-      warmth *
+      Math.min(1, leaned) *
       campaignParameter("donationShareOfCashPerWarmth"),
   );
   const amount = Math.max(
@@ -1121,7 +1139,17 @@ export function askForEndorsement(
   const endorser = api.state.people.get(endorserId);
   if (!endorser?.alive) return false;
   const lean = personLean(api.state.people, endorser, townRow(api).lean);
-  const mine = platformAgreement(lean, campaign.platform);
+  const raw = platformAgreement(lean, campaign.platform);
+  const mine =
+    raw +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        endorser,
+        "campaigns.endorse",
+        "endorse",
+        "decline",
+      );
   const rivals = (
     table(api, "campaigns").query("byContest", [
       campaign.contestId,
@@ -1129,7 +1157,7 @@ export function askForEndorsement(
   )
     .filter((c) => c.id !== campaign.id)
     .map((c) => platformAgreement(lean, c.platform));
-  if (mine <= 0 || rivals.some((r) => r >= mine)) return false;
+  if (mine <= 0 || rivals.some((r) => r >= raw)) return false;
   for (const id of [...endorser.knownIds, ...endorser.familyIds]) {
     const listener = api.state.people.get(id);
     if (!listener) continue;
@@ -1191,8 +1219,14 @@ export function commissionPoll(
   for (const person of dialed) {
     if (respondents.length >= affordable) break;
     const willing =
-      (person.traits["people-mind-v1:sociability"] ?? 0) +
-      (person.traits["people-mind-v1:reliability"] ?? 0) / 2 +
+      parameter("traitScale") *
+        decisionLean(
+          api.state,
+          person,
+          "campaigns.answer-poll",
+          "answer",
+          "no-opinion",
+        ) +
       (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
         campaignParameter("doorAnswerAgeSpan");
     if (willing > campaignParameter("pollAnswerThreshold"))
@@ -1219,7 +1253,13 @@ export function commissionPoll(
         : undefined;
     const answer =
       best && best.warmth > 0
-        ? (person.traits["people-mind-v1:conflict"] ?? 0) < 0
+        ? decisionLean(
+            api.state,
+            person,
+            "campaigns.answer-poll",
+            "answer",
+            "no-opinion",
+          ) < 0
           ? "no-opinion"
           : best.candidateId
         : (partyPick?.personId ?? "undecided");
@@ -1302,9 +1342,22 @@ export function rivalCampaignDay(
     if (campaign.candidateId === exceptPersonId) continue;
     const candidate = api.state.people.get(campaign.candidateId);
     if (!candidate?.alive) continue;
-    const hours = candidate.jobId
-      ? campaignParameter("rivalHoursWithJob")
-      : campaignParameter("rivalHoursWithoutJob");
+    const hours =
+      (candidate.jobId
+        ? campaignParameter("rivalHoursWithJob")
+        : campaignParameter("rivalHoursWithoutJob")) *
+      Math.max(
+        0,
+        1 +
+          api.parameter("traitDecisionWeight") *
+            decisionLean(
+              api.state,
+              candidate,
+              "campaigns.rival-hours",
+              "campaign",
+              "rest",
+            ),
+      );
     reached += knockDoors(api, {
       filingId: campaign.filingId,
       canvasserId: campaign.candidateId,

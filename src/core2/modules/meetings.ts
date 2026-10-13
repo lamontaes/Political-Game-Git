@@ -21,6 +21,8 @@
 import rows from "../data/meetings/parameters.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../../simulation/dates";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -128,10 +130,13 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(date.slice(0, 4)) -
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
-/** Duty, and the ease with people that standing up in public asks for. */
-const civic = (p: Readonly<PersonState>) =>
-  (p.traits["personality-v1:facet-duty-bound"] ?? 0) +
-  (p.traits["people-mind-v1:sociability"] ?? 0) / 2;
+/**
+ * Every trait's lean toward taking part in a public meeting over staying
+ * away, on the trait scale the meeting bars were set on.
+ */
+const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
+  parameter("traitScale") *
+  decisionLean(core, p, "meetings.take-part", "take-part", "stay-away");
 
 export function openMeetings(core: CoreState): void {
   registerLegislatureHooks({
@@ -247,7 +252,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       const view =
         personStance(personLean(api.state.people, p, 0), stance.question) *
         stance.position;
-      return { p, view, drive: Math.abs(view) * (1 + civic(p)) };
+      return { p, view, drive: Math.abs(view) * (1 + civic(p, api.state)) };
     })
     .filter((s) => s.view !== 0 && s.drive >= meetingParameter("commentBar"))
     .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id))
@@ -367,9 +372,13 @@ export function holdTownHall(
   const attendees = townAdults(api)
     .filter(
       (p) =>
-        p.id !== input.hostId && civic(p) >= meetingParameter("townHallBar"),
+        p.id !== input.hostId &&
+        civic(p, api.state) >= meetingParameter("townHallBar"),
     )
-    .sort((a, b) => civic(b) - civic(a) || a.id.localeCompare(b.id))
+    .sort(
+      (a, b) =>
+        civic(b, api.state) - civic(a, api.state) || a.id.localeCompare(b.id),
+    )
     .slice(0, meetingParameter("townHallSize"));
   // Each asks about what they feel most strongly about, among the questions
   // their own life touches most.
