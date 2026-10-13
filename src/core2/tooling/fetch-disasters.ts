@@ -1,6 +1,7 @@
 /**
  * Fetches FEMA's disaster declarations (since 2000) and Public Assistance
- * funded-project summaries (disasters declared since 2020) from OpenFEMA into
+ * funded-project summaries and housing assistance to owners and renters by
+ * city (disasters declared since 2020) from OpenFEMA into
  * raw files under the given folder, for build-disasters.ts to compact.
  * Usage: npx tsx src/core2/tooling/fetch-disasters.ts <out-dir>
  */
@@ -33,4 +34,16 @@ const assistance = await all(
   "PublicAssistanceFundedProjectsSummaries",
 );
 writeFileSync(join(out, "assistance.json"), JSON.stringify(assistance));
-console.log(declarations.length, assistance.length);
+// Individual Assistance to households (housing), by city, for the same years.
+const households: unknown[] = [];
+for (const entity of ["HousingAssistanceOwners", "HousingAssistanceRenters"])
+  households.push(
+    ...(
+      await all(
+        `${base}/v2/${entity}?$filter=disasterNumber%20ge%204480&$select=disasterNumber,state,county,city,totalApprovedIhpAmount`,
+        entity,
+      )
+    ).map((row) => ({ ...(row as object), entity })),
+  );
+writeFileSync(join(out, "households.json"), JSON.stringify(households));
+console.log(declarations.length, assistance.length, households.length);

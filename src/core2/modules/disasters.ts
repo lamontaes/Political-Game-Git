@@ -4,16 +4,21 @@
  * (or its whole state): on the incident's real start date it is a public,
  * newsworthy event in town, and on the declaration date the federal Public
  * Assistance FEMA obligated to the county's own government and to the town's
- * government is paid to them from the U.S. Treasury. Nothing is rolled: a
+ * government is paid to them from the U.S. Treasury, and the housing
+ * assistance FEMA approved for the town's households (Individuals and
+ * Households Program) is paid to the town's residents. Nothing is rolled: a
  * world past the end of the records has no new disasters until the owner
  * rules on what should cause one (question in docs/coordination/core.md).
  */
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
 import assistance from "../data/disasters/assistance.json" with { type: "json" };
+import households from "../data/disasters/households.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { stateOfPlaceKey } from "../places";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
+import { placePopulation } from "../gov-rules/place-population";
+import { residentCounts, residentsAccountFor } from "./residents";
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
@@ -24,7 +29,7 @@ export function normalizedGovernmentName(name: string): string {
     .toLowerCase()
     .replace(/\(.*?\)/g, " ")
     .replace(
-      /\b(city|town|village|borough|township|municipality|of|the|county|parish|fiscal court|government)\b/g,
+      /\b(city|town|village|borough|township|municipality|municipio|census area|of|the|county|parish|fiscal court|government)\b/g,
       " ",
     )
     .replace(/[^a-z0-9]+/g, " ")
@@ -171,6 +176,7 @@ function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
 
 function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   if (!rt.county || !rt.treasuryId) return;
+  payHouseholds(api, rt, disaster);
   const row = (
     assistance.byCountyDisaster as Record<
       string,
@@ -181,6 +187,10 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const accounts = api.accounts();
   const pay = (orgId: string | undefined, cents: number, who: string) => {
     if (!orgId || cents <= 0) return;
+    // A government kept outside the town (its money is not simulated here)
+    // receives nothing the world can see; the treasury is outside too.
+    if (api.state.cashJournal.accounts.get(accounts.main(orgId))?.outsideFlow)
+      return;
     api.stopgap(STOPGAP);
     rt.paid.push({ disaster: disaster.number, orgId, cents });
     accounts.transfer({
@@ -197,6 +207,47 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   };
   pay(rt.countyOrgId, row.county, "the county's government");
   pay(rt.townOrgId, row.towns[rt.townName] ?? 0, "the town's government");
+}
+
+/** FEMA housing assistance approved for the town's households, paid to its residents. */
+function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
+  const core = api.state;
+  const town = core.people.get(core.playerId ?? "")?.placeId;
+  const approved =
+    (households.byCountyDisaster as Record<string, Record<string, number>>)[
+      `${rt.county}|${disaster.number}`
+    ]?.[rt.townName] ?? 0;
+  const to = town ? residentsAccountFor(core, town as PlaceId) : undefined;
+  if (!to || !town || approved <= 0) return;
+  // The world holds a share of the real town: its people over the Census
+  // estimate (a place without one is taken as the whole town).
+  const recorded = placePopulation(
+    (core.placeMetadata.placeKey ?? "").replace(/^.*:/, ""),
+  );
+  let people = 0;
+  for (const person of core.people.values())
+    if (person.placeId === town) people += 1;
+  for (const row of residentCounts(core))
+    if (row.placeId === town) people += row.people;
+  const share = recorded && recorded > people ? people / recorded : 1;
+  const cents = Math.round(approved * share);
+  if (cents <= 0) return;
+  api.stopgap(STOPGAP);
+  rt.paid.push({ disaster: disaster.number, orgId: to, cents });
+  const accounts = api.accounts();
+  accounts.transfer({
+    id: `disaster-households:${disaster.number}:${to}`,
+    from: accounts.main(rt.treasuryId!),
+    to,
+    amountMinor: cents,
+    reasonKey: "federal.disaster-household-assistance",
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: households.source,
+      estimatedFrom: `FEMA housing assistance approved for this town's households in disaster ${disaster.number} (${disaster.title}), paid on the declaration date.`,
+    },
+  });
 }
 
 export const DISASTERS_MODULE: CoreModule = {

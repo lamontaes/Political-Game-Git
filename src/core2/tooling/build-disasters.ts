@@ -95,6 +95,35 @@ for (const r of read<Assistance[]>("assistance.json")) {
   )
     row.towns[name] = (row.towns[name] ?? 0) + cents;
 }
+// Housing assistance approved for households, by city.
+interface Household {
+  disasterNumber: number;
+  state: string;
+  county: string;
+  city: string;
+  totalApprovedIhpAmount: number;
+}
+const countiesByBase = new Map<string, string>();
+for (const [geoid, name, state] of lookup.counties.rows as [
+  string,
+  string,
+  string,
+][])
+  countiesByBase.set(`${state}|${normalizedGovernmentName(name)}`, geoid);
+const households: Record<string, Record<string, number>> = {};
+let householdsUnmatched = 0;
+for (const r of read<Household[]>("households.json")) {
+  const geoid = countiesByBase.get(
+    `${r.state}|${normalizedGovernmentName(r.county)}`,
+  );
+  const city = normalizedGovernmentName(r.city ?? "");
+  if (!geoid || !city || !(r.totalApprovedIhpAmount > 0)) {
+    householdsUnmatched++;
+    continue;
+  }
+  const row = (households[`${geoid}|${r.disasterNumber}`] ??= {});
+  row[city] = (row[city] ?? 0) + Math.round(r.totalApprovedIhpAmount * 100);
+}
 const source =
   "FEMA OpenFEMA DisasterDeclarationsSummaries v2 (declarations since 2000) and PublicAssistanceFundedProjectsSummaries v1 (federal obligated amounts, disasters declared since 2020), U.S. government works (17 U.S.C. 105); fetched by src/core2/tooling/fetch-disasters.ts.";
 writeFileSync(
@@ -106,11 +135,23 @@ writeFileSync(
   JSON.stringify({ source, unit: "cents", byCountyDisaster: assistance }) +
     "\n",
 );
+writeFileSync(
+  "src/core2/data/disasters/households.json",
+  JSON.stringify({
+    source: `${source} Household amounts: HousingAssistanceOwners and HousingAssistanceRenters v2, total approved Individuals and Households Program assistance, by city.`,
+    unit: "cents",
+    byCountyDisaster: households,
+  }) + "\n",
+);
 console.log(
   Object.keys(byCounty).length,
   "counties;",
   Object.keys(assistance).length,
   "county-disasters with assistance;",
   unmatched,
-  "assistance rows unmatched",
+  "assistance rows unmatched;",
+  Object.keys(households).length,
+  "county-disasters with household assistance;",
+  householdsUnmatched,
+  "household rows unmatched",
 );

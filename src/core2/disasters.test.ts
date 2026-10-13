@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import assistance from "./data/disasters/assistance.json" with { type: "json" };
+import households from "./data/disasters/households.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
 import { disasterAssistancePaid, townDisasters } from "./modules/disasters";
 import { coreAPI } from "./state";
@@ -48,7 +49,22 @@ describe(`disasters from the record in ${place.name}, ${place.state} (seed ${see
       string,
       { county: number; towns: Record<string, number> }
     >;
+    const homes = households.byCountyDisaster as Record<
+      string,
+      Record<string, number>
+    >;
     for (const row of disasterAssistancePaid(api)) {
+      if (row.orgId.startsWith("cash:residents:")) {
+        // Households: never more than FEMA approved in any one town.
+        const most = Math.max(
+          0,
+          ...Object.entries(homes)
+            .filter(([key]) => key.endsWith(`|${row.disaster}`))
+            .flatMap(([, towns]) => Object.values(towns)),
+        );
+        expect(row.cents).toBeLessThanOrEqual(most);
+        continue;
+      }
       const county = Object.entries(rows).find(([key]) =>
         key.endsWith(`|${row.disaster}`),
       );
