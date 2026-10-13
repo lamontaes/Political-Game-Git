@@ -821,7 +821,7 @@ function raisePay(api: CoreAPI): void {
         hourly,
         source(
           api,
-          `A yearly raise following the place's pay level, ${level.toFixed(4)} to ${now.toFixed(4)} against the opening.`,
+          `Pay level ${level.toFixed(4)} to ${now.toFixed(4)}; bargaining factor ${priorBargaining} to ${bargainingFactor}${bargaining?.governing ? ` under ${bargaining.governing.id}` : ""}.`,
         ),
       );
     pay.put({
