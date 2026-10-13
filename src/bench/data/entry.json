@@ -17,7 +17,7 @@
       "spread": {
         "low": 30,
         "high": 90,
-        "reason": "Checked against the played-world test's check J on fresh seeds: inside 30 days some small towns have no 17-year-old; past 90 the first skip rarely reaches the birthday."
+        "reason": "The range checked against the played-world test's check J on fresh seeds: a narrower window leaves more small towns with no one inside it; a wider one lets the first skip end before the birthday."
       }
     }
   }
