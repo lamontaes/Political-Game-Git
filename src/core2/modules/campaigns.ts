@@ -41,8 +41,10 @@ import { recordAppeal } from "./record";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
+  requestSignature,
   type ContestRow,
   type FilingRow,
+  type SignatureRow,
 } from "./elections";
 
 export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
@@ -59,6 +61,8 @@ export interface CampaignRow {
   readonly volunteerIds: readonly string[];
   readonly staffIds: readonly string[];
   readonly doorsKnocked: readonly string[];
+  /** Doors walked with the filing petition (a separate round from canvassing). */
+  readonly petitionDoors?: readonly string[];
   readonly raisedMinor: number;
   readonly spentMinor: number;
 }
@@ -462,35 +466,21 @@ function retell(
 }
 
 /**
- * Knock on doors for some hours: the montage. Households not yet visited, in
- * the order they stand. At each door the most outgoing adult answers, if
- * anyone in the house is willing to open to a stranger; they talk with the
- * canvasser, and tell their household. Returns everyone met at a door, in
- * order, so the screen can stop on a porch.
+ * Walk the town's doors for some hours, full households and counted ones
+ * alike, skipping those already walked: at each door the most willing adult
+ * home at that minute opens, or no one does. Yields each opener's id (a
+ * counted resident is filled in by the caller); `done` gains every door.
  */
-export function knockDoors(
+function* walkDoors(
   api: CoreAPI,
   input: {
-    readonly filingId: string;
-    readonly canvasserId: string;
+    readonly done: Set<string>;
+    readonly doors: number;
     readonly hours: number;
   },
-): readonly CauseRow[] {
-  let campaign = campaignFor(api, input.filingId);
-  const canvasser = api.state.people.get(input.canvasserId)!;
-  const efficiency =
-    1 +
-    campaignParameter("canvasserReliabilityEfficiency") *
-      (canvasser.traits["people-mind-v1:reliability"] ?? 0);
-  const doors = Math.floor(
-    input.hours * campaignParameter("doorsPerCanvasserHour") * efficiency,
-  );
-  api.recordActivityTime(input.canvasserId, "campaign", input.hours * 60, {
-    tag: "SOURCED",
-    citation: `Campaign ${campaign.id}`,
-    asOf: api.state.date,
-  });
-  const done = new Set(campaign.doorsKnocked);
+): Generator<string> {
+  const doors = input.doors;
+  const done = input.done;
   const town = townRow(api).townPlaceId;
   const core = api.state as CoreState;
   // The whole town's doors: full households and counted ones alike.
@@ -534,7 +524,6 @@ export function knockDoors(
     .slice(0, doors);
   const perHour = Math.max(1, doors / Math.max(1, input.hours));
   const start = campaignParameter("canvassStartHour") * 60;
-  const met: CauseRow[] = [];
   for (const [index, home] of homes.entries()) {
     done.add(home.id);
     // Who's home at the minute of the knock: not at a scheduled shift.
@@ -559,10 +548,92 @@ export function knockDoors(
       .sort((a, b) => willing(b) - willing(a) || a.id.localeCompare(b.id))
       .find((a) => willing(a) > campaignParameter("doorAnswerThreshold"));
     if (!opener) continue;
+    yield opener.id;
+  }
+}
+
+/**
+ * Walk a filing petition door to door for some hours, the whole town
+ * (counted households filled in as their doors open): whoever answers is
+ * asked to sign and decides for themselves (`requestSignature`). Stops once
+ * the petition puts the filing on the ballot. Returns each answer.
+ */
+export function circulatePetition(
+  api: CoreAPI,
+  input: {
+    readonly filingId: string;
+    readonly circulatorId: string;
+    readonly hours: number;
+  },
+): readonly SignatureRow[] {
+  const filingOf = () =>
+    elections(api, "filings").get(input.filingId) as unknown as FilingRow;
+  if (filingOf()?.status !== "gathering-signatures") return [];
+  const campaign = campaignFor(api, input.filingId);
+  const circulator = api.state.people.get(input.circulatorId)!;
+  const efficiency =
+    1 +
+    campaignParameter("canvasserReliabilityEfficiency") *
+      (circulator.traits["people-mind-v1:reliability"] ?? 0);
+  const doors = Math.floor(
+    input.hours * campaignParameter("doorsPerCanvasserHour") * efficiency,
+  );
+  api.recordActivityTime(input.circulatorId, "campaign", input.hours * 60, {
+    tag: "SOURCED",
+    citation: `Petition for filing ${input.filingId}`,
+    asOf: api.state.date,
+  });
+  const done = new Set(campaign.petitionDoors ?? []);
+  const core = api.state as CoreState;
+  const asked: SignatureRow[] = [];
+  for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
+    if (!api.state.people.has(openerId)) fillInPerson(core, openerId);
+    if (!api.state.people.has(openerId) || openerId === campaign.candidateId)
+      continue;
+    asked.push(requestSignature(api, input.filingId, openerId));
+    if (filingOf().status === "on-ballot") break;
+  }
+  save(api, { ...campaignFor(api, input.filingId), petitionDoors: [...done] });
+  return asked;
+}
+
+/**
+ * Knock on doors for some hours: the montage. Households not yet visited, in
+ * the order they stand. At each door the most outgoing adult answers, if
+ * anyone in the house is willing to open to a stranger; they talk with the
+ * canvasser, and tell their household. Returns everyone met at a door, in
+ * order, so the screen can stop on a porch.
+ */
+export function knockDoors(
+  api: CoreAPI,
+  input: {
+    readonly filingId: string;
+    readonly canvasserId: string;
+    readonly hours: number;
+  },
+): readonly CauseRow[] {
+  let campaign = campaignFor(api, input.filingId);
+  const canvasser = api.state.people.get(input.canvasserId)!;
+  const efficiency =
+    1 +
+    campaignParameter("canvasserReliabilityEfficiency") *
+      (canvasser.traits["people-mind-v1:reliability"] ?? 0);
+  const doors = Math.floor(
+    input.hours * campaignParameter("doorsPerCanvasserHour") * efficiency,
+  );
+  api.recordActivityTime(input.canvasserId, "campaign", input.hours * 60, {
+    tag: "SOURCED",
+    citation: `Campaign ${campaign.id}`,
+    asOf: api.state.date,
+  });
+  const done = new Set(campaign.doorsKnocked);
+  const core = api.state as CoreState;
+  const met: CauseRow[] = [];
+  for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
     // A counted household is filled in when its door opens (the owner's
     // on-click design): the person who answers is a full person from then on.
-    if (!api.state.people.has(opener.id)) fillInPerson(core, opener.id);
-    const answers = api.state.people.get(opener.id);
+    if (!api.state.people.has(openerId)) fillInPerson(core, openerId);
+    const answers = api.state.people.get(openerId);
     if (!answers) continue;
     const cause = reach(
       api,

@@ -398,7 +398,16 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     partySide(incumbent.party) !== 0
   ) {
     const other = partySide(incumbent.party) > 0 ? "Democratic" : "Republican";
-    put(officialCandidateId(`challenger:${contest.id}`), other, "challenger");
+    // Only where no one from the other major party filed (the player, a
+    // resident): a filed candidate is that party's challenger.
+    if (
+      !onBallot.some(
+        (f) =>
+          f.status === "on-ballot" &&
+          partySide(f.party ?? null) === -partySide(incumbent.party),
+      )
+    )
+      put(officialCandidateId(`challenger:${contest.id}`), other, "challenger");
     // An open seat: the incumbent's party nominates someone new.
     if (termLimited(api, contest, incumbent))
       put(

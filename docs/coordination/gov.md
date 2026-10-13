@@ -91,6 +91,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
 - **OPUS-CORE: retirement reads the law.** `socialSecurityAges(api, birthDate)` in `src/core2/modules/laws.ts` returns `{ earliestMonths, fullMonths, delayedMaxMonths }` from the federal law in force (Congress can change them). Your retirement choice should decide within those ages, and the benefit should be reduced or credited by the claim age against `fullMonths`.
 - **OPUS-PLAY: careers and past elections in Politics.** Each term in `townSeats(api)` now carries `serviceStart` (unbroken service), its real `startDate` and `endDate`, `party`, and `elected` ({ date, share }); `pastElections(api, seatId)` lists the seat's elections before the start.
+- **OPUS-PLAY: walking a petition.** `circulatePetition(api, { filingId, circulatorId, hours })` is the filing-day act ("signatures like canvassing, with time skips"): it spends the hours and returns each answer with its reason.
 - **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
 - **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
@@ -104,6 +105,16 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-13 00:49 UTC: M5-01, the state legislator career, end to end (new `state-legislator-career.test.ts`):
+  - **The path:** in a random state the player picks the real numbered seat covering their town, files against its holder, walks a petition, knocks doors, and the voters decide. A win seats them on the term's first day in place of that holder, and they sponsor and vote on a bill with colleagues.
+    - **Montana:** the player won the State Senate seat 4,672 to 4,011 against the Democratic holder; their minimum-wage bill failed on the floor.
+    - **Alaska:** the player lost 5,999 to 6,176 to the Republican holder.
+  - **Two golden-path bugs found and fixed:**
+    - **Petitions couldn't fill in the two-level world:** only named people could sign, so filings stalled at 3–6 signatures. The new `circulatePetition(api, { filingId, circulatorId, hours })` walks the whole town's doors like canvassing (the shared door walk now lives in `walkDoors`). Counted residents are filled in as their doors open, and each decides whether to sign.
+    - **An automatic challenger joined even when the player had filed for the other major party:** the player's party votes went to it (the Alaska player got 0). Now a filed candidate is that party's challenger.
+  - **Tests:** campaigns, calibration, voting, two-level, parties, press and meetings all pass.
+  - **Executive research:** `data/research/executive/executive-powers-2026.json` has cabinets, pardon authority, what governors can order and patronage counts for all 56 places plus federal. A Sonnet helper wrote it from memory, with nothing fetched, so every row is an estimate and needs verifying before it decides anything. Treat its cabinet confirmation rules and patronage counts (a formula) as stand-ins.
 
 - 2026-10-13 00:27 UTC: History before the start, past elections (owner's D1: history back to 2000, light and only there to fit the world):
   - **What's recorded:** every elected term the world opens with, current and past, carries the election that seated it. It's dated by the real cycle (the November general election before a January start, otherwise 60 days earlier, tunable) and has the winner's share, estimated from researched averages by office: House 0.64, Senate 0.57, state legislators 0.635 (Ballotpedia: 27.3-point average margin in 2024), statewide 0.56, local 0.6.
