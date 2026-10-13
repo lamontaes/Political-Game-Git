@@ -53,6 +53,19 @@ const industries = jobsData.turnover.industries as unknown as Record<
 const kindSector = jobsData.kindSector as Record<string, string>;
 function businessJobs(c: CoreState): Map<string, number> {
   const bySector = new Map<string, number>();
+  // Residents working outside the town count too, as the nation's mix.
+  for (const row of api
+    .moduleState("jobs")
+    .table("employers")
+    .rows() as unknown as {
+    id: string;
+    elsewhere?: boolean;
+  }[])
+    if (row.elsewhere)
+      bySector.set(
+        "total",
+        (bySector.get("total") ?? 0) + countedJobsOf(c, row.id).length,
+      );
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     const sector = kindSector[book.kindId] ?? kindSector["*"] ?? "total";

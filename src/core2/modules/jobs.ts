@@ -22,6 +22,7 @@ import { ownerOf } from "./business";
 import { REGIONAL_MODULE_ID, regionalMonth } from "./regional";
 import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
+import { elsewhereTarget, placeElsewhere } from "../jobs-elsewhere";
 import {
   addCountedJob,
   addCountedRetiree,
@@ -86,6 +87,22 @@ interface EmployerRow {
   need: number;
   /** A new business's template for its first roles. */
   templateFromId?: string;
+  /** Work outside the town (the opening's unplaced residents): its staff follows the region's jobs. */
+  elsewhere?: boolean;
+  townPlaceId?: string;
+}
+
+/** Every open workplace the jobs engine reviews, with its kind: the town's businesses and employers elsewhere ("*"). */
+function workplaces(api: CoreAPI): Map<string, string> {
+  const c = core(api);
+  const out = new Map<string, string>();
+  for (const [id, book] of c.finance.businesses)
+    if (!book.closedAt) out.set(id, book.kindId);
+  for (const row of store(api)
+    .table("employers")
+    .query("all", [true]) as unknown as EmployerRow[])
+    if (row.elsewhere) out.set(row.id, "*");
+  return out;
 }
 
 function store(api: CoreAPI) {
@@ -166,6 +183,19 @@ function traitsOf(
     core(api).people.get(personId)?.traits ??
     residentPerson(core(api), personId)?.traits ??
     {}
+  );
+}
+
+const NO_TRAITS = { traits: {} };
+/** The person's own record, so the chooser's per-person trait leans are worked out once. */
+function actorOf(
+  api: CoreAPI,
+  personId: string,
+): { traits: Readonly<Record<string, number>> } {
+  return (
+    core(api).people.get(personId) ??
+    residentPerson(core(api), personId) ??
+    NO_TRAITS
   );
 }
 
@@ -388,6 +418,24 @@ function realSales(c: CoreState): Map<string, number> {
 
 function open(api: CoreAPI): void {
   const c = core(api);
+  // The opening's unplaced residents get jobs elsewhere, before anyone is counted as looking.
+  const working = new Set<string>();
+  const rt0 = residentsRuntime(c);
+  for (const [jobId, flow] of rt0?.wageFlowByJob ?? []) {
+    const job = rt0!.jobs.get(jobId);
+    if (job && job.endsAt === undefined && !flow.endedAt)
+      working.add(job.personId);
+  }
+  const elsewhere = placeElsewhere(api, (id) => !working.has(id));
+  if (elsewhere)
+    store(api).table("employers").put({
+      id: elsewhere.organizationId,
+      isEmployer: true,
+      openingStaff: elsewhere.staff,
+      need: 0,
+      elsewhere: true,
+      townPlaceId: elsewhere.placeId,
+    });
   const sales = realSales(c);
   for (const [id, book] of c.finance.businesses)
     if (!book.closedAt)
@@ -516,28 +564,35 @@ function reviewEmployers(api: CoreAPI): void {
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
     const book = c.finance.businesses.get(row.id);
-    if (!book || book.closedAt) continue;
+    if (!row.elsewhere && (!book || book.closedAt)) continue;
+    const kindId = book?.kindId ?? "*";
     const jobs = currentJobs(api, row.id),
       positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
     // A business that joined mid-run measures against its first month of sales.
     const openingSales = row.openingRealSalesMinor ?? sales.get(row.id);
     const target =
-      (openingSales
-        ? // What its customers spend now against the opening, over pay: the work they bring.
-          (row.openingStaff * (sales.get(row.id) ?? 0)) / openingSales
-        : book.capacityMinor > 0
-          ? // No customers' flows: the books' demand in the business's own opening prices.
-            (row.openingStaff * book.annualDemandMinor) /
-            ((book.price / book.anchorPrice || 1) * book.capacityMinor)
-          : row.openingStaff) *
+      (!book
+        ? // Work elsewhere follows the region's jobs since the opening.
+          elsewhereTarget(api, row.townPlaceId ?? "", row.openingStaff)
+        : openingSales
+          ? // What its customers spend now against the opening, over pay: the work they bring.
+            (row.openingStaff * (sales.get(row.id) ?? 0)) / openingSales
+          : book.capacityMinor > 0
+            ? // No customers' flows: the books' demand in the business's own opening prices.
+              (row.openingStaff * book.annualDemandMinor) /
+              ((book.price / book.anchorPrice || 1) * book.capacityMinor)
+            : row.openingStaff) *
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
-      seasonalStaffing(book.kindId, c.date, opened);
-    const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
-    const cash = c.organizations.get(row.id)!.liquidMinor;
-    // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
-    const reach =
-      cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
+      seasonalStaffing(kindId, c.date, opened);
+    // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on. Pay elsewhere comes from outside.
+    const monthlyPayroll = book
+      ? book.annualPayrollMinor / p("macroMonthsPerYear")
+      : 0;
+    const cash = c.organizations.get(row.id)?.liquidMinor ?? 0;
+    const reach = book
+      ? cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1)
+      : 1;
     // At or above target, a business no longer needs its open positions: it withdraws them.
     if (target <= jobs.length)
       while (positions.length) {
@@ -594,8 +649,8 @@ function reviewEmployers(api: CoreAPI): void {
         if (!staff.length) break;
         layOff(api, row.id, staff, {
           target,
-          demand: book.annualDemandMinor,
-          capacity: book.capacityMinor,
+          demand: book?.annualDemandMinor ?? 0,
+          capacity: book?.capacityMinor ?? 0,
         });
       }
       need += 1;
@@ -606,7 +661,7 @@ function reviewEmployers(api: CoreAPI): void {
         ...row,
         need,
         // Without the season: what its customers call for over the year.
-        target: target / seasonalStaffing(book.kindId, c.date, opened),
+        target: target / seasonalStaffing(kindId, c.date, opened),
         ...(openingSales ? { openingRealSalesMinor: openingSales } : {}),
       });
   }
@@ -746,6 +801,7 @@ function reviewMatches(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     reliability = jobsData.traits.reliability;
+  const places = workplaces(api);
   const rows: {
     id: string;
     organizationId: string;
@@ -755,8 +811,8 @@ function reviewMatches(api: CoreAPI): void {
   for (const employer of store(api)
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
-    const book = c.finance.businesses.get(employer.id);
-    if (!book || book.closedAt) continue;
+    const kindId = places.get(employer.id);
+    if (kindId === undefined) continue;
     const owner = ownerOf(api, employer.id);
     for (const job of currentJobs(api, employer.id)) {
       if (pinned(c).has(job.id) || job.personId === owner) continue;
@@ -766,7 +822,7 @@ function reviewMatches(api: CoreAPI): void {
         job,
         score:
           p("jobsLetGoBaseline") +
-          industryLean(book.kindId, "layoffs") -
+          industryLean(kindId, "layoffs") -
           p("jobsLetGoReliabilityWeight") *
             (traitsOf(api, job.personId)[reliability] ?? 0) -
           p("jobsLetGoTenureWeight") * Math.log1p(tenureYears(api, job)),
@@ -1067,7 +1123,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
-    const person = { traits: traitsOf(api, seeker.personId) };
+    const person = actorOf(api, seeker.personId);
     const traitTerm =
       p("traitWeight") *
       (traitLean(c, person, jobsData.actions.apply.actKinds) -
@@ -1126,7 +1182,7 @@ function runWeek(api: CoreAPI): void {
     while (isCounted(api, best.personId)) {
       // A counted seeker answers the offer by the same reasons a full person
       // weighs, every trait included.
-      const person = { traits: traitsOf(api, best.personId) };
+      const person = actorOf(api, best.personId);
       const reference = best.referenceHourlyMinor;
       const accepts =
         p("jobsRateWeight") *
@@ -1218,7 +1274,9 @@ function hireCounted(
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    ...(template.occupationClassification
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily: hours,
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
@@ -1362,7 +1420,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const rows: { id: string; job: JobInput; age: number; score: number }[] = [];
-  for (const [organizationId] of c.finance.businesses) {
+  for (const organizationId of workplaces(api).keys()) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id)) continue;
       // An owner retires through their business (the business module's closing choice), not off its payroll.
@@ -1495,10 +1553,9 @@ function reviewCountedQuits(api: CoreAPI): void {
   const seekers = store(api).table("countedSeekers");
   const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
     [];
-  for (const [organizationId, book] of c.finance.businesses) {
-    if (book.closedAt) continue;
+  for (const [organizationId, kindId] of workplaces(api)) {
     const sector =
-      (jobsData.kindSector as Record<string, string>)[book.kindId] ??
+      (jobsData.kindSector as Record<string, string>)[kindId] ??
       jobsData.kindSector["*"];
     const quits = (
       jobsData.turnover.industries as Record<
@@ -1579,7 +1636,8 @@ function reviewCountedLooking(api: CoreAPI): void {
       seekers.remove(row.id);
   const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
     [];
-  for (const [organizationId] of c.finance.businesses) {
+  const places = workplaces(api);
+  for (const organizationId of places.keys()) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
       // An owner runs their own business; they don't look for a job elsewhere.
@@ -1604,10 +1662,7 @@ function reviewCountedLooking(api: CoreAPI): void {
         placeId: person.placeId,
         score:
           p("jobsLookBaseline") +
-          industryLean(
-            c.finance.businesses.get(organizationId)?.kindId ?? "",
-            "quits",
-          ) +
+          industryLean(places.get(organizationId) ?? "", "quits") +
           p("jobsPayGapWeight") * payGap +
           p("jobsCountedRestlessWeight") * restless,
       });
@@ -1702,7 +1757,9 @@ function hire(
     personId: person.id,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    ...(template.occupationClassification
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily: template.hoursDaily,
     wageDailyMinor: Math.round(position.hourlyMinor * template.hoursDaily),

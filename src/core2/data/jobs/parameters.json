@@ -356,5 +356,15 @@
       "unit": "logit",
       "citation": "What moving from one job to another costs the worker (new commute, lost tenure and standing): job-to-job moves come with raises (Topel and Ward 1992, QJE 107(2): early-career job changes carry about a third of wage growth); checked against JOLTS quits."
     }
+  },
+  "jobsElsewherePrimeAge": {
+    "value": 42,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2023 employment-population ratios by age: highest at 35 to 49 (about 82%), falling toward both ends; 42 is the middle of the peak."
+  },
+  "jobsElsewhereHoursDaily": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2023: employed people worked about 7.9 hours on the days they worked."
   }
 }

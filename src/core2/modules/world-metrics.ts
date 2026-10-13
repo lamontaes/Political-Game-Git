@@ -12,6 +12,12 @@ import { residentsRuntime } from "./residents";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
+/** The share of hourly pay under two-thirds of its median. */
+function lowWageShare(hourly: number[]): number {
+  if (!hourly.length) return 0;
+  const line = (2 / 3) * median(hourly);
+  return hourly.filter((h) => h < line).length / hourly.length;
+}
 const median = (values: number[]): number => {
   if (!values.length) return 0;
   const sorted = [...values].sort((a, b) => a - b);
@@ -151,10 +157,7 @@ export function townMetrics(api: CoreAPI) {
         : 1,
       medianRentMinor: median(row.rents),
       // Jobs here paying under two-thirds of the median hourly pay (the OECD's low-pay line).
-      lowWageShare: row.hourly.length
-        ? row.hourly.filter((h) => h < (2 / 3) * median(row.hourly)).length /
-          row.hourly.length
-        : 0,
+      lowWageShare: lowWageShare(row.hourly),
       medianHomeValueMinor: median(values.get(placeId) ?? []),
       evictionFilingsThisMonth: filed.get(placeId) ?? 0,
       evictionFilingsPerThousandRenters:
