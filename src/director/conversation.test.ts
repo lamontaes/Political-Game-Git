@@ -339,4 +339,44 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(own?.stage).toBe("own-job-lost");
     expect(own?.aboutId).toBe(teller.id);
   });
+
+  it("lets the player tell news, and hears it answered as good news", () => {
+    const listener = strangers[0]!;
+    const aboutId = [...core.people.get(listener.id)!.knownIds].find(
+      (id) => me.knownIds.has(id) && id !== me.id && core.people.get(id)?.alive,
+    );
+    expect(aboutId).toBeDefined();
+    applyCoreEvent(core, {
+      id: "person-birth:fixture-news",
+      date: core.date,
+      kind: "person-birth",
+      personIds: [aboutId],
+      witnessIds: [me.id],
+      placeId: me.placeId,
+      publicRecord: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the renewal engine.",
+        estimatedFrom: "Fixture.",
+      },
+    });
+    const talk = openConversation(core, me.id, listener.id);
+    const name = core.people.get(aboutId)!.givenName;
+    let told = false;
+    for (let turn = 0; turn < 12 && !told; turn += 1) {
+      const tell = talk.choices.find((row) =>
+        row.text.includes(`${name} had a baby.`),
+      );
+      if (tell) {
+        say(core, talk, tell.key);
+        told = true;
+        break;
+      }
+      if (!talk.choices.length) break;
+      say(core, talk, talk.choices.at(-1)!.key);
+    }
+    expect(told).toBe(true);
+    expect(talk.lines.at(-1)!.text).toBe("Good for them.");
+  });
 });

@@ -417,6 +417,12 @@ function replyFacts(
     }
     case "own-work":
       return { facts: subject.facts, stage: "default" };
+    // News told: the listener answers it as good or bad news.
+    case "news":
+      return {
+        facts: subject.facts,
+        stage: subject.stage ?? "default",
+      };
     case "their-work": {
       const theirs = jobOf(core, listener);
       return theirs
@@ -862,6 +868,7 @@ function offerChoices(
         data.subjects[raisedSubject.kind]?.raise,
         raisedSubject.facts,
         `${playerId}:${otherId}:${turn}:${raisedSubject.id}:raise`,
+        raisedSubject.stage,
       );
       if (!raised) return;
       // A turned-back question ("And you?") already asks; it carries no second line.

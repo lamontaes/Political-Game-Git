@@ -10,7 +10,8 @@
     "own-work": "heard-work",
     "their-work": "other-work",
     "home": "home-reply",
-    "their-tenure": "tenure-reply"
+    "their-tenure": "tenure-reply",
+    "news": "news-reply"
   },
   "subjects": {
     "own-work": {
@@ -745,6 +746,51 @@
         {
           "key": "turn",
           "text": "Really?",
+          "raises": "next-2"
+        }
+      ]
+    },
+    "news-reply": {
+      "reply": [
+        {
+          "key": "good",
+          "text": "Good for them.",
+          "stages": ["married", "moved-in", "baby"]
+        },
+        {
+          "key": "bad",
+          "text": "That's too bad.",
+          "stages": ["moved-away", "job-lost"]
+        },
+        {
+          "key": "own-good",
+          "text": "Congratulations!",
+          "stages": ["own-married", "own-moved-in", "own-baby"]
+        },
+        {
+          "key": "own-bad",
+          "text": "I'm sorry to hear that.",
+          "stages": ["own-job-lost"]
+        }
+      ],
+      "answers": [
+        {
+          "key": "yes",
+          "text": "Yeah."
+        },
+        {
+          "key": "thanks",
+          "text": "Thanks.",
+          "stages": ["own-married", "own-moved-in", "own-baby", "own-job-lost"]
+        },
+        {
+          "key": "brief",
+          "text": "Anyway.",
+          "raises": "next"
+        },
+        {
+          "key": "turn",
+          "text": "So.",
           "raises": "next-2"
         }
       ]
