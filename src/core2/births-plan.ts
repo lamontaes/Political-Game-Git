@@ -21,11 +21,46 @@ export interface BirthCouple {
 }
 
 /** The outcome web's factor on the place's birth rate, 1 where the web is not running. */
-function birthRateFactor(api: CoreAPI, placeId: string): number {
+/** The household's tenure from WORLD's housing record, when housing runs. */
+export function householdTenure(
+  api: CoreAPI,
+  householdId: string,
+): "own" | "rent" | undefined {
+  if (!(api.state as CoreState).modules.has("housing")) return undefined;
+  const row = api
+    .moduleState("housing")
+    .table("dwellings")
+    .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
+  return row?.tenure === "own" || row?.tenure === "rent"
+    ? row.tenure
+    : undefined;
+}
+
+/**
+ * The outcome web's factor on the place's birth rate, times its factor for
+ * owners' or renters' births by the household's tenure; 1 where the web is
+ * not running or nothing moves it.
+ */
+function birthRateFactor(
+  api: CoreAPI,
+  placeId: string,
+  householdId: string,
+): number {
   if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
     return api.parameter("one");
-  const factor = outcomeWebFactor(api, placeId, "births.rate");
-  return factor > api.parameter("zero") ? factor : api.parameter("one");
+  const read = (measure: string) => {
+    const factor = outcomeWebFactor(api, placeId, measure);
+    return factor > api.parameter("zero") ? factor : api.parameter("one");
+  };
+  const tenure = householdTenure(api, householdId);
+  return (
+    read("births.rate") *
+    (tenure === "own"
+      ? read("births.owners")
+      : tenure === "rent"
+        ? read("births.renters")
+        : api.parameter("one"))
+  );
 }
 
 /** Natality data is deliberately absent here: observations only check totals. */
@@ -106,7 +141,8 @@ export function birthCircumstances(
     // The place's conditions: the outcome web's factor on the birth rate
     // (1 where nothing moves it, or the web is not running).
     place:
-      p("renewalPlaceWeight") * Math.log(birthRateFactor(api, mother.placeId)),
+      p("renewalPlaceWeight") *
+      Math.log(birthRateFactor(api, mother.placeId, mother.householdId)),
   };
 }
 

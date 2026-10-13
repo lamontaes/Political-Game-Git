@@ -5,6 +5,7 @@ import {
   chooseBirthPlan,
   PLAN_CHILD,
   birthCircumstances,
+  householdTenure,
   type BirthCouple,
 } from "../births-plan";
 import { buildNewborn } from "../births-people";
@@ -184,6 +185,10 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
     date: api.state.date,
     placeId: baby.placeId,
     householdId: baby.householdId,
+    // Owners' and renters' births are separate outcomes in the outcome web.
+    ...(householdTenure(api, baby.householdId)
+      ? { tenure: householdTenure(api, baby.householdId)! }
+      : {}),
   });
   table(api, "pregnancies").put({
     ...row,
