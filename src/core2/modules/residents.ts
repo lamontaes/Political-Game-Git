@@ -767,14 +767,17 @@ export function releaseResidentHousehold(
   const retirees: FlowState[] = [];
   for (const flow of rt.flows.values()) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
-      const perDay = { ...flow.perDayMinorByJob };
-      let changed = false;
+      // Copy only a flow that pays one of these jobs.
+      const present = flow.perDayMinorByJob;
+      let member = false;
       for (const id of jobIds)
-        if (perDay[id] !== undefined) {
-          delete perDay[id];
-          changed = true;
+        if (present[id] !== undefined) {
+          member = true;
+          break;
         }
-      if (!changed) continue;
+      if (!member) continue;
+      const perDay = { ...present };
+      for (const id of jobIds) delete perDay[id];
       flow.perDayMinorByJob = perDay;
       flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
       let total = 0;
