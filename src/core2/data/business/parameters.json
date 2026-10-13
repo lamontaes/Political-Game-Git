@@ -278,5 +278,39 @@
     "value": 10,
     "tag": "SOURCED",
     "citation": "A decade: the span the age weight is read over (ten years)."
+  },
+  "businessStartupStaff": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Business Dynamics Statistics (press release, Sept. 20, 2017): the nation's 414,000 startup firms of 2015 created 2.5 million jobs, about six each.",
+    "estimatedFrom": "Jobs created by age-0 firms divided by the number of age-0 firms; a founding plans a business of about that size, smaller when the founder's money and loan reach less.",
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "workers at opening",
+      "citation": "Census BDS age-0 firms: about 5 to 8 jobs per startup across 2002-2023 (3.3 million jobs from 524,000 startups a year in 2002-2006; 2.5 million from 414,000 in 2015)."
+    }
+  },
+  "businessFounderReserveMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "A founder keeps a few months of living costs and puts the rest of their savings in (Federal Reserve Small Business Credit Survey 2023: owners' personal funds are the most common startup financing; a three-month emergency reserve is the common guidance, CFPB).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months of the founder's living costs",
+      "citation": "A founder keeps a few months of living costs and puts the rest of their savings in (Federal Reserve Small Business Credit Survey 2023; CFPB emergency savings guidance)."
+    }
+  },
+  "businessDrawSurplusWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Owners take out profit the business doesn't need: pass-through owners distribute most of their net income (IRS SOI S-corporation returns: distributions are the bulk of shareholders' net income), keeping a cash cushion (JPMorgan Chase Institute 2016).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score per share drawn",
+      "citation": "IRS SOI S-corporation distributions against net income; JPMorgan Chase Institute, Cash Is King (2016)."
+    }
   }
 }
