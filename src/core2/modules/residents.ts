@@ -460,6 +460,28 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       for (const contract of household.contracts)
         privateDues += flow.amountByContract?.[contract.id] ?? 0;
     }
+    if (!flow.amountByContract) {
+      // SG-WORLD-business-union-members: the opening's dues producer estimates
+      // members from all employed people, without individual contracts. Split
+      // that pooled estimate by the same current workforce, excluding public
+      // workers from compulsory fees (Janus); voluntary dues remain intact.
+      let workers = 0,
+        privateWorkers = 0;
+      for (const job of [...core.jobs.values(), ...rt.jobs.values()]) {
+        const employer = core.organizations.get(job.organizationId);
+        if (job.endsAt !== undefined || employer?.placeId !== flow.placeId)
+          continue;
+        workers++;
+        if (
+          !laborReach.selectors.publicEmployers.includes(
+            employer.classification ?? "",
+          )
+        )
+          privateWorkers++;
+      }
+      privateDues =
+        workers > 0 ? (flow.amountMinor * privateWorkers) / workers : 0;
+    }
     feeDifference = Math.round(
       privateDues *
         laborLawParameters.parameters.unionAgencyFeeShareOfDues.value,

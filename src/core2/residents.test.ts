@@ -11,6 +11,8 @@ import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import type { CoreInput } from "./types";
+import { enactLaw, LAWS_MODULE } from "./modules/laws";
+import { worldCoreData } from "./modules/world";
 
 // One random place from all 56, named with its seed in the test title.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -23,6 +25,154 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
   (input.finance?.contracts ?? [])
     .filter((row) => row.kind.startsWith("household."))
     .reduce((n, row) => n + row.amountMinor / row.periodMonths, 0);
+
+describe("right-to-work pooled dues", () => {
+  it("removes only the private compulsory fee from the actual dues payment", () => {
+    const date = "2026-01-01",
+      placeId = "place:dues-fixture";
+    const source = {
+      tag: "ESTIMATED" as const,
+      asOf: date,
+      citation: "Technical pooled-dues fixture.",
+      estimatedFrom: "Two workers, one private and one public.",
+    };
+    const people = ["private", "public"].map((id) => ({
+      id,
+      givenName: id,
+      familyName: "Fixture",
+      birthDate: "1980-01-01",
+      placeId,
+      householdId: `home:${id}`,
+      tier: "monthly" as const,
+      traits: {},
+      liquidMinor: 0,
+      livingCostDailyMinor: 0,
+      familyIds: [],
+      knownIds: [],
+      jobId: `job:${id}`,
+      source,
+    }));
+    const core = createLifeCore(
+      {
+        seed: "pooled-dues-fixture",
+        startedAt: date,
+        people,
+        households: people.map((p) => ({
+          id: p.householdId,
+          placeId,
+          memberIds: [p.id],
+          source,
+        })),
+        organizations: [
+          {
+            id: "employer:private",
+            classification: "enterprise:retail",
+            kind: "employer",
+          },
+          {
+            id: "employer:public",
+            classification: "service:police",
+            kind: "employer",
+          },
+          { id: "pool", classification: "", kind: "residents" },
+          {
+            id: "union",
+            classification: "membership:labor-union",
+            kind: "membership",
+          },
+        ].map((o) => ({
+          ...o,
+          placeId,
+          name: o.id,
+          liquidMinor: 1000000,
+          source,
+        })),
+        jobs: people.map((p) => ({
+          id: p.jobId,
+          personId: p.id,
+          organizationId: `employer:${p.id}`,
+          title: "Worker",
+          hourlyMinor: 2000,
+          hoursDaily: 8,
+          wageDailyMinor: 16000,
+          source,
+        })),
+        residents: {
+          version: "core2-residents-v1",
+          accounts: [{ placeId, accountId: "pool" }],
+          households: [],
+          source,
+          flows: [
+            {
+              id: "dues:union",
+              kind: "purchase",
+              financeKind: "household.union-dues",
+              payerId: "pool",
+              payeeId: "union",
+              residentsId: "pool",
+              placeId,
+              amountMinor: 10000,
+              firstAt: "2026-02-01",
+              cadence: { kind: "months", every: 1, day: 1 },
+              salesReceipt: false,
+              marketAdjusted: false,
+              source,
+            },
+          ],
+        },
+        focusPersonIds: [],
+        focusPlaceIds: [],
+        calendarDates: [],
+        gaps: [],
+      },
+      { data: worldCoreData(), modules: [LAWS_MODULE], scheduledWork: false },
+    );
+    core.observer = true;
+    const api = coreAPI(core);
+    api
+      .moduleState(LAWS_MODULE.id)
+      .table("chain")
+      .put({
+        id: "chain",
+        placeKey: "fixture",
+        placeName: "Fixture",
+        townPlaceId: placeId,
+        stateKey: "state:fixture",
+        countyGeoids: [],
+        incorporated: false,
+        levels: [{ level: "state", jurisdiction: "state:fixture" }],
+      });
+    const enact = (value: number) =>
+      enactLaw(api, {
+        jurisdiction: "state:fixture",
+        level: "state",
+        series: "us-policy-positions:labor-workforce.right-to-work",
+        value,
+        effectiveDate: core.date,
+        measureId: `dues:${value}`,
+        citation: source.citation,
+      });
+    enact(0);
+    const money = () =>
+      [...core.people.values(), ...core.organizations.values()].reduce(
+        (n, p) => n + p.liquidMinor,
+        0,
+      );
+    const total = money();
+    advanceCore(core, "2026-02-02");
+    const receipt = (prefix: string) =>
+      [...core.cashJournal.detailedReceipts.values()].find((r) =>
+        r.sourceRef.id.startsWith(prefix),
+      );
+    expect(receipt("dues:union@2026-02-01")?.grossDebitMinor).toBe(10450);
+    const law = enact(1);
+    advanceCore(core, "2026-03-02");
+    expect(receipt(`dues:union@2026-03-01:${law.id}`)?.grossDebitMinor).toBe(
+      10000,
+    );
+    expect(money()).toBe(total);
+  });
+});
 
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
