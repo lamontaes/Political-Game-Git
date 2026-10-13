@@ -80,6 +80,8 @@ export function openingMortgages(input: {
   contracts: FinanceContractInput[];
   flows: ResidentFlowInput[];
   terms: MortgageTerms[];
+  /** What the town bank now holds of these loans, against its room. */
+  heldByBankMinor: number;
 } {
   const { owners, p } = input;
   const year = Number(input.startedAt.slice(0, "YYYY".length));
@@ -165,11 +167,9 @@ export function openingMortgages(input: {
     const balance = Math.round(balanceAfter(original, r, termMonths, paid));
     if (payment <= 0 || balance <= 0) continue;
     const id = `${MORTGAGE_PREFIX}${owner.id}`;
-    // A full household's standing bill can only pay a recorded local account, so the bank holds those loans.
+    // The town bank holds loans while its capital carries them; the rest are held outside the town.
     const holderId =
-      !input.outsideId || !owner.counted || balance <= room
-        ? input.bankId
-        : input.outsideId;
+      !input.outsideId || balance <= room ? input.bankId : input.outsideId;
     if (holderId === input.bankId) room -= balance;
     terms.push({
       householdId: owner.id,
@@ -191,7 +191,7 @@ export function openingMortgages(input: {
         householdId: owner.id,
         payerIds: [...owner.payerIds],
         payeeId: holderId,
-        kind: "household-purchase",
+        kind: "household.mortgage",
         amountMinor: payment,
         dueAt: input.dueAt,
         periodMonths: 1,
@@ -227,5 +227,10 @@ export function openingMortgages(input: {
       source: input.source,
     });
   }
-  return { contracts, flows, terms };
+  return {
+    contracts,
+    flows,
+    terms,
+    heldByBankMinor: input.bankRoomMinor - room,
+  };
 }
