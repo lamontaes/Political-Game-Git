@@ -3,7 +3,9 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
 import {
+  CANDIDACY_PARAMETERS,
   candidacyModule,
+  candidacyReasons,
   candidatesFor,
   decideToRun,
   RUN,
@@ -63,6 +65,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
           "incumbency",
           "incumbentTie",
           "money",
+          "reach",
           "standing",
           "temperament",
           "time",
@@ -100,7 +103,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       strength: 1,
     });
     const again = decideToRun(api, near.personId, contest("b"))!;
-    expect(again.reasons.cause).toBeGreaterThan(near.reasons.cause);
+    expect(again.reasons.cause).toBeGreaterThan(near.reasons.cause!);
     expect(again.run).toBe(true);
   });
 
@@ -115,5 +118,59 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     ).length;
     expect(again / sample.length).toBeGreaterThan(0.65);
     expect(again / sample.length).toBeLessThan(0.95);
+  });
+
+  // A county's filing fee is often a share of the office's salary (hundreds
+  // of dollars); weighed against cash on hand alone, it kept every adult out
+  // of every county race. The fee is weighed against what a person has and
+  // what their pay brings in while filing is open, and where the law takes
+  // signatures in place of the fee, against the signatures their own circle
+  // can't supply.
+  it("weighs a county's fee against pay and the petition route, and a countywide race's reach", () => {
+    const county = {
+      ...contest("county"),
+      officeName: "County commissioner",
+      feeMinor: 85_000,
+      countywide: true,
+    };
+    const workers = adults.filter((row) => {
+      const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
+      return job && !job.endsAt && job.wageDailyMinor > 0;
+    });
+    expect(workers.length).toBeGreaterThan(0);
+    const window = CANDIDACY_PARAMETERS.candidacyFilingWindowDays!.value;
+    for (const row of workers) {
+      const pay = core.jobs.get(row.jobId!)!.wageDailyMinor;
+      const reasons = candidacyReasons(api, row, county);
+      // Their pay (or what they live on) over the filing window counts
+      // toward the fee.
+      const means =
+        row.liquidMinor + Math.max(pay, row.livingCostDailyMinor) * window;
+      expect(reasons.money!).toBeCloseTo(
+        CANDIDACY_PARAMETERS.candidacyMoneyWeight!.value *
+          Math.max(-1, Math.min(1, (means - 85_000) / (means + 85_000 + 1))),
+      );
+      // A countywide race costs the same reach for everyone.
+      expect(reasons.reach).toBe(
+        -CANDIDACY_PARAMETERS.candidacyCountywideWeight!.value,
+      );
+      expect(candidacyReasons(api, row, contest("town")).reach).toBe(0);
+    }
+    // Someone whose circle can sign their petition files without the fee.
+    const known = adults.find((row) => row.knownIds.size > 0)!;
+    const petition = candidacyReasons(api, known, {
+      ...county,
+      signaturesInLieu: known.knownIds.size,
+    });
+    const free = candidacyReasons(api, known, { ...county, feeMinor: 0 });
+    expect(petition.money!).toBeCloseTo(free.money!);
+    const half = candidacyReasons(api, known, {
+      ...county,
+      signaturesInLieu: known.knownIds.size * 2,
+    });
+    expect(half.money!).toBeLessThan(petition.money!);
+    expect(half.money!).toBeGreaterThan(
+      candidacyReasons(api, known, county).money!,
+    );
   });
 });
