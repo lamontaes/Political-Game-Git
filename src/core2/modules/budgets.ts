@@ -509,6 +509,7 @@ function receiveOutsideRevenue(
       } as unknown as ModuleRow);
     }
   paySchoolEligibility(api);
+  payPensionContribution(api);
   scheduleOutsideRevenue(api, api.state.date);
 }
 
@@ -1171,4 +1172,51 @@ function paySchoolEligibility(api: CoreAPI): void {
     ["service:private-school"],
     params.voucherAmountDollars.value,
   );
+}
+
+/** The appropriated pension contribution leaves spendable cash for its dedicated fund. */
+function payPensionContribution(api: CoreAPI): void {
+  const law = lawInForce(
+    api,
+    "us-policy-positions:fiscal.fund-pensions-to-schedule",
+  );
+  if (law.value !== 1 || !law.governing) return;
+  const gov = governments(api).find(
+    (row) => row.id === law.governing!.jurisdiction,
+  );
+  if (!gov) return;
+  const budget = budgetsOf(api, gov.id)
+    .filter((row) => row.startsOn <= api.state.date)
+    .at(-1);
+  const monthly = Math.round(
+    (budget?.spendingMinor.retirementContributions ?? 0) / MONTHS_PER_YEAR,
+  );
+  if (monthly <= 0) return;
+  // stopgapId: SG-LAW-LINK-calibration
+  api.stopgap("SG-LAW-LINK-calibration");
+  const accounts = api.accounts();
+  const fund = `pension-fund:${gov.organizationId}`;
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation:
+      lawParameters.parameters.pensionShortfallPerResidentDollars.source,
+    estimatedFrom: `Monthly share of ${budget!.id}'s appropriated retirement contributions; dedicated cash until pension assets and benefits are modeled.`,
+  };
+  if (!api.state.cashJournal.accounts.has(fund))
+    accounts.open({
+      id: fund,
+      ownerId: gov.organizationId,
+      name: "pension contribution fund",
+      source,
+    });
+  accounts.transfer({
+    id: `pension-contribution:${law.governing.id}:${api.state.date}`,
+    from: accounts.main(gov.organizationId),
+    to: fund,
+    amountMinor: monthly,
+    reasonKey: "law-reach:pension-contribution-funded",
+    source,
+    partial: true,
+  });
 }

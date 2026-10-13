@@ -797,9 +797,23 @@ describe("law reach, group B: every policy reaches people through its engine", (
       publicOrgs.length,
     );
     report.pensions = { addedMinor: added, publicEmployers: publicOrgs.length };
+    advanceCore(core, after(core.date, 35));
+    const fund = `pension-fund:${gov.organizationId}`;
+    const paid = api.accounts().balance(fund);
+    expect(
+      paid,
+      `${where}: appropriated pension money must leave spendable cash`,
+    ).toBeGreaterThan(0);
+    expect(core.cashJournal.totals.grossDebitMinor).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
     enact(key, 0, LOCAL);
     expect(line(gov, "retirementContributions")).toBe(before);
     expectEnded("budget-line:retirementContributions");
+    advanceCore(core, after(core.date, 35));
+    expect(api.accounts().balance(fund), "repeal stops new contributions").toBe(
+      paid,
+    );
   });
 
   it("a minimum reserve sets the treasury's cash aside up to its target; repeal releases it", () => {
