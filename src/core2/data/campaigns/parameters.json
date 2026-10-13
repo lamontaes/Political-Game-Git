@@ -100,11 +100,17 @@
       "source": "Common campaign practice of taking volunteers from about 16; no single law sets it.",
       "spread": [14, 18]
     },
-    "turnoutBase": {
-      "value": -1,
+    "votingStandAgainBase": {
+      "value": 0.9,
       "tag": "TUNABLE",
-      "source": "The reason to vote every adult carries before their own duty, interest and cost. Checked against real turnout: about 64% of eligible citizens voted in November 2024 (U.S. Census Bureau, CPS Voting and Registration Supplement 2024), about 46% in the 2022 midterm, often under 25% in off-cycle local elections.",
-      "spread": [-2, 2]
+      "source": "The reason a serving incumbent who is a full person carries to stand again before their traits weigh in (the trait lean for stand over retire runs about -1 to 1, so most incumbents still stand). Checked against the share of incumbents who seek reelection, about 81% of U.S. local incumbents, the figure the repo's candidacy test cites.",
+      "spread": [0.5, 1.2]
+    },
+    "turnoutBase": {
+      "value": -0.6,
+      "tag": "TUNABLE",
+      "source": "The reason to vote every adult carries before their own duty and reliability (on the trait scale, about -4.5 to 4.5), the trait lean between voting and staying home (traitDecisionWeight times about -1 to 1), their interest in the race and its cost. Checked so named adults in a local race on a presidential November turn out near 64% (63.9% of the voting-eligible population voted in November 2024, U.S. Elections Project, Michael McDonald); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 64% at this value.",
+      "spread": [-1.2, 0]
     },
     "turnoutWorkWeekMinutes": {
       "value": 2400,
@@ -253,10 +259,10 @@
       "spread": [1, 3]
     },
     "recallOrganizerEffort": {
-      "value": 1.3,
+      "value": 0.5,
       "tag": "TUNABLE",
-      "source": "How strongly a resident must be moved (their grievance with a member's vote plus half their duty and readiness for conflict) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
-      "spread": [1.0, 1.8]
+      "source": "How strongly a resident must be moved (their grievance with a member's vote plus the weighted trait lean between organizing and leaving it, about -1 to 1 on the shared trait scale, recalls.organize) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
+      "spread": [0.3, 1.0]
     },
     "recallElectionDays": {
       "value": 75,
@@ -299,6 +305,12 @@
       "tag": "TUNABLE",
       "source": "How much a problem must press on a resident, plus their readiness to reach out, before they bring it to an official; checked so a small share of residents with a problem come in a given month (about 1 in 5 Americans contacted an elected official in the past year: Pew, 2018).",
       "spread": [0.9, 1.7]
+    },
+    "constituentHelpBase": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How readily an official with no staffer helps a resident's case before their traits tilt it (scaled trait lean runs about -1 to 1): most do, and only strongly unhelpful temperaments turn one away (OPUS-TRAITS, Oct 12, 2026).",
+      "spread": [0.25, 0.75]
     },
     "caseRetirementAge": {
       "value": 62,
@@ -408,16 +420,28 @@
       "spread": [0, 0.03]
     },
     "primaryTurnoutCost": {
-      "value": 0.6,
+      "value": 1.4,
       "tag": "TUNABLE",
-      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022).",
-      "spread": [0.2, 1.2]
+      "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost.",
+      "spread": [0.8, 2.0]
     },
     "primaryShareOfGeneral": {
       "value": 0.45,
       "tag": "ESTIMATED",
       "source": "Primary voters as a share of the same year's general-election voters: 2022 statewide primaries cast about 21% of registered voters' ballots against about 46% in November (Bipartisan Policy Center and U.S. Elections Project), so about 0.45.",
       "spread": [0.3, 0.6]
+    },
+    "electionsSignKnownPull": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "A stranger's petition is signed when the person's trait lean toward signing (about -1 to 1) is above zero; knowing the candidate adds this much, so a known candidate gets the signature from nearly everyone (people sign for those they know; OPUS-TRAITS, Oct 12, 2026).",
+      "spread": [0.5, 1.5]
+    },
+    "partiesJoinBase": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Most people tied to a party affiliate (Pew Research Center party-identification surveys: about two thirds of adults identify with or lean toward a party); the trait lean toward joining (about -1 to 1) is added, so only the most reluctant stay out.",
+      "spread": [0.25, 0.75]
     },
     "incumbentRecognition": {
       "value": 0.15,
@@ -438,16 +462,16 @@
       "spread": [0.18, 0.46]
     },
     "midtermTurnoutCost": {
-      "value": 0.6,
+      "value": 0.7,
       "tag": "TUNABLE",
-      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named and counted turnout falls near the midterm's 0.72 of a presidential year's.",
-      "spread": [0.1, 0.6]
+      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value.",
+      "spread": [0.3, 1.0]
     },
     "offCycleTurnoutCost": {
-      "value": 0.8,
+      "value": 1.4,
       "tag": "TUNABLE",
-      "source": "What an off-cycle election adds to the cost of voting, checked so named and counted turnout falls near a third of a presidential year's.",
-      "spread": [0.4, 1.4]
+      "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value.",
+      "spread": [0.8, 2.0]
     },
     "officeTermYearsEstimate": {
       "value": 4,
@@ -474,10 +498,10 @@
       "spread": [10, 18]
     },
     "doorAnswerThreshold": {
-      "value": 1.25,
+      "value": 2.25,
       "tag": "TUNABLE",
-      "source": "How ready the most outgoing adult home must be to open to a canvasser (sociability plus half their readiness for conflict and for risk); checked against field contact rates of about a quarter to a third of doors knocked (Green and Gerber 2019; Arceneaux 2005).",
-      "spread": [0, 1.5]
+      "source": "How ready the adult home whose traits lean most toward opening must be to open to a canvasser (every trait's lean between opening and ignoring, campaigns.open-door, times traitScale, about -3 to 3, plus their age term); checked against field contact rates of about a quarter to a third of doors knocked (Green and Gerber, Get Out the Vote, 2019; Arceneaux 2005). Measured over six random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 19 to 37% of doors, 31% on average, at this value; 42 to 61% at the earlier 1.25.",
+      "spread": [1.75, 2.75]
     },
     "volunteerClosenessWeight": {
       "value": 0.5,
@@ -486,10 +510,10 @@
       "spread": [0.2, 1]
     },
     "volunteerThreshold": {
-      "value": 1.0,
+      "value": 2.5,
       "tag": "TUNABLE",
-      "source": "How strong someone's pull to volunteer must be: checked so a small share of a candidate's acquaintances say yes (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that).",
-      "spread": [0.5, 1.5]
+      "source": "How strong someone's pull to volunteer must be (their warmth and closeness to the candidate, every trait's lean between volunteering and declining, campaigns.volunteer, times traitScale, about -3 to 3, less their hours of work): checked so a small share of a candidate's acquaintances say yes (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that). Measured over six random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 5 to 31% of acquaintances, 17% on average, at this value; 21 to 54% at the earlier 1.0.",
+      "spread": [2, 3]
     },
     "doorAnswerPivotAge": {
       "value": 55,

@@ -28,6 +28,8 @@ import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { partySide } from "../appointments";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import {
   authorityFor,
   draftBill,
@@ -268,13 +270,30 @@ function bringAgenda(
   const leaderKey = input.leader
     ? (input.leader.personId ?? `official:${input.leader.id}`)
     : null;
+  // A person leader's traits tilt how much of the unmet gap is worth the
+  // floor time; a named official not filled in yet adds nothing.
+  const leaderPerson = input.leader?.personId
+    ? api.state.people.get(input.leader.personId)
+    : undefined;
+  const traitTilt = leaderPerson
+    ? parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        leaderPerson,
+        "world-legislating.bring-agenda",
+        "bring",
+        "hold",
+      )
+    : 0;
   const agenda = PLATFORM_QUESTIONS.map((question) => {
     const want = personStance(input.lean, question);
     return { question, want, gap: input.gapFor(question, want) };
   })
     .filter(
       (item) =>
-        item.gap > 0 && input.allowed(item.question, Math.sign(item.want)),
+        item.gap > 0 &&
+        item.gap + traitTilt > 0 &&
+        input.allowed(item.question, Math.sign(item.want)),
     )
     .sort((a, b) => b.gap - a.gap || a.question.localeCompare(b.question))
     .slice(0, input.bills);

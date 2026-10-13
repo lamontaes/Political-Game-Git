@@ -171,7 +171,8 @@ describe(
           v.position.views +
             v.position.constituents +
             v.position.sponsor +
-            v.position.deal,
+            v.position.deal +
+            v.position.trait,
         );
       for (const m of council.map((s) => s.holder!.personId!)) {
         const v = votes.find((x) => x.memberId === m)!;

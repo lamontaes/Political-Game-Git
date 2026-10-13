@@ -10,6 +10,7 @@ import {
 } from "./modules/corruption";
 import { buildPopulation } from "./population";
 import { coreAPI } from "./state";
+import { decisionLean } from "./trait-decisions";
 
 // M3-09: a corrupt act happens only where the people's own traits and money
 // support it, leaves a record, and is learned by others only through a real
@@ -89,7 +90,21 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
   });
 
   it("is known only to the two people, until one falls out with the other and tells someone", () => {
-    const crime = records.find((row) => row.taken);
+    // A bribe where one of the two leans toward telling over keeping quiet:
+    // someone who leans hard the other way keeps it even after a falling-out.
+    const leansToTell = (id: string) =>
+      decisionLean(
+        core,
+        core.people.get(id)!,
+        "corruption.tell",
+        "corruption-tell-yes",
+        "corruption-tell-no",
+      ) > 0;
+    const crime = records.find(
+      (row) =>
+        row.taken &&
+        (leansToTell(row.offererId) || leansToTell(row.officialId)),
+    );
     expect(crime).toBeDefined();
     const others = adults.filter(
       (row) => row.id !== crime!.offererId && row.id !== crime!.officialId,
