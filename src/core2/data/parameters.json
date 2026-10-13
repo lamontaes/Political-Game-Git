@@ -4556,5 +4556,16 @@
       "unit": "score per unit of scaled trait lean",
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
     }
+  },
+  "votingBallotAgainstViewMax": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the voting checks (PW-1 check E, PW-3); the ballot itself weighs the view, never this number. PW-3, voting module.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "share of the lean scale's half-width",
+      "citation": "The views engine's labels: 'somewhat' at ±0.5 of lean, 'liberal'/'conservative' at ±1, 'very' at ±2 (data/views/views.json)."
+    }
   }
 }
