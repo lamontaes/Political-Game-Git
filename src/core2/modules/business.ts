@@ -45,6 +45,10 @@ import {
   setOperatingLimit,
 } from "../business-operating-rules";
 
+import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import reach from "../data/laws/reach-group-a.json" with { type: "json" };
+
 export const BUSINESS_MODULE_ID = "business";
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -633,6 +637,55 @@ function month(api: CoreAPI): void {
   succeed(api);
   reviewClosures(api);
   membershipPayouts(api);
+  if (c.modules.has(LAWS_MODULE_ID)) {
+    const privacy = lawInForce(
+      api,
+      "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+    );
+    const ageCheck = lawInForce(
+      api,
+      "us-policy-positions:technology-privacy.age-verification-for-social-media",
+    );
+    for (const [organizationId, book] of c.finance.businesses) {
+      if (book.closedAt) continue;
+      const org = c.organizations.get(organizationId);
+      if (!org) continue;
+      const sync = (question: string, law: typeof privacy, share: number) => {
+        const cause = question;
+        if (law.value !== 1 || !law.governing) {
+          endOperatingRule(
+            api,
+            store(api).table("operating"),
+            `cost:${organizationId}:${cause}`,
+          );
+          return;
+        }
+        addRegulatoryCost(api, store(api).table("operating"), {
+          organizationId,
+          cause,
+          shareOfCosts: share,
+          source: {
+            tag: "ESTIMATED",
+            asOf: c.date,
+            citation: String(law.governing.source),
+            estimatedFrom:
+              "data/laws/reach-group-a-parameters.json recurring compliance cost share.",
+          },
+        });
+      };
+      sync(
+        "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+        privacy,
+        lawParameters.parameters.privacyComplianceShareOfCosts.value,
+      );
+      if (reach.selectors.online.includes(org.classification ?? ""))
+        sync(
+          "us-policy-positions:technology-privacy.age-verification-for-social-media",
+          ageCheck,
+          lawParameters.parameters.ageVerificationShareOfCosts.value,
+        );
+    }
+  }
   payOperatingCosts(api, store(api).table("operating"));
   for (const row of store(api)
     .table("owners")

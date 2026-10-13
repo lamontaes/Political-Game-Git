@@ -192,6 +192,18 @@
       "tag": "ESTIMATED",
       "source": "BLS Union Members 2024 and EPI public-sector compensation comparisons: a modest bargaining wage premium, not the unadjusted union/nonunion earnings gap.",
       "spread": [0, 0.1]
+    },
+    "privacyComplianceShareOfCosts": {
+      "value": 0.003,
+      "tag": "ESTIMATED",
+      "source": "California DOJ, Standardized Regulatory Impact Assessment for CCPA regulations (2019). Estimated recurring compliance share of operating costs; firm-specific data volumes are not recorded.",
+      "spread": [0.001, 0.01]
+    },
+    "ageVerificationShareOfCosts": {
+      "value": 0.005,
+      "tag": "ESTIMATED",
+      "source": "Ofcom, age-assurance impact assessment (2024-2025), implementation and verification transaction costs. Estimated annual share for online firms, not a quoted U.S. provider price.",
+      "spread": [0.001, 0.02]
     }
   }
 }
