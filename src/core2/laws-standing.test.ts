@@ -46,7 +46,9 @@ describe("PW-4: starting law carries forward", () => {
         );
         if (followed) continue;
         if (row.sunset?.source && row.sunset.date === row.endDate) continue;
-        lapses.push(`${jurisdiction} ${row.series} ${row.tier} ends ${row.endDate}`);
+        lapses.push(
+          `${jurisdiction} ${row.series} ${row.tier} ends ${row.endDate}`,
+        );
       }
     }
     expect(lapses).toEqual([]);
