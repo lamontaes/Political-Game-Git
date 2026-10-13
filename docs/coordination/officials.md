@@ -11,6 +11,10 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 - **Votes vary (Oct 13):** a member's position on a bill is the sum of recorded reasons: their views, their district, their party's leadership, their wing, ambition and the next election, press attention, organized interests, the sponsor and any deal. A member's own view is their lean plus how widely state legislatures have already made the policy law; their district reads the polls. Over the 54 policy questions in a Missouri game, 47 to 49 votes split the parties in each chamber, members side with their party 96 to 97% of the time, and settled, widely adopted policies draw both parties.
 - **Independents (Oct 13):** the two independent senators caucus with the Democrats and California's independent House member with the Republicans (congress-legislators roster). They vote with their caucus on 90 to 98% of party votes. An independent legislator the roster doesn't place caucuses with the party nearest their views, or with no one if they sit between the parties; a truly independent member feels no party pressure and weighs the issues behind their reason more.
 
+- **Named challengers (Oct 13, second session):** when nobody in town files against a state or federal incumbent, the other party's candidate is a person from the world: an officeholder one step down the ladder in that state (state legislators for the U.S. House and statewide offices; House members and statewide officers for the Senate and governor) or a newcomer, whoever has the strongest reason (ambition from traits, how near their views sit to the seat's electorate, a record to run on). Someone whose own seat is on the same ballot stays in that race. A winner keeps their views in the new seat, and the seat they held below goes to its vacancy rule. The presidency still draws a named stand-in.
+- **Vetoes and overrides (Oct 13):** a governor or president signs or vetoes from their own reasons (views, their state, press, traits, organized interests), not their party. A veto now goes to its own override roll call, where every member decides again and members of the executive's party weigh standing with them.
+- **Leaders' agendas (Oct 13):** a floor leader who is an official brings the bills they themselves want most, their own causes included.
+
 ## Checklist (M1-12)
 
 - [x] 1. Officials generated at the opening as people through the core's fill-in, seated into the offices engine's terms (opening 81 s vs 76 s before, one Missouri seed).
@@ -22,9 +26,14 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
   - **An Idaho town (place 1616120, seed officials-proof-2):** the legislature repealed same-day registration, Medicaid expansion (34–1 in the House, one Republican no) and restored voting after a sentence; the federal votes split 220–213 to 223–210 with 1 to 4 Democrats crossing.
   - **Independents:** both caucusing senators voted with the Democrats on every federal bill in all three games; the California independent with the Republicans.
   - **Speed:** same place and seed on main versus this branch: opening 61 s and 61 s, year 566 s and 550 to 574 s (no slowdown); memory after the opening 3.55 GB on main against 3.6 to 3.8 GB here. Officials use the `calendar` tier and never act on their own.
+  - [x] 5. Named state and federal challengers from the officials; override roll calls; leaders' agendas from their own stances; officials seated before filing in the played world (`src/bench/world.ts`).
   - **Not yet in `/play`:** world races and legislating are installed by FIXER's `fixer/wire-all-modules`. Officials themselves are in `/play` now: `openLegislature` seats them.
 
 ## Needs from other sessions
+
+- **OPUS-GOV (review):** three small edits in your files on this branch: `voting.ts` `fileStandingCandidates` asks `officialCandidate` before drawing an unnamed challenger or nominee; `legislature.ts` `executiveAction` holds an override roll call (`overrideVote`) instead of counting the passage tallies; `world-legislating.ts` `bringAgenda` reads an official leader's own stance (`officialStance`).
+- **OPUS-PLAY (review):** `src/bench/world.ts` opens officials right after offices, so filing at the opening sees them.
+- **OPUS-GOV:** presidential challengers are still drawn stand-ins (`world-races.ts` `inaugurate` seats a drawn identity, not the winner); a governor or senator from the officials could run once the inauguration seats the person who won.
 
 - **OPUS-CORE:** `fillInIdentity` now takes optional `traits` and `tier` (two lines in `src/core2/state.ts`, on this branch). Officials use the `calendar` tier so they don't add daily or monthly acts.
 - **FIXER (wire-all-modules):** world-legislating and world-races in the played world, for step 4.
@@ -43,6 +52,8 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 - None yet.
 
 ## Log
+
+- 2026-10-13 (second session): merged main (keeps main's trait lean beside the officials' reasons; the stand-in party lean in `leanOf` stays retired). Named state and federal challengers, override roll calls, leaders' own agendas. No sub-agents ran.
 
 - 2026-10-13: steps 1 to 3 (first slice) on `opus-officials`.
 - 2026-10-13: members read policies the way legislatures do (adoption share), caucusing independents sit in their caucus's range, officials test in a random place, year proof in two places plus a second seed (step 4). No sub-agents ran.
