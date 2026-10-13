@@ -1700,7 +1700,7 @@
     "kind": "missing-jobs",
     "file": "src/core2/residents.ts",
     "line": 1,
-    "whatItFakes": "Counted residents the opening couldn't place in a town firm (the employment target from ACS/CPS less recorded jobs) earn the town's median recorded wage, paid every two weeks from outside, without employers, commutes or industries.",
+    "whatItFakes": "Counted residents the opening couldn't place in a town firm (the employment target from ACS/CPS less recorded jobs) earn the place's ACS median earnings (the town's median recorded wage where the place's sample is too thin), paid every two weeks from outside, without employers, commutes or industries.",
     "why": "The opening's town workplaces cover only part of the county's industry mix (e.g. 34% in Mill Creek, Oklahoma), so most working residents had no income and the residents' account ran dry within months.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
