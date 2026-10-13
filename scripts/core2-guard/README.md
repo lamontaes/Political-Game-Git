@@ -29,6 +29,7 @@ Each command receives these environment bindings:
 - `GOLDEN_PATH_PLACE_KEY`: recorded locality key.
 - `GOLDEN_PATH_SPEC_ID`: the registered spec ID.
 - `GOLDEN_PATH_COMMIT`: commit used to derive the seed.
+- `GOLDEN_PATH_MODE`: `pr` or `nightly`, so a test can run longer at night.
 
 Registered tests must use those
 bindings to build their world. Selection hashes the tested commit and spec ID,
@@ -37,6 +38,11 @@ Receipts include the full seed, place, command, exit status, time, and bounded
 failure output. The runner never writes the feature registry.
 
 The performance guard runs only for PRs touching the core, and nightly.
+It measures the played world: the bench's two-level town with the economy and
+every module the bench installs (`buildBenchWorld`, opening October 12, 2026),
+the same path as `tests/golden-path/played-world.node-test.ts`. A revision
+whose bench can't hand over its opening input falls back to the generated
+opening; `settings.playedWorld` records which path ran.
 One warmup and three independent measured processes run per revision, one
 process at a time. The same seed, place, opening-input hash, settings, host,
 and month horizon must match; incomparable runs fail explicitly. Median

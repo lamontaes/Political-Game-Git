@@ -1463,6 +1463,62 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       Object.assign(actor, changes);
     },
+    relocatePeopleV1(input) {
+      const ids = [...input.personIds];
+      const movers = ids.map((id) => core.people.get(id));
+      const first = movers[0];
+      const household = first && core.households.get(first.householdId);
+      if (
+        !household ||
+        new Set(ids).size !== ids.length ||
+        movers.some(
+          (row) =>
+            !row?.alive ||
+            row.householdId !== household.id ||
+            !household.memberIds.includes(row.id) ||
+            (row.jobId !== undefined &&
+              core.jobs.get(row.jobId)?.endsAt === undefined),
+        )
+      )
+        throw new Error(
+          "Invalid relocation: one living household, no job held.",
+        );
+      makeIsoDate(input.source.asOf);
+      const whole = household.memberIds.every((id) => ids.includes(id));
+      if (whole) {
+        if (input.householdId !== household.id)
+          throw new Error("A whole household moves under its own id.");
+        core.households.set(household.id, {
+          ...household,
+          placeId: input.placeId,
+          source: input.source,
+        });
+      } else {
+        if (core.households.has(input.householdId))
+          throw new Error(`Household already present: ${input.householdId}`);
+        core.households.set(household.id, {
+          ...household,
+          memberIds: household.memberIds.filter((id) => !ids.includes(id)),
+        });
+        core.households.set(input.householdId, {
+          id: input.householdId,
+          placeId: input.placeId,
+          memberIds: ids,
+          source: input.source,
+        });
+      }
+      for (const actor of movers as PersonState[]) {
+        core.peopleByPlace.get(actor.placeId)?.delete(actor.id);
+        if (actor.countyId)
+          core.peopleByPlace.get(actor.countyId)?.delete(actor.id);
+        actor.placeId = input.placeId;
+        if (input.countyId) actor.countyId = input.countyId;
+        else delete actor.countyId;
+        actor.householdId = input.householdId;
+        index(core.peopleByPlace, actor.placeId, actor.id);
+        if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
+      }
+    },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);
       if (source.asOf > core.date)

@@ -1177,6 +1177,20 @@ export interface CoreAPI {
       >
     >,
   ): void;
+  /**
+   * People leaving town for another place (moves): each takes the new place
+   * and county and leaves the town's place index. When they are the whole
+   * household, the household goes with them under its own id; otherwise they
+   * leave it for `householdId`, a new household at the new place. None may
+   * still hold a job here.
+   */
+  relocatePeopleV1(input: {
+    personIds: readonly PersonId[];
+    placeId: PlaceId;
+    countyId?: PlaceId;
+    householdId: string;
+    source: Source;
+  }): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   /**
