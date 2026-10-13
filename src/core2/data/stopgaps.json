@@ -2801,5 +2801,17 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
+  },
+  {
+    "id": "SG-PW2-debate-uncounted-candidate",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/meetings.ts",
+    "line": 542,
+    "whatItFakes": "In a debate, a candidate on the ballot who is not a full person in the played world (a state or federal candidate from outside the town) answers the questions but makes no campaign statements, so the audience hears nothing from them.",
+    "why": "campaignFor (campaigns.ts) assumes every filing's candidate is a full person and reads their name; in the two-level played world the governor's and senators' rivals are not, and the first debate threw (seeds d1546b1d42d26ed3 and 0737f617f4fe20f8, Oct 26, 2026). PW-2 may only add a guard.",
+    "addedBy": "PW-2",
+    "addedAt": "2026-10-13",
+    "replacement": "OPUS-OFFICIALS makes state and federal candidates full people at the opening (BOARD Oct 12 item 2), or OPUS-GOV lets campaignFor carry a candidate who is not a full person; then remove the guard.",
+    "status": "open"
   }
 ]

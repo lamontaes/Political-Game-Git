@@ -28,6 +28,7 @@ import { openWorldRaces } from "../core2/modules/world-races";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
+import { openMeetings } from "../core2/modules/meetings";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { renewalData } from "../core2/births-setup";
@@ -294,6 +295,8 @@ function* benchWorldStages(
   openBallotMeasures(core);
   // Residents aggrieved by an ordinance may petition to recall a member.
   openRecalls(core);
+  // Public comment before votes, town halls and debates.
+  openMeetings(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
