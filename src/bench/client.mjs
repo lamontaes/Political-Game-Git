@@ -410,8 +410,6 @@ async function renderGovernment(id) {
           contest.filingDeadline,
           contest.electionDate,
           filingOffice.filedWith,
-          filingOffice.feeMinor,
-          filingOffice.signatures,
           checks
             .filter((check) => !check.met)
             .map(
@@ -421,7 +419,7 @@ async function renderGovernment(id) {
         ],
         button("File", async () => {
           const result = await request(
-            `/api/file?${new URLSearchParams({ contestId: contest.id, payFee: String(element("pay-fee").checked) })}`,
+            `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
             { method: "POST" },
           );
           status.textContent = `File: ${result.status}${result.unmet ? ` (${result.unmet.map((u) => u.rule).join(", ")})` : ""}.`;
@@ -432,23 +430,7 @@ async function renderGovernment(id) {
   );
   element("filings").replaceChildren(
     ...v.filings.map((filing) =>
-      row(
-        [
-          filing.contestId,
-          filing.filedWith,
-          filing.status,
-          filing.signatureCount,
-          filing.feePaidMinor,
-        ],
-        button("Request signatures", async () => {
-          const rows = await request(
-            `/api/sign?${new URLSearchParams({ filingId: filing.id })}`,
-            { method: "POST" },
-          );
-          status.textContent = `Request signatures: ${rows.filter((r) => r.signed).length} / ${rows.length} signed.`;
-          await renderGovernment(id);
-        }),
-      ),
+      row([filing.contestId, filing.filedWith, filing.status]),
     ),
   );
 }
