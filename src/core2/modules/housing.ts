@@ -1053,6 +1053,7 @@ function buyHomes(api: CoreAPI): void {
       principalMinor: principal,
       annualRate: rate,
       termMonths: term,
+      monthlyIncomeMinor: income,
     });
     api.endStandingContract(id);
     store(api)

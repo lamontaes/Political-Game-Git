@@ -140,3 +140,57 @@ describe("household loans", () => {
     expect(money(core)).toBe(total);
   });
 });
+
+describe("startup loans (PW-7)", () => {
+  it("lend against the founder's income and own money on a sliding scale, so no loan's payment passes the debt-to-income reference", async () => {
+    const { amortizedPayment, startupLoanOffer } =
+      await import("./modules/credit");
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [MACRO_MODULE, CREDIT_MODULE],
+        scheduledWork: false,
+      }),
+      api = coreAPI(core),
+      p = (key: string) => api.parameter(key);
+    advanceCore(core, "2026-10-02");
+    const offer = (
+      requestedMinor: number,
+      equityMinor: number,
+      monthlyIncomeMinor: number,
+    ) =>
+      startupLoanOffer(api, {
+        founderId: "earner",
+        requestedMinor,
+        equityMinor,
+        monthlyIncomeMinor,
+        termMonths: p("businessStartupTermMonths"),
+      })!;
+    const base = offer(5_000_000, 1_000_000, 600_000);
+    expect(base.offeredMinor).toBeGreaterThan(0);
+    // Less income, or less of the founder's own money, means a smaller yes.
+    expect(offer(5_000_000, 1_000_000, 200_000).offeredMinor).toBeLessThan(
+      base.offeredMinor,
+    );
+    expect(offer(5_000_000, 0, 600_000).offeredMinor).toBeLessThan(
+      base.offeredMinor,
+    );
+    // A $4.4 million request from a household earning $8,000 a month gets what that income carries, not the request.
+    const big = offer(440_000_000, 800_000, 800_000);
+    expect(big.offeredMinor).toBeLessThan(440_000_000 / 100);
+    // No offer's payment passes the reference share of the founder's income.
+    for (const requested of [200_000, 2_000_000, 20_000_000, 200_000_000])
+      for (const income of [0, 150_000, 400_000, 1_200_000]) {
+        const row = offer(requested, requested / 10, income);
+        if (!row.offeredMinor) continue;
+        const payment = amortizedPayment(
+          row.offeredMinor,
+          row.annualRate,
+          row.termMonths,
+          p,
+        );
+        expect((100 * payment) / income).toBeLessThanOrEqual(
+          p("creditDtiReferencePct"),
+        );
+      }
+  });
+});

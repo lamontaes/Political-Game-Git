@@ -292,6 +292,8 @@ export function lendMortgage(
     principalMinor: number;
     annualRate: number;
     termMonths: number;
+    /** The household's recorded monthly income the bank approved the loan on. */
+    monthlyIncomeMinor?: number;
   },
 ): number {
   const bank = bankOf(api);
@@ -339,6 +341,13 @@ export function lendMortgage(
       openedAt: c.date,
       pastDueMinor: 0,
       standing: "current",
+      ...(input.monthlyIncomeMinor !== undefined
+        ? origination(
+            p,
+            amortizedPayment(lent, input.annualRate, input.termMonths, p),
+            input.monthlyIncomeMinor,
+          )
+        : {}),
     });
   return lent;
 }
@@ -849,6 +858,11 @@ function householdApplications(
         openedAt: c.date,
         pastDueMinor: 0,
         standing: "current",
+        ...origination(
+          p,
+          amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
+          income,
+        ),
       });
     room -= lent;
   }
@@ -884,48 +898,144 @@ function creditOffer(
   };
 }
 
-/** A startup loan from the town bank to a newly founded business, paid back monthly like any loan. Zero when the bank has no room. */
-export function lendForFounding(
+/** What the town bank would lend to start a business, and why: the founder's own money and income, against the module's ceilings. */
+export interface StartupLoanOffer {
+  founderId: string;
+  requestedMinor: number;
+  equityMinor: number;
+  /** The founder's household's monthly pay, the income the loan is guaranteed against. */
+  monthlyIncomeMinor: number;
+  annualRate: number;
+  termMonths: number;
+  /** Payment on the full request against the founder's income, in percent. */
+  debtToIncomePct: number | null;
+  /** The founder's own money as a share of the project, in percent. */
+  equityPct: number;
+  appetite: number;
+  approvedShare: number;
+  offeredMinor: number;
+}
+
+/**
+ * The town bank's answer to a founder: its yes falls smoothly as the
+ * payment on the request passes the module's debt-to-income reference
+ * against the founder's income (the founder guarantees the loan), and as
+ * the founder's own money falls below the start-up equity reference; it
+ * offers its yes's share of the request, within its room. Below the
+ * smallest loan it writes, there is no loan.
+ */
+export function startupLoanOffer(
   api: CoreAPI,
-  firmId: string,
-  amountMinor: number,
-  termMonths: number,
-): number {
+  input: {
+    founderId: string;
+    requestedMinor: number;
+    equityMinor: number;
+    monthlyIncomeMinor: number;
+    termMonths: number;
+  },
+): StartupLoanOffer | undefined {
   const bank = bankOf(api);
-  if (!bank) return 0;
+  if (!bank) return undefined;
   const p = (key: string) => api.parameter(key);
-  const book = equity(api, bank.organizationId);
-  const room = Math.max(
-    0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
-  );
   const prime = (
     api.moduleState("macro").table("state").get("macro:state") as
       { policyRatePct: number } | undefined
   )?.policyRatePct;
-  if (prime === undefined) return 0;
-  const rate =
+  if (prime === undefined) return undefined;
+  const annualRate =
     (prime +
       p("macroPrimeSpreadPct") +
       p("creditPrimeSpreadPct") +
       p("creditRiskSpreadPct")) /
     p("macroHundred");
-  const c = core(api);
+  const book = equity(api, bank.organizationId);
+  const room = Math.max(
+    0,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
+  );
+  const requested = Math.max(0, input.requestedMinor);
+  const payment = amortizedPayment(requested, annualRate, input.termMonths, p);
+  const income = input.monthlyIncomeMinor;
+  const dti =
+    income > 0
+      ? (p("macroHundred") * payment) / income
+      : Number.POSITIVE_INFINITY;
+  const project = requested + input.equityMinor;
+  const equityPct =
+    project > 0 ? (p("macroHundred") * input.equityMinor) / project : 0;
+  const appetite = bankAppetite(api);
+  const yes = Number.isFinite(dti)
+    ? appetite /
+      (1 + Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
+      (1 +
+        Math.exp(
+          -p("creditStartupEquitySlope") *
+            (equityPct - p("creditStartupEquityReferencePct")),
+        ))
+    : 0;
+  const offered = Math.floor(Math.min(requested * yes, room));
+  return {
+    founderId: input.founderId,
+    requestedMinor: Math.round(requested),
+    equityMinor: Math.round(input.equityMinor),
+    monthlyIncomeMinor: Math.round(income),
+    annualRate,
+    termMonths: input.termMonths,
+    debtToIncomePct: Number.isFinite(dti) ? dti : null,
+    equityPct,
+    appetite,
+    approvedShare: yes,
+    offeredMinor: offered >= p("creditMinimumLoanMinor") ? offered : 0,
+  };
+}
+
+/** A startup loan from the town bank to a newly founded business, as offered, paid back monthly like any loan; the decision and its reasons are recorded. */
+export function lendStartup(
+  api: CoreAPI,
+  firmId: string,
+  offer: StartupLoanOffer,
+): number {
+  const bank = bankOf(api);
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  store(api)
+    .table("applications")
+    .put({
+      id: `application:${c.date}:${firmId}`,
+      organizationId: firmId,
+      householdId: null,
+      borrowerId: firmId,
+      guarantorId: offer.founderId,
+      date: c.date,
+      kind: "startup",
+      requestedMinor: offer.requestedMinor,
+      equityMinor: offer.equityMinor,
+      monthlyIncomeMinor: offer.monthlyIncomeMinor,
+      debtToIncomePct: offer.debtToIncomePct,
+      equityPct: offer.equityPct,
+      appetite: offer.appetite,
+      approvedShare: offer.approvedShare,
+      limitMinor: offer.offeredMinor,
+      approved: offer.offeredMinor > 0,
+    });
+  if (!bank || offer.offeredMinor <= 0) return 0;
   const lent = transferCash(
     api,
     `startup-loan:${firmId}`,
     bank.organizationId,
     firmId,
-    Math.min(amountMinor, room),
+    offer.offeredMinor,
     {
       tag: "ESTIMATED",
       asOf: c.date,
       citation: creditData.source.citation,
-      estimatedFrom:
-        "A startup loan at prime plus the small-business spread and a new firm's risk premium.",
+      estimatedFrom: `A startup loan at prime plus the small-business spread and a new firm's risk premium, guaranteed by its founder, sized from the founder's income (${(offer.debtToIncomePct ?? 0).toFixed(1)}% of it on the request) and own money (${offer.equityPct.toFixed(1)}% of the project).`,
     },
   );
   if (lent <= 0) return 0;
+  const paymentMinor = Math.round(
+    amortizedPayment(lent, offer.annualRate, offer.termMonths, p),
+  );
   store(api)
     .table("loans")
     .put({
@@ -934,15 +1044,32 @@ export function lendForFounding(
       open: true,
       householdId: firmId,
       borrowerId: firmId,
+      guarantorId: offer.founderId,
       lenderId: bank.organizationId,
       kind: "startup",
       principalMinor: lent,
       balanceMinor: lent,
-      annualRate: rate,
-      paymentMinor: Math.round(amortizedPayment(lent, rate, termMonths, p)),
+      annualRate: offer.annualRate,
+      paymentMinor,
       openedAt: c.date,
       pastDueMinor: 0,
       standing: "current",
+      ...origination(p, paymentMinor, offer.monthlyIncomeMinor),
     });
   return lent;
+}
+
+/** What a loan was approved on: the borrower's recorded monthly income and the payment's share of it. */
+function origination(
+  p: (key: string) => number,
+  paymentMinor: number,
+  monthlyIncomeMinor: number,
+): { monthlyIncomeMinor: number; debtToIncomePct: number | null } {
+  return {
+    monthlyIncomeMinor: Math.round(monthlyIncomeMinor),
+    debtToIncomePct:
+      monthlyIncomeMinor > 0
+        ? (p("macroHundred") * paymentMinor) / monthlyIncomeMinor
+        : null,
+  };
 }

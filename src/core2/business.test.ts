@@ -313,10 +313,11 @@ type Founding = {
   loanMinor: number;
   parentId?: string;
   parentFundsMinor: number;
+  founderEquityMinor: number;
 };
 
 describe("founding a business where a market has room", () => {
-  it("an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", async () => {
+  it("an enterprising adult founds a restaurant; it wins a share of the households' purchases, paid for with the founder's own money, and with no income to guarantee it the bank lends nothing (PW-7); money balances", async () => {
     const core = await foundingCore(false);
     const total = money(core);
     advanceCore(core, "2026-12-15");
@@ -328,7 +329,8 @@ describe("founding a business where a market has room", () => {
     });
     expect(foundings[0]!.parentId).toBeUndefined();
     expect(foundings[0]!.customersMonthlyMinor).toBeGreaterThan(0);
-    expect(foundings[0]!.loanMinor).toBeGreaterThan(0);
+    expect(foundings[0]!.founderEquityMinor).toBeGreaterThan(0);
+    expect(foundings[0]!.loanMinor).toBe(0);
     expect(money(core)).toBe(total);
   });
 

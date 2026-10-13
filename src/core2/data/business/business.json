@@ -49,6 +49,7 @@
   "reasons": {
     "noSuccessor": "no-successor",
     "losses": "losses-kept",
-    "retiring": "owner-retiring"
+    "retiring": "owner-retiring",
+    "unfunded": "no-startup-capital"
   }
 }

@@ -94,7 +94,13 @@
   "creditDtiReferencePct": {
     "value": 43,
     "tag": "SOURCED",
-    "citation": "12 CFR 1026.43(e)(2)(vi) (2014-2021 general qualified mortgage): total debt payments at most 43 percent of monthly income."
+    "citation": "12 CFR 1026.43(e)(2)(vi) (2014-2021 general qualified mortgage): total debt payments at most 43 percent of monthly income.",
+    "spread": {
+      "low": 36,
+      "high": 50,
+      "unit": "percent of monthly income",
+      "citation": "The traditional 36 percent back-end ratio (Fannie Mae Selling Guide B3-6-02, manually underwritten loans) to the 50 percent most automated underwriting accepts (the same section, Desktop Underwriter)."
+    }
   },
   "creditDtiSlope": {
     "value": 0.15,
@@ -189,5 +195,27 @@
     "citation": "Banks' unsecured personal loans start at about $1,000 (published product minimums at large U.S. banks and credit unions).",
     "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded.",
     "stopgapId": "SG-WORLD-credit-minimum-loan"
+  },
+  "creditStartupEquityReferencePct": {
+    "value": 10,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 7.1, Subpart B, Chapter 2: a start-up business must show an equity injection of at least 10 percent of total project costs for a 7(a) loan.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "percent of project costs",
+      "citation": "SBA's 10 percent floor to the 20 to 30 percent many conventional lenders ask of a new business (Federal Reserve Small Business Credit Survey 2023, start-up applicants)."
+    }
+  },
+  "creditStartupEquitySlope": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "A lender's yes to a start-up loan falls smoothly as the founder's own share of the project falls below the equity reference.",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "per point of equity share",
+      "citation": "A lender's yes to a start-up loan falls smoothly as the founder's own share of the project falls below the equity reference."
+    }
   }
 }
