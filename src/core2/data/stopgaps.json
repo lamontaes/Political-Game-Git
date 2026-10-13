@@ -1807,7 +1807,7 @@
     "id": "SG-WORLD-jobs-opening-seekers",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 322,
+    "line": 323,
     "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
     "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
     "addedBy": "OPUS-WORLD",
@@ -1819,7 +1819,7 @@
     "id": "SG-WORLD-jobs-layoff-decider",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 791,
+    "line": 792,
     "whatItFakes": "A layoff names the business itself as who decided it.",
     "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -1939,7 +1939,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1210,
+    "line": 1211,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
@@ -1963,7 +1963,7 @@
     "id": "SG-WORLD-jobs-agreement-pinned",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 166,
+    "line": 167,
     "whatItFakes": "A job that a saved visitor agreement names as its provider's qualification is never ended by a layoff, a quit, a retirement or a move to another job.",
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
@@ -2028,13 +2028,13 @@
   {
     "id": "SG-WORLD-business-union-members",
     "kind": "assumed-data",
-    "file": "src/core2/membership-dues.ts",
-    "line": 48,
-    "whatItFakes": "A union local's members are the place's employed at its state's 2025 membership rate (the nation's where BLS has no row), paying dues from the wider population's pooled cash; nobody is recorded as a member.",
-    "why": "The opening records no memberships.",
+    "file": "src/core2/jobs-unions.ts",
+    "line": 163,
+    "whatItFakes": "Workplaces are covered by a union at the opening (largest first in each industry, to BLS's 2025 state and industry rates), but which represented workers join is a population share (the state's members per represented worker, or right-to-work states' average once that law changes), not each worker's choice; members' dues come from the wider population's pooled cash.",
+    "why": "Counted workers choose through summed pulls only until they're filled in, and their cash is pooled by place.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Members recorded on people (by industry and state, BLS Union Members tables), each choosing to join or leave from their pay, job and views; dues from their own cash."
+    "replacement": "Each worker at a covered workplace deciding to join or leave from their pay, views and the law, with dues from their own cash."
   },
   {
     "id": "SG-WORLD-credit-minimum-loan",
@@ -2627,7 +2627,7 @@
     "id": "SG-WORLD-jobs-counted-retiree-income",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1543,
+    "line": 1544,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
     "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
     "addedBy": "OPUS-WORLD",
@@ -2969,6 +2969,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "Refinancing with the lender offering the best rate, the new loan paying off the old one, fees paid to the title company and appraiser, and cash-out refinancing against home equity.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-union-territory-rates",
+    "kind": "assumed-data",
+    "file": "src/core2/jobs-unions.ts",
+    "line": 84,
+    "whatItFakes": "Union membership and representation in Puerto Rico (a 2014 island labor department figure seen in a summary), Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands (estimated from each one's public-sector share and its public-employee bargaining law).",
+    "why": "BLS's Current Population Survey covers only the states and D.C.; no official survey of the island areas' union membership was found.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "Each island area's own labor department union statistics, opened and cited.",
     "status": "open"
   }
 ]

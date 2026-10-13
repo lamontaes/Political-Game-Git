@@ -16,6 +16,7 @@ import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { reviewUnions } from "../jobs-unions";
 import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
@@ -1990,6 +1991,7 @@ export const JOBS_MODULE: CoreModule = {
       },
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
       pay: {},
+      unions: {},
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {
@@ -2097,6 +2099,12 @@ export const JOBS_MODULE: CoreModule = {
       reviewMatches(api);
       reviewEmployers(api);
       reviewWorkers(api);
+      reviewUnions(api, store(api).table("unions"), (id) =>
+        Boolean(
+          (store(api).table("employers").get(id) as EmployerRow | undefined)
+            ?.elsewhere,
+        ),
+      );
       scheduleReview(api);
     } else if (work.kind === "jobs-week") {
       payClaims(api, store(api).table("claims"));

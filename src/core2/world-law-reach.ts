@@ -10,6 +10,7 @@
  * whenever the law in force on its key may have changed. The magnitudes are
  * OPUS-GOV's law-reach parameters.
  */
+import { setRightToWork } from "./jobs-unions";
 import reachA from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
 import reachB from "./data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { countyNonattainment } from "./business-operating-rules";
@@ -237,6 +238,15 @@ const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
   })),
   [`${POLICY}agriculture-natural-resources.protect-farmland-from-development`]:
     zoning((on) => ({ farmlandProtected: on })),
+  // Right-to-work: represented workers needn't join or pay the union, so fewer do (jobs-unions.ts).
+  [`${POLICY}labor-workforce.right-to-work`]: (api, law) => {
+    if (has(api, "jobs"))
+      setRightToWork(
+        api.moduleState("jobs").table("unions"),
+        law.placeId,
+        law.inForce,
+      );
+  },
   [`${POLICY}housing-land-use.rent-stabilization`]: (api, law) => {
     if (has(api, HOUSING_MODULE_ID))
       setRentIncreaseCap(
