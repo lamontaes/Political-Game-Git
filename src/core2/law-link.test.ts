@@ -28,6 +28,7 @@ import {
 import { BUDGETS_MODULE_ID, type withholdingOf } from "./modules/budgets";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import { withholdingFor } from "./tax-withholding";
+import { residentsRuntime } from "./modules/residents";
 import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import { outcomeIssueView } from "./modules/views";
 import { WEB_LINKS } from "./outcome-web-model";
@@ -192,7 +193,9 @@ describe("59 policies in the played world, 90 days", () => {
             .table("raises")
             .rows()
             .find((row) => {
-              const job = core.jobs.get(String(row.jobId));
+              const job =
+                core.jobs.get(String(row.jobId)) ??
+                residentsRuntime(core)?.jobs.get(String(row.jobId));
               return (
                 String(row.lawId).includes(lawId) &&
                 Number(row.toMinor) > Number(row.fromMinor) &&

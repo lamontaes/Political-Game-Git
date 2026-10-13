@@ -417,9 +417,10 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
   for (const commitment of [...core.work.commitments.values()])
     raiseOne(api, commitment.id, source);
   // The counted residents' jobs in town rise too (two-level population).
-  const floor = lawInForce(api, "minimum-wage").value;
+  const wageLaw = lawInForce(api, "minimum-wage");
+  const floor = wageLaw.value;
   const rt = residentsRuntime(core);
-  if (floor === null || !rt) return;
+  if (floor === null || !wageLaw.governing || !rt) return;
   for (const job of rt.jobs.values()) {
     if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
       continue;
@@ -429,7 +430,21 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
       (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
     )
       continue;
+    const from = job.hourlyMinor!;
     api.rerateJob(job.id, floor, { ...source, asOf: core.date });
+    // The existing raise record also identifies real counted-job price changes.
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("raises")
+      .put({
+        id: `raise:${job.id}:${core.date}`,
+        personId: job.personId,
+        jobId: job.id,
+        date: core.date,
+        fromMinor: from,
+        toMinor: floor,
+        lawId: wageLaw.governing.id,
+      });
   }
 }
 

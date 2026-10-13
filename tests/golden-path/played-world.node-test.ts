@@ -409,8 +409,9 @@ function playWorld(seed: string) {
         (row) =>
           String(row.lawId).includes(law.id) &&
           Number(row.toMinor) > Number(row.fromMinor) &&
-          (core.jobs.get(String(row.jobId))?.hourlyMinor ?? 0) >=
-            Number(row.toMinor),
+          (core.jobs.get(String(row.jobId))?.hourlyMinor ??
+            residentsRuntime(core)?.jobs.get(String(row.jobId))?.hourlyMinor ??
+            0) >= Number(row.toMinor),
       );
     const previousLaw = lawInForce(
       api,
