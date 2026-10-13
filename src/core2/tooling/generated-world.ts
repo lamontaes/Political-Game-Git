@@ -6,6 +6,7 @@ import {
 } from "../../simulation/world";
 import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { withPrivateTuition } from "../opening-private-tuition";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
@@ -172,10 +173,12 @@ function buildOpening(
     input = scaleOutsideSales(
       outsideDemand,
       addOutsideMarket(
-        buildOpeningEconomy(input, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        withPrivateTuition(
+          buildOpeningEconomy(input, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+        ),
       ),
     );
   // The generator's temporary world is done; let its indexes go.
