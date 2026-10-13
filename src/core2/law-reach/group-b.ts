@@ -57,6 +57,7 @@ import { amendBudget } from "../modules/budgets";
 
 type Mechanic =
   | "records"
+  | "engine"
   | "transit-fares"
   | "highway-shift"
   | "teacher-floor"
@@ -383,6 +384,9 @@ function runPolicy(
       });
       return;
     }
+    case "engine":
+      // The owning engine pulls the law at its action; reach is supplementary.
+      break;
     case "records":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");

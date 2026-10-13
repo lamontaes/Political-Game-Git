@@ -21,6 +21,10 @@ import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+
 export const PLACE_PRICES_MODULE_ID = "place-prices";
 export const PRICES_PARAMETERS = pricesParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -321,6 +325,86 @@ function settle(
 /** Each month: every rule's change in spending, settled for each full household and each place's counted households together. */
 function month(api: CoreAPI): void {
   const c = core(api);
+  if (c.modules.has(LAWS_MODULE_ID)) {
+    const placeId = lawChain(api).townPlaceId;
+    const treasury = c.modules.has(BUDGETS_MODULE_ID)
+      ? (
+          governments(api).find((g) => g.level === "city") ??
+          governments(api).find((g) => g.level === "state")
+        )?.organizationId
+      : undefined;
+    const p = lawParameters.parameters;
+    // Resolve these at settlement, including laws present at the opening and repeals.
+    const sync = (
+      question: string,
+      rule: Omit<Rule, "id" | "since" | "placeId" | "cause" | "source">,
+    ) => {
+      const law = lawInForce(api, question);
+      if (law.value !== 1 || !law.governing) {
+        const id = `${placeId}:${rule.good}:${rule.kind}`;
+        if (
+          String(store(api).table("rules").get(id)?.cause ?? "").startsWith(
+            `law:${question}:`,
+          )
+        )
+          store(api).table("rules").remove(id);
+        return;
+      }
+      put(api, {
+        ...rule,
+        placeId,
+        cause: `law:${question}:${law.governing.id}`,
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: String(law.governing.source),
+          estimatedFrom:
+            "data/laws/reach-group-b-parameters.json and data/prices/goods.json: statutory charges on observed household consumption.",
+        },
+      });
+    };
+    sync("us-policy-positions:environment-energy.clean-electricity-standard", {
+      good: "electricity",
+      kind: "share",
+      value: p.cleanElectricityPriceShare.value,
+    });
+    sync("us-policy-positions:environment-energy.price-carbon", {
+      good: "fuel",
+      kind: "share",
+      value:
+        (p.carbonPricePerTonDollars.value *
+          p.householdTonsPerYear.value *
+          p.centsPerDollar.value) /
+        goods.goods.fuel.ceAnnualMinor,
+      payeeId: treasury,
+    });
+    sync("us-policy-positions:environment-energy.bottle-deposit", {
+      good: "beverage-container",
+      kind: "per-unit",
+      value: p.bottleDepositCents.value,
+      refundable: true,
+    });
+    sync(
+      "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      {
+        good: "vehicle-miles",
+        kind: "per-unit",
+        value: p.mileageFeeCentsPerMile.value,
+        replacesFuelTax: true,
+        payeeId: treasury,
+      },
+    );
+    if (treasury)
+      sync(
+        "us-policy-positions:transportation-infrastructure.public-broadband",
+        {
+          good: "broadband",
+          kind: "offer",
+          value: p.broadbandMonthlyDollars.value * p.centsPerDollar.value,
+          providerId: treasury,
+        },
+      );
+  }
   const rules = store(api)
     .table("rules")
     .query("all", [true]) as unknown as Rule[];
