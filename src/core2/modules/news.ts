@@ -11,11 +11,18 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
+import { OUTCOME_WEB_MODULE_ID, outcomeWebFactor } from "./outcome-web";
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  KnownFact,
+  PersonId,
+} from "../types";
 import { viewOf } from "./views";
 
 export const NEWS_MODULE_ID = "news";
@@ -58,6 +65,36 @@ export function trustOf(api: CoreAPI, lean: number): number {
   return x < api.parameter("zero")
     ? center + (n(api, "newsTrustLiberal") - center) * -x
     : center + (n(api, "newsTrustConservative") - center) * x;
+}
+
+function mediaTrustFactor(api: CoreAPI, placeId: string): number {
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return api.parameter("one");
+  const factor = outcomeWebFactor(api, placeId, "press.media-trust");
+  return factor > api.parameter("zero") ? factor : api.parameter("one");
+}
+
+/**
+ * The news engine's readings of a place for the outcome web: how many local
+ * outlets it has, and whether one is a local newspaper (each place has one
+ * local outlet record until real outlets are records, SG-P15-news-habits).
+ * Null for a measure this engine does not keep.
+ */
+export function newsMeasure(
+  api: CoreAPI,
+  placeId: string,
+  measure: string,
+): number | null {
+  if (measure !== "press.local-outlets" && measure !== "press.local-newspaper")
+    return null;
+  const count = (
+    outlets(api).rows() as unknown as { placeId: string }[]
+  ).filter((row) => row.placeId === placeId).length;
+  // A place whose first story has not run yet still has its outlet.
+  const held = Math.max(count, api.parameter("one"));
+  return measure === "press.local-outlets"
+    ? held
+    : Math.min(held, api.parameter("one"));
 }
 
 /**
@@ -175,6 +212,9 @@ export const newsModule: CoreModule = {
     // The people the event itself reached already know it.
     for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
     const maxAge = n(api, "newsMaxAgeDays");
+    // The place's trust in news as the outcome web moves it (1 where it
+    // doesn't run or nothing moves it).
+    const placeTrust = mediaTrustFactor(api, event.placeId);
     for (const personId of readersOf(api, event.placeId)) {
       if (learnedBy.includes(personId)) continue;
       const view = viewOf(api, personId);
@@ -182,7 +222,8 @@ export const newsModule: CoreModule = {
       if (engagement <= api.parameter("zero")) continue;
       // People who trust the media less check it less, and hear later.
       const reach =
-        engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+        engagement *
+        ((trustOf(api, view!.lean) * placeTrust) / n(api, "newsTrustAverage"));
       const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
       if (delay > maxAge) continue;
       deliveries(api).put({

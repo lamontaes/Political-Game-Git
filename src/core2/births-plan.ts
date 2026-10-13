@@ -2,7 +2,14 @@ import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
-import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
+import { OUTCOME_WEB_MODULE_ID, outcomeWebFactor } from "./modules/outcome-web";
+import type {
+  ActOffer,
+  ActionDefinition,
+  CoreAPI,
+  CoreState,
+  PersonState,
+} from "./types";
 
 export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
 export interface BirthCouple {
@@ -11,6 +18,14 @@ export interface BirthCouple {
   otherParentId: string;
   startedAt: string;
   childIds: readonly string[];
+}
+
+/** The outcome web's factor on the place's birth rate, 1 where the web is not running. */
+function birthRateFactor(api: CoreAPI, placeId: string): number {
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID))
+    return api.parameter("one");
+  const factor = outcomeWebFactor(api, placeId, "births.rate");
+  return factor > api.parameter("zero") ? factor : api.parameter("one");
 }
 
 /** Natality data is deliberately absent here: observations only check totals. */
@@ -88,6 +103,10 @@ export function birthCircumstances(
       mother.householdId === partner.householdId
         ? p("one")
         : -p("renewalWaitPull"),
+    // The place's conditions: the outcome web's factor on the birth rate
+    // (1 where nothing moves it, or the web is not running).
+    place:
+      p("renewalPlaceWeight") * Math.log(birthRateFactor(api, mother.placeId)),
   };
 }
 

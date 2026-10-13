@@ -148,5 +148,15 @@
       "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
     },
     "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalPlaceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How much the place's conditions, as the outcome web's factor on the birth rate, weigh in a couple's plan (the log of the factor, so a factor of 1 adds nothing). OPUS-WEB asked renewal to read births.rate's factor (BOARD, Oct 12); the size is a starting value to check against the web's factor and the births a year brings.",
+    "stopgapId": "SG-M1-births-circumstances",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A starting value; 0.5 to 3 to be checked against the web's factor and a year's births once places differ in their web factors."
+    }
   }
 }
