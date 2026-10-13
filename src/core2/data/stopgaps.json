@@ -2968,8 +2968,8 @@
     "why": "A public supplier agreement's qualification must resolve its named job each month, and nothing yet lets an agreement replace a worker who left.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
-    "replacement": "When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules).",
-    "status": "open"
+    "replacement": "When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules). Done Oct 14 (OPUS-CORE): supplier agreements now follow whoever does the work and end when nobody does (5ea270be on main), so named counted workers die and move like anyone else.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-school-days",
