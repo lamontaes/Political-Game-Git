@@ -27,6 +27,7 @@ import { linkCreditLineToPrime } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
+import { currentCloseness } from "../closeness";
 import type { ActOffer } from "../types";
 
 const CREDIT_PULL = "credit:pull";
@@ -496,6 +497,156 @@ function review(api: CoreAPI): void {
   );
 }
 
+/** A household's month, as its money shows it. */
+interface HouseholdMonthRow {
+  id: string;
+  householdId: string;
+  date: string;
+  cashMinor: number;
+  /** Each member's own cash: the household pools it, and these are the shares. */
+  memberCashMinor: Record<string, number>;
+  billsMinor: number;
+  paidMinor: number;
+  /** Bills the household's cash didn't cover: purchases it went without, rent or loan payments it owes. */
+  unpaidMinor: number;
+  /** Who paid the household's bills this month, from their own cash. */
+  paidByMemberMinor: Record<string, number>;
+  helpMinor: number;
+  helpFromIds: string[];
+  unemploymentMemberIds: string[];
+  application?: { id: string; approved: boolean; limitMinor: number };
+}
+
+/**
+ * Each month, every full household's money: what each member holds of the
+ * pool, who paid its bills, and what it couldn't pay. A household that ran
+ * short asks its relatives elsewhere; each gives from what they hold beyond
+ * a few months of their own living costs, more the closer they are.
+ */
+function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  // Since the last monthly review: the first of last month.
+  const since =
+    addDays(makeIsoDate(`${c.date.slice(0, "YYYY-MM".length)}-01`), -1).slice(
+      0,
+      "YYYY-MM".length,
+    ) + "-01";
+  const homeOf = new Map<string, string>();
+  for (const person of c.people.values())
+    if (person.alive) homeOf.set(person.id, person.householdId);
+  const months = new Map<string, HouseholdMonthRow>();
+  const rowOf = (householdId: string) => {
+    let row = months.get(householdId);
+    if (!row) {
+      const members = (c.households.get(householdId)?.memberIds ?? [])
+        .map((id) => c.people.get(id))
+        .filter((person) => person?.alive);
+      months.set(
+        householdId,
+        (row = {
+          id: `household-month:${householdId}:${c.date}`,
+          householdId,
+          date: c.date,
+          cashMinor: members.reduce((n, person) => n + person!.liquidMinor, 0),
+          memberCashMinor: Object.fromEntries(
+            members.map((person) => [person!.id, person!.liquidMinor]),
+          ),
+          billsMinor: 0,
+          paidMinor: 0,
+          unpaidMinor: 0,
+          paidByMemberMinor: {},
+          helpMinor: 0,
+          helpFromIds: [],
+          unemploymentMemberIds: [],
+        }),
+      );
+    }
+    return row;
+  };
+  for (const [id, contract] of c.finance.contracts) {
+    const householdId = homeOf.get(contract.payerIds[0] ?? "");
+    if (!householdId) continue;
+    const receipt = c.finance.latestReceiptsByContract.get(id);
+    if (!receipt || receipt.date < since) continue;
+    const row = rowOf(householdId);
+    row.billsMinor += receipt.requestedMinor;
+    row.paidMinor += receipt.paidMinor;
+    row.unpaidMinor += receipt.requestedMinor - receipt.paidMinor;
+    for (const payment of receipt.payments)
+      if (payment.paidMinor > 0)
+        row.paidByMemberMinor[payment.payerId] =
+          (row.paidByMemberMinor[payment.payerId] ?? 0) + payment.paidMinor;
+  }
+  const claims = c.modules.has("jobs")
+    ? (api.moduleState("jobs").table("claims").rows() as unknown as {
+        personId: string;
+        endedAt?: string;
+      }[])
+    : [];
+  for (const claim of claims) {
+    const row = months.get(homeOf.get(claim.personId) ?? "");
+    if (row && !claim.endedAt) row.unemploymentMemberIds.push(claim.personId);
+  }
+  // Short: bills went unpaid, or the pool holds less than a month of them.
+  for (const row of [...months.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    let short = Math.max(row.unpaidMinor, row.billsMinor - row.cashMinor);
+    if (short <= 0) continue;
+    const members = Object.keys(row.memberCashMinor);
+    const head = members[0];
+    if (!head) continue;
+    const relatives = new Map<string, number>();
+    for (const memberId of members)
+      for (const relId of c.relationshipsByPerson.get(memberId) ?? []) {
+        const tie = c.relationships.get(relId);
+        if (!tie || tie.kind !== "family") continue;
+        const otherId = tie.actorId === memberId ? tie.otherId : tie.actorId;
+        const other = c.people.get(otherId);
+        if (!other?.alive || other.householdId === row.householdId) continue;
+        const closeness = Math.min(1, Math.max(0, currentCloseness(c, tie)));
+        relatives.set(
+          otherId,
+          Math.max(relatives.get(otherId) ?? 0, closeness),
+        );
+      }
+    for (const [relativeId, closeness] of [...relatives].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    )) {
+      if (short <= 0) break;
+      const relative = c.people.get(relativeId)!;
+      const spare =
+        relative.liquidMinor -
+        relative.livingCostDailyMinor *
+          p("businessDaysPerMonth") *
+          p("creditFamilyHelpReserveMonths");
+      const give = Math.floor(
+        Math.min(short, spare * p("creditFamilyHelpShareOfSpare") * closeness),
+      );
+      if (give <= 0) continue;
+      const helped = transferCash(
+        api,
+        `family-help:${relativeId}:${row.householdId}:${c.date}`,
+        relativeId,
+        head,
+        give,
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: creditData.source.citation,
+          estimatedFrom: `A relative helps a household that ran short: ${relativeId} gives from cash beyond a few months of their own living costs, scaled by how close they are.`,
+        },
+      );
+      if (helped <= 0) continue;
+      row.helpMinor += helped;
+      row.helpFromIds.push(relativeId);
+      short -= helped;
+    }
+  }
+  return [...months.values()];
+}
+
 function scheduleReview(api: CoreAPI): void {
   const next =
     addDays(
@@ -530,6 +681,7 @@ export const CREDIT_MODULE: CoreModule = {
         },
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
+      households: { indexes: { byHousehold: { fields: ["householdId"] } } },
     },
   },
   reasonProviders: {
@@ -539,7 +691,29 @@ export const CREDIT_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind !== "credit-review") return;
+    const months = householdMonths(api);
     review(api);
+    // What the month came to for each household, with any loan it asked for.
+    for (const row of months) {
+      const application = store(api)
+        .table("applications")
+        .get(`application:${api.state.date}:${row.householdId}`) as
+        { id: string; approved: boolean; limitMinor: number } | undefined;
+      store(api)
+        .table("households")
+        .put({
+          ...row,
+          ...(application
+            ? {
+                application: {
+                  id: application.id,
+                  approved: application.approved,
+                  limitMinor: application.limitMinor,
+                },
+              }
+            : {}),
+        });
+    }
     scheduleReview(api);
   },
   onDay(api) {
@@ -556,10 +730,9 @@ export const CREDIT_MODULE: CoreModule = {
         organizationId: bank?.id ?? "",
         openingEquityMinor: bank?.liquidMinor ?? 0,
       });
-    if (bank) {
-      review(api);
-      scheduleReview(api);
-    }
+    // Households' months are reviewed with or without a bank in town.
+    if (bank) review(api);
+    scheduleReview(api);
   },
 };
 
@@ -884,45 +1057,101 @@ function creditOffer(
   };
 }
 
-/** A startup loan from the town bank to a newly founded business, paid back monthly like any loan. Zero when the bank has no room. */
-export function lendForFounding(
+/** A new firm's rate: prime plus the small-business spread and a new firm's risk premium. */
+function startupRate(api: CoreAPI): number | undefined {
+  const p = (key: string) => api.parameter(key);
+  const prime = (
+    api.moduleState("macro").table("state").get("macro:state") as
+      { policyRatePct: number } | undefined
+  )?.policyRatePct;
+  if (prime === undefined) return undefined;
+  return (
+    (prime +
+      p("macroPrimeSpreadPct") +
+      p("creditPrimeSpreadPct") +
+      p("creditRiskSpreadPct")) /
+    p("macroHundred")
+  );
+}
+
+/** What a new business brings to the bank: the owner's own money in it and the plan's monthly profit before the loan. */
+export interface FoundingPlan {
+  founderId: string;
+  equityMinor: number;
+  monthlyProfitMinor: number;
+}
+
+/**
+ * The most the town bank will lend a new business, as SBA lenders
+ * underwrite one: no more than its capital allows, the owner's equity at
+ * least the required share of the project, and the plan's monthly profit
+ * covering the payment with the required margin.
+ */
+export function foundingLoanLimit(
   api: CoreAPI,
-  firmId: string,
-  amountMinor: number,
+  plan: Omit<FoundingPlan, "founderId">,
   termMonths: number,
 ): number {
   const bank = bankOf(api);
-  if (!bank) return 0;
+  const rate = startupRate(api);
+  if (!bank || rate === undefined) return 0;
   const p = (key: string) => api.parameter(key);
   const book = equity(api, bank.organizationId);
   const room = Math.max(
     0,
     book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
-  const prime = (
-    api.moduleState("macro").table("state").get("macro:state") as
-      { policyRatePct: number } | undefined
-  )?.policyRatePct;
-  if (prime === undefined) return 0;
-  const rate =
-    (prime +
-      p("macroPrimeSpreadPct") +
-      p("creditPrimeSpreadPct") +
-      p("creditRiskSpreadPct")) /
-    p("macroHundred");
+  const share = p("creditStartupEquityShare");
+  const byEquity = (Math.max(0, plan.equityMinor) * (1 - share)) / share;
+  const payment =
+    Math.max(0, plan.monthlyProfitMinor) /
+    p("creditStartupDebtServiceCoverage");
+  const byCashFlow = payment / amortizedPayment(1, rate, termMonths, p);
+  return Math.max(0, Math.floor(Math.min(room, byEquity, byCashFlow)));
+}
+
+/** A startup loan from the town bank to a newly founded business, underwritten on the owner's equity and the plan, paid back monthly like any loan. */
+export function lendForFounding(
+  api: CoreAPI,
+  firmId: string,
+  amountMinor: number,
+  termMonths: number,
+  plan: FoundingPlan,
+): number {
+  const bank = bankOf(api);
+  const rate = startupRate(api);
+  if (!bank || rate === undefined) return 0;
+  const p = (key: string) => api.parameter(key);
   const c = core(api);
+  const limit = foundingLoanLimit(api, plan, termMonths);
+  const requested = Math.max(0, Math.round(amountMinor));
+  store(api)
+    .table("applications")
+    .put({
+      id: `application:${c.date}:${firmId}`,
+      householdId: null,
+      organizationId: firmId,
+      borrowerId: plan.founderId,
+      date: c.date,
+      requestedMinor: requested,
+      equityMinor: Math.round(plan.equityMinor),
+      monthlyProfitMinor: Math.round(plan.monthlyProfitMinor),
+      limitMinor: limit,
+      approved: limit > 0 && requested > 0,
+      kind: "startup",
+    });
   const lent = transferCash(
     api,
     `startup-loan:${firmId}`,
     bank.organizationId,
     firmId,
-    Math.min(amountMinor, room),
+    Math.min(requested, limit),
     {
       tag: "ESTIMATED",
       asOf: c.date,
       citation: creditData.source.citation,
       estimatedFrom:
-        "A startup loan at prime plus the small-business spread and a new firm's risk premium.",
+        "A startup loan at prime plus the small-business spread and a new firm's risk premium, no larger than the owner's equity and the plan's cash flow support.",
     },
   );
   if (lent <= 0) return 0;
