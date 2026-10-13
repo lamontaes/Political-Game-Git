@@ -3,6 +3,7 @@
  * speeches and "bring it up" must run in /play, not only in tests). The
  * story director is created separately because the screens read its ledger.
  */
+import { collegeModule } from "../core2/modules/college";
 import { DEFAULT_DATA } from "../core2/data";
 import { candidacyModule } from "../core2/modules/candidacy";
 import { corruptionModule } from "../core2/modules/corruption";
@@ -48,6 +49,7 @@ export function peopleModules(): CoreModule[] {
     encountersModule,
     partneringModule,
     coverageModule,
+    collegeModule,
     beliefsModule,
   ];
 }

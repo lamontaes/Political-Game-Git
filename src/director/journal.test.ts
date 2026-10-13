@@ -782,4 +782,40 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       `I started at ${school.facts!.schoolName}.`,
     ]);
   });
+
+  it("tells starting college, as the college engine records it, and opens a chapter", () => {
+    const me = core.people.get(player.id)!;
+    applyCoreEvent(core, {
+      id: "education.enrolled:fixture",
+      date: core.date,
+      kind: "education.enrolled",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the college engine.",
+        estimatedFrom: "Fixture.",
+      },
+      facts: {
+        collegeId: "ipeds-unit:fixture",
+        school: "Fixture Community College",
+        collegeKind: "community",
+      },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const chapters = composeJournal(core, director, player.id);
+    const chapter = chapters.find((row) =>
+      row.lines.some((line) =>
+        line.sourceRecordIds.includes("education.enrolled:fixture"),
+      ),
+    );
+    expect(chapter?.title).toBe("Fixture Community College");
+    expect(
+      chapter?.lines.find((line) =>
+        line.sourceRecordIds.includes("education.enrolled:fixture"),
+      )?.text,
+    ).toBe("I started at Fixture Community College.");
+  });
 });

@@ -647,6 +647,56 @@
           "text": "After {{name}}"
         }
       ]
+    },
+    {
+      "kindPrefix": "event:education.enrolled",
+      "turn": true,
+      "eventFacts": {
+        "school": {
+          "fact": "school",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "started-college",
+          "text": "I started at {{school}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-started-college",
+          "text": "{{other}} started at {{school}}."
+        }
+      ],
+      "title": [
+        {
+          "key": "college",
+          "text": "{{school}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:education.graduated",
+      "turn": false,
+      "eventFacts": {
+        "school": {
+          "fact": "school",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "finished-college",
+          "text": "I finished at {{school}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-finished-college",
+          "text": "{{other}} finished at {{school}}."
+        }
+      ]
     }
   ],
   "firstTitle": [

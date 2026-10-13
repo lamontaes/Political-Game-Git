@@ -376,6 +376,11 @@
       "tag": "ESTIMATED",
       "citation": "A couple living together splitting up, sized as the Social Readjustment Rating Scale's 'Marital separation', 65 life-change units divided by 100 (Holmes and Rahe 1967); the scale has no item for unmarried couples.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.45 to 0.73"
+    },
+    "directorSchoolStartImpact": {
+      "value": 0.26,
+      "tag": "SOURCED",
+      "citation": "Starting or finishing college, the Social Readjustment Rating Scale's 'Begin or end school', 26 life-change units divided by 100 (Holmes and Rahe 1967), as the director's past school-stage moment is."
     }
   },
   "channels": [
@@ -628,6 +633,18 @@
       "eventKind": "family.separated",
       "channel": "feeling",
       "impactParameter": "directorSeparatedImpact",
+      "counterparts": "tied"
+    },
+    {
+      "eventKind": "education.enrolled",
+      "channel": "feeling",
+      "impactParameter": "directorSchoolStartImpact",
+      "counterparts": "tied"
+    },
+    {
+      "eventKind": "education.graduated",
+      "channel": "feeling",
+      "impactParameter": "directorSchoolStartImpact",
       "counterparts": "tied"
     }
   ]
