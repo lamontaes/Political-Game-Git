@@ -241,11 +241,23 @@
       "value": 5,
       "tag": "SOURCED",
       "source": "Container Recycling Institute, bottle bill states 2024: the common deposit is 5 cents (10 cents in Michigan and Oregon)."
+    },
+    "acuteCareCostMinor": {
+      "value": 1500000,
+      "tag": "ESTIMATED",
+      "source": "AHRQ HCUP, national inpatient stay cost summaries (2021-2022). Rounded serious-illness admission cost; not a hospital charge or a condition-specific quote.",
+      "spread": [800000, 3000000]
     }
   },
   "povertyGuidelineByState": {
-    "US-AK": { "firstPerson": 19550, "perAddedPerson": 6880 },
-    "US-HI": { "firstPerson": 17990, "perAddedPerson": 6330 }
+    "US-AK": {
+      "firstPerson": 19550,
+      "perAddedPerson": 6880
+    },
+    "US-HI": {
+      "firstPerson": 17990,
+      "perAddedPerson": 6330
+    }
   },
   "graduatedSchedules": {
     "about": "The graduated schedule a graduated-income-tax act sets where the level had a flat tax or none (single filer; dollars and percents). ESTIMATED from the median of graduated states (Tax Foundation 2025) and of graduated city taxes; spread: top rates 4.5% to 7% (state) and 1.5% to 3% (local).",
@@ -253,18 +265,39 @@
     "state": {
       "standardDeduction": 15000,
       "brackets": [
-        { "over": 0, "rate": 2 },
-        { "over": 10000, "rate": 4 },
-        { "over": 40000, "rate": 5.5 },
-        { "over": 100000, "rate": 6.5 }
+        {
+          "over": 0,
+          "rate": 2
+        },
+        {
+          "over": 10000,
+          "rate": 4
+        },
+        {
+          "over": 40000,
+          "rate": 5.5
+        },
+        {
+          "over": 100000,
+          "rate": 6.5
+        }
       ]
     },
     "local": {
       "standardDeduction": 0,
       "brackets": [
-        { "over": 0, "rate": 1 },
-        { "over": 25000, "rate": 1.5 },
-        { "over": 75000, "rate": 2 }
+        {
+          "over": 0,
+          "rate": 1
+        },
+        {
+          "over": 25000,
+          "rate": 1.5
+        },
+        {
+          "over": 75000,
+          "rate": 2
+        }
       ]
     }
   },

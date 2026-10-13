@@ -1,3 +1,9 @@
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { townFacts, selectResidents } from "../law-reach/group-b-people";
+import { transferCash } from "../world-transfer";
+import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import healthJson from "../data/health.json" with { type: "json" };
 import {
   addDays,
@@ -79,6 +85,9 @@ export interface HealthCase {
   onsetDate: IsoDate;
   deathDate?: IsoDate;
   onsetEventId?: string;
+  covered?: boolean | null;
+  carePaidMinor?: number;
+  carePaymentId?: string;
   deathEventId?: string;
 }
 
@@ -305,10 +314,14 @@ export function createHealthModule(
           data.onsetSeverity,
           false,
         );
+        const coverage = payAcuteCare(api, person);
+        found.covered = coverage.covered;
+        found.carePaidMinor = coverage.paid;
+        found.carePaymentId = coverage.id;
         const days = remainingDaysAfterOnset({
           age: ageOnDate(makeIsoDate(person.birthDate), date),
           severity: found.severity,
-          covered: null,
+          covered: coverage.covered,
         });
         found.onsetEventId = event.id;
         found.deathDate = addDays(date, days);
@@ -352,4 +365,69 @@ export function healthReport(core: Readonly<CoreState>) {
     conditionsByPerson: row?.conditionsByPerson ?? new Map(),
     resilienceLines: row?.resilienceLines ?? new Map(),
   };
+}
+
+/** A serious illness bills a real local provider; eligibility decides who pays. */
+function payAcuteCare(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): { covered: boolean | null; paid: number; id?: string } {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return { covered: null, paid: 0 };
+  const chain = lawChain(api),
+    facts = townFacts(api, person.placeId);
+  const expansion = lawInForce(
+    api,
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+  );
+  const work = lawInForce(
+    api,
+    "us-policy-positions:health-human-services.medicaid-work-requirement",
+  );
+  const eligible = selectResidents(
+    facts,
+    {
+      ageFrom: "medicaidExpansionAgeFrom",
+      ageBelow: "medicaidExpansionAgeBelow",
+      incomeBelowPovertyShare: "medicaidExpansionIncomeShare",
+    },
+    chain.stateKey,
+  ).some((r) => r.id === person.id);
+  const barred =
+    work.value === 1 &&
+    selectResidents(
+      facts,
+      {
+        ageFrom: "medicaidExpansionAgeFrom",
+        ageBelow: "medicaidExpansionAgeBelow",
+        hoursBelowPerMonth: "medicaidWorkHoursPerMonth",
+        noChildBelow: "medicaidWorkExemptChildBelow",
+      },
+      chain.stateKey,
+    ).some((r) => r.id === person.id);
+  const covered = expansion.value === 1 && eligible && !barred;
+  const provider = [...api.state.organizations.values()].find(
+    (o) =>
+      o.placeId === person.placeId &&
+      reach.selectors.healthProviders.includes(o.classification ?? ""),
+  );
+  const treasury = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governments(api).find((g) => g.level === "state")
+    : undefined;
+  if (!provider || (covered && !treasury)) return { covered: null, paid: 0 };
+  const id = `acute-care:${person.id}:${api.state.date}`;
+  const amount = lawParameters.parameters.acuteCareCostMinor;
+  const paid = transferCash(
+    api,
+    id,
+    covered ? treasury!.organizationId : person.id,
+    provider.id,
+    amount.value,
+    {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: amount.source,
+      estimatedFrom: `Eligibility under ${expansion.governing?.id ?? "no expansion"}; work rule ${work.governing?.id ?? "none"}; admission-cost estimate.`,
+    },
+  );
+  return { covered: covered && paid > 0 ? true : null, paid, id };
 }
