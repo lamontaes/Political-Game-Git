@@ -43,6 +43,7 @@ import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
+import { DISASTERS_MODULE } from "./modules/disasters";
 import { declareSnapshotCovered } from "./snapshot";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -75,6 +76,7 @@ declareSnapshotCovered(
   LIFE_MODULE.id,
   PEOPLE_MODULE.id,
   SCHOOL_MODULE.id,
+  DISASTERS_MODULE.id,
   WORK_MODULE.id,
   FINANCE_MODULE.id,
   ACCOUNTS_MODULE.id,
@@ -148,6 +150,7 @@ export function createLifeCore(
       LIFE_MODULE,
       PEOPLE_MODULE,
       SCHOOL_MODULE,
+      DISASTERS_MODULE,
       // Attendance accrues wages; recorded payday cash precedes purchase budgets.
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),

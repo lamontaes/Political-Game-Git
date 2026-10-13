@@ -2982,5 +2982,17 @@
     "addedAt": "2026-10-13",
     "replacement": "PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-disasters-from-records",
+    "kind": "behavior",
+    "file": "src/core2/modules/disasters.ts",
+    "line": 1,
+    "whatItFakes": "Disasters happen only where and when FEMA declared one for the town's county or state (since 2000), as a public news event on the incident's start date. Federal Public Assistance obligated to the county's own government and the town's government (disasters declared since 2020) is paid in full on the declaration date from the U.S. Treasury outside account the game already keeps for Social Security. No damage to homes, businesses or people; no other applicants (schools, utilities, nonprofits; 13% of assistance rows don't match a county); no new disasters after the records end.",
+    "why": "The core owns disasters and hazards (BOARD); under no-dice a rate can't decide when one strikes, and the owner hasn't ruled on what should cause new ones.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "The owner's ruling on what causes a disaster in play; damage to the places and people it hits (from NOAA storm episodes and FEMA Individual Assistance); assistance paid over its real obligation dates to every applicant; a federal FEMA account of its own.",
+    "status": "open"
   }
 ]
