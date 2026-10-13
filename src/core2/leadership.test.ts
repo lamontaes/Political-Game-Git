@@ -221,7 +221,10 @@ describe("chamber leadership and committees", () => {
     )
       .filter((o) => o.kind.startsWith("legislature-"))
       .map((o) => o.id)
-      .sort()[0]!;
+      .sort()
+      // A nonpartisan chamber elects its chair without caucuses.
+      .find((c) => members(api, c).some((t) => partySide(t.party) !== 0));
+    if (!chamber) return;
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
     const all = members(api, chamber);
     const half = Math.floor((all.length - 2) / 2);
