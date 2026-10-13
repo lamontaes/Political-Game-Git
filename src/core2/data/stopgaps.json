@@ -2825,5 +2825,17 @@
     "addedAt": "2026-10-13",
     "replacement": "OPUS-OFFICIALS makes state and federal candidates full people at the opening (BOARD Oct 12 item 2), or OPUS-GOV lets campaignFor carry a candidate who is not a full person; then remove the guard.",
     "status": "open"
+  },
+  {
+    "id": "SG-PW3-counted-engagement-copy",
+    "kind": "missing-core-api",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 208,
+    "whatItFakes": "A counted resident's engagement with politics, computed with a copy of the views engine's formula (their own key spread around the CES cell average) so the candidacy screen matches the value they get when filled in.",
+    "why": "The views engine (src/core2/modules/views.ts, OPUS-PEOPLE) keeps the formula private to viewOf; the counted screen needs the same value without filling everyone in.",
+    "addedBy": "PW-3",
+    "addedAt": "2026-10-13",
+    "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
+    "status": "open"
   }
 ]

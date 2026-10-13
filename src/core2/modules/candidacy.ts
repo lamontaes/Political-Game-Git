@@ -17,6 +17,7 @@ import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
+import type { ModuleRow } from "../module-data";
 import type {
   ActionDefinition,
   ActOffer,
@@ -51,6 +52,7 @@ import {
   viewOf,
 } from "./views";
 import { residentPerson } from "./residents";
+import { stableHash } from "../../simulation/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -183,12 +185,41 @@ export function countedCandidacyReasons(
         api.parameter("minutesPerHour") /
         c(api, "candidacyWorkDaysPerWeek"),
       known: record?.knownIds.length ?? zero,
-      engagement: cellEngagement(api, voter, record),
+      engagement: countedEngagement(api, voter, record),
       cause: zero,
       incumbentTie: zero,
     },
     contest,
   );
+}
+
+/**
+ * How closely a counted resident follows politics: the same value the views
+ * engine gives them when they are filled in (their own key spread around the
+ * CES cell's average for their state and age), so the screen and their full
+ * decision agree. A copy of the views engine's formula until it exports one
+ * (stopgap SG-PW3-counted-engagement-copy).
+ */
+function countedEngagement(
+  api: CoreAPI,
+  voter: CountedVoter,
+  record: PersonInput | undefined,
+): number {
+  // stopgapId: SG-PW3-counted-engagement-copy
+  api.stopgap("SG-PW3-counted-engagement-copy");
+  const mean = cellEngagement(api, voter, record);
+  const one = api.parameter("one");
+  const digits = VIEWS_DATA.parameters.hashDigits!.value;
+  const radix = VIEWS_DATA.parameters.hashRadix!.value;
+  const draw = Number.parseInt(
+    stableHash(`${api.state.seed}:views:engagement:${voter.id}`).slice(
+      0,
+      digits,
+    ),
+    radix,
+  );
+  const uniform = (draw + one / api.parameter("two")) / radix ** digits;
+  return uniform ** (one / mean - one);
 }
 
 /** The CES cell's average engagement for a counted resident's state and age. */
@@ -425,6 +456,8 @@ interface Queues {
   localRank: number;
   weigh: ContestRow[];
   file: { contest: ContestRow; opens: string }[];
+  /** Contests on the town's calendar whose filing closed before the record began. */
+  opening: ContestRow[];
 }
 const queues = new WeakMap<object, Queues>();
 
@@ -456,6 +489,18 @@ function queuesFor(api: CoreAPI): Queues | null {
           weighingDate(api, a).localeCompare(weighingDate(api, b)) ||
           a.id.localeCompare(b.id),
       ),
+    // Only on the first day: later contests always open before filing closes
+    // (a tie's second election reuses its field).
+    opening: held
+      ? []
+      : (contests.rows() as unknown as ContestRow[])
+          .filter(
+            (row) =>
+              row.filingDeadline < api.state.date &&
+              row.electionDate > api.state.date &&
+              !weighed.get(row.id),
+          )
+          .sort((a, b) => a.id.localeCompare(b.id)),
     file: rows
       .filter((row) => {
         const w = weighed.get(row.id) as unknown as WeighedContest | undefined;
@@ -570,6 +615,8 @@ export function weighContest(
   api: CoreAPI,
   contest: ContestRow,
   localRank: number = LOCAL_RANK,
+  /** The incumbent's own filing is already on record (a race that closed before the opening). */
+  incumbentFiled = false,
 ): WeighedContest {
   const town = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -623,6 +670,7 @@ export function weighContest(
           rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         !committed.has(p.id) &&
+        !(incumbentFiled && p.id === incumbentId) &&
         (p.id === incumbentId ||
           rank <= localRank ||
           holders.get(p.id) === rank - 1),
@@ -752,11 +800,67 @@ export function fileRunners(api: CoreAPI, contest: ContestRow): void {
   });
 }
 
+/**
+ * A race whose filing closed before the record began: the town's adults
+ * weighed it then, and each runner's filing is part of the opening record
+ * (dated at the deadline, the fee paid before the record began), beside the
+ * incumbent's.
+ */
+function weighClosedContest(
+  api: CoreAPI,
+  contest: ContestRow,
+  localRank: number,
+): void {
+  const row = weighContest(api, contest, localRank, true);
+  const incumbent = contest.incumbentTermId
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    : undefined;
+  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  for (const personId of row.runIds) {
+    const decision = decisionOf(api, contest.id, personId);
+    if (!decision) continue;
+    let party: string | null = null;
+    if (incumbent?.party && api.state.modules.has(PARTIES_MODULE_ID)) {
+      const tie = partyTie(api, personId);
+      party = partiesHere(api).find((p) => p.id === tie?.partyId)?.name ?? null;
+    }
+    const rules = filingRulesFor(api, contest, party ? "party" : "independent");
+    const filing: FilingRow = {
+      id: `filing:${contest.id}:${personId}`,
+      contestId: contest.id,
+      personId,
+      filedOn: contest.filingDeadline,
+      filedWith: rules.filedWith,
+      platform: platformFromViews(api, personId),
+      party,
+      feePaidMinor: rules.feeMinor ?? 0,
+      signatureCount: 0,
+      status: "on-ballot",
+    };
+    filings.put(filing as unknown as ModuleRow);
+    table(api).put({
+      ...decision,
+      filing: { status: "on-ballot", filingId: filing.id, unmet: [] },
+    } as unknown as { id: string });
+  }
+  api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("weighed")
+    .put({ ...row, filedOn: contest.filingDeadline } as unknown as {
+      id: string;
+    });
+}
+
 /** Each day: weigh the contests whose weighing day has come, then file for those whose window opened. */
 function candidacyDay(api: CoreAPI): void {
   const held = queuesFor(api);
   if (!held) return;
   const today = api.state.date;
+  while (held.opening.length)
+    weighClosedContest(api, held.opening.shift()!, held.localRank);
   while (held.weigh[0] && weighingDate(api, held.weigh[0]) <= today) {
     const contest = held.weigh.shift()!;
     if (contest.filingDeadline >= today)

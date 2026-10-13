@@ -53,15 +53,15 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
-    "value": 4.8,
+    "value": 5.0,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records. Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In four drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787; 5,569 to 8,760 counted adults each), the counted adults whose recorded pull for a local seat exceeds 4.8 number 2, 0, 2 and 0 (at 4.6: 6, 0, 18 and 12), and no named non-incumbent's does; the chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Spread 4.6 to 5.2.",
+    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Spread 4.8 to 5.4.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyIncumbencyWeight": {
-    "value": 3.3,
+    "value": 3.5,
     "tag": "TUNABLE",
-    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). With the stay-out pull at 4.6, the 19th percentile of run-over-stay-out margins without incumbency was -3.15 (seed candidacy-a) and -2.97 (seed candidacy-b), so 3.1; raised by the same 0.2 as the stay-out pull (4.8) to keep the share. Spread 3.1 to 3.5.",
+    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). With the stay-out pull at 4.6, the 19th percentile of run-over-stay-out margins without incumbency was -3.15 (seed candidacy-a) and -2.97 (seed candidacy-b), so 3.1; raised by the same 0.4 as the stay-out pull (5.0) to keep the share. Spread 3.3 to 3.7.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyFilingWindowDays": {
