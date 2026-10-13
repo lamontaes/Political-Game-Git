@@ -16,7 +16,7 @@ file:
 
 and writes data/research/money/place-towns-acs-2024.json with, for each place
 the Vintage 2025 estimates leave out whose largest county part lies in a
-county area with no county government (src/simulation/government-units.generated.ts),
+county area with no county government (src/core2/reference/government-units.generated.ts),
 or which lies in a state whose listing holds town or township governments
 (New York's towns, New Jersey's and Pennsylvania's townships, the Midwest's
 civil townships), where the town or township is the place's local government:
@@ -37,7 +37,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 PLACES = ROOT / "data/research/money/place-population-acs-2024.json"
-UNITS = ROOT / "src/simulation/government-units.generated.ts"
+UNITS = ROOT / "src/core2/reference/government-units.generated.ts"
 OUT = ROOT / "data/research/money/place-towns-acs-2024.json"
 SOURCE = "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat"
 

@@ -38,26 +38,8 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     );
     advanceCore(core, "2021-01-10");
     const api = coreAPI(core);
-    // Tax the place where the town's sellers actually are, read from the
-    // first sales: a place can have its government in one jurisdiction (a
-    // municipio) and its businesses in another, and a tax applies only to
-    // sellers located in the taxing jurisdiction.
-    advanceCore(core, "2021-01-20");
-    const salesByPlace = new Map<string, number>();
-    for (const sale of sales) {
-      const sellerPlace = core.organizations.get(sale.sellerId)?.placeId;
-      if (sellerPlace)
-        salesByPlace.set(sellerPlace, (salesByPlace.get(sellerPlace) ?? 0) + 1);
-    }
-    const taxingPlaceId = [...salesByPlace.entries()].sort(
-      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-    )[0]?.[0];
-    expect(taxingPlaceId).toBeDefined();
     const local = [...core.organizations.values()].filter(
-      (row) =>
-        row.outsideFlow === undefined &&
-        row.kind === "employer" &&
-        row.placeId === taxingPlaceId,
+      (row) => row.outsideFlow === undefined && row.kind === "employer",
     );
     const government = local.find((row) => row.publicPayAuthority) ?? local[0]!;
     const treasury = api.accounts().open({
@@ -65,16 +47,35 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
       name: "Sales tax receipts",
       source: government.source,
     });
-    // Exempt the classification of the town's first seller, as a grocery
-    // exemption exempts food stores.
-    const exempt = sales
-      .map((sale) => core.organizations.get(sale.sellerId)?.classification)
-      .find((row) => row);
+    // Exempt the classification with the smallest sales, as a grocery
+    // exemption exempts food stores, so the taxed sales carry most of the
+    // town's purchases (none exempt where only one kind of seller sells).
+    advanceCore(core, "2021-01-20");
+    const byClass = new Map<string, number>();
+    for (const sale of sales) {
+      const row = core.organizations.get(sale.sellerId)?.classification;
+      if (row) byClass.set(row, (byClass.get(row) ?? 0) + sale.paidMinor);
+    }
+    const exempt =
+      byClass.size > 1
+        ? [...byClass].sort(
+            (a, b) => a[1] - b[1] || a[0].localeCompare(b[0]),
+          )[0]![0]
+        : undefined;
+    // Tax the place where the town's sellers are.
+    const sellerPlaces = new Map<string, number>();
+    for (const sale of sales) {
+      const at = core.organizations.get(sale.sellerId)?.placeId;
+      if (at) sellerPlaces.set(at, (sellerPlaces.get(at) ?? 0) + 1);
+    }
+    const taxPlace = [...sellerPlaces].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    )[0]![0];
     sales.length = 0;
     const startCash = cash(core) + outsideNet(core);
     api.setPurchaseTax({
       id: "tax:sales:test",
-      placeId: government.placeId,
+      placeId: taxPlace,
       ratePercent: 7,
       payeeAccountId: treasury,
       ...(exempt ? { exemptClassificationPrefixes: [exempt] } : {}),
@@ -83,10 +84,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     advanceCore(core, "2021-02-20");
     const taxed = sales.filter((sale) => {
       const seller = core.organizations.get(sale.sellerId)!;
-      return (
-        seller.placeId === government.placeId &&
-        seller.classification !== exempt
-      );
+      return seller.placeId === taxPlace && seller.classification !== exempt;
     });
     expect(taxed.length).toBeGreaterThan(0);
     const expected = taxed.reduce(
@@ -101,7 +99,7 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(cash(core) + outsideNet(core)).toBe(startCash);
 
     // Benefits for the counted residents pay their place's account.
-    const residents = residentsAccountFor(core, government.placeId)!;
+    const residents = residentsAccountFor(core, taxPlace)!;
     expect(api.accounts().balance(residents)).toBeGreaterThan(0);
 
     // Ended, it collects nothing more.

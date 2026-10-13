@@ -9,11 +9,11 @@
  * department's record, so it is paid the way the town's other public employers
  * are. Opening generation only.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import data from "./data/opening-public-schools.json" with { type: "json" };
 import { parameter as p } from "./parameters";
-import { stopgap } from "./stopgaps";
+import { openingWorkCommitments } from "./modules/work";
 import type {
   CoreInput,
   JobInput,
@@ -40,26 +40,59 @@ export function withPublicSchoolDistrict(input: CoreInput): {
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   if (input.organizations.some((o) => has(o, data.classification)))
     return { input };
-  const template = input.jobs.find(
+  const police = input.organizations.find((o) =>
+    has(o, data.organizationTemplate),
+  );
+  if (!police) return { input };
+  const town = police.placeId;
+  const commitmentOf = (jobId?: string) =>
+    (input.workCommitments ?? []).find((row) => row.jobId === jobId);
+  const calendarOf = (commitmentId?: string) =>
+    (input.workPayrollCalendars ?? []).find((row) =>
+      row.workCommitmentIds.includes(commitmentId ?? ""),
+    );
+  let template = input.jobs.find(
     (job) =>
       job.occupationClassification === data.teacherOccupation &&
       has(organizations.get(job.organizationId) ?? {}, data.templateEmployer),
   );
-  const police = input.organizations.find((o) =>
-    has(o, data.organizationTemplate),
-  );
-  const commitment = (input.workCommitments ?? []).find(
-    (row) => row.jobId === template?.id,
-  );
-  const calendar = (input.workPayrollCalendars ?? []).find((row) =>
-    row.workCommitmentIds.includes(commitment?.id ?? ""),
-  );
-  if (!template || !police || !commitment || !calendar) {
-    // A town without a recorded teacher to copy has no district yet.
-    stopgap(data.missingTemplateStopgapId);
-    return { input };
+  let commitment = commitmentOf(template?.id);
+  let calendar = calendarOf(commitment?.id);
+  if (!template || !commitment || !calendar) {
+    // No recorded teacher to copy: a teacher's job at the national median
+    // teacher pay on a school-day timetable, paid on the police
+    // department's calendar (the town's other public payroll).
+    const officer = input.jobs.find((job) => job.organizationId === police.id);
+    const officerCalendar = calendarOf(commitmentOf(officer?.id)?.id);
+    if (!officer || !officerCalendar) return { input };
+    const hourly = Math.round(
+      (p("openingTeacherAnnualWageUsd") * p("minorPerDollar")) /
+        p("annualWorkHours"),
+    );
+    const hours = p("openingTeacherHoursDaily");
+    template = {
+      ...officer,
+      id: `job:public-schools:template:${town}`,
+      title: data.teacherTitle,
+      occupationClassification: data.teacherOccupation,
+      hourlyMinor: hourly,
+      hoursDaily: hours,
+      wageDailyMinor: Math.round(hourly * hours),
+      source: {
+        tag: "ESTIMATED",
+        asOf: start,
+        citation: data.fallbackCitation,
+        estimatedFrom: `No recorded teacher job in town to copy; national median teacher pay $${p("openingTeacherAnnualWageUsd")} a year over ${p("annualWorkHours")} hours, ${hours} hours a day.`,
+      },
+    };
+    commitment = openingWorkCommitments(
+      [template],
+      [{ ...police, classification: data.classification }],
+      start,
+    )[0];
+    calendar = officerCalendar;
+    if (!commitment) return { input };
   }
-  const town = police.placeId;
   const homes = new Map<string, string>();
   for (const home of input.households)
     for (const id of home.memberIds) homes.set(id, home.placeId);

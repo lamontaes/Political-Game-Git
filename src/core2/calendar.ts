@@ -1,8 +1,4 @@
-import {
-  daysBetween,
-  isoDateFromParts,
-  makeIsoDate,
-} from "../simulation/dates";
+import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
 import { parameter } from "./parameters";
 import type { CoreState, IsoDate, PersonState, TierDefinition } from "./types";
 

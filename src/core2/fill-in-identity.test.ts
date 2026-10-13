@@ -26,6 +26,12 @@ describe("fill-in from a recorded identity (officials)", () => {
       "identity:seat",
     ]);
     expect(fillInIdentity(core, identity)).toBe(person);
+    // Traits come from the seeded temperament model: filled, and the same
+    // person in a fresh world with the same seed.
+    expect(Object.keys(person.traits).length).toBeGreaterThan(0);
+    expect(
+      fillInIdentity(createLifeCore(piecesInput()), identity).traits,
+    ).toEqual(person.traits);
     expect(() => advanceCore(core, "2026-03-01")).not.toThrow();
   });
 });

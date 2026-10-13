@@ -1,16 +1,13 @@
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../simulation/life-places";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
   livingCostsRegionForState,
   type LivingCostsRegion,
-} from "../simulation/living-costs-data";
+} from "./reference/living-costs-data";
 import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
-} from "../simulation/place-county-relations.generated";
-import type { EntityId } from "../simulation/types";
+} from "./reference/place-county-relations.generated";
+import type { EntityId } from "./kernel/brands";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import type { CoreInput, Source } from "./types";
 
@@ -76,10 +73,10 @@ export function createOpeningCustomerGeographyProvider(
   const zero = parameter("zero", registry);
   return (placeId, input) => {
     const metadataPlace = input.placeMetadata?.placeKey
-      ? lifePlaceByKey(input.placeMetadata.placeKey)
+      ? corePlaceByKey(input.placeMetadata.placeKey)
       : undefined;
     const place =
-      lifePlaceByJurisdictionId(placeId as EntityId) ??
+      corePlaceByJurisdictionId(placeId as EntityId) ??
       (metadataPlace?.context.jurisdiction.id === placeId
         ? metadataPlace
         : undefined);
@@ -130,7 +127,7 @@ export function createOpeningCustomerGeographyProvider(
         right.population - left.population ||
         leftGeoid.localeCompare(rightGeoid),
     )) {
-      const origin = lifePlaceByKey(geoid);
+      const origin = corePlaceByKey(geoid);
       if (!origin || representedPlaces.has(origin.context.jurisdiction.id))
         continue;
       return {

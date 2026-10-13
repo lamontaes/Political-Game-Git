@@ -6,8 +6,8 @@ import {
   mayCompactGeneratedHouseholdSources,
   type GeneratedHouseholdSourceBasis,
 } from "./generated-household-source";
-import { addDays, isoDateFromParts, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { addDays, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import {
   OPENING_CUSTOMER_QUALIFICATION_PREFIX,
   openingCustomerQualificationKey,
@@ -19,7 +19,7 @@ import {
   type OpeningCustomerProviderQualification,
 } from "./opening-customer-qualification";
 export type { OpeningCustomerProviderQualification } from "./opening-customer-qualification";
-import type { LivingCostsRegion } from "../simulation/living-costs-data";
+import type { LivingCostsRegion } from "./reference/living-costs-data";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
 import financePolicyDataJson from "./data/finance.json" with { type: "json" };
 import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";

@@ -1,12 +1,7 @@
 /** Developer-only dated observables. No target values enter the life chooser. */
 import type { WorkResult } from "../types";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import {
-  addDays,
-  dateAtAge,
-  daysBetween,
-  makeIsoDate,
-} from "../../simulation/dates";
+import { addDays, dateAtAge, daysBetween, makeIsoDate } from "../kernel/dates";
 import reference from "../data/time-use-reference.json" with { type: "json" };
 import configJson from "./work-observables.json" with { type: "json" };
 import { parameter, PARAMETERS, type Parameter } from "../parameters";
