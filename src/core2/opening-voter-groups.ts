@@ -11,10 +11,7 @@ import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: 
 import { parameter } from "./parameters";
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
 import { ELECTORAL_CALIBRATION } from "../simulation/world-setup/political-start";
-import {
-  lifePlaceByKey,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import { stopgap } from "./stopgaps";
 import type { VoterGroup } from "./voter-groups";
 import type { CoreInput, Source } from "./types";
@@ -102,9 +99,9 @@ export function withCountedVoterGroups(
   const placeKey = input.placeMetadata?.placeKey;
   if (!residents || !placeKey) return input;
   stopgap("SG-CORE-voter-groups-starting-lean");
-  const place = lifePlaceByKey(placeKey);
+  const place = corePlaceByKey(placeKey);
   const usps = place?.stateJurisdictionKey?.replace(/^US-/, "");
-  const state = lifePlaceStateIdentities().find((row) => row.usps === usps);
+  const state = corePlaceStateIdentities().find((row) => row.usps === usps);
   const presidential = ELECTORAL_CALIBRATION.presidentialByState?.find(
     (row) => row.stateUsps === usps,
   );

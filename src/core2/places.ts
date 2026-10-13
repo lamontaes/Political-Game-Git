@@ -12,10 +12,10 @@
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
-  lifePlaceStateIdentities,
   type LifePlace,
 } from "../simulation/life-places";
 import authoredPlaces from "../../data/research/authored-life-places.json" with { type: "json" };
+import { corePlaceStateIdentities } from "./place-lookup";
 import countyNames from "./data/places/county-names.json" with { type: "json" };
 import localityData from "./data/places/localities.json" with { type: "json" };
 import states from "./data/places/states.json" with { type: "json" };
@@ -142,7 +142,7 @@ let localities: readonly LifePlace[] | undefined;
 export function realLocalities(): readonly LifePlace[] {
   if (!localities) {
     const limit = lifePlaceCoverage().placeCount;
-    localities = lifePlaceStateIdentities().flatMap((state) =>
+    localities = corePlaceStateIdentities().flatMap((state) =>
       lifePlaceSearch("", limit, {
         stateJurisdictionKey: state.jurisdictionKey,
         scope: "locality",

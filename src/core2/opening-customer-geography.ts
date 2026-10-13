@@ -1,7 +1,4 @@
-import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../simulation/life-places";
+import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
   livingCostsRegionForState,
   type LivingCostsRegion,
@@ -76,10 +73,10 @@ export function createOpeningCustomerGeographyProvider(
   const zero = parameter("zero", registry);
   return (placeId, input) => {
     const metadataPlace = input.placeMetadata?.placeKey
-      ? lifePlaceByKey(input.placeMetadata.placeKey)
+      ? corePlaceByKey(input.placeMetadata.placeKey)
       : undefined;
     const place =
-      lifePlaceByJurisdictionId(placeId as EntityId) ??
+      corePlaceByJurisdictionId(placeId as EntityId) ??
       (metadataPlace?.context.jurisdiction.id === placeId
         ? metadataPlace
         : undefined);
@@ -130,7 +127,7 @@ export function createOpeningCustomerGeographyProvider(
         right.population - left.population ||
         leftGeoid.localeCompare(rightGeoid),
     )) {
-      const origin = lifePlaceByKey(geoid);
+      const origin = corePlaceByKey(geoid);
       if (!origin || representedPlaces.has(origin.context.jurisdiction.id))
         continue;
       return {

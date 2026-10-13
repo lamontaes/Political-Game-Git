@@ -7,7 +7,7 @@ import {
   PLACE_COUNTY_RELATIONS_META,
 } from "../simulation/government-units";
 import { createStableId } from "./kernel/ids";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import ownerDataJson from "./data/opening-public-owners-2017.json" with { type: "json" };
 import { parameter } from "./parameters";
@@ -275,7 +275,7 @@ function recordedCountyPlaceCoverage(
   if (input.placeId === organization.placeId) {
     basisRecordIds = [facts[`${factPrefix}recordId`]!];
   } else {
-    const place = lifePlaceByJurisdictionId(input.placeId as EntityId);
+    const place = corePlaceByJurisdictionId(input.placeId as EntityId);
     if (
       !place?.sourceGeoid ||
       !validGeography ||
