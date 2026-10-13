@@ -1755,15 +1755,15 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "value": 0.75,
+    "value": 0.73,
     "tag": "ESTIMATED",
-    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
-    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67. BLS CPS 2019 annual averages, Table 3 (https://www.bls.gov/cps/aa2019/cpsaat03.pdf): employment-population ratio 42.6% at 18–19 and 66.4% at 20–24.",
+    "estimatedFrom": "Recomputed on the game's span, which starts at 18, not SSA's 22: 41 years (22 to a claim near 63) at SSA's 0.75 plus 4 years (18–21) at about 0.58 (between the monthly employment ratios of 18–21-year-olds, about 0.52, and the higher share who work at some time in a year), over 45 years: (41 × 0.75 + 4 × 0.58) / 45 = 0.73. One value for everyone until people's own work histories carry it.",
     "spread": {
-      "low": 0.66,
-      "high": 0.84,
-      "unit": "share of adult years with covered earnings",
-      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
+      "low": 0.65,
+      "high": 0.82,
+      "unit": "share of adult years from 18 with covered earnings",
+      "citation": "Same arithmetic with SSA Bulletin 65(1) women 0.66 and youth 0.52 (low), men 0.84 and youth 0.65 (high)."
     }
   },
   "openingRetirementCoveredTraitPull": {

@@ -656,8 +656,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 13 (OPUS-CORE): 0.73, ESTIMATED from SSA Bulletin 65(1) recomputed on the game's age-18 span with BLS CPS 2019 youth employment (spread 0.65–0.82).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
