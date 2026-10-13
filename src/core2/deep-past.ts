@@ -10,6 +10,7 @@ import {
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
 import privateSchoolsJson from "./data/opening-private-schools.json" with { type: "json" };
 import { profileFor } from "./opening-profile";
+import { enrollCollegeStudents } from "./opening-college";
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -837,14 +838,16 @@ export function buildDeepPast(
   const residentIds = people
     .filter((person) => person.tier !== OPENING_KIN.kinTier)
     .map((person) => person.id);
-  let withPast: CoreInput = {
+  // P15: young adults enrolled in a college near home, before classmates
+  // are drawn, so college classmates know each other too.
+  let withPast: CoreInput = enrollCollegeStudents({
     ...input,
     people,
     // The circle steps append their own gaps; keep them last on every rebuild.
     gaps: [...gaps].filter(
       (gap) => !circles.some((circle) => circle.scopeGap === gap),
     ),
-  };
+  });
   // A coworker's context is their opening job: employer and title come from
   // the job record the work:opening fact belongs to.
   const jobContext = (

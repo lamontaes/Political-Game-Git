@@ -2873,5 +2873,17 @@
     "addedAt": "2026-10-13",
     "replacement": "Medicaid and CHIP limits and the premium-credit schedule as law rows (OPUS-GOV) read through lawInForce; premiums paid each month from household cash; disability Medicare after 24 months of SSDI; territorial standards; part-time eligibility at the measured share.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-college-enrollment",
+    "kind": "estimated-behavior",
+    "file": "src/core2/opening-college.ts",
+    "line": 1,
+    "whatItFakes": "Which residents aged 18-24 are enrolled in a college near home at the opening (schooling, household degree and means ranked against the state's enrolled share), and which college of the fitting kind (a pick keyed to the person, since colleges carry no enrollment size). Students who left for college elsewhere are not modeled; no one enrolls during play yet.",
+    "why": "IPEDS enrollment by institution and residence-of-student files are not in the repository, and choosing college at 18 is a later decision engine.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-13",
+    "replacement": "IPEDS fall enrollment per college to weigh the pick; a decision at 18 (and later) to enroll, near home or away, through the chooser from money, schooling and temperament.",
+    "status": "open"
   }
 ]
