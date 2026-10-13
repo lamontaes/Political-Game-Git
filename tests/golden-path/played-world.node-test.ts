@@ -102,7 +102,6 @@ const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
  */
 const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "every module": { owner: "FIXER-WIRE-ALL-MODULES" },
-  "player turns 18": { owner: "FIXER-PLAYER-START" },
   "school-age people attend school": { owner: "OPUS-CORE" },
   // State and federal terms are filled since races elsewhere run in the
   // played world; some towns still leave local terms unfilled.
@@ -110,7 +109,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     owner: "FIXER-OFFICES-ELECTIONS",
     byTown: true,
   },
-  "nobody serves after moving away": { owner: "FIXER-MOVES" },
   "a named challenger runs": { owner: "OPUS-OFFICIALS" },
   "counted voters vote in local races": { owner: "FIXER-OFFICES-ELECTIONS" },
   "the counted population changes": { owner: "OPUS-CORE" },
