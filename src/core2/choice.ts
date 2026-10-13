@@ -12,10 +12,10 @@ import type {
   PersonState,
   WeightedReason,
 } from "./types";
-/** Per person: each act kind's summed trait pull and how many pulls touched it. */
+/** Per person: each act kind's summed trait pull, and the pulls one kind gets on average. */
 interface KindLean {
   sum: Map<string, number>;
-  count: Map<string, number>;
+  perKind: number;
 }
 const kindLeans = new WeakMap<PersonState, KindLean>();
 const leansByTraits = new WeakMap<object, { sum: number; lean: KindLean }>();
@@ -67,11 +67,9 @@ function kindLean(
   const byTraits = leansByTraits.get(actor.traits);
   if (byTraits && byTraits.sum === sum) return byTraits.lean;
   const p = (key: string) => parameter(key, core.data.parameters);
-  const lean: KindLean = { sum: new Map(), count: new Map() };
-  const add = (kind: string, value: number) => {
+  const lean: KindLean = { sum: new Map(), perKind: p("zero") };
+  const add = (kind: string, value: number) =>
     lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
-    lean.count.set(kind, (lean.count.get(kind) ?? p("zero")) + p("one"));
-  };
   for (const [id, raw] of Object.entries(actor.traits)) {
     const row = core.data.traitPulls[id];
     if (!row || raw === p("zero")) continue;
@@ -80,6 +78,9 @@ function kindLean(
     const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
     for (const kind of side.toward ?? []) add(kind, weight);
     for (const kind of side.away ?? []) add(kind, -weight);
+    lean.perKind +=
+      ((side.toward?.length ?? p("zero")) + (side.away?.length ?? p("zero"))) /
+      core.data.actKinds.length;
   }
   kindLeans.set(actor as PersonState, lean);
   leansByTraits.set(actor.traits, { sum, lean });
@@ -87,9 +88,14 @@ function kindLean(
 }
 
 /**
- * How a person's traits lean toward an option that expresses these act kinds,
- * from -1 to 1: the mean of every matching trait pull. The chooser's trait
- * reason, and the one trait term every formula decision uses.
+ * How a person's traits lean toward an option that expresses these act kinds:
+ * every matching trait pull summed, over the option's act kinds times the
+ * number of pulls one kind gets on average from everything the person
+ * carries, held within -1..1. That norm is the same for all of a person's
+ * options, so a pull toward an option always raises it against the others
+ * and a pull away always lowers it (until it reaches the bound, which only a
+ * person with very few traits does). The chooser's trait reason, and the one trait term every
+ * formula decision uses.
  */
 export function traitLean(
   core: Pick<CoreState, "data">,
@@ -98,13 +104,14 @@ export function traitLean(
 ): number {
   const p = (key: string) => parameter(key, core.data.parameters);
   const lean = kindLean(core, actor);
-  let sum = p("zero"),
-    count = p("zero");
-  for (const kind of actKinds) {
-    sum += lean.sum.get(kind) ?? p("zero");
-    count += lean.count.get(kind) ?? p("zero");
-  }
-  return count > p("zero") ? sum / count : p("zero");
+  let sum = p("zero");
+  for (const kind of actKinds) sum += lean.sum.get(kind) ?? p("zero");
+  return actKinds.length && lean.perKind > p("zero")
+    ? Math.max(
+        p("negativeOne"),
+        Math.min(p("one"), sum / (actKinds.length * lean.perKind)),
+      )
+    : p("zero");
 }
 
 function traitScore(

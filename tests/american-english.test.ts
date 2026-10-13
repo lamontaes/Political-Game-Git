@@ -293,7 +293,7 @@ const ALLOWED_FILES: readonly {
     reason: "Rota is a municipality of the Northern Mariana Islands",
   },
   {
-    file: /^src\/simulation\/names-data\.ts$/,
+    file: /^src\/(?:simulation|core2\/gov-rules)\/names-data\.ts$/,
     reason: "Ward is a family name",
   },
   {

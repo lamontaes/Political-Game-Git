@@ -34,6 +34,7 @@ import {
   holdVote,
   learnStake,
   castMemberVote,
+  mayorVeto,
   executiveDecision,
   LEGISLATURE_MODULE_ID,
   memberPosition,
@@ -171,7 +172,8 @@ describe(
           v.position.views +
             v.position.constituents +
             v.position.sponsor +
-            v.position.deal,
+            v.position.deal +
+            v.position.trait,
         );
       for (const m of council.map((s) => s.holder!.personId!)) {
         const v = votes.find((x) => x.memberId === m)!;
@@ -614,6 +616,12 @@ describe(
       for (const seat of council)
         castMemberVote(api, third.id, seat.holder!.personId!, "yes");
       const waiting = holdVote(api, third.id);
+      // Only where the state gives the mayor a veto does the bill wait for
+      // a signature; otherwise the passed ordinance is law.
+      if (!mayorVeto(api).veto) {
+        expect(waiting.status).toBe("enacted");
+        return;
+      }
       expect(waiting.status).toBe("awaiting-signature");
       const decided = executiveDecision(api, third.id, true);
       expect(["signed", "enacted"]).toContain(decided.status);

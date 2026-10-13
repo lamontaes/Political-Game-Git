@@ -24,6 +24,7 @@ import {
   registeredFromVotes,
   stateVotes2024,
 } from "../filing-context";
+import { decisionLean } from "../trait-decisions";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
@@ -55,6 +56,11 @@ export interface ContestRow extends ElectionDates {
   readonly district: string | null;
   readonly family: OfficeFamily;
   readonly incumbentTermId: string | null;
+  /** A special election: the vacancy it fills and the unexpired term's end. */
+  readonly special?: {
+    readonly vacancyId: string;
+    readonly termEnd: string | null;
+  };
 }
 
 export interface FilingRequirements {
@@ -530,6 +536,55 @@ function contestFor(
 }
 
 /**
+ * A special election for a vacant seat: the seat's race on the date the
+ * vacancy rule sets, filing open from today and closing the place's usual
+ * number of days before (the estimate where none is read); the winner serves
+ * the unexpired term.
+ */
+export function specialContestFor(
+  api: CoreAPI,
+  race: {
+    readonly vacancyId: string;
+    readonly seatId: string;
+    readonly electionDate: string;
+    readonly termEnd: string | null;
+  },
+): ContestRow | null {
+  const entry = townSeats(api).find((s) => s.seat.id === race.seatId);
+  if (!entry || !entry.office.elected) return null;
+  const family = officeFamily(entry.office);
+  const days =
+    (family === "countyOffice" || family === "municipalOffice"
+      ? deadlineDaysBefore(town(api).stateKey, family)
+      : null) ?? campaignParameter("specialFilingDaysBefore");
+  const deadline = new Date(
+    Date.parse(`${race.electionDate}T00:00:00Z`) - days * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const contest: ContestRow = {
+    id: `contest:${race.seatId}:${race.electionDate}:special`,
+    officeId: entry.office.id,
+    seatId: race.seatId,
+    title: entry.office.title,
+    level: entry.office.level,
+    district: entry.seat.district,
+    family,
+    incumbentTermId: entry.holder?.id ?? null,
+    electionDate: race.electionDate,
+    primaryDate: null,
+    filingOpens: api.state.date,
+    filingDeadline: deadline > api.state.date ? deadline : api.state.date,
+    basis: "estimated",
+    sources: [`vacancy ${race.vacancyId}`],
+    special: { vacancyId: race.vacancyId, termEnd: race.termEnd },
+  };
+  if (table(api, "contests").get(contest.id)) return null;
+  table(api, "contests").put(contest as unknown as ModuleRow);
+  return contest;
+}
+
+/**
  * Open a seat's next contest once its last one is decided: each cycle has
  * its own contest, so the record carries into the next election. Returns
  * null where the seat has no future election or it is already open.
@@ -893,16 +948,27 @@ export function requestSignature(
   else if (already) reason = "already-signed";
   else if (age < 18 || signer.placeId !== town(api).townPlaceId)
     reason = "not-eligible-to-sign";
-  else if (signer.knownIds.has(filing.personId)) {
-    signed = true;
-    reason = "knows-the-candidate";
-  } else {
+  else {
+    const knows = signer.knownIds.has(filing.personId);
     // stopgapId: SG-GOV-signature-decision
     api.stopgap("SG-GOV-signature-decision");
     signed =
-      (signer.traits["people-mind-v1:sociability"] ?? 0) >
-      (signer.traits["people-mind-v1:conflict"] ?? 0);
-    reason = signed ? "open-to-the-candidate" : "wary-of-a-stranger";
+      (knows ? campaignParameter("electionsSignKnownPull") : 0) +
+        decisionLean(
+          api.state,
+          signer,
+          "elections.sign-petition",
+          "sign",
+          "refuse",
+        ) >
+      0;
+    reason = knows
+      ? signed
+        ? "knows-the-candidate"
+        : "knows-the-candidate-but-declined"
+      : signed
+        ? "open-to-the-candidate"
+        : "wary-of-a-stranger";
   }
   const row: SignatureRow = {
     id: `signature:${filingId}:${signerId}:${today}`,
