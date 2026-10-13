@@ -42,7 +42,7 @@ import type {
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import laborLawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import laborReach from "../data/laws/reach-group-a.json" with { type: "json" };
 
@@ -769,6 +769,9 @@ function raisePay(api: CoreAPI): void {
     pay = store(api).table("pay"),
     months = api.parameter("macroMonthsPerYear"),
     counted = new Map<string, number>();
+  const town = c.modules.has(LAWS_MODULE_ID)
+    ? lawChain(api).townPlaceId
+    : undefined;
   const jobs = [
     ...[...c.jobs.values()].filter(
       (job) => job.endsAt === undefined && c.people.get(job.personId)?.alive,
@@ -784,7 +787,7 @@ function raisePay(api: CoreAPI): void {
       c.organizations.get(job.organizationId)?.classification ?? "",
     );
     const bargaining =
-      publicEmployer && c.modules.has(LAWS_MODULE_ID)
+      publicEmployer && placeId === town
         ? lawInForce(
             api,
             "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
@@ -804,8 +807,11 @@ function raisePay(api: CoreAPI): void {
     )
       continue;
     const now = payLevel(api, placeId);
-    const hourly = Math.round(
-      (job.hourlyMinor * now * bargainingFactor) / (level * priorBargaining),
+    const hourly = Math.max(
+      bargaining ? (lawInForce(api, "minimum-wage").value ?? 0) : 0,
+      Math.round(
+        (job.hourlyMinor * now * bargainingFactor) / (level * priorBargaining),
+      ),
     );
     if (hourly > 0 && hourly !== job.hourlyMinor && !c.jobs.has(job.id))
       counted.set(job.id, hourly);
