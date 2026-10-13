@@ -17,7 +17,7 @@ Only OPUS-PEOPLE writes this file. See "The team" in `AGENTS.md` and `docs/coord
 - [x] 2. Talking records contact and closeness, and passes news.
 - [ ] 3. The speech module and "bring it up" in /play: `peopleModules()` is ready; wiring it into /play is OPUS-PLAY's (see Needs).
 - [x] 4. News: trust by lean (Gallup), county and state stories, outlets as records; showing what the player heard is the /play sheet's (`storiesHeard`).
-- [x] 5. Journal lines for deaths, illness and filing; marriages and election results wait on producers. The look-back in /play is OPUS-PLAY's.
+- [x] 5. Journal lines for deaths, illness, filing, marriages (past and in play), election results, taking office, votes, town halls and business closings. The look-back in /play is OPUS-PLAY's.
 - [x] 6. Schools by era: a person's school is one the national directory lists by the year they started there (NCES directories 1986–2021, every five years); a small place whose own schools aren't listed sends its children to a few nearby schools, so they have classmates.
 - [x] 7. Template banks fire their stopgaps until composed from mined speech.
 - [x] Also: a moment no situation type binds now plays at home instead of failing.
