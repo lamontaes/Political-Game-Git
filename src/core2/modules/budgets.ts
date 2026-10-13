@@ -41,6 +41,9 @@ import { outcomeWebFactor } from "./outcome-web";
 import { lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
+import budgetParameters from "../data/budgets/parameters.json" with { type: "json" };
+import { countedJobsOf } from "../residents-economy";
+import { addDays, makeIsoDate } from "../kernel/dates";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -510,6 +513,7 @@ function receiveOutsideRevenue(
     }
   paySchoolEligibility(api);
   payPensionContribution(api);
+  payPoliceTechnology(api);
   scheduleOutsideRevenue(api, api.state.date);
 }
 
@@ -1219,4 +1223,84 @@ function payPensionContribution(api: CoreAPI): void {
     source,
     partial: true,
   });
+}
+
+const FACIAL_RECOGNITION =
+  "us-policy-positions:technology-privacy.restrict-government-facial-recognition";
+
+/**
+ * The police line's facial recognition contract: a vendor outside the town
+ * bills each month's service, paid net 30 on the 1st, sized by the town's
+ * sworn officers.
+ * Days a restriction was in force are not billed; the bill it cut short
+ * cites it, and no bill follows while it stays in force.
+ */
+function payPoliceTechnology(api: CoreAPI): void {
+  const c = api.state,
+    town = lawChain(api).townPlaceId;
+  const latest = (gov: GovernmentRow | undefined) =>
+    gov &&
+    budgetsOf(api, gov.id)
+      .filter((row) => row.startsOn <= c.date)
+      .at(-1);
+  // The most local government carrying a police line; a territory, with no
+  // lines by function, runs its own police.
+  const levels = (["city", "county", "state"] as const).map((level) =>
+    governments(api).find((row) => row.level === level),
+  );
+  const payer =
+    levels.find((gov) => (latest(gov)?.spendingMinor.police ?? 0) > 0) ??
+    levels[2];
+  const vendor = [...c.organizations.values()].find(
+    (row) => row.outsideFlow !== undefined && row.placeId === town,
+  );
+  if (!payer || !vendor) return;
+  const police = new Set(
+    [...c.organizations.values()]
+      .filter(
+        (row) =>
+          row.placeId === town && row.classification === "service:police",
+      )
+      .map((row) => row.id),
+  );
+  let officers = 0;
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined && police.has(job.organizationId))
+      officers += 1;
+  for (const id of police) officers += countedJobsOf(c, id).length;
+  // The month before last, billed net 30, and its days no restriction was in force on.
+  const monthStart = (date: string) => makeIsoDate(`${date.slice(0, 7)}-01`);
+  const end = monthStart(addDays(monthStart(c.date), -1));
+  const first = monthStart(addDays(end, -1));
+  let days = 0,
+    billed = 0,
+    cutBy: string | undefined;
+  for (let day = first; day < end; day = makeIsoDate(addDays(day, 1))) {
+    days += 1;
+    const law = lawInForce(api, FACIAL_RECOGNITION, day);
+    if (law.value === 1 && law.governing) cutBy ??= law.governing.id;
+    else billed += 1;
+  }
+  const amount = Math.round(
+    (officers *
+      budgetParameters.policeFacialRecognitionPerOfficerDollars.value *
+      100 *
+      billed) /
+      365,
+  );
+  if (amount <= 0) return;
+  transferCash(
+    api,
+    `police-technology:${payer.id}:${first.slice(0, 7)}${cutBy ? `:${cutBy}` : ""}`,
+    payer.organizationId,
+    vendor.id,
+    amount,
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation:
+        budgetParameters.policeFacialRecognitionPerOfficerDollars.citation,
+      estimatedFrom: `${officers} sworn officers times policeFacialRecognitionPerOfficerDollars, for ${billed} of ${days} days${cutBy ? `; the rest restricted by ${cutBy}` : ""}.`,
+    },
+  );
 }
