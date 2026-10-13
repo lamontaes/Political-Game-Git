@@ -42,6 +42,10 @@ import type {
 } from "../types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 
+import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import laborLawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import laborReach from "../data/laws/reach-group-a.json" with { type: "json" };
+
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -774,16 +778,35 @@ function raisePay(api: CoreAPI): void {
   for (const job of jobs) {
     const placeId = c.organizations.get(job.organizationId)?.placeId;
     if (!placeId || !job.hourlyMinor) continue;
-    const row = pay.get(job.id) as { level: number; at: string } | undefined;
+    const row = pay.get(job.id) as
+      { level: number; at: string; bargainingFactor?: number } | undefined;
+    const publicEmployer = laborReach.selectors.publicEmployers.includes(
+      c.organizations.get(job.organizationId)?.classification ?? "",
+    );
+    const bargaining =
+      publicEmployer && c.modules.has(LAWS_MODULE_ID)
+        ? lawInForce(
+            api,
+            "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+          )
+        : undefined;
+    const bargainingFactor =
+      bargaining?.value === 1
+        ? 1 + laborLawParameters.parameters.publicBargainingPayPremium.value
+        : 1;
+    const priorBargaining = row?.bargainingFactor ?? 1;
     const level = row?.level ?? api.parameter("one"),
       at = row?.at ?? api.state.startedAt;
     if (
+      bargainingFactor === priorBargaining &&
       daysBetween(makeIsoDate(at), makeIsoDate(c.date)) <
-      (api.parameter("jobsDaysPerYear") * (months - 1)) / months
+        (api.parameter("jobsDaysPerYear") * (months - 1)) / months
     )
       continue;
     const now = payLevel(api, placeId);
-    const hourly = Math.round((job.hourlyMinor * now) / level);
+    const hourly = Math.round(
+      (job.hourlyMinor * now * bargainingFactor) / (level * priorBargaining),
+    );
     if (hourly > 0 && hourly !== job.hourlyMinor && !c.jobs.has(job.id))
       counted.set(job.id, hourly);
     else if (hourly > 0 && hourly !== job.hourlyMinor)
@@ -795,7 +818,13 @@ function raisePay(api: CoreAPI): void {
           `A yearly raise following the place's pay level, ${level.toFixed(4)} to ${now.toFixed(4)} against the opening.`,
         ),
       );
-    pay.put({ id: job.id, level: now, at: c.date });
+    pay.put({
+      id: job.id,
+      level: now,
+      at: c.date,
+      bargainingFactor,
+      lawId: bargaining?.governing?.id ?? null,
+    });
   }
   rerateCountedJobs(c, counted);
 }

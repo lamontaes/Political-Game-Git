@@ -11,6 +11,9 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
+import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import laborReach from "../data/laws/reach-group-a.json" with { type: "json" };
+import laborLawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { transfer } from "../accounts";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -396,6 +399,38 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
+  if (
+    flow.financeKind === "household.union-dues" &&
+    core.modules.has(LAWS_MODULE_ID)
+  ) {
+    const rightToWork = lawInForce(
+      api,
+      "us-policy-positions:labor-workforce.right-to-work",
+    );
+    // Voluntary members' dues remain. Only the estimated represented nonmembers'
+    // agency-fee portion disappears where compulsory private-sector fees are barred.
+    if (rightToWork.value !== 1) {
+      let privateDues = 0;
+      for (const household of rt.households.values()) {
+        const jobs = household.jobs.filter((job) => rt.jobs.has(job.id));
+        if (
+          !jobs.length ||
+          jobs.some((job) =>
+            laborReach.selectors.publicEmployers.includes(
+              core.organizations.get(job.organizationId)?.classification ?? "",
+            ),
+          )
+        )
+          continue;
+        for (const contract of household.contracts)
+          privateDues += flow.amountByContract?.[contract.id] ?? 0;
+      }
+      base += Math.round(
+        privateDues *
+          laborLawParameters.parameters.unionAgencyFeeShareOfDues.value,
+      );
+    }
+  }
   const earnedDays = flow.earnedDaysByDue?.[date];
   if (earnedDays !== undefined && flow.perDayMinorByJob) {
     // A payday at the opening pays only the days worked since it.

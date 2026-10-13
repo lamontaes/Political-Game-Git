@@ -180,6 +180,18 @@
       "value": 365,
       "tag": "SOURCED",
       "source": "Civil calendar: a common year has 365 days."
+    },
+    "unionAgencyFeeShareOfDues": {
+      "value": 0.09,
+      "tag": "ESTIMATED",
+      "source": "BLS Union Members 2024: 14.3 million members and 15.7 million represented workers. Estimated private-sector fee-paying nonmember share relative to member dues; excludes public-sector agency fees barred by Janus.",
+      "spread": [0, 0.14]
+    },
+    "publicBargainingPayPremium": {
+      "value": 0.05,
+      "tag": "ESTIMATED",
+      "source": "BLS Union Members 2024 and EPI public-sector compensation comparisons: a modest bargaining wage premium, not the unadjusted union/nonunion earnings gap.",
+      "spread": [0, 0.1]
     }
   }
 }
