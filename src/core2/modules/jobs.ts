@@ -164,9 +164,8 @@ function collectJobIds(value: unknown, ids: Set<string>): void {
 export function pinned(c: CoreState): Set<string> {
   let ids = pinnedByCore.get(c);
   if (ids) return ids;
-  stopgap("SG-WORLD-jobs-agreement-pinned");
+  // An agreement's named jobs can end now: the core hands the agreement to the supplier's current staff. Jobs a government's records name stay.
   ids = new Set();
-  collectJobIds(Object.values(c.placeMetadata ?? {}), ids);
   for (const organization of c.organizations.values())
     collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
   pinnedByCore.set(c, ids);
