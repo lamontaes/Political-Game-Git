@@ -21,7 +21,6 @@ import {
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
