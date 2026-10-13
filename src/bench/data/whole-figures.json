@@ -103,5 +103,105 @@
     "university-lecture-hall": 50,
     "elementary-classroom": 50,
     "classroom": 50
-  }
+  },
+  "activitySettings": {
+    "about": "Where a figure's painted activity makes sense (owner, Oct 13: no skateboard in a house; a laptop only when working or studying). A figure whose activity is listed is drawn only where the person is in one of these settings: home, outdoors, store, work (at their workplace, an official at a government place, or on a work act). An activity not listed fits anywhere.",
+    "skateboard": ["outdoors"],
+    "basketball": ["outdoors"],
+    "laptop": ["work"],
+    "clipboard": ["work"],
+    "tablet-explaining": ["work"],
+    "writing": ["work"],
+    "carrying-papers": ["work"],
+    "walking-briefcase": ["work", "outdoors"],
+    "serving": ["work", "home"],
+    "handing": ["work"],
+    "speaking": ["work"],
+    "cooking": ["work", "home"],
+    "carrying-groceries": ["home", "outdoors", "store"]
+  },
+  "actActivities": {
+    "about": "Where a look is painted doing several things, what the person is doing now (their act today) picks among them, first listed first.",
+    "rest": ["resting", "reading", "tv", "phone", "coffee", "standing"],
+    "contact-known-person": [
+      "talking",
+      "chatting",
+      "listening",
+      "laughing",
+      "greeting"
+    ],
+    "share-cause": ["talking", "explaining", "making-a-point"],
+    "care-for-relative": ["cooking", "carrying", "talking"],
+    "work-shift": [
+      "working",
+      "serving",
+      "writing",
+      "clipboard",
+      "laptop",
+      "carrying"
+    ],
+    "attend-scheduled-work-date-segment": [
+      "working",
+      "serving",
+      "writing",
+      "clipboard",
+      "laptop",
+      "carrying"
+    ],
+    "testify-at-hearing": ["speaking", "explaining"],
+    "lobby-legislator": ["talking", "explaining", "handshake"]
+  },
+  "workActs": ["work-shift", "attend-scheduled-work-date-segment"],
+  "homePlaces": [
+    "suburban-house",
+    "rowhouse",
+    "small-apartment",
+    "apartment-older-walkup",
+    "apartment-suburban-garden",
+    "apartment-basement-studio",
+    "apartment-public-housing",
+    "apartment-student-shared",
+    "mobile-home",
+    "rural-farmhouse",
+    "large-house",
+    "home-kitchen",
+    "bedroom-teen",
+    "dorm-room",
+    "house-new-england-colonial",
+    "house-gulf-coast-raised",
+    "house-southwest-adobe",
+    "house-northwest-craftsman"
+  ],
+  "storePlaces": [
+    "store",
+    "grocery-store",
+    "gas-station-store",
+    "hardware-store-interior"
+  ],
+  "outdoorPlaces": [
+    "cemetery-graveside",
+    "church-exterior",
+    "city-hall-exterior",
+    "city-hall-steps-event",
+    "college-quad",
+    "construction-site",
+    "county-courthouse",
+    "door-knocking-rural",
+    "door-knocking-suburban",
+    "door-knocking-urban",
+    "doorstep-entrance",
+    "farm-yard",
+    "governor-residence-exterior",
+    "main-street",
+    "park",
+    "rally-county-fairground",
+    "rally-courthouse-square",
+    "rally-downtown-plaza",
+    "rally-union-hall-parking-lot",
+    "school-exterior",
+    "supreme-court-exterior",
+    "us-capitol-exterior",
+    "white-house-exterior"
+  ],
+  "outdoorPrefixes": ["state-capitol-"]
 }
