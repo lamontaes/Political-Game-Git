@@ -12,6 +12,7 @@ import {
   beliefsModule,
   beliefsOf,
   CONVERSATION_DATA,
+  doubtsClaim,
   openConversation,
   say,
 } from "./conversation";
@@ -20,7 +21,8 @@ import { REGISTER_CARDS } from "../presentation/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
 // every turn, each answering the last line from real records; talking is
-// time together and passes news; a lie is believed by everyone present and
+// time together and passes news; a lie is believed by everyone present whose
+// traits give it the benefit of the doubt, and
 // is found out when someone who knows the truth talks to them.
 const seed = process.env.GOLDEN_PATH_SEED ?? "conversation-test";
 const base = enrichCivicInputs(
@@ -76,9 +78,16 @@ const strangers = [...core.people.values()].filter(
     core.jobs.get(row.jobId)!.organizationId !== myOrg() &&
     age(row.birthDate) >= 18,
 );
-// The people already known, before the player meets three strangers.
+// The people already known, before the player meets three strangers: the
+// first, then two whose traits give a claim the benefit of the doubt (a hearer
+// who leans hard toward doubt keeps no belief; see the last test).
 const others = [...me.knownIds].filter((id) => core.people.get(id)?.alive);
-for (const row of strangers.slice(0, 3))
+const believing = strangers
+  .slice(1)
+  .filter((row) => !doubtsClaim(core, row))
+  .slice(0, 2);
+const doubter = strangers.find((row) => doubtsClaim(core, row));
+for (const row of [strangers[0]!, ...believing])
   api.meet(me.id, row.id, {
     placeId: me.placeId,
     sourceId: "fixture-meeting",
@@ -150,7 +159,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
-    const [hearerId, bystanderId] = [strangers[1]!.id, strangers[2]!.id];
+    const [hearerId, bystanderId] = [believing[0]!.id, believing[1]!.id];
     for (const id of [hearerId, bystanderId]) director.watch(core, id);
     const talk = openConversation(core, player.id, hearerId, {
       presentIds: [bystanderId],
@@ -206,5 +215,23 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     ).toBeLessThanOrEqual(2);
     const shortShare = lengths.filter((n) => n <= 3).length / lengths.length;
     expect(Math.abs(shortShare - short)).toBeLessThan(0.2);
+  });
+  it("leaves no belief in a hearer whose traits lean hard toward doubt", () => {
+    expect(doubter).toBeDefined();
+    api.meet(me.id, doubter!.id, {
+      placeId: me.placeId,
+      sourceId: "fixture-meeting",
+      cause: "met-in-group",
+      hours: 1,
+    });
+    const talk = openConversation(core, player.id, doubter!.id);
+    expect(talk.lie).not.toBeNull();
+    const key = talk.lines[0]!.kind.startsWith("own-work")
+      ? `person:${player.id}:employer`
+      : `person:${player.id}:place`;
+    say(core, talk, talk.lie!.key);
+    expect(beliefsOf(api, doubter!.id).map((row) => row.key)).not.toContain(
+      key,
+    );
   });
 });

@@ -115,7 +115,7 @@
     "localElectorateShareOfPopulation": {
       "value": 0.46,
       "tag": "SOURCED",
-      "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46.",
+      "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46. Scaled by each election's cycle (midterm 0.72, off-cycle 0.39 of a presidential year's) where the race's electorate is sized.",
       "spread": [0.15, 0.55],
       "stopgapId": "SG-GOV-voter-groups-stand-in"
     },
@@ -203,15 +203,7 @@
       "value": 9,
       "tag": "ESTIMATED",
       "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
-      "spread": [7, 13],
-      "stopgapId": "SG-GOV-committee-structure"
-    },
-    "committeeShareOfBody": {
-      "value": 0.15,
-      "tag": "ESTIMATED",
-      "source": "A standing committee holds about a seventh of its chamber's members in state legislatures (NCSL: typical committees of 9 to 20 in chambers of 40 to 150).",
-      "spread": [0.08, 0.3],
-      "stopgapId": "SG-GOV-committee-structure"
+      "spread": [7, 13]
     },
     "hearingWitnesses": {
       "value": 3,
@@ -432,6 +424,126 @@
       "tag": "TUNABLE",
       "source": "How much an incumbent's name on the ballot draws a voter no campaign reached (ballot recognition; incumbents win about 98% of House primaries, Ballotpedia 2024).",
       "spread": [0.05, 0.3]
+    },
+    "midtermShareOfPresidential": {
+      "value": 0.72,
+      "tag": "SOURCED",
+      "source": "Turnout in the 2022 midterm (46.6% of the voting-eligible population) over 2024's presidential turnout (64.1%): 0.72 (U.S. Elections Project, Michael McDonald).",
+      "spread": [0.65, 0.8]
+    },
+    "offCycleShareOfPresidential": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "source": "Off-cycle city election turnout against a presidential year's: big-city mayoral turnout runs about 0.39 of presidential turnout off cycle, 0.72 on midterm dates and 0.91 on presidential dates (Hajnal and Green, 'Big Cities, Tiny Votes?', Dec 2024; FIXER stand-in figures, Oct 12, SG-GOV-voter-groups-stand-in).",
+      "spread": [0.18, 0.46]
+    },
+    "midtermTurnoutCost": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named and counted turnout falls near the midterm's 0.72 of a presidential year's.",
+      "spread": [0.1, 0.6]
+    },
+    "offCycleTurnoutCost": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "source": "What an off-cycle election adds to the cost of voting, checked so named and counted turnout falls near a third of a presidential year's.",
+      "spread": [0.4, 1.4]
+    },
+    "officeTermYearsEstimate": {
+      "value": 4,
+      "tag": "ESTIMATED",
+      "source": "The term of a local or county office whose own term isn't read: most county and municipal elected offices serve four-year terms (National Association of Counties, County Structure and Elected Officials; ICMA Municipal Form of Government Survey 2023).",
+      "spread": [2, 4]
+    },
+    "votedShareOfRegistered": {
+      "value": 0.89,
+      "tag": "SOURCED",
+      "source": "Share of registered voters who voted in November 2024: 65.3% of citizens voted and 73.6% were registered (U.S. Census Bureau, Voting and Registration in the Election of November 2024, CPS), so about 0.89.",
+      "spread": [0.8, 0.92]
+    },
+    "tieElectionDays": {
+      "value": 28,
+      "tag": "ESTIMATED",
+      "source": "Days from a tied election to the second election between the tied candidates, where the law calls for one: states set special or runoff elections three to six weeks out (e.g. Georgia runoffs four weeks after the general).",
+      "spread": [21, 45]
+    },
+    "canvassStartHour": {
+      "value": 17,
+      "tag": "TUNABLE",
+      "source": "When a canvassing shift starts: early evening, when most people are home (Green and Gerber, Get Out the Vote, 2019: weekday evening and weekend canvassing).",
+      "spread": [10, 18]
+    },
+    "doorAnswerThreshold": {
+      "value": 1.25,
+      "tag": "TUNABLE",
+      "source": "How ready the most outgoing adult home must be to open to a canvasser (sociability plus half their readiness for conflict and for risk); checked against field contact rates of about a quarter to a third of doors knocked (Green and Gerber 2019; Arceneaux 2005).",
+      "spread": [0, 1.5]
+    },
+    "volunteerClosenessWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much closeness to the candidate (relationship level, family) weighs in agreeing to volunteer.",
+      "spread": [0.2, 1]
+    },
+    "volunteerThreshold": {
+      "value": 1.0,
+      "tag": "TUNABLE",
+      "source": "How strong someone's pull to volunteer must be: checked so a small share of a candidate's acquaintances say yes (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that).",
+      "spread": [0.5, 1.5]
+    },
+    "doorAnswerPivotAge": {
+      "value": 55,
+      "tag": "TUNABLE",
+      "source": "The age around which answering a canvasser's knock neither rises nor falls in a person's readiness.",
+      "spread": [40, 65]
+    },
+    "doorAnswerAgeSpan": {
+      "value": 40,
+      "tag": "TUNABLE",
+      "source": "Years of age that move readiness to answer by one step (older residents answer more; Green and Gerber 2019).",
+      "spread": [20, 80]
+    },
+    "pollCostPerInterviewMinor": {
+      "value": 4500,
+      "tag": "ESTIMATED",
+      "source": "What a campaign pays per completed telephone interview: $36 to $53 (midpoint about $45; BMC Medical Research Methodology 12:32), $46 to $80 by web; a whole local poll of a few hundred interviews runs $15,000 to $40,000 (Daily Montanan, 2023), consistent. data/research/money/poll-interview-prices.json (carried from #2486). Not scaled by place.",
+      "spread": [3600, 8000]
+    },
+    "pollAnswerThreshold": {
+      "value": 1.4,
+      "tag": "TUNABLE",
+      "source": "How ready (sociability, half their reliability, and age) someone called must be to complete a poll; checked against telephone response rates of about 6 to 10% (Pew Research Center 2019).",
+      "spread": [0.8, 2]
+    },
+    "pollPartyCue": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How firm a lean must be for someone no campaign reached to name their party's candidate to a pollster rather than say they're undecided.",
+      "spread": [0.1, 0.6]
+    },
+    "committeeSize": {
+      "value": 11,
+      "tag": "SOURCED",
+      "source": "State legislative standing committees hold about 10 to 12 members whatever the chamber's size (Book of the States 2023, Table 3.23; Ballotpedia's 2021 count of 2,083 state legislative committees; NCSL chamber sizes, June 2024).",
+      "spread": [5, 20]
+    },
+    "committeeSizeMinimum": {
+      "value": 5,
+      "tag": "SOURCED",
+      "source": "Smallest common standing committee (Ballotpedia 2021 committee-size breakdown).",
+      "spread": [3, 7]
+    },
+    "committeeSizeMaximum": {
+      "value": 20,
+      "tag": "SOURCED",
+      "source": "Largest common standing committee (Ballotpedia 2021 committee-size breakdown).",
+      "spread": [15, 30]
+    },
+    "vetoOverrideShare": {
+      "value": 0.6667,
+      "tag": "SOURCED",
+      "source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 counts each house present). FIXER stand-in figures, Oct 12, SG-GOV-veto-override-rule.",
+      "spread": [0.5, 0.75]
     }
   }
 }

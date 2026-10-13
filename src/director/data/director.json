@@ -276,6 +276,36 @@
       "tag": "ESTIMATED",
       "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorKinMovedImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "Someone close moving away, sized as the Social Readjustment Rating Scale's 'Son or daughter leaving home', 29 life-change units divided by 100 (Holmes and Rahe 1967), reaching those tied to the movers by how much they matter to them.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorEvictionImpact": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Losing one's home to eviction, sized like losing one's job (the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100; its nearest item, 'Foreclosure of mortgage or loan', 30, understates it per Desmond and Kimbro 2015, Social Forces 94(1):295-324), the same size the drives engine gives an eviction.",
+      "estimatedFrom": "Holmes and Rahe (1967); Desmond and Kimbro (2015); spread 0.3 to 0.47"
+    },
+    "directorHomePurchaseImpact": {
+      "value": 0.31,
+      "tag": "ESTIMATED",
+      "citation": "Buying a home, sized as the Social Readjustment Rating Scale's 'Mortgage over $10,000', 31 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.4"
+    },
+    "directorBusinessFoundedImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "Starting a business, sized as the Social Readjustment Rating Scale's 'Business readjustment', 39 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.28 to 0.45"
+    },
+    "directorBirthImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "A child born into the family, sized as the Social Readjustment Rating Scale's 'Gain of new family member', 39 life-change units divided by 100 (Holmes and Rahe 1967), reaching the parents fully and others tied to them by how much they matter.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.45"
     }
   },
   "channels": [
@@ -441,6 +471,32 @@
       "eventKind": "candidate-filed",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "person.moved-away",
+      "channel": "feeling",
+      "impactParameter": "directorKinMovedImpact"
+    },
+    {
+      "eventKind": "housing.eviction",
+      "channel": "feeling",
+      "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "housing.purchase",
+      "channel": "feeling",
+      "impactParameter": "directorHomePurchaseImpact"
+    },
+    {
+      "eventKind": "organization.founded",
+      "channel": "feeling",
+      "impactParameter": "directorBusinessFoundedImpact"
+    },
+    {
+      "eventKind": "person-birth",
+      "channel": "feeling",
+      "impactParameter": "directorBirthImpact",
+      "counterpartFact": "childId"
     }
   ]
 }

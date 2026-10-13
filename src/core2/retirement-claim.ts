@@ -2,7 +2,8 @@
  * When someone claims Social Security retirement benefits: their own decision
  * inside the law's bounds (earliest at 62, the full retirement age for their
  * birth year, no gain from waiting past 70). Savings decide how long they can
- * wait; patience and reliability pull later, appetite for risk pulls earlier.
+ * wait; the person's traits pull later or earlier (every trait, through the
+ * shared trait table, when the caller supplies the lean).
  * No roll decides it: the same person always claims at the same age.
  */
 import ages from "./data/social-security-ages.json" with { type: "json" };
@@ -12,6 +13,11 @@ export interface ClaimContext {
   birthYear: number;
   /** Months the household's cash covers its living costs. */
   bufferMonths: number;
+  /**
+   * Every trait's lean toward waiting over claiming now (about −1..1, from
+   * the shared trait table). When given, it replaces the three-trait mean.
+   */
+  patience?: number;
   /** Traits on the −1..1 scale; missing ones count as 0. */
   deliberation?: number;
   reliability?: number;
@@ -44,10 +50,11 @@ export function retirementClaimAgeMonths(
 ): number {
   const full = fullRetirementAgeMonths(context.birthYear);
   const patience =
+    context.patience ??
     ((context.deliberation ?? 0) +
       (context.reliability ?? 0) -
       (context.risk ?? 0)) /
-    3;
+      3;
   const need = Math.max(
     0,
     1 - Math.max(0, context.bufferMonths) / weights.fullBufferMonths,

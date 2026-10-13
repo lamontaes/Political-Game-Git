@@ -4532,5 +4532,43 @@
     "value": 272,
     "tag": "SOURCED",
     "citation": "BLS, The Economics Daily, 'The new year and household spending' (2026), https://www.bls.gov/opub/ted/2026/the-new-year-and-household-spending.htm: Consumer Expenditure Survey, social, recreation and health club memberships, $272 per consumer unit in 2024 (2021: $212)."
+  },
+  "traitLeanScale": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The trait lean difference between two options that counts as a full-strength pull (1) in a formula decision. Starting value: the largest lean difference across generated adults in a 1,200-person drawn town is about 0.6 to 0.7 (OPUS-TRAITS probe, Oct 12, 2026), so the strongest personalities reach about 1, the range of the hand-picked trait sums it replaces.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "trait lean difference",
+      "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
+    }
+  },
+  "truthDefaultPull": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "How strongly a hearer leans toward believing a claim they cannot check, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest. With traitLeanScale, only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a lie.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "scaled trait lean",
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
+    }
+  },
+  "minimumParentAgeAtBirth": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
+  },
+  "traitDecisionWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much a person's scaled trait lean between two options (about -1 to 1, traitLeanScale) adds to a government or civic decision's score when the site has no trait weight of its own (OPUS-TRAITS, Oct 12, 2026). Half a full-strength pull: traits tilt the choice without overriding the record, party and money reasons the site already weighs.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "score per unit of scaled trait lean",
+      "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
+    }
   }
 }

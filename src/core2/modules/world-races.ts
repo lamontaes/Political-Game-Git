@@ -29,7 +29,7 @@ import { openNextCycle, resultOf, VOTING_MODULE_ID } from "./voting";
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
-import { novemberGeneralElectionDay } from "../../simulation/nationwide-world/town-election-calendar";
+import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 
 export const WORLD_RACES_MODULE_ID = "core2-world-races-v1";
 
@@ -358,12 +358,22 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         endEstimated: false,
         endedBy: "term ended",
       } as unknown as ModuleRow);
+    // The running mate isn't the president's relative: no shared family name.
+    const president = (
+      terms.query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+    )[0];
     const drawn = drawOfficialIdentity({
       worldSeed: loaded.worldSeed,
       seatKey: key,
       stateUsps: lawChain(api).stateKey.slice(3),
       role: "state-executive-challenger",
       referenceDate: api.state.date,
+      ...(seatId === "seat:US:vice-president" && president
+        ? { avoidFamilyNames: [president.identity.familyName] }
+        : {}),
     });
     terms.put({
       id: `term:${seatId}:${api.state.date}:elected`,

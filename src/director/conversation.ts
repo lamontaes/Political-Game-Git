@@ -16,6 +16,7 @@ import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
+import { decisionLean } from "../core2/trait-decisions";
 import type {
   CoreAPI,
   CoreModule,
@@ -823,6 +824,27 @@ function offerChoices(
   }
 }
 
+/**
+ * Whether a hearer doubts a claim they cannot check: the usual benefit of the
+ * doubt (truth-default) against every trait's lean toward doubting.
+ */
+export function doubtsClaim(
+  core: Pick<CoreState, "data">,
+  hearer: Pick<PersonState, "traits">,
+): boolean {
+  return (
+    P.truthDefaultPull +
+      decisionLean(
+        core,
+        hearer,
+        "conversation.believe-claim",
+        "believe",
+        "doubt",
+      ) <
+    P.zero
+  );
+}
+
 /** The player says a choice: it is recorded, and the other person replies. */
 export function say(
   core: CoreState,
@@ -873,10 +895,13 @@ export function say(
       source,
     });
     conversation.recorded.push(eventId);
-    // Everyone who heard it now believes the claim, until someone who knows
-    // better tells them.
+    // Each hearer believes the claim, until someone who knows better tells
+    // them, unless their traits lean hard enough toward doubt to outweigh the
+    // usual benefit of the doubt (every trait, through the shared table).
     const keeps = core.modules.has(BELIEFS_MODULE_ID);
     for (const hearerId of hearers) {
+      const hearer = core.people.get(hearerId);
+      if (hearer && doubtsClaim(core, hearer)) continue;
       api.observe(hearerId, {
         key: last.subject.own.key,
         value: claim.value,

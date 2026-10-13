@@ -1,0 +1,1933 @@
+{
+  "governments": [
+    {
+      "key": "us-ak-anchorage",
+      "placeGeoid": "0203000",
+      "publisherId": "194463",
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 12,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ak-fairbanks",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ak-fairbanks-north-star-borough",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ak-juneau",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ak-north-pole",
+      "placeGeoid": "0255910",
+      "publisherId": "122711",
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-al-birmingham",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-al-mobile",
+      "placeGeoid": "0150000",
+      "publisherId": "160683",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-al-montgomery",
+      "placeGeoid": "0151000",
+      "publisherId": "100091",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ar-fayetteville",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ar-fort-smith",
+      "placeGeoid": "0524550",
+      "publisherId": "161064",
+      "reading": {
+        "form": "OTHER",
+        "bodySize": 7,
+        "executiveSelection": "Separately elected",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ar-little-rock",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-az-mesa",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-az-phoenix",
+      "placeGeoid": "0455000",
+      "publisherId": "207536",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 9,
+        "executiveSelection": "Elected at large",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-az-tucson",
+      "placeGeoid": "0477000",
+      "publisherId": "160840",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ca-los-angeles",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ca-oakland",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ca-sacramento",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ca-san-diego",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ca-san-francisco",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 11,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-co-colorado-springs",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-co-denver",
+      "placeGeoid": "0820000",
+      "publisherId": "194647",
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-co-pueblo",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ct-bridgeport",
+      "placeGeoid": "0908000",
+      "publisherId": "124038",
+      "reading": {
+        "form": null,
+        "bodySize": 20,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ct-hartford",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ct-new-haven",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 30,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-dc-washington",
+      "placeGeoid": "1150000",
+      "publisherId": "124214",
+      "reading": {
+        "form": null,
+        "bodySize": 13,
+        "executiveSelection": "The Mayor is elected by the registered qualified electors of the District.",
+        "mayor": {
+          "title": "Mayor of the District of Columbia",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-de-newark",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-de-wilmington",
+      "placeGeoid": "1077580",
+      "publisherId": "161529",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-fl-jacksonville",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 19,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-fl-miami",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 5,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-fl-orlando",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-fl-pensacola",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-fl-tallahassee",
+      "placeGeoid": "1270600",
+      "publisherId": "161650",
+      "reading": {
+        "form": "COMMISSION_MANAGER",
+        "bodySize": 5,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ga-atlanta",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ga-augusta-richmond-county",
+      "placeGeoid": null,
+      "publisherId": "194679",
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ga-savannah",
+      "placeGeoid": "1369000",
+      "publisherId": "124438",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-hi-hawaii-county",
+      "placeGeoid": null,
+      "publisherId": "184856",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-hi-honolulu",
+      "placeGeoid": null,
+      "publisherId": "183701",
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-hi-kauai-county",
+      "placeGeoid": null,
+      "publisherId": "162013",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-hi-maui-county",
+      "placeGeoid": null,
+      "publisherId": "189877",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ia-cedar-rapids",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ia-davenport",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ia-des-moines",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ia-dubuque",
+      "placeGeoid": "1922395",
+      "publisherId": "184216",
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ia-iowa-city",
+      "placeGeoid": "1938595",
+      "publisherId": "164452",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 7,
+        "executiveSelection": "Chosen by the Council from among its own members at the first meeting of a new Council.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-id-boise",
+      "placeGeoid": "1608830",
+      "publisherId": "162035",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 6,
+        "executiveSelection": "Elected at large",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-id-meridian",
+      "placeGeoid": "1652120",
+      "publisherId": "162037",
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-il-chicago",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 50,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-il-peoria",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-il-springfield",
+      "placeGeoid": "1772000",
+      "publisherId": "162629",
+      "reading": {
+        "form": null,
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-in-bloomington",
+      "placeGeoid": "1805860",
+      "publisherId": "211708",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-in-fort-wayne",
+      "placeGeoid": "1825000",
+      "publisherId": "163465",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-in-indianapolis-marion",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 25,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ks-overland-park",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "OTHER",
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ks-topeka",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 10,
+        "executiveSelection": "Directly elected",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ks-wichita",
+      "placeGeoid": "2079000",
+      "publisherId": "201810",
+      "reading": {
+        "form": "OTHER",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ky-bowling-green",
+      "placeGeoid": "2108902",
+      "publisherId": "212021",
+      "reading": {
+        "form": "COMMISSION_MANAGER",
+        "bodySize": 5,
+        "executiveSelection": "Mayor elected at-large; the Mayor is a member of and presides over the Board of Commissioners rather than a separate executive.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": [
+          {
+            "seatClass": "Commissioner",
+            "years": 2
+          },
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-ky-lexington-fayette-ucg",
+      "placeGeoid": "2146027",
+      "publisherId": "165831",
+      "reading": {
+        "form": "URBAN_COUNTY_CONSOLIDATED",
+        "bodySize": 15,
+        "executiveSelection": "Separately elected Mayor, elected at-large countywide",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "District Council Member",
+            "years": 2
+          },
+          {
+            "seatClass": "At-Large Council Member (incl. Vice Mayor)",
+            "years": 4
+          },
+          {
+            "seatClass": "Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-ky-louisville-jefferson-metro",
+      "placeGeoid": null,
+      "publisherId": "165866",
+      "reading": {
+        "form": "METRO_CONSOLIDATED",
+        "bodySize": 26,
+        "executiveSelection": "Separately elected Metro Mayor, elected at-large countywide",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "Metro Council Member",
+            "years": 4
+          },
+          {
+            "seatClass": "Metro Mayor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-la-baton-rouge",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 12,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor-President",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-la-new-orleans",
+      "placeGeoid": "2255000",
+      "publisherId": "166094",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-la-shreveport",
+      "placeGeoid": "2270000",
+      "publisherId": "127810",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ma-boston",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ma-cambridge",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 9,
+        "executiveSelection": "After taking office the nine Councillors elect one of themselves as Mayor.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": [
+          {
+            "seatClass": "councillor",
+            "years": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-ma-lexington",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ma-provincetown",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ma-springfield",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ma-worcester",
+      "placeGeoid": "2582000",
+      "publisherId": "106079",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 11,
+        "executiveSelection": "Popularly elected, holding one of the at-large Council seats.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-md-annapolis",
+      "placeGeoid": "2401600",
+      "publisherId": "128028",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-md-baltimore",
+      "placeGeoid": "2404000",
+      "publisherId": "208246",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-md-rockville",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-me-bangor",
+      "placeGeoid": "2302795",
+      "publisherId": "166166",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 9,
+        "executiveSelection": "After the November election the Council selects one of its own members as Chair for the year; that Chair serves as Mayor.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": [
+          {
+            "seatClass": "councilor",
+            "years": 3
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-me-blue-hill",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-me-lewiston",
+      "placeGeoid": "2338740",
+      "publisherId": "166159",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-me-portland",
+      "placeGeoid": "2360545",
+      "publisherId": "166160",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mi-detroit",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mi-grand-rapids",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mi-lansing",
+      "placeGeoid": "2646000",
+      "publisherId": "166690",
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mn-duluth",
+      "placeGeoid": "2717000",
+      "publisherId": "106897",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mn-minneapolis",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mn-saint-paul",
+      "placeGeoid": "2758000",
+      "publisherId": "167605",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mo-kansas-city",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 13,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mo-springfield",
+      "placeGeoid": "2970000",
+      "publisherId": "168896",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mo-st-louis",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 14,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ms-gulfport",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ms-jackson",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 7,
+        "executiveSelection": "Elected at large, full time",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mt-billings",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 11,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mt-helena",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COMMISSION_MANAGER",
+        "bodySize": 5,
+        "executiveSelection": "Elected at large",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-mt-missoula",
+      "placeGeoid": "3050200",
+      "publisherId": "169464",
+      "reading": {
+        "form": null,
+        "bodySize": 12,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nc-charlotte",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 11,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nc-raleigh",
+      "placeGeoid": "3755000",
+      "publisherId": "171305",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nd-bismarck",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 4,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nd-fargo",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COMMISSION",
+        "bodySize": 4,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nd-grand-forks",
+      "placeGeoid": "3832060",
+      "publisherId": "110222",
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ne-grand-island",
+      "placeGeoid": "3119595",
+      "publisherId": "184191",
+      "reading": {
+        "form": null,
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ne-lincoln",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ne-omaha",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nh-bradford",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nh-canterbury",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nh-concord",
+      "placeGeoid": "3314200",
+      "publisherId": "204917",
+      "reading": {
+        "form": null,
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nh-enfield",
+      "placeGeoid": null,
+      "publisherId": "208744",
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nh-manchester",
+      "placeGeoid": "3345140",
+      "publisherId": "170001",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": [
+          {
+            "seatClass": "alderman",
+            "years": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-nh-nashua",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 15,
+        "executiveSelection": "Separately elected at large",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "ward-alderman",
+            "years": 2
+          },
+          {
+            "seatClass": "at-large-alderman",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-nh-new-london",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nj-jersey-city",
+      "placeGeoid": "3436000",
+      "publisherId": "193734",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nj-newark",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nj-trenton",
+      "placeGeoid": "3474000",
+      "publisherId": "109096",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "councilmember",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-nm-albuquerque",
+      "placeGeoid": "3502000",
+      "publisherId": "170378",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nm-santa-fe",
+      "placeGeoid": "3570500",
+      "publisherId": "109329",
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nv-carson-city",
+      "placeGeoid": "3209700",
+      "publisherId": "194943",
+      "reading": {
+        "form": "CITY_COUNTY_CONSOLIDATED",
+        "bodySize": 5,
+        "executiveSelection": "There is no separately elected executive. The Mayor is one of the five members of the Board and is elected at large like the other Supervisors.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": [
+          {
+            "seatClass": "supervisor",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-nv-las-vegas",
+      "placeGeoid": "3240000",
+      "publisherId": "169988",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 6,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-nv-reno",
+      "placeGeoid": "3260600",
+      "publisherId": "169993",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "MEMBER_OF_BODY"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ny-buffalo",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ny-new-york-city",
+      "placeGeoid": "3651000",
+      "publisherId": "194805",
+      "reading": {
+        "form": null,
+        "bodySize": 51,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-oh-cincinnati",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-oh-cleveland",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-oh-columbus",
+      "placeGeoid": "3918000",
+      "publisherId": "209050",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": [
+          {
+            "seatClass": "council member",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-ok-oklahoma-city",
+      "placeGeoid": "4055000",
+      "publisherId": "209170",
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ok-tulsa",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-or-portland",
+      "placeGeoid": "4159000",
+      "publisherId": "211254",
+      "reading": {
+        "form": null,
+        "bodySize": 12,
+        "executiveSelection": null,
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": []
+      }
+    },
+    {
+      "key": "us-pa-philadelphia",
+      "placeGeoid": "4260000",
+      "publisherId": "133602",
+      "reading": {
+        "form": null,
+        "bodySize": 17,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-pa-pittsburgh",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ri-providence",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-sc-charleston",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 12,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-sc-columbia",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-sd-aberdeen",
+      "placeGeoid": "4600100",
+      "publisherId": "209465",
+      "reading": {
+        "form": null,
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-sd-sioux-falls",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 8,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-tn-nashville-davidson-county",
+      "placeGeoid": null,
+      "publisherId": "175728",
+      "reading": {
+        "form": null,
+        "bodySize": 40,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-tx-austin",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 10,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-ut-salt-lake-city",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-va-charlottesville",
+      "placeGeoid": "5114968",
+      "publisherId": "194177",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 5,
+        "executiveSelection": "There is no separately elected executive. The council elects one of its own members as mayor at its first meeting in January 2022 and biennially thereafter.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "PRESIDING_MEMBER_OF_BODY"
+        },
+        "terms": [
+          {
+            "seatClass": "councilor",
+            "years": 4
+          },
+          {
+            "seatClass": "mayor",
+            "years": 2
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-va-richmond",
+      "placeGeoid": "5167000",
+      "publisherId": "194178",
+      "reading": {
+        "form": "MAYOR_COUNCIL",
+        "bodySize": 9,
+        "executiveSelection": "The mayor is elected separately from the council and is the city's chief executive officer.",
+        "mayor": {
+          "title": "Mayor",
+          "structuralPosition": "SEPARATE_CHIEF_EXECUTIVE"
+        },
+        "terms": [
+          {
+            "seatClass": "councilmember",
+            "years": 4
+          }
+        ]
+      }
+    },
+    {
+      "key": "us-vt-burlington",
+      "placeGeoid": "5010675",
+      "publisherId": "176546",
+      "reading": {
+        "form": null,
+        "bodySize": 12,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-vt-danville",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "TOWN_MEETING",
+        "bodySize": null,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wa-seattle",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wa-spokane",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wi-madison",
+      "placeGeoid": "5548000",
+      "publisherId": "209777",
+      "reading": {
+        "form": null,
+        "bodySize": 20,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wi-milwaukee",
+      "placeGeoid": "5553000",
+      "publisherId": "136562",
+      "reading": {
+        "form": null,
+        "bodySize": 15,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wv-charleston",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": null,
+        "bodySize": 26,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wv-huntington",
+      "placeGeoid": "5439460",
+      "publisherId": "176966",
+      "reading": {
+        "form": null,
+        "bodySize": 11,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wv-morgantown",
+      "placeGeoid": null,
+      "publisherId": null,
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 7,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wy-casper",
+      "placeGeoid": "5613150",
+      "publisherId": "136964",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wy-cheyenne",
+      "placeGeoid": "5613900",
+      "publisherId": "115492",
+      "reading": {
+        "form": null,
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    },
+    {
+      "key": "us-wy-laramie",
+      "placeGeoid": "5645050",
+      "publisherId": "177842",
+      "reading": {
+        "form": "COUNCIL_MANAGER",
+        "bodySize": 9,
+        "executiveSelection": null,
+        "mayor": null,
+        "terms": []
+      }
+    }
+  ]
+}

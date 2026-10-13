@@ -57,7 +57,6 @@ import {
   stripGenerationProvenance,
 } from "./review-packet";
 import { computedLiterals } from "./sources/computed";
-import { runTranscriptMatrix, type SeedTranscript } from "./transcripts";
 import type { ProseInventory } from "./inventory";
 
 /**
@@ -269,88 +268,6 @@ Every finding with its exact semantic ID is in \`lint-findings.json\`.
 `;
 }
 
-function transcriptsMarkdown(transcripts: readonly SeedTranscript[]): string {
-  const sections = transcripts.map((transcript) => {
-    const linked = transcript.realizations.filter(
-      (entry) => entry.templateId,
-    ).length;
-    const beats = transcript.beats
-      .map((beat) => {
-        const connective = beat.connective
-          .map((line) => `> ${line}`)
-          .join("\n");
-        const options = beat.options
-          .map(
-            (option) =>
-              `- ${option.key === beat.chosen ? "**" : ""}${option.label}${option.key === beat.chosen ? "** ← chosen" : ""}`,
-          )
-          .join("\n");
-        const grounding =
-          beat.causalInputs.length > 0
-            ? `\n_Grounded by: ${beat.causalInputs.join("; ")}_\n`
-            : "";
-        const people =
-          beat.people.length > 0
-            ? `\n_Present: ${beat.people.join("; ")}_\n`
-            : "";
-        return `#### Beat ${beat.ordinal} — ${beat.date}, age ${beat.age} (${beat.sceneKind}${beat.stageKey ? `, ${beat.episodeKey}/${beat.stageKey}` : ""})
-
-${connective}
-
-${beat.prose}
-
-${options}
-${people}${grounding}`;
-      })
-      .join("\n");
-
-    const campaign = transcript.campaign
-      ? `### Campaign
-
-- Filed: ${transcript.campaign.filed}
-- Office: ${transcript.campaign.office ?? "—"}
-- Sessions: ${transcript.campaign.sessions.length}
-- Resolved: ${transcript.campaign.resolved} (${transcript.campaign.outcome ?? "—"})
-${
-  transcript.campaign.legislative
-    ? `\n### Legislative surface reached\n\n- ${transcript.campaign.legislative.designation} — ${transcript.campaign.legislative.stage}\n${transcript.campaign.legislative.lines.map((line) => `  - ${line}`).join("\n")}\n`
-    : transcript.campaign.legislativeRefusal
-      ? `\n_Legislative work unavailable: ${transcript.campaign.legislativeRefusal}_\n`
-      : "\n_No legislative surface: the capability layer did not open one for this run._\n"
-}`
-      : "";
-
-    return `## ${transcript.key}
-
-**Intent.** ${transcript.intent}
-
-Seed \`${transcript.seed}\`, start age ${transcript.startAge}, ${transcript.personName}.
-${transcript.beats.length} beats, ${transcript.realizations.length} realized lines, ${linked} linked back to a template.
-
-**Actually demonstrated:** ${transcript.demonstrated.join(", ")}
-
-${campaign}
-
-### Beats
-
-${beats}`;
-  });
-
-  return `# Fixed-seed transcript matrix
-
-Played through the real player seams — \`projectStoryMoment\`,
-\`chooseStoryOption\`, \`fileForOffice\`, \`spendAnAfternoon\`,
-\`openLegislativeWork\` — so a surface these cannot reach is not reached here
-either. No state is fabricated to make a scene eligible.
-
-Each seed records what it is **meant** to expose and what it **actually**
-exposed, so a seed that stops demonstrating its surface is visible rather than
-quietly passing.
-
-${sections.join("\n\n---\n\n")}
-`;
-}
-
 function readme(
   inventory: ProseInventory,
   coverage: CoverageReport,
@@ -377,7 +294,6 @@ than a derivative. \`check\` compares whichever of them is present on disk.
 - \`coverage-report.md\` / \`coverage-candidates.json\` — the independent check
   that the inventory did not miss a surface family.
 - \`lint-summary.md\` / \`lint-findings.json\` — hard errors and review warnings.
-- \`transcripts.md\` — the fixed-seed matrix played through the real seams.
 - \`grounding-map.md\` — what canonical data licenses each family's claims, and
   the exact evidence every withheld scene is missing.
 - \`metrics-baseline.json\` — the accepted baseline a later prose PR diffs
@@ -1074,7 +990,6 @@ function main(): void {
     return;
   }
 
-  const transcripts = runTranscriptMatrix(inventory);
   const html = renderReviewPacket({
     inventory,
     diagnostics,
@@ -1288,10 +1203,6 @@ function main(): void {
   writeFileSync(
     join(OUT_DIR, "lint-findings.json"),
     stableJson(diagnostics.findings),
-  );
-  writeFileSync(
-    join(OUT_DIR, "transcripts.md"),
-    transcriptsMarkdown(transcripts),
   );
   writeFileSync(
     join(OUT_DIR, "grounding-map.md"),

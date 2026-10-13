@@ -158,6 +158,8 @@ export function recordAppeal(
   officeholderId: string,
   lean: number,
   knows: boolean,
+  /** An ad or news story that puts the public record in front of them, promises included. */
+  shown = false,
 ): { readonly total: number; readonly reasons: readonly RecordReason[] } {
   if (!knows) return { total: 0, reasons: [] };
   const weight = campaignParameter("recordVoteWeight");
@@ -174,7 +176,7 @@ export function recordAppeal(
   for (const status of promisesOf(api, officeholderId)) {
     if (status.status === "open") continue;
     // A promise only counts with a voter who heard it made.
-    if (!api.knows(voter.id, status.promise.id)) continue;
+    if (!shown && !api.knows(voter.id, status.promise.id)) continue;
     const own = personStance(lean, status.promise.stance.question);
     const agreed =
       Math.sign(own) === Math.sign(status.promise.stance.position) && own !== 0;

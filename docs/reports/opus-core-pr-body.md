@@ -46,22 +46,24 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 
 **No one is paid for days before the game starts.** What the code did (inferred from the code): when the opening grouped the counted workers' pay, the first payday paid a whole pay period, even when most of it fell before the opening. Now it pays only the days since the opening, as it already did for named workers (the grouping, `src/core2/residents.ts:370`). Measured in Interlochen, Michigan: a kitchen owed a month of wages on January 5, 2021 had closed, along with 2 other businesses (3 of 28). After the fix, 1 of 28 closed.
 
+**Private schools and gyms get their customers.** What the code did (inferred from the code): no household spending reached a private school, and gyms got only sports fees. Private schools closed in Interlochen, Michigan; Aniak, Alaska; and Washington, D.C. Now each family with children aged 5 to 17 pays its children's share of the town's private tuition: 0.085 of children in private school, at $12,420 a year (National Center for Education Statistics). Households also pay club memberships, $272 a year (Consumer Expenditure Survey 2024) (`src/core2/opening-private-tuition.ts:37`). Measured on the same seeds: Washington, D.C. went from 3 of 23 businesses closed to 2, and Sunnyvale, California from 2 of 28 to 0.
+
 **Officials have personalities.** What the code did (inferred from the code): an official filled in from a name and office got an empty trait list. Now they get traits from the people team's temperament model, seeded by the world and the person (`src/core2/state.ts:2034`). Measured in Bismarck, North Dakota (seed off-a): a governor filled in this way got all 98 traits a generated resident carries, on the −2 to 2 scale where 0 is the middle 40% of people. 47 of them sit above or below the middle, for example deliberation 1 and sociability −1. Before, the list was empty.
 
 ## Checks
 
 - The blocking golden-path checks pass.
-- The year-long business check isn't blocking yet. It passed in Interlochen, and in 5 of 6 more random places: Lavalette, West Virginia; Sherwood, North Dakota; Las Piedras, Puerto Rico; Oneonta, Alabama; and Sunnyvale, California. Washington, D.C. failed with 3 of 23 businesses closed (the limit is under 10%). Money balanced in all seven.
+- The year-long business check isn't blocking yet. It passes in 7 of 8 places: Interlochen, Michigan; Lavalette, West Virginia; Sherwood, North Dakota; Washington, D.C.; Las Piedras, Puerto Rico; Oneonta, Alabama; and Sunnyvale, California. Aniak, Alaska fails with 3 of 21 businesses closed (the limit is under 10%). Money balanced in all eight.
 - New golden-path checks. A custom world with different wages, household cash, outside demand, political lean and turnout showed each setting (Hopelawn, New Jersey). An old build's save loaded and played on (Greenville, Delaware).
 - Speed: a year in Vonore takes 27.3 seconds on this branch and 26.9 seconds on main.
 
 ## What happens next
 
-- In D.C., the closures were a private school, a fitness center and a cafe. A separate run in Aniak, Alaska (seed y26-c) also failed: 4 of 21 closed, two general stores, a fitness center and a private school. These firms were staffed from the county's job mix, and their sales were projected from that payroll. In Aniak, local customers buy 11% of a general store's projected sales and 8% of the fitness center's; the private school has no local customers at all. I've proposed staffing them to what their customers buy and asked the CTO.
+- Aniak's closures are two general stores and a fitness center. Their staff came from the county's job mix, and local customers buy 11% of a store's projected sales and 8% of the gym's. A setting that exists only for this comparison, not switched on in the game, staffs each business to what its customers buy. With it, none of the eight places lost a business, but wages paid in town fell 35% to 62% (Sherwood: $64.3 million to $24.3 million). I recommend leaving it off, and I've asked the CTO.
 - Main itself got slower: before the people team's relatives arrived, the same Vonore year took 11.3 seconds. Every household now gets its relatives when a town opens, so Vonore's counted population grew from 9,940 to 39,685 people, and 96 of them stay full people instead of 64 of 9,940. I've asked the people team to build relatives only when a household is filled in.
 - Opening Vonore takes 34.8 seconds on main, against 11.1 seconds before. Most of it goes to generating everyone in full before the town keeps only its full people; the same request would shorten it.
 - Games are meant to open in 2026, matching today's laws. The opening can do that now: Biddle, Montana; Mina, Nevada; Aniak, Alaska; and Amonate, Virginia each ran two months from January 1, 2026, with money balanced. The switch waits for the CTO to schedule it, because every team's tests use 2021 dates.
 
 ## Method
 
-Measured on this branch on October 12, 2026, one run each, in the cloud. Vonore used seed hours-a; details for every run are in `docs/coordination/core.md`.
+Measured on this branch on October 12 and 13, 2026, one run each, in the cloud. Vonore used seed hours-a; details for every run are in `docs/coordination/core.md`.
