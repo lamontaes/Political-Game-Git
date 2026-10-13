@@ -63,6 +63,15 @@ describe(`a speech in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     }
   });
 
+  it("moves its audience about as much as persuasion experiments find", () => {
+    // About 5 points on policy views after persuasive information (Coppock
+    // 2023): 0.05 on the 0-to-1 stance scale, on average.
+    const mean =
+      retellings.reduce((sum, row) => sum + row.moved, 0) / retellings.length;
+    expect(mean).toBeGreaterThan(0.025);
+    expect(mean).toBeLessThan(0.1);
+  });
+
   it("is retold by some listeners, not all, and the retelling moves their household", () => {
     const retold = retellings.filter((row) => row.retold);
     expect(retold.length).toBeGreaterThan(0);

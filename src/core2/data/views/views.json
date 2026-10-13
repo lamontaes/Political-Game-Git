@@ -121,6 +121,16 @@
         "low": 4,
         "high": 24
       }
+    },
+    "speechStanceStep": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "How far a speech moves a listener's stance on its topic, per unit of its impulse, in place of the general stanceStep: set so one speech moves its audience about 0.05 on the 0-to-1 stance scale on average, the size of persuasion experiments' effects on policy views (about 5 percentage points right after persuasive information; Coppock 2023, Persuasion in Parallel, University of Chicago Press, as summarized by Yale ISPS). Measured 0.013 at the general step over 300 listeners in three drawn towns.",
+      "estimatedFrom": "Coppock (2023) via Yale ISPS; checked in src/core2/speech.test.ts",
+      "spread": {
+        "low": 0.2,
+        "high": 0.6
+      }
     }
   },
   "labels": [

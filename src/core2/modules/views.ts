@@ -369,7 +369,9 @@ export const viewsModule: CoreModule = {
           )
         : v("one");
       const change =
-        v("stanceStep") *
+        (Number.isFinite(speechLean)
+          ? v("speechStanceStep")
+          : v("stanceStep")) *
         size *
         nearness *
         (v("one") - v("tightness") * view.engagement);
