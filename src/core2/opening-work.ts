@@ -1,5 +1,5 @@
 /** Opening-only import of existing generated schedules. Runtime work never imports World. */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   WORK_PATTERNS,
   workSchedulesFor,

@@ -1,5 +1,6 @@
 import { moduleData, moduleKey, moduleSource } from "./module-data";
 import type { CoreState, Source } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 export interface VoterGroup {
   id: string;
@@ -58,6 +59,7 @@ interface Groups {
   byPlaceAge: Map<string, Set<string>>;
 }
 const registries = new WeakMap<CoreState, Groups>();
+registerWorldMapPart("core2-voter-groups", registries);
 function ageKey(place: string, age: string): string {
   return JSON.stringify([place, age]);
 }

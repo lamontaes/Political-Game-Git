@@ -5,8 +5,8 @@ import {
   isoDateFromParts,
   makeIsoDate,
   yearOf,
-} from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+} from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import {
   classifyBusiness,
   projectOpeningBusiness,

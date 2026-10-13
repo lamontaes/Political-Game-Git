@@ -28,7 +28,10 @@ const place = givenKey
       state: lifePlaceByKey(givenKey)?.stateJurisdictionKey ?? "",
     }
   : drawPlace(seed, "core2-year");
-const input = generatedOpening(place, { twoLevel: true });
+const input = generatedOpening(place, {
+  twoLevel: true,
+  ...(args.includes("--staff-to-customers") ? { staffToCustomers: true } : {}),
+});
 const core = createLifeCore(input);
 const orgs = new Map(input.organizations.map((o) => [o.id, o]));
 const opening = new Map(

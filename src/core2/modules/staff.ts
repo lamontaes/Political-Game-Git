@@ -19,9 +19,15 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
+import { townSeats } from "./offices";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { startPublicJob } from "../public-payroll";
 import {
   LEGISLATURE_MODULE_ID,
+  budgetLineStakes,
   learnStake,
   members,
   provisionStance,
@@ -136,8 +142,20 @@ export function hireStaff(
   );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
+  // On the payroll of the government the official serves, at the post's pay.
+  const employer = employerOf(api, input.officialId);
+  const jobId = employer
+    ? startPublicJob(api, {
+        personId: input.personId,
+        employerId: employer,
+        post: `staff:${input.officialId}`,
+        title: input.role,
+        hourlyMinor: campaignParameter("staffHourlyMinor"),
+        citation: `Hired as ${input.role} to ${input.officialId}`,
+      })
+    : null;
   // stopgapId: SG-GOV-staff-unpaid
-  api.stopgap("SG-GOV-staff-unpaid");
+  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
   const row: StafferRow = {
     id: `staffer:${input.officialId}:${input.personId}`,
     officialId: input.officialId,
@@ -150,6 +168,17 @@ export function hireStaff(
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
   return row;
+}
+
+/** The treasury of the government whose seat the official holds. */
+function employerOf(api: CoreAPI, officialId: string): string | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const seat = townSeats(api).find((s) => s.holder?.personId === officialId);
+  if (!seat) return null;
+  const level = seat.office.level === "township" ? "city" : seat.office.level;
+  return (
+    governments(api).find((g) => g.level === level)?.organizationId ?? null
+  );
 }
 
 export function staffOf(
@@ -174,10 +203,11 @@ export function workQuality(
   const deliberation =
     (person.traits["people-mind-v1:deliberation"] ?? 0) *
     campaignParameter("staffTraitWeight");
-  // Experience: what they've learned from tasks done, at their own rate.
+  // Experience: what they've learned from tasks done, at their own rate
+  // (faster for the deliberate, slower but never stopped for the least).
   const rate =
     campaignParameter("staffLearningBase") *
-    (1 + (person.traits["people-mind-v1:deliberation"] ?? 0) / 2);
+    2 ** ((person.traits["people-mind-v1:deliberation"] ?? 0) / 2);
   const experience =
     campaignParameter("staffExperienceCeiling") *
     (1 - Math.exp(-rate * staffer.tasksDone));
@@ -274,6 +304,70 @@ export function briefOnBill(
 }
 
 /**
+ * Advice on budget priorities: for each proposed line change, the staffer
+ * reads as many members of each voting chamber as their work covers and
+ * reports who favors and who opposes it; a change opposed by more of those
+ * read than favor it, in any chamber, is at risk of being dropped when the
+ * budget is negotiated.
+ */
+export function adviseOnBudget(
+  api: CoreAPI,
+  stafferId: string,
+  governmentId: string,
+  changes: Readonly<Record<string, number>>,
+): {
+  work: WorkRecord;
+  lines: readonly {
+    line: string;
+    delta: number;
+    chambers: readonly {
+      chamber: string;
+      read: number;
+      of: number;
+      favor: number;
+      oppose: number;
+    }[];
+    atRisk: boolean;
+  }[];
+} | null {
+  const staffer = table(api, "staff").get(stafferId) as unknown as StafferRow;
+  const q = workQuality(api, staffer, null);
+  const lines = [];
+  for (const [line, delta] of Object.entries(changes).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    const stakes = budgetLineStakes(api, governmentId, line, delta);
+    if (!stakes) return null;
+    const chambers = [...new Set(stakes.map((s) => s.chamber))].map(
+      (chamber) => {
+        const body = stakes
+          .filter((s) => s.chamber === chamber)
+          .sort((a, b) => a.memberId.localeCompare(b.memberId));
+        const read = body.slice(0, Math.round(q.quality * body.length));
+        return {
+          chamber,
+          read: read.length,
+          of: body.length,
+          favor: read.filter((s) => s.stake > 0).length,
+          oppose: read.filter((s) => s.stake < 0).length,
+        };
+      },
+    );
+    lines.push({
+      line,
+      delta,
+      chambers,
+      atRisk: chambers.some((c) => c.oppose > c.favor),
+    });
+  }
+  const work = record(api, staffer, "budget-advice", q, {
+    governmentId,
+    lines: lines.length,
+  });
+  return { work, lines };
+}
+
+/**
  * A constituent case handled by the official's staffer: they help when their
  * work on it is good enough to follow through; the result records who did it.
  */
@@ -286,7 +380,20 @@ export function staffDecision(
   )[0];
   if (!staffer) return null;
   const q = workQuality(api, staffer, null);
-  const help = q.quality >= campaignParameter("staffCaseFollowThrough");
+  // Ability is the work's quality; whether they see it through also leans on
+  // every trait they have.
+  const person = api.state.people.get(staffer.personId)!;
+  const help =
+    q.quality +
+      parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          person,
+          "staff.follow-through",
+          "follow-through",
+          "decline",
+        ) >=
+    campaignParameter("staffCaseFollowThrough");
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }

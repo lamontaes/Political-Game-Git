@@ -3,7 +3,7 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
-import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
   RESIDENTS_STOPGAP,
@@ -27,6 +27,7 @@ import type {
   PersonId,
   PlaceId,
 } from "../types";
+import { registerSnapshotPart } from "../snapshot";
 
 const DAYS_PER_YEAR = 365;
 
@@ -97,6 +98,36 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
+// The opening's input never changes in play, and a world rebuilt from the
+// same recipe recreates it, so a snapshot leaves it out.
+registerSnapshotPart("core2-residents", {
+  save: (core) => {
+    const rt = runtimes.get(core);
+    if (!rt) return undefined;
+    // A household still as it opened is marked, not copied.
+    const opened = new Map(
+      rt.input.households.map((row) => [row.household.id, row]),
+    );
+    const households = new Map<string, ResidentHouseholdRecord | "opening">();
+    for (const [id, record] of rt.households)
+      households.set(id, opened.get(id) === record ? "opening" : record);
+    return { ...rt, input: undefined, households };
+  },
+  restore: (core, data) => {
+    const rebuilt = runtimes.get(core);
+    if (!data || !rebuilt) return void runtimes.delete(core);
+    const saved = data as Omit<ResidentsRuntime, "households"> & {
+      households: Map<string, ResidentHouseholdRecord | "opening">;
+    };
+    const households = new Map<string, ResidentHouseholdRecord>();
+    for (const [id, record] of saved.households)
+      households.set(
+        id,
+        record === "opening" ? rebuilt.households.get(id)! : record,
+      );
+    runtimes.set(core, { ...saved, input: rebuilt.input, households });
+  },
+});
 
 export function residentsRuntime(
   core: CoreState,
@@ -158,8 +189,14 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     for (const id of [row.payerId, row.payeeId])
       if (!core.organizations.has(id) && !core.people.has(id))
         throw new Error(`Flow owner is not recorded: ${id}`);
-    // A flow due on or before the opening date settles on the first simulated day.
+    // A flow due on or before the opening date settles on the first simulated
+    // day, except counted wages with earned days by payday: they keep their
+    // calendar, so a payday on the opening day (its period all before it)
+    // passes, and the next one pays the days since the opening.
     let nextAt = makeIsoDate(row.firstAt);
+    if (row.earnedDaysByDue)
+      while (nextAt <= core.date)
+        nextAt = makeIsoDate(advanceCadence(nextAt, row.cadence));
     if (nextAt <= core.date)
       nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
     const flow: FlowState = { ...row, nextAt, arrearsMinor: 0 };
@@ -246,6 +283,23 @@ export function shiftToOpenSellers(
 }
 
 /** Cash above the firm's buffer goes to its owners: part local, the rest outside. */
+/** A firm's supplier bills accrued and not yet paid (net-30), and who they're owed to. */
+export function supplierBillsOwedTo(
+  core: CoreState,
+  organizationId: string,
+): { owedMinor: number; supplierId: string; flowId: string } | undefined {
+  const costs = runtimes
+    .get(core)
+    ?.flows.get(`outside-costs:${organizationId}`);
+  if (!costs || costs.endedAt || !core.finance.businesses.has(organizationId))
+    return undefined;
+  return {
+    owedMinor: Math.floor(supplierBillsOwed(core, organizationId)),
+    supplierId: costs.payeeId,
+    flowId: costs.id,
+  };
+}
+
 function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const core = api.state,
     finance = core.finance,
@@ -260,25 +314,7 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     api.parameter("ownerDistributionBufferMultiple");
   // Supplier bills already owed (net-30) are the business's money, not the
   // owners': keep them back with the buffer.
-  const costs = rt.flows.get(`outside-costs:${flow.payerId}`);
-  let owed = 0;
-  if (costs && !costs.endedAt) {
-    const share =
-      book.annualDemandMinor > 0
-        ? book.annualOtherCostsMinor / book.annualDemandMinor
-        : 0;
-    const accrued =
-      (costs.accruedCostMinor ?? 0) +
-      (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) *
-        share;
-    owed = Math.max(
-      0,
-      accrued -
-        (book.operatingPaidMinor -
-          (costs.localPaidMinor ?? book.operatingPaidMinor)) -
-        (costs.outsidePaidMinor ?? 0),
-    );
-  }
+  const owed = supplierBillsOwed(core, flow.payerId);
   const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
   if (excess <= 0) return;
   const residents = rt.input.accounts.find(
@@ -321,6 +357,31 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     });
 }
 
+/** What a business owes its outside suppliers for costs accrued on its sales but not yet billed or paid (net-30 terms). */
+export function supplierBillsOwed(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = runtimes.get(core),
+    book = core.finance.businesses.get(organizationId);
+  const costs = rt?.flows.get(`outside-costs:${organizationId}`);
+  if (!book || !costs || costs.endedAt) return 0;
+  const share =
+    book.annualDemandMinor > 0
+      ? book.annualOtherCostsMinor / book.annualDemandMinor
+      : 0;
+  const accrued =
+    (costs.accruedCostMinor ?? 0) +
+    (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) * share;
+  return Math.max(
+    0,
+    accrued -
+      (book.operatingPaidMinor -
+        (costs.localPaidMinor ?? book.operatingPaidMinor)) -
+      (costs.outsidePaidMinor ?? 0),
+  );
+}
+
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   if (flow.kind === "owner-distribution") return distribute(api, rt, flow);
   const core = api.state,
@@ -335,6 +396,16 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
+  const earnedDays = flow.earnedDaysByDue?.[date];
+  if (earnedDays !== undefined && flow.perDayMinorByJob) {
+    // A payday at the opening pays only the days worked since it.
+    let perDay = 0;
+    for (const value of Object.values(flow.perDayMinorByJob)) perDay += value;
+    base = Math.round(perDay * earnedDays);
+    const rest = { ...flow.earnedDaysByDue };
+    delete rest[date];
+    flow.earnedDaysByDue = rest;
+  }
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
@@ -679,6 +750,8 @@ export function residentPerson(
 export function releaseResidentHousehold(
   core: CoreState,
   record: ResidentHouseholdRecord,
+  /** False when the household is gone (its last member died): its payments just end. */
+  options: { ownFlows?: boolean } = {},
 ): {
   calendars: Map<string, WorkPayrollCalendarInput>;
   cashShare: number;
@@ -694,20 +767,26 @@ export function releaseResidentHousehold(
   const retirees: FlowState[] = [];
   for (const flow of rt.flows.values()) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
-      const perDay = { ...flow.perDayMinorByJob };
-      let changed = false;
+      // Copy only a flow that pays one of these jobs.
+      const present = flow.perDayMinorByJob;
+      let member = false;
       for (const id of jobIds)
-        if (perDay[id] !== undefined) {
-          delete perDay[id];
-          changed = true;
+        if (present[id] !== undefined) {
+          member = true;
+          break;
         }
-      if (!changed) continue;
+      if (!member) continue;
+      const perDay = { ...present };
+      for (const id of jobIds) delete perDay[id];
       flow.perDayMinorByJob = perDay;
       flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
       let total = 0;
       for (const value of Object.values(perDay)) total += value;
       flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
     } else if (flow.kind === "retirement" && flow.amountByContract) {
+      const present = flow.amountByContract;
+      if (!record.contracts.some((row) => present[row.id] !== undefined))
+        continue;
       // Each retiree in the household is now paid their own award directly.
       const amounts = { ...flow.amountByContract };
       for (const contract of record.contracts) {
@@ -727,6 +806,14 @@ export function releaseResidentHousehold(
       flow.amountByContract = amounts;
       flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
     } else if (flow.kind === "purchase" && flow.amountByContract) {
+      const present = flow.amountByContract;
+      let member = false;
+      for (const id of contractIds)
+        if (present[id] !== undefined) {
+          member = true;
+          break;
+        }
+      if (!member) continue;
       const amounts = { ...flow.amountByContract };
       let removed = 0;
       for (const id of contractIds)
@@ -742,8 +829,9 @@ export function releaseResidentHousehold(
     }
   }
   for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  const ownFlows = options.ownFlows !== false;
   // Admitted after the scan: the person must be a full person by now.
-  for (const flow of retirees) {
+  for (const flow of ownFlows ? retirees : []) {
     rt.flows.set(flow.id, flow);
     schedule(rt, flow);
   }
@@ -756,7 +844,7 @@ export function releaseResidentHousehold(
   );
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
-  if (outsideLiving && payer) {
+  if (ownFlows && outsideLiving && payer) {
     const flow: FlowState = {
       ...outsideLiving.flow,
       id: `residents:outside-living:${record.household.id}`,
@@ -1069,4 +1157,237 @@ export function countedWagesEarned(
       out.push({ residentsId: flow.payeeId, amountMinor: amount });
   }
   return out;
+}
+
+/*
+ * The counted population's drift (PW-8): births, deaths and moves applied to
+ * the records the counts are read from, so counts, fill-in and the merged
+ * flows stay one story. Callers decide how many from rates and which record
+ * from its circumstances; these only keep the records and flows consistent.
+ */
+
+/** Counted households in each place, as recorded today. */
+export function countedHouseholdsByPlace(
+  core: CoreState,
+): Map<PlaceId, ResidentHouseholdRecord[]> {
+  const rt = runtimes.get(core);
+  const byPlace = new Map<PlaceId, ResidentHouseholdRecord[]>();
+  if (!rt) return byPlace;
+  for (const row of rt.input.accounts) byPlace.set(row.placeId, []);
+  for (const record of rt.households.values())
+    byPlace.get(record.household.placeId)?.push(record);
+  return byPlace;
+}
+
+/**
+ * Merged maps the drift may edit in place: copied once (the opening input
+ * stays as built), then edited without copying thousands of entries per move.
+ */
+const ownedMaps = new WeakSet<object>();
+function ownMap(map: Readonly<Record<string, number>>): Record<string, number> {
+  if (ownedMaps.has(map)) return map as Record<string, number>;
+  const copy = { ...map };
+  ownedMaps.add(copy);
+  return copy;
+}
+
+/** Remove counted jobs from their employers' wage flows (the worker is gone). */
+function dropCountedJobs(rt: ResidentsRuntime, jobIds: ReadonlySet<string>) {
+  if (!jobIds.size) return;
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "wages" || !flow.perDayMinorByJob) continue;
+    let changed = false;
+    for (const id of jobIds)
+      if (flow.perDayMinorByJob[id] !== undefined) changed = true;
+    if (!changed) continue;
+    const perDay = ownMap(flow.perDayMinorByJob);
+    for (const id of jobIds) delete perDay[id];
+    flow.perDayMinorByJob = perDay;
+    flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
+    let total = 0;
+    for (const value of Object.values(perDay)) total += value;
+    flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  }
+  for (const id of jobIds) {
+    rt.wageFlowByJob.delete(id);
+    rt.jobs.delete(id);
+  }
+}
+
+/** Remove merged contract amounts (retirement awards, household purchases). */
+function dropCountedContracts(
+  rt: ResidentsRuntime,
+  contractIds: ReadonlySet<string>,
+  kinds: readonly ResidentFlowInput["kind"][],
+) {
+  if (!contractIds.size) return;
+  for (const flow of rt.flows.values()) {
+    if (!kinds.includes(flow.kind) || !flow.amountByContract) continue;
+    let removed = 0;
+    for (const id of contractIds) removed += flow.amountByContract[id] ?? 0;
+    if (!removed) continue;
+    const amounts = ownMap(flow.amountByContract);
+    for (const id of contractIds) delete amounts[id];
+    flow.amountByContract = amounts;
+    flow.amountMinor = Math.max(0, flow.amountMinor - removed);
+  }
+}
+
+function replaceRecord(
+  rt: ResidentsRuntime,
+  record: ResidentHouseholdRecord,
+): void {
+  rt.households.set(record.household.id, record);
+  for (const person of record.people)
+    rt.householdOfPerson.set(person.id, record.household.id);
+}
+
+/**
+ * A counted person died: they leave their household's record, their job
+ * leaves the employer's books and their retirement award stops. Their cash
+ * stays with the counted residents (their heirs). A household left empty
+ * leaves the counts with its purchases.
+ */
+export function removeCountedPerson(core: CoreState, personId: PersonId): void {
+  const rt = runtimes.get(core);
+  const householdId = rt?.householdOfPerson.get(personId);
+  if (!rt || !householdId) return;
+  const record = rt.households.get(householdId)!;
+  const person = record.people.find((row) => row.id === personId)!;
+  const jobs = record.jobs.filter((row) => row.personId === personId);
+  dropCountedJobs(rt, new Set(jobs.map((row) => row.id)));
+  const awards = record.contracts.filter(
+    (row) => row.recipientIncome?.personId === personId,
+  );
+  dropCountedContracts(rt, new Set(awards.map((row) => row.id)), [
+    "retirement",
+  ]);
+  rt.householdOfPerson.delete(personId);
+  const people = record.people
+    .filter((row) => row.id !== personId)
+    .map((row) =>
+      row.familyIds.includes(personId)
+        ? { ...row, familyIds: row.familyIds.filter((id) => id !== personId) }
+        : row,
+    );
+  // Their opening cash stays in the place's pool; the heirs hold it.
+  const heir = people[0];
+  if (heir && person.liquidMinor)
+    people[0] = { ...heir, liquidMinor: heir.liquidMinor + person.liquidMinor };
+  if (!people.length) {
+    rt.households.delete(householdId);
+    dropCountedContracts(
+      rt,
+      new Set([
+        ...record.contracts.map((row) => row.id),
+        `household:${householdId}`,
+      ]),
+      ["purchase", "retirement"],
+    );
+    const placeId = record.household.placeId;
+    rt.openingCashByPlace.set(
+      placeId,
+      (rt.openingCashByPlace.get(placeId) ?? 0) - person.liquidMinor,
+    );
+    return;
+  }
+  replaceRecord(rt, {
+    ...record,
+    household: {
+      ...record.household,
+      memberIds: record.household.memberIds.filter((id) => id !== personId),
+    },
+    people,
+    jobs: record.jobs.filter((row) => row.personId !== personId),
+    workCommitments: record.workCommitments.filter(
+      (row) => row.personId !== personId,
+    ),
+    contracts: record.contracts.filter(
+      (row) => row.recipientIncome?.personId !== personId,
+    ),
+  });
+}
+
+/**
+ * A counted household moved away: it leaves the counts, its workers leave
+ * their employers' books, its purchases and retirement awards stop here, and
+ * its share of the residents' cash leaves with it. Returns that cash share.
+ */
+export function departCountedHousehold(
+  core: CoreState,
+  householdId: string,
+): { cashShare: number; accountId?: string; placeId: PlaceId } | undefined {
+  const rt = runtimes.get(core);
+  const record = rt?.households.get(householdId);
+  if (!rt || !record) return undefined;
+  dropCountedJobs(rt, new Set(record.jobs.map((row) => row.id)));
+  dropCountedContracts(
+    rt,
+    new Set([
+      ...record.contracts.map((row) => row.id),
+      `household:${householdId}`,
+    ]),
+    ["purchase", "retirement"],
+  );
+  rt.households.delete(householdId);
+  for (const person of record.people) rt.householdOfPerson.delete(person.id);
+  const placeId = record.household.placeId;
+  const own = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  const remaining = rt.openingCashByPlace.get(placeId) ?? 0;
+  rt.openingCashByPlace.set(placeId, remaining - own);
+  return {
+    cashShare: remaining > 0 ? own / remaining : 0,
+    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
+      ?.accountId,
+    placeId,
+  };
+}
+
+/** The place's account for buyers, sellers and movers outside the town. */
+export function countedOutsideAccount(
+  core: CoreState,
+  placeId: PlaceId,
+): string | undefined {
+  const rt = runtimes.get(core);
+  return rt ? outsideMarketFor(core, rt, placeId) : undefined;
+}
+
+/** A baby born into a counted household joins its record. */
+export function addCountedPerson(
+  core: CoreState,
+  householdId: string,
+  person: PersonInput,
+): void {
+  const rt = runtimes.get(core);
+  const record = rt?.households.get(householdId);
+  if (!rt || !record)
+    throw new Error(`Not a counted household: ${householdId}`);
+  const kin = new Set(person.familyIds);
+  replaceRecord(rt, {
+    ...record,
+    household: {
+      ...record.household,
+      memberIds: [...record.household.memberIds, person.id],
+    },
+    people: [
+      ...record.people.map((row) =>
+        kin.has(row.id)
+          ? { ...row, familyIds: [...row.familyIds, person.id] }
+          : row,
+      ),
+      person,
+    ],
+  });
+}
+
+/** A household that moved in joins the counts (no job or contracts yet). */
+export function admitCountedHousehold(
+  core: CoreState,
+  record: ResidentHouseholdRecord,
+): void {
+  const rt = runtimes.get(core);
+  if (!rt) throw new Error("Residents are not admitted.");
+  if (rt.households.has(record.household.id))
+    throw new Error(`Duplicate counted household: ${record.household.id}`);
+  replaceRecord(rt, record);
 }

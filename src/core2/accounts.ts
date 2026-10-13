@@ -13,10 +13,11 @@
  * accounts.obligation(id); // nextDueAt, arrearsMinor, paidMinor, lastReceipt
  * ```
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CashJournalPosting } from "./journal";
 import type { CashJournalSourceSlot } from "./journal-state";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 export const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
 const SOURCE_KIND = "accounts.transfer";
@@ -98,6 +99,7 @@ interface Runtime {
 }
 
 const runtimes = new WeakMap<CoreState, Runtime>();
+registerWorldMapPart("core2-accounts", runtimes);
 
 function runtime(core: CoreState): Runtime {
   let rt = runtimes.get(core);

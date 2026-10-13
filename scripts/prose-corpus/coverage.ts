@@ -103,6 +103,11 @@ export const SCAN_EXCLUSIONS: readonly { path: string; reason: string }[] = [
     reason:
       "Generated county-name data compiled from the Census county corpus. Names of real localities are sourced facts, not authored prose.",
   },
+  {
+    path: "src/core2/reference/national-counties.generated.ts",
+    reason:
+      "Generated county-name data compiled from the Census county corpus (moved into the core). Names of real localities are sourced facts, not authored prose.",
+  },
 ];
 
 /**

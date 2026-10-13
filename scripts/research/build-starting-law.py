@@ -75,7 +75,8 @@ def row(jurisdiction, level, series, value, effective, end, source, estimate,
 
 
 def dated(rows):
-    """Close each tier's phases: a phase ends when the next one starts.
+    """Close each tier's phases: a phase ends when the next one starts, and the
+    latest phase carries forward with no end.
 
     A later row with the same amount is a re-reading of the law already in
     force (a page read on a later date), not a new phase, so it is dropped.
@@ -96,6 +97,11 @@ def dated(rows):
         for current, following in zip(phases, phases[1:]):
             if current["endDate"] is None or current["endDate"] > following["effectiveDate"]:
                 current["endDate"] = following["effectiveDate"]
+        # A published figure's last day is the end of the period the source
+        # covers, not the end of the law: the latest phase stays in force
+        # until a law changes it (an income tax schedule does not lapse on
+        # January 1 because next year's schedule is not out yet).
+        phases[-1]["endDate"] = FOREVER
     return [item for item in rows if id(item) not in rereadings]
 
 

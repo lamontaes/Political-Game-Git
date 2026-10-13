@@ -19,6 +19,8 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../../simulation/dates";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -245,9 +247,9 @@ function scheduleWeek(api: CoreAPI, from: string): void {
   });
 }
 
-const habitScore = (p: Readonly<PersonState>) =>
-  (p.traits["personality-v1:facet-duty-bound"] ?? 0) +
-  (p.traits["people-mind-v1:deliberation"] ?? 0) / 2;
+/** Every trait's lean toward keeping up with the news over letting it go. */
+const habitScore = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
+  decisionLean(core, p, "press.follow-news", "follow", "skip");
 
 const followCache = new WeakMap<
   object,
@@ -290,13 +292,17 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
         ...people
           .slice()
           .sort(
-            (a, b) => habitScore(b) - habitScore(a) || a.id.localeCompare(b.id),
+            (a, b) =>
+              habitScore(b, api.state) - habitScore(a, api.state) ||
+              a.id.localeCompare(b.id),
           )
           .slice(0, Math.round(share * people.length)),
       );
     }
     followers.sort(
-      (a, b) => habitScore(b) - habitScore(a) || a.id.localeCompare(b.id),
+      (a, b) =>
+        habitScore(b, api.state) - habitScore(a, api.state) ||
+        a.id.localeCompare(b.id),
     );
     own.forEach((outlet, i) =>
       map.set(
@@ -608,7 +614,7 @@ function publish(
     id: `interview-published:${row.id}`,
     date: api.state.date,
     kind: "interview-published",
-    personIds: [row.candidateId],
+    personIds: api.state.people.has(row.candidateId) ? [row.candidateId] : [],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -696,10 +702,15 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const willing = person
-        ? (person.traits["people-mind-v1:sociability"] ?? 0) +
-          ((person.traits["people-mind-v1:conflict"] ?? 0) +
-            (person.traits["people-mind-v1:risk"] ?? 0)) /
-            2
+        ? // Every trait's lean, on the trait scale the bar was set on.
+          parameter("traitScale") *
+          decisionLean(
+            api.state,
+            person,
+            "press.accept-interview",
+            "accept",
+            "decline",
+          )
         : 0;
       if (willing < pressParameter("interviewShyness"))
         record(api, {

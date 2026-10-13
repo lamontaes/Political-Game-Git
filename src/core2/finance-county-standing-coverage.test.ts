@@ -4,8 +4,8 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
 } from "../simulation/government-units";
-import { createStableId } from "../simulation/ids";
-import { lifePlaceByKey } from "../simulation/life-places";
+import { createStableId } from "./kernel/ids";
+import { corePlaceByKey } from "./place-lookup";
 import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
 import { DEFAULT_DATA } from "./data";
 import financePolicy from "./data/finance.json" with { type: "json" };
@@ -69,7 +69,7 @@ function recordedFixture(startedAt = openingAt) {
     ),
     stableKey = `local-government:${county.id}`,
     ownerId = createStableId("organization", `${worldId}:${stableKey}`),
-    placeId = lifePlaceByKey("4840342")!.context.jurisdiction.id;
+    placeId = corePlaceByKey("4840342")!.context.jurisdiction.id;
   const projection = openingHistoricalCountyOwnerFacts({
     organizationId: ownerId,
     organizationStableKey: stableKey,
@@ -493,7 +493,7 @@ describe("UNEXECUTED county standing agreement coverage", () => {
 
   it("rejects an unrelated actual served-place/county relation without any people input", () => {
     const { owner } = recordedFixture(),
-      placeId = lifePlaceByKey("3200500")!.context.jurisdiction.id;
+      placeId = corePlaceByKey("3200500")!.context.jurisdiction.id;
     const result = openingHistoricalCountyPlaceCoverage(owner, {
       startedAt: openingAt,
       placeId,
@@ -633,7 +633,7 @@ describe("UNEXECUTED county standing agreement coverage", () => {
 
   it("rejects wrong canonical served geography even when the supplier shares that wrong place", () => {
     const { core, ownerId, placeId } = buildFixture(),
-      wrongPlaceId = lifePlaceByKey("3200500")!.context.jurisdiction.id;
+      wrongPlaceId = corePlaceByKey("3200500")!.context.jurisdiction.id;
     core.organizations.get(supplierId)!.placeId = wrongPlaceId;
     updateAppropriation(core, ownerId, placeId, (row) => {
       row.coveredPlaceId = wrongPlaceId;

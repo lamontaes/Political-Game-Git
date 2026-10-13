@@ -1592,17 +1592,20 @@
     }
   },
   "businessIncomeHalfLifeDays": {
-    "value": 1095,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances localDemandHalfLifeDays is explicitly PLACEHOLDER. Analytic linear reached-income response is a new registered approximation; no source identifies this duration.",
+    "value": 785,
+    "tag": "ESTIMATED",
+    "citation": "BLS Local Area Unemployment Statistics, state unemployment-rate gaps 2000–2025: half-life implied by their AR(1) persistence, median across the 50 states (data/research/regional/roadmap-r1-gap-persistence.json, research roadmap R1).",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical half-life range for town sales responding to income has been established; require dated income/sales response calibration."
+      "low": 357,
+      "high": 1473,
+      "unit": "days",
+      "citation": "P10 and P90 across the 50 states."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "How fast a town's sales follow a change in its residents' income is read from how fast local labor-market gaps close; the median state's half-life is 785 days."
   },
   "businessCrowdingResponse": {
     "value": 0.1,
@@ -1749,17 +1752,18 @@
     "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementCoveredFraction": {
-    "value": 0.65,
-    "tag": "TUNABLE",
-    "citation": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementCoveredFraction",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    },
+    "value": 0.75,
+    "tag": "ESTIMATED",
+    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
+    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "spread": {
+      "low": 0.66,
+      "high": 0.84,
+      "unit": "share of adult years with covered earnings",
+      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -1796,32 +1800,20 @@
     "estimatedFrom": "35 years × 12 = 420 months; dividing covered months by 420 approximates the zero-year penalty, not the earnings level or the bend points."
   },
   "openingRetirementBenefitFactorMinimum": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "Authored lower amount factor for fictional generated awards; no individual benefit-distribution percentile or parameter bound is inferred from the average.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementBenefitFactorMinimum",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    },
+    "value": 0.33,
+    "tag": "SOURCED",
+    "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (retired workers by monthly benefit, December 2020; 46,329,595 workers, average $1,544.15), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 5th percentile benefit, computed from the published bins, is 0.33 of the mean."
   },
   "openingRetirementBenefitFactorMaximum": {
-    "value": 1.25,
-    "tag": "TUNABLE",
-    "citation": "Authored upper amount factor for fictional generated awards; no individual benefit-distribution percentile or parameter bound is inferred from the average.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementBenefitFactorMaximum",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    },
+    "value": 1.88,
+    "tag": "SOURCED",
+    "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
   "openingRetirementPayerReserveMonths": {
     "value": 0,
@@ -4446,28 +4438,6 @@
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
   },
-  "traitLeanScale": {
-    "value": 0.6,
-    "tag": "TUNABLE",
-    "citation": "The trait lean difference between two options that counts as a full-strength pull (1) in a formula decision. Starting value: the largest lean difference across generated adults in a 1,200-person drawn town is about 0.6 to 0.7 (OPUS-TRAITS probe, Oct 12, 2026), so the strongest personalities reach about 1, the range of the hand-picked trait sums it replaces.",
-    "spread": {
-      "low": 0.4,
-      "high": 0.9,
-      "unit": "trait lean difference",
-      "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
-    }
-  },
-  "truthDefaultPull": {
-    "value": 0.75,
-    "tag": "TUNABLE",
-    "citation": "How strongly a hearer leans toward believing a claim they cannot check, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest. With traitLeanScale, only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a lie.",
-    "spread": {
-      "low": 0.5,
-      "high": 1,
-      "unit": "scaled trait lean",
-      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
-    }
-  },
   "preStartFromYear": {
     "value": 2000,
     "tag": "TUNABLE",
@@ -4541,6 +4511,50 @@
       "citation": "Social Security earliest claim (62) to the delayed-credit end (70)."
     }
   },
+  "openingPrivateTuitionAnnualUsd": {
+    "value": 12420,
+    "tag": "SOURCED",
+    "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average tuition at all private elementary and secondary schools, 2011–12, $12,420 in constant 2020–21 dollars. https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp"
+  },
+  "openingPrivateSchoolShare": {
+    "value": 0.085,
+    "tag": "ESTIMATED",
+    "citation": "NCES Fast Facts, Back-to-school statistics: fall 2021, 4.7 million private and 49.4 million public elementary and secondary students; NCES NHES 2019: about 2.8% of school-age children homeschooled.",
+    "estimatedFrom": "4.7 / (49.4 + 4.7 + about 1.6 homeschooled) ≈ 0.085 of school-age children in private schools.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.14,
+      "unit": "share of children aged 5–17",
+      "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
+    }
+  },
+  "openingCustomerClubMembershipsAnnualNationalUsd": {
+    "value": 272,
+    "tag": "SOURCED",
+    "citation": "BLS, The Economics Daily, 'The new year and household spending' (2026), https://www.bls.gov/opub/ted/2026/the-new-year-and-household-spending.htm: Consumer Expenditure Survey, social, recreation and health club memberships, $272 per consumer unit in 2024 (2021: $212)."
+  },
+  "traitLeanScale": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The trait lean difference between two options that counts as a full-strength pull (1) in a formula decision. Starting value: the largest lean difference across generated adults in a 1,200-person drawn town is about 0.6 to 0.7 (OPUS-TRAITS probe, Oct 12, 2026), so the strongest personalities reach about 1, the range of the hand-picked trait sums it replaces.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "trait lean difference",
+      "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
+    }
+  },
+  "truthDefaultPull": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "How strongly a hearer leans toward believing a claim they cannot check, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest. With traitLeanScale, only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a lie.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "scaled trait lean",
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
+    }
+  },
   "minimumParentAgeAtBirth": {
     "value": 15,
     "tag": "SOURCED",
@@ -4555,6 +4569,111 @@
       "high": 1,
       "unit": "score per unit of scaled trait lean",
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
+    }
+  },
+  "circleDecisionDetailDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain.",
+    "spread": {
+      "low": 7,
+      "high": 90,
+      "unit": "days",
+      "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
+    }
+  },
+  "circleActRetentionMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small: keep current state, each person's key facts and recent detail; summarize or drop old detail): how long a circle member's routine act stays in the log after its reasons are condensed.",
+    "spread": {
+      "low": 3,
+      "high": 36,
+      "unit": "months",
+      "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
+    }
+  },
+  "openingTeacherAnnualWageUsd": {
+    "value": 63970,
+    "tag": "SOURCED",
+    "citation": "BLS Occupational Employment and Wage Statistics, May 2025, national median annual wage for the game's teacher occupation (profession:teacher), as the town pay table records it (src/simulation/living-world/town-pay.ts, nationalMedianAnnualWage). Used only where a town has no recorded teacher job to copy."
+  },
+  "openingTeacherHoursDaily": {
+    "value": 7.5,
+    "tag": "TUNABLE",
+    "citation": "A full-time teacher's school day where the town has no recorded teacher to copy; the town generator's recorded teacher roles are the reference.",
+    "spread": {
+      "low": 7,
+      "high": 8.5,
+      "unit": "hours a day",
+      "citation": "From a 7-hour to an 8.5-hour school day; checked against the town generator's recorded teacher roles."
+    }
+  },
+  "citizenShareStatePriorAdults": {
+    "value": 200,
+    "tag": "TUNABLE",
+    "citation": "How many adults' worth of the state's CPS citizen share a place's ACS share is blended with, so a small place's noisy sample (ACS 5-year margins) leans on its state.",
+    "spread": {
+      "low": 50,
+      "high": 1000,
+      "unit": "adults",
+      "citation": "From trusting a place of a few hundred adults nearly fully to leaning on the state until a place has thousands of adults."
+    }
+  },
+  "budgetNewGameLoadSeconds": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "Owner, M7 work order (docs/packages/M7-early-access.md): a new game loads within two minutes while the loading story plays.",
+    "spread": {
+      "low": 60,
+      "high": 120,
+      "unit": "seconds",
+      "citation": "The owner's two-minute ceiling; lower is better."
+    }
+  },
+  "budgetYearSeconds": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "Owner rule (AGENTS.md, Speed): a town's game year must run in under two minutes.",
+    "spread": {
+      "low": 30,
+      "high": 120,
+      "unit": "seconds",
+      "citation": "The owner's two-minute ceiling; lower is better."
+    }
+  },
+  "budgetSlowestDaySeconds": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "M7-01: a day advances without visible waiting; the slowest day of a played year must stay under this.",
+    "spread": {
+      "low": 1,
+      "high": 5,
+      "unit": "seconds",
+      "citation": "From an instant-feeling day to the longest a player waits without a progress indicator."
+    }
+  },
+  "budgetSaveCompressedMegabytes": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "M7-01 save-size budget: The Political Process's saves are 23 to 28 MB at any game length (owner's saves, BOARD Oct 12); ours must stay nowhere near 1.6 GB.",
+    "spread": {
+      "low": 25,
+      "high": 100,
+      "unit": "megabytes, compressed",
+      "citation": "From The Political Process's size to four times it."
+    }
+  },
+  "schoolDayHours": {
+    "value": 6.7,
+    "tag": "ESTIMATED",
+    "citation": "NCES Schools and Staffing Survey 2011–12: public schools' average school day was about 6.7 hours.",
+    "estimatedFrom": "The national average length of a public school day, used for every school.",
+    "spread": {
+      "low": 6,
+      "high": 7.5,
+      "unit": "hours",
+      "citation": "Typical public school days across states and districts."
     }
   }
 }

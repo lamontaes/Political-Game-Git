@@ -1,0 +1,1325 @@
+{
+  "about": "Mayor veto rules by state/territory for mayor-council, council-manager and commission forms in general-law municipalities. Built from data/municipal-elections/92O-national-state-baseline.json mayorSelectionNote fields; fields listed under estimated are not stated there. No web fetches were made; unresolved fields default to modal 2/3-of-members override, council-manager no veto, commission no veto.",
+  "sources": [
+    "data/municipal-elections/92O-national-state-baseline.json (mayorSelectionNote, statute cites)"
+  ],
+  "states": {
+    "US-AK": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: AS 29.20.250"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "1st class cities have veto unless manager plan; 2nd class council elects mayor."
+    },
+    "US-AL": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": 12000,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Ala. Code § 11-43-40"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Veto only in cities over 12,000."
+    },
+    "US-AR": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: A.C.A. § 14-43-504"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Mayor-council has veto; city manager cities elect mayor from board."
+    },
+    "US-AS": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "estimated; not in 92O"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "form not present"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "Village mayors without legislative veto structure; no veto."
+      },
+      "note": "Village mayors without legislative veto structure; no veto."
+    },
+    "US-AZ": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Mayors mostly presiding in council-manager charters; no veto stated."
+    },
+    "US-CA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "General-law mayor has no veto; strong-mayor charter cities (LA, SD, SF) do; estimated."
+    },
+    "US-CO": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: C.R.S. § 31-4-102"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Statutory cities: veto overridden by 2/3."
+    },
+    "US-CT": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: charter-defined (92O note)"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "charter-defined",
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Cities: veto defined by charter; town meeting towns none."
+    },
+    "US-DC": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "D.C. Code § 1-204.04 (92O note)"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "n/a; DC has one mayor-council form"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "assumed all members (9 of 13)",
+        "councilManager.veto": "n/a"
+      },
+      "note": "Mayor veto overridden by 2/3 of council (9 of 13)."
+    },
+    "US-DE": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Wilmington strong mayor; council-manager mayors ceremonial."
+    },
+    "US-FL": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: mayor-council veto"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Commission-manager mayors ceremonial."
+    },
+    "US-GA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: strong mayor full veto"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Weak mayor presides, tie-break only."
+    },
+    "US-GU": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "estimated; not in 92O"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "form not present"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "Village mayors have no legislative body; no veto."
+      },
+      "note": "Village mayors have no legislative body; no veto."
+    },
+    "US-HI": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: county mayors have veto"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Four county mayors, strong executive."
+    },
+    "US-IA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": 500,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Iowa Code § 372.4"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "92O note: Iowa Code § 372.4"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Veto in cities over 500; council-manager mayor no veto."
+    },
+    "US-ID": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Idaho Code § 50-608"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Council-manager mayor presiding."
+    },
+    "US-IL": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 65 ILCS 5/3.1-40-45"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Veto in all forms; 2/3 override."
+    },
+    "US-IN": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: IC § 36-4-5"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "2nd and 3rd class cities; towns have no mayor."
+    },
+    "US-KS": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: K.S.A. (1st class cities)"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Veto in 1st class cities; commission-manager mayor chosen by commissioners."
+    },
+    "US-KY": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: KRS 83A.130"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Weak/presiding mayor in commission and manager forms."
+    },
+    "US-LA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: La. R.S. 33:404"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Lawrason Act; 2/3 of aldermen override."
+    },
+    "US-MA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: M.G.L. c. 43 § 55"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Plan D/E mayor ceremonial."
+    },
+    "US-MD": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Mayor-council charters strong; council-manager weak."
+    },
+    "US-ME": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Veto only under strong-mayor charters; manager runs most cities."
+    },
+    "US-MI": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: Detroit strong mayor veto"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Council-manager mayor is council chair."
+    },
+    "US-MN": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "92O note: 92O note: statutory plans, no veto"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Statutory mayor no veto; home rule charter cities (Minneapolis, St. Paul) vary."
+    },
+    "US-MO": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: RSMo § 77.270, § 79.140"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "3rd and 4th class cities."
+    },
+    "US-MP": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "estimated; not in 92O"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "form not present"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "Municipal mayors of Saipan, Tinian, Rota are executives without a council veto assumed (estimated)."
+      },
+      "note": "Municipal mayors of Saipan, Tinian, Rota are executives without a council veto assumed (estimated)."
+    },
+    "US-MS": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Miss. Code § 21-3-15, § 21-8-15"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Strong and weak mayor both have veto; 2/3 override."
+    },
+    "US-MT": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: MCA § 7-3-203"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Commission-executive form."
+    },
+    "US-NC": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "92O note: N.C.G.S. § 160A-69"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Council-manager mayor has no veto; Charlotte is a special charter exception (estimated)."
+    },
+    "US-ND": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: N.D.C.C. § 40-08-07"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Council cities; commission cities have president as executive."
+    },
+    "US-NE": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Neb. Rev. Stat. § 16-303"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "City manager cities: council elects mayor as president."
+    },
+    "US-NH": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: RSA 44:11"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Strong mayors in Manchester, Nashua."
+    },
+    "US-NJ": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: N.J.S.A. 40:69A-41; 40A:60-5"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Boroughs: suspensive veto 2/3; townships no veto."
+    },
+    "US-NM": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: NMSA § 3-11-5"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Commission-manager mayor presiding."
+    },
+    "US-NV": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Mayor ceremonial council member in council-manager cities; no veto stated."
+    },
+    "US-NY": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: strong mayor veto 2/3"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Major cities strong mayor."
+    },
+    "US-OH": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: R.C. § 731.27"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Statutory cities and villages; charter cities vary."
+    },
+    "US-OK": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 11 O.S. § 11-108"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Strong-mayor form only; council-manager no veto."
+    },
+    "US-OR": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "none stated in 92O note"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "not stated in 92O note; modal default or general knowledge",
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Mostly presiding mayors in council-manager; mayor-council veto estimated."
+    },
+    "US-PA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 8 Pa.C.S. § 1007"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Borough mayor suspensive veto; strong mayors in large cities."
+    },
+    "US-PR": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "estimated; not in 92O"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "form not present"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "Municipio alcalde may return ordinances to the Legislatura Municipal; 2/3 override assumed (Código Municipal, estimated).",
+        "mayorCouncil.overrideShare": "modal 2/3"
+      },
+      "note": "Municipio alcalde may return ordinances to the Legislatura Municipal; 2/3 override assumed (Código Municipal, estimated)."
+    },
+    "US-RI": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: Providence, Warwick"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Towns use council president."
+    },
+    "US-SC": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: S.C. Code § 5-9-30"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "92O note: S.C. Code (92O note: council and manager forms no veto)"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Strong mayor veto; council and manager forms none."
+    },
+    "US-SD": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: SDCL § 9-8-3"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Aldermanic form."
+    },
+    "US-TN": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: T.C.A. § 6-3-101"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Manager-commission mayor ceremonial."
+    },
+    "US-TX": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: TLGC § 22.042, § 22.032"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Type A; council-manager mayors in big cities (estimated no veto)."
+    },
+    "US-UT": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: UCA § 10-3b-202"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "92O note: UCA § 10-3b-304"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Strong mayor form veto; weak council form no veto."
+    },
+    "US-VA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Richmond Charter ch. 5"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "92O note: 92O note: council-manager mayor no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideShare": "not stated; modal 2/3",
+        "mayorCouncil.overrideBase": "assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Only Richmond has strong mayor."
+    },
+    "US-VI": {
+      "mayorCouncil": {
+        "veto": false,
+        "minPopulation": null,
+        "overrideShare": null,
+        "overrideBase": null,
+        "cite": "estimated; not in 92O"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "form not present"
+      },
+      "estimated": {
+        "mayorCouncil.veto": "No municipal governments; territory-level only."
+      },
+      "note": "No municipal governments; territory-level only."
+    },
+    "US-VT": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: 92O note: Burlington"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Towns have selectboard chair."
+    },
+    "US-WA": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.5,
+        "overrideBase": "members",
+        "cite": "92O note: RCW 35A.12.100, 35A.12.130",
+        "overridePlusOne": true
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "majority plus one of council; base assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Override by majority plus one of council."
+    },
+    "US-WI": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Wis. Stat. § 62.09(8)(c)"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Cities have veto and partial budget veto; villages none."
+    },
+    "US-WV": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: W. Va. Code § 8-3-3"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Plan II strong mayor."
+    },
+    "US-WY": {
+      "mayorCouncil": {
+        "veto": true,
+        "minPopulation": null,
+        "overrideShare": 0.6667,
+        "overrideBase": "members",
+        "cite": "92O note: Wyo. Stat. § 15-3-102"
+      },
+      "councilManager": {
+        "veto": false,
+        "cite": "none stated; default no veto"
+      },
+      "commission": {
+        "veto": false,
+        "cite": "default, commission mayor presides"
+      },
+      "estimated": {
+        "mayorCouncil.overrideBase": "share (2/3) stated in note; base not stated, assumed all members",
+        "mayorCouncil.minPopulation": "no threshold stated; none assumed",
+        "councilManager.veto": "not stated; default no veto",
+        "commission.veto": "not stated in 92O note; default no veto"
+      },
+      "note": "Council-manager mayor chosen by council."
+    }
+  }
+}

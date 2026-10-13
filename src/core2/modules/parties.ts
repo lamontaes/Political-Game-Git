@@ -25,6 +25,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { personLean } from "../campaign-views";
+import { decisionLean } from "../trait-decisions";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 
@@ -294,7 +295,13 @@ export function openParties(core: CoreState): void {
               (a.traits["personality-v1:facet-duty-bound"] ?? 0)) ||
           a.id.localeCompare(b.id),
       );
-    for (const member of members) api.join(member.id, party.organizationId);
+    for (const member of members)
+      if (
+        value("partiesJoinBase") +
+          decisionLean(core, member, "parties.join", "join", "stay-out") >
+        0
+      )
+        api.join(member.id, party.organizationId);
     api
       .moduleState(PARTIES_MODULE_ID)
       .table("parties")
