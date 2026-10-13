@@ -188,6 +188,14 @@ for (const seed of seeds) {
       <script>
       const people = ${JSON.stringify(figs)};
       const el = document.getElementById("people");
+      // As play.mjs draws it: shadows on the floor first, then the figures.
+      for (const person of people) {
+        const s = person.figure.shadow;
+        if (!s || s === true) continue;
+        const sh = document.createElement("div"); sh.className = "shadow";
+        Object.assign(sh.style, { left: s.leftPercent + "%", top: s.topPercent + "%", width: s.widthPercent + "%", height: s.heightPercent + "%" });
+        el.append(sh);
+      }
       for (const person of people) {
         const f = person.figure;
         const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
@@ -196,7 +204,7 @@ for (const seed of seeds) {
         img.style.height = (f.heightPercent / visible) * 100 + "%";
         if (f.mirrored) img.style.transform = "scaleX(-1)";
         const box = document.createElement("div"); box.className = "figure";
-        if (f.shadow) { const sh = document.createElement("div"); sh.className = "shadow"; if (f.shadowStyle) Object.assign(sh.style, f.shadowStyle); box.prepend(sh); }
+        if (f.shadow === true) { const sh = document.createElement("div"); sh.className = "shadow"; box.prepend(sh); }
         box.append(img);
         Object.assign(box.style, { left: f.leftPercent + "%", top: f.topPercent + "%", width: f.widthPercent + "%", height: visible + "%" });
         el.append(box);

@@ -118,7 +118,7 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx scripts/people/scene-shots.ts <out> [seed ...]` builds fresh games in random places and renders the intro, home, a workplace, the council, the state chamber, the U.S. House and Senate, the Oval Office and a conversation, with a count of figures by source.
 
 - [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
-- [ ] 6. Shadows at the feet (PR 2).
+- [x] 6. Shadows at the feet (PR 2): measured from each figure's pixels, on the foot point, none behind a desk.
 - [ ] 3–5. Facing, staging, size (PR 3).
 - [ ] 7–10. Activity picker, no twins, the player's identity, who is there (PR 4).
 - [ ] 2. Seated figures: wiring ready for the CTO's seated art (PR 5).
