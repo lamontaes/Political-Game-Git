@@ -52,7 +52,7 @@ def optional(name):
 
 
 def row(jurisdiction, level, series, value, effective, end, source, estimate,
-        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED):
+        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED, sunset=None):
     out = {
         "jurisdiction": jurisdiction,
         "level": level,
@@ -71,11 +71,44 @@ def row(jurisdiction, level, series, value, effective, end, source, estimate,
         out["terms"] = terms
     if note:
         out["note"] = note
+    if sunset:
+        # A sunset clause the source states: {"date": ..., "source": ...}.
+        out["sunset"] = sunset
+        out["endDate"] = sunset["date"]
     return out
 
 
+# Why a series' latest published figure stays in force past the period its
+# source covers: the statute or ordinance behind it is standing law, and the
+# figure changes only when a law (or the law's own indexing) changes it. A
+# series that is indexed each year is marked so; the indexing itself is not
+# applied yet (SG-GOV-indexed-law-held-flat).
+STANDING = {
+    "income-tax": ("The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.", True),
+    "social-security-tax": ("26 U.S.C. 3101(a) sets the rate as standing law; the wage base is indexed each year under 42 U.S.C. 430.", True),
+    "snap-maximum": ("7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.", True),
+    "medicaid-match": ("42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.", True),
+    "minimum-wage": ("The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.", True),
+}
+
+
+def standing(item):
+    """Carry a lapsing latest phase forward, unless its source names a sunset."""
+    if item["endDate"] is None:
+        return
+    if item.get("sunset"):
+        return  # a cited sunset clause: the law itself ends on that date
+    why, indexed = STANDING.get(item["series"], ("The law is standing law and stays in force until a law changes it.", False))
+    item["publishedThrough"] = item["endDate"]
+    item["endDate"] = FOREVER
+    item["standing"] = why
+    if indexed:
+        item["indexed"] = True
+
+
 def dated(rows):
-    """Close each tier's phases: a phase ends when the next one starts.
+    """Close each tier's phases: a phase ends when the next one starts, and the
+    latest phase carries forward with no end unless its source names a sunset.
 
     A later row with the same amount is a re-reading of the law already in
     force (a page read on a later date), not a new phase, so it is dropped.
@@ -96,6 +129,8 @@ def dated(rows):
         for current, following in zip(phases, phases[1:]):
             if current["endDate"] is None or current["endDate"] > following["effectiveDate"]:
                 current["endDate"] = following["effectiveDate"]
+        if phases:
+            standing(phases[-1])
     return [item for item in rows if id(item) not in rereadings]
 
 
@@ -131,7 +166,7 @@ def minimum_wages(rows):
                         unit="minor/hour", note=item.get("jurisdictionName"),
                         terms={"coversUnincorporatedOnly": bool(item.get("coversUnincorporatedOnly", False)),
                                **{k: item[k] for k in ("smallEmployerRate", "midEmployerRate", "microEmployerRate") if item.get(k) is not None}},
-                        retrieved=item.get("retrievedDate", RETRIEVED)))
+                        retrieved=item.get("retrievedDate", RETRIEVED), sunset=item.get("sunset")))
 
 
 def payroll_taxes(rows):
@@ -222,7 +257,8 @@ def income_taxes(rows):
                         item.get("estimate", False), unit="percent-flat",
                         terms={"nonresidentRate": item.get("nonresidentRate"), "base": item.get("base"),
                                "kind": item.get("kind")},
-                        note=item.get("jurisdictionName"), retrieved=item.get("retrievedDate", RETRIEVED)))
+                        note=item.get("jurisdictionName"), retrieved=item.get("retrievedDate", RETRIEVED),
+                        sunset=item.get("sunset")))
 
 
 def sales_taxes(rows):
@@ -265,7 +301,7 @@ def benefits(rows):
                             note="Alaska's rural areas are separate tiers; a place reads the urban amount until its area is mapped." if state == "US-AK" and item["area"] == "urban" else None,
                             unit="USD/month", terms={"area": item["area"], "byHouseholdSize": sizes,
                                                      "additionalPerson": item.get("additionalPersonAboveEight")},
-                            retrieved=item.get("retrievalDate", RETRIEVED)))
+                            retrieved=item.get("retrievalDate", RETRIEVED), sunset=item.get("sunset")))
     ui = load(LOCAL / "unemployment-weekly-bounds.json")
     for state, items in ui["places"].items():
         for item in items:
@@ -280,7 +316,8 @@ def benefits(rows):
         for item in items:
             rows.append(row(state, "federal", "medicaid-match", item["value"], item["effectiveDate"],
                             item["endDateExclusive"], item["source"], item.get("estimate", False),
-                            unit="percent", retrieved=item.get("retrievalDate", RETRIEVED)))
+                            unit="percent", retrieved=item.get("retrievalDate", RETRIEVED),
+                            sunset=item.get("sunset")))
     programs = optional("unemployment-insurance.json")
     for state, place in (programs or {}).get("places", {}).items():
         source = place.get("source")

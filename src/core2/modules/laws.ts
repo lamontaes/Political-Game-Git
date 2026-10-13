@@ -78,6 +78,11 @@ export function openLaws(core: CoreState): LawChain {
   const calendar = api.moduleCalendar(LAWS_MODULE_ID);
   const today = api.state.date;
   for (const row of startingLawRows(chain)) {
+    // A standing row past the period its source published is held at that
+    // figure; its yearly indexing (brackets, wage base, allotments) is not
+    // applied yet.
+    if ((row as { indexed?: boolean }).indexed)
+      api.stopgap("SG-GOV-indexed-law-held-flat");
     state.table("laws").put(row as unknown as ModuleRow);
     if (row.effectiveDate > today)
       calendar.schedule({

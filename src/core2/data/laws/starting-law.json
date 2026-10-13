@@ -22,12 +22,15 @@
         "tier": "general",
         "value": 6.2,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "26 U.S.C. 3101(a); 2026 contribution and benefit base $184,500 (SSA, 2026 COLA fact sheet; also stated by the Oregon and Washington paid-leave programs, data/research/money/state-paid-leave-premiums-2026.json)",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "percent-of-wages",
-        "terms": { "wageBase": 184500 }
+        "terms": { "wageBase": 184500 },
+        "publishedThrough": "2027-01-01",
+        "standing": "26 U.S.C. 3101(a) sets the rate as standing law; the wage base is indexed each year under 42 U.S.C. 430.",
+        "indexed": true
       },
       {
         "level": "federal",
@@ -48,7 +51,7 @@
         "tier": "general",
         "value": 37.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -93,7 +96,10 @@
               ]
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       }
     ],
     "US-AK": [
@@ -169,7 +175,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -186,7 +192,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -269,7 +278,7 @@
         "tier": "general",
         "value": 392,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -288,7 +297,10 @@
           },
           "additionalPerson": 287
         },
-        "note": "Alaska's rural areas are separate tiers; a place reads the urban amount until its area is mapped."
+        "note": "Alaska's rural areas are separate tiers; a place reads the urban amount until its area is mapped.",
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "federal",
@@ -322,7 +334,7 @@
         "tier": "rural-1",
         "value": 499,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -340,7 +352,10 @@
             "8": 2999
           },
           "additionalPerson": 366
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "federal",
@@ -374,7 +389,7 @@
         "tier": "rural-2",
         "value": 608,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -392,7 +407,10 @@
             "8": 3650
           },
           "additionalPerson": 446
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -429,11 +447,14 @@
         "tier": "general",
         "value": 51.37,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -488,7 +509,7 @@
         "tier": "general",
         "value": 5.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -516,7 +537,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -597,7 +621,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -615,7 +639,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -652,11 +679,14 @@
         "tier": "general",
         "value": 72.55,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -727,7 +757,7 @@
         "tier": "general",
         "value": 3.9,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -760,7 +790,10 @@
               ]
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -842,7 +875,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -860,7 +893,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -897,11 +933,14 @@
         "tier": "general",
         "value": 70.52,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1496,7 +1535,7 @@
         "tier": "general",
         "value": 39.6,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://asbar.org/code-annotated/11-0403-imposition-of-tax-citation/",
         "retrieved": "2026-10-12",
         "estimate": true,
@@ -1519,7 +1558,10 @@
           },
           "otherTaxes": null
         },
-        "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+        "note": "Residents pay the territory's income tax in place of the federal income tax on local income.",
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1555,11 +1597,14 @@
         "tier": "general",
         "value": 83,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1617,7 +1662,7 @@
         "tier": "general",
         "value": 2.5,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -1637,7 +1682,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1718,7 +1766,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -1736,7 +1784,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1773,11 +1824,14 @@
         "tier": "general",
         "value": 63.81,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1860,7 +1914,7 @@
         "tier": "general",
         "value": 13.3,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -1902,7 +1956,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -1984,7 +2041,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -2002,7 +2059,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2039,11 +2099,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2114,7 +2177,7 @@
         "tier": "general",
         "value": 4.4,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -2134,7 +2197,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2215,7 +2281,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -2233,7 +2299,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2270,11 +2339,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2363,7 +2435,7 @@
         "tier": "general",
         "value": 6.99,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -2399,7 +2471,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2463,7 +2538,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -2481,7 +2556,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2518,11 +2596,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2609,7 +2690,7 @@
         "tier": "general",
         "value": 10.75,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -2645,7 +2726,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2706,7 +2790,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -2724,7 +2808,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2761,11 +2848,14 @@
         "tier": "general",
         "value": 70,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2836,7 +2926,7 @@
         "tier": "general",
         "value": 6.6,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -2870,7 +2960,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2935,7 +3028,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -2953,7 +3046,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -2990,11 +3086,14 @@
         "tier": "general",
         "value": 60.33,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3083,7 +3182,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -3100,7 +3199,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3181,7 +3283,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -3199,7 +3301,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3236,11 +3341,14 @@
         "tier": "general",
         "value": 55.43,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3312,7 +3420,7 @@
         "tier": "general",
         "value": 5.19,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -3336,7 +3444,10 @@
               "brackets": [{ "ratePercent": 4.99, "overMarriedJoint": 0 }]
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3417,7 +3528,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -3435,7 +3546,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3472,11 +3586,14 @@
         "tier": "general",
         "value": 66.63,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3548,7 +3665,7 @@
         "tier": "general",
         "value": 37,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/link/uscode/48/1421i",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -3573,7 +3690,10 @@
           },
           "otherTaxes": null
         },
-        "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+        "note": "Residents pay the territory's income tax in place of the federal income tax on local income.",
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3639,7 +3759,7 @@
         "tier": "general",
         "value": 452,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -3657,7 +3777,10 @@
             "8": 2714
           },
           "additionalPerson": 331
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "federal",
@@ -3677,11 +3800,14 @@
         "tier": "general",
         "value": 83,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3754,7 +3880,7 @@
         "tier": "general",
         "value": 11.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -3800,7 +3926,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3882,7 +4011,7 @@
         "tier": "general",
         "value": 496,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -3900,7 +4029,10 @@
             "8": 2979
           },
           "additionalPerson": 364
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -3937,11 +4069,14 @@
         "tier": "general",
         "value": 58.39,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4013,7 +4148,7 @@
         "tier": "general",
         "value": 3.8,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -4033,7 +4168,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4114,7 +4252,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -4132,7 +4270,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4169,11 +4310,14 @@
         "tier": "general",
         "value": 63.33,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4245,7 +4389,7 @@
         "tier": "general",
         "value": 5.3,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -4265,7 +4409,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4346,7 +4493,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -4364,7 +4511,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4401,11 +4551,14 @@
         "tier": "general",
         "value": 67.31,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4473,7 +4626,7 @@
         "tier": "general",
         "value": 4.95,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -4493,7 +4646,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4575,7 +4731,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -4593,7 +4749,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4630,11 +4789,14 @@
         "tier": "general",
         "value": 52.91,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4706,7 +4868,7 @@
         "tier": "general",
         "value": 2.95,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -4726,7 +4888,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4790,7 +4955,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -4808,7 +4973,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4845,11 +5013,14 @@
         "tier": "general",
         "value": 65.24,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -4921,7 +5092,7 @@
         "tier": "general",
         "value": 5.58,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -4947,7 +5118,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5028,7 +5202,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -5046,7 +5220,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5083,11 +5260,14 @@
         "tier": "general",
         "value": 62.5,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5158,7 +5338,7 @@
         "tier": "general",
         "value": 3.5,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -5178,7 +5358,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5242,7 +5425,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -5260,7 +5443,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5297,11 +5483,14 @@
         "tier": "general",
         "value": 71.56,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5356,7 +5545,7 @@
         "tier": "general",
         "value": 3.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -5376,7 +5565,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5457,7 +5649,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -5475,7 +5667,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5512,11 +5707,14 @@
         "tier": "general",
         "value": 68.14,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5588,7 +5786,7 @@
         "tier": "general",
         "value": 9.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -5614,7 +5812,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5678,7 +5879,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -5696,7 +5897,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5733,11 +5937,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5805,7 +6012,7 @@
         "tier": "general",
         "value": 6.5,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -5847,7 +6054,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5911,7 +6121,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -5929,7 +6139,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -5966,11 +6179,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6037,7 +6253,7 @@
         "tier": "general",
         "value": 7.15,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -6065,7 +6281,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6129,7 +6348,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -6147,7 +6366,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6184,11 +6406,14 @@
         "tier": "general",
         "value": 60.62,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6271,7 +6496,7 @@
         "tier": "general",
         "value": 4.25,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -6291,7 +6516,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6355,7 +6583,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -6373,7 +6601,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6410,11 +6641,14 @@
         "tier": "general",
         "value": 65.7,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6498,7 +6732,7 @@
         "tier": "general",
         "value": 9.85,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -6528,7 +6762,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6610,7 +6847,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -6628,7 +6865,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6665,11 +6905,14 @@
         "tier": "general",
         "value": 51.36,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6737,7 +6980,7 @@
         "tier": "general",
         "value": 4.7,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -6773,7 +7016,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6855,7 +7101,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -6873,7 +7119,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6910,11 +7159,14 @@
         "tier": "general",
         "value": 64.58,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -6986,7 +7238,7 @@
         "tier": "general",
         "value": 37,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://cnmilaw.gov/commonwealth-code/3358",
         "retrieved": "2026-10-12",
         "estimate": true,
@@ -7011,7 +7263,10 @@
           },
           "otherTaxes": null
         },
-        "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+        "note": "Residents pay the territory's income tax in place of the federal income tax on local income.",
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7047,11 +7302,14 @@
         "tier": "general",
         "value": 83,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7092,7 +7350,7 @@
         "tier": "general",
         "value": 4.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -7112,7 +7370,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7193,7 +7454,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -7211,7 +7472,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7248,11 +7512,14 @@
         "tier": "general",
         "value": 77.32,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7340,7 +7607,7 @@
         "tier": "general",
         "value": 5.65,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -7366,7 +7633,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7431,7 +7701,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -7449,7 +7719,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7486,11 +7759,14 @@
         "tier": "general",
         "value": 60.01,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7562,7 +7838,7 @@
         "tier": "general",
         "value": 3.99,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -7582,7 +7858,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7663,7 +7942,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -7681,7 +7960,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7718,11 +8000,14 @@
         "tier": "general",
         "value": 64.16,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7794,7 +8079,7 @@
         "tier": "general",
         "value": 2.5,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -7820,7 +8105,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7901,7 +8189,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -7919,7 +8207,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -7956,11 +8247,14 @@
         "tier": "general",
         "value": 52.91,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8092,7 +8386,7 @@
         "tier": "general",
         "value": 4.55,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -8120,7 +8414,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8201,7 +8498,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -8219,7 +8516,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8256,11 +8556,14 @@
         "tier": "general",
         "value": 54.54,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8328,7 +8631,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -8345,7 +8648,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8409,7 +8715,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -8427,7 +8733,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8464,11 +8773,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8572,7 +8884,7 @@
         "tier": "general",
         "value": 10.75,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -8609,7 +8921,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8691,7 +9006,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -8709,7 +9024,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8746,11 +9064,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8817,7 +9138,7 @@
         "tier": "general",
         "value": 5.9,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -8851,7 +9172,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8933,7 +9257,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -8951,7 +9275,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -8988,11 +9315,14 @@
         "tier": "general",
         "value": 71.47,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9064,7 +9394,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -9081,7 +9411,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9162,7 +9495,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -9180,7 +9513,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9217,11 +9553,14 @@
         "tier": "general",
         "value": 59.31,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9327,7 +9666,7 @@
         "tier": "general",
         "value": 10.9,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -9367,7 +9706,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9448,7 +9790,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -9466,7 +9808,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9503,11 +9848,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9612,7 +9960,7 @@
         "tier": "general",
         "value": 2.75,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -9632,7 +9980,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9713,7 +10064,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -9731,7 +10082,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9768,11 +10122,14 @@
         "tier": "general",
         "value": 65.12,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9844,7 +10201,7 @@
         "tier": "general",
         "value": 4.5,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -9872,7 +10229,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -9953,7 +10313,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -9971,7 +10331,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10008,11 +10371,14 @@
         "tier": "general",
         "value": 65.86,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10203,7 +10569,7 @@
         "tier": "general",
         "value": 9.9,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -10233,7 +10599,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10297,7 +10666,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -10315,7 +10684,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10352,11 +10724,14 @@
         "tier": "general",
         "value": 58.18,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10428,7 +10803,7 @@
         "tier": "general",
         "value": 3.07,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -10448,7 +10823,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10529,7 +10907,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -10547,7 +10925,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10584,11 +10965,14 @@
         "tier": "general",
         "value": 57.41,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10660,7 +11044,7 @@
         "tier": "general",
         "value": 33,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxsummaries.pwc.com/puerto-rico/individual/taxes-on-personal-income",
         "retrieved": "2026-10-12",
         "estimate": true,
@@ -10696,7 +11080,10 @@
             }
           ]
         },
-        "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+        "note": "Residents pay the territory's income tax in place of the federal income tax on local income.",
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10764,11 +11151,14 @@
         "tier": "general",
         "value": 76,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10856,7 +11246,7 @@
         "tier": "general",
         "value": 5.99,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -10884,7 +11274,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -10948,7 +11341,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -10966,7 +11359,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11003,11 +11399,14 @@
         "tier": "general",
         "value": 57.81,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11062,7 +11461,7 @@
         "tier": "general",
         "value": 6.0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -11097,7 +11496,10 @@
               ]
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11178,7 +11580,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -11196,7 +11598,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11233,11 +11638,14 @@
         "tier": "general",
         "value": 69.28,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11308,7 +11716,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -11325,7 +11733,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11407,7 +11818,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -11425,7 +11836,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11462,11 +11876,14 @@
         "tier": "general",
         "value": 50.56,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11521,7 +11938,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -11538,7 +11955,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11619,7 +12039,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -11637,7 +12057,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11674,11 +12097,14 @@
         "tier": "general",
         "value": 63.34,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11750,7 +12176,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -11767,7 +12193,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11848,7 +12277,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -11866,7 +12295,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11903,11 +12335,14 @@
         "tier": "general",
         "value": 58.54,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -11979,7 +12414,7 @@
         "tier": "general",
         "value": 4.5,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -12003,7 +12438,10 @@
               "brackets": [{ "ratePercent": 4.45, "overMarriedJoint": 0 }]
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12085,7 +12523,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -12103,7 +12541,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12140,11 +12581,14 @@
         "tier": "general",
         "value": 61.95,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12248,7 +12692,7 @@
         "tier": "general",
         "value": 5.75,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -12278,7 +12722,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12360,7 +12807,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -12378,7 +12825,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12415,11 +12865,14 @@
         "tier": "general",
         "value": 50.02,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12542,7 +12995,7 @@
         "tier": "general",
         "value": 37,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://bir.vi.gov/content/publications/rev_ruling-2025-1223-1.pdf",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -12567,7 +13020,10 @@
           },
           "otherTaxes": null
         },
-        "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+        "note": "Residents pay the territory's income tax in place of the federal income tax on local income.",
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12615,7 +13071,7 @@
         "tier": "general",
         "value": 394,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -12633,7 +13089,10 @@
             "8": 2367
           },
           "additionalPerson": 289
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12670,11 +13129,14 @@
         "tier": "general",
         "value": 83,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12745,7 +13207,7 @@
         "tier": "general",
         "value": 8.75,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -12775,7 +13237,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12856,7 +13321,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -12874,7 +13339,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12911,11 +13379,14 @@
         "tier": "general",
         "value": 57.76,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -12996,7 +13467,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -13013,7 +13484,10 @@
               "estimate": true
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13094,7 +13568,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -13112,7 +13586,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13149,11 +13626,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13224,7 +13704,7 @@
         "tier": "general",
         "value": 7.65,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -13254,7 +13734,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13335,7 +13818,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -13353,7 +13836,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13390,11 +13876,14 @@
         "tier": "general",
         "value": 61.23,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13466,7 +13955,7 @@
         "tier": "general",
         "value": 4.82,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -13508,7 +13997,10 @@
               ]
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13589,7 +14081,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -13607,7 +14099,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13644,11 +14139,14 @@
         "tier": "general",
         "value": 74.25,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13720,7 +14218,7 @@
         "tier": "general",
         "value": 0,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -13737,7 +14235,10 @@
               "estimate": false
             }
           }
-        }
+        },
+        "publishedThrough": "2027-01-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13818,7 +14319,7 @@
         "tier": "general",
         "value": 306,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.usda.gov/sites/default/files/guidance-documents/fna.snap-cola2027.pdf",
         "retrieved": "2026-10-10",
         "estimate": false,
@@ -13836,7 +14337,10 @@
             "8": 1841
           },
           "additionalPerson": 225
-        }
+        },
+        "publishedThrough": "2027-10-01",
+        "standing": "7 U.S.C. 2017(a) sets the allotment as standing law; the maximum is adjusted each October 1 to the Thrifty Food Plan.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13873,11 +14377,14 @@
         "tier": "general",
         "value": 50,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-10-01",
+        "endDate": null,
         "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
         "retrieved": "2026-10-10",
         "estimate": false,
-        "unit": "percent"
+        "unit": "percent",
+        "publishedThrough": "2027-10-01",
+        "standing": "42 U.S.C. 1396d(b) sets the match by a standing formula, recomputed each federal fiscal year from state income.",
+        "indexed": true
       },
       {
         "level": "state",
@@ -13930,13 +14437,16 @@
         "tier": "general",
         "value": 1847,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": true },
-        "note": "Los Angeles County (unincorporated)"
+        "note": "Los Angeles County (unincorporated)",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "county:06081": [
@@ -13946,13 +14456,16 @@
         "tier": "general",
         "value": 1795,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": true },
-        "note": "San Mateo County (unincorporated)"
+        "note": "San Mateo County (unincorporated)",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "county:08013": [
@@ -13962,13 +14475,16 @@
         "tier": "general",
         "value": 1682,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://assets.bouldercounty.gov/wp-content/uploads/2025/11/ordinance-2025-X_amending-local-minimum-wage-requirements.pdf; https://www.hivedesk.com/compliance/united-states/minimum-wage-colorado",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": true },
-        "note": "Boulder County (unincorporated)"
+        "note": "Boulder County (unincorporated)",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "county:17031": [
@@ -13992,13 +14508,16 @@
         "tier": "general",
         "value": 1540,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://www.cookcountyil.gov/service/minimum-wage-ordinance-and-regulations; https://abc7chicago.com/post/illinois-minimum-wage-chicago-cook-county-increases-take-effect-wednesday/19427463/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Cook County"
+        "note": "Cook County",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "county:18001": [
@@ -15734,7 +16253,7 @@
         "tier": "general",
         "value": 1600,
         "effectiveDate": "2025-01-01",
-        "endDate": "2026-07-01",
+        "endDate": null,
         "source": "https://www.howardcountymd.gov/finance/minimum-wage; https://www.nfib.com/news/news/local-minimum-wage-increase-on-july-1-2026/",
         "retrieved": "2026-10-12",
         "estimate": true,
@@ -15743,7 +16262,10 @@
           "coversUnincorporatedOnly": false,
           "smallEmployerRate": 15.5
         },
-        "note": "Howard County"
+        "note": "Howard County",
+        "publishedThrough": "2026-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "county",
@@ -15809,7 +16331,7 @@
         "tier": "general",
         "value": 1800,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://labor.maryland.gov/labor/wages/wagehrfacts.shtml",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -15819,7 +16341,10 @@
           "smallEmployerRate": 15.95,
           "midEmployerRate": 16.5
         },
-        "note": "Montgomery County"
+        "note": "Montgomery County",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "county",
@@ -16101,13 +16626,16 @@
         "tier": "general",
         "value": 1540,
         "effectiveDate": "2026-03-01",
-        "endDate": "2027-03-01",
+        "endDate": null,
         "source": "https://www.santafecountynm.gov/news/detail/santa-fe-county-announces-2026-living-wage-adjustments",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": true },
-        "note": "Santa Fe County (unincorporated)"
+        "note": "Santa Fe County (unincorporated)",
+        "publishedThrough": "2027-03-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "county:41051": [
@@ -16137,7 +16665,7 @@
         "tier": "general",
         "value": 2082,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -16147,7 +16675,10 @@
           "smallEmployerRate": 18.32,
           "midEmployerRate": 19.82
         },
-        "note": "King County (unincorporated)"
+        "note": "King County (unincorporated)",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0107000": [
@@ -16247,13 +16778,16 @@
         "tier": "general",
         "value": 1835,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.flagstaff.az.gov/3651/Minimum-Wage; https://www.azfamily.com/2026/01/01/flagstaff-minimum-wage-rises-1835-remaining-highest-state/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Flagstaff"
+        "note": "Flagstaff",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0455000": [
@@ -16282,13 +16816,16 @@
         "tier": "general",
         "value": 1545,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.tucsonaz.gov/Departments/Business-Services/Minimum-Wage; https://www.nfib.com/news/news/new-year-brings-increases-to-arizonas-minimum-wage/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Tucson"
+        "note": "Tucson",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0541000": [
@@ -16331,13 +16868,16 @@
         "tier": "general",
         "value": 1776,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Alameda"
+        "note": "Alameda",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0605108": [
@@ -16347,13 +16887,16 @@
         "tier": "general",
         "value": 1895,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Belmont"
+        "note": "Belmont",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0606000": [
@@ -16377,13 +16920,16 @@
         "tier": "general",
         "value": 1961,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Berkeley"
+        "note": "Berkeley",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0609066": [
@@ -16393,13 +16939,16 @@
         "tier": "general",
         "value": 1786,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Burlingame"
+        "note": "Burlingame",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0617610": [
@@ -16409,13 +16958,16 @@
         "tier": "general",
         "value": 1870,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Cupertino"
+        "note": "Cupertino",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0617918": [
@@ -16425,13 +16977,16 @@
         "tier": "general",
         "value": 1750,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Daly City"
+        "note": "Daly City",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0620956": [
@@ -16441,13 +16996,16 @@
         "tier": "general",
         "value": 1790,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "East Palo Alto"
+        "note": "East Palo Alto",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0621796": [
@@ -16457,13 +17015,16 @@
         "tier": "general",
         "value": 1882,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "El Cerrito"
+        "note": "El Cerrito",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0622594": [
@@ -16487,13 +17048,16 @@
         "tier": "general",
         "value": 2034,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Emeryville"
+        "note": "Emeryville",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0625338": [
@@ -16503,13 +17067,16 @@
         "tier": "general",
         "value": 1785,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Foster City"
+        "note": "Foster City",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0626000": [
@@ -16533,13 +17100,16 @@
         "tier": "general",
         "value": 1805,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Fremont"
+        "note": "Fremont",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0631708": [
@@ -16549,13 +17119,16 @@
         "tier": "general",
         "value": 1791,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Half Moon Bay"
+        "note": "Half Moon Bay",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0633000": [
@@ -16565,7 +17138,7 @@
         "tier": "general",
         "value": 1779,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -16574,7 +17147,10 @@
           "coversUnincorporatedOnly": false,
           "smallEmployerRate": 16.9
         },
-        "note": "Hayward"
+        "note": "Hayward",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0643280": [
@@ -16584,13 +17160,16 @@
         "tier": "general",
         "value": 1870,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Los Altos"
+        "note": "Los Altos",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0644000": [
@@ -16614,13 +17193,16 @@
         "tier": "general",
         "value": 1842,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Los Angeles"
+        "note": "Los Angeles",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -16661,13 +17243,16 @@
         "tier": "general",
         "value": 1791,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Malibu"
+        "note": "Malibu",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0646870": [
@@ -16677,13 +17262,16 @@
         "tier": "general",
         "value": 1755,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Menlo Park"
+        "note": "Menlo Park",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0647766": [
@@ -16707,13 +17295,16 @@
         "tier": "general",
         "value": 1850,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Milpitas"
+        "note": "Milpitas",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0649670": [
@@ -16723,13 +17314,16 @@
         "tier": "general",
         "value": 1970,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Mountain View"
+        "note": "Mountain View",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0652582": [
@@ -16739,7 +17333,7 @@
         "tier": "general",
         "value": 1746,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -16748,7 +17342,10 @@
           "coversUnincorporatedOnly": false,
           "smallEmployerRate": 16.9
         },
-        "note": "Novato"
+        "note": "Novato",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0653000": [
@@ -16758,13 +17355,16 @@
         "tier": "general",
         "value": 1734,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Oakland"
+        "note": "Oakland",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0655282": [
@@ -16774,13 +17374,16 @@
         "tier": "general",
         "value": 1870,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Palo Alto"
+        "note": "Palo Alto",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0656000": [
@@ -16804,13 +17407,16 @@
         "tier": "general",
         "value": 1857,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Pasadena"
+        "note": "Pasadena",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0656784": [
@@ -16820,13 +17426,16 @@
         "tier": "general",
         "value": 1831,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Petaluma"
+        "note": "Petaluma",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0660102": [
@@ -16836,13 +17445,16 @@
         "tier": "general",
         "value": 1865,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Redwood City"
+        "note": "Redwood City",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0660620": [
@@ -16852,13 +17464,16 @@
         "tier": "general",
         "value": 1918,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Richmond"
+        "note": "Richmond",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0665070": [
@@ -16868,13 +17483,16 @@
         "tier": "general",
         "value": 1775,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "San Carlos"
+        "note": "San Carlos",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0666000": [
@@ -16884,13 +17502,16 @@
         "tier": "general",
         "value": 1775,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "San Diego"
+        "note": "San Diego",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -16931,13 +17552,16 @@
         "tier": "general",
         "value": 1961,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "San Francisco"
+        "note": "San Francisco",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0668000": [
@@ -16947,13 +17571,16 @@
         "tier": "general",
         "value": 1845,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "San Jose"
+        "note": "San Jose",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0668084": [
@@ -16963,13 +17590,16 @@
         "tier": "general",
         "value": 1690,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": true,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "San Leandro"
+        "note": "San Leandro",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0668252": [
@@ -16979,13 +17609,16 @@
         "tier": "general",
         "value": 1860,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "San Mateo"
+        "note": "San Mateo",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0669084": [
@@ -16995,13 +17628,16 @@
         "tier": "general",
         "value": 1870,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Santa Clara"
+        "note": "Santa Clara",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0670000": [
@@ -17025,13 +17661,16 @@
         "tier": "general",
         "value": 1847,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/inventory-of-us-city-and-county-minimum-wage-ordinances/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Santa Monica"
+        "note": "Santa Monica",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0670098": [
@@ -17041,13 +17680,16 @@
         "tier": "general",
         "value": 1821,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Santa Rosa"
+        "note": "Santa Rosa",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0672646": [
@@ -17057,7 +17699,7 @@
         "tier": "general",
         "value": 1847,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -17066,7 +17708,10 @@
           "coversUnincorporatedOnly": false,
           "smallEmployerRate": 17.38
         },
-        "note": "Sonoma"
+        "note": "Sonoma",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0673262": [
@@ -17076,13 +17721,16 @@
         "tier": "general",
         "value": 1815,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "South San Francisco"
+        "note": "South San Francisco",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0677000": [
@@ -17092,13 +17740,16 @@
         "tier": "general",
         "value": 1950,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Sunnyvale"
+        "note": "Sunnyvale",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0684410": [
@@ -17108,13 +17759,16 @@
         "tier": "general",
         "value": 2025,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://laborcenter.berkeley.edu/california-city-and-county-minimum-wage-rates-archive/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "West Hollywood"
+        "note": "West Hollywood",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0807850": [
@@ -17124,13 +17778,16 @@
         "tier": "general",
         "value": 1682,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.hivedesk.com/compliance/united-states/minimum-wage-colorado",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Boulder"
+        "note": "Boulder",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0820000": [
@@ -17140,13 +17797,16 @@
         "tier": "general",
         "value": 1929,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://denverlabor.org/minimum-wage/ (rate corroborated by https://www.hivedesk.com/compliance/united-states/minimum-wage-colorado)",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Denver"
+        "note": "Denver",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -17187,13 +17847,16 @@
         "tier": "general",
         "value": 1817,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.hivedesk.com/compliance/united-states/minimum-wage-colorado",
         "retrieved": "2026-10-12",
         "estimate": true,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Edgewater"
+        "note": "Edgewater",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:0830340": [
@@ -17431,13 +18094,16 @@
         "tier": "general",
         "value": 1705,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://www.chicago.gov/city/en/depts/bacp/supp_info/minimumwageinformation.html; https://abc7chicago.com/post/illinois-minimum-wage-chicago-cook-county-increases-take-effect-wednesday/19427463/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Chicago"
+        "note": "Chicago",
+        "publishedThrough": "2027-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -17589,13 +18255,16 @@
         "tier": "general",
         "value": 1675,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.fisherphillips.com/en/insights/insights/voters-pass-more-wage-hikes-in-portland-maine",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Portland"
+        "note": "Portland",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -17622,13 +18291,16 @@
         "tier": "general",
         "value": 1600,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://news.bloombergtax.com/payroll/rockland-maine-minimum-wage-rising-to-16-for-2026",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Rockland"
+        "note": "Rockland",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:2404000": [
@@ -17893,13 +18565,16 @@
         "tier": "general",
         "value": 1637,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.minneapolismn.gov/business-services/labor-standards/minimum-wage/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Minneapolis"
+        "note": "Minneapolis",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -17926,7 +18601,7 @@
         "tier": "general",
         "value": 1637,
         "effectiveDate": "2026-01-01",
-        "endDate": "2026-07-01",
+        "endDate": null,
         "source": "https://www.stpaul.gov/minimumwage",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -17936,7 +18611,10 @@
           "smallEmployerRate": 15.0,
           "microEmployerRate": 13.25
         },
-        "note": "Saint Paul"
+        "note": "Saint Paul",
+        "publishedThrough": "2026-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:2836000": [
@@ -18036,13 +18714,16 @@
         "tier": "general",
         "value": 1500,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://nebraskaexaminer.com/2026/07/17/lancaster-district-judge-grants-injunction-in-state-lawsuit-against-lincolns-minimum-wage-ordinance/",
         "retrieved": "2026-10-12",
         "estimate": true,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Lincoln"
+        "note": "Lincoln",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:3137000": [
@@ -18052,13 +18733,16 @@
         "tier": "general",
         "value": 1500,
         "effectiveDate": "2026-10-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.wowt.com/2026/09/28/omaha-judge-rules-ag-hilgers-injunction-minimum-wage-law/",
         "retrieved": "2026-10-12",
         "estimate": true,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Omaha"
+        "note": "Omaha",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -18172,13 +18856,16 @@
         "tier": "general",
         "value": 1200,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.cabq.gov/quick-navigation/minimum-wage",
         "retrieved": "2026-10-12",
         "estimate": true,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Albuquerque"
+        "note": "Albuquerque",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -18205,13 +18892,16 @@
         "tier": "general",
         "value": 1301,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://www.abqjournal.com/news/las-cruces-minimum-wage-tops-13/2951734",
         "retrieved": "2026-10-12",
         "estimate": true,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Las Cruces"
+        "note": "Las Cruces",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:3570500": [
@@ -18235,13 +18925,16 @@
         "tier": "general",
         "value": 1540,
         "effectiveDate": "2026-03-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://santafenm.gov/economic-development/living-wage-in-the-city-of-santa-fe",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Santa Fe"
+        "note": "Santa Fe",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:3611000": [
@@ -18575,13 +19268,16 @@
         "tier": "general",
         "value": 3.735,
         "effectiveDate": "2026-07-01",
-        "endDate": "2027-07-01",
+        "endDate": null,
         "source": "https://www.phila.gov/services/payments-assistance-taxes/business-taxes/wage-tax-employers/",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "percent-flat",
         "terms": { "nonresidentRate": 3.425, "base": "wages", "kind": "city" },
-        "note": "Philadelphia"
+        "note": "Philadelphia",
+        "publishedThrough": "2027-07-01",
+        "standing": "The rate schedule is standing law and stays in force until a law changes it; the bracket edges are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -18828,13 +19524,16 @@
         "tier": "general",
         "value": 1913,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Bellingham"
+        "note": "Bellingham",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:5308850": [
@@ -18844,7 +19543,7 @@
         "tier": "general",
         "value": 2163,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -18853,7 +19552,10 @@
           "coversUnincorporatedOnly": false,
           "midEmployerRate": 20.63
         },
-        "note": "Burien"
+        "note": "Burien",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:5322640": [
@@ -18863,7 +19565,7 @@
         "tier": "general",
         "value": 2077,
         "effectiveDate": "2026-01-01",
-        "endDate": "2026-07-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -18872,7 +19574,10 @@
           "coversUnincorporatedOnly": false,
           "midEmployerRate": 18.77
         },
-        "note": "Everett"
+        "note": "Everett",
+        "publishedThrough": "2026-07-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:5357745": [
@@ -18882,7 +19587,7 @@
         "tier": "general",
         "value": 2157,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
@@ -18891,7 +19596,10 @@
           "coversUnincorporatedOnly": false,
           "midEmployerRate": 20.57
         },
-        "note": "Renton"
+        "note": "Renton",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:5362288": [
@@ -18901,13 +19609,16 @@
         "tier": "general",
         "value": 2074,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "SeaTac"
+        "note": "SeaTac",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:5363000": [
@@ -18917,13 +19628,16 @@
         "tier": "general",
         "value": 2130,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Seattle"
+        "note": "Seattle",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       },
       {
         "level": "city",
@@ -18950,13 +19664,16 @@
         "tier": "general",
         "value": 2165,
         "effectiveDate": "2026-01-01",
-        "endDate": "2027-01-01",
+        "endDate": null,
         "source": "https://lni.wa.gov/workers-rights/wages/minimum-wage/local-minimum-wage-rates",
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "minor/hour",
         "terms": { "coversUnincorporatedOnly": false },
-        "note": "Tukwila"
+        "note": "Tukwila",
+        "publishedThrough": "2027-01-01",
+        "standing": "The wage ordinance or statute is standing law and stays in force until a law changes it; many local rates are indexed each year.",
+        "indexed": true
       }
     ],
     "place:5414600": [

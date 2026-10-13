@@ -2801,5 +2801,17 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-indexed-law-held-flat",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/laws.ts",
+    "line": 85,
+    "whatItFakes": "A starting-law row whose figure is indexed each year (income-tax bracket edges, the Social Security wage base, SNAP maximums, the Medicaid match, indexed local minimum wages) stays at its last published figure after the period its source covers.",
+    "why": "The 2027 and later figures are not published at the opening, and no engine indexes law to the game's own inflation yet (PW-4 step 1 carries the standing law forward so taxes and benefits don't stop).",
+    "addedBy": "PW-4 (OPUS-GOV area)",
+    "addedAt": "2026-10-13",
+    "replacement": "An indexing step in the laws module that writes each indexed series' next-year row from the game's own price index on the series' adjustment date, citing the indexing statute named in the row's standing field.",
+    "status": "open"
   }
 ]
