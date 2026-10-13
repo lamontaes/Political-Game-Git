@@ -104,8 +104,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "every module": { owner: "FIXER-WIRE-ALL-MODULES" },
   "player turns 18": { owner: "FIXER-PLAYER-START" },
   "school-age people attend school": { owner: "OPUS-CORE" },
-  "taxes are withheld after January 1": { owner: "FIXER-TAXES-BUDGETS" },
-  "a passed budget changes spending": { owner: "FIXER-TAXES-BUDGETS" },
   // State and federal terms are filled since races elsewhere run in the
   // played world; some towns still leave local terms unfilled.
   "every ended term is filled": {
@@ -435,7 +433,10 @@ function playWorld(seed: string) {
       !budgets.some((adopted) => {
         if (
           adopted.adoptedOn < String(bill.introduced) ||
-          !adopted.adoptedBy.endsWith(`, ${String(bill.number)}`)
+          // Amendments after adoption are appended ("; amended by ...").
+          !adopted.adoptedBy
+            .split("; ")[0]!
+            .endsWith(`, ${String(bill.number)}`)
         )
           return false;
         const before = budgetsOf(api, adopted.governmentId)
