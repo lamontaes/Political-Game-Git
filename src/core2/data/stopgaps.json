@@ -1134,7 +1134,7 @@
     "id": "SG-GOV-budget-adopted-by-rule",
     "kind": "missing-engine",
     "file": "src/core2/modules/budgets.ts",
-    "line": 457,
+    "line": 596,
     "whatItFakes": "Each new fiscal year's budget is adopted on its start date by carrying the year's amounts forward.",
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
@@ -2812,6 +2812,18 @@
     "addedBy": "PW-4 (OPUS-GOV area)",
     "addedAt": "2026-10-13",
     "replacement": "An indexing step in the laws module that writes each indexed series' next-year row from the game's own price index on the series' adjustment date, citing the indexing statute named in the row's standing field.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-public-pay-not-from-treasury",
+    "kind": "missing-core-api",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 821,
+    "whatItFakes": "A public employer's payroll is booked against its government's spending line in force (draws), but the cash still comes from the opening's outside public payer, not from the government's treasury.",
+    "why": "The core's fundPublicPay accepts only an organization of kind \"government\", and the budgets treasuries are \"government-treasury\" (elections routes filing fees by that kind), so no public pay authority can be linked to a treasury from the budgets module.",
+    "addedBy": "PW-4 (OPUS-GOV area)",
+    "addedAt": "2026-10-13",
+    "replacement": "OPUS-CORE lets fundPublicPay accept a budgets treasury; the budgets module links each public pay authority to its government's treasury, so each payroll payment moves the treasury's cash under the line it is booked against.",
     "status": "open"
   }
 ]

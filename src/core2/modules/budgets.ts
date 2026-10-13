@@ -11,9 +11,14 @@
  *   resident times its residents, and the Treasury's fiscal 2025 statement for
  *   the federal government. Local spending is shared between county and city
  *   by function (stand-in: SG-GOV-local-budget-split). Each new fiscal year's
- *   budget is adopted on its start date by the old rule (carry the year's
- *   amounts forward) until a council or legislature votes it (M3):
- *   SG-GOV-budget-adopted-by-rule.
+ *   budget is voted on its start date by the government's legislature; where
+ *   none sits, the old rule carries the lines forward:
+ *   SG-GOV-budget-adopted-by-rule. A passed budget bill's line changes join
+ *   the government's enacted lines, which every later year starts from; a
+ *   failed one leaves the enacted lines in force. Each line that moves is
+ *   announced, so what it pays for (staff pay, benefits) follows it.
+ * - Draws: each public payroll payment is booked against its government's
+ *   spending line in force that fiscal year (`draws`, `spent`).
  * - Withholding: each paycheck's income, Social Security and Medicare taxes,
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
@@ -21,6 +26,7 @@
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import payrollLines from "../data/budgets/payroll-lines.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { stopgap } from "../stopgaps";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
@@ -124,6 +130,12 @@ export const BUDGETS_MODULE: CoreModule = {
       budgets: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       withholding: { indexes: { byPerson: { fields: ["personId"] } } },
       priorities: {},
+      /** Each government's line changes from every budget bill it enacted. */
+      enacted: {},
+      /** Each public payroll payment, booked against the line in force. */
+      draws: { indexes: { byBudgetLine: { fields: ["budgetId", "line"] } } },
+      /** Each budget line's draws to date, by budget and line. */
+      spent: {},
       yearToDate: {},
     },
   },
@@ -131,7 +143,10 @@ export const BUDGETS_MODULE: CoreModule = {
     [WITHHOLDING_KIND]: (api, reference) => withholdingSlot(api, reference.id),
   },
   onCalendarWork: adoptBudget,
-  onWorkPayroll: withhold,
+  onWorkPayroll: (api, receipt) => {
+    withhold(api, receipt);
+    drawOnLine(api, receipt);
+  },
 };
 
 function table(api: CoreAPI, name: string) {
@@ -405,27 +420,151 @@ export function budgetPriorities(
 }
 
 /**
- * The next year's budget as proposed: this year's lines carried forward, with
- * the executive's priorities applied. The legislature engine votes it.
+ * A year's budget at its base: the researched amounts, before any budget
+ * bill. Law reach measures a line's service level against it.
+ */
+export function baseBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy = "base",
+): BudgetRow {
+  return budgetFor(gov, lawChain(api).stateKey, fy, api.state.date, adoptedBy);
+}
+
+/** The line changes every budget bill a government enacted has made. */
+export function enactedBudgetChanges(
+  api: CoreAPI,
+  governmentId: string,
+): Readonly<Record<string, number>> {
+  return (
+    (
+      table(api, "enacted").get(governmentId) as unknown as
+        { changes: Record<string, number> } | undefined
+    )?.changes ?? {}
+  );
+}
+
+/**
+ * The next year's budget as proposed: the base with the enacted lines
+ * carried forward and the given changes (by default the year's stored
+ * priorities) applied. The legislature engine votes it.
  */
 export function proposedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
   adoptedBy: string,
+  changes: Readonly<Record<string, number>> = budgetPriorities(api, gov.id)
+    ?.changes ?? {},
 ): BudgetRow {
-  const base = budgetFor(
-    gov,
-    lawChain(api).stateKey,
-    fy,
-    api.state.date,
-    adoptedBy,
-  );
-  const changes = budgetPriorities(api, gov.id)?.changes ?? {};
+  const base = baseBudget(api, gov, fy, adoptedBy);
   const spending = { ...base.spendingMinor };
-  for (const [line, delta] of Object.entries(changes))
-    spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  for (const set of [enactedBudgetChanges(api, gov.id), changes])
+    for (const [line, delta] of Object.entries(set))
+      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
   return { ...base, spendingMinor: spending };
+}
+
+/**
+ * A passed budget bill: its line changes join the government's enacted
+ * lines, and the year's budget in force is the base with them.
+ */
+export function enactBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+  changes: Readonly<Record<string, number>>,
+  measureId: string,
+): BudgetRow {
+  const enacted = { ...enactedBudgetChanges(api, gov.id) };
+  for (const [line, delta] of Object.entries(changes))
+    enacted[line] = (enacted[line] ?? 0) + delta;
+  table(api, "enacted").put({
+    id: gov.id,
+    changes: enacted,
+  } as unknown as ModuleRow);
+  return putInForce(
+    api,
+    proposedBudget(api, gov, fy, adoptedBy, {}),
+    measureId,
+  );
+}
+
+/** A year's budget when no bill passes: the enacted lines carried forward. */
+export function carriedBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+  measureId: string,
+): BudgetRow {
+  return putInForce(
+    api,
+    proposedBudget(api, gov, fy, adoptedBy, {}),
+    measureId,
+  );
+}
+
+/**
+ * Put a new fiscal year's budget in force and announce each line that differs
+ * from last year's, so what the line pays for follows it (law reach).
+ */
+function putInForce(
+  api: CoreAPI,
+  budget: BudgetRow,
+  measureId: string,
+): BudgetRow {
+  const prior = table(api, "budgets").get(
+    `budget:${budget.governmentId}:${budget.fiscalYear - 1}`,
+  ) as unknown as BudgetRow | undefined;
+  putBudget(api, budget);
+  if (!prior) return budget;
+  const gov = table(api, "governments").get(
+    budget.governmentId,
+  ) as unknown as GovernmentRow;
+  const lines = new Set([
+    ...Object.keys(prior.spendingMinor),
+    ...Object.keys(budget.spendingMinor),
+  ]);
+  for (const line of [...lines].sort()) {
+    const delta =
+      (budget.spendingMinor[line] ?? 0) - (prior.spendingMinor[line] ?? 0);
+    if (delta) announceLine(api, gov, budget, line, delta, measureId);
+  }
+  return budget;
+}
+
+function announceLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  line: string,
+  deltaMinor: number,
+  measureId: string,
+): void {
+  api.emit({
+    id: `budget-line-changed:${budget.id}:${line}:${measureId}`,
+    date: api.state.date,
+    kind: "budget-line-changed",
+    personIds: [],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Budget ${budget.id} adopted by ${budget.adoptedBy}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: false,
+    facts: {
+      governmentId: gov.id,
+      level: gov.level,
+      line,
+      deltaMinor: String(deltaMinor),
+      measureId,
+    },
+  });
 }
 
 export function putBudget(api: CoreAPI, budget: BudgetRow): void {
@@ -455,14 +594,13 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   else {
     // stopgapId: SG-GOV-budget-adopted-by-rule
     api.stopgap("SG-GOV-budget-adopted-by-rule");
-    budget = budgetFor(
+    budget = carriedBudget(
+      api,
       gov,
-      lawChain(api).stateKey,
       fy,
-      api.state.date,
       "carried forward by the budget rule until the council or legislature votes it",
+      `budget-rule:${gov.id}:${fy}`,
     );
-    table(api, "budgets").put(budget as unknown as ModuleRow);
   }
   api.emit({
     id: `budget-adopted:${budget.id}`,
@@ -568,6 +706,131 @@ function withhold(
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
   });
+}
+
+const PAYROLL_LINES = (
+  payrollLines as unknown as {
+    classifications: Record<
+      string,
+      { level: GovernmentRow["level"]; lines: readonly string[] }
+    >;
+  }
+).classifications;
+const LEVELS_UP: readonly GovernmentRow["level"][] = [
+  "city",
+  "county",
+  "state",
+  "federal",
+];
+
+/** A government's budget in force today: the latest one that has started. */
+export function budgetInForce(
+  api: CoreAPI,
+  governmentId: string,
+): BudgetRow | undefined {
+  const today = api.state.date;
+  return budgetsOf(api, governmentId)
+    .filter((b) => b.startsOn <= today)
+    .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
+}
+
+export interface DrawRecord {
+  readonly id: string;
+  readonly date: string;
+  readonly payrollReceiptId: string;
+  readonly personId: string;
+  readonly organizationId: string;
+  readonly governmentId: string;
+  readonly budgetId: string;
+  readonly fiscalYear: number;
+  /** The line drawn on, or null where the budget carries none for this work. */
+  readonly line: string | null;
+  readonly lineMinor: number;
+  readonly drawnMinor: number;
+  readonly drawnToDateMinor: number;
+}
+
+/** The government whose payroll this employer is, from its record or its kind. */
+function payrollGovernment(
+  api: CoreAPI,
+  organizationId: string,
+): { gov: GovernmentRow; lines: readonly string[] } | null {
+  const org = api.state.organizations.get(organizationId);
+  const rule = PAYROLL_LINES[org?.classification ?? ""];
+  if (!org || !rule) return null;
+  const govs = governments(api);
+  const key = org.governmentFacts?.governmentKey;
+  const recorded = key
+    ? govs.find(
+        (g) =>
+          api.state.organizations.get(g.organizationId)?.governmentFacts
+            ?.governmentKey === key,
+      )
+    : undefined;
+  if (recorded) return { gov: recorded, lines: rule.lines };
+  for (const level of LEVELS_UP.slice(LEVELS_UP.indexOf(rule.level))) {
+    const gov = govs.find((g) => g.level === level);
+    if (gov) return { gov, lines: rule.lines };
+  }
+  return null;
+}
+
+/**
+ * On payday: a public employer's payroll payment is spending under its
+ * government's line in force this fiscal year, booked against it.
+ */
+function drawOnLine(
+  api: CoreAPI,
+  receipt: Readonly<WorkPayrollJournalReceipt>,
+): void {
+  if (receipt.paidMinor <= 0) return;
+  const payer = payrollGovernment(api, receipt.organizationId);
+  if (!payer) return;
+  const budget = budgetInForce(api, payer.gov.id);
+  if (!budget) return;
+  const line = payer.lines.find((l) => l in budget.spendingMinor) ?? null;
+  const spentId = `${budget.id}:${line ?? "none"}`;
+  const before =
+    (
+      table(api, "spent").get(spentId) as unknown as
+        { minor: number } | undefined
+    )?.minor ?? 0;
+  const drawn = before + receipt.paidMinor;
+  table(api, "spent").put({
+    id: spentId,
+    budgetId: budget.id,
+    line,
+    minor: drawn,
+  } as unknown as ModuleRow);
+  const record: DrawRecord = {
+    id: `draw:${receipt.id}`,
+    date: api.state.date,
+    payrollReceiptId: receipt.id,
+    personId: receipt.personId,
+    organizationId: receipt.organizationId,
+    governmentId: payer.gov.id,
+    budgetId: budget.id,
+    fiscalYear: budget.fiscalYear,
+    line,
+    lineMinor: line ? (budget.spendingMinor[line] ?? 0) : 0,
+    drawnMinor: receipt.paidMinor,
+    drawnToDateMinor: drawn,
+  };
+  table(api, "draws").put(record as unknown as ModuleRow);
+  // stopgapId: SG-GOV-public-pay-not-from-treasury
+  api.stopgap("SG-GOV-public-pay-not-from-treasury");
+}
+
+/** Every payroll payment booked against one line of one budget. */
+export function drawsOn(
+  api: CoreAPI,
+  budgetId: string,
+  line: string,
+): readonly DrawRecord[] {
+  return table(api, "draws").query("byBudgetLine", [
+    budgetId,
+    line,
+  ]) as unknown as DrawRecord[];
 }
 
 /**

@@ -20,10 +20,9 @@ import type { PolicyHandler } from "../modules/law-effects";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  budgetPriorities,
   budgetsOf,
   governments,
-  proposedBudget,
+  baseBudget,
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
@@ -83,17 +82,17 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the base budget less the executive's priorities. */
+/** A line's amount at its base: the researched budget before any budget bill or amendment. */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  const base = proposedBudget(api, gov, budget.fiscalYear, "base")
-    .spendingMinor[line];
-  const priority = budgetPriorities(api, gov.id)?.changes[line] ?? 0;
-  return Math.max(0, (base ?? 0) - priority);
+  return Math.max(
+    0,
+    baseBudget(api, gov, budget.fiscalYear).spendingMinor[line] ?? 0,
+  );
 }
 
 // --- paid family leave -------------------------------------------------------------

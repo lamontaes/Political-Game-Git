@@ -1,0 +1,37 @@
+{
+  "id": "public-payroll-lines",
+  "about": "Which government's spending line a public employer's payroll is spending under, by the employer's classification. A payroll payment is booked against the first listed line the government's budget in force carries; an employer whose government is recorded (governmentFacts.governmentKey) books against that government, else the listed level, else the next level up that covers the town.",
+  "source": "U.S. Census Bureau, Annual Survey of State and Local Government Finances, Government Finance and Employment Classification Manual (2006), functional categories: financial administration and general control, police protection, fire protection, elementary and secondary education, health, corrections; compensation of a function's employees is current operation spending under that function.",
+  "classifications": {
+    "service:municipal-government": {
+      "level": "city",
+      "lines": ["administration"]
+    },
+    "sector:local-government-office": {
+      "level": "city",
+      "lines": ["administration"]
+    },
+    "service:county-government": {
+      "level": "county",
+      "lines": ["administration", "otherPrograms"]
+    },
+    "service:police": { "level": "city", "lines": ["police"] },
+    "service:fire": { "level": "city", "lines": ["fire"] },
+    "service:school": { "level": "city", "lines": ["schools"] },
+    "service:public-school": { "level": "city", "lines": ["schools"] },
+    "service:public-health": {
+      "level": "county",
+      "lines": ["healthAndHospitals"]
+    },
+    "service:corrections": { "level": "county", "lines": ["corrections"] },
+    "service:jail": { "level": "county", "lines": ["corrections"] },
+    "sector:state-government-office": {
+      "level": "state",
+      "lines": ["administration"]
+    },
+    "sector:federal-government-office": {
+      "level": "federal",
+      "lines": ["otherPrograms"]
+    }
+  }
+}

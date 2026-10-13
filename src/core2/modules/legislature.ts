@@ -38,8 +38,8 @@ import { recordVote } from "./record";
 import {
   amendBudget,
   budgetPriorities,
-  proposedBudget,
-  putBudget,
+  carriedBudget,
+  enactBudget,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -254,20 +254,24 @@ function councilBudget(
     }
   }
   const votes = tallies.join(", ");
-  const proposal = proposedBudget(
-    api,
-    gov,
-    fy,
-    `${chambers.body} vote ${votes}, ${bill.number}`,
-  );
+  // A passed bill's own line changes become the budget in force; a failed one
+  // leaves the lines already enacted in force (budgets.ts).
   const budget: BudgetRow = adopted
-    ? proposal
-    : {
-        ...proposal,
-        spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
-        adoptedBy: `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      };
-  putBudget(api, budget);
+    ? enactBudget(
+        api,
+        gov,
+        fy,
+        `${chambers.body} vote ${votes}, ${bill.number}`,
+        priorities?.changes ?? {},
+        bill.id,
+      )
+    : carriedBudget(
+        api,
+        gov,
+        fy,
+        `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
+        bill.id,
+      );
   table(api, "bills").put({
     ...bill,
     kind: "budget",
