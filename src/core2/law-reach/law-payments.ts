@@ -381,9 +381,67 @@ function paySnap(api: CoreAPI, town: string): void {
   }
 }
 
+/**
+ * Each person a law paid this month carries the payment as a law effect on
+ * their record (since their first payment), ended when the law stops paying
+ * them, so their record and the law's "who it reaches" show it.
+ */
+function markPaid(
+  api: CoreAPI,
+  key: string,
+  what: string,
+  enforcer: string,
+): void {
+  const date = api.state.date;
+  const applied = api.moduleState("core2-law-effects-v1").table("applied");
+  const paid = new Map<string, string>();
+  for (const record of api
+    .moduleState("core2-law-effects-v1")
+    .table("records")
+    .query("byLaw", [lawInForce(api, key).governing?.id ?? ""]) as unknown as {
+    kind: string;
+    named: boolean;
+    date: string;
+    recipientId: string;
+    lawId: string;
+  }[])
+    if (record.kind === "payment" && record.named && record.date === date)
+      paid.set(record.recipientId, record.lawId);
+  const open = applied.query("byQuestion", [key, null]) as unknown as {
+    id: string;
+    personId: string;
+  }[];
+  for (const row of open)
+    if (!paid.has(row.personId))
+      applied.put({ ...row, endedOn: date } as never);
+  const holding = new Set(open.map((row) => row.personId));
+  for (const [personId, lawId] of paid) {
+    if (holding.has(personId)) continue;
+    applied.put({
+      id: `effect:${lawId}:${personId}:${date}`,
+      personId,
+      lawId,
+      question: key,
+      kind: "payment",
+      what,
+      enforcer,
+      penalty: "",
+      since: date,
+      endedOn: null,
+    } as never);
+  }
+}
+
 /** The month's law payments: SNAP paid, unemployment benefits recorded. */
 export function payLaws(api: CoreAPI): void {
   const town = lawChain(api).townPlaceId;
   paySnap(api, town);
+  markPaid(api, SNAP_KEY, "SNAP allotment", "the state's SNAP agency");
   recordUnemployment(api, town);
+  markPaid(
+    api,
+    UI_KEY,
+    "unemployment benefit",
+    "the state's unemployment insurance agency",
+  );
 }

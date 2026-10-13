@@ -41,7 +41,14 @@ export const LAW_EFFECTS_MODULE_ID = "core2-law-effects-v1";
 const REVIEW_KIND = "law-effects-review";
 
 interface Effect {
-  readonly kind: "eligibility" | "right" | "compliance" | "price" | "rule";
+  readonly kind:
+    | "eligibility"
+    | "right"
+    | "compliance"
+    | "price"
+    | "rule"
+    | "payment"
+    | "service";
   readonly reaches: {
     readonly ageFrom?: number;
     readonly ageBelow?: number;

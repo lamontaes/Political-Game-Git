@@ -353,6 +353,17 @@ export function auditLawReach(api: CoreAPI): LawReachRow[] {
       r.governments.size > 0 ||
       r.lines.size > 0;
     const fact = reached ? null : placeFact(api, cls, row, facts);
+    // The law row carries the finding too, for anything that reads the law.
+    const flagged = (row as { noLocalEffect?: boolean }).noLocalEffect === true;
+    if (Boolean(fact) !== flagged)
+      api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .put({
+          ...row,
+          noLocalEffect: Boolean(fact),
+          noLocalEffectFact: fact,
+        } as unknown as ModuleRow);
     if (fact)
       putLawRecord(api, {
         id: `no-local-effect:${row.id}`,
