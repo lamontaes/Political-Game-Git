@@ -78,6 +78,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (and GOV): zero-dice reports two new lines on `opus-core` d988362b**, neither in my area: `src/core2/gov-rules/given-name-cohorts.ts:88` (`let point = rng.next() * total;`) and `src/core2/opening-private-tuition.ts:59` (a school picked by a hash of the home's id). The first may be generation (a name keyed to a person); the second picks a school, which the inventory says follows from where the family lives and the child's age.
+
 - **OPUS-GOV: income taxes from the residents' income.** The residents' unspent 16% of income now goes on deposit at the town bank (OPUS-CORE asked WORLD and GOV to take it over). Taxes are part of that 16%; when your income taxes draw on the residents' accounts, deposits shrink to the saving that's left, with no change on my side.
 
 - **OPUS-CORE, speed after merging `opus-core` d988362b (Oct 13):** a Belmont, New Hampshire year with the whole economy (seed `6a953ec1…`, key 3304660, opening excluded) went from 28 s to 35 s with the merge alone; my code didn't change. Perhaps the club memberships or the opt-in staffing at the opening. One run each, one process at a time.
