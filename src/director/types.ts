@@ -61,6 +61,11 @@ export interface DirectorData {
     impactParameter?: string;
     /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
     counterpartFact?: string;
+    /** A fact naming one of the event's people (the winner) whose own moment is sized by `selfImpactParameter`. */
+    selfFact?: string;
+    selfImpactParameter?: string;
+    /** "thread": a named person's moment names no one else (their opponents), and a relative's names only the person they are tied to. */
+    counterparts?: "thread";
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };

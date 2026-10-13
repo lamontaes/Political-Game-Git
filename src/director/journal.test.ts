@@ -304,4 +304,94 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(first.text).toMatch(/^I was born in \d{4} in .+\.$/);
     expect(first.sourceRecordIds.length).toBeGreaterThan(0);
   });
+
+  it("writes a race won and lost, taking office and a vote, as GOV's engines record them", () => {
+    const me = core.people.get(player.id)!;
+    const opponentId = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          row.id !== player.id &&
+          !me.familyIds.has(row.id),
+      )
+      .map((row) => row.id)
+      .sort()[0]!;
+    const gov = (
+      id: string,
+      kind: string,
+      personIds: string[],
+      facts: Record<string, string>,
+    ) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind,
+        personIds,
+        placeId: me.placeId,
+        publicRecord: true,
+        news: true,
+        source: {
+          tag: "SOURCED",
+          citation: "Fixture shaped like GOV's voting and legislature.",
+          asOf: core.date,
+        },
+        facts,
+      });
+    // The shapes src/core2/modules/voting.ts and legislature.ts emit.
+    gov(
+      "election-result:fixture-seat-2",
+      "election-result",
+      [player.id, opponentId],
+      {
+        contestId: "fixture-seat-2",
+        office: "City Council, Seat 2",
+        winnerId: player.id,
+        totals: "{}",
+      },
+    );
+    gov(
+      "election-result:fixture-mayor",
+      "election-result",
+      [opponentId, player.id],
+      {
+        contestId: "fixture-mayor",
+        office: "Mayor",
+        winnerId: opponentId,
+        totals: "{}",
+      },
+    );
+    gov("took-office:fixture-seat-2", "took-office", [player.id], {
+      office: "City Council, Seat 2",
+      seatId: "fixture-seat-2",
+      winnerId: player.id,
+    });
+    gov("bill-vote:fixture", "legislative-vote", [player.id, opponentId], {
+      billId: "fixture-bill",
+      number: "Ordinance 2021-4",
+      chamber: "fixture-council",
+      yes: "5",
+      no: "2",
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const lines = composeJournal(core, director, player.id).flatMap(
+      (row) => row.lines,
+    );
+    const text = lines.map((line) => line.text);
+    expect(text).toContain("I won the race for City Council, Seat 2.");
+    expect(text).toContain("I lost the race for Mayor.");
+    expect(text).toContain("I took office as City Council, Seat 2.");
+    expect(text).toContain("We voted on Ordinance 2021-4, 5 to 2.");
+    // The opponent is not named in the player's own lines.
+    const won = lines.find((line) => line.text.startsWith("I won"))!;
+    expect(won.sourceRecordIds).toContain("election-result:fixture-seat-2");
+    // Winning is sized as a change of work, losing as the run it ends.
+    const impact = (causeId: string) =>
+      director.ledger.people
+        .get(player.id)!
+        .moments.find((moment) => moment.causeId === causeId)!.impact;
+    expect(impact("election-result:fixture-seat-2")).toBeGreaterThan(
+      impact("election-result:fixture-mayor"),
+    );
+  });
 });

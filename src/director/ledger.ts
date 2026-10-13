@@ -797,15 +797,28 @@ export function createDirector(
       );
       if (!rule) continue;
       let raw = zero;
+      // Who the moment is about besides the person: the event's people, or
+      // (for a contest) only the one they are tied to.
+      let about: readonly PersonId[] = row.event.personIds;
       if (rule.impactParameter) {
         // The event's own impact reaches the people it names fully, and
-        // those who learned of it through a tie by their relation.
-        raw = param(rule.impactParameter);
-        if (!row.event.personIds.includes(book.personId)) {
-          const thread = row.event.personIds
-            .map((id) => book.threads.get(id))
-            .find(Boolean);
+        // those who learned of it through a tie by their relation. A fact
+        // naming one of them (the winner) can size their moment apart.
+        const isNamed = row.event.personIds.includes(book.personId);
+        const self = rule.selfFact
+          ? row.event.facts?.[rule.selfFact]
+          : undefined;
+        raw = param(
+          isNamed && self === book.personId && rule.selfImpactParameter
+            ? rule.selfImpactParameter
+            : rule.impactParameter,
+        );
+        if (isNamed && rule.counterparts === "thread") about = [];
+        if (!isNamed) {
+          const tied = row.event.personIds.find((id) => book.threads.has(id));
+          const thread = tied ? book.threads.get(tied) : undefined;
           if (!thread) continue;
+          if (rule.counterparts === "thread") about = [tied!];
           raw *=
             importanceOf(book, thread, date) /
             (one + importanceOf(book, thread, date));
@@ -826,7 +839,7 @@ export function createDirector(
         `event:${row.event.kind}`,
         rule.channel,
         raw,
-        named ? [named] : row.event.personIds,
+        named ? [named] : about,
       );
     }
 

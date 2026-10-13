@@ -31,6 +31,8 @@ interface LineRow {
   turn: boolean;
   /** Facts read from the causing event's own record. */
   eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
+  /** A fact naming a person (the winner) picks the line's stage: `self` when it names who the line is about, else `other`. */
+  stageFact?: { fact: string; self: string; other: string };
   line: readonly { key: string; text: string }[];
   otherLine?: readonly { key: string; text: string }[];
   repeatLine?: readonly { key: string; text: string }[];
@@ -371,12 +373,21 @@ export function composeJournal(
       }
       continue;
     }
+    const about = own ? personId : moment.counterpartIds[zero];
+    const stageNamed = row.stageFact
+      ? core.durableLog.get(moment.causeId)?.facts?.[row.stageFact.fact]
+      : undefined;
     const rendered = render(
       `journal-line:${row.kindPrefix}:${own ? "own" : "other"}`,
       rows,
       facts,
       moment.id,
       sourceIds,
+      row.stageFact
+        ? stageNamed === about
+          ? row.stageFact.self
+          : row.stageFact.other
+        : undefined,
     );
     if (!rendered) continue;
     const line: JournalLine = {

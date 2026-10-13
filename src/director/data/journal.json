@@ -359,6 +359,103 @@
           "text": "Running for {{office}}"
         }
       ]
+    },
+    {
+      "kindPrefix": "event:election-result",
+      "turn": false,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "stageFact": {
+        "fact": "winnerId",
+        "self": "won",
+        "other": "lost"
+      },
+      "line": [
+        {
+          "key": "won",
+          "text": "I won the race for {{office}}.",
+          "stages": ["won"]
+        },
+        {
+          "key": "lost",
+          "text": "I lost the race for {{office}}.",
+          "stages": ["lost"]
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-won",
+          "text": "{{other}} won the race for {{office}}.",
+          "stages": ["won"]
+        },
+        {
+          "key": "other-lost",
+          "text": "{{other}} lost the race for {{office}}.",
+          "stages": ["lost"]
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:took-office",
+      "turn": true,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "took-office",
+          "text": "I took office as {{office}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-took-office",
+          "text": "{{other}} took office as {{office}}."
+        }
+      ],
+      "title": [
+        {
+          "key": "in-office",
+          "text": "{{office}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:legislative-vote",
+      "turn": false,
+      "eventFacts": {
+        "bill": {
+          "fact": "number",
+          "format": "text"
+        },
+        "yes": {
+          "fact": "yes",
+          "format": "text"
+        },
+        "no": {
+          "fact": "no",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "voted",
+          "text": "We voted on {{bill}}, {{yes}} to {{no}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-voted",
+          "text": "{{other}} voted on {{bill}}, {{yes}} to {{no}}."
+        }
+      ]
     }
   ],
   "firstTitle": [

@@ -306,6 +306,30 @@
       "tag": "ESTIMATED",
       "citation": "A child born into the family, sized as the Social Readjustment Rating Scale's 'Gain of new family member', 39 life-change units divided by 100 (Holmes and Rahe 1967), reaching the parents fully and others tied to them by how much they matter.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.45"
+    },
+    "directorElectionWonImpact": {
+      "value": 0.36,
+      "tag": "ESTIMATED",
+      "citation": "Winning an election, sized as the Social Readjustment Rating Scale's 'Change to a different line of work', 36 life-change units divided by 100 (Holmes and Rahe 1967): the office becomes the winner's work.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.28 to 0.45"
+    },
+    "directorElectionLostImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "Losing an election, sized as the run it ends: the filing that began it ('Outstanding personal achievement', 28 life-change units divided by 100, Holmes and Rahe 1967). The scale has no item for losing a contest.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.36"
+    },
+    "directorTookOfficeImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "Taking office, sized as the Social Readjustment Rating Scale's 'Change in responsibilities at work', 29 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.36"
+    },
+    "directorBodyVoteImpact": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "A member's vote on a bill, sized as the Social Readjustment Rating Scale's 'Change in work hours or conditions', 20 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.11 to 0.29"
     }
   },
   "channels": [
@@ -497,6 +521,26 @@
       "channel": "feeling",
       "impactParameter": "directorBirthImpact",
       "counterpartFact": "childId"
+    },
+    {
+      "eventKind": "election-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionLostImpact",
+      "selfFact": "winnerId",
+      "selfImpactParameter": "directorElectionWonImpact",
+      "counterparts": "thread"
+    },
+    {
+      "eventKind": "took-office",
+      "channel": "cause",
+      "impactParameter": "directorTookOfficeImpact",
+      "counterparts": "thread"
+    },
+    {
+      "eventKind": "legislative-vote",
+      "channel": "cause",
+      "impactParameter": "directorBodyVoteImpact",
+      "counterparts": "thread"
     }
   ]
 }
