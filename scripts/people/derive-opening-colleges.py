@@ -28,11 +28,17 @@ def share_of(v):
     return v.get("share") if isinstance(v, dict) else v
 by_state = {STATES[k]: round(share_of(v), 4) for k, v in enr["byState"].items() if k in STATES and share_of(v) is not None}
 national = share_of(enr["national"])
-src = enr.get("source", {})
+src = enr["national"]["source"]
+# Island Areas (2020 censuses) publish the share by sex only: the mean of the
+# two stands for both (an estimate; the sexes are near equal at 18-24).
+ISLANDS = {"Guam": "GU", "CommonwealthOfTheNorthernMarianaIslands": "MP", "USVirginIslands": "VI", "AmericanSamoa": "AS"}
+for name, row in enr.get("islandAreas", {}).items():
+    if name in ISLANDS and row.get("male") is not None and row.get("female") is not None:
+        by_state[ISLANDS[name]] = round((row["male"] + row["female"]) / 2, 4)
 out = {
     "version": "opening-colleges-v1",
     "citation": "Degree-granting colleges by county: NCES IPEDS institutional directory 2025-26 (public/education postsecondary catalog), active institutions classified in data/research/places/college-kinds.json; community colleges apart from four-year colleges.",
-    "shareCitation": "Share of residents aged 18-24 enrolled in college or graduate school by state: " + (src.get("title", "") + " " + str(src.get("table", src.get("table_id", ""))) + " " + str(src.get("year", ""))).strip() + " (data/research/education/college-enrollment-2026.json); the national share where a state has none.",
+    "shareCitation": "Share of residents aged 18-24 enrolled in college or graduate school by state: " + src["title"] + ", table " + src["tableId"] + " (" + str(src["year"]) + "), for the 50 states, D.C. and Puerto Rico; for Guam, the Northern Mariana Islands, the U.S. Virgin Islands and American Samoa, the mean of the male and female shares in the 2020 Island Areas Censuses (an estimate). Compiled in data/research/education/college-enrollment-2026.json.",
     "minimumAge": 18,
     "maximumAge": 24,
     "termStart": "08-25",
