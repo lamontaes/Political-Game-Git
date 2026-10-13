@@ -252,6 +252,9 @@ function playWorld(seed: string) {
     ),
   );
   const recordsAtStart = moduleRecords(core);
+  const wagesAtStart = new Map(
+    [...core.jobs.values()].map((job) => [job.id, job.hourlyMinor]),
+  );
   const endingTerms = rowsOf(core, OFFICES_MODULE_ID, "terms").filter(
     (t) =>
       t.status === "serving" &&
@@ -414,9 +417,20 @@ function playWorld(seed: string) {
                 String(row.cause).includes(law.id) && Number(row.value) !== 0,
             )
         : undefined;
-    if (effect || payment || raise || price)
+    const salary = [...core.work.payChanges.entries()].find(
+      ([jobId, changes]) =>
+        changes.some(
+          (change, index) =>
+            change.source.citation.includes(law.id) &&
+            change.date >= law.effectiveDate &&
+            (index > 0 || wagesAtStart.has(jobId)) &&
+            change.hourlyMinor !==
+              (changes[index - 1]?.hourlyMinor ?? wagesAtStart.get(jobId)),
+        ),
+    );
+    if (effect || payment || raise || price || salary)
       lawEffects.push(
-        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price!.id}`,
+        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary![0]}`,
       );
     else
       ineffective.push(

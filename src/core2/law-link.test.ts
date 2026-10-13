@@ -19,12 +19,14 @@ import { addDays, makeIsoDate } from "../simulation/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { setBookkeeping } from "./bookkeeping";
-import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import {
   OUTCOME_WEB_MODULE_ID,
   placeOutcome,
   type WebMonth,
 } from "./modules/outcome-web";
+import { BUDGETS_MODULE_ID, type withholdingOf } from "./modules/budgets";
+import { withholdingFor } from "./tax-withholding";
 import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import { outcomeIssueView } from "./modules/views";
 import { WEB_LINKS } from "./outcome-web-model";
@@ -116,6 +118,7 @@ describe("59 policies in the played world, 90 days", () => {
       const oldHourly = new Map(
         [...core.jobs.values()].map((job) => [job.id, job.hourlyMinor]),
       );
+      const oldIncomeTax = lawInForce(api, "income-tax");
       const lawId = enact(question, 1).id;
       const end = addDays(makeIsoDate(core.date), 90);
       advanceCore(core, end);
@@ -228,6 +231,42 @@ describe("59 policies in the played world, 90 days", () => {
               after: paid.grossDebitMinor,
               lawId,
             });
+        }
+        if (!evidence.has(question)) {
+          const withheld = api
+            .moduleState(BUDGETS_MODULE_ID)
+            .table("withholding")
+            .rows() as unknown as ReturnType<typeof withholdingOf>;
+          for (const row of withheld) {
+            const line = row.lines.find((item) => item.lawId.includes(lawId));
+            if (!line) continue;
+            const previous = withholdingFor({
+              paidMinor: row.paidMinor,
+              periodDays: row.periodDays,
+              yearToDateMinor: row.yearToDateMinor,
+              incomeTax: oldIncomeTax,
+              socialSecurity: lawInForce(api, "social-security-tax", row.date),
+              medicare: lawInForce(api, "medicare-tax", row.date),
+            }).find(
+              (item) =>
+                item.jurisdiction === line.jurisdiction &&
+                item.tax === line.tax,
+            );
+            const paid = [...core.cashJournal.detailedReceipts.values()].find(
+              (item) =>
+                item.sourceRef.id === row.id && item.grossDebitMinor > 0,
+            );
+            if (paid && line.minor !== (previous?.minor ?? 0)) {
+              evidence.set(question, {
+                recordId: paid.id,
+                measure: `cash:withholding:${line.jurisdiction}`,
+                before: previous?.minor ?? 0,
+                after: line.minor,
+                lawId,
+              });
+              break;
+            }
+          }
         }
         if (!evidence.has(question))
           reasons.set(
