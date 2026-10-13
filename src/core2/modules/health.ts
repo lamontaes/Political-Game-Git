@@ -415,7 +415,13 @@ function payAcuteCare(
     ? governments(api).find((g) => g.level === "state")
     : undefined;
   if (!provider || (covered && !treasury)) return { covered: null, paid: 0 };
-  const id = `acute-care:${person.id}:${api.state.date}`;
+  // Identify a law only when it changes this eligible patient's payer.
+  const payerLaw = covered
+    ? expansion.governing?.id
+    : expansion.value === 1 && eligible && barred && treasury
+      ? work.governing?.id
+      : undefined;
+  const id = `acute-care:${person.id}:${api.state.date}${payerLaw ? `:${payerLaw}` : ""}`;
   const amount = lawParameters.parameters.acuteCareCostMinor;
   const paid = transferCash(
     api,
