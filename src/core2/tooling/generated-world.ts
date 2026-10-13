@@ -8,6 +8,7 @@ import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { withPrivateTuition } from "../opening-private-tuition";
 import { staffToCustomers } from "../opening-staffing";
+import { representativeSample } from "../representative-sample";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
@@ -168,7 +169,21 @@ function buildOpening(
   };
   // Two-level: decide who stays a full person first, so counted households
   // get light economy terms (same amounts, no per-household evidence).
-  const keep = options.twoLevel ? fullPeople(input) : undefined;
+  // The circle, plus a representative sample of the town (one household per
+  // age-and-pay group), each sampled person weighted for estimates.
+  let keep = options.twoLevel ? fullPeople(input) : undefined;
+  if (keep) {
+    const sample = representativeSample(input, keep);
+    keep = new Set([...keep, ...sample.personIds]);
+    input = {
+      ...input,
+      placeMetadata: {
+        ...(input.placeMetadata ?? {}),
+        representativeWeights: JSON.stringify(sample.weights),
+        representativeStrata: JSON.stringify(sample.strata),
+      },
+    };
+  }
   const countedHouseholdIds = keep
     ? new Set(
         input.households
