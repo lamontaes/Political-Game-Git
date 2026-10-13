@@ -1,0 +1,11 @@
+window.__SRC = [
+ ["body-m-average","male","stand-3q","TnCeF8TFtmlEGBVP",0],["body-m-average","male","stand-turn","9kWPYDfMBqqVt8vR",1],["body-m-average","male","sit-3q","xCEIZLx4delHk2sH",0],["body-m-average","male","sit-back","A8xg3nM8U7kpNY9Z",0],["body-m-average","male","sit-turn","u3Ed6dePPBTKOWu2",1],
+ ["body-m-slim","male","stand-3q","vajhhWRv9rRugOdr",0],["body-m-slim","male","stand-turn","ZN3m6jAMNec0ZEiD",1],["body-m-slim","male","sit-3q","nihjEX62DW8CorNz",0],["body-m-slim","male","sit-back","m6PXJ5Qdj0FEQ5XJ",0],["body-m-slim","male","sit-turn","ARBVPV9UsUsrRgio",1],
+ ["body-m-heavy","male","stand-3q","4hk6mpazToGBdTXo",0],["body-m-heavy","male","sit-3q","KsvA1TwaJC0fCfBT",0],["body-m-heavy","male","sit-back","Cq8UMy5QeXArK76p",0],["body-m-heavy","male","sit-turn","5uyrrhQbNZupi726",1],
+ ["body-f-slim","female","stand-3q","mYuONMQoUAdBNBKn",0],["body-f-slim","female","stand-turn","sqeFaG9J475B6eNj",1],["body-f-slim","female","sit-3q","hn0EWZ1OEjSXLu92",0],["body-f-slim","female","sit-back","FceobQXlj9Q5b02G",0],["body-f-slim","female","sit-turn","VVbQ7eBDPM6Fd1jP",1],
+ ["body-f-average","female","stand-3q","UZoqAbPUGvL4H8bb",0],["body-f-average","female","stand-turn","33qk2BuPVSW3ULb0",1],["body-f-average","female","sit-3q","b8NKplEaKTq7bUnZ",0],["body-f-average","female","sit-back","HJCpG8hPhk8nOUth",0],
+ ["body-f-heavy","female","stand-3q","2wZsMSbELeeHTTAA",0],["body-f-heavy","female","stand-turn","wEfO04KxYl15LUHa",1],["body-f-heavy","female","sit-3q","nzYLdMvyPnFM1Xf5",0],["body-f-heavy","female","sit-back","uJMFzQcoeBOFJ2dh",0],["body-f-heavy","female","sit-turn","tozHgHWkUdT36lxk",1],
+];
+window.__DONE = new Set(["body-m-average-business-suit-tie-stand-3q","body-m-average-business-suit-tie-sit-3q","body-f-slim-navy-pantsuit-lapel-pin-stand-3q","body-f-slim-navy-pantsuit-lapel-pin-sit-3q"]);
+window.__outfitBatch = (tab) => { const jobs = []; window.__SRC.forEach(([k, sex, src, u, sheet], i) => { if (i % 4 !== tab) return; for (const [o, text] of Object.entries(window.__OUTFITS[sex])) { const j = window.__outfitJob(k, src, "https://at.adobe.com/" + u, o, text, !!sheet); if (!window.__DONE.has(j.key)) jobs.push(j); } }); return jobs; };
+"batch ok";
