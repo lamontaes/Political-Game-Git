@@ -718,6 +718,15 @@ export function enactedBudgetChanges(
  * laws that amend a year's budget (`amendBudget`) apply on top each year, so
  * they never pile up by being carried forward.
  */
+/** A year's budget at its Census base: no enacted or proposed changes. */
+export function baseBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow {
+  return budgetFor(gov, lawChain(api).stateKey, fy, api.state.date, "base");
+}
+
 function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,

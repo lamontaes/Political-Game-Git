@@ -34,10 +34,9 @@ import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import {
   BUDGETS_MODULE_ID,
-  budgetPriorities,
+  baseBudget,
   budgetsOf,
   governments,
-  proposedBudget,
 } from "./modules/budgets";
 
 export const GOV_MEASURES = [
@@ -164,10 +163,9 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
         .filter((b) => b.startsOn <= date)
         .at(-1);
       if (!budget) return null;
-      // The Census base: the proposed line without the executive's priority.
+      // The Census base, before any change a body enacted.
       const base =
-        (proposedBudget(api, city, budget.fiscalYear, "base").spendingMinor
-          .parks ?? 0) - (budgetPriorities(api, city.id)?.changes.parks ?? 0);
+        baseBudget(api, city, budget.fiscalYear).spendingMinor.parks ?? 0;
       const now = budget.spendingMinor.parks ?? 0;
       return base ? ((now - base) / base) * 100 : null;
     }
