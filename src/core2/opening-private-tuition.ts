@@ -6,6 +6,8 @@
  * town's aggregate spread over its families, like the CE survey's averages,
  * not a choice of which family goes private. A town without a private school
  * pays none here (the spending stays with the household's other costs).
+ * Where the town has several private schools, each family's share is split
+ * among them by their staff (their size), so no family is assigned to one.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
@@ -33,6 +35,12 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     p("monthsPerYear");
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
+  // Each school's size: its staff (at least one, so a school with no
+  // recorded staff still takes a share).
+  const staff = new Map<string, number>();
+  for (const job of input.jobs)
+    staff.set(job.organizationId, (staff.get(job.organizationId) ?? 0) + 1);
+  const size = (id: string) => Math.max(1, staff.get(id) ?? 0);
   const town = new Set(schools.map((row) => row.placeId));
   for (const home of input.households) {
     // Only the town's own families: relatives elsewhere use their own schools.
@@ -52,34 +60,40 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     if (!children || !adults.length) continue;
     const amountMinor = Math.round(children * perChildMonthly);
     if (amountMinor <= 0) continue;
-    // Several private schools in town share families in a stable order.
     const local = sorted.filter((row) => row.placeId === home.placeId);
-    const school =
-      local[
-        [...home.id].reduce((n, c) => n + c.charCodeAt(0), 0) % local.length
-      ]!;
+    const total = local.reduce((n, row) => n + size(row.id), 0);
     const source: Source = {
       tag: "ESTIMATED",
       asOf: start,
       citation: data.citation,
       estimatedFrom: `${children} children aged ${p("openingSchoolAgeFirst")}–${p("openingSchoolAgeLast")} × private share ${p("openingPrivateSchoolShare")} × average tuition $${p("openingPrivateTuitionAnnualUsd")} a year; the town's private tuition spread over its families.`,
     };
-    contracts.push({
-      id: `opening-private-tuition:${home.id}:${school.id}`,
-      householdId: home.id,
-      payerIds: adults.map((row) => row.id).sort(),
-      payeeId: school.id,
-      kind: data.contractKind,
-      amountMinor,
-      dueAt,
-      periodMonths: 1,
-      accruesArrears: false,
-      marketAdjusted: false,
-      salesReceipt: true,
-      salesReceiptBudget: false,
-      settlementPhaseId: data.settlementPhaseId,
-      source,
-    } as FinanceContractInput);
+    // Split by size, the rounding left with the largest share (first by id).
+    const parts = local.map((school) =>
+      Math.floor((amountMinor * size(school.id)) / total),
+    );
+    const largest = parts.indexOf(Math.max(...parts));
+    parts[largest]! += amountMinor - parts.reduce((n, v) => n + v, 0);
+    local.forEach((school, i) => {
+      const amountMinor = parts[i]!;
+      if (amountMinor <= 0) return;
+      contracts.push({
+        id: `opening-private-tuition:${home.id}:${school.id}`,
+        householdId: home.id,
+        payerIds: adults.map((row) => row.id).sort(),
+        payeeId: school.id,
+        kind: data.contractKind,
+        amountMinor,
+        dueAt,
+        periodMonths: 1,
+        accruesArrears: false,
+        marketAdjusted: false,
+        salesReceipt: true,
+        salesReceiptBudget: false,
+        settlementPhaseId: data.settlementPhaseId,
+        source,
+      } as FinanceContractInput);
+    });
   }
   return {
     ...input,
