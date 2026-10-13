@@ -1,4 +1,10 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import {
+  ageOnDate,
+  dateAtAge,
+  daysBetween,
+  makeIsoDate,
+} from "../simulation/dates";
+import entryTable from "./data/entry.json" with { type: "json" };
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";
@@ -66,27 +72,62 @@ export interface BenchWorld {
  * deaths, and the story director (OPUS-PEOPLE).
  * The director registers its own interrupts as core player stops.
  */
-// M0's entry age, as in progress.ts: an exhibit choice, not a simulation rule.
-const ENTRY_AGE = 18;
-/** The golden path's first step: a resident at 18, else the oldest at 17. */
-function entrantOf(input: CoreInput, placeId: string): string {
+/** Who the player starts as (PW-6): the bench's own table, with reasons. */
+const ENTRY = entryTable.parameters;
+const ENTRY_AGE = ENTRY.entryAgeYears.value;
+
+/**
+ * Why the bench chose its player, kept with the world so the opening can
+ * name it: the person, their birth date, the day they turn 18 and the
+ * window that day had to fall in.
+ */
+export interface EntrantRecord {
+  personId: string;
+  birthDate: string;
+  turns18At: string;
+  openedAt: string;
+  windowDays: number;
+  daysToBirthday: number;
+  /** In the window, or the soonest birthday the town has when none is. */
+  basis: "within-window" | "soonest-outside-window";
+}
+
+/**
+ * The golden path's first step: the resident whose 18th birthday comes
+ * soonest after the opening, so turning 18 happens in play. Never a resident
+ * already 18. If no resident turns 18 within the entry window, the soonest
+ * birthday the town has, and the record says so.
+ */
+export function entrantOf(
+  input: Pick<CoreInput, "startedAt" | "people">,
+  placeId: string,
+): EntrantRecord {
   const at = makeIsoDate(input.startedAt);
-  const ages = input.people
+  const rows = input.people
     .filter((person) => person.placeId === placeId)
-    .map((person) => ({
-      id: person.id,
-      age: ageOnDate(makeIsoDate(person.birthDate), at),
-      birthDate: person.birthDate,
-    }))
-    .filter((row) => row.age === ENTRY_AGE || row.age === ENTRY_AGE - 1)
-    .sort(
-      (a, b) =>
-        b.age - a.age ||
-        a.birthDate.localeCompare(b.birthDate) ||
-        a.id.localeCompare(b.id),
-    );
-  if (!ages[0]) throw new Error("No resident at or near 18 here.");
-  return ages[0].id;
+    .map((person) => {
+      const turns18At = dateAtAge(makeIsoDate(person.birthDate), ENTRY_AGE);
+      return {
+        id: person.id,
+        birthDate: person.birthDate,
+        turns18At,
+        days: daysBetween(at, turns18At),
+      };
+    })
+    .filter((row) => row.days > 0)
+    .sort((a, b) => a.days - b.days || a.id.localeCompare(b.id));
+  const row = rows[0];
+  if (!row) throw new Error("No resident here turns 18 after the opening.");
+  const windowDays = ENTRY.entryWindowDays.value;
+  return {
+    personId: row.id,
+    birthDate: row.birthDate,
+    turns18At: row.turns18At,
+    openedAt: at,
+    windowDays,
+    daysToBirthday: row.days,
+    basis: row.days <= windowDays ? "within-window" : "soonest-outside-window",
+  };
 }
 
 /**
@@ -124,13 +165,13 @@ type BuildOptions = {
   /**
    * The two-level world (OPUS-CORE): the player, their household and
    * circle and the officials are full people; everyone else is counts,
-   * filled in when met. The player is the resident at or nearest 18.
+   * filled in when met. The player is the resident who turns 18 soonest.
    */
   twoLevel?: boolean;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
 };
-type Built = BenchWorld & { playerId?: string };
+type Built = BenchWorld & { playerId?: string; entrant?: EntrantRecord };
 
 /** Builds the world in one go (tests and checks). */
 export function buildBenchWorld(
@@ -194,12 +235,14 @@ function* benchWorldStages(
   yield "economy";
   let opening: CoreInput;
   let playerId: string | undefined;
+  let entrant: EntrantRecord | undefined;
   if (options.twoLevel) {
     // The core's own opening route (as in its generated world): the player
     // and their peers first, then the economy with the closures fix (outside
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
-    playerId = entrantOf(input, place.context.jurisdiction.id);
+    entrant = entrantOf(input, place.context.jurisdiction.id);
+    playerId = entrant.personId;
     let withPlayer: CoreInput = {
       ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
       playerId,
@@ -301,5 +344,6 @@ function* benchWorldStages(
     placeId,
     residents,
     ...(playerId ? { playerId } : {}),
+    ...(entrant ? { entrant } : {}),
   };
 }

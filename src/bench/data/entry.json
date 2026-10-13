@@ -1,0 +1,24 @@
+{
+  "about": "Who the player starts as (PW-6). The bench picks the resident whose 18th birthday comes soonest after the opening, so turning 18 is the first thing that happens in play. These are exhibit choices for the opening, not simulation rules.",
+  "parameters": {
+    "entryAgeYears": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "The golden path's first step (AGENTS.md, owner Oct 10, 2026): the player turns 18. Eighteen is the voting age under the 26th Amendment to the U.S. Constitution.",
+      "spread": {
+        "status": "fixed",
+        "reason": "A constitutional age, the same in all 56 places."
+      }
+    },
+    "entryWindowDays": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "citation": "PW-6 (CTO, Oct 12, 2026): the owner should reach the 18th birthday in the first skip. A skip runs until the next stop, and the bench's first skip usually stops within two months.",
+      "spread": {
+        "low": 30,
+        "high": 90,
+        "reason": "Checked against the played-world test's check J on fresh seeds: inside 30 days some small towns have no 17-year-old; past 90 the first skip rarely reaches the birthday."
+      }
+    }
+  }
+}
