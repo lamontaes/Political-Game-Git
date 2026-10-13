@@ -111,6 +111,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 12:05 UTC: #4085 merged into main: treasuries, payroll, leadership, the executive's desk, budget negotiation, special elections, statewide parties, the views-based leans and the minimum wage history. opus-gov restarts from main for the next work.
 - 2026-10-13 14:10 UTC: The golden path's played-world test (M0-13) failed on #4085 with "2 of 4 budget bills … left spending as it was". My amended-budget text put "(amended: …)" after the bill number, so the record no longer named its bill. The note now comes before the number. Merged main again: it now runs who-runs inside the candidacy engine (`weighContest`, `fileRunners`), so GOV's duplicate in `voting.ts` is removed and `who-runs.test.ts` reads candidacy's own lead-days parameter. Played world with the CI seed (Canaan, NH): 15 of 15. GOV suites 68 of 70 (2 skipped), elections 4 of 4.
 - 2026-10-13 13:00 UTC: Merged main into opus-gov to clear #4085's conflict; CI had stopped running on it.
   - **Conflicts resolved:** budget votes now go through main's `enactBudget` with my negotiated changes and "amended" text, and term dates come from main's office calendar except for a special election's unexpired term.
