@@ -534,6 +534,22 @@
           "actKinds": ["change", "take-risk", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "school.attend",
+      "site": "src/core2/modules/school.ts",
+      "owner": "OPUS-CORE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "attend-school",
+          "from": "src/core2/data/content.json#/actions/8"
+        },
+        {
+          "id": "stay-home-from-school",
+          "actKinds": ["play-safe", "withdraw"]
+        }
+      ]
     }
   ],
   "outside": [

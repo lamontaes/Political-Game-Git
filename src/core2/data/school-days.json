@@ -1,0 +1,34 @@
+{
+  "version": "core2-school-days-v1",
+  "schoolClassification": "service:school",
+  "citation": "A U.S. public school year of about 180 days (most states require 175 to 180; NCES State Education Reforms, Table 5.14), from late August or early September to late May or June, with a winter break and a spring break.",
+  "schoolYear": {
+    "firstDay": "09-01",
+    "lastDay": "06-10"
+  },
+  "breaks": [
+    {
+      "from": "11-26",
+      "to": "11-27",
+      "name": "Thanksgiving"
+    },
+    {
+      "from": "12-21",
+      "to": "01-02",
+      "name": "winter break"
+    },
+    {
+      "from": "03-23",
+      "to": "03-27",
+      "name": "spring break"
+    },
+    {
+      "from": "05-25",
+      "to": "05-25",
+      "name": "Memorial Day"
+    }
+  ],
+  "actionId": "attend-school",
+  "stopgapId": "SG-CORE-school-days",
+  "placeTargetPrefix": "schools-of:"
+}

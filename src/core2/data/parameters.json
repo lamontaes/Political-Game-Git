@@ -4663,5 +4663,17 @@
       "unit": "megabytes, compressed",
       "citation": "From The Political Process's size to four times it."
     }
+  },
+  "schoolDayHours": {
+    "value": 6.7,
+    "tag": "ESTIMATED",
+    "citation": "NCES Schools and Staffing Survey 2011–12: public schools' average school day was about 6.7 hours.",
+    "estimatedFrom": "The national average length of a public school day, used for every school.",
+    "spread": {
+      "low": 6,
+      "high": 7.5,
+      "unit": "hours",
+      "citation": "Typical public school days across states and districts."
+    }
   }
 }

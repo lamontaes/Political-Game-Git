@@ -2875,16 +2875,6 @@
     "status": "open"
   },
   {
-    "id": "SG-CORE-counted-newborn-names",
-    "kind": "recorded-names",
-    "file": "src/core2/modules/counted-drift.ts",
-    "line": 1,
-    "whatItFakes": "A baby born in the wider population takes a given name already recorded among the town's youngest residents of the same gender.",
-    "why": "The name engine (PEOPLE's) names newborns only for full parents; a counted mother has no full record to pass it. Resolved Oct 13 (OPUS-CORE): newborns and newcomers draw a given name people born that year were called (SSA top names by decade, src/core2/gov-rules/given-name-cohorts.ts), not a housemate's.",
-    "addedBy": "OPUS-CORE",
-    "addedAt": "2026-10-13",
-    "replacement": "PEOPLE exports the newborn identity used by births-people.ts (seeded name and gender) for any mother, full or counted.",
-    "status": "resolved",
     "id": "SG-PW8-partnership-start",
     "kind": "estimated-record",
     "file": "src/core2/births-plan.ts",
@@ -2918,6 +2908,18 @@
     "addedBy": "PW-3",
     "addedAt": "2026-10-13",
     "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-school-days",
+    "kind": "behavior",
+    "file": "src/core2/modules/school.ts",
+    "line": 1,
+    "whatItFakes": "Every school-age full person attends the town's public school district (or, in a world opened without it, their town's schools as a place) on the weekdays of one national school calendar (Sept. 1 to June 10, with fixed breaks), for the national average school day. Attending is their own choice through the chooser against a full compulsory pull, so in practice every child goes every day: no illness, truancy or family circumstance keeps one home. No grade, class, teacher, homework, private school or homeschooling.",
+    "why": "School-age people never went to school (M0-13).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
     "status": "open"
   }
 ]
