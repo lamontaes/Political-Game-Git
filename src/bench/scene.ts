@@ -17,7 +17,14 @@ import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
-import { wholeFigureFor, type WholeFigure } from "./whole-figures";
+import {
+  ageBandOf,
+  figureOn,
+  pickLook,
+  type Figure,
+  type FigurePerson,
+  type WholeFigure,
+} from "./whole-figures";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
@@ -505,24 +512,40 @@ export function stagePeople(
     .filter((spot) => spot !== hero && spot.pose !== "podium")
     .sort((a, b) => reach(a) - reach(b));
   const free: StagingSpot[] = [hero, ...rest];
-  const placed: { id: string; name: string; who: Who; spot: StagingSpot }[] =
-    [];
+  const placed: {
+    id: string;
+    name: string;
+    look: Figure;
+    band: Parameters<typeof figureOn>[1];
+    spot: StagingSpot;
+  }[] = [];
+  // No twins: each look is worn by one person in the scene, the lead first.
+  const taken = new Set<string>();
   for (const { id, name } of ids) {
     const looks = looksOf(core, id);
     if (!looks) {
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
+    const act = core.people.has(id) ? doing(core, id, undefined) : undefined;
     const who: Who = {
       id,
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
+      ...(act?.actionId ? { act: act.actionId } : {}),
+      ...(id === core.playerId ? { player: true } : {}),
     };
+    const look = pickLook(core, who, place, taken);
+    if (!look) {
+      unplaced.push({ personId: id, reason: "no-whole-figure" });
+      continue;
+    }
+    const band = ageBandOf(core, who.birthDate);
     // A spot where they'd be mostly hidden behind (or hide) someone
     // already there is taken only when nothing else fits.
     const fits = (spot: StagingSpot) =>
-      wholeFigureFor(core, who, place, stage, spot) !== null;
+      figureOn(look, band, stage, spot) !== null;
     const clear = (spot: StagingSpot) =>
       placed.every((row) => !hides(stage, spot, row.spot));
     let index = free.findIndex((spot) => clear(spot) && fits(spot));
@@ -534,19 +557,20 @@ export function stagePeople(
       });
       continue;
     }
-    placed.push({ id, name, who, spot: free.splice(index, 1)[0]! });
+    taken.add(look.look);
+    placed.push({ id, name, look, band, spot: free.splice(index, 1)[0]! });
   }
   const front = FRONTS[place];
   // Drawn far to near, so nearer people stand in front of farther ones.
   const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, who, spot } of order) {
+  for (const { id, name, look, band, spot } of order) {
     const turn = turnOf(
       spot,
       placed.map((row) => row.spot),
       front,
     );
-    const whole = wholeFigureFor(core, who, place, stage, spot, turn)!;
+    const whole = figureOn(look, band, stage, spot, turn)!;
     people.push({
       personId: id,
       name,
@@ -594,8 +618,8 @@ export function hides(
   );
 }
 
-type Who = Parameters<typeof wholeFigureFor>[1];
-type Turn = NonNullable<Parameters<typeof wholeFigureFor>[5]>;
+type Who = FigurePerson;
+type Turn = NonNullable<Parameters<typeof figureOn>[4]>;
 // Presentation choices, TUNABLE by eye: how far below the lead a spot counts
 // as in front of them, how much farther that makes it, how near in depth two
 // people are to be side by side, and how near the front's line a person is
