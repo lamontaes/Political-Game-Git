@@ -38,6 +38,7 @@ function involvesPlayer(
 }
 
 export function condenseCircleDecisions(core: CoreState): void {
+  dropOldReceiptDetail(core);
   const queue = queues.get(core);
   if (!queue?.length) return dropOldCircleActs(core);
   const cutoff = new Date(`${core.date}T00:00:00Z`);
@@ -105,4 +106,33 @@ function dropOldCircleActs(core: CoreState): void {
     core.logByPlace.get(row.placeId)?.delete(id);
   }
   if (done) drops.splice(0, done);
+}
+
+/**
+ * The finance engine's detailed receipt for a circle member's payment (who
+ * paid what, balances before and after) is kept circleDecisionDetailDays,
+ * like the circle's decision detail; the player's own stay. The money itself
+ * is in the balances and the journal, which the screens read.
+ */
+function dropOldReceiptDetail(core: CoreState): void {
+  const receipts = core.finance.detailedReceipts;
+  if (!receipts.size) return;
+  const cutoff = new Date(`${core.date}T00:00:00Z`);
+  cutoff.setUTCDate(
+    cutoff.getUTCDate() -
+      parameter("circleDecisionDetailDays", core.data.parameters),
+  );
+  const before = cutoff.toISOString().slice(0, 10);
+  const player = core.playerId;
+  // Receipts are kept in the order they were written, so the old ones lead.
+  for (const [id, receipt] of receipts) {
+    if (receipt.date >= before) break;
+    if (
+      player &&
+      (receipt.payeeId === player ||
+        receipt.payments.some((row) => row.payerId === player))
+    )
+      continue;
+    Map.prototype.delete.call(receipts, id);
+  }
 }

@@ -2,12 +2,14 @@
 import { makeIsoDate } from "../simulation/dates";
 import type { FinancePlanningSession } from "./finance-plan";
 import type {
+  CoreState,
   OrganizationInput,
   PublicPayAuthorityInput,
   PublicWorkPayDue,
   Source,
   WorkResultInput,
 } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 /** Treasury funding: authority id → the government owner whose cash pays it. */
 export interface PublicPayTreasury {
@@ -17,6 +19,10 @@ export interface PublicPayTreasury {
   shortfalls: Map<string, { date: string; amountMinor: number }>;
 }
 const treasuries = new WeakMap<object, Map<string, PublicPayTreasury>>();
+registerWorldMapPart(
+  "core2-public-pay-treasuries",
+  treasuries as WeakMap<CoreState, Map<string, PublicPayTreasury>>,
+);
 
 export function publicPayTreasuries(
   core: object,

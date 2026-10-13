@@ -8,7 +8,7 @@ import {
 import { registerModuleStopV1, releaseModuleStopV1 } from "./player-stops-v1";
 import type { ModuleStopInputV1, ModuleStopTokenV1 } from "./player-stops-v1";
 import type { CoreAPI, CoreModule, CoreState, Source } from "./types";
-import { registerWorldMapPart } from "./snapshot";
+import { registerSnapshotPart } from "./snapshot";
 
 export interface ModuleCalendarInput {
   key: string;
@@ -42,7 +42,50 @@ interface Calendar {
   faulted: boolean;
 }
 const calendars = new WeakMap<CoreState, Calendar>();
-registerWorldMapPart("core2-module-calendars", calendars);
+// Saved without the engine objects; restored entries point at the installed engines.
+registerSnapshotPart("core2-module-calendars", {
+  save(core) {
+    const c = calendars.get(core);
+    if (!c) return undefined;
+    const rows = new Map<Entry, { row: ModuleCalendarWork }>();
+    const plain = (entry: Entry) => {
+      let row = rows.get(entry);
+      if (!row) rows.set(entry, (row = { row: entry.row }));
+      return row;
+    };
+    return {
+      byOwner: new Map(
+        [...c.byOwner].map(([owner, entries]) => [
+          owner,
+          new Map([...entries].map(([key, entry]) => [key, plain(entry)])),
+        ]),
+      ),
+      byDate: new Map(
+        [...c.byDate].map(([date, entries]) => [
+          date,
+          new Set([...entries].map(plain)),
+        ]),
+      ),
+      dispatching: c.dispatching,
+      faulted: c.faulted,
+    };
+  },
+  restore(core, data) {
+    if (!data) return void calendars.delete(core);
+    const c = data as Calendar;
+    const attach = (entry: Entry) => {
+      const module = core.modules.get(entry.row.moduleId);
+      if (!module)
+        throw new Error(
+          `Calendar work for a missing engine: ${entry.row.moduleId}`,
+        );
+      entry.module = module;
+    };
+    for (const entries of c.byOwner.values()) entries.forEach(attach);
+    for (const entries of c.byDate.values()) entries.forEach(attach);
+    calendars.set(core, c);
+  },
+});
 const stopOwners = new WeakMap<
   ModuleStopTokenV1,
   { core: CoreState; module: CoreModule }

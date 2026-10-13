@@ -27,7 +27,7 @@ import type {
   PersonId,
   PlaceId,
 } from "../types";
-import { registerWorldMapPart } from "../snapshot";
+import { registerSnapshotPart } from "../snapshot";
 
 const DAYS_PER_YEAR = 365;
 
@@ -98,7 +98,36 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
-registerWorldMapPart("core2-residents", runtimes);
+// The opening's input never changes in play, and a world rebuilt from the
+// same recipe recreates it, so a snapshot leaves it out.
+registerSnapshotPart("core2-residents", {
+  save: (core) => {
+    const rt = runtimes.get(core);
+    if (!rt) return undefined;
+    // A household still as it opened is marked, not copied.
+    const opened = new Map(
+      rt.input.households.map((row) => [row.household.id, row]),
+    );
+    const households = new Map<string, ResidentHouseholdRecord | "opening">();
+    for (const [id, record] of rt.households)
+      households.set(id, opened.get(id) === record ? "opening" : record);
+    return { ...rt, input: undefined, households };
+  },
+  restore: (core, data) => {
+    const rebuilt = runtimes.get(core);
+    if (!data || !rebuilt) return void runtimes.delete(core);
+    const saved = data as Omit<ResidentsRuntime, "households"> & {
+      households: Map<string, ResidentHouseholdRecord | "opening">;
+    };
+    const households = new Map<string, ResidentHouseholdRecord>();
+    for (const [id, record] of saved.households)
+      households.set(
+        id,
+        record === "opening" ? rebuilt.households.get(id)! : record,
+      );
+    runtimes.set(core, { ...saved, input: rebuilt.input, households });
+  },
+});
 
 export function residentsRuntime(
   core: CoreState,
