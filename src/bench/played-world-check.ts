@@ -32,6 +32,7 @@ import { realLocalities } from "../core2/places";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { selectBenchPlace } from "./place-selection.mjs";
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
+import workData from "../core2/data/work.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "../core2/types";
 
 type Row = Record<string, unknown>;
@@ -146,7 +147,17 @@ export interface PlayedWorld {
 const SAMPLE_COUNT = 12;
 const SAMPLE_LIMIT = 8;
 const MIB = 1024 * 1024;
-const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
+/**
+ * K's routine: resting, contacting someone known, and showing up for (or
+ * skipping) a shift of a job held since the opening. The shift pair is the
+ * work data's own attendance choice; K asks for a choice beyond these.
+ */
+const ROUTINE_ACTS = new Set([
+  "rest",
+  "contact-known-person",
+  workData.attendanceAction.id,
+  workData.absenceAction.id,
+]);
 
 /** A forced collection, so a heap sample is retained memory, not garbage. */
 const collect: () => void = (() => {
@@ -939,7 +950,7 @@ export const CHECK_TITLES: Readonly<Record<string, string>> = {
   H: "A passed budget bill changed a spending line it names",
   I: "Terms end, movers leave office, take-office dates follow the term rule",
   J: "The player turns 18 in play",
-  K: "The uncontrolled player chose more than rest and contact",
+  K: "The uncontrolled player chose more than rest, contact and their usual shifts",
   L: "Pay reaches accounts, loans fit incomes, owners draw, homes have values",
   M: "A birth, and the counted population changes",
   N: "Memory stays bounded over the year",
