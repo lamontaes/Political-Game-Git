@@ -151,3 +151,15 @@ export function realLocalities(): readonly LifePlace[] {
   }
   return localities;
 }
+
+let stateByKey: Map<string, string> | null = null;
+
+/** The jurisdiction key (e.g. "US-GA") of a recorded locality key. */
+export function stateOfPlaceKey(key: string): string | undefined {
+  if (!stateByKey) {
+    stateByKey = new Map();
+    for (const state of placeStateKeys())
+      for (const row of placeLocalities(state)) stateByKey.set(row.key, state);
+  }
+  return stateByKey.get(key);
+}

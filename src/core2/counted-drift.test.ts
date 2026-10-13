@@ -21,7 +21,7 @@ const total = (core: CoreState) =>
   );
 
 describe(`the wider population changes in ${place.name}, ${place.state} (seed ${seed})`, () => {
-  it("has deaths and births at real rates over a year, and every dollar balances", () => {
+  it("has deaths, births and moves at real rates over a year, and every dollar balances", () => {
     const core = createLifeCore(
       generatedOpening(place, {
         twoLevel: true,
@@ -40,10 +40,14 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
     );
     advanceCore(core, "2021-12-31");
     let deaths = 0,
-      births = 0;
+      births = 0,
+      movedOut = 0,
+      movedIn = 0;
     for (const row of countedDrift(core).values()) {
       deaths += row.deaths;
       births += row.births;
+      movedOut += row.movedOut;
+      movedIn += row.movedIn;
     }
     // A year's deaths and births among the counts, near the U.S. rates
     // (about 0.9% and 1.1% a year).
@@ -51,12 +55,21 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
     expect(deaths / before).toBeLessThan(0.025);
     expect(births / before).toBeGreaterThan(0.003);
     expect(births / before).toBeLessThan(0.025);
-    expect(counted()).toBe(before - deaths + births);
+    // Moves: ACS 2024 has about 4 to 9% of adults leaving the county in a
+    // year, depending on the state.
+    expect(movedOut / before).toBeGreaterThan(0.02);
+    expect(movedOut / before).toBeLessThan(0.15);
+    expect(movedIn).toBeGreaterThan(0);
+    expect(movedIn).toBeLessThanOrEqual(movedOut);
+    expect(counted()).toBe(before - deaths + births - movedOut + movedIn);
     // The dead are gone from the records; the newborns are new people.
     const now = [...rt.households.values()].flatMap((row) =>
       row.people.map((person) => person.id),
     );
-    expect(now.filter((id) => !ids.has(id)).length).toBe(births);
+    // Newcomers and newborns may themselves die or leave within the year.
+    const fresh = now.filter((id) => !ids.has(id)).length;
+    expect(fresh).toBeLessThanOrEqual(births + movedIn);
+    expect(fresh).toBeGreaterThan(0.8 * (births + movedIn));
     expect(total(core)).toBe(start);
   }, 300_000);
 });

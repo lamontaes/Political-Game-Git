@@ -2,7 +2,9 @@ import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
-import { collapseToTwoLevels } from "./residents";
+import { collapseToTwoLevels, fullPeople } from "./residents";
+import { representativeSample } from "./representative-sample";
+import { countedDrift } from "./modules/counted-drift";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
@@ -26,7 +28,11 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let collapsed: CoreInput;
   beforeAll(() => {
     full = generatedOpening(place);
-    collapsed = collapseToTwoLevels(full);
+    // The game's opening keeps a representative sample full too.
+    const keep = fullPeople(full);
+    collapsed = collapseToTwoLevels(full, {
+      keep: new Set([...keep, ...representativeSample(full, keep).personIds]),
+    });
     // The opening the game uses: counted households get light economy terms.
     two = generatedOpening(place, { twoLevel: true });
   }, 600_000);
@@ -99,8 +105,12 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       outside += row.netMinor;
     expect(closing).toBe(opening - outside);
     const counts = residentCounts(core);
+    // The counts change on the 1st (counted drift).
+    let drift = 0;
+    for (const row of countedDrift(core).values())
+      drift += row.births - row.deaths + row.movedIn - row.movedOut;
     expect(counts.reduce((n, row) => n + row.people, 0)).toBe(
-      full.people.length - two.people.length,
+      full.people.length - two.people.length + drift,
     );
     const sales = [...core.finance.businesses.values()].reduce(
       (n, row) => n + row.salesReceivedMinor,
@@ -131,6 +141,15 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       ([, days]) => days === 0,
     )![0];
     const core = createLifeCore(two);
+    if (due <= start) {
+      // The opening day isn't run: that payday passes and the calendar holds.
+      const next = Object.keys(flow.earnedDaysByDue!)
+        .filter((date) => date > start)
+        .sort()[0];
+      if (next)
+        expect(residentsRuntime(core)!.flows.get(flow.id)!.nextAt).toBe(next);
+      return;
+    }
     advanceCore(core, due);
     const state = residentsRuntime(core)!.flows.get(flow.id)!;
     expect(state.earnedDaysByDue?.[due]).toBeUndefined();

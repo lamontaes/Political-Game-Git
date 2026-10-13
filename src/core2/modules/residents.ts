@@ -158,8 +158,13 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     for (const id of [row.payerId, row.payeeId])
       if (!core.organizations.has(id) && !core.people.has(id))
         throw new Error(`Flow owner is not recorded: ${id}`);
-    // A flow due on or before the opening date settles on the first simulated day.
+    // A flow due on or before the opening date settles on the first simulated
+    // day, except counted wages with earned days by payday: they keep their
+    // calendar, so a payday on the opening day (its period all before it)
+    // passes, and the next one pays the days since the opening.
     let nextAt = makeIsoDate(row.firstAt);
+    if (row.earnedDaysByDue)
+      while (nextAt <= core.date) nextAt = advanceCadence(nextAt, row.cadence);
     if (nextAt <= core.date)
       nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
     const flow: FlowState = { ...row, nextAt, arrearsMinor: 0 };

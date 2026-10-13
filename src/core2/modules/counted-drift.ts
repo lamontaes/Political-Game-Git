@@ -6,12 +6,26 @@
  * deaths and births, and when a whole one is due, the counted person with the
  * highest rate is the one (no roll). Aging needs nothing: ages come from
  * birth dates. Runs on the 1st of each month; one pass over the counts.
+ *
+ * Moves too: each place accrues its leavers from the state's American
+ * Community Survey 2024 rate of leaving the county for each adult's age, and
+ * its newcomers from the state's arrivals per resident. The households that
+ * leave are those whose pull has built up most (each month adds their adults'
+ * age rate, held back by a mortgage or school-age children, as in the moves
+ * engine; a move starts it over); newcomers
+ * move into the homes they leave. Leavers' jobs end, and the jobs engine
+ * fills the openings from the counts' job seekers, newcomers included.
  */
 import { makeIsoDate } from "../../simulation/dates";
 import { createStableId, stableHash } from "../../simulation/ids";
+import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import life from "../data/ssa-cohort-life-tables.json" with { type: "json" };
 import data from "../data/counted-drift.json" with { type: "json" };
+import moveRows from "../data/moves/parameters.json" with { type: "json" };
+import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { countedVoterGroupId } from "../opening-voter-groups";
+import { stateOfPlaceKey } from "../places";
+import type { ResidentHouseholdRecord } from "../residents";
 import { endCountedJob, endFlowPart } from "../residents-economy";
 import { voterGroups } from "../voter-groups";
 import { residentsRuntime } from "./residents";
@@ -26,17 +40,32 @@ import type {
 
 export const COUNTED_DRIFT_MODULE_ID = "core2-counted-drift-v1";
 
+interface Due {
+  deaths: number;
+  births: number;
+  /** Adults due to leave, and to arrive. */
+  leavers: number;
+  arrivals: number;
+}
+export interface DriftTally {
+  deaths: number;
+  births: number;
+  /** People who moved away, and who moved in. */
+  movedOut: number;
+  movedIn: number;
+}
 interface Runtime {
-  due: Map<PlaceId, { deaths: number; births: number }>;
-  /** Deaths and births by place and month, e.g. "2027-03|place". */
-  tally: Map<string, { deaths: number; births: number }>;
+  due: Map<PlaceId, Due>;
+  /** Changes by place and month, e.g. "2027-03|place". */
+  tally: Map<string, DriftTally>;
+  /** Each household's pull to leave, built up month by month since it moved in. */
+  pull: Map<string, number>;
+  names?: Names;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
 
-/** Deaths and births in the wider population, by month and place. */
-export function countedDrift(
-  core: CoreState,
-): ReadonlyMap<string, { deaths: number; births: number }> {
+/** Deaths, births and moves in the wider population, by month and place. */
+export function countedDrift(core: CoreState): ReadonlyMap<string, DriftTally> {
   return runtimes.get(core)?.tally ?? new Map();
 }
 
@@ -46,7 +75,11 @@ const ageOn = (birthDate: string, date: string) => {
 };
 
 /** The SSA cohort qx for a person's age, sex and birth decade. */
-function yearlyDeathRate(person: PersonInput, date: string): number {
+function yearlyDeathRate(
+  person: PersonInput,
+  date: string,
+  knownAge?: number,
+): number {
   const year = Number(person.birthDate.slice(0, 4));
   const cohorts = life.cohorts as number[];
   let cohort = cohorts[0]!;
@@ -55,13 +88,17 @@ function yearlyDeathRate(person: PersonInput, date: string): number {
     person.looks?.gender === "male" ? life.male : life.female
   ) as Record<string, number[]>;
   const row = table[String(cohort)]!;
-  const age = Math.max(0, ageOn(person.birthDate, date));
+  const age = Math.max(0, knownAge ?? ageOn(person.birthDate, date));
   return row[Math.min(age, row.length - 1)] ?? 1;
 }
 
-function birthRate(person: PersonInput, date: string): number {
+function birthRate(
+  person: PersonInput,
+  date: string,
+  knownAge?: number,
+): number {
   if (person.looks?.gender !== "female") return 0;
-  const age = ageOn(person.birthDate, date);
+  const age = knownAge ?? ageOn(person.birthDate, date);
   const band = data.births.ratesPerThousand.find(
     (row) => age >= row.minAge && age <= row.maxAge,
   );
@@ -71,44 +108,107 @@ function birthRate(person: PersonInput, date: string): number {
 /** Contract ids whose payments end this month; one pass over the flows ends them. */
 type Ending = Set<string>;
 
-function removeCountedPerson(
+interface Month {
+  core: CoreState;
+  ending: Ending;
+  /** Each counted person's live jobs (the jobs engine's hires included). */
+  jobsOf: Map<PersonId, string[]>;
+}
+
+/**
+ * Jobs a public supplier agreement names as its qualified workers (stopgap
+ * SG-CORE-counted-drift-named-workers: their holders don't die or move in the
+ * counts until an agreement can replace a worker it names).
+ */
+function namedJobIds(core: CoreState): Set<string> {
+  const out = new Set<string>();
+  const visit = (value: unknown): void => {
+    if (Array.isArray(value)) value.forEach(visit);
+    else if (value && typeof value === "object")
+      for (const [key, inner] of Object.entries(value))
+        if (key === "jobIds" && Array.isArray(inner))
+          for (const id of inner) out.add(String(id));
+        else visit(inner);
+  };
+  for (const org of core.organizations.values())
+    for (const raw of Object.values(org.governmentFacts ?? {}))
+      if (typeof raw === "string" && raw.includes('"jobIds"'))
+        try {
+          visit(JSON.parse(raw));
+        } catch {
+          // Not a record; nothing named.
+        }
+  return out;
+}
+
+function liveJobsByPerson(core: CoreState): Map<PersonId, string[]> {
+  const out = new Map<PersonId, string[]>();
+  for (const job of residentsRuntime(core)!.jobs.values())
+    if (!job.endsAt)
+      out.set(job.personId, [...(out.get(job.personId) ?? []), job.id]);
+  return out;
+}
+
+const shiftVoterGroup = (
   core: CoreState,
-  personId: PersonId,
-  ending: Ending,
+  placeId: PlaceId,
+  person: PersonInput,
+  by: number,
+) => {
+  const group = countedVoterGroupId(placeId, person.birthDate, core.date);
+  const groups = voterGroups(core);
+  const row = group ? groups.get(group) : undefined;
+  if (row && row.size + by >= 0) groups.put({ ...row, size: row.size + by });
+};
+
+/** A counted person's work, retirement income and voter-group place end. */
+function endPersonsTies(
+  month: Month,
+  placeId: PlaceId,
+  record: ResidentHouseholdRecord,
+  person: PersonInput,
 ): void {
+  const { core, ending } = month;
   const rt = residentsRuntime(core)!;
+  for (const jobId of month.jobsOf.get(person.id) ?? [])
+    endCountedJob(core, jobId);
+  month.jobsOf.delete(person.id);
+  for (const contract of record.contracts)
+    if (contract.recipientIncome?.personId === person.id)
+      ending.add(contract.id);
+  const claim = `retirement-claim:${person.id}`;
+  if (rt.flows.has(claim)) endFlowPart(core, claim, claim);
+  shiftVoterGroup(core, placeId, person, -1);
+  rt.householdOfPerson.delete(person.id);
+}
+
+/** An emptied home: its purchases and mortgage end; its cash stays in town. */
+function closeHousehold(
+  month: Month,
+  householdId: string,
+  record: ResidentHouseholdRecord,
+  cashMinor: number,
+): void {
+  const rt = residentsRuntime(month.core)!;
+  rt.households.delete(householdId);
+  for (const contract of record.contracts) month.ending.add(contract.id);
+  month.ending.add(`household:${householdId}`);
+  month.ending.add(`${MORTGAGE_PREFIX}${householdId}`);
+  const place = record.household.placeId;
+  rt.openingCashByPlace.set(
+    place,
+    (rt.openingCashByPlace.get(place) ?? 0) - cashMinor,
+  );
+}
+
+function removeCountedPerson(month: Month, personId: PersonId): void {
+  const rt = residentsRuntime(month.core)!;
   const householdId = rt.householdOfPerson.get(personId)!;
   const record = rt.households.get(householdId)!;
   const person = record.people.find((row) => row.id === personId)!;
-  // Their work ends, and their own retirement payments with it.
-  for (const job of record.jobs)
-    if (job.personId === personId) endCountedJob(core, job.id);
-  for (const contract of record.contracts)
-    if (contract.recipientIncome?.personId === personId)
-      ending.add(contract.id);
-  const claim = `retirement-claim:${personId}`;
-  if (rt.flows.has(claim)) endFlowPart(core, claim, claim);
-  // They leave their voter group.
-  const group = countedVoterGroupId(
-    record.household.placeId,
-    person.birthDate,
-    core.date,
-  );
-  const groups = voterGroups(core);
-  const row = group ? groups.get(group) : undefined;
-  if (row && row.size > 0) groups.put({ ...row, size: row.size - 1 });
-  rt.householdOfPerson.delete(personId);
+  endPersonsTies(month, record.household.placeId, record, person);
   if (record.people.length === 1) {
-    // The household is gone: its purchases end; its money stays with the
-    // town's residents.
-    rt.households.delete(householdId);
-    for (const contract of record.contracts) ending.add(contract.id);
-    ending.add(`household:${householdId}`);
-    const place = record.household.placeId;
-    rt.openingCashByPlace.set(
-      place,
-      (rt.openingCashByPlace.get(place) ?? 0) - person.liquidMinor,
-    );
+    closeHousehold(month, householdId, record, person.liquidMinor);
     return;
   }
   rt.households.set(householdId, {
@@ -122,15 +222,31 @@ function removeCountedPerson(
   });
 }
 
-/** End each ended contract's part of every merged flow, in one pass. */
+/** End each ended contract's part of every merged flow, in one pass and one copy per flow. */
 function endParts(core: CoreState, ending: Ending): void {
   if (!ending.size) return;
   for (const flow of residentsRuntime(core)!.flows.values()) {
     const parts = flow.amountByContract;
     if (!parts || flow.endedAt) continue;
-    for (const id of ending)
-      if (parts[id] !== undefined) endFlowPart(core, flow.id, id);
+    let next: Record<string, number> | undefined;
+    let ended = 0;
+    for (const id of ending) {
+      const amount = parts[id];
+      if (amount === undefined) continue;
+      next ??= { ...parts };
+      delete next[id];
+      ended += amount;
+    }
+    if (!next) continue;
+    flow.amountByContract = next;
+    flow.amountMinor = Math.max(0, flow.amountMinor - ended);
   }
+}
+
+/** Given and family names already recorded in the counts, by gender, to draw newcomers' names from. */
+interface Names {
+  given: Map<string, string[]>;
+  family: string[];
 }
 
 function addNewborn(
@@ -197,6 +313,163 @@ function addNewborn(
   return baby;
 }
 
+const isAdult = (person: PersonInput, date: string) =>
+  ageOn(person.birthDate, date) >= 18;
+
+const BANDS = moverRates.ageBands.map((label) => {
+  const [low, high] = label.replace("+", "-200").split("-").map(Number);
+  return { label, low: low!, high: high! };
+});
+const ratesByState = new Map<string, number[]>();
+
+/** The state's yearly rate of leaving the county for an adult's age (ACS 2024). */
+function leaveRate(
+  state: string,
+  person: PersonInput,
+  date: string,
+  knownAge?: number,
+): number {
+  const age = knownAge ?? ageOn(person.birthDate, date);
+  if (age < 18) return 0;
+  let rates = ratesByState.get(state);
+  if (!rates) {
+    const row = (
+      (
+        moverRates.places as Record<
+          string,
+          { departurePerYearByAge: Record<string, number> }
+        >
+      )[state] ?? moverRates.national
+    ).departurePerYearByAge;
+    rates = BANDS.map((band) => row[band.label] ?? 0);
+    ratesByState.set(state, rates);
+  }
+  const index = BANDS.findIndex((band) => age >= band.low && age <= band.high);
+  return rates[index < 0 ? BANDS.length - 1 : index]!;
+}
+
+function arrivalRate(state: string): number {
+  return (
+    (
+      moverRates.places as Record<
+        string,
+        { arrivalsPerResidentPerYear: number }
+      >
+    )[state] ?? moverRates.national
+  ).arrivalsPerResidentPerYear;
+}
+
+const MOVE_HOLDS = moveRows as unknown as Record<string, { value: number }>;
+
+/**
+ * How strongly a household is pulled to leave: its adults' strongest age rate,
+ * held back by a mortgage on the home and by school-age children (the moves
+ * engine's sourced and tunable holds).
+ */
+function leavePull(
+  topRate: number,
+  householdId: string,
+  owners: ReadonlySet<string>,
+  kids: boolean,
+): number {
+  const hold =
+    (owners.has(householdId) ? MOVE_HOLDS.movesOwnerHold!.value : 0) +
+    (kids ? MOVE_HOLDS.movesChildrenHold!.value : 0);
+  return topRate * Math.exp(-hold);
+}
+
+const pick = <T>(list: readonly T[], key: string): T | undefined =>
+  list.length
+    ? list[parseInt(stableHash(key).slice(0, 8), 16) % list.length]
+    : undefined;
+
+/**
+ * A household moves away; when newcomers are due, a household of the same
+ * makeup moves into the home (stopgap: until a housing market places
+ * newcomers, they arrive only into homes left empty, with the home's cash and
+ * no retirement income of their own). Returns the newcomers, if any.
+ */
+function moveHousehold(
+  api: CoreAPI,
+  month: Month,
+  householdId: string,
+  names: Names,
+  arrive: boolean,
+): readonly PersonInput[] {
+  const core = api.state;
+  const rt = residentsRuntime(core)!;
+  const record = rt.households.get(householdId)!;
+  const place = record.household.placeId;
+  for (const person of record.people)
+    endPersonsTies(month, place, record, person);
+  const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  if (!arrive) {
+    closeHousehold(month, householdId, record, cash);
+    return [];
+  }
+  api.stopgap(data.movesStopgapId);
+  const family =
+    pick(names.family, `${core.seed}:${householdId}:${core.date}:family`) ??
+    record.people[0]!.familyName;
+  const ids = new Map(
+    record.people.map((person) => [
+      person.id,
+      createStableId(
+        "person",
+        `${core.seed}:${COUNTED_DRIFT_MODULE_ID}:arrival:${person.id}:${core.date}`,
+      ),
+    ]),
+  );
+  // Generation decides who the newcomers are (seeded); the rates decided that they came.
+  const newcomers = record.people.map((person): PersonInput => {
+    const id = ids.get(person.id)!;
+    const gender = person.looks?.gender ?? "female";
+    return {
+      id,
+      givenName:
+        pick(names.given.get(gender) ?? [], `${core.seed}:${id}:given`) ??
+        person.givenName,
+      familyName: family,
+      birthDate: person.birthDate,
+      placeId: person.placeId,
+      ...(person.countyId ? { countyId: person.countyId } : {}),
+      householdId,
+      tier: person.tier,
+      traits: {},
+      liquidMinor: person.liquidMinor,
+      livingCostDailyMinor: person.livingCostDailyMinor,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: data.moves.citation,
+        estimatedFrom: `Moved into the wider population: the place's expected newcomers reached a household, and a home here had just been left.`,
+      },
+      familyIds: person.familyIds
+        .map((other) => ids.get(other))
+        .filter((other): other is string => !!other),
+      knownIds: [],
+      looks: { gender },
+      pastFacts: [],
+    };
+  });
+  for (const person of newcomers) {
+    rt.householdOfPerson.set(person.id, householdId);
+    shiftVoterGroup(core, place, person, 1);
+  }
+  rt.households.set(householdId, {
+    ...record,
+    household: {
+      ...record.household,
+      memberIds: newcomers.map((row) => row.id),
+    },
+    people: newcomers,
+    jobs: [],
+    workCommitments: [],
+    contracts: record.contracts.filter((row) => !row.recipientIncome),
+  });
+  return newcomers;
+}
+
 /** Keep the k highest-ranked candidates (rank, then id), without sorting everyone. */
 function keepTop(
   top: [number, number, PersonId][],
@@ -216,47 +489,115 @@ function keepTop(
   if (top.length > k) top.pop();
 }
 
+/** Households paying a counted mortgage (the housing engine's merged flows). */
+function mortgagedHouseholds(core: CoreState): Set<string> {
+  const out = new Set<string>();
+  for (const flow of residentsRuntime(core)!.flows.values())
+    if (flow.id.startsWith(MORTGAGE_PREFIX) && !flow.endedAt)
+      for (const part of Object.keys(flow.amountByContract ?? {}))
+        if (part.startsWith(MORTGAGE_PREFIX))
+          out.add(part.slice(MORTGAGE_PREFIX.length));
+  return out;
+}
+
 function runMonth(api: CoreAPI, rt: Runtime): void {
   const core = api.state;
   const residents = residentsRuntime(core);
   if (!residents) return;
   api.stopgap(data.stopgapId);
   const date = core.date;
-  // Pass 1: how many deaths and births each place has due this month.
-  const due = new Map<PlaceId, { deaths: number; births: number }>();
+  // The town's state sets the move rates for every counted household.
+  const state = stateOfPlaceKey(core.placeMetadata.placeKey ?? "") ?? "";
+  // Pass 1: how many deaths, births and moves each place has due this month.
+  const due = new Map<PlaceId, Due>();
+  const owners = mortgagedHouseholds(core);
   const youngestByGender = new Map<string, PersonInput>();
-  for (const record of residents.households.values()) {
+  const names: Names = { given: new Map(), family: [] };
+  for (const [householdId, record] of residents.households) {
     const place = record.household.placeId;
+    let topRate = 0,
+      kids = false;
     const row = due.get(place) ?? {
-      ...(rt.due.get(place) ?? { deaths: 0, births: 0 }),
+      ...(rt.due.get(place) ?? {
+        deaths: 0,
+        births: 0,
+        leavers: 0,
+        arrivals: 0,
+      }),
     };
+    const arrive = arrivalRate(state) / 12;
     for (const person of record.people) {
-      row.deaths += yearlyDeathRate(person, date) / 12;
-      row.births += birthRate(person, date) / 12;
+      const age = ageOn(person.birthDate, date);
+      row.deaths += yearlyDeathRate(person, date, age) / 12;
+      row.births += birthRate(person, date, age) / 12;
+      if (age >= 18) {
+        const rate = leaveRate(state, person, date, age);
+        row.leavers += rate / 12;
+        row.arrivals += arrive;
+        if (rate > topRate) topRate = rate;
+      } else if (age >= 5) kids = true;
       const gender = person.looks?.gender;
       const prior = gender ? youngestByGender.get(gender) : undefined;
       if (gender && (!prior || person.birthDate > prior.birthDate))
         youngestByGender.set(gender, person);
+      if (gender && !rt.names) {
+        const list = names.given.get(gender) ?? [];
+        list.push(person.givenName);
+        names.given.set(gender, list);
+      }
     }
+    if (!rt.names) names.family.push(record.people[0]?.familyName ?? "");
+    rt.pull.set(
+      householdId,
+      (rt.pull.get(householdId) ?? 0) +
+        leavePull(topRate, householdId, owners, kids) / 12,
+    );
     due.set(place, row);
+  }
+  // The town's recorded names, gathered once, are the newcomers' name pool.
+  names.family = names.family.filter(Boolean);
+  rt.names ??= names;
+  const month: Month = {
+    core,
+    ending: new Set(),
+    jobsOf: liveJobsByPerson(core),
+  };
+  const named = namedJobIds(core);
+  const pinned = new Set<PersonId>();
+  if (named.size) {
+    api.stopgap(data.namedWorkersStopgapId);
+    for (const [personId, jobIds] of month.jobsOf)
+      if (jobIds.some((id) => named.has(id))) pinned.add(personId);
   }
   // Pass 2: the people with the highest rates, only as many as are due.
   const dying = new Map<PlaceId, [number, number, PersonId][]>();
   const mothers = new Map<PlaceId, [number, number, PersonId][]>();
-  for (const record of residents.households.values()) {
+  const leaving = new Map<PlaceId, [number, number, string][]>();
+  for (const [householdId, record] of residents.households) {
     const place = record.household.placeId;
     const row = due.get(place)!;
     const deaths = Math.floor(row.deaths),
-      births = Math.floor(row.births);
-    if (deaths <= 0 && births <= 0) continue;
+      births = Math.floor(row.births),
+      leavers = Math.floor(row.leavers);
+    if (deaths <= 0 && births <= 0 && leavers <= 0) continue;
+    if (leavers > 0 && !record.people.some((p) => pinned.has(p.id))) {
+      const list = leaving.get(place) ?? [];
+      keepTop(list, leavers, [rt.pull.get(householdId) ?? 0, 0, householdId]);
+      leaving.set(place, list);
+    }
     let young = -1;
     for (const person of record.people) {
-      if (deaths > 0) {
+      const age = ageOn(person.birthDate, date);
+      if (deaths > 0 && !pinned.has(person.id)) {
         const list = dying.get(place) ?? [];
-        keepTop(list, deaths, [yearlyDeathRate(person, date), 0, person.id]);
+        keepTop(list, deaths, [
+          yearlyDeathRate(person, date, age),
+          0,
+          person.id,
+        ]);
         dying.set(place, list);
       }
-      const birth = births > 0 ? birthRate(person, date) : 0;
+      const birth = births > 0 ? birthRate(person, date, age) : 0;
       if (birth > 0) {
         if (young < 0)
           young = record.people.filter(
@@ -269,25 +610,54 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       }
     }
   }
-  const month = date.slice(0, 7);
-  const ending: Ending = new Set();
+  const monthKey = date.slice(0, 7);
   for (const [place, row] of due) {
-    const tally = rt.tally.get(`${month}|${place}`) ?? { deaths: 0, births: 0 };
-    for (const [, , id] of dying.get(place) ?? []) {
-      removeCountedPerson(core, id, ending);
-      tally.deaths++;
-      row.deaths -= 1;
-    }
+    const tally = rt.tally.get(`${monthKey}|${place}`) ?? {
+      deaths: 0,
+      births: 0,
+      movedOut: 0,
+      movedIn: 0,
+    };
+    for (const [, , id] of dying.get(place) ?? [])
+      if (residents.householdOfPerson.has(id)) {
+        removeCountedPerson(month, id);
+        tally.deaths++;
+        row.deaths -= 1;
+      }
     for (const [, , id] of mothers.get(place) ?? [])
       if (residents.householdOfPerson.has(id)) {
         addNewborn(api, id, youngestByGender);
         tally.births++;
         row.births -= 1;
       }
+    for (const [, , householdId] of leaving.get(place) ?? []) {
+      const record = residents.households.get(householdId);
+      if (!record) continue;
+      const adults = record.people.filter((p) => isAdult(p, date)).length;
+      if (adults === 0 || adults > row.leavers) continue;
+      const arrive = row.arrivals >= adults;
+      tally.movedOut += record.people.length;
+      row.leavers -= adults;
+      const newcomers = moveHousehold(
+        api,
+        month,
+        householdId,
+        rt.names!,
+        arrive,
+      );
+      rt.pull.delete(householdId);
+      if (newcomers.length) {
+        tally.movedIn += newcomers.length;
+        row.arrivals -= adults;
+      }
+    }
+    // Newcomers wait for a home at most a year (stopgap: no new homes yet).
+    row.arrivals = Math.min(row.arrivals, Math.max(1, row.leavers + 1) * 12);
     rt.due.set(place, row);
-    if (tally.deaths || tally.births) rt.tally.set(`${month}|${place}`, tally);
+    if (tally.deaths || tally.births || tally.movedOut || tally.movedIn)
+      rt.tally.set(`${monthKey}|${place}`, tally);
   }
-  endParts(core, ending);
+  endParts(core, month.ending);
 }
 
 export const COUNTED_DRIFT_MODULE: CoreModule = {
@@ -296,7 +666,10 @@ export const COUNTED_DRIFT_MODULE: CoreModule = {
     if (!api.state.date.endsWith("-01")) return undefined;
     let rt = runtimes.get(api.state);
     if (!rt)
-      runtimes.set(api.state, (rt = { due: new Map(), tally: new Map() }));
+      runtimes.set(
+        api.state,
+        (rt = { due: new Map(), tally: new Map(), pull: new Map() }),
+      );
     runMonth(api, rt);
     return undefined;
   },
