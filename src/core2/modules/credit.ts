@@ -30,7 +30,7 @@ import { strongestPulls } from "./jobs";
 import { currentCloseness } from "../closeness";
 import type { ActOffer } from "../types";
 
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 const CREDIT_PULL = "credit:pull";
@@ -895,10 +895,6 @@ function householdApplications(
         "us-policy-positions:business-commerce.cap-consumer-loan-rates",
       )
     : undefined;
-  const rate =
-    cap?.value === 1
-      ? Math.min(marketRate, lawParameters.parameters.consumerLoanRateCap.value)
-      : marketRate;
   const owing = new Set(
     (
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
@@ -924,6 +920,11 @@ function householdApplications(
     a.id.localeCompare(b.id),
   )) {
     if (owing.has(household.id) || room <= 0) continue;
+    const capped =
+      cap?.value === 1 && household.placeId === lawChain(api).townPlaceId;
+    const rate = capped
+      ? Math.min(marketRate, lawParameters.parameters.consumerLoanRateCap.value)
+      : marketRate;
     const members = household.memberIds
       .map((id) => c.people.get(id))
       .filter((row) => row?.alive);
@@ -1001,7 +1002,7 @@ function householdApplications(
         approved: principal > 0,
         kind: "personal",
         annualRate: rate,
-        lawId: cap?.value === 1 ? (cap.governing?.id ?? null) : null,
+        lawId: capped ? (cap?.governing?.id ?? null) : null,
       });
     if (principal <= 0) continue;
     const lent = transferCash(

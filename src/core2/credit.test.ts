@@ -2,6 +2,7 @@
 import { drawPlace } from "../../scripts/core2-year/place";
 import { randomBytes } from "node:crypto";
 import { openLaws, enactLaw, lawChain } from "./modules/laws";
+import { lawChainForPlace } from "./laws-starting";
 import { extendData } from "./data";
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
@@ -21,7 +22,7 @@ const src: Source = {
   citation: "Technical fixture records.",
   estimatedFrom: "Credit fixture only.",
 };
-function input(): CoreInput {
+function input(placeId = place): CoreInput {
   const people = [
     ["earner", 5_000, true],
     ["jobless", 5_000, false],
@@ -34,7 +35,7 @@ function input(): CoreInput {
       givenName: id,
       familyName: "Fixture",
       birthDate: "1985-01-01",
-      placeId: place,
+      placeId,
       householdId: `household:${id}`,
       tier: "monthly",
       traits: {},
@@ -47,7 +48,7 @@ function input(): CoreInput {
     })),
     households: people.map(([id]) => ({
       id: `household:${id}`,
-      placeId: place,
+      placeId,
       memberIds: [id],
       source: src,
     })),
@@ -66,7 +67,7 @@ function input(): CoreInput {
     organizations: [
       {
         id: bank,
-        placeId: place,
+        placeId,
         name: "Bank",
         kind: "bank",
         liquidMinor: 100_000_000,
@@ -74,7 +75,7 @@ function input(): CoreInput {
       },
       {
         id: "organization:shop",
-        placeId: place,
+        placeId,
         name: "Shop",
         kind: "employer",
         liquidMinor: 0,
@@ -82,7 +83,7 @@ function input(): CoreInput {
       },
       {
         id: "organization:store",
-        placeId: place,
+        placeId,
         name: "Store",
         kind: "employer",
         liquidMinor: 0,
@@ -145,11 +146,16 @@ describe("household loans", () => {
   });
 });
 
-it("prices consumer credit under the law in force and restores market pricing after repeal", () => {
+it("prices consumer credit under the law in force and leaves market pricing when it is off", () => {
   const drawn = drawPlace(randomBytes(16).toString("hex"), "credit-cap");
-  function run(value: number) {
+  function run(value: number, inJurisdiction = true) {
     const core = createLifeCore(
-      { ...input(), placeMetadata: { placeKey: drawn.key } },
+      {
+        ...input(
+          inJurisdiction ? lawChainForPlace(drawn.key).townPlaceId : place,
+        ),
+        placeMetadata: { placeKey: drawn.key },
+      },
       {
         data: extendData(worldCoreData(), {
           parameters: {
@@ -192,11 +198,16 @@ it("prices consumer credit under the law in force and restores market pricing af
     return { application, law };
   }
   const capped = run(1),
-    uncapped = run(0);
+    uncapped = run(0),
+    elsewhere = run(1, false);
   expect(capped.application.annualRate).toBe(0.36);
   expect(capped.application.lawId).toBe(capped.law.id);
   expect(uncapped.application.annualRate).toBeGreaterThan(0.36);
   expect(uncapped.application.lawId).toBeNull();
+  expect(elsewhere.application.annualRate).toBe(
+    uncapped.application.annualRate,
+  );
+  expect(elsewhere.application.lawId).toBeNull();
   expect(capped.application.limitMinor).toBeGreaterThan(
     uncapped.application.limitMinor as number,
   );
