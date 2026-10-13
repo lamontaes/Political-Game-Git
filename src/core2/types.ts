@@ -21,7 +21,6 @@ import type {
   WorkPayrollLedger,
   WorkEarnedPayPeriod,
 } from "./work-pay-period";
-import type { GeneratedHouseholdSourceBasis } from "./generated-household-source";
 import type {
   LegacyWorkCashInput,
   LegacyWorkCashResult,
@@ -65,8 +64,6 @@ export interface Source {
   citation: string;
   asOf: IsoDate;
   estimatedFrom?: string;
-  /** Fresh default household provenance; never payment authority. */
-  generatedHouseholdBasis?: GeneratedHouseholdSourceBasis;
   /** External-data vintage of an opening generation prior, not its publication date or actor knowledge. */
   generationPriorVintage?: string;
 }

@@ -26,18 +26,14 @@ import {
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
-import { backdropPath, benchScene, figurePng } from "./scene";
+import { backdropPath, benchScene } from "./scene";
 import {
   openConversation,
   say,
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import {
-  askKnownPeopleToSign,
-  fileForOffice,
-  governmentView,
-} from "./government";
+import { fileForOffice, governmentView } from "./government";
 import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
@@ -62,23 +58,8 @@ let buildProgress: { stage: string; done: number; total: number } = {
   done: 0,
   total: 0,
 };
-// The opening, prepared during loading, and every figure drawn so far.
+// The opening, prepared during loading.
 let opening: ReturnType<typeof openingShots> | undefined;
-const figures = new Map<string, Buffer>();
-/** A figure picture, drawn once per person, place and spot. */
-function figureFor(url: URL): Buffer {
-  const person = url.searchParams.get("person") ?? "";
-  const place = url.searchParams.get("place") ?? "";
-  const spot = url.searchParams.get("spot") ?? "";
-  // Clothes follow the date, so a figure is kept for the day it was drawn.
-  const key = `${requireCore().date}|${person}|${place}|${spot}`;
-  let png = figures.get(key);
-  if (!png) {
-    png = figurePng(requireCore(), person, place, spot);
-    figures.set(key, png);
-  }
-  return png;
-}
 // What the other person brought up when the conversation opened (OPUS-PEOPLE's
 // "bring it up"): their lines come first in the conversation.
 let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
@@ -223,20 +204,8 @@ const server = createServer(async (request, response) => {
         placeId = world.placeId;
         const entrant = { personId: world.playerId! };
         player.select(entrant.personId);
-        // The opening is prepared during loading: every shot's figures are
-        // drawn now, so the opening plays with nothing popping in.
-        figures.clear();
+        // The opening is prepared during loading; its whole figures are files.
         opening = openingShots(world.core, entrant.personId);
-        // Whole figures are files already; engine figures are drawn here.
-        const urls = opening
-          .flatMap((shot) => shot.people.map((person) => person.figureUrl))
-          .filter((figureUrl) => figureUrl.startsWith("/api/figure?"));
-        buildProgress = { stage: "opening", done: 0, total: urls.length };
-        for (const figureUrl of urls) {
-          figureFor(new URL(figureUrl, "http://bench"));
-          buildProgress = { ...buildProgress, done: buildProgress.done + 1 };
-          await new Promise((resolve) => setImmediate(resolve));
-        }
         buildProgress = { stage: "done", done: 0, total: 0 };
         send(200, {
           personId: entrant.personId,
@@ -277,16 +246,6 @@ const server = createServer(async (request, response) => {
         "Cache-Control": "max-age=3600",
       });
       response.end(content);
-      return;
-    }
-    if (request.method === "GET" && url.pathname === "/api/figure") {
-      const png = figureFor(url);
-      response.writeHead(200, {
-        "Content-Type": "image/png",
-        // Kept briefly so a picture loaded during loading isn't fetched again.
-        "Cache-Control": "private, max-age=600",
-      });
-      response.end(png);
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/scene") {
@@ -632,19 +591,6 @@ const server = createServer(async (request, response) => {
           requireCore(),
           player.personId,
           url.searchParams.get("contestId") ?? "",
-          url.searchParams.get("payFee") === "true",
-        ),
-      );
-      return;
-    }
-    if (request.method === "POST" && url.pathname === "/api/sign") {
-      if (!player?.personId) throw new Error("Choose a resident first.");
-      send(
-        200,
-        askKnownPeopleToSign(
-          requireCore(),
-          player.personId,
-          url.searchParams.get("filingId") ?? "",
         ),
       );
       return;
@@ -713,7 +659,6 @@ const server = createServer(async (request, response) => {
       building = true;
       try {
         const world = buildBenchWorld(seed, date, { minimumPeople: size });
-        figures.clear();
         opening = undefined;
         const { place, residents } = world;
         const next = world.core,

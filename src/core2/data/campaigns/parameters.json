@@ -237,11 +237,23 @@
       "source": "How much a member's duty to keep the government funded weighs toward adopting a budget, beside their views on its changes. Checked against how rarely councils fail to adopt a budget (most charters carry the prior budget forward when they do).",
       "spread": [0.1, 0.6]
     },
-    "sessionAgendaBills": {
-      "value": 3,
+    "floorBillsPerLegislativeDay": {
+      "value": 6,
       "tag": "TUNABLE",
-      "source": "How many of the majority leader's priority policy bills reach the floor in a session (the major partisan measures of a session, out of the hundreds of bills a legislature passes). Checked against states' enacted headline measures per session (state legislative session summaries, 2023 to 2025: typically two to six).",
-      "spread": [1, 8]
+      "source": "How many bills a legislative chamber's floor takes up in one floor day (each bill reached is debated and voted on; the rest die at adjournment). Checked against official session totals: Kentucky 2024, 212 bills became law in 60 legislative days (3.5 a day, each passing both chambers); Florida 2024, 313 bills passed both chambers in a 60-day session (about 5 a day); the floor also takes up bills that fail (data/research/lawmaking-throughput/throughput-evidence.json).",
+      "spread": [3, 12]
+    },
+    "legislativeDaysPerWeek": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "Floor days a week while a state legislature is in session, applied to the session's recorded length (NCSL 2026 session calendar). Checked against Kentucky 2024: 60 legislative days between January 2 and April 15, about four a week (Kentucky Legislative Research Commission, General Assembly Action: 2024 Regular Session).",
+      "spread": [2, 5]
+    },
+    "congressFloorDaysPerYear": {
+      "value": 110,
+      "tag": "TUNABLE",
+      "source": "Days a year Congress's floor sits to take up bills. Checked against the House calendar's statistical summary: 184 legislative days in 2023, counting pro forma days with no votes (House Calendars, March 1, 2024, 118th Congress, https://www.govinfo.gov/content/pkg/CCAL-118hcal-2024-03-01/html/CCAL-118hcal-2024-03-01-pt19.htm), and the 118th Congress's 274 public laws in two years (Clerk of the House, final calendar of the 118th Congress).",
+      "spread": [90, 185]
     },
     "fullYearSessionAgendaMonth": {
       "value": 6,
@@ -260,17 +272,29 @@
       "tag": "SOURCED",
       "source": "U.S. Senate Standing Rules, Rule XXII(2): debate on a measure ends only when three-fifths of the senators duly chosen and sworn vote for cloture; the bill then passes by a majority of those voting. https://www.rules.senate.gov/rules-of-the-senate"
     },
-    "localAgendaMeetingsPerYear": {
-      "value": 4,
+    "localRegularMeetingsPerYear": {
+      "value": 24,
       "tag": "TUNABLE",
-      "source": "How many of a council's or county board's regular meetings in a year carry a policy ordinance from the presiding member's own agenda (councils meet once or twice a month; most meetings carry routine business: National League of Cities, City Councils in the U.S., 2023).",
-      "spread": [1, 12]
+      "source": "Regular meetings a year of a town council or county board, each with legislation on its agenda: most councils meet once or twice a month (National League of Cities, City Councils in the U.S., 2023).",
+      "spread": [12, 52]
     },
-    "localAgendaBills": {
-      "value": 1,
+    "localMeetingAgendaMinutes": {
+      "value": 150,
       "tag": "TUNABLE",
-      "source": "How many of the presiding member's own policy ordinances come up at such a meeting.",
-      "spread": [1, 3]
+      "source": "Minutes of a regular council or board meeting given to legislation, after consent items and reports (regular meetings commonly run two to four hours; National League of Cities, City Councils in the U.S., 2023).",
+      "spread": [60, 240]
+    },
+    "policyOrdinanceMinutes": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Minutes one policy ordinance takes on a meeting's agenda: its staff report, public comment and the members' debate and vote. Checked against Minneapolis 2024: 48 ordinances introduced and 47 enacted over the year, besides 449 resolutions (Minneapolis City Council tracking report, data/research/lawmaking-throughput/throughput-evidence.json).",
+      "spread": [15, 60]
+    },
+    "defeatedMeasureWaitDays": {
+      "value": 180,
+      "tag": "TUNABLE",
+      "source": "Days after a council or board votes a measure down before the same measure may come back: Robert's Rules of Order (12th ed., 38:1) lets a defeated motion be renewed only at a later session, and council rules of procedure commonly bar a defeated ordinance for six months to a year.",
+      "spread": [30, 365]
     },
     "recallOrganizerEffort": {
       "value": 0.5,
@@ -295,6 +319,18 @@
       "tag": "ESTIMATED",
       "source": "A year's dues for a small business in a local employers' association, in cents: local chambers of commerce charge small firms about $300 to $700 a year (chamber dues schedules surveyed by the U.S. Chamber's local affiliate guides).",
       "spread": [20000, 150000]
+    },
+    "groupJoinBar": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
+      "spread": [0.75, 1.5]
+    },
+    "groupFoundingMembers": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many residents must join before a group exists: an association needs a handful of founders to hold office (state nonprofit corporation acts commonly require three directors or incorporators).",
+      "spread": [2, 5]
     },
     "lobbyWeight": {
       "value": 0.3,
@@ -367,6 +403,30 @@
       "source": "A local official's aide's pay, in cents an hour: legislative assistants earn about $45,000 to $55,000 a year (BLS OES 2024, 43-6011 executive secretaries and administrative assistants in local government, median about $24 an hour).",
       "spread": [1800, 3500]
     },
+    "staffReviewDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between an official's looks at whether their office needs a hand: hiring for a public post runs on a weeks-long cycle (posting, interviews, start).",
+      "spread": [14, 90]
+    },
+    "staffPerOfficial": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Personal staff an official with a seat takes on: local elected officials commonly have one aide or share clerical staff (National League of Cities, City Councils in the U.S., 2023: most council members in small and mid-size cities have no or shared staff; mayors and county officers have an assistant), state legislators one to three (NCSL, Size of State Legislative Staff, 2015).",
+      "spread": [0, 3]
+    },
+    "staffHireBase": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
+      "spread": [0, 0.5]
+    },
+    "staffKnownWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How much knowing a candidate adds to an official's choice of aide beside how well they'd do the work: officials hire through their own networks first (Congressional Management Foundation, 'Life in Congress: The Member Perspective', 2013; most staff come through campaign and personal contacts).",
+      "spread": [0, 0.3]
+    },
     "staffBaseQuality": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -427,12 +487,6 @@
       "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
       "spread": [0.05, 0.2]
     },
-    "presidentialIncumbentPartyShift": {
-      "value": 0.01,
-      "tag": "TUNABLE",
-      "source": "How far the party holding the presidency loses two-party share in a presidential year with no economy or record read yet (the 'time for change' term in Abramowitz's model, about 1 to 2 points after two terms); replaced once WORLD's economy and the president's record feed the race.",
-      "spread": [0, 0.03]
-    },
     "primaryTurnoutCost": {
       "value": 1.4,
       "tag": "TUNABLE",
@@ -445,11 +499,17 @@
       "source": "Primary voters as a share of the same year's general-election voters: 2022 statewide primaries cast about 21% of registered voters' ballots against about 46% in November (Bipartisan Policy Center and U.S. Elections Project), so about 0.45.",
       "spread": [0.3, 0.6]
     },
-    "electionsSignKnownPull": {
-      "value": 1,
+    "partyMeetingDays": {
+      "value": 30,
       "tag": "TUNABLE",
-      "source": "A stranger's petition is signed when the person's trait lean toward signing (about -1 to 1) is above zero; knowing the candidate adds this much, so a known candidate gets the signature from nearly everyone (people sign for those they know; OPUS-TRAITS, Oct 12, 2026).",
-      "spread": [0.5, 1.5]
+      "source": "Days between a local party committee's meetings: county and town committees commonly meet monthly under their party rules (e.g. state party bylaws for county committees), some every other month or quarterly.",
+      "spread": [30, 90]
+    },
+    "partyMeetingAttendBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a member's trait lean toward attending (about -1 to 1) must reach for them to show up at a party meeting: only the most inclined do, checked against the 6 to 10% of adults who report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
+      "spread": [0.3, 0.8]
     },
     "partiesJoinBase": {
       "value": 0.5,
@@ -600,6 +660,12 @@
       "tag": "TUNABLE",
       "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
       "spread": [1, 2]
+    },
+    "executiveReviewDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between an executive's reviews of vacant posts and the orders their office may give: a mayor's or governor's office acts on a vacancy within weeks (city charters commonly have the mayor fill a department head's vacancy promptly, with an acting head meanwhile).",
+      "spread": [7, 60]
     },
     "appointeeHourlyMinor": {
       "value": 4600,

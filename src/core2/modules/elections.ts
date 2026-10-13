@@ -5,40 +5,29 @@
  * election date, the primary and the filing deadline from
  * `elections-calendar.ts`. A person files at the office that takes that
  * contest's filings (`filingOfficeFor`), once, if they meet what that place's
- * rules require: age, residency, registration, and a fee or signatures, read
- * from `data/research/elections/filing-requirements.json` (or the estimated
- * terms in `candidate-filing-terms.json` where a place isn't read yet). The
- * filing, the fee and every signature become records; an unmet rule comes
- * back as structured reasons the English engine words.
- *
- * Signatures are gathered from real people: each signer decides for
- * themselves (`requestSignature`).
+ * rules require: age, residency and registration, read from
+ * `data/research/elections/filing-requirements.json` (or the estimated terms
+ * in `candidate-filing-terms.json` where a place isn't read yet). No one pays
+ * a fee or gathers petition signatures to file (owner, Oct 13: the
+ * simulation is the depth); a filing puts the candidate on the ballot. The
+ * filing becomes a record; an unmet rule comes back as structured reasons the
+ * English engine words.
  */
 import { registerElectorate } from "../electorate";
 import { termLimitReached } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
-import { feeFromFormula, signaturesFromFormula } from "../filing-formulas";
-import {
-  congressionalDistricts,
-  officeSalary,
-  registeredFromVotes,
-  stateVotes2024,
-} from "../filing-context";
-import { decisionLean } from "../trait-decisions";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import type { CashJournalSourceSlot } from "../journal-state";
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { nextElectionForSeat, type ElectionDates } from "../elections-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import type { OfficeInput } from "../offices-local";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
-const FILING_FEE_KIND = "elections:filing-fee";
 
 export type OfficeFamily =
   | "statewideExecutive"
@@ -65,9 +54,6 @@ export interface ContestRow extends ElectionDates {
 
 export interface FilingRequirements {
   readonly filedWith: string;
-  readonly feeMinor: number | null;
-  readonly signatures: number | null;
-  readonly feeInLieuOfSignatures: boolean;
   readonly minimumAge: number;
   readonly residency: string | null;
   readonly registeredVoter: boolean;
@@ -75,17 +61,6 @@ export interface FilingRequirements {
   readonly estimate: boolean;
   /** The side's own filing deadline where the law sets one apart (independents). */
   readonly deadline: string | null;
-  /** How a fee or signature count written as a formula was read. */
-  readonly formulas: readonly string[];
-}
-
-/** What a formula needs about the race: the office's salary and term, the district's 2024 vote. */
-export interface FilingContext {
-  readonly salary: number | null;
-  readonly termYears: number | null;
-  readonly votesCast: number;
-  /** The state's congressional districts. */
-  readonly districts?: number;
 }
 
 /** Party candidates and independents file on their own terms. */
@@ -99,10 +74,7 @@ export interface RequirementCheck {
     | "minimum-age"
     | "residency"
     | "registered-voter"
-    | "fee-or-signatures"
-    | "term-limit"
-    | "fee"
-    | "signatures";
+    | "term-limit";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -118,29 +90,7 @@ export interface FilingRow {
   readonly platform: readonly string[];
   /** The party label on the ballot, where the candidate runs under one. */
   readonly party?: string | null;
-  readonly feePaidMinor: number;
-  readonly signatureCount: number;
-  readonly status: "gathering-signatures" | "on-ballot" | "withdrawn";
-}
-
-export interface SignatureRow {
-  readonly id: string;
-  readonly filingId: string;
-  readonly signerId: string;
-  readonly date: string;
-  readonly signed: boolean;
-  readonly reason: string;
-}
-
-interface FeeRecord {
-  readonly id: string;
-  readonly date: string;
-  readonly source: Source;
-  readonly postings: readonly {
-    id: string;
-    accountId: string;
-    deltaMinor: number;
-  }[];
+  readonly status: "on-ballot" | "withdrawn";
 }
 
 export const ELECTIONS_MODULE: CoreModule = {
@@ -160,52 +110,10 @@ export const ELECTIONS_MODULE: CoreModule = {
           byPerson: { fields: ["personId"] },
         },
       },
-      signatures: {
-        indexes: {
-          byFiling: { fields: ["filingId"] },
-          bySigner: { fields: ["signerId"] },
-        },
-      },
-      fees: {},
       town: {},
     },
   },
-  journalSourceProviders: {
-    [FILING_FEE_KIND]: (api, reference) => feeSlot(api, reference.id),
-  },
 };
-
-/**
- * The journal writes its posted marker into the canonical fee record, so each
- * fee resolves to one live object per world.
- */
-const feeSlots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
-function feeSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
-  const slots =
-    feeSlots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
-  feeSlots.set(api.state, slots);
-  const cached = slots.get(id);
-  if (cached) return cached;
-  const fee = table(api, "fees").get(id) as unknown as FeeRecord | undefined;
-  if (!fee) return undefined;
-  const resolved = {
-    kind: FILING_FEE_KIND,
-    id: fee.id,
-    date: fee.date,
-    source: fee.source,
-    expectedPostings: fee.postings.map((p) => ({ ...p })),
-    requiredRelatedRefs: [],
-    relatedRecords: [],
-  };
-  const slot = {
-    resolved,
-    marker: resolved,
-    retainFull: false,
-    metadata: [],
-  } as unknown as CashJournalSourceSlot;
-  slots.set(id, slot);
-  return slot;
-}
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(ELECTIONS_MODULE_ID).table(name);
@@ -221,13 +129,6 @@ export function officeFamily(office: OfficeInput): OfficeFamily {
 }
 
 interface ReadSide {
-  readonly feeUSD?: number | null;
-  readonly signatures?: number | null;
-  readonly feeInLieuOfSignatures?: boolean;
-  readonly petitionInLieuOfFee?: boolean | string;
-  readonly feeAndPetitionBothRequired?: boolean;
-  readonly feeFormula?: string | null;
-  readonly signatureFormula?: string | null;
   readonly deadline2026?: string | null;
 }
 interface ReadRequirements {
@@ -277,7 +178,6 @@ export function filingRequirements(
   stateKey: string,
   family: OfficeFamily,
   sideName: FilingSide = "party",
-  context: FilingContext | null = null,
 ): FilingRequirements {
   const read = readRequirements(stateKey, family);
   const side =
@@ -292,9 +192,6 @@ export function filingRequirements(
         Record<
           string,
           {
-            feeMinorUnits: number;
-            signatures: number;
-            feeInLieuOfSignatures: boolean;
             estimatedFrom?: string;
           }
         >
@@ -310,36 +207,6 @@ export function filingRequirements(
   const fallback = side
     ? undefined
     : (estimated?.[legacyFamily] ?? Object.values(estimated ?? {})[0]);
-  // A fee or count written as a formula is worked out from the race.
-  const formulas: string[] = [];
-  let formulaEstimate = false;
-  const feeRead =
-    typeof side?.feeUSD === "number"
-      ? null
-      : side?.feeFormula && context
-        ? feeFromFormula(side.feeFormula, context.salary, context.termYears)
-        : null;
-  const signatureRead =
-    typeof side?.signatures === "number"
-      ? null
-      : side?.signatureFormula && context
-        ? signaturesFromFormula(side.signatureFormula, {
-            votesCast: context.votesCast,
-            registered: registeredFromVotes(context.votesCast),
-            ...(context.districts ? { districts: context.districts } : {}),
-          })
-        : null;
-  for (const r of [feeRead, signatureRead])
-    if (r) {
-      formulas.push(r.basis);
-      formulaEstimate ||= r.estimate;
-    }
-  const fee =
-    typeof side?.feeUSD === "number" ? side.feeUSD : (feeRead?.value ?? null);
-  const signatures =
-    typeof side?.signatures === "number"
-      ? side.signatures
-      : (signatureRead?.value ?? null);
   const source = [
     read?.citation,
     read?.source,
@@ -349,70 +216,24 @@ export function filingRequirements(
     .join(" ; ");
   return {
     filedWith: read?.filedWith ?? localFilingOfficer(usps, family),
-    feeMinor:
-      fee !== null ? Math.round(fee * 100) : (fallback?.feeMinorUnits ?? null),
-    signatures: signatures ?? fallback?.signatures ?? null,
-    feeInLieuOfSignatures: side
-      ? side.feeAndPetitionBothRequired !== true &&
-        (side.feeInLieuOfSignatures === true ||
-          side.petitionInLieuOfFee === true)
-      : (fallback?.feeInLieuOfSignatures ?? true),
     minimumAge: read?.minimumAge ?? 18,
     residency: read?.residency ?? null,
     registeredVoter: read?.registeredVoterRequired ?? true,
     source:
       source ||
       `data/research/elections/candidate-filing-terms.json: ${fallback?.estimatedFrom ?? "estimated"}`,
-    estimate: read ? (read.estimate ?? false) || formulaEstimate : true,
+    estimate: read ? (read.estimate ?? false) : true,
     deadline: side?.deadline2026 ?? null,
-    formulas,
   };
 }
 
-/** The filing rules for one contest and side, with its formulas worked out. */
+/** The filing rules for one contest and side. */
 export function filingRulesFor(
   api: CoreAPI,
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  const { stateKey } = town(api);
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput | undefined;
-  const salary = office ? officeSalary(stateKey, office.kind) : null;
-  const rules = filingRequirements(stateKey, contest.family, side, {
-    salary: salary?.dollars ?? null,
-    termYears: office?.termYears ?? null,
-    votesCast: raceVotes2024(api, contest),
-    districts: congressionalDistricts(stateKey),
-  });
-  return salary?.estimate && rules.formulas.length
-    ? { ...rules, estimate: true }
-    : rules;
-}
-
-/** The race's electorate in 2024's vote (for signature shares). */
-function raceVotes2024(api: CoreAPI, contest: ContestRow): number {
-  const { stateKey } = town(api);
-  const state = stateVotes2024(stateKey) ?? 0;
-  const seats = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("seats")
-    .query("byOffice", [contest.officeId]) as unknown as {
-    district: string | null;
-  }[];
-  if (contest.family === "statewideExecutive") return state;
-  if (contest.family === "usHouse" || contest.family === "stateLegislative") {
-    const districts = new Set(seats.map((s) => s.district)).size;
-    return Math.round(state / Math.max(1, districts));
-  }
-  const population = Number(api.state.placeMetadata.referencePopulation);
-  return Number.isFinite(population) && population > 0
-    ? Math.round(
-        population * campaignParameter("localElectorateShareOfPopulation"),
-      )
-    : 0;
+  return filingRequirements(town(api).stateKey, contest.family, side);
 }
 
 function localFilingOfficer(usps: string, family: OfficeFamily): string {
@@ -660,7 +481,6 @@ export function checkEligibility(
     ]) as unknown as FilingRow[]
   ).some((f) => f.status !== "withdrawn" && f.contestId === contestId);
   const resident = person.placeId === town(api).townPlaceId;
-  const cash = person.liquidMinor;
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
@@ -716,38 +536,16 @@ export function checkEligibility(
       actual: "limit reached",
       source: "legislative term limit in force",
     });
-  const fee = rules.feeMinor ?? 0;
-  if (rules.feeInLieuOfSignatures && rules.signatures && fee)
-    checks.push({
-      rule: "fee-or-signatures",
-      met: true,
-      required: `${fee} minor units, or ${rules.signatures} signatures`,
-      actual: `${cash} minor units on hand`,
-      source: rules.source,
-    });
-  else if (fee)
-    checks.push({
-      rule: "fee",
-      met: cash >= fee,
-      required: String(fee),
-      actual: String(cash),
-      source: rules.source,
-    });
   return checks;
 }
 
-/**
- * File once. Pays the fee from the candidate's own cash where the person
- * chooses the fee (or the place requires it); otherwise the filing waits for
- * its signatures and goes on the ballot when they're in.
- */
+/** File once, at no charge: the candidate is on the ballot. */
 export function fileCandidacy(
   api: CoreAPI,
   input: {
     readonly personId: string;
     readonly contestId: string;
     readonly platform: readonly string[];
-    readonly payFee: boolean;
     readonly party?: string | null;
   },
 ):
@@ -768,23 +566,9 @@ export function fileCandidacy(
     contest,
     input.party ? "party" : "independent",
   );
-  const person = api.state.people.get(input.personId)!;
-  const fee = rules.feeMinor ?? 0;
-  const paying =
-    fee > 0 &&
-    (input.payFee || !rules.signatures || !rules.feeInLieuOfSignatures);
-  if (paying && person.liquidMinor < fee)
-    unmet.push({
-      rule: "fee",
-      met: false,
-      required: String(fee),
-      actual: String(person.liquidMinor),
-      source: rules.source,
-    });
   if (unmet.length) return { status: "refused", unmet };
   const today = api.state.date;
   const id = `filing:${input.contestId}:${input.personId}`;
-  const needsSignatures = !paying && (rules.signatures ?? 0) > 0;
   const filing: FilingRow = {
     id,
     contestId: input.contestId,
@@ -793,97 +577,11 @@ export function fileCandidacy(
     filedWith: rules.filedWith,
     platform: [...input.platform],
     party: input.party ?? null,
-    feePaidMinor: paying ? fee : 0,
-    signatureCount: 0,
-    status: needsSignatures ? "gathering-signatures" : "on-ballot",
+    status: "on-ballot",
   };
   table(api, "filings").put(filing as unknown as ModuleRow);
-  if (paying) payFee(api, filing, contest, rules, fee);
-  if (filing.status === "on-ballot") announce(api, filing, contest);
+  announce(api, filing, contest);
   return { status: filing.status, filing };
-}
-
-function governmentFor(api: CoreAPI, contest: ContestRow): string {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(contest.officeId) as unknown as OfficeInput;
-  // The government's own account: its treasury where the budgets engine
-  // opened one, else any of its accounts that can take a payment (an
-  // outside payer from the opening can't).
-  const accounts = [...api.state.organizations.values()]
-    .filter(
-      (org) =>
-        org.governmentFacts?.governmentKey === office.jurisdiction &&
-        !org.outsideFlow,
-    )
-    .sort(
-      (a, b) =>
-        Number(b.kind === "government-treasury") -
-          Number(a.kind === "government-treasury") || a.id.localeCompare(b.id),
-    );
-  if (accounts[0]) return accounts[0].id;
-  // The government that takes the filing isn't in the world yet: record it.
-  const id = `organization:government:${office.jurisdiction}`;
-  if (!api.state.organizations.has(id))
-    api.addOrganization({
-      id,
-      placeId: town(api).townPlaceId,
-      name: office.governmentName,
-      kind: "government",
-      liquidMinor: 0,
-      source: {
-        tag: "SOURCED",
-        citation: office.source,
-        asOf: api.state.date,
-      },
-      governmentFacts: { governmentKey: office.jurisdiction },
-    });
-  return id;
-}
-
-function payFee(
-  api: CoreAPI,
-  filing: FilingRow,
-  contest: ContestRow,
-  rules: FilingRequirements,
-  fee: number,
-): void {
-  const government = governmentFor(api, contest);
-  const id = `fee:${filing.id}`;
-  const record: FeeRecord = {
-    id,
-    date: api.state.date,
-    source: rules.estimate
-      ? {
-          tag: "ESTIMATED",
-          citation: rules.source,
-          asOf: api.state.date,
-          estimatedFrom: rules.source,
-        }
-      : { tag: "SOURCED", citation: rules.source, asOf: api.state.date },
-    postings: [
-      {
-        id: `${id}:out`,
-        accountId: `cash:${filing.personId}:residual`,
-        deltaMinor: -fee,
-      },
-      {
-        id: `${id}:in`,
-        accountId: `cash:${government}:residual`,
-        deltaMinor: fee,
-      },
-    ],
-  };
-  table(api, "fees").put(record as unknown as ModuleRow);
-  const state = api.state as CoreState;
-  api.postJournal({
-    id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,
-    date: api.state.date,
-    expectedSequence: state.cashJournal.nextSequence,
-    sourceRef: { kind: FILING_FEE_KIND, id },
-    postings: record.postings,
-  });
 }
 
 function announce(api: CoreAPI, filing: FilingRow, contest: ContestRow): void {
@@ -908,99 +606,6 @@ function announce(api: CoreAPI, filing: FilingRow, contest: ContestRow): void {
       filedWith: filing.filedWith,
     },
   });
-}
-
-/**
- * Ask one person to sign a candidate's petition. They sign if they may (an
- * adult who lives here and hasn't signed this petition) and they choose to:
- * someone who knows the candidate signs; a stranger signs when their own
- * openness outweighs their wariness (stand-in until PEOPLE's views let them
- * weigh the platform: SG-GOV-signature-decision).
- */
-export function requestSignature(
-  api: CoreAPI,
-  filingId: string,
-  signerId: string,
-): SignatureRow {
-  const filing = table(api, "filings").get(filingId) as unknown as FilingRow;
-  const signer = api.state.people.get(signerId);
-  const today = api.state.date;
-  const already = (
-    table(api, "signatures").query("byFiling", [
-      filingId,
-    ]) as unknown as SignatureRow[]
-  ).some((s) => s.signerId === signerId && s.signed);
-  const age = signer
-    ? Number(today.slice(0, 4)) - Number(signer.birthDate.slice(0, 4))
-    : 0;
-  let signed = false;
-  let reason: string;
-  const contestOf = table(api, "contests").get(filing.contestId) as unknown as
-    ContestRow | undefined;
-  const closes =
-    (contestOf
-      ? filingRulesFor(api, contestOf, filing.party ? "party" : "independent")
-          .deadline
-      : null) ?? contestOf?.filingDeadline;
-  // Petitions close with filing: no signatures after the deadline.
-  if (closes && today > closes) reason = "petition-closed";
-  else if (!signer || !signer.alive) reason = "not-available";
-  else if (already) reason = "already-signed";
-  else if (age < 18 || signer.placeId !== town(api).townPlaceId)
-    reason = "not-eligible-to-sign";
-  else {
-    const knows = signer.knownIds.has(filing.personId);
-    // stopgapId: SG-GOV-signature-decision
-    api.stopgap("SG-GOV-signature-decision");
-    signed =
-      (knows ? campaignParameter("electionsSignKnownPull") : 0) +
-        decisionLean(
-          api.state,
-          signer,
-          "elections.sign-petition",
-          "sign",
-          "refuse",
-        ) >
-      0;
-    reason = knows
-      ? signed
-        ? "knows-the-candidate"
-        : "knows-the-candidate-but-declined"
-      : signed
-        ? "open-to-the-candidate"
-        : "wary-of-a-stranger";
-  }
-  const row: SignatureRow = {
-    id: `signature:${filingId}:${signerId}:${today}`,
-    filingId,
-    signerId,
-    date: today,
-    signed,
-    reason,
-  };
-  table(api, "signatures").put(row as unknown as ModuleRow);
-  if (signed) {
-    const contest = table(api, "contests").get(
-      filing.contestId,
-    ) as unknown as ContestRow;
-    const rules = filingRulesFor(
-      api,
-      contest,
-      filing.party ? "party" : "independent",
-    );
-    const count = filing.signatureCount + 1;
-    const done =
-      filing.status === "gathering-signatures" &&
-      count >= (rules.signatures ?? 0);
-    const next: FilingRow = {
-      ...filing,
-      signatureCount: count,
-      status: done ? "on-ballot" : filing.status,
-    };
-    table(api, "filings").put(next as unknown as ModuleRow);
-    if (done) announce(api, next, contest);
-  }
-  return row;
 }
 
 /** Everyone on the ballot for a contest, filed so far. */
