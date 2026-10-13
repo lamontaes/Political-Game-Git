@@ -158,7 +158,7 @@
       "golden_path": "world",
       "package": "M1-regional",
       "test": "In a year, two randomly drawn states diverge plausibly in jobs and wages (each inside the real spread of one-year state changes since 2000); a town's prices and pay follow its region; each state's and metro's starting figures match real data.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/regional.test.ts src/core2/regional-town.test.ts",
       "passes": false
     },
     {
