@@ -728,8 +728,8 @@
     "why": "CTO REVIEW 15 rejected prepaid outside-town retirement stocks.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Remove the legacy parameter after root callers/saved evidence are migrated; genuine due-source and signed-flow accounting remain separate obligations.",
-    "status": "open"
+    "replacement": "Remove the legacy parameter after root callers/saved evidence are migrated; genuine due-source and signed-flow accounting remain separate obligations. Done Oct 13 (OPUS-CORE): the retired key is removed; no producer read it.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-opening-retirement-funding",
@@ -752,8 +752,8 @@
     "why": "REVIEW 15 requires exact current due payments, without prepaid stocks or invented annual limits.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Retain historical source records; remove unused compatibility key in a separately reviewed save migration.",
-    "status": "open"
+    "replacement": "Retain historical source records; remove unused compatibility key in a separately reviewed save migration. Done Oct 13 (OPUS-CORE): the retired key is removed; no producer read it.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementFundingLiquidShare",
@@ -764,8 +764,8 @@
     "why": "REVIEW 15 requires exact current due payments, without prepaid stocks or invented annual limits.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Retain historical source records; remove unused compatibility key in a separately reviewed save migration.",
-    "status": "open"
+    "replacement": "Retain historical source records; remove unused compatibility key in a separately reviewed save migration. Done Oct 13 (OPUS-CORE): the retired key is removed; no producer read it.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-family-network-coverage",
