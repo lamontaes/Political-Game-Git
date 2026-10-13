@@ -246,6 +246,35 @@ describe("59 policies in the played world, 90 days", () => {
               lawId,
             });
         }
+        if (!evidence.has(question) && core.modules.has("business")) {
+          const rule = api
+            .moduleState("business")
+            .table("operating")
+            .rows()
+            .find(
+              (row) =>
+                row.kind === "cost" &&
+                String(
+                  (row.source as { citation?: string } | undefined)?.citation,
+                ).includes(lawId),
+            );
+          const paid =
+            rule &&
+            [...core.cashJournal.detailedReceipts.values()].find(
+              (row) =>
+                row.sourceRef.id.startsWith(`compliance:${rule.id}:`) &&
+                row.date >= String(rule.since) &&
+                row.grossDebitMinor > 0,
+            );
+          if (paid)
+            evidence.set(question, {
+              recordId: paid.id,
+              measure: `cash:${paid.sourceRef.id}`,
+              before: 0,
+              after: paid.grossDebitMinor,
+              lawId,
+            });
+        }
         if (!evidence.has(question) && core.modules.has(REACH_A_MODULE_ID)) {
           const premium = api
             .moduleState(REACH_A_MODULE_ID)

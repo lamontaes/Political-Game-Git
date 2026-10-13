@@ -667,7 +667,7 @@ function month(api: CoreAPI): void {
           source: {
             tag: "ESTIMATED",
             asOf: c.date,
-            citation: String(law.governing.source),
+            citation: `${law.governing.id}: ${String(law.governing.source)}`,
             estimatedFrom:
               "data/laws/reach-group-a-parameters.json recurring compliance cost share.",
           },

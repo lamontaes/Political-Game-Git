@@ -482,9 +482,40 @@ function playWorld(seed: string) {
               ),
           )
       : undefined;
-    if (effect || payment || raise || price || salary || withheld || premium)
+    const complianceRule = core.modules.has("business")
+      ? api
+          .moduleState("business")
+          .table("operating")
+          .rows()
+          .find(
+            (row) =>
+              row.kind === "cost" &&
+              String(
+                (row.source as { citation?: string } | undefined)?.citation,
+              ).includes(law.id),
+          )
+      : undefined;
+    const compliance =
+      complianceRule &&
+      [...core.cashJournal.detailedReceipts.values()].find(
+        (row) =>
+          row.sourceRef.id.startsWith(`compliance:${complianceRule.id}:`) &&
+          row.date >= law.effectiveDate &&
+          row.date >= String(complianceRule.since) &&
+          row.grossDebitMinor > 0,
+      );
+    if (
+      effect ||
+      payment ||
+      raise ||
+      price ||
+      salary ||
+      withheld ||
+      premium ||
+      compliance
+    )
       lawEffects.push(
-        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? withheld?.id ?? premium!.id}`,
+        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? withheld?.id ?? premium?.id ?? compliance!.id}`,
       );
     else
       ineffective.push(
