@@ -62,8 +62,8 @@ const states = [...lifePlaceStateIdentities()]
   )
   .sort();
 
-describe("M5-01 state legislator career", () => {
-  it("the player runs for their own real seat against its holder; a win seats them on the term's first day and they pass a bill", () => {
+function career(family: "stateLegislative" | "usHouse", label: string) {
+  return () => {
     const tried: string[] = [];
     for (let attempt = 0; attempt < 10; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
@@ -108,10 +108,12 @@ describe("M5-01 state legislator career", () => {
       const api = coreAPI(core);
       // The real numbered seat covering the town, up this year, in either chamber.
       const seats = townSeats(api).filter((s) =>
-        s.office.kind.startsWith("legislature-"),
+        family === "usHouse"
+          ? s.office.kind.startsWith("us-house")
+          : s.office.kind.startsWith("legislature-"),
       );
       const contest = openContests(api)
-        .filter((c) => c.family === "stateLegislative")
+        .filter((c) => c.family === family)
         .find((c) => seats.some((s) => s.seat.id === c.seatId));
       if (!contest) {
         tried.push(
@@ -261,11 +263,24 @@ describe("M5-01 state legislator career", () => {
         // The holder (or whoever won) serves; the player's loss is on the record.
         expect(result!.totals[runner.id] ?? 0, where).toBeGreaterThanOrEqual(0);
       }
-      govReport("state-legislator-career", JSON.stringify(report));
+      govReport(label, JSON.stringify(report));
       return;
     }
     throw new Error(
-      `no state legislative race the player could enter: ${tried.join("; ")}`,
+      `no ${family} race the player could enter: ${tried.join("; ")}`,
     );
-  }, 600_000);
+  };
+}
+
+describe("M5 careers on the same engines", () => {
+  it(
+    "M5-01: the player runs for their own real state legislative seat against its holder; a win seats them on the term's first day and they pass a bill",
+    career("stateLegislative", "state-legislator-career"),
+    600_000,
+  );
+  it(
+    "M5-04: the player runs for the town's U.S. House seat against its holder; a win seats them in Congress and they vote on a bill",
+    career("usHouse", "congress-career"),
+    600_000,
+  );
 });

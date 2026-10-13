@@ -106,6 +106,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 01:38 UTC: M5-04 (Congress) on the same engines: `state-legislator-career.test.ts` now runs the career for the town's U.S. House seat too. The player files, walks the petition, campaigns and faces the voters, and a win seats them in Congress for a federal bill. In South Dakota the player lost the at-large seat 84,821 to 218,624 (about 28%, plausible for a Democrat there). Both careers pass.
+
 - 2026-10-13 01:35 UTC: M5-02 governor play; executive research verified:
   - **The governor's priorities change real spending and reach people:** an adopted budget carrying the executive's priorities now tells the budget-line effects which lines changed, as an amendment does. Before, the books changed and no one was reached.
     - **Nebraska (new `governor-priorities.test.ts`):** a 10% highways priority was adopted 49–0, highway spending went from $1.128 billion to $1.241 billion, and the added money reached the people the line serves.
