@@ -51,6 +51,7 @@ import type { SeatInput } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
+import { decisionOf } from "./candidacy";
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-");
 
@@ -386,7 +387,12 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     incumbent &&
     incumbent.status === "serving" &&
     (!incumbent.personId || api.state.people.get(incumbent.personId)?.alive);
-  if (incumbent && alive && !termLimited(api, contest, incumbent))
+  // An incumbent who weighed running (candidacy, PW-3) already filed or
+  // chose to stay out; the stand-in files only those who never weighed it.
+  const weighed = incumbent?.personId
+    ? decisionOf(api, contestId, incumbent.personId)
+    : null;
+  if (incumbent && alive && !weighed && !termLimited(api, contest, incumbent))
     put(
       incumbent.personId ?? officialCandidateId(incumbent.id),
       incumbent.party,

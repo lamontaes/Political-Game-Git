@@ -53,15 +53,44 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
-    "value": 4.2,
+    "value": 4.6,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out, against which running is weighed. Checked so that about half a percent of adults in a town choose to run for a local seat in a cycle: a few candidates for each of a town's handful of council seats (Ballotpedia's local election analyses report most local seats with one or two candidates). Spread 3 to 5.",
+    "citation": "The pull of staying out, against which running is weighed. Checked so that about half a percent of adults in a town choose to run for a local seat in a cycle: a few candidates for each of a town's handful of council seats (Ballotpedia's local election analyses report most local seats with one or two candidates). Recalibrated for PW-3 after adding standing in town and the tie to the incumbent: the top half percent of run-over-stay-out margins sat at +0.36 (seed candidacy-a, Oneonta, New York, 973 adults) and +0.42 (seed candidacy-b, Redlands, Colorado, 979 adults) with the pull at 4.2, so 4.6. Spread 4 to 5.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyIncumbencyWeight": {
-    "value": 3.25,
+    "value": 3.1,
     "tag": "TUNABLE",
-    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). In a generated town (seed candidacy-a), 200 residents each holding a seat: 3 gives 73.5% running again, 3.5 gives 88%; 3.25 gives 83%. Spread 3 to 3.5.",
+    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). Recalibrated for PW-3 with the stay-out pull at 4.6: the 19th percentile of run-over-stay-out margins without incumbency is -3.15 (seed candidacy-a) and -2.97 (seed candidacy-b), so 3.1 puts about 81% of incumbents over the line. Spread 2.9 to 3.3.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyFilingWindowDays": {
+    "value": 60,
+    "tag": "ESTIMATED",
+    "citation": "Where a place's records give no opening day for filing, the window is taken to open this many days before the deadline. State candidate filing periods commonly run from two weeks to about three months before the deadline (National Conference of State Legislatures, 'Filing Deadlines for State Legislative Candidates'; Ballotpedia, 'Signature requirements and deadlines for 2026 local elections').",
+    "estimatedFrom": "NCSL and Ballotpedia filing periods; spread 14 to 120 days"
+  },
+  "candidacyPlatformQuestions": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many policy questions a runner states a position on when filing: the ones where their own views are strongest. Local candidate questionnaires and campaign sites typically lead with two to five issues (Ballotpedia Candidate Connection surveys). Spread 2 to 5."
+  },
+  "candidacyStandingCircle": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "The number of people who know someone at which their standing in town counts in full. Being asked or encouraged by people one knows is among the strongest spurs to run (Lawless and Fox 2010, It Still Takes a Candidate, ch. 5); a local campaign's first volunteers and signers come from that circle. Spread 25 to 150.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyStandingWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on standing in town (0 to 1): people whom others know and ask are more likely to run (Lawless and Fox 2010, ch. 5; Broockman 2014, 'Mobilizing candidates', Political Behavior 36:957-977). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyIncumbentTieWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the person's recorded relationship with the incumbent (-1 to 1): a friend of the officeholder stays out, someone at odds with them is drawn to run. Challengers emerge most against incumbents they see as vulnerable or opposed to them (Maestas, Fulton, Maisel and Stone 2006, American Political Science Review 100(2):195-208). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }
