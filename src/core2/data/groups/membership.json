@@ -10,68 +10,79 @@
       "everyDaysParameter": "daysPerWeek",
       "hoursParameter": "groupsHoursService",
       "requires": "faith",
-      "ageCenterParameter": "groupsAgeCenterOlder"
+      "ageCenterParameter": "groupsAgeCenterOlder",
+      "engagementParameter": "groupsEngagementWeightFaith"
     },
     "parent-teacher-group": {
       "stayOutParameter": "groupsStayOutSchool",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
       "requires": "children-at-home",
-      "ageCenterParameter": "groupsAgeCenterParents"
+      "ageCenterParameter": "groupsAgeCenterParents",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "neighborhood-association": {
       "stayOutParameter": "groupsStayOutNeighborhood",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterOlder"
+      "ageCenterParameter": "groupsAgeCenterOlder",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "service-club": {
       "stayOutParameter": "groupsStayOutService",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterOlder"
+      "ageCenterParameter": "groupsAgeCenterOlder",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "veterans-post": {
       "stayOutParameter": "groupsStayOutService",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterOlder"
+      "ageCenterParameter": "groupsAgeCenterOlder",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "fraternal-society": {
       "stayOutParameter": "groupsStayOutService",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterOlder"
+      "ageCenterParameter": "groupsAgeCenterOlder",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "business-association": {
       "stayOutParameter": "groupsStayOutService",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterMiddle"
+      "ageCenterParameter": "groupsAgeCenterMiddle",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "advocacy-group": {
       "stayOutParameter": "groupsStayOutOther",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterMiddle"
+      "ageCenterParameter": "groupsAgeCenterMiddle",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "volunteer-group": {
       "stayOutParameter": "groupsStayOutOther",
       "everyDaysParameter": "groupsMonthlyDays",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterMiddle"
+      "ageCenterParameter": "groupsAgeCenterMiddle",
+      "engagementParameter": "groupsEngagementWeight"
     },
     "sports-league": {
       "stayOutParameter": "groupsStayOutSports",
       "everyDaysParameter": "daysPerWeek",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterYounger"
+      "ageCenterParameter": "groupsAgeCenterYounger",
+      "engagementParameter": "groupsEngagementWeightSports"
     },
     "arts-group": {
       "stayOutParameter": "groupsStayOutOther",
       "everyDaysParameter": "daysPerWeek",
       "hoursParameter": "groupsHoursMeeting",
-      "ageCenterParameter": "groupsAgeCenterMiddle"
+      "ageCenterParameter": "groupsAgeCenterMiddle",
+      "engagementParameter": "groupsEngagementWeight"
     }
   }
 }

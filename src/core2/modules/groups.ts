@@ -49,6 +49,8 @@ interface KindRule {
   hoursParameter: string;
   /** The age where this kind pulls most. */
   ageCenterParameter: string;
+  /** How far following public life pulls toward this kind. */
+  engagementParameter: string;
   /** Who can belong at all: their own children at home, a faith, any adult. */
   requires?: "children-at-home" | "faith";
 }
@@ -122,7 +124,7 @@ export function belongingReasons(
     (age - g(api, rule.ageCenterParameter)) / g(api, "groupsAgeSpread");
   return {
     education: g(api, "groupsEducationWeight") * education,
-    engagement: g(api, "groupsEngagementWeight") * (view?.engagement ?? zero),
+    engagement: g(api, rule.engagementParameter) * (view?.engagement ?? zero),
     age:
       g(api, "groupsAgeWeight") *
       (api.parameter("two") * Math.exp(-distance * distance) -

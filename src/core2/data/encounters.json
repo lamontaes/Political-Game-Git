@@ -8,6 +8,8 @@
     "metInGroup": "met-in-group",
     "homeTime": "home-time",
     "openingHome": "opening-home",
-    "openingFamily": "opening-family"
-  }
+    "openingFamily": "opening-family",
+    "metAtWork": "met-at-work"
+  },
+  "jobStartedEvent": "work.job-started"
 }

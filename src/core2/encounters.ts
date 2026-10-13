@@ -3,13 +3,16 @@
  * October 10, 2026). A visit to someone meets the people who live with them;
  * joining a group meets its other members. Each meeting is a dated fact naming
  * the place and the other person, and the first tie holds the hours spent
- * together, so closeness grows only through later contact. A new coworker
- * comes with jobs changing during play (M1).
+ * together, so closeness grows only through later contact. Starting a job
+ * during play meets the new workgroup at that employer.
  */
 import data from "./data/encounters.json" with { type: "json" };
-import type { CoreAPI } from "./types";
+import type { CoreAPI, CoreState, JobInput } from "./types";
 
 export const ENCOUNTERS = data;
+
+/** People who left town (the moves engine) or are kin elsewhere. */
+const INACTIVE_TIER = "husk";
 
 /** The people at the visited person's home whom the visitor did not know;
  * the meeting names that home. */
@@ -68,6 +71,79 @@ export function meetAtJoin(
         sourceId: `membership:${organizationId}:${personId}`,
         cause: data.causes.metInGroup,
         hours,
+      })
+    )
+      met += api.parameter("one");
+  }
+  return met;
+}
+
+/**
+ * A new hire's workgroup at the employer, by the work itself: coworkers with
+ * the same title first, then the same occupation group, as many as a
+ * workgroup holds at the opening.
+ */
+export function workgroupOf(
+  api: CoreAPI,
+  personId: string,
+  jobId: string,
+): string[] {
+  const core = api.state as CoreState;
+  const job = core.jobs.get(jobId);
+  if (!job) return [];
+  const group = (code?: string) => code?.slice(0, api.parameter("two")) ?? "";
+  const closeness = (other: Readonly<JobInput>) =>
+    other.title === job.title
+      ? api.parameter("zero")
+      : group(other.occupationClassification) ===
+          group(job.occupationClassification)
+        ? api.parameter("one")
+        : api.parameter("two");
+  const peers: { personId: string; rank: number }[] = [];
+  for (const id of core.finance.jobsByOrganization.get(job.organizationId) ??
+    []) {
+    const other = core.jobs.get(id);
+    if (!other || id === jobId || other.endsAt !== undefined) continue;
+    if (other.personId === personId) continue;
+    const person = core.people.get(other.personId);
+    if (!person?.alive || person.tier === INACTIVE_TIER) continue;
+    peers.push({ personId: other.personId, rank: closeness(other) });
+  }
+  return peers
+    .sort((a, b) => a.rank - b.rank || a.personId.localeCompare(b.personId))
+    .slice(
+      0,
+      Math.max(
+        api.parameter("zero"),
+        api.parameter("openingCoworkerGroupSize") - api.parameter("one"),
+      ),
+    )
+    .map((row) => row.personId);
+}
+
+/** The coworkers of a new hire's workgroup the hire did not know, met at the
+ * employer on the first day. */
+export function meetAtWork(
+  api: CoreAPI,
+  personId: string,
+  jobId: string,
+  sourceId: string,
+): number {
+  api.stopgap(data.stopgapId);
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  const job = core.jobs.get(jobId);
+  if (!person || !job) return api.parameter("zero");
+  const place = core.organizations.get(job.organizationId)?.placeId;
+  let met = api.parameter("zero");
+  for (const id of workgroupOf(api, personId, jobId)) {
+    if (person.knownIds.has(id)) continue;
+    if (
+      api.meet(personId, id, {
+        placeId: place ?? person.placeId,
+        sourceId,
+        cause: data.causes.metAtWork,
+        hours: job.hoursDaily,
       })
     )
       met += api.parameter("one");
