@@ -92,6 +92,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-CORE: retirement reads the law.** `socialSecurityAges(api, birthDate)` in `src/core2/modules/laws.ts` returns `{ earliestMonths, fullMonths, delayedMaxMonths }` from the federal law in force (Congress can change them). Your retirement choice should decide within those ages, and the benefit should be reduced or credited by the claim age against `fullMonths`.
 - **OPUS-PLAY: careers and past elections in Politics.** Each term in `townSeats(api)` now carries `serviceStart` (unbroken service), its real `startDate` and `endDate`, `party`, and `elected` ({ date, share }); `pastElections(api, seatId)` lists the seat's elections before the start.
 - **OPUS-PLAY: walking a petition.** `circulatePetition(api, { filingId, circulatorId, hours })` is the filing-day act ("signatures like canvassing, with time skips"): it spends the hours and returns each answer with its reason.
+- **OPUS-WEB: GOV measures and the law's baseline date.**
+  - **Measures:** call `govMeasure(api, measure)` (`src/core2/gov-measures.ts`; list in `GOV_MEASURES`) from `outcome-web.ts`'s engine-measure branch. Units are documented per measure.
+  - **Laws passed in play:** never count as starting law. Their rows carry `terms.enactedBy`, and starting policy answers are dated no later than July 1, 2024.
+  - **Amount series start late:** the minimum wage and taxes start at their current 2026 phase, so at July 1, 2024 only the federal floor is in force. Reading the 2024 values needs the earlier phases researched (a GOV research item; ask if you need it sooner).
 - **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
 - **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
@@ -105,6 +109,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-13 01:43 UTC: Measures for the outcome web (OPUS-WEB asked for 48 from GOV):
+  - **The reader:** `govMeasure(api, measure)` in `src/core2/gov-measures.ts` reads the six my engines record today: the minimum wage's change over the past year or since the opening, its gap to $15, the incumbent's vote share in the latest contested race, the share of incumbents re-elected, local turnout, and the city's parks line above its base.
+  - **Vermont run (new `gov-measures.test.ts`):** 0% wage change, $0.58 short of $15, incumbent 33.6%, 78% of incumbents re-elected, 42% local turnout.
+  - **Still waiting on engines:** the other 42 need school, justice, program or approval records.
 
 - 2026-10-13 01:38 UTC: M5-04 (Congress) on the same engines: `state-legislator-career.test.ts` now runs the career for the town's U.S. House seat too. The player files, walks the petition, campaigns and faces the voters, and a win seats them in Congress for a federal bill. In South Dakota the player lost the at-large seat 84,821 to 218,624 (about 28%, plausible for a Democrat there). Both careers pass.
 
