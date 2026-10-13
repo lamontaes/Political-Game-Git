@@ -228,6 +228,17 @@
       "stopgapIds": ["SG-P8-business-books-priors"]
     },
     {
+      "id": "cannabis-retail",
+      "industry": "Licensed adult-use cannabis retail",
+      "marginParameter": "businessIrsRetailMargin",
+      "payrollShareParameter": "businessIrsRetailPayrollShare",
+      "salesCostShareParameter": "businessIrsRetailSalesCostShare",
+      "salesCostEstimated": true,
+      "creditLineDaysParameter": "businessLineDaysRetail",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors", "SG-LAW-LINK-calibration"]
+    },
+    {
       "id": "*",
       "industry": "All active corporations",
       "marginParameter": "businessIrsAllMargin",
@@ -463,6 +474,13 @@
       "fundingRoute": "membership-budget-required",
       "citation": "Old TOWN_BUSINESS_WORKPLACES excludes parties.",
       "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:cannabis-retail",
+      "kindId": "cannabis-retail",
+      "fundingRoute": "business",
+      "citation": "Census 2022 NAICS manual identifies marijuana stores in 459991 (https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf). This narrower authored classification identifies cannabis retailers only; existing retail financial parameters are a registered estimate pending cannabis-specific books.",
+      "stopgapId": "SG-LAW-LINK-calibration"
     }
   ],
   "policy": {

@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import { BUSINESS_MODULE, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
+import { enactLaw, LAWS_MODULE } from "./modules/laws";
 import { transferCash } from "./world-transfer";
 import { residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
@@ -347,6 +348,60 @@ type Founding = {
 };
 
 describe("founding a business where a market has room", () => {
+  it("requires a current cannabis sales law before founding that distinct retail kind", async () => {
+    // A recorded market fixture exercises the capital gate; it is not evidence
+    // that the ordinary population generator produces licensed cannabis demand.
+    const question =
+      "us-policy-positions:business-commerce.legalize-cannabis-sales";
+    for (const permitted of [false, true]) {
+      const core = await foundingCore(false);
+      const a = api(core);
+      const marketPlace = core.organizations.get("diner:a")!.placeId;
+      registerModule(core, LAWS_MODULE);
+      a.moduleState(LAWS_MODULE.id)
+        .table("chain")
+        .put({
+          id: "chain",
+          placeKey: "fixture",
+          placeName: "Fixture",
+          townPlaceId: marketPlace,
+          stateKey: "state:fixture",
+          countyGeoids: [],
+          incorporated: false,
+          levels: [{ level: "state", jurisdiction: "state:fixture" }],
+        });
+      for (const book of core.finance.businesses.values())
+        book.kindId = "cannabis-retail";
+      for (const flow of residentsRuntime(core)!.flows.values())
+        if (flow.kind === "purchase") flow.financeKind = "household.cannabis";
+      enactLaw(a, {
+        jurisdiction: "state:fixture",
+        level: "state",
+        series: question,
+        value: permitted ? 1 : 0,
+        effectiveDate: core.date,
+        measureId: `fixture:cannabis:${permitted}`,
+        citation: "Technical fixture: supplied adult cannabis market.",
+      });
+      const total = money(core);
+      advanceCore(core, "2026-12-15");
+      const entries = a.moduleState("business").table("foundings").rows();
+      if (!permitted) expect(entries).toHaveLength(0);
+      else {
+        expect(entries.length).toBeGreaterThan(0);
+        const entry = entries[0]!;
+        expect(entry.kindId).toBe("cannabis-retail");
+        expect(
+          Number(entry.equityMinor) + Number(entry.loanMinor),
+        ).toBeGreaterThan(0);
+        expect(
+          core.organizations.get(String(entry.organizationId))?.classification,
+        ).toBe("enterprise:cannabis-retail");
+      }
+      expect(money(core)).toBe(total);
+    }
+  });
+
   it("an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", async () => {
     const core = await foundingCore(false);
     const total = money(core);

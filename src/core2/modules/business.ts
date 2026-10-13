@@ -54,6 +54,20 @@ export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
 const PULL = "business:pull";
+const CANNABIS_SALES =
+  "us-policy-positions:business-commerce.legalize-cannabis-sales";
+
+/** Permission is checked again when capital is committed, not cached at opening. */
+function mayOpenKind(api: CoreAPI, kindId: string, placeId: string): boolean {
+  if (kindId !== "cannabis-retail") return true;
+  // SG-GOV-REACH-A-cannabis-market: statutory permission is necessary, but
+  // demand and individual license adjudication still need their real producers.
+  return (
+    core(api).modules.has(LAWS_MODULE_ID) &&
+    placeId === lawChain(api).townPlaceId &&
+    lawInForce(api, CANNABIS_SALES).value === 1
+  );
+}
 
 interface OwnerRow {
   id: string;
@@ -905,6 +919,7 @@ function foundings(api: CoreAPI): void {
     return income > 0 ? Math.log((prospectMonthly(api, row) + 1) / income) : 0;
   };
   const market = marketRoom(api)
+    .filter((row) => mayOpenKind(api, row.kindId, row.placeId))
     .filter(
       (row) =>
         purchaseShareOf(
@@ -1123,6 +1138,7 @@ function found(
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const kindId = market.kindId;
+  if (!mayOpenKind(api, kindId, market.placeId)) return false;
   const founder = ownerPerson(c, founderId)!.person;
   const id = location
     ? `organization:location:${location.parentId}:${market.placeId}:${c.date}`
@@ -1196,6 +1212,9 @@ function found(
         .replace("{founder}", founder.familyName)
         .replace("{kind}", kindId),
     kind: "employer",
+    ...(kindId === "cannabis-retail"
+      ? { classification: "enterprise:cannabis-retail" }
+      : {}),
     liquidMinor: 0,
     source,
   });
