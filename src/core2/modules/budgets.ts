@@ -431,6 +431,7 @@ function receiveOutsideRevenue(
   work: Readonly<ModuleCalendarWork>,
 ): void {
   if (work.kind !== "outside-revenue") return;
+  remitPropertyTax(api, work.source);
   // stopgapId: SG-GOV-outside-revenue-monthly
   api.stopgap("SG-GOV-outside-revenue-monthly");
   const town = lawChain(api).townPlaceId;
@@ -494,6 +495,7 @@ const GROCERY_SELLERS = ["445"];
  */
 export function syncSalesTax(api: CoreAPI): void {
   registerPropertyTax(propertyTaxTerms);
+  taxCollector(api);
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const answer = lawInForce(api, "sales-tax");
   const town = lawChain(api).townPlaceId;
@@ -549,28 +551,96 @@ function propertyTaxTerms(api: CoreAPI) {
   const answer = lawInForce(api, "property-tax");
   const row = answer.governing;
   if (!row || answer.value === null || !(answer.value >= 0)) return undefined;
-  const govs = governments(api);
-  const collector =
-    govs.find((g) => g.level === "county") ??
-    govs.find((g) => g.level === "city") ??
-    govs.find((g) => g.level === "state");
+  const collector = taxCollector(api);
   if (!collector) return undefined;
-  // The county keeps every level's share; remitting the city's and the
-  // school district's is still to come.
-  stopgap("SG-GOV-property-tax-remittance");
   const citation = Array.isArray(row.source)
     ? row.source.join(" ; ")
     : (row.source as string);
   return {
     rate: answer.value / 100,
-    payeeId: collector.organizationId,
+    payeeId: collector,
     source: {
       tag: "ESTIMATED" as const,
       citation,
       asOf: api.state.date,
-      estimatedFrom: `Property tax in force (${collector.name})`,
+      estimatedFrom: "Property tax in force, to the county's tax collector",
     },
   };
+}
+
+/**
+ * The county's tax collector (the city's, else the state's, where there's no
+ * county government): owners pay it, and it passes each levying
+ * government's share on each month.
+ */
+function taxCollector(api: CoreAPI): string | null {
+  const govs = governments(api);
+  const county =
+    govs.find((g) => g.level === "county") ??
+    govs.find((g) => g.level === "city") ??
+    govs.find((g) => g.level === "state");
+  if (!county) return null;
+  const id = `organization:tax-collector:${county.id}`;
+  if (!api.state.organizations.has(id))
+    api.addOrganization({
+      id,
+      placeId: lawChain(api).townPlaceId,
+      name: `${county.name} tax collector`,
+      kind: "government-treasury",
+      liquidMinor: 0,
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Census Bureau, 2025 government units listing",
+        asOf: api.state.date,
+      },
+      governmentFacts: { governmentKey: county.id },
+    });
+  return id;
+}
+
+/**
+ * The tax collector passes on what it collected: each government that
+ * levies property tax (state, county, city) gets its share, by what it
+ * levies per resident (Census property-tax revenue over residents).
+ */
+function remitPropertyTax(api: CoreAPI, source: Source): void {
+  const id = taxCollector(api);
+  const collected = id
+    ? (api.state.organizations.get(id)?.liquidMinor ?? 0)
+    : 0;
+  if (!id || collected <= 0) return;
+  const levies = governments(api)
+    .filter((g) => g.level !== "federal" && g.residents > 0)
+    .map((g) => {
+      const budget = budgetsOf(api, g.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1);
+      return {
+        gov: g,
+        perResident: (budget?.revenueMinor.propertyTax ?? 0) / g.residents,
+      };
+    })
+    .filter((l) => l.perResident > 0);
+  const total = levies.reduce((sum, l) => sum + l.perResident, 0);
+  if (!(total > 0)) return;
+  const accounts = api.accounts();
+  let left = collected;
+  levies.forEach((l, i) => {
+    const amount =
+      i === levies.length - 1
+        ? left
+        : Math.floor((collected * l.perResident) / total);
+    left -= amount;
+    if (amount > 0)
+      accounts.transfer({
+        id: `property-tax-remit:${l.gov.id}:${api.state.date}`,
+        from: accounts.main(id),
+        to: accounts.main(l.gov.organizationId),
+        amountMinor: amount,
+        reasonKey: "property-tax-remit",
+        source,
+      });
+  });
 }
 
 function groceryExemptionInForce(api: CoreAPI): boolean {

@@ -245,10 +245,11 @@ describe(
       const { core } = built;
       const api = coreAPI(core);
       const govs = governments(api);
-      const collector =
+      const county =
         govs.find((g) => g.level === "county") ??
         govs.find((g) => g.level === "city") ??
         govs.find((g) => g.level === "state")!;
+      const collector = `organization:tax-collector:${county.id}`;
       const where = `${core.placeMetadata.placeName}, ${lawChain(api).stateKey} (seed ${seed}:property:${attempt})`;
       const rate = lawInForce(api, "property-tax").value!;
       expect(rate, where).toBeGreaterThan(0);
@@ -265,18 +266,16 @@ describe(
           valueMinor: 25_000_000,
         }));
       expect(homes.length, where).toBeGreaterThan(0);
-      const before = core.organizations.get(
-        collector.organizationId,
-      )!.liquidMinor;
+      const before = core.organizations.get(collector)!.liquidMinor;
       const paid = billPropertyTax(
         api,
         api.moduleState(HOUSING_MODULE_ID).table("assessments"),
         homes,
       );
       expect(paid, where).toBeGreaterThan(0);
-      // Every dollar paid is in the collector's treasury, none outside.
+      // Every dollar paid is with the county's tax collector, none outside.
       expect(
-        core.organizations.get(collector.organizationId)!.liquidMinor - before,
+        core.organizations.get(collector)!.liquidMinor - before,
         where,
       ).toBe(paid);
       // No more than a twelfth of the homes' value times the rate in force.
@@ -285,12 +284,19 @@ describe(
         0,
       );
       expect(paid, where).toBeLessThanOrEqual(due * 1.2);
+      // On the first of the month the collector passes it all on to the
+      // governments that levy it.
+      const first = new Date(`${core.date.slice(0, 7)}-01T00:00:00Z`);
+      first.setUTCMonth(first.getUTCMonth() + 1);
+      first.setUTCDate(2);
+      advanceCore(core, first.toISOString().slice(0, 10));
+      expect(core.organizations.get(collector)!.liquidMinor, where).toBe(0);
       govReport(
         "budgets-property-tax",
         JSON.stringify({
           where,
           ratePercent: rate,
-          collector: collector.name,
+          collector: county.name,
           homes: homes.length,
           paid: (paid / 100).toFixed(2),
           due: (due / 100).toFixed(2),
