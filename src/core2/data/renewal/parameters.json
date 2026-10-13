@@ -140,9 +140,9 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalWaitPull": {
-    "value": 1,
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors.",
+    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors. Recalibrated Oct 13, 2026 (OPUS-PEOPLE) once couples form during play: over a year in six drawn towns (seeds b1-b6, births-dating draw) births were 77 against 47.7 expected from each state's 2024 rates at 1, 62 at 2, 54 at 3.",
     "spread": {
       "status": "unmeasured",
       "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
@@ -160,12 +160,12 @@
     }
   },
   "renewalApartPull": {
-    "value": 1,
+    "value": 0,
     "tag": "TUNABLE",
-    "citation": "How much living apart weighs against a child in a dating couple's plan (a couple at home weighs +1). Checked by the share of births to mothers with no partner at home: about 40% of US births are to unmarried mothers (NCHS NVSS, Births: Final Data for 2022) and about 58% of those to cohabiting couples (NSFG 2015-2019, NCHS NHSR 179), leaving about 17% of births to mothers with no partner at home.",
+    "citation": "How much living apart weighs against a child in a dating couple's plan (a couple at home weighs +1). Checked by the share of births to mothers with no partner at home: about 40% of US births are to unmarried mothers (NCHS NVSS, Births: Final Data for 2022) and about 58% of those to cohabiting couples (NSFG 2015-2019, NCHS NHSR 179), leaving about 17% of births to mothers with no partner at home. Set Oct 13, 2026 at wait pull 3 over six drawn towns: dating couples' births 2 of 53 at 0.5, 3 of 54 at 0, 6 of 57 at -1; the share stays near 6-11% whatever the pull, because few couples date long before moving in, so 0 (living apart counts for nothing, against +1 at home).",
     "spread": {
-      "low": 0.5,
-      "high": 2
+      "low": -1,
+      "high": 1
     },
     "stopgapId": "SG-M1-births-circumstances"
   }
