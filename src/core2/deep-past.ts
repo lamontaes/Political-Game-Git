@@ -9,6 +9,7 @@ import {
 } from "./opening-peer-network";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
 import privateSchoolsJson from "./data/opening-private-schools.json" with { type: "json" };
+import { profileFor } from "./opening-profile";
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -54,6 +55,13 @@ const PRIVATE_SCHOOLS = privateSchoolsJson as unknown as {
   >;
   shareByState: Readonly<Record<string, number>>;
 };
+
+/** Each private school's affiliation (Catholic, other religious, nonsectarian). */
+const PRIVATE_ORIENTATION = new Map(
+  Object.values(PRIVATE_SCHOOLS.byCounty).flatMap((rows) =>
+    rows.map((row) => [row[0], row[5]] as const),
+  ),
+);
 
 const OPENING_COWORKER_DATA = coworkerJson as OpeningPeerData;
 
@@ -421,15 +429,35 @@ export function buildDeepPast(
         .forEach((id) => privateHouseholds.add(id));
     }
   }
+  // A family's faith picks the kind of private school: a Catholic family's
+  // child goes to a Catholic school, another faith's to a religious one, a
+  // family with none to a nonsectarian one, where the county has one.
+  const householdFaith = new Map<string, string>();
+  for (const person of [...input.people].sort(
+    (a, b) =>
+      a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+  )) {
+    if (householdFaith.has(person.householdId)) continue;
+    const faith = profileFor(person, input.seed, input.startedAt)?.faith;
+    if (faith) householdFaith.set(person.householdId, faith);
+  }
+  const ORIENTATION_BY_FAITH: Readonly<Record<string, string>> = {
+    catholic: "catholic",
+    none: "nonsectarian",
+  };
   const privateRows = (
     placeId: string,
     countyId: string | undefined,
     entryGrade: string,
+    faith: string | undefined,
   ): readonly SchoolRow[] => {
     const entry = grade(entryGrade)!;
-    return countyGeoidsOf(placeId, countyId).flatMap((geoid) =>
-      (PRIVATE_SCHOOLS.byCounty[geoid] ?? [])
-        .filter(([, , lowest, highest]) => {
+    const want = faith
+      ? (ORIENTATION_BY_FAITH[faith] ?? "other-religious")
+      : undefined;
+    const teaching = countyGeoidsOf(placeId, countyId).flatMap((geoid) =>
+      (PRIVATE_SCHOOLS.byCounty[geoid] ?? []).filter(
+        ([, , lowest, highest]) => {
           const low = grade(lowest);
           const high = grade(highest);
           return (
@@ -438,11 +466,13 @@ export function buildDeepPast(
             low <= entry &&
             entry <= high
           );
-        })
-        .map(
-          ([id, name, lowest, highest, enrollment]) =>
-            [id, name, lowest, highest, enrollment] as const,
-        ),
+        },
+      ),
+    );
+    const matching = teaching.filter((row) => row[5] === want);
+    return (matching.length ? matching : teaching).map(
+      ([id, name, lowest, highest, enrollment]) =>
+        [id, name, lowest, highest, enrollment] as const,
     );
   };
 
@@ -608,7 +638,12 @@ export function buildDeepPast(
         const privateOpen =
           privateHouseholds.has(person.householdId) &&
           ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge")
-            ? privateRows(placeId, countyId, stage.entryGrade)
+            ? privateRows(
+                placeId,
+                countyId,
+                stage.entryGrade,
+                householdFaith.get(person.householdId),
+              )
             : [];
         const isPrivate = privateOpen.length > p("zero");
         const listed = schoolRows(placeId, countyId, stage.entryGrade);
@@ -654,7 +689,13 @@ export function buildDeepPast(
               ? {
                   institutionSourceId: campusId!,
                   institutionSourceKey: isPrivate ? "NCES-PSS" : "NCES-CCD",
-                  ...(isPrivate ? { schoolControl: "private" } : {}),
+                  ...(isPrivate
+                    ? {
+                        schoolControl: "private",
+                        schoolAffiliation:
+                          PRIVATE_ORIENTATION.get(campusId!) ?? "",
+                      }
+                    : {}),
                   institutionName: campusName!,
                   institutionKind: stage.id,
                   directoryAsOf: isPrivate

@@ -4,6 +4,7 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import type { EntityId } from "../simulation/types";
 import { buildDeepPast } from "./deep-past";
+import { profileFor } from "./opening-profile";
 import { buildPopulation } from "./population";
 import privateSchools from "./data/opening-private-schools.json" with { type: "json" };
 
@@ -117,5 +118,39 @@ describe(`private schools in ${towns.map(({ place }) => `${place.name} (seed ${p
     expect(privateEarnings / privateCount).toBeGreaterThan(
       publicEarnings / publicCount,
     );
+  });
+
+  it("sends a Catholic family's child to a Catholic school more often than other families'", () => {
+    let catholic = 0;
+    let catholicAtCatholic = 0;
+    let other = 0;
+    let otherAtCatholic = 0;
+    for (const { input } of towns) {
+      const eldest = new Map<string, string>();
+      for (const person of [...input.people].sort(
+        (a, b) =>
+          a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+      )) {
+        if (eldest.has(person.householdId)) continue;
+        const faith = profileFor(person, input.seed, input.startedAt)?.faith;
+        if (faith) eldest.set(person.householdId, faith);
+      }
+      for (const person of input.people)
+        for (const fact of person.pastFacts ?? []) {
+          if (fact.facts?.institutionSourceKey !== "NCES-PSS") continue;
+          const atCatholic = fact.facts.schoolAffiliation === "catholic";
+          if (eldest.get(person.householdId) === "catholic") {
+            catholic += 1;
+            if (atCatholic) catholicAtCatholic += 1;
+          } else {
+            other += 1;
+            if (atCatholic) otherAtCatholic += 1;
+          }
+        }
+    }
+    if (catholic && other)
+      expect(catholicAtCatholic / catholic).toBeGreaterThan(
+        otherAtCatholic / other,
+      );
   });
 });
