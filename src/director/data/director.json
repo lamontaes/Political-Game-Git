@@ -330,6 +330,12 @@
       "tag": "ESTIMATED",
       "citation": "A member's vote on a bill, sized as the Social Readjustment Rating Scale's 'Change in work hours or conditions', 20 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.11 to 0.29"
+    },
+    "directorBusinessClosedImpact": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "A business closing, sized as the Social Readjustment Rating Scale's 'Business readjustment', 39 life-change units divided by 100 (Holmes and Rahe 1967), as its founding is.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.28 to 0.45"
     }
   },
   "channels": [
@@ -541,6 +547,11 @@
       "channel": "cause",
       "impactParameter": "directorBodyVoteImpact",
       "counterparts": "thread"
+    },
+    {
+      "eventKind": "business.closed",
+      "channel": "feeling",
+      "impactParameter": "directorBusinessClosedImpact"
     }
   ]
 }

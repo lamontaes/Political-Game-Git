@@ -456,6 +456,28 @@
           "text": "{{other}} voted on {{bill}}, {{yes}} to {{no}}."
         }
       ]
+    },
+    {
+      "kindPrefix": "event:business.closed",
+      "turn": false,
+      "eventFacts": {
+        "business": {
+          "fact": "topic",
+          "format": "organization"
+        }
+      },
+      "line": [
+        {
+          "key": "business-closed",
+          "text": "{{business}} closed."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-business-closed",
+          "text": "{{other}} closed {{business}}."
+        }
+      ]
     }
   ],
   "firstTitle": [

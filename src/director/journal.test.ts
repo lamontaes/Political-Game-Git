@@ -382,6 +382,30 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(text).toContain("I lost the race for Mayor.");
     expect(text).toContain("I took office as City Council, Seat 2.");
     expect(text).toContain("We voted on Ordinance 2021-4, 5 to 2.");
+    // As WORLD's business engine records an owner's business closing.
+    const business = [...core.organizations.values()]
+      .map((row) => row.id)
+      .sort()[0]!;
+    applyCoreEvent(core, {
+      id: `event:business.closed:${business}`,
+      date: core.date,
+      kind: "business.closed",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      topic: business,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like WORLD's business engine.",
+        estimatedFrom: "Fixture.",
+      },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const closed = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .find((line) => line.sourceRecordIds.includes(business));
+    expect(closed?.text).toMatch(/ closed\.$/);
     // The opponent is not named in the player's own lines.
     const won = lines.find((line) => line.text.startsWith("I won"))!;
     expect(won.sourceRecordIds).toContain("election-result:fixture-seat-2");
