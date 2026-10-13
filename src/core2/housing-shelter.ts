@@ -10,7 +10,7 @@ import {
   bedroomsForHousehold,
   hudRentRowFor,
 } from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "./kernel/brands";
 import type { CoreInput } from "./types";
 
 const OUTSIDE_LIVING = "residents:outside-living:";

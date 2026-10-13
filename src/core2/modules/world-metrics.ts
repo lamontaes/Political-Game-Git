@@ -5,7 +5,7 @@
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { ownedHomes } from "./housing";
 import { residentsRuntime } from "./residents";

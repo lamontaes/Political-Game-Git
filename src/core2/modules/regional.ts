@@ -3,8 +3,8 @@
  * state's one or two largest metros and the rest of the state, stepped after
  * each national month. A town's conditions combine the nation with its region.
  */
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
 import type { MacroMonth } from "../macro-model";
 import type { Parameter } from "../parameters";
@@ -17,7 +17,7 @@ import {
   type RegionMonth,
 } from "../regional-model";
 import { statePurchasesAboveMinor } from "../macro-public";
-import type { EntityId } from "../../simulation/types";
+import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const REGIONAL_MODULE_ID = "regional";
@@ -36,7 +36,7 @@ export function regionalRegistered(api: CoreAPI): boolean {
 
 /** A place's region from its county; a place with no county row takes its state's remaining region. */
 export function regionOfPlace(placeId: string): string | undefined {
-  const place = lifePlaceByJurisdictionId(placeId as EntityId);
+  const place = corePlaceByJurisdictionId(placeId as EntityId);
   if (!place) return undefined;
   const geoid = place.sourceGeoid ?? "";
   let county: string | undefined;

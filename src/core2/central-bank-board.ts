@@ -1,8 +1,8 @@
 /** The central bank's board: fictional people, real seats and terms, and each member's view of a rate decision. */
 import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
-import { getNameCorpus } from "../simulation/names-data";
-import { SeededRng } from "../simulation/rng";
+import { getNameCorpus } from "./gov-rules/names-data";
+import { SeededRng } from "./kernel/rng";
 import { stopgap } from "./stopgaps";
 import cesViews from "./data/views/ces-2024-views.json" with { type: "json" };
 import viewsData from "./data/views/views.json" with { type: "json" };

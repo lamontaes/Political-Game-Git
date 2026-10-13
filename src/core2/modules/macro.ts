@@ -7,7 +7,7 @@
  */
 import { webFactor } from "../world-web";
 import { federalPurchasesPct } from "../macro-public";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
