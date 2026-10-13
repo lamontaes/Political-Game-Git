@@ -23,6 +23,8 @@
     "filing-visit.clerk-rule-register.you-must-be-a-registered-or-pre-registered-voter": "names a county and pre-registration; the rule is each place's own record",
     "bring-it-up.blame-unknown-unknown.nobody-knows-why": "claims what everyone else knows",
     "bring-it-up.blame-unknown-unknown.i-dont-know-what-happened": "the speaker knows what happened; only who is behind it is unknown",
-    "bring-it-up.blame-unknown-unknown.nobody-knows": "claims what everyone else knows"
+    "bring-it-up.blame-unknown-unknown.nobody-knows": "claims what everyone else knows",
+    "scene-words.setting-public-out.welcome-to-place": "a greeting, not where the scene is",
+    "scene-words.setting-phone-phone.the-phone-rang": "past tense in present-tense narration"
   }
 }

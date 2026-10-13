@@ -19,6 +19,7 @@ import { JOURNAL_DATA } from "./journal";
 import type { Director } from "./ledger";
 import type { SceneBinding, ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
+import { withParts } from "./parts";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
@@ -27,7 +28,7 @@ const one = P.one;
 interface Variant {
   key: string;
   text: string;
-  stages?: string[];
+  stages?: readonly string[];
 }
 export interface SceneWords {
   version: string;
@@ -188,7 +189,9 @@ export function composeScene(
   const narration: SceneLine[] = [];
   const setting = render(
     `scene-setting:${kind}`,
-    words.settings[kind],
+    words.settings[kind]?.flatMap((variant) =>
+      withParts("scene-words", "setting", kind, variant),
+    ),
     settingFacts,
     `${moment.id}:setting`,
   );
@@ -207,7 +210,9 @@ export function composeScene(
         : `${names.slice(zero, -one).join(", ")} ${words.and} ${names.at(-one)!}`;
     const line = render(
       "scene-present",
-      words.present,
+      words.present.flatMap((variant) =>
+        withParts("scene-words", "present", variant.key, variant),
+      ),
       {
         who: {
           text: joined,
@@ -244,7 +249,9 @@ export function composeScene(
     if (town) facts.place = town;
     const line = render(
       `scene-cause:${cause.labelPrefix}`,
-      cause.variants,
+      cause.variants.flatMap((variant) =>
+        withParts("scene-words", "cause", cause.labelPrefix, variant),
+      ),
       facts,
       `${moment.id}:cause`,
     );
