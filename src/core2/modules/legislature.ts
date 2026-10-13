@@ -320,7 +320,7 @@ function councilBudget(
         api,
         gov,
         fy,
-        `${chambers.body} vote ${votes}, ${bill.number}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}`,
+        `${chambers.body} vote ${votes}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}, ${bill.number}`,
         passed,
       )
     : carriedBudget(
