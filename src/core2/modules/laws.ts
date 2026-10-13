@@ -15,6 +15,7 @@ import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
+import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
 import {
   lawChainForPlace,
   startingLawRows,
@@ -89,6 +90,13 @@ export function openLaws(core: CoreState): LawChain {
         sourceRecordIds: [row.id],
       });
   }
+  // The minimum wage's dated changes since 2000, before the starting rows
+  // (owner's history ruling; OPUS-WEB reads the law at past dates).
+  for (const row of minimumWageHistoryRows(chain.stateKey, [
+    ...state.table("laws").rows(),
+  ] as unknown as LawRowInput[]))
+    if (!state.table("laws").get(row.id))
+      state.table("laws").put(row as unknown as ModuleRow);
   // Social Security's retirement ages are federal law (owner, Oct 12).
   for (const row of socialSecurityRows(today))
     if (!state.table("laws").get(row.id))
@@ -117,6 +125,72 @@ export function openLaws(core: CoreState): LawChain {
       state.table("laws").put(row as unknown as ModuleRow);
   }
   return chain;
+}
+
+type WageStep = {
+  effectiveDate: string;
+  rateMinor: number;
+  sourceId: string;
+  estimated?: string;
+};
+const WAGE_HISTORY = wageHistory as unknown as {
+  sources: { id: string; citation?: string; url?: string; title?: string }[];
+  federal: WageStep[];
+  places: Record<string, WageStep[] | { noStateMinimum?: boolean }>;
+};
+
+/**
+ * Earlier minimum wage rows for the federal level and the town's state: each
+ * step ends where the next begins, and the last ends where that level's first
+ * starting row begins. Levels without a starting row get none (no state law).
+ */
+function minimumWageHistoryRows(
+  stateKey: string,
+  existing: readonly LawRowInput[],
+): LawRowInput[] {
+  const out: LawRowInput[] = [];
+  const levels: [string, "federal" | "state", WageStep[]][] = [
+    ["US", "federal", WAGE_HISTORY.federal],
+  ];
+  const own = WAGE_HISTORY.places[stateKey];
+  if (Array.isArray(own)) levels.push([stateKey, "state", own]);
+  for (const [jurisdiction, level, steps] of levels) {
+    const first = existing
+      .filter(
+        (r) =>
+          r.series === "minimum-wage" &&
+          r.level === level &&
+          r.jurisdiction === jurisdiction &&
+          r.tier === "general",
+      )
+      .map((r) => r.effectiveDate)
+      .sort()[0];
+    if (!first) continue;
+    const before = steps
+      .filter((s) => s.effectiveDate < first)
+      .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
+    for (const [i, step] of before.entries()) {
+      const source = WAGE_HISTORY.sources.find((s) => s.id === step.sourceId);
+      out.push({
+        id: `law:${jurisdiction}:${level}:minimum-wage:general:${step.effectiveDate}`,
+        jurisdiction,
+        level,
+        series: "minimum-wage",
+        tier: "general",
+        value: step.rateMinor,
+        unit: "minor/hour",
+        effectiveDate: step.effectiveDate,
+        endDate: before[i + 1]?.effectiveDate ?? first,
+        source: [
+          "data/research/laws/minimum-wage-history-2000-2026.json",
+          source?.url ?? step.sourceId,
+        ].join(" ; "),
+        retrieved: "2026-10-13",
+        estimate: step.estimated !== undefined || step.sourceId === "RECALL",
+      });
+    }
+  }
+  return out;
 }
 
 const SOCIAL_SECURITY = socialSecurity as unknown as {

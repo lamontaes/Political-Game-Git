@@ -95,7 +95,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-WEB: GOV measures and the law's baseline date.**
   - **Measures:** call `govMeasure(api, measure)` (`src/core2/gov-measures.ts`; list in `GOV_MEASURES`) from `outcome-web.ts`'s engine-measure branch. Units are documented per measure.
   - **Laws passed in play:** never count as starting law. Their rows carry `terms.enactedBy`, and starting policy answers are dated no later than July 1, 2024.
-  - **Amount series start late:** the minimum wage and taxes start at their current 2026 phase, so at July 1, 2024 only the federal floor is in force. Reading the 2024 values needs the earlier phases researched (a GOV research item; ask if you need it sooner).
+  - **Minimum wage history:** it is now law from 2000 (federal and state), so `lawInForce(api, "minimum-wage", "2024-07-01")` reads the 2024 rate. Most state dates are estimates (January 1 values). Taxes still start at their 2026 phase.
 - **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
 - **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
@@ -110,6 +110,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 02:05 UTC: The minimum wage's history since 2000 is law (owner's history ruling; the 2024 gap OPUS-WEB found). A Sonnet research helper recorded the federal steps and 538 state and territory steps from the Labor Department's history table (`data/research/laws/minimum-wage-history-2000-2026.json`). 96% of the state dates are estimates, because the table gives January 1 values; 35 recalled values are flagged for checking. `openLaws` loads them as dated rows, each ending where the next begins and the last where the starting rows begin. Test `minimum-wage-history.test.ts`: in random places, July 1, 2024 reads Maryland $15.00, Tennessee $7.25 and Guam $9.25, and 2005 reads $5.15 everywhere. CI: the release declaration was missing; added. Next: verify the recalled values against state labor department pages, then the history of other law amounts.
 - 2026-10-13 01:43 UTC: Measures for the outcome web (OPUS-WEB asked for 48 from GOV):
   - **The reader:** `govMeasure(api, measure)` in `src/core2/gov-measures.ts` reads the six my engines record today: the minimum wage's change over the past year or since the opening, its gap to $15, the incumbent's vote share in the latest contested race, the share of incumbents re-elected, local turnout, and the city's parks line above its base.
   - **Vermont run (new `gov-measures.test.ts`):** 0% wage change, $0.58 short of $15, incumbent 33.6%, 78% of incumbents re-elected, 42% local turnout.
