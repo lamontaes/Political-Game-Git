@@ -251,9 +251,13 @@ export function ownStance(
   signature: readonly SignatureIssue[],
   question: string,
 ): number {
-  const lean = ideal * OFFICIALS_DATA.ideology.leanScale.value;
   const tilt = signature.find((s) => s.question === question)?.tilt ?? 0;
-  return supportAt(lean + tilt, question);
+  // On the voters' scale, no further out than the electorate's own ends.
+  const lean = Math.max(
+    -1,
+    Math.min(1, (ideal + tilt) * OFFICIALS_DATA.ideology.leanScale.value),
+  );
+  return supportAt(lean, question);
 }
 
 /**

@@ -6,16 +6,34 @@
     "tag": "SOURCED",
     "parties": {
       "democratic": {
-        "us-house": { "mean": -0.386, "sd": 0.114 },
-        "us-senate": { "mean": -0.367, "sd": 0.106 }
+        "us-house": {
+          "mean": -0.386,
+          "sd": 0.114
+        },
+        "us-senate": {
+          "mean": -0.367,
+          "sd": 0.106
+        }
       },
       "republican": {
-        "us-house": { "mean": 0.524, "sd": 0.16 },
-        "us-senate": { "mean": 0.555, "sd": 0.168 }
+        "us-house": {
+          "mean": 0.524,
+          "sd": 0.16
+        },
+        "us-senate": {
+          "mean": 0.555,
+          "sd": 0.168
+        }
       },
       "other": {
-        "us-house": { "mean": -0.188, "sd": 0.3 },
-        "us-senate": { "mean": -0.188, "sd": 0.3 }
+        "us-house": {
+          "mean": -0.188,
+          "sd": 0.3
+        },
+        "us-senate": {
+          "mean": -0.188,
+          "sd": 0.3
+        }
       }
     },
     "otherSource": "Independents and third parties: the mean of the three independents in the 119th Congress (-0.546, -0.170, 0.152), spread across that range; their side is then set by where their state or district leans (the same district pull as party members).",
@@ -38,10 +56,10 @@
       "spread": [0.7, 1.2]
     },
     "leanScale": {
-      "value": 1,
-      "tag": "TUNABLE",
-      "source": "The game's lean runs from -1 to 1 like the first dimension, so a first-dimension score is used as the lean directly.",
-      "spread": [0.8, 1.2]
+      "value": 1.7,
+      "tag": "ESTIMATED",
+      "source": "Members sit further out than the voters they represent: placed on a common scale with the electorate, each party's median member of Congress is to the outside of roughly 80 to 90 percent of the national electorate (Bafumi and Herron 2010, 'Leapfrog Representation and Extremism', APSR 104(3)). The game's voter lean is a person's rank in the electorate from -1 to 1, so a first-dimension score of about -0.4 (the median House Democrat) reads as a lean near -0.8. Each party's median member then sits near the 15th or 85th percentile of voters (a lean near -0.65 or +0.85), and a member's lean is capped at the electorate's own ends (-1 and 1).",
+      "spread": [1.4, 2.2]
     }
   },
   "wings": {
@@ -75,8 +93,12 @@
     "source": "https://unitedstates.github.io/congress-legislators/legislators-current.json (public domain, CC0), retrieved 2026-10-12: both independent senators caucus with the Democrats; the independent House member left the Republican party on 2026-03-09 and caucuses with the Republicans.",
     "tag": "SOURCED",
     "caucus": {
-      "seat:US-ME:us-senate:0": { "caucus": "Democratic" },
-      "seat:US-VT:us-senate:1": { "caucus": "Democratic" },
+      "seat:US-ME:us-senate:0": {
+        "caucus": "Democratic"
+      },
+      "seat:US-VT:us-senate:1": {
+        "caucus": "Democratic"
+      },
       "seat:US-CA:us-house:03": {
         "caucus": "Republican",
         "formerParty": "Republican",
@@ -94,15 +116,42 @@
     "about": "The personality facets drawn for each official, in the same units as residents' traits, from the world's seed. Officials are drawn from people suited to public life: more outgoing, dutiful and driven than average (Dietrich, Lasley, Mondak, Remmel and Turner 2012, 'Personality and Legislative Politics: The Big Five Trait Dimensions Among U.S. State Legislators', Political Psychology 33(2): legislators score above the public on extraversion and conscientiousness).",
     "tag": "ESTIMATED",
     "keys": {
-      "personality-v1:facet-duty-bound": { "mean": 0.2, "sd": 0.35 },
-      "personality-v1:facet-generous": { "mean": 0, "sd": 0.35 },
-      "personality-v1:facet-practical": { "mean": 0, "sd": 0.35 },
-      "personality-v1:facet-enterprising": { "mean": 0.3, "sd": 0.35 },
-      "people-mind-v1:sociability": { "mean": 0.3, "sd": 0.3 },
-      "people-mind-v1:reliability": { "mean": 0.15, "sd": 0.3 },
-      "people-mind-v1:conflict": { "mean": 0, "sd": 0.35 },
-      "people-mind-v1:deliberation": { "mean": 0.1, "sd": 0.3 },
-      "people-mind-v1:risk": { "mean": 0.1, "sd": 0.35 }
+      "personality-v1:facet-duty-bound": {
+        "mean": 0.2,
+        "sd": 0.35
+      },
+      "personality-v1:facet-generous": {
+        "mean": 0,
+        "sd": 0.35
+      },
+      "personality-v1:facet-practical": {
+        "mean": 0,
+        "sd": 0.35
+      },
+      "personality-v1:facet-enterprising": {
+        "mean": 0.3,
+        "sd": 0.35
+      },
+      "people-mind-v1:sociability": {
+        "mean": 0.3,
+        "sd": 0.3
+      },
+      "people-mind-v1:reliability": {
+        "mean": 0.15,
+        "sd": 0.3
+      },
+      "people-mind-v1:conflict": {
+        "mean": 0,
+        "sd": 0.35
+      },
+      "people-mind-v1:deliberation": {
+        "mean": 0.1,
+        "sd": 0.3
+      },
+      "people-mind-v1:risk": {
+        "mean": 0.1,
+        "sd": 0.35
+      }
     },
     "spread": [0.2, 0.5]
   },

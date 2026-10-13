@@ -799,7 +799,10 @@ export function allOfficials(api: CoreAPI): readonly OfficialRow[] {
 
 /** An official's own lean (their left-right position on the game's scale). */
 export function officialLean(row: OfficialRow): number {
-  return row.ideal * OFFICIALS_DATA.ideology.leanScale.value;
+  return Math.max(
+    -1,
+    Math.min(1, row.ideal * OFFICIALS_DATA.ideology.leanScale.value),
+  );
 }
 
 /**
