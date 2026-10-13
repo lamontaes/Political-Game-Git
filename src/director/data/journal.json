@@ -547,6 +547,22 @@
           "text": "With {{name}}"
         }
       ]
+    },
+    {
+      "kindPrefix": "event:health.coverage-lost",
+      "turn": false,
+      "line": [
+        {
+          "key": "lost-coverage",
+          "text": "I lost my health insurance."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-lost-coverage",
+          "text": "{{other}} lost {{their}} health insurance."
+        }
+      ]
     }
   ],
   "firstTitle": [

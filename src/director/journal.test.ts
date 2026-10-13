@@ -533,4 +533,28 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       );
     expect(relative?.text).toMatch(/^My \w+ got married\.$/);
   });
+
+  it("tells losing health insurance, as the coverage engine records it", () => {
+    const me = core.people.get(player.id)!;
+    applyCoreEvent(core, {
+      id: `health.coverage-lost:${core.date}:${player.id}`,
+      date: core.date,
+      kind: "health.coverage-lost",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the coverage engine.",
+        estimatedFrom: "Fixture.",
+      },
+      facts: { from: "employer" },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const text = composeJournal(core, director, player.id).flatMap((chapter) =>
+      chapter.lines.map((line) => line.text),
+    );
+    expect(text).toContain("I lost my health insurance.");
+  });
 });

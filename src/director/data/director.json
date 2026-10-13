@@ -353,6 +353,12 @@
       "value": 0.5,
       "tag": "SOURCED",
       "citation": "Marrying, the Social Readjustment Rating Scale's anchor item 'Marriage', 50 life-change units divided by 100 (Holmes and Rahe 1967), as the director's past partnership moment is."
+    },
+    "directorCoverageLostImpact": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Losing health coverage, sized as the Social Readjustment Rating Scale's 'Change in financial state', 38 life-change units divided by 100 (Holmes and Rahe 1967); the scale has no item for coverage itself.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.45"
     }
   },
   "channels": [
@@ -583,6 +589,11 @@
       "channel": "feeling",
       "impactParameter": "directorMarriedImpact",
       "counterparts": "tied"
+    },
+    {
+      "eventKind": "health.coverage-lost",
+      "channel": "money",
+      "impactParameter": "directorCoverageLostImpact"
     }
   ]
 }

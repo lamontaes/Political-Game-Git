@@ -27,6 +27,7 @@ import type {
 } from "../types";
 
 export const COVERAGE_MODULE_ID = "coverage";
+export const COVERAGE_LOST_EVENT = "health.coverage-lost";
 export const COVERAGE_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -412,6 +413,25 @@ export function monthlyReview(api: CoreAPI): void {
           )
         : api.parameter("zero");
       const wasCovered = prior && prior.kind !== "uninsured";
+      // Losing all coverage is the person's own news.
+      if (wasCovered && row.kind === "uninsured") {
+        const person = core.people.get(personId)!;
+        api.emit({
+          id: `${COVERAGE_LOST_EVENT}:${api.state.date}:${personId}`,
+          date: api.state.date,
+          kind: COVERAGE_LOST_EVENT,
+          personIds: [personId],
+          placeId: person.placeId,
+          source: {
+            tag: "ESTIMATED",
+            asOf: api.state.date,
+            citation: `Coverage review: ${prior!.kind} coverage ended.`,
+            estimatedFrom: STOPGAP,
+          },
+          publicRecord: false,
+          facts: { from: prior!.kind },
+        });
+      }
       table.put({
         id: personId,
         kind: row.kind,
