@@ -340,9 +340,8 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     jurisdiction,
     body: lower,
     leader,
-    lean: leader
-      ? partySide(leader.party) * campaignParameter("identityLeanScale")
-      : 0,
+    // The leader brings what they themselves want (their own position).
+    lean: leader ? leanOf(api, leader.personId ?? `official:${leader.id}`) : 0,
     gapFor: (question, want) =>
       gap(want, answerIn(api, jurisdiction, question)),
     allowed: () => true,

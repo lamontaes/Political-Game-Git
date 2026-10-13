@@ -45,6 +45,17 @@ import {
   type GovernmentRow,
 } from "./budgets";
 import { partyName, partySide } from "../appointments";
+import {
+  atLarge,
+  currentOfficial,
+  holderOf,
+  officialLean,
+  officialOf,
+  officialParts,
+  openOfficials,
+  OFFICIALS_MODULE_ID,
+  seatOfficial,
+} from "./officials";
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -112,6 +123,15 @@ export interface MemberPosition {
   readonly deal: number;
   /** What organized interests that met the member pressed on them. */
   readonly lobby: number;
+  /**
+   * A state or federal official's further reasons (OPUS-OFFICIALS): their
+   * party's leadership (or caucus), their wing, ambition and the next
+   * election, and press attention. Zero for a town member.
+   */
+  readonly party?: number;
+  readonly wing?: number;
+  readonly ambition?: number;
+  readonly press?: number;
   readonly total: number;
 }
 
@@ -180,6 +200,8 @@ export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
   registerBudgetVote(councilBudget);
+  // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
+  if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
 
 /**
@@ -674,11 +696,12 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
     offices.table("seats").query("byOffice", [officeId]) as unknown as {
       id: string;
     }[]
-  ).flatMap(
-    (seat) =>
+  ).flatMap((seat) =>
+    (
       offices
         .table("terms")
-        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[],
+        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
+    ).map((term) => holderOf(api, term)),
   );
 }
 
@@ -695,18 +718,22 @@ export const FEDERAL_SENATE = "federal:us-senate";
 
 /**
  * Every member of Congress, seat by seat with the party that holds it (public
- * roster). The town's own members are its named officials (their terms in
- * the offices module); every other seat is a named official the world hasn't
- * built yet, voting by its party (SG-GOV-official-identity-only).
+ * roster), each a person (OPUS-OFFICIALS): the town's state's members hold
+ * terms in the offices module; every other seat's holder is an official
+ * seated at the opening, or, once a race elsewhere changes the seat's party,
+ * the winner, seated as a person the first time the seat is read.
  */
 /** The party a seat's coarse race elected, once its winner is seated (world-races). */
-function worldSeatParty(api: CoreAPI, seatId: string): string | null {
+function worldSeatParty(
+  api: CoreAPI,
+  seatId: string,
+): { party: string; since: string } | null {
   if (!api.state.modules.has("core2-world-races-v1")) return null;
   const row = api
     .moduleState("core2-world-races-v1")
     .table("seats")
     .get(seatId) as unknown as { party: string; since: string } | undefined;
-  return row && row.since <= api.state.date ? row.party : null;
+  return row && row.since <= api.state.date ? row : null;
 }
 
 function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
@@ -724,38 +751,90 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
       // Delegates and the Resident Commissioner don't vote on final passage
       // (House Rule III); a place with no senators has no senate rows.
       if (!senate && NON_VOTING.has(state)) continue;
-      parties.forEach((party, index) => {
+      parties.forEach((rosterParty, index) => {
         const seatId = senate
           ? `seat:${state}:us-senate:${index}`
           : `seat:${state}:us-house:${seat.padStart(2, "0")}`;
-        const real = (
-          terms.query("bySeatStatus", [
+        // The offices engine files a state's single House seat as "at-large".
+        const real = [seatId, atLarge(seatId)]
+          .map(
+            (id) =>
+              (
+                terms.query("bySeatStatus", [
+                  id,
+                  "serving",
+                ]) as unknown as TermRow[]
+              )[0],
+          )
+          .find(Boolean);
+        if (real) {
+          out.push(holderOf(api, real));
+          return;
+        }
+        const won = worldSeatParty(api, seatId);
+        const party = partyName(won?.party ?? rosterParty);
+        // A world without the officials engine has seats, not people.
+        if (!api.state.modules.has(OFFICIALS_MODULE_ID)) {
+          out.push({
+            id: `congress:${seatId}`,
             seatId,
-            "serving",
-          ]) as unknown as TermRow[]
-        )[0];
-        out.push(
-          real ??
-            ({
-              id: `congress:${seatId}`,
-              seatId,
-              officeId: chamber,
-              personId: null,
-              identity: {
-                givenName: "",
-                familyName: "",
-                gender: "",
-                birthDate: "",
-                homeState: state,
-              },
-              party: partyName(worldSeatParty(api, seatId) ?? party),
-              startDate: api.state.date,
-              endDate: null,
-              endEstimated: true,
-              reached: "in office at the opening",
-              status: "serving",
-            } as TermRow),
-        );
+            officeId: chamber,
+            personId: null,
+            identity: {
+              givenName: "",
+              familyName: "",
+              gender: "",
+              birthDate: "",
+              homeState: state,
+            },
+            party,
+            startDate: api.state.date,
+            endDate: null,
+            endEstimated: true,
+            reached: "in office at the opening",
+            status: "serving",
+          } as TermRow);
+          return;
+        }
+        // The opening's holder serves until a race hands the seat to the
+        // other party; the winner is then a new person.
+        const holder = currentOfficial(api, seatId);
+        const official =
+          holder && partyName(holder.party) === party
+            ? holder
+            : seatOfficial(api, {
+                key: `${seatId}:${won?.since ?? api.state.date}`,
+                seatId,
+                term: null,
+                body: senate ? "US:us-senate" : "US:us-house",
+                officeKind: senate ? "us-senate" : "us-house",
+                stateKey: state,
+                district: senate ? null : seat,
+                party,
+                termYears: senate ? 6 : 2,
+              });
+        const changed = official !== holder;
+        const person = api.state.people.get(official.id)!;
+        out.push({
+          id: `congress:${official.id.slice("official:".length)}`,
+          seatId,
+          officeId: chamber,
+          personId: official.id,
+          identity: {
+            givenName: person.givenName,
+            familyName: person.familyName,
+            gender: person.looks?.gender ?? "",
+            birthDate: person.birthDate,
+            homeState: state,
+          },
+          party,
+          startDate: official.serviceStart,
+          serviceStart: official.serviceStart,
+          endDate: null,
+          endEstimated: true,
+          reached: changed ? "elected" : "in office at the opening",
+          status: "serving",
+        } as TermRow);
       });
     }
   return out;
@@ -767,24 +846,17 @@ export function memberKey(term: TermRow): string {
 }
 
 /**
- * A member's lean: a full person's own, or, for a named official not filled
- * in yet, their seat's party side at the identity scale (stand-in until
- * CORE's fill-in gives them a life: SG-GOV-official-identity-only).
+ * A member's lean: a state or federal official's own position (their ideal
+ * point, OPUS-OFFICIALS), or a town resident's own lean.
  */
 export function leanOf(api: CoreAPI, memberId: string): number {
+  const official = officialOf(api, memberId);
+  if (official) return officialLean(official);
   const person = api.state.people.get(memberId);
   if (person) return personLean(api.state.people, person, townLean(api));
-  const id = memberId.slice("official:".length);
-  const term =
-    (api.moduleState(OFFICES_MODULE_ID).table("terms").get(id) as unknown as
-      TermRow | undefined) ??
-    (id.startsWith("congress:")
-      ? congressMembers(
-          api,
-          id.includes(":us-senate:") ? FEDERAL_SENATE : FEDERAL_HOUSE,
-        ).find((t) => t.id === id)
-      : undefined);
-  return partySide(term?.party) * campaignParameter("identityLeanScale");
+  // A holder the officials engine hasn't seated (a world without it) leans
+  // with nothing: no party line stands in for a person.
+  return 0;
 }
 
 function townLean(api: CoreAPI): number {
@@ -825,12 +897,14 @@ const tieRules = (
  */
 function tieBreaker(api: CoreAPI, chamber: string): string | null {
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const serving = (seatId: string) =>
-    (
+  const serving = (seatId: string) => {
+    const term = (
       offices
         .table("terms")
         .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
     )[0];
+    return term ? holderOf(api, term) : undefined;
+  };
   if (chamber === FEDERAL_SENATE) {
     const vp = serving("seat:US:vice-president");
     return vp ? memberKey(vp) : null;
@@ -867,18 +941,23 @@ function positionOn(
   bill: BillRow,
   memberId: string,
 ): MemberPosition {
-  const lean = leanOf(api, memberId);
-  // A town member answers to the town; a state member to their district,
-  // read as their own seat's lean until district views are modeled.
-  const home = api.state.people.has(memberId) ? townLean(api) : lean;
-  let views = 0;
-  let constituents = 0;
-  for (const provision of bill.provisions) {
+  const official = officialOf(api, memberId);
+  const stances = bill.provisions.flatMap((provision) => {
     const stance = provisionStance(api, provision, billLevel(api, bill));
-    if (!stance) continue;
-    views += personStance(lean, stance.question) * stance.position;
-    constituents += personStance(home, stance.question) * stance.position;
-  }
+    return stance ? [stance] : [];
+  });
+  // A state or federal official weighs their own reasons (OPUS-OFFICIALS);
+  // a town member their own views and the town's lean.
+  const parts = official ? officialParts(api, official, stances) : null;
+  const lean = leanOf(api, memberId);
+  const home = townLean(api);
+  let views = parts?.views ?? 0;
+  let constituents = 0;
+  if (!parts)
+    for (const stance of stances) {
+      views += personStance(lean, stance.question) * stance.position;
+      constituents += personStance(home, stance.question) * stance.position;
+    }
   const relationship = (api.state as CoreState).relationships.get(
     [memberId, bill.sponsorId].sort().join(":"),
   );
@@ -899,14 +978,32 @@ function positionOn(
     (sum, term) => sum + term(api, bill, memberId),
     0,
   );
+  const answersHome = parts ? parts.constituents : c * constituents;
+  const further = parts
+    ? {
+        party: parts.party,
+        wing: parts.wing,
+        ambition: parts.ambition,
+        press: parts.press,
+      }
+    : null;
   return {
     memberId,
     views,
-    constituents: c * constituents,
+    constituents: answersHome,
     sponsor,
     deal,
     lobby,
-    total: views + c * constituents + sponsor + deal + lobby,
+    ...(further ?? {}),
+    total:
+      views +
+      answersHome +
+      sponsor +
+      deal +
+      lobby +
+      (further
+        ? further.party + further.wing + further.ambition + further.press
+        : 0),
   };
 }
 
@@ -1441,7 +1538,7 @@ function executiveAction(
     (o) =>
       o.elected && /^(mayor|governor|county-executive|president)$/.test(o.kind),
   );
-  const executive = executiveOffice
+  const seated = executiveOffice
     ? (
         offices
           .table("seats")
@@ -1458,6 +1555,7 @@ function executiveAction(
             ]) as unknown as TermRow[],
       )[0]
     : undefined;
+  const executive = seated ? holderOf(api, seated) : undefined;
   let status: BillRow["status"] = "enacted";
   if (executive) {
     const key = memberKey(executive);
