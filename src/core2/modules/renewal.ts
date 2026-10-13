@@ -8,6 +8,8 @@ import {
   type BirthCouple,
 } from "../births-plan";
 import { buildNewborn } from "../births-people";
+import { applyCountedFlows } from "../births-counted";
+import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 
@@ -139,6 +141,21 @@ function review(
     );
 }
 
+/** The counted population's flows run on the first of each month. */
+function scheduleCounted(api: CoreAPI): void {
+  const date = nextMonthDay(
+    dateAfter(api, api.parameter("one")),
+    api.parameter("one"),
+  );
+  api.moduleCalendar(RENEWAL_MODULE_ID).schedule({
+    key: `counted:${date}`,
+    date,
+    kind: "counted",
+    source: source(api),
+    sourceRecordIds: [`counted:${date}`],
+  });
+}
+
 function deliver(api: CoreAPI, pregnancyId: string): void {
   const row = table(api, "pregnancies").get(pregnancyId);
   if (!row || row.status !== "pregnant") return;
@@ -227,6 +244,7 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
 
 /** One opening index build; subsequent reviews read one candidate, never the world/history. */
 function initialize(api: CoreAPI): void {
+  scheduleCounted(api);
   for (const [key, row] of Object.entries(RENEWAL_PARAMETERS)) {
     const configured = api.state.data.parameters[key] ?? row;
     table(api, "parameters").put({ id: key, ...configured });
@@ -339,6 +357,12 @@ export const RENEWAL_MODULE: CoreModule = {
           byParent: { fields: ["motherId"] },
         },
       },
+      /** One row per place per month: what moved in the counted population. */
+      counts: {
+        indexes: { byPlace: { fields: ["placeId"] } },
+      },
+      /** Each place's fractional flows carried to next month. */
+      countedCarry: {},
       kin: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -375,7 +399,10 @@ export const RENEWAL_MODULE: CoreModule = {
   onCalendarWork(api, work) {
     const id = work.sourceRecordIds[0]!;
     if (work.kind === "delivery") deliver(api, id);
-    else if (work.kind === "review") {
+    else if (work.kind === "counted") {
+      applyCountedFlows(api, "countedCarry", "counts");
+      scheduleCounted(api);
+    } else if (work.kind === "review") {
       const row = table(api, "couples").get(id);
       if (row?.status === "active") review(api, couple(row));
     }

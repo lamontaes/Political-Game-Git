@@ -228,5 +228,17 @@
       "citation": "Early-twenties range of first unions; the timing term's shape is checked against it."
     },
     "stopgapId": "SG-PW8-partnership-start"
+  },
+  "renewalCountedBirthSpacingDays": {
+    "value": 456,
+    "tag": "ESTIMATED",
+    "citation": "PW-8: a counted woman whose youngest child is younger than this is not next in line for a counted birth: about six months postpartum plus a 266-day pregnancy. Births this close together are a small share of U.S. births (CDC NCHS, interpregnancy intervals, NVSS).",
+    "estimatedFrom": "Short interpregnancy intervals (under six months) are uncommon; six months plus gestation.",
+    "spread": {
+      "low": 365,
+      "high": 548,
+      "unit": "days",
+      "citation": "Twelve to eighteen months between births; the town's yearly total is set by the rates either way."
+    }
   }
 }
