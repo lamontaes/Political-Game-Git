@@ -4,7 +4,7 @@ import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
-import { backdropStaging } from "../presentation/backdrop-people";
+import { backdropStaging } from "./staging";
 import { backdropFile, hasBackdrop, orgPlace, stagePeople } from "./scene";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";

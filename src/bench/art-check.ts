@@ -16,13 +16,7 @@ import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
 import { openingShots } from "./opening";
 import { townPlaces, visitPlace } from "./places";
-import {
-  backdropFile,
-  backdropPath,
-  benchScene,
-  figurePng,
-  hasBackdrop,
-} from "./scene";
+import { backdropFile, backdropPath, benchScene, hasBackdrop } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "art-check";
@@ -60,24 +54,12 @@ function check(
     failures.push(`${label}: ${place} has nobody on its stage`);
   for (const row of people) {
     figures++;
+    // Only owner-approved whole figures are ever drawn (owner, Oct 13).
     const url = new URL(row.figureUrl, "http://bench");
-    if (url.pathname.startsWith("/art/")) {
-      if (!existsSync(new URL(`../..${url.pathname}`, import.meta.url)))
-        failures.push(`${label}: figure ${url.pathname} missing`);
-      continue;
-    }
-    try {
-      figurePng(
-        core,
-        url.searchParams.get("person")!,
-        url.searchParams.get("place")!,
-        url.searchParams.get("spot")!,
-      );
-    } catch (error) {
-      failures.push(
-        `${label}: ${url.searchParams.get("person")} at ${place}: ${(error as Error).message}`,
-      );
-    }
+    if (!url.pathname.startsWith("/art/people-whole/"))
+      failures.push(`${label}: ${row.personId} is not a whole figure`);
+    else if (!existsSync(new URL(`../..${url.pathname}`, import.meta.url)))
+      failures.push(`${label}: figure ${url.pathname} missing`);
   }
 }
 
@@ -133,10 +115,15 @@ const kinds = new Set(
     }[]
   ).map((row) => row.kind ?? ""),
 );
-const bodyPlaces = scenePlaces.bodyPlaces as Record<string, string>;
-for (const [kind, place] of Object.entries(bodyPlaces))
-  if (kind === "default" || kinds.has(kind))
+const bodyPlaces = scenePlaces.bodyPlaces as unknown as Record<
+  string,
+  string[]
+>;
+for (const [kind, places] of Object.entries(bodyPlaces)) {
+  const place = places.find?.(hasBackdrop);
+  if (place && (kind === "default" || kinds.has(kind)))
     check(`body ${kind}`, place, backdropFile(place, 19 * 60).file, [], 0);
+}
 for (const place of scenePlaces.speechPlaces)
   check(`speech ${place}`, place, backdropFile(place, 18 * 60).file, [], 0);
 
