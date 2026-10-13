@@ -3,7 +3,12 @@ import {
   homePlaceFor,
   workplacePlaceFor,
 } from "../presentation/place-backdrops";
-import { backdropStaging, type StagingSpot } from "./staging";
+import {
+  BACKDROP_ASPECT,
+  backdropStaging,
+  type PlaceStaging,
+  type StagingSpot,
+} from "./staging";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -11,6 +16,7 @@ import { dwellingKind } from "../core2/modules/housing";
 import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import figureRules from "./data/whole-figures.json" with { type: "json" };
 import { wholeFigureFor, type WholeFigure } from "./whole-figures";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -23,6 +29,10 @@ const PICTURED = new Set(
     .map((row) => row.place),
 );
 export const hasBackdrop = (place: string) => PICTURED.has(place);
+const FRONTS = figureRules.roomFronts as unknown as Record<
+  string,
+  number | undefined
+>;
 const ACTIONS = scenePlaces.actions as Record<string, readonly string[]>;
 const ORG_KINDS = scenePlaces.organizationKinds as Record<string, string>;
 const ORG_PLACES = scenePlaces.placesWithoutKind as Record<string, string>;
@@ -279,9 +289,10 @@ function isOfficial(core: CoreState, id: string): boolean {
 
 /**
  * Puts each id on the place's spots: the first on the hero spot, the rest
- * behind. Only approved whole figures are drawn (owner, Oct 13): a person no
- * figure fits on a spot moves to the next spot that one fits, and where none
- * does, nobody is drawn for them.
+ * near them. Only approved whole figures are drawn (owner, Oct 13): a person
+ * no figure fits on a spot moves to the next spot that one fits, and where
+ * none does, nobody is drawn for them. Then each turns toward who they're
+ * with, or toward the front of a room that has one.
  */
 export function stagePeople(
   core: CoreState,
@@ -293,51 +304,154 @@ export function stagePeople(
   const unplaced: BenchScene["unplaced"] = [];
   if (!stage) return { people, unplaced };
   const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
-  // Others stand behind the lead first, nearest first, so the lead stays
-  // the largest person in the picture.
+  // People who are together stand together: the nearest spots to the lead
+  // first. A spot in front of the lead counts as farther, so the lead stays
+  // in front and unhidden.
+  const reach = (spot: StagingSpot) =>
+    Math.hypot(spot.x - hero.x, (spot.y - hero.y) * 2) +
+    (spot.y > hero.y + IN_FRONT ? FRONT_PENALTY : 0);
   const rest = stage.spots
     .filter((spot) => spot !== hero && spot.pose !== "podium")
-    .sort(
-      (a, b) =>
-        Number(a.y > hero.y) - Number(b.y > hero.y) ||
-        (a.y > hero.y ? a.y - b.y : b.y - a.y),
-    );
+    .sort((a, b) => reach(a) - reach(b));
   const free: StagingSpot[] = [hero, ...rest];
+  const placed: { id: string; name: string; who: Who; spot: StagingSpot }[] =
+    [];
   for (const { id, name } of ids) {
     const looks = looksOf(core, id);
     if (!looks) {
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const who = {
+    const who: Who = {
       id,
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
     };
-    let placed = false;
-    for (const [index, spot] of free.entries()) {
-      const whole = wholeFigureFor(core, who, place, stage, spot);
-      if (!whole) continue;
-      free.splice(index, 1);
-      people.push({
-        personId: id,
-        name,
-        spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
-        figure: whole.figure,
-        figureUrl: whole.url,
-        art: "whole",
-      });
-      placed = true;
-      break;
-    }
-    if (!placed)
+    // A spot where they'd be mostly hidden behind (or hide) someone
+    // already there is taken only when nothing else fits.
+    const fits = (spot: StagingSpot) =>
+      wholeFigureFor(core, who, place, stage, spot) !== null;
+    const clear = (spot: StagingSpot) =>
+      placed.every((row) => !hides(stage, spot, row.spot));
+    let index = free.findIndex((spot) => clear(spot) && fits(spot));
+    if (index < 0) index = free.findIndex(fits);
+    if (index < 0) {
       unplaced.push({
         personId: id,
         reason: free.length ? "no-whole-figure" : "no-spot",
       });
+      continue;
+    }
+    placed.push({ id, name, who, spot: free.splice(index, 1)[0]! });
+  }
+  const front = FRONTS[place];
+  // Drawn far to near, so nearer people stand in front of farther ones.
+  const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
+  const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
+  for (const { id, name, who, spot } of order) {
+    const turn = turnOf(
+      spot,
+      placed.map((row) => row.spot),
+      front,
+    );
+    const whole = wholeFigureFor(core, who, place, stage, spot, turn)!;
+    people.push({
+      personId: id,
+      name,
+      spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
+      figure: whole.figure,
+      figureUrl: whole.url,
+      art: "whole",
+    });
   }
   return { people, unplaced };
+}
+
+/** A standing person's outline on a spot, in percent of the picture (presentation estimate). */
+function outline(stage: PlaceStaging, spot: StagingSpot) {
+  const meters =
+    spot.floorMetersPercent ??
+    (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
+    stage.metersPercent;
+  const height =
+    ADULT_METERS * meters * (spot.y - (spot.floorHorizonY ?? stage.horizonY));
+  const width = (height * BODY_WIDTH) / BACKDROP_ASPECT;
+  return {
+    left: spot.x - width / 2,
+    right: spot.x + width / 2,
+    top: spot.y - height,
+    bottom: spot.y,
+  };
+}
+/** Whether two people on these spots would cover much of one another. */
+export function hides(
+  stage: PlaceStaging,
+  a: StagingSpot,
+  b: StagingSpot,
+): boolean {
+  const one = outline(stage, a),
+    two = outline(stage, b);
+  const wide = Math.min(one.right, two.right) - Math.max(one.left, two.left);
+  const tall = Math.min(one.bottom, two.bottom) - Math.max(one.top, two.top);
+  if (wide <= 0 || tall <= 0) return false;
+  // The farther one is the one covered.
+  const back = a.y <= b.y ? one : two;
+  return (
+    (wide * tall) / ((back.right - back.left) * (back.bottom - back.top)) >
+    HIDDEN_SHARE
+  );
+}
+
+type Who = Parameters<typeof wholeFigureFor>[1];
+type Turn = NonNullable<Parameters<typeof wholeFigureFor>[5]>;
+// Presentation choices, TUNABLE by eye: how far below the lead a spot counts
+// as in front of them, how much farther that makes it, how near in depth two
+// people are to be side by side, and how near the front's line a person is
+// to keep their own facing.
+const IN_FRONT = 3;
+const FRONT_PENALTY = 25;
+const SIDE_BY_SIDE = 6;
+const ON_THE_LINE = 3;
+// An adult's height for the outline, a body's width as a share of its
+// height, and how much of a person may be covered before a spot is passed over.
+const ADULT_METERS = 1.72;
+const BODY_WIDTH = 0.3;
+const HIDDEN_SHARE = 0.25;
+
+/**
+ * Which way a person turns: in a room with a front (a chamber, a dais, a
+ * classroom) toward the front, from behind where the spot faces away; else
+ * toward the nearest person they're with, side-on when level with them;
+ * alone, the spot's own facing.
+ */
+export function turnOf(
+  spot: StagingSpot,
+  spots: readonly StagingSpot[],
+  front: number | undefined,
+): Turn {
+  if (front !== undefined) {
+    const view = spot.facing === "away" ? ("back" as const) : undefined;
+    if (Math.abs(front - spot.x) < ON_THE_LINE) return view ? { view } : {};
+    return {
+      toward: front > spot.x ? "right" : "left",
+      ...(view ? { view } : {}),
+    };
+  }
+  const others = spots.filter((other) => other !== spot);
+  if (!others.length) return {};
+  const nearest = others.reduce((a, b) =>
+    Math.hypot(a.x - spot.x, a.y - spot.y) <=
+    Math.hypot(b.x - spot.x, b.y - spot.y)
+      ? a
+      : b,
+  );
+  return {
+    toward: nearest.x >= spot.x ? "right" : "left",
+    ...(Math.abs(nearest.y - spot.y) < SIDE_BY_SIDE
+      ? { view: "profile" as const }
+      : {}),
+  };
 }
 
 export function benchScene(

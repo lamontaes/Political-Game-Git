@@ -28,11 +28,20 @@ interface Figure {
   height: number;
   footY: number;
 }
-const FIGURES = (manifest.figures as Figure[]).filter(
-  (row) =>
-    row.angle === "three-quarter" &&
-    existsSync(new URL(`../../art/people-whole/${row.file}`, import.meta.url)),
+const PAINTED = (manifest.figures as Figure[]).filter((row) =>
+  existsSync(new URL(`../../art/people-whole/${row.file}`, import.meta.url)),
 );
+/** Looks are chosen from the three-quarter views; side and back views are the same look turned. */
+const FIGURES = PAINTED.filter((row) => row.angle === "three-quarter");
+/** A look and build seen from the side ("profile") or from behind ("back"), where painted. */
+function turned(figure: Figure, view: "profile" | "back"): Figure | undefined {
+  return PAINTED.find(
+    (row) =>
+      row.look === figure.look &&
+      row.build === figure.build &&
+      row.angle === view,
+  );
+}
 
 const SEXES = new Set(FIGURES.map((row) => row.sex));
 
@@ -136,6 +145,8 @@ export function wholeFigureFor(
   place: string,
   stage: PlaceStaging,
   spot: StagingSpot,
+  /** Who they're with: which way to turn, and whether to show their side or back. */
+  turn: { toward?: "left" | "right"; view?: "profile" | "back" } = {},
 ): WholeFigure | null {
   if (spot.pose && spot.pose !== "stand") return null;
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
@@ -170,7 +181,8 @@ export function wholeFigureFor(
   const looks = [...new Set(pool.map((row) => row.look))].sort();
   const look = looks[hash(`${person.id}:look`) % looks.length]!;
   const builds = pool.filter((row) => row.look === look);
-  const chosen = builds[hash(`${person.id}:build`) % builds.length]!;
+  const front = builds[hash(`${person.id}:build`) % builds.length]!;
+  const chosen = (turn.view && turned(front, turn.view)) || front;
   const meters =
     spot.floorMetersPercent ??
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
@@ -183,13 +195,14 @@ export function wholeFigureFor(
     (chosen.height / chosen.footY);
   const widthPercent =
     (heightPercent * (chosen.width / chosen.height)) / BACKDROP_ASPECT;
-  // Turned toward the room: a spot's own facing, else toward the middle.
+  // Turned toward who they're with; alone, the spot's own facing, else the middle.
   const toward =
-    spot.facing === "left" || spot.facing === "right"
+    turn.toward ??
+    (spot.facing === "left" || spot.facing === "right"
       ? spot.facing
       : spot.x < 50
         ? "right"
-        : "left";
+        : "left");
   const mirrored = chosen.facing !== toward;
   const leftPercent = spot.x - widthPercent / 2;
   // The shadow sits on the foot point, under the feet as drawn (mirrored

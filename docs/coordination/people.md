@@ -119,7 +119,7 @@ Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx
 
 - [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
 - [x] 6. Shadows at the feet (PR 2): measured from each figure's pixels, on the foot point, none behind a desk.
-- [ ] 3–5. Facing, staging, size (PR 3).
+- [x] 3–5. Facing, staging, size (PR 3): people turn toward who they're with, or a room's front (`roomFronts` in `src/bench/data/whole-figures.json`); companions take the nearest spots that don't hide anyone; council chamber and U.S. House scale raised to full size; 4 home stand spots moved off the open floor; 5 looks' recorded facing corrected. Check sheets: `scripts/people/staging-sheet.ts`. Checked by eye: 29 places (homes, chambers, offices, the owner's scenes). Open: the other 149 places' spots and scale are not yet checked one by one.
 - [ ] 7–10. Activity picker, no twins, the player's identity, who is there (PR 4).
 - [ ] 2. Seated figures: wiring ready for the CTO's seated art (PR 5).
 - [x] 11. Art requests: `docs/coordination/people-art-requests.md`.
