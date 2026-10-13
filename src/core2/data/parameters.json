@@ -4527,5 +4527,10 @@
       "unit": "share of children aged 5–17",
       "citation": "State private shares from NCES Digest Table 205.80 range roughly 4% to 14%."
     }
+  },
+  "openingCustomerClubMembershipsAnnualNationalUsd": {
+    "value": 272,
+    "tag": "SOURCED",
+    "citation": "BLS, The Economics Daily, 'The new year and household spending' (2026), https://www.bls.gov/opub/ted/2026/the-new-year-and-household-spending.htm: Consumer Expenditure Survey, social, recreation and health club memberships, $272 per consumer unit in 2024 (2021: $212)."
   }
 }
