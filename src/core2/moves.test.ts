@@ -240,7 +240,35 @@ describe(`moves over half a year in ${input.placeMetadata?.placeName} (seed ${se
       }
     ).causes["housing.eviction"]!;
     expect(after).toBeGreaterThan(before);
-    const followed = departures.length
+    // Relatives a move left behind who are still adults in town now (a
+    // parent, child or sibling of someone who left).
+    const parentsOf = (id: string) =>
+      [...core.familyLinks.values()]
+        .filter((l) => l.kind === "parent-child" && l.personIds[1] === id)
+        .map((l) => l.personIds[0]);
+    const childrenOf = (id: string) =>
+      [...core.familyLinks.values()]
+        .filter((l) => l.kind === "parent-child" && l.personIds[0] === id)
+        .map((l) => l.personIds[1]);
+    const leftBehind = departures.flatMap((row) =>
+      row.withIds
+        .flatMap((id) => [
+          ...parentsOf(id),
+          ...childrenOf(id),
+          ...parentsOf(id).flatMap(childrenOf),
+        ])
+        .filter((id) => {
+          const person = core.people.get(id);
+          return (
+            !row.withIds.includes(id) &&
+            person?.alive &&
+            person.tier !== "husk" &&
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(row.date)) >=
+              18
+          );
+        }),
+    );
+    const followed = leftBehind.length
       ? (
           api.moduleState("moves").table("pulls").rows() as unknown as {
             causes: Record<string, number>;

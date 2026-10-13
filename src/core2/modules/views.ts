@@ -20,6 +20,7 @@ import partyJson from "../data/views/ces-2024-party.json" with { type: "json" };
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
+import { decisionKinds } from "../trait-decisions";
 import type {
   ActionDefinition,
   ActOffer,
@@ -397,7 +398,7 @@ function strengthOf(party: string): string {
 function partyAction(id: string, changing: boolean): ActionDefinition {
   return {
     id,
-    actKinds: ["engage"],
+    actKinds: decisionKinds("views.party-change", id),
     goalKinds: [],
     need: "safety",
     effortParameter: "zero",

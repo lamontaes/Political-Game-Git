@@ -31,6 +31,7 @@ import type {
   PersonState,
   Relationship,
 } from "../types";
+import { decisionKinds } from "../trait-decisions";
 import { viewOf } from "./views";
 
 export const GROUPS_MODULE_ID = "groups";
@@ -73,15 +74,6 @@ function store(api: CoreAPI) {
 
 const ageOf = (api: CoreAPI, person: Readonly<PersonState>) =>
   ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date));
-
-function trait(api: CoreAPI, person: Readonly<PersonState>, id: string) {
-  const raw = person.traits[id];
-  if (raw === undefined) return api.parameter("zero");
-  return Math.max(
-    api.parameter("negativeOne"),
-    Math.min(api.parameter("one"), raw / api.parameter("traitScale")),
-  );
-}
 
 function factOf(person: Readonly<PersonState>, kind: string, key: string) {
   return person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
@@ -130,9 +122,6 @@ export function belongingReasons(
     (age - g(api, rule.ageCenterParameter)) / g(api, "groupsAgeSpread");
   return {
     education: g(api, "groupsEducationWeight") * education,
-    sociability:
-      g(api, "groupsSociabilityWeight") *
-      trait(api, person, "people-mind-v1:sociability"),
     engagement: g(api, "groupsEngagementWeight") * (view?.engagement ?? zero),
     age:
       g(api, "groupsAgeWeight") *
@@ -143,11 +132,15 @@ export function belongingReasons(
   };
 }
 
-function action(id: string, joining: boolean): ActionDefinition {
+function action(
+  decisionId: string,
+  id: string,
+  joining: boolean,
+): ActionDefinition {
   return {
     id,
-    // One act kind for both, so temperament weighs through the reasons.
-    actKinds: ["engage"],
+    // Every trait reaches both options through the shared decision table.
+    actKinds: decisionKinds(decisionId, id),
     goalKinds: [],
     need: "company",
     effortParameter: "zero",
@@ -165,10 +158,10 @@ function action(id: string, joining: boolean): ActionDefinition {
     ],
   };
 }
-export const BELONG = action("groups-belong", true);
-export const STAY_OUT = action("groups-stay-out", false);
-export const ATTEND = action("groups-attend", true);
-export const SKIP = action("groups-skip", false);
+export const BELONG = action("groups.belong", "groups-belong", true);
+export const STAY_OUT = action("groups.belong", "groups-stay-out", false);
+export const ATTEND = action("groups.attend", "groups-attend", true);
+export const SKIP = action("groups.attend", "groups-skip", false);
 
 const pending = new WeakMap<object, { kind: string; value: number }>();
 

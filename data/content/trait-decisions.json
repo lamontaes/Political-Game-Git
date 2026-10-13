@@ -534,6 +534,54 @@
           "actKinds": ["change", "take-risk", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "groups.belong",
+      "site": "src/core2/modules/groups.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "groups-stay-out",
+          "actKinds": ["keep-same", "withdraw", "self-interest"]
+        },
+        {
+          "id": "groups-belong",
+          "actKinds": ["engage", "cooperate", "commit", "help-others"]
+        }
+      ]
+    },
+    {
+      "id": "groups.attend",
+      "site": "src/core2/modules/groups.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "groups-skip",
+          "actKinds": ["withdraw", "delay"]
+        },
+        {
+          "id": "groups-attend",
+          "actKinds": ["engage", "cooperate", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "views.party-change",
+      "site": "src/core2/modules/views.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "views-keep-party",
+          "actKinds": ["keep-same", "play-safe", "commit"]
+        },
+        {
+          "id": "views-change-party",
+          "actKinds": ["change", "take-risk"]
+        }
+      ]
     }
   ],
   "outside": [

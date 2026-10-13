@@ -27,7 +27,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -53,7 +56,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "people-mind-v1:conflict": {
@@ -67,7 +73,9 @@
         "corruption.tell",
         "jobs.counted-accept",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -105,7 +113,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -128,7 +138,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "people-mind-v1:reliability": {
@@ -151,7 +163,10 @@
         "jobs.counted-look",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -168,7 +183,8 @@
         "renewal.plan-child",
         "jobs.counted-apply",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.attend"
       ]
     },
     "people-mind-v1:risk": {
@@ -197,7 +213,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -223,7 +241,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "people-mind-v1:sociability": {
@@ -238,7 +259,9 @@
         "corruption.tell",
         "jobs.counted-retire",
         "jobs.counted-apply",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -260,7 +283,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:action-despite-fear": {
@@ -288,7 +314,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -313,7 +342,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -342,7 +374,10 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -366,7 +401,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -383,7 +421,9 @@
         "renewal.plan-child",
         "jobs.counted-apply",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -402,7 +442,9 @@
         "jobs.counted-retire",
         "jobs.counted-apply",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-acquisitive": {
@@ -422,7 +464,8 @@
         "jobs.counted-retire",
         "jobs.counted-apply",
         "jobs.counted-accept",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
@@ -435,7 +478,8 @@
         "renewal.plan-child",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-affectionate": {
@@ -452,7 +496,9 @@
         "jobs.counted-apply",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -474,7 +520,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-ambitious": {
@@ -499,7 +548,10 @@
         "jobs.counted-look",
         "jobs.counted-apply",
         "business.counted-found",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -527,7 +579,8 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -550,7 +603,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -575,7 +630,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -589,7 +647,9 @@
         "corruption.take",
         "jobs.counted-apply",
         "jobs.counted-accept",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -601,7 +661,9 @@
         "corruption.tell",
         "jobs.counted-accept",
         "retirement.claim-age",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-arbitrary": {
@@ -626,7 +688,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -652,7 +716,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -673,7 +739,9 @@
         "drives.respond",
         "corruption.tell",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-assertive": {
@@ -740,7 +808,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -760,7 +829,8 @@
         "jobs.counted-apply",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-brooding": {
@@ -784,7 +854,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -806,7 +879,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-calm": {
@@ -836,7 +912,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -858,7 +937,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-charming": {
@@ -874,7 +955,9 @@
         "jobs.counted-retire",
         "jobs.counted-apply",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -887,7 +970,9 @@
         "corruption.tell",
         "jobs.counted-retire",
         "jobs.counted-apply",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-closeness-seeking": {
@@ -911,7 +996,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -935,7 +1023,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -963,7 +1054,8 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -987,7 +1079,8 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -1004,7 +1097,9 @@
         "corruption.tell",
         "renewal.plan-child",
         "jobs.counted-apply",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1018,7 +1113,9 @@
         "renewal.plan-child",
         "jobs.counted-retire",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-competitive": {
@@ -1042,14 +1139,19 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
         "drives.respond",
         "corruption.tell",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-contented": {
@@ -1077,7 +1179,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1103,7 +1208,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-cruel": {
@@ -1118,7 +1225,8 @@
         "renewal.plan-child",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
@@ -1126,7 +1234,8 @@
         "corruption.tell",
         "renewal.plan-child",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-curious": {
@@ -1152,7 +1261,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1179,7 +1291,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -1193,14 +1307,17 @@
         "renewal.plan-child",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
         "drives.respond",
         "corruption.take",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-daydreaming": {
@@ -1216,7 +1333,10 @@
         "jobs.counted-retire",
         "jobs.counted-look",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1232,7 +1352,9 @@
         "jobs.counted-retire",
         "jobs.counted-look",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-defensive": {
@@ -1265,7 +1387,9 @@
         "corruption.take",
         "corruption.tell",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1299,7 +1423,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1326,7 +1453,8 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-dramatic": {
@@ -1338,7 +1466,9 @@
         "speech.retell",
         "corruption.tell",
         "jobs.counted-apply",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1362,7 +1492,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-duty-bound": {
@@ -1384,7 +1516,10 @@
         "jobs.counted-look",
         "jobs.counted-apply",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1393,7 +1528,8 @@
         "corruption.offer",
         "corruption.take",
         "corruption.tell",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-enterprising": {
@@ -1420,7 +1556,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1447,7 +1586,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -1464,7 +1605,8 @@
         "renewal.plan-child",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
@@ -1476,7 +1618,9 @@
         "corruption.tell",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-envious": {
@@ -1494,7 +1638,9 @@
         "renewal.plan-child",
         "jobs.counted-apply",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1519,7 +1665,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-excitable": {
@@ -1543,7 +1690,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1570,7 +1720,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-fair-minded": {
@@ -1588,7 +1741,8 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1597,7 +1751,8 @@
         "corruption.offer",
         "corruption.take",
         "corruption.tell",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-fickle": {
@@ -1625,7 +1780,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1649,7 +1806,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-forgiving": {
@@ -1659,7 +1818,9 @@
         "corruption.take",
         "corruption.tell",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1681,7 +1842,9 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1697,7 +1860,9 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-generous": {
@@ -1711,7 +1876,9 @@
         "renewal.plan-child",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1735,7 +1902,9 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-gentle": {
@@ -1751,7 +1920,8 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1779,7 +1949,9 @@
         "jobs.counted-apply",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1790,7 +1962,9 @@
         "corruption.take",
         "jobs.counted-apply",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-hostile": {
@@ -1802,7 +1976,9 @@
         "corruption.tell",
         "jobs.counted-accept",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1810,7 +1986,9 @@
         "corruption.take",
         "corruption.tell",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-hot-headed": {
@@ -1828,7 +2006,8 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1842,7 +2021,8 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-humble": {
@@ -1857,7 +2037,9 @@
         "corruption.tell",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -1871,7 +2053,8 @@
         "corruption.tell",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-imaginative": {
@@ -1896,7 +2079,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1923,7 +2108,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-independent": {
@@ -1949,7 +2136,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -1958,7 +2148,9 @@
         "corruption.offer",
         "corruption.take",
         "corruption.tell",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-informal": {
@@ -1997,7 +2189,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -2027,7 +2221,9 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2049,7 +2245,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-inventive": {
@@ -2077,7 +2276,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2104,7 +2305,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -2128,7 +2331,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2152,7 +2358,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-manipulative": {
@@ -2168,7 +2376,8 @@
         "corruption.tell",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
@@ -2190,7 +2399,9 @@
         "corruption.tell",
         "renewal.plan-child",
         "jobs.counted-apply",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2203,7 +2414,9 @@
         "corruption.tell",
         "jobs.counted-retire",
         "jobs.counted-apply",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-meticulous": {
@@ -2226,7 +2439,10 @@
         "jobs.counted-look",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2241,7 +2457,8 @@
         "renewal.plan-child",
         "jobs.counted-apply",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-mischievous": {
@@ -2267,7 +2484,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2293,7 +2511,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -2317,7 +2537,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "drives.respond",
@@ -2340,7 +2562,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-nurturing": {
@@ -2357,7 +2581,9 @@
         "corruption.tell",
         "renewal.plan-child",
         "jobs.counted-apply",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2371,7 +2597,9 @@
         "renewal.plan-child",
         "jobs.counted-retire",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-observant": {
@@ -2392,7 +2620,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2415,7 +2645,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -2441,7 +2673,10 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2467,7 +2702,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-opportunistic": {
@@ -2494,7 +2731,9 @@
         "jobs.counted-apply",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2521,7 +2760,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -2545,7 +2786,10 @@
         "jobs.counted-look",
         "jobs.counted-apply",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2560,7 +2804,10 @@
         "jobs.counted-look",
         "jobs.counted-apply",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-philanthropic": {
@@ -2577,7 +2824,9 @@
         "corruption.tell",
         "renewal.plan-child",
         "jobs.counted-apply",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2601,7 +2850,9 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-polite": {
@@ -2613,7 +2864,9 @@
         "corruption.take",
         "corruption.tell",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2645,7 +2898,10 @@
         "jobs.counted-look",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2669,7 +2925,8 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-proud": {
@@ -2720,7 +2977,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2744,7 +3003,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-sassy": {
@@ -2790,7 +3051,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2813,7 +3076,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-self-serving": {
@@ -2826,7 +3091,8 @@
         "corruption.take",
         "corruption.tell",
         "renewal.plan-child",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
@@ -2836,7 +3102,8 @@
         "corruption.take",
         "corruption.tell",
         "renewal.plan-child",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-sensitive": {
@@ -2861,7 +3128,10 @@
         "jobs.counted-apply",
         "business.counted-found",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -2875,7 +3145,9 @@
         "jobs.counted-retire",
         "jobs.counted-apply",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-shy": {
@@ -2896,7 +3168,9 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2910,7 +3184,9 @@
         "jobs.counted-retire",
         "jobs.counted-apply",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-sincere": {
@@ -2946,7 +3222,8 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -2968,7 +3245,10 @@
         "business.counted-found",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -2992,7 +3272,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3007,7 +3290,9 @@
         "jobs.counted-apply",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-smug": {
@@ -3031,7 +3316,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ],
       "low": [
         "drives.respond",
@@ -3056,7 +3343,9 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-studious": {
@@ -3080,7 +3369,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3105,7 +3397,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-supportive": {
@@ -3122,7 +3416,9 @@
         "corruption.tell",
         "renewal.plan-child",
         "jobs.counted-apply",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3136,7 +3432,9 @@
         "renewal.plan-child",
         "jobs.counted-retire",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-tactful": {
@@ -3161,7 +3459,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3194,7 +3493,8 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3218,7 +3518,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-tender-hearted": {
@@ -3233,7 +3535,9 @@
         "jobs.counted-apply",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3245,7 +3549,8 @@
         "corruption.tell",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ]
     },
     "personality-v1:facet-thrill-seeking": {
@@ -3274,7 +3579,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3301,7 +3609,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -3317,7 +3627,8 @@
         "jobs.counted-accept",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong"
       ],
       "low": [
         "life.daily-act",
@@ -3343,7 +3654,10 @@
         "jobs.counted-retire",
         "jobs.counted-look",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3368,7 +3682,9 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     },
     "personality-v1:facet-zealous": {
@@ -3397,7 +3713,10 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3422,7 +3741,10 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:initial-trust": {
@@ -3435,7 +3757,9 @@
         "corruption.take",
         "jobs.counted-apply",
         "bring-it-up.blame",
-        "conversation.believe-claim"
+        "conversation.believe-claim",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3458,7 +3782,9 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:method-revision": {
@@ -3485,7 +3811,10 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3511,7 +3840,9 @@
         "retirement.claim-age",
         "bring-it-up.blame",
         "conversation.believe-claim",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:outward-emotional-display": {
@@ -3523,7 +3854,9 @@
         "speech.retell",
         "corruption.tell",
         "jobs.counted-apply",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend"
       ],
       "low": [
         "life.daily-act",
@@ -3546,7 +3879,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:patience": {
@@ -3576,7 +3912,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3600,7 +3939,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "views.party-change"
       ]
     },
     "personality-v1:playful-manner": {
@@ -3625,7 +3966,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3647,7 +3991,10 @@
         "jobs.counted-apply",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:self-confidence": {
@@ -3673,7 +4020,10 @@
         "jobs.counted-apply",
         "business.counted-found",
         "retirement.claim-age",
-        "bring-it-up.blame"
+        "bring-it-up.blame",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3699,7 +4049,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:truthfulness": {
@@ -3721,7 +4074,8 @@
         "speech.retell",
         "corruption.offer",
         "corruption.take",
-        "retirement.claim-age"
+        "retirement.claim-age",
+        "groups.belong"
       ]
     },
     "personality-v1:uncertain-outlook": {
@@ -3748,7 +4102,10 @@
         "jobs.counted-accept",
         "business.counted-found",
         "retirement.claim-age",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3772,7 +4129,10 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -3798,7 +4158,10 @@
         "jobs.counted-apply",
         "jobs.counted-accept",
         "business.counted-found",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend",
+        "views.party-change"
       ],
       "low": [
         "life.daily-act",
@@ -3824,7 +4187,9 @@
         "business.counted-found",
         "retirement.claim-age",
         "bring-it-up.blame",
-        "moves.move-away"
+        "moves.move-away",
+        "groups.belong",
+        "groups.attend"
       ]
     }
   }

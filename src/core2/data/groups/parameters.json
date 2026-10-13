@@ -25,7 +25,7 @@
     }
   },
   "groupsStayOutService": {
-    "value": 1.1,
+    "value": 1.08,
     "tag": "TUNABLE",
     "citation": "The pull of staying out of a service or civic organization (service clubs, veterans' posts, fraternal and business groups), calibrated over three drawn towns toward the survey's 6.8% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
@@ -45,7 +45,7 @@
     }
   },
   "groupsStayOutOther": {
-    "value": 1.1,
+    "value": 1.06,
     "tag": "TUNABLE",
     "citation": "The pull of staying out of other groups (advocacy, volunteer and arts groups), calibrated over three drawn towns toward the survey's 5.0% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
     "stopgapId": "SG-P15-group-membership",
@@ -62,16 +62,6 @@
     "spread": {
       "low": 0.2,
       "high": 1
-    }
-  },
-  "groupsSociabilityWeight": {
-    "value": 0.4,
-    "tag": "TUNABLE",
-    "citation": "How much sociability pulls toward belonging; a starting value.",
-    "stopgapId": "SG-P15-group-membership",
-    "spread": {
-      "low": 0.1,
-      "high": 0.8
     }
   },
   "groupsEngagementWeight": {
