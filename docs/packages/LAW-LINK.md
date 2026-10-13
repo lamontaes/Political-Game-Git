@@ -1,6 +1,6 @@
 # LAW-LINK: every law has an effect the game reads
 
-Fifty-nine policies can pass as law. Twenty-one change money or behavior. Thirty-eight only write a note on people's records, because their handlers were declared `none` or `records` in data and nothing in the repository treats that as unfinished. This package links all 59 to the game using the two paths that already exist. It builds no new module, registry, store or data format.
+Fifty-nine policies can pass as law. Twenty-one change money or behavior. Thirty-eight only write a note on people's records, because their handlers were declared as note-only in data and nothing in the repository treats that as unfinished. This package links all 59 to the game using the two paths that already exist. It builds no new module, registry, store or data format.
 
 ## Who builds it, where
 
@@ -11,7 +11,7 @@ Fifty-nine policies can pass as law. Twenty-one change money or behavior. Thirty
 
 ## The rule
 
-A policy is linked when flipping it in a played world changes at least one of: a dollar on a cash-journal entry, a price the place-prices engine sets, who an engine marks eligible and then pays or serves, a decision's recorded reasons, or a kept outcome measure that a voter group, a budget line, the news or the town panel reads. A record written on a person is not an effect. A handler whose mechanic is `none` or `records` is an unregistered placeholder and fails the guard.
+A policy is linked when flipping it in a played world changes at least one of these. A dollar on a cash-journal entry. A price the place-prices engine sets. Who an engine marks eligible and then pays or serves. A decision's recorded reasons. A kept outcome measure that a voter group, a budget line, the news or the town panel reads. A record written on a person is not an effect. A handler whose mechanic is `none` or `records` is an unregistered placeholder and fails the guard.
 
 ## Two paths, nothing else
 
@@ -31,7 +31,7 @@ Each read is a few lines in the engine plus one parameter row (SOURCED or ESTIMA
 
 **Path 2, every other law moves a measure, and the measures are read.** The outcome web already turns a law into monthly estimates of measures (it keeps 5 today: four crime rates and the birth rate) and writes them, and nothing reads them. This is the same model _The Political Process_ uses for every law. Finish it in two moves:
 
-1. Every one of the 59 policies has a link row in `src/core2/data/outcome-web/` to the measures it moves, with the size and the source. Add the kept outcomes those rows need: jail population, court caseload, violent crime, property crime, police complaints and trust, deportations, health coverage, housing cost burden, turnout, air quality, water drawn, farmland lost, and the others the rows need. These are data rows in the existing file, not new code paths. Policies with no engine (end cash bail, permit to carry concealed, stand your ground, raise handgun purchase age, child access prevention, civilian oversight of police, raise juvenile court age, partner with federal immigration enforcement, restrict abortion, independent redistricting, broaden local authority, limit groundwater withdrawal, protect farmland, clean air plan, ban discrimination) are linked this way only, and that is enough: the measure is the effect.
+1. Every one of the 59 policies has a link row in `src/core2/data/outcome-web/` to the measures it moves, with the size and the source. Add the kept outcomes those rows need: jail population, court caseload, violent crime, property crime, police complaints and trust, deportations, health coverage, housing cost burden, turnout, air quality, water drawn, farmland lost, and the others the rows need. These are data rows in the existing file, not new code paths. Policies with no engine are linked this way only, and that is enough: the measure is the effect. Those are end cash bail, permit to carry concealed, stand your ground, raise handgun purchase age, child access prevention, civilian oversight of police, raise juvenile court age, partner with federal immigration enforcement, restrict abortion, independent redistricting, broaden local authority, limit groundwater withdrawal, protect farmland, clean air plan, and ban discrimination.
 2. Four things that already exist read the measures through `placeOutcome` and `outcomeWebFactor`:
    - **views** (`src/core2/modules/views.ts`): a voter group's view of an issue and its approval of the officials who voted for the law move with the measure, so the next election uses it;
    - **budgets** (`src/core2/modules/budgets.ts`): a crime or caseload measure is spending pressure on the police, courts and corrections lines the module already carries;
