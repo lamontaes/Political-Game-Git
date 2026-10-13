@@ -62,7 +62,9 @@ function purchaseContract(): FinanceContractInput {
     id: "a:purchase",
     payerIds: [resident],
     payeeId: seller,
-    householdId: household,
+    // Settled directly as a contract, in the household phase; a household's
+    // own purchases would be its everyday-living plan (cost-of-living.ts).
+    settlementPhaseId: "household-purchases",
     kind: "household-purchase",
     amountMinor: 100,
     dueAt: due,

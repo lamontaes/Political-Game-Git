@@ -199,27 +199,5 @@
     "value": 1.15,
     "tag": "SOURCED",
     "citation": "SBA SOP 50 10 7.1 and 50 10 8: a 7(a) loan to a new business needs projected cash flow of at least 1.15 times its debt service."
-  },
-  "creditFamilyHelpShareOfSpare": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "How much of what a relative can spare they give a household that ran short, at full closeness. Federal Reserve, Economic Well-Being of U.S. Households in 2018 (May 2019): one in 10 adults, and over a quarter of adults under 30, receive financial support from someone living outside their home, mostly between parents and adult children, often for general expenses.",
-    "spread": {
-      "low": 0.2,
-      "high": 1,
-      "unit": "share of the relative's spare cash",
-      "citation": "Federal Reserve, Economic Well-Being of U.S. Households in 2018 (May 2019): one in 10 adults, and over a quarter of adults under 30, receive financial support from someone living outside their home, mostly between parents and adult children, often for general expenses."
-    }
-  },
-  "creditFamilyHelpReserveMonths": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "A relative keeps a few months of their own living costs before helping (CFPB emergency savings guidance: about three months of expenses).",
-    "spread": {
-      "low": 1,
-      "high": 6,
-      "unit": "months of the relative's living costs",
-      "citation": "CFPB emergency savings guidance: about three months of expenses."
-    }
   }
 }
