@@ -26,6 +26,7 @@ import { openLawEffects } from "../core2/modules/law-effects";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { openWorldRaces } from "../core2/modules/world-races";
 import { openInterestGroups } from "../core2/modules/interest-groups";
+import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { renewalData } from "../core2/births-setup";
@@ -288,6 +289,8 @@ function* benchWorldStages(
   openWorldRaces(core);
   // Groups organize against bills that cost their members, and lobby.
   openInterestGroups(core);
+  // The state's ballot questions, voted on by the town and the state.
+  openBallotMeasures(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
