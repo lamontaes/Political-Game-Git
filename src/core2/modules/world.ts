@@ -22,7 +22,11 @@ import {
 import { REGIONAL_MODULE, REGIONAL_PARAMETERS } from "./regional";
 import { WORLD_METRICS_MODULE } from "./world-metrics";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
+import { registerWorldLawReach } from "../world-law-reach";
 import { withMembershipDues } from "../membership-dues";
+
+// Laws in force reach the economy's engines through OPUS-GOV's policy handlers.
+registerWorldLawReach();
 
 export const WORLD_MODULES = [
   MACRO_MODULE,

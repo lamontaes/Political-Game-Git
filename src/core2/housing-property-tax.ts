@@ -9,11 +9,13 @@
  * `lawInForce(api, "property-tax")`: the county's recorded rate) wherever
  * the laws are open; another source can be registered with
  * `registerPropertyTax`. Without the laws, each state's average effective
- * rate stands in. Either way it's paid outside the town, where the core's
- * living cost already sent owners' taxes, until the county's treasury holds
- * an account.
+ * rate stands in. It's paid to the county's treasury where the budgets
+ * engine keeps the county's government, else outside the town, where the
+ * core's living cost sent owners' taxes before. A law can cap how fast
+ * assessments rise (`setPropertyTaxCap`).
  */
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
@@ -76,8 +78,37 @@ function fromLaw(api: CoreAPI): PropertyTaxTerms | undefined {
   };
 }
 
+const CAP_ROW = "law:assessment-cap";
+
+/** A law caps how fast an assessment may rise a year (a share), or lifts the cap (null). */
+export function setPropertyTaxCap(api: CoreAPI, capShare: number | null): void {
+  api
+    .moduleState("housing")
+    .table("assessments")
+    .put({ id: CAP_ROW, capShare });
+}
+
+/** The county's treasury, where the budgets engine keeps the county's government. */
+function countyTreasury(api: CoreAPI): string | undefined {
+  if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
+    return undefined;
+  return governments(api).find((row) => row.level === "county")?.organizationId;
+}
+
 function terms(api: CoreAPI, placeId: string): PropertyTaxTerms {
-  const registered = termsSource?.(api, placeId) ?? fromLaw(api);
+  const found = termsSource?.(api, placeId) ?? fromLaw(api);
+  const cap = (
+    api.moduleState("housing").table("assessments").get(CAP_ROW) as
+      { capShare: number | null } | undefined
+  )?.capShare;
+  const payeeId = found?.payeeId ?? countyTreasury(api);
+  const registered = found && {
+    ...found,
+    ...(cap != null && found.assessmentCapShare === undefined
+      ? { assessmentCapShare: cap }
+      : {}),
+    ...(payeeId ? { payeeId } : {}),
+  };
   if (registered) return registered;
   stopgap("SG-WORLD-property-tax-rate");
   return {

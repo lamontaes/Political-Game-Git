@@ -593,8 +593,18 @@ function renew(api: CoreAPI): void {
       vacancy && before
         ? (vacancy / before) ** -api.parameter("housingRentVacancyElasticity")
         : 1;
+    // Rent stabilization holds a renewal's rise to the law's cap.
+    const cap = (
+      store(api).table("rentCaps").get(household!.placeId) as
+        { capShare: number | null } | undefined
+    )?.capShare;
     const rent = Math.round(
-      row.amountMinor * (level.hourlyEarnings / last.regionPay) * vacancyFactor,
+      Math.min(
+        row.amountMinor *
+          (level.hourlyEarnings / last.regionPay) *
+          vacancyFactor,
+        cap != null ? row.amountMinor * (1 + cap) : Number.POSITIVE_INFINITY,
+      ),
     );
     api.setStandingContractAmount(id, rent);
     store(api)
@@ -1179,6 +1189,11 @@ export function setHousingZoning(
   placeId: string,
   change: Partial<Zoning>,
 ): void {
+  // The law's zoning holds from today; the stock, if not open yet, takes it when it opens.
+  const law = store(api).table("zoningLaw");
+  const before = law.get(placeId) as unknown as
+    { change: Partial<Zoning> } | undefined;
+  law.put({ id: placeId, change: { ...(before?.change ?? {}), ...change } });
   setZoning(store(api).table("stock"), placeId, change);
 }
 
@@ -1290,6 +1305,15 @@ function finish(
 }
 
 /** Right to counsel in eviction where the law gives it, by place; OPUS-GOV's policy handler sets it from the law in force. */
+/** Rent stabilization in a place: a renewal rises no more than `capShare` a year; null lifts the cap. */
+export function setRentIncreaseCap(
+  api: CoreAPI,
+  placeId: string,
+  capShare: number | null,
+): void {
+  store(api).table("rentCaps").put({ id: placeId, capShare });
+}
+
 export function setRightToCounsel(
   api: CoreAPI,
   placeId: string,
@@ -1447,6 +1471,8 @@ export const HOUSING_MODULE: CoreModule = {
     tables: {
       state: {},
       cases: { indexes: { openByLease: { fields: ["leaseId", "open"] } } },
+      rentCaps: {},
+      zoningLaw: {},
       renewals: {},
       mortgages: {},
       purchases: {},
@@ -1511,6 +1537,10 @@ export const HOUSING_MODULE: CoreModule = {
         town.rentMinor,
         macroPrices(api)?.(api.state.date) ?? 1,
       );
+      const law = store(api).table("zoningLaw").get(landlord.placeId) as
+        { change: Partial<Zoning> } | undefined;
+      if (law)
+        setZoning(store(api).table("stock"), landlord.placeId, law.change);
     }
     scheduleReview(api);
   },

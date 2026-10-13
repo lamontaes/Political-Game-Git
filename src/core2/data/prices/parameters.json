@@ -97,5 +97,25 @@
       "unit": "share of other operating costs",
       "citation": "BEA input-output Use tables: petroleum products are a few percent of industries' intermediate inputs, more in transportation."
     }
+  },
+  "pricesGasolineTonsCo2PerGallon": {
+    "value": 0.008887,
+    "tag": "SOURCED",
+    "citation": "EPA, Greenhouse Gas Emissions from a Typical Passenger Vehicle: 8,887 grams of CO2 per gallon of gasoline burned."
+  },
+  "pricesGasolineDollarsPerGallon": {
+    "value": 3.52,
+    "tag": "SOURCED",
+    "citation": "EIA, U.S. regular gasoline retail price, 2023 annual average ($3.52 a gallon)."
+  },
+  "pricesElectricityTonsCo2PerMwh": {
+    "value": 0.367,
+    "tag": "SOURCED",
+    "citation": "EIA, U.S. electricity generation CO2 intensity, 2023: about 0.81 pounds a kilowatt-hour (0.367 metric tons a megawatt-hour)."
+  },
+  "pricesElectricityDollarsPerMwh": {
+    "value": 160,
+    "tag": "SOURCED",
+    "citation": "EIA Electric Power Monthly, U.S. residential retail price, 2023 average (16.0 cents a kilowatt-hour)."
   }
 }
