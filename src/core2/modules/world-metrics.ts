@@ -1,12 +1,13 @@
 /**
  * The town's economy as dated records: on the second of each month, after
- * the month's reviews, one row per place with jobs, unemployment, pay,
- * prices, businesses, rent, mortgages and bank lending, read from the
+ * the month's reviews, one row per place with jobs, unemployment, pay and
+ * low-wage jobs, prices, businesses, rent, home values, eviction filings, mortgages and bank lending, read from the
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
+import { ownedHomes } from "./housing";
 import { residentsRuntime } from "./residents";
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
@@ -112,6 +113,24 @@ export function townMetrics(api: CoreAPI) {
   const loans = rows(api, "credit", "loans") as unknown as {
     open: boolean;
   }[];
+  // Homes: owners' values today, and eviction cases filed this month.
+  const values = new Map<string, number[]>();
+  for (const home of c.modules.has("housing") ? ownedHomes(api) : [])
+    values.set(home.placeId, [
+      ...(values.get(home.placeId) ?? []),
+      home.valueMinor,
+    ]);
+  const filed = new Map<string, number>();
+  for (const row of rows(api, "housing", "cases") as unknown as {
+    householdId: string;
+    filedAt?: string;
+  }[]) {
+    if (!row.filedAt?.startsWith(month)) continue;
+    const placeId =
+      c.households.get(row.householdId)?.placeId ??
+      rt?.households.get(row.householdId)?.household.placeId;
+    if (placeId) filed.set(placeId, (filed.get(placeId) ?? 0) + 1);
+  }
   return [...places]
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([placeId, row]) => ({
@@ -131,6 +150,17 @@ export function townMetrics(api: CoreAPI) {
         ? row.price.reduce((n, value) => n + value, 0) / row.price.length
         : 1,
       medianRentMinor: median(row.rents),
+      // Jobs here paying under two-thirds of the median hourly pay (the OECD's low-pay line).
+      lowWageShare: row.hourly.length
+        ? row.hourly.filter((h) => h < (2 / 3) * median(row.hourly)).length /
+          row.hourly.length
+        : 0,
+      medianHomeValueMinor: median(values.get(placeId) ?? []),
+      evictionFilingsThisMonth: filed.get(placeId) ?? 0,
+      evictionFilingsPerThousandRenters:
+        row.rents.length > 0
+          ? ((filed.get(placeId) ?? 0) * 1000) / row.rents.length
+          : 0,
       // The town bank and its mortgages serve the town as a whole.
       mortgagesOwed: mortgages.filter((m) => m.monthsLeft > 0).length,
       mortgageBalanceMinor: mortgages.reduce((n, m) => n + m.balanceMinor, 0),

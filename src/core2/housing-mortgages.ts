@@ -3,8 +3,8 @@
  * follows national records: the share of owners with a mortgage by the
  * householder's age (ACS B25027), when owners moved in (ACS B25038, older
  * owners earlier), the median down payment (NAR 2025), the 30-year rate in
- * the month they bought (FHFA MIRS and H.15) and prices then (CPI-U, until a
- * house price index is in the data). A loan bought more than 30 years ago is
+ * the month they bought (FHFA MIRS and H.15) and prices then (the state's
+ * FHFA house price index). A loan bought more than 30 years ago is
  * paid off. The town bank holds loans up to what its capital carries; the
  * rest are held outside the town (most U.S. mortgages are sold into agency
  * securities). Each is a monthly payment to its holder: a standing bill for a
