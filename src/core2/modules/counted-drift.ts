@@ -41,6 +41,7 @@ import type {
   PlaceId,
 } from "../types";
 import { registerWorldMapPart } from "../snapshot";
+import { drawOfficialIdentity } from "../officials-identity";
 
 export const COUNTED_DRIFT_MODULE_ID = "core2-counted-drift-v1";
 
@@ -64,7 +65,6 @@ interface Runtime {
   tally: Map<string, DriftTally>;
   /** Each household's pull to leave, built up month by month since it moved in. */
   pull: Map<string, number>;
-  names?: Names;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
 registerWorldMapPart("core2-counted-drift", runtimes);
@@ -248,12 +248,6 @@ function endParts(core: CoreState, ending: Ending): void {
   }
 }
 
-/** Given and family names already recorded in the counts, by gender, to draw newcomers' names from. */
-interface Names {
-  given: Map<string, string[]>;
-  family: string[];
-}
-
 function addNewborn(
   api: CoreAPI,
   motherId: PersonId,
@@ -391,11 +385,6 @@ function leavePull(
   return topRate * Math.exp(-hold);
 }
 
-const pick = <T>(list: readonly T[], key: string): T | undefined =>
-  list.length
-    ? list[parseInt(stableHash(key).slice(0, 8), 16) % list.length]
-    : undefined;
-
 /**
  * A given name people born that year were called (SSA top names by decade),
  * not one a housemate already has. Seeded: generation of who exists.
@@ -429,7 +418,7 @@ function moveHousehold(
   api: CoreAPI,
   month: Month,
   householdId: string,
-  names: Names,
+  stateUsps: string,
   arrive: boolean,
 ): readonly PersonInput[] {
   const core = api.state;
@@ -444,9 +433,17 @@ function moveHousehold(
     return [];
   }
   api.stopgap(data.movesStopgapId);
-  const family =
-    pick(names.family, `${core.seed}:${householdId}:${core.date}:family`) ??
-    record.people[0]!.familyName;
+  // A new family's name from the state's name corpus (never a real
+  // officeholder's), the same generator that names invented officials.
+  const family = drawOfficialIdentity({
+    worldSeed: core.seed,
+    seatKey: `newcomer:${householdId}:${core.date}`,
+    stateUsps,
+    role: "background-seat-prospect",
+    referenceDate: core.date,
+    // Only the name is used; the age window needs some minimum.
+    legalMinimumAge: 18,
+  }).familyName;
   const ids = new Map<PersonId, PersonId>(
     record.people.map((person): [PersonId, PersonId] => [
       person.id,
@@ -468,9 +465,7 @@ function moveHousehold(
           gender,
           person.birthDate,
           record.people,
-        ) ??
-        pick(names.given.get(gender) ?? [], `${core.seed}:${id}:given`) ??
-        person.givenName,
+        ) ?? person.givenName,
       familyName: family,
       birthDate: person.birthDate,
       placeId: person.placeId,
@@ -558,7 +553,6 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
   const due = new Map<PlaceId, Due>();
   const owners = mortgagedHouseholds(core);
   const youngestByGender = new Map<string, PersonInput>();
-  const names: Names = { given: new Map(), family: [] };
   for (const [householdId, record] of residents.households) {
     const place = record.household.placeId;
     let topRate = 0,
@@ -586,13 +580,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       const prior = gender ? youngestByGender.get(gender) : undefined;
       if (gender && (!prior || person.birthDate > prior.birthDate))
         youngestByGender.set(gender, person);
-      if (gender && !rt.names) {
-        const list = names.given.get(gender) ?? [];
-        list.push(person.givenName);
-        names.given.set(gender, list);
-      }
     }
-    if (!rt.names) names.family.push(record.people[0]?.familyName ?? "");
     rt.pull.set(
       householdId,
       (rt.pull.get(householdId) ?? 0) +
@@ -600,9 +588,6 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     );
     due.set(place, row);
   }
-  // The town's recorded names, gathered once, are the newcomers' name pool.
-  names.family = names.family.filter(Boolean);
-  rt.names ??= names;
   const month: Month = {
     core,
     ending: new Set(),
@@ -688,7 +673,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
         api,
         month,
         householdId,
-        rt.names!,
+        state.replace(/^US-/, ""),
         arrive,
       );
       rt.pull.delete(householdId);
