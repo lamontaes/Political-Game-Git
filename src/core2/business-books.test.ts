@@ -69,7 +69,12 @@ function funding(overrides: Partial<FundingPlanInput> = {}): FundingPlanInput {
 describe("pure employer books candidate (no money writer)", () => {
   it("preserves every compiled IRS ratio and the suppressed-cost estimated flag", () => {
     const original = IRS_TOWN_BUSINESS_BOOKS.split(";");
-    expect(data.kinds.length).toBe(original.length);
+    expect(data.kinds.map((kind) => kind.id).sort()).toEqual(
+      [
+        ...original.map((cell) => cell.split("=")[0]!),
+        "cannabis-retail",
+      ].sort(),
+    );
     for (const cell of original) {
       const [id, encoded] = cell.split("=");
       const [margin, payroll, cost, estimated] = encoded!
