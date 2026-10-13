@@ -30,7 +30,7 @@ import {
   shiftPurchaseShare,
 } from "../residents-economy";
 import { residentPerson, residentsRuntime } from "./residents";
-import { openBuyers, renewBuyers } from "../business-buyers";
+import { openBuyers, openEntrantBuyers, renewBuyers } from "../business-buyers";
 import { lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls, strongestPullsBy } from "./jobs";
 import { transferCash } from "../world-transfer";
@@ -1226,6 +1226,8 @@ function found(
       // Outside buyers, and full households' own purchases (the core leaves those with their stores).
       (flow) => flow.kind === "outside-sales" || c.people.has(flow.payerId),
     );
+  // The outside buyers it won become its accounts, renewing like the others'.
+  openEntrantBuyers(api, buyerTables(api), id);
   const monthly = Math.round(annualDemandMinor / p("macroMonthsPerYear"));
   // The incumbents' own markets shrink by the share they lost (books seam, for OPUS-CORE review).
   for (const incumbentId of market.incumbents) {

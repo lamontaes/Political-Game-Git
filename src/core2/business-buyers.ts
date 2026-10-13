@@ -18,7 +18,6 @@ import {
   customerSalesByBusiness,
   setOutsideBuyerShare,
 } from "./residents-economy";
-import { stopgap } from "./stopgaps";
 import type { CoreAPI, CoreState } from "./types";
 
 export type BuyerRow = {
@@ -83,55 +82,84 @@ export function openBuyers(
   api: CoreAPI,
   tables: { buyers: ModuleTable; sellers: ModuleTable },
 ): void {
+  const c = api.state as CoreState;
+  const sales = customerSalesByBusiness(c);
+  const ids = [...c.finance.businesses.keys()].sort();
+  for (const [position, id] of ids.entries())
+    openSeller(api, tables, id, position, sales, ["here", "elsewhere"]);
+}
+
+/** A business founded mid-run: the outside buyers it won at entry become its accounts. */
+export function openEntrantBuyers(
+  api: CoreAPI,
+  tables: { buyers: ModuleTable; sellers: ModuleTable },
+  organizationId: string,
+): void {
+  const c = api.state as CoreState;
+  openSeller(
+    api,
+    tables,
+    organizationId,
+    tables.sellers.query("all", [true]).length,
+    customerSalesByBusiness(c),
+    ["here"],
+  );
+}
+
+function openSeller(
+  api: CoreAPI,
+  tables: { buyers: ModuleTable; sellers: ModuleTable },
+  id: string,
+  position: number,
+  sales: ReturnType<typeof customerSalesByBusiness>,
+  sides: readonly ("here" | "elsewhere")[],
+): void {
   const c = api.state as CoreState,
     p = (key: string) => api.parameter(key);
-  const sales = customerSalesByBusiness(c);
   const account = p("businessBuyerAccountMinor"),
     sigma = p("businessBuyerSizeSpread"),
     term = Math.max(1, Math.round(p("businessBuyerTermMonths")));
   const month = c.date.slice(0, "YYYY-MM".length);
-  const ids = [...c.finance.businesses.keys()].sort();
-  for (const [position, id] of ids.entries()) {
-    const book = c.finance.businesses.get(id)!;
-    const placeId = c.organizations.get(id)?.placeId;
-    const row = sales.get(id);
-    if (book.closedAt || !placeId || !row || row.outsideMinor <= 0) continue;
-    const count = Math.max(1, Math.round(row.outsideMinor / account));
-    // The same buyers in two lists: those buying here, and as many again buying elsewhere.
-    for (const side of ["here", "elsewhere"] as const) {
-      const weights = Array.from({ length: count }, (_, i) =>
-        weight(c.seed, `buyer:${id}:${side}:${i}`, sigma),
-      );
-      const total = weights.reduce((n, w) => n + w, 0);
-      weights.forEach((w, i) => {
-        tables.buyers.put({
-          id: `buyer:${id}:${side}:${i}`,
-          placeId,
-          kindId: book.kindId,
-          sellerId: side === "here" ? id : "",
-          sizeMinor: (row.outsideMinor * w) / total,
-          // Renewals spread evenly over the year: each business's accounts in turn, those elsewhere half a cycle on.
-          renewsMonth: addMonths(
-            month,
-            1 +
-              ((position + i + (side === "here" ? 0 : Math.floor(term / 2))) %
-                term),
-          ),
-          since: c.date,
-          isBuyer: true,
-        } satisfies BuyerRow);
-      });
-    }
-    tables.sellers.put({
-      id,
-      placeId,
-      kindId: book.kindId,
-      openingMinor: row.outsideMinor,
-      heldMinor: row.outsideMinor,
-      outsideShare: row.allMinor > 0 ? row.outsideMinor / row.allMinor : 0,
-      isSeller: true,
-    } satisfies SellerRow);
+  const book = c.finance.businesses.get(id);
+  const placeId = c.organizations.get(id)?.placeId;
+  const row = sales.get(id);
+  if (!book || book.closedAt || !placeId || !row || row.outsideMinor <= 0)
+    return;
+  const count = Math.max(1, Math.round(row.outsideMinor / account));
+  // The same buyers in two lists: those buying here, and as many again buying elsewhere.
+  for (const side of sides) {
+    const weights = Array.from({ length: count }, (_, i) =>
+      weight(c.seed, `buyer:${id}:${side}:${i}`, sigma),
+    );
+    const total = weights.reduce((n, w) => n + w, 0);
+    weights.forEach((w, i) => {
+      tables.buyers.put({
+        id: `buyer:${id}:${side}:${i}`,
+        placeId,
+        kindId: book.kindId,
+        sellerId: side === "here" ? id : "",
+        sizeMinor: (row.outsideMinor * w) / total,
+        // Renewals spread evenly over the year: each business's accounts in turn, those elsewhere half a cycle on.
+        renewsMonth: addMonths(
+          month,
+          1 +
+            ((position + i + (side === "here" ? 0 : Math.floor(term / 2))) %
+              term),
+        ),
+        since: c.date,
+        isBuyer: true,
+      } satisfies BuyerRow);
+    });
   }
+  tables.sellers.put({
+    id,
+    placeId,
+    kindId: book.kindId,
+    openingMinor: row.outsideMinor,
+    heldMinor: row.outsideMinor,
+    outsideShare: row.allMinor > 0 ? row.outsideMinor / row.allMinor : 0,
+    isSeller: true,
+  } satisfies SellerRow);
 }
 
 /** Each open business's price against what the town's businesses charge (their median price level): what a buyer compares. */
@@ -157,8 +185,6 @@ export function renewBuyers(
     priceWeight = p("businessBuyerPriceWeight"),
     tenureWeight = p("businessBuyerTenureWeight"),
     daysPerYear = p("jobsDaysPerYear");
-  // New businesses win outside buyers through the market split at entry, not as accounts.
-  stopgap("SG-WORLD-business-entrant-buyers");
   const due = tables.buyers.query("byRenewal", [
     month,
   ]) as unknown as BuyerRow[];

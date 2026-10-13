@@ -1785,11 +1785,11 @@
     "file": "src/core2/credit-stand-in.ts",
     "line": 13,
     "whatItFakes": "One named business gets a prime-linked credit line from a town lender for the M1-02 proof; no bank chose to lend.",
-    "why": "The generated opening has no credit lines; banks and loans are M1-06 (OPUS-WORLD, next on the checklist).",
+    "why": "The generated opening has no credit lines; banks and loans are M1-06 (OPUS-WORLD, next on the checklist). Resolved by OPUS-WORLD (2026-10-13): owners borrow by choice from the town bank (credit.ts), and the M1-02 proof that used the stand-in is replaced by the golden-path check src/core2/tooling/m1-02-check.ts.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",
@@ -2833,11 +2833,11 @@
     "file": "src/core2/business-buyers.ts",
     "line": 161,
     "whatItFakes": "A business founded mid-run keeps the outside buyers it won at entry for good: it holds no buyer accounts, so none leave or come.",
-    "why": "Entrants win outside buyers through the market split at entry (shiftPurchaseShare), not as accounts.",
+    "why": "Entrants win outside buyers through the market split at entry (shiftPurchaseShare), not as accounts. Resolved by OPUS-WORLD (2026-10-13): at founding, the outside buyers a new business won become its accounts (openEntrantBuyers in src/core2/business-buyers.ts).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "An entrant's outside sales split into buyer accounts at founding, renewing like the others.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-full-household-deposits",

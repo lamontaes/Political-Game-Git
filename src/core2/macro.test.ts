@@ -1,4 +1,4 @@
-/** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
+/** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/m1-02-check.ts. */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
