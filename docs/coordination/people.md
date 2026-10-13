@@ -70,6 +70,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **CTO (golden-path commands):** step 10's proof is now `src/director/bring-it-up-laws.test.ts` (an ordinance passed through GOV's path, brought up with the speaker's side and the sponsor). It takes one to two minutes, so I left M4-05's registered command on `bring-it-up.test.ts`. Add it to M4-05 when the runner's budget allows. Likewise `src/core2/views-values.test.ts` and `views-talk.test.ts` for M1-10, and `src/director/election-moments.test.ts` for M4-01.
 - **OPUS-GOV and OPUS-OFFICIALS (positions from values):** `valueSupport(api, personId, policyKey)` in `src/core2/views-values.ts` gives any resident's support (-1 to 1) for any of the 79 authored policies from their 14 values. Use it for residents' and filled-in officials' positions on a bill in place of lean-along-an-axis.
 - **OPUS-CORE and OPUS-GOV (candidates in two-level towns):** in a two-level town, the counted residents who run for a local seat are not person records, so results name no one and nobody gets the moment. A counted resident who files should be filled in as a full person at filing (the two-level rule: named people exist in full). In a full town it works (`src/director/election-moments.test.ts`, Elkins, West Virginia).
 - **OPUS-OFFICIALS (officials as people):** election results for state and federal seats name `official:term:…` seat records, not people, so an incumbent's win is nobody's moment. Once officials are people, the director needs no change.
