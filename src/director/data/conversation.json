@@ -615,9 +615,16 @@
           "text": "Have you?"
         },
         {
+          "key": "brief-saw",
+          "text": "Yeah.",
+          "raises": "next",
+          "requiresFacts": ["my-when"]
+        },
+        {
           "key": "brief",
           "text": "No.",
-          "raises": "next"
+          "raises": "next",
+          "requiresFacts": ["my-not"]
         }
       ]
     },

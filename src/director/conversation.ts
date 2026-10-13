@@ -252,14 +252,23 @@ export function subjectsBetween(
   }
   for (const id of [...speaker.knownIds].sort()) {
     if (id === listenerId || !listener.knownIds.has(id)) continue;
-    if (!core.people.get(id)?.alive) continue;
+    const about = core.people.get(id);
+    if (!about?.alive) continue;
+    // Someone either of them lives with needs no asking after.
+    if (
+      about.householdId === speaker.householdId ||
+      about.householdId === listener.householdId
+    )
+      continue;
+    // Family go by their first names.
+    const family = speaker.familyIds.has(id) || listener.familyIds.has(id);
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
       aboutId: id,
       facts: {
         name: {
-          text: fullName(core, id),
+          text: family ? about.givenName : fullName(core, id),
           sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
         },
         first: {
@@ -663,9 +672,13 @@ function knowsTruth(
   if (!knower) return false;
   if (own.key.endsWith(":employer"))
     return (
-      !!knower.jobId &&
-      core.jobs.get(knower.jobId)?.organizationId === own.value
+      knower.familyIds.has(subjectId) ||
+      (!!knower.jobId &&
+        core.jobs.get(knower.jobId)?.organizationId === own.value)
     );
+  // Family know where their relatives live and work; housemates know where
+  // they live.
+  if (knower.familyIds.has(subjectId)) return true;
   return knower.householdId === core.people.get(subjectId)?.householdId;
 }
 

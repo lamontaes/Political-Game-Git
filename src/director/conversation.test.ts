@@ -234,4 +234,35 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       key,
     );
   });
+
+  it("talks with family as family: no asking what they know, first names, and no answer against the record", () => {
+    const relatives = [...me.familyIds].filter((id) => {
+      const other = core.people.get(id);
+      return other?.alive && other.tier !== "husk";
+    });
+    for (const otherId of relatives) {
+      const talk = openConversation(core, player.id, otherId);
+      for (let turn = 0; turn < 3 && talk.choices.length; turn += 1) {
+        const asked = talk.lines.at(-1)!;
+        // A relative knows where the player lives and works.
+        if (asked.speakerId === otherId)
+          expect(asked.kind.endsWith("-new")).toBe(false);
+        // Family are named by their first names in a shared mention.
+        for (const id of [...me.familyIds]) {
+          const relative = core.people.get(id);
+          if (relative && asked.speakerId === otherId)
+            expect(asked.text).not.toContain(
+              `${relative.givenName} ${relative.familyName}`,
+            );
+        }
+        // "No." is offered only when the player hasn't seen them lately.
+        if (
+          asked.kind === "mutual" &&
+          /today|yesterday|on /.test(talk.choices[0]!.text)
+        )
+          expect(talk.choices.map((c) => c.text)).not.toContain("No.");
+        say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+      }
+    }
+  });
 });
