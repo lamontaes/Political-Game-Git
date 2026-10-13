@@ -7,6 +7,7 @@
  * the town each day.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
+import ages from "../data/social-security-ages.json" with { type: "json" };
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { retirementClaimAgeMonths } from "../retirement-claim";
@@ -28,7 +29,8 @@ const STOPGAP = "SG-CORE-retirement-claims-in-play";
 
 interface Runtime {
   known: Set<PersonId>;
-  countedIndexed: boolean;
+  /** The year the counts were last checked for people nearing the earliest claim age. */
+  countedIndexedYear?: string;
   byDate: Map<IsoDate, PersonId[]>;
   claimed: Map<PersonId, Claim>;
   indexedPeople?: number;
@@ -113,11 +115,22 @@ function schedule(rt: Runtime, date: IsoDate, personId: PersonId): void {
 
 function index(api: CoreAPI, rt: Runtime): void {
   const core = api.state;
-  // The counted population claims too, from their own records (once).
-  if (!rt.countedIndexed) {
-    rt.countedIndexed = true;
+  // The counted population claims too, from their own records. Nobody claims
+  // before the earliest claim age, so each year only those within two years
+  // of it are indexed; the same dates as indexing everyone at once.
+  const year = core.date.slice(0, 4);
+  if (rt.countedIndexedYear !== year) {
+    rt.countedIndexedYear = year;
+    const [y, m] = core.date.split("-").map(Number) as [number, number];
+    const soonest = ages.earliestClaimAgeMonths - 24;
     for (const record of residentsRuntime(core)?.households.values() ?? [])
       for (const person of record.people) {
+        if (rt.known.has(person.id)) continue;
+        const [by, bm] = person.birthDate.split("-").map(Number) as [
+          number,
+          number,
+        ];
+        if ((y - by) * 12 + (m - bm) < soonest) continue;
         rt.known.add(person.id);
         if (
           record.contracts.some(
@@ -280,7 +293,6 @@ export const RETIREMENT_CLAIMS_MODULE: CoreModule = {
     if (!rt) {
       rt = {
         known: new Set(),
-        countedIndexed: false,
         byDate: new Map(),
         claimed: new Map(),
       };

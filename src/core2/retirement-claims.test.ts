@@ -27,10 +27,17 @@ const total = (core: CoreState) =>
 
 describe(`retirement claims during play in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("starts each claimant's monthly award, and every dollar balances", () => {
-    // One full adult, born so their own claim date falls two months in.
+    // One full adult, born so their own claim date falls two months in. They
+    // are moved to an earlier birth date, never a later one, so nothing they
+    // already know predates their birth.
     const input = generatedOpening(place, { twoLevel: true });
     const adult = input.people
-      .filter((row) => row.id !== input.playerId && !row.jobId)
+      .filter(
+        (row) =>
+          row.id !== input.playerId &&
+          !row.jobId &&
+          row.birthDate > "1962-12-31",
+      )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
     const weights = {
       anchorYearsBeforeFull:
