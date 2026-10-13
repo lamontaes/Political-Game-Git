@@ -37,12 +37,16 @@ import {
   openNextContest,
   ELECTIONS_MODULE_ID,
   ballot,
+  checkEligibility,
+  fileCandidacy,
+  filingOfficeFor,
   type ContestRow,
   type FilingRow,
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
+  circulatePetition,
   impressionOf,
   parsePlatform,
 } from "./campaigns";
@@ -51,6 +55,7 @@ import type { SeatInput } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
+import { CANDIDACY_MODULE_ID, decideToRun } from "./candidacy";
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-");
 
@@ -164,6 +169,22 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
       sourceRecordIds: [contest.id],
     });
   else fileStandingCandidates(api, contest.id);
+  // In the town's own races, residents decide whether to run ahead of the
+  // deadline (PEOPLE's candidacy chooser), with time to gather signatures.
+  const lead = new Date(
+    Date.parse(`${contest.filingDeadline}T00:00:00Z`) -
+      campaignParameter("candidacyDecisionLeadDays") * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  if (LOCAL_LEVELS.has(contest.level) && contest.filingDeadline > date)
+    calendar.schedule({
+      key: `candidacy-window:${contest.id}`,
+      date: lead > date ? lead : date,
+      kind: "candidacy-window",
+      source,
+      sourceRecordIds: [contest.id],
+    });
   if (contest.primaryDate && contest.primaryDate > date)
     calendar.schedule({
       key: `primary:${contest.id}`,
@@ -194,6 +215,8 @@ function votingCalendarWork(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
+  if (work.kind === "candidacy-window")
+    residentsDecide(api, work.sourceRecordIds[0]!);
   if (work.kind === "filing-closes")
     fileStandingCandidates(api, work.sourceRecordIds[0]!);
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
@@ -343,6 +366,69 @@ export function turnout(
     votes:
       duty + interest + campaignParameter("turnoutBase") > cost + extraCost,
   };
+}
+
+const LOCAL_LEVELS = new Set(["city", "county", "township"]);
+
+/**
+ * Who runs in a town race: each full adult resident who meets the filing
+ * rules (not the player, who files for themselves, nor the incumbent, who
+ * stands again) decides through PEOPLE's candidacy chooser from their own
+ * record. One who decides to run files, paying the fee where they can, and
+ * circulates their own petition where the race takes signatures. Local
+ * races are mostly nonpartisan, so they file without a party.
+ */
+function residentsDecide(api: CoreAPI, contestId: string): void {
+  if (!api.state.modules.has(CANDIDACY_MODULE_ID)) return;
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow | undefined;
+  if (!contest) return;
+  const incumbent = contest.incumbentTermId
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    : undefined;
+  const rules = filingOfficeFor(api, contestId, "independent");
+  const home = town(api).townPlaceId;
+  const residents = [...api.state.people.values()]
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === home &&
+        p.id !== api.state.playerId &&
+        p.id !== incumbent?.personId,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  for (const person of residents) {
+    if (ballot(api, contestId).some((f) => f.personId === person.id)) continue;
+    if (checkEligibility(api, person.id, contestId, null).some((c) => !c.met))
+      continue;
+    const decision = decideToRun(api, person.id, {
+      contestId,
+      officeName: contest.title,
+      filingDeadline: contest.filingDeadline,
+      feeMinor: rules.feeMinor ?? 0,
+      ...(incumbent?.personId ? { incumbentId: incumbent.personId } : {}),
+      sourceIds: [contestId],
+    });
+    if (!decision?.run) continue;
+    const filed = fileCandidacy(api, {
+      personId: person.id,
+      contestId,
+      platform: [],
+      payFee: true,
+      party: null,
+    });
+    if (filed.status === "gathering-signatures" && "filing" in filed)
+      circulatePetition(api, {
+        filingId: filed.filing.id,
+        circulatorId: person.id,
+        hours: campaignParameter("candidacyPetitionHours"),
+      });
+  }
 }
 
 /**

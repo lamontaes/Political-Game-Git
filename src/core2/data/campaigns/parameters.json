@@ -562,6 +562,18 @@
       "tag": "TUNABLE",
       "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
       "spread": [1, 2]
+    },
+    "candidacyDecisionLeadDays": {
+      "value": 45,
+      "tag": "TUNABLE",
+      "source": "How many days before a local race's filing deadline the town's residents decide whether to run (PEOPLE's candidacy chooser), leaving time to gather signatures; checked against local races drawing one to three challengers.",
+      "spread": [14, 90]
+    },
+    "candidacyPetitionHours": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "source": "Hours a resident who decides to run spends circulating their own petition before the deadline, where the race takes signatures.",
+      "spread": [5, 60]
     }
   }
 }
