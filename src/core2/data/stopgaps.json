@@ -1015,11 +1015,11 @@
     "file": "src/core2/modules/offices.ts",
     "line": 337,
     "whatItFakes": "A state or federal officeholder outside the town is a stable identity (name, gender, birth date, party) with no core2 person behind it.",
-    "why": "core2 has no fill-in yet: a named person outside the town can't become a full person when clicked.",
+    "why": "core2 has no fill-in yet: a named person outside the town can't become a full person when clicked. Resolved by OPUS-OFFICIALS (2026-10-13): every state and federal official outside the town is filled in at the opening as a full person with traits, views, a party wing, a career and colleagues (src/core2/modules/officials.ts); a holder seated later is filled in the first time their seat is read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "CORE's two-level fill-in builds the full person from this identity (seeded from the world and the seat), with kin and a past from PEOPLE.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-term-end-estimate",
@@ -3005,6 +3005,18 @@
     "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
     "addedAt": "2026-10-13",
     "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICIALS-unrecorded-party",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/officials.ts",
+    "line": 312,
+    "whatItFakes": "A holder whose party the roster doesn't record (a statewide executive such as an attorney general or treasurer, or a legislative seat with no roster row) sits in the party that carried the state in 2024; a lieutenant governor on the governor's ticket takes the governor's party.",
+    "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
+    "addedBy": "OPUS-OFFICIALS",
+    "addedAt": "2026-10-13",
+    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
     "status": "open"
   }
 ]

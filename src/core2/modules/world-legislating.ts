@@ -21,6 +21,7 @@
  */
 import sessions from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 import { leaderOf, presidingOfficer } from "./leadership";
+import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -298,6 +299,8 @@ interface Filer {
   readonly lean: number;
   readonly home: number;
   readonly trait: number;
+  /** Their own position on a question: an official's own ideal and causes (OPUS-OFFICIALS), anyone else's by their lean. */
+  readonly stance: (question: string) => number;
 }
 
 function filerOf(api: CoreAPI, term: TermRow): Filer {
@@ -319,13 +322,15 @@ function filerOf(api: CoreAPI, term: TermRow): Filer {
           "hold",
         )
       : 0,
+    stance: (question) =>
+      officialStance(api, key, question) ?? personStance(lean, question),
   };
 }
 
 /** A member's own reasons to carry a change on a question, pointing one way. */
 function filingReason(f: Filer, question: string, direction: number): number {
   return (
-    (personStance(f.lean, question) +
+    (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction +
     f.trait
