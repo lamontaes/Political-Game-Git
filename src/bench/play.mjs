@@ -33,18 +33,34 @@ function show(id, on) {
   $(id).hidden = !on;
 }
 
+/** Soft contact shadows on the floor at each person's feet, under everyone. */
+function shadowsOf(people) {
+  return people
+    .filter((person) => person.figure.shadow)
+    .map(({ figure: { shadow: s } }) => {
+      const node = el("div", { className: "shadow" });
+      Object.assign(node.style, {
+        left: `${s.leftPercent}%`,
+        top: `${s.topPercent}%`,
+        width: `${s.widthPercent}%`,
+        height: `${s.heightPercent}%`,
+      });
+      return node;
+    });
+}
+
 function drawPeople(people) {
   $("people").replaceChildren(
+    ...shadowsOf(people),
     ...people.map((person) => {
       const f = person.figure;
       const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
       const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
-      // A whole figure turns to face the room, with a soft shadow at its feet.
+      // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure", title: person.name }, img);
-      if (f.shadow) box.prepend(el("div", { className: "shadow" }));
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
@@ -98,16 +114,16 @@ async function renderScene() {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
   $("backdrop").src = scene.backdrop.url;
   $("people").replaceChildren(
+    ...shadowsOf(scene.people),
     ...scene.people.map((person) => {
       const f = person.figure;
       const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
       const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
-      // A whole figure turns to face the room, with a soft shadow at its feet.
+      // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure", title: person.name }, img);
-      if (f.shadow) box.prepend(el("div", { className: "shadow" }));
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,

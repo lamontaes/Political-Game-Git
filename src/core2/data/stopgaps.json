@@ -2952,18 +2952,6 @@
     "status": "open"
   },
   {
-    "id": "SG-CORE-disasters-from-records",
-    "kind": "behavior",
-    "file": "src/core2/modules/disasters.ts",
-    "line": 1,
-    "whatItFakes": "Disasters happen only where and when FEMA declared one for the town's county or state (since 2000), as a public news event on the incident's start date. Federal Public Assistance obligated to the county's own government and the town's government (disasters declared since 2020) is paid in full on the declaration date from the U.S. Treasury outside account the game already keeps for Social Security. FEMA housing assistance approved for the town's households (Individuals and Households Program, owners and renters, disasters since 2020) is paid to the town's counted residents on the declaration date, scaled by the world's people over the Census estimate (a town without an estimate takes the whole amount); no single household is chosen, and 36% of household rows don't match a county or town by name. A government kept outside the world receives nothing. The town's households also pay, on the declaration date, for repairing the damage FEMA inspected in owners' homes (scaled the same way), to the town's open builders by their staff or to builders outside the town; the news event carries how many homes FEMA found damaged. Damage to rented homes falls on no landlord, and repairs are paid at once from what households have rather than over months or by insurance. No damage to businesses, public buildings or people; no other applicants (schools, utilities, nonprofits; 13% of assistance rows don't match a county); no new disasters after the records end.",
-    "why": "The core owns disasters and hazards (BOARD); under no-dice a rate can't decide when one strikes, and the owner hasn't ruled on what should cause new ones.",
-    "addedBy": "OPUS-CORE",
-    "addedAt": "2026-10-13",
-    "replacement": "The owner's ruling on what causes a disaster in play; damage to businesses, public buildings and people (from NOAA storm episodes), and household aid and repairs reaching the named households that lost homes, with insurance and repairs over time; assistance paid over its real obligation dates to every applicant; a federal FEMA account of its own.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-electorate-approval",
     "kind": "missing-data",
     "file": "src/core2/electorate-inputs.ts",
@@ -2997,6 +2985,42 @@
     "addedBy": "OPUS-OFFICIALS",
     "addedAt": "2026-10-13",
     "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LOC-residence-rooms",
+    "kind": "placeholder-art",
+    "file": "src/bench/scene.ts",
+    "line": 268,
+    "whatItFakes": "A sitting president or governor at home is shown outside the White House or the governor's residence by day and in the large house's living room at night, because neither residence has painted rooms.",
+    "why": "The Firefly library has the residences' exteriors only; the bench lists the rooms' picture names first (officialResidences in src/bench/data/scene-places.json) so they are used as soon as they are painted.",
+    "addedBy": "LOCATIONS",
+    "addedAt": "2026-10-13",
+    "replacement": "Painted rooms for each residence (white-house-residence-living, -dining, -bedroom; governor-residence-living, -dining, -bedroom), imported under those names.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-one-look-per-activity",
+    "kind": "missing-data",
+    "file": "src/bench/whole-figures.ts",
+    "line": 244,
+    "whatItFakes": "Each approved look is painted doing one thing, so a person whose look doesn't fit where they are (a teen boy's skateboard or basketball indoors, a laptop off work) is drawn in their next look, or the nearest-age look that fits: indoors, a teen boy is drawn with the youngest adult look in a hoodie. The player's teen and adult looks are tied by two hand-paired families (family-066, family-009) chosen by skin, hair and clothes.",
+    "why": "The approved art has 4 teen and 4 child looks, one activity each, and no adult version of any teen look.",
+    "addedBy": "PEOPLE",
+    "addedAt": "2026-10-13",
+    "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-disasters-from-records",
+    "kind": "behavior",
+    "file": "src/core2/modules/disasters.ts",
+    "line": 1,
+    "whatItFakes": "Disasters happen only where and when FEMA declared one for the town's county or state (since 2000), as a public news event on the incident's start date. Federal Public Assistance obligated to the county's own government and the town's government (disasters declared since 2020) is paid in full on the declaration date from the U.S. Treasury outside account the game already keeps for Social Security. FEMA housing assistance approved for the town's households (Individuals and Households Program, owners and renters, disasters since 2020) is paid to the town's counted residents on the declaration date, scaled by the world's people over the Census estimate (a town without an estimate takes the whole amount); no single household is chosen, and 36% of household rows don't match a county or town by name. A government kept outside the world receives nothing. The town's households also pay, on the declaration date, for repairing the damage FEMA inspected in owners' homes (scaled the same way), to the town's open builders by their staff or to builders outside the town; the news event carries how many homes FEMA found damaged. Damage to rented homes falls on no landlord, and repairs are paid at once from what households have rather than over months or by insurance. No damage to businesses, public buildings or people; no other applicants (schools, utilities, nonprofits; 13% of assistance rows don't match a county); no new disasters after the records end.",
+    "why": "The core owns disasters and hazards (BOARD); under no-dice a rate can't decide when one strikes, and the owner hasn't ruled on what should cause new ones.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "The owner's ruling on what causes a disaster in play; damage to businesses, public buildings and people (from NOAA storm episodes), and household aid and repairs reaching the named households that lost homes, with insurance and repairs over time; assistance paid over its real obligation dates to every applicant; a federal FEMA account of its own.",
     "status": "open"
   },
   {

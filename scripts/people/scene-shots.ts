@@ -16,6 +16,8 @@ import { openingShots } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
+import manifest from "../../art/people-whole/manifest.json" with { type: "json" };
+import rules from "../../src/bench/data/whole-figures.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
 const [out = "scene-shots", ...given] = process.argv.slice(2);
@@ -143,6 +145,17 @@ const browser = await chromium.launch({
 });
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 const summary: string[] = [];
+const FIGURE_LOOK = new Map(
+  manifest.figures.map((row) => [row.file, row.look] as const),
+);
+const FIGURE_ACTIVITY = new Map(
+  manifest.figures.map((row) => [row.file, row.activity] as const),
+);
+const OUTDOORS = (place: string) =>
+  rules.outdoorPlaces.includes(place) ||
+  rules.outdoorPrefixes.some((prefix) => place.startsWith(prefix));
+let twinTotal = 0,
+  propTotal = 0;
 let whole = 0,
   other = 0;
 for (const seed of seeds) {
@@ -188,6 +201,14 @@ for (const seed of seeds) {
       <script>
       const people = ${JSON.stringify(figs)};
       const el = document.getElementById("people");
+      // As play.mjs draws it: shadows on the floor first, then the figures.
+      for (const person of people) {
+        const s = person.figure.shadow;
+        if (!s || s === true) continue;
+        const sh = document.createElement("div"); sh.className = "shadow";
+        Object.assign(sh.style, { left: s.leftPercent + "%", top: s.topPercent + "%", width: s.widthPercent + "%", height: s.heightPercent + "%" });
+        el.append(sh);
+      }
       for (const person of people) {
         const f = person.figure;
         const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
@@ -196,7 +217,7 @@ for (const seed of seeds) {
         img.style.height = (f.heightPercent / visible) * 100 + "%";
         if (f.mirrored) img.style.transform = "scaleX(-1)";
         const box = document.createElement("div"); box.className = "figure";
-        if (f.shadow) { const sh = document.createElement("div"); sh.className = "shadow"; if (f.shadowStyle) Object.assign(sh.style, f.shadowStyle); box.prepend(sh); }
+        if (f.shadow === true) { const sh = document.createElement("div"); sh.className = "shadow"; box.prepend(sh); }
         box.append(img);
         Object.assign(box.style, { left: f.leftPercent + "%", top: f.topPercent + "%", width: f.widthPercent + "%", height: visible + "%" });
         el.append(box);
@@ -210,12 +231,28 @@ for (const seed of seeds) {
     );
     const file = `${out}/${tag}-${s.name}.png`;
     await page.screenshot({ path: file });
+    // Twins (two people in one look) and props where they make no sense.
+    const looks = s.people.map((p) =>
+      FIGURE_LOOK.get(p.figureUrl.split("/").pop()!),
+    );
+    const twins = looks.length - new Set(looks).size;
+    const indoors = !OUTDOORS(s.place)
+      ? s.people.filter((p) =>
+          ["skateboard", "basketball"].includes(
+            FIGURE_ACTIVITY.get(p.figureUrl.split("/").pop()!) ?? "",
+          ),
+        ).length
+      : 0;
+    twinTotal += twins;
+    propTotal += indoors;
     summary.push(
-      `- ${s.name} (${s.place}): ${s.people.length} drawn, whole ${w0}, other ${o0}`,
+      `- ${s.name} (${s.place}): ${s.people.length} drawn, whole ${w0}, other ${o0}, twins ${twins}, ball or skateboard indoors ${indoors}`,
     );
   }
 }
 await browser.close();
-summary.push(`\nTotal: whole ${whole}, not whole ${other}`);
+summary.push(
+  `\nTotal: whole ${whole}, not whole ${other}, twins ${twinTotal}, ball or skateboard indoors ${propTotal}`,
+);
 writeFileSync(`${out}/counts.md`, summary.join("\n") + "\n");
 console.log(summary.join("\n"));

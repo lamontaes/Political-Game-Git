@@ -205,6 +205,13 @@
         "storefront windows and door: windows"
       ]
     },
+    "capitol-hallway": {
+      "checked": ["capitol-hallway__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "cemetery-graveside": {
       "checked": ["cemetery-graveside__midday.jpg"],
       "surfaces": [],
@@ -517,6 +524,13 @@
         "no painted screens, posters, papers or boards; stage back wall is plain wall, windows and door excluded"
       ]
     },
+    "congressional-office": {
+      "checked": ["congressional-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "construction-site": {
       "checked": [
         "construction-site__midday.jpg",
@@ -582,6 +596,20 @@
         "no painted screens, posters, papers or boards"
       ]
     },
+    "council-chamber-large": {
+      "checked": ["council-chamber-large__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "council-chamber-small": {
+      "checked": ["council-chamber-small__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "county-clerk-office-rural": {
       "checked": ["county-clerk-office-rural__midday.jpg"],
       "surfaces": [],
@@ -620,6 +648,13 @@
         }
       ],
       "skipped": ["nameplates on the dais: under 36 px tall"]
+    },
+    "county-commission-rural": {
+      "checked": ["county-commission-rural__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
     },
     "county-courthouse": {
       "checked": [
@@ -1020,6 +1055,13 @@
       "surfaces": [],
       "skipped": [
         "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "hearing-room-paneled": {
+      "checked": ["hearing-room-paneled__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "high-school-cafeteria": {
@@ -1476,6 +1518,13 @@
       "skipped": [
         "desk blotter (about x 770-895, y 400-408): under 36 px tall",
         "no painted screens, posters, papers or boards (windows, curtains and doors excluded)"
+      ]
+    },
+    "oval-office-resolute": {
+      "checked": ["oval-office-resolute__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "park": {
@@ -2358,6 +2407,13 @@
         "PLACEHOLDER RESEARCH REQUEST: inspect morning, midday, night, rain, and winter pictures; record painted screens, posters, papers, and TVs before live content uses them."
       ]
     },
+    "state-house-chamber": {
+      "checked": ["state-house-chamber__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "state-legislative-chamber-bicameral": {
       "checked": [
         "state-legislative-chamber-bicameral__midday.jpg",
@@ -2617,6 +2673,244 @@
       "surfaces": [],
       "skipped": [
         "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "big-city-elections-office": {
+      "checked": ["big-city-elections-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-admin-lobby": {
+      "checked": ["county-admin-lobby__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-courthouse-classical": {
+      "checked": ["county-courthouse-classical__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-courthouse-modern": {
+      "checked": ["county-courthouse-modern__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-courthouse-new-england": {
+      "checked": ["county-courthouse-new-england__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-courthouse-romanesque": {
+      "checked": ["county-courthouse-romanesque__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-courthouse-rural": {
+      "checked": ["county-courthouse-rural__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-courthouse-southwest": {
+      "checked": ["county-courthouse-southwest__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-elections-counting-room": {
+      "checked": ["county-elections-counting-room__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-elections-office": {
+      "checked": ["county-elections-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-emergency-operations": {
+      "checked": ["county-emergency-operations__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-extension-office": {
+      "checked": ["county-extension-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-fair-exhibit-hall": {
+      "checked": ["county-fair-exhibit-hall__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-fairgrounds": {
+      "checked": ["county-fairgrounds__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-health-department": {
+      "checked": ["county-health-department__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-jail-booking": {
+      "checked": ["county-jail-booking__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-jail-exterior": {
+      "checked": ["county-jail-exterior__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-jail-visiting": {
+      "checked": ["county-jail-visiting__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-office-cramped": {
+      "checked": ["county-office-cramped__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-recorder-office": {
+      "checked": ["county-recorder-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-road-garage": {
+      "checked": ["county-road-garage__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-sheriff-exterior": {
+      "checked": ["county-sheriff-exterior__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-sheriff-front-desk": {
+      "checked": ["county-sheriff-front-desk__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-treasurer-office": {
+      "checked": ["county-treasurer-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-trial-courtroom": {
+      "checked": ["county-trial-courtroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "courthouse-square": {
+      "checked": ["courthouse-square__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "courthouse-steps": {
+      "checked": ["courthouse-steps__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "district-attorney-office": {
+      "checked": ["district-attorney-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "family-court": {
+      "checked": ["family-court__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "jury-room": {
+      "checked": ["jury-room__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "probate-family-court": {
+      "checked": ["probate-family-court__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "public-defender-office": {
+      "checked": ["public-defender-office__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "sheriff-office-lobby": {
+      "checked": ["sheriff-office-lobby__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "treasurer-counter": {
+      "checked": ["treasurer-counter__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     }
   }

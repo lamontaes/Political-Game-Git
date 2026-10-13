@@ -119,10 +119,19 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 Branch `claude/people-rendering-overhaul-x6zl5r`. Proof tool: `node --import tsx scripts/people/scene-shots.ts <out> [seed ...]` builds fresh games in random places and renders the intro, home, a workplace, the council, the state chamber, the U.S. House and Senate, the Oval Office and a conversation, with a count of figures by source.
 
 - [x] 1. Old models deleted (PR 1): 5,231 files, 238.5 MB. Nobody is drawn on a spot no approved figure fits. Nonbinary people wear any look instead of vanishing.
-- [ ] 6. Shadows at the feet (PR 2).
-- [ ] 3–5. Facing, staging, size (PR 3).
-- [ ] 7–10. Plain-pose picker (props only when the simulation calls for them), no twins, the player's identity, who is there (PR 4).
-- [ ] 2. Seated figures: wiring ready for the CTO's seated art (PR 5).
+- [x] 6. Shadows at the feet (PR 2): measured from each figure's pixels, on the foot point, none behind a desk.
+- [x] 3–5. Facing, staging, size (PR 3): people turn toward who they're with, or a room's front (`roomFronts` in `src/bench/data/whole-figures.json`); companions take the nearest spots that don't hide anyone; council chamber and U.S. House scale raised to full size; 4 home stand spots moved off the open floor; 5 looks' recorded facing corrected. Check sheets: `scripts/people/staging-sheet.ts`. Checked by eye: 29 places (homes, chambers, offices, the owner's scenes). Open: the other 149 places' spots and scale are not yet checked one by one.
+- [x] 7–10. Activity picker, no twins, the player's identity, who is there (PR 4): where each painted activity makes sense is data (`activitySettings` in `src/bench/data/whole-figures.json`); each person takes the first look in their own stable order that fits and nobody else in the scene wears; ages matched within 6 years first, then 12; from 18 never a teen look; the manifest has a `family` field and the player keeps theirs. Stopgap SG-PEOPLE-one-look-per-activity until the activity variants and teen looks land. Who is at home was already the household only (`presentIds`).
+- [x] 2. Seated figures, wiring (PR 5): each seat's chair kind comes from its staging group (`seatKinds` in `src/bench/data/whole-figures.json`; the Oval Office desk is an office chair, the Senate and House members' seats legislative seats, the council dais dais chairs, sofas couches); a seated row of the person's own look is placed with its hip line on the seat's `seatY`, cut at `clipBelowY`. Seats stay empty until the CTO's seated art lands; nothing else needs changing then. Wall and doorway (lean) spots now take standing people.
 - [x] 11. Art requests: `docs/coordination/people-art-requests.md`.
+
+## Needs from other sessions
+
+- OPUS-PLAY: screen 40 (named "age 18") shows 17 on the card; please check the card's age follows the game date. Figures switch at 18 on the game date.
+- OPUS-WORLD and the story director: when a household moves, the journal or news should say so; the home picture already follows the household's dwelling record.
+
+## Questions for the owner
+
+- Until the teen art lands, a teen boy indoors is drawn with the youngest adult look in a hoodie (24 in the art). Is that better than drawing nobody?
 
 Left in place on purpose: `src/presentation/complete-outfit.ts`, `engine-people29-data.ts`, `private-candidate-manifests.ts`, `runtime-art.ts` and `bundled-art.ts`. Nothing from `/play` reaches them, but old scene and prose tooling still imports them (`scripts/prose-corpus`, `src/presentation/scene-registry.ts`); they go with the old-core removal.
