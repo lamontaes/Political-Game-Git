@@ -29,8 +29,11 @@ import {
   ballot,
   type ContestRow,
 } from "./modules/elections";
-import { CANDIDACY_MODULE_ID, candidatesFor } from "./modules/candidacy";
-import { campaignParameter } from "./campaign-views";
+import {
+  CANDIDACY_MODULE_ID,
+  CANDIDACY_PARAMETERS,
+  candidatesFor,
+} from "./modules/candidacy";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -75,7 +78,7 @@ describe("who runs in the town's races", () => {
       const api = coreAPI(core);
       expect(core.modules.has(CANDIDACY_MODULE_ID)).toBe(true);
       const where = `${core.placeMetadata.placeName}, ${lawChain(api).stateKey} (seed ${seed}:${attempt}, place ${key})`;
-      const lead = campaignParameter("candidacyDecisionLeadDays");
+      const lead = CANDIDACY_PARAMETERS.candidacyDecisionLeadDays!.value;
       const contest = (
         api
           .moduleState(ELECTIONS_MODULE_ID)
