@@ -73,7 +73,6 @@ export const EXPECTED_FAILURES: Readonly<Record<string, string>> = {
   B: "PW-2",
   C: "PW-3",
   D: "PW-3",
-  E: "PW-3",
   F: "PW-4",
   G: "PW-4",
   I: "PW-5",
