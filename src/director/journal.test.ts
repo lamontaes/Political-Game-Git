@@ -301,7 +301,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
 
   it("opens the story where the person was born, from the birth record", () => {
     const first = composeJournal(core, director, player.id)[0]!.lines[0]!;
-    expect(first.text).toMatch(/^I was born in .+ in \d{4}\.$/);
+    expect(first.text).toMatch(/^I was born in \d{4} in .+\.$/);
     expect(first.sourceRecordIds.length).toBeGreaterThan(0);
   });
 });

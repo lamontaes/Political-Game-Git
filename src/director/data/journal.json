@@ -403,7 +403,7 @@
     "line": [
       {
         "key": "born",
-        "text": "I was born in {{place}} in {{year}}."
+        "text": "I was born in {{year}} in {{place}}."
       }
     ]
   }
