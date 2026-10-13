@@ -286,5 +286,16 @@
       "unit": "share of the loan",
       "citation": "Closing costs of a refinance as a share of the loan, rolled into the new balance: Freddie Mac puts them at about 2 to 5 percent of the loan; ClosingCorp's 2021 national average was about $2,400 before taxes, near 1 percent of an average refinance."
     }
+  },
+  "housingTenureCountyWeightHomes": {
+    "value": 200,
+    "tag": "TUNABLE",
+    "citation": "How many homes' worth of its county's owner share a place's own ACS owner share is weighed against: a place with few homes in the 5-year sample (a third of places count under 200, often 100% or 0% owner-occupied) leans toward its county, a large one keeps its own (ACS 5-year margins of error for small places).",
+    "spread": {
+      "low": 50,
+      "high": 1000,
+      "unit": "homes",
+      "citation": "How many homes' worth of its county's owner share a place's own ACS owner share is weighed against: a place with few homes in the 5-year sample (a third of places count under 200, often 100% or 0% owner-occupied) leans toward its county, a large one keeps its own (ACS 5-year margins of error for small places)."
+    }
   }
 }

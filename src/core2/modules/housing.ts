@@ -344,10 +344,14 @@ function householdIncome(
 export function withHousing(input: CoreInput): CoreInput {
   const town = townOf(input);
   if (!town) return input;
-  const tenure =
-    PLACE_TENURE[town.geoid] ??
-    COUNTY_TENURE[town.county] ??
-    nationTenure(town);
+  // A small place's ACS owner share is a small sample: it leans toward its county's by the homes it counts (no cutoff).
+  const county = COUNTY_TENURE[town.county] ?? nationTenure(town);
+  const place = PLACE_TENURE[town.geoid];
+  const weight = pv("housingTenureCountyWeightHomes");
+  const tenure: [number, number] | undefined =
+    place && county
+      ? [place[0] + weight, place[1] + (weight * county[1]) / county[0]]
+      : (place ?? county);
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
