@@ -111,9 +111,67 @@ function nationTenure(town: { county: string }): [number, number] | undefined {
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
+/**
+ * Each state's household-weighted owner share and county median rent and
+ * value, for a place whose county has no row: Connecticut's places carry
+ * their pre-2022 counties while the ACS tables use its planning regions.
+ */
+const STATES = (() => {
+  const out = new Map<
+    string,
+    {
+      homes: number;
+      owned: number;
+      rent: number;
+      value: number;
+      weight: number;
+    }
+  >();
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    const state = county.slice(0, "SS".length);
+    const total = out.get(state) ?? {
+      homes: 0,
+      owned: 0,
+      rent: 0,
+      value: 0,
+      weight: 0,
+    };
+    total.homes += row[0];
+    total.owned += row[1];
+    const rv = RENT_VALUE[county];
+    if (rv?.[0] && rv[1]) {
+      total.rent += rv[0] * row[0];
+      total.value += rv[1] * row[0];
+      total.weight += row[0];
+    }
+    out.set(state, total);
+  }
+  return out;
+})();
+function stateOf(county: string) {
+  const row = STATES.get(county.slice(0, "SS".length));
+  if (!row?.weight) return undefined;
+  // Until a county-to-planning-region crosswalk is in the data.
+  stopgap("SG-WORLD-housing-county-crosswalk");
+  return row;
+}
+function countyTenure(county: string): [number, number] | undefined {
+  const row = COUNTY_TENURE[county];
+  if (row) return row;
+  const state = stateOf(county);
+  return state ? [state.homes, state.owned] : undefined;
+}
 function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
-  return (RENT_VALUE[county] as [number, number] | undefined) ?? [null, null];
+  const row = RENT_VALUE[county] as [number, number] | undefined;
+  if (row) return row;
+  const state = stateOf(county);
+  return state
+    ? [
+        Math.round(state.rent / state.weight),
+        Math.round(state.value / state.weight),
+      ]
+    : [null, null];
 }
 const DWELLINGS_KEY = "housingDwellings";
 const BILLS_KEY = "housingBills";
@@ -369,7 +427,7 @@ export function withHousing(input: CoreInput): CoreInput {
   for (const town of towns) {
     const tenure =
       PLACE_TENURE[town.geoid] ??
-      COUNTY_TENURE[town.county] ??
+      countyTenure(town.county) ??
       nationTenure(town);
     const [medianRent, medianValue] = rentValueOf(town.county);
     const households = allHouseholds.filter(
@@ -423,6 +481,8 @@ export function withHousing(input: CoreInput): CoreInput {
     );
     // Each household's home: owners with today's value, renters with their rent.
     const dwellings: [string, "own" | "rent", number][] = [];
+    // ACS values are dated mid-2022; the state's house price index moves them to the start.
+    const sinceAcs = homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt);
     const ownerRows = households
       .filter((row) => rank.get(row.id)! < owners)
       .map((row) => ({
@@ -433,11 +493,7 @@ export function withHousing(input: CoreInput): CoreInput {
         oldest: row.oldest,
         liquidMinor: row.liquidMinor,
         valueMinor: Math.round(
-          (medianValue ?? 0) *
-            100 *
-            // ACS values are dated mid-2022; the state's house price index moves them to the start.
-            homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
-            scaleOf(row.income),
+          (medianValue ?? 0) * 100 * sinceAcs * scaleOf(row.income),
         ),
       }));
     for (const row of ownerRows)
@@ -1727,13 +1783,15 @@ export function ownedHomes(
       store(api).table("state").get("housing:state") as
         { openedAt: string } | undefined
     )?.openedAt ?? c.date;
+  // One ratio for the call: every opening home moved with the same state index since the opening.
+  let ratio: number | undefined;
   const prices = () =>
-    homePriceRatio(
+    (ratio ??= homePriceRatio(
       c.placeMetadata?.housingState ?? "",
       opened,
       c.date,
       macroPrices(api),
-    );
+    ));
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {

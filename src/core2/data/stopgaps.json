@@ -2811,6 +2811,19 @@
     "why": "The opening generates these employers and their jobs but gives them no cash and no income, so every payday was short and their workers were never paid (PW-7 step 1: a union representative, a community organizer and a postal clerk in Thomas, West Virginia, seed dbfb4cec9e49134b, unpaid for a year).",
     "addedBy": "PW-7 (Opus builder)",
     "addedAt": "2026-10-13",
-    "replacement": "Each employer's real funder: the town's and county's budgets for their departments (OPUS-GOV), the federal and state payrolls for post offices and state offices, donations and grants for nonprofits, and business books with sales for cooperatives and firms."
+    "replacement": "Each employer's real funder: the town's and county's budgets for their departments (OPUS-GOV), the federal and state payrolls for post offices and state offices, donations and grants for nonprofits, and business books with sales for cooperatives and firms.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-county-crosswalk",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 155,
+    "whatItFakes": "A place whose county has no row in the ACS tenure, rent and value tables uses its state's household-weighted county figures: Connecticut's places carry their pre-2022 counties (09001 to 09015) while the ACS tables use the state's 2022 planning regions (09110 to 09190).",
+    "why": "Without a crosswalk every Connecticut place got no homes at all (Thompsonville, seed 32f132873a6792f3, PW-7).",
+    "addedBy": "PW-7 (Opus builder)",
+    "addedAt": "2026-10-13",
+    "replacement": "The Census Bureau's Connecticut county-to-planning-region relationship file, so each place reads its own planning region's rows.",
+    "status": "open"
   }
 ]

@@ -43,6 +43,9 @@ function priceRatio(from: string, to: string, level?: PriceLevel): number {
 }
 
 /** The state's index on a date; null when FHFA has no rows for it. */
+/** Each state's index quarters in order, sorted once. */
+const SORTED_QUARTERS = new Map<string, string[]>();
+
 function indexAt(
   usps: string,
   date: string,
@@ -52,7 +55,8 @@ function indexAt(
   if (!rows) return null;
   const key = quarterKey(date);
   if (rows[key] !== undefined) return rows[key]!;
-  const keys = Object.keys(rows).sort();
+  let keys = SORTED_QUARTERS.get(usps);
+  if (!keys) SORTED_QUARTERS.set(usps, (keys = Object.keys(rows).sort()));
   if (key < keys[0]!) return rows[keys[0]!]!;
   // Past the latest quarter, the latest index moved with consumer prices since.
   const last = keys.at(-1)!;

@@ -141,6 +141,7 @@ export function openingMortgages(input: {
     terms: MortgageTerms[] = [],
     counted = new Map<string, Record<string, number>>();
   let room = input.bankRoomMinor;
+  const ratioByYear = new Map<number, number>();
   for (const owner of owners) {
     if (!owes.has(owner.id) || owner.valueMinor <= 0) continue;
     const boughtYear = bought.get(owner.id)!;
@@ -152,9 +153,17 @@ export function openingMortgages(input: {
         ? DATA.downPayment.firstTime
         : DATA.downPayment.repeat;
     // What the home cost then: today's value moved back by the state's house price index.
-    const price =
-      owner.valueMinor *
-      homePriceRatio(input.usps, input.startedAt, `${boughtYear}-07-01`);
+    let back = ratioByYear.get(boughtYear);
+    if (back === undefined)
+      ratioByYear.set(
+        boughtYear,
+        (back = homePriceRatio(
+          input.usps,
+          input.startedAt,
+          `${boughtYear}-07-01`,
+        )),
+      );
+    const price = owner.valueMinor * back;
     const original = price * (1 - down);
     const rate =
       historicalMortgageRate(`${boughtYear}-06`, p) / p("macroHundred");
