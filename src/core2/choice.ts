@@ -145,6 +145,8 @@ export interface ScoredOffer {
 }
 
 /** Scores every offer once with the chooser's reasons; it chooses nothing. */
+const NO_BINDINGS: readonly never[] = Object.freeze([]);
+
 export function scoreOffers(
   core: CoreState,
   personId: string,
@@ -165,13 +167,22 @@ export function scoreOffers(
     if (offer.availableHours < p("zero") || effortHours < p("zero"))
       throw new Error("Invalid choice time budget.");
     const drive = offer.driveId ? actor.drives.get(offer.driveId) : undefined;
-    const goal = [...actor.goals.values(), ...(context?.goalRows ?? [])].reduce(
-      (strength, row) =>
-        action.goalKinds.includes(row.kind)
-          ? Math.max(strength, context?.goalUrgencies?.[row.id] ?? row.urgency)
-          : strength,
-      p("zero"),
-    );
+    // The strongest matching goal, without copying the person's goals.
+    let goal = p("zero");
+    if (action.goalKinds.length) {
+      for (const row of actor.goals.values())
+        if (action.goalKinds.includes(row.kind))
+          goal = Math.max(
+            goal,
+            context?.goalUrgencies?.[row.id] ?? row.urgency,
+          );
+      for (const row of context?.goalRows ?? [])
+        if (action.goalKinds.includes(row.kind))
+          goal = Math.max(
+            goal,
+            context?.goalUrgencies?.[row.id] ?? row.urgency,
+          );
+    }
     const reasons: DecisionReason = {
       need:
         (context?.needValues?.[action.need] ??
@@ -191,10 +202,14 @@ export function scoreOffers(
           ? (-effortHours / offer.availableHours) * p("effortWeight")
           : p("zero"),
     };
-    const bindings = [
-      ...(action.reasonBindings ?? []),
-      ...(offer.reasonBindings ?? []),
-    ];
+    const ownBindings = action.reasonBindings ?? NO_BINDINGS,
+      offerBindings = offer.reasonBindings ?? NO_BINDINGS;
+    const bindings =
+      ownBindings.length && offerBindings.length
+        ? [...ownBindings, ...offerBindings]
+        : ownBindings.length
+          ? ownBindings
+          : offerBindings;
     // Retain at most the selected and runner-up terms. Full alternative scores stay detail-only.
     const reasonTerms: WeightedReason[] = [];
     if (bindings.length) {
