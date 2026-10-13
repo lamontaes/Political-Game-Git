@@ -146,7 +146,12 @@ function townOf(input: CoreInput): Town | undefined {
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
-  const placeId = [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
+  // The played town itself; a county the opening also generates can hold more households.
+  const own = place?.context.jurisdiction.id;
+  const placeId =
+    own && counts.has(own)
+      ? own
+      : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
   if (!placeId || !usps) return undefined;
   // A place no county table covers (the island areas) uses the nation's figures, estimated.
@@ -328,6 +333,12 @@ export function withHousing(input: CoreInput): CoreInput {
     estimatedFrom: `The town's ACS owner share (${tenure[1]} of ${tenure[0]} homes) and county ${town.county}'s median gross rent (${medianRent} dollars), scaled by each household's income.`,
   };
   const offset = medianIncome * pv("housingIncomeOffsetShare");
+  // A home's value and rent scale with its household's income; with no recorded income in town, the median.
+  const incomeScale = (income: number) =>
+    medianIncome > 0
+      ? ((income + offset) / (medianIncome + offset)) **
+        pv("housingRentIncomeElasticity")
+      : 1;
   const dueAt =
     addDays(
       makeIsoDate(`${input.startedAt.slice(0, "YYYY-MM".length)}-01`),
@@ -362,8 +373,7 @@ export function withHousing(input: CoreInput): CoreInput {
           100 *
           // ACS values are dated mid-2022; the state's house price index moves them to the start.
           homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
-          ((row.income + offset) / (medianIncome + offset || 1)) **
-            pv("housingRentIncomeElasticity"),
+          incomeScale(row.income),
       ),
     }));
   for (const row of ownerRows) dwellings.push([row.id, "own", row.valueMinor]);
@@ -396,9 +406,7 @@ export function withHousing(input: CoreInput): CoreInput {
       stopgap("SG-WORLD-housing-unmodeled-renters");
       continue;
     }
-    const scale =
-      ((row.income + offset) / (medianIncome + offset || 1)) **
-      pv("housingRentIncomeElasticity");
+    const scale = incomeScale(row.income);
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)

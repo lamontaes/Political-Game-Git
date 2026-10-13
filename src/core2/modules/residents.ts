@@ -284,31 +284,17 @@ export function shiftToOpenSellers(
 
 /** Cash above the firm's buffer goes to its owners: part local, the rest outside. */
 /** A firm's supplier bills accrued and not yet paid (net-30), and who they're owed to. */
-export function supplierBillsOwed(
+export function supplierBillsOwedTo(
   core: CoreState,
   organizationId: string,
 ): { owedMinor: number; supplierId: string; flowId: string } | undefined {
-  const rt = runtimes.get(core),
-    book = core.finance.businesses.get(organizationId),
-    costs = rt?.flows.get(`outside-costs:${organizationId}`);
-  if (!book || !costs || costs.endedAt) return undefined;
-  const share =
-    book.annualDemandMinor > 0
-      ? book.annualOtherCostsMinor / book.annualDemandMinor
-      : 0;
-  const accrued =
-    (costs.accruedCostMinor ?? 0) +
-    (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) * share;
+  const costs = runtimes
+    .get(core)
+    ?.flows.get(`outside-costs:${organizationId}`);
+  if (!costs || costs.endedAt || !core.finance.businesses.has(organizationId))
+    return undefined;
   return {
-    owedMinor: Math.max(
-      0,
-      Math.floor(
-        accrued -
-          (book.operatingPaidMinor -
-            (costs.localPaidMinor ?? book.operatingPaidMinor)) -
-          (costs.outsidePaidMinor ?? 0),
-      ),
-    ),
+    owedMinor: Math.floor(supplierBillsOwed(core, organizationId)),
     supplierId: costs.payeeId,
     flowId: costs.id,
   };
@@ -328,7 +314,7 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     api.parameter("ownerDistributionBufferMultiple");
   // Supplier bills already owed (net-30) are the business's money, not the
   // owners': keep them back with the buffer.
-  const owed = supplierBillsOwed(core, flow.payerId)?.owedMinor ?? 0;
+  const owed = supplierBillsOwed(core, flow.payerId);
   const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
   if (excess <= 0) return;
   const residents = rt.input.accounts.find(
@@ -369,6 +355,31 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       reasonKey: flow.financeKind,
       source: flow.source,
     });
+}
+
+/** What a business owes its outside suppliers for costs accrued on its sales but not yet billed or paid (net-30 terms). */
+export function supplierBillsOwed(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = runtimes.get(core),
+    book = core.finance.businesses.get(organizationId);
+  const costs = rt?.flows.get(`outside-costs:${organizationId}`);
+  if (!book || !costs || costs.endedAt) return 0;
+  const share =
+    book.annualDemandMinor > 0
+      ? book.annualOtherCostsMinor / book.annualDemandMinor
+      : 0;
+  const accrued =
+    (costs.accruedCostMinor ?? 0) +
+    (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) * share;
+  return Math.max(
+    0,
+    accrued -
+      (book.operatingPaidMinor -
+        (costs.localPaidMinor ?? book.operatingPaidMinor)) -
+      (costs.outsidePaidMinor ?? 0),
+  );
 }
 
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {

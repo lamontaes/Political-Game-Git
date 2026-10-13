@@ -25,12 +25,17 @@ import ownership from "../data/business/ownership.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import {
+  addResidentFlow,
   countedJobsOf,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
-import { residentPerson, residentsRuntime } from "./residents";
-import { lendForFounding } from "./credit";
+import {
+  residentPerson,
+  residentsRuntime,
+  supplierBillsOwed,
+} from "./residents";
+import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
 import {
@@ -228,9 +233,10 @@ function scheduleMonth(api: CoreAPI): void {
   });
 }
 
-/** A business's cash less what it owes on its credit lines. */
+/** A business's cash less what it owes on its credit lines and to its suppliers. */
 function netCash(c: CoreState, organizationId: string): number {
-  let owed = 0;
+  // Supplier bills accrued on its sales are owed already, though not yet billed.
+  let owed = supplierBillsOwed(c, organizationId);
   for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
     owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
   return (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed;
@@ -654,6 +660,8 @@ function month(api: CoreAPI): void {
         ? owner.liquidMinor / owner.livingCostDailyMinor
         : Number.POSITIVE_INFINITY;
     const short = cushion > 0 ? Math.max(0, 1 - cash / cushion) : 0;
+    // Cash beyond the cushion is profit the business doesn't need: on a sliding scale toward 1.
+    const spare = cash > cushion ? 1 - cushion / cash : 0;
     const need = 1 / (1 + ownerDays / p("businessDaysPerMonth"));
     let drawn = 0,
       share = 0;
@@ -665,6 +673,7 @@ function month(api: CoreAPI): void {
           option(s, {
             need: p("businessDrawNeedWeight") * need * s,
             keep: -p("businessDrawKeepWeight") * short * s,
+            surplus: p("businessDrawSurplusWeight") * spare * s,
             size: -p("businessDrawSizeWeight") * s * s,
           }),
         ),
@@ -1074,9 +1083,57 @@ function found(
   const parentName = location
     ? c.organizations.get(location.parentId)?.name
     : undefined;
-  const share = 1 / (market.incumbents.length + 1);
+  const equal = 1 / (market.incumbents.length + 1);
   // No customers to win (no buyers reach this market's businesses): nothing to found.
-  if (purchaseShareOf(c, new Set(market.incumbents), share) <= 0) return false;
+  if (purchaseShareOf(c, new Set(market.incumbents), equal) <= 0) return false;
+  // How big it opens: an equal share of the market is the most it could win;
+  // it plans a typical startup's staff, smaller when the founder's own money
+  // and what the bank will lend on it reach less (most new firms start small).
+  const term = p("businessStartupTermMonths");
+  const fullCost = startupCost(api, market),
+    fullProfit = prospectMonthly(api, market),
+    fullStaff = market.staff * equal;
+  const ownerFrom = location ? location.parentId : ownerAccount(c, founderId);
+  if (!ownerFrom) return false;
+  const equityMinor = Math.min(
+    Math.max(0, c.organizations.get(ownerFrom)?.liquidMinor ?? Infinity),
+    location
+      ? Math.max(0, location.fundsMinor)
+      : Math.max(
+          0,
+          founder.liquidMinor -
+            founder.livingCostDailyMinor *
+              p("businessDaysPerMonth") *
+              p("businessFounderReserveMonths"),
+        ),
+  );
+  const shortOfMoney = (size: number) =>
+    size * fullCost >
+    equityMinor +
+      foundingLoanLimit(
+        api,
+        { equityMinor, monthlyProfitMinor: fullProfit * size },
+        term,
+      );
+  let scale = Math.min(
+    1,
+    fullStaff > 0 ? p("businessStartupStaff") / fullStaff : 1,
+  );
+  if (shortOfMoney(scale)) {
+    // The largest size the money reaches, by halving the interval.
+    let low = 0,
+      high = scale;
+    for (let i = 0; i < 30; i++) {
+      const mid = (low + high) / 2;
+      if (shortOfMoney(mid)) high = mid;
+      else low = mid;
+    }
+    scale = low;
+  }
+  // Too little to open with even one worker (or the whole share, where that is less): the founder can't open it.
+  if (scale <= 0 || (fullStaff > 0 && scale < Math.min(1, 1 / fullStaff)))
+    return false;
+  const share = equal * scale;
   api.addOrganization({
     id,
     placeId: market.placeId,
@@ -1111,7 +1168,7 @@ function found(
           organizationId: id,
           placeId: market.placeId,
           like: market.incumbents[0]!,
-          capacityMinor,
+          capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
   const annualDemandMinor =
@@ -1172,20 +1229,39 @@ function found(
     costContractIds: [],
     source,
   });
+  // What a business that buys from outside suppliers doesn't buy locally, it buys outside, like every opening firm.
+  const supplies = [...market.incumbents]
+    .map((rid) => residentsRuntime(c)?.flows.get(`outside-costs:${rid}`))
+    .find((flow) => flow && !flow.endedAt);
+  if (supplies)
+    addResidentFlow(c, {
+      id: `outside-costs:${id}`,
+      kind: "outside-costs",
+      financeKind: supplies.financeKind,
+      payerId: id,
+      payeeId: supplies.payeeId,
+      residentsId: supplies.residentsId,
+      placeId: supplies.placeId,
+      amountMinor: 0,
+      firstAt: supplies.nextAt,
+      cadence: supplies.cadence,
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: supplies.source,
+    });
   const startup =
     ((annualPayrollMinor + annualOtherCostsMinor) / p("macroMonthsPerYear")) *
     p("businessStartupMonthsOfCosts");
-  // A location is funded first from its parent's spare cash; a loan covers the rest.
-  const funded = location
-    ? transferCash(
-        api,
-        `location-funding:${id}`,
-        location.parentId,
-        id,
-        Math.min(startup, location.fundsMinor),
-        source,
-      )
-    : 0;
+  // A location is funded first from its parent's spare cash, a new business
+  // from its founder's savings; a loan covers the rest.
+  const funded = transferCash(
+    api,
+    `${location ? "location-funding" : "founder-equity"}:${id}`,
+    ownerFrom,
+    id,
+    Math.min(startup, equityMinor),
+    source,
+  );
   // Funding a location moves the parent's cash, not its profit.
   if (location && funded > 0) {
     const parent = store(api).table("owners").get(location.parentId) as
@@ -1197,12 +1273,13 @@ function found(
   }
   const loan =
     startup - funded > 0
-      ? lendForFounding(
-          api,
-          id,
-          startup - funded,
-          p("businessStartupTermMonths"),
-        )
+      ? lendForFounding(api, id, startup - funded, term, {
+          founderId,
+          equityMinor: funded,
+          monthlyProfitMinor:
+            (annualDemandMinor * p(kind.marginParameter)) /
+            p("macroMonthsPerYear"),
+        })
       : 0;
   const book = c.finance.businesses.get(id)!;
   store(api)
@@ -1239,7 +1316,11 @@ function found(
       room: market.room,
       customersMonthlyMinor: monthly,
       loanMinor: loan,
-      parentFundsMinor: funded,
+      // The founder's own money in it (a location's comes from its parent).
+      ...(location ? {} : { equityMinor: funded }),
+      parentFundsMinor: location ? funded : 0,
+      scale,
+      staff: Math.max(1, Math.round(market.staff * share)),
       incumbents: market.incumbents.length,
       ...(location
         ? { parentId: location.parentId, parentStrength: location.strength }

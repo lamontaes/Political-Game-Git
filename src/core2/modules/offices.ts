@@ -17,8 +17,9 @@
  * a full person by CORE's fill-in (stand-in until then:
  * SG-GOV-official-identity-only).
  *
- * Vacancies: a holder's death (`life.death`), resignation or removal opens a
- * vacancy filled by the office's real rule: a successor in line takes the
+ * Vacancies: a holder's death (`life.death`), move out of the office's
+ * jurisdiction (`person.moved-away`), resignation or removal opens a vacancy
+ * filled by the office's real rule: a successor in line takes the
  * office; an appointment is made by the appointing authority; a special
  * election is put on the calendar (stand-in until M2's elections:
  * SG-GOV-special-election-appointee).
@@ -30,7 +31,18 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
-import { lifePlaceByKey } from "../../simulation/life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceByKey,
+} from "../../simulation/life-places";
+import { governmentUnit } from "../../simulation/government-units";
+import type { EntityId } from "../../simulation/types";
+import {
+  electionInYear,
+  staggeredSeatElection,
+  termStartAfter,
+} from "../elections-calendar";
+import { MOVED_AWAY_EVENT } from "./moves";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
 import {
   federalOffices,
@@ -109,11 +121,20 @@ export const OFFICES_MODULE: CoreModule = {
       loaded: {},
     },
   },
-  eventKinds: ["life.death"],
+  eventKinds: ["life.death", MOVED_AWAY_EVENT],
   onEvent: (api, event) => {
     for (const personId of event.personIds)
-      for (const term of servingTermsOf(api, personId))
-        vacateSeat(api, term.seatId, "death");
+      for (const term of servingTermsOf(api, personId)) {
+        if (event.kind === "life.death") vacateSeat(api, term.seatId, "death");
+        else if (
+          !livesWithin(
+            api,
+            term.officeId,
+            event.facts?.[`person:${personId}:residence`] ?? event.topic,
+          )
+        )
+          vacateSeat(api, term.seatId, "moved away");
+      }
   },
   onCalendarWork: officesCalendarWork,
 };
@@ -134,26 +155,67 @@ function servingTermsOf(api: CoreAPI, personId: string): readonly TermRow[] {
 }
 
 /**
- * The end of the term in progress at the opening. Seats of a body are
- * staggered evenly across its term; the term ends at the start of the year
- * after a regular election. Estimated until M2's election calendars read each
- * office's real dates (SG-GOV-term-end-estimate).
+ * Whether a holder who moved to `destination` (a county or state
+ * jurisdiction) still lives where the office serves: a state or
+ * congressional office within its state, a county office within its county.
+ * A city, town or township office is left by moving out of town, and the
+ * presidency is never left by a move.
+ */
+function livesWithin(
+  api: CoreAPI,
+  officeId: string,
+  destination: string | undefined,
+): boolean {
+  const office = table(api, "offices").get(officeId) as unknown as
+    OfficeInput | undefined;
+  if (!office || office.jurisdiction === "US") return true;
+  const to = destination
+    ? lifePlaceByJurisdictionId(destination as EntityId)
+    : null;
+  if (!to) return false;
+  if (office.level === "federal" || office.level === "state")
+    return (to.stateJurisdictionKey ?? to.key) === office.jurisdiction;
+  if (office.level === "county") {
+    const county = governmentUnit(office.jurisdiction)?.countyGeoid;
+    return !!county && to.key === `county:${county}`;
+  }
+  return false;
+}
+
+/**
+ * The end of the term in progress at the opening: the start of the term won
+ * at the seat's next regular election on its office's own calendar (the
+ * county's or the state's municipal election law), so every term ends with an
+ * election already held for it. Seats of a body take turns over the years in
+ * one term the calendar holds elections. Estimated until each seat's own
+ * cycle is read (SG-GOV-term-end-estimate).
  */
 function termEnd(
+  api: CoreAPI,
   office: OfficeInput,
   seat: SeatInput,
   date: string,
 ): string | null {
   if (!office.termYears) return null;
+  const town = table(api, "loaded").get("town") as unknown as
+    { stateKey: string; geoid: string } | undefined;
+  const where = {
+    office,
+    stateKey: office.jurisdiction.startsWith("US-")
+      ? office.jurisdiction
+      : (town?.stateKey ?? ""),
+    placeGeoid: town?.geoid ?? "",
+  };
+  const year = seat.electionYear ?? office.nextElectionYear;
+  const election =
+    year !== undefined
+      ? electionInYear({ ...where, year, onDate: `${year}-01-01` })
+      : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
+  if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";
-  if (seat.electionYear !== undefined)
-    return `${seat.electionYear + 1}-${starts}`;
-  if (office.nextElectionYear !== undefined)
-    return `${office.nextElectionYear + 1}-${starts}`;
-  const year = Number(date.slice(0, 4));
+  if (year !== undefined) return `${year + 1}-${starts}`;
   const offset = seat.index % Math.max(1, office.termYears);
-  const electionYear = year + (offset % office.termYears);
-  return `${electionYear + 1}-${starts}`;
+  return `${Number(date.slice(0, 4)) + offset + 1}-${starts}`;
 }
 
 function municipalVacancyRule(stateUsps: string): VacancyRule {
@@ -189,7 +251,9 @@ function suitedResidents(
   const year = Number(date.slice(0, 4));
   return [...core.people.values()]
     .filter((person) => {
-      if (!person.alive || taken.has(person.id)) return false;
+      // Someone who moved away (an inactive record) lives elsewhere now.
+      if (!person.alive || person.tier === "husk" || taken.has(person.id))
+        return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
@@ -278,7 +342,7 @@ function seatNamedOfficial(
     },
     party: partyName(seat.party),
     startDate: date,
-    endDate: termEnd(office, seat, date),
+    endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
     status: "serving",
@@ -310,7 +374,7 @@ function seatResident(
     },
     party: partyName(seat.party),
     startDate: date,
-    endDate: termEnd(office, seat, date),
+    endDate: termEnd(api, office, seat, date),
     endEstimated: true,
     reached,
     status: "serving",
