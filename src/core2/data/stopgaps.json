@@ -1037,7 +1037,7 @@
     "id": "SG-GOV-voter-registration-assumed",
     "kind": "missing-record",
     "file": "src/core2/modules/elections.ts",
-    "line": 520,
+    "line": 521,
     "whatItFakes": "Every adult resident counts as a registered voter where filing or signing requires registration.",
     "why": "core2 has no voter registration record yet.",
     "addedBy": "OPUS-GOV",
