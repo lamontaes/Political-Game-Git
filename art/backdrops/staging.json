@@ -4069,7 +4069,7 @@
     },
     "council-chamber": {
       "horizonY": 26,
-      "metersPercent": 0.42,
+      "metersPercent": 0.6,
       "floors": {
         "dais": 0.8
       },
@@ -8583,8 +8583,8 @@
           "id": "mobile-home:spot:1"
         },
         {
-          "x": 61,
-          "y": 63,
+          "x": 66,
+          "y": 58,
           "pose": "stand",
           "facing": "left",
           "depth": 63,
@@ -12412,8 +12412,8 @@
           "id": "small-apartment:spot:1"
         },
         {
-          "x": 60,
-          "y": 62,
+          "x": 64,
+          "y": 56,
           "pose": "stand",
           "facing": "left",
           "depth": 62,
@@ -17626,8 +17626,8 @@
           "id": "suburban-house:spot:3"
         },
         {
-          "x": 60,
-          "y": 60,
+          "x": 76,
+          "y": 57,
           "pose": "stand",
           "facing": "left",
           "depth": 60,
@@ -18404,7 +18404,7 @@
     },
     "us-house-floor": {
       "horizonY": 36,
-      "metersPercent": 0.45,
+      "metersPercent": 0.65,
       "floors": {
         "rostrum": 0.94,
         "speaker": 3.3,
@@ -21058,8 +21058,8 @@
           "id": "apartment-suburban-garden:spot:5"
         },
         {
-          "x": 60,
-          "y": 78,
+          "x": 76,
+          "y": 72,
           "pose": "stand",
           "facing": "viewer",
           "depth": 78,
@@ -28193,6 +28193,985 @@
         }
       ],
       "measuredFrom": "lamp posts 3.5 m foot 63.5 top 44 (5.6 per m) and foot 58.5 top 48.5 (2.9 per m); 53 / 0.54",
+      "surfaceSlots": []
+    },
+    "capitol-hallway": {
+      "horizonY": 50,
+      "metersPercent": 0.7,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "capitol-hallway:spot:0"
+        },
+        {
+          "x": 25,
+          "y": 79,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 79,
+          "role": "general",
+          "id": "capitol-hallway:spot:1"
+        },
+        {
+          "x": 75,
+          "y": 79,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 79,
+          "role": "general",
+          "id": "capitol-hallway:spot:2"
+        },
+        {
+          "x": 30,
+          "y": 73,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 73,
+          "seatY": 68,
+          "group": "bench-left",
+          "role": "general",
+          "id": "capitol-hallway:spot:3"
+        },
+        {
+          "x": 70,
+          "y": 73,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 73,
+          "seatY": 68,
+          "group": "bench-right",
+          "role": "general",
+          "id": "capitol-hallway:spot:4"
+        },
+        {
+          "x": 41,
+          "y": 74,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74,
+          "role": "general",
+          "id": "capitol-hallway:spot:5"
+        },
+        {
+          "x": 58,
+          "y": 74,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 74,
+          "role": "general",
+          "id": "capitol-hallway:spot:6"
+        },
+        {
+          "x": 50,
+          "y": 63,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 63,
+          "role": "general",
+          "id": "capitol-hallway:spot:7"
+        }
+      ],
+      "measuredFrom": "side doors 2.4 m foot 77 top 40 and far end door foot 62 top 53 solve to horizon ~50, 0.7; benches 0.45 m foot 73 top 69 agree",
+      "surfaceSlots": []
+    },
+    "congressional-office": {
+      "horizonY": 32,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 46,
+          "y": 84,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 84,
+          "hero": true,
+          "role": "general",
+          "id": "congressional-office:spot:0"
+        },
+        {
+          "x": 76,
+          "y": 55,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 55,
+          "seatY": 46,
+          "clipBelowY": 50,
+          "group": "desk",
+          "role": "general",
+          "id": "congressional-office:spot:1"
+        },
+        {
+          "x": 12,
+          "y": 67,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 67,
+          "seatY": 57,
+          "group": "sofa",
+          "role": "general",
+          "id": "congressional-office:spot:2"
+        },
+        {
+          "x": 20,
+          "y": 72,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 72,
+          "seatY": 61,
+          "group": "sofa",
+          "role": "general",
+          "id": "congressional-office:spot:3"
+        },
+        {
+          "x": 32,
+          "y": 62,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 62,
+          "seatY": 54,
+          "group": "armchair",
+          "role": "general",
+          "id": "congressional-office:spot:4"
+        },
+        {
+          "x": 52,
+          "y": 74,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74,
+          "role": "general",
+          "id": "congressional-office:spot:5"
+        },
+        {
+          "x": 66,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "congressional-office:spot:6"
+        },
+        {
+          "x": 90,
+          "y": 64,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 64,
+          "role": "general",
+          "id": "congressional-office:spot:7"
+        }
+      ],
+      "measuredFrom": "wainscot 1.0 m foot 53 top 41 and sofa seat 0.45 m foot 70 top 58 solve to horizon ~32, 0.58; desk 0.76 m foot 71 top 55 agrees",
+      "surfaceSlots": []
+    },
+    "council-chamber-large": {
+      "horizonY": 26,
+      "metersPercent": 0.42,
+      "floors": {
+        "dais": 0.8
+      },
+      "spots": [
+        {
+          "x": 44,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "council-chamber-large:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 59,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 59,
+          "clipBelowY": 50,
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "council-chamber-large:spot:1"
+        },
+        {
+          "x": 26,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-large:spot:2"
+        },
+        {
+          "x": 34,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-large:spot:3"
+        },
+        {
+          "x": 42,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-large:spot:4"
+        },
+        {
+          "x": 50,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "presiding",
+          "id": "council-chamber-large:spot:5"
+        },
+        {
+          "x": 58,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-large:spot:6"
+        },
+        {
+          "x": 66,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-large:spot:7"
+        },
+        {
+          "x": 74,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-large:spot:8"
+        },
+        {
+          "x": 50,
+          "y": 68,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 68,
+          "role": "general",
+          "id": "council-chamber-large:spot:9"
+        },
+        {
+          "x": 25,
+          "y": 96,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 96,
+          "seatY": 81,
+          "group": "audience-left",
+          "role": "audience",
+          "id": "council-chamber-large:spot:10"
+        },
+        {
+          "x": 33,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 68,
+          "group": "audience-left",
+          "role": "audience",
+          "id": "council-chamber-large:spot:11"
+        },
+        {
+          "x": 73,
+          "y": 96,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 96,
+          "seatY": 81,
+          "group": "audience-right",
+          "role": "audience",
+          "id": "council-chamber-large:spot:12"
+        },
+        {
+          "x": 66,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 68,
+          "group": "audience-right",
+          "role": "audience",
+          "id": "council-chamber-large:spot:13"
+        }
+      ],
+      "measuredFrom": "audience chair backs 0.95 m foot 97 top 68 and public lectern 1.15 m foot 59 top 41 solve to horizon 26, 0.42; dais floor scale 0.8 and dais seat positions carried from the same camera as council-chamber (dais desk top 32, council chairs 0.6 m wide)",
+      "surfaceSlots": []
+    },
+    "council-chamber-small": {
+      "horizonY": 26,
+      "metersPercent": 0.42,
+      "floors": {
+        "dais": 0.8
+      },
+      "spots": [
+        {
+          "x": 44,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "council-chamber-small:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 59,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 59,
+          "clipBelowY": 50,
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "council-chamber-small:spot:1"
+        },
+        {
+          "x": 66.8,
+          "y": 48,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 48,
+          "clipBelowY": 40,
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "council-chamber-small:spot:2"
+        },
+        {
+          "x": 26,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-small:spot:3"
+        },
+        {
+          "x": 34,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-small:spot:4"
+        },
+        {
+          "x": 42,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-small:spot:5"
+        },
+        {
+          "x": 50,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "presiding",
+          "id": "council-chamber-small:spot:6"
+        },
+        {
+          "x": 58,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-small:spot:7"
+        },
+        {
+          "x": 66,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-small:spot:8"
+        },
+        {
+          "x": 74,
+          "y": 42.6,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 42.6,
+          "clipBelowY": 32,
+          "seatY": 35.6,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "council-chamber-small:spot:9"
+        },
+        {
+          "x": 14,
+          "y": 52,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 52,
+          "clipBelowY": 47,
+          "seatY": 45,
+          "group": "staff-table",
+          "role": "clerk",
+          "id": "council-chamber-small:spot:10"
+        },
+        {
+          "x": 22,
+          "y": 52,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 52,
+          "clipBelowY": 47,
+          "seatY": 45,
+          "group": "staff-table",
+          "role": "clerk",
+          "id": "council-chamber-small:spot:11"
+        },
+        {
+          "x": 50,
+          "y": 68,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 68,
+          "role": "general",
+          "id": "council-chamber-small:spot:12"
+        },
+        {
+          "x": 14,
+          "y": 95,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 95,
+          "seatY": 81,
+          "group": "audience-left",
+          "role": "audience",
+          "id": "council-chamber-small:spot:13"
+        },
+        {
+          "x": 34,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 68,
+          "group": "audience-left",
+          "role": "audience",
+          "id": "council-chamber-small:spot:14"
+        },
+        {
+          "x": 74,
+          "y": 95,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 95,
+          "seatY": 81,
+          "group": "audience-right",
+          "role": "audience",
+          "id": "council-chamber-small:spot:15"
+        },
+        {
+          "x": 66,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 68,
+          "group": "audience-right",
+          "role": "audience",
+          "id": "council-chamber-small:spot:16"
+        }
+      ],
+      "measuredFrom": "audience chair backs 0.95 m foot 97 top 68 and public lectern 1.15 m foot 59 top 41 solve to horizon 26, 0.42; dais floor scale 0.8 and dais seat positions carried from the same camera as council-chamber (dais desk top 32, council chairs 0.6 m wide)",
+      "surfaceSlots": []
+    },
+    "county-commission-rural": {
+      "horizonY": -10,
+      "metersPercent": 0.3,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "county-commission-rural:spot:0"
+        },
+        {
+          "x": 43,
+          "y": 38,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 38,
+          "clipBelowY": 29,
+          "seatY": 31,
+          "group": "dais",
+          "role": "member-at-dais",
+          "id": "county-commission-rural:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 38,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 38,
+          "clipBelowY": 29,
+          "seatY": 31,
+          "group": "dais",
+          "role": "presiding",
+          "id": "county-commission-rural:spot:2"
+        },
+        {
+          "x": 57,
+          "y": 38,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 38,
+          "clipBelowY": 29,
+          "seatY": 31,
+          "group": "dais",
+          "role": "member-at-dais",
+          "id": "county-commission-rural:spot:3"
+        },
+        {
+          "x": 76,
+          "y": 52,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 52,
+          "clipBelowY": 31,
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "county-commission-rural:spot:4"
+        },
+        {
+          "x": 66,
+          "y": 57,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 57,
+          "role": "general",
+          "id": "county-commission-rural:spot:5"
+        },
+        {
+          "x": 46,
+          "y": 47,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 47,
+          "role": "general",
+          "id": "county-commission-rural:spot:6"
+        },
+        {
+          "x": 83,
+          "y": 45,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 45,
+          "role": "general",
+          "id": "county-commission-rural:spot:7"
+        },
+        {
+          "x": 17,
+          "y": 89,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 89,
+          "seatY": 78,
+          "group": "audience-left",
+          "role": "audience",
+          "id": "county-commission-rural:spot:8"
+        },
+        {
+          "x": 33,
+          "y": 82,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 82,
+          "seatY": 69,
+          "group": "audience-left",
+          "role": "audience",
+          "id": "county-commission-rural:spot:9"
+        },
+        {
+          "x": 73,
+          "y": 89,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 89,
+          "seatY": 78,
+          "group": "audience-right",
+          "role": "audience",
+          "id": "county-commission-rural:spot:10"
+        },
+        {
+          "x": 80,
+          "y": 82,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 82,
+          "seatY": 68,
+          "group": "audience-right",
+          "role": "audience",
+          "id": "county-commission-rural:spot:11"
+        }
+      ],
+      "measuredFrom": "side door 2.1 m foot 42 top 9 and dais desk ~0.9 m foot 41 top 27 and podium 1.3 m foot 54 top 30 and folding chair 0.85 m foot 92 top 66.5 solve to a high camera, horizon above the picture -10, 0.3",
+      "surfaceSlots": []
+    },
+    "hearing-room-paneled": {
+      "horizonY": 50,
+      "metersPercent": 0.75,
+      "floors": {
+        "dais": 1.67
+      },
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "hearing-room-paneled:spot:0"
+        },
+        {
+          "x": 20,
+          "y": 76,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 76,
+          "role": "speaker",
+          "id": "hearing-room-paneled:spot:1"
+        },
+        {
+          "x": 80,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "hearing-room-paneled:spot:2"
+        },
+        {
+          "x": 18,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "member-at-dais",
+          "clipBelowY": 53,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:3"
+        },
+        {
+          "x": 28,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "member-at-dais",
+          "clipBelowY": 53,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:4"
+        },
+        {
+          "x": 38,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "member-at-dais",
+          "clipBelowY": 52.5,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:5"
+        },
+        {
+          "x": 50,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "presiding",
+          "clipBelowY": 52,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:6"
+        },
+        {
+          "x": 62,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "member-at-dais",
+          "clipBelowY": 52.5,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:7"
+        },
+        {
+          "x": 72,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "member-at-dais",
+          "clipBelowY": 53,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:8"
+        },
+        {
+          "x": 82,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "role": "member-at-dais",
+          "clipBelowY": 53,
+          "seatY": 50,
+          "group": "dais",
+          "floor": "dais",
+          "id": "hearing-room-paneled:spot:9"
+        },
+        {
+          "x": 44,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "role": "witness",
+          "seatY": 73,
+          "group": "witness-table",
+          "id": "hearing-room-paneled:spot:10"
+        },
+        {
+          "x": 57.5,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "role": "counsel",
+          "seatY": 73,
+          "group": "witness-table",
+          "id": "hearing-room-paneled:spot:11"
+        },
+        {
+          "x": 18,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "role": "audience",
+          "seatY": 81,
+          "group": "audience",
+          "id": "hearing-room-paneled:spot:12"
+        },
+        {
+          "x": 66,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "role": "audience",
+          "seatY": 81,
+          "group": "audience",
+          "id": "hearing-room-paneled:spot:13"
+        }
+      ],
+      "measuredFrom": "witness-table chair ~0.9 m foot 80 top 60 and table 0.75 m legs foot 72 top 60 solve horizon 50, 0.75; dais seats from chair backs (top 44, seat 50)",
+      "surfaceSlots": []
+    },
+    "state-house-chamber": {
+      "horizonY": 46,
+      "metersPercent": 0.62,
+      "floors": {
+        "dais": 2.1
+      },
+      "spots": [
+        {
+          "x": 50,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "state-house-chamber:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 60,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 60,
+          "clipBelowY": 52,
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "state-house-chamber:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 51,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 51,
+          "clipBelowY": 47.5,
+          "seatY": 46,
+          "group": "rostrum",
+          "floor": "dais",
+          "role": "presiding",
+          "id": "state-house-chamber:spot:2"
+        },
+        {
+          "x": 15,
+          "y": 96,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 96,
+          "seatY": 82,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-house-chamber:spot:3"
+        },
+        {
+          "x": 29,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "seatY": 69,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-house-chamber:spot:4"
+        },
+        {
+          "x": 85,
+          "y": 96,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 96,
+          "seatY": 82,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-house-chamber:spot:5"
+        },
+        {
+          "x": 72,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 67,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-house-chamber:spot:6"
+        },
+        {
+          "x": 44,
+          "y": 66,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 66,
+          "role": "general",
+          "id": "state-house-chamber:spot:7"
+        },
+        {
+          "x": 57,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "state-house-chamber:spot:8"
+        }
+      ],
+      "measuredFrom": "member chair 1.0 m foot 96 top 65 and mid-row chair foot 78 top 58 and rostrum 1.1 m foot 60 top 51 solve to horizon ~46, 0.62; the speaker rostrum sits on a raised dais with its own scale 2.1 from the chair back (top 40.5, foot 51)",
       "surfaceSlots": []
     }
   }

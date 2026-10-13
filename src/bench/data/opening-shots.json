@@ -16,6 +16,7 @@
     {
       "officeKinds": [["legislature-upper", "legislature-lower"]],
       "places": [
+        "state-house-chamber",
         "state-legislative-chamber-bicameral",
         "state-legislative-chamber-unicameral"
       ]
