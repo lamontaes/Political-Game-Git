@@ -8,6 +8,7 @@ import {
 import { registerModuleStopV1, releaseModuleStopV1 } from "./player-stops-v1";
 import type { ModuleStopInputV1, ModuleStopTokenV1 } from "./player-stops-v1";
 import type { CoreAPI, CoreModule, CoreState, Source } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 export interface ModuleCalendarInput {
   key: string;
@@ -41,6 +42,7 @@ interface Calendar {
   faulted: boolean;
 }
 const calendars = new WeakMap<CoreState, Calendar>();
+registerWorldMapPart("core2-module-calendars", calendars);
 const stopOwners = new WeakMap<
   ModuleStopTokenV1,
   { core: CoreState; module: CoreModule }

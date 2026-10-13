@@ -90,9 +90,11 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
         expect(
           api.accounts().obligation(row.obligationId)!.paidMinor,
         ).toBeGreaterThan(0);
-      const born = (
-        core.people.get(personId) ?? residentPerson(core, personId)!
-      ).birthDate;
+      // A counted claimant may have died or moved away since (counted drift).
+      const person =
+        core.people.get(personId) ?? residentPerson(core, personId);
+      if (!person) continue;
+      const born = person.birthDate;
       const age =
         (Date.parse(`${row.date}T00:00:00Z`) -
           Date.parse(`${born}T00:00:00Z`)) /
@@ -103,7 +105,9 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     // In a year some of the wider population reaches its claim age.
     expect(counted).toBeGreaterThan(0);
     // A counted claimant filled in is paid their own award from then on.
-    const [claimant] = [...claims].find(([, row]) => row.counted)!;
+    const [claimant] = [...claims].find(
+      ([id, row]) => row.counted && residentPerson(core, id),
+    )!;
     fillInPerson(core, claimant);
     advanceCore(core, "2022-03-01");
     const moved = retirementClaims(core).get(claimant)!;

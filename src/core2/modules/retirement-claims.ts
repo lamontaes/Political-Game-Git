@@ -21,6 +21,7 @@ import type {
   PersonId,
   Source,
 } from "../types";
+import { registerWorldMapPart } from "../snapshot";
 
 export const RETIREMENT_CLAIMS_MODULE_ID = "core2-retirement-claims-v1";
 const STOPGAP = "SG-CORE-retirement-claims-in-play";
@@ -41,6 +42,7 @@ interface Claim {
   obligationId: string;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
+registerWorldMapPart("core2-retirement-claims", runtimes);
 
 /** Who has claimed in play, with the date and monthly award. */
 export function retirementClaims(

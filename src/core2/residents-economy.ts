@@ -8,6 +8,7 @@ import { addDays, makeIsoDate } from "../simulation/dates";
 import { residentsRuntime } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
 type Flow = Runtime["flows"] extends Map<string, infer F> ? F : never;
@@ -221,11 +222,15 @@ export function purchaseShareOf(
  */
 /** Outside buyers' flows at the opening's prices and demand, and each place's latest factor (see scaleOutsideSales). */
 const outsideBases = new WeakMap<CoreState, Map<string, number>>();
+registerWorldMapPart("core2-outside-bases", outsideBases);
 const outsideFactors = new WeakMap<CoreState, Map<string, number>>();
+registerWorldMapPart("core2-outside-factors", outsideFactors);
 /** A business's own limit on what it can sell outside (an operating limit under law), by organization. */
 const outputLimits = new WeakMap<CoreState, Map<string, number>>();
+registerWorldMapPart("core2-output-limits", outputLimits);
 /** The share of its opening outside buyers a business still holds (the business module's buyer accounts), by organization. */
 const buyerShares = new WeakMap<CoreState, Map<string, number>>();
+registerWorldMapPart("core2-buyer-shares", buyerShares);
 const limitOf = (core: CoreState, organizationId: string) =>
   (outputLimits.get(core)?.get(organizationId) ?? 1) *
   (buyerShares.get(core)?.get(organizationId) ?? 1);
