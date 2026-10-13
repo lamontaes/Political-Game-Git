@@ -75,6 +75,8 @@ interface Change {
   raw: Map<string, number>;
   broadEventId?: string;
   placeId?: string;
+  /** The causing event names the person among its own people. */
+  selfNamed?: true;
   /** Counterparts whose faded thread this change renewed. */
   renewals: Set<PersonId>;
 }
@@ -779,14 +781,16 @@ export function createDirector(
       const raw =
         (Math.abs(row.mood) + Math.max(zero, row.stress)) /
         param("directorFeelingSignals");
-      if (raw > zero)
-        change(
+      if (raw > zero) {
+        const made = change(
           row.event.id,
           `event:${row.event.kind}`,
           "feeling",
           raw,
           row.event.personIds,
         );
+        if (row.event.personIds.includes(book.personId)) made.selfNamed = true;
+      }
     }
 
     // Events an engine records without an appraised impact (a raise under a
@@ -821,13 +825,15 @@ export function createDirector(
       const named = rule.counterpartFact
         ? row.event.facts?.[rule.counterpartFact]
         : undefined;
-      change(
+      const made = change(
         row.event.id,
         `event:${row.event.kind}`,
         rule.channel,
         raw,
         named ? [named] : row.event.personIds,
       );
+      if (!named && row.event.personIds.includes(book.personId))
+        made.selfNamed = true;
     }
 
     // Ties: every change in closeness, read once at the end of the day.
@@ -1070,6 +1076,7 @@ export function createDirector(
       hindsightAt: date,
       ...(row.broadEventId ? { broadEventId: row.broadEventId } : {}),
       ...(row.placeId ? { placeId: row.placeId } : {}),
+      ...(row.selfNamed ? { selfNamed: true as const } : {}),
       echoes: [],
     };
     // The label's channel is the strongest contribution.
