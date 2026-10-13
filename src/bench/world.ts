@@ -230,15 +230,16 @@ function* benchWorldStages(
         throw error;
       economy = { ...withPlayer, finance: createOpeningFinance(withPlayer) };
     }
-    opening = withWorldEconomy(economy);
-    // People a module adds at the opening (the central bank's board) are
-    // named officials: they stay full people.
-    const generated = new Set(input.people.map((row) => row.id));
-    const keep = familyClosure(opening);
-    for (const row of opening.people)
-      if (!generated.has(row.id)) keep.add(row.id);
+    // The world economy goes on after the collapse, as on the core's
+    // generated route: housing gives counted households rent and mortgage
+    // flows, and the core's stand-in owner payouts come off. People it adds
+    // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideDemand(
-      withCountedVoterGroups(collapseToTwoLevels(opening, { keep })),
+      withCountedVoterGroups(
+        withWorldEconomy(
+          collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
+        ),
+      ),
       settings,
     );
     releaseRecentHistory();

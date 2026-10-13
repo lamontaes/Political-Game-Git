@@ -85,9 +85,12 @@ describe(`opening homes in ${place.name} (seed ${seed})`, () => {
     const opening = input();
     const town = lifePlaceByKey(place.key)!.context.jurisdiction.id;
     const housed = withHousing(opening);
-    const dwellings = JSON.parse(
-      housed.placeMetadata!.housingDwellings!,
-    ) as [string, "own" | "rent", number, string][];
+    const dwellings = JSON.parse(housed.placeMetadata!.housingDwellings!) as [
+      string,
+      "own" | "rent",
+      number,
+      string,
+    ][];
     const inTown = new Set(
       opening.households
         .filter((row) => row.placeId === town)
