@@ -473,10 +473,15 @@ export function holdReserve(
     });
   const held = accounts.balance(accountId);
   const id = `reserve|${input.key}|${gov.id}`;
-  if (!input.inForce) {
+  const law = lawInForce(api, input.key).levels.find(
+    (row) => row.level === input.level,
+  );
+  const inForce = input.inForce && !law?.setAside && law?.row?.value === 1;
+  const lawId = law?.row?.id ?? input.key;
+  if (!inForce) {
     if (held > 0)
       accounts.transfer({
-        id: `reach-b:reserve-release:${gov.id}:${api.state.date}`,
+        id: `reach-b:reserve-release:${gov.id}:${api.state.date}:${lawId}`,
         from: accountId,
         to: main,
         amountMinor: held,
@@ -506,7 +511,7 @@ export function holdReserve(
   const receipt =
     need > 0
       ? accounts.transfer({
-          id: `reach-b:reserve:${gov.id}:${api.state.date}`,
+          id: `reach-b:reserve:${gov.id}:${api.state.date}:${lawId}`,
           from: main,
           to: accountId,
           amountMinor: need,
