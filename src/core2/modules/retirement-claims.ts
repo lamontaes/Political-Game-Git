@@ -7,7 +7,10 @@
  * the town each day.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
-import ages from "../data/social-security-ages.json" with { type: "json" };
+import {
+  DELAYED_CREDIT_MONTHS,
+  EARLIEST_CLAIM_MONTHS,
+} from "../social-security-statute";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { retirementClaimAgeMonths } from "../retirement-claim";
@@ -152,10 +155,9 @@ function index(api: CoreAPI, rt: Runtime): void {
     rt.countedIndexedYear = year;
     const [y, m] = core.date.split("-").map(Number) as [number, number];
     const bounds = lawAges(api, "1960-06-01");
-    const soonest =
-      (bounds?.earliestMonths ?? ages.earliestClaimAgeMonths) - 24;
+    const soonest = (bounds?.earliestMonths ?? EARLIEST_CLAIM_MONTHS) - 24;
     // Past the last claim age, a claim date is always in the past.
-    const latest = bounds?.delayedMaxMonths ?? ages.latestCreditAgeMonths;
+    const latest = bounds?.delayedMaxMonths ?? DELAYED_CREDIT_MONTHS;
     for (const record of residentsRuntime(core)?.households.values() ?? [])
       for (const person of record.people) {
         if (rt.known.has(person.id)) continue;
