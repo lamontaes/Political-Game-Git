@@ -735,26 +735,27 @@ function renew(api: CoreAPI): void {
         id,
         regionPay: level.hourlyEarnings,
         renewedAt: c.date,
-        rentMinor: row.amountMinor,
+        rentMinor: contractRent(api, row.householdId, row.amountMinor),
         ...vacancyNow(api, household!.placeId),
       });
       continue;
     }
     if (monthsBetween(last.renewedAt, c.date) < year) continue;
+    const before = contractRent(api, row.householdId, row.amountMinor);
     const rent = renewedRent(
       api,
-      row.amountMinor,
+      before,
       last,
       level.hourlyEarnings,
       household!.placeId,
     );
-    api.setStandingContractAmount(id, rent);
+    setLeaseRent(api, id, row.householdId, rent);
     renewals.put({
       id,
       regionPay: level.hourlyEarnings,
       renewedAt: c.date,
       rentMinor: rent,
-      previousRentMinor: row.amountMinor,
+      previousRentMinor: before,
       ...vacancyNow(api, household!.placeId),
     });
   }
@@ -1046,7 +1047,8 @@ function buyHomes(api: CoreAPI): void {
       town[1] *
       100 *
       prices *
-      (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
+      (contractRent(api, household.id, lease.amountMinor) /
+        ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
     const result = chooseAct(c, head!.id, [
@@ -1405,7 +1407,9 @@ export function townFigures(
     renters += 1;
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
     rents.push(
-      lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
+      lease && !lease.endedAt
+        ? contractRent(api, row.householdId, lease.amountMinor)
+        : (row.rentMinor ?? 0),
     );
   }
   const pay: number[] = [];
@@ -1511,15 +1515,16 @@ function finish(
         housingConstruction.inclusionary.rentShareOfIncome * row.pay,
       );
       const lease = c.finance.contracts.get(row.leaseId)!;
-      if (rent >= lease.amountMinor) continue;
-      api.setStandingContractAmount(row.leaseId, rent);
+      const whole = contractRent(api, row.householdId, lease.amountMinor);
+      if (rent >= whole) continue;
+      setLeaseRent(api, row.leaseId, row.householdId, rent);
       store(api).table("affordable").put({
         id: row.householdId,
         householdId: row.householdId,
         projectId: project.id,
         since: c.date,
         rentMinor: rent,
-        previousRentMinor: lease.amountMinor,
+        previousRentMinor: whole,
       });
       moved.push(row.householdId);
     }
@@ -1572,28 +1577,111 @@ export function setRentHelp(
     if (
       row.governmentKey === input.governmentKey &&
       !input.households.includes(row.id.slice("help:".length))
-    )
+    ) {
+      // The household's bill goes back to the whole rent.
+      const householdId = row.id.slice("help:".length);
+      const lease = core(api).finance.contracts.get(`lease:${householdId}`);
+      if (lease && !lease.endedAt) {
+        payOwedHelp(api, row as unknown as RentHelpRow, lease);
+        const rent = contractRent(api, householdId, lease.amountMinor);
+        if (rent !== lease.amountMinor)
+          api.setStandingContractAmount(lease.id, rent);
+      }
       table.remove(row.id);
-  for (const householdId of input.households)
+    }
+  for (const householdId of input.households) {
+    const before = table.get(`help:${householdId}`) as RentHelpRow | undefined;
     table.put({
+      ...(before ?? {}),
       id: `help:${householdId}`,
       householdId,
       governmentKey: input.governmentKey,
       payerId: input.payerId,
       monthlyLimitMinor: input.monthlyLimitMinor,
     });
+  }
+}
+
+interface RentHelpRow {
+  id: string;
+  householdId: string;
+  governmentKey: string;
+  payerId: string;
+  monthlyLimitMinor: number;
+  /** What the government pays the landlord each month against the lease. */
+  helpMinor?: number;
+  /** What the lease bills the household after the help, as last set here. */
+  billedMinor?: number;
+  /** The lease's next due date when that bill was set: the government owes its part once it passes. */
+  billedFrom?: string;
+}
+
+/** The government pays the landlord its part of a due date the lease billed at the household's share. */
+function payOwedHelp(
+  api: CoreAPI,
+  row: RentHelpRow,
+  lease: { id: string; amountMinor: number; dueAt: string; payeeId: string },
+): void {
+  if (
+    !row.helpMinor ||
+    row.billedMinor !== lease.amountMinor ||
+    !row.billedFrom ||
+    lease.dueAt <= row.billedFrom
+  )
+    return;
+  transferCash(
+    api,
+    `rent-help:${row.householdId}:${row.billedFrom}`,
+    row.payerId,
+    lease.payeeId,
+    row.helpMinor,
+    {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation:
+        "HUD Housing Choice Voucher program: the household pays about 30% of its income toward rent and the housing agency pays the owner the rest (24 CFR 982.505, 982.451).",
+      estimatedFrom: `Rent help on ${lease.id} for the rent due ${row.billedFrom}: rent above 30% of the household's pay, up to the program's monthly amount, paid to the landlord.`,
+    },
+  );
+}
+
+/**
+ * A lease's whole rent. With rent help the lease bills the household only its
+ * share, and the government pays the landlord the rest; a lease changed since
+ * (a new lease, a set-aside unit) bills its whole rent again.
+ */
+function contractRent(
+  api: CoreAPI,
+  householdId: string,
+  billedMinor: number,
+): number {
+  const row = store(api).table("rentHelp").get(`help:${householdId}`) as
+    RentHelpRow | undefined;
+  return row?.helpMinor && row.billedMinor === billedMinor
+    ? billedMinor + row.helpMinor
+    : billedMinor;
+}
+
+/** A renewal or a new rent on a lease with help keeps the government's part. */
+function setLeaseRent(
+  api: CoreAPI,
+  leaseId: string,
+  householdId: string,
+  rentMinor: number,
+): void {
+  const table = store(api).table("rentHelp");
+  const row = table.get(`help:${householdId}`) as RentHelpRow | undefined;
+  const help = Math.min(row?.helpMinor ?? 0, rentMinor);
+  api.setStandingContractAmount(leaseId, rentMinor - help);
+  if (row?.helpMinor)
+    table.put({ ...row, helpMinor: help, billedMinor: rentMinor - help });
 }
 
 function payRentHelp(api: CoreAPI): void {
   const c = core(api);
-  const rows = store(api).table("rentHelp").rows() as unknown as {
-    householdId: string;
-    payerId: string;
-    monthlyLimitMinor: number;
-  }[];
+  const table = store(api).table("rentHelp");
+  const rows = table.rows() as unknown as RentHelpRow[];
   if (!rows.length) return;
-  // Paid to the household toward its rent; a housing choice voucher pays the landlord (see the stopgap).
-  stopgap("SG-WORLD-housing-rent-help-to-household");
   for (const row of rows) {
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
     const household = c.households.get(row.householdId);
@@ -1606,30 +1694,26 @@ function payRentHelp(api: CoreAPI): void {
         (wage * api.parameter("jobsDaysPerYear")) /
         api.parameter("macroMonthsPerYear");
     }
-    const help = Math.min(
-      row.monthlyLimitMinor,
-      Math.max(
-        0,
-        lease.amountMinor -
-          api.parameter("housingAssistanceRentShareOfIncome") * income,
+    // As a housing choice voucher does: the household's bill falls to 30% of its pay, and the government pays the landlord the rest, up to the program's amount.
+    const rent = contractRent(api, row.householdId, lease.amountMinor);
+    const help = Math.round(
+      Math.min(
+        row.monthlyLimitMinor,
+        Math.max(
+          0,
+          rent - api.parameter("housingAssistanceRentShareOfIncome") * income,
+        ),
       ),
     );
-    const head = [...household.memberIds].sort()[0];
-    if (help > 0 && head)
-      transferCash(
-        api,
-        `rent-help:${row.householdId}:${c.date}`,
-        row.payerId,
-        head,
-        help,
-        {
-          tag: "ESTIMATED",
-          asOf: c.date,
-          citation:
-            "HUD Housing Choice Voucher program: the household pays about 30% of its income toward rent (24 CFR 982.505).",
-          estimatedFrom: `Rent help on ${lease.id}: rent above 30% of the household's pay, up to the program's monthly amount.`,
-        },
-      );
+    payOwedHelp(api, row, lease);
+    if (lease.amountMinor !== rent - help)
+      api.setStandingContractAmount(lease.id, rent - help);
+    table.put({
+      ...row,
+      helpMinor: help,
+      billedMinor: rent - help,
+      billedFrom: lease.dueAt,
+    });
   }
 }
 
