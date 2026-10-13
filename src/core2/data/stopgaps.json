@@ -2982,5 +2982,17 @@
     "addedAt": "2026-10-13",
     "replacement": "PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-township-law-level",
+    "kind": "behavior",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 1,
+    "whatItFakes": "A township board's ordinances are written as the town's own local law (the place level of the law chain), and a township board only legislates where no town council does; the law chain has no township level, so a township's ordinances and a village council's inside it can't both stand.",
+    "why": "Towns governed by a township board never legislated at all: only councils and county boards met (Oct 13 lawmaking-volume fix).",
+    "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
+    "addedAt": "2026-10-13",
+    "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
+    "status": "open"
   }
 ]
