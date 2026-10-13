@@ -86,6 +86,13 @@ export function nominateAndConfirm(input: {
     readonly name: string;
     readonly sides: readonly number[];
   } | null;
+  /**
+   * Deference to the appointer: a member confirms unless the nominee's lean
+   * sits further than this from their own (bodies confirm nearly every
+   * executive nominee). Without it, each member backs the nominee closer to
+   * their side than the other side's would be.
+   */
+  readonly tolerance?: number;
 }): Appointment {
   const reasons = input.candidates
     .map((c): NominationReasons => {
@@ -119,8 +126,11 @@ export function nominateAndConfirm(input: {
       // An unaffiliated member weighs the nominee against the middle.
       const own = side === 0 ? 0 : side;
       const other = side === 0 ? (nominee.lean >= 0 ? -1 : 1) : -side;
-      if (Math.abs(nominee.lean - own) <= Math.abs(nominee.lean - other))
-        yes += 1;
+      const confirms =
+        input.tolerance !== undefined
+          ? Math.abs(nominee.lean - own) <= input.tolerance
+          : Math.abs(nominee.lean - own) <= Math.abs(nominee.lean - other);
+      if (confirms) yes += 1;
       else no += 1;
     }
     if (yes > no)

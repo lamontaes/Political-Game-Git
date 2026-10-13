@@ -56,6 +56,11 @@ export interface ContestRow extends ElectionDates {
   readonly district: string | null;
   readonly family: OfficeFamily;
   readonly incumbentTermId: string | null;
+  /** A special election: the vacancy it fills and the unexpired term's end. */
+  readonly special?: {
+    readonly vacancyId: string;
+    readonly termEnd: string | null;
+  };
 }
 
 export interface FilingRequirements {
@@ -528,6 +533,55 @@ function contestFor(
     family,
     incumbentTermId: holder?.id ?? null,
   };
+}
+
+/**
+ * A special election for a vacant seat: the seat's race on the date the
+ * vacancy rule sets, filing open from today and closing the place's usual
+ * number of days before (the estimate where none is read); the winner serves
+ * the unexpired term.
+ */
+export function specialContestFor(
+  api: CoreAPI,
+  race: {
+    readonly vacancyId: string;
+    readonly seatId: string;
+    readonly electionDate: string;
+    readonly termEnd: string | null;
+  },
+): ContestRow | null {
+  const entry = townSeats(api).find((s) => s.seat.id === race.seatId);
+  if (!entry || !entry.office.elected) return null;
+  const family = officeFamily(entry.office);
+  const days =
+    (family === "countyOffice" || family === "municipalOffice"
+      ? deadlineDaysBefore(town(api).stateKey, family)
+      : null) ?? campaignParameter("specialFilingDaysBefore");
+  const deadline = new Date(
+    Date.parse(`${race.electionDate}T00:00:00Z`) - days * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const contest: ContestRow = {
+    id: `contest:${race.seatId}:${race.electionDate}:special`,
+    officeId: entry.office.id,
+    seatId: race.seatId,
+    title: entry.office.title,
+    level: entry.office.level,
+    district: entry.seat.district,
+    family,
+    incumbentTermId: entry.holder?.id ?? null,
+    electionDate: race.electionDate,
+    primaryDate: null,
+    filingOpens: api.state.date,
+    filingDeadline: deadline > api.state.date ? deadline : api.state.date,
+    basis: "estimated",
+    sources: [`vacancy ${race.vacancyId}`],
+    special: { vacancyId: race.vacancyId, termEnd: race.termEnd },
+  };
+  if (table(api, "contests").get(contest.id)) return null;
+  table(api, "contests").put(contest as unknown as ModuleRow);
+  return contest;
 }
 
 /**

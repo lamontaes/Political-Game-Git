@@ -569,6 +569,42 @@
       "source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 counts each house present). FIXER stand-in figures, Oct 12, SG-GOV-veto-override-rule.",
       "spread": [0.5, 0.75]
     },
+    "leadershipSeniorityWeight": {
+      "value": 0.05,
+      "tag": "TUNABLE",
+      "source": "Seniority counts only slightly in choosing leaders and committee members in every chamber type (data/research/legislature/chamber-leadership.json: seniorityImportance 'slight' for all, from NCSL, House and Senate rules and NLC): about a twentieth of a party-line difference per year served.",
+      "spread": [0, 0.15]
+    },
+    "appointmentExperienceWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
+      "spread": [0.1, 0.5]
+    },
+    "confirmationTolerance": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
+      "spread": [1, 2]
+    },
+    "appointeeHourlyMinor": {
+      "value": 4600,
+      "tag": "ESTIMATED",
+      "source": "Hourly pay of an appointed town department head: BLS Occupational Employment and Wage Statistics, May 2023, local government excluding schools and hospitals (OEWS designation), management occupations (11-0000), median hourly wage about $46. Small towns pay less and large cities more.",
+      "spread": [3000, 7000]
+    },
+    "specialFilingDaysBefore": {
+      "value": 45,
+      "tag": "TUNABLE",
+      "source": "Days before a special election its filing closes where the place's own deadline isn't read; state special-election calendars commonly close filing six to eight weeks ahead.",
+      "spread": [20, 75]
+    },
+    "turnoutEngagementWeight": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How much following politics closely (PEOPLE's views engine, CES 2024 news interest, 0 to 1) adds to a person's reason to vote, against the national average. Checked against turnout by age: in the 2022 midterm about 23% of citizens 18 to 24 voted and about 65% of those 65 and over (U.S. Census Bureau, CPS Voting and Registration Supplement 2022).",
+      "spread": [0, 6]
+    },
     "ballotRelationshipWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -584,7 +620,7 @@
     "votingBallotAgainstViewMax": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean \u00b11 of \u00b12). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
+      "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
     }
   }

@@ -11,10 +11,9 @@ import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  budgetPriorities,
+  baseBudget,
   budgetsOf,
   governments,
-  proposedBudget,
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
@@ -96,10 +95,9 @@ function baseLine(
   budget: BudgetRow,
   line: string,
 ) {
+  // The line at its Census base, before any change a body enacted.
   const fy = Number(budget.startsOn.slice(0, 4));
-  const proposed = proposedBudget(api, gov, fy, budget.adoptedBy);
-  const priority = budgetPriorities(api, gov.id)?.changes[line] ?? 0;
-  return Math.max(0, (proposed.spendingMinor[line] ?? 0) - priority);
+  return baseBudget(api, gov, fy).spendingMinor[line] ?? 0;
 }
 
 export interface ServiceRow {
