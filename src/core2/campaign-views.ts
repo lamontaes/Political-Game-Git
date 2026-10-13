@@ -94,6 +94,26 @@ const countedSources = new WeakMap<
   () => readonly Pick<PersonState, "id" | "traits">[]
 >();
 
+const viewKeys = new WeakMap<
+  object,
+  (person: Readonly<Pick<PersonState, "id" | "traits">>, z: number) => number
+>();
+
+/**
+ * Where PEOPLE's views engine runs, each person ranks by their own view's
+ * lean; `z` is their personality's standardized lean, for counted residents
+ * the engine holds no view for. Registered with the electorate.
+ */
+export function registerViewLeans(
+  people: object,
+  key: (
+    person: Readonly<Pick<PersonState, "id" | "traits">>,
+    z: number,
+  ) => number,
+): void {
+  if (!viewKeys.has(people)) viewKeys.set(people, key);
+}
+
 /**
  * The counted residents (two-level population) whose records rank with the
  * full people for lean: registered by the elections engine for a world.
@@ -107,8 +127,8 @@ export function registerCountedPeople(
 
 /**
  * A person's lean, in [-1, 1]: positive right, negative left. The town's
- * adults are ordered by how far their personality leans right (generation
- * order breaks ties); each one's lean is where they stand in that order
+ * adults are ordered by how far their own view leans right (PEOPLE's views
+ * engine; their personality where it doesn't run); each one's lean is where they stand in that order
  * against the share of the vote the right won in their area in 2024, so the
  * town as a whole splits the way its area really voted.
  */
@@ -124,12 +144,27 @@ export function personLean(
     const counted = (countedSources.get(people)?.() ?? []).filter(
       (p) => !people.has(p.id),
     );
-    const ordered = [
+    const everyone = [
       ...[...people.values()].filter((p) => p.alive),
       ...counted,
-    ].sort(
-      (a, b) =>
-        personalityLean(b) - personalityLean(a) || a.id.localeCompare(b.id),
+    ];
+    // Each person's own view where the views engine runs (their personality
+    // otherwise): that orders them; the town's real vote places the order.
+    const viewKey = viewKeys.get(people);
+    const scores = everyone.map(personalityLean);
+    const mean = scores.reduce((a, b) => a + b, 0) / (scores.length || 1);
+    const sd =
+      Math.sqrt(
+        scores.reduce((a, b) => a + (b - mean) ** 2, 0) / (scores.length || 1),
+      ) || 1;
+    const key = new Map(
+      everyone.map((p, i) => [
+        p.id,
+        viewKey ? viewKey(p, (scores[i]! - mean) / sd) : scores[i]!,
+      ]),
+    );
+    const ordered = everyone.sort(
+      (a, b) => key.get(b.id)! - key.get(a.id)! || a.id.localeCompare(b.id),
     );
     // Rank each place on its own: the world also holds people elsewhere
     // (relatives living away), who must not shift where the town's people
