@@ -9,7 +9,9 @@
  * core's living cost, where the illicit market sat), so households spend
  * no more. A repeal ends the sales and the spending goes back outside.
  */
+import sales from "./data/business/cannabis-sales.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
+import { lawChain } from "./modules/laws";
 import { addResidentFlow, setFlowPart } from "./residents-economy";
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
@@ -18,6 +20,10 @@ import type { CoreAPI, CoreState } from "./types";
 
 const COUNTED_OUTSIDE = "residents:outside-living:counted:";
 const RETAIL = "retail";
+const STATE_SALES = sales.states as Record<
+  string,
+  { monthlyPerAdultMinor: number } | undefined
+>;
 
 export function setCannabisLegal(
   table: ModuleTable,
@@ -72,9 +78,12 @@ export function reviewCannabis(
           if (year - Number(person.birthDate.slice(0, 4)) >= row.age)
             adults += 1;
     stopgap("SG-WORLD-cannabis-spending");
-    const demand = row.legal
-      ? Math.round(adults * p("businessCannabisMonthlyPerAdultMinor"))
-      : 0;
+    // The state's own legal sales per adult, or the reporting states' median where it has no full year.
+    const usps = lawChain(api).stateKey.replace(/^US-/, "");
+    const perAdult =
+      STATE_SALES[usps]?.monthlyPerAdultMinor ??
+      p("businessCannabisMonthlyPerAdultMinor");
+    const demand = row.legal ? Math.round(adults * perAdult) : 0;
     let licensed = (row.licensed ?? []).filter(
       (id) => !c.finance.businesses.get(id)?.closedAt,
     );
@@ -144,7 +153,8 @@ export function reviewCannabis(
           source: {
             tag: "ESTIMATED",
             asOf: c.date,
-            citation: "State adult-use cannabis sales per adult 21 and over.",
+            citation:
+              "State adult-use cannabis sales per adult 21 and over, 2024 (src/core2/data/business/cannabis-sales.json).",
             estimatedFrom: `${adults} adults 21 and over at the place's legal spending a month, this licensed retailer's share by size.`,
           },
         });
@@ -170,10 +180,18 @@ export function reviewCannabis(
     if (outside && shift !== 0 && outside.amountMinor > 0) {
       const before = outside.amountMinor;
       const scale = Math.max(0, 1 - shift / outside.amountMinor);
-      for (const [part, value] of Object.entries(
-        outside.amountByContract ?? {},
-      ))
-        setFlowPart(c, outside.id, part, value * scale);
+      const parts = Object.entries(outside.amountByContract ?? {});
+      for (const [part, value] of parts)
+        setFlowPart(c, outside.id, part, Math.round(value * scale));
+      // The parts' rounding goes on the largest, so the outside spending falls by what the stores sell.
+      const largest = parts.sort(
+        (x, y) => y[1] - x[1] || x[0].localeCompare(y[0]),
+      )[0];
+      const rest = outside.amountMinor - Math.max(0, before - shift);
+      if (largest && rest !== 0) {
+        const now = outside.amountByContract?.[largest[0]] ?? 0;
+        setFlowPart(c, outside.id, largest[0], Math.max(0, now - rest));
+      }
       // What the outside spending actually fell (or rose) by.
       moved = before - outside.amountMinor;
     }

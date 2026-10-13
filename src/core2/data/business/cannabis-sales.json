@@ -1,0 +1,241 @@
+{
+  "source": "Adult-use cannabis retail sales, calendar 2024, from each state's regulator or revenue department where read directly (AZ, CO, CT, IL, MA, ME, NJ, NY, OR) and otherwise from sources quoting it (each entry's note), over the state's civilian population 21 and over (Census SC-EST2024-AGESEX-CIV, https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/state/asrh/sc-est2024-agesex-civ.csv). Gathered 2026-10-13 by an OPUS-WORLD research helper.",
+  "notOperatingFullYear2024": [
+    "DE",
+    "OH",
+    "MN",
+    "VA (no retail)",
+    "DC (no licensed adult-use retail)",
+    "AK (operating but no full-year 2024 figure found)"
+  ],
+  "states": {
+    "AZ": {
+      "year": 2024,
+      "adultUseSalesUsd": 1069561177,
+      "adults21": 5671541,
+      "monthlyPerAdultMinor": 1572,
+      "includesMedical": false,
+      "source": {
+        "title": "Arizona DOR Marijuana TPT and Excise Taxable Sales and Tax Collections, by Period Covered (Adult Use-420 column, Jan-Dec 2024 summed)",
+        "url": "https://azdor.gov/sites/default/files/document/MJ_byPeriodCovered.pdf"
+      },
+      "note": "Read directly from ADOR PDF; estimated taxable sales; medical (203) separate = $250,643,170."
+    },
+    "CA": {
+      "year": 2024,
+      "adultUseSalesUsd": 4900000000,
+      "adults21": 29312128,
+      "monthlyPerAdultMinor": 1393,
+      "includesMedical": true,
+      "source": {
+        "title": "CDTFA licensed cannabis retailer taxable sales 2024 (as reported by Cannabis Business Times quoting CDTFA)",
+        "url": "https://www.cannabisbusinesstimes.com/california-cannabis-market-sales-taxes-billion-2024"
+      },
+      "note": "SECONDARY, rounded (~$4.9B). Taxable sales include medical, and some non-cannabis merchandise (CDTFA said ~$4.4B of 2023 $5.1B was actual cannabis); cannot separate adult-use. CDTFA pages fetched gave only tax revenue. LOW confidence; consider excluding from median."
+    },
+    "CO": {
+      "year": 2024,
+      "adultUseSalesUsd": 1233736552,
+      "adults21": 4480287,
+      "monthlyPerAdultMinor": 2295,
+      "includesMedical": false,
+      "source": {
+        "title": "Colorado Marijuana Sales Revenue in Colorado (CDOR open data, retail column, 2024 months summed)",
+        "url": "https://data.colorado.gov/resource/p6y8-s74x.json?year=2024"
+      },
+      "note": "Read via CO Socrata API; retail only; medical 2024 = $163,395,425."
+    },
+    "CT": {
+      "year": 2024,
+      "adultUseSalesUsd": 199921313.71,
+      "adults21": 2786516,
+      "monthlyPerAdultMinor": 598,
+      "includesMedical": false,
+      "source": {
+        "title": "CT DCP Cannabis Retail Products Sold by Product Type (Adult-Use market, 2024 summed)",
+        "url": "https://data.ct.gov/resource/jyg4-yu7v.json"
+      },
+      "note": "Read via CT Socrata API; medical separate = $93.6M."
+    },
+    "IL": {
+      "year": 2024,
+      "adultUseSalesUsd": 1722000000,
+      "adults21": 9504546,
+      "monthlyPerAdultMinor": 1510,
+      "includesMedical": false,
+      "source": {
+        "title": "IDFPR press release Feb 2025: Pritzker Administration Announces Cannabis Sales Exceed $2 Billion Annually",
+        "url": "https://idfpr.illinois.gov/content/dam/soi/en/web/idfpr/news/2025/2025-02-05-pritzker-admin-announces-cannabis-sales-exceed-2-billion-annually.pdf"
+      },
+      "note": "Read from PDF; $1.722B adult-use incl. ~$385M sold to out-of-state buyers (resident-only $1,337,640,019.91); medical >$285M separate."
+    },
+    "MA": {
+      "year": 2024,
+      "adultUseSalesUsd": 1640000000,
+      "adults21": 5461186,
+      "monthlyPerAdultMinor": 2503,
+      "includesMedical": false,
+      "source": {
+        "title": "Massachusetts CCC Commission Overview 2025 (Calendar Year 2024 Adult-Use Marijuana Retail Sales $1.64 billion)",
+        "url": "https://masscannabiscontrol.com/document/the-state-of-cannabis-in-massachusetts-2025-2"
+      },
+      "note": "Read from CCC PDF; rounded to $0.01B; medical $225.5M separate."
+    },
+    "MD": {
+      "year": 2024,
+      "adultUseSalesUsd": 807000000,
+      "adults21": 4630269,
+      "monthlyPerAdultMinor": 1452,
+      "includesMedical": false,
+      "source": {
+        "title": "Maryland Dept of Legislative Services D23 Maryland Cannabis Administration budget analysis (quoting MCA CY2024 adult-use $807M)",
+        "url": "https://mgaleg.maryland.gov/pubs/budgetfiscal/2026fy-budget-docs-operating-D23-Maryland-Cannabis-Administration.pdf"
+      },
+      "note": "SECONDARY quoting MCA, rounded; marylandstatecannabis.org monthly MCA-dashboard rounding sums to $806M. Medical $335M separate."
+    },
+    "ME": {
+      "year": 2024,
+      "adultUseSalesUsd": 243876905,
+      "adults21": 1105801,
+      "monthlyPerAdultMinor": 1838,
+      "includesMedical": false,
+      "source": {
+        "title": "Maine OCP Adult Use Cannabis Program 2024 Annual Report to the Legislature",
+        "url": "https://legislature.maine.gov/doc/11587"
+      },
+      "note": "Read from report PDF (gross annual sales by adult use retail stores)."
+    },
+    "MI": {
+      "year": 2024,
+      "adultUseSalesUsd": 3270000000,
+      "adults21": 7637680,
+      "monthlyPerAdultMinor": 3568,
+      "includesMedical": false,
+      "source": {
+        "title": "Michigan Cannabis Regulatory Agency adult-use sales 2024 (via Cannabis Business Times quoting CRA)",
+        "url": "https://cannabisbusinesstimes.com/us-states/michigan/news/15711919/michigan-eclipses-10-billion-in-adultuse-cannabis-sales"
+      },
+      "note": "SECONDARY quoting CRA, rounded (~$3.27B); CRA site not reachable. Medical ~ $18M separate."
+    },
+    "MO": {
+      "year": 2024,
+      "adultUseSalesUsd": 1280000000,
+      "adults21": 4619672,
+      "monthlyPerAdultMinor": 2309,
+      "includesMedical": false,
+      "source": {
+        "title": "Missouri DHSS 2024 adult-use sales (calendar-year figure via Cannabis Business Times; DHSS annual report performance-year Dec 2023-Nov 2024 = $1.26B per Ganjapreneur)",
+        "url": "https://ganjapreneur.com/missouri-adult-use-cannabis-sales-totaled-1-6b-in-2024/"
+      },
+      "note": "SECONDARY quoting DHSS, rounded; DHSS dashboard not reachable. Medical ~$181M separate."
+    },
+    "MT": {
+      "year": 2024,
+      "adultUseSalesUsd": 277605823,
+      "adults21": 860132,
+      "monthlyPerAdultMinor": 2690,
+      "includesMedical": false,
+      "source": {
+        "title": "Montana Cannabis Information Portal, 2024 adult-use sales table (Montana DOR data), annual total",
+        "url": "https://montanastatecannabis.org/business/sales"
+      },
+      "note": "SECONDARY portal reproducing MT DOR monthly county sales; 12 months sum to total. DOR page not parsed."
+    },
+    "NJ": {
+      "year": 2024,
+      "adultUseSalesUsd": 950770276,
+      "adults21": 7109925,
+      "monthlyPerAdultMinor": 1114,
+      "includesMedical": false,
+      "source": {
+        "title": "NJ Cannabis Regulatory Commission meeting slides (Q1 2024 July 18 2024; Q2-Q4 June 12 2025): recreational sales by quarter",
+        "url": "https://www.nj.gov/cannabis/documents/meetings/2025-06-05/June%2012%202025%20Public%20Meeting%20Slides.pdf"
+      },
+      "note": "Read from CRC PDFs: Q1 201,185,793 + Q2 230,960,647 + Q3 251,880,058 + Q4 266,743,778. Medical separate."
+    },
+    "NM": {
+      "year": 2024,
+      "adultUseSalesUsd": 446620364,
+      "adults21": 1582029,
+      "monthlyPerAdultMinor": 2353,
+      "includesMedical": false,
+      "source": {
+        "title": "NM Regulation & Licensing Dept CROP sales (adult use 2024 months summed) as reproduced by newmexicostatecannabis.org",
+        "url": "https://newmexicostatecannabis.org/business/sales"
+      },
+      "note": "SECONDARY portal reproducing NM RLD; medical $143,653,934 separate."
+    },
+    "NV": {
+      "year": 2024,
+      "adultUseSalesUsd": 812005882,
+      "adults21": 2461214,
+      "monthlyPerAdultMinor": 2749,
+      "includesMedical": true,
+      "source": {
+        "title": "Nevada Department of Taxation cannabis sales 2024 as reproduced by nevadastatecannabis.org",
+        "url": "https://nevadastatecannabis.org/business/sales"
+      },
+      "note": "SECONDARY; total adult-use + medical combined, cannot be separated. CCB official releases are fiscal-year only (FY24 $829,225,193; FY25 $757,714,911)."
+    },
+    "NY": {
+      "year": 2024,
+      "adultUseSalesUsd": 869400000,
+      "adults21": 15103418,
+      "monthlyPerAdultMinor": 480,
+      "includesMedical": false,
+      "source": {
+        "title": "NY OCM 2024 Market Report (6-26-25): adult-use retail sales CY2024 $869.4 million",
+        "url": "https://cannabis.ny.gov/system/files/documents/2025/06/2024-ocm-market-report-6-26-25.pdf"
+      },
+      "note": "Read from OCM PDF; adult-use only."
+    },
+    "OR": {
+      "year": 2024,
+      "adultUseSalesUsd": 914704122.35,
+      "adults21": 3291622,
+      "monthlyPerAdultMinor": 2316,
+      "includesMedical": false,
+      "source": {
+        "title": "OLCC Marijuana Market Data: Monthly Sales (Oregon open data, customertype=Consumer, 2024 summed)",
+        "url": "https://data.oregon.gov/resource/5prm-2vmn.json"
+      },
+      "note": "Read via Oregon Socrata API; recreational consumers only; Patient sales $45,317,401.39 excluded."
+    },
+    "RI": {
+      "year": 2024,
+      "adultUseSalesUsd": 94090000,
+      "adults21": 851728,
+      "monthlyPerAdultMinor": 921,
+      "includesMedical": false,
+      "source": {
+        "title": "Cannabis Business Plans, Rhode Island (2024 adult-use $94.09M; not regulator)",
+        "url": "https://cannabusinessplans.com/rhode-island-cannabis/"
+      },
+      "note": "LOW confidence non-regulator secondary; RI CCC pages did not yield a number. Medical $24.23M separate."
+    },
+    "VT": {
+      "year": 2024,
+      "adultUseSalesUsd": 139240000,
+      "adults21": 505435,
+      "monthlyPerAdultMinor": 2296,
+      "includesMedical": false,
+      "source": {
+        "title": "Vermont Dept of Taxes cannabis data via vermontstatecannabis.org 2024 total",
+        "url": "https://vermontstatecannabis.org/business/sales"
+      },
+      "note": "SECONDARY; page does not say if medical included (VT medical is small)."
+    },
+    "WA": {
+      "year": 2024,
+      "adultUseSalesUsd": 1189795000,
+      "adults21": 5984699,
+      "monthlyPerAdultMinor": 1657,
+      "includesMedical": true,
+      "source": {
+        "title": "Washington Dept of Revenue cannabis retail sales 2024 quarterly sum via washingtonstatecannabis.org",
+        "url": "https://washingtonstatecannabis.org/business/sales"
+      },
+      "note": "SECONDARY; DOR retail sales includes medical-endorsement sales (small); not separable."
+    }
+  }
+}

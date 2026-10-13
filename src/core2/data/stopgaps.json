@@ -3111,12 +3111,12 @@
     "id": "SG-WORLD-cannabis-spending",
     "kind": "assumed-data",
     "file": "src/core2/business-cannabis.ts",
-    "line": 74,
-    "whatItFakes": "Each adult 21 and over in a legal place spends one national figure on legal cannabis (about $30 a month, from recalled Colorado and Michigan sales), paid by the wider population from what it sent outside the town; full households buy none, and only existing retailers can be licensed.",
-    "why": "No per-state legal sales table is in the data yet, and the wider population's purchases are pooled by place.",
+    "line": 80,
+    "whatItFakes": "Each adult 21 and over in a legal place spends their state's 2024 legal sales per adult (src/core2/data/business/cannabis-sales.json; the 15-state median where the state had no full year), paid by the wider population from what it sent outside the town; full households buy none, and only existing retailers can be licensed.",
+    "why": "The wider population's purchases are pooled by place, and dispensaries aren't yet founded as a kind of business.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
-    "replacement": "Each state's own legal sales per adult (state revenue departments), full households' purchases by their own choice, and new dispensaries founded like any business.",
+    "replacement": "Full households' purchases by their own choice, and new dispensaries founded like any business.",
     "status": "open"
   },
   {

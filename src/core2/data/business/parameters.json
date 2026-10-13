@@ -368,17 +368,9 @@
     }
   },
   "businessCannabisMonthlyPerAdultMinor": {
-    "value": 3000,
-    "tag": "ESTIMATED",
-    "citation": "Legal adult-use cannabis spending a month per adult 21 and over: state retail sales over the adult population, about $350 a year in Colorado and $400 in Michigan in 2023 (state revenue departments; Census population estimates).",
-    "estimatedFrom": "Recalled 2023 state sales totals (Colorado about $1.5 billion, Michigan about $3.1 billion) over each state's adults 21 and over; one figure for every place.",
-    "stopgapId": "SG-WORLD-cannabis-spending",
-    "spread": {
-      "low": 2000,
-      "high": 4500,
-      "unit": "cents a month per adult 21 and over",
-      "citation": "Legal adult-use cannabis spending a month per adult 21 and over: state retail sales over the adult population, about $350 a year in Colorado and $400 in Michigan in 2023 (state revenue departments; Census population estimates)."
-    }
+    "value": 2295,
+    "tag": "SOURCED",
+    "citation": "Where a state has no full year of legal sales, the median of the 15 states whose 2024 adult-use sales are reported apart from medical by a reliable source: $22.95 a month per adult 21 and over (Colorado's; range $4.80 in New York to $35.68 in Michigan). src/core2/data/business/cannabis-sales.json, from state regulators and Census SC-EST2024."
   },
   "businessCannabisMargin": {
     "value": 0.15,
