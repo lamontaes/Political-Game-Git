@@ -362,8 +362,11 @@ export function withHousing(input: CoreInput): CoreInput {
           100 *
           // ACS values are dated mid-2022; the state's house price index moves them to the start.
           homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
-          ((row.income + offset) / (medianIncome + offset || 1)) **
-            pv("housingRentIncomeElasticity"),
+          // A household without pay (most often retired) owns a home like its neighbors': the county's median.
+          (row.income > 0
+            ? ((row.income + offset) / (medianIncome + offset || 1)) **
+              pv("housingRentIncomeElasticity")
+            : 1),
       ),
     }));
   for (const row of ownerRows) dwellings.push([row.id, "own", row.valueMinor]);
@@ -1121,7 +1124,7 @@ const median = (values: number[]) => {
 };
 
 /** A town's typical home value, monthly rent and monthly pay today, and its renters. */
-function townFigures(
+export function townFigures(
   api: CoreAPI,
   placeId: string,
 ): {

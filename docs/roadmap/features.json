@@ -178,7 +178,7 @@
       "golden_path": "world",
       "package": "M1-housing",
       "test": "Rents and home prices in a random place fall within real ranges for its region; an eviction happens only from unpaid rent, through the steps that place's law requires.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-05-check.ts",
       "passes": false
     },
     {
