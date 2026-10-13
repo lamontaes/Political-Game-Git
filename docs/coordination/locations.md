@@ -76,7 +76,10 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 ## Getting the images
 
 - **The CTO does all Firefly work.** That means moving the existing images out of the owner's old Adobe account and painting new ones on the new account.
-- The CTO commits images to **`art/incoming/firefly/`** in the repo as `<firefly-key>.png`. Each comes with a row in `art/incoming/firefly/index.json` giving the asset id, the inventory status and the full Firefly name.
+- The CTO commits images to **`art/incoming/firefly/`** in the repo, as full-size JPEGs (mostly 1376×768) named `<firefly-key>__<first 8 of asset id>.jpg`.
+  - `art/incoming/firefly/index.json` has one row per image: `file`, `assetId`, `key`, `status`, `place` (best reading of the cut-off key), `variant`, `gamePlace` (the existing place, for new variants), `created` and `fireflyName`.
+  - On Oct 13 the CTO moved 708 images: every new-place, new-variant, campus-variant and capitol-variant image in the inventory. The game already has the rest.
+  - There are often two or three takes of one key. Keep the best one and note the others as rejected in your PR.
 - Import from there. When a place you need isn't in the inbox yet, list it in your PR's gap table, keep going, and pick it up when it lands.
 - **If your session has the Adobe connector signed in to the owner's old Adobe account,** you may also pull directly:
   1. `adobe_mandatory_init`.
