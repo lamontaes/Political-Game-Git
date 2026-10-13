@@ -2813,5 +2813,17 @@
     "addedAt": "2026-10-13",
     "replacement": "OPUS-OFFICIALS makes state and federal candidates full people at the opening (BOARD Oct 12 item 2), or OPUS-GOV lets campaignFor carry a candidate who is not a full person; then remove the guard.",
     "status": "open"
+  },
+  {
+    "id": "SG-PW2-interview-uncounted-candidate",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 690,
+    "whatItFakes": "Outlets never invite a candidate on the ballot who is not a full person in the played world (a state or federal candidate from outside the town), so that candidate gives no interviews.",
+    "why": "publish calls campaignFor (campaigns.ts), which assumes every filing's candidate is a full person and reads their name; in the two-level played world the governor's and senators' rivals are not, and the first interview week threw (seed d1546b1d42d26ed3, Carolina, Rhode Island, Oct 19, 2026). PW-2 may only add a guard.",
+    "addedBy": "PW-2",
+    "addedAt": "2026-10-13",
+    "replacement": "OPUS-OFFICIALS makes state and federal candidates full people at the opening (BOARD Oct 12 item 2), or OPUS-GOV lets campaignFor carry a candidate who is not a full person; then remove the guard.",
+    "status": "open"
   }
 ]
