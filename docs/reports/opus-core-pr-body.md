@@ -1,8 +1,8 @@
-# Children go to school, a year runs faster, the town's population changes, and laws reach real people
+# Children go to school, real disasters strike, the town's population changes, and laws reach real people
 
-Before: Vonore, Tennessee's employers doubled their cash in a year ($43.6 million to $93.6 million). 8 of 46 workers the player can meet (three towns) never went to a shift, children never went to school, and sales taxes collected nothing.
+Before: Vonore, Tennessee's employers doubled their cash in a year ($43.6 million to $93.6 million). Children never went to school, and sales taxes collected nothing.
 
-After: Vonore's employers end the year with $44.9 million of their own. Those workers work, children attend school, and sales taxes pay the treasury. A full-game year in Woodmere, New York takes 56 seconds, not 84.
+After: Vonore's employers end the year with $44.9 million of their own, children attend school, and sales taxes pay the treasury. The disasters FEMA declared for a town's county now happen on their real dates, with the aid and home repairs they brought.
 
 **What you need to do:** after the merge, pass a sales tax in the evening build and watch the treasury.
 
@@ -12,6 +12,7 @@ After: Vonore's employers end the year with $44.9 million of their own. Those wo
 
 - **On main, not fixed here:** Scenic, Arizona and Camp Pendleton Mainside, California won't open; the people team has the cause and is fixing it, so pick another town until then. A game year also runs slower on main than it did on October 12: 26.9 seconds in Vonore against 11.3, because every household now gets its relatives when a town opens. I've asked the people team to build relatives only when the player meets a household.
 - **The played game skips five of the core's opening steps:** the public school district, private-school families, the sample of the town, matching buyers from outside town to each business's industry, and custom-world settings. The play team's opening needs to call them (more under "What happens next").
+- **Your call (nothing waits on it):** what should cause a disaster after FEMA's records end. Until you rule, a game that runs past the records has no new disasters, because nothing is rolled.
 - **Waiting on the CTO:** whether businesses should be staffed to match what their customers buy. I recommend leaving it off (details under "What happens next").
 
 ## What changed for the player
@@ -28,6 +29,8 @@ After: Vonore's employers end the year with $44.9 million of their own. Those wo
 - Children aged 5 to 17 go to school on school days.
 - In Woodmere, New York, with every team's engines running, a game year takes about 56 seconds instead of 84, and Election Day no longer stalls for 10 seconds.
 - The town's voters start from their county's 2024 vote and their town's own share of citizens, not the state's.
+- The disasters FEMA declared for the town's county or state happen in the game on their real dates. Each one is news. When it's declared, federal aid reaches the town's government and its households, and households pay the town's builders to repair their damaged homes. The played game has this once it runs on this branch's core.
+- Social Security claims during play follow the law in force, so if Congress raises the full retirement age, people claim later. The played game runs the laws engine, so this holds there too.
 
 ## Why each fix works
 
@@ -75,6 +78,10 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 **A faster year, and Election Day no longer stalls.** What the code did (inferred from the code): each time an engine looked something up in its own records, the core first set up a fresh way in to those records. The voting engine looks things up once per voter. Now that way in is set up once and reused, with the same safety checks on every use (`src/core2/module-state.ts:148`). Measured in Woodmere, New York, over a full game year with every engine: Election Day went from 10.6 seconds to 2.5. The whole year went from 83.5 seconds to 55.8.
 
 **Voters start where their county does.** What the code did (inferred from the code): every counted voter group started at its state's 2024 presidential margin, with the state's share of adults who are citizens. Now each starts at its county's 2024 margin and its town's own citizen share from the Census Bureau's 2020–2024 survey (`src/core2/opening-voter-groups.ts:97`). Measured as the 2024 two-party margin in points: Oakvale, West Virginia (Mercer County) starts 58 points Republican, where West Virginia's 43 applied before. Windham County, Vermont starts 44 points Democratic, where Vermont's 33 applied before.
+
+**Disasters come from FEMA's records.** What the code does now (inferred from the code): a disaster happens only where and when FEMA declared one for the town's county or its whole state, from 50,883 declarations since 2000 (`src/core2/modules/disasters.ts:343`). On the day it begins, it's a public news event that says how many homes FEMA found damaged in the town. On the day it's declared, the U.S. Treasury makes two kinds of payment. First, the federal money FEMA committed to rebuilding public property goes to the county's government and to the town's government. Second, the housing aid FEMA approved for the town's households goes to them. The households then pay for repairing the damage FEMA inspected in owners' homes. That money is split among the town's builders by how many people each employs (`src/core2/modules/disasters.ts:268`). A game town can hold fewer people than the real one, so household amounts are cut to the game town's population divided by the Census Bureau's estimate for the real town. Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people and the real town 13,930 (0.108): FEMA found 1,297 homes damaged by Hurricane Ida, which becomes 139 in the game town. Its households received $1.02 million of FEMA's housing aid. Of that, they paid $495,626 to the town's three builders for repairs. The rest is aid for rent and other needs, which they keep. The town's government received $2.23 million for public property. The county's government lives outside the game town, so it received nothing in play. Money balanced.
+
+**Retirement follows the law in force.** What the code does now (inferred from the code): where the laws engine runs, as it does in the played game, a claim during play is dated from the government team's Social Security ages, not the core's own table (`src/core2/modules/retirement-claims.ts:88`). Measured in the test in Teaticket, Massachusetts, with one adult set up so that their award would start two months after the game opens (January 2021). With the full retirement age raised to 68 on the opening day, their full age moves from 66 years 10 months to 68, so their claim moves about 14 months later. They had no award by June 2021 and had claimed by the end of 2022. The same rule applies to every claimant; the test follows this one.
 
 ## Checks
 
