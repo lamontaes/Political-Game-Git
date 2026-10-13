@@ -188,6 +188,7 @@ function fillTownPost(
   api: CoreAPI,
   spec: PostSpec,
   chosenId?: string,
+  outOfWork = false,
 ): AppointmentRow | null {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
@@ -210,7 +211,10 @@ function fillTownPost(
         ageOn(p, date) >= 25 &&
         p.id !== appointer?.personId &&
         !holding.has(p.id) &&
-        (!chosenId || p.id === chosenId),
+        (!chosenId || p.id === chosenId) &&
+        (!outOfWork ||
+          !p.jobId ||
+          (api.state as CoreState).jobs.get(p.jobId)?.endsAt !== undefined),
     );
   if (!pool.length) return null;
   const relationships = (api.state as CoreState).relationships;
@@ -531,7 +535,9 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (!spec) continue;
     // The player's own posts wait for their choice (`appoint`).
     if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
-    fillTownPost(api, spec);
+    // stopgapId: SG-GOV-staff-hire-out-of-work
+    api.stopgap("SG-GOV-staff-hire-out-of-work");
+    fillTownPost(api, spec, undefined, true);
   }
   const governor = townSeats(api).find(
     (s) => s.office.kind === "governor" && s.holder,

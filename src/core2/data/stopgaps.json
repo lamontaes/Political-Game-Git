@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-GOV-staff-hire-out-of-work",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 463,
+    "whatItFakes": "Officials' automatic hires (an aide at the monthly staff review, a department head refilled at the executive's review) choose only among people out of work, though anyone paid less than the post would apply.",
+    "why": "Taking a public post ends the person's current job, and the core doesn't yet release the records that rely on a job (a business's visitor contracts name its workers' jobs), so ending one mid-contract breaks the finance check.",
+    "addedBy": "FIXER-EVERY-MODULE-RUNS",
+    "addedAt": "2026-10-13",
+    "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
+    "status": "open"
+  },
+  {
     "id": "SG-P8-relationship-closeness-update",
     "kind": "relationship-update-logic-gap",
     "file": "src/core2/state.ts",
@@ -2819,7 +2831,7 @@
     "id": "SG-GOV-appointee-pay",
     "kind": "missing-engine",
     "file": "src/core2/modules/executive.ts",
-    "line": 274,
+    "line": 278,
     "whatItFakes": "A town department head appointed where no town treasury is open holds the post without pay (with budgets open, they're on the town's payroll); state cabinet members are identities and draw no pay.",
     "why": "Public payroll from treasuries is OPUS-CORE's (public employers pay as outside payers today).",
     "addedBy": "OPUS-GOV",
@@ -2831,7 +2843,7 @@
     "id": "SG-GOV-executive-powers-research",
     "kind": "missing-data",
     "file": "src/core2/modules/executive.ts",
-    "line": 434,
+    "line": 438,
     "whatItFakes": "Which orders an executive may issue, the state cabinets and the local department heads come from a research file written from memory (data/research/executive/executive-powers-2026.json, every row an estimate); only the voting-rights order (documented in Virginia, Kentucky and Iowa) is offered.",
     "why": "The research helper fetched no sources; verification against state constitutions, Book of the States Table 4.10 and NCSL is still to do.",
     "addedBy": "OPUS-GOV",
