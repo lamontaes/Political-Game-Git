@@ -31,6 +31,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openMeetings } from "../core2/modules/meetings";
 import { openPress } from "../core2/modules/press";
 import { openStaff } from "../core2/modules/staff";
+import { openCases } from "../core2/modules/constituent-cases";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { renewalData } from "../core2/births-setup";
@@ -301,8 +302,10 @@ function* benchWorldStages(
   // votes, town halls and debates (which air on the widest outlet).
   openPress(core);
   openMeetings(core);
-  // Officials' staff.
+  // Officials' staff, and the residents who bring them problems at office
+  // hours (a staffer handles a case when the official has one).
   openStaff(core);
+  openCases(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
