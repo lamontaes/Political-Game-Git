@@ -489,14 +489,22 @@ export function withHousing(input: CoreInput): CoreInput {
       : { contracts: [], flows: [], terms: [] };
   leases.push(...mortgages.contracts);
   flows.push(...mortgages.flows);
-  for (const row of households) {
-    if (rank.get(row.id)! < owners) continue;
-    // A renter with no recorded income is the wider population, not yet modeled; see the stopgap.
-    if (row.income <= 0 && !awarded.has(row.id)) {
+  // A full renter with no recorded income has no way to pay a lease yet (see the stopgap); a counted one rents from the pool, at the rent its income rank calls for.
+  const renters = households.filter((row) => {
+    if (rank.get(row.id)! < owners) return false;
+    if (row.income <= 0 && !awarded.has(row.id) && !row.counted) {
       stopgap("SG-WORLD-housing-unmodeled-renters");
-      continue;
+      return false;
     }
-    const scale = incomeScale(row.income);
+    return true;
+  });
+  // The county's median rent is the median renter's: rents scale with income around it.
+  const scales = renters
+    .map((row) => incomeScale(row.income))
+    .sort((a, b) => a - b);
+  const middle = scales[Math.floor(scales.length / 2)] || 1;
+  for (const row of renters) {
+    const scale = incomeScale(row.income) / middle;
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)
