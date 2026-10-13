@@ -13,6 +13,7 @@
  * the chooser, and those who go spend the gathering's hours with the fellow
  * members they are closest to, so ties grow and news passes there.
  */
+import { COLLEGE_FACT_KIND, COLLEGE_STAGE } from "../opening-college";
 import { ageOnDate, addDays, makeIsoDate } from "../../simulation/dates";
 import { stableHash } from "../../simulation/ids";
 import { decisionFromScores, scoreOffers } from "../choice";
@@ -52,7 +53,7 @@ interface KindRule {
   /** How far following public life pulls toward this kind. */
   engagementParameter: string;
   /** Who can belong at all: their own children at home, a faith, any adult. */
-  requires?: "children-at-home" | "faith";
+  requires?: "children-at-home" | "faith" | "enrolled-student";
 }
 const KINDS = kindsJson as unknown as {
   version: string;
@@ -79,6 +80,16 @@ const ageOf = (api: CoreAPI, person: Readonly<PersonState>) =>
 
 function factOf(person: Readonly<PersonState>, kind: string, key: string) {
   return person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
+}
+
+/** The college a person is enrolled at now, from their record. */
+function collegeOf(person: Readonly<PersonState>): string | undefined {
+  return person.pastFacts?.find(
+    (row) =>
+      row.kind === COLLEGE_FACT_KIND &&
+      row.facts?.stage === COLLEGE_STAGE &&
+      row.facts?.enrollment === "current",
+  )?.facts?.institutionSourceId;
 }
 
 function hasChildAtHome(api: CoreAPI, person: Readonly<PersonState>): boolean {
@@ -115,6 +126,7 @@ export function belongingReasons(
   if (rule.requires === "children-at-home" && !hasChildAtHome(api, person))
     return null;
   if (rule.requires === "faith" && (!faith || faith === "none")) return null;
+  if (rule.requires === "enrolled-student" && !collegeOf(person)) return null;
   const view = viewOf(api, person.id);
   const schooling =
     factOf(person, PROFILE_FACT_KINDS.education, "level") ??
@@ -257,6 +269,16 @@ function settleOpening(api: CoreAPI): void {
         continue;
       // Which of the town's groups of that kind: who exists at the opening,
       // keyed to the person's home so a household shares a congregation.
+      // A student's group is their own college's.
+      const own =
+        rule.requires === "enrolled-student"
+          ? groups.find(
+              (id) =>
+                core.publicOrganizations.get(id)?.facts?.institutionSourceId ===
+                collegeOf(person),
+            )
+          : undefined;
+      if (rule.requires === "enrolled-student" && !own) continue;
       const at =
         Number.parseInt(
           stableHash(
@@ -264,7 +286,7 @@ function settleOpening(api: CoreAPI): void {
           ).slice(0, api.parameter("seedHashDigits")),
           api.parameter("seedPlaceHashRadix"),
         ) % groups.length;
-      const groupId = groups[at]!;
+      const groupId = own ?? groups[at]!;
       api.join(person.id, groupId);
       api.observe(person.id, {
         key: `organization:${groupId}:public`,

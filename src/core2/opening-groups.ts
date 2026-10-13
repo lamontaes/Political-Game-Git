@@ -13,6 +13,7 @@ import { placeReferencePopulation } from "../simulation/nationwide-world/place-p
 import { countyPopulationSharesForPlace } from "../simulation/government-units";
 import countsJson from "./data/groups/counts.json" with { type: "json" };
 import groupsJson from "./data/groups/groups.json" with { type: "json" };
+import { COLLEGE_FACT_KIND, COLLEGE_STAGE } from "./opening-college";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, PublicOrganization } from "./types";
@@ -36,6 +37,8 @@ export const GROUPS = groupsJson as {
   islandAreaPopulation2020: Readonly<Record<string, number | string>>;
 };
 export const GROUP_KIND_PREFIX = "group:";
+/** A college's student organizations: not an IRS-listed kind. */
+const STUDENT_KIND = "student-organization";
 
 const p = (key: string) => parameter(key);
 
@@ -195,6 +198,51 @@ export function addOpeningGroups(input: CoreInput): CoreInput {
         });
       }
     }
+  }
+  // Each college the town's students attend has its student organizations,
+  // standing for its clubs and associations (one group per college).
+  const colleges = new Map<string, { name: string; placeId: string }>();
+  for (const person of input.people) {
+    const fact = person.pastFacts?.find(
+      (row) =>
+        row.kind === COLLEGE_FACT_KIND &&
+        row.facts?.stage === COLLEGE_STAGE &&
+        row.facts?.enrollment === "current",
+    );
+    if (
+      fact?.facts?.institutionSourceId &&
+      !colleges.has(fact.facts.institutionSourceId)
+    )
+      colleges.set(fact.facts.institutionSourceId, {
+        name: fact.facts.institutionName ?? fact.facts.schoolName ?? "",
+        placeId: person.placeId,
+      });
+  }
+  for (const [collegeId, college] of [...colleges].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    const kind = STUDENT_KIND;
+    const id = `${GROUP_KIND_PREFIX}${collegeId}:${kind}:${p("one")}`;
+    if (existing.has(id)) continue;
+    existing.add(id);
+    groups.push({
+      id,
+      placeId: college.placeId,
+      name: GROUPS.kinds[kind]!.name.replace("{place}", college.name),
+      kind,
+      affordances: GROUPS.affordances,
+      facts: {
+        groupKind: kind,
+        countBasis: "college",
+        institutionSourceId: collegeId,
+      },
+      source: {
+        tag: "ESTIMATED",
+        asOf: input.startedAt,
+        citation: `One student organization per college the town's students attend (IPEDS ${collegeId}).`,
+        estimatedFrom: marker.id,
+      },
+    });
   }
   return {
     ...input,

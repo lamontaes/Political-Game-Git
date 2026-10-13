@@ -83,6 +83,14 @@
       "hoursParameter": "groupsHoursMeeting",
       "ageCenterParameter": "groupsAgeCenterMiddle",
       "engagementParameter": "groupsEngagementWeight"
+    },
+    "student-organization": {
+      "stayOutParameter": "groupsStayOutCampus",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "requires": "enrolled-student",
+      "ageCenterParameter": "groupsAgeCenterYounger",
+      "engagementParameter": "groupsEngagementWeightSports"
     }
   }
 }

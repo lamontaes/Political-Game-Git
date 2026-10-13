@@ -212,5 +212,15 @@
       "low": 0,
       "high": 2
     }
+  },
+  "groupsStayOutCampus": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of a college's student organizations for an enrolled student, fitted so adults 18-29 in drawn towns with a college belong to some group at about the survey's 28% (AmeriCorps and Census, Civic Engagement and Volunteering Supplement 2023): over four drawn towns with a college (Harrellsville, North Carolina; Independence, Kansas; Fitchburg, Massachusetts; North Port, Florida; 509 adults 18-29), 13.6% at 0.68 (the parent-teacher value), 27.7% at 0 (98 of 121 students belong), 32.2% at -1. No survey gives the share of students in campus organizations; spread -0.5 to 0.5.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": -0.5,
+      "high": 0.5
+    }
   }
 }

@@ -26,6 +26,7 @@ const SURVEY_COLUMN: Readonly<Record<string, string>> = {
   "advocacy-group": "other",
   "volunteer-group": "other",
   "arts-group": "other",
+  "student-organization": "school-or-neighborhood",
 };
 const survey = rates.sources[0]!.percentTakingPartInPastYear as unknown as {
   columns: string[];

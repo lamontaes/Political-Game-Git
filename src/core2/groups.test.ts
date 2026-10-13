@@ -51,8 +51,26 @@ describe(`groups in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(groups.length).toBeGreaterThan(0);
     for (const group of groups) {
       expect(Object.keys(membership.kinds)).toContain(group.facts!.groupKind);
+      // A college's student organization comes from the college, not the IRS.
+      if (group.facts!.countBasis === "college") {
+        expect(group.source.citation).toMatch(/IPEDS/);
+        continue;
+      }
       expect(Number(group.facts!.listed)).toBeGreaterThan(0);
       expect(group.source.citation).toMatch(/Internal Revenue Service|IRS/);
+    }
+  });
+
+  it("lets only enrolled students into a college's student organization, their own college's", () => {
+    for (const row of membershipsAtOpening) {
+      const group = groups.find((g) => g.id === row.organizationId)!;
+      if (group.facts!.groupKind !== "student-organization") continue;
+      const college = core.people
+        .get(row.personId)!
+        .pastFacts?.find((fact) => fact.facts?.stage === "college");
+      expect(college?.facts?.institutionSourceId).toBe(
+        group.facts!.institutionSourceId,
+      );
     }
   });
 

@@ -36,6 +36,9 @@
     },
     "arts-group": {
       "name": "{place} Community Players"
+    },
+    "student-organization": {
+      "name": "{place} Student Association"
     }
   },
   "numberPattern": "{name} No. {n}",
