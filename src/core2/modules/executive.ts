@@ -34,6 +34,8 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { campaignParameter, personLean } from "../campaign-views";
 import { mayorVeto, memberKey, members } from "./legislature";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { startPublicJob } from "../public-payroll";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -237,8 +239,24 @@ function fillTownPost(
     news: true,
     facts: { post: spec.key, appointedBy: row.appointedBy },
   });
+  // On the town government's payroll at a department head's pay.
+  const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  const employer = (
+    govs.find((g) => g.level === "city") ??
+    govs.find((g) => g.level === "county")
+  )?.organizationId;
+  const paid = employer
+    ? startPublicJob(api, {
+        personId: row.holderId,
+        employerId: employer,
+        post: `town:${spec.key}`,
+        title: spec.title,
+        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        citation: `Appointment ${row.id}`,
+      })
+    : null;
   // stopgapId: SG-GOV-appointee-pay
-  api.stopgap("SG-GOV-appointee-pay");
+  if (!paid) api.stopgap("SG-GOV-appointee-pay");
   return row;
 }
 

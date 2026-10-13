@@ -127,12 +127,18 @@ export const BUDGETS_MODULE: CoreModule = {
       withholding: { indexes: { byPerson: { fields: ["personId"] } } },
       priorities: {},
       yearToDate: {},
+      outsideRevenue: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
     },
   },
   journalSourceProviders: {
     [WITHHOLDING_KIND]: (api, reference) => withholdingSlot(api, reference.id),
   },
-  onCalendarWork: adoptBudget,
+  onCalendarWork: (api, work) => {
+    adoptBudget(api, work);
+    receiveOutsideRevenue(api, work);
+  },
   onWorkPayroll: withhold,
   eventKinds: ["law-took-effect"],
   onEvent: (api, event) => {
@@ -382,7 +388,96 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     });
   }
   syncSalesTax(api);
+  scheduleOutsideRevenue(api, core.date);
   return govs;
+}
+
+const MONTHS_PER_YEAR = 12;
+
+/** Revenue lines a flow in the town already pays (withholding, sales tax, property tax). */
+const TOWN_PAID_LINES = new Set([
+  "individualIncomeTax",
+  "generalSalesTax",
+  "propertyTax",
+]);
+
+function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
+  const d = new Date(`${after.slice(0, 7)}-01T00:00:00Z`);
+  d.setUTCMonth(d.getUTCMonth() + 1);
+  const date = d.toISOString().slice(0, 10);
+  api.moduleCalendar(BUDGETS_MODULE_ID).schedule({
+    key: `outside-revenue:${date}`,
+    date,
+    kind: "outside-revenue",
+    source: {
+      tag: "ESTIMATED",
+      citation: "Census per-resident revenue (public-budget-bases.json)",
+      asOf: api.state.date,
+      estimatedFrom: "SG-GOV-outside-revenue-monthly",
+    },
+    sourceRecordIds: ["budgets:outside-revenue"],
+  });
+}
+
+/**
+ * Each month, the revenue that reaches a state, county or city treasury from
+ * outside what the town's own flows pay: state and federal aid, charges and
+ * fees, and the taxes no flow in the town models, in full; and the taxes
+ * the town does pay (income, general sales, property) for the government's
+ * residents outside the town. A twelfth of the year's budget each month.
+ */
+function receiveOutsideRevenue(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (work.kind !== "outside-revenue") return;
+  // stopgapId: SG-GOV-outside-revenue-monthly
+  api.stopgap("SG-GOV-outside-revenue-monthly");
+  const town = lawChain(api).townPlaceId;
+  // The town's outside account, else any (the money comes from outside).
+  const outside = [...api.state.organizations.values()]
+    .filter((o) => o.outsideFlow !== undefined)
+    .sort(
+      (a, b) =>
+        Number(b.placeId === town) - Number(a.placeId === town) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  const townResidents =
+    Number(api.state.placeMetadata.referencePopulation) ||
+    api.state.people.size;
+  if (outside)
+    for (const gov of governments(api)) {
+      if (gov.level === "federal") continue;
+      const budget = budgetsOf(api, gov.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1);
+      if (!budget) continue;
+      const away =
+        gov.residents > 0
+          ? Math.max(0, Math.min(1, 1 - townResidents / gov.residents))
+          : 0;
+      let annual = 0;
+      for (const [line, amount] of Object.entries(budget.revenueMinor))
+        annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
+      const monthly = Math.round(annual / MONTHS_PER_YEAR);
+      if (monthly <= 0) continue;
+      const accounts = api.accounts();
+      const receipt = accounts.transfer({
+        id: `outside-revenue:${gov.id}:${api.state.date}`,
+        from: accounts.main(outside.id),
+        to: accounts.main(gov.organizationId),
+        amountMinor: monthly,
+        reasonKey: "outside-revenue",
+        source: work.source,
+      });
+      table(api, "outsideRevenue").put({
+        id: receipt.id,
+        governmentId: gov.id,
+        date: api.state.date,
+        amountMinor: receipt.paidMinor,
+      } as unknown as ModuleRow);
+    }
+  scheduleOutsideRevenue(api, api.state.date);
 }
 
 const GROCERY_EXEMPTION =
@@ -783,6 +878,15 @@ export function amendBudget(
     },
   });
   return amended;
+}
+
+/** What a government's treasury has received from outside the town's flows. */
+export function outsideRevenueOf(api: CoreAPI, governmentId: string): number {
+  return (
+    table(api, "outsideRevenue").query("byGovernment", [
+      governmentId,
+    ]) as unknown as { amountMinor: number }[]
+  ).reduce((sum, r) => sum + r.amountMinor, 0);
 }
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {

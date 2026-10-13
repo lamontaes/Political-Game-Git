@@ -148,12 +148,41 @@ describe("M3-06 staff", () => {
       }
       // Cases this office handles go to its staff, and say who did them.
       advanceCore(core, "2026-02-20");
+      // The aide is on the payroll of the government the official serves,
+      // and paydays have paid them from its treasury.
+      const aideJob = core.people.get(aide.personId)!.jobId;
+      const employer = aideJob ? core.jobs.get(aideJob)?.organizationId : null;
+      const town = governments(api).find((g) =>
+        ["city", "county"].includes(g.level),
+      );
+      const payroll = aideJob
+        ? core.work.latestPayrollByJob.get(aideJob)
+        : undefined;
+      if (town) {
+        expect(aideJob).toMatch(/^job:public:staff:/);
+        expect(
+          governments(api).some((g) => g.organizationId === employer),
+        ).toBe(true);
+        // Paydays pay the post's pay from that treasury.
+        // Paid, unless the treasury holds less than what's owed (a small
+        // village can't carry a full-time aide).
+        const owed =
+          (payroll as unknown as { requestedMinor?: number } | undefined)
+            ?.requestedMinor ?? 0;
+        const cash = core.organizations.get(employer!)?.liquidMinor ?? 0;
+        expect(owed, key).toBeGreaterThan(0);
+        expect(
+          (payroll?.paidMinor ?? 0) > 0 || cash < owed,
+          `${key}: owed ${owed}, treasury ${cash}`,
+        ).toBe(true);
+      }
       const staffed = allCases(api).filter(
         (c) => c.officialId === official && c.handledBy === "staff",
       );
       for (const c of staffed) expect(c.stafferId).toBeTruthy();
       report = {
         budgetAdvice: advice?.lines ?? null,
+        aidePay: { job: aideJob, employer, lastPaidMinor: payroll?.paidMinor },
         seed,
         state,
         place: key,

@@ -18,6 +18,7 @@ import {
   BUDGETS_MODULE_ID,
   budgetsOf,
   governments,
+  outsideRevenueOf,
   openBudgets,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
@@ -114,14 +115,19 @@ describe(
             p.accountId,
             (received.get(p.accountId) ?? 0) + p.deltaMinor,
           );
-      // Every withheld dollar and every sales-tax dollar is in a treasury
-      // (nothing else pays into them yet).
+      // Every withheld dollar, every sales-tax dollar and every dollar of
+      // revenue from outside the town is in a treasury (nothing else pays
+      // into them, and nothing in this world spends from them).
       const salesTax = purchaseTaxes(core);
       for (const gov of govs)
         expect(cash(gov.organizationId), gov.id).toBe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
-            (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0),
+            (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
+            outsideRevenueOf(api, gov.id),
         );
+      // Aid, fees and the rest arrive each month for the local governments.
+      for (const gov of govs.filter((g) => g.level !== "federal"))
+        expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);
       // The sales tax in force is collected wherever purchases are taxed.
       const stateRate = lawInForce(api, "sales-tax").levels.find(
         (l) => l.level === "state",

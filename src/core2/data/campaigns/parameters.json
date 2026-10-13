@@ -574,6 +574,12 @@
       "tag": "TUNABLE",
       "source": "Hours a resident who decides to run spends circulating their own petition before the deadline, where the race takes signatures.",
       "spread": [5, 60]
+    },
+    "appointeeHourlyMinor": {
+      "value": 4600,
+      "tag": "ESTIMATED",
+      "source": "Hourly pay of an appointed town department head: BLS Occupational Employment and Wage Statistics, May 2023, local government excluding schools and hospitals (OEWS designation), management occupations (11-0000), median hourly wage about $46. Small towns pay less and large cities more.",
+      "spread": [3000, 7000]
     }
   }
 }

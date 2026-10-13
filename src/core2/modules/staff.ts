@@ -20,6 +20,9 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
 import { lawChain } from "./laws";
+import { townSeats } from "./offices";
+import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { startPublicJob } from "../public-payroll";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -137,8 +140,20 @@ export function hireStaff(
   );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
+  // On the payroll of the government the official serves, at the post's pay.
+  const employer = employerOf(api, input.officialId);
+  const jobId = employer
+    ? startPublicJob(api, {
+        personId: input.personId,
+        employerId: employer,
+        post: `staff:${input.officialId}`,
+        title: input.role,
+        hourlyMinor: campaignParameter("staffHourlyMinor"),
+        citation: `Hired as ${input.role} to ${input.officialId}`,
+      })
+    : null;
   // stopgapId: SG-GOV-staff-unpaid
-  api.stopgap("SG-GOV-staff-unpaid");
+  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
   const row: StafferRow = {
     id: `staffer:${input.officialId}:${input.personId}`,
     officialId: input.officialId,
@@ -151,6 +166,17 @@ export function hireStaff(
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
   return row;
+}
+
+/** The treasury of the government whose seat the official holds. */
+function employerOf(api: CoreAPI, officialId: string): string | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const seat = townSeats(api).find((s) => s.holder?.personId === officialId);
+  if (!seat) return null;
+  const level = seat.office.level === "township" ? "city" : seat.office.level;
+  return (
+    governments(api).find((g) => g.level === level)?.organizationId ?? null
+  );
 }
 
 export function staffOf(
@@ -175,10 +201,11 @@ export function workQuality(
   const deliberation =
     (person.traits["people-mind-v1:deliberation"] ?? 0) *
     campaignParameter("staffTraitWeight");
-  // Experience: what they've learned from tasks done, at their own rate.
+  // Experience: what they've learned from tasks done, at their own rate
+  // (faster for the deliberate, slower but never stopped for the least).
   const rate =
     campaignParameter("staffLearningBase") *
-    (1 + (person.traits["people-mind-v1:deliberation"] ?? 0) / 2);
+    2 ** ((person.traits["people-mind-v1:deliberation"] ?? 0) / 2);
   const experience =
     campaignParameter("staffExperienceCeiling") *
     (1 - Math.exp(-rate * staffer.tasksDone));

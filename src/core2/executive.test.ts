@@ -26,6 +26,7 @@ import {
   townForm,
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
+import { governments, openBudgets } from "./modules/budgets";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
@@ -63,6 +64,7 @@ function world(states: readonly string[], salt: string) {
   openCampaigns(core);
   openRecord(core);
   openLegislature(core);
+  openBudgets(core);
   openExecutive(core, seed);
   return {
     core,
@@ -113,6 +115,16 @@ describe("the executive's desk", () => {
       expect(row.reasons[0]!.candidateId).toBe(row.holderId);
       if (row.confirmation)
         expect(row.confirmation.yes).toBeGreaterThan(row.confirmation.no);
+      // On the town government's payroll.
+      const job = core.people.get(row.holderId)?.jobId;
+      const employer = job ? core.jobs.get(job)?.organizationId : undefined;
+      if (
+        governments(api).some((g) => g.level === "city" || g.level === "county")
+      )
+        expect(
+          governments(api).some((g) => g.organizationId === employer),
+          `${where} ${row.title}`,
+        ).toBe(true);
     }
     const state = lawChain(api).stateKey;
     const cabinet = appointmentsIn(api, state);
