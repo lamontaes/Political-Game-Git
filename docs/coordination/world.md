@@ -19,13 +19,18 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
   - A business's staff follows what its customers actually spend.
   - People look for work wherever their neighbors commute to; young people start looking as they leave school.
   - Laid-off workers draw unemployment insurance on their own state's terms.
-- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons; startups open small and spread across the town's kinds of business at about the real rate.
+  - Tenure holds people: a move must beat what their years at the job have added to their pay.
+  - Residents the opening couldn't place work at jobs elsewhere of their own, and the town's unemployment counts where people live.
+  - Unions cover workplaces at BLS's state and industry rates (public employers most); members pay dues, and right-to-work changes who joins.
+- **Businesses:** owners found, grow, borrow, hand on and close businesses by their own reasons; startups open small, sized by the founder's savings, home equity and an SBA-rule loan, and spread across the town's kinds of business at about the real rate. Where cannabis sales are legal, retailers apply for licenses and sell to the town's adults.
 - **The town bank** lends to businesses and households, and holds the residents' savings on deposit, paying interest.
 - **Homes:**
   - Homes in the place's real mix, priced like the county's, with FHFA prices, mortgages and property tax at the county's rate.
   - Owners refinance when rates fall far enough below theirs to pay for the closing costs.
   - Builders put up houses and apartment buildings as value outruns cost, and new vacancy lowers rents.
   - Landlords serve notice after about two months owed, and evictions follow the state's steps.
+  - Every lease renews yearly; owners refinance when rates fall; property tax falls due on the place's own dates (escrow monthly for owners with a mortgage).
+  - Connecticut, Puerto Rico and some Indiana, Pennsylvania and Virginia towns now have housing too.
 - **What laws can do,** waiting for GOV's handlers:
   - Zoning, set-aside units, all-electric codes and farmland protection.
   - Right to counsel, with payment plans.
