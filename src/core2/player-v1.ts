@@ -867,3 +867,13 @@ export function resumePlayerV1(
 export function retirePlayerV1(core: CoreState): void {
   entered(core, () => retirePlayerV1Impl(core));
 }
+
+/**
+ * No player clock, or one at rest: a whole day done and nothing waiting on
+ * the player. A world snapshot is taken only then; the loaded world starts a
+ * fresh clock from the same moment on the player's next advance.
+ */
+export function playerClockAtRestV1(core: CoreState): boolean {
+  const s = sessions.get(core);
+  return !s || (!s.pending && !s.day && !s.busy && s.at.minuteOfDay === 0);
+}

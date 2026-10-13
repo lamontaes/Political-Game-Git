@@ -38,6 +38,7 @@ function involvesPlayer(
 }
 
 export function condenseCircleDecisions(core: CoreState): void {
+  dropOldReceiptDetail(core);
   const queue = queues.get(core);
   if (!queue?.length) return dropOldCircleActs(core);
   const cutoff = new Date(`${core.date}T00:00:00Z`);
@@ -105,4 +106,68 @@ function dropOldCircleActs(core: CoreState): void {
     core.logByPlace.get(row.placeId)?.delete(id);
   }
   if (done) drops.splice(0, done);
+}
+
+/**
+ * The finance engine's detailed receipt for a circle member's payment (who
+ * paid what, balances before and after), and each of their shifts' attendance
+ * detail, is kept circleDecisionDetailDays,
+ * like the circle's decision detail; the player's own stay. The money itself
+ * is in the balances and the journal, which the screens read.
+ */
+function dropOldReceiptDetail(core: CoreState): void {
+  const receipts = core.finance.detailedReceipts;
+  if (!receipts.size) return;
+  const cutoff = new Date(`${core.date}T00:00:00Z`);
+  cutoff.setUTCDate(
+    cutoff.getUTCDate() -
+      parameter("circleDecisionDetailDays", core.data.parameters),
+  );
+  const before = cutoff.toISOString().slice(0, 10);
+  const player = core.playerId;
+  // Receipts are kept in the order they were written, so the old ones lead.
+  for (const [id, receipt] of receipts) {
+    if (receipt.date >= before) break;
+    if (
+      player &&
+      (receipt.payeeId === player ||
+        receipt.payments.some((row) => row.payerId === player))
+    )
+      continue;
+    Map.prototype.delete.call(receipts, id);
+  }
+  // Each shift's attendance detail likewise (the latest per job stays in
+  // lastAttendanceByJob, which pay reads).
+  const shifts = core.work.detailedAttendance;
+  for (const [id, shift] of shifts) {
+    if (shift.date >= before) break;
+    if (shift.personId === player) continue;
+    Map.prototype.delete.call(shifts, id);
+  }
+  if (core.date.endsWith("-01")) dropOldPayrollSources(core, before);
+}
+
+/**
+ * Old payroll settlement records go too, monthly, except the ones pay still
+ * reads (each ledger's last payroll and each job's latest) and the player's.
+ */
+function dropOldPayrollSources(core: CoreState, before: string): void {
+  const work = core.work;
+  const sources = work.payrollCashSources;
+  if (!sources.size) return;
+  const kept = new Set<string>();
+  for (const ledger of work.payrollLedgerByCommitment.values())
+    if (ledger.lastPayrollReceiptId) kept.add(ledger.lastPayrollReceiptId);
+  for (const latest of work.latestPayrollByJob.values()) {
+    kept.add(latest.id);
+    const group = (latest as { groupReceiptId?: string }).groupReceiptId;
+    if (group) kept.add(group);
+  }
+  const player = core.playerId;
+  for (const [id, source] of sources) {
+    if (source.date >= before) break;
+    if (kept.has(id)) continue;
+    if (player && JSON.stringify(source.result).includes(player)) continue;
+    Map.prototype.delete.call(sources, id);
+  }
 }

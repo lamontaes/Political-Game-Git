@@ -42,6 +42,7 @@ import { ACCOUNTS_MODULE } from "./accounts";
 import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
+import { declareSnapshotCovered } from "./snapshot";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import {
@@ -66,6 +67,25 @@ export type Controller = (
   decision: DecisionResult,
   offers: readonly ActOffer[],
 ) => string | undefined;
+
+// The base world's engines keep all their state where a world snapshot
+// reaches it (src/core2/snapshot.test.ts proves the round trip).
+declareSnapshotCovered(
+  LIFE_MODULE.id,
+  PEOPLE_MODULE.id,
+  WORK_MODULE.id,
+  FINANCE_MODULE.id,
+  ACCOUNTS_MODULE.id,
+  PURCHASE_TAX_MODULE.id,
+  RESIDENTS_MODULE.id,
+  RETIREMENT_CLAIMS_MODULE.id,
+  COUNTED_DRIFT_MODULE.id,
+  // Installed on first use: the journal's cash writers.
+  ...[
+    DEFAULT_DATA.finance?.cashJournal?.moduleId,
+    DEFAULT_DATA.work?.payrollCashModuleId,
+  ].filter((id): id is string => !!id),
+);
 
 export function createLifeCore(
   input: CoreInput,

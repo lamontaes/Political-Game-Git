@@ -5,6 +5,7 @@
   "teacherOccupation": "profession:teacher",
   "templateEmployer": "service:private-school",
   "organizationTemplate": "service:police",
-  "missingTemplateStopgapId": "SG-CORE-public-school-template",
-  "citation": "Teachers from the generated town's school-age children: NCES Digest of Education Statistics 2022, Table 208.20 (public school pupil/teacher ratio, fall 2021) and NCES Fast Facts, Back-to-school statistics (fall 2021 public and private enrollment); homeschooling from NCES NHES 2019. Job, timetable and pay copied from a recorded teacher's job (BLS OEWS pay)."
+  "citation": "Teachers from the generated town's school-age children: NCES Digest of Education Statistics 2022, Table 208.20 (public school pupil/teacher ratio, fall 2021) and NCES Fast Facts, Back-to-school statistics (fall 2021 public and private enrollment); homeschooling from NCES NHES 2019. Job, timetable and pay copied from a recorded teacher's job (BLS OEWS pay).",
+  "teacherTitle": "Teacher",
+  "fallbackCitation": "BLS Occupational Employment and Wage Statistics, May 2025, national median teacher pay; school-day timetable from the core's office schedule pattern; pay calendar copied from the town's police department."
 }
