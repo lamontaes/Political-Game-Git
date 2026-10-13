@@ -21,6 +21,8 @@ import {
   openBudgets,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
+import { billPropertyTax } from "./housing-property-tax";
+import { HOUSING_MODULE_ID } from "./modules/housing";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
@@ -217,6 +219,77 @@ describe(
         return;
       }
       throw new Error(`no taxed place in twelve draws (seed ${seed})`);
+    });
+    it("owners' property tax is the county's rate in force, paid to the treasury that collects it", () => {
+      // A place with a recorded rate (some territories have none; WORLD's
+      // stand-in rate applies there).
+      let attempt = 0;
+      let built = buildBenchWorld(`${seed}:property:0`, "2026-10-12", {
+        twoLevel: true,
+      });
+      while (
+        !((lawInForce(coreAPI(built.core), "property-tax").value ?? 0) > 0) &&
+        attempt < 8
+      ) {
+        attempt += 1;
+        built = buildBenchWorld(`${seed}:property:${attempt}`, "2026-10-12", {
+          twoLevel: true,
+        });
+      }
+      const { core } = built;
+      const api = coreAPI(core);
+      const govs = governments(api);
+      const collector =
+        govs.find((g) => g.level === "county") ??
+        govs.find((g) => g.level === "city") ??
+        govs.find((g) => g.level === "state")!;
+      const where = `${core.placeMetadata.placeName}, ${lawChain(api).stateKey} (seed ${seed}:property:${attempt})`;
+      const rate = lawInForce(api, "property-tax").value!;
+      expect(rate, where).toBeGreaterThan(0);
+      // WORLD's bench dwellings carry no owner values yet (Needs for
+      // OPUS-WORLD), so the town's full households are billed at the
+      // stated value.
+      const town = lawChain(api).townPlaceId;
+      const homes = [...core.households.values()]
+        .filter((h) => h.placeId === town)
+        .slice(0, 20)
+        .map((h) => ({
+          householdId: h.id,
+          placeId: town,
+          valueMinor: 25_000_000,
+        }));
+      expect(homes.length, where).toBeGreaterThan(0);
+      const before = core.organizations.get(
+        collector.organizationId,
+      )!.liquidMinor;
+      const paid = billPropertyTax(
+        api,
+        api.moduleState(HOUSING_MODULE_ID).table("assessments"),
+        homes,
+      );
+      expect(paid, where).toBeGreaterThan(0);
+      // Every dollar paid is in the collector's treasury, none outside.
+      expect(
+        core.organizations.get(collector.organizationId)!.liquidMinor - before,
+        where,
+      ).toBe(paid);
+      // No more than a twelfth of the homes' value times the rate in force.
+      const due = homes.reduce(
+        (a, h) => a + Math.round((h.valueMinor * rate) / 100 / 12),
+        0,
+      );
+      expect(paid, where).toBeLessThanOrEqual(due * 1.2);
+      govReport(
+        "budgets-property-tax",
+        JSON.stringify({
+          where,
+          ratePercent: rate,
+          collector: collector.name,
+          homes: homes.length,
+          paid: (paid / 100).toFixed(2),
+          due: (due / 100).toFixed(2),
+        }),
+      );
     });
   },
 );

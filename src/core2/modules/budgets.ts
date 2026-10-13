@@ -33,6 +33,7 @@ import {
   governmentUnitsForPlace,
 } from "../../simulation/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { registerPropertyTax } from "../housing-property-tax";
 import type { LawRowInput } from "../laws-starting";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
@@ -397,6 +398,7 @@ const GROCERY_SELLERS = ["445"];
  * grocery exemption is law. Re-run when a sales-tax law takes effect.
  */
 export function syncSalesTax(api: CoreAPI): void {
+  registerPropertyTax(propertyTaxTerms);
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const answer = lawInForce(api, "sales-tax");
   const town = lawChain(api).townPlaceId;
@@ -440,6 +442,40 @@ export function syncSalesTax(api: CoreAPI): void {
       },
     });
   }
+}
+
+/**
+ * Property tax for WORLD's billing: the county's rate in force (a share of
+ * the home's value), paid to the treasury that collects it: the county,
+ * else the city, else the state.
+ */
+function propertyTaxTerms(api: CoreAPI) {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
+  const answer = lawInForce(api, "property-tax");
+  const row = answer.governing;
+  if (!row || answer.value === null || !(answer.value >= 0)) return undefined;
+  const govs = governments(api);
+  const collector =
+    govs.find((g) => g.level === "county") ??
+    govs.find((g) => g.level === "city") ??
+    govs.find((g) => g.level === "state");
+  if (!collector) return undefined;
+  // The county keeps every level's share; remitting the city's and the
+  // school district's is still to come.
+  stopgap("SG-GOV-property-tax-remittance");
+  const citation = Array.isArray(row.source)
+    ? row.source.join(" ; ")
+    : (row.source as string);
+  return {
+    rate: answer.value / 100,
+    payeeId: collector.organizationId,
+    source: {
+      tag: "ESTIMATED" as const,
+      citation,
+      asOf: api.state.date,
+      estimatedFrom: `Property tax in force (${collector.name})`,
+    },
+  };
 }
 
 function groceryExemptionInForce(api: CoreAPI): boolean {

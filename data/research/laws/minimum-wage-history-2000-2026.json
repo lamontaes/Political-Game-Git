@@ -1,5 +1,5 @@
 {
-  "about": "General (standard/largest-employer) minimum wage changes, 2000-01-01 through 2026-01-01, federal and 56 places. rateMinor is cents. DOL history table is Jan 1 year-values, so rows with a year-only date carry `estimated`. Rows with sourceId RECALL were not fetched and need verification. Where a state's rate is below federal, the state's own rate is recorded and the federal floor governs. Tiered states: upper/largest-employer tier recorded; see notes.",
+  "about": "General (standard/largest-employer) minimum wage changes, 2000-01-01 through 2026-01-01, federal and 56 places. rateMinor is cents. DOL history table is Jan 1 year-values, so rows with a year-only date carry `estimated`. Where a state's rate is below federal, the state's own rate is recorded and the federal floor governs. Tiered states: upper/largest-employer tier recorded; see notes. Values first recalled from memory were all verified against cited sources on 2026-10-13.",
   "sources": [
     {
       "id": "DOL-HIST",
@@ -32,9 +32,39 @@
       "retrieved": "2026-10-13"
     },
     {
-      "id": "RECALL",
-      "title": "Value recalled from state announcements, not fetched this session; verify against the state labor department",
-      "url": "",
+      "id": "AD-2025",
+      "title": "Smith Amundsen, State Minimum Wage Rate Increases Effective January 1, 2025 (law-firm summary of state announcements)",
+      "url": "https://www.amundsendavislaw.com/labor-employment-law-update/state-minimum-wage-rate-increases-effective-january-1-2025",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "BOLI-OR",
+      "title": "Oregon Bureau of Labor and Industries, Minimum wage schedule",
+      "url": "https://www.oregon.gov/boli/workers/pages/minimum-wage-schedule.aspx",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "JL-FL",
+      "title": "Jackson Lewis, Florida Voters Approve $15 Minimum Wage (Amendment 2 schedule)",
+      "url": "https://www.jacksonlewis.com/insights/florida-voters-approve-15-minimum-wage",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "NE-DOL",
+      "title": "Nebraska Department of Labor, Nebraska Minimum Wage Increases to $13.50 Effective January 1, 2025",
+      "url": "https://dol.nebraska.gov/PressRelease/Details/322",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "ML-NY",
+      "title": "Morgan Lewis, New York Enacts Increases to State Minimum Wage (schedule table)",
+      "url": "https://www.morganlewis.com/pubs/2023/05/new-york-enacts-increases-to-state-minimum-wage",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "DOI-CNMI",
+      "title": "U.S. Department of the Interior, Minimum Wage in U.S. Territories (CNMI rate $3.05 set by P.L. 9-73 in 1996)",
+      "url": "https://www.doi.gov/ocl/hearings/110/IncreasedMinimumWage_022808",
       "retrieved": "2026-10-13"
     }
   ],
@@ -290,8 +320,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1470,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -381,8 +410,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1650,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -508,8 +536,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1481,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -635,8 +662,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1635,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -812,8 +838,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1500,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       }
     ],
     "US-FL": [
@@ -891,34 +916,36 @@
         "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
       },
       {
+        "effectiveDate": "2021-01-01",
+        "rateMinor": 865,
+        "sourceId": "JL-FL",
+        "note": "Annual CPI step before Amendment 2 schedule began"
+      },
+      {
         "effectiveDate": "2021-09-30",
         "rateMinor": 1000,
-        "sourceId": "RECALL",
-        "estimated": "Amendment 2 (2020) schedule; DOL year table shows Jan-1 value"
+        "sourceId": "JL-FL"
       },
       {
         "effectiveDate": "2022-09-30",
         "rateMinor": 1100,
-        "sourceId": "RECALL",
-        "estimated": "Amendment 2 schedule"
+        "sourceId": "JL-FL"
       },
       {
         "effectiveDate": "2023-09-30",
         "rateMinor": 1200,
-        "sourceId": "RECALL",
-        "estimated": "Amendment 2 schedule"
+        "sourceId": "JL-FL"
       },
       {
         "effectiveDate": "2024-09-30",
         "rateMinor": 1300,
-        "sourceId": "RECALL",
-        "estimated": "Amendment 2 schedule"
+        "sourceId": "JL-FL"
       },
       {
         "effectiveDate": "2025-09-30",
         "rateMinor": 1400,
-        "sourceId": "RECALL",
-        "estimated": "Amendment 2 schedule; $15.00 follows 2026-09-30, outside range"
+        "sourceId": "JL-FL",
+        "note": "15.00 follows 2026-09-30, outside range"
       }
     ],
     "US-GA": [
@@ -1500,8 +1527,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1465,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -1586,8 +1612,8 @@
       {
         "effectiveDate": "2025-02-21",
         "rateMinor": 1248,
-        "sourceId": "RECALL",
-        "estimated": "Mich. Supreme Court Mothering Justice ruling; Jan 1 2025 value 10.56 not recorded"
+        "sourceId": "AD-2025",
+        "note": "Jan 1 2025 value was 10.56; 12.48 took effect Feb 21, 2025 after Mich. Supreme Court ruling"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -1666,8 +1692,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1113,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -1769,8 +1794,8 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1375,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025",
+        "note": "Proposition A; a lawsuit sought to enjoin it"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -1782,8 +1807,8 @@
       {
         "effectiveDate": "2000-01-01",
         "rateMinor": 305,
-        "sourceId": "RECALL",
-        "estimated": "CNMI-own rate from recall; not shown in fetched sources"
+        "sourceId": "DOI-CNMI",
+        "estimated": "Rate confirmed ($3.05 set by P.L. 9-73 in 1996, unchanged until 2007); 2000-01-01 is the start of the range, not the effective date"
       },
       {
         "effectiveDate": "2007-07-24",
@@ -1909,8 +1934,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1055,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -2023,8 +2047,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1350,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "NE-DOL"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -2134,8 +2157,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1549,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -2350,21 +2372,21 @@
       },
       {
         "effectiveDate": "2023-01-01",
-        "rateMinor": 1420,
-        "sourceId": "DOL-HIST",
-        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+        "rateMinor": 1500,
+        "sourceId": "ML-NY",
+        "note": "Corrected to NYC tier (was 14.20 rest of state); rows before 2023 are mixed-tier DOL values"
       },
       {
         "effectiveDate": "2024-01-01",
-        "rateMinor": 1500,
-        "sourceId": "DOL-HIST",
-        "estimated": "DOL table gives the rate as of Jan 1 of this year; exact in-year effective date not confirmed"
+        "rateMinor": 1600,
+        "sourceId": "ML-NY",
+        "note": "Corrected to NYC tier (DOL table showed 15.00, the rest-of-state rate)"
       },
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1650,
-        "sourceId": "RECALL",
-        "estimated": "NYC/Long Island/Westchester tier; upstate lower"
+        "sourceId": "ML-NY",
+        "note": "NYC, Long Island and Westchester tier ($15.50 rest of state)"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -2474,8 +2496,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1070,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -2592,62 +2613,53 @@
       {
         "effectiveDate": "2016-07-01",
         "rateMinor": 975,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2017-07-01",
         "rateMinor": 1025,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2018-07-01",
         "rateMinor": 1075,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2019-07-01",
         "rateMinor": 1125,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2020-07-01",
         "rateMinor": 1200,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2021-07-01",
         "rateMinor": 1275,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2022-07-01",
         "rateMinor": 1350,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2023-07-01",
         "rateMinor": 1420,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2024-07-01",
         "rateMinor": 1470,
-        "sourceId": "RECALL",
-        "estimated": "OR indexed from 2004/2016; DOL table gives year only; July 1 dates from 2016 recalled, not fetched"
+        "sourceId": "BOLI-OR"
       },
       {
         "effectiveDate": "2025-07-01",
         "rateMinor": 1505,
-        "sourceId": "RECALL",
-        "estimated": "standard-tier rate; Portland metro and non-urban counties differ"
+        "sourceId": "BOLI-OR",
+        "note": "standard tier; Portland metro 16.30, nonurban 14.05"
       }
     ],
     "US-PA": [
@@ -2802,8 +2814,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1500,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -2897,8 +2908,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1150,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -3015,8 +3025,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1241,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -3181,8 +3190,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1401,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
@@ -3326,8 +3334,7 @@
       {
         "effectiveDate": "2025-01-01",
         "rateMinor": 1666,
-        "sourceId": "RECALL",
-        "estimated": "Jan 1 date is the annual-indexing/law date, not independently fetched"
+        "sourceId": "AD-2025"
       },
       {
         "effectiveDate": "2026-01-01",
