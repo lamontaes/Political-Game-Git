@@ -84,6 +84,8 @@ export function reviewUnions(
   if (state.estimate) stopgap("SG-WORLD-union-territory-rates");
   // Who works where, and the place's pay.
   const staff = new Map<string, number>();
+  // The wider population's workers alone: their dues come from its pooled cash.
+  const countedStaff = new Map<string, number>();
   const pay = new Map<string, number[]>();
   const count = (organizationId: string, wageDailyMinor: number) => {
     staff.set(organizationId, (staff.get(organizationId) ?? 0) + 1);
@@ -95,8 +97,13 @@ export function reviewUnions(
   };
   for (const [jobId, flow] of rt.wageFlowByJob) {
     const job = rt.jobs.get(jobId);
-    if (job && job.endsAt === undefined && !flow.endedAt)
+    if (job && job.endsAt === undefined && !flow.endedAt) {
       count(job.organizationId, job.wageDailyMinor);
+      countedStaff.set(
+        job.organizationId,
+        (countedStaff.get(job.organizationId) ?? 0) + 1,
+      );
+    }
   }
   for (const job of c.jobs.values())
     if (job.endsAt === undefined) count(job.organizationId, job.wageDailyMinor);
@@ -173,18 +180,23 @@ export function reviewUnions(
       rightToWork === opened.openingRightToWork
         ? state.membersPct / state.representedPct
         : joinShare(rightToWork);
-    let represented = 0;
+    let represented = 0,
+      countedRepresented = 0;
     for (const [id, n] of staff) {
       if (c.organizations.get(id)?.placeId !== local.placeId) continue;
       const row = unions.get(`covered:${id}`) as
         { coveredShare: number } | undefined;
-      if (row) represented += row.coveredShare * n;
+      if (!row) continue;
+      represented += row.coveredShare * n;
+      countedRepresented += row.coveredShare * (countedStaff.get(id) ?? 0);
     }
     const members = Math.round(represented * join);
+    // Full members' dues aren't charged yet (they'd pay from their own cash, by their own choice).
+    const payingMembers = Math.round(countedRepresented * join);
     const list = [...(pay.get(local.placeId) ?? [])].sort((a, b) => a - b);
     const median = list[Math.floor(list.length / 2)] ?? 0;
     const dues = Math.round(
-      members *
+      payingMembers *
         ((median * api.parameter("jobsDaysPerYear")) /
           api.parameter("macroMonthsPerYear")) *
         api.parameter("businessUnionDuesShare"),

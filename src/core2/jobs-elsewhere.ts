@@ -102,8 +102,12 @@ export function placeElsewhere(
   }));
   const placed = addCountedJobsAt(c, organizationId, flow.placeId, jobs);
   if (!placed) return undefined;
-  // The stand-in's pooled pay ends: each worker is paid by their own job now.
-  flow.endsAt = c.date;
+  // The stand-in's pooled pay ends, or shrinks by the share placed: each placed worker is paid by their own job now.
+  if (placed >= count) flow.endsAt = c.date;
+  else
+    flow.amountMinor = Math.round(
+      (flow.amountMinor * (count - placed)) / count,
+    );
   return { organizationId, placeId: flow.placeId, staff: placed };
 }
 

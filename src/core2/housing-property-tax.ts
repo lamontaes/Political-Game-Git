@@ -174,6 +174,17 @@ export function billPropertyTax(
     monthsLeft: number;
   }[])
     if (row.monthsLeft > 0) escrowed.add(row.householdId);
+  // Home loans the town bank made in play are escrowed too.
+  if ((api.state as CoreState).modules.has("credit"))
+    for (const row of api
+      .moduleState("credit")
+      .table("loans")
+      .query("open", [true]) as unknown as {
+      kind?: string;
+      householdId?: string;
+    }[])
+      if (row.kind === "mortgage" && row.householdId)
+        escrowed.add(row.householdId);
   if (escrowed.size) stopgap("SG-WORLD-property-tax-monthly");
   const pooled = new Map<string, number>();
   const byPlace = new Map<string, PropertyTaxTerms>();

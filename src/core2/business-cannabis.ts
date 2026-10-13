@@ -166,17 +166,21 @@ export function reviewCannabis(
         flow.placeId === row.placeId,
     );
     const shift = paid - (row.shiftedMinor ?? 0);
+    let moved = 0;
     if (outside && shift !== 0 && outside.amountMinor > 0) {
+      const before = outside.amountMinor;
       const scale = Math.max(0, 1 - shift / outside.amountMinor);
       for (const [part, value] of Object.entries(
         outside.amountByContract ?? {},
       ))
         setFlowPart(c, outside.id, part, value * scale);
+      // What the outside spending actually fell (or rose) by.
+      moved = before - outside.amountMinor;
     }
     table.put({
       ...row,
       licensed,
-      shiftedMinor: outside ? paid : (row.shiftedMinor ?? 0),
+      shiftedMinor: (row.shiftedMinor ?? 0) + moved,
     });
   }
 }

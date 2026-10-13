@@ -75,9 +75,14 @@ export function townMetrics(api: CoreAPI) {
   const placeOf = (organizationId: string) =>
     c.organizations.get(organizationId)?.placeId;
   // Employment counts where the worker lives, as unemployment does (BLS LAUS); pay counts where the job is.
+  // Only the places the world models (relatives living elsewhere aren't the town's), each worker once.
+  const modeled = new Set(rt?.input.accounts.map((row) => row.placeId) ?? []);
+  const counted = new Set<string>();
   const homeOf = (personId: string) => {
+    if (counted.has(personId)) return undefined;
+    counted.add(personId);
     const full = c.people.get(personId);
-    if (full) return full.placeId;
+    if (full) return modeled.has(full.placeId) ? full.placeId : undefined;
     const householdId = rt?.householdOfPerson.get(personId);
     return householdId
       ? rt!.households.get(householdId)?.household.placeId
@@ -104,7 +109,8 @@ export function townMetrics(api: CoreAPI) {
   const adult = (birthDate: string) =>
     year - Number(birthDate.slice(0, 4)) >= adultAge;
   for (const person of c.people.values())
-    if (person.alive && adult(person.birthDate)) at(person.placeId).adults += 1;
+    if (person.alive && adult(person.birthDate) && modeled.has(person.placeId))
+      at(person.placeId).adults += 1;
   for (const record of rt?.households.values() ?? [])
     for (const person of record.people)
       if (adult(person.birthDate)) at(record.household.placeId).adults += 1;

@@ -273,6 +273,7 @@ function netCash(c: CoreState, organizationId: string): number {
 function founderMoney(
   api: CoreAPI,
   founder: {
+    id: string;
     householdId: string;
     liquidMinor: number;
     livingCostDailyMinor: number;
@@ -286,6 +287,8 @@ function founderMoney(
         p("businessDaysPerMonth") *
         p("businessFounderReserveMonths"),
   );
+  // A full founder puts in their own cash; home equity counts only while counted, where the household's money is pooled (see the stopgap).
+  if (api.state.people.has(founder.id)) return savings;
   const home = homeOf(api, founder.householdId);
   if (!home) return savings;
   // The draw is paid from the household's pooled cash; no home-equity loan is recorded against it yet.

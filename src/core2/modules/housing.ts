@@ -1916,6 +1916,22 @@ export function ownedHomes(
   return out;
 }
 
+/** What a household still owes on home loans the town bank made in play (credit's mortgage loans). */
+export function inPlayMortgages(api: CoreAPI, householdId: string): number {
+  if (!core(api).modules.has("credit")) return 0;
+  let owed = 0;
+  for (const row of api
+    .moduleState("credit")
+    .table("loans")
+    .query("byHousehold", [householdId]) as unknown as {
+    kind?: string;
+    open: boolean;
+    balanceMinor: number;
+  }[])
+    if (row.kind === "mortgage" && row.open) owed += row.balanceMinor;
+  return owed;
+}
+
 /** A household's own home: its value today and what its mortgage still owes; undefined for renters. */
 export function homeOf(
   api: CoreAPI,
@@ -1940,6 +1956,8 @@ export function homeOf(
           macroPrices(api),
         )
       : 1;
+  // What the opening's mortgage still owes, and any home loan taken out in play.
+  const playLoans = inPlayMortgages(api, householdId);
   const loan = store(api)
     .table("mortgages")
     .get(`${MORTGAGE_PREFIX}${householdId}`) as
@@ -1953,7 +1971,7 @@ export function homeOf(
         ratio *
         (placeId ? webFactor(api, placeId, "housing.home-prices") : 1),
     ),
-    owedMinor: loan?.balanceMinor ?? 0,
+    owedMinor: (loan?.balanceMinor ?? 0) + playLoans,
   };
 }
 
