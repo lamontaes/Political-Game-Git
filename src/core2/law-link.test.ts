@@ -54,7 +54,7 @@ import { reachParameter } from "./law-reach/group-b-people";
 import { residentsRuntime } from "./modules/residents";
 import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import { outcomeIssueView } from "./modules/views";
-import { WEB_LINKS } from "./outcome-web-model";
+import { WEB_LINKS, WEB_SETTINGS } from "./outcome-web-model";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import groupA from "./data/laws/reach-group-a.json" with { type: "json" };
 import groupB from "./data/laws/reach-group-b.json" with { type: "json" };
@@ -926,9 +926,12 @@ describe("59 policies in the played world, 90 days or the next required event", 
             const due = new Date(`${String(cause?.effectiveDate)}T00:00:00Z`);
             if (!Number.isFinite(due.getTime())) return false;
             const effectiveDay = due.getUTCDate();
-            due.setUTCDate(1);
+            const landingDay = WEB_SETTINGS.schedule.dayOfMonth;
+            due.setUTCDate(landingDay);
             due.setUTCMonth(
-              due.getUTCMonth() + link.lagMonths + (effectiveDay > 1 ? 1 : 0),
+              due.getUTCMonth() +
+                link.lagMonths +
+                (effectiveDay > landingDay ? 1 : 0),
             );
             return (
               cause?.series === question &&
