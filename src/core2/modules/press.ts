@@ -614,7 +614,7 @@ function publish(
     id: `interview-published:${row.id}`,
     date: api.state.date,
     kind: "interview-published",
-    personIds: [row.candidateId],
+    personIds: api.state.people.has(row.candidateId) ? [row.candidateId] : [],
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",

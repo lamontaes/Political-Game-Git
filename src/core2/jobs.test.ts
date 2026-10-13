@@ -260,4 +260,174 @@ describe("jobs", () => {
       -claims.reduce((sum, row) => sum + Number(row.paidMinor), 0),
     );
   });
+
+  it("puts a young adult who never worked into the labor market when the household's money runs short, in a two-level world", () => {
+    const opening = input();
+    // A parent with no money and an 18-year-old whose own living cost the
+    // household carries; neither has worked in this world.
+    const home = "household:young";
+    const parent = {
+      ...person("p1", 0, 0),
+      householdId: home,
+      birthDate: "1975-01-01",
+    };
+    const young = {
+      ...person("y1", 0, 0),
+      householdId: home,
+      birthDate: "2002-06-01",
+      livingCostDailyMinor: 0,
+    };
+    const core = createLifeCore(
+      {
+        ...opening,
+        people: [...opening.people, parent, young],
+        households: [
+          ...opening.households,
+          { id: home, placeId: place, memberIds: ["p1", "y1"], source: src() },
+        ],
+        residents: {
+          version: "core2-residents-v1",
+          source: src(),
+          accounts: [],
+          households: [],
+          flows: [],
+        },
+      },
+      { data, modules: [JOBS_MODULE] },
+    );
+    withBooks(core, 1);
+    advanceCore(core, "2021-02-02");
+    expect(
+      coreAPI(core).moduleState("jobs").table("seekers").get("y1"),
+    ).toMatchObject({ reasonKey: "started-looking", employed: false });
+  });
+  it("introduces a new hire to the full coworkers already working there", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    withBooks(core, 2);
+    advanceCore(core, "2021-03-31");
+    const hire = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["hire"])[0]!;
+    const hired = core.people.get(hire.personId as string)!;
+    for (const id of ["w1", "w2", "w3", "w4"])
+      expect(hired.knownIds.has(id)).toBe(true);
+  });
+  it("lets a full person take a role first held by a counted worker, on that worker's schedule", () => {
+    const opening = input();
+    const diner = "organization:diner",
+      residents = "organization:residents",
+      counted = { ...person("c1", 0, 0), householdId: "household:c1" };
+    const countedJob = {
+      id: "job:c1",
+      personId: "c1",
+      organizationId: diner,
+      title: "Cook",
+      occupationClassification: "trade:cook",
+      hourlyMinor: 1_500,
+      hoursDaily: 8,
+      wageDailyMinor: 12_000,
+      source: src(),
+    };
+    const commitment = {
+      ...opening.workCommitments![0]!,
+      id: "commitment:c1",
+      jobId: "job:c1",
+      personId: "c1",
+      organizationId: diner,
+      payrollCalendarId: "calendar:diner",
+    };
+    const calendar = {
+      ...opening.workPayrollCalendars![0]!,
+      id: "calendar:diner",
+      organizationId: diner,
+      workCommitmentIds: ["commitment:c1"],
+      basisRecordIds: [diner],
+    };
+    // Only the jobless seekers s1 and s2 are full people near the diner.
+    const core = createLifeCore(
+      {
+        ...opening,
+        organizations: [
+          ...opening.organizations,
+          { ...opening.organizations[0]!, id: diner, name: "Diner" },
+          {
+            id: residents,
+            placeId: place,
+            name: "Residents",
+            kind: "residents",
+            liquidMinor: 0,
+            source: src(),
+          },
+        ],
+        residents: {
+          version: "core2-residents-v1",
+          source: src(),
+          accounts: [{ placeId: place, accountId: residents }],
+          households: [
+            {
+              household: {
+                id: "household:c1",
+                placeId: place,
+                memberIds: ["c1"],
+                source: src(),
+              },
+              people: [counted],
+              jobs: [countedJob],
+              workCommitments: [commitment],
+              contracts: [],
+            },
+          ],
+          calendars: [calendar],
+          flows: [
+            {
+              id: "residents:wages:diner",
+              kind: "wages",
+              financeKind: "work.count-payroll",
+              payerId: diner,
+              payeeId: residents,
+              residentsId: residents,
+              placeId: place,
+              amountMinor: 12_000 * 7,
+              periodFactor: 7,
+              firstAt: "2021-01-12",
+              cadence: { kind: "days", every: 7 },
+              salesReceipt: false,
+              marketAdjusted: false,
+              organizationId: diner,
+              jobIds: ["job:c1"],
+              perDayMinorByJob: { "job:c1": 12_000 },
+              source: src(),
+            },
+          ],
+        },
+      },
+      { data, modules: [JOBS_MODULE] },
+    );
+    withBooks(core, 1);
+    const shop = core.finance.businesses.get(employer)!;
+    core.finance.businesses.set(diner, {
+      ...shop,
+      organizationId: diner,
+      annualPayrollMinor: 12_000 * 260,
+      annualDemandMinor: 12_000 * 260 * 4 * 10,
+      capacityMinor: 12_000 * 260 * 4,
+      anchorAnnualDemandMinor: 12_000 * 260 * 4,
+    });
+    advanceCore(core, "2021-03-31");
+    const hires = coreAPI(core)
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["hire"])
+      .filter((row) => row.organizationId === diner);
+    const full = hires.find((row) => core.people.has(row.personId as string));
+    expect(full).toBeTruthy();
+    const job = core.jobs.get(full!.jobId as string)!;
+    expect(job).toMatchObject({ organizationId: diner, title: "Cook" });
+    const schedule = [...core.work.commitments.values()].find(
+      (row) => row.jobId === job.id,
+    )!;
+    expect(schedule.slots).toEqual(commitment.slots);
+  });
 });
