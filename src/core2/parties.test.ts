@@ -135,7 +135,6 @@ describe("M2-08 parties", () => {
           platform: [
             `${pick(PLATFORM_QUESTIONS, "q")}=${party.side > 0 ? 1 : -1}`,
           ],
-          payFee: true,
           party: party.name,
         });
         if (r.status === "refused") break;

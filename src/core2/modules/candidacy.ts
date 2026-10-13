@@ -2,9 +2,9 @@
  * Who runs for office (M2-04). When a contest opens, each adult it reaches
  * weighs running against staying out through the core's one chooser, from
  * their own record: how closely they follow politics (views), the strongest
- * cause they carry (drives), their temperament, what filing costs against
- * what they have and earn, their work hours, their age, how they stand with
- * the incumbent, how many people in town know them and, for a county seat,
+ * cause they carry (drives), their temperament, their work hours, their
+ * age, how they stand with the incumbent, how many people in town know them
+ * and, for a county seat,
  * the wider ground a countywide race covers. The decision and every
  * reason behind it are kept, so each candidate on a ballot filed through a
  * choice that can be explained. Filing itself is GOV's (`fileCandidacy`).
@@ -52,7 +52,7 @@ import {
   viewCell,
   viewOf,
 } from "./views";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentPerson } from "./residents";
 import { stableHash } from "../../simulation/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
@@ -66,10 +66,6 @@ export interface OpenContest {
   contestId: string;
   officeName: string;
   filingDeadline: string;
-  /** The filing fee in minor units; zero where signatures are the route. */
-  feeMinor: number;
-  /** Signatures that file in place of the fee, where the law accepts them. */
-  signaturesInLieu?: number;
   /** The seat's government is the county's: a countywide campaign. */
   countywide?: boolean;
   /** Who holds the seat now, if anyone (GOV's term record). */
@@ -108,9 +104,6 @@ interface RunFacts {
   readonly id: PersonId;
   readonly birthDate: string;
   readonly traits: Readonly<Record<string, number>>;
-  readonly liquidMinor: number;
-  /** What comes in a day: their job's pay, else what their record lives on. */
-  readonly incomeDailyMinor: number;
   /** Recorded work hours a day. */
   readonly workHoursDaily: number;
   /** How many people know them. */
@@ -155,11 +148,6 @@ export function candidacyReasons(
       id: person.id,
       birthDate: person.birthDate,
       traits: person.traits,
-      liquidMinor: person.liquidMinor,
-      incomeDailyMinor: Math.max(
-        job && !job.endsAt ? job.wageDailyMinor : zero,
-        person.livingCostDailyMinor,
-      ),
       workHoursDaily: job?.hoursDaily ?? zero,
       known: person.knownIds.size,
       engagement: view?.engagement ?? zero,
@@ -172,7 +160,7 @@ export function candidacyReasons(
 
 /**
  * The same reasons for a counted resident, from what their counted record
- * holds: their traits, age, cash, scheduled work and the people who know
+ * holds: their traits, age, scheduled work and the people who know
  * them. How closely they follow politics is the average for their state and
  * age (CES 2024, the cell their own view will be read from once they are
  * filled in); no cause is recorded for them yet.
@@ -184,20 +172,12 @@ export function countedCandidacyReasons(
 ): Record<string, number> {
   const zero = api.parameter("zero");
   const record = residentPerson(api.state as CoreState, voter.id);
-  const job = record?.jobId
-    ? residentsRuntime(api.state as CoreState)?.jobs.get(record.jobId)
-    : undefined;
   return reasonsFrom(
     api,
     {
       id: voter.id,
       birthDate: voter.birthDate,
       traits: voter.traits,
-      liquidMinor: record?.liquidMinor ?? zero,
-      incomeDailyMinor: Math.max(
-        job && !job.endsAt ? job.wageDailyMinor : zero,
-        record?.livingCostDailyMinor ?? zero,
-      ),
       workHoursDaily:
         voter.weeklyMinutes /
         api.parameter("minutesPerHour") /
@@ -286,20 +266,6 @@ function reasonsFrom(
     "candidacy-run",
     "candidacy-stay-out",
   );
-  // What filing costs them: the fee, less the share their own circle's
-  // signatures cover where the law takes signatures in place of it (the
-  // route they file by when the fee is beyond them).
-  const fee =
-    contest.feeMinor *
-    (contest.signaturesInLieu
-      ? Math.max(zero, one - person.known / contest.signaturesInLieu)
-      : one);
-  // Against what they have and what comes in while filing is open: their
-  // pay, or for someone without a job (a retiree), what they live on.
-  const means =
-    person.liquidMinor +
-    person.incomeDailyMinor * c(api, "candidacyFilingWindowDays");
-  const money = (means - fee) / (means + fee + one);
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
   const age = ageOnDate(
     makeIsoDate(person.birthDate),
@@ -317,8 +283,6 @@ function reasonsFrom(
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
     temperament: c(api, "candidacyTemperamentWeight") * temperament,
-    money:
-      c(api, "candidacyMoneyWeight") * Math.max(-one, Math.min(one, money)),
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
     incumbency:
       contest.incumbentId === person.id
@@ -588,7 +552,7 @@ export function platformFromViews(api: CoreAPI, personId: PersonId): string[] {
     .map((row) => `${row.question}=${Math.sign(row.stance)}`);
 }
 
-/** File for a runner: fee from their own cash where they have it, else signatures from people who know them. */
+/** File for a runner, with signatures from people who know them where the place takes a petition. */
 function fileFor(
   api: CoreAPI,
   person: Readonly<PersonState>,
@@ -601,13 +565,10 @@ function fileFor(
     party =
       partiesHere(api).find((row) => row.id === tie?.partyId)?.name ?? null;
   }
-  const rules = filingRulesFor(api, contest, party ? "party" : "independent");
-  const fee = rules.feeMinor ?? 0;
   const result = fileCandidacy(api, {
     personId: person.id,
     contestId: contest.id,
     platform: platformFromViews(api, person.id),
-    payFee: fee > 0 && person.liquidMinor >= fee,
     party,
   });
   if (result.status === "refused")
@@ -674,10 +635,6 @@ export function weighContest(
     contestId: contest.id,
     officeName: contest.title,
     filingDeadline: rules.deadline ?? contest.filingDeadline,
-    feeMinor: rules.feeMinor ?? 0,
-    ...(rules.feeInLieuOfSignatures && rules.signatures
-      ? { signaturesInLieu: rules.signatures }
-      : {}),
     ...(contest.family === "countyOffice" ? { countywide: true } : {}),
     ...(incumbentId ? { incumbentId } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
@@ -754,7 +711,7 @@ function committedOn(api: CoreAPI, electionDate: string): Set<PersonId> {
   return out;
 }
 
-/** Each counted adult's pull to run apart from the seat's own costs, cached for the year. */
+/** Each counted adult's pull to run apart from the seat's own reach, cached for the year. */
 const countedBases = new WeakMap<
   object,
   { year: string; rows: { voter: CountedVoter; base: number }[] }
@@ -774,18 +731,17 @@ function countedScreen(
   const year = api.state.date.slice(0, 4);
   let held = countedBases.get(api.state);
   if (!held || held.year !== year) {
-    const free: OpenContest = { ...open, feeMinor: api.parameter("zero") };
     held = {
       year,
       rows: countedResidents(api.state as CoreState)
         .filter((voter) => voter.placeId === townPlaceId)
         .map((voter) => {
-          const reasons = countedCandidacyReasons(api, voter, free);
+          const reasons = countedCandidacyReasons(api, voter, open);
           let base = api.parameter("zero");
-          // The seat's own costs (its fee, a countywide race) only
-          // lower the pull, so the rest bounds it from above.
+          // The seat's own reach (a countywide race) only lowers the pull,
+          // so the rest bounds it from above.
           for (const [key, value] of Object.entries(reasons))
-            if (key !== "money" && key !== "reach") base += value;
+            if (key !== "reach") base += value;
           return { voter, base };
         })
         .sort(
@@ -795,7 +751,6 @@ function countedScreen(
     countedBases.set(api.state, held);
   }
   const bar = c(api, "candidacyStayOutPull");
-  const most = c(api, "candidacyMoneyWeight");
   // Old enough to file: born on or before this day minus the minimum age.
   const today = api.state.date;
   const bornBy = `${Number(today.slice(0, 4)) - minimumAge}${today.slice(4)}`;
@@ -805,8 +760,8 @@ function countedScreen(
       weighed += api.parameter("one");
   const drawn: PersonId[] = [];
   for (const { voter, base } of held.rows) {
-    // Sorted by pull: past here no one's money could lift them over.
-    if (base + most <= bar) break;
+    // Sorted by pull: past here no one clears the bar.
+    if (base <= bar) break;
     if (voter.birthDate > bornBy || api.state.people.has(voter.id)) continue;
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
@@ -844,7 +799,7 @@ export function fileRunners(api: CoreAPI, contest: ContestRow): void {
 /**
  * A race whose filing closed before the record began: the town's adults
  * weighed it then, and each runner's filing is part of the opening record
- * (dated at the deadline, the fee paid before the record began), beside the
+ * (dated at the deadline), beside the
  * incumbent's.
  */
 function weighClosedContest(
@@ -877,7 +832,6 @@ function weighClosedContest(
       filedWith: rules.filedWith,
       platform: platformFromViews(api, personId),
       party,
-      feePaidMinor: rules.feeMinor ?? 0,
       signatureCount: 0,
       status: "on-ballot",
     };
