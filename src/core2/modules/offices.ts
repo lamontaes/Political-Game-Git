@@ -43,6 +43,7 @@ import {
   termStartAfter,
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
+import { officeStateKey, termRuleFor } from "../term-rules";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
 import {
   federalOffices,
@@ -279,6 +280,23 @@ function freshTermId(api: CoreAPI, seatId: string, date: string): string {
   return id;
 }
 
+/**
+ * An elected office whose own term length isn't read takes the term of its
+ * kind in its state from the term rules (`data/elections/term-rules.json`),
+ * marked as an estimate where the rule is one.
+ */
+function withRuleTerm<T extends OfficeInput>(office: T, stateKey: string): T {
+  if (office.termYears || !office.elected) return office;
+  const rule = termRuleFor(officeStateKey(office, stateKey), office)?.termYears;
+  if (!rule) return office;
+  return {
+    ...office,
+    termYears: rule.value,
+    estimate: office.estimate || rule.tag === "ESTIMATED",
+    source: `${office.source}; term: ${rule.citation}`,
+  };
+}
+
 function putOffice(api: CoreAPI, entry: OfficeWithSeats): void {
   table(api, "offices").put(entry.office as unknown as ModuleRow);
   for (const seat of entry.seats)
@@ -406,10 +424,11 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     worldSeed,
     townPlaceId: place.context.jurisdiction.id,
   });
-  for (const entry of [
+  for (const read of [
     ...federalOffices(stateKey, geoid, date),
     ...stateOffices(stateKey, geoid, date),
   ]) {
+    const entry = { ...read, office: withRuleTerm(read.office, stateKey) };
     putOffice(api, entry);
     for (const seat of entry.seats)
       pastTerms(
@@ -430,7 +449,8 @@ export function openOffices(core: CoreState, worldSeed: string): void {
   table(api, "loaded").put({ id: `state:${stateKey}` });
   const rule = municipalVacancyRule(stateKey.slice(3));
   const taken = new Set<string>();
-  for (const office of localOfficesForPlace(placeKey!)) {
+  for (const read of localOfficesForPlace(placeKey!)) {
+    const office = withRuleTerm(read, stateKey);
     const seats: SeatInput[] = Array.from(
       { length: office.seats },
       (_, index) => ({

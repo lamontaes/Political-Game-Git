@@ -5205,22 +5205,160 @@
       "id": "US-CT:county-board",
       "state": "US-CT",
       "kind": "county-board",
-      "applies": false,
-      "citation": "No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 2 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-08-11" },
+        "ruleText": "Second Tuesday in August for state offices (2026: Aug 11, matches)",
+        "tag": "SOURCED",
+        "citation": "Conn. Gen. Stat. 9-423 https://law.justia.com/codes/connecticut/title-9/chapter-153/section-9-423/"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 63,
+        "readDeadlines2026": { "all": "2026-06-09" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-CT:county-executive",
       "state": "US-CT",
       "kind": "county-executive",
-      "applies": false,
-      "citation": "No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 2 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-08-11" },
+        "ruleText": "Second Tuesday in August for state offices (2026: Aug 11, matches)",
+        "tag": "SOURCED",
+        "citation": "Conn. Gen. Stat. 9-423 https://law.justia.com/codes/connecticut/title-9/chapter-153/section-9-423/"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 63,
+        "readDeadlines2026": { "all": "2026-06-09" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-CT:county-row",
       "state": "US-CT",
       "kind": "county-row",
-      "applies": false,
-      "citation": "No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 2 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-08-11" },
+        "ruleText": "Second Tuesday in August for state offices (2026: Aug 11, matches)",
+        "tag": "SOURCED",
+        "citation": "Conn. Gen. Stat. 9-423 https://law.justia.com/codes/connecticut/title-9/chapter-153/section-9-423/"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 63,
+        "readDeadlines2026": { "all": "2026-06-09" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body; Connecticut's planning regions are not governments with elected bodies. Not read from a fresh source in this pass. (Connecticut abolished county government in 1960; no county body holds an election); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-CT:council",
@@ -14607,22 +14745,160 @@
       "id": "US-MA:county-board",
       "state": "US-MA",
       "kind": "county-board",
-      "applies": false,
-      "citation": "Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "days-before-general", "days": 49 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-09-01" },
+        "ruleText": "Standing rule: seventh Tuesday preceding the biennial state election (c.53 s.28, read), which would be Sep 15, 2026. A one-year emergency act, Acts of 2025 chapter 34, set the 2026 state primary on Tuesday, September 1, 2026 'notwithstanding section 28' (read)",
+        "tag": "ESTIMATED",
+        "citation": "M.G.L. c.53 s.28; Acts of 2025, c.34 (2026 only) https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter53/Section28"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 91,
+        "readDeadlines2026": { "all": "2026-06-02" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-MA:county-executive",
       "state": "US-MA",
       "kind": "county-executive",
-      "applies": false,
-      "citation": "Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "days-before-general", "days": 49 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-09-01" },
+        "ruleText": "Standing rule: seventh Tuesday preceding the biennial state election (c.53 s.28, read), which would be Sep 15, 2026. A one-year emergency act, Acts of 2025 chapter 34, set the 2026 state primary on Tuesday, September 1, 2026 'notwithstanding section 28' (read)",
+        "tag": "ESTIMATED",
+        "citation": "M.G.L. c.53 s.28; Acts of 2025, c.34 (2026 only) https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter53/Section28"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 91,
+        "readDeadlines2026": { "all": "2026-06-02" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-MA:county-row",
       "state": "US-MA",
       "kind": "county-row",
-      "applies": false,
-      "citation": "Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "days-before-general", "days": 49 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-09-01" },
+        "ruleText": "Standing rule: seventh Tuesday preceding the biennial state election (c.53 s.28, read), which would be Sep 15, 2026. A one-year emergency act, Acts of 2025 chapter 34, set the 2026 state primary on Tuesday, September 1, 2026 'notwithstanding section 28' (read)",
+        "tag": "ESTIMATED",
+        "citation": "M.G.L. c.53 s.28; Acts of 2025, c.34 (2026 only) https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter53/Section28"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 91,
+        "readDeadlines2026": { "all": "2026-06-02" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated. (Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-MA:council",
@@ -29075,22 +29351,145 @@
       "id": "US-PR:county-board",
       "state": "US-PR",
       "kind": "county-board",
-      "applies": false,
-      "citation": "No county governments (Census Bureau 2025 government-units listing)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 0,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read; next general election 2028 (data/research/offices/state-offices.json)"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "primary": {
+        "kind": "read-dates-only",
+        "readDates2026": {},
+        "tag": "ESTIMATED",
+        "citation": "No standing primary date rule read for Puerto Rico; the 2026 date as set where read"
+      },
+      "filing": {
+        "kind": "lead-days-before-primary",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED FROM AVERAGE: median candidate filing lead before the primary (FEC 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access)",
+        "spread": { "days": [30, 120] }
+      },
+      "takeOffice": {
+        "rule": { "kind": "nth-weekday", "month": 1, "weekday": 1, "nth": 2 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read; the second Monday of January after the election, the commonly reported start of municipal terms",
+        "spread": { "days": [-14, 14] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-PR:county-executive",
       "state": "US-PR",
       "kind": "county-executive",
-      "applies": false,
-      "citation": "No county governments (Census Bureau 2025 government-units listing)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 0,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read; next general election 2028 (data/research/offices/state-offices.json)"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "primary": {
+        "kind": "read-dates-only",
+        "readDates2026": {},
+        "tag": "ESTIMATED",
+        "citation": "No standing primary date rule read for Puerto Rico; the 2026 date as set where read"
+      },
+      "filing": {
+        "kind": "lead-days-before-primary",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED FROM AVERAGE: median candidate filing lead before the primary (FEC 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access)",
+        "spread": { "days": [30, 120] }
+      },
+      "takeOffice": {
+        "rule": { "kind": "nth-weekday", "month": 1, "weekday": 1, "nth": 2 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read; the second Monday of January after the election, the commonly reported start of municipal terms",
+        "spread": { "days": [-14, 14] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-PR:county-row",
       "state": "US-PR",
       "kind": "county-row",
-      "applies": false,
-      "citation": "No county governments (Census Bureau 2025 government-units listing)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 0,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read; next general election 2028 (data/research/offices/state-offices.json)"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read"
+      },
+      "primary": {
+        "kind": "read-dates-only",
+        "readDates2026": {},
+        "tag": "ESTIMATED",
+        "citation": "No standing primary date rule read for Puerto Rico; the 2026 date as set where read"
+      },
+      "filing": {
+        "kind": "lead-days-before-primary",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED FROM AVERAGE: median candidate filing lead before the primary (FEC 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access)",
+        "spread": { "days": [30, 120] }
+      },
+      "takeOffice": {
+        "rule": { "kind": "nth-weekday", "month": 1, "weekday": 1, "nth": 2 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read; the second Monday of January after the election, the commonly reported start of municipal terms",
+        "spread": { "days": [-14, 14] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-PR:council",
@@ -29619,22 +30018,160 @@
       "id": "US-RI:county-board",
       "state": "US-RI",
       "kind": "county-board",
-      "applies": false,
-      "citation": "No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "days-before-general", "days": 56 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-09-09" },
+        "ruleText": "Eighth Tuesday before the biennial state election (text read; 2026: Sep 8). HB 7049 (signed Apr 20, 2026) moved the 2026 primary to Wednesday Sep 9, one time",
+        "tag": "ESTIMATED",
+        "citation": "R.I. Gen. Laws 17-15-1; HB 7049 (2026) https://ballot-access.org/2026/04/22/rhode-island-moves-2026-primaries-from-september-8-to-september-9-for-2026-only/"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 77,
+        "readDeadlines2026": { "all": "2026-06-24" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-RI:county-executive",
       "state": "US-RI",
       "kind": "county-executive",
-      "applies": false,
-      "citation": "No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "days-before-general", "days": 56 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-09-09" },
+        "ruleText": "Eighth Tuesday before the biennial state election (text read; 2026: Sep 8). HB 7049 (signed Apr 20, 2026) moved the 2026 primary to Wednesday Sep 9, one time",
+        "tag": "ESTIMATED",
+        "citation": "R.I. Gen. Laws 17-15-1; HB 7049 (2026) https://ballot-access.org/2026/04/22/rhode-island-moves-2026-primaries-from-september-8-to-september-9-for-2026-only/"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 77,
+        "readDeadlines2026": { "all": "2026-06-24" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-RI:county-row",
       "state": "US-RI",
       "kind": "county-row",
-      "applies": false,
-      "citation": "No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "days-before-general", "days": 56 },
+        "evenYearsOnly": false,
+        "readDates2026": { "all": "2026-09-09" },
+        "ruleText": "Eighth Tuesday before the biennial state election (text read; 2026: Sep 8). HB 7049 (signed Apr 20, 2026) moved the 2026 primary to Wednesday Sep 9, one time",
+        "tag": "ESTIMATED",
+        "citation": "R.I. Gen. Laws 17-15-1; HB 7049 (2026) https://ballot-access.org/2026/04/22/rhode-island-moves-2026-primaries-from-september-8-to-september-9-for-2026-only/"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 77,
+        "readDeadlines2026": { "all": "2026-06-24" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: No county governing body and no county election. (Rhode Island has no county government; its five counties are geographic and judicial districts); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-RI:council",
@@ -34790,22 +35327,160 @@
       "id": "US-VT:county-board",
       "state": "US-VT",
       "kind": "county-board",
-      "applies": false,
-      "citation": "Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 2 },
+        "evenYearsOnly": true,
+        "readDates2026": { "all": "2026-08-11" },
+        "ruleText": "Second Tuesday in August of even years (2026: Aug 11, matches)",
+        "tag": "SOURCED",
+        "citation": "17 V.S.A. 2351 https://legislature.vermont.gov/statutes/section/17/049/02351"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 75,
+        "readDeadlines2026": { "all": "2026-05-28" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-VT:county-executive",
       "state": "US-VT",
       "kind": "county-executive",
-      "applies": false,
-      "citation": "Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 2 },
+        "evenYearsOnly": true,
+        "readDates2026": { "all": "2026-08-11" },
+        "ruleText": "Second Tuesday in August of even years (2026: Aug 11, matches)",
+        "tag": "SOURCED",
+        "citation": "17 V.S.A. 2351 https://legislature.vermont.gov/statutes/section/17/049/02351"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 75,
+        "readDeadlines2026": { "all": "2026-05-28" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-VT:county-row",
       "state": "US-VT",
       "kind": "county-row",
-      "applies": false,
-      "citation": "Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists)"
+      "applies": true,
+      "termYears": {
+        "value": 4,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "years": [2, 4] }
+      },
+      "stagger": {
+        "kind": "none",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "cycle": {
+        "kind": "every",
+        "years": 4,
+        "residue": 2,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "electionDay": {
+        "kind": "general-november",
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1"
+      },
+      "primary": {
+        "kind": "rule",
+        "rule": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 2 },
+        "evenYearsOnly": true,
+        "readDates2026": { "all": "2026-08-11" },
+        "ruleText": "Second Tuesday in August of even years (2026: Aug 11, matches)",
+        "tag": "SOURCED",
+        "citation": "17 V.S.A. 2351 https://legislature.vermont.gov/statutes/section/17/049/02351"
+      },
+      "filing": {
+        "kind": "days-before-primary",
+        "days": 75,
+        "readDeadlines2026": { "all": "2026-05-28" },
+        "tag": "SOURCED",
+        "citation": "FEC, 2026 Congressional Primary Dates and Candidate Filing Deadlines for Ballot Access (data as of May 18, 2026), https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf; the 2026 deadline is read, and other years keep its lead before the primary"
+      },
+      "takeOffice": {
+        "rule": { "kind": "fixed", "month": 1, "day": 1 },
+        "yearAfterElection": true,
+        "tag": "ESTIMATED",
+        "citation": "ESTIMATED: Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1. (Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1",
+        "spread": { "days": [0, 45] }
+      },
+      "tag": "ESTIMATED"
     },
     {
       "id": "US-VT:council",

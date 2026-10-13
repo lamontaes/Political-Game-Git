@@ -252,10 +252,12 @@ export function takeOfficeDate(row: TermRuleRow, electionDate: string): string {
   const year =
     Number(electionDate.slice(0, 4)) + (take.yearAfterElection ? 1 : 0);
   const date = dayInYear(take.rule, year, electionDate);
-  // A rule that falls before the count is done means the next year's day.
-  return date > electionDate
-    ? date
-    : dayInYear(take.rule, year + 1, electionDate);
+  if (date > electionDate) return date;
+  // A term that starts upon election starts once the votes are counted: the
+  // day after Election Day.
+  if (take.rule.kind === "days-after-election") return addDays(electionDate, 1);
+  // A day that falls before the election this year means next year's.
+  return dayInYear(take.rule, year + 1, electionDate);
 }
 
 /**

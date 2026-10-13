@@ -124,7 +124,10 @@ function stateAndFederal(
   // the filing deadline (data/elections/term-rules.json).
   const row = termRuleFor(stateKey, office);
   if (row?.primary && row.filing) {
-    const primaryDate = primaryIn(row, year, key);
+    // A primary set on or after the general election (an all-party first
+    // round on Election Day, with a runoff after) is not a separate primary.
+    const set = primaryIn(row, year, key);
+    const primaryDate = set && set < electionDate ? set : null;
     const deadline = filingDeadlineIn(row, year, key, primaryDate);
     return {
       electionDate,
@@ -334,19 +337,21 @@ function nextFrom(
   placeGeoid: string,
   year: number,
   onDate: string,
+  /** The day a contest's filing must still be open on (a town's calendar); `onDate` by default. */
+  filingFrom: string = onDate,
 ): ElectionDates | null {
   let from = Math.max(year, Number(onDate.slice(0, 4)));
-  if (office.level === "federal" || office.level === "state") {
-    // The first year from `from` the office's term rule holds its election
-    // (an odd-year state, a four-year chamber, a two-year governor).
-    const row = termRuleFor(stateKey, office);
-    if (row)
-      for (let tries = 0; tries < 8; tries += 1) {
-        if (cycleHolds(row, office, from) !== false) break;
-        from += 1;
-      }
+  // The first year from `from` the office's term rule holds its election
+  // (an odd-year state, a four-year chamber, a two-year governor). A county
+  // or town calendar holds its own years and is read below.
+  const row = termRuleFor(stateKey, office);
+  if (row)
+    for (let tries = 0; tries < 8; tries += 1) {
+      if (cycleHolds(row, office, from) !== false) break;
+      from += 1;
+    }
+  if (office.level === "federal" || office.level === "state")
     return stateAndFederal(office, stateKey, from);
-  }
   if (office.level === "county") {
     const unit = governmentUnit(office.jurisdiction);
     const read = unit ? nextCountyElection(unit, makeIsoDate(onDate)) : null;
@@ -383,7 +388,7 @@ function nextFrom(
     }
     return stateAndFederal(office, stateKey, from);
   }
-  return municipal(stateKey, placeGeoid, from, onDate);
+  return municipal(stateKey, placeGeoid, from, filingFrom);
 }
 
 /**
@@ -399,12 +404,12 @@ export function electionInYear(input: {
   readonly onDate: string;
 }): ElectionDates | null {
   const { office, stateKey, placeGeoid, year, onDate } = input;
-  if (office.level === "federal" || office.level === "state") {
-    const row = termRuleFor(stateKey, office);
-    if (row && cycleHolds(row, office, year) === false) return null;
-  }
+  const row = termRuleFor(stateKey, office);
+  if (row && cycleHolds(row, office, year) === false) return null;
   const from = onDate > `${year}-01-01` ? onDate : `${year}-01-01`;
-  const found = nextFrom(office, stateKey, placeGeoid, year, from);
+  // A town election early in the year whose filing closed late the year
+  // before is still that year's election.
+  const found = nextFrom(office, stateKey, placeGeoid, year, from, onDate);
   return found &&
     found.electionDate > onDate &&
     found.electionDate.startsWith(`${year}-`)

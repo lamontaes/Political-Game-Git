@@ -423,16 +423,66 @@ for (const state of Object.keys(nomination).sort()) {
   const schedule = county.get(state);
   const body = schedule?.countyGovernment === "full" ? schedule.body : null;
   for (const kind of ["county-board", "county-executive", "county-row"]) {
+    if (state === "US-PR") {
+      // Puerto Rico's municipios are its county-level governments.
+      const cite =
+        "Puerto Rico Municipal Code (Act 107-2020): mayors and municipal legislators are elected at the general election every four years (the governor's cycle); the code's text was not read";
+      push(state, kind, {
+        applies: true,
+        termYears: estimated(cite, { value: 4 }),
+        stagger: estimated(cite, { kind: "none" }),
+        cycle: estimated(
+          `${cite}; next general election 2028 (data/research/offices/state-offices.json)`,
+          {
+            kind: "every",
+            years: 4,
+            residue: 0,
+          },
+        ),
+        electionDay: estimated(cite, { kind: "general-november" }),
+        ...party,
+        takeOffice: estimated(
+          `${cite}; the second Monday of January after the election, the commonly reported start of municipal terms`,
+          {
+            rule: { kind: "nth-weekday", month: 1, weekday: 1, nth: 2 },
+            yearAfterElection: true,
+          },
+          { days: [-14, 14] },
+        ),
+      });
+      continue;
+    }
+    if (!body && schedule) {
+      // Where the state's county row holds no general county election (no
+      // county government, or one with only some elected officers) but a
+      // county office is seated, the office goes with the general election.
+      const cite = `ESTIMATED: ${schedule.note ?? "no county governing-body election"} (${schedule.citation ?? "data/research/government/county-election-schedule-by-state.json"}); a county office seated here is elected at the general election in the governor's midterm cycle and starts January 1`;
+      push(state, kind, {
+        applies: true,
+        termYears: estimated(cite, { value: 4 }, { years: [2, 4] }),
+        stagger: estimated(cite, { kind: "none" }),
+        cycle: estimated(cite, { kind: "every", years: 4, residue: 2 }),
+        electionDay: estimated(cite, { kind: "general-november" }),
+        ...party,
+        takeOffice: estimated(
+          cite,
+          {
+            rule: { kind: "fixed", month: 1, day: 1 },
+            yearAfterElection: true,
+          },
+          { days: [0, 45] },
+        ),
+      });
+      continue;
+    }
     if (!body) {
       push(
         state,
         kind,
         NOT_APPLICABLE(
-          schedule
-            ? `${schedule.note ?? "No county government elections"} (${schedule.citation ?? "data/research/government/county-election-schedule-by-state.json"})`
-            : territory || state === "US-DC"
-              ? "No county governments (Census Bureau 2025 government-units listing)"
-              : "No county row in data/research/government/county-election-schedule-by-state.json",
+          territory || state === "US-DC"
+            ? "No county governments (Census Bureau 2025 government-units listing)"
+            : "No county row in data/research/government/county-election-schedule-by-state.json",
         ),
       );
       continue;
