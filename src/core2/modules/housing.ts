@@ -1364,17 +1364,22 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string): void {
   const c = core(api);
   const row = store(api).table("counsel").get(placeId) as
     { inForce?: boolean; fundedById?: string } | undefined;
-  const right =
+  const statute =
     c.modules.has(LAWS_MODULE_ID) && placeId === lawChain(api).townPlaceId
       ? lawInForce(
           api,
           "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-        ).value === 1
-      : row?.inForce;
+        )
+      : undefined;
+  const right = statute ? statute.value === 1 : row?.inForce;
   const fundedById =
     row?.fundedById ??
     (c.modules.has(BUDGETS_MODULE_ID)
-      ? governments(api).find((g) => g.level === "city")?.organizationId
+      ? governments(api).find(
+          (g) =>
+            g.id === statute?.governing?.jurisdiction ||
+            g.level === (statute?.governing?.level ?? "city"),
+        )?.organizationId
       : undefined);
   if (!right || !fundedById) return;
   const provider = [...c.organizations.values()].find(
@@ -1383,15 +1388,17 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string): void {
   if (!provider) return;
   transferCash(
     api,
-    `counsel:${caseId}`,
+    `counsel:${caseId}${statute?.governing ? `:${statute.governing.id}` : ""}`,
     fundedById,
     provider.id,
     api.parameter("housingCounselCostPerCaseMinor"),
     {
       tag: "ESTIMATED",
       asOf: c.date,
-      citation: housingData.source.citation,
-      estimatedFrom: `A tenant's lawyer for ${caseId}, paid by the city at the program's average cost per case.`,
+      citation: statute?.governing
+        ? `${statute.governing.id}: ${String(statute.governing.source)}`
+        : housingData.source.citation,
+      estimatedFrom: `A tenant's lawyer for ${caseId}, paid by the funding government at the program's average cost per case.`,
     },
   );
 }
