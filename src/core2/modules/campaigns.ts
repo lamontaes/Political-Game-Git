@@ -1043,11 +1043,17 @@ export function makeStatements(
     ...campaignFor(api, input.filingId),
     platform: withStatements.platform,
   });
-  // A candidate who is a person is heard as a speaker on their first
-  // statement's question (the speech engine moves listeners and lets them
-  // retell it at home).
+  // In person (a speech, a town hall), a candidate who is a person is heard
+  // as a speaker on their first statement's question: the speech engine
+  // moves those in the room and lets them retell it at home. Broadcasts
+  // (debates, interviews) reach their audiences through the causes above.
   const first = input.statements[0];
-  if (speaker && first && api.state.modules.has(SPEECH_MODULE_ID))
+  if (
+    input.faceToFace &&
+    speaker &&
+    first &&
+    api.state.modules.has(SPEECH_MODULE_ID)
+  )
     deliverSpeech(api, {
       id: statementSpeechId(campaign.candidateId, api.state.date, input),
       speakerId: speaker.id,
