@@ -39,6 +39,7 @@ import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./accounts";
+import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { parameter, parameterValues } from "./parameters";
@@ -132,7 +133,9 @@ export function createLifeCore(
       // Sales taxes in force collect on each paid sale (none until a law sets one).
       ...(input.finance || input.residents ? [PURCHASE_TAX_MODULE] : []),
       // The game's worlds (two levels) also claim retirement during play.
-      ...(input.residents ? [RESIDENTS_MODULE, RETIREMENT_CLAIMS_MODULE] : []),
+      ...(input.residents
+        ? [RESIDENTS_MODULE, RETIREMENT_CLAIMS_MODULE, COUNTED_DRIFT_MODULE]
+        : []),
       ...(options.modules ?? []),
     ],
   });

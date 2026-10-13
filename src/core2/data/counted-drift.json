@@ -1,0 +1,17 @@
+{
+  "version": "core2-counted-drift-v1",
+  "stopgapId": "SG-CORE-counted-drift",
+  "newbornNamesStopgapId": "SG-CORE-counted-newborn-names",
+  "births": {
+    "citation": "NCHS Data Brief No. 535, Births in the United States, 2024 (https://www.cdc.gov/nchs/products/databriefs/db535.htm): births per 1,000 women by age of mother, 2024.",
+    "ratesPerThousand": [
+      { "minAge": 15, "maxAge": 19, "rate": 12.6 },
+      { "minAge": 20, "maxAge": 24, "rate": 55.8 },
+      { "minAge": 25, "maxAge": 29, "rate": 89.5 },
+      { "minAge": 30, "maxAge": 34, "rate": 93.7 },
+      { "minAge": 35, "maxAge": 39, "rate": 54.3 },
+      { "minAge": 40, "maxAge": 44, "rate": 12.7 }
+    ]
+  },
+  "deathsCitation": "SSA Office of the Chief Actuary, Actuarial Study No. 120, Table 7 cohort life tables (src/core2/data/ssa-cohort-life-tables.json): qx by age, sex and birth decade, taken monthly as qx / 12."
+}

@@ -4581,5 +4581,16 @@
       "unit": "days",
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
+  },
+  "circleActRetentionMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling, Oct 12 (running memory stays small: keep current state, each person's key facts and recent detail; summarize or drop old detail): how long a circle member's routine act stays in the log after its reasons are condensed.",
+    "spread": {
+      "low": 3,
+      "high": 36,
+      "unit": "months",
+      "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
+    }
   }
 }

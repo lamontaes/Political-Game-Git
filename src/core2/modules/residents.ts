@@ -702,6 +702,8 @@ export function residentPerson(
 export function releaseResidentHousehold(
   core: CoreState,
   record: ResidentHouseholdRecord,
+  /** False when the household is gone (its last member died): its payments just end. */
+  options: { ownFlows?: boolean } = {},
 ): {
   calendars: Map<string, WorkPayrollCalendarInput>;
   cashShare: number;
@@ -731,6 +733,9 @@ export function releaseResidentHousehold(
       for (const value of Object.values(perDay)) total += value;
       flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
     } else if (flow.kind === "retirement" && flow.amountByContract) {
+      const present = flow.amountByContract;
+      if (!record.contracts.some((row) => present[row.id] !== undefined))
+        continue;
       // Each retiree in the household is now paid their own award directly.
       const amounts = { ...flow.amountByContract };
       for (const contract of record.contracts) {
@@ -750,6 +755,14 @@ export function releaseResidentHousehold(
       flow.amountByContract = amounts;
       flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
     } else if (flow.kind === "purchase" && flow.amountByContract) {
+      const present = flow.amountByContract;
+      let member = false;
+      for (const id of contractIds)
+        if (present[id] !== undefined) {
+          member = true;
+          break;
+        }
+      if (!member) continue;
       const amounts = { ...flow.amountByContract };
       let removed = 0;
       for (const id of contractIds)
@@ -765,8 +778,9 @@ export function releaseResidentHousehold(
     }
   }
   for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  const ownFlows = options.ownFlows !== false;
   // Admitted after the scan: the person must be a full person by now.
-  for (const flow of retirees) {
+  for (const flow of ownFlows ? retirees : []) {
     rt.flows.set(flow.id, flow);
     schedule(rt, flow);
   }
@@ -779,7 +793,7 @@ export function releaseResidentHousehold(
   );
   // The household now pays its own outside living costs from its payer.
   const payer = record.people.find((row) => row.livingCostDailyMinor > 0);
-  if (outsideLiving && payer) {
+  if (ownFlows && outsideLiving && payer) {
     const flow: FlowState = {
       ...outsideLiving.flow,
       id: `residents:outside-living:${record.household.id}`,

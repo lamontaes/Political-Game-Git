@@ -2825,5 +2825,29 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-drift",
+    "kind": "aggregate-population",
+    "file": "src/core2/modules/counted-drift.ts",
+    "line": 1,
+    "whatItFakes": "The wider population's deaths and births come from national rates applied to the counts each month (SSA cohort life tables; NCHS 2024 birth rates by age). Whoever has the highest rate is the one who dies or gives birth; counted people don't move in or out, and nobody's health or family plans decide it.",
+    "why": "The counted population never changed (owner, Oct 12: the counted rest drifts too).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "Place-specific rates (CDC WONDER mortality by county, state fertility), moves in and out from ACS migration flows, and each counted household's own health and family state once PEOPLE's engines model the counts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-newborn-names",
+    "kind": "recorded-names",
+    "file": "src/core2/modules/counted-drift.ts",
+    "line": 1,
+    "whatItFakes": "A baby born in the wider population takes a given name already recorded among the town's youngest residents of the same gender.",
+    "why": "The name engine (PEOPLE's) names newborns only for full parents; a counted mother has no full record to pass it.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "PEOPLE exports the newborn identity used by births-people.ts (seeded name and gender) for any mother, full or counted.",
+    "status": "open"
   }
 ]
