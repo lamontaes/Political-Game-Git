@@ -188,7 +188,7 @@
       "golden_path": "world",
       "package": "M1-credit",
       "test": "Every loan's money balances from lender to borrower and back; defaults follow borrowers' real circumstances, never a chance roll.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-06-check.ts",
       "passes": false
     },
     {
