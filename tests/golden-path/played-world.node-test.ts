@@ -29,6 +29,7 @@ import { performance } from "node:perf_hooks";
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import housingConstruction from "../../src/core2/data/housing/construction.json" with { type: "json" };
+import reachAParameters from "../../src/core2/data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { buildBenchWorld } from "../../src/bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
@@ -208,12 +209,14 @@ let liftedOperatingLimits = new Map<
 >();
 let endedComplianceCosts = new Map<string, string>();
 let careWorkEligibility = new Map<string, boolean>();
+let constructionDecisions = new Map<string, string>();
 /** Counts calls and observes completed payments without retaining full game history. */
 function countCalls(core: CoreState) {
   cashPayments = new Map();
   liftedOperatingLimits = new Map();
   endedComplianceCosts = new Map();
   careWorkEligibility = new Map();
+  constructionDecisions = new Map();
   calls = new Map();
   const count = (id: string) => calls.set(id, (calls.get(id) ?? 0) + 1);
   const wrap = <F extends (...args: never[]) => unknown>(id: string, f: F) =>
@@ -355,7 +358,58 @@ function countCalls(core: CoreState) {
               );
           }
         }
+        const housingStock =
+          id === "housing"
+            ? api
+                .moduleState("housing")
+                .table("stock")
+                .get(`stock:${lawChain(api).townPlaceId}`)
+            : undefined;
+        const previousCarry = housingStock
+          ? [Number(housingStock.carrySingle), Number(housingStock.carryMulti)]
+          : undefined;
         const result = f(...forwarded);
+        if (previousCarry) {
+          const stock = api
+            .moduleState("housing")
+            .table("stock")
+            .get(housingStock!.id);
+          const zoning = stock?.zoning as
+            | { inclusionaryShare: number; multifamilyLandShare: number }
+            | undefined;
+          if (
+            stock &&
+            zoning &&
+            (Number(stock.carrySingle) !== previousCarry[0] ||
+              Number(stock.carryMulti) !== previousCarry[1])
+          ) {
+            for (const [question, actual, expected] of [
+              [
+                "us-policy-positions:housing-land-use.inclusionary-requirement",
+                zoning.inclusionaryShare,
+                reachAParameters.parameters.inclusionaryAffordableShare.value,
+              ],
+              [
+                "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+                zoning.multifamilyLandShare,
+                1,
+              ],
+            ] as const) {
+              const law = lawInForce(api, question);
+              const required =
+                law.value === 1
+                  ? expected
+                  : question.endsWith("inclusionary-requirement")
+                    ? 0
+                    : 1 - housingConstruction.zoning.singleFamilyOnlyShare;
+              if (law.governing && actual === required)
+                constructionDecisions.set(
+                  law.governing.id,
+                  `monthly construction decision: ${stock.id} on ${api.state.date}; rule=${actual}; fractional starts ${previousCarry.join(",")} -> ${stock.carrySingle},${stock.carryMulti}; no completed units claimed`,
+                );
+            }
+          }
+        }
         for (const held of flows) {
           if (
             api.moduleState("business").table("operating").get(held.ruleId) ||
@@ -775,7 +829,7 @@ function playWorld(seed: string) {
               (changes[index - 1]?.hourlyMinor ?? wagesAtStart.get(jobId)),
         ),
     );
-    let engineNoOp: string | undefined;
+    let engineNoOp: string | undefined = constructionDecisions.get(law.id);
     if (
       law.series ===
       "us-policy-positions:education.raise-teacher-minimum-salary"
@@ -953,6 +1007,27 @@ function playWorld(seed: string) {
         decision.allowed === (law.value === 1)
       )
         engineNoOp = `local wage decision: ${authority.id}; allowed=${decision.allowed}; reason=${decision.reason}`;
+      if (law.level !== "state") {
+        const priorDecision = authorityFor(
+          {
+            ...historicalApi,
+            state: {
+              ...historicalApi.state,
+              date: addDays(makeIsoDate(law.effectiveDate), -1),
+            },
+          },
+          {
+            kind: "law-amount",
+            series: "minimum-wage",
+            value: (lawInForce(historicalApi, "minimum-wage").value ?? 0) + 1,
+          },
+        );
+        if (
+          priorDecision.allowed === decision.allowed &&
+          priorDecision.reason === decision.reason
+        )
+          engineNoOp = `no-op: ${law.level} enactment does not change the state's wage delegation; native authority ${Number(priorDecision.allowed)} -> ${Number(decision.allowed)}; ${decision.reason}; source=${decision.source}`;
+      }
     }
     if (law.series === RESTORE_VOTE) {
       const grantsAt = (date: string) =>
