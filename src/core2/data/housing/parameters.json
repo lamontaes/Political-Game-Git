@@ -210,5 +210,10 @@
       "unit": "per month since rent first went unpaid",
       "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
     }
+  },
+  "housingAssistanceRentShareOfIncome": {
+    "value": 0.3,
+    "tag": "SOURCED",
+    "citation": "HUD Housing Choice Voucher program: the family's share of rent is generally 30% of adjusted monthly income (24 CFR 982.505, 982.515)."
   }
 }

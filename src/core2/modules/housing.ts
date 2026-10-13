@@ -920,6 +920,7 @@ function review(api: CoreAPI): void {
   amortize(api);
   billPropertyTax(api, store(api).table("assessments"), ownedHomes(api));
   build(api);
+  payRentHelp(api);
   landlordPayout(api);
   buyHomes(api);
   // The landlord weighs each late lease past the grace period: how many months of rent are owed and how long.
@@ -1306,6 +1307,90 @@ function finish(
 
 /** Right to counsel in eviction where the law gives it, by place; OPUS-GOV's policy handler sets it from the law in force. */
 /** Rent stabilization in a place: a renewal rises no more than `capShare` a year; null lifts the cap. */
+/**
+ * Housing spending above its base helps the households it covers pay rent
+ * (OPUS-GOV picks them; this pays): each month the government's treasury pays
+ * a renting household what its rent runs above 30% of its income, up to the
+ * program's monthly amount. `households` replaces the set; empty ends it.
+ */
+export function setRentHelp(
+  api: CoreAPI,
+  input: {
+    governmentKey: string;
+    payerId: string;
+    households: readonly string[];
+    monthlyLimitMinor: number;
+  },
+): void {
+  const table = store(api).table("rentHelp");
+  for (const row of table.rows() as unknown as {
+    id: string;
+    governmentKey: string;
+  }[])
+    if (
+      row.governmentKey === input.governmentKey &&
+      !input.households.includes(row.id.slice("help:".length))
+    )
+      table.remove(row.id);
+  for (const householdId of input.households)
+    table.put({
+      id: `help:${householdId}`,
+      householdId,
+      governmentKey: input.governmentKey,
+      payerId: input.payerId,
+      monthlyLimitMinor: input.monthlyLimitMinor,
+    });
+}
+
+function payRentHelp(api: CoreAPI): void {
+  const c = core(api);
+  const rows = store(api).table("rentHelp").rows() as unknown as {
+    householdId: string;
+    payerId: string;
+    monthlyLimitMinor: number;
+  }[];
+  if (!rows.length) return;
+  // Paid to the household toward its rent; a housing choice voucher pays the landlord (see the stopgap).
+  stopgap("SG-WORLD-housing-rent-help-to-household");
+  for (const row of rows) {
+    const lease = c.finance.contracts.get(`lease:${row.householdId}`);
+    const household = c.households.get(row.householdId);
+    if (!lease || lease.endedAt || !household) continue;
+    let income = 0;
+    for (const id of household.memberIds) {
+      const job = c.people.get(id)?.jobId;
+      const wage = job ? (c.jobs.get(job)?.wageDailyMinor ?? 0) : 0;
+      income +=
+        (wage * api.parameter("jobsDaysPerYear")) /
+        api.parameter("macroMonthsPerYear");
+    }
+    const help = Math.min(
+      row.monthlyLimitMinor,
+      Math.max(
+        0,
+        lease.amountMinor -
+          api.parameter("housingAssistanceRentShareOfIncome") * income,
+      ),
+    );
+    const head = [...household.memberIds].sort()[0];
+    if (help > 0 && head)
+      transferCash(
+        api,
+        `rent-help:${row.householdId}:${c.date}`,
+        row.payerId,
+        head,
+        help,
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation:
+            "HUD Housing Choice Voucher program: the household pays about 30% of its income toward rent (24 CFR 982.505).",
+          estimatedFrom: `Rent help on ${lease.id}: rent above 30% of the household's pay, up to the program's monthly amount.`,
+        },
+      );
+  }
+}
+
 export function setRentIncreaseCap(
   api: CoreAPI,
   placeId: string,
@@ -1473,6 +1558,7 @@ export const HOUSING_MODULE: CoreModule = {
       cases: { indexes: { openByLease: { fields: ["leaseId", "open"] } } },
       rentCaps: {},
       zoningLaw: {},
+      rentHelp: {},
       renewals: {},
       mortgages: {},
       purchases: {},

@@ -161,6 +161,26 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.se
     );
   }, 600_000);
 
+  it("raising a housing budget pays rent help to the renters it covers", () => {
+    const gov = governments(api).find((row) => budgetToday(api, row));
+    if (!gov) return;
+    amendBudget(api, {
+      governmentId: gov.id,
+      line: "housing",
+      deltaMinor: 5 * 1_150_000,
+      measureId: "TEST-housing",
+    });
+    const rows = [...housing("rentHelp").rows()] as unknown as {
+      householdId: string;
+      monthlyLimitMinor: number;
+    }[];
+    expect(rows.length).toBeLessThanOrEqual(5);
+    for (const row of rows) {
+      expect(core.finance.contracts.has(`lease:${row.householdId}`)).toBe(true);
+      expect(row.monthlyLimitMinor).toBe(Math.round(1_150_000 / 12));
+    }
+  }, 600_000);
+
   it("a repeal ends the rule", () => {
     enact(`${P}transportation-infrastructure.fare-free-transit`, 0);
     expect(rule("transit-fare", "price")).toBeUndefined();

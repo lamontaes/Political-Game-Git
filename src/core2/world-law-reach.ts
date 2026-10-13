@@ -22,6 +22,7 @@ import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { baseLine, budgetToday } from "./law-reach/group-a-money";
 import {
   setHousingZoning,
+  setRentHelp,
   setRentIncreaseCap,
   setRightToCounsel,
   HOUSING_MODULE_ID,
@@ -180,8 +181,50 @@ const roads: PolicyHandler = (api, law) => {
   });
 };
 
+/**
+ * Housing spending above its base pays rent help: as many households as the
+ * extra money covers at the program's yearly amount, those with the least cash
+ * per member first (OPUS-GOV's rule for who it reaches), the renters among
+ * them paid each month.
+ */
+const rentHelp: PolicyHandler = (api, law) => {
+  if (!has(api, HOUSING_MODULE_ID) || !has(api, BUDGETS_MODULE_ID)) return;
+  const c = api.state as CoreState;
+  const government = governments(api).find((row) => row.level === law.level);
+  const budget = government ? budgetToday(api, government) : null;
+  if (!government || !budget) return;
+  const annual = gov("housingAssistanceAnnualMinor");
+  const extra =
+    (budget.spendingMinor.housing ?? 0) -
+    baseLine(api, government, budget, "housing");
+  const slots = Math.max(0, Math.floor(extra / annual));
+  const byHousehold = new Map<string, { cash: number; members: number }>();
+  for (const person of c.people.values()) {
+    if (!person.alive || person.placeId !== law.placeId) continue;
+    const row = byHousehold.get(person.householdId) ?? { cash: 0, members: 0 };
+    row.cash += person.liquidMinor;
+    row.members += 1;
+    byHousehold.set(person.householdId, row);
+  }
+  const chosen = [...byHousehold]
+    .sort(
+      ([a, x], [b, y]) =>
+        x.cash / x.members - y.cash / y.members || a.localeCompare(b),
+    )
+    .slice(0, slots)
+    .map(([id]) => id)
+    .filter((id) => c.finance.contracts.has(`lease:${id}`));
+  setRentHelp(api, {
+    governmentKey: government.id,
+    payerId: government.organizationId,
+    households: chosen,
+    monthlyLimitMinor: Math.round(annual / api.parameter("macroMonthsPerYear")),
+  });
+};
+
 const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
   "budget-line:highways": roads,
+  "budget-line:housing": rentHelp,
   [`${POLICY}housing-land-use.allow-multifamily-in-single-family-zones`]:
     zoning((on) => ({
       multifamilyLandShare: on ? 1 : openingZoning().multifamilyLandShare,

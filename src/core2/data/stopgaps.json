@@ -1891,7 +1891,7 @@
     "id": "SG-WORLD-housing-hearing-without-judge",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 1071,
+    "line": 1072,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
     "why": "Courts are parked until after early access (owner, Oct 10).",
     "addedBy": "OPUS-WORLD",
@@ -2849,6 +2849,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "Full households choose what to keep on deposit, through the chooser.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-rent-help-to-household",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 1348,
+    "whatItFakes": "Rent help from a housing budget is paid to the household each month toward its rent, not to its landlord against the lease as a voucher is.",
+    "why": "A lease bills its household the whole rent; a payment from a third party against a lease needs the lease to split what each payer owes.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "The government pays the landlord its share against the lease, and the household's bill falls to 30% of its income.",
     "status": "open"
   }
 ]
