@@ -621,70 +621,125 @@ function vacancyNow(api: CoreAPI, placeId: string): { vacancy?: number } {
   return v === undefined ? {} : { vacancy: v };
 }
 
+/** A renewal's rent: the region's pay since the last renewal and, against it, the town's rental vacancy, held to a rent cap where the law sets one. */
+function renewedRent(
+  api: CoreAPI,
+  rentMinor: number,
+  last: { regionPay: number; vacancy?: number },
+  regionPay: number,
+  placeId: string,
+): number {
+  const vacancy = rentalVacancy(store(api).table("stock"), placeId);
+  const before = last.vacancy ?? vacancy;
+  const vacancyFactor =
+    vacancy && before
+      ? (vacancy / before) ** -api.parameter("housingRentVacancyElasticity")
+      : 1;
+  // Rent stabilization holds a renewal's rise to the law's cap.
+  const cap = (
+    store(api).table("rentCaps").get(placeId) as
+      { capShare: number | null } | undefined
+  )?.capShare;
+  return Math.round(
+    Math.min(
+      rentMinor * (regionPay / last.regionPay) * vacancyFactor,
+      cap != null ? rentMinor * (1 + cap) : Number.POSITIVE_INFINITY,
+    ),
+  );
+}
+
+/** Whole months from one date to another. */
+function monthsBetween(from: string, to: string): number {
+  return (
+    (Number(to.slice(0, 4)) - Number(from.slice(0, 4))) * 12 +
+    Number(to.slice(5, 7)) -
+    Number(from.slice(5, 7))
+  );
+}
+
 function renew(api: CoreAPI): void {
   const c = core(api);
   if (!regionalRegistered(api)) return;
   // Vacancy moves rents, but nobody new arrives to fill vacant homes yet; see the stopgap.
   stopgap("SG-WORLD-housing-vacancy");
+  const renewals = store(api).table("renewals"),
+    year = api.parameter("macroMonthsPerYear");
   for (const [id, row] of c.finance.contracts) {
     if (!id.startsWith("lease:") || row.endedAt || !row.householdId) continue;
     const household = c.households.get(row.householdId);
     const level = household ? regionalLevel(api, household.placeId) : undefined;
     if (!level) continue;
-    const last = store(api).table("renewals").get(id) as
+    const last = renewals.get(id) as
       { id: string; regionPay: number; renewedAt: string } | undefined;
     if (!last) {
-      store(api)
-        .table("renewals")
-        .put({
-          id,
-          regionPay: level.hourlyEarnings,
-          renewedAt: c.date,
-          rentMinor: row.amountMinor,
-          ...vacancyNow(api, household!.placeId),
-        });
-      continue;
-    }
-    const months =
-      (Number(c.date.slice(0, 4)) - Number(last.renewedAt.slice(0, 4))) * 12 +
-      Number(c.date.slice(5, 7)) -
-      Number(last.renewedAt.slice(5, 7));
-    if (months < api.parameter("macroMonthsPerYear")) continue;
-    // Rents follow the region's pay and, against the last renewal, the town's rental vacancy.
-    const vacancy = rentalVacancy(
-      store(api).table("stock"),
-      household!.placeId,
-    );
-    const before = (last as { vacancy?: number }).vacancy ?? vacancy;
-    const vacancyFactor =
-      vacancy && before
-        ? (vacancy / before) ** -api.parameter("housingRentVacancyElasticity")
-        : 1;
-    // Rent stabilization holds a renewal's rise to the law's cap.
-    const cap = (
-      store(api).table("rentCaps").get(household!.placeId) as
-        { capShare: number | null } | undefined
-    )?.capShare;
-    const rent = Math.round(
-      Math.min(
-        row.amountMinor *
-          (level.hourlyEarnings / last.regionPay) *
-          vacancyFactor,
-        cap != null ? row.amountMinor * (1 + cap) : Number.POSITIVE_INFINITY,
-      ),
-    );
-    api.setStandingContractAmount(id, rent);
-    store(api)
-      .table("renewals")
-      .put({
+      renewals.put({
         id,
         regionPay: level.hourlyEarnings,
         renewedAt: c.date,
-        rentMinor: rent,
-        previousRentMinor: row.amountMinor,
+        rentMinor: row.amountMinor,
         ...vacancyNow(api, household!.placeId),
       });
+      continue;
+    }
+    if (monthsBetween(last.renewedAt, c.date) < year) continue;
+    const rent = renewedRent(
+      api,
+      row.amountMinor,
+      last,
+      level.hourlyEarnings,
+      household!.placeId,
+    );
+    api.setStandingContractAmount(id, rent);
+    renewals.put({
+      id,
+      regionPay: level.hourlyEarnings,
+      renewedAt: c.date,
+      rentMinor: rent,
+      previousRentMinor: row.amountMinor,
+      ...vacancyNow(api, household!.placeId),
+    });
   }
+  // The wider population's leases renew the same way; their renewal months spread over the year, in order of household.
+  const flows = [...(residentsRuntime(c)?.flows.values() ?? [])]
+    .filter((flow) => flow.id.startsWith("rent:") && !flow.endedAt)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  flows.forEach((flow, i) => {
+    const level = regionalLevel(api, flow.placeId);
+    if (!level) return;
+    const last = renewals.get(flow.id) as
+      { id: string; regionPay: number; renewedAt: string } | undefined;
+    if (!last) {
+      // Leases began through the year before the opening: this one renews in its month.
+      const signed = new Date(`${c.date.slice(0, 7)}-01T00:00:00Z`);
+      signed.setUTCMonth(signed.getUTCMonth() - (year - 1 - (i % year)));
+      renewals.put({
+        id: flow.id,
+        regionPay: level.hourlyEarnings,
+        renewedAt: signed.toISOString().slice(0, 10),
+        rentMinor: flow.amountMinor,
+        ...vacancyNow(api, flow.placeId),
+      });
+      return;
+    }
+    if (monthsBetween(last.renewedAt, c.date) < year) return;
+    const rent = renewedRent(
+      api,
+      flow.amountMinor,
+      last,
+      level.hourlyEarnings,
+      flow.placeId,
+    );
+    const previous = flow.amountMinor;
+    flow.amountMinor = rent;
+    renewals.put({
+      id: flow.id,
+      regionPay: level.hourlyEarnings,
+      renewedAt: c.date.slice(0, 7) + "-01",
+      rentMinor: rent,
+      previousRentMinor: previous,
+      ...vacancyNow(api, flow.placeId),
+    });
+  });
 }
 
 /** Rent owed past the grace period starts a case: the landlord serves the notice the law requires. */
