@@ -16,7 +16,7 @@
 import { ageOnDate, addDays, makeIsoDate } from "../../simulation/dates";
 import { stableHash } from "../../simulation/ids";
 import { decisionFromScores, scoreOffers } from "../choice";
-import { PROFILE_FACT_KINDS } from "../opening-profile";
+import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import { GROUPS } from "../opening-groups";
 import kindsJson from "../data/groups/membership.json" with { type: "json" };
 import rows from "../data/groups/parameters.json" with { type: "json" };
@@ -107,12 +107,18 @@ export function belongingReasons(
   const rule = KINDS.kinds[kind];
   if (!rule) return null;
   const zero = api.parameter("zero");
-  const faith = factOf(person, PROFILE_FACT_KINDS.faith, "group");
+  // A record without the opening's profile facts (a world built without
+  // peopleOpening) reads the same profile the opening would have written.
+  const profile = () => profileFor(person, api.state.seed, api.state.startedAt);
+  const faith =
+    factOf(person, PROFILE_FACT_KINDS.faith, "group") ?? profile()?.faith;
   if (rule.requires === "children-at-home" && !hasChildAtHome(api, person))
     return null;
   if (rule.requires === "faith" && (!faith || faith === "none")) return null;
   const view = viewOf(api, person.id);
-  const schooling = factOf(person, PROFILE_FACT_KINDS.education, "level");
+  const schooling =
+    factOf(person, PROFILE_FACT_KINDS.education, "level") ??
+    profile()?.education;
   const education =
     schooling === "college"
       ? api.parameter("one")
