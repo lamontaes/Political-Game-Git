@@ -4570,5 +4570,16 @@
       "unit": "score per unit of scaled trait lean",
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
     }
+  },
+  "circleDecisionDetailDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain.",
+    "spread": {
+      "low": 7,
+      "high": 90,
+      "unit": "days",
+      "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
+    }
   }
 }

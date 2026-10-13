@@ -1,6 +1,8 @@
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
+import { queueDecisionDetail } from "./decision-detail";
+export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
@@ -714,6 +716,10 @@ export function retainLog(core: CoreState, event: LogRecord): void {
           : "news",
   };
   core.durableLog.set(row.id, row);
+  // The player's own reasons are kept whole; the circle's are condensed once
+  // they're older than the detail window (condenseCircleDecisions).
+  if (row.decision && row.actorId !== core.playerId)
+    queueDecisionDetail(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);

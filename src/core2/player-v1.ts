@@ -14,7 +14,12 @@ import {
   refreshNeeds,
 } from "./life";
 import { parameter } from "./parameters";
-import { assertFactoryCoreV1, coreAPI, resolveOperation } from "./state";
+import {
+  assertFactoryCoreV1,
+  condenseCircleDecisions,
+  coreAPI,
+  resolveOperation,
+} from "./state";
 import { compactQuietWorkResults } from "./work-state";
 import { runWorkPayrollDay } from "./work-payroll-dispatch";
 import {
@@ -574,6 +579,7 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
     for (const module of core.modules.values()) module.onAfterDay?.(s.api);
     compactRoutineMetrics(core);
     compactQuietWorkResults(core, s.api);
+    condenseCircleDecisions(core);
     s.simulatedDays++;
     s.day = undefined;
   } catch (error) {

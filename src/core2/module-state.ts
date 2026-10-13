@@ -253,3 +253,12 @@ export function moduleState(
     },
   });
 }
+
+/** Rows in each module table, by "module/table" (memory checks and the bench). */
+export function moduleTableSizes(core: CoreState): Record<string, number> {
+  const sizes: Record<string, number> = {};
+  for (const [id, store] of stores.get(core) ?? new Map<string, Store>())
+    for (const [name, table] of store.tables)
+      sizes[`${id}/${name}`] = table.rows.size;
+  return sizes;
+}
