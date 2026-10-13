@@ -43,7 +43,12 @@ import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
-import { coreAPI, createCore, resolveOperation } from "./state";
+import {
+  condenseCircleDecisions,
+  coreAPI,
+  createCore,
+  resolveOperation,
+} from "./state";
 import type {
   ActOffer,
   CoreAPI,
@@ -514,6 +519,7 @@ export function advanceCore(
     for (const module of core.modules.values()) module.onAfterDay?.(api);
     compactRoutineMetrics(core);
     compactQuietWorkResults(core, coreAPI(core));
+    condenseCircleDecisions(core);
   }
   return {
     simulatedDays: daysBetween(makeIsoDate(started), target),

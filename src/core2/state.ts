@@ -1,6 +1,8 @@
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
+import { queueDecisionDetail } from "./decision-detail";
+export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
@@ -13,6 +15,7 @@ import {
   takeResidentHousehold,
 } from "./modules/residents";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
+import { openingTemperaments } from "./opening-personality";
 import {
   prepareModuleState,
   installModuleState,
@@ -713,6 +716,10 @@ export function retainLog(core: CoreState, event: LogRecord): void {
           : "news",
   };
   core.durableLog.set(row.id, row);
+  // The player's own reasons are kept whole; the circle's are condensed once
+  // they're older than the detail window (condenseCircleDecisions).
+  if (row.decision && row.actorId !== core.playerId)
+    queueDecisionDetail(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
@@ -2027,8 +2034,21 @@ export function fillInIdentity(
   if (existing) return existing;
   if (takeResidentHousehold(core, identity.id))
     throw new Error("A counted resident is filled in with fillInPerson.");
-  coreAPI(core).stopgap("SG-CORE-identity-fill-in-traits");
   makeIsoDate(identity.birthDate);
+  // Seeded by the world and the person, matched to real norms by age and sex,
+  // as the opening gives everyone theirs: the same person every time.
+  const traits =
+    openingTemperaments(
+      [
+        {
+          id: identity.id,
+          birthDate: makeIsoDate(identity.birthDate),
+          ...(identity.gender ? { gender: identity.gender } : {}),
+          parents: [],
+        },
+      ],
+      { seed: core.seed, startedAt: makeIsoDate(core.startedAt) },
+    ).get(identity.id) ?? {};
   const householdId = `household:${identity.id}`;
   if (core.households.has(householdId))
     throw new Error(`Identity household already present: ${householdId}`);
@@ -2074,7 +2094,7 @@ export function fillInIdentity(
     ...(identity.countyId ? { countyId: identity.countyId } : {}),
     householdId,
     tier: "monthly",
-    traits: {},
+    traits,
     liquidMinor: 0,
     livingCostDailyMinor: 0,
     source: identity.source,

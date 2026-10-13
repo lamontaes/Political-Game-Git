@@ -53,98 +53,6 @@ export interface ComputedSurface {
 
 export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
   {
-    sourcePath: "src/player/SaveTransferControls.tsx",
-    domain: "shell",
-    bank: "save-transfer",
-    symbols: [
-      "SaveTransferControls",
-      "exportLife",
-      "SaveImportControl",
-      "onFile",
-    ],
-    surface: "status",
-    reachability: "PLAYER_REACHABLE",
-    reachabilityReason:
-      "The Saved games screen mounts export and import on an existing slot list.",
-    grounding: [
-      {
-        key: "portable-save-slot",
-        description:
-          "The selected local save identity, or a newly created slot on import. Existing slots are not overwritten.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/portable-save.ts",
-    domain: "shell",
-    bank: "save-transfer",
-    symbols: [
-      "parsePortableSave",
-      "exportPortableSave",
-      "importPortableSave",
-      "readOptionalInterface",
-      "writeOptionalInterface",
-    ],
-    surface: "status",
-    reachability: "PLAYER_REACHABLE",
-    reachabilityReason:
-      "Export and import surface these refusals and outcomes on the Saved games screen.",
-    grounding: [
-      {
-        key: "portable-save-bundle",
-        description:
-          "The versioned life file, its World payload, and whether an interface store was present.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/player/MunicipalWorkspace.tsx",
-    domain: "governing",
-    bank: "municipal-workspace",
-    symbols: ["MunicipalWorkspace", "directory", "act"],
-    surface: "status",
-    reachability: "PLAYER_REACHABLE",
-    reachabilityReason:
-      "UI-core's Municipal route mounts this feature panel for the saved player. Its source-reading labels, inspection boundaries and explicit-action results are displayed here; registration is inventory, not human prose approval.",
-    grounding: [
-      {
-        key: "municipal-source-reading",
-        description:
-          "The exact government identity and individually classified enacted, attributed-report or dated-reference reading; inspection never changes residence or role.",
-      },
-      {
-        key: "canonical-municipal-records",
-        description:
-          "The controlled person's saved home-place link, current organization participation, calendar, Work and append-oriented history. Mutations occur only through an activated control.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/municipal-workspace.ts",
-    domain: "governing",
-    bank: "municipal-work-and-session",
-    symbols: [
-      "prepareMunicipalMeetingNotes",
-      "createAuthoredMunicipalPublicSession",
-    ],
-    surface: "status",
-    reachability: "PLAYER_REACHABLE",
-    reachabilityReason:
-      "The Municipal panel displays preparation refusals and writes these Work descriptions or authored-session disclosures after explicit player activation.",
-    grounding: [
-      {
-        key: "municipal-role-and-work",
-        description:
-          "An exact current role in this government and the canonical meeting/work-item identity; neither public attendance nor library inspection supplies a role.",
-      },
-      {
-        key: "authored-public-session",
-        description:
-          "A source-supported public series permits an explicitly game-authored occurrence. Its authored timing and duration do not establish a real published notice or agenda.",
-      },
-    ],
-  },
-  {
     sourcePath: "src/simulation/municipal-public-work.ts",
     domain: "governing",
     bank: "municipal-attendance-and-work",
@@ -343,38 +251,6 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
-    sourcePath: "src/presentation/legislation-projection.ts",
-    domain: "legislative",
-    bank: "measure-briefing",
-    symbols: [
-      "STEP_COPY",
-      "PHASE_SENTENCES",
-      "ACTION_HEADLINES",
-      "projectMeasureBriefing",
-      "uncertaintiesFor",
-      "questionLabel",
-      "deadlinesFor",
-      "requirementNoteFor",
-      "voteSentence",
-      "otherPart",
-    ],
-    surface: "status",
-    reachability: "PLAYER_REACHABLE",
-    reachabilityReason:
-      "The measure briefing is the player-reachable legislative surface once seated.",
-    grounding: [
-      {
-        key: "measure",
-        description: "The measure, its chamber, its stage and its vote record.",
-      },
-      {
-        key: "rule-pack",
-        description:
-          "The jurisdiction's compiled legislative rule pack and its cited instrument.",
-      },
-    ],
-  },
-  {
     sourcePath: "src/presentation/run-b-conversation.ts",
     domain: "conversation",
     bank: "conversation-turn",
@@ -491,27 +367,6 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
     ],
   },
   {
-    sourcePath: "src/presentation/life-introduction.ts",
-    domain: "life",
-    bank: "introduction",
-    symbols: [
-      "buildGrounding",
-      "buildLifeIntroduction",
-      "householdAbsenceLine",
-    ],
-    surface: "connective",
-    reachability: "PLAYER_REACHABLE",
-    reachabilityReason:
-      "The opening introduces the life before its first moment.",
-    grounding: [
-      {
-        key: "person-record",
-        description:
-          "The character's own canonical name, age, place and household.",
-      },
-    ],
-  },
-  {
     sourcePath: "src/presentation/life-conversation.ts",
     domain: "life",
     bank: "opening-conversation-replies",
@@ -542,96 +397,6 @@ export const COMPUTED_SURFACES: readonly ComputedSurface[] = [
         key: "eligible-selected-person-intent",
         description:
           "The conversation projection checks current presence, exact saved topic, age/context and prior consent before offering an action.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/office-response.ts",
-    domain: "life",
-    bank: "office-answer",
-    symbols: [
-      "OPTIONS",
-      "statementFor",
-      "projectOfficeMatters",
-      "officeOutcomeLine",
-    ],
-    surface: "option-label",
-    reachability: "CURRENTLY_UNREACHABLE",
-    reachabilityReason:
-      "CRUNCH47 B2 adapter: what an officeholder can say about a matter, and the office's own answer printed back. UI mounts it in the press context; until then no ordinary route renders it.",
-    grounding: [
-      {
-        key: "matter-and-office",
-        description:
-          "The matter this person is a subject of and actually knows about, the office the work record says they hold, and GOVERNING's own answer about what changed.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/press-disclosure.ts",
-    domain: "life",
-    bank: "press-disclosure",
-    symbols: ["TERM_LABEL", "projectDisclosure"],
-    surface: "option-label",
-    reachability: "CURRENTLY_UNREACHABLE",
-    reachabilityReason:
-      "CRUNCH47 B2 adapter: who the played person could talk to, on what terms, and what they actually hold to say or hand over. UI mounts it in the press context; until then no ordinary route renders it.",
-    grounding: [
-      {
-        key: "terms-and-holdings",
-        description:
-          "The outlet's own policy on each arrangement, the exact agreed description, and the events this person knows or the records they have discovered.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/people-contacts.ts",
-    domain: "life",
-    bank: "contacts",
-    symbols: ["projectContacts", "outstandingWith"],
-    surface: "option-label",
-    reachability: "CURRENTLY_UNREACHABLE",
-    reachabilityReason:
-      "CRUNCH47 B1 adapter: who the played person can reach, by what channel, and what is outstanding. UI mounts it; until then no ordinary route renders it.",
-    grounding: [
-      {
-        key: "recorded-overlap",
-        description:
-          "The household, kinship, work and group records the two people actually share, and the last meaningful interaction between them.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/people-recall-cards.ts",
-    domain: "life",
-    bank: "recall-cards",
-    symbols: ["STATUS_LINE", "projectRecallCards"],
-    surface: "status",
-    reachability: "CURRENTLY_UNREACHABLE",
-    reachabilityReason:
-      "CRUNCH47 B1 adapter: what the played person remembers being asked and having said. UI mounts it; until then no ordinary route renders it.",
-    grounding: [
-      {
-        key: "request-and-claim",
-        description:
-          "The saved request with its terms and status, and the player's own recorded answers, each named by the event it happened in.",
-      },
-    ],
-  },
-  {
-    sourcePath: "src/presentation/people-continuation.ts",
-    domain: "life",
-    bank: "life-continuation",
-    symbols: ["RELATION_LABEL", "projectLifeContinuation"],
-    surface: "status",
-    reachability: "CURRENTLY_UNREACHABLE",
-    reachabilityReason:
-      "PEOPLE P5 adapter: the heading, choice labels and wait disclosure a played life's end shows. UI mounts it; until then no ordinary route renders it.",
-    grounding: [
-      {
-        key: "life-end-and-family",
-        description:
-          "The recorded death or retirement, its date, and the living relatives the kinship records name, with their real ages and playable dates.",
       },
     ],
   },

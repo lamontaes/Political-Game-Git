@@ -1,4 +1,5 @@
 /** Actual selected-act admission and typed consequences for one coupled cash occurrence. */
+import { queueDecisionDetail } from "./decision-detail";
 import { makeIsoDate } from "../simulation/dates";
 import {
   isExplicitlyControlledPersonV1,
@@ -220,6 +221,7 @@ export function admitSelectedCashAct(
         visibility: core.observer ? "observer" : "circle",
       };
       m.mapSet(logs, id, record);
+      queueDecisionDetail(core, date, id);
       m.indexAdd(r.field(core, "logByPerson"), actorId, id);
       m.indexAdd(r.field(core, "logByKind"), record.kind, id);
       m.indexAdd(r.field(core, "logByPlace"), placeId, id);

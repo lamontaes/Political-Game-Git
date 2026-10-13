@@ -1206,9 +1206,9 @@ function committeeFor(bill: BillRow): string {
  * chaired by the most senior member of the majority side. The chair holds a
  * hearing only on a bill they don't oppose; witnesses are the town's people
  * the bill touches most (for a minimum wage, workers paid under the new
- * floor), heard on the record; then the committee votes. Sizes and the
- * seniority rule are estimates until each body's rules are read
- * (SG-GOV-committee-structure).
+ * floor), heard on the record; then the committee votes. The size is the
+ * typical standing committee's (`committeeSize`); seats go by seniority
+ * until leadership appoints them (SG-GOV-committee-structure).
  */
 function committeeStage(
   api: CoreAPI,
@@ -1226,9 +1226,15 @@ function committeeStage(
         b.serviceStart ?? b.startDate,
       ) || memberKey(a).localeCompare(memberKey(b)),
   );
-  const size = Math.max(
-    3,
-    Math.round(all.length * campaignParameter("committeeShareOfBody")),
+  const size = Math.min(
+    all.length,
+    Math.max(
+      campaignParameter("committeeSizeMinimum"),
+      Math.min(
+        campaignParameter("committeeSizeMaximum"),
+        campaignParameter("committeeSize"),
+      ),
+    ),
   );
   // Committee seats follow the chamber's party ratio, the majority holding a
   // majority of them; each side seats its most senior members.
@@ -1350,7 +1356,7 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
     for (const hook of beforeVoteHooks) hook(api, billId);
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
-  const tallies: { yes: number; no: number }[] = [];
+  const tallies: { yes: number; no: number; members: number }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const committee = committeeStage(api, bill, chamber);
     if (committee && !committee.reported) {
@@ -1383,7 +1389,7 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
         position: memberPosition(api, bill.id, breaker),
         tieBreak: true,
       } as unknown as ModuleRow);
-    tallies.push(tally);
+    tallies.push({ ...tally, members: members(api, chamber).length });
     // The Senate first needs three fifths of its sworn members to end debate.
     const cloture =
       chamber === FEDERAL_SENATE &&
@@ -1407,13 +1413,13 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
  * The executive's turn: a governor, or a directly elected mayor (or other
  * chief executive with a veto), signs or vetoes from their own position;
  * where the form of government gives no veto, a passed bill is law. An
- * override needs two thirds of those voting in every chamber (the common
- * rule; estimated: SG-GOV-veto-override-rule).
+ * override needs two thirds of every chamber's whole membership (the modal
+ * rule, counted against all members; `vetoOverrideShare`).
  */
 function executiveAction(
   api: CoreAPI,
   bill: BillRow,
-  tallies: readonly { yes: number; no: number }[],
+  tallies: readonly { yes: number; no: number; members: number }[],
 ): BillRow {
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const body = offices.table("offices").get(bill.bodyOfficeId) as unknown as {
@@ -1470,9 +1476,12 @@ function executiveAction(
     }
     const vetoes = decided ? !decided.sign : position.total < 0;
     if (vetoes) {
-      // stopgapId: SG-GOV-veto-override-rule
-      api.stopgap("SG-GOV-veto-override-rule");
-      status = tallies.every((t) => t.yes * 3 >= (t.yes + t.no) * 2)
+      // Two thirds of each body's whole membership (not of those voting).
+      status = tallies.every(
+        (t) =>
+          t.yes >=
+          Math.ceil(t.members * campaignParameter("vetoOverrideShare") - 1e-9),
+      )
         ? "overridden"
         : "vetoed";
     } else status = "signed";
@@ -1518,7 +1527,7 @@ export function executiveDecision(
     sign,
   } as unknown as ModuleRow);
   const bill = table(api, "bills").get(billId) as unknown as BillRow & {
-    tallies?: { yes: number; no: number }[];
+    tallies?: { yes: number; no: number; members: number }[];
   };
   if (bill.status !== "awaiting-signature") return bill;
   return executiveAction(api, bill, bill.tallies ?? []);

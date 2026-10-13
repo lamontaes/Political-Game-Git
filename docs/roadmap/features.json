@@ -98,7 +98,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "Module state, accounts with one balanced writer, the institution calendar and voter groups each have their own contract tests; the speed budget holds; the first two M1 ports build on them without patching the core.",
-      "command": null,
+      "command": "npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
       "passes": false
     },
     {
@@ -488,7 +488,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place over a year, the story director turns engine events (a campaign, a vote, a law, a lost job) into moments sized by impact: a big one stops the skip and smaller ones become journal lines; a broad event gives everyone a journal chapter and personal moments to the people it hit; a recorded lie, favor or promise comes back through a person.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/director/vitest.config.ts src/director/world-moments.test.ts src/director/journal.test.ts",
       "passes": false
     },
     {
@@ -618,7 +618,7 @@
       "golden_path": "release",
       "package": "M7-early-access",
       "test": "A save made on one build loads and continues after an update through the single versioned upgrade path, with no wipe.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/saves.mjs",
       "passes": false
     },
     {

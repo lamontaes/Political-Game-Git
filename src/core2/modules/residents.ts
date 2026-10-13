@@ -246,6 +246,37 @@ export function shiftToOpenSellers(
 }
 
 /** Cash above the firm's buffer goes to its owners: part local, the rest outside. */
+/** A firm's supplier bills accrued and not yet paid (net-30), and who they're owed to. */
+export function supplierBillsOwed(
+  core: CoreState,
+  organizationId: string,
+): { owedMinor: number; supplierId: string; flowId: string } | undefined {
+  const rt = runtimes.get(core),
+    book = core.finance.businesses.get(organizationId),
+    costs = rt?.flows.get(`outside-costs:${organizationId}`);
+  if (!book || !costs || costs.endedAt) return undefined;
+  const share =
+    book.annualDemandMinor > 0
+      ? book.annualOtherCostsMinor / book.annualDemandMinor
+      : 0;
+  const accrued =
+    (costs.accruedCostMinor ?? 0) +
+    (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) * share;
+  return {
+    owedMinor: Math.max(
+      0,
+      Math.floor(
+        accrued -
+          (book.operatingPaidMinor -
+            (costs.localPaidMinor ?? book.operatingPaidMinor)) -
+          (costs.outsidePaidMinor ?? 0),
+      ),
+    ),
+    supplierId: costs.payeeId,
+    flowId: costs.id,
+  };
+}
+
 function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const core = api.state,
     finance = core.finance,
@@ -260,25 +291,7 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     api.parameter("ownerDistributionBufferMultiple");
   // Supplier bills already owed (net-30) are the business's money, not the
   // owners': keep them back with the buffer.
-  const costs = rt.flows.get(`outside-costs:${flow.payerId}`);
-  let owed = 0;
-  if (costs && !costs.endedAt) {
-    const share =
-      book.annualDemandMinor > 0
-        ? book.annualOtherCostsMinor / book.annualDemandMinor
-        : 0;
-    const accrued =
-      (costs.accruedCostMinor ?? 0) +
-      (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) *
-        share;
-    owed = Math.max(
-      0,
-      accrued -
-        (book.operatingPaidMinor -
-          (costs.localPaidMinor ?? book.operatingPaidMinor)) -
-        (costs.outsidePaidMinor ?? 0),
-    );
-  }
+  const owed = supplierBillsOwed(core, flow.payerId)?.owedMinor ?? 0;
   const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
   if (excess <= 0) return;
   const residents = rt.input.accounts.find(
@@ -335,6 +348,16 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
+  const earnedDays = flow.earnedDaysByDue?.[date];
+  if (earnedDays !== undefined && flow.perDayMinorByJob) {
+    // A payday at the opening pays only the days worked since it.
+    let perDay = 0;
+    for (const value of Object.values(flow.perDayMinorByJob)) perDay += value;
+    base = Math.round(perDay * earnedDays);
+    const rest = { ...flow.earnedDaysByDue };
+    delete rest[date];
+    flow.earnedDaysByDue = rest;
+  }
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,

@@ -6,6 +6,7 @@ import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
   BRING_IT_UP_DATA,
+  leansToBlame,
   believedCause,
   bringItUp,
   changesKnownTo,
@@ -85,7 +86,7 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
     const official = office.staff![0]!.personId;
     const blamer = residents.find(
       (row) =>
-        (row.traits[BRING_IT_UP_DATA.blameAuthorityTrait] ?? 0) > 0 &&
+        leansToBlame(core, row) &&
         row.id !== worker.id &&
         row.id !== official &&
         row.knownIds.size > 0 &&

@@ -109,6 +109,34 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(sales).toBeGreaterThan(0);
   }, 300_000);
 
+  it("pays counted workers only for days worked since the opening", () => {
+    const start = two.startedAt;
+    const wages = two.residents!.flows.filter((row) => row.kind === "wages");
+    const early = wages.filter(
+      (row) => Object.keys(row.earnedDaysByDue ?? {}).length,
+    );
+    for (const row of wages) expect(row.firstAt >= start).toBe(true);
+    for (const row of early)
+      for (const [due, days] of Object.entries(row.earnedDaysByDue!)) {
+        expect(due >= start).toBe(true);
+        expect(days).toBeGreaterThanOrEqual(0);
+        expect(days).toBeLessThanOrEqual(31);
+      }
+    // A payday whose whole period came before the opening pays nothing.
+    const flow = early.find((row) =>
+      Object.values(row.earnedDaysByDue!).includes(0),
+    );
+    if (!flow) return;
+    const due = Object.entries(flow.earnedDaysByDue!).find(
+      ([, days]) => days === 0,
+    )![0];
+    const core = createLifeCore(two);
+    advanceCore(core, due);
+    const state = residentsRuntime(core)!.flows.get(flow.id)!;
+    expect(state.earnedDaysByDue?.[due]).toBeUndefined();
+    expect(state.arrearsMinor).toBe(0);
+  }, 300_000);
+
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
     advanceCore(core, "2021-01-15");

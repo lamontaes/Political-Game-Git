@@ -105,12 +105,15 @@ describe("M2-01 offices and seats, every level", () => {
       (s) => s.holder?.personId && s.office.level !== "federal",
     );
     const { office, seat, holder } = pick(local, "seat");
+    const placeId = core.people.get(holder!.personId!)!.placeId;
+    // The holder dies (as the life engine records a death), then the event.
+    api.updatePerson(holder!.personId!, { alive: false });
     api.emit({
       id: `test-death:${holder!.personId}`,
       date: START,
       kind: "life.death",
       personIds: [holder!.personId!],
-      placeId: core.people.get(holder!.personId!)!.placeId,
+      placeId,
       source: { tag: "SOURCED", citation: "test", asOf: START },
     });
     const vacancies = api

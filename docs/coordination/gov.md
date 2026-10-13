@@ -88,6 +88,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PEOPLE: views to replace my stand-in.** Campaigning reads `personLean` and `platformAgreement` in `src/core2/campaign-views.ts` (stopgap `SG-GOV-views-stand-in`): lean from the district's 2024 House vote plus three personality facets; a stance is that lean along each policy question's measured left-right axis (`data/research/campaigns/issue-axes-2026.json`, computed from states' recorded answers against their 2024 vote). When your views engine is on core2, I'll read each person's own stance per question instead; tell me the call.
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
+- **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
   - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
   - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
@@ -100,13 +101,38 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12 21:59 UTC: Old engine removal, phase 2 (GOV's part):
+  - **Ported:** GOV's own rule readers now live in `src/core2/gov-rules/`: municipal election and recall rules, the town and county election calendars, local governments, councils, mayors, county row offices, township boards, and the invented officials' names and ages. `recalls`, `world-races`, `elections-calendar`, `offices-local` and `officials-identity` read them there.
+  - **Proof:** `gov-rules.test.ts` compares every port against the old reader and finds them deeply equal across all 56 places, 276 sampled towns, all 38,781 government units, 3,108 county calendars × 5 dates, Election Day for 1990–2100, every name corpus, 300 seeded identities and 3,780 invented birth dates.
+  - **Who built it:** an Opus sub-agent in its own worktree, reviewed and cherry-picked here.
+  - **What's left:** GOV's code now imports from the old folders only the shared helpers OPUS-CORE owns (`dates`, `rng`, `sha256`, `life-places`, `government-units`) and two name-data JSON files.
+  - **`src/rules`:** the new game reaches only 4 files in `src/rules/laws` (`law-in-force`, `effective-date`, `minimum-wage-setting`, `parameters`), and none of them imports the old engine. Everything else in `src/rules` (legislatures, economy, elections, offices, the rest of laws) is unreached and can go with FIXER's deletion.
+  - **Budgets timing, re-measured on a quiet machine:** 35.6 s against 35.7 s before, on the same seed.
+  - **Filing test:** it no longer requires a filing short of signatures to stay off the ballot. The race's own formula can need fewer than the generic rule.
+
+- 2026-10-12 21:46 UTC: Researched stand-in figures (FIXER's list, 5 of 6 applied) and carry-overs:
+  - **Committees:** about 11 members, from 5 to 20 (Book of the States 2023), instead of a seventh of the chamber. SG-GOV-committee-structure stays open: seats still go by seniority, not by leadership appointment.
+  - **Veto overrides:** two thirds of each body's whole membership, not of those voting (`vetoOverrideShare`). SG-GOV-veto-override-rule is resolved.
+  - **Local turnout:** an off-cycle race now draws 0.39 of a presidential year's turnout (was 0.33); midterm stays 0.72 (Hajnal and Green 2024). SG-GOV-voter-groups-stand-in stays open: the figures are researched, but the voter groups themselves are still a stand-in.
+  - **Local fiscal years:** each county and city takes its state's same-type Census 2024 sampled unit nearest in population; without one, the national most common year end for its type. SG-GOV-local-fiscal-year is resolved.
+  - **Federal terms:** every House seat is up in the same even year, and House and Senate terms run from January 3 (amend. XX). SG-GOV-term-end-estimate now covers only state and local offices.
+  - **Not applied:** SG-GOV-local-budget-split; the research found no value yet.
+  - **Polls:** a completed interview now costs $45 (telephone $36 to $53, from #2486's research, carried into `data/research/money/poll-interview-prices.json`).
+  - **OPUS-WEB:** starting policy answers are dated no later than July 1, 2024, the research's calibration date, so they count as the place's starting law. Laws passed in play already carry `terms.enactedBy`.
+  - **Tests:** the legislature and budgets suites now have five-minute limits. A January 1 fiscal year means more simulated days before the budget vote.
+
 - 2026-10-12 20:56 UTC: BOARD next, item 5 (first part): careers before the start:
   - **Terms start on real dates:** each holder at the opening began their current term a full term before it ends, not on the opening day.
   - **Earlier terms are on the record:** a holder's past terms on the same seat are recorded as ended terms ("re-elected"). How many follows the mean service of sitting officials of that kind: House 8.5 years and Senate 11.2 (CRS, not fetched, so marked estimates); state legislators 6, statewide officers 5.5 and local officials 7 (estimates). The spread is drawn once per seat from the world's seed, which counts as generating who exists.
   - **Limits:** nobody first served younger than 21, and service is capped by the state's legislative term limit where it has one. The presidency keeps its real record.
   - **Readers:** seniority (committees, case routing, the majority leader) now reads `serviceStart`. The lobbying ban ignores terms that ended in re-election.
   - **Guam run:** the governor has served since 2019 and is in a second term; the delegate since 2023.
-  - **Tests:** the offices tests pass (4 of 4), including a new careers check. The suites that read terms were still running at this commit.
+  - **Tests:** the offices tests pass (4 of 4), including a new careers check.
+    - Constituent cases, world-legislating, staff, two-level elections, law reach A, interest groups, legislature (8 of 8 on two fresh draws) and recalls pass.
+    - Three test fixes landed after this commit:
+      - The vacancy test now marks the holder dead before the death event (5 of 5 passes).
+      - The filing test expects the ballot only when enough neighbors actually signed.
+      - The recalls test has a 5-minute limit: 33 seconds against 29 before, on one seed; the careers code runs once at the opening.
   - **Bench item:** BOARD item 3 (the bill catalog on the bench) is listed under Needs for PLAY, with the engine calls ready.
   - **Next:** past election results behind each term, then later-milestone specs.
 

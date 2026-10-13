@@ -1,3 +1,4 @@
+import { queueDecisionDetail } from "./decision-detail";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
@@ -1068,6 +1069,7 @@ export function recordWorkAttendance(
     const logs = r.field(core, "durableLog");
     if (r.mapHas(logs, sourceActId))
       throw new Error("Actual attendance act trace already exists.");
+    queueDecisionDetail(core, date, sourceActId);
     batch.map(logs, sourceActId, {
       id: sourceActId,
       date,

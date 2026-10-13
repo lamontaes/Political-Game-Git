@@ -1,5 +1,9 @@
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
-import { countedWagesEarned, residentWageShortfall } from "./modules/residents";
+import {
+  countedWagesEarned,
+  residentWageShortfall,
+  supplierBillsOwed,
+} from "./modules/residents";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
@@ -1465,7 +1469,28 @@ export function closeBusinessByChoice(
         source,
       });
   }
+  // Then its suppliers: bills already owed are paid before the owner's share.
+  const bills = supplierBillsOwed(core, organizationId);
+  if (bills && bills.owedMinor > 0) {
+    const amount = Math.min(
+      bills.owedMinor,
+      Math.max(0, accounts.balance(accounts.main(organizationId))),
+    );
+    if (amount > 0)
+      accounts.transfer({
+        id: `${id}:supplier-bills`,
+        from: accounts.main(organizationId),
+        to: accounts.main(bills.supplierId),
+        amountMinor: amount,
+        reasonKey: "business.supplier-bills",
+        source,
+      });
+  }
+  // And its lenders: an open credit line's balance is the lender's, not the owner's.
   let held = 0;
+  for (const facility of core.finance.facilities.values())
+    if (facility.borrowerId === organizationId)
+      held += facility.principalMinor + facility.interestArrearsMinor;
   for (const ledger of core.work.payrollLedgerByCommitment.values())
     if (ledger.organizationId === organizationId)
       held += ledger.accruedMinor + ledger.arrearsMinor;

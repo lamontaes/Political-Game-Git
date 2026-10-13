@@ -29,6 +29,8 @@ import {
 
 export const LAWS_MODULE_ID = "core2-laws-v1";
 const CHAIN_ID = "chain";
+/** The calibration date the starting policy answers are read as of. */
+const ANSWERS_AS_OF = "2024-07-01";
 
 export const LAWS_MODULE: CoreModule = {
   id: LAWS_MODULE_ID,
@@ -98,7 +100,9 @@ export function openLaws(core: CoreState): LawChain {
       series: question,
       tier: "general",
       value: answer.answer === "yes" ? 1 : 0,
-      effectiveDate: today,
+      // In force by the research's calibration date, so outcome research
+      // reading the real law at that date sees it (OPUS-WEB, Oct 12).
+      effectiveDate: today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF,
       endDate: null,
       source: entry.source ?? "data/research/laws/starting-law-2026",
       retrieved: today,
