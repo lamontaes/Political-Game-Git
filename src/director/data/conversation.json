@@ -716,6 +716,26 @@
           "key": "own-job-lost",
           "text": "I lost my job.",
           "stages": ["own-job-lost"]
+        },
+        {
+          "key": "divorced",
+          "text": "Did you hear? {{name}} got divorced.",
+          "stages": ["divorced"]
+        },
+        {
+          "key": "split",
+          "text": "{{name}} split up with {{their}} partner.",
+          "stages": ["split"]
+        },
+        {
+          "key": "own-divorced",
+          "text": "I got divorced.",
+          "stages": ["own-divorced"]
+        },
+        {
+          "key": "own-split",
+          "text": "My partner and I split up.",
+          "stages": ["own-split"]
         }
       ],
       "answers": [
@@ -732,7 +752,15 @@
         {
           "key": "sorry",
           "text": "I'm sorry to hear that.",
-          "stages": ["moved-away", "job-lost", "own-job-lost"]
+          "stages": [
+            "divorced",
+            "job-lost",
+            "moved-away",
+            "own-divorced",
+            "own-job-lost",
+            "own-split",
+            "split"
+          ]
         },
         {
           "key": "didnt-know",
@@ -760,7 +788,7 @@
         {
           "key": "bad",
           "text": "That's too bad.",
-          "stages": ["moved-away", "job-lost"]
+          "stages": ["divorced", "job-lost", "moved-away", "split"]
         },
         {
           "key": "own-good",
@@ -770,7 +798,7 @@
         {
           "key": "own-bad",
           "text": "I'm sorry to hear that.",
-          "stages": ["own-job-lost"]
+          "stages": ["own-divorced", "own-job-lost", "own-split"]
         }
       ],
       "answers": [
@@ -781,7 +809,14 @@
         {
           "key": "thanks",
           "text": "Thanks.",
-          "stages": ["own-married", "own-moved-in", "own-baby", "own-job-lost"]
+          "stages": [
+            "own-baby",
+            "own-divorced",
+            "own-job-lost",
+            "own-married",
+            "own-moved-in",
+            "own-split"
+          ]
         },
         {
           "key": "brief",
@@ -821,7 +856,9 @@
       "family.moved-in-together": "moved-in",
       "person-birth": "baby",
       "person.moved-away": "moved-away",
-      "work.job-lost": "job-lost"
+      "work.job-lost": "job-lost",
+      "family.divorced": "divorced",
+      "family.separated": "split"
     },
     "possessive": {
       "female": "her",
