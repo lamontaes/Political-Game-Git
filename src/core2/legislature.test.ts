@@ -9,13 +9,20 @@
  * the recorded rule's words.
  */
 import { createHash } from "node:crypto";
+import { addDays, makeIsoDate } from "../simulation/dates";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { LAWS_MODULE_ID, lawInForce, openLaws } from "./modules/laws";
+import {
+  LAWS_MODULE_ID,
+  enactLaw,
+  lawChain,
+  lawInForce,
+  openLaws,
+} from "./modules/laws";
 import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
@@ -503,6 +510,51 @@ describe(
       expect(() =>
         provisionFor({ policyId: wage.id, operation: "enact" }),
       ).toThrow();
+    });
+
+    it("home rule supplies a local bill's authority reason and repeal removes that basis", () => {
+      const { core, api, council } = town(
+        Object.keys(authority).sort(),
+        "home-rule",
+      );
+      const question =
+        "us-policy-positions:government-operations.broaden-local-authority";
+      const draft = () =>
+        draftBill(api, {
+          bodyOfficeId: council[0]!.office.id,
+          sponsorId: council[0]!.holder!.personId!,
+          // A local matter with no state policy answer exercises the grant;
+          // specific state preemption remains covered by the adjacent test.
+          provisions: [
+            {
+              kind: "policy-question",
+              question: "fixture:unregulated-local-matter",
+              value: 1,
+            },
+          ],
+        });
+      const write = (value: number) =>
+        enactLaw(api, {
+          jurisdiction: lawChain(api).stateKey,
+          level: "state",
+          series: question,
+          value,
+          effectiveDate: core.date,
+          measureId: `home-rule:${value}`,
+          citation: "Home-rule authority boundary fixture.",
+        });
+      const grant = write(1);
+      const permitted = draft();
+      expect(permitted.authority[0]!.source).toBe(grant.id);
+      expect(permitted.authority[0]!.allowed).toBe(true);
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      write(0);
+      const ordinary = draft();
+      expect(ordinary.authority[0]!.source).not.toBe(grant.id);
+      expect(ordinary.authority[0]!.reason).not.toBe(
+        permitted.authority[0]!.reason,
+      );
+      expect(billOf(api, permitted.id)!.authority[0]!.source).toBe(grant.id);
     });
 
     it("a town whose state preempts local minimum wages gets the block in the rule's words", () => {

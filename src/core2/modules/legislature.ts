@@ -692,6 +692,20 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
         reason: "state law rules this out for its places",
         source: provision.question,
       };
+    // Home rule changes the legal basis for an unregulated local matter;
+    // it does not override a state rule or a separately delegated tax/wage power.
+    const homeRule = lawInForce(
+      api,
+      "us-policy-positions:government-operations.broaden-local-authority",
+    );
+    if (!answer && homeRule.value === 1 && homeRule.governing)
+      return {
+        allowed: true,
+        warning: "none",
+        reason:
+          "home-rule grant covers this local matter; no state rule recorded",
+        source: homeRule.governing.id,
+      };
     return {
       allowed: true,
       warning: answer ? "disputed" : "none",
