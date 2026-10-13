@@ -119,7 +119,10 @@ export function checkLawConsequenceManifest(root = REPOSITORY_ROOT) {
   const expected = renderLawConsequenceManifest(
     discoverLawConsequenceModules(root),
   );
-  const actual = existsSync(path) ? readFileSync(path, "utf8") : null;
+  // A Windows checkout turns the committed LF file into CRLF; compare content.
+  const actual = existsSync(path)
+    ? readFileSync(path, "utf8").replace(/\r\n/g, "\n")
+    : null;
   return { matches: actual === expected, actual, expected, path };
 }
 

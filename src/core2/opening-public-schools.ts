@@ -19,8 +19,8 @@ import type {
   JobInput,
   OrganizationInput,
   WorkCommitmentInput,
-  WorkPayrollCalendarInput,
 } from "./types";
+import type { WorkPayrollCalendarInput } from "./work-pay-period";
 
 export interface PublicSchoolDistrictReceipt {
   organizationId: string;
