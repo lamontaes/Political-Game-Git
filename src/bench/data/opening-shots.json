@@ -3,7 +3,7 @@
   "shots": [
     {
       "officeKinds": [["president"]],
-      "places": ["oval-office"]
+      "places": ["oval-office-resolute", "oval-office"]
     },
     {
       "officeKinds": [["us-senate", "us-house"]],

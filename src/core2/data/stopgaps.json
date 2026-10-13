@@ -3018,5 +3018,17 @@
     "addedAt": "2026-10-13",
     "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
     "status": "open"
+  },
+  {
+    "id": "SG-LOC-residence-rooms",
+    "kind": "placeholder-art",
+    "file": "src/bench/scene.ts",
+    "line": 268,
+    "whatItFakes": "A sitting president or governor at home is shown outside the White House or the governor's residence by day and in the large house's living room at night, because neither residence has painted rooms.",
+    "why": "The Firefly library has the residences' exteriors only; the bench lists the rooms' picture names first (officialResidences in src/bench/data/scene-places.json) so they are used as soon as they are painted.",
+    "addedBy": "LOCATIONS",
+    "addedAt": "2026-10-13",
+    "replacement": "Painted rooms for each residence (white-house-residence-living, -dining, -bedroom; governor-residence-living, -dining, -bedroom), imported under those names.",
+    "status": "open"
   }
 ]
