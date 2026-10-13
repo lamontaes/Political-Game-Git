@@ -6,6 +6,7 @@
  * one line, and never invents a feeling: every slot is a recorded fact the
  * person holds, and the templates carry no feeling words.
  */
+import { makeIsoDate } from "../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
@@ -43,6 +44,12 @@ export interface JournalData {
   possessive: Readonly<Record<string, string>>;
   /** The possessive for someone by their recorded gender ("his", "her", "their"). */
   possessivePronoun: Readonly<Record<string, string>>;
+  /** The opening line from the person's birthplace record. */
+  birth: {
+    placeFact: string;
+    yearCharacters: number;
+    line: readonly { key: string; text: string }[];
+  };
   countWords: readonly string[];
   manyTimes: string;
   lines: readonly LineRow[];
@@ -378,6 +385,51 @@ export function composeJournal(
     chapter!.lines.push(line);
     chapter!.through = moment.date;
     repeats.set(repeatKey, { line, row, facts, count: one });
+  }
+  // The story opens where the person was born, from their own birth records.
+  const birthplace = (person.pastFacts ?? []).find(
+    (fact) => fact.kind === data.birth.placeFact && fact.facts?.placeId,
+  );
+  const born = birthplace ? placeName(birthplace.facts!.placeId) : null;
+  if (birthplace && born && birthplace.date <= through) {
+    const rendered = render(
+      "journal-born",
+      data.birth.line,
+      {
+        place: { text: born.text, sourceRecordIds: [birthplace.id] },
+        year: {
+          text: birthplace.date.slice(zero, data.birth.yearCharacters),
+          sourceRecordIds: [birthplace.id],
+        },
+      },
+      `${personId}:born`,
+      [birthplace.id],
+    );
+    if (rendered) {
+      const line: JournalLine = {
+        id: `${personId}:born`,
+        date: makeIsoDate(birthplace.date),
+        text: rendered.text,
+        momentIds: [],
+        sourceRecordIds: rendered.sourceRecordIds,
+      };
+      const first = chapters[zero];
+      if (first) {
+        first.lines.unshift(line);
+        first.from = line.date;
+      } else {
+        open(`${personId}:born`, rendered.text, line.date);
+        chapters[zero]!.title =
+          render(
+            "journal-title:first",
+            data.firstTitle,
+            { place: born },
+            `${personId}:born:title`,
+            [birthplace.id],
+          )?.text ?? born.text;
+        chapters[zero]!.lines.push(line);
+      }
+    }
   }
   // Broad events that reached the person join the chapter they fell in.
   for (const entry of book.backdrop) {

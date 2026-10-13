@@ -137,9 +137,12 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         ]),
       },
     } as Director;
+    // The contact lines, past the opening line from the birth record.
     const lines = composeJournal(core, fixture, player.id, {
       through: makeIsoDate("2021-04-01"),
-    }).flatMap((row) => row.lines);
+    })
+      .flatMap((row) => row.lines)
+      .filter((line) => !line.id.endsWith(":born"));
     expect(lines).toHaveLength(1);
     expect(lines[0]!.text).toMatch(/three times\.$/);
     expect(lines[0]!.momentIds).toHaveLength(3);
@@ -294,5 +297,11 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(true);
+  });
+
+  it("opens the story where the person was born, from the birth record", () => {
+    const first = composeJournal(core, director, player.id)[0]!.lines[0]!;
+    expect(first.text).toMatch(/^I was born in .+ in \d{4}\.$/);
+    expect(first.sourceRecordIds.length).toBeGreaterThan(0);
   });
 });

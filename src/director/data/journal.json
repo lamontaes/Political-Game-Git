@@ -396,5 +396,15 @@
     "male": "his",
     "female": "her",
     "other": "their"
+  },
+  "birth": {
+    "placeFact": "birthplace",
+    "yearCharacters": 4,
+    "line": [
+      {
+        "key": "born",
+        "text": "I was born in {{place}} in {{year}}."
+      }
+    ]
   }
 }
