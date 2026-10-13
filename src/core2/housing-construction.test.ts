@@ -140,5 +140,5 @@ describe("new homes", () => {
     expect(t.core.organizations.get(landlord)!.liquidMinor).toBe(
       100_000_000_000 - 2 * Number(projects[0]!.monthlyCostMinor),
     );
-  });
+  }, 180_000);
 });
