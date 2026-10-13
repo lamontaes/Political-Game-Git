@@ -66,7 +66,7 @@ import { withholdingFor } from "../../src/core2/tax-withholding";
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { WEB_LINKS } from "../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../src/core2/laws-starting";
-import type { CoreModule, CoreState } from "../../src/core2/types";
+import type { CoreAPI, CoreModule, CoreState } from "../../src/core2/types";
 
 /** The bench's opening day (src/bench/m0-check.ts). */
 const OPENING_DATE = "2026-10-12";
@@ -164,13 +164,73 @@ const OPERATIONS = [
 ] as const;
 let calls = new Map<string, number>();
 const wrapped = Symbol("played-world-counted");
-/** Counts calls into each module; modules are shared constants, so wrap once. */
-function countCalls(core: CoreState): void {
+// Reset alongside call counts for each sequential played world. Shared module
+// wrappers must not close over a previous world's state or payment history.
+let cashPayments = new Map<
+  string,
+  {
+    id: string;
+    date: string;
+    sourceRef: { id: string };
+    grossDebitMinor: number;
+  }
+>();
+/** Counts calls and observes completed payments without retaining full game history. */
+function countCalls(core: CoreState) {
+  cashPayments = new Map();
   calls = new Map();
   const count = (id: string) => calls.set(id, (calls.get(id) ?? 0) + 1);
   const wrap = <F extends (...args: never[]) => unknown>(id: string, f: F) =>
     ((...args: Parameters<F>) => {
       count(id);
+      const api = args[0] as CoreAPI | undefined;
+      if (
+        api &&
+        typeof api.postJournal === "function" &&
+        typeof api.accounts === "function"
+      ) {
+        const observed: CoreAPI = {
+          ...api,
+          postJournal(input) {
+            const result = api.postJournal(input);
+            cashPayments.set(input.id, {
+              id: input.id,
+              date: input.date,
+              sourceRef: { id: input.sourceRef.id },
+              grossDebitMinor: input.postings.reduce(
+                (n, p) => n + Math.max(0, -p.deltaMinor),
+                0,
+              ),
+            });
+            return result;
+          },
+          accounts() {
+            const accounts = api.accounts();
+            return {
+              ...accounts,
+              transfer(input) {
+                const receipt = accounts.transfer(input);
+                if (
+                  receipt.paidMinor > 0 &&
+                  receipt.journalSequence !== undefined
+                ) {
+                  const journalId = `journal:${receipt.date}:${receipt.journalSequence}`;
+                  cashPayments.set(journalId, {
+                    id: journalId,
+                    date: receipt.date,
+                    sourceRef: { id: receipt.id },
+                    grossDebitMinor: receipt.paidMinor,
+                  });
+                }
+                return receipt;
+              },
+            };
+          },
+        };
+        const forwarded = [...args];
+        forwarded[0] = observed as never;
+        return f(...forwarded);
+      }
       return f(...args);
     }) as unknown as F;
   for (const module of core.modules.values()) {
@@ -200,6 +260,7 @@ function countCalls(core: CoreState): void {
   ] as Map<string, (...a: never[]) => unknown>[])
     for (const [key, listener] of subscribers)
       subscribers.set(key, wrap(key.replace(/^module:/, ""), listener));
+  return cashPayments;
 }
 /** Every module table's contents, as a hash. */
 function moduleRecords(core: CoreState): Map<string, string> {
@@ -265,7 +326,7 @@ function playWorld(seed: string) {
       t.endDate >= start &&
       t.endDate <= end,
   );
-  countCalls(core);
+  const observedPayments = countCalls(core);
 
   // Day by day, watching what only shows on the day it happens.
   const cashYesterday = new Map<string, number>();
@@ -314,6 +375,10 @@ function playWorld(seed: string) {
   gc();
   const heapMB = process.memoryUsage().heapUsed / 1e6;
 
+  const paidReceipts = [
+    ...observedPayments.values(),
+    ...core.cashJournal.detailedReceipts.values(),
+  ];
   const api = coreAPI(core);
   const verdicts: Record<string, Verdict> = {};
 
@@ -395,7 +460,7 @@ function playWorld(seed: string) {
           );
         }),
     );
-    const payment = [...core.cashJournal.detailedReceipts.values()].find(
+    const payment = paidReceipts.find(
       (row) =>
         row.date >= law.effectiveDate &&
         row.sourceRef.id.includes(law.id) &&
@@ -462,7 +527,7 @@ function playWorld(seed: string) {
       );
       return (
         line.minor !== (before?.minor ?? 0) &&
-        [...core.cashJournal.detailedReceipts.values()].some(
+        paidReceipts.some(
           (item) => item.sourceRef.id === row.id && item.grossDebitMinor > 0,
         )
       );
@@ -476,7 +541,7 @@ function playWorld(seed: string) {
             (row) =>
               String(row.reason).includes(law.id) &&
               Number(row.premiumMinor) > 0 &&
-              [...core.cashJournal.detailedReceipts.values()].some(
+              paidReceipts.some(
                 (item) =>
                   item.sourceRef.id === row.id && item.grossDebitMinor > 0,
               ),
@@ -497,7 +562,7 @@ function playWorld(seed: string) {
       : undefined;
     const compliance =
       complianceRule &&
-      [...core.cashJournal.detailedReceipts.values()].find(
+      paidReceipts.find(
         (row) =>
           row.sourceRef.id.startsWith(`compliance:${complianceRule.id}:`) &&
           row.date >= law.effectiveDate &&
