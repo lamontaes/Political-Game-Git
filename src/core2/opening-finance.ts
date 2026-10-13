@@ -17,8 +17,8 @@ import {
   LIVING_COSTS_SOURCE,
   REPRESENTATIVE_LIVING_COSTS,
   type LivingCostsRegion,
-} from "../simulation/living-costs-data";
-import { LIVING_COSTS_CATEGORY_SOURCES } from "../simulation/living-costs-category-data";
+} from "./reference/living-costs-data";
+import { LIVING_COSTS_CATEGORY_SOURCES } from "./reference/living-costs-category-data";
 import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,

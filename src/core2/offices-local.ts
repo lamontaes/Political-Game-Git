@@ -16,7 +16,7 @@ import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules"
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
-import type { GovernmentUnitIdentity } from "../simulation/government-units";
+import type { GovernmentUnitIdentity } from "./reference/government-units";
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
 

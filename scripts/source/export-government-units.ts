@@ -26,11 +26,11 @@ import { openGovernmentUnitsProduction } from "../../src/source/domains/governme
 import { readPublishedGeneralPurposeUnits } from "../../src/source/domains/government-units/published-2025";
 import type { ArtifactLock } from "../../src/source/core/index";
 import { NATIONAL_PLACES_ROWS } from "../../src/simulation/national-places.generated";
-import { NATIONAL_COUNTIES_ROWS } from "../../src/simulation/national-counties.generated";
+import { NATIONAL_COUNTIES_ROWS } from "../../src/core2/reference/national-counties.generated";
 import { REPO_ROOT, domainDataDir } from "./registry";
 
 export const GOVERNMENT_UNITS_OUTPUT_PATH =
-  "src/simulation/government-units.generated.ts";
+  "src/core2/reference/government-units.generated.ts";
 
 const TYPE_CODES: Readonly<Record<string, 1 | 2 | 3>> = {
   "1 - COUNTY": 1,

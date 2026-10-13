@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import financeCatalog from "./data/opening-finance.json" with { type: "json" };
 import customerCatalog from "./data/opening-customers.json" with { type: "json" };
 import booksCatalog from "./data/business-books.json" with { type: "json" };
-import { LIVING_COSTS_CATEGORY_SOURCES } from "../simulation/living-costs-category-data";
+import { LIVING_COSTS_CATEGORY_SOURCES } from "./reference/living-costs-category-data";
 import { FinanceReadGuard } from "./finance-plan";
 import { PARAMETERS } from "./parameters";
 import {

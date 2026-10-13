@@ -2,11 +2,11 @@ import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import {
   livingCostsRegionForState,
   type LivingCostsRegion,
-} from "../simulation/living-costs-data";
+} from "./reference/living-costs-data";
 import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
-} from "../simulation/place-county-relations.generated";
+} from "./reference/place-county-relations.generated";
 import type { EntityId } from "./kernel/brands";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import type { CoreInput, Source } from "./types";
