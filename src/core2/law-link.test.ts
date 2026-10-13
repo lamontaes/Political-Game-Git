@@ -26,6 +26,7 @@ import {
   type WebMonth,
 } from "./modules/outcome-web";
 import { BUDGETS_MODULE_ID, type withholdingOf } from "./modules/budgets";
+import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import { withholdingFor } from "./tax-withholding";
 import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import { outcomeIssueView } from "./modules/views";
@@ -229,6 +230,31 @@ describe("59 policies in the played world, 90 days", () => {
               measure: `cash:${paid.sourceRef.id}`,
               before: 0,
               after: paid.grossDebitMinor,
+              lawId,
+            });
+        }
+        if (!evidence.has(question) && core.modules.has(REACH_A_MODULE_ID)) {
+          const premium = api
+            .moduleState(REACH_A_MODULE_ID)
+            .table("premiums")
+            .rows()
+            .find(
+              (row) =>
+                String(row.reason).includes(lawId) &&
+                Number(row.premiumMinor) > 0,
+            );
+          const paid =
+            premium &&
+            [...core.cashJournal.detailedReceipts.values()].find(
+              (row) =>
+                row.sourceRef.id === premium.id && row.grossDebitMinor > 0,
+            );
+          if (premium && paid)
+            evidence.set(question, {
+              recordId: paid.id,
+              measure: "cash:paid-family-leave-premium",
+              before: 0,
+              after: Number(premium.premiumMinor),
               lawId,
             });
         }

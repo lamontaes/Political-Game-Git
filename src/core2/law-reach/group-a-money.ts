@@ -27,7 +27,7 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { lawChain } from "../modules/laws";
+import { lawChain, lawInForce } from "../modules/laws";
 import {
   ageOn,
   applyRecords,
@@ -121,16 +121,18 @@ function leavePremium(
   api: CoreAPI,
   receipt: Readonly<WorkPayrollJournalReceipt>,
 ): void {
-  const program = mechanicRow(api, LEAVE_KEY);
-  if (!program?.active || receipt.paidMinor <= 0) return;
+  const law = lawInForce(api, LEAVE_KEY);
+  if (law.value !== 1 || !law.governing || receipt.paidMinor <= 0) return;
+  const government = governmentFor(api, [law.governing]);
+  if (!government) return;
   const person = api.state.people.get(receipt.personId);
   if (!person || person.placeId !== lawChain(api).townPlaceId) return;
   const premium = Math.min(
-    Math.round(receipt.paidMinor * Number(program.facts.share)),
+    Math.round(receipt.paidMinor * reachParameter("paidLeavePremiumShare")),
     Math.max(0, person.liquidMinor),
   );
   if (premium <= 0) return;
-  const treasury = String(program.facts.treasuryId);
+  const treasury = government.organizationId;
   const record = {
     id: `leave-premium:${receipt.id}`,
     date: api.state.date,
@@ -138,8 +140,8 @@ function leavePremium(
     payrollReceiptId: receipt.id,
     premiumMinor: premium,
     paidMinor: receipt.paidMinor,
-    governmentId: String(program.facts.governmentId),
-    reason: `Paid family leave premium under ${program.facts.lawId}`,
+    governmentId: government.id,
+    reason: `Paid family leave premium under ${law.governing.id}`,
     postings: [
       {
         id: `${receipt.id}:leave:out`,
