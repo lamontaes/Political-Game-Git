@@ -27,6 +27,14 @@ import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
 import { residentCounts } from "../core2/modules/residents";
 import { monthlyIncome } from "../core2/modules/credit";
 import { departuresOf } from "../core2/modules/moves";
+import {
+  officeStateKey,
+  takeOfficeDate,
+  termRuleFor,
+} from "../core2/term-rules";
+import type { OfficeInput } from "../core2/offices-local";
+import { governmentUnit } from "../simulation/government-units";
+import { nextCountyElection } from "../core2/gov-rules/county-election-calendar";
 import { VIEWS_DATA } from "../core2/modules/views";
 import { realLocalities } from "../core2/places";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
@@ -728,6 +736,26 @@ const checkH: Check = (world) => {
   };
 };
 
+/** A county's own published term start for an election, where one is read. */
+function countyRecordTermStart(
+  office: OfficeInput,
+  electionDate: string,
+): string | null {
+  if (office.level !== "county") return null;
+  const unit = governmentUnit(office.jurisdiction);
+  if (!unit) return null;
+  const read = nextCountyElection(
+    unit,
+    makeIsoDate(`${electionDate.slice(0, 4)}-01-01`),
+  );
+  return read.status === "read" &&
+    !read.dates.estimated &&
+    read.dates.electionDate.startsWith(electionDate.slice(0, 5)) &&
+    read.dates.termStarts > electionDate
+    ? read.dates.termStarts
+    : null;
+}
+
 /** I: terms end on time, movers give up their seats, and take-office dates follow the office's term rule. */
 const checkI: Check = (world) => {
   const today = world.core.date;
@@ -752,18 +780,28 @@ const checkI: Check = (world) => {
       row,
     ]),
   );
-  // The office's term rule: a new term starts on the office's term-start
-  // day (month and day, from the office's data row) after the election.
+  // The office's term rule (PW-5): a new term starts on the take-office day
+  // of the rule row for the office's kind in its state
+  // (src/core2/data/elections/term-rules.json), or on a county's own
+  // published calendar where one is read (the locality's record).
   const misdated: string[] = [];
   for (const contest of contestsOf(world)) {
     const result = resultOfContest(world, contest.id);
     if (!result || !inRun(world, result.date) || !result.takesOffice) continue;
-    const starts = String(offices.get(contest.officeId)?.termStarts ?? "01-01");
-    const year = Number(contest.electionDate.slice(0, 4));
-    const sameYear = `${year}-${starts}`;
+    const office = offices.get(contest.officeId) as unknown as
+      OfficeInput | undefined;
+    if (!office) continue;
+    const election =
+      /:(\d{4}-\d{2}-\d{2})(?::second)+$/.exec(contest.id)?.[1] ??
+      contest.electionDate;
+    const row = termRuleFor(
+      officeStateKey(office, world.place.state ?? undefined),
+      office,
+    );
+    const record = countyRecordTermStart(office, election);
     const expected =
-      sameYear > contest.electionDate ? sameYear : `${year + 1}-${starts}`;
-    if (result.takesOffice !== expected)
+      record ?? (row?.takeOffice ? takeOfficeDate(row, election) : null);
+    if (expected && result.takesOffice !== expected)
       misdated.push(
         `${contest.id} (takes office ${result.takesOffice}, rule gives ${expected})`,
       );
