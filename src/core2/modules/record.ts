@@ -176,12 +176,12 @@ export function recordAppeal(
   const weight = campaignParameter("recordVoteWeight");
   const reasons: RecordReason[] = [];
   for (const vote of votesOf(api, officeholderId)) {
-    const view = outcomeIssueView(
-      api,
-      voter.placeId,
-      vote.stance.question,
-      personStance(lean, vote.stance.question),
-    );
+    const stance = personStance(lean, vote.stance.question);
+    // The counted electorate also asks about a synthetic typical voter,
+    // which has no place. Do not invent geography for that aggregate.
+    const view = voter.placeId
+      ? outcomeIssueView(api, voter.placeId, vote.stance.question, stance)
+      : { position: stance, salience: 0, recordIds: [] };
     const own = view.position;
     // The same recorded consequence is read by named voters and counted groups.
     for (const itemId of view.recordIds)

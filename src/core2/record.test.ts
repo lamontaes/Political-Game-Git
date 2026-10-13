@@ -38,7 +38,15 @@ import {
   holdElection,
   openVoting,
 } from "./modules/voting";
-import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
+import {
+  openRecord,
+  promisesOf,
+  recordVote,
+  votesOf,
+  recordAppeal,
+} from "./modules/record";
+import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
+import type { PersonState } from "./types";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import {
@@ -271,5 +279,31 @@ describe("a vote by a member who isn't a full person", () => {
     expect(votesOf(api, outsider).length, where).toBe(1);
     expect(votesOf(api, resident).length, where).toBe(1);
     expect(heard, where).toEqual([`vote-recorded:vote:2026-001:${resident}`]);
+    // candidateInputs asks about an unlocated typical voter for counted races.
+    // A native vote record still counts; querying a place with undefined did
+    // crash the next presidential election once the outcome web was installed.
+    registerModule(core, OUTCOME_WEB_MODULE);
+    const vote = recordVote(api, {
+      personId: resident,
+      body: "office:test",
+      measureId: "2026-002",
+      stance: {
+        question: "us-policy-positions:environment-energy.price-carbon",
+        position: 1,
+      },
+      passed: true,
+    });
+    const appeal = recordAppeal(
+      api,
+      { id: "electorate:typical-voter" } as PersonState,
+      resident,
+      0.5,
+      true,
+    );
+    expect(
+      appeal.reasons.some((reason) => reason.itemId === vote.id),
+      where,
+    ).toBe(true);
+    expect(Number.isFinite(appeal.total), where).toBe(true);
   });
 });
