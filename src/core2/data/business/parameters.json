@@ -344,5 +344,16 @@
       "unit": "logit per year",
       "citation": "How much each year of dealing with a seller holds a buyer."
     }
+  },
+  "businessStartupStaff": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "New firms start small: firms of age zero averaged about six employees (Census Business Dynamics Statistics, 2015-2019 firm age tables); an entrant's first share of its market is that staff against the market's.",
+    "spread": {
+      "low": 3,
+      "high": 15,
+      "unit": "workers",
+      "citation": "New firms start small: firms of age zero averaged about six employees (Census Business Dynamics Statistics, 2015-2019 firm age tables); an entrant's first share of its market is that staff against the market's."
+    }
   }
 }

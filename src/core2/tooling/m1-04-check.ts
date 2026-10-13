@@ -4,12 +4,15 @@
  * with every economy engine runs a year from its start date. Passes when:
  * (1) the town's monthly hires and quits, as a share of its business jobs,
  * sit inside the JOLTS 2001-2019 range (5th to 95th percentile) for its
- * industry mix; (2) its average unemployment sits within a few points of
- * its region's; (3) every job change records its reason and who decided it;
+ * industry mix; (2) its average unemployment sits from its region's as
+ * counties sit from their state's (BLS LAUS 2010-2019, 5th to 95th
+ * percentile); (3) every job change records its reason and who decided it;
  * (4) a named layoff, if any, names who decided it. Exits nonzero on failure.
  */
+import laus from "../../../data/research/jobs/laus-county-deviation-2010-2019.json" with { type: "json" };
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "../life";
+import { pinned } from "../modules/jobs";
 import { regionalMonth } from "../modules/regional";
 import { townMetrics } from "../modules/world-metrics";
 import {
@@ -26,8 +29,8 @@ const seed = process.env.GOLDEN_PATH_SEED ?? process.argv[2],
   placeKey = process.env.GOLDEN_PATH_PLACE_KEY ?? process.argv[3];
 if (!seed || !placeKey)
   throw new Error("GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY are required.");
-/** How far a town's unemployment may sit from its region's, in points: towns spread around their state's rate (BLS LAUS). */
-const UNEMPLOYMENT_POINTS = 4;
+/** How far a county's unemployment sat from its state's, 2010-2019 (BLS LAUS via USDA ERS): 5th to 95th percentile, in points. */
+const UNEMPLOYMENT_SPREAD = laus.allCounties;
 const failures: string[] = [];
 const started = Date.now();
 
@@ -52,13 +55,15 @@ function businessJobs(c: CoreState): Map<string, number> {
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     const sector = kindSector[book.kindId] ?? kindSector["*"] ?? "total";
+    // Jobs an agreement names stay put until agreements re-resolve (SG-WORLD-jobs-agreement-pinned): they can't turn over, so they don't count.
+    const frozen = pinned(c);
     const full = [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
-      (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+      (jobId) => c.jobs.get(jobId)?.endsAt === undefined && !frozen.has(jobId),
     ).length;
-    bySector.set(
-      sector,
-      (bySector.get(sector) ?? 0) + full + countedJobsOf(c, id).length,
-    );
+    const counted = countedJobsOf(c, id).filter(
+      (job) => !frozen.has(job.id),
+    ).length;
+    bySector.set(sector, (bySector.get(sector) ?? 0) + full + counted);
   }
   return bySector;
 }
@@ -139,7 +144,10 @@ const regionUnemployment =
   unemployment.reduce((n, row) => n + row.region, 0) /
   Math.max(1, unemployment.length);
 if (!unemployment.length) failures.push("no monthly unemployment recorded");
-else if (Math.abs(townUnemployment - regionUnemployment) > UNEMPLOYMENT_POINTS)
+else if (
+  townUnemployment - regionUnemployment < UNEMPLOYMENT_SPREAD.p05 ||
+  townUnemployment - regionUnemployment > UNEMPLOYMENT_SPREAD.p95
+)
   failures.push(
     `unemployment ${townUnemployment.toFixed(1)}% against the region's ${regionUnemployment.toFixed(1)}%`,
   );
@@ -170,6 +178,7 @@ console.log(
       seed,
       start: input.startedAt,
       businessJobs: {
+        frozenByAgreements: pinned(core).size,
         opening: staffAtOpening,
         average: Math.round(averageStaff),
         byMonth: staffByMonth,

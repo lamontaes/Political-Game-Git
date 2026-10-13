@@ -772,27 +772,37 @@ function marketRoom(api: CoreAPI): Market[] {
   }));
 }
 
-/** What an entrant could make a month: an equal share of the market at its kind's margin. */
+/** A new business starts small: a startup's staff against the market's, never more than an equal share. */
+function entrantShare(api: CoreAPI, market: Market): number {
+  return Math.min(
+    1 / (market.incumbents.length + 1),
+    api.parameter("businessStartupStaff") / Math.max(1, market.staff),
+  );
+}
+
+/** What an entrant could make a month: its share of the market at its kind's margin. */
 function prospectMonthly(api: CoreAPI, market: Market): number {
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === market.kindId,
   );
   if (!kind) return 0;
   return (
-    ((market.demandMinor / (market.incumbents.length + 1)) *
+    (market.demandMinor *
+      entrantShare(api, market) *
       api.parameter(kind.marginParameter)) /
     api.parameter("macroMonthsPerYear")
   );
 }
 
-/** What starting costs: a few months of an equal share's costs before sales come in. */
+/** What starting costs: a few months of its share's costs before sales come in. */
 function startupCost(api: CoreAPI, market: Market): number {
   const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
     (row) => row.id === market.kindId,
   );
   if (!kind) return 0;
   return (
-    ((market.demandMinor / (market.incumbents.length + 1)) *
+    (market.demandMinor *
+      entrantShare(api, market) *
       (1 - api.parameter(kind.marginParameter)) *
       api.parameter("businessStartupMonthsOfCosts")) /
     api.parameter("macroMonthsPerYear")
@@ -855,11 +865,7 @@ function foundings(api: CoreAPI): void {
   const market = marketRoom(api)
     .filter(
       (row) =>
-        purchaseShareOf(
-          c,
-          new Set(row.incumbents),
-          1 / (row.incumbents.length + 1),
-        ) > 0,
+        purchaseShareOf(c, new Set(row.incumbents), entrantShare(api, row)) > 0,
     )
     .map((row) => ({
       row,
@@ -1084,7 +1090,7 @@ function found(
   const parentName = location
     ? c.organizations.get(location.parentId)?.name
     : undefined;
-  const share = 1 / (market.incumbents.length + 1);
+  const share = entrantShare(api, market);
   // No customers to win (no buyers reach this market's businesses): nothing to found.
   if (purchaseShareOf(c, new Set(market.incumbents), share) <= 0) return false;
   api.addOrganization({
@@ -1103,8 +1109,10 @@ function found(
   const rivals = market.incumbents
     .map((rid) => c.finance.businesses.get(rid))
     .filter((row) => row && !row.closedAt);
+  // The capacity that wins it `share` of the households' purchases in the core's split by capacity.
   const capacityMinor = rivals.length
-    ? rivals.reduce((n, row) => n + row!.capacityMinor, 0) / rivals.length
+    ? (rivals.reduce((n, row) => n + row!.capacityMinor, 0) * share) /
+      (1 - share)
     : market.demandMinor * share;
   const incumbents = new Set(market.incumbents);
   const countedBuyers = [...(residentsRuntime(c)?.flows.values() ?? [])].some(

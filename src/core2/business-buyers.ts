@@ -3,7 +3,7 @@
  * are split into buyer accounts of different sizes, each renewing on its own
  * month; as many again buy the same kind of thing elsewhere. At its renewal
  * a buyer weighs staying against going elsewhere: the seller's price against
- * the nation's and how long they've dealt with each other. A buyer elsewhere
+ * what others charge and how long they've dealt with each other. A buyer elsewhere
  * weighs coming to the town's seller of its kind the same way, and goes to
  * the one with most room for it. A business's outside sales, and the staff
  * it needs, follow the accounts it holds.
@@ -134,16 +134,14 @@ export function openBuyers(
   }
 }
 
-/** A business's price against the nation's prices since the opening. */
-function relativePrice(c: CoreState, id: string): number {
-  const book = c.finance.businesses.get(id);
-  const placeId = c.organizations.get(id)?.placeId;
-  if (!book || !placeId) return 1;
-  const general =
-    (c.finance.conditionsByPlace.get(placeId) ?? [])
-      .filter((row) => row.at <= c.date)
-      .at(-1)?.generalPriceFactor ?? 1;
-  return book.price / (book.anchorPrice || 1) / general;
+/** Each open business's price against what the town's businesses charge (their median price level): what a buyer compares. */
+function relativePrices(c: CoreState): Map<string, number> {
+  const levels = new Map<string, number>();
+  for (const [id, book] of c.finance.businesses)
+    if (!book.closedAt) levels.set(id, book.price / (book.anchorPrice || 1));
+  const sorted = [...levels.values()].sort((a, b) => a - b);
+  const median = sorted[Math.floor(sorted.length / 2)] ?? 1;
+  return new Map([...levels].map(([id, level]) => [id, level / median]));
 }
 
 /** This month's renewals: buyers here weigh leaving, buyers elsewhere weigh coming. */
@@ -165,6 +163,8 @@ export function renewBuyers(
     month,
   ]) as unknown as BuyerRow[];
   if (!due.length) return;
+  const prices = relativePrices(c);
+  const relativePrice = (_c: CoreState, id: string) => prices.get(id) ?? 1;
   const sellers = new Map(
     (tables.sellers.query("all", [true]) as unknown as SellerRow[]).map(
       (row) => [row.id, { ...row }],

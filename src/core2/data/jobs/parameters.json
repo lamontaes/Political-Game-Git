@@ -265,22 +265,22 @@
     }
   },
   "jobsCountedEntryBaseline": {
-    "value": -7,
+    "value": -6,
     "tag": "TUNABLE",
-    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "citation": "BLS CPS labor force status flows and participation by age: people outside the labor force start looking each month (not in labor force to unemployed), mostly young people leaving school; set so the counted unemployed settle near the state's rate with the stop-looking flow; checked against JOLTS hires.",
     "spread": {
-      "low": -8,
-      "high": -5.5,
+      "low": -7,
+      "high": -4.5,
       "unit": "logit of a month's pull to start looking",
-      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+      "citation": "BLS CPS labor force status flows and participation by age: people outside the labor force start looking each month (not in labor force to unemployed), mostly young people leaving school; set so the counted unemployed settle near the state's rate with the stop-looking flow; checked against JOLTS hires."
     }
   },
   "jobsCountedEntryYouthWeight": {
-    "value": 4,
+    "value": 3,
     "tag": "TUNABLE",
     "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
     "spread": {
-      "low": 2.5,
+      "low": 1.5,
       "high": 5,
       "unit": "added at the peak of school-leaving years",
       "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
@@ -311,6 +311,50 @@
       "high": 0.65,
       "unit": "share of quits",
       "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N)."
+    }
+  },
+  "jobsLetGoBaseline": {
+    "value": -4.6,
+    "tag": "TUNABLE",
+    "citation": "Layoffs and discharges at establishments that are not shrinking, where the role is refilled (Davis, Faberman and Haltiwanger 2012, J. Monetary Econ. 59(1), the hires and separations against establishment growth); checked against JOLTS layoffs and hires.",
+    "spread": {
+      "low": -5.5,
+      "high": -3.0,
+      "unit": "logit a month",
+      "citation": "Layoffs and discharges at establishments that are not shrinking, where the role is refilled (Davis, Faberman and Haltiwanger 2012, J. Monetary Econ. 59(1), the hires and separations against establishment growth); checked against JOLTS layoffs and hires."
+    }
+  },
+  "jobsLetGoReliabilityWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "A less reliable worker is likelier to be let go (job-match quality; Jovanovic 1979 matching model).",
+    "spread": {
+      "low": 0.25,
+      "high": 2,
+      "unit": "logit per unit of reliability",
+      "citation": "A less reliable worker is likelier to be let go (job-match quality; Jovanovic 1979 matching model)."
+    }
+  },
+  "jobsLetGoTenureWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Separations fall steeply with tenure: most dismissals come in a job's first year (Farber 1994, J. Labor Econ. 12(4)).",
+    "spread": {
+      "low": 0.2,
+      "high": 1.2,
+      "unit": "logit per log year of tenure",
+      "citation": "Separations fall steeply with tenure: most dismissals come in a job's first year (Farber 1994, J. Labor Econ. 12(4))."
+    }
+  },
+  "jobsSwitchCost": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "What moving from one job to another costs the worker (new commute, lost tenure and standing): job-to-job moves come with raises (Topel and Ward 1992, QJE 107(2): early-career job changes carry about a third of wage growth); checked against JOLTS quits.",
+    "spread": {
+      "low": 0.25,
+      "high": 2,
+      "unit": "logit",
+      "citation": "What moving from one job to another costs the worker (new commute, lost tenure and standing): job-to-job moves come with raises (Topel and Ward 1992, QJE 107(2): early-career job changes carry about a third of wage growth); checked against JOLTS quits."
     }
   }
 }
