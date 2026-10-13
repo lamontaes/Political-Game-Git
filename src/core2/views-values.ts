@@ -43,7 +43,11 @@ export const POLICY_VALUES = policyJson as unknown as {
   policies: Readonly<
     Record<
       string,
-      { issue: string; bearings: Readonly<Record<string, number>> }
+      {
+        name: string;
+        issue: string;
+        bearings: Readonly<Record<string, number>>;
+      }
     >
   >;
 };

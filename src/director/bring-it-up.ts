@@ -8,7 +8,11 @@
  * this one's words.
  */
 import { P } from "../core2/parameters";
-import { applyCoreEvent } from "../core2/state";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
+import { VIEWS_MODULE_ID } from "../core2/modules/views";
+import { applyCoreEvent, coreAPI } from "../core2/state";
+import { POLICY_VALUES, valueSupport } from "../core2/views-values";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import bringJson from "./data/bring-it-up.json" with { type: "json" };
@@ -25,10 +29,16 @@ interface BringData {
   blameKey: string;
   changes: readonly {
     eventKind: string;
-    institutionFact: { prefix: string; suffix: string };
+    /** For a change seen on an organization's own record. */
+    institutionFact?: { prefix: string; suffix: string };
     line: Variant[];
   }[];
   blame: Readonly<Record<Attribution["how"], Variant[]>>;
+  /** Whether the speaker is for or against a law, from their own values. */
+  reaction: Readonly<Record<"for" | "against", Variant[]>>;
+  lawKind: string;
+  newsKey: string;
+  policyPrefix: string;
 }
 export const BRING_IT_UP_DATA = bringJson as unknown as BringData;
 
@@ -61,6 +71,7 @@ export function changesKnownTo(
   const out = new Map<string, KnownChange>();
   for (const fact of known.values()) {
     for (const change of data.changes) {
+      if (!change.institutionFact) continue;
       const { prefix, suffix } = change.institutionFact;
       if (
         fact.key.startsWith(prefix) &&
@@ -78,12 +89,34 @@ export function changesKnownTo(
           route: "seen",
         });
     }
+    // A law that took effect, from its news story: the record names the
+    // bill that enacted it, and the bill its sponsor.
+    if (
+      fact.key.startsWith(`${data.newsKey}:`) &&
+      fact.value === data.lawKind
+    ) {
+      const eventId = fact.key.slice(data.newsKey.length + P.one);
+      const sponsor = lawSponsor(core, eventId);
+      if (sponsor && !out.has(eventId))
+        out.set(eventId, {
+          eventId,
+          kind: data.lawKind,
+          institutionId: sponsor,
+          learnedAt: fact.learnedAt,
+          route: "seen",
+        });
+    }
     if (fact.key.startsWith(`${data.heardKey}:`)) {
       const eventId = fact.key.slice(data.heardKey.length + P.one);
+      // What kind of change it was, from its record where the log keeps it.
+      const logged = core.durableLog.get(eventId)?.kind;
+      const kind = data.changes.some((row) => row.eventKind === logged)
+        ? logged!
+        : data.changes[P.zero]!.eventKind;
       if (!out.has(eventId))
         out.set(eventId, {
           eventId,
-          kind: data.changes[P.zero]!.eventKind,
+          kind,
           institutionId: fact.value,
           learnedAt: fact.learnedAt,
           route: "heard",
@@ -95,6 +128,42 @@ export function changesKnownTo(
       b.learnedAt.localeCompare(a.learnedAt) ||
       a.eventId.localeCompare(b.eventId),
   );
+}
+
+/** The sponsor of the bill that enacted a law, from the law's own record. */
+function lawSponsor(
+  core: Readonly<CoreState>,
+  eventId: string,
+): PersonId | null {
+  const lawId = core.durableLog.get(eventId)?.facts?.lawId;
+  if (!lawId || !core.modules.has(LAWS_MODULE_ID)) return null;
+  const api = coreAPI(core as CoreState);
+  const law = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+    { terms?: { enactedBy?: string } } | undefined;
+  const number = law?.terms?.enactedBy;
+  if (!number || !core.modules.has(LEGISLATURE_MODULE_ID)) return null;
+  const bill = (
+    api.moduleState(LEGISLATURE_MODULE_ID).table("bills").rows() as unknown as {
+      number: string;
+      sponsorId: string;
+    }[]
+  ).find((row) => row.number === number);
+  return bill?.sponsorId && core.people.has(bill.sponsorId)
+    ? bill.sponsorId
+    : null;
+}
+
+/** The policy a law's series names, if it is one of the authored ones. */
+function lawPolicy(
+  core: Readonly<CoreState>,
+  eventId: string,
+  data: BringData,
+): string | null {
+  const series = String(core.durableLog.get(eventId)?.facts?.series ?? "");
+  const key = series.startsWith(data.policyPrefix)
+    ? series.slice(data.policyPrefix.length)
+    : series;
+  return POLICY_VALUES.policies[key] ? key : null;
 }
 
 /** Whether a person's traits lean toward blaming an official over withholding blame. */
@@ -186,7 +255,18 @@ export function bringItUp(
   data: BringData = BRING_IT_UP_DATA,
 ): BroughtUp | null {
   const change = changesKnownTo(core, speakerId, data)[P.zero];
-  const subject = change ? nameOf(core, change.institutionId) : null;
+  // A law is named by its policy; anything else by the institution.
+  const policy =
+    change?.kind === data.lawKind
+      ? lawPolicy(core, change.eventId, data)
+      : null;
+  const subject = !change
+    ? null
+    : change.kind === data.lawKind
+      ? policy
+        ? POLICY_VALUES.policies[policy]!.name
+        : null
+      : nameOf(core, change.institutionId);
   if (!change || !subject) return null;
   markWordsStopgap(data.stopgapId);
   const attribution = believedCause(core, speakerId, change, data);
@@ -218,6 +298,16 @@ export function bringItUp(
     },
   });
   if (first) lines.push(first);
+  // Whether they are for it or against it: their own values.
+  const support =
+    policy && core.modules.has(VIEWS_MODULE_ID)
+      ? valueSupport(coreAPI(core), speakerId, policy)
+      : null;
+  if (support !== null && support !== P.zero) {
+    const side = support > P.zero ? "for" : "against";
+    const reaction = say(`reaction:${side}`, side, data.reaction[side], {});
+    if (reaction) lines.push(reaction);
+  }
   const who = attribution.blamedId ? nameOf(core, attribution.blamedId) : null;
   const second = say(
     `blame:${attribution.how}`,

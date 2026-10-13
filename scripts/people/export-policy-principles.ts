@@ -24,6 +24,7 @@ const out = {
     pack.propositions.map((row) => [
       row.key,
       {
+        name: row.name,
         issue: row.issue,
         bearings: Object.fromEntries(
           row.principles.map((p) => [

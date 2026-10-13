@@ -61,6 +61,7 @@
   ],
   "policies": {
     "fiscal.adopt-income-tax": {
+      "name": "Adopt a state income tax",
       "issue": "us-state-and-local:fiscal.income-tax",
       "bearings": {
         "collective-provision": 0.85,
@@ -72,6 +73,7 @@
       }
     },
     "fiscal.graduated-income-tax": {
+      "name": "Graduated income tax",
       "issue": "us-state-and-local:fiscal.income-tax",
       "bearings": {
         "equal-opportunity": 0.9,
@@ -82,6 +84,7 @@
       }
     },
     "fiscal.cap-property-tax-growth": {
+      "name": "Cap property tax growth",
       "issue": "us-state-and-local:fiscal.property-tax",
       "bearings": {
         "property-rights": 0.9,
@@ -93,6 +96,7 @@
       }
     },
     "fiscal.exempt-groceries-from-sales-tax": {
+      "name": "Exempt groceries from sales tax",
       "issue": "us-state-and-local:fiscal.sales-tax",
       "bearings": {
         "equal-opportunity": 0.9,
@@ -103,6 +107,7 @@
       }
     },
     "fiscal.balanced-operating-budget": {
+      "name": "Require a balanced operating budget",
       "issue": "us-state-and-local:fiscal.operating-budget",
       "bearings": {
         "fiscal-restraint": 0.95,
@@ -113,6 +118,7 @@
       }
     },
     "fiscal.fund-pensions-to-schedule": {
+      "name": "Fund pensions on schedule",
       "issue": "us-state-and-local:fiscal.public-pensions",
       "bearings": {
         "fiscal-restraint": 0.85,
@@ -123,6 +129,7 @@
       }
     },
     "fiscal.minimum-reserve-balance": {
+      "name": "Minimum reserve balance",
       "issue": "us-state-and-local:fiscal.reserves",
       "bearings": {
         "fiscal-restraint": 0.9,
@@ -132,6 +139,7 @@
       }
     },
     "government-operations.independent-redistricting": {
+      "name": "Independent redistricting commission",
       "issue": "us-state-and-local:government-operations.redistricting",
       "bearings": {
         "equal-treatment": 0.95,
@@ -143,6 +151,7 @@
       }
     },
     "government-operations.require-photo-id-to-vote": {
+      "name": "Require photo identification to vote",
       "issue": "us-state-and-local:government-operations.election-rules",
       "bearings": {
         "public-safety": 0.7,
@@ -154,6 +163,7 @@
       }
     },
     "government-operations.automatic-voter-registration": {
+      "name": "Automatic voter registration",
       "issue": "us-state-and-local:government-operations.election-administration",
       "bearings": {
         "equal-opportunity": 0.95,
@@ -166,6 +176,7 @@
       }
     },
     "government-operations.legislative-term-limits": {
+      "name": "Limit legislative terms",
       "issue": "us-state-and-local:government-operations.legislative-procedure",
       "bearings": {
         "limited-government": 0.9,
@@ -177,6 +188,7 @@
       }
     },
     "government-operations.ban-lobbying-after-office": {
+      "name": "Cooling-off period before lobbying",
       "issue": "us-state-and-local:government-operations.lobbying-regulation",
       "bearings": {
         "transparency": 0.95,
@@ -188,6 +200,7 @@
       }
     },
     "government-operations.broaden-local-authority": {
+      "name": "Broaden local government power",
       "issue": "us-state-and-local:government-operations.state-local-powers",
       "bearings": {
         "local-control": 0.95,
@@ -200,6 +213,7 @@
       }
     },
     "education.equalize-school-funding": {
+      "name": "Equalize school funding across districts",
       "issue": "us-state-and-local:education.school-funding",
       "bearings": {
         "equal-opportunity": 0.95,
@@ -211,6 +225,7 @@
       }
     },
     "education.public-funds-for-private-schooling": {
+      "name": "Public funds for private schooling",
       "issue": "us-state-and-local:education.school-choice",
       "bearings": {
         "personal-liberty": 0.95,
@@ -223,6 +238,7 @@
       }
     },
     "education.raise-teacher-minimum-salary": {
+      "name": "Raise the teacher salary floor",
       "issue": "us-state-and-local:education.teacher-workforce",
       "bearings": {
         "worker-protection": 0.95,
@@ -234,6 +250,7 @@
       }
     },
     "education.universal-preschool": {
+      "name": "Universal preschool",
       "issue": "us-state-and-local:education.early-childhood",
       "bearings": {
         "equal-opportunity": 0.95,
@@ -246,6 +263,7 @@
       }
     },
     "education.freeze-public-tuition": {
+      "name": "Freeze public college tuition",
       "issue": "us-state-and-local:education.higher-education-tuition-and-aid",
       "bearings": {
         "equal-opportunity": 0.95,
@@ -257,6 +275,7 @@
       }
     },
     "education.state-curriculum-standards": {
+      "name": "Set curriculum at the state level",
       "issue": "us-state-and-local:education.curriculum-and-standards",
       "bearings": {
         "equal-treatment": 0.9,
@@ -270,6 +289,7 @@
       }
     },
     "health-human-services.expand-medicaid-eligibility": {
+      "name": "Expand Medicaid eligibility",
       "issue": "us-state-and-local:health-human-services.medicaid",
       "bearings": {
         "collective-provision": 0.95,
@@ -280,6 +300,7 @@
       }
     },
     "health-human-services.medicaid-work-requirement": {
+      "name": "Work requirement for Medicaid",
       "issue": "us-state-and-local:health-human-services.medicaid",
       "bearings": {
         "limited-government": 0.75,
@@ -291,6 +312,7 @@
       }
     },
     "health-human-services.work-requirement-for-assistance": {
+      "name": "Work requirement for assistance",
       "issue": "us-state-and-local:health-human-services.food-and-income-assistance",
       "bearings": {
         "limited-government": 0.75,
@@ -302,6 +324,7 @@
       }
     },
     "health-human-services.fund-behavioral-health-crisis-response": {
+      "name": "Fund a behavioral health crisis response",
       "issue": "us-state-and-local:health-human-services.behavioral-health",
       "bearings": {
         "public-safety": 0.9,
@@ -312,6 +335,7 @@
       }
     },
     "health-human-services.harm-reduction-services": {
+      "name": "Harm reduction services",
       "issue": "us-state-and-local:health-human-services.substance-use",
       "bearings": {
         "collective-provision": 0.85,
@@ -322,6 +346,7 @@
       }
     },
     "health-human-services.housing-first-homelessness": {
+      "name": "Housing first",
       "issue": "us-state-and-local:health-human-services.homelessness-services",
       "bearings": {
         "collective-provision": 0.9,
@@ -332,6 +357,7 @@
       }
     },
     "justice-public-safety.end-cash-bail": {
+      "name": "End cash bail",
       "issue": "us-state-and-local:justice-public-safety.courts",
       "bearings": {
         "equal-treatment": 0.95,
@@ -343,6 +369,7 @@
       }
     },
     "justice-public-safety.mandatory-minimum-sentences": {
+      "name": "Mandatory minimum sentences",
       "issue": "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
       "bearings": {
         "public-safety": 0.85,
@@ -354,6 +381,7 @@
       }
     },
     "justice-public-safety.civilian-oversight-of-police": {
+      "name": "Civilian oversight of police",
       "issue": "us-state-and-local:justice-public-safety.policing",
       "bearings": {
         "transparency": 0.95,
@@ -365,6 +393,7 @@
       }
     },
     "justice-public-safety.permit-to-carry-concealed": {
+      "name": "Require a permit to carry concealed",
       "issue": "us-state-and-local:justice-public-safety.firearms",
       "bearings": {
         "public-safety": 0.9,
@@ -374,6 +403,7 @@
       }
     },
     "justice-public-safety.raise-juvenile-court-age": {
+      "name": "Raise the juvenile court age",
       "issue": "us-state-and-local:justice-public-safety.juvenile-justice",
       "bearings": {
         "equal-opportunity": 0.9,
@@ -385,6 +415,7 @@
       }
     },
     "justice-public-safety.restore-voting-after-sentence": {
+      "name": "Restore voting after a sentence",
       "issue": "us-state-and-local:justice-public-safety.reentry",
       "bearings": {
         "equal-treatment": -0.3,
@@ -395,6 +426,7 @@
       }
     },
     "housing-land-use.allow-multifamily-in-single-family-zones": {
+      "name": "Allow multifamily housing in single-family zones",
       "issue": "us-state-and-local:housing-land-use.housing-supply",
       "bearings": {
         "property-rights": 0.9,
@@ -405,6 +437,7 @@
       }
     },
     "housing-land-use.rent-stabilization": {
+      "name": "Rent stabilization",
       "issue": "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
       "bearings": {
         "worker-protection": 0.9,
@@ -414,6 +447,7 @@
       }
     },
     "housing-land-use.by-right-permitting": {
+      "name": "By-right permitting",
       "issue": "us-state-and-local:housing-land-use.permitting",
       "bearings": {
         "property-rights": 0.9,
@@ -424,6 +458,7 @@
       }
     },
     "housing-land-use.inclusionary-requirement": {
+      "name": "Inclusionary housing requirement",
       "issue": "us-state-and-local:housing-land-use.housing-affordability",
       "bearings": {
         "equal-opportunity": 0.9,
@@ -433,6 +468,7 @@
       }
     },
     "housing-land-use.preempt-local-housing-limits": {
+      "name": "Preempt local housing limits",
       "issue": "us-state-and-local:housing-land-use.state-housing-preemption",
       "bearings": {
         "market-competition": 0.9,
@@ -443,6 +479,7 @@
       }
     },
     "housing-land-use.right-to-counsel-in-eviction": {
+      "name": "Right to counsel in eviction",
       "issue": "us-state-and-local:housing-land-use.tenant-and-landlord-rules",
       "bearings": {
         "equal-treatment": 0.95,
@@ -453,6 +490,7 @@
       }
     },
     "transportation-infrastructure.shift-highway-funds-to-transit": {
+      "name": "Shift highway funds to transit",
       "issue": "us-state-and-local:transportation-infrastructure.transit",
       "bearings": {
         "environmental-stewardship": 0.8,
@@ -464,6 +502,7 @@
       }
     },
     "transportation-infrastructure.additional-rural-transit-service-hours": {
+      "name": "Additional rural transit service hours",
       "issue": "us-state-and-local:transportation-infrastructure.transit",
       "bearings": {
         "collective-provision": 0.9,
@@ -475,6 +514,7 @@
       }
     },
     "transportation-infrastructure.fare-free-transit": {
+      "name": "Fare-free transit",
       "issue": "us-state-and-local:transportation-infrastructure.transit",
       "bearings": {
         "collective-provision": 0.9,
@@ -485,6 +525,7 @@
       }
     },
     "transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "name": "Mileage fee instead of fuel tax",
       "issue": "us-state-and-local:transportation-infrastructure.roads-and-bridges",
       "bearings": {
         "fiscal-restraint": 0.85,
@@ -496,6 +537,7 @@
       }
     },
     "transportation-infrastructure.public-broadband": {
+      "name": "Public broadband",
       "issue": "us-state-and-local:transportation-infrastructure.broadband",
       "bearings": {
         "collective-provision": 0.9,
@@ -507,6 +549,7 @@
       }
     },
     "transportation-infrastructure.fix-it-first": {
+      "name": "Fix it first",
       "issue": "us-state-and-local:transportation-infrastructure.capital-construction-and-maintenance",
       "bearings": {
         "fiscal-restraint": 0.9,
@@ -517,6 +560,7 @@
       }
     },
     "business-commerce.reduce-occupational-licensing": {
+      "name": "Reduce occupational licensing",
       "issue": "us-state-and-local:business-commerce.occupational-licensing",
       "bearings": {
         "market-competition": 0.9,
@@ -526,6 +570,7 @@
       }
     },
     "business-commerce.legalize-cannabis-sales": {
+      "name": "Legalize cannabis sales",
       "issue": "us-state-and-local:business-commerce.alcohol-cannabis-gaming",
       "bearings": {
         "personal-liberty": 0.95,
@@ -535,6 +580,7 @@
       }
     },
     "business-commerce.cap-development-incentives": {
+      "name": "Cap development incentives",
       "issue": "us-state-and-local:business-commerce.development-incentives",
       "bearings": {
         "transparency": 0.95,
@@ -545,6 +591,7 @@
       }
     },
     "business-commerce.cap-consumer-loan-rates": {
+      "name": "Cap consumer loan rates",
       "issue": "us-state-and-local:business-commerce.banking-and-credit",
       "bearings": {
         "worker-protection": 0.9,
@@ -554,6 +601,7 @@
       }
     },
     "labor-workforce.raise-minimum-wage": {
+      "name": "Raise the minimum wage",
       "issue": "us-state-and-local:labor-workforce.minimum-wage",
       "bearings": {
         "worker-protection": 0.95,
@@ -563,6 +611,7 @@
       }
     },
     "labor-workforce.local-minimum-wage-authority": {
+      "name": "Let localities set their own minimum wage",
       "issue": "us-state-and-local:labor-workforce.minimum-wage",
       "bearings": {
         "local-control": 0.95,
@@ -573,6 +622,7 @@
       }
     },
     "labor-workforce.paid-family-leave": {
+      "name": "Paid family and medical leave",
       "issue": "us-state-and-local:labor-workforce.leave-policy",
       "bearings": {
         "worker-protection": 0.95,
@@ -585,6 +635,7 @@
       }
     },
     "labor-workforce.public-sector-collective-bargaining": {
+      "name": "Public-sector collective bargaining",
       "issue": "us-state-and-local:labor-workforce.collective-bargaining",
       "bearings": {
         "worker-protection": 0.95,
@@ -595,6 +646,7 @@
       }
     },
     "labor-workforce.right-to-work": {
+      "name": "Right to work",
       "issue": "us-state-and-local:labor-workforce.collective-bargaining",
       "bearings": {
         "personal-liberty": 0.95,
@@ -606,6 +658,7 @@
       }
     },
     "environment-energy.clean-electricity-standard": {
+      "name": "Clean electricity standard",
       "issue": "us-state-and-local:environment-energy.energy-generation-and-grid",
       "bearings": {
         "environmental-stewardship": 0.95,
@@ -617,6 +670,7 @@
       }
     },
     "environment-energy.price-carbon": {
+      "name": "Price carbon emissions",
       "issue": "us-state-and-local:environment-energy.climate-mitigation",
       "bearings": {
         "environmental-stewardship": 0.95,
@@ -628,6 +682,7 @@
       }
     },
     "environment-energy.ban-new-gas-hookups": {
+      "name": "Ban new gas hookups",
       "issue": "us-state-and-local:environment-energy.energy-efficiency",
       "bearings": {
         "environmental-stewardship": 0.85,
@@ -639,6 +694,7 @@
       }
     },
     "environment-energy.restrict-building-in-flood-zones": {
+      "name": "Restrict building in flood zones",
       "issue": "us-state-and-local:environment-energy.climate-resilience",
       "bearings": {
         "public-safety": 0.95,
@@ -650,6 +706,7 @@
       }
     },
     "environment-energy.bottle-deposit": {
+      "name": "Container deposit",
       "issue": "us-state-and-local:environment-energy.waste-and-recycling",
       "bearings": {
         "environmental-stewardship": 0.9,
@@ -660,6 +717,7 @@
       }
     },
     "agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "name": "Limit groundwater withdrawal",
       "issue": "us-state-and-local:agriculture-natural-resources.water-allocation",
       "bearings": {
         "environmental-stewardship": 0.95,
@@ -671,6 +729,7 @@
       }
     },
     "agriculture-natural-resources.protect-farmland-from-development": {
+      "name": "Protect farmland from development",
       "issue": "us-state-and-local:agriculture-natural-resources.farming-and-ranching",
       "bearings": {
         "tradition": 0.85,
@@ -682,6 +741,7 @@
       }
     },
     "agriculture-natural-resources.expand-public-land-access": {
+      "name": "Expand public land access",
       "issue": "us-state-and-local:agriculture-natural-resources.public-lands",
       "bearings": {
         "personal-liberty": 0.85,
@@ -693,6 +753,7 @@
       }
     },
     "civil-family-community.ban-discrimination-in-housing-and-work": {
+      "name": "Ban discrimination in housing and employment",
       "issue": "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
       "bearings": {
         "equal-treatment": 0.95,
@@ -704,6 +765,7 @@
       }
     },
     "civil-family-community.restrict-abortion": {
+      "name": "Restrict abortion",
       "issue": "us-state-and-local:civil-family-community.reproductive-policy",
       "bearings": {
         "public-safety": -0.9,
@@ -715,6 +777,7 @@
       }
     },
     "civil-family-community.fund-public-libraries": {
+      "name": "Fund public libraries",
       "issue": "us-state-and-local:civil-family-community.libraries",
       "bearings": {
         "collective-provision": 0.95,
@@ -726,6 +789,7 @@
       }
     },
     "civil-family-community.local-control-of-library-materials": {
+      "name": "Local control of library materials",
       "issue": "us-state-and-local:civil-family-community.libraries",
       "bearings": {
         "local-control": 0.95,
@@ -738,6 +802,7 @@
       }
     },
     "civil-family-community.dedicated-parks-funding": {
+      "name": "Dedicated parks funding",
       "issue": "us-state-and-local:civil-family-community.parks-and-recreation",
       "bearings": {
         "collective-provision": 0.9,
@@ -750,6 +815,7 @@
       }
     },
     "technology-privacy.consumer-data-privacy-law": {
+      "name": "Consumer data privacy law",
       "issue": "us-state-and-local:technology-privacy.privacy-and-data-use",
       "bearings": {
         "personal-liberty": 0.95,
@@ -760,6 +826,7 @@
       }
     },
     "technology-privacy.restrict-government-facial-recognition": {
+      "name": "Restrict government facial recognition",
       "issue": "us-state-and-local:technology-privacy.artificial-intelligence",
       "bearings": {
         "personal-liberty": 0.95,
@@ -770,6 +837,7 @@
       }
     },
     "technology-privacy.age-verification-for-social-media": {
+      "name": "Age verification for social media",
       "issue": "us-state-and-local:technology-privacy.platforms-and-social-media",
       "bearings": {
         "public-safety": 0.9,
@@ -780,6 +848,7 @@
       }
     },
     "labor-workforce.city-minimum-wage": {
+      "name": "City minimum wage",
       "issue": "us-state-and-local:labor-workforce.minimum-wage",
       "bearings": {
         "worker-protection": 0.9,
@@ -791,6 +860,7 @@
       }
     },
     "civil-family-community.city-nondiscrimination-ordinance": {
+      "name": "City nondiscrimination ordinance",
       "issue": "us-state-and-local:civil-family-community.civil-rights-and-discrimination",
       "bearings": {
         "equal-treatment": -0.4,
@@ -803,6 +873,7 @@
       }
     },
     "government-operations.council-term-limits": {
+      "name": "Limit council terms",
       "issue": "us-state-and-local:government-operations.legislative-procedure",
       "bearings": {
         "limited-government": 0.9,
@@ -814,6 +885,7 @@
       }
     },
     "government-operations.independent-ward-commission": {
+      "name": "Independent district commission",
       "issue": "us-state-and-local:government-operations.redistricting",
       "bearings": {
         "equal-treatment": 0.95,
@@ -825,6 +897,7 @@
       }
     },
     "justice-public-safety.stand-your-ground": {
+      "name": "Stand your ground",
       "issue": "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
       "bearings": {
         "personal-liberty": 0.9,
@@ -834,6 +907,7 @@
       }
     },
     "justice-public-safety.child-access-prevention": {
+      "name": "Responsibility for unsecured guns near children",
       "issue": "us-state-and-local:justice-public-safety.firearms",
       "bearings": {
         "public-safety": 0.9,
@@ -842,6 +916,7 @@
       }
     },
     "justice-public-safety.raise-handgun-purchase-age": {
+      "name": "Handgun buyers must be 21",
       "issue": "us-state-and-local:justice-public-safety.firearms",
       "bearings": {
         "public-safety": 0.85,
@@ -851,6 +926,7 @@
       }
     },
     "government-operations.same-day-voter-registration": {
+      "name": "Same-day voter registration",
       "issue": "us-state-and-local:government-operations.election-rules",
       "bearings": {
         "equal-opportunity": 0.9,
@@ -860,6 +936,7 @@
       }
     },
     "government-operations.all-mail-voting": {
+      "name": "Ballots mailed to every voter",
       "issue": "us-state-and-local:government-operations.election-administration",
       "bearings": {
         "equal-opportunity": 0.8,
@@ -869,6 +946,7 @@
       }
     },
     "justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "name": "Local police partner with federal immigration enforcement",
       "issue": "us-state-and-local:justice-public-safety.policing",
       "bearings": {
         "public-safety": 0.7,
@@ -878,6 +956,7 @@
       }
     },
     "environment-energy.clean-air-plan-for-polluted-counties": {
+      "name": "Clean-air plan for counties that fail federal standards",
       "issue": "us-state-and-local:environment-energy.air-quality",
       "bearings": {
         "environmental-stewardship": 0.9,
