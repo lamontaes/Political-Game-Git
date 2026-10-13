@@ -11,6 +11,7 @@
  * member's district as members really are.
  */
 import officialsData from "./data/officials/officials.json" with { type: "json" };
+import axesJson from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { stableHash } from "../simulation/ids";
 import { partySide } from "./appointments";
 import {
@@ -170,15 +171,21 @@ export function drawOfficial(input: {
     Math.sqrt(1 - pull * pull) * seededNormal(at("ideal"));
   // An independent's side is their seat's: the caucus they keep, or the way
   // their district leans.
+  // An independent who caucuses with a party sits within its range (each of
+  // the 119th Congress's independents does, Voteview); one who caucuses with
+  // no one sits where their seat leans.
+  const caucusKey = input.caucus ? partyKey(input.caucus.caucus) : null;
   const spread =
-    party === "other"
-      ? {
-          ...partySpread("other", input.body),
-          mean:
-            partySpread("other", input.body).mean +
-            input.districtLean * partySpread("other", input.body).sd,
-        }
-      : partySpread(party, input.body);
+    caucusKey && caucusKey !== "other"
+      ? partySpread(caucusKey, input.body)
+      : party === "other"
+        ? {
+            ...partySpread("other", input.body),
+            mean:
+              partySpread("other", input.body).mean +
+              input.districtLean * partySpread("other", input.body).sd,
+          }
+        : partySpread(party, input.body);
   const ideal = Math.max(-1, Math.min(1, spread.mean + spread.sd * z));
   const within = (ideal - spread.mean) / spread.sd;
   const names = data.wings.names[party];
@@ -245,6 +252,27 @@ export function supportAt(lean: number, question: string): number {
   return personStance(lean, question) + publicOffset(question);
 }
 
+const adopted = (
+  axesJson as unknown as {
+    axes: Record<string, { axis: number; yesShare: number }>;
+  }
+).axes;
+
+/**
+ * How strongly a member at a lean supports a question's "yes": their lean
+ * along the question's axis plus how widely legislatures have already made
+ * it law (the share of states with it, `issue-axes-2026.json`), the elite
+ * consensus members answer to, where voters answer to the polls
+ * (`supportAt`). A budget line has no such record and reads by lean alone.
+ */
+export function memberSupportAt(lean: number, question: string): number {
+  const row = adopted[question];
+  return (
+    personStance(lean, question) +
+    (row ? Math.abs(row.axis) * (2 * row.yesShare - 1) : 0)
+  );
+}
+
 /** A member's own stance on a question: their position, and their own tilt if it's one of their causes. */
 export function ownStance(
   ideal: number,
@@ -257,7 +285,7 @@ export function ownStance(
     -1,
     Math.min(1, (ideal + tilt) * OFFICIALS_DATA.ideology.leanScale.value),
   );
-  return supportAt(lean, question);
+  return memberSupportAt(lean, question);
 }
 
 /**

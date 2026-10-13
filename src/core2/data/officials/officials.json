@@ -36,7 +36,7 @@
         }
       }
     },
-    "otherSource": "Independents and third parties: the mean of the three independents in the 119th Congress (-0.546, -0.170, 0.152), spread across that range; their side is then set by where their state or district leans (the same district pull as party members).",
+    "otherSource": "Independents and third parties: the mean of the three independents in the 119th Congress (-0.546, -0.170, 0.152), spread across that range; their side is then set by where their state or district leans (the same district pull as party members). An independent the roster records caucusing with a party draws from that party's spread instead: each of the 119th Congress's independents sits within their caucus's range.",
     "districtPull": {
       "value": 0.5,
       "tag": "ESTIMATED",
@@ -60,7 +60,8 @@
       "tag": "ESTIMATED",
       "source": "Members sit further out than the voters they represent: placed on a common scale with the electorate, each party's median member of Congress is to the outside of roughly 80 to 90 percent of the national electorate (Bafumi and Herron 2010, 'Leapfrog Representation and Extremism', APSR 104(3)). The game's voter lean is a person's rank in the electorate from -1 to 1, so a first-dimension score of about -0.4 (the median House Democrat) reads as a lean near -0.8. Each party's median member then sits near the 15th or 85th percentile of voters (a lean near -0.65 or +0.85), and a member's lean is capped at the electorate's own ends (-1 and 1).",
       "spread": [1.4, 2.2]
-    }
+    },
+    "memberViews": "A member's stance on a question is their lean along the question's measured axis plus how widely state legislatures have already made it law (yesShare in data/research/campaigns/issue-axes-2026.json): the elite consensus members answer to. Their district is read the way voters are, from national polls (policy-support-2026.json)."
   },
   "wings": {
     "about": "A party's members split into three wings by where they sit within the party, in party standard deviations from its mean: the tercile cut points of a normal spread (about -0.43 and +0.43). The wing toward the other party is its moderate wing; the far wing is the liberal (Democrats) or conservative (Republicans) wing. Checked against caucus sizes: the Congressional Progressive Caucus and the Freedom Caucus each hold about a third or less of their party; the Blue Dog and Problem Solvers caucuses hold the members closest to the center.",
