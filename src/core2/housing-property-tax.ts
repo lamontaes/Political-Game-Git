@@ -1,8 +1,9 @@
 /**
  * Property tax on owners' homes: a household with a mortgage pays a twelfth
- * of its home's assessed value times the rate in force each month, through
- * its escrow; one without pays each installment in the month it falls due
- * (its place's schedule), through the ledger, to the taxing government. The assessed value follows the home's
+ * of its home's assessed value times the rate in force each month into its
+ * servicer's escrow account, which pays each installment when it falls due
+ * (its place's schedule); one without pays each installment itself, through
+ * the ledger, to the taxing government. The assessed value follows the home's
  * value each January, but where the law caps assessment growth it rises no
  * faster than the cap (a home bought since is assessed at its price).
  *
@@ -22,7 +23,6 @@ import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
-import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 export interface PropertyTaxTerms {
@@ -130,6 +130,25 @@ interface AssessmentRow {
   householdId: string;
   assessedMinor: number;
   year: number;
+  /** What the servicer's escrow holds for the home (below zero: what it advanced). */
+  escrowMinor?: number;
+}
+
+/**
+ * The share of a year's tax an escrow holds at the start of a month: the
+ * least that keeps it from running short over the next twelve months of
+ * deposits and installments (the lowest balance RESPA's escrow analysis
+ * targets, before any cushion; 12 CFR 1024.17).
+ */
+function escrowHeldShare(usps: string, month: number, months: number): number {
+  let running = 0,
+    lowest = 0;
+  for (let k = 0; k < months; k++) {
+    const at = ((month - 1 + k) % months) + 1;
+    running += 1 / months - (dueShare(usps, at) ?? 1 / months);
+    lowest = Math.min(lowest, running);
+  }
+  return -lowest;
 }
 
 /** The share of a year's tax due this month for a home without a mortgage, by its place's installments; undefined where no schedule is recorded. */
@@ -162,19 +181,20 @@ export function billPropertyTax(
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
-  // Owners with a mortgage pay monthly into escrow (paid straight to the county here); the rest on the place's due dates.
+  // Owners with a mortgage pay monthly into escrow at their servicer; the rest on the place's due dates.
   const usps = c.placeMetadata?.housingState ?? "",
     due = dueShare(usps, Number(c.date.slice(5, 7)));
-  const escrowed = new Set<string>();
+  // Each escrowed home's servicer: the mortgage's holder, or the bank for a home loan made in play.
+  const escrowed = new Map<string, string>();
   for (const row of api
     .moduleState("housing")
     .table("mortgages")
     .rows() as unknown as {
     householdId: string;
+    holderId: string;
     monthsLeft: number;
   }[])
-    if (row.monthsLeft > 0) escrowed.add(row.householdId);
-  // Home loans the town bank made in play are escrowed too.
+    if (row.monthsLeft > 0) escrowed.set(row.householdId, row.holderId);
   if ((api.state as CoreState).modules.has("credit"))
     for (const row of api
       .moduleState("credit")
@@ -182,11 +202,10 @@ export function billPropertyTax(
       .query("open", [true]) as unknown as {
       kind?: string;
       householdId?: string;
+      lenderId: string;
     }[])
       if (row.kind === "mortgage" && row.householdId)
-        escrowed.add(row.householdId);
-  if (escrowed.size) stopgap("SG-WORLD-property-tax-monthly");
-  const pooled = new Map<string, number>();
+        escrowed.set(row.householdId, row.lenderId);
   const byPlace = new Map<string, PropertyTaxTerms>();
   const termsFor = (placeId: string) => {
     let row = byPlace.get(placeId);
@@ -198,7 +217,93 @@ export function billPropertyTax(
     [...c.organizations.values()].find(
       (org) => org.placeId === placeId && org.outsideFlow !== undefined,
     )?.id;
+  // What each payer owes this month, by where it goes; the wider population's homes are paid from their place's pool.
+  const pooled = new Map<
+    string,
+    { placeId: string; to: string; amountMinor: number; source: Source }
+  >();
   let total = 0;
+  const pay = (
+    householdId: string,
+    placeId: string,
+    toAccount: string,
+    amountMinor: number,
+    why: string,
+    source: Source,
+  ): number => {
+    if (amountMinor <= 0) return 0;
+    const household = c.households.get(householdId);
+    if (!household) {
+      const key = `${placeId}|${toAccount}|${why}`;
+      const row = pooled.get(key) ?? {
+        placeId,
+        to: toAccount,
+        amountMinor: 0,
+        source,
+      };
+      row.amountMinor += amountMinor;
+      pooled.set(key, row);
+      // The pool pays in full at the month's end; the wider population's balances are pooled too.
+      return amountMinor;
+    }
+    // A full household pays from its members' cash, largest balance first.
+    let paid = 0;
+    for (const personId of [...household.memberIds]
+      .filter((pid) => c.people.has(pid))
+      .sort(
+        (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
+      )) {
+      if (paid >= amountMinor) break;
+      paid += moveTo(
+        `${why}:${householdId}:${c.date}:${personId}`,
+        accounts.main(personId),
+        toAccount,
+        amountMinor - paid,
+        source,
+      );
+    }
+    return paid;
+  };
+  const accounts = api.accounts();
+  const moveTo = (
+    id: string,
+    from: string,
+    to: string,
+    amountMinor: number,
+    source: Source,
+  ): number => {
+    const amount = Math.floor(amountMinor);
+    if (!(amount > 0)) return 0;
+    return accounts.transfer({
+      id,
+      from,
+      to,
+      amountMinor: amount,
+      reasonKey: id.split(":")[0]!,
+      source,
+      partial: true,
+    }).paidMinor;
+  };
+  const escrowAccount = (servicerId: string, source: Source) => {
+    const id = `escrow:${servicerId}`;
+    if (!c.cashJournal.accounts.has(id))
+      accounts.open({ id, ownerId: servicerId, name: "escrow", source });
+    return id;
+  };
+  // Where the law levies no property tax (no installments at all), nothing is billed or escrowed.
+  const levied =
+    (dueDates.places as Record<string, { installments: unknown[] }>)[usps]
+      ?.installments.length !== 0;
+  if (!levied) return 0;
+  const fromEscrow: {
+    id: string;
+    householdId: string;
+    escrow: string;
+    county: string;
+    servicer: string;
+    installment: number;
+    source: Source;
+  }[] = [];
   for (const home of homes) {
     const t = termsFor(home.placeId);
     const id = `assessment:${home.householdId}`;
@@ -215,56 +320,123 @@ export function billPropertyTax(
             );
     if (!last || last.year < year)
       assessments.put({
+        ...(last ?? {}),
         id,
         householdId: home.householdId,
         assessedMinor: assessed,
         year,
       });
-    const share = escrowed.has(home.householdId)
-      ? 1 / months
-      : (due ?? 1 / months);
-    const bill = Math.round(assessed * t.rate * share);
-    if (bill <= 0) continue;
-    const household = c.households.get(home.householdId);
+    const annual = assessed * t.rate;
+    const installment = Math.round(annual * (due ?? 1 / months));
     const to = payee(home.placeId, t);
     if (!to) continue;
-    if (household) {
-      // A full household pays from its members' cash, largest balance first.
-      let paid = 0;
-      for (const personId of [...household.memberIds]
-        .filter((pid) => c.people.has(pid))
-        .sort(
-          (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
-        )) {
-        if (paid >= bill) break;
-        paid += transferCash(
-          api,
-          `property-tax:${home.householdId}:${c.date}:${personId}`,
-          personId,
-          to,
-          bill - paid,
-          t.source,
-        );
-      }
-      total += paid;
-    } else pooled.set(home.placeId, (pooled.get(home.placeId) ?? 0) + bill);
-  }
-  // The wider population's cash is pooled by place: its owners' taxes are paid from the pool.
-  for (const [placeId, bill] of pooled) {
-    const account = residentsRuntime(c)?.input.accounts.find(
-      (row) => row.placeId === placeId,
-    )?.accountId;
-    const t = termsFor(placeId),
-      to = payee(placeId, t);
-    if (!account || !to) continue;
-    total += transferCash(
-      api,
-      `property-tax:counted:${placeId}:${c.date}`,
-      account,
-      to,
-      bill,
+    const county = accounts.main(to);
+    const servicer = escrowed.get(home.householdId);
+    // A servicer outside the town keeps no account here: its escrow pays the county a twelfth as each deposit arrives.
+    if (servicer && c.organizations.get(servicer)?.outsideFlow !== undefined) {
+      total += pay(
+        home.householdId,
+        home.placeId,
+        county,
+        Math.round(annual / months),
+        "property-tax",
+        t.source,
+      );
+      continue;
+    }
+    if (!servicer) {
+      // No mortgage: the owner pays each installment as it falls due.
+      total += pay(
+        home.householdId,
+        home.placeId,
+        county,
+        installment,
+        "property-tax",
+        t.source,
+      );
+      continue;
+    }
+    // With a mortgage: a twelfth each month into the servicer's escrow, which pays the county on the due dates.
+    const row = assessments.get(id) as unknown as AssessmentRow;
+    const deposit = Math.round(annual / months);
+    const escrow = escrowAccount(servicer, t.source);
+    let balance = row.escrowMinor ?? 0;
+    if (row.escrowMinor === undefined)
+      // A new escrow already holds the deposits made since the last installment: the servicer sets them aside from its cash.
+      balance = moveTo(
+        `escrow-opening:${home.householdId}:${c.date}`,
+        accounts.main(servicer),
+        escrow,
+        annual * escrowHeldShare(usps, Number(c.date.slice(5, 7)), months),
+        t.source,
+      );
+    // A deposit first repays what the servicer advanced.
+    const repay = Math.min(deposit, Math.max(0, -balance));
+    balance += pay(
+      home.householdId,
+      home.placeId,
+      accounts.main(servicer),
+      repay,
+      "escrow-repay",
       t.source,
     );
+    balance += pay(
+      home.householdId,
+      home.placeId,
+      escrow,
+      deposit - repay,
+      "escrow",
+      t.source,
+    );
+    assessments.put({ ...row, escrowMinor: balance });
+    if (installment > 0)
+      fromEscrow.push({
+        id,
+        householdId: home.householdId,
+        escrow,
+        county,
+        servicer,
+        installment,
+        source: t.source,
+      });
+  }
+  if (escrowed.size) stopgap("SG-WORLD-property-tax-escrow-shortage");
+  // The wider population's cash is pooled by place: its owners' taxes and escrow are paid from the pool.
+  for (const [key, row] of pooled) {
+    const account = residentsRuntime(c)?.input.accounts.find(
+      (a) => a.placeId === row.placeId,
+    )?.accountId;
+    if (!account) continue;
+    const paid = moveTo(
+      `${key.split("|")[2]}:counted:${row.placeId}:${row.to}:${c.date}`,
+      accounts.main(account),
+      row.to,
+      row.amountMinor,
+      row.source,
+    );
+    if (row.to.startsWith("escrow:") || key.endsWith("|escrow-repay")) continue;
+    total += paid;
+  }
+  // Once every deposit is in, each escrow pays the county what it holds for the home, and the servicer advances what it lacks.
+  for (const due of fromEscrow) {
+    const row = assessments.get(due.id) as unknown as AssessmentRow;
+    const balance = row.escrowMinor ?? 0;
+    const held = moveTo(
+      `property-tax:escrow:${due.householdId}:${c.date}`,
+      due.escrow,
+      due.county,
+      Math.min(due.installment, Math.max(0, balance)),
+      due.source,
+    );
+    const advanced = moveTo(
+      `property-tax:advance:${due.householdId}:${c.date}`,
+      accounts.main(due.servicer),
+      due.county,
+      due.installment - held,
+      due.source,
+    );
+    total += held + advanced;
+    assessments.put({ ...row, escrowMinor: balance - held - advanced });
   }
   return total;
 }

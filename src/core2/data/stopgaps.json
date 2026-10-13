@@ -2515,7 +2515,9 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "An escrow account at the mortgage holder, filled monthly with the payment and paid to the county on the place's due dates.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-13",
+    "resolution": "Owners with a mortgage pay a twelfth of the year's tax each month into their servicer's escrow account, which pays the county on the place's due dates (src/core2/housing-property-tax.ts)."
   },
   {
     "id": "SG-WORLD-business-compliance-cost",
@@ -3075,7 +3077,7 @@
     "id": "SG-WORLD-property-tax-due-dates-unverified",
     "kind": "assumed-data",
     "file": "src/core2/housing-property-tax.ts",
-    "line": 145,
+    "line": 164,
     "whatItFakes": "Each place's property tax installments and due dates are the statewide default or most common county or town schedule, from cited statutes that were recalled rather than opened (all but Anchorage, Guam and the U.S. Virgin Islands); Ohio, Maine, Rhode Island, Vermont, Puerto Rico, the U.S. Virgin Islands and the Northern Mariana Islands are estimates.",
     "why": "A research pass gathered the schedules for all 56 places in one sitting without fetching each statute; counties and towns set their own dates in several states.",
     "addedBy": "OPUS-WORLD",
@@ -3141,6 +3143,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "Transfers reach households as income through GOV's programs and taxes leave their pay, so the economy hears them through spending.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-property-tax-escrow-shortage",
+    "kind": "assumed-behavior",
+    "file": "src/core2/housing-property-tax.ts",
+    "line": 403,
+    "whatItFakes": "An escrow's monthly deposit stays a twelfth of the year's tax with no cushion; when an installment comes due before the escrow holds enough, the servicer advances the rest and later deposits repay it, instead of a yearly escrow analysis that raises the payment. A servicer outside the town (a loan held outside) pays the county a twelfth each month as deposits arrive.",
+    "why": "The yearly analysis, the two-month cushion and the shortage spread over twelve months (RESPA, 12 CFR 1024.17) need each loan's escrow history.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "A yearly escrow analysis per loan under 12 CFR 1024.17: a cushion of up to a sixth of the year's tax, and a shortage spread over the next twelve payments.",
     "status": "open"
   }
 ]

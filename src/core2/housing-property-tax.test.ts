@@ -1,4 +1,4 @@
-/** Property tax bills on owners: a twelfth of assessed value times the rate each month through a mortgage's escrow, else each installment when it falls due, with an assessment cap where the law sets one. */
+/** Property tax bills on owners: a twelfth of assessed value times the rate each month into a mortgage's escrow, which pays each installment when it falls due, as an owner without one does, with an assessment cap where the law sets one. */
 import { afterEach, describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import {
@@ -68,6 +68,14 @@ function input(): CoreInput {
         source: src,
       },
       {
+        id: "organization:servicer",
+        placeId: place,
+        name: "Mortgage servicer",
+        kind: "bank",
+        liquidMinor: 100_000_000,
+        source: src,
+      },
+      {
         id: "organization:outside",
         placeId: place,
         name: "Outside the town",
@@ -106,7 +114,7 @@ describe("property tax bills", () => {
     const paid = billPropertyTax(api, table, homes);
     expect(paid).toBe(Math.round((40_000_000 * stateEffectiveRate("NJ")) / 4));
   });
-  it("an owner with a mortgage pays a twelfth each month through escrow, due date or not", () => {
+  it("an owner with a mortgage pays a twelfth each month into the servicer's escrow, which pays the county on New Jersey's February due date", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
         modules: [HOUSING_MODULE],
@@ -116,18 +124,35 @@ describe("property tax bills", () => {
     api.moduleState("housing").table("mortgages").put({
       id: "mortgage:household:owner",
       householdId: "household:owner",
+      holderId: "organization:servicer",
       balanceMinor: 20_000_000,
       monthsLeft: 300,
     });
     const table = api.moduleState("housing").table("assessments");
-    const paid = billPropertyTax(api, table, [
-      {
-        householdId: "household:owner",
-        placeId: place,
-        valueMinor: 40_000_000,
-      },
-    ]);
-    expect(paid).toBe(Math.round((40_000_000 * stateEffectiveRate("NJ")) / 12));
+    const home = {
+      householdId: "household:owner",
+      placeId: place,
+      valueMinor: 40_000_000,
+    };
+    const annual = 40_000_000 * stateEffectiveRate("NJ");
+    const deposit = Math.round(annual / 12);
+    // January: the deposit goes into escrow, and nothing is due.
+    expect(billPropertyTax(api, table, [home])).toBe(0);
+    expect(core.people.get("owner")!.liquidMinor).toBe(10_000_000 - deposit);
+    // February: the escrow holds December's, January's and February's deposits and pays the quarter.
+    advanceCore(core, "2021-02-02");
+    const paid = billPropertyTax(api, table, [home]);
+    expect(paid).toBe(Math.round(annual / 4));
+    expect(core.people.get("owner")!.liquidMinor).toBe(
+      10_000_000 - 2 * deposit,
+    );
+    // The escrow paid out all it held for the quarter.
+    expect(api.accounts().balance("escrow:organization:servicer")).toBe(0);
+    // The servicer set aside December's deposit and advanced at most a cent of rounding.
+    expect(
+      100_000_000 -
+        core.organizations.get("organization:servicer")!.liquidMinor,
+    ).toBeLessThanOrEqual(deposit + 1);
   });
   it("an owner without a mortgage owes nothing in a month with no installment due", () => {
     const core = createLifeCore(input(), {
@@ -198,23 +223,39 @@ describe("property tax bills", () => {
         : stateEffectiveRate(opening.placeMetadata?.housingState ?? "");
     const table = api.moduleState("housing").table("assessments");
     const householdId = opening.households[0]!.id;
-    // Paid through a mortgage's escrow, so the bill is this month's twelfth whatever the place's due dates.
+    // Paid through a mortgage's escrow, so the household pays this month's twelfth whatever the place's due dates.
+    const servicer =
+      opening.organizations.find((o) => o.kind === "bank") ??
+      opening.organizations[0]!;
     api
       .moduleState("housing")
       .table("mortgages")
       .put({
         id: `mortgage:${householdId}`,
         householdId,
+        holderId: servicer.id,
         balanceMinor: 10_000_000,
         monthsLeft: 300,
       });
-    const paid = billPropertyTax(api, table, [
+    const cash = () =>
+      [...core.households.get(householdId)!.memberIds].reduce(
+        (n, id) => n + (core.people.get(id)?.liquidMinor ?? 0),
+        0,
+      );
+    const before = cash();
+    billPropertyTax(api, table, [
       {
         householdId,
         placeId: opening.households[0]!.placeId,
         valueMinor: 30_000_000,
       },
     ]);
-    expect(paid).toBe(Math.round((30_000_000 * rate) / 12));
+    // No property tax where the territory levies none (American Samoa, the Northern Marianas).
+    const levied = !["AS", "MP"].includes(
+      opening.placeMetadata?.housingState ?? "",
+    );
+    expect(before - cash()).toBe(
+      levied ? Math.round((30_000_000 * rate) / 12) : 0,
+    );
   }, 300_000);
 });
