@@ -9,7 +9,10 @@
     "join-association": "Join",
     "organize-meeting": "Hold a meeting",
     "approach-office": "Visit the office",
-    "look-up-local-institution": "Look up"
+    "look-up-local-institution": "Look up",
+    "look-for-work": "Look for work",
+    "meet-someone-new": "Meet someone new",
+    "learn-local-places": "Find out where"
   },
   "endedBy": {
     "start": "Shift starts",

@@ -263,6 +263,29 @@ function startSeeking(
   }
 }
 
+/** Whether a person is among the seekers now. */
+export function isJobSeeker(api: CoreAPI, personId: string): boolean {
+  return store(api).table("seekers").get(personId) !== undefined;
+}
+
+/**
+ * A full person who chose to look for work through the shared chooser (PW-6,
+ * the drives engine's look-for-work act) joins the seekers, as anyone who
+ * chooses to look does. Returns false when they already are one.
+ */
+export function startJobSearch(api: CoreAPI, personId: string): boolean {
+  const person = core(api).people.get(personId);
+  if (!person?.alive || isJobSeeker(api, personId)) return false;
+  startSeeking(
+    api,
+    personId,
+    person.jobId !== undefined,
+    jobsData.reasons.startedLooking,
+    lastPay(api, personId),
+  );
+  return true;
+}
+
 function endSpell(api: CoreAPI, personId: string): void {
   endClaim(api, store(api).table("claims"), personId);
   for (const row of store(api)

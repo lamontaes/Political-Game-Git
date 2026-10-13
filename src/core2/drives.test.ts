@@ -547,6 +547,10 @@ describe("P10 health producer", () => {
       (row) => row.eventKind === "life.death",
     );
     expect(heard.length).toBeGreaterThan(p("zero"));
-    expect(heard.every((row) => row.role === "family")).toBe(true);
+    expect(heard.some((row) => row.role === "family")).toBe(true);
+    // Neighbors who met (PW-6's meet-someone-new) hear it as acquaintances.
+    expect(
+      heard.every((row) => ["family", "acquaintance"].includes(row.role)),
+    ).toBe(true);
   });
 });

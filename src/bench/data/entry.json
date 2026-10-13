@@ -4,11 +4,7 @@
     "entryAgeYears": {
       "value": 18,
       "tag": "SOURCED",
-      "citation": "The golden path's first step (AGENTS.md, owner Oct 10, 2026): the player turns 18. Eighteen is the voting age under the 26th Amendment to the U.S. Constitution.",
-      "spread": {
-        "status": "fixed",
-        "reason": "A constitutional age, the same in all 56 places."
-      }
+      "citation": "The golden path's first step (AGENTS.md, owner Oct 10, 2026): the player turns 18. Eighteen is the voting age under the 26th Amendment to the U.S. Constitution."
     },
     "entryWindowDays": {
       "value": 60,
@@ -17,7 +13,8 @@
       "spread": {
         "low": 30,
         "high": 90,
-        "reason": "The range checked against the played-world test's check J on fresh seeds: a narrower window leaves more small towns with no one inside it; a wider one lets the first skip end before the birthday."
+        "unit": "days",
+        "citation": "The range checked against the played-world test's check J on fresh seeds: a narrower window leaves more small towns with no one inside it; a wider one lets the first skip end before the birthday."
       }
     }
   }

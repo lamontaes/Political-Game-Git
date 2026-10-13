@@ -4,6 +4,7 @@ import { chooseAct } from "../choice";
 import { availableActs } from "../life";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
+import { createLifeActs, lifeActsData } from "../drives-life";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
@@ -1032,6 +1033,7 @@ function founderOf(api: CoreAPI, groupId: string) {
 export function createDrivesModule(
   data: DrivesData = DEFAULT_DRIVES_DATA,
 ): CoreModule {
+  const life = createLifeActs();
   return {
     id: "core2-drives-p10-v1",
     // A donation is paid through the cash journal from this module's own canonical record.
@@ -1131,7 +1133,10 @@ export function createDrivesModule(
         return;
       for (const id of learnedBy) respond(api, data, id, event);
     },
+    // PW-6: the life acts (look for work, meet someone new, learn the town's places).
+    reasonProviders: life.reasonProviders,
     offerProviders: {
+      ...life.offerProviders,
       "drive-confidant": (api, actor, action) => {
         const out: ActOffer[] = [];
         for (const drive of servingDrives(api, actor, action)) {
@@ -1234,6 +1239,7 @@ export function createDrivesModule(
       },
     },
     effectHandlers: {
+      ...life.effectHandlers,
       "share-drive": (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
@@ -1459,7 +1465,11 @@ export function withDrives(
   base: CoreData,
   data: DrivesData = DEFAULT_DRIVES_DATA,
 ): CoreData {
-  return extendData(base, { actions: data.actions });
+  const life = lifeActsData();
+  return extendData(base, {
+    actions: [...data.actions, ...life.actions],
+    parameters: life.parameters,
+  });
 }
 
 /** Read-only report for observers and proofs; writes nothing. */

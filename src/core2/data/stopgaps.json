@@ -2801,5 +2801,17 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
+  },
+  {
+    "id": "SG-PW6-life-acts",
+    "kind": "estimated-behavior",
+    "file": "src/core2/data/drives/life.json",
+    "line": 5,
+    "whatItFakes": "An idle person's life acts (look for work, meet someone new, learn the town's places) with tunable pulls; enrolling in a college or trade program and applying for credit are not offered yet, and meeting someone through the town is ranked by closeness in age alone.",
+    "why": "PW-6: a jobless young adult only rested and contacted family; the core had no act for these, and no postsecondary schools directory exists in the new core.",
+    "addedBy": "PW-6 (pw/player-start)",
+    "addedAt": "2026-10-13",
+    "replacement": "Schools and credit offers from a postsecondary directory and the credit module; meeting candidates weighted by shared places, traits and views; pulls calibrated against ATUS and CPS.",
+    "status": "open"
   }
 ]

@@ -1,0 +1,199 @@
+{
+  "version": "pw6-life-acts-v1",
+  "about": "PW-6: what a full person with free time has on offer besides rest and contact. Looking for work, meeting someone new and learning the town's offices, meeting places and groups. Each is weighed by the shared chooser like any other act, with its own recorded reason.",
+  "stopgapId": "SG-PW6-life-acts",
+  "causes": {
+    "throughFriend": "met-through-friend",
+    "atWork": "met-at-work",
+    "aroundTown": "met-around-town"
+  },
+  "lookupAffordances": ["known-office", "public-meeting-place", "known-group"],
+  "officeAffordance": "known-office",
+  "actions": [
+    {
+      "id": "look-for-work",
+      "actKinds": ["change", "take-risk"],
+      "goalKinds": ["earn"],
+      "need": "money",
+      "effortParameter": "lifeJobSearchHours",
+      "effectParameter": "one",
+      "targetKind": "local-job-market",
+      "effect": "start-job-search",
+      "stopgapId": "SG-PW6-life-acts",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      },
+      "reasonBindings": [
+        {
+          "id": "cash-runway",
+          "provider": "life-cash-runway",
+          "weightParameter": "lifeCashRunwayWeight"
+        }
+      ]
+    },
+    {
+      "id": "meet-someone-new",
+      "actKinds": ["engage", "take-risk"],
+      "goalKinds": ["connect"],
+      "need": "company",
+      "effortParameter": "socialHours",
+      "effectParameter": "one",
+      "targetKind": "new-acquaintance",
+      "effect": "meet-new-person",
+      "stopgapId": "SG-PW6-life-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "negativeOne"
+      },
+      "reasonBindings": [
+        {
+          "id": "small-circle",
+          "provider": "life-small-circle",
+          "weightParameter": "lifeSmallCircleWeight"
+        }
+      ]
+    },
+    {
+      "id": "learn-local-places",
+      "actKinds": ["engage", "follow-rules"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "lookupHours",
+      "effectParameter": "one",
+      "targetKind": "local-directory",
+      "effect": "public-lookup",
+      "stopgapId": "SG-PW6-life-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      },
+      "reasonBindings": [
+        {
+          "id": "coming-of-age",
+          "provider": "life-coming-of-age",
+          "weightParameter": "lifeComingOfAgeWeight"
+        }
+      ]
+    }
+  ],
+  "parameters": {
+    "lifeJobSearchHours": {
+      "value": 2.5,
+      "tag": "ESTIMATED",
+      "citation": "Krueger and Mueller, \"Job search and unemployment insurance: New evidence from time use data,\" Journal of Public Economics 94 (2010): unemployed Americans in the American Time Use Survey average about 41 minutes of job search a day over all days, concentrated on the minority of days with any search.",
+      "estimatedFrom": "Hours on a day the person searches, from the daily average and the share of days with search.",
+      "spread": {
+        "low": 1.5,
+        "high": 3.5,
+        "unit": "hours",
+        "citation": "The paper's range across survey years and searcher groups."
+      }
+    },
+    "lifeCashRunwayWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How strongly running out of money pulls a jobless adult toward looking for work, on top of the money need itself.",
+      "spread": {
+        "low": 0.5,
+        "high": 3,
+        "unit": "utility",
+        "citation": "Checked against the jobs module's own pull for someone out of work (jobsUnemployedNeedWeight, 3) and the share of jobless young adults looking in CPS flows."
+      }
+    },
+    "lifeCashRunwayDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "citation": "Days of cash at which the pull to look for work is half its full strength: about a month of costs.",
+      "spread": {
+        "low": 14,
+        "high": 90,
+        "unit": "days",
+        "citation": "From a pay period to a quarter of costs; checked against how soon idle young adults in played runs start looking."
+      }
+    },
+    "lifeSmallCircleWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "How strongly a small circle pulls a person toward meeting someone new, on top of the need for company.",
+      "spread": {
+        "low": 0.1,
+        "high": 2,
+        "unit": "utility",
+        "citation": "Checked against how many new people the player meets in a played year."
+      }
+    },
+    "lifeTypicalCircle": {
+      "value": 15,
+      "tag": "ESTIMATED",
+      "citation": "Hill and Dunbar, \"Social network size in humans,\" Human Nature 14 (2003), and Sutcliffe et al., British Journal of Psychology 103 (2012): personal networks come in layers of about 5, 15, 50 and 150; about 15 is the layer of people seen regularly.",
+      "estimatedFrom": "The known people at which the pull to meet someone new is half its full strength.",
+      "spread": {
+        "low": 5,
+        "high": 50,
+        "unit": "people",
+        "citation": "The neighboring network layers."
+      }
+    },
+    "lifeMeetCandidatesPerChannel": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How many people a person is aware of, at once, as someone they could meet through each channel (a friend's circle, work, the town): the nearest in age. A size for the offer list, not a behavior.",
+      "spread": {
+        "low": 1,
+        "high": 10,
+        "unit": "people",
+        "citation": "More candidates only add near-equal offers; checked against the chooser's time per activation."
+      }
+    },
+    "lifeComingOfAgeWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "How strongly turning 18 pulls a person toward finding out where the town's offices, meeting places and groups are.",
+      "spread": {
+        "low": 0.25,
+        "high": 3,
+        "unit": "utility",
+        "citation": "Checked against the share of new adults in played runs who look an office up in their first months."
+      }
+    },
+    "lifeComingOfAgeHalfLifeDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "citation": "Days from the 18th birthday, either side, at which that pull is half its strength.",
+      "spread": {
+        "low": 30,
+        "high": 365,
+        "unit": "days",
+        "citation": "From a month to a year either side of the birthday."
+      }
+    },
+    "lifeAdultAgeYears": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "The voting age, 18 in every state and territory under the 26th Amendment to the U.S. Constitution."
+    },
+    "lifeMeetingSpacingDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "citation": "Days after meeting someone new at which the pull to meet another is back to half its strength: people meet new people every so often, not every free hour.",
+      "spread": {
+        "low": 7,
+        "high": 120,
+        "unit": "days",
+        "citation": "From a week to a season between new acquaintances; checked against how many new people the player meets in a played year."
+      }
+    },
+    "lifeMeetCandidateRefreshDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "citation": "How long a person's sense of whom they could meet lasts before it is looked at again (a week of the same places and people); a bookkeeping period, not a behavior.",
+      "spread": {
+        "low": 1,
+        "high": 30,
+        "unit": "days",
+        "citation": "From daily to monthly; checked against the year's run time and the number of new people met."
+      }
+    }
+  }
+}
