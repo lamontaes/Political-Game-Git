@@ -63,14 +63,19 @@ describe("place backdrops", () => {
     }
   });
 
-  it("has all 364 shared pictures for 122 places, each with a midday picture", () => {
+  // Counts are floors: the LOCATIONS session keeps adding places (Oct 13, 2026).
+  it("has at least 364 shared pictures for 122 places, each with a midday picture", () => {
     const ownCapitol = /^state-capitol-[a-z]{2}$/;
     expect(
-      manifest.backdrops.filter((record) => !ownCapitol.test(record.place)),
-    ).toHaveLength(364);
+      manifest.backdrops.filter((record) => !ownCapitol.test(record.place))
+        .length,
+    ).toBeGreaterThanOrEqual(364);
     expect(
-      backdropPlaces().filter((place) => !ownCapitol.test(place)),
-    ).toHaveLength(122);
+      backdropPlaces().filter((place) => !ownCapitol.test(place)).length,
+    ).toBeGreaterThanOrEqual(122);
+    expect(new Set(manifest.backdrops.map((record) => record.place)).size).toBe(
+      backdropPlaces().length,
+    );
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
   });
 

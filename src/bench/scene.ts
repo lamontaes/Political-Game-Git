@@ -12,7 +12,7 @@ import {
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
-import { dwellingKind } from "../core2/modules/housing";
+import { HOUSING_MODULE_ID, dwellingKind } from "../core2/modules/housing";
 import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -77,7 +77,51 @@ export function orgPlace(
   return workplacePlaceFor(null, null, kind);
 }
 
+const RESIDENCES = scenePlaces.officialResidences as unknown as Record<
+  string,
+  Record<"living" | "kitchen" | "bedroom", readonly string[]>
+>;
+const OFFICE_WORK = scenePlaces.officeWorkplaces as unknown as Record<
+  string,
+  readonly string[]
+>;
+
+/** The kinds of office a person is serving in now (core2-offices-v1 terms). */
+function servingOfficeKinds(core: CoreState, personId: string): string[] {
+  if (!core.modules.has(OFFICES)) return [];
+  const state = coreAPI(core).moduleState(OFFICES);
+  return (
+    state.table("terms").query("byPerson", [personId]) as unknown as {
+      status: string;
+      officeId: string;
+    }[]
+  )
+    .filter((term) => term.status === "serving")
+    .map(
+      (term) =>
+        (
+          state.table("offices").get(term.officeId) as
+            { kind?: string } | undefined
+        )?.kind ?? "",
+    );
+}
+
+/** The first painted picture in the first list that has one. */
+function firstPainted(lists: readonly (readonly string[] | undefined)[]) {
+  for (const list of lists) {
+    const place = list?.find(hasBackdrop);
+    if (place) return place;
+  }
+  return null;
+}
+
 function workplaceOf(core: CoreState, person: PersonState): string {
+  // An officeholder works where the office sits: the president in the Oval
+  // Office, a governor in the governor's office.
+  const office = firstPainted(
+    servingOfficeKinds(core, person.id).map((kind) => OFFICE_WORK[kind]),
+  );
+  if (office) return office;
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   if (!job) return "office";
   const org = core.organizations.get(job.organizationId);
@@ -95,9 +139,8 @@ function workplaceOf(core: CoreState, person: PersonState): string {
   );
 }
 
-/** The person's home picture, from the kind of dwelling their household lives in (OPUS-WORLD housing). */
-const states = new Map<string, string>();
 /** The place's state (USPS code), from the core's place records. */
+const states = new Map<string, string>();
 function stateOf(placeKey: string): string {
   let usps = states.get(placeKey);
   if (usps === undefined) {
@@ -110,29 +153,175 @@ function stateOf(placeKey: string): string {
   return usps;
 }
 
-export function homeOf(core: CoreState, personId: string): string {
-  const household = core.people.get(personId)?.householdId ?? "";
+type Room = "living" | "kitchen" | "bedroom";
+type Third = "low" | "middle" | "high";
+interface DwellingPictures {
+  living: Record<Third, readonly string[]>;
+  kitchen: readonly string[];
+  bedroom: readonly string[];
+}
+const DWELLINGS = scenePlaces.dwellingPlaces as unknown as Record<
+  string,
+  DwellingPictures
+>;
+const ROOM_BY_HOUR = scenePlaces.homeRoomByHour as {
+  fromHour: number;
+  room: Room;
+}[];
+const TEEN_BEDROOM = scenePlaces.teenBedroom;
+
+interface DwellingRow {
+  householdId: string;
+  tenure?: "own" | "rent";
+  kind?: string;
+  valueMinor?: number;
+  rentMinor?: number;
+}
+
+/**
+ * Each household's third (low, middle, high) among the town's homes of the
+ * same kind and tenure: owners by value, renters by rent (OPUS-WORLD housing).
+ * Read once a day.
+ */
+const thirds = new WeakMap<
+  CoreState,
+  { date: string; of: Map<string, Third> }
+>();
+function thirdOf(core: CoreState, householdId: string): Third {
+  let cached = thirds.get(core);
+  if (!cached || cached.date !== core.date) {
+    const of = new Map<string, Third>();
+    if (core.modules.has(HOUSING_MODULE_ID)) {
+      const groups = new Map<string, DwellingRow[]>();
+      for (const row of coreAPI(core)
+        .moduleState(HOUSING_MODULE_ID)
+        .table("dwellings")
+        .rows() as unknown as DwellingRow[]) {
+        const key = `${row.kind ?? "house"}:${row.tenure ?? ""}`;
+        groups.set(key, [...(groups.get(key) ?? []), row]);
+      }
+      for (const rows of groups.values()) {
+        const amount = (row: DwellingRow) =>
+          (row.tenure === "rent" ? row.rentMinor : row.valueMinor) ?? 0;
+        rows.sort(
+          (a, b) =>
+            amount(a) - amount(b) || a.householdId.localeCompare(b.householdId),
+        );
+        rows.forEach((row, i) =>
+          of.set(
+            row.householdId,
+            i * 3 < rows.length
+              ? "low"
+              : i * 3 < rows.length * 2
+                ? "middle"
+                : "high",
+          ),
+        );
+      }
+    }
+    cached = { date: core.date, of };
+    thirds.set(core, cached);
+  }
+  return cached.of.get(householdId) ?? "middle";
+}
+
+/** Which room of the home a person is in at this minute of the day. */
+function roomAt(minuteOfDay: number): Room {
+  const hour = Math.floor(minuteOfDay / 60);
+  let room: Room = "living";
+  for (const row of ROOM_BY_HOUR) if (hour >= row.fromHour) room = row.room;
+  return room;
+}
+
+/** A stable pick from a list by an id, so the same home always looks the same. */
+function pickFor(id: string, options: readonly string[]): string {
+  let hash = 0;
+  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return options[hash % options.length]!;
+}
+
+/**
+ * The person's home picture: the room they are in at this minute, in the kind
+ * of dwelling their household lives in (OPUS-WORLD housing), as fine as the
+ * household's standing among the town's homes of that kind.
+ */
+export function homeOf(
+  core: CoreState,
+  personId: string,
+  minuteOfDay = 12 * 60,
+): string {
+  const person = core.people.get(personId);
+  const household = person?.householdId ?? "";
   // A household without a dwelling record reads as a house.
   const kind = (household && dwellingKind(coreAPI(core), household)) || "house";
-  const places = scenePlaces.dwellingPlaces as unknown as Record<
-    string,
-    readonly string[]
-  >;
-  const state = stateOf(core.placeMetadata?.placeKey ?? "");
-  const regional = Object.entries(
-    scenePlaces.regionalHouses as unknown as Record<string, readonly string[]>,
-  )
-    .filter(([place, states]) => place !== "about" && states.includes(state))
-    .map(([place]) => place);
-  const options = [
-    ...(places[kind] ?? []),
-    ...(kind === "house" ? regional : []),
-  ].filter(hasBackdrop);
-  if (!options.length) return homePlaceFor(null);
-  // The same home always looks the same: chosen from the household's own id.
-  let hash = 0;
-  for (const char of household) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
-  return options[hash % options.length]!;
+  const pictures = DWELLINGS[kind] ?? DWELLINGS.house!;
+  const room = roomAt(minuteOfDay);
+  // A sitting president lives in the White House, a governor in the
+  // governor's residence, in place of their own dwelling.
+  // The residences' own rooms aren't painted yet: the outside of the
+  // residence stands in by day and the large house's room at night.
+  // stopgapId: SG-LOC-residence-rooms
+  const residence = firstPainted(
+    servingOfficeKinds(core, personId).map((kind) => RESIDENCES[kind]?.[room]),
+  );
+  if (residence) return residence;
+  const age = person ? ageOn(person.birthDate, core.date) : 30;
+  const living = () => {
+    const state = stateOf(core.placeMetadata?.placeKey ?? "");
+    const regional = Object.entries(
+      scenePlaces.regionalHouses as unknown as Record<
+        string,
+        readonly string[]
+      >,
+    )
+      .filter(([place, states]) => place !== "about" && states.includes(state))
+      .map(([place]) => place);
+    return [
+      ...pictures.living[thirdOf(core, household)],
+      ...(kind === "house" ? regional : []),
+    ];
+  };
+  const tries =
+    room === "bedroom"
+      ? [
+          age >= TEEN_BEDROOM.fromAge && age < TEEN_BEDROOM.underAge
+            ? TEEN_BEDROOM.places
+            : pictures.bedroom,
+          pictures.bedroom,
+          living(),
+        ]
+      : room === "kitchen"
+        ? [pictures.kitchen, living()]
+        : [living()];
+  for (const list of tries) {
+    const options = list.filter(hasBackdrop);
+    // One picture per room for each household, the bedroom per person.
+    if (options.length)
+      return pickFor(
+        room === "bedroom" ? personId : `${household}:${room}`,
+        options,
+      );
+  }
+  return homePlaceFor(null);
+}
+
+const BEDROOMS = new Set(
+  Object.values(DWELLINGS).flatMap((row) => row.bedroom ?? []),
+);
+for (const place of TEEN_BEDROOM.places) BEDROOMS.add(place);
+const isBedroom = (place: string) => BEDROOMS.has(place);
+
+/** Every room of the person's home, for telling whether a scene is at home. */
+function homeRooms(core: CoreState, personId: string): Set<string> {
+  return new Set(
+    ROOM_BY_HOUR.map((row) => homeOf(core, personId, row.fromHour * 60)),
+  );
+}
+
+/** Whole years of age on a date. */
+function ageOn(birthDate: string, date: string): number {
+  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
+  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 }
 
 /** What the person is doing right now, from the open pause or their last act. */
@@ -168,6 +357,7 @@ export function scenePlace(
   core: CoreState,
   personId: string,
   packet?: PlayerPacketV1,
+  minuteOfDay = packet?.at.minuteOfDay ?? 12 * 60,
 ): { place: string; why: string; targetId?: string } {
   const person = core.people.get(personId)!;
   const act = doing(core, personId, packet);
@@ -175,7 +365,7 @@ export function scenePlace(
   for (const step of tries) {
     const place =
       step === "@home"
-        ? homeOf(core, personId)
+        ? homeOf(core, personId, minuteOfDay)
         : step === "@workplace"
           ? workplaceOf(core, person)
           : step === "@target"
@@ -188,7 +378,7 @@ export function scenePlace(
         ...(act?.targetId ? { targetId: act.targetId } : {}),
       };
   }
-  return { place: homeOf(core, personId), why: "at home" };
+  return { place: homeOf(core, personId, minuteOfDay), why: "at home" };
 }
 
 export function backdropFile(place: string, minuteOfDay: number) {
@@ -249,7 +439,8 @@ function presentIds(
     alive(targetId)
   )
     return [targetId];
-  if (place === homeOf(core, personId))
+  // At home the household is there, except in someone's own bedroom.
+  if (homeRooms(core, personId).has(place) && !isBedroom(place))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
       .filter(alive);
