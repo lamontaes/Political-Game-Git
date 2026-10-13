@@ -41,6 +41,7 @@ import {
 } from "./campaigns";
 import {
   billOf,
+  members,
   provisionStance,
   registerLegislatureHooks,
   type BillRow,
@@ -60,6 +61,7 @@ import {
   type Stance,
 } from "../campaign-views";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
 
@@ -270,6 +272,26 @@ function publicComment(api: CoreAPI, billId: string): void {
     } as unknown as ModuleRow);
   const said = remarksOn(api, billId);
   if (!said.length) return;
+  // Each comment is a speech to the room: the members and the others who
+  // spoke hear it (the speech engine moves them and lets them retell it).
+  if (api.state.modules.has(SPEECH_MODULE_ID)) {
+    const room = [
+      ...members(api, bill.bodyOfficeId).flatMap((t) =>
+        t.personId ? [t.personId] : [],
+      ),
+      ...said.map((r) => r.personId),
+    ].filter((id) => api.state.people.get(id)?.alive);
+    for (const s of speakers)
+      deliverSpeech(api, {
+        id: `speech:remark:${bill.id}:${s.p.id}`,
+        speakerId: s.p.id,
+        placeId: lawChain(api).townPlaceId,
+        topic: stance.question,
+        desiredChange:
+          Math.sign(s.view) * stance.position > 0 ? "enact" : "repeal",
+        audienceIds: [...new Set(room)].filter((id) => id !== s.p.id).sort(),
+      });
+  }
   api.emit({
     id: `public-comment:${bill.id}`,
     date: api.state.date,
@@ -312,7 +334,7 @@ function roomTerm(api: CoreAPI, bill: BillRow): number {
  * schools and family with children at home, health from their fifties,
  * housing while young (most renters are under 35).
  */
-function concerns(api: CoreAPI, p: Readonly<PersonState>) {
+export function concerns(api: CoreAPI, p: Readonly<PersonState>) {
   const date = api.state.date;
   const age = ageOn(p, date);
   const working =

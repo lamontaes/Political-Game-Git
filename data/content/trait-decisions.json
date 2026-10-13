@@ -808,6 +808,54 @@
       ]
     },
     {
+      "id": "parties.attend",
+      "site": "src/core2/modules/parties.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-home",
+          "actKinds": ["withdraw", "stay-quiet", "keep-same"]
+        },
+        {
+          "id": "attend",
+          "actKinds": ["engage", "commit", "socialize"]
+        }
+      ]
+    },
+    {
+      "id": "staff.hire",
+      "site": "src/core2/modules/staff.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "do-alone",
+          "actKinds": ["withdraw", "keep-same"]
+        },
+        {
+          "id": "hire",
+          "actKinds": ["cooperate", "delegate", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "interest-groups.member-join",
+      "site": "src/core2/modules/interest-groups.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-out",
+          "actKinds": ["withdraw", "stay-quiet", "play-safe"]
+        },
+        {
+          "id": "join",
+          "actKinds": ["engage", "cooperate", "speak-out", "commit"]
+        }
+      ]
+    },
+    {
       "id": "interest-groups.employer-join",
       "site": "src/core2/modules/interest-groups.ts",
       "owner": "OPUS-GOV",
