@@ -5,9 +5,9 @@
  * - The next local, state and federal contests carry that place's real dates
  *   (general election, primary, filing deadline) from the data files, and
  *   filing requires what that place's rules require.
- * - A resident files once: by fee (the cash moves from the candidate to the
- *   government that takes filings, and the books balance) or by signatures
- *   gathered from real residents; then they're on the ballot.
+ * - A resident files once, at no charge, and where the place takes a
+ *   petition, with signatures gathered from real residents; then they're on
+ *   the ballot.
  * - An ineligible person gets the rule that stops them, as a structured reason.
  */
 import { createHash } from "node:crypto";
@@ -132,7 +132,7 @@ describe("M2-02 election calendars and filing rules", () => {
 });
 
 describe("M2-03 filing (engine)", () => {
-  it("a resident files once and is on the ballot; the fee balances; an ineligible person is told the rule", () => {
+  it("a resident files once, at no charge, and is on the ballot; an ineligible person is told the rule", () => {
     const core = world(randomPlace("file").key);
     const api = coreAPI(core);
     const open = openContests(api);
@@ -145,8 +145,6 @@ describe("M2-03 filing (engine)", () => {
       )
       .sort((a, b) => a.id.localeCompare(b.id));
     const candidate = pick(adults, "candidate");
-    // Give the candidate enough cash for any fee, through the journal-free
-    // opening stock (a test fixture, not a payment).
     const rules = filingRequirements(
       (
         api
@@ -159,13 +157,10 @@ describe("M2-03 filing (engine)", () => {
     const eligibility = checkEligibility(api, candidate.id, contest.id);
     const unmetBefore = eligibility.filter((c) => !c.met).map((c) => c.rule);
     const cashBefore = core.people.get(candidate.id)!.liquidMinor;
-    const payFee =
-      (rules.feeMinor ?? 0) > 0 && cashBefore >= (rules.feeMinor ?? 0);
     const result = fileCandidacy(api, {
       personId: candidate.id,
       contestId: contest.id,
       platform: ["fixture-platform"],
-      payFee,
     });
     if (result.status === "refused") {
       // Refused only for a stated rule.
@@ -173,10 +168,8 @@ describe("M2-03 filing (engine)", () => {
       expect(unmetBefore.length + result.unmet.length).toBeGreaterThan(0);
       return;
     }
-    if (result.filing.feePaidMinor > 0)
-      expect(core.people.get(candidate.id)!.liquidMinor).toBe(
-        cashBefore - result.filing.feePaidMinor,
-      );
+    // Filing costs nothing.
+    expect(core.people.get(candidate.id)!.liquidMinor).toBe(cashBefore);
     // Gather signatures from real residents until the petition is complete.
     let filing = result.filing;
     const neighbors = [...core.people.values()]
@@ -190,7 +183,7 @@ describe("M2-03 filing (engine)", () => {
         .table("filings")
         .get(filing.id) as unknown as typeof filing;
     }
-    // On the ballot once the fee is paid or enough neighbors actually signed
+    // On the ballot once enough neighbors actually signed
     // (children, people out of town and wary strangers don't).
     const signed = (
       api
@@ -198,7 +191,7 @@ describe("M2-03 filing (engine)", () => {
         .table("signatures")
         .query("byFiling", [filing.id]) as unknown as { signed: boolean }[]
     ).filter((s) => s.signed).length;
-    if (signed >= (rules.signatures ?? 0) || filing.feePaidMinor > 0)
+    if (signed >= (rules.signatures ?? 0))
       expect(filing.status).toBe("on-ballot");
     if (filing.status === "on-ballot")
       expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
@@ -209,7 +202,6 @@ describe("M2-03 filing (engine)", () => {
       personId: candidate.id,
       contestId: contest.id,
       platform: [],
-      payFee,
     });
     expect(again.status).toBe("refused");
     // A child can't file, and is told the age rule.
@@ -221,7 +213,6 @@ describe("M2-03 filing (engine)", () => {
         personId: child.id,
         contestId: contest.id,
         platform: [],
-        payFee: false,
       });
       expect(refused.status).toBe("refused");
       if (refused.status === "refused")
@@ -232,7 +223,6 @@ describe("M2-03 filing (engine)", () => {
       JSON.stringify({
         contest: contest.title,
         filedWith: filing.filedWith,
-        fee: filing.feePaidMinor,
         signatures: filing.signatureCount,
         required: rules.signatures,
         status: filing.status,

@@ -6,12 +6,14 @@
  * elected decides whether to vote, from their own circumstances, and whom to
  * vote for, from what they know and think: their warmth toward each candidate
  * they've heard of (recorded causes), how far each known platform sits from
- * their own views, the candidates' parties and each incumbent's record. The
- * wider electorate the world doesn't name votes as groups by lean around the
- * district's real 2024 vote, sized to its real 2024 turnout, each group
- * recognizing candidates as the named people of its lean do (stand-in until
- * CORE's voter groups are populated: SG-GOV-voter-groups-stand-in). Nothing is
- * rolled. The winner takes the seat on the term's start date. Exit polls ask
+ * their own views, the candidates' parties and each incumbent's record. In
+ * a partisan state or federal race the rest of the electorate the world
+ * doesn't name votes in counted blocks (the state's counties, the House or
+ * legislative district: `electorate-blocks.ts`), each turning out and
+ * choosing from its party mix and every candidate's record, campaign and
+ * conditions. A local race's wider electorate votes as groups by lean around
+ * the town, each recognizing candidates as the named people of its lean do
+ * (SG-GOV-voter-groups-stand-in). Nothing is rolled. The winner takes the seat on the term's start date. Exit polls ask
  * named voters leaving the polls and report what they said.
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
@@ -70,6 +72,21 @@ import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
 import { countedVoterGroupId } from "../opening-voter-groups";
 import { VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
+import {
+  countBlocks,
+  countyBlockIdOf,
+  houseBlockByGeoid,
+  legislativeBlock,
+  stateBlocks,
+  type Block,
+  type CandidateReasons,
+  type ElectorateResult,
+} from "../electorate-blocks";
+import {
+  candidateInputs,
+  raceConditions,
+  rememberOpeningElectorate,
+} from "../electorate-inputs";
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-");
 
@@ -141,6 +158,10 @@ export interface ResultRow {
   readonly winnerId: string | null;
   readonly takesOffice: string | null;
   readonly exitPoll: Readonly<Record<string, number>>;
+  /** Each candidate's reasons with the counted blocks, where they voted. */
+  readonly electorateReasons?: readonly CandidateReasons[];
+  /** Votes the counted blocks cast (the rest of the race's electorate). */
+  readonly blocksCast?: number;
 }
 
 export const VOTING_MODULE: CoreModule = {
@@ -156,6 +177,8 @@ export const VOTING_MODULE: CoreModule = {
         },
       },
       results: { indexes: { byContest: { fields: ["contestId"] } } },
+      /** Each counted block's votes in a contest, by party-identification group. */
+      blocks: { indexes: { byContest: { fields: ["contestId"] } } },
     },
   },
   onCalendarWork: votingCalendarWork,
@@ -173,6 +196,7 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  rememberOpeningElectorate(api);
   // A vacancy's special election runs as a real race.
   registerSpecialElections((a, race) => {
     if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
@@ -579,7 +603,6 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       filedWith: how,
       platform: [],
       party,
-      feePaidMinor: 0,
       signatureCount: 0,
       status: "on-ballot",
     } as unknown as ModuleRow);
@@ -1290,14 +1313,24 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       votes[id] = Math.round(votes[id]! * (1 - barred));
   countedVoted = Math.round(countedVoted * (1 - barred));
   countedEligible = Math.round(countedEligible * (1 - barred));
-  const { groupVotes, electorate } = groupVote(
-    api,
-    contest,
-    filings,
-    named.length + countedEligible,
-    voted + countedVoted,
-    byLean,
-  );
+  // Everyone else in the race's electorate votes in counted blocks, each
+  // from its own inputs (a partisan state or federal race); a race the
+  // blocks don't cover keeps the groups around the town's lean.
+  const counted = electorateFor(api, contest, filings, voted + countedVoted);
+  const { groupVotes, electorate } = counted
+    ? {
+        groupVotes: counted.votes,
+        electorate: voted + countedVoted + counted.cast,
+      }
+    : groupVote(
+        api,
+        contest,
+        filings,
+        named.length + countedEligible,
+        voted + countedVoted,
+        byLean,
+      );
+  if (counted) recordBlocks(api, contestId, counted);
   const totals: Record<string, number> = {};
   for (const f of filings)
     totals[f.personId] =
@@ -1356,6 +1389,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     winnerId,
     takesOffice: winnerId ? takesOffice : null,
     exitPoll,
+    ...(counted
+      ? { electorateReasons: counted.candidates, blocksCast: counted.cast }
+      : {}),
   };
   table(api, "results").put(result as unknown as ModuleRow);
   api.emit({
@@ -1529,6 +1565,149 @@ const districtShares = new Map(
     }
   ).house.map((h) => [h.districtGeoid, h.democraticTwoPartyShare]),
 );
+
+/**
+ * The blocks a partisan state or federal race covering the town is counted
+ * in: the state's counties (a statewide office, the presidency), the House
+ * district, or the legislative district; null where none is recorded or no
+ * candidate carries a party.
+ */
+function contestBlocks(
+  api: CoreAPI,
+  contest: ContestRow,
+  filings: readonly FilingRow[],
+): {
+  blocks: readonly Block[];
+  townBlockId: string | null;
+  localBlockId: string | null;
+} | null {
+  if (!filings.some((f) => partySide(f.party ?? null) !== 0)) return null;
+  const { stateKey, geoid } = town(api);
+  const usps = stateKey.slice(3);
+  const county = countyBlockIdOf(
+    api.state.placeMetadata.countyNames as string | undefined,
+    usps,
+  );
+  if (contest.family === "statewideExecutive") {
+    const blocks = stateBlocks(usps);
+    const own = blocks.some((b) => b.id === county) ? county : null;
+    return blocks.length
+      ? { blocks, townBlockId: own, localBlockId: own }
+      : null;
+  }
+  if (contest.family === "usHouse") {
+    const district = townDistrict(geoid, usps, "congressional", api.state.date);
+    const block = houseBlockByGeoid(usps, district?.geoid ?? null);
+    return block
+      ? { blocks: [block], townBlockId: block.id, localBlockId: null }
+      : null;
+  }
+  if (contest.family === "stateLegislative") {
+    const seats = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("seats")
+      .query("byOffice", [contest.officeId]) as unknown as SeatInput[];
+    const districts = new Set(seats.map((s) => s.district)).size;
+    const holder = contest.incumbentTermId
+      ? (api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      : undefined;
+    const own = stateBlocks(usps).find((b) => b.id === county)?.target ?? null;
+    const block = legislativeBlock(
+      usps,
+      contest.seatId,
+      districts,
+      partySide(holder?.party ?? null),
+      own,
+    );
+    return block
+      ? { blocks: [block], townBlockId: block.id, localBlockId: null }
+      : null;
+  }
+  return null;
+}
+
+/** Count the rest of a race's electorate in its blocks, the town's own voters set apart. */
+function electorateFor(
+  api: CoreAPI,
+  contest: ContestRow,
+  filings: readonly FilingRow[],
+  townVoted: number,
+): ElectorateResult | null {
+  const where = contestBlocks(api, contest, filings);
+  if (!where) return null;
+  const date = contest.electionDate;
+  const seat = contest.incumbentTermId
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    : undefined;
+  const votes = where.blocks.reduce((s, b) => s + b.votes, 0);
+  const right = votes
+    ? where.blocks.reduce((s, b) => s + b.votes * b.target, 0) / votes
+    : 0.5;
+  const conditions = raceConditions(api, {
+    date,
+    federal: contest.level === "federal",
+    family:
+      contest.officeId === "office:US:president" ? "president" : contest.family,
+    cycle: electionCycle(date),
+    cycleShare: cycleTurnout(date).share,
+    townsState: true,
+    town: {
+      blockId: where.townBlockId,
+      localBlockId: where.localBlockId,
+      placeId: town(api).townPlaceId,
+      votersCounted: townVoted,
+    },
+  });
+  const candidates = filings.map((f) =>
+    candidateInputs(api, {
+      id: f.personId,
+      party: f.party ?? null,
+      filingId: f.id,
+      // The holder standing again, a full person or an official the world
+      // doesn't name yet.
+      incumbent:
+        candidateFacts(api, f, contest).isIncumbent ||
+        (seat !== undefined && f.personId === officialCandidateId(seat.id)),
+      seatParty: seat?.party ?? null,
+      raceLean: 2 * right - 1,
+    }),
+  );
+  return countBlocks(where.blocks, candidates, conditions);
+}
+
+/** Keep each block's votes by group, so the game can show why the race went as it did. */
+function recordBlocks(
+  api: CoreAPI,
+  contestId: string,
+  counted: ElectorateResult,
+): void {
+  const rows = table(api, "blocks");
+  for (const block of counted.blocks)
+    rows.put({
+      ...block,
+      id: `block:${contestId}:${block.id}`,
+      blockId: block.id,
+      contestId,
+    } as unknown as ModuleRow);
+}
+
+/** Each counted block's votes in a contest. */
+export function blocksOf(
+  api: CoreAPI,
+  contestId: string,
+): readonly (ElectorateResult["blocks"][number] & { blockId: string })[] {
+  return table(api, "blocks").query("byContest", [
+    contestId,
+  ]) as unknown as (ElectorateResult["blocks"][number] & {
+    blockId: string;
+  })[];
+}
 
 /**
  * The electorate the world doesn't name votes as groups: lean bands around the

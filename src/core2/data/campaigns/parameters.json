@@ -320,6 +320,18 @@
       "source": "A year's dues for a small business in a local employers' association, in cents: local chambers of commerce charge small firms about $300 to $700 a year (chamber dues schedules surveyed by the U.S. Chamber's local affiliate guides).",
       "spread": [20000, 150000]
     },
+    "groupJoinBar": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
+      "spread": [0.75, 1.5]
+    },
+    "groupFoundingMembers": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many residents must join before a group exists: an association needs a handful of founders to hold office (state nonprofit corporation acts commonly require three directors or incorporators).",
+      "spread": [2, 5]
+    },
     "lobbyWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -391,6 +403,30 @@
       "source": "A local official's aide's pay, in cents an hour: legislative assistants earn about $45,000 to $55,000 a year (BLS OES 2024, 43-6011 executive secretaries and administrative assistants in local government, median about $24 an hour).",
       "spread": [1800, 3500]
     },
+    "staffReviewDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between an official's looks at whether their office needs a hand: hiring for a public post runs on a weeks-long cycle (posting, interviews, start).",
+      "spread": [14, 90]
+    },
+    "staffPerOfficial": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Personal staff an official with a seat takes on: local elected officials commonly have one aide or share clerical staff (National League of Cities, City Councils in the U.S., 2023: most council members in small and mid-size cities have no or shared staff; mayors and county officers have an assistant), state legislators one to three (NCSL, Size of State Legislative Staff, 2015).",
+      "spread": [0, 3]
+    },
+    "staffHireBase": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
+      "spread": [0, 0.5]
+    },
+    "staffKnownWeight": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How much knowing a candidate adds to an official's choice of aide beside how well they'd do the work: officials hire through their own networks first (Congressional Management Foundation, 'Life in Congress: The Member Perspective', 2013; most staff come through campaign and personal contacts).",
+      "spread": [0, 0.3]
+    },
     "staffBaseQuality": {
       "value": 0.3,
       "tag": "TUNABLE",
@@ -451,12 +487,6 @@
       "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
       "spread": [0.05, 0.2]
     },
-    "presidentialIncumbentPartyShift": {
-      "value": 0.01,
-      "tag": "TUNABLE",
-      "source": "How far the party holding the presidency loses two-party share in a presidential year with no economy or record read yet (the 'time for change' term in Abramowitz's model, about 1 to 2 points after two terms); replaced once WORLD's economy and the president's record feed the race.",
-      "spread": [0, 0.03]
-    },
     "primaryTurnoutCost": {
       "value": 1.4,
       "tag": "TUNABLE",
@@ -474,6 +504,18 @@
       "tag": "TUNABLE",
       "source": "A stranger's petition is signed when the person's trait lean toward signing (about -1 to 1) is above zero; knowing the candidate adds this much, so a known candidate gets the signature from nearly everyone (people sign for those they know; OPUS-TRAITS, Oct 12, 2026).",
       "spread": [0.5, 1.5]
+    },
+    "partyMeetingDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between a local party committee's meetings: county and town committees commonly meet monthly under their party rules (e.g. state party bylaws for county committees), some every other month or quarterly.",
+      "spread": [30, 90]
+    },
+    "partyMeetingAttendBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a member's trait lean toward attending (about -1 to 1) must reach for them to show up at a party meeting: only the most inclined do, checked against the 6 to 10% of adults who report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
+      "spread": [0.3, 0.8]
     },
     "partiesJoinBase": {
       "value": 0.5,
@@ -624,6 +666,12 @@
       "tag": "TUNABLE",
       "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
       "spread": [1, 2]
+    },
+    "executiveReviewDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between an executive's reviews of vacant posts and the orders their office may give: a mayor's or governor's office acts on a vacancy within weeks (city charters commonly have the mayor fill a department head's vacancy promptly, with an acting head meanwhile).",
+      "spread": [7, 60]
     },
     "appointeeHourlyMinor": {
       "value": 4600,

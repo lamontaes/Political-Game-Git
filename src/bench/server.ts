@@ -632,7 +632,6 @@ const server = createServer(async (request, response) => {
           requireCore(),
           player.personId,
           url.searchParams.get("contestId") ?? "",
-          url.searchParams.get("payFee") === "true",
         ),
       );
       return;

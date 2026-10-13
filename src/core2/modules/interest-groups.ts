@@ -23,9 +23,14 @@ import {
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
+  provisionStance,
   registerLegislatureHooks,
   type BillRow,
 } from "./legislature";
+import { personLean, personStance } from "../campaign-views";
+import { concerns, meetingParameter } from "./meetings";
+import { parameter } from "../parameters";
+import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
 import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
@@ -40,6 +45,8 @@ export interface GroupRow {
   readonly formedOn: string;
   readonly formedOver: string;
   readonly memberOrganizationIds: readonly string[];
+  /** The residents who joined a residents' group. */
+  readonly memberPersonIds?: readonly string[];
   readonly lobbyistId: string | null;
 }
 
@@ -53,6 +60,8 @@ export interface LobbyMeeting {
   /** The group's case: the yearly cost to the employers it speaks for, and their share of all the bill's losers. */
   readonly annualCostMinor: number;
   readonly share: number;
+  /** For the bill (+1) or against it (-1); an employers' group is against. */
+  readonly side?: number;
 }
 
 interface DuesRecord {
@@ -159,6 +168,7 @@ function ownerJoins(
 function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
   const b = bill(api, billId);
+  organizeResidents(api, b);
   const costs = employerCosts(api, b);
   if (!costs.size) return;
   const state = api.state as CoreState;
@@ -346,7 +356,7 @@ function lobbied(api: CoreAPI, b: BillRow): readonly TermRow[] {
   ).filter((t) => t.status === "serving" && seats.has(t.seatId));
 }
 
-/** A member the group met weighs its case: against the bill, as strongly as the share of the bill's losers it speaks for. */
+/** A member the group met weighs its case: its way on the bill, as strongly as the share of those on its side (or of the bill's losers) it speaks for. */
 function lobbyTerm(api: CoreAPI, b: BillRow, memberId: string): number {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return 0;
   const met = table(api, "meetings").query("byBillMember", [
@@ -354,9 +364,147 @@ function lobbyTerm(api: CoreAPI, b: BillRow, memberId: string): number {
     memberId,
   ]) as unknown as LobbyMeeting[];
   return met.reduce(
-    (sum, m) => sum - campaignParameter("lobbyWeight") * m.share,
+    (sum, m) =>
+      sum + (m.side ?? -1) * campaignParameter("lobbyWeight") * m.share,
     0,
   );
+}
+
+const ageOn = (p: Readonly<PersonState>, date: string) =>
+  Number(date.slice(0, 4)) -
+  Number(p.birthDate.slice(0, 4)) -
+  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+
+/**
+ * Residents organize over a bill: each feels its pull by how strongly they
+ * stand on its question, more where it touches their own life (their work,
+ * children at home, age, housing), and joins the group on their side when
+ * that pull and their own traits toward joining clear the bar. A group forms once
+ * enough have joined, recruits on every later bill on its question, names
+ * the member most willing to speak for it, and meets the members who vote.
+ */
+function organizeResidents(api: CoreAPI, b: BillRow): void {
+  const local =
+    !b.bodyOfficeId.includes(":legislature-") &&
+    !b.bodyOfficeId.includes(":us-");
+  const stance =
+    b.provisions
+      .filter((p) => p.kind === "policy-question")
+      .map((p) => provisionStance(api, p, local ? "city" : "state"))
+      .find((row) => row !== null) ?? null;
+  if (!stance) return;
+  const state = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const feeling = [...(state.peopleByPlace.get(town) ?? [])]
+    .map((id) => state.people.get(id))
+    .filter(
+      (p): p is PersonState =>
+        !!p && p.alive && ageOn(p, date) >= 18 && p.id !== state.playerId,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .map((p) => ({
+      p,
+      view:
+        personStance(personLean(state.people, p, 0), stance.question) *
+        stance.position,
+      touches: concerns(api, p)(stance.question),
+    }))
+    .filter((row) => row.view !== 0);
+  for (const side of [1, -1]) {
+    const onSide = feeling.filter((row) => Math.sign(row.view) === side);
+    if (!onSide.length) continue;
+    const groupId = `group:${town}:${stance.question}:${side > 0 ? "for" : "against"}`;
+    const organizationId = `organization:${groupId}`;
+    const existing = table(api, "groups").get(groupId) as unknown as
+      GroupRow | undefined;
+    const joined = new Set(existing?.memberPersonIds ?? []);
+    const joining = onSide.filter(
+      (row) =>
+        !joined.has(row.p.id) &&
+        Math.abs(row.view) *
+          (1 + meetingParameter("lifeConcernWeight") * (row.touches ? 1 : 0)) +
+          parameter("traitDecisionWeight") *
+            decisionLean(
+              state,
+              row.p,
+              "interest-groups.member-join",
+              "join",
+              "stay-out",
+            ) >=
+          campaignParameter("groupJoinBar"),
+    );
+    if (!existing && joining.length < campaignParameter("groupFoundingMembers"))
+      continue;
+    if (!state.organizations.has(organizationId))
+      api.addOrganization({
+        id: organizationId,
+        placeId: town,
+        name: groupId,
+        kind: "interest-group",
+        topic: stance.question,
+        liquidMinor: 0,
+        source: {
+          tag: "SOURCED",
+          citation: `Residents organizing over ${b.number}`,
+          asOf: date,
+        },
+      });
+    for (const row of joining) api.join(row.p.id, organizationId);
+    const memberIds = [...joined, ...joining.map((row) => row.p.id)].sort();
+    const speaker =
+      existing?.lobbyistId &&
+      state.people.get(existing.lobbyistId)?.alive &&
+      lobbyingBarredUntil(api, existing.lobbyistId) === null
+        ? existing.lobbyistId
+        : (onSide
+            .filter(
+              (row) =>
+                memberIds.includes(row.p.id) &&
+                lobbyingBarredUntil(api, row.p.id) === null &&
+                decisionLean(
+                  state,
+                  row.p,
+                  "interest-groups.lobbyist",
+                  "serve",
+                  "decline",
+                ) >= 0,
+            )
+            .sort(
+              (x, y) =>
+                Math.abs(y.view) - Math.abs(x.view) ||
+                x.p.id.localeCompare(y.p.id),
+            )[0]?.p.id ?? null);
+    const group: GroupRow = {
+      id: groupId,
+      organizationId,
+      interest: stance.question,
+      formedOn: existing?.formedOn ?? date,
+      formedOver: existing?.formedOver ?? b.number,
+      memberOrganizationIds: [],
+      memberPersonIds: memberIds,
+      lobbyistId: speaker,
+    };
+    table(api, "groups").put(group as unknown as ModuleRow);
+    // The group speaks for its share of the residents on its side.
+    const share = memberIds.length / Math.max(1, onSide.length);
+    for (const member of lobbied(api, b)) {
+      const memberId = member.personId ?? `official:${member.id}`;
+      table(api, "meetings").put({
+        id: `lobby:${groupId}:${b.id}:${memberId}`,
+        groupId,
+        billId: b.id,
+        memberId,
+        lobbyistId: speaker,
+        date,
+        annualCostMinor: 0,
+        share: Math.min(1, share),
+        side,
+      } satisfies LobbyMeeting as unknown as ModuleRow);
+      if (speaker && member.personId && speaker !== member.personId)
+        api.relationship(speaker, member.personId, "contact", 0.1);
+    }
+  }
 }
 
 export function groupsHere(api: CoreAPI): readonly GroupRow[] {
