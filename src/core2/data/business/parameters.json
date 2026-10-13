@@ -312,5 +312,17 @@
       "unit": "score per share drawn",
       "citation": "IRS SOI S-corporation distributions against net income; JPMorgan Chase Institute, Cash Is King (2016)."
     }
+  },
+  "businessCannabisShareOfSpending": {
+    "value": 0.005,
+    "tag": "ESTIMATED",
+    "citation": "State regulator sales totals for 2023: Colorado Department of Revenue, about $1.52 billion (https://old.greenmarketreport.com/colorado-cannabis-sales-surpassed-1-5-billion-last-year-worst-year-since-2017/); Michigan Cannabis Regulatory Agency, $3,057,161,285.85 adult-use and medical (https://mjbizdaily.com/michigan-total-marijuana-sales-reach-3-billion-in-2023/). Divided by each state's personal consumption expenditures (BEA SAPCE, 2023: about $340 billion and $520 billion).",
+    "estimatedFrom": "Legal cannabis sales as a share of households' consumer spending in mature legal states, about 0.45 percent in Colorado and 0.59 percent in Michigan; applied to a town's households' monthly purchases while the sales law is in force.",
+    "spread": {
+      "low": 0.0025,
+      "high": 0.0065,
+      "unit": "share of household spending",
+      "citation": "Lower end: Washington, about $1.1 billion of roughly $480 billion in spending (Washington Liquor and Cannabis Board); upper end: Michigan 2023 above."
+    }
   }
 }

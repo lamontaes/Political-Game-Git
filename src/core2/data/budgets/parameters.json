@@ -1,0 +1,14 @@
+{
+  "policeFacialRecognitionPerOfficerDollars": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Police facial recognition subscriptions, unlimited seats: Miami Springs, Florida, $2,995 a year (Atlas of Surveillance, https://kiosk.atlasofsurveillance.org/a/FL0130900FRT); Eldridge, Iowa, about $3,500 a year (WQAD, https://www.wqad.com/article/news/local/eldridge-police-facial-recognition/526-9209e9c1-cf67-4984-b62d-77a7fb9e8ce8); Gastonia, North Carolina, $8,995 a year (Atlas of Surveillance); Cobb County, Georgia, $17,995 a year (Atlanta News First, https://www.atlantanewsfirst.com/2022/12/15/new-contract-with-facial-recognition-tech-company-raises-privacy-concerns-cobb-county/).",
+    "estimatedFrom": "Each contract's yearly price divided by its department's sworn officers (tens to several hundred), about $30 to $100 an officer; billed to the government carrying the town's police line, monthly in arrears.",
+    "spread": {
+      "low": 25,
+      "high": 100,
+      "unit": "dollars a year per sworn officer",
+      "citation": "Same contracts; the vendor's 2020 list price of about $2,000 a year per officer with access (Clearview AI) applies to the few officers given seats, not the whole force."
+    }
+  }
+}

@@ -72,6 +72,185 @@ function mayOpenKind(api: CoreAPI, kindId: string, placeId: string): boolean {
   );
 }
 
+type Flow =
+  NonNullable<ReturnType<typeof residentsRuntime>>["flows"] extends Map<
+    string,
+    infer F
+  >
+    ? F
+    : never;
+/** Adults' legal cannabis purchases, a household purchase kind like the opening's customer kinds. */
+const CANNABIS_PURCHASE = "household.customer.cannabis";
+const OUTSIDE_LIVING = "household.outside-living-costs";
+const monthlyOf = (flow: Flow) =>
+  flow.cadence.kind === "days"
+    ? (flow.amountMinor * 365) / 12 / flow.cadence.every
+    : flow.amountMinor / flow.cadence.every;
+
+/**
+ * While the sales law is in force, the town's households buy cannabis
+ * legally: a share of their spending (a parameter) moves out of what they
+ * spend outside the town into its own purchase, paid to the town's licensed
+ * cannabis store once one opens and to sellers outside the town until then.
+ * Repeal ends the purchases and the spending goes back where it came from.
+ */
+function syncCannabisPurchases(api: CoreAPI): void {
+  const c = core(api),
+    rt = residentsRuntime(c);
+  if (!rt || !c.modules.has(LAWS_MODULE_ID)) return;
+  const town = lawChain(api).townPlaceId;
+  const law = lawInForce(api, CANNABIS_SALES);
+  const outside = new Map<string, Flow>(),
+    bought = new Map<string, Flow[]>(),
+    spent = new Map<string, number>();
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.endedAt ||
+      flow.placeId !== town ||
+      flow.kind !== "purchase" ||
+      flow.payerId !== flow.residentsId
+    )
+      continue;
+    if (flow.financeKind === OUTSIDE_LIVING)
+      outside.set(flow.residentsId, flow);
+    if (flow.financeKind === CANNABIS_PURCHASE)
+      bought.set(flow.residentsId, [
+        ...(bought.get(flow.residentsId) ?? []),
+        flow,
+      ]);
+    if (flow.financeKind !== "household.mortgage")
+      spent.set(
+        flow.residentsId,
+        (spent.get(flow.residentsId) ?? 0) + monthlyOf(flow),
+      );
+  }
+  if (law.value !== 1 || !law.governing) {
+    for (const [residentsId, flows] of bought)
+      for (const flow of flows) {
+        const back = outside.get(residentsId);
+        if (back) back.amountMinor += flow.amountMinor;
+        flow.amountMinor = 0;
+        flow.endsAt = c.date;
+      }
+    return;
+  }
+  const seller = [...c.finance.businesses].find(
+    ([id, book]) =>
+      !book.closedAt &&
+      book.kindId === "cannabis-retail" &&
+      c.organizations.get(id)?.placeId === town,
+  )?.[0];
+  for (const [residentsId, from] of outside) {
+    if (bought.has(residentsId)) continue;
+    const amount = Math.min(
+      from.amountMinor,
+      Math.round(
+        (spent.get(residentsId) ?? 0) *
+          from.cadence.every *
+          api.parameter("businessCannabisShareOfSpending"),
+      ),
+    );
+    if (from.cadence.kind !== "months" || amount <= 0) continue;
+    from.amountMinor -= amount;
+    addResidentFlow(c, {
+      id: `cannabis:adult:${residentsId}:${law.governing.id}`,
+      kind: "purchase",
+      financeKind: CANNABIS_PURCHASE,
+      payerId: residentsId,
+      payeeId: seller ?? from.payeeId,
+      residentsId,
+      placeId: town,
+      amountMinor: amount,
+      firstAt: from.nextAt,
+      cadence: from.cadence,
+      salesReceipt: true,
+      marketAdjusted: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: `${law.governing.id}: ${String(law.governing.source)}`,
+        estimatedFrom:
+          "The households' monthly purchases times businessCannabisShareOfSpending, moved out of their spending outside the town.",
+      },
+    });
+  }
+}
+
+/** A cannabis store opening where none is: it takes `scale` of the purchases bought outside the town. Returns its customers' spending a year. */
+function takeCannabisBuyers(
+  c: CoreState,
+  storeId: string,
+  placeId: string,
+  scale: number,
+): number {
+  let total = 0;
+  for (const flow of [...(residentsRuntime(c)?.flows.values() ?? [])]) {
+    if (
+      flow.endedAt ||
+      flow.financeKind !== CANNABIS_PURCHASE ||
+      flow.placeId !== placeId ||
+      c.finance.businesses.has(flow.payeeId)
+    )
+      continue;
+    const amount = Math.floor(flow.amountMinor * Math.min(1, scale));
+    if (amount <= 0) continue;
+    flow.amountMinor -= amount;
+    addResidentFlow(c, {
+      ...flow,
+      id: `${flow.id}:${storeId}`,
+      payeeId: storeId,
+      amountMinor: amount,
+      firstAt: flow.nextAt,
+    });
+    total += monthlyOf({ ...flow, amountMinor: amount }) * 12;
+  }
+  return Math.round(total);
+}
+
+/** The cannabis market where the law allows it and no store has opened: households buying outside the town. */
+function cannabisMarket(
+  api: CoreAPI,
+  markets: readonly Market[],
+): Market | undefined {
+  const c = core(api);
+  if (!c.modules.has(LAWS_MODULE_ID)) return undefined;
+  const town = lawChain(api).townPlaceId;
+  if (
+    !mayOpenKind(api, "cannabis-retail", town) ||
+    markets.some((row) => row.kindId === "cannabis-retail")
+  )
+    return undefined;
+  let demandMinor = 0;
+  for (const flow of residentsRuntime(c)?.flows.values() ?? [])
+    if (
+      !flow.endedAt &&
+      flow.financeKind === CANNABIS_PURCHASE &&
+      flow.placeId === town &&
+      !c.finance.businesses.has(flow.payeeId)
+    )
+      demandMinor += monthlyOf(flow) * 12;
+  // Staffed like the town's general stores per dollar of sales (the kind's books reuse retail's).
+  const like = markets.find(
+    (row) => row.placeId === town && row.kindId === "retail",
+  );
+  if (demandMinor <= 0 || !like?.demandMinor) return undefined;
+  const capacity =
+    like.incumbents.reduce(
+      (n, id) => n + (c.finance.businesses.get(id)?.capacityMinor ?? 0),
+      0,
+    ) / like.incumbents.length;
+  return {
+    placeId: town,
+    kindId: "cannabis-retail",
+    // All of it unmet, counted in stores the size of the town's general stores.
+    room: capacity > 0 ? demandMinor / capacity : 0,
+    incumbents: [],
+    likeIds: like.incumbents,
+    staff: (like.staff * demandMinor) / like.demandMinor,
+    demandMinor: Math.round(demandMinor),
+  };
+}
+
 interface OwnerRow {
   id: string;
   ownerId: string;
@@ -97,6 +276,8 @@ interface Market {
   staff: number;
   /** The incumbents' annual demand, nominal. */
   demandMinor: number;
+  /** Businesses a new kind with no incumbents copies its suppliers and hiring from. */
+  likeIds?: string[];
 }
 
 function store(api: CoreAPI) {
@@ -654,6 +835,7 @@ function month(api: CoreAPI): void {
   succeed(api);
   reviewClosures(api);
   membershipPayouts(api);
+  syncCannabisPurchases(api);
   if (c.modules.has(LAWS_MODULE_ID)) {
     const privacy = lawInForce(
       api,
@@ -950,7 +1132,10 @@ function foundings(api: CoreAPI): void {
   };
   // Room counted in average-sized businesses; past one gap, more pull.
   const gapsOf = (row: Market) =>
-    Math.max(0, row.room * row.incumbents.length - 1);
+    Math.max(
+      0,
+      (row.incumbents.length ? row.room * row.incumbents.length : row.room) - 1,
+    );
   /** How far starting costs outrun the founder's cash and what a lender would advance on their income. */
   const capital = (row: Market, monthlyIncome: number, cashMinor: number) => {
     const reach =
@@ -967,10 +1152,13 @@ function foundings(api: CoreAPI): void {
     const income = Math.max(monthlyIncome, floor);
     return income > 0 ? Math.log((prospectMonthly(api, row) + 1) / income) : 0;
   };
-  const market = marketRoom(api)
+  const rooms = marketRoom(api);
+  const cannabis = cannabisMarket(api, rooms);
+  const market = [...rooms, ...(cannabis ? [cannabis] : [])]
     .filter((row) => mayOpenKind(api, row.kindId, row.placeId))
     .filter(
       (row) =>
+        !row.incumbents.length ||
         purchaseShareOf(
           c,
           new Set(row.incumbents),
@@ -1203,7 +1391,11 @@ function found(
     : undefined;
   const equal = 1 / (market.incumbents.length + 1);
   // No customers to win (no buyers reach this market's businesses): nothing to found.
-  if (purchaseShareOf(c, new Set(market.incumbents), equal) <= 0) return false;
+  if (
+    market.incumbents.length &&
+    purchaseShareOf(c, new Set(market.incumbents), equal) <= 0
+  )
+    return false;
   // How big it opens: an equal share of the market is the most it could win;
   // it plans a typical startup's staff, smaller when the founder's own money
   // and what the bank will lend on it reach less (most new firms start small).
@@ -1294,6 +1486,9 @@ function found(
         .reduce((n, row) => n + row.annualDemandMinor, 0);
   const annualDemandMinor =
     households +
+    (market.incumbents.length
+      ? 0
+      : takeCannabisBuyers(c, id, market.placeId, scale)) +
     shiftPurchaseShare(
       c,
       new Set(market.incumbents),
@@ -1351,7 +1546,7 @@ function found(
     source,
   });
   // What a business that buys from outside suppliers doesn't buy locally, it buys outside, like every opening firm.
-  const supplies = [...market.incumbents]
+  const supplies = [...market.incumbents, ...(market.likeIds ?? [])]
     .map((rid) => residentsRuntime(c)?.flows.get(`outside-costs:${rid}`))
     .find((flow) => flow && !flow.endedAt);
   if (supplies)
@@ -1423,7 +1618,7 @@ function found(
       api,
       id,
       Math.max(1, Math.round(market.staff * share)),
-      location?.parentId ?? market.incumbents[0],
+      location?.parentId ?? market.incumbents[0] ?? market.likeIds?.[0],
     );
   store(api)
     .table("foundings")

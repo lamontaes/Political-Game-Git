@@ -402,6 +402,107 @@ describe("founding a business where a market has room", () => {
     }
   });
 
+  it("households buy cannabis legally while the sales law is in force; a store opens to sell it; repeal stops the purchases and its sales", async () => {
+    const question =
+      "us-policy-positions:business-commerce.legalize-cannabis-sales";
+    for (const permitted of [false, true]) {
+      const core = await foundingCore(false);
+      const a = api(core);
+      const town = core.organizations.get("diner:a")!.placeId;
+      const rt = residentsRuntime(core)!;
+      // The diners are the town's general stores; their customers are spoken for, so the only open market is the new one.
+      for (const book of core.finance.businesses.values()) {
+        book.kindId = "retail";
+        // Small stores: the cannabis demand is a few stores' worth.
+        book.capacityMinor = 200_000;
+      }
+      for (const flow of rt.flows.values())
+        if (flow.kind === "purchase") flow.endedAt = core.date;
+      const outside = {
+        id: "residents:outside-living:counted:fixture",
+        kind: "purchase" as const,
+        financeKind: "household.outside-living-costs",
+        payerId: "residents:founding-fixture",
+        payeeId: "outside:founding-fixture",
+        residentsId: "residents:founding-fixture",
+        placeId: town,
+        amountMinor: 10_000_000,
+        firstAt: "2026-10-02" as never,
+        nextAt: "2026-11-02" as never,
+        cadence: { kind: "months" as const, every: 1, day: 2 },
+        salesReceipt: false,
+        marketAdjusted: false,
+        arrearsMinor: 0,
+        source: src,
+      };
+      rt.flows.set(outside.id, outside as never);
+      rt.due.set("2026-11-02" as never, new Set([outside.id]));
+      registerModule(core, LAWS_MODULE);
+      a.moduleState(LAWS_MODULE.id)
+        .table("chain")
+        .put({
+          id: "chain",
+          placeKey: "fixture",
+          placeName: "Fixture",
+          townPlaceId: town,
+          stateKey: "state:fixture",
+          countyGeoids: [],
+          incorporated: false,
+          levels: [{ level: "state", jurisdiction: "state:fixture" }],
+        });
+      const enact = (value: number) =>
+        enactLaw(a, {
+          jurisdiction: "state:fixture",
+          level: "state",
+          series: question,
+          value,
+          effectiveDate: core.date,
+          measureId: `fixture:cannabis:${value}:${core.date}`,
+          citation: "Technical fixture: cannabis sales law.",
+        });
+      enact(permitted ? 1 : 0);
+      const total = money(core);
+      advanceCore(core, "2027-01-15");
+      const bought = () =>
+        [...rt.flows.values()].filter(
+          (flow) => flow.financeKind === "household.customer.cannabis",
+        );
+      const stores = [...core.finance.businesses].filter(
+        ([, book]) => book.kindId === "cannabis-retail",
+      );
+      expect(money(core)).toBe(total);
+      if (!permitted) {
+        expect(bought()).toHaveLength(0);
+        expect(stores).toHaveLength(0);
+        continue;
+      }
+      // Half a percent of the households' monthly spending moved out of what they spent outside the town.
+      const monthly = bought().reduce((n, flow) => n + flow.amountMinor, 0);
+      expect(monthly).toBe(50_000);
+      expect(rt.flows.get(outside.id)!.amountMinor).toBe(10_000_000 - monthly);
+      expect(stores).toHaveLength(1);
+      const [storeId, store] = stores[0]!;
+      expect(core.organizations.get(storeId)?.classification).toBe(
+        "enterprise:cannabis-retail",
+      );
+      expect(store.salesReceivedMinor).toBeGreaterThan(0);
+      expect(
+        bought().some(
+          (flow) => flow.payeeId === storeId && flow.amountMinor > 0,
+        ),
+      ).toBe(true);
+      // Repeal: the purchases end at the next month and the store sells nothing more.
+      enact(0);
+      advanceCore(core, "2027-02-15");
+      const sold = store.salesReceivedMinor;
+      advanceCore(core, "2027-04-15");
+      expect(store.salesReceivedMinor).toBe(sold);
+      expect(bought().every((flow) => flow.amountMinor === 0)).toBe(true);
+      expect(rt.flows.get(outside.id)!.amountMinor).toBe(10_000_000);
+      expect(money(core)).toBe(total);
+    }
+  });
+
   it("an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", async () => {
     const core = await foundingCore(false);
     const total = money(core);

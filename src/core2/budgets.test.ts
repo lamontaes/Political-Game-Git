@@ -348,3 +348,72 @@ it("court caseload moves the existing administration budget line", () => {
   );
   expect(after.spendingMinor.police).toBe(before.spendingMinor.police);
 }, 300_000);
+
+it("the police line pays its facial recognition vendor monthly; a restriction stops the bills", () => {
+  const place = drawPlace(seed, "police-technology");
+  const question =
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition";
+  const run = (restricted: boolean) => {
+    const core = createLifeCore(
+      generatedOpening(place, {
+        twoLevel: true,
+        startedAt: "2026-01-01",
+        settings: { population: 1500 },
+      }),
+      { modules: [OUTCOME_WEB_MODULE] },
+    );
+    core.observer = true; // keep the journal's receipts to read the bills
+    openLaws(core);
+    openBudgets(core);
+    const api = coreAPI(core),
+      chain = lawChain(api);
+    const enact = (value: number) =>
+      enactLaw(api, {
+        jurisdiction: chain.stateKey,
+        level: "state",
+        series: question,
+        value,
+        effectiveDate: core.date,
+        measureId: `police-technology:${value}`,
+        citation: "Test facial recognition restriction.",
+      });
+    enact(0);
+    advanceCore(core, "2026-01-02");
+    const lawId = restricted ? enact(1).id : undefined;
+    advanceCore(core, "2026-04-02");
+    expect(core.cashJournal.totals.grossDebitMinor).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
+    const bills = [...core.cashJournal.detailedReceipts.values()]
+      .filter((row) => row.sourceRef.id.startsWith("police-technology:"))
+      .map((row) => ({
+        date: row.date,
+        id: row.sourceRef.id,
+        minor: row.grossDebitMinor,
+      }));
+    return { bills, lawId, place: chain.townPlaceId };
+  };
+  const open = run(false),
+    restricted = run(true);
+  // December's, January's and February's service, each paid net 30.
+  expect(open.bills.map((row) => row.date)).toEqual([
+    "2026-02-01",
+    "2026-03-01",
+    "2026-04-01",
+  ]);
+  expect(open.bills.every((row) => row.minor > 0)).toBe(true);
+  // December is billed in full; of January only the 1st was unrestricted, so
+  // that bill cites the law, and no bill follows.
+  expect(restricted.bills.map((row) => row.date)).toEqual([
+    "2026-02-01",
+    "2026-03-01",
+  ]);
+  expect(restricted.bills[0]!.minor).toBe(open.bills[0]!.minor);
+  expect(restricted.bills[1]!.id).toContain(restricted.lawId!);
+  expect(
+    Math.abs(restricted.bills[1]!.minor - open.bills[1]!.minor / 31),
+  ).toBeLessThanOrEqual(1);
+  console.log(
+    JSON.stringify({ place, open: open.bills, restricted: restricted.bills }),
+  );
+}, 600_000);
