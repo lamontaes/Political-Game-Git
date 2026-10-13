@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { advanceDate } from "./calendar";
 import { createLifeCore, chooseAct } from "./life";
 import { coreAPI } from "./state";
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { parameter as p } from "./parameters";
 import {
   enumerateDueWorkItems,

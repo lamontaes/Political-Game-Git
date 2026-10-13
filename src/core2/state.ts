@@ -1,10 +1,13 @@
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
+import { queueDecisionDetail } from "./decision-detail";
+export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
+  peerCohortSize,
   residentsRuntime,
   enterResidentMarket,
   releaseResidentHousehold,
@@ -13,6 +16,7 @@ import {
   takeResidentHousehold,
 } from "./modules/residents";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
+import { openingTemperaments } from "./opening-personality";
 import {
   prepareModuleState,
   installModuleState,
@@ -79,7 +83,7 @@ import { cashJournalHost } from "./cash-host";
 import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
 import {
@@ -713,6 +717,10 @@ export function retainLog(core: CoreState, event: LogRecord): void {
           : "news",
   };
   core.durableLog.set(row.id, row);
+  // The player's own reasons are kept whole; the circle's are condensed once
+  // they're older than the detail window (condenseCircleDecisions).
+  if (row.decision && row.actorId !== core.playerId)
+    queueDecisionDetail(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
@@ -1576,6 +1584,62 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       Object.assign(actor, changes);
     },
+    relocatePeopleV1(input) {
+      const ids = [...input.personIds];
+      const movers = ids.map((id) => core.people.get(id));
+      const first = movers[0];
+      const household = first && core.households.get(first.householdId);
+      if (
+        !household ||
+        new Set(ids).size !== ids.length ||
+        movers.some(
+          (row) =>
+            !row?.alive ||
+            row.householdId !== household.id ||
+            !household.memberIds.includes(row.id) ||
+            (row.jobId !== undefined &&
+              core.jobs.get(row.jobId)?.endsAt === undefined),
+        )
+      )
+        throw new Error(
+          "Invalid relocation: one living household, no job held.",
+        );
+      makeIsoDate(input.source.asOf);
+      const whole = household.memberIds.every((id) => ids.includes(id));
+      if (whole) {
+        if (input.householdId !== household.id)
+          throw new Error("A whole household moves under its own id.");
+        core.households.set(household.id, {
+          ...household,
+          placeId: input.placeId,
+          source: input.source,
+        });
+      } else {
+        if (core.households.has(input.householdId))
+          throw new Error(`Household already present: ${input.householdId}`);
+        core.households.set(household.id, {
+          ...household,
+          memberIds: household.memberIds.filter((id) => !ids.includes(id)),
+        });
+        core.households.set(input.householdId, {
+          id: input.householdId,
+          placeId: input.placeId,
+          memberIds: ids,
+          source: input.source,
+        });
+      }
+      for (const actor of movers as PersonState[]) {
+        core.peopleByPlace.get(actor.placeId)?.delete(actor.id);
+        if (actor.countyId)
+          core.peopleByPlace.get(actor.countyId)?.delete(actor.id);
+        actor.placeId = input.placeId;
+        if (input.countyId) actor.countyId = input.countyId;
+        else delete actor.countyId;
+        actor.householdId = input.householdId;
+        index(core.peopleByPlace, actor.placeId, actor.id);
+        if (actor.countyId) index(core.peopleByPlace, actor.countyId, actor.id);
+      }
+    },
     fundPublicPay(authorityId, treasuryId, source) {
       makeIsoDate(source.asOf);
       if (source.asOf > core.date)
@@ -1899,17 +1963,24 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       ]),
     );
     const rebuilt = new Map(
-      buildDeepPast({
-        seed: build.seed,
-        startedAt: build.startedAt,
-        people: rebuild.map((row) => ({
-          ...row,
-          pastFacts: before.get(row.id)!.head,
-        })),
-        households: [taken.household],
-        jobs: taken.jobs,
-        gaps: [],
-      } as unknown as CoreInput).people.map((row) => [row.id, row]),
+      buildDeepPast(
+        {
+          seed: build.seed,
+          startedAt: build.startedAt,
+          people: rebuild.map((row) => ({
+            ...row,
+            pastFacts: before.get(row.id)!.head,
+          })),
+          households: [taken.household],
+          jobs: taken.jobs,
+          gaps: [],
+        } as unknown as CoreInput,
+        {
+          // The opening's class and workgroup sizes, so the same peer groups form.
+          peerCohortSize: (circle, contextKey, present) =>
+            peerCohortSize(core, circle, contextKey) ?? present,
+        },
+      ).people.map((row) => [row.id, row]),
     );
     record = {
       ...taken,
@@ -2049,7 +2120,6 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     api.addFinanceContract({
       ...contract,
       dueAt,
-      householdPurchaseCalendar: undefined,
     });
   }
   // Full people who already name a newcomer as family (it was their husk).
@@ -2141,8 +2211,21 @@ export function fillInIdentity(
   if (existing) return existing;
   if (takeResidentHousehold(core, identity.id))
     throw new Error("A counted resident is filled in with fillInPerson.");
-  coreAPI(core).stopgap("SG-CORE-identity-fill-in-traits");
   makeIsoDate(identity.birthDate);
+  // Seeded by the world and the person, matched to real norms by age and sex,
+  // as the opening gives everyone theirs: the same person every time.
+  const traits =
+    openingTemperaments(
+      [
+        {
+          id: identity.id,
+          birthDate: makeIsoDate(identity.birthDate),
+          ...(identity.gender ? { gender: identity.gender } : {}),
+          parents: [],
+        },
+      ],
+      { seed: core.seed, startedAt: makeIsoDate(core.startedAt) },
+    ).get(identity.id) ?? {};
   const householdId = `household:${identity.id}`;
   if (core.households.has(householdId))
     throw new Error(`Identity household already present: ${householdId}`);
@@ -2188,7 +2271,7 @@ export function fillInIdentity(
     ...(identity.countyId ? { countyId: identity.countyId } : {}),
     householdId,
     tier: "monthly",
-    traits: {},
+    traits,
     liquidMinor: 0,
     livingCostDailyMinor: 0,
     source: identity.source,

@@ -78,7 +78,8 @@
           "key": "school",
           "text": "{{school}}"
         }
-      ]
+      ],
+      "oncePer": "school"
     },
     {
       "kindPrefix": "work:opening",
@@ -169,6 +170,13 @@
         {
           "key": "place",
           "text": "{{place}}"
+        }
+      ],
+      "sameDay": "event:person.moved-away",
+      "groupLine": [
+        {
+          "key": "we-moved",
+          "text": "We moved to {{place}}."
         }
       ]
     },
@@ -313,6 +321,13 @@
         {
           "key": "other-moved-away",
           "text": "{{other}} moved away."
+        }
+      ],
+      "selfWhenNamed": true,
+      "groupLine": [
+        {
+          "key": "we-moved-away",
+          "text": "We moved away."
         }
       ]
     },

@@ -21,7 +21,6 @@ import type {
   WorkPayrollLedger,
   WorkEarnedPayPeriod,
 } from "./work-pay-period";
-import type { GeneratedHouseholdSourceBasis } from "./generated-household-source";
 import type {
   LegacyWorkCashInput,
   LegacyWorkCashResult,
@@ -65,8 +64,6 @@ export interface Source {
   citation: string;
   asOf: IsoDate;
   estimatedFrom?: string;
-  /** Fresh default household provenance; never payment authority. */
-  generatedHouseholdBasis?: GeneratedHouseholdSourceBasis;
   /** External-data vintage of an opening generation prior, not its publication date or actor knowledge. */
   generationPriorVintage?: string;
 }
@@ -1177,6 +1174,20 @@ export interface CoreAPI {
       >
     >,
   ): void;
+  /**
+   * People leaving town for another place (moves): each takes the new place
+   * and county and leaves the town's place index. When they are the whole
+   * household, the household goes with them under its own id; otherwise they
+   * leave it for `householdId`, a new household at the new place. None may
+   * still hold a job here.
+   */
+  relocatePeopleV1(input: {
+    personIds: readonly PersonId[];
+    placeId: PlaceId;
+    countyId?: PlaceId;
+    householdId: string;
+    source: Source;
+  }): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   /**

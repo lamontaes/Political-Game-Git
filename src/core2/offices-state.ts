@@ -15,12 +15,14 @@ import calibration from "../../data/source/electoral-calibration-2024/corpus.jso
 import federalExecutiveResearch from "../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import filingResearch from "../../data/research/elections/filing-requirements.json" with { type: "json" };
+import statewideParties from "../../data/research/offices/statewide-executive-parties-2026.json" with { type: "json" };
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeDistrictJoin } from "../districts/place-membership";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
 import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { OfficeInput } from "./offices-local";
+import { stopgap } from "./stopgaps";
 
 export interface VacancyRule {
   readonly method:
@@ -409,6 +411,24 @@ export function federalOffices(
   return offices;
 }
 
+const STATEWIDE = statewideParties as unknown as {
+  places: Record<
+    string,
+    Record<string, { party: string | null; partisanElection: boolean }>
+  >;
+};
+/**
+ * The party holding a statewide executive office at the start, where its
+ * election carries party labels (null for a nonpartisan office). The research
+ * was compiled without live sources: SG-GOV-statewide-parties-unverified.
+ */
+function statewidePartyOf(stateKey: string, key: string): string | null {
+  const row = STATEWIDE.places[stateKey]?.[key];
+  if (!row?.partisanElection) return null;
+  stopgap("SG-GOV-statewide-parties-unverified");
+  return row.party;
+}
+
 /** The governor, every statewide elected office, and both legislative chambers. */
 export function stateOffices(
   stateKey: string,
@@ -457,7 +477,7 @@ export function stateOffices(
           party:
             executive.key === "governor"
               ? (governorParty.get(stateKey) ?? null)
-              : null,
+              : statewidePartyOf(stateKey, executive.key),
         },
       ],
     });

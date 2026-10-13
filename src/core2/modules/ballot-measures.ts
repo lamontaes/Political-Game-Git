@@ -17,6 +17,8 @@
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { decisionLean } from "../trait-decisions";
+import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -192,7 +194,10 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const lean0 = townLean(api);
   for (const voter of adults) {
     const lean = personLean(api.state.people, voter, lean0);
-    const support = publicSupport(lean, measure.question) * direction;
+    const support =
+      publicSupport(lean, measure.question) * direction +
+      parameter("traitDecisionWeight") *
+        decisionLean(api.state, voter, "ballot-measures.vote", "yes", "no");
     const t = turnout(api, voter, {
       yes: { total: support },
       no: { total: -support },

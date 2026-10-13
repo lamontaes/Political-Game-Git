@@ -1,18 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
 import { addDays, makeIsoDate } from "../simulation/dates";
-import { workgroupOf } from "./encounters";
+import { meetAtWork, workgroupOf } from "./encounters";
 import { advanceCore, createLifeCore } from "./life";
-import { encountersModule } from "./modules/encounters";
-import { applyCoreEvent, coreAPI } from "./state";
+import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
-import encounters from "./data/encounters.json" with { type: "json" };
 
 // SG-P15-encounters, new coworkers: a person who starts a job meets the
 // workgroup at their employer, people with the same title first. The town and
-// its employers are generated; the start is this test's event, because the
-// jobs engine does not yet announce a full person's hire (asked of
-// OPUS-WORLD; a 1,508-person town recorded no hire in three months).
+// its employers are generated; each start is met here as WORLD's jobs engine
+// meets a hire (meetAtWork with the coworkers it names), with the workgroup
+// ranked by workgroupOf.
 const drawn = drawPlace("encounters-work-default", "P15-encounters-work");
 const seed = process.env.GOLDEN_PATH_SEED ?? drawn.seed;
 const key = process.env.GOLDEN_PATH_PLACE_KEY ?? drawn.key;
@@ -20,7 +18,7 @@ const input = generatedOpening(
   { seed, key },
   { settings: { population: 1500 } },
 );
-const core = createLifeCore(input, { modules: [encountersModule] });
+const core = createLifeCore(input);
 advanceCore(core, addDays(makeIsoDate(core.date), 1));
 const api = coreAPI(core);
 const groupSize = core.data.parameters.openingCoworkerGroupSize!.value;
@@ -44,22 +42,15 @@ const results = starters.map((person) => {
   const jobId = person.jobId!;
   const group = workgroupOf(api, person.id, jobId);
   const knownBefore = new Set(person.knownIds);
-  const eventId = `event:${encounters.jobStartedEvent}:${core.date}:${jobId}`;
-  applyCoreEvent(core, {
-    id: eventId,
-    date: core.date,
-    kind: encounters.jobStartedEvent,
-    personIds: [person.id],
-    placeId: person.placeId,
-    source: {
-      tag: "ESTIMATED",
-      asOf: core.date,
-      citation: "The generated town's own job record.",
-      estimatedFrom: "Test event standing in for the jobs engine's hire.",
-    },
-    publicRecord: false,
-    topic: core.jobs.get(jobId)!.organizationId,
-  });
+  const eventId = `job-change:${core.date}:${jobId}:hire`;
+  meetAtWork(
+    api,
+    person.id,
+    core.jobs.get(jobId)!.organizationId,
+    group,
+    core.jobs.get(jobId)!.hoursDaily,
+    eventId,
+  );
   return { person, jobId, group, knownBefore, eventId };
 });
 

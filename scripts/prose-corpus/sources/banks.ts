@@ -120,13 +120,19 @@ export function formativeProseRecords(): readonly ProseRecord[] {
           surface: "option-description",
           text: option.description,
         }),
-        make({
-          ...common,
-          field: `option:${option.key}:memory`,
-          surface: "option-memory",
-          text: option.memory,
-        }),
       );
+      // An empty memory means the choice leaves no memory line (reporting a
+      // crime writes the police log instead), so there is no prose to scan.
+      if (option.memory) {
+        records.push(
+          make({
+            ...common,
+            field: `option:${option.key}:memory`,
+            surface: "option-memory",
+            text: option.memory,
+          }),
+        );
+      }
       if (option.witnessed) {
         records.push(
           make({
@@ -217,13 +223,19 @@ export function adultProseRecords(): readonly ProseRecord[] {
           surface: "option-description",
           text: option.description,
         }),
-        make({
-          ...common,
-          field: `option:${option.key}:memory`,
-          surface: "option-memory",
-          text: option.memory,
-        }),
       );
+      // An empty memory means the choice leaves no memory line (reporting a
+      // crime writes the police log instead), so there is no prose to scan.
+      if (option.memory) {
+        records.push(
+          make({
+            ...common,
+            field: `option:${option.key}:memory`,
+            surface: "option-memory",
+            text: option.memory,
+          }),
+        );
+      }
       if (option.witnessed) {
         records.push(
           make({

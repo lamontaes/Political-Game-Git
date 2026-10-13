@@ -1,6 +1,6 @@
 import { runModuleCalendar } from "./module-calendar";
 /** Process-local controlled clock. Client IDs select saved offers, never amounts or motives. */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceDate, duePeople } from "./calendar";
 import type { DuePerson } from "./calendar";
 import { chooseAct } from "./choice";
@@ -14,7 +14,12 @@ import {
   refreshNeeds,
 } from "./life";
 import { parameter } from "./parameters";
-import { assertFactoryCoreV1, coreAPI, resolveOperation } from "./state";
+import {
+  assertFactoryCoreV1,
+  condenseCircleDecisions,
+  coreAPI,
+  resolveOperation,
+} from "./state";
 import { compactQuietWorkResults } from "./work-state";
 import { runWorkPayrollDay } from "./work-payroll-dispatch";
 import {
@@ -574,6 +579,7 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
     for (const module of core.modules.values()) module.onAfterDay?.(s.api);
     compactRoutineMetrics(core);
     compactQuietWorkResults(core, s.api);
+    condenseCircleDecisions(core);
     s.simulatedDays++;
     s.day = undefined;
   } catch (error) {
@@ -860,4 +866,14 @@ export function resumePlayerV1(
 }
 export function retirePlayerV1(core: CoreState): void {
   entered(core, () => retirePlayerV1Impl(core));
+}
+
+/**
+ * No player clock, or one at rest: a whole day done and nothing waiting on
+ * the player. A world snapshot is taken only then; the loaded world starts a
+ * fresh clock from the same moment on the player's next advance.
+ */
+export function playerClockAtRestV1(core: CoreState): boolean {
+  const s = sessions.get(core);
+  return !s || (!s.pending && !s.day && !s.busy && s.at.minuteOfDay === 0);
 }

@@ -284,7 +284,7 @@ const ALLOWED_FILES: readonly {
   readonly reason: string;
 }[] = [
   {
-    file: /^src\/simulation\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
+    file: /^src\/(?:simulation|core2\/reference)\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
     reason:
       "Census place, county and government names: Centre County, Centreville, Grey Eagle, Holiday Island, Flat Rock, Tyre, Seward",
   },
@@ -293,7 +293,7 @@ const ALLOWED_FILES: readonly {
     reason: "Rota is a municipality of the Northern Mariana Islands",
   },
   {
-    file: /^src\/simulation\/names-data\.ts$/,
+    file: /^src\/(?:simulation|core2\/gov-rules)\/names-data\.ts$/,
     reason: "Ward is a family name",
   },
   {

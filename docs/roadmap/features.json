@@ -98,7 +98,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "Module state, accounts with one balanced writer, the institution calendar and voter groups each have their own contract tests; the speed budget holds; the first two M1 ports build on them without patching the core.",
-      "command": null,
+      "command": "npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
       "passes": false
     },
     {
@@ -130,6 +130,16 @@
       "test": "A fresh session can read docs/roadmap/features.json and docs/roadmap/PROGRESS.md, pick the top unfinished feature and start without asking anyone what's next.",
       "command": null,
       "passes": false
+    },
+    {
+      "id": "M0-13",
+      "milestone": "M0",
+      "title": "The played world is alive",
+      "golden_path": "all",
+      "package": "FIXER-PLAYED-WORLD-TEST",
+      "test": "The world the player gets (buildBenchWorld, two-level, economy on, in a place drawn from all 56) runs one game year on PRs and three worlds of three years nightly; every installed module runs, people other than the player make varied choices, the player turns 18 in play, school-age people attend school, taxes are still withheld after January 1, a passed budget changes spending, a non-budget bill is introduced, every ended term is filled, nobody serves after moving away, a named challenger runs, counted voters vote in local races, the counted population changes, a baby is born over three years, homes have values and rents, pay reaches a spendable account, a new business's loan fits its founder, and memory stays under its bound. Assertions failing today are listed with the session fixing each and must flip to a real pass when fixed.",
+      "command": "node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts",
+      "passes": true
     },
     {
       "id": "M1-01",
@@ -608,7 +618,7 @@
       "golden_path": "release",
       "package": "M7-early-access",
       "test": "On a minimum-spec PC a town's game year runs in under two minutes and a day advances without visible waiting; a new game loads within two minutes while the loading story plays; install size and save size stay within their recorded budgets; minimum specs are measured and listed.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --max-old-space-size=8000 --import tsx scripts/core2-year/speed-memory.mjs",
       "passes": false
     },
     {
@@ -618,7 +628,7 @@
       "golden_path": "release",
       "package": "M7-early-access",
       "test": "A save made on one build loads and continues after an update through the single versioned upgrade path, with no wipe.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/saves.mjs",
       "passes": false
     },
     {

@@ -57,20 +57,40 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-function randomPlace() {
-  const state = pick(states, "state");
+function randomPlace(salt = "") {
+  const state = pick(states, `state${salt}`);
   const places = [
     ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  return pick(places, "place");
+  return pick(places, `place${salt}`);
+}
+
+/** A random place with a local or state race open at the start (some, like Virginia's towns, vote in odd years). */
+function placeWithOpenRace(): string {
+  for (let n = 0; n < 8; n += 1) {
+    const key = randomPlace(n ? `:${n}` : "").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 60,
+      }),
+    );
+    openOffices(core, seed);
+    openElections(core);
+    if (openContests(coreAPI(core)).some((c) => c.level !== "federal"))
+      return key;
+  }
+  return randomPlace().key;
 }
 
 describe("M2-07 elections", () => {
   it("votes come from each person's own reasons, groups vote as groups, and the winner takes the seat on its date", () => {
-    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
+    const place = process.env.GOLDEN_PATH_PLACE_KEY ?? placeWithOpenRace();
     const core = createLifeCore(
       buildPopulation({
         seed,

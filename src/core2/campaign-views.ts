@@ -4,8 +4,10 @@
  * OPUS-PEOPLE's views engine will give each person their own stance on each
  * question, formed from their life. Until it does (SG-GOV-views-stand-in), a
  * person's lean starts from how their own congressional district voted in
- * 2024 (Clerk of the House), moved by the personality facets the research
- * links to ideology (`data/campaigns/parameters.json`). Their stance on a
+ * 2024 (Clerk of the House), placed by the personality facets the research
+ * links to ideology, at the small share the research measures, and by the
+ * upbringing and family the facets don't capture
+ * (`data/campaigns/parameters.json`). Their stance on a
  * question is that lean along the question's measured left-right axis
  * (`data/research/campaigns/issue-axes-2026.json`).
  */
@@ -15,6 +17,7 @@ import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "js
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
+import { stableHash } from "../simulation/ids";
 import type { PersonState } from "./types";
 
 /** One stated position: support (+1) or oppose (-1) a policy question. */
@@ -88,11 +91,63 @@ function personalityLean(
   );
 }
 
+/** A standard normal value for a key (Box and Muller 1958). */
+function normalOf(key: string): number {
+  const uniform = (k: string) =>
+    (parseInt(stableHash(k).slice(0, 12), 16) + 0.5) / 16 ** 12;
+  return (
+    Math.sqrt(-2 * Math.log(uniform(`${key}:a`))) *
+    Math.cos(2 * Math.PI * uniform(`${key}:b`))
+  );
+}
+
+/**
+ * Where a person stands before anything happens in play, standardized: their
+ * personality's lean (`z`) carries only its measured share; the rest is the
+ * upbringing, family and life the personality facets don't capture, keyed to
+ * the person and, for a full person, partly shared with their household.
+ */
+function openingLeanKey(
+  person: Readonly<Pick<PersonState, "id" | "traits">>,
+  z: number,
+): number {
+  const fromPersonality = campaignParameter("personalityLeanCorrelation");
+  const household = (person as { householdId?: string }).householdId;
+  const shared = household ? campaignParameter("householdLeanShare") : 0;
+  const own =
+    shared * normalOf(`lean:home:${household}`) +
+    Math.sqrt(1 - shared * shared) * normalOf(`lean:person:${person.id}`);
+  return (
+    fromPersonality * z + Math.sqrt(1 - fromPersonality * fromPersonality) * own
+  );
+}
+
 const leans = new WeakMap<object, Map<string, number>>();
 const countedSources = new WeakMap<
   object,
   () => readonly Pick<PersonState, "id" | "traits">[]
 >();
+
+const viewKeys = new WeakMap<
+  object,
+  (person: Readonly<Pick<PersonState, "id" | "traits">>, z: number) => number
+>();
+
+/**
+ * Where PEOPLE's views engine runs, each person ranks by their own view's
+ * lean; `z` is their standardized opening lean (`openingLeanKey`), for
+ * counted residents the engine holds no view for. Registered with the
+ * electorate.
+ */
+export function registerViewLeans(
+  people: object,
+  key: (
+    person: Readonly<Pick<PersonState, "id" | "traits">>,
+    z: number,
+  ) => number,
+): void {
+  if (!viewKeys.has(people)) viewKeys.set(people, key);
+}
 
 /**
  * The counted residents (two-level population) whose records rank with the
@@ -107,8 +162,9 @@ export function registerCountedPeople(
 
 /**
  * A person's lean, in [-1, 1]: positive right, negative left. The town's
- * adults are ordered by how far their personality leans right (generation
- * order breaks ties); each one's lean is where they stand in that order
+ * adults are ordered by how far their own view leans right (PEOPLE's views
+ * engine; where it doesn't, their personality and the rest of who they are,
+ * `openingLeanKey`); each one's lean is where they stand in that order
  * against the share of the vote the right won in their area in 2024, so the
  * town as a whole splits the way its area really voted.
  */
@@ -124,12 +180,27 @@ export function personLean(
     const counted = (countedSources.get(people)?.() ?? []).filter(
       (p) => !people.has(p.id),
     );
-    const ordered = [
+    const everyone = [
       ...[...people.values()].filter((p) => p.alive),
       ...counted,
-    ].sort(
-      (a, b) =>
-        personalityLean(b) - personalityLean(a) || a.id.localeCompare(b.id),
+    ];
+    // Each person's own view where the views engine runs (their personality
+    // otherwise): that orders them; the town's real vote places the order.
+    const viewKey = viewKeys.get(people);
+    const scores = everyone.map(personalityLean);
+    const mean = scores.reduce((a, b) => a + b, 0) / (scores.length || 1);
+    const sd =
+      Math.sqrt(
+        scores.reduce((a, b) => a + (b - mean) ** 2, 0) / (scores.length || 1),
+      ) || 1;
+    const key = new Map(
+      everyone.map((p, i) => {
+        const z = openingLeanKey(p, (scores[i]! - mean) / sd);
+        return [p.id, viewKey ? viewKey(p, z) : z];
+      }),
+    );
+    const ordered = everyone.sort(
+      (a, b) => key.get(b.id)! - key.get(a.id)! || a.id.localeCompare(b.id),
     );
     // Rank each place on its own: the world also holds people elsewhere
     // (relatives living away), who must not shift where the town's people

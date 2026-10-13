@@ -189,5 +189,15 @@
     "citation": "Banks' unsecured personal loans start at about $1,000 (published product minimums at large U.S. banks and credit unions).",
     "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded.",
     "stopgapId": "SG-WORLD-credit-minimum-loan"
+  },
+  "creditStartupEquityShare": {
+    "value": 0.1,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 8 (effective June 1, 2025): a startup borrower injects equity of at least 10 percent of total project cost; the loan covers at most the rest."
+  },
+  "creditStartupDebtServiceCoverage": {
+    "value": 1.15,
+    "tag": "SOURCED",
+    "citation": "SBA SOP 50 10 7.1 and 50 10 8: a 7(a) loan to a new business needs projected cash flow of at least 1.15 times its debt service."
   }
 }

@@ -100,12 +100,14 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalIncomeWeight": {
-    "value": 1,
+    "value": 2,
     "tag": "TUNABLE",
-    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors.",
+    "citation": "PW-8: weight on household job income against the place's median, as the bounded ratio (r - 1)/(r + 1), so no income at all costs at most this weight (it was a log cliff of -15.9 at $0). Direction from the literature on income and fertility timing; no rates enter actors.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
+      "low": 1,
+      "high": 3,
+      "unit": "score",
+      "citation": "Checked against the town's yearly births and the full couples' decisions in two fresh played-world seeds; 2 keeps a median-income couple at the old log weight's slope near the median."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
@@ -168,5 +170,119 @@
       "high": 1
     },
     "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalMedianPerVeryLowLimit": {
+    "value": 2,
+    "tag": "SOURCED",
+    "citation": "HUD income limits: the very low-income limit for a family of four is 50% of the area median family income (HUD Income Limits methodology, https://www.huduser.gov/portal/datasets/il.html). The place's own HUD row gives its median, so the couple's income is read against what is usual where they live."
+  },
+  "renewalJobWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "PW-8: stability of work. Each partner with a paying job adds this weight, centered on one earner. Direction: economic uncertainty and job loss delay births (Schneider 2015, Journal of Marriage and Family 77(5), 'The Great Recession, Fertility, and Uncertainty'). The size is tunable.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score",
+      "citation": "Checked against the full couples' decisions and the town's yearly births in two fresh played-world seeds."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalRoomWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "PW-8: room for a child. What one more bedroom costs a year at the place's HUD fair market rents, against household income, as a bounded share. Direction: higher housing costs lower births among renters (Dettling and Kearney 2014, Journal of Public Economics 110, 'House prices and birth rates'). The size is tunable.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score",
+      "citation": "Checked against the full couples' decisions and the town's yearly births in two fresh played-world seeds."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalConditionWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "PW-8: the mother's recorded chronic conditions from the health module weigh against planning a pregnancy, as a bounded share n/(n + 1). The size is tunable.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score",
+      "citation": "Checked against the full couples' decisions in two fresh played-world seeds."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalClosenessWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "PW-8: how close the partners are, from their relationship record (0 to 1; one half is the closeness model's midpoint), centered on that midpoint. The size is tunable.",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score",
+      "citation": "Checked against the full couples' decisions in two fresh played-world seeds."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalUnknownCloseness": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "PW-8: when partners have no relationship record yet, their closeness is estimated at the closeness model's midpoint (level 0.5, src/core2/closeness.ts levelFromHours), never zero.",
+    "estimatedFrom": "Closeness model midpoint; the estimate weighs zero in the decision.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "closeness level",
+      "citation": "The model's middle half."
+    }
+  },
+  "renewalUnionAgeYears": {
+    "value": 23,
+    "tag": "ESTIMATED",
+    "citation": "PW-8: when a couple has no dated partner fact and no children, their start is estimated as the mother reaching the usual age of a first union. First unions for U.S. women mostly begin in the early twenties (CDC NCHS National Survey of Family Growth, first cohabitation and first marriage reports).",
+    "estimatedFrom": "NSFG first-union timing for women; registered as SG-PW8-partnership-start until partnerships carry their own start date.",
+    "spread": {
+      "low": 21,
+      "high": 25,
+      "unit": "years",
+      "citation": "Early-twenties range of first unions; the timing term's shape is checked against it."
+    },
+    "stopgapId": "SG-PW8-partnership-start"
+  },
+  "renewalCountedBirthSpacingDays": {
+    "value": 456,
+    "tag": "ESTIMATED",
+    "citation": "PW-8: a counted woman whose youngest child is younger than this is not next in line for a counted birth: about six months postpartum plus a 266-day pregnancy. Births this close together are a small share of U.S. births (CDC NCHS, interpregnancy intervals, NVSS).",
+    "estimatedFrom": "Short interpregnancy intervals (under six months) are uncommon; six months plus gestation.",
+    "spread": {
+      "low": 365,
+      "high": 548,
+      "unit": "days",
+      "citation": "Twelve to eighteen months between births; the town's yearly total is set by the rates either way."
+    }
+  },
+  "renewalRecoveryWeight": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "PW-8: how strongly a recent birth pulls against planning another pregnancy, as weight x exp(-days since the birth / renewalRecoveryDays). WHO recommends waiting at least 24 months after a live birth before the next pregnancy (Report of a WHO Technical Consultation on Birth Spacing, 2005). The size is tunable.",
+    "spread": {
+      "low": 4,
+      "high": 8,
+      "unit": "score",
+      "citation": "Checked against the played-world runs: at 6, a couple three months after a birth waits; at two years the pull is under 0.3."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalRecoveryDays": {
+    "value": 240,
+    "tag": "ESTIMATED",
+    "citation": "PW-8: how fast the recovery pull fades (days for it to fall by e). Chosen so the pull has nearly faded by the WHO's recommended 24 months after a live birth (Report of a WHO Technical Consultation on Birth Spacing, 2005).",
+    "estimatedFrom": "WHO 24-month birth-to-pregnancy recommendation; about three e-folds by two years.",
+    "spread": {
+      "low": 180,
+      "high": 300,
+      "unit": "days",
+      "citation": "Two to four e-folds within the recommended 24 months."
+    }
   }
 }

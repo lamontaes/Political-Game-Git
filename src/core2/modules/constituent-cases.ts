@@ -22,6 +22,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
+import { decisionLean } from "../trait-decisions";
 import { lawChain, lawInForce, raiseOne } from "./laws";
 import { members } from "./legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -197,10 +198,13 @@ function officeHours(api: CoreAPI): void {
       continue;
     const problem = problemOf(api, person);
     if (!problem) continue;
-    const reachOut =
-      ((person.traits["people-mind-v1:sociability"] ?? 0) +
-        (person.traits["people-mind-v1:conflict"] ?? 0)) /
-      2;
+    const reachOut = decisionLean(
+      api.state,
+      person,
+      "constituent-cases.bring-case",
+      "bring",
+      "let-it-go",
+    );
     if (problem.severity + reachOut <= effort) continue;
     // They go to the official they know best (the senior one if none).
     const official = [...officials].sort((a, b) => {
@@ -262,9 +266,17 @@ function officeHandles(api: CoreAPI, row: CaseRow): void {
     return;
   }
   const official = api.state.people.get(row.officialId);
-  const duty =
-    (official?.traits["personality-v1:facet-duty-bound"] ?? 0) +
-    (official?.traits["people-mind-v1:reliability"] ?? 0) / 2;
+  // Most officials help; every trait tilts that toward or away from it.
+  const duty = official
+    ? campaignParameter("constituentHelpBase") +
+      decisionLean(
+        api.state,
+        official,
+        "constituent-cases.handle-case",
+        "help",
+        "turn-away",
+      )
+    : campaignParameter("constituentHelpBase");
   resolve(api, row, duty > 0 ? "help" : "decline", "office");
 }
 

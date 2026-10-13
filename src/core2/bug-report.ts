@@ -56,7 +56,8 @@ export function bugReport(
     ...(input.note ? { note: input.note } : {}),
     ...(error ? { error } : {}),
     recent,
-    save: saveGame(game),
+    // Replay only: a snapshot would skip the failing command.
+    save: saveGame(game, { snapshot: false }),
   };
 }
 

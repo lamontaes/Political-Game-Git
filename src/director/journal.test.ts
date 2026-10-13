@@ -5,6 +5,7 @@ import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { applyCoreEvent } from "../core2/state";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
 import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
@@ -617,5 +618,168 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(line?.text).toBe(
       `${core.people.get(exId)!.givenName} and I divorced.`,
     );
+  });
+  it("writes a household move as the person's own move, never as their family leaving them", () => {
+    // Break 19 of the October 12 three-year trace: a parent whose whole
+    // household moved read "My daughter moved away." and never that they moved.
+    const inTown = (id: string) => {
+      const other = core.people.get(id);
+      return !!other?.alive && other.tier !== "husk";
+    };
+    const moverId = [...director.ledger.people.keys()]
+      .sort()
+      .find(
+        (id) =>
+          inTown(id) &&
+          (core.households.get(core.people.get(id)!.householdId)?.memberIds
+            .length ?? 0) > 1 &&
+          [...core.people.get(id)!.familyIds].some(
+            (other) =>
+              core.people.get(other)?.householdId ===
+                core.people.get(id)!.householdId && inTown(other),
+          ),
+      )!;
+    const mover = core.people.get(moverId)!;
+    const withIds = [
+      moverId,
+      ...[...mover.familyIds].filter(
+        (id) =>
+          core.people.get(id)?.householdId === mover.householdId && inTown(id),
+      ),
+    ].sort();
+    const date = core.date;
+    const eventId = `person.moved-away:${moverId}:${date}`;
+    // The shape src/core2/modules/moves.ts emits when a household leaves.
+    applyCoreEvent(core, {
+      id: eventId,
+      date,
+      kind: "person.moved-away",
+      personIds: withIds,
+      witnessIds: [],
+      placeId: mover.placeId,
+      publicRecord: false,
+      topic: mover.countyId ?? mover.placeId,
+      source: {
+        tag: "ESTIMATED",
+        asOf: date,
+        citation: "Fixture shaped like the moves engine.",
+        estimatedFrom: "SG-P15-moves-weights",
+      },
+      facts: Object.fromEntries(
+        withIds.map((id) => [`person:${id}:residence`, "elsewhere"]),
+      ),
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const moments = new Set(
+      director.ledger.people
+        .get(moverId)!
+        .moments.filter((moment) => moment.causeId === eventId)
+        .map((moment) => moment.id),
+    );
+    expect(moments.size).toBeGreaterThan(0);
+    const lines = composeJournal(core, director, moverId)
+      .flatMap((row) => row.lines)
+      .filter((line) => line.momentIds.some((id) => moments.has(id)));
+    const text = lines.map((line) => line.text);
+    expect(text).toContain("We moved away.");
+    expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(false);
+
+    // When the person's place changes that day, the move is told once, with
+    // the new place; a place with no name leaves the event's own line.
+    const book = director.ledger.people.get(moverId)!;
+    const own = book.moments.find((moment) => moment.causeId === eventId)!;
+    const movedMoment: Moment = {
+      ...own,
+      id: `${moverId}:${own.date}:${mover.householdId}`,
+      label: "home:moved",
+      causeId: mover.householdId,
+      causeKind: "moved",
+      counterpartIds: [],
+    };
+    delete (movedMoment as { selfNamed?: true }).selfNamed;
+    const fixture = {
+      ...director,
+      ledger: {
+        ...director.ledger,
+        people: new Map([[moverId, { ...book, moments: [own, movedMoment] }]]),
+      },
+    } as Director;
+    const told = (placeId: string) =>
+      composeJournal(
+        {
+          ...core,
+          people: new Map([
+            ...core.people,
+            [moverId, { ...core.people.get(moverId)!, placeId }],
+          ]),
+        } as CoreState,
+        fixture,
+        moverId,
+      )
+        .flatMap((row) => row.lines)
+        .map((line) => line.text);
+    const named = told(mover.placeId);
+    expect(named.filter((line) => /moved/.test(line))).toEqual([
+      `We moved to ${lifePlaceByJurisdictionId(mover.placeId as never)!.displayName}.`,
+    ]);
+    expect(
+      told("jurisdiction_unnamed").filter((line) => /moved/.test(line)),
+    ).toEqual(["We moved away."]);
+  });
+
+  it("writes starting at a school once, however many stages were spent there", () => {
+    // Break 19: Juliaetta journals said "I started at Juliaetta Elementary
+    // School." for the elementary and the middle-school years alike.
+    const person = core.people.get(player.id)!;
+    const school = (person.pastFacts ?? []).find((fact) =>
+      fact.kind.startsWith("school:"),
+    )!;
+    const later = {
+      ...school,
+      id: `${school.id}:next-stage`,
+      date: makeIsoDate(`${Number(school.date.slice(0, 4)) + 6}-08-26`),
+      facts: { ...school.facts, stage: "middle" },
+    };
+    const moment = (fact: typeof school): Moment => ({
+      id: `${player.id}:${fact.date}:past:${fact.id}:${fact.kind}`,
+      personId: player.id,
+      date: makeIsoDate(fact.date),
+      label: `past:${fact.kind}`,
+      causeId: player.id,
+      causeFactId: fact.id,
+      causeKind: fact.kind,
+      counterpartIds: [],
+      impact: 1,
+      channels: [],
+      hindsight: 1,
+      hindsightAt: makeIsoDate(fact.date),
+      echoes: [],
+    });
+    const book = director.ledger.people.get(player.id)!;
+    const fixture = {
+      ...director,
+      ledger: {
+        ...director.ledger,
+        people: new Map([
+          [player.id, { ...book, moments: [moment(school), moment(later)] }],
+        ]),
+      },
+    } as Director;
+    const state = {
+      ...core,
+      people: new Map([
+        ...core.people,
+        [
+          player.id,
+          { ...person, pastFacts: [...(person.pastFacts ?? []), later] },
+        ],
+      ]),
+    } as CoreState;
+    const text = composeJournal(state, fixture, player.id)
+      .flatMap((row) => row.lines)
+      .map((line) => line.text);
+    expect(text.filter((line) => line.startsWith("I started at"))).toEqual([
+      `I started at ${school.facts!.schoolName}.`,
+    ]);
   });
 });

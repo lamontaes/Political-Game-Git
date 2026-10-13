@@ -5,7 +5,10 @@ import {
   withoutWorldChecks,
 } from "../../simulation/world";
 import { bookkeeping } from "../bookkeeping";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { withPrivateTuition } from "../opening-private-tuition";
+import { staffToCustomers } from "../opening-staffing";
+import { representativeSample } from "../representative-sample";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
@@ -81,6 +84,10 @@ export function generatedOpening(
     economy?: boolean;
     twoLevel?: boolean;
     settings?: WorldSettings;
+    /** The opening date; January 2021 by default (M1-14 moves games to 2026). */
+    startedAt?: string;
+    /** Opt-in: staff each business to what its customers buy (src/core2/opening-staffing.ts). */
+    staffToCustomers?: boolean;
   } = {},
 ): CoreInput {
   const settings = options.settings ?? {};
@@ -93,13 +100,18 @@ export function generatedOpening(
 
 function buildOpening(
   place: { seed: string; key: string },
-  options: { economy?: boolean; twoLevel?: boolean },
+  options: {
+    economy?: boolean;
+    twoLevel?: boolean;
+    startedAt?: string;
+    staffToCustomers?: boolean;
+  },
   settings: WorldSettings,
 ): CoreInput {
   const population = buildPopulation({
     seed: place.seed,
     placeKey: place.key,
-    startedAt: measurement.startedAt,
+    startedAt: options.startedAt ?? measurement.startedAt,
     minimumPeople: settings.population ?? parameter("targetPopulation"),
     openingEmployment: true,
     scheduledWork: true,
@@ -119,18 +131,18 @@ function buildOpening(
       return present;
     },
   });
-  let input = applyOpeningSettings(enrichCivicInputs(withPast), settings);
-  // The town's public school district, staffed from workers not yet placed.
-  const schools = withPublicSchoolDistrict(input);
-  input = schools.receipt
-    ? {
-        ...schools.input,
-        placeMetadata: {
-          ...(schools.input.placeMetadata ?? {}),
-          openingPublicSchools: JSON.stringify(schools.receipt),
-        },
-      }
-    : schools.input;
+  // The town's public school district, staffed from workers not yet placed;
+  // built before custom settings so its pay scales like every other job.
+  const schools = withPublicSchoolDistrict(enrichCivicInputs(withPast));
+  let input = applyOpeningSettings(schools.input, settings);
+  if (schools.receipt)
+    input = {
+      ...input,
+      placeMetadata: {
+        ...(input.placeMetadata ?? {}),
+        openingPublicSchools: JSON.stringify(schools.receipt),
+      },
+    };
   const start = makeIsoDate(input.startedAt);
   const player = input.people
     .filter(
@@ -157,7 +169,21 @@ function buildOpening(
   };
   // Two-level: decide who stays a full person first, so counted households
   // get light economy terms (same amounts, no per-household evidence).
-  const keep = options.twoLevel ? fullPeople(input) : undefined;
+  // The circle, plus a representative sample of the town (one household per
+  // age-and-pay group), each sampled person weighted for estimates.
+  let keep = options.twoLevel ? fullPeople(input) : undefined;
+  if (keep) {
+    const sample = representativeSample(input, keep);
+    keep = new Set([...keep, ...sample.personIds]);
+    input = {
+      ...input,
+      placeMetadata: {
+        ...(input.placeMetadata ?? {}),
+        representativeWeights: JSON.stringify(sample.weights),
+        representativeStrata: JSON.stringify(sample.strata),
+      },
+    };
+  }
   const countedHouseholdIds = keep
     ? new Set(
         input.households
@@ -166,16 +192,29 @@ function buildOpening(
       )
     : undefined;
   const outsideDemand = settings.economy?.outsideDemand ?? 1;
-  if (options.economy !== false)
-    input = scaleOutsideSales(
-      outsideDemand,
-      addOutsideMarket(
-        buildOpeningEconomy(input, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
-      ),
+  const economy = (from: CoreInput) =>
+    withPrivateTuition(
+      buildOpeningEconomy(from, {
+        finance: { countedHouseholdIds },
+        customers: { countedHouseholdIds },
+      }).input,
     );
+  if (options.economy !== false) {
+    let built = economy(input);
+    // Opt-in: staff each business to what its customers buy, then rebuild.
+    if (options.staffToCustomers) {
+      const staffed = staffToCustomers(input, built, keep ?? fullPeople(input));
+      built = economy(staffed.input);
+      built = {
+        ...built,
+        placeMetadata: {
+          ...(built.placeMetadata ?? {}),
+          openingStaffing: JSON.stringify(staffed.receipts),
+        },
+      };
+    }
+    input = scaleOutsideSales(outsideDemand, addOutsideMarket(built));
+  }
   // The generator's temporary world is done; let its indexes go.
   releaseRecentHistory();
   forgetLastValidatedWorld();

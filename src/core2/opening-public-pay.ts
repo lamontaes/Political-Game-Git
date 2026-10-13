@@ -1,7 +1,7 @@
 /** Opening-only modeled public pay links. No cash writer or salary projection. */
-import { makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
-import type { PublicGovernmentIdentity } from "../simulation/types";
+import { makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
+import type { PublicGovernmentIdentity } from "./kernel/brands";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import type {
   CoreInput,

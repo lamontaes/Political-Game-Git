@@ -1,4 +1,15 @@
-import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../simulation/dates";
+import {
+  bedroomsForHousehold,
+  hudRentRowFor,
+} from "../simulation/living-world/town-rent";
+import type { EntityId } from "../simulation/types";
+import { healthReport } from "./modules/health";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
@@ -65,7 +76,62 @@ function birthRateFactor(
   );
 }
 
-/** Natality data is deliberately absent here: observations only check totals. */
+const HUD_DOLLAR = 100;
+
+/** The place's HUD record: area median income and fair market rents (fixed tables, read once). */
+const hudRows = new Map<string, ReturnType<typeof hudRentRowFor>>();
+function placeHousing(placeId: string) {
+  if (!hudRows.has(placeId))
+    hudRows.set(placeId, hudRentRowFor(placeId as EntityId));
+  return hudRows.get(placeId)!;
+}
+
+/** The health module's live conditions index, looked up once per world. */
+const conditionIndexes = new WeakMap<
+  object,
+  ReadonlyMap<string, readonly string[]>
+>();
+function conditionsOf(api: CoreAPI, personId: string): number {
+  let index = conditionIndexes.get(api.state);
+  if (!index) {
+    const report = healthReport(api.state);
+    index = report.conditionsByPerson;
+    if (report.initialized) conditionIndexes.set(api.state, index);
+  }
+  return index.get(personId)?.length ?? 0;
+}
+
+/** When the couple got together: their partner fact, else an estimate from their records. */
+export function partnershipStart(
+  api: CoreAPI,
+  couple: BirthCouple,
+  births: readonly string[],
+): string {
+  if (couple.startedAt < api.state.startedAt) return couple.startedAt;
+  const p = (key: string) => renewalParameter(api, key);
+  const mother = api.state.people.get(couple.motherId)!;
+  // SG-PW8-partnership-start: no partner fact was recorded, so the start is
+  // estimated: one spacing interval before their first child, else the age
+  // women first live with a partner (NSFG), never the opening day.
+  api.stopgap("SG-PW8-partnership-start");
+  const estimate = births.length
+    ? addDays(
+        makeIsoDate(births[0]!),
+        -Math.round(p("renewalTimingPeakYears") * p("daysPerMeanYear")),
+      )
+    : addDays(
+        makeIsoDate(mother.birthDate),
+        Math.round(p("renewalUnionAgeYears") * p("daysPerMeanYear")),
+      );
+  return estimate < couple.startedAt ? estimate : couple.startedAt;
+}
+
+/**
+ * What each partner weighs, from the couple's records. Natality data is
+ * deliberately absent here: real rates only check the town's totals. Every
+ * term is a sliding scale with a floor and a ceiling: no cliff at $0 or at
+ * any age.
+ */
 export function birthCircumstances(
   api: CoreAPI,
   actor: Readonly<PersonState>,
@@ -85,7 +151,9 @@ export function birthCircumstances(
   const since = Math.max(
     p("zero"),
     daysBetween(
-      makeIsoDate(births.at(-p("one")) ?? couple.startedAt),
+      makeIsoDate(
+        births.at(-p("one")) ?? partnershipStart(api, couple, births),
+      ),
       makeIsoDate(asOf),
     ) /
       p("daysPerMeanYear") /
@@ -95,14 +163,12 @@ export function birthCircumstances(
   const members = household.memberIds
     .map((id) => api.state.people.get(id)!)
     .filter((person) => person.alive);
-  const income = members.reduce(
-    (sum, person) =>
-      sum +
-      (person.jobId
-        ? (api.state.jobs.get(person.jobId)?.wageDailyMinor ?? p("zero"))
-        : p("zero")),
-    p("zero"),
-  );
+  const wage = (person: Readonly<PersonState>) =>
+    person.jobId
+      ? (api.state.jobs.get(person.jobId)?.wageDailyMinor ?? p("zero"))
+      : p("zero");
+  const income = members.reduce((sum, person) => sum + wage(person), p("zero"));
+  const annual = income * p("daysPerMeanYear");
   const costs = members.reduce(
     (sum, person) => sum + person.livingCostDailyMinor,
     p("zero"),
@@ -111,6 +177,36 @@ export function birthCircumstances(
     (sum, person) => sum + person.liquidMinor,
     p("zero"),
   );
+  const hud = placeHousing(mother.placeId);
+  // HUD's very-low limit is half the area median family income.
+  const median =
+    hud?.veryLow4 != null
+      ? hud.veryLow4 * HUD_DOLLAR * p("renewalMedianPerVeryLowLimit")
+      : p("renewalMedianAnnualIncomeMinor");
+  const ratio = annual / median;
+  // One more bedroom, a year, at the place's fair market rents.
+  const size = members.length;
+  const room = hud
+    ? Math.max(
+        p("zero"),
+        (hud.rents[bedroomsForHousehold(size + p("one"))]! -
+          hud.rents[bedroomsForHousehold(Math.max(size, p("one")))]!) *
+          HUD_DOLLAR *
+          p("monthsPerYear"),
+      )
+    : p("zero");
+  const employed = [mother, partner].filter(
+    (person) => wage(person) > p("zero"),
+  ).length;
+  const relationship = [
+    ...(api.state.relationshipsByPerson.get(actor.id) ?? []),
+  ]
+    .map((id) => api.state.relationships.get(id))
+    .find(
+      (row) =>
+        row?.otherId === (actor.id === mother.id ? partner.id : mother.id),
+    );
+  const conditions = conditionsOf(api, mother.id);
   const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
   return {
@@ -123,19 +219,31 @@ export function birthCircumstances(
     timing:
       p("renewalTimingWeight") *
       (p("two") * since * Math.exp(p("one") - since) - p("one")),
+    // A recent birth: the mother's recovery pulls against another pregnancy,
+    // fading smoothly over about two years.
+    recovery: births.length
+      ? -p("renewalRecoveryWeight") *
+        Math.exp(
+          -daysBetween(makeIsoDate(births.at(-p("one"))!), makeIsoDate(asOf)) /
+            p("renewalRecoveryDays"),
+        )
+      : p("zero"),
     income:
-      p("renewalIncomeWeight") *
-      Math.log(
-        (income * p("daysPerMeanYear") + p("one")) /
-          p("renewalMedianAnnualIncomeMinor"),
-      ),
+      (p("renewalIncomeWeight") * (ratio - p("one"))) / (ratio + p("one")),
+    work: p("renewalJobWeight") * (employed - p("one")),
+    room: (-p("renewalRoomWeight") * room) / (annual + room + p("one")),
     housing: (-p("renewalHousingWeight") * costs) / (income + costs + p("one")),
     savings:
       (p("renewalHousingWeight") * cash) /
       (cash + costs * p("moneyBufferDays") + p("one")),
     health:
       -p("renewalHealthWeight") *
-      Math.max(p("zero"), actor.affect.stress - actor.affect.mood),
+        Math.max(p("zero"), actor.affect.stress - actor.affect.mood) -
+      (p("renewalConditionWeight") * conditions) / (conditions + p("one")),
+    closeness:
+      p("renewalClosenessWeight") *
+      (p("two") * (relationship?.level ?? p("renewalUnknownCloseness")) -
+        p("one")),
     partnership:
       mother.householdId === partner.householdId
         ? p("one")

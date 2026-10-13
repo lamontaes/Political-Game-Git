@@ -294,28 +294,17 @@ function municipal(
   return null;
 }
 
-/**
- * The next regular election for one office's seat, on or after `onDate` with
- * its filing still open where possible: from the year before the seat's term
- * ends, or the first year the office's own calendar holds an election.
- */
-export function nextElectionForSeat(input: {
-  readonly office: OfficeInput;
-  readonly stateKey: string;
-  readonly placeGeoid: string;
-  readonly termEnd: string | null;
-  readonly onDate: string;
-}): ElectionDates | null {
-  const { office, stateKey, placeGeoid, termEnd, onDate } = input;
-  const year = termEnd
-    ? Number(termEnd.slice(0, 4)) - 1
-    : Number(onDate.slice(0, 4));
+/** The office's next election from `onDate`, its calendar read from `year` on. */
+function nextFrom(
+  office: OfficeInput,
+  stateKey: string,
+  placeGeoid: string,
+  year: number,
+  onDate: string,
+): ElectionDates | null {
+  const from = Math.max(year, Number(onDate.slice(0, 4)));
   if (office.level === "federal" || office.level === "state")
-    return stateAndFederal(
-      office,
-      stateKey,
-      Math.max(year, Number(onDate.slice(0, 4))),
-    );
+    return stateAndFederal(office, stateKey, from);
   if (office.level === "county") {
     const unit = governmentUnit(office.jurisdiction);
     const read = unit ? nextCountyElection(unit, makeIsoDate(onDate)) : null;
@@ -333,16 +322,133 @@ export function nextElectionForSeat(input: {
         basis: read.dates.estimated ? "estimated" : "read",
         sources: read.dates.sourceUrls,
       };
-    return stateAndFederal(
+    return stateAndFederal(office, stateKey, from);
+  }
+  return municipal(stateKey, placeGeoid, from, onDate);
+}
+
+/**
+ * The office's regular election in one year, after `onDate`, or null where
+ * its calendar holds none that year (a county or town that votes only in odd
+ * or even years).
+ */
+export function electionInYear(input: {
+  readonly office: OfficeInput;
+  readonly stateKey: string;
+  readonly placeGeoid: string;
+  readonly year: number;
+  readonly onDate: string;
+}): ElectionDates | null {
+  const { office, stateKey, placeGeoid, year, onDate } = input;
+  const from = onDate > `${year}-01-01` ? onDate : `${year}-01-01`;
+  const found = nextFrom(office, stateKey, placeGeoid, year, from);
+  return found &&
+    found.electionDate > onDate &&
+    found.electionDate.startsWith(`${year}-`)
+    ? found
+    : null;
+}
+
+/**
+ * The next regular election for one office's seat, on or after `onDate` with
+ * its filing still open where possible. A seat whose term ends is on the last
+ * election its office's calendar holds before that end, so the winner is
+ * chosen before the term runs out; with none left, the calendar's next one.
+ */
+export function nextElectionForSeat(input: {
+  readonly office: OfficeInput;
+  readonly stateKey: string;
+  readonly placeGeoid: string;
+  readonly termEnd: string | null;
+  readonly onDate: string;
+}): ElectionDates | null {
+  const { office, stateKey, placeGeoid, termEnd, onDate } = input;
+  const today = Number(onDate.slice(0, 4));
+  if (!termEnd) return nextFrom(office, stateKey, placeGeoid, today, onDate);
+  const endYear = Number(termEnd.slice(0, 4));
+  for (let year = endYear; year >= today; year -= 1) {
+    const found = electionInYear({
       office,
       stateKey,
-      Math.max(year, Number(onDate.slice(0, 4))),
-    );
+      placeGeoid,
+      year,
+      onDate,
+    });
+    if (found && found.electionDate < termEnd) return found;
   }
-  return municipal(
-    stateKey,
-    placeGeoid,
-    Math.max(year, Number(onDate.slice(0, 4))),
-    onDate,
-  );
+  return nextFrom(office, stateKey, placeGeoid, endYear - 1, onDate);
+}
+
+/**
+ * The election a seat filled at the opening is next on: the seats of a body
+ * take turns across the years within one term that the office's calendar
+ * holds an election in (an odd-year county staggers over its odd years), so
+ * a term never ends without an election before it. Estimated until each
+ * seat's own cycle is read (SG-GOV-term-end-estimate).
+ */
+export function staggeredSeatElection(input: {
+  readonly office: OfficeInput;
+  readonly stateKey: string;
+  readonly placeGeoid: string;
+  readonly onDate: string;
+  readonly index: number;
+}): ElectionDates | null {
+  const { office, stateKey, placeGeoid, onDate, index } = input;
+  if (!office.termYears) return null;
+  const today = Number(onDate.slice(0, 4));
+  const held: ElectionDates[] = [];
+  for (let year = today; year <= today + office.termYears; year += 1) {
+    if (
+      held.length &&
+      year >= Number(held[0]!.electionDate.slice(0, 4)) + office.termYears
+    )
+      break;
+    const found = electionInYear({
+      office,
+      stateKey,
+      placeGeoid,
+      year,
+      onDate,
+    });
+    if (found) held.push(found);
+  }
+  return held.length ? held[index % held.length]! : null;
+}
+
+/**
+ * The day a term won at `electionDate` starts: the county's own calendar
+ * where it is read, else the office's recorded start day (January 1 where
+ * none is read) after the election.
+ */
+export function termStartAfter(
+  office: OfficeInput,
+  electionDate: string,
+): string {
+  if (office.level === "county") {
+    const unit = governmentUnit(office.jurisdiction);
+    const year = electionDate.slice(0, 4);
+    const read = unit
+      ? nextCountyElection(unit, makeIsoDate(`${year}-01-01`))
+      : null;
+    if (
+      read?.status === "read" &&
+      read.dates.electionDate.startsWith(`${year}-`) &&
+      read.dates.termStarts > electionDate
+    )
+      return read.dates.termStarts;
+  }
+  const starts = office.termStarts ?? "01-01";
+  const year = Number(electionDate.slice(0, 4));
+  const same = `${year}-${starts}`;
+  return same > electionDate ? same : `${year + 1}-${starts}`;
+}
+
+/** When a term won at `electionDate` ends: the start of the term elected a full term on. */
+export function termEndAfter(
+  office: OfficeInput,
+  electionDate: string,
+): string | null {
+  if (!office.termYears) return null;
+  const year = Number(electionDate.slice(0, 4)) + office.termYears;
+  return termStartAfter(office, `${year}${electionDate.slice(4)}`);
 }

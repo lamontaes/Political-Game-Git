@@ -5,7 +5,9 @@ import financePolicy from "./data/finance.json" with { type: "json" };
 import {
   ensureFinanceCashModule,
   settleFinanceContractJournal,
+  UnstaffedSupplierError,
 } from "./finance-cash";
+import { FINANCE_MODULE } from "./modules/finance";
 import type {
   FinanceContractInput,
   FinanceCustomerOriginalTerms,
@@ -905,6 +907,66 @@ for (const domain of ["public", "visitor"] as const) {
         coreAPI(core).settleFinanceContract(ids[p("zero")]!),
       ).toThrow();
       expect(financial(core)).toBe(before);
+    });
+  });
+  describe(`${domain} supplier qualification follows its product jobs' real life`, () => {
+    // The played world crashed when a hotel clerk in the wider population left town.
+    function endNamedJob(core: CoreState): void {
+      core.jobs.get(jobId)!.endsAt = at;
+      delete core.people.get(personId)!.jobId;
+    }
+    function hireReplacement(core: CoreState): string {
+      const id = "job:supplied-conditional-replacement",
+        workerId = "person:supplied-conditional-replacement";
+      core.people.set(workerId, {
+        ...core.people.get(personId)!,
+        id: workerId,
+        jobId: id,
+      });
+      core.jobs.set(id, {
+        ...core.jobs.get(jobId)!,
+        id,
+        personId: workerId,
+        endsAt: undefined,
+        source: { ...evidenceSource, citation: "Hired to the same role." },
+      });
+      core.finance.jobsByOrganization.get(sellers[p("zero")]!)!.add(id);
+      return id;
+    }
+    it("settles through the worker hired into the product occupation after the named job ends", () => {
+      const { core, ids } = fixture(domain),
+        id = ids[p("zero")]!;
+      endNamedJob(core);
+      const replacement = hireReplacement(core),
+        receipt = coreAPI(core).settleFinanceContract(id);
+      expect(receipt.paidMinor).toBe(1001);
+      const journal = [...core.cashJournal.detailedReceipts.values()].find(
+        (row) => row.sourceRef.id === receipt.id,
+      )!;
+      const jobs = journal.relatedRecords
+        .filter(
+          (row) => row.kind === financePolicy.cashJournal.relatedKinds.job,
+        )
+        .map((row) => row.id);
+      expect(jobs).toEqual([replacement]);
+    });
+    it("ends the agreement when the named job is gone and no one does that work there", () => {
+      const { core, ids } = fixture(domain),
+        id = ids[p("zero")]!,
+        api = coreAPI(core);
+      // A counted worker who leaves takes the job out of the records entirely.
+      core.jobs.delete(jobId);
+      core.people.get(personId)!.jobId = undefined;
+      const before = financial(core);
+      expect(() => api.settleFinanceContract(id)).toThrow(
+        UnstaffedSupplierError,
+      );
+      expect(financial(core)).toBe(before);
+      const stock = localStock(core);
+      FINANCE_MODULE.onDay!(api);
+      expect(core.finance.contracts.get(id)!.endedAt).toBe(at);
+      expect(localStock(core)).toBe(stock);
+      expect(core.finance.cashSources.size).toBe(p("zero"));
     });
   });
 }

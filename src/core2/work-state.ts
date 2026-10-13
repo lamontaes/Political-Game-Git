@@ -1,5 +1,5 @@
 /** Local CoreAPI writers for the work/time boundary. No per-act global integrity pass. */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { settleWorkResultJournal } from "./work-cash";
 import { parameter } from "./parameters";
 import {

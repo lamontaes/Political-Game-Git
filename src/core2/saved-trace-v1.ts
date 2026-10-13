@@ -604,21 +604,6 @@ class SavedLookup {
         throw new Error(
           "Saved standing payer legs disagree with the original paid amount.",
         );
-      const basis = r.field(row, "householdPurchaseCalendarBasis");
-      if (basis !== undefined) {
-        const saved = record(basis);
-        due = {
-          status: "saved",
-          dueAt: text(r.field(saved, "effectiveDueAt")),
-          nominalDueAt: text(r.field(saved, "nominalDueAt")),
-        };
-        const originalSource = r.field(saved, "source");
-        record(originalSource);
-        sources.householdPurchaseCalendarSource = detach(
-          r,
-          originalSource,
-        ) as Readonly<Source>;
-      }
     } else {
       amount("transferredMinor");
       amount("principalBeforeMinor");

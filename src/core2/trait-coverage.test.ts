@@ -181,10 +181,13 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
   const pick = (
     actor: Pick<PersonState, "traits">,
     decision: ResolvedDecision,
+    offsets?: ReadonlyMap<string, number>,
   ) => {
     let best: { key: string; id: string; lean: number } | undefined;
     for (const option of decision.resolved) {
-      const lean = traitLean(core, actor, option.actKinds);
+      const lean =
+        traitLean(core, actor, option.actKinds) -
+        (offsets?.get(option.id) ?? 0);
       const key = `${option.id}:${decision.id}`;
       if (!best || lean > best.lean || (lean === best.lean && key < best.key))
         best = { key, id: option.id, lean };
@@ -193,6 +196,30 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
   };
   const working = new Map(
     adults.map((person) => [person.id, { ...person.traits }]),
+  );
+  /**
+   * A real decision also weighs money, party, grievance and the rest, which
+   * spread the town around the point where it tips. Stand in for those by
+   * centering each option at the town's median trait lean for it, so the
+   * town splits the way a calibrated decision does; traits then decide who
+   * sits on which side.
+   */
+  const median = (values: number[]) => {
+    const sorted = [...values].sort((a, b) => a - b);
+    return sorted[Math.floor(sorted.length / 2)]!;
+  };
+  const centers = new Map(
+    decisions.map((decision) => [
+      decision.id,
+      new Map(
+        decision.resolved.map((option) => [
+          option.id,
+          median(
+            adults.map((person) => traitLean(core, person, option.actKinds)),
+          ),
+        ]),
+      ),
+    ]),
   );
   /** What everyone chooses in each decision with one trait set for everyone. */
   function distributions(traitId: string, value: number): Map<string, string> {
@@ -204,7 +231,7 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
       traits[traitId] = value;
       const actor = { traits };
       for (const decision of decisions) {
-        const id = pick(actor, decision);
+        const id = pick(actor, decision, centers.get(decision.id));
         const row = counts.get(decision.id) ?? {};
         row[id] = (row[id] ?? 0) + 1;
         counts.set(decision.id, row);
@@ -288,5 +315,5 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
     }
     expect(checked).toBeGreaterThan(Object.keys(traits).length * 2);
     expect(unchanged).toEqual([]);
-  }, 120_000);
+  }, 200_000);
 });

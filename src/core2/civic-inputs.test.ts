@@ -1,11 +1,11 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
-import { SeededRng } from "../simulation/rng";
-import type { EntityId } from "../simulation/types";
+  corePlaceByJurisdictionId,
+  corePlaceStateIdentities,
+} from "./place-lookup";
+import { SeededRng } from "./kernel/rng";
+import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_CIVIC_INPUTS_DATA,
   enrichCivicInputs,
@@ -19,7 +19,7 @@ import type { CoreInput, PublicOrganization } from "./types";
 
 const seed = "p8-recorded-civic-targets";
 const startedAt = "2021-01-01";
-const state = new SeededRng(seed).pick(lifePlaceStateIdentities());
+const state = new SeededRng(seed).pick(corePlaceStateIdentities());
 const candidates = realLocalities().filter(
   (row) =>
     row.scope === "locality" &&
@@ -62,7 +62,7 @@ describe(`civic inputs, ${place.displayName}, ${state.name}, seed ${seed}`, () =
     if (indexedCandidates.length)
       expect(targets.length).toBeGreaterThan(p("zero"));
     for (const target of targets) {
-      const targetPlace = lifePlaceByJurisdictionId(
+      const targetPlace = corePlaceByJurisdictionId(
         target.placeId as EntityId,
       )!;
       const local = directoryJson.places[targetPlace.sourceGeoid!];
