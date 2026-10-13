@@ -26,6 +26,8 @@ const records: PolicyHandler = (api, change) =>
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   none: [records],
+  // The credit engine reads the cap when it prices a household loan.
+  credit: [records],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],

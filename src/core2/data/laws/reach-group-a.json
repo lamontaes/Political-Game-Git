@@ -12,43 +12,82 @@
       "sector:local-government-office",
       "sector:state-government-office"
     ],
-    "businesses": ["enterprise:"],
-    "builders": ["enterprise:construction", "enterprise:real-estate"],
-    "retailers": ["enterprise:retail"],
-    "police": ["service:police"],
-    "unions": ["membership:labor-union"],
-    "cityGovernment": ["service:municipal-government"],
+    "businesses": [
+      "enterprise:"
+    ],
+    "builders": [
+      "enterprise:construction",
+      "enterprise:real-estate"
+    ],
+    "retailers": [
+      "enterprise:retail"
+    ],
+    "police": [
+      "service:police"
+    ],
+    "unions": [
+      "membership:labor-union"
+    ],
+    "cityGovernment": [
+      "service:municipal-government"
+    ],
     "healthProviders": [
       "service:public-health",
       "service:hospital",
       "service:nursing-home",
       "enterprise:health"
     ],
-    "online": ["enterprise:telecommunications"],
-    "parks": ["enterprise:recreation"],
-    "legislators": ["council", "county-board", "legislature-"]
+    "online": [
+      "enterprise:telecommunications"
+    ],
+    "parks": [
+      "enterprise:recreation"
+    ],
+    "legislators": [
+      "council",
+      "county-board",
+      "legislature-"
+    ]
   },
   "staffing": {
     "budget-line:police": {
       "employers": "police",
-      "levels": ["city", "county"]
+      "levels": [
+        "city",
+        "county"
+      ]
     },
     "budget-line:fire": {
       "employers": "fireEmployers",
-      "levels": ["city", "county"]
+      "levels": [
+        "city",
+        "county"
+      ]
     },
     "budget-line:corrections": {
       "employers": "correctionsEmployers",
-      "levels": ["county", "city", "state"]
+      "levels": [
+        "county",
+        "city",
+        "state"
+      ]
     },
     "budget-line:administration": {
       "employers": "cityGovernment",
-      "levels": ["city", "county"]
+      "levels": [
+        "city",
+        "county"
+      ]
     }
   },
   "extraSelectors": {
-    "fireEmployers": ["service:fire"],
-    "correctionsEmployers": ["service:corrections", "service:jail"]
+    "fireEmployers": [
+      "service:fire"
+    ],
+    "correctionsEmployers": [
+      "service:corrections",
+      "service:jail"
+    ]
   },
   "policies": {
     "minimum-wage": {
@@ -227,8 +266,7 @@
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
-      "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-consumer-credit",
+      "mechanic": "credit",
       "reaches": [
         {
           "id": "borrowers",

@@ -30,6 +30,9 @@ import { strongestPulls } from "./jobs";
 import { currentCloseness } from "../closeness";
 import type { ActOffer } from "../types";
 
+import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+
 const CREDIT_PULL = "credit:pull";
 
 export const CREDIT_MODULE_ID = "credit";
@@ -883,9 +886,19 @@ function householdApplications(
       { policyRatePct: number } | undefined
   )?.policyRatePct;
   if (prime === undefined) return room;
-  const rate =
+  const marketRate =
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
     p("macroHundred");
+  const cap = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(
+        api,
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      )
+    : undefined;
+  const rate =
+    cap?.value === 1
+      ? Math.min(marketRate, lawParameters.parameters.consumerLoanRateCap.value)
+      : marketRate;
   const owing = new Set(
     (
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
@@ -987,6 +1000,8 @@ function householdApplications(
         limitMinor: principal,
         approved: principal > 0,
         kind: "personal",
+        annualRate: rate,
+        lawId: cap?.value === 1 ? (cap.governing?.id ?? null) : null,
       });
     if (principal <= 0) continue;
     const lent = transferCash(

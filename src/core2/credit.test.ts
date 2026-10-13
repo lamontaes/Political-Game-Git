@@ -1,4 +1,8 @@
 /** M1-06 checks on a recorded fixture: household loans balance; defaults follow circumstances. */
+import { drawPlace } from "../../scripts/core2-year/place";
+import { randomBytes } from "node:crypto";
+import { openLaws, enactLaw, lawChain } from "./modules/laws";
+import { extendData } from "./data";
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import { CREDIT_MODULE } from "./modules/credit";
@@ -139,4 +143,61 @@ describe("household loans", () => {
     expect((t.payments as unknown[]).length).toBeGreaterThan(3);
     expect(money(core)).toBe(total);
   });
+});
+
+it("prices consumer credit under the law in force and restores market pricing after repeal", () => {
+  const drawn = drawPlace(randomBytes(16).toString("hex"), "credit-cap");
+  function run(value: number) {
+    const core = createLifeCore(
+      { ...input(), placeMetadata: { placeKey: drawn.key } },
+      {
+        data: extendData(worldCoreData(), {
+          parameters: {
+            creditPersonalSpreadPct: {
+              value: 50,
+              tag: "TUNABLE",
+              citation: "Stress fixture above the statutory ceiling.",
+            },
+            creditBorrowBaseline: {
+              value: 10,
+              tag: "TUNABLE",
+              citation: "Stress fixture: borrower applies under both offers.",
+            },
+          },
+        }),
+        modules: [MACRO_MODULE, CREDIT_MODULE],
+        scheduledWork: false,
+      },
+    );
+    openLaws(core);
+    const api = coreAPI(core);
+    const law = enactLaw(api, {
+      jurisdiction: lawChain(api).stateKey,
+      level: "state",
+      series: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      value,
+      effectiveDate: start,
+      measureId: "credit-cap-test",
+      citation: "Technical test enactment.",
+    });
+    const before = money(core);
+    advanceCore(core, "2026-10-02");
+    const application = api
+      .moduleState("credit")
+      .table("applications")
+      .rows()
+      .find((r) => r.householdId === "household:earner")!;
+    expect(application).toBeTruthy();
+    expect(money(core)).toBe(before);
+    return { application, law };
+  }
+  const capped = run(1),
+    uncapped = run(0);
+  expect(capped.application.annualRate).toBe(0.36);
+  expect(capped.application.lawId).toBe(capped.law.id);
+  expect(uncapped.application.annualRate).toBeGreaterThan(0.36);
+  expect(uncapped.application.lawId).toBeNull();
+  expect(capped.application.limitMinor).toBeGreaterThan(
+    uncapped.application.limitMinor as number,
+  );
 });
