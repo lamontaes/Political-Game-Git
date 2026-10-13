@@ -4,7 +4,7 @@ import {
   corePlaceByJurisdictionId,
   corePlaceStateIdentities,
 } from "./place-lookup";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import type { EntityId } from "./kernel/brands";
 import {
   DEFAULT_CIVIC_INPUTS_DATA,
