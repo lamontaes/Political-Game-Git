@@ -111,9 +111,11 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   },
   // Alive where officials move away; unobserved where none do.
   "nobody serves after moving away": { owner: "FIXER-MOVES", byTown: true },
-  "a named challenger runs": { owner: "OPUS-OFFICIALS" },
-  "counted voters vote in local races": { owner: "FIXER-OFFICES-ELECTIONS" },
-  "the counted population changes": { owner: "OPUS-CORE" },
+  // Local races draw named challengers (PW-3); a town whose only races in
+  // the year are state or federal ones waits on officials who are people.
+  "a named challenger runs": { owner: "OPUS-OFFICIALS", byTown: true },
+  // Full couples of childbearing age are rare among the full people today
+  // (OPUS-CORE, BOARD item 4: a representative sample).
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
   // Alive in some towns; others still leave a home unpriced.
   "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
@@ -574,8 +576,10 @@ function playWorld(seed: string) {
         );
 
   // Break 12: the counted population changes.
+  // A full couple's own decision, not a counted birth: counted births are
+  // rates applied to totals and show in the counted population's change.
   const births = rowsOf(core, "core2-renewal-v1", "births").filter(
-    (b) => String(b.date) >= start,
+    (b) => String(b.date) >= start && b.counted !== true,
   );
   // Filling in a counted person moves them to the full people; that is not
   // a change in who lives here.
@@ -593,7 +597,7 @@ function playWorld(seed: string) {
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(
-        `No baby was born in ${years} year(s) among full or counted people. Births (src/core2/modules/renewal.ts) must follow couples' circumstances, and the counted population must have births.`,
+        `No full couple had a baby in ${years} year(s). Births (src/core2/modules/renewal.ts) must follow couples' circumstances; counted births show in the counted population's change.`,
       );
 
   // Break 16: homes have prices.

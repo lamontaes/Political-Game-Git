@@ -568,6 +568,24 @@
       "tag": "SOURCED",
       "source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 counts each house present). FIXER stand-in figures, Oct 12, SG-GOV-veto-override-rule.",
       "spread": [0.5, 0.75]
+    },
+    "ballotRelationshipWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a voter's own relationship with a candidate they know personally (-1 to 1) adds to that candidate's appeal, beside views and party. Personal contact with a candidate raises support in local races (Gerber and Green 2000, American Political Science Review 94(3):653-663, on face-to-face contact; Arceneaux and Nickerson 2009 on local candidate canvassing). PW-3.",
+      "spread": [0.2, 1]
+    },
+    "countedRecognitionWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "What being known in town adds to a candidate's appeal for a counted voter no campaign reached, times the share of the town's named adults who have heard of the candidate. Name recognition is the main cue in low-information local races (Ballotpedia 2024 local election analyses; Kam and Zechmeister 2013, 'Name Recognition and Candidate Support', American Journal of Political Science 57(4):971-986). Set above incumbentRecognition (0.15) so a candidate the whole town knows outdraws a bare incumbent's name. PW-3.",
+      "spread": [0.1, 0.6]
+    },
+    "votingBallotAgainstViewMax": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean \u00b11 of \u00b12). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
+      "spread": [0.25, 0.75]
     }
   }
 }
