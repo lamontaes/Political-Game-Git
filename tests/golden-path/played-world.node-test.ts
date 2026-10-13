@@ -111,6 +111,9 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     byTown: true,
   },
   "nobody serves after moving away": { owner: "FIXER-MOVES" },
+  // Local races draw named challengers (PW-3); a town whose only races in
+  // the year are state or federal ones waits on officials who are people.
+  "a named challenger runs": { owner: "OPUS-OFFICIALS", byTown: true },
   "the counted population changes": { owner: "OPUS-CORE" },
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
   "homes have values and rents": { owner: "FIXER-ECONOMY" },
