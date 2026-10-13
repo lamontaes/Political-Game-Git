@@ -141,12 +141,12 @@
     }
   },
   "businessCountedFoundBaseline": {
-    "value": -13,
+    "value": -13.5,
     "tag": "TUNABLE",
     "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, summed over the wider population; checked against Census BDS 2023 establishment entry (about 10% a year).",
     "spread": {
-      "low": -14.5,
-      "high": -11.5,
+      "low": -15,
+      "high": -12,
       "unit": "score",
       "citation": "One adult's monthly pull toward founding a startup in a market, before the market's size (founders come in proportion to its businesses), room, prospect, capital, traits and losing work, summed over the wider population; checked against Census BDS 2023 establishment entry (about 10% a year)."
     }
