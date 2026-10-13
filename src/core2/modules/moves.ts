@@ -415,9 +415,10 @@ function leave(
   person: Readonly<PersonState>,
   pull: Pull,
   holds: Readonly<Record<string, number>>,
+  alone = false,
 ): Departure {
   const core = api.state as CoreState;
-  const going = goingWith(api, person);
+  const going = alone ? [person.id] : goingWith(api, person);
   const where = destinationFor(api, person, new Set(going));
   const household = core.households.get(person.householdId);
   const staying = (household?.memberIds ?? []).filter(
@@ -706,6 +707,32 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
     };
     savePull(api, pull);
   }
+}
+
+/**
+ * One adult leaves town alone for a cause another engine recorded (a partner
+ * leaving after a divorce, whose children stay with the other parent). Null
+ * when they cannot go: the player, or a job an agreement names.
+ */
+export function departAlone(
+  api: CoreAPI,
+  personId: PersonId,
+  cause: string,
+): Departure | null {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  if (!person?.alive || person.tier === INACTIVE_TIER) return null;
+  if (core.playerId === personId) return null;
+  if (person.jobId && pinnedJobs(core).has(person.jobId)) {
+    api.stopgap(PINNED_STOPGAP);
+    return null;
+  }
+  const pull: Pull = {
+    id: person.id,
+    value: api.parameter("one"),
+    causes: { [cause]: api.parameter("one") },
+  };
+  return leave(api, person, pull, {}, true);
 }
 
 export function departuresOf(api: CoreAPI): Departure[] {

@@ -589,4 +589,33 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       `${core.people.get(partnerId)!.givenName} and I moved in together.`,
     );
   });
+
+  it("tells a divorce, as the partnering engine records it", () => {
+    const me = core.people.get(player.id)!;
+    const exId = [...me.knownIds]
+      .filter((id) => !me.familyIds.has(id) && core.people.get(id)?.alive)
+      .sort()[0]!;
+    applyCoreEvent(core, {
+      id: "family.divorced:fixture",
+      date: core.date,
+      kind: "family.divorced",
+      personIds: [player.id, exId],
+      placeId: me.placeId,
+      publicRecord: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the partnering engine.",
+        estimatedFrom: "Fixture.",
+      },
+      facts: { leftId: exId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const line = composeJournal(core, director, player.id)
+      .flatMap((chapter) => chapter.lines)
+      .find((row) => row.sourceRecordIds.includes("family.divorced:fixture"));
+    expect(line?.text).toBe(
+      `${core.people.get(exId)!.givenName} and I divorced.`,
+    );
+  });
 });

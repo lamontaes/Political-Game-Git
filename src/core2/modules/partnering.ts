@@ -13,6 +13,7 @@ import { stableHash } from "../../simulation/ids";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import { departAlone, MOVES_MODULE_ID } from "./moves";
 import type { Parameter } from "../parameters";
 import type {
   ActionDefinition,
@@ -29,6 +30,9 @@ export const MARRIED_EVENT = "family.married";
 export const MARRIAGE_KIND = "legal:marriage";
 export const COUPLE_KIND = "romantic:couple";
 export const MOVED_IN_EVENT = "family.moved-in-together";
+export const DIVORCED_EVENT = "family.divorced";
+export const SEPARATED_EVENT = "family.separated";
+const PART_DECISION = "partnering.part";
 export const PARTNERING_PARAMETERS = rows as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -56,11 +60,15 @@ function store(api: CoreAPI) {
 const ageOf = (api: CoreAPI, person: Readonly<PersonState>) =>
   ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date));
 
-function action(id: string, marrying: boolean): ActionDefinition {
+function action(
+  id: string,
+  marrying: boolean,
+  decision: string = DECISION,
+): ActionDefinition {
   return {
     id: `partnering-${id}`,
     // Every trait reaches both options through the shared decision table.
-    actKinds: decisionKinds(DECISION, id),
+    actKinds: decisionKinds(decision, id),
     goalKinds: [],
     need: "company",
     effortParameter: "zero",
@@ -249,6 +257,58 @@ function latestKind(person: Readonly<PersonState>, otherId: PersonId): string {
   return String(facts.at(-1)?.facts?.partnershipKind ?? MARRIAGE_KIND);
 }
 
+const LEAVE = action("leave", true, PART_DECISION);
+const STAY_TOGETHER = action("stay-together", false, PART_DECISION);
+
+/** Whether this partner chooses to leave, weighing the couple's strain. */
+function choosesToPart(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  strain: number,
+  otherId: PersonId,
+): boolean {
+  const temperament =
+    q(api, "partneringTemperamentWeight") *
+    decisionLean(api.state, person, PART_DECISION, "leave", "stay-together");
+  pending.set(
+    api.state,
+    strain + temperament - q(api, "partneringStayTogetherPull"),
+  );
+  const offers: ActOffer[] = [STAY_TOGETHER, LEAVE].map((definition) => ({
+    definition,
+    targetId: otherId,
+    availableHours: api.parameter("hoursPerDay"),
+  }));
+  const scored = scoreOffers(api.state, person.id, offers, {
+    needValues: { company: api.parameter("zero") },
+  });
+  const decision = decisionFromScores(api.state, person.id, scored);
+  pending.delete(api.state);
+  return decision.selected?.definition.id === LEAVE.id;
+}
+
+/** A relative's home in town for someone leaving their partner. */
+function relativeHome(
+  api: CoreAPI,
+  leaver: Readonly<PersonState>,
+  stayer: Readonly<PersonState>,
+): string | undefined {
+  const core = api.state as CoreState;
+  return [...leaver.familyIds]
+    .map((id) => core.people.get(id))
+    .filter(
+      (kin): kin is PersonState =>
+        !!kin?.alive &&
+        kin.tier !== INACTIVE_TIER &&
+        kin.id !== stayer.id &&
+        kin.householdId !== leaver.householdId &&
+        kin.placeId === leaver.placeId &&
+        ageOf(api, kin) >= q(api, "partneringMinimumAge"),
+    )
+    .map((kin) => kin.householdId)
+    .sort()[0];
+}
+
 /** The pull toward marrying now rather than moving in first: faith and age. */
 function marryFirstPull(api: CoreAPI, person: Readonly<PersonState>): number {
   const faith =
@@ -282,6 +342,10 @@ function unite(
   const event = kind === MARRIAGE_KIND ? MARRIED_EVENT : MOVED_IN_EVENT;
   const eventId = `${event}:${api.state.date}:${[...pair].sort().join(":")}`;
   const partnershipId = api.formPartnershipV1(pair, kind, eventId);
+  // A new union starts without strain.
+  store(api)
+    .table("courtships")
+    .put({ id: `part:${[...pair].sort().join(":")}`, value: 0 });
   const movedIn =
     a!.householdId === b!.householdId ? undefined : moveIn(api, a!, b!);
   const marriage: Marriage = {
@@ -447,6 +511,92 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
       }),
     );
   }
+  // Couples part: strain builds by the kind of union, and either may leave.
+  for (const link of [...core.familyLinks.values()]) {
+    if (link.kind !== "partner") continue;
+    const [a, b] = link.personIds.map((pid) => core.people.get(pid));
+    if (!a?.alive || !b?.alive) continue;
+    if (
+      [a, b].some(
+        (who) =>
+          who.tier === INACTIVE_TIER ||
+          who.id === (api.state as CoreState).playerId,
+      )
+    )
+      continue;
+    const kind = latestKind(a, b.id);
+    const key = `part:${[a.id, b.id].sort().join(":")}`;
+    const strain =
+      courtshipOf(api, key) +
+      q(
+        api,
+        kind === COUPLE_KIND
+          ? "partneringSplitPerMonth"
+          : "partneringDivorcePerMonth",
+      );
+    store(api).table("courtships").put({ id: key, value: strain });
+    const leaver = [a, b].find((who) =>
+      choosesToPart(api, who, strain, who === a ? b.id : a.id),
+    );
+    if (!leaver) continue;
+    const stayer = leaver === a ? b : a;
+    // The one leaving moves in with a relative in town; with nowhere to go
+    // they stay together for now (SG-P15-partnering-homes).
+    const home = relativeHome(api, leaver, stayer);
+    // With no relative in town to stay with, the one leaving leaves town
+    // (the moves engine); otherwise, or if they cannot go, they stay together
+    // for now (SG-P15-partnering-homes).
+    if (!home) {
+      const left =
+        core.modules.has(MOVES_MODULE_ID) && leaver.id !== core.playerId
+          ? departAlone(
+              api,
+              leaver.id,
+              kind === COUPLE_KIND ? SEPARATED_EVENT : DIVORCED_EVENT,
+            )
+          : null;
+      if (!left) {
+        api.stopgap(HOMES_STOPGAP);
+        continue;
+      }
+    }
+    store(api).table("courtships").remove(key);
+    const event = kind === COUPLE_KIND ? SEPARATED_EVENT : DIVORCED_EVENT;
+    const pair: [PersonId, PersonId] = [leaver.id, stayer.id];
+    const eventId = `${event}:${api.state.date}:${[...pair].sort().join(":")}`;
+    api.endPartnershipV1(
+      pair,
+      kind === COUPLE_KIND ? "separated" : "divorced",
+      eventId,
+    );
+    if (home) api.moveIntoHouseholdV1(leaver.id, home);
+    partnered.delete(leaver.id);
+    partnered.delete(stayer.id);
+    store(api).table("partings").put({
+      id: eventId,
+      personIds: pair,
+      kind: event,
+      date: api.state.date,
+      leftId: leaver.id,
+      strain,
+    });
+    api.emit({
+      id: eventId,
+      date: api.state.date,
+      kind: event,
+      personIds: pair,
+      placeId: leaver.placeId,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `${event === DIVORCED_EVENT ? "Divorce" : "Separation"} of ${pair.join(" and ")}: ${leaver.id} chose to leave.`,
+        estimatedFrom: STOPGAP,
+      },
+      // A divorce decree is a court record; a couple splitting up is not.
+      publicRecord: event === DIVORCED_EVENT,
+      facts: { leftId: leaver.id },
+    });
+  }
   // Couples living together court toward marrying.
   for (const link of core.familyLinks.values()) {
     if (link.kind !== "partner") continue;
@@ -507,7 +657,7 @@ export const partneringModule: CoreModule = {
   id: PARTNERING_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { state: {}, marriages: {}, courtships: {} },
+    tables: { state: {}, marriages: {}, courtships: {}, partings: {} },
   },
   onDay(api) {
     if (store(api).table("state").get("partnering:state")) return;

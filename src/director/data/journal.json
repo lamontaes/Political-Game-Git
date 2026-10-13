@@ -586,6 +586,52 @@
           "text": "With {{name}}"
         }
       ]
+    },
+    {
+      "kindPrefix": "event:family.divorced",
+      "turn": true,
+      "ownWithOther": true,
+      "line": [
+        {
+          "key": "divorced",
+          "text": "{{name}} and I divorced."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-divorced",
+          "text": "{{other}} got divorced."
+        }
+      ],
+      "title": [
+        {
+          "key": "after",
+          "text": "After {{name}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:family.separated",
+      "turn": true,
+      "ownWithOther": true,
+      "line": [
+        {
+          "key": "split",
+          "text": "{{name}} and I split up."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-split",
+          "text": "{{other}} split up with {{their}} partner."
+        }
+      ],
+      "title": [
+        {
+          "key": "after",
+          "text": "After {{name}}"
+        }
+      ]
     }
   ],
   "firstTitle": [

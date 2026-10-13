@@ -2843,11 +2843,11 @@
     "kind": "behavior-model-gap",
     "file": "src/core2/modules/partnering.ts",
     "line": 1,
-    "whatItFakes": "A newlywed who lives with other adults moves into the spouse's home when the spouse is its only adult; two who each live alone, or each with other adults, keep their own homes and so never count for births. Only opposite-sex couples form; cohabiting without marrying and divorce are not modeled.",
+    "whatItFakes": "A newlywed who lives with other adults moves into the spouse's home when the spouse is its only adult; two who each live alone, or each with other adults, keep their own homes. Someone leaving a partner moves in with a relative in town, else leaves town (children stay with the other parent); a leaver who cannot go (a job an agreement names, or the moves engine not installed) stays. Only opposite-sex couples form.",
     "why": "Moving a person into another household mid-run needs a core call (OPUS-CORE) and the housing engine (OPUS-WORLD); same-sex attraction and cohabitation need their own records.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-13",
-    "replacement": "The housing engine finding a new couple a home of their own (OPUS-WORLD) and the core moving both there; same-sex couples at the measured share; cohabitation and divorce.",
+    "replacement": "The housing engine finding a new couple, or a partner who leaves, a home of their own in town (OPUS-WORLD) and the core moving them there; custody from the family's circumstances; same-sex couples at the measured share.",
     "status": "open"
   },
   {

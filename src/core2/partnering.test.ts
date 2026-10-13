@@ -12,6 +12,7 @@ import {
   partneringModule,
   PARTNERING_PARAMETERS,
 } from "./modules/partnering";
+import { movesModule } from "./modules/moves";
 import { buildPopulation } from "./population";
 import { coreAPI } from "./state";
 import type { CoreEventInput, CoreModule } from "./types";
@@ -43,7 +44,7 @@ const towns = [0, 1, 2].map((draw) => {
     },
   };
   const core = createLifeCore(input, {
-    modules: [partneringModule, recorder],
+    modules: [movesModule, partneringModule, recorder],
   });
   advanceCore(core, "2021-01-02");
   // Who had a partner, and who knew whom, at the opening.
@@ -166,5 +167,44 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
     const share = together / Math.max(1, together + marriedFirst);
     expect(share).toBeGreaterThan(0.5);
     expect(share).toBeLessThan(0.9);
+  });
+
+  it("parts couples near the national divorce rate, and the one leaving moves out", () => {
+    let divorces = 0;
+    let people = 0;
+    for (const { core } of towns) {
+      const partings = coreAPI(core)
+        .moduleState("partnering")
+        .table("partings")
+        .rows() as unknown as {
+        personIds: [string, string];
+        kind: string;
+        leftId: string;
+      }[];
+      people += [...core.people.values()].filter(
+        (row) => row.tier !== "husk",
+      ).length;
+      for (const row of partings) {
+        if (row.kind === "family.divorced") divorces += 1;
+        const [a, b] = row.personIds.map((id) => core.people.get(id)!);
+        expect(a!.familyIds.has(b!.id)).toBe(false);
+        for (const person of [a!, b!])
+          expect(
+            (person.pastFacts ?? []).some(
+              (fact) =>
+                fact.kind === "family:parted" &&
+                fact.facts?.otherPersonId ===
+                  (person.id === a!.id ? b!.id : a!.id),
+            ),
+          ).toBe(true);
+        const left = core.people.get(row.leftId)!;
+        const stayed = left.id === a!.id ? b! : a!;
+        expect(
+          left.householdId !== stayed.householdId || left.tier === "husk",
+        ).toBe(true);
+      }
+    }
+    // 2.4 divorces per 1,000 people a year (NCHS NVSS 2022).
+    expect(divorces / people).toBeLessThan(0.0024 * 2.5);
   });
 });

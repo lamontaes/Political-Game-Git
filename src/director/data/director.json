@@ -365,6 +365,17 @@
       "tag": "ESTIMATED",
       "citation": "Moving in with a partner, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100 (Holmes and Rahe 1967); the scale has no item for living together.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.5"
+    },
+    "directorDivorcedImpact": {
+      "value": 0.73,
+      "tag": "SOURCED",
+      "citation": "A divorce, the Social Readjustment Rating Scale's 'Divorce', 73 life-change units divided by 100 (Holmes and Rahe 1967)."
+    },
+    "directorSeparatedImpact": {
+      "value": 0.65,
+      "tag": "ESTIMATED",
+      "citation": "A couple living together splitting up, sized as the Social Readjustment Rating Scale's 'Marital separation', 65 life-change units divided by 100 (Holmes and Rahe 1967); the scale has no item for unmarried couples.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.45 to 0.73"
     }
   },
   "channels": [
@@ -605,6 +616,18 @@
       "eventKind": "family.moved-in-together",
       "channel": "feeling",
       "impactParameter": "directorMovedInImpact",
+      "counterparts": "tied"
+    },
+    {
+      "eventKind": "family.divorced",
+      "channel": "feeling",
+      "impactParameter": "directorDivorcedImpact",
+      "counterparts": "tied"
+    },
+    {
+      "eventKind": "family.separated",
+      "channel": "feeling",
+      "impactParameter": "directorSeparatedImpact",
       "counterparts": "tied"
     }
   ]

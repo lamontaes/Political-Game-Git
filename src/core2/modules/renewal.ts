@@ -329,7 +329,11 @@ function addMarriedCouple(api: CoreAPI, personIds: readonly string[]): void {
     !mother?.alive ||
     !other?.alive ||
     mother.householdId !== other.householdId ||
-    table(api, "couples").query("byMother", [mother.id]).length
+    (
+      table(api, "couples").query("byMother", [mother.id]) as unknown as {
+        status: string;
+      }[]
+    ).some((row) => row.status === "active")
   )
     return;
   const link = [...api.state.familyLinks.values()].find(

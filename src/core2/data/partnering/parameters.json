@@ -168,5 +168,35 @@
       "low": 0.005,
       "high": 0.1
     }
+  },
+  "partneringStayTogetherPull": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying together, against which a couple's strain is weighed.",
+    "stopgapId": "SG-P15-partnering-weights",
+    "spread": {
+      "low": 1,
+      "high": 6
+    }
+  },
+  "partneringSplitPerMonth": {
+    "value": 0.025,
+    "tag": "ESTIMATED",
+    "citation": "How much strain a month adds for a couple living together unmarried, set so about 10% split each year: 27.4% of women's first premarital cohabitations dissolve within three years (NCHS NHSR 64, Copen, Daniels and Mosher 2013, Table 3, NSFG 2006-2010).",
+    "estimatedFrom": "NHSR 64 three-year dissolution 27.4%, as a steady monthly hazard against the stay-together pull",
+    "spread": {
+      "low": 0.015,
+      "high": 0.04
+    }
+  },
+  "partneringDivorcePerMonth": {
+    "value": 0.003,
+    "tag": "ESTIMATED",
+    "citation": "How much strain a month adds for a married couple, set so about 1.2% divorce each year: 2.4 divorces per 1,000 population (CDC/NCHS NVSS, provisional 2022, 45 reporting states and D.C.) is about 1.2% of married couples a year.",
+    "estimatedFrom": "NVSS divorce rate against married couples per person (about 0.2 married couples per person, CPS 2023)",
+    "spread": {
+      "low": 0.002,
+      "high": 0.005
+    }
   }
 }

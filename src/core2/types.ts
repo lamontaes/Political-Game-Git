@@ -1225,6 +1225,17 @@ export interface CoreAPI {
    * they are.
    */
   moveIntoHouseholdV1(personId: PersonId, householdId: string): void;
+  /**
+   * P15 (for OPUS-CORE review): two partners part mid-run (a divorce, or a
+   * couple who lived together splitting up). Ends their partner link, takes
+   * each out of the other's family, and dates a `family:parted` fact on
+   * each record naming the other and how it ended. Households are unchanged.
+   */
+  endPartnershipV1(
+    personIds: readonly [PersonId, PersonId],
+    endKind: string,
+    sourceId: string,
+  ): void;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,

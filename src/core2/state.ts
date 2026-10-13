@@ -813,6 +813,39 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    endPartnershipV1(personIds, endKind, sourceId) {
+      const link = [...core.familyLinks.values()].find(
+        (row) =>
+          row.kind === "partner" &&
+          row.personIds.includes(personIds[0]) &&
+          row.personIds.includes(personIds[1]),
+      );
+      const people = personIds.map((id) => core.people.get(id));
+      if (!link || people.some((person) => !person?.alive) || !sourceId.trim())
+        throw new Error("Only two living partners can part.");
+      core.familyLinks.delete(link.id);
+      for (const [self, other] of [
+        [people[0]!, people[1]!],
+        [people[1]!, people[0]!],
+      ] as const) {
+        self.familyIds.delete(other.id);
+        self.pastFacts = [
+          ...(self.pastFacts ?? []),
+          {
+            id: `${link.id}:ended:${core.date}:past:${self.id}`,
+            date: core.date,
+            kind: "family:parted",
+            summary: `${other.givenName} ${other.familyName} is no longer this person's partner.`,
+            source: {
+              tag: "SOURCED",
+              asOf: core.date,
+              citation: `Recorded parting of ${link.id} (${sourceId}).`,
+            },
+            facts: { otherPersonId: other.id, endKind },
+          },
+        ];
+      }
+    },
     moveIntoHouseholdV1(personId, householdId) {
       const person = core.people.get(personId);
       const from = person ? core.households.get(person.householdId) : undefined;
