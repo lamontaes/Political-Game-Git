@@ -586,6 +586,12 @@
       "tag": "TUNABLE",
       "source": "Days before a special election its filing closes where the place's own deadline isn't read; state special-election calendars commonly close filing six to eight weeks ahead.",
       "spread": [20, 75]
+    },
+    "turnoutEngagementWeight": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How much following politics closely (PEOPLE's views engine, CES 2024 news interest, 0 to 1) adds to a person's reason to vote, against the national average. Checked against turnout by age: in the 2022 midterm about 23% of citizens 18 to 24 voted and about 65% of those 65 and over (U.S. Census Bureau, CPS Voting and Registration Supplement 2022).",
+      "spread": [0, 6]
     }
   }
 }

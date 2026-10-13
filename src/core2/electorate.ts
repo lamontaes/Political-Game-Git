@@ -78,7 +78,10 @@ export function registerElectorate(core: CoreState): void {
 const MIN_CELL = (
   viewsData.parameters as unknown as Record<string, { value: number }>
 ).minimumCellRespondents!.value;
-const cells = new Map<string, { mean: number; sd: number }>();
+const cells = new Map<
+  string,
+  { mean: number; sd: number; engagement?: number }
+>();
 /**
  * A counted resident's survey cell: their state's CES 2024 spread at their
  * age (the state's whole spread where the age cell is thin, the nation's
@@ -88,7 +91,7 @@ function surveyCell(
   placeId: string,
   birthDate: string,
   date: string,
-): { mean: number; sd: number } {
+): { mean: number; sd: number; engagement?: number } {
   const key = lifePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
@@ -114,3 +117,29 @@ function surveyCell(
   }
   return cell;
 }
+
+/**
+ * How closely a voter follows politics (CES 2024 news interest, 0 to 1),
+ * where PEOPLE's views engine runs: a full person's own, a counted
+ * resident's survey cell's (state and age). Null without the engine.
+ */
+export function engagementOf(
+  core: CoreState,
+  voter: {
+    readonly id: string;
+    readonly birthDate?: string;
+    readonly placeId?: string;
+  },
+): number | null {
+  if (!core.modules.has(VIEWS_MODULE_ID)) return null;
+  if (core.people.has(voter.id))
+    return viewOf(coreAPI(core), voter.id)?.engagement ?? null;
+  if (!voter.birthDate || !voter.placeId) return null;
+  const cell = surveyCell(voter.placeId, voter.birthDate, core.startedAt) as {
+    engagement?: number;
+  };
+  return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
+}
+
+/** The nation's average engagement, the center turnout reads it against. */
+export const NATIONAL_ENGAGEMENT = VIEWS_KEYS.national.engagement ?? 0;

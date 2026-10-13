@@ -15,7 +15,12 @@
  * named voters leaving the polls and report what they said.
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
-import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  NATIONAL_ENGAGEMENT,
+  countedResidents,
+  engagementOf,
+  type CountedVoter,
+} from "../electorate";
 import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,
@@ -356,9 +361,16 @@ export function turnout(
   /** What this election adds to the cost of voting (a primary's lower salience). */
   extraCost = 0,
 ) {
+  // How closely they follow politics, where PEOPLE's views engine runs
+  // (younger people follow less: CES 2024).
+  const engagement = engagementOf(api.state as CoreState, voter);
   const duty =
     (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
-    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2;
+    (voter.traits["people-mind-v1:reliability"] ?? 0) / 2 +
+    (engagement === null
+      ? 0
+      : campaignParameter("turnoutEngagementWeight") *
+        (engagement - NATIONAL_ENGAGEMENT));
   const totals = Object.values(appeal).map((a) => a.total);
   // How much they care: the strength of their strongest feeling in the race.
   const interest = totals.length ? Math.max(...totals.map(Math.abs)) : 0;
