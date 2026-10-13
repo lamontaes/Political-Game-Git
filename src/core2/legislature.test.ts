@@ -22,6 +22,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
 import {
   budgetsOf,
+  enactedBudgetChanges,
   governments,
   openBudgets,
   setBudgetPriorities,
@@ -35,13 +36,24 @@ import {
   castMemberVote,
   mayorVeto,
   executiveDecision,
+  LEGISLATURE_MODULE_ID,
   memberPosition,
   obligationsOf,
+  FEDERAL_HOUSE,
+  leanOf,
+  memberKey,
+  members,
   offerDeal,
   openLegislature,
   votesOn,
 } from "./modules/legislature";
-import { lifePlaceCoverage, lifePlaceSearch } from "../simulation/life-places";
+import { partySide } from "./appointments";
+import { campaignParameter } from "./campaign-views";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
 import { billCatalog, provisionFor } from "./bill-catalog";
 
 const START = "2026-01-05";
@@ -390,6 +402,67 @@ describe(
       );
     }, 120_000); // a whole fiscal year of daily work in one town; 30 s is too tight on slower runners
 
+    it("a budget bill that passes changes the adopted budget by its lines; one that fails carries the enacted lines", () => {
+      const { core, api, key } = town(
+        Object.keys(authority).sort(),
+        "budget-lines",
+      );
+      openBudgets(core);
+      const city = governments(api).find((g) => g.level === "city");
+      if (!city) return;
+      // No priorities set: the elected executive proposes from their own lean.
+      const before = budgetsOf(api, city.id)[0]!;
+      const start = `${before.fiscalYear + 1}-${city.fiscalYearStart}`;
+      advanceCore(core, start);
+      const next = budgetsOf(api, city.id).find(
+        (b) => b.fiscalYear === before.fiscalYear + 1,
+      )!;
+      const councils = new Set(
+        townSeats(api)
+          .filter((s) => s.office.kind === "council")
+          .map((s) => s.office.id),
+      );
+      const bill = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          kind?: string;
+          status: string;
+          number: string;
+          bodyOfficeId: string;
+          provisions: { line?: string; value: number }[];
+        }[]
+      ).find(
+        (b) =>
+          b.kind === "budget" &&
+          councils.has(b.bodyOfficeId) &&
+          next.adoptedBy.includes(b.number),
+      );
+      const label = `${key}, seed ${seed}: ${next.adoptedBy}`;
+      expect(bill, label).toBeDefined();
+      const changes: Record<string, number> = {};
+      if (bill!.status === "enacted")
+        for (const p of bill!.provisions)
+          changes[p.line!] = (changes[p.line!] ?? 0) + p.value;
+      for (const line of new Set([
+        ...Object.keys(before.spendingMinor),
+        ...Object.keys(changes),
+      ]))
+        expect(next.spendingMinor[line] ?? 0, `${label}: ${line}`).toBe(
+          Math.max(0, (before.spendingMinor[line] ?? 0) + (changes[line] ?? 0)),
+        );
+      expect(enactedBudgetChanges(api, city.id), label).toEqual(changes);
+      govReport(
+        "legislature",
+        JSON.stringify({
+          budgetBill: bill!.number,
+          status: bill!.status,
+          changes,
+        }),
+      );
+    }, 120_000); // a whole fiscal year of daily work in one town
+
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");
       const menus = billCatalog(api, "city");
@@ -554,3 +627,46 @@ describe(
     });
   },
 );
+
+describe("a Congress member from elsewhere", () => {
+  // Regression (wire-all-modules, Oct 12): reading one stand-in member's lean
+  // rebuilt the whole chamber, once per member per vote; it now reads the
+  // seat directly and must give the same lean the chamber list gives.
+  it("leans by their seat's party, as the chamber lists them", () => {
+    const state = pick(
+      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      "congress-lean:state",
+    );
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "congress-lean:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 20,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openLegislature(core);
+    const api = coreAPI(core);
+    const house = members(api, FEDERAL_HOUSE);
+    const standIns = house.filter((t) => t.id.startsWith("congress:"));
+    expect(
+      standIns.length,
+      `seed ${seed}, ${state} place ${key}`,
+    ).toBeGreaterThan(400);
+    for (const term of house)
+      expect(leanOf(api, memberKey(term)), term.id).toBe(
+        partySide(term.party) * campaignParameter("identityLeanScale"),
+      );
+  });
+});

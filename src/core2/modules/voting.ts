@@ -40,7 +40,7 @@ import {
 import { townDistrict } from "../offices-state";
 import {
   openNextContest,
-  openSpecialContest,
+  specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
   checkEligibility,
@@ -63,7 +63,10 @@ import {
   type TermRow,
 } from "./offices";
 import type { SeatInput } from "../offices-state";
+import type { OfficeInput } from "../offices-local";
+import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
+export { candidateIdentity } from "../candidate-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
 import { CANDIDACY_MODULE_ID, decideToRun } from "./candidacy";
@@ -157,7 +160,7 @@ export function openVoting(core: CoreState): void {
   // A vacancy's special election runs as a real race.
   registerSpecialElections((a, race) => {
     if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
-    const contest = openSpecialContest(a, race);
+    const contest = specialContestFor(a, race);
     if (contest) scheduleContest(a, contest);
     return contest !== null;
   });
@@ -475,12 +478,20 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   const onBallot = ballot(api, contestId);
   // stopgapId: SG-GOV-who-runs-stand-in
   api.stopgap("SG-GOV-who-runs-stand-in");
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
+  // Whoever holds the seat when filing closes stands as its incumbent: an
+  // appointee to a vacancy, never a holder who died or moved away.
+  const incumbent =
+    (api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
+      TermRow | undefined) ??
+    (contest.incumbentTermId
+      ? (api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      : undefined);
   const put = (personId: string, party: string | null, how: string) => {
     if (onBallot.some((f) => f.personId === personId)) return;
     filings.put({
@@ -594,63 +605,6 @@ function termLimited(
 /** A named official on the ballot who isn't a full person in the world yet. */
 export function officialCandidateId(key: string): string {
   return `official:${key}`;
-}
-
-/**
- * Who a candidate id names, for any kind of candidate: a resident (their own
- * record), a seated official (`official:term:…`, their term's identity), or a
- * drawn challenger or nominee (`official:challenger:…`, `official:nominee:…`,
- * the same identity a win would seat). Record fields only; the words come
- * from the English engine.
- */
-export function candidateIdentity(
-  api: CoreAPI,
-  candidateId: string,
-): {
-  readonly givenName: string;
-  readonly familyName: string;
-  readonly birthDate: string;
-  readonly kind: "resident" | "official" | "drawn";
-} | null {
-  const person = api.state.people.get(candidateId);
-  if (person)
-    return {
-      givenName: person.givenName,
-      familyName: person.familyName,
-      birthDate: person.birthDate,
-      kind: "resident",
-    };
-  if (!candidateId.startsWith("official:")) return null;
-  const key = candidateId.slice("official:".length);
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(key) as unknown as TermRow | undefined;
-  if (term)
-    return {
-      givenName: term.identity.givenName,
-      familyName: term.identity.familyName,
-      birthDate: term.identity.birthDate,
-      kind: "official",
-    };
-  const loaded = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("loaded")
-    .get("town") as unknown as { worldSeed: string } | undefined;
-  if (!loaded) return null;
-  const drawn = drawOfficialIdentity({
-    worldSeed: loaded.worldSeed,
-    seatKey: candidateId,
-    stateUsps: town(api).stateKey.slice(3),
-    role: "state-executive-challenger",
-    referenceDate: api.state.date,
-  });
-  return {
-    givenName: drawn.givenName,
-    familyName: drawn.familyName,
-    birthDate: drawn.birthDate,
-    kind: "drawn",
-  };
 }
 
 /**
@@ -1095,17 +1049,14 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    // A voter who chose their ballot (the player) votes as they chose; the
-    // player is never voted for, so with no ballot cast they didn't vote.
+    // A voter who chose their ballot (the player, by hand) votes as they
+    // chose; with none chosen (a player skipping past election day), they
+    // vote or stay home on their own reasons like everyone else.
     const chosen = table(api, "chosen").get(
       `${contestId}|${voter.id}`,
     ) as unknown as { candidateId: string | null } | undefined;
-    const isPlayer = voter.id === (api.state as CoreState).playerId;
     const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
-    const t =
-      chosen || isPlayer
-        ? { ...decided, votes: chosen !== undefined }
-        : decided;
+    const t = chosen ? { ...decided, votes: true } : decided;
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -1232,11 +1183,19 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         .table("terms")
         .get(contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
-  // A special election's winner takes the vacant seat at once.
+  // A special election's winner takes the vacant seat at once; otherwise
+  // the new term starts on the office's own start day after the regular
+  // election (a second election after a tie keeps the regular one's term).
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as OfficeInput | undefined;
   const takesOffice = contest.special
     ? date
-    : (incumbent?.endDate ??
-      `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
+    : office
+      ? termStartAfter(office, regularElectionDate(contest))
+      : (incumbent?.endDate ??
+        `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
   const result: ResultRow = {
     id: `result:${contestId}`,
     contestId,
@@ -1530,7 +1489,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(contest.officeId) as unknown as { termYears: number | null };
+    .get(contest.officeId) as unknown as OfficeInput;
   for (const term of terms.query("bySeatStatus", [
     contest.seatId,
     "serving",
@@ -1546,8 +1505,11 @@ function takeOffice(api: CoreAPI, resultId: string): void {
   const filing = ballot(api, contest.id).find(
     (f) => f.personId === result.winnerId,
   );
-  const previous = contest.incumbentTermId
-    ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+  // The incumbent who stood again: the seat's holder when filing closed.
+  const previous = result.winnerId.startsWith(officialCandidateId(""))
+    ? (terms.get(
+        result.winnerId.slice(officialCandidateId("").length),
+      ) as unknown as TermRow | undefined)
     : undefined;
   // A named official who isn't a full person yet keeps (or gets) an identity.
   const identity = winner
@@ -1558,8 +1520,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
         birthDate: winner.birthDate,
         homeState: town(api).stateKey,
       }
-    : previous &&
-        result.winnerId === officialCandidateId(contest.incumbentTermId!)
+    : previous
       ? previous.identity
       : officialIdentity(api, contest, result.winnerId);
   const termId = `term:${contest.seatId}:${api.state.date}:elected`;
@@ -1571,12 +1532,11 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     identity,
     party: filing?.party ?? null,
     startDate: api.state.date,
-    // A special election's winner serves out the unexpired term.
+    // A special election's winner serves out the unexpired term; otherwise
+    // the term runs to the start of the one elected a full term on.
     endDate: contest.special
       ? contest.special.termEnd
-      : office.termYears
-        ? `${Number(api.state.date.slice(0, 4)) + office.termYears}${api.state.date.slice(4)}`
-        : null,
+      : termEndAfter(office, regularElectionDate(contest)),
     endEstimated: false,
     reached: contest.special
       ? `elected in a special election ${contest.electionDate}`
@@ -1604,6 +1564,14 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     },
   });
   openNextCycle(api, contest.seatId);
+}
+
+/** The regular election a contest decides: a tie's second election keeps its date. */
+function regularElectionDate(contest: ContestRow): string {
+  return (
+    /:(\d{4}-\d{2}-\d{2})(?::second)+$/.exec(contest.id)?.[1] ??
+    contest.electionDate
+  );
 }
 
 function officialIdentity(

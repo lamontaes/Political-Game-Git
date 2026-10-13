@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { candidateIdentity } from "../candidate-identity";
 import { registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
@@ -266,7 +267,9 @@ export function campaignFor(api: CoreAPI, filingId: string): CampaignRow {
     filingId,
   ) as unknown as FilingRow;
   if (!filing) throw new Error(`No filing ${filingId}`);
-  const person = api.state.people.get(filing.personId)!;
+  // A state or federal candidate may not be a full person yet.
+  const person = candidateIdentity(api, filing.personId);
+  if (!person) throw new Error(`No candidate ${filing.personId}`);
   const organizationId = `organization:campaign:${filingId}`;
   if (!api.state.organizations.has(organizationId))
     api.addOrganization({
@@ -969,7 +972,8 @@ export function makeStatements(
   },
 ): readonly CauseRow[] {
   const campaign = campaignFor(api, input.filingId);
-  const speaker = api.state.people.get(campaign.candidateId)!;
+  // A state or federal candidate who isn't a full person has no rapport to read.
+  const speaker = api.state.people.get(campaign.candidateId);
   const causes: CauseRow[] = [];
   const withStatements = {
     ...campaign,
@@ -987,7 +991,8 @@ export function makeStatements(
       {
         carriesPlatform: true,
         weight: input.weight,
-        rapport: input.faceToFace ? rapport(speaker, listener) / 2 : 0,
+        rapport:
+          input.faceToFace && speaker ? rapport(speaker, listener) / 2 : 0,
       },
     );
     if (!cause) continue;

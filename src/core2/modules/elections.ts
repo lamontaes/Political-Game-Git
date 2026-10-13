@@ -540,7 +540,7 @@ function contestFor(
  * number of days before (the estimate where none is read); the winner serves
  * the unexpired term.
  */
-export function openSpecialContest(
+export function specialContestFor(
   api: CoreAPI,
   race: {
     readonly vacancyId: string;

@@ -2,83 +2,30 @@
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, join, resolve, relative } from "node:path";
-import { createServer } from "vite";
-import { runtimeArtBuild } from "./runtime-art-build";
-import type { ConfiguredArtConsumer } from "../../src/presentation/compiled-art-consumers";
 import { execFileSync } from "node:child_process";
 import manifest from "../../art/manifest/asset_manifest.json";
-import {
-  OPENING_INFORMATION_PLATES,
-  PLAYTEST65_WHITE_HOUSE_LAYOUT,
-} from "../../src/presentation/playtest65-visual-layout";
-import { OPENING_REGIONAL_CANDIDATES } from "../../src/presentation/opening-regional-candidates";
-import { openingRegionalEligibilityLabels } from "../../src/presentation/opening-regional-eligibility";
 import type { BuildArtBinding } from "../../src/authoring/art-desk-usage";
 
 const root = process.cwd();
 const client = join(root, "dist/client");
 const assets = join(client, "assets");
 const files = existsSync(assets) ? readdirSync(assets) : [];
-const consumers =
-  process.env.VITE_OCD_BUILD_PROFILE === "internal-art-review"
-    ? [
-        {
-          assetId: PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId,
-          labels: [
-            "Title screen",
-            "National introduction",
-            "White House · Washington, D.C.",
-          ],
-          eligible: ["White House illustration"],
-        },
-        ...Object.values(OPENING_INFORMATION_PLATES).map((plate) => ({
-          assetId: plate.assetId,
-          labels: [plate.caption],
-          eligible: [
-            "Local-government introduction",
-            "Generic civic illustration",
-          ],
-        })),
-        ...OPENING_REGIONAL_CANDIDATES.map((plate) => ({
-          assetId: plate.assetId,
-          labels: ["Home-region introduction"],
-          eligible: (() => {
-            const scope = openingRegionalEligibilityLabels(plate);
-            return [
-              ...scope.regions,
-              ...scope.places,
-              ...scope.states,
-              ...(scope.months ?? []),
-            ].flatMap((item) => (item.label ? [item.label] : []));
-          })(),
-        })),
-      ]
-    : [];
-const auditServer = await createServer({
-  configFile: false,
-  plugins: [runtimeArtBuild()],
-  logLevel: "error",
-  appType: "custom",
-  cacheDir: join(root, "test-results/cache/compiled-art-use"),
-  server: { middlewareMode: true, watch: null, hmr: false, ws: false },
-});
-let configured: {
-  consumers: ConfiguredArtConsumer[];
+// The screens that bound art (the opening plates, the regional introductions
+// and the character consumers) were removed with the old engine (#4036). The
+// game on the new core binds no configured art yet, so the build records an
+// empty, still-valid usage file until a screen on the new core binds some.
+type ArtConsumer = {
+  assetId: string;
+  labels: string[];
+  eligible: string[];
+};
+const consumers: ArtConsumer[] = [];
+const configured: {
+  consumers: ArtConsumer[];
   gaps: string[];
   generation: number | null;
   completePlans: number;
-};
-try {
-  const module = await auditServer.ssrLoadModule(
-    "/src/presentation/compiled-art-consumers.ts",
-  );
-  configured = module.configuredArtConsumers(
-    process.env.VITE_OCD_BUILD_PROFILE === "internal-art-review" &&
-      process.env.VITE_RUNTIME_CONTENT !== "1",
-  );
-} finally {
-  await auditServer.close();
-}
+} = { consumers: [], gaps: [], generation: null, completePlans: 0 };
 
 if (process.env.VITE_RUNTIME_CONTENT === "1")
   writeFileSync(

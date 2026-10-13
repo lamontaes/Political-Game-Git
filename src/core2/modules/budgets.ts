@@ -13,7 +13,9 @@
  *   by function (stand-in: SG-GOV-local-budget-split). Each new fiscal year's
  *   budget is adopted on its start date by the old rule (carry the year's
  *   amounts forward) until a council or legislature votes it (M3):
- *   SG-GOV-budget-adopted-by-rule.
+ *   SG-GOV-budget-adopted-by-rule. A budget bill the legislature passes adds
+ *   its line changes to the government's enacted lines, which every later
+ *   year's budget starts from.
  * - Withholding: each paycheck's income, Social Security and Medicare taxes,
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
@@ -126,6 +128,8 @@ export const BUDGETS_MODULE: CoreModule = {
       budgets: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       withholding: { indexes: { byPerson: { fields: ["personId"] } } },
       priorities: {},
+      /** Each government's spending changes from every budget bill it enacted. */
+      enacted: {},
       yearToDate: {},
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -674,6 +678,14 @@ export function setBudgetPriorities(
   } as unknown as ModuleRow);
 }
 
+/** The year's priorities are spent once its budget bill is voted. */
+export function clearBudgetPriorities(
+  api: CoreAPI,
+  governmentId: string,
+): void {
+  table(api, "priorities").remove(governmentId);
+}
+
 export function budgetPriorities(
   api: CoreAPI,
   governmentId: string,
@@ -687,15 +699,31 @@ export function budgetPriorities(
   );
 }
 
+/** The spending changes every budget bill a government enacted has made, by line. */
+export function enactedBudgetChanges(
+  api: CoreAPI,
+  governmentId: string,
+): Readonly<Record<string, number>> {
+  return (
+    (
+      table(api, "enacted").get(governmentId) as unknown as
+        { changes: Record<string, number> } | undefined
+    )?.changes ?? {}
+  );
+}
+
 /**
- * The next year's budget as proposed: this year's lines carried forward, with
- * the executive's priorities applied. The legislature engine votes it.
+ * A year's budget as the legislature has written it: the base amounts with
+ * every enacted budget bill's line changes, plus the given changes. Acts and
+ * laws that amend a year's budget (`amendBudget`) apply on top each year, so
+ * they never pile up by being carried forward.
  */
-export function proposedBudget(
+function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
   adoptedBy: string,
+  changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const base = budgetFor(
     gov,
@@ -704,11 +732,66 @@ export function proposedBudget(
     api.state.date,
     adoptedBy,
   );
-  const changes = budgetPriorities(api, gov.id)?.changes ?? {};
   const spending = { ...base.spendingMinor };
-  for (const [line, delta] of Object.entries(changes))
-    spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  for (const set of [enactedBudgetChanges(api, gov.id), changes])
+    for (const [line, delta] of Object.entries(set))
+      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
   return { ...base, spendingMinor: spending };
+}
+
+/**
+ * The next year's budget as proposed: the lines the legislature has enacted
+ * carried forward, with the priorities set for the year applied. The
+ * legislature engine votes it.
+ */
+export function proposedBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+): BudgetRow {
+  return legislatedBudget(
+    api,
+    gov,
+    fy,
+    adoptedBy,
+    budgetPriorities(api, gov.id)?.changes ?? {},
+  );
+}
+
+/**
+ * A budget bill the legislature passed: its line changes join the
+ * government's enacted lines and the year's budget is adopted with them.
+ */
+export function enactBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+  changes: Readonly<Record<string, number>>,
+): BudgetRow {
+  const enacted = { ...enactedBudgetChanges(api, gov.id) };
+  for (const [line, delta] of Object.entries(changes))
+    enacted[line] = (enacted[line] ?? 0) + delta;
+  table(api, "enacted").put({
+    id: gov.id,
+    changes: enacted,
+  } as unknown as ModuleRow);
+  const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
+  putBudget(api, budget);
+  return budget;
+}
+
+/** A year's budget when its bill fails: the enacted lines carried forward. */
+export function carriedBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+): BudgetRow {
+  const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
+  putBudget(api, budget);
+  return budget;
 }
 
 export function putBudget(api: CoreAPI, budget: BudgetRow): void {
@@ -732,20 +815,19 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   // The town's council votes its own budget where the legislature engine runs.
+  const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
   const voted = councilBudgetVote?.(api, gov, fy) ?? null;
   let budget: BudgetRow;
   if (voted) budget = voted;
   else {
     // stopgapId: SG-GOV-budget-adopted-by-rule
     api.stopgap("SG-GOV-budget-adopted-by-rule");
-    budget = budgetFor(
+    budget = carriedBudget(
+      api,
       gov,
-      lawChain(api).stateKey,
       fy,
-      api.state.date,
       "carried forward by the budget rule until the council or legislature votes it",
     );
-    table(api, "budgets").put(budget as unknown as ModuleRow);
   }
   api.emit({
     id: `budget-adopted:${budget.id}`,
@@ -758,21 +840,14 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     news: true,
     facts: { governmentId: gov.id, fiscalYear: String(fy) },
   });
-  // The executive's priorities the body adopted reach whatever each line
+  // The line changes the body enacted this year reach whatever each line
   // pays for, as an amendment's change does (law-effects handlers).
   if (voted) {
-    const base = budgetFor(
-      gov,
-      lawChain(api).stateKey,
-      fy,
-      api.state.date,
-      "base",
-    );
-    for (const line of Object.keys(
-      budgetPriorities(api, gov.id)?.changes ?? {},
-    ).sort()) {
-      const delta =
-        (budget.spendingMinor[line] ?? 0) - (base.spendingMinor[line] ?? 0);
+    const after = enactedBudgetChanges(api, gov.id);
+    for (const line of [
+      ...new Set([...Object.keys(after), ...Object.keys(enactedBefore)]),
+    ].sort()) {
+      const delta = (after[line] ?? 0) - (enactedBefore[line] ?? 0);
       if (delta === 0) continue;
       api.emit({
         id: `budget-line-changed:${budget.id}:${line}:adopted`,
@@ -782,7 +857,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         placeId: lawChain(api).townPlaceId,
         source: {
           tag: "SOURCED",
-          citation: `Budget adopted with the executive's priorities (${budget.adoptedBy})`,
+          citation: `Budget adopted (${budget.adoptedBy})`,
           asOf: api.state.date,
         },
         publicRecord: true,

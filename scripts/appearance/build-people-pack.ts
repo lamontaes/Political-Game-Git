@@ -38,7 +38,6 @@ import {
   neckOffset,
   type BodyAnchors,
 } from "../../src/presentation/appearance-engine/anchors";
-import { extractGarment } from "../../src/presentation/appearance-engine/extract";
 import {
   PEOPLE_PACK_VERSION,
   type BodyBuild,
@@ -70,10 +69,6 @@ import {
   type Raster,
 } from "../../src/presentation/appearance-engine/raster";
 import {
-  registrationOffset,
-  translateRaster,
-} from "../../src/presentation/appearance-engine/register";
-import {
   isSkinPixel,
   measureSkinLuminance,
 } from "../../src/presentation/appearance-engine/skin";
@@ -97,6 +92,59 @@ if (!bodiesDir || !appearanceDir)
   );
 const outDir = outArg ?? "art/people-engine/v1";
 mkdirSync(outDir, { recursive: true });
+
+/**
+ * The garment extractor went with the old engine (#4036), so a new outfit
+ * painting cannot be dressed: this refuses it by name. Outfits already in a
+ * built pack still come through PEOPLE_PACK_REUSE.
+ */
+function extractGarment(...painting: [Raster, ...unknown[]]): {
+  readonly layer: Raster;
+  readonly clothPixels: number;
+  readonly hidesBody: Uint8Array | null;
+  readonly skin?: Uint8Array | null;
+} {
+  throw new Error(
+    `A new ${painting[0].width}x${painting[0].height} outfit painting cannot be dressed: the garment extractor was removed with the old engine (#4036). Rebuild with PEOPLE_PACK_REUSE pointing at a built pack.`,
+  );
+}
+
+/** Moves a raster by whole pixels; what moves off the canvas is dropped. */
+function translateRaster(raster: Raster, dx: number, dy: number): Raster {
+  if (dx === 0 && dy === 0) return raster;
+  const out = createRaster(raster.width, raster.height);
+  for (let y = 0; y < raster.height; y += 1) {
+    const ty = y + dy;
+    if (ty < 0 || ty >= raster.height) continue;
+    for (let x = 0; x < raster.width; x += 1) {
+      const tx = x + dx;
+      if (tx < 0 || tx >= raster.width) continue;
+      const s = (y * raster.width + x) * 4;
+      out.data.set(
+        raster.data.subarray(s, s + 4),
+        (ty * raster.width + tx) * 4,
+      );
+    }
+  }
+  return out;
+}
+
+/**
+ * How far to move a painting so it lines up with the body: by the head box's
+ * center across, and by the top of the head (or the soles) down.
+ */
+function registrationOffset(
+  painting: BodyAnchors,
+  body: BodyAnchors,
+  by: "head" | "feet" = "feet",
+): { readonly dx: number; readonly dy: number } {
+  const center = (anchors: BodyAnchors) =>
+    (anchors.head.left + anchors.head.right) / 2;
+  return {
+    dx: Math.round(center(body) - center(painting)),
+    dy: by === "head" ? body.top - painting.top : body.feet - painting.feet,
+  };
+}
 
 /**
  * Empty rows added above every source painting (40 at the pack's half size).

@@ -39,9 +39,9 @@ import {
   BUDGETS_MODULE_ID,
   amendBudget,
   budgetPriorities,
-  proposedBudget,
-  putBudget,
-  setBudgetPriorities,
+  carriedBudget,
+  clearBudgetPriorities,
+  enactBudget,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -305,41 +305,31 @@ function councilBudget(
   for (const row of result.rows) table(api, "votes").put(row);
   const tallies = result.tallies;
   const adopted = result.adopted;
-  // The adopted changes: a stored priority is amended to what passed; the
-  // executive's own (unstored) changes are applied to the proposal below.
+  // The changes that passed, after any the negotiation dropped.
   const passed = Object.fromEntries(
     kept.map((p) => {
       const line = p as unknown as { line: string; value: number };
       return [line.line, line.value];
     }),
   );
-  const stored = budgetPriorities(api, gov.id);
-  if (stored && dropped.length)
-    setBudgetPriorities(api, {
-      governmentId: gov.id,
-      setBy: stored.setBy,
-      changes: passed,
-    });
   const votes = tallies.join(", ");
-  const drafted = proposedBudget(
-    api,
-    gov,
-    fy,
-    `${chambers.body} vote ${votes}, ${bill.number}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}`,
-  );
-  const spending = { ...drafted.spendingMinor };
-  if (!stored)
-    for (const [line, delta] of Object.entries(passed))
-      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
-  const proposal = { ...drafted, spendingMinor: spending };
-  const budget: BudgetRow = adopted
-    ? proposal
-    : {
-        ...proposal,
-        spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
-        adoptedBy: `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      };
-  putBudget(api, budget);
+  // A passed bill's line changes become the government's enacted lines; a
+  // failed one leaves last year's enacted lines in force.
+  const budget = adopted
+    ? enactBudget(
+        api,
+        gov,
+        fy,
+        `${chambers.body} vote ${votes}, ${bill.number}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}`,
+        passed,
+      )
+    : carriedBudget(
+        api,
+        gov,
+        fy,
+        `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
+      );
+  clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
     provisions: kept,
@@ -873,6 +863,32 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
   return out;
 }
 
+/** Each Congress seat's party at the opening, by seat id (the data never changes). */
+let openingSeatParty: Map<string, string> | undefined;
+/** A stand-in Congress member's party, as `congressMembers` gives it. */
+function congressSeatParty(api: CoreAPI, seatId: string): string | null {
+  if (!openingSeatParty) {
+    openingSeatParty = new Map();
+    const congress = (
+      partyCounts as unknown as {
+        congress: Record<string, Record<string, string[]>>;
+      }
+    ).congress;
+    for (const [state, seats] of Object.entries(congress))
+      for (const [seat, parties] of Object.entries(seats))
+        parties.forEach((party, index) =>
+          openingSeatParty!.set(
+            seat === "senate"
+              ? `seat:${state}:us-senate:${index}`
+              : `seat:${state}:us-house:${seat.padStart(2, "0")}`,
+            party,
+          ),
+        );
+  }
+  const party = worldSeatParty(api, seatId) ?? openingSeatParty.get(seatId);
+  return partyName(party ?? null);
+}
+
 /** A member's key: their person id, or the named official's id until they're filled in. */
 export function memberKey(term: TermRow): string {
   return term.personId ?? `official:${term.id}`;
@@ -889,14 +905,15 @@ export function leanOf(api: CoreAPI, memberId: string): number {
   const id = memberId.slice("official:".length);
   const term =
     (api.moduleState(OFFICES_MODULE_ID).table("terms").get(id) as unknown as
-      TermRow | undefined) ??
+      TermRow | undefined) ?? undefined;
+  // A Congress member from elsewhere: their seat's party, read directly (not
+  // by rebuilding the whole chamber for every member, once per vote).
+  const party =
+    term?.party ??
     (id.startsWith("congress:")
-      ? congressMembers(
-          api,
-          id.includes(":us-senate:") ? FEDERAL_SENATE : FEDERAL_HOUSE,
-        ).find((t) => t.id === id)
+      ? congressSeatParty(api, id.slice("congress:".length))
       : undefined);
-  return partySide(term?.party) * campaignParameter("identityLeanScale");
+  return partySide(party) * campaignParameter("identityLeanScale");
 }
 
 function townLean(api: CoreAPI): number {
