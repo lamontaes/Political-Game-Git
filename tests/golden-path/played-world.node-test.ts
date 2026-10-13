@@ -110,12 +110,14 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
     owner: "FIXER-OFFICES-ELECTIONS",
     byTown: true,
   },
-  "nobody serves after moving away": { owner: "FIXER-MOVES" },
+  // Alive where officials move away; unobserved where none do.
+  "nobody serves after moving away": { owner: "FIXER-MOVES", byTown: true },
   "a named challenger runs": { owner: "OPUS-OFFICIALS" },
   "counted voters vote in local races": { owner: "FIXER-OFFICES-ELECTIONS" },
   "the counted population changes": { owner: "OPUS-CORE" },
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
-  "homes have values and rents": { owner: "FIXER-ECONOMY" },
+  // Alive in some towns; others still leave a home unpriced.
+  "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
   "a new business's loan fits its founder": {
     owner: "FIXER-ECONOMY",
