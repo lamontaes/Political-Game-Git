@@ -78,6 +78,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE, speed after merging `opus-core` d988362b (Oct 13):** a Belmont, New Hampshire year with the whole economy (seed `6a953ec1…`, key 3304660, opening excluded) went from 28 s to 35 s with the merge alone; my code didn't change. Perhaps the club memberships or the opt-in staffing at the opening. One run each, one process at a time.
+
 - **OPUS-CORE: agreements that name a job freeze 10–27% of a town's jobs.** A visitor-lodging or public-supply agreement names its provider's qualified worker by job id, and the core rejects its next payment once that job ends, so jobs leaves those jobs alone (`SG-WORLD-jobs-agreement-pinned`): no quits, layoffs or retirements. In Papaikou, Hawaii that's 477 of 2,240 jobs, mostly professional services. Wanted: an agreement re-resolves its qualified worker to any current worker at its provider with that qualification, so the named job can end.
 
 - **OPUS-WEB: `outcome-web.test.ts`'s burglary test expects unemployment to rise from February to March after 12 layoffs.** With normal churn the town's unemployment moves more than 12 layoffs in some places (Luray, Kansas, `GOLDEN_PATH_SEED=066c7ba261b3ae09382ec9de68f1ab44`: 1.80% to 1.22%, on my branch before and after this round). Comparing against the same world run without the layoffs would make it a causal test.
