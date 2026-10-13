@@ -1,0 +1,1394 @@
+{
+  "id": "take-office-rules-2026",
+  "about": "When a governor (the mayor, for the District of Columbia) and state legislators elected at a regular general election take office, as a date rule per place. Read by scripts/research/compile-term-rules.ts into src/core2/data/elections/term-rules.json. Rule kinds: fixed (month, day); nth-weekday (month, weekday 0 Sunday to 6 Saturday, nth, -1 for the last); weekday-after (the first weekday strictly after the anchorNth anchorWeekday of the month); weekday-after-date (the first weekday strictly after month/day); days-after-election. yearAfterElection is true when the term starts in the calendar year after the November election.",
+  "retrieved": "2026-10-13",
+  "verificationMeaning": {
+    "secondary": "Inferred from observed term-start dates on the cited page and checked against them; the statute text was not read.",
+    "unverified": "From the researcher's knowledge of the state's constitution or statute; no page stating the rule was read. ESTIMATED until checked."
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/List_of_current_United_States_governors"
+  ],
+  "notReadable": "Ballotpedia's 'When state legislators assume office after a general election' and its governor inauguration pages returned no content to the research fetch on 2026-10-13; they are the pages to check the unverified rows against.",
+  "places": {
+    "US-AK": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": false,
+        "text": "First Monday in December",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "As described",
+        "verified": "unverified",
+        "note": "The rule differs by election year (second Monday in January after a presidential year, third Tuesday after a gubernatorial year); the gubernatorial-year rule is used for both."
+      }
+    },
+    "US-AL": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 1,
+          "anchorWeekday": 2,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Monday after the second Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "secondary"
+      }
+    },
+    "US-AR": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 2,
+          "anchorWeekday": 1,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Tuesday after the second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "secondary"
+      }
+    },
+    "US-AS": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 3
+        },
+        "yearAfterElection": true,
+        "text": "January 3",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 3
+        },
+        "yearAfterElection": true,
+        "text": "January 3",
+        "verified": "unverified"
+      }
+    },
+    "US-AZ": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "First day of session (second Monday in January)",
+        "verified": "unverified"
+      }
+    },
+    "US-CA": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after-date",
+          "month": 1,
+          "day": 1,
+          "weekday": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday after January 1",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": false,
+        "text": "First Monday in December",
+        "verified": "secondary"
+      }
+    },
+    "US-CO": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Convening day, second Wednesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-CT": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Wednesday after the first Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Wednesday after the first Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-DC": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "yearAfterElection": true,
+        "text": "January 2 (mayor)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "yearAfterElection": true,
+        "text": "Council: January 2",
+        "verified": "unverified"
+      }
+    },
+    "US-DE": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "Third Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-FL": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 2,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Tuesday after the first Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 0
+        },
+        "yearAfterElection": false,
+        "text": "Day of election; organizational session 14 days after",
+        "verified": "unverified"
+      }
+    },
+    "US-GA": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 1,
+          "anchorWeekday": 3,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Monday after the second Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-GU": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-HI": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": false,
+        "text": "First Monday in December",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-IA": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January (from memory; ceremony typically that week)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "unverified"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-ID": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "citation": "Idaho Code 67-302 (found in search snippet)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "yearAfterElection": false,
+        "text": "December 1",
+        "verified": "unverified"
+      }
+    },
+    "US-IL": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Wednesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-IN": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-KS": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-KY": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 2,
+          "nth": 2
+        },
+        "yearAfterElection": false,
+        "text": "Second Tuesday in December (inferred from 2015/2019/2023 dates Dec 8/10/12)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-LA": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Convening day, second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-MA": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 4,
+          "anchorWeekday": 3,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Thursday after the first Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Wednesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-MD": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "Third Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Wednesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-ME": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 3,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 3,
+          "nth": 1
+        },
+        "yearAfterElection": false,
+        "text": "First Wednesday in December",
+        "verified": "unverified"
+      }
+    },
+    "US-MI": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "January 1 (noon)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "January 1",
+        "verified": "unverified"
+      }
+    },
+    "US-MN": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 2,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Tuesday after the first Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-MO": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-MP": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January (off-cycle 2025 date was an interim succession)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-MS": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 2,
+          "anchorWeekday": 1,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Tuesday after the second Monday in January (fits 2020 only; unsure)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "unverified"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 2,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Tuesday after the first Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-MT": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-NC": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "First day of January next after election",
+        "citation": "N.C. Const. art. III s.2 (found in search snippet)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "First day of January next after election",
+        "citation": "N.C. Const. art. II s.? (search snippet quoted the rule)",
+        "verified": "secondary"
+      }
+    },
+    "US-ND": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 15
+        },
+        "yearAfterElection": false,
+        "text": "December 15",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "yearAfterElection": false,
+        "text": "December 1",
+        "verified": "unverified"
+      }
+    },
+    "US-NE": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 4,
+          "anchorWeekday": 2,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Thursday after the first Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Wednesday after the first Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-NH": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 4,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Thursday in January; observed Jan 9, 2025 (2nd Thursday) so unsure",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "unverified"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 12,
+          "weekday": 3,
+          "nth": 1
+        },
+        "yearAfterElection": false,
+        "text": "First Wednesday in December",
+        "verified": "unverified"
+      }
+    },
+    "US-NJ": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "Third Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Tuesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-NM": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "January 1",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election (unsure; may be January 1)",
+        "verified": "unverified"
+      }
+    },
+    "US-NV": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "citation": "NRS (Nevada); found in search snippet",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 1
+        },
+        "yearAfterElection": false,
+        "text": "Day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-NY": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "January 1 (midnight)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "January 1",
+        "verified": "unverified"
+      }
+    },
+    "US-OH": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 1
+        },
+        "yearAfterElection": true,
+        "text": "January 1",
+        "verified": "unverified"
+      }
+    },
+    "US-OK": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 15
+        },
+        "yearAfterElection": false,
+        "text": "15th day after the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-OR": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-PA": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "Third Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "yearAfterElection": false,
+        "text": "December 1",
+        "verified": "unverified"
+      }
+    },
+    "US-PR": {
+      "governor": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "yearAfterElection": true,
+        "text": "January 2",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 2
+        },
+        "yearAfterElection": true,
+        "text": "January 2",
+        "verified": "unverified"
+      }
+    },
+    "US-RI": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Tuesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-SC": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 3,
+          "anchorWeekday": 2,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Wednesday after the second Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 6
+        },
+        "yearAfterElection": false,
+        "text": "Monday following the general election",
+        "verified": "unverified"
+      }
+    },
+    "US-SD": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 6,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Saturday in January (from 2019/2023 inaugurations; unsure)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "unverified"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Tuesday in January (convening)",
+        "verified": "unverified"
+      }
+    },
+    "US-TN": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 6,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "Third Saturday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "days-after-election",
+          "days": 0
+        },
+        "yearAfterElection": false,
+        "text": "Day of the general election (unsure)",
+        "verified": "unverified"
+      }
+    },
+    "US-TX": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 3
+        },
+        "yearAfterElection": true,
+        "text": "Third Tuesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 2,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Tuesday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-UT": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "yearAfterElection": false,
+        "text": "December 1 (unsure)",
+        "verified": "unverified"
+      }
+    },
+    "US-VA": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 6,
+          "anchorWeekday": 3,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Saturday after the second Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 1,
+          "day": 10
+        },
+        "yearAfterElection": true,
+        "text": "January 10",
+        "verified": "unverified"
+      }
+    },
+    "US-VI": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-VT": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 4,
+          "anchorWeekday": 3,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Thursday after the first Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 1
+        },
+        "yearAfterElection": true,
+        "text": "Wednesday after the first Monday in January",
+        "verified": "unverified"
+      }
+    },
+    "US-WA": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 3,
+          "anchorWeekday": 1,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Wednesday after the second Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Second Monday in January (unsure)",
+        "verified": "unverified"
+      }
+    },
+    "US-WI": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January of odd years",
+        "citation": "Wis. Const. (found in search snippet)",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January of odd years",
+        "verified": "unverified"
+      }
+    },
+    "US-WV": {
+      "governor": {
+        "rule": {
+          "kind": "weekday-after",
+          "month": 1,
+          "weekday": 1,
+          "anchorWeekday": 3,
+          "anchorNth": 2
+        },
+        "yearAfterElection": true,
+        "text": "Monday after the second Wednesday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "fixed",
+          "month": 12,
+          "day": 1
+        },
+        "yearAfterElection": false,
+        "text": "December 1",
+        "verified": "unverified"
+      }
+    },
+    "US-WY": {
+      "governor": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January",
+        "source": "https://en.wikipedia.org/wiki/List_of_current_United_States_governors",
+        "verified": "secondary"
+      },
+      "legislature": {
+        "rule": {
+          "kind": "nth-weekday",
+          "month": 1,
+          "weekday": 1,
+          "nth": 1
+        },
+        "yearAfterElection": true,
+        "text": "First Monday in January (2007 proposed amendment text found in search)",
+        "verified": "secondary"
+      }
+    }
+  }
+}

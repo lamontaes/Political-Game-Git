@@ -26,6 +26,14 @@ import {
   novemberGeneralElectionDay,
 } from "./gov-rules/town-election-calendar";
 import type { OfficeInput } from "./offices-local";
+import {
+  cycleHolds,
+  filingDeadlineIn,
+  officeStateKey,
+  primaryIn,
+  takeOfficeDate,
+  termRuleFor,
+} from "./term-rules";
 
 export interface ElectionDates {
   readonly electionDate: string;
@@ -112,6 +120,31 @@ function stateAndFederal(
   const place = places[stateKey] ?? {};
   const electionDate = novemberGeneralElectionDay(year);
   const key = nominationKey(office);
+  // The term rule row for the office in this state dates the primary and
+  // the filing deadline (data/elections/term-rules.json).
+  const row = termRuleFor(stateKey, office);
+  if (row?.primary && row.filing) {
+    const primaryDate = primaryIn(row, year, key);
+    const deadline = filingDeadlineIn(row, year, key, primaryDate);
+    return {
+      electionDate,
+      primaryDate,
+      filingOpens: null,
+      filingDeadline:
+        deadline ??
+        addDays(makeIsoDate(primaryDate ?? electionDate), -FILING_LEAD_DAYS),
+      basis:
+        row.primary.tag === "SOURCED" && row.filing.tag === "SOURCED"
+          ? "read"
+          : "estimated",
+      sources: [
+        row.electionDay?.citation,
+        row.primary.citation,
+        row.filing.citation,
+        deadline ? null : FILING_LEAD_SOURCE,
+      ].filter((s): s is string => Boolean(s)),
+    };
+  }
   const read2026 = (table?: Readonly<Record<string, string>>) =>
     year === 2026 ? (table?.[key] ?? table?.all ?? null) : null;
   const primaryDate =
@@ -302,26 +335,52 @@ function nextFrom(
   year: number,
   onDate: string,
 ): ElectionDates | null {
-  const from = Math.max(year, Number(onDate.slice(0, 4)));
-  if (office.level === "federal" || office.level === "state")
+  let from = Math.max(year, Number(onDate.slice(0, 4)));
+  if (office.level === "federal" || office.level === "state") {
+    // The first year from `from` the office's term rule holds its election
+    // (an odd-year state, a four-year chamber, a two-year governor).
+    const row = termRuleFor(stateKey, office);
+    if (row)
+      for (let tries = 0; tries < 8; tries += 1) {
+        if (cycleHolds(row, office, from) !== false) break;
+        from += 1;
+      }
     return stateAndFederal(office, stateKey, from);
+  }
   if (office.level === "county") {
     const unit = governmentUnit(office.jurisdiction);
     const read = unit ? nextCountyElection(unit, makeIsoDate(onDate)) : null;
-    if (read?.status === "read")
+    if (read?.status === "read") {
+      // A partisan county office's primary and filing deadline follow the
+      // state's party nomination rule where the county calendar names none.
+      const row = termRuleFor(stateKey, office);
+      const year = Number(read.dates.electionDate.slice(0, 4));
+      const primaryDate =
+        read.dates.primaryDate ?? (row ? primaryIn(row, year, "all") : null);
+      const deadline =
+        read.dates.qualifyingCloses ??
+        (row && !read.dates.primaryDate
+          ? filingDeadlineIn(row, year, "all", primaryDate)
+          : null);
       return {
         electionDate: read.dates.electionDate,
-        primaryDate: read.dates.primaryDate,
+        primaryDate:
+          primaryDate && primaryDate < read.dates.electionDate
+            ? primaryDate
+            : null,
         filingOpens: read.dates.qualifyingOpens,
         filingDeadline:
-          read.dates.qualifyingCloses ??
-          addDays(
-            read.dates.primaryDate ?? read.dates.electionDate,
-            -FILING_LEAD_DAYS,
-          ),
+          deadline ??
+          addDays(primaryDate ?? read.dates.electionDate, -FILING_LEAD_DAYS),
         basis: read.dates.estimated ? "estimated" : "read",
-        sources: read.dates.sourceUrls,
+        sources: [
+          ...read.dates.sourceUrls,
+          ...(row?.primary && !read.dates.primaryDate
+            ? [row.primary.citation]
+            : []),
+        ],
       };
+    }
     return stateAndFederal(office, stateKey, from);
   }
   return municipal(stateKey, placeGeoid, from, onDate);
@@ -340,6 +399,10 @@ export function electionInYear(input: {
   readonly onDate: string;
 }): ElectionDates | null {
   const { office, stateKey, placeGeoid, year, onDate } = input;
+  if (office.level === "federal" || office.level === "state") {
+    const row = termRuleFor(stateKey, office);
+    if (row && cycleHolds(row, office, year) === false) return null;
+  }
   const from = onDate > `${year}-01-01` ? onDate : `${year}-01-01`;
   const found = nextFrom(office, stateKey, placeGeoid, year, from);
   return found &&
@@ -416,13 +479,15 @@ export function staggeredSeatElection(input: {
 }
 
 /**
- * The day a term won at `electionDate` starts: the county's own calendar
- * where it is read, else the office's recorded start day (January 1 where
- * none is read) after the election.
+ * The day a term won at `electionDate` starts: a county's own published
+ * calendar where one is read (the locality's record), else the take-office
+ * rule for the office kind in its state (`data/elections/term-rules.json`),
+ * else the office's recorded start day (January 1 where none is read).
  */
 export function termStartAfter(
   office: OfficeInput,
   electionDate: string,
+  townStateKey?: string,
 ): string {
   if (office.level === "county") {
     const unit = governmentUnit(office.jurisdiction);
@@ -432,11 +497,14 @@ export function termStartAfter(
       : null;
     if (
       read?.status === "read" &&
+      !read.dates.estimated &&
       read.dates.electionDate.startsWith(`${year}-`) &&
       read.dates.termStarts > electionDate
     )
       return read.dates.termStarts;
   }
+  const row = termRuleFor(officeStateKey(office, townStateKey), office);
+  if (row?.takeOffice) return takeOfficeDate(row, electionDate);
   const starts = office.termStarts ?? "01-01";
   const year = Number(electionDate.slice(0, 4));
   const same = `${year}-${starts}`;
@@ -447,8 +515,13 @@ export function termStartAfter(
 export function termEndAfter(
   office: OfficeInput,
   electionDate: string,
+  townStateKey?: string,
 ): string | null {
   if (!office.termYears) return null;
   const year = Number(electionDate.slice(0, 4)) + office.termYears;
-  return termStartAfter(office, `${year}${electionDate.slice(4)}`);
+  return termStartAfter(
+    office,
+    `${year}${electionDate.slice(4)}`,
+    townStateKey,
+  );
 }

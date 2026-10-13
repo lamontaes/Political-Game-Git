@@ -211,7 +211,8 @@ function termEnd(
     year !== undefined
       ? electionInYear({ ...where, year, onDate: `${year}-01-01` })
       : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
-  if (election) return termStartAfter(office, election.electionDate);
+  if (election)
+    return termStartAfter(office, election.electionDate, where.stateKey);
   const starts = office.termStarts ?? "01-01";
   if (year !== undefined) return `${year + 1}-${starts}`;
   const offset = seat.index % Math.max(1, office.termYears);

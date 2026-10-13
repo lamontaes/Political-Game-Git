@@ -1097,7 +1097,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput | undefined;
   const takesOffice = office
-    ? termStartAfter(office, regularElectionDate(contest))
+    ? termStartAfter(office, regularElectionDate(contest), town(api).stateKey)
     : (incumbent?.endDate ??
       `${Number(contest.electionDate.slice(0, 4)) + 1}-01-01`);
   const result: ResultRow = {
@@ -1425,7 +1425,11 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     party: filing?.party ?? null,
     startDate: api.state.date,
     // The term runs to the start of the one elected a full term on.
-    endDate: termEndAfter(office, regularElectionDate(contest)),
+    endDate: termEndAfter(
+      office,
+      regularElectionDate(contest),
+      town(api).stateKey,
+    ),
     endEstimated: false,
     reached: `elected ${contest.electionDate}`,
     status: "serving",
