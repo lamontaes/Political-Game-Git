@@ -609,7 +609,7 @@ function overCapacity(
 }
 
 /** The place's outside-market account (buyers and sellers outside the town). */
-function outsideMarketFor(
+export function outsideMarketFor(
   core: CoreState,
   rt: ResidentsRuntime,
   placeId: PlaceId,

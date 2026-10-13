@@ -4,7 +4,11 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import assistance from "./data/disasters/assistance.json" with { type: "json" };
 import households from "./data/disasters/households.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { disasterAssistancePaid, townDisasters } from "./modules/disasters";
+import {
+  disasterAssistancePaid,
+  disasterRepairsPaid,
+  townDisasters,
+} from "./modules/disasters";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
@@ -49,20 +53,21 @@ describe(`disasters from the record in ${place.name}, ${place.state} (seed ${see
       string,
       { county: number; towns: Record<string, number> }
     >;
-    const homes = households.byCountyDisaster as Record<
+    const homes = households.byCountyDisaster as unknown as Record<
       string,
-      Record<string, number>
+      Record<string, [number, number, number]>
     >;
+    const most = (disaster: number, at: 0 | 1) =>
+      Math.max(
+        0,
+        ...Object.entries(homes)
+          .filter(([key]) => key.endsWith(`|${disaster}`))
+          .flatMap(([, towns]) => Object.values(towns).map((row) => row[at])),
+      );
     for (const row of disasterAssistancePaid(api)) {
       if (row.orgId.startsWith("cash:residents:")) {
         // Households: never more than FEMA approved in any one town.
-        const most = Math.max(
-          0,
-          ...Object.entries(homes)
-            .filter(([key]) => key.endsWith(`|${row.disaster}`))
-            .flatMap(([, towns]) => Object.values(towns)),
-        );
-        expect(row.cents).toBeLessThanOrEqual(most);
+        expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 0));
         continue;
       }
       const county = Object.entries(rows).find(([key]) =>
@@ -74,6 +79,9 @@ describe(`disasters from the record in ${place.name}, ${place.state} (seed ${see
         Object.values(county![1].towns).reduce((n, v) => n + v, 0);
       expect(row.cents).toBeLessThanOrEqual(cap);
     }
+    // Repairs: never more than the damage FEMA inspected in any one town.
+    for (const row of disasterRepairsPaid(api))
+      expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 1));
     expect(total(core)).toBe(start);
   }, 300_000);
 });
