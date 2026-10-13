@@ -137,7 +137,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         )
         .find((p) =>
           checkEligibility(api, p.id, contest.id, "party").every(
-            (c) => c.met || c.rule === "fee" || c.rule === "signatures",
+            (c) => c.met || c.rule === "signatures",
           ),
         );
       if (!runner) {
@@ -152,7 +152,6 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
         personId: runner.id,
         contestId: contest.id,
         platform: [],
-        payFee: true,
         party,
       });
       if (filed.status === "refused") {

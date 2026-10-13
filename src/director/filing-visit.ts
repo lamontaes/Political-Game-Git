@@ -1,12 +1,11 @@
 /**
  * The filing visit (golden path step 3): the player at the office that takes
  * filings, where that place's records say it is. The clerk asks which office,
- * states the deadline and the fee or signatures from the record, explains each
+ * states the deadline and any signatures from the record, explains each
  * rule that stops the filing, and otherwise offers the ways to file. The
  * records are GOV's (`openContests`, `filingOfficeFor`, `checkEligibility`),
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`.
  */
-import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import visitJson from "./data/filing-visit.json" with { type: "json" };
 import { renderLine, type Fact, type Variant } from "./render";
@@ -20,7 +19,6 @@ interface VisitWords {
   terms: Variant[];
   rules: Readonly<Record<string, Variant[]>>;
   accept: Variant[];
-  payFee: Variant[];
   gather: Variant[];
 }
 export const FILING_VISIT_WORDS = visitJson as VisitWords;
@@ -34,9 +32,7 @@ export interface FilingContest {
 /** GOV's `FilingRequirements`. */
 export interface FilingTerms {
   filedWith: string;
-  feeMinor: number | null;
   signatures: number | null;
-  feeInLieuOfSignatures: boolean;
   source: string;
 }
 /** GOV's `RequirementCheck`. */
@@ -50,7 +46,7 @@ export interface FilingCheck {
 
 export type FilingAction =
   | { kind: "pick"; contestId: string }
-  | { kind: "file"; contestId: string; payFee: boolean }
+  | { kind: "file"; contestId: string }
   | { kind: "done" };
 
 export interface FilingVisit {
@@ -70,12 +66,6 @@ export interface FilingVisit {
   }[];
 }
 
-const money = (minor: number) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: minor % P.minorPerDollar === P.zero ? P.zero : P.two,
-  }).format(minor / P.minorPerDollar);
 const longDate = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
     month: "long",
@@ -170,18 +160,9 @@ export function pickContest(
     office: { text: contest.title, sourceRecordIds: ids },
     deadline: { text: longDate(contest.filingDeadline), sourceRecordIds: ids },
   };
-  if (terms.feeMinor)
-    facts.fee = { text: money(terms.feeMinor), sourceRecordIds: ids };
   if (terms.signatures)
     facts.signatures = { text: String(terms.signatures), sourceRecordIds: ids };
-  const stage =
-    terms.feeMinor && terms.signatures && terms.feeInLieuOfSignatures
-      ? "fee-or-signatures"
-      : terms.feeMinor
-        ? "fee"
-        : terms.signatures
-          ? "signatures"
-          : "none";
+  const stage = terms.signatures ? "signatures" : "none";
   const stated = say(
     core,
     visit,
@@ -199,13 +180,8 @@ export function pickContest(
     const required =
       check.rule === "filing-deadline"
         ? longDate(check.required)
-        : check.rule === "fee" && Number.isFinite(Number(check.required))
-          ? money(Number(check.required))
-          : check.required;
-    const actual =
-      check.rule === "fee" && Number.isFinite(Number(check.actual))
-        ? money(Number(check.actual))
-        : check.actual;
+        : check.required;
+    const actual = check.actual;
     const line = say(
       core,
       visit,
@@ -235,23 +211,9 @@ export function pickContest(
     offer("accept", FILING_VISIT_WORDS.accept, { kind: "done" });
     return visit;
   }
-  if (terms.feeMinor)
-    offer("pay-fee", FILING_VISIT_WORDS.payFee, {
-      kind: "file",
-      contestId,
-      payFee: true,
-    });
-  if (terms.signatures && (terms.feeInLieuOfSignatures || !terms.feeMinor))
-    offer("gather", FILING_VISIT_WORDS.gather, {
-      kind: "file",
-      contestId,
-      payFee: false,
-    });
+  if (terms.signatures)
+    offer("gather", FILING_VISIT_WORDS.gather, { kind: "file", contestId });
   if (!visit.choices.length)
-    offer("file", FILING_VISIT_WORDS.accept, {
-      kind: "file",
-      contestId,
-      payFee: false,
-    });
+    offer("file", FILING_VISIT_WORDS.accept, { kind: "file", contestId });
   return visit;
 }

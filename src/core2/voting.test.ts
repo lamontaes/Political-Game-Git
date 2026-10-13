@@ -125,7 +125,6 @@ describe("M2-07 elections", () => {
           personId: person.id,
           contestId: open.id,
           platform,
-          payFee: true,
         });
         if (result.status === "refused") break;
         let filing = result.filing;

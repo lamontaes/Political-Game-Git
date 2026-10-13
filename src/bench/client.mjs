@@ -410,7 +410,6 @@ async function renderGovernment(id) {
           contest.filingDeadline,
           contest.electionDate,
           filingOffice.filedWith,
-          filingOffice.feeMinor,
           filingOffice.signatures,
           checks
             .filter((check) => !check.met)
@@ -421,7 +420,7 @@ async function renderGovernment(id) {
         ],
         button("File", async () => {
           const result = await request(
-            `/api/file?${new URLSearchParams({ contestId: contest.id, payFee: String(element("pay-fee").checked) })}`,
+            `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
             { method: "POST" },
           );
           status.textContent = `File: ${result.status}${result.unmet ? ` (${result.unmet.map((u) => u.rule).join(", ")})` : ""}.`;
@@ -438,7 +437,6 @@ async function renderGovernment(id) {
           filing.filedWith,
           filing.status,
           filing.signatureCount,
-          filing.feePaidMinor,
         ],
         button("Request signatures", async () => {
           const rows = await request(

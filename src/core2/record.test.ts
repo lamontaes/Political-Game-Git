@@ -132,7 +132,6 @@ describe("M4-06 the record follows you", () => {
       personId: challenger.id,
       contestId: contest!.id,
       platform: [],
-      payFee: true,
     });
     if (filed.status !== "refused") {
       let f = filed.filing;
