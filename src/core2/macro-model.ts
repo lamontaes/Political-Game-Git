@@ -20,6 +20,8 @@ export interface MacroMonth {
   mortgage30Pct: number;
   /** The town's own paid-income growth that entered this month, annual percent; absent for history. */
   townIncomeGrowthPct?: number;
+  /** The part of the output gap public purchases above their base hold up, percent; absent for history. */
+  publicGapPct?: number;
 }
 
 interface HistoryRow {
@@ -163,6 +165,8 @@ export function stepMacroMonth(
   townIncomeGrowthPct: number,
   townResidents: number,
   p: MacroParameter,
+  /** Public purchases above their base budget's, as a percent of output. */
+  publicPurchasesPct = 0,
 ): MacroMonth {
   const months = p("macroMonthsPerYear"),
     hundred = p("macroHundred"),
@@ -176,8 +180,16 @@ export function stepMacroMonth(
     (townIncomeGrowthPct -
       p("macroTrendGrowthPct") -
       p("macroInflationAnchorPct"));
+  // Purchases above their base raise output toward the multiplier's long-run
+  // effect, most of it in the first year; the rest of the gap fades as before.
+  const publicBefore = previous.publicGapPct ?? 0;
+  const publicGapPct =
+    publicBefore +
+    p("macroPublicGapAdjustment") *
+      (p("macroPurchasesMultiplier") * publicPurchasesPct - publicBefore);
   const outputGapPct =
-    p("macroOutputGapPersistence") * previous.outputGapPct -
+    p("macroOutputGapPersistence") * (previous.outputGapPct - publicBefore) +
+    publicGapPct -
     p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
     p("macroPublicBudgetImpulse") / months +
     town / months;
@@ -229,6 +241,7 @@ export function stepMacroMonth(
       p("macroMortgagePersistence") * previous.mortgage30Pct +
       p("macroMortgagePerPolicy") * policyRatePct,
     townIncomeGrowthPct,
+    publicGapPct,
   };
 }
 

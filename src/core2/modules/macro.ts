@@ -6,6 +6,7 @@
  * prime-linked credit lines on its effective date.
  */
 import { webFactor } from "../world-web";
+import { federalPurchasesPct } from "../macro-public";
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
@@ -206,6 +207,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     growth ?? neutral,
     state.townResidents,
     p,
+    federalPurchasesPct(api),
   );
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
   months.put({

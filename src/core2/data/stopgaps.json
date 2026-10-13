@@ -2205,11 +2205,11 @@
     "kind": "estimated-parameter",
     "file": "src/core2/data/macro/parameters.json",
     "line": 309,
-    "whatItFakes": "Public budgets add no impulse to national output beyond their real average.",
+    "whatItFakes": "Public budgets add no impulse to national output beyond their real average, except federal purchases legislated above their base (src/core2/macro-public.ts); state and local budgets add none to their region.",
     "why": "M1-07 budgets have not landed; trend growth 1990-2019 already carries average public spending.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
+    "replacement": "State and local budgets' purchases above their base move their region's output at an own-financed multiplier below 1 (Clemens and Miran 2012).",
     "status": "open"
   },
   {
@@ -3127,6 +3127,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "Each town's own county (or planning region, or municipio) figures through a place-to-county crosswalk for the current ACS geography.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-public-transfers",
+    "kind": "assumed-behavior",
+    "file": "src/core2/macro-public.ts",
+    "line": 41,
+    "whatItFakes": "Federal transfers and taxes legislated above or below their base move nobody's spending in the national step; only purchases do.",
+    "why": "No matched U.S. multiplier for transfers and taxes was found (CTO stand-in research, data/research/stand-in-figures-2026-10-12.json); households' own spending of a transfer would carry it once GOV pays them.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "Transfers reach households as income through GOV's programs and taxes leave their pay, so the economy hears them through spending.",
     "status": "open"
   }
 ]

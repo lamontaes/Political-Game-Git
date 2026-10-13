@@ -1,0 +1,20 @@
+{
+  "source": "Federal outlays by function (Monthly Treasury Statement, fiscal 2025, data/research/money/federal-budget-fy2025.json), split into purchases of goods and services and transfers by BEA's NIPA treatment of each function's main program (NIPA tables 3.2 and 3.16).",
+  "purchases": [
+    "nationalDefense",
+    "internationalAffairs",
+    "communityAndRegionalDevelopment",
+    "transportation",
+    "otherPrograms"
+  ],
+  "transfers": [
+    "socialSecurity",
+    "medicare",
+    "health",
+    "incomeSecurity",
+    "veterans",
+    "agriculture",
+    "education",
+    "netInterest"
+  ]
+}

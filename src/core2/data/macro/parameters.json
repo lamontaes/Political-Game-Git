@@ -480,5 +480,26 @@
       "unit": "share",
       "citation": "Every candidate on a seat's short list meets its bar, so politics decides among them."
     }
+  },
+  "macroPurchasesMultiplier": {
+    "value": 1.5,
+    "tag": "SOURCED",
+    "citation": "A rise in federal purchases of 1% of output raises output 1.2% after one year and 1.5% after two (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics; Nakamura and Steinsson 2014 about 1.5); the long-run effect the public part of the gap moves toward."
+  },
+  "macroPublicGapAdjustment": {
+    "value": 0.126,
+    "tag": "TUNABLE",
+    "citation": "Monthly share of the distance to the purchases' long-run effect closed each month, fitted so the effect reaches 1.2 of 1.5 after twelve months (Monacelli, Perotti and Trigari 2010).",
+    "spread": {
+      "low": 0.09,
+      "high": 0.2,
+      "unit": "monthly coefficient",
+      "citation": "Multipliers at one year of 1.0 to 1.4 of the two-year effect across Monacelli, Perotti and Trigari 2010 and Ramey 2011 (Journal of Economic Literature)."
+    }
+  },
+  "macroFederalOutlaysShareOfOutput": {
+    "value": 0.233,
+    "tag": "SOURCED",
+    "citation": "Federal outlays were 23.3% of GDP in fiscal 2025 (CBO, Monthly Budget Review: Summary for Fiscal Year 2025, November 2025, https://www.cbo.gov/publication/61307)."
   }
 }
