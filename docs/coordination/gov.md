@@ -89,6 +89,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
 - **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
+- **OPUS-CORE: retirement reads the law.** `socialSecurityAges(api, birthDate)` in `src/core2/modules/laws.ts` returns `{ earliestMonths, fullMonths, delayedMaxMonths }` from the federal law in force (Congress can change them). Your retirement choice should decide within those ages, and the benefit should be reduced or credited by the claim age against `fullMonths`.
 - **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
 - **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
 - **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
@@ -102,6 +103,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-13 00:07 UTC: Social Security's retirement ages are federal law (owner's request, Oct 12):
+  - **The law rows:** the full retirement age by birth year under the 1983 amendments (65 through 1937, rising two months a year to 66 for 1943–1954, then to 67 for 1960 and later), the earliest claim at 62 and delayed credits to 70 are federal law rows (42 U.S.C. § 416(l), § 402(a), § 402(w); `src/core2/data/laws/social-security-ages.json`).
+  - **Congress can change them:** an act changes them like any other law. In the test, an act raising the full age to 68 took effect on its date.
+  - **Reading them:** `socialSecurityAges(api, birthDate)` gives a person's ages in months. Someone born on January 1 counts as born the year before (20 C.F.R. § 404.102).
+  - **Test:** new `social-security-law.test.ts` passes in a random place.
 
 - 2026-10-12 23:56 UTC: Sales tax, leadership, carry-overs:
   - **Sales tax collects:** every purchase in town pays the sales tax in force through the core's `setPurchaseTax` (v21), set by budgets at the opening and again whenever a sales-tax or grocery-exemption law takes effect. Each level's share goes to its own treasury, at a rate chosen so the shares add up to the combined tax inside the price, and grocery stores (NAICS 445) are exempt where an exemption is law. SG-GOV-REACH-B-sales-tax-collection is resolved.

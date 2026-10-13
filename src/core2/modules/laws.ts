@@ -14,6 +14,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
 import {
   lawChainForPlace,
   startingLawRows,
@@ -88,6 +89,10 @@ export function openLaws(core: CoreState): LawChain {
         sourceRecordIds: [row.id],
       });
   }
+  // Social Security's retirement ages are federal law (owner, Oct 12).
+  for (const row of socialSecurityRows(today))
+    if (!state.table("laws").get(row.id))
+      state.table("laws").put(row as unknown as ModuleRow);
   // The state's researched answers to the policy questions are its law in
   // force at the opening (audit 3; BOARD "next" item 4).
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
@@ -112,6 +117,73 @@ export function openLaws(core: CoreState): LawChain {
       state.table("laws").put(row as unknown as ModuleRow);
   }
   return chain;
+}
+
+const SOCIAL_SECURITY = socialSecurity as unknown as {
+  source: string;
+  retrieved: string;
+  effectiveDate: string;
+  series: Record<
+    string,
+    {
+      valueYears: number;
+      schedule?: { bornThrough: number; months: number }[];
+    }
+  >;
+};
+
+function socialSecurityRows(today: string): LawRowInput[] {
+  return Object.entries(SOCIAL_SECURITY.series).map(([series, row]) => ({
+    id: `law:US:federal:${series}:general:starting`,
+    jurisdiction: "US",
+    level: "federal",
+    series,
+    tier: "general",
+    value: row.valueYears,
+    unit: "years",
+    effectiveDate:
+      SOCIAL_SECURITY.effectiveDate < today
+        ? SOCIAL_SECURITY.effectiveDate
+        : today,
+    endDate: null,
+    source: SOCIAL_SECURITY.source,
+    retrieved: SOCIAL_SECURITY.retrieved,
+    estimate: false,
+    ...(row.schedule ? { terms: { schedule: row.schedule } } : {}),
+  }));
+}
+
+/**
+ * A person's Social Security ages under the law in force, in months of age:
+ * the earliest claim, the full retirement age for their birth year (an
+ * enacted change replaces the schedule or the age), and the age delayed
+ * credits stop. For CORE's retirement choice, which decides within them.
+ */
+export function socialSecurityAges(
+  api: CoreAPI,
+  birthDate: string,
+  date: string = api.state.date,
+): { earliestMonths: number; fullMonths: number; delayedMaxMonths: number } {
+  const years = (series: string, fallback: number) =>
+    lawInForce(api, series, date).value ?? fallback;
+  const full = lawInForce(api, "social-security-full-retirement-age", date);
+  const schedule = (full.governing?.terms?.schedule ?? []) as {
+    bornThrough: number;
+    months: number;
+  }[];
+  // Born on January 1: treated as born the year before (20 C.F.R. § 404.102).
+  const year =
+    Number(birthDate.slice(0, 4)) - (birthDate.slice(5) === "01-01" ? 1 : 0);
+  const scheduled = schedule.find((r) => year <= r.bornThrough);
+  return {
+    earliestMonths: Math.round(
+      years("social-security-earliest-claim-age", 62) * 12,
+    ),
+    fullMonths: scheduled?.months ?? Math.round((full.value ?? 67) * 12),
+    delayedMaxMonths: Math.round(
+      years("social-security-delayed-credit-age", 70) * 12,
+    ),
+  };
 }
 
 export function lawChain(api: CoreAPI): LawChain {
