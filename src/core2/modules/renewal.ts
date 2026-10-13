@@ -400,7 +400,7 @@ export const RENEWAL_MODULE: CoreModule = {
     const id = work.sourceRecordIds[0]!;
     if (work.kind === "delivery") deliver(api, id);
     else if (work.kind === "counted") {
-      applyCountedFlows(api, "countedCarry", "counts");
+      applyCountedFlows(api, "countedCarry", "counts", "births");
       scheduleCounted(api);
     } else if (work.kind === "review") {
       const row = table(api, "couples").get(id);

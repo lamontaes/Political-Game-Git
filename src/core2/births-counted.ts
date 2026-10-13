@@ -236,6 +236,7 @@ export function applyCountedFlows(
   api: CoreAPI,
   carryTable: string,
   rowsTable: string,
+  birthsTable: string,
 ) {
   const core = api.state,
     date = core.date,
@@ -371,6 +372,19 @@ export function applyCountedFlows(
       const baby = countedNewborn(api, record, woman, partner, date);
       addCountedPerson(core, record.household.id, baby);
       row.births.push(baby.id);
+      // The town's birth record: a counted baby has no plan or pregnancy of
+      // its own, only the rate that counted it and the household it joined.
+      store.table(birthsTable).put({
+        id: `${baby.id}:birth`,
+        childId: baby.id,
+        counted: true,
+        motherId: woman.id,
+        otherParentId: partner?.id ?? null,
+        date,
+        placeId,
+        householdId: record.household.id,
+        countsId: row.id,
+      });
     }
 
     // Departures: the ACS rate of leaving the county for each counted adult,

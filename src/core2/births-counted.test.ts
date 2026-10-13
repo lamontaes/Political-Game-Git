@@ -77,6 +77,17 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
     expect(end).toBe(start + moved);
   });
 
+  it("records each counted baby in the town's births, marked as counted", () => {
+    const counted = coreAPI(core)
+      .moduleState(RENEWAL_MODULE_ID)
+      .table("births")
+      .rows()
+      .filter((row) => row.counted === true);
+    expect(counted.map((row) => row.childId).sort()).toEqual(
+      rows.flatMap((row) => row.births).sort(),
+    );
+  });
+
   it("keeps every dollar: departures carry their cash to the outside account", () => {
     let outside = 0;
     for (const row of core.cashJournal.externalFlowsByOwner.values())
