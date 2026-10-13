@@ -112,6 +112,7 @@ export async function runSuite({
   cwd,
   budget,
   drawPlace,
+  mode = "pr",
   execute = runCommand,
 }) {
   const features = validateFeatures(document),
@@ -137,6 +138,7 @@ export async function runSuite({
             ? batchRows.map((r) => r.id).join(",")
             : row.id,
           GOLDEN_PATH_COMMIT: commit,
+          GOLDEN_PATH_MODE: mode,
         };
         if (batched) {
           batch ??= await runBatch(batchRows, {
@@ -213,6 +215,7 @@ export async function main() {
     cwd,
     commit,
     drawPlace,
+    mode,
     budget: policies[`${mode}Milliseconds`],
   });
   receipt.sourceRevision = execFileSync("git", ["rev-parse", "HEAD"], {

@@ -25,6 +25,7 @@ import {
   sessionAgendaDates,
   sessionsOf,
   answerIn,
+  WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
 import {
   lifePlaceCoverage,
@@ -330,5 +331,50 @@ describe("M3-10 other governments legislate", () => {
       effectsOn(api, id).some((e) => e.question === question),
     );
     expect(reached.length, `${state} ${key}`).toBeGreaterThan(0);
+  });
+});
+
+describe("a session already over when the world opens", () => {
+  // Regression (wire-all-modules, Oct 12): a game opening in the fall found
+  // its state's 2026 session over and never scheduled another, so the state
+  // legislature passed nothing all year.
+  it("comes back on the same day the next year", () => {
+    const opened = "2026-10-12";
+    const over = [...lifePlaceStateIdentities()]
+      .map((s) => s.jurisdictionKey)
+      .filter((k) => sessionAgendaDates(k).some((d) => d <= opened))
+      .sort();
+    const state = pick(over, "over:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "over:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: opened,
+        minimumPeople: 40,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openRecord(core);
+    openLegislature(core);
+    openLawEffects(core);
+    openWorldLegislating(core);
+    const calendar = coreAPI(core).moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
+    for (const date of sessionAgendaDates(state).filter((d) => d <= opened)) {
+      const next = `${Number(date.slice(0, 4)) + 1}${date.slice(4)}`;
+      expect(
+        calendar.get(`session-end:${state}:${next}`)?.date,
+        `seed ${seed}, ${state} place ${key}`,
+      ).toBe(next);
+    }
   });
 });

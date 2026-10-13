@@ -36,11 +36,21 @@ import {
   executiveDecision,
   memberPosition,
   obligationsOf,
+  FEDERAL_HOUSE,
+  leanOf,
+  memberKey,
+  members,
   offerDeal,
   openLegislature,
   votesOn,
 } from "./modules/legislature";
-import { lifePlaceCoverage, lifePlaceSearch } from "../simulation/life-places";
+import { partySide } from "./appointments";
+import { campaignParameter } from "./campaign-views";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
 import { billCatalog, provisionFor } from "./bill-catalog";
 
 const START = "2026-01-05";
@@ -547,3 +557,46 @@ describe(
     });
   },
 );
+
+describe("a Congress member from elsewhere", () => {
+  // Regression (wire-all-modules, Oct 12): reading one stand-in member's lean
+  // rebuilt the whole chamber, once per member per vote; it now reads the
+  // seat directly and must give the same lean the chamber list gives.
+  it("leans by their seat's party, as the chamber lists them", () => {
+    const state = pick(
+      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      "congress-lean:state",
+    );
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "congress-lean:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 20,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openLegislature(core);
+    const api = coreAPI(core);
+    const house = members(api, FEDERAL_HOUSE);
+    const standIns = house.filter((t) => t.id.startsWith("congress:"));
+    expect(
+      standIns.length,
+      `seed ${seed}, ${state} place ${key}`,
+    ).toBeGreaterThan(400);
+    for (const term of house)
+      expect(leanOf(api, memberKey(term)), term.id).toBe(
+        partySide(term.party) * campaignParameter("identityLeanScale"),
+      );
+  });
+});
