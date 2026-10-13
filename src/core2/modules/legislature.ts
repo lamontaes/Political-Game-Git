@@ -761,6 +761,32 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
   return out;
 }
 
+/** Each Congress seat's party at the opening, by seat id (the data never changes). */
+let openingSeatParty: Map<string, string> | undefined;
+/** A stand-in Congress member's party, as `congressMembers` gives it. */
+function congressSeatParty(api: CoreAPI, seatId: string): string | null {
+  if (!openingSeatParty) {
+    openingSeatParty = new Map();
+    const congress = (
+      partyCounts as unknown as {
+        congress: Record<string, Record<string, string[]>>;
+      }
+    ).congress;
+    for (const [state, seats] of Object.entries(congress))
+      for (const [seat, parties] of Object.entries(seats))
+        parties.forEach((party, index) =>
+          openingSeatParty!.set(
+            seat === "senate"
+              ? `seat:${state}:us-senate:${index}`
+              : `seat:${state}:us-house:${seat.padStart(2, "0")}`,
+            party,
+          ),
+        );
+  }
+  const party = worldSeatParty(api, seatId) ?? openingSeatParty.get(seatId);
+  return partyName(party ?? null);
+}
+
 /** A member's key: their person id, or the named official's id until they're filled in. */
 export function memberKey(term: TermRow): string {
   return term.personId ?? `official:${term.id}`;
@@ -777,14 +803,15 @@ export function leanOf(api: CoreAPI, memberId: string): number {
   const id = memberId.slice("official:".length);
   const term =
     (api.moduleState(OFFICES_MODULE_ID).table("terms").get(id) as unknown as
-      TermRow | undefined) ??
+      TermRow | undefined) ?? undefined;
+  // A Congress member from elsewhere: their seat's party, read directly (not
+  // by rebuilding the whole chamber for every member, once per vote).
+  const party =
+    term?.party ??
     (id.startsWith("congress:")
-      ? congressMembers(
-          api,
-          id.includes(":us-senate:") ? FEDERAL_SENATE : FEDERAL_HOUSE,
-        ).find((t) => t.id === id)
+      ? congressSeatParty(api, id.slice("congress:".length))
       : undefined);
-  return partySide(term?.party) * campaignParameter("identityLeanScale");
+  return partySide(party) * campaignParameter("identityLeanScale");
 }
 
 function townLean(api: CoreAPI): number {
