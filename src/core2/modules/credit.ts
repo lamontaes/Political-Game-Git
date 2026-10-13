@@ -27,7 +27,6 @@ import { linkCreditLineToPrime } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
-import { currentCloseness } from "../closeness";
 import type { ActOffer } from "../types";
 
 const CREDIT_PULL = "credit:pull";
@@ -497,44 +496,33 @@ function review(api: CoreAPI): void {
   );
 }
 
-/** A household's month, as its money shows it. */
+/** A household's month, as its money shows it: cash, its home, everyday living. */
 interface HouseholdMonthRow {
   id: string;
   householdId: string;
   date: string;
   cashMinor: number;
-  /** Each member's own cash: the household pools it, and these are the shares. */
-  memberCashMinor: Record<string, number>;
+  /** The lease or mortgage and any loan payments due this month. */
+  housingMinor: number;
+  /** Everyday living (cost-of-living.ts) the household meant to spend. */
+  everydayMinor: number;
   billsMinor: number;
   paidMinor: number;
-  /** Bills the household's cash didn't cover: purchases it went without, rent or loan payments it owes. */
+  /** What the household's cash didn't cover: everyday living it went without, rent or loan payments it owes. */
   unpaidMinor: number;
-  /** Who paid the household's bills this month, from their own cash. */
-  paidByMemberMinor: Record<string, number>;
-  helpMinor: number;
-  helpFromIds: string[];
   unemploymentMemberIds: string[];
   application?: { id: string; approved: boolean; limitMinor: number };
 }
 
-/**
- * Each month, every full household's money: what each member holds of the
- * pool, who paid its bills, and what it couldn't pay. A household that ran
- * short asks its relatives elsewhere; each gives from what they hold beyond
- * a few months of their own living costs, more the closer they are.
- */
+/** Each month, every full household's money: what it holds, what its home and everyday living cost, and what it couldn't pay. */
 function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
-  const c = core(api),
-    p = (key: string) => api.parameter(key);
+  const c = core(api);
   // Since the last monthly review: the first of last month.
   const since =
     addDays(makeIsoDate(`${c.date.slice(0, "YYYY-MM".length)}-01`), -1).slice(
       0,
       "YYYY-MM".length,
     ) + "-01";
-  const homeOf = new Map<string, string>();
-  for (const person of c.people.values())
-    if (person.alive) homeOf.set(person.id, person.householdId);
   const months = new Map<string, HouseholdMonthRow>();
   const rowOf = (householdId: string) => {
     let row = months.get(householdId);
@@ -549,35 +537,38 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
           householdId,
           date: c.date,
           cashMinor: members.reduce((n, person) => n + person!.liquidMinor, 0),
-          memberCashMinor: Object.fromEntries(
-            members.map((person) => [person!.id, person!.liquidMinor]),
-          ),
+          housingMinor: 0,
+          everydayMinor: 0,
           billsMinor: 0,
           paidMinor: 0,
           unpaidMinor: 0,
-          paidByMemberMinor: {},
-          helpMinor: 0,
-          helpFromIds: [],
           unemploymentMemberIds: [],
         }),
       );
     }
     return row;
   };
-  for (const [id, contract] of c.finance.contracts) {
-    const householdId = homeOf.get(contract.payerIds[0] ?? "");
-    if (!householdId) continue;
-    const receipt = c.finance.latestReceiptsByContract.get(id);
-    if (!receipt || receipt.date < since) continue;
-    const row = rowOf(householdId);
-    row.billsMinor += receipt.requestedMinor;
-    row.paidMinor += receipt.paidMinor;
-    row.unpaidMinor += receipt.requestedMinor - receipt.paidMinor;
-    for (const payment of receipt.payments)
-      if (payment.paidMinor > 0)
-        row.paidByMemberMinor[payment.payerId] =
-          (row.paidByMemberMinor[payment.payerId] ?? 0) + payment.paidMinor;
+  for (const [householdId, ids] of c.finance.obligationsByHousehold)
+    for (const id of ids) {
+      const receipt = c.finance.latestReceiptsByContract.get(id);
+      if (!receipt || receipt.date < since) continue;
+      const row = rowOf(householdId);
+      row.housingMinor += receipt.requestedMinor;
+      row.billsMinor += receipt.requestedMinor;
+      row.paidMinor += receipt.paidMinor;
+      row.unpaidMinor += receipt.requestedMinor - receipt.paidMinor;
+    }
+  for (const plan of c.finance.livingPlans.values()) {
+    if (!plan.lastAt || plan.lastAt < since) continue;
+    const row = rowOf(plan.householdId);
+    row.everydayMinor += plan.lastRequestedMinor;
+    row.billsMinor += plan.lastRequestedMinor;
+    row.paidMinor += plan.lastPaidMinor;
+    row.unpaidMinor += plan.lastRequestedMinor - plan.lastPaidMinor;
   }
+  const homeOf = new Map<string, string>();
+  for (const person of c.people.values())
+    if (person.alive) homeOf.set(person.id, person.householdId);
   const claims = c.modules.has("jobs")
     ? (api.moduleState("jobs").table("claims").rows() as unknown as {
         personId: string;
@@ -588,63 +579,7 @@ function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
     const row = months.get(homeOf.get(claim.personId) ?? "");
     if (row && !claim.endedAt) row.unemploymentMemberIds.push(claim.personId);
   }
-  // Short: bills went unpaid, or the pool holds less than a month of them.
-  for (const row of [...months.values()].sort((a, b) =>
-    a.id.localeCompare(b.id),
-  )) {
-    let short = Math.max(row.unpaidMinor, row.billsMinor - row.cashMinor);
-    if (short <= 0) continue;
-    const members = Object.keys(row.memberCashMinor);
-    const head = members[0];
-    if (!head) continue;
-    const relatives = new Map<string, number>();
-    for (const memberId of members)
-      for (const relId of c.relationshipsByPerson.get(memberId) ?? []) {
-        const tie = c.relationships.get(relId);
-        if (!tie || tie.kind !== "family") continue;
-        const otherId = tie.actorId === memberId ? tie.otherId : tie.actorId;
-        const other = c.people.get(otherId);
-        if (!other?.alive || other.householdId === row.householdId) continue;
-        const closeness = Math.min(1, Math.max(0, currentCloseness(c, tie)));
-        relatives.set(
-          otherId,
-          Math.max(relatives.get(otherId) ?? 0, closeness),
-        );
-      }
-    for (const [relativeId, closeness] of [...relatives].sort(
-      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
-    )) {
-      if (short <= 0) break;
-      const relative = c.people.get(relativeId)!;
-      const spare =
-        relative.liquidMinor -
-        relative.livingCostDailyMinor *
-          p("businessDaysPerMonth") *
-          p("creditFamilyHelpReserveMonths");
-      const give = Math.floor(
-        Math.min(short, spare * p("creditFamilyHelpShareOfSpare") * closeness),
-      );
-      if (give <= 0) continue;
-      const helped = transferCash(
-        api,
-        `family-help:${relativeId}:${row.householdId}:${c.date}`,
-        relativeId,
-        head,
-        give,
-        {
-          tag: "ESTIMATED",
-          asOf: c.date,
-          citation: creditData.source.citation,
-          estimatedFrom: `A relative helps a household that ran short: ${relativeId} gives from cash beyond a few months of their own living costs, scaled by how close they are.`,
-        },
-      );
-      if (helped <= 0) continue;
-      row.helpMinor += helped;
-      row.helpFromIds.push(relativeId);
-      short -= helped;
-    }
-  }
-  return [...months.values()];
+  return [...months.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
 function scheduleReview(api: CoreAPI): void {

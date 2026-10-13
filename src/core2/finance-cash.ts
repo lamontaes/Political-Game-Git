@@ -1,7 +1,7 @@
-import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
 import { bookkeeping } from "./bookkeeping";
 import { countedJob } from "./modules/residents";
+import { countedJobsOf } from "./residents-economy";
 import { makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import {
@@ -39,7 +39,7 @@ import {
 import type { OpeningCustomerEvidenceRecord } from "./opening-customers";
 import type { OpeningCustomerOutsideMarket } from "./opening-customer-geography";
 import { registerModule } from "./state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "./types";
+import type { CoreAPI, CoreModule, CoreState, JobInput, Source } from "./types";
 
 type Result = FinanceReceipt | CreditReceipt;
 type Related = ResolvedCashJournalSource["relatedRecords"][number];
@@ -94,9 +94,6 @@ function source(
     vintage = r.field(value, "generationPriorVintage");
   if (estimatedFrom !== undefined) result.estimatedFrom = estimatedFrom;
   if (vintage !== undefined) result.generationPriorVintage = vintage;
-  const generatedBasis = readGeneratedHouseholdSourceBasis(r, value);
-  if (generatedBasis !== undefined)
-    result.generatedHouseholdBasis = generatedBasis;
   if (
     !["SOURCED", "ESTIMATED"].includes(result.tag) ||
     !result.citation?.trim() ||
@@ -666,6 +663,111 @@ function customerQualification(
   return record as unknown as Record<string, unknown>;
 }
 
+/** A supplier with no one left to make the product it sells (see productJobRelations). */
+export class UnstaffedSupplierError extends Error {}
+
+/** A job still held today: a full worker's current job, or a counted job its employer still pays. */
+function currentProductJob(
+  session: FinancePlanningSession,
+  jobId: string,
+): JobInput | undefined {
+  const r = session.reads,
+    jobs = r.field(session.core, "jobs");
+  // A worker in the wider population holds a counted job (two-level population).
+  const counted = r.mapHas(jobs, jobId)
+      ? undefined
+      : countedJob(session.core, jobId),
+    job = counted ?? r.mapGet(jobs, jobId);
+  if (!job) return undefined;
+  const endsAt = r.field(job, "endsAt");
+  if (endsAt !== undefined && session.date >= endsAt) return undefined;
+  if (!counted) {
+    const person = r.mapGet(
+      r.field(session.core, "people"),
+      r.field(job, "personId"),
+    );
+    if (!person || r.field(person, "jobId") !== jobId) return undefined;
+  }
+  return job;
+}
+
+/**
+ * A saved qualification names the supplier's product jobs at the opening.
+ * Each follows its job's real life: a job that ended (a quit, a layoff, a
+ * move, a death in the wider population) drops out, and once every named job
+ * and provider record is gone the supplier's current staff in the product
+ * occupations carry the agreement. With none, the supplier can't serve it.
+ * A job still held that contradicts its saved basis stays an error.
+ */
+function productJobRelations(
+  session: FinancePlanningSession,
+  relations: Relations,
+  rule: Record<string, unknown>,
+  payeeId: string,
+  jobIds: readonly string[],
+  bases: readonly Record<string, unknown>[],
+  options: { contradiction: string; source: string; carried: boolean },
+): void {
+  const r = session.reads,
+    cfg = config(session),
+    occupations = r.array(
+      r.field(rule, "supplierOccupations") as readonly string[],
+      session.zero,
+      session.one,
+    );
+  let cited = session.zero;
+  const cite = (job: JobInput, evidence: Source) => {
+    add(relations, {
+      kind: cfg.relatedKinds.job,
+      id: r.field(job, "id"),
+      date: evidence.asOf,
+      source: evidence,
+    });
+    cited += session.one;
+  };
+  for (const jobId of jobIds) {
+    const job = currentProductJob(session, jobId);
+    if (!job) continue;
+    const basis = bases.filter(
+      (value) => value.kind === "job" && value.recordId === jobId,
+    );
+    if (
+      r.field(job, "id") !== jobId ||
+      r.field(job, "organizationId") !== payeeId ||
+      basis.length !== session.one ||
+      basis[session.zero]!.occupationClassification !==
+        r.field(job, "occupationClassification") ||
+      !occupations.includes(r.field(job, "occupationClassification")!)
+    )
+      throw new Error(options.contradiction);
+    const evidence = source(session, r.field(job, "source"));
+    if (!same(evidence, source(session, basis[session.zero]!.source as Source)))
+      throw new Error(options.source);
+    cite(job, evidence);
+  }
+  if (cited > session.zero || options.carried) return;
+  // Every named job has ended: whoever does that work there now carries it.
+  const staff: JobInput[] = [];
+  for (const jobId of r.mapGet(
+    r.field(r.field(session.core, "finance"), "jobsByOrganization"),
+    payeeId,
+  ) ?? []) {
+    const job = currentProductJob(session, jobId);
+    if (job) staff.push(job);
+  }
+  staff.push(...countedJobsOf(session.core, payeeId));
+  for (const job of staff
+    .filter((row) =>
+      occupations.includes(r.field(row, "occupationClassification")!),
+    )
+    .sort((left, right) => left.id.localeCompare(right.id)))
+    cite(job, source(session, r.field(job, "source")));
+  if (cited === session.zero)
+    throw new UnstaffedSupplierError(
+      `Supplier ${payeeId} has no one left in its product occupations.`,
+    );
+}
+
 /** Exact actual seller, product scope, owned active job or saved provider, and Source. */
 function visitorProviderRecords(
   session: FinancePlanningSession,
@@ -724,48 +826,12 @@ function visitorProviderRecords(
     throw new Error(
       "Actual visitor product scope has no unique recorded basis.",
     );
-  for (const jobId of jobs) {
-    // A worker in the wider population holds a counted job (two-level population).
-    const counted = r.mapHas(r.field(session.core, "jobs"), jobId)
-        ? undefined
-        : countedJob(session.core, jobId),
-      job = counted ?? r.mapGet(r.field(session.core, "jobs"), jobId),
-      basis = bases.filter(
-        (value) => value.kind === "job" && value.recordId === jobId,
-      ),
-      person =
-        job && !counted
-          ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
-          : undefined;
-    if (
-      !job ||
-      r.field(job, "id") !== jobId ||
-      r.field(job, "organizationId") !== payeeId ||
-      (!counted && (!person || r.field(person, "jobId") !== jobId)) ||
-      (r.field(job, "endsAt") !== undefined &&
-        session.date >= r.field(job, "endsAt")!) ||
-      basis.length !== session.one ||
-      basis[session.zero]!.occupationClassification !==
-        r.field(job, "occupationClassification") ||
-      !r
-        .array(r.field(rule, "supplierOccupations"), session.zero, session.one)
-        .includes(r.field(job, "occupationClassification")!)
-    )
-      throw new Error(
-        "Visitor qualification no longer resolves its actual product job.",
-      );
-    const evidence = source(session, r.field(job, "source"));
-    if (!same(evidence, source(session, basis[session.zero]!.source as Source)))
-      throw new Error(
-        "Actual visitor product-job Source differs from the agreement.",
-      );
-    add(relations, {
-      kind: cfg.relatedKinds.job,
-      id: jobId,
-      date: evidence.asOf,
-      source: evidence,
-    });
-  }
+  productJobRelations(session, relations, rule, payeeId, jobs, bases, {
+    contradiction:
+      "Visitor qualification no longer resolves its actual product job.",
+    source: "Actual visitor product-job Source differs from the agreement.",
+    carried: providers.length > session.zero,
+  });
   for (const providerId of providers) {
     const raw = r.field(
         r.field(session.core, "placeMetadata"),
@@ -1392,48 +1458,12 @@ function procurementRecords(
     throw new Error(
       "Actual public supplier scope has no unique recorded basis.",
     );
-  for (const jobId of jobs) {
-    // A worker in the wider population holds a counted job (two-level population).
-    const counted = r.mapHas(r.field(session.core, "jobs"), jobId)
-        ? undefined
-        : countedJob(session.core, jobId),
-      job = counted ?? r.mapGet(r.field(session.core, "jobs"), jobId),
-      basis = bases.filter(
-        (value) => value.kind === "job" && value.recordId === jobId,
-      );
-    const person =
-      job && !counted
-        ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
-        : undefined;
-    if (
-      !job ||
-      r.field(job, "id") !== jobId ||
-      r.field(job, "organizationId") !== payeeId ||
-      (!counted && (!person || r.field(person, "jobId") !== jobId)) ||
-      (r.field(job, "endsAt") !== undefined &&
-        session.date >= r.field(job, "endsAt")!) ||
-      basis.length !== session.one ||
-      basis[session.zero]!.occupationClassification !==
-        r.field(job, "occupationClassification") ||
-      !r
-        .array(r.field(rule, "supplierOccupations"), session.zero, session.one)
-        .includes(r.field(job, "occupationClassification")!)
-    )
-      throw new Error(
-        "Public supplier qualification no longer resolves its actual product job.",
-      );
-    const evidence = source(session, r.field(job, "source"));
-    if (!same(evidence, source(session, basis[session.zero]!.source as Source)))
-      throw new Error(
-        "Actual public product-job source differs from the agreement.",
-      );
-    add(relations, {
-      kind: cfg.relatedKinds.job,
-      id: jobId,
-      date: evidence.asOf,
-      source: evidence,
-    });
-  }
+  productJobRelations(session, relations, rule, payeeId, jobs, bases, {
+    contradiction:
+      "Public supplier qualification no longer resolves its actual product job.",
+    source: "Actual public product-job source differs from the agreement.",
+    carried: providers.length > session.zero,
+  });
   for (const providerId of providers) {
     const metadata = r.field(session.core, "placeMetadata"),
       raw = r.field(

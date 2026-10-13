@@ -30,6 +30,7 @@ import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
+import { endLivingPlan } from "../cost-of-living";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../../simulation/types";
 import type {
@@ -420,6 +421,7 @@ function closeHousehold(api: CoreAPI, householdId: string): void {
       !row.recipientIncome
     )
       api.endStandingContract(row.id);
+  endLivingPlan(core, householdId);
 }
 
 function leave(
