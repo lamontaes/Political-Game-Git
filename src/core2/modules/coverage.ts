@@ -54,6 +54,8 @@ export interface CoverageRow {
   /** Days with coverage and without, since the opening. */
   coveredDays: number;
   uninsuredDays: number;
+  /** Days covered while under the child age (the outcome web's child coverage years). */
+  childCoveredDays: number;
   /** What decided it, by cause. */
   reasons: Readonly<Record<string, number>>;
 }
@@ -417,6 +419,12 @@ export function monthlyReview(api: CoreAPI): void {
         coveredDays: (prior?.coveredDays ?? 0) + (wasCovered ? days : 0),
         uninsuredDays:
           (prior?.uninsuredDays ?? 0) + (prior && !wasCovered ? days : 0),
+        childCoveredDays:
+          (prior?.childCoveredDays ?? 0) +
+          (wasCovered &&
+          ageOf(api, core.people.get(personId)!) < c(api, "coverageChildAge")
+            ? days
+            : 0),
         reasons: { ...row.reasons },
         reviewedAt: api.state.date,
       });
@@ -429,6 +437,49 @@ export function coverageOf(
 ): CoverageRow | undefined {
   return store(api).table("people").get(personId) as unknown as
     CoverageRow | undefined;
+}
+
+/**
+ * The engine's readings for the outcome web: a place's share of full people
+ * covered ("health.coverage-pct", 0 to 100; "health.coverage", 0 to 1), or a
+ * person's share of their time covered since the opening
+ * ("person:health.coverage-pct") and their years covered as a child
+ * ("person:health.child-coverage-years"). Null for a measure it does not keep.
+ */
+export function coverageMeasure(
+  api: CoreAPI,
+  id: string,
+  measure: string,
+): number | null {
+  const percent = api.parameter("percent");
+  if (measure === "person:health.coverage-pct") {
+    const row = coverageOf(api, id);
+    if (!row) return null;
+    const days = row.coveredDays + row.uninsuredDays;
+    return days > 0
+      ? (row.coveredDays / days) * percent
+      : row.kind === "uninsured"
+        ? 0
+        : percent;
+  }
+  if (measure === "person:health.child-coverage-years") {
+    const row = coverageOf(api, id);
+    return row ? row.childCoveredDays / api.parameter("daysPerMeanYear") : null;
+  }
+  if (measure !== "health.coverage-pct" && measure !== "health.coverage")
+    return null;
+  let covered = 0;
+  let all = 0;
+  for (const personId of api.state.peopleByPlace.get(id) ?? []) {
+    const row = coverageOf(api, personId);
+    if (!row) continue;
+    all += 1;
+    if (row.kind !== "uninsured") covered += 1;
+  }
+  if (!all) return null;
+  return measure === "health.coverage"
+    ? covered / all
+    : (covered / all) * percent;
 }
 
 function scheduleReview(api: CoreAPI): void {

@@ -5,6 +5,7 @@ import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import {
   COVERAGE_PARAMETERS,
+  coverageMeasure,
   coverageModule,
   coverageOf,
 } from "./modules/coverage";
@@ -103,5 +104,32 @@ describe(`health coverage in ${input.placeMetadata?.placeName} (seed ${seed})`, 
     );
     for (const row of rows)
       expect(row.coveredDays + row.uninsuredDays).toBeLessThanOrEqual(62);
+  });
+
+  it("gives the outcome web its readings for the place and each person", () => {
+    const share = coverageMeasure(
+      api,
+      input.people[0]!.placeId,
+      "health.coverage-pct",
+    );
+    expect(share).not.toBeNull();
+    expect(share!).toBeGreaterThan(0);
+    expect(share!).toBeLessThanOrEqual(100);
+    for (const person of people.slice(0, 50)) {
+      const pct = coverageMeasure(
+        api,
+        person.id,
+        "person:health.coverage-pct",
+      )!;
+      expect(pct).toBeGreaterThanOrEqual(0);
+      expect(pct).toBeLessThanOrEqual(100);
+      const years = coverageMeasure(
+        api,
+        person.id,
+        "person:health.child-coverage-years",
+      )!;
+      if (age(person.birthDate) >= p("coverageChildAge")) expect(years).toBe(0);
+    }
+    expect(coverageMeasure(api, people[0]!.id, "health.depression")).toBeNull();
   });
 });
