@@ -8,6 +8,7 @@
  * named here; every place fact is a row.
  */
 import rules from "./data/elections/term-rules.json" with { type: "json" };
+import electionParameters from "./data/elections/parameters.json" with { type: "json" };
 import { governmentUnit } from "../simulation/government-units";
 import type { OfficeInput } from "./offices-local";
 
@@ -320,4 +321,17 @@ export function filingDeadlineIn(
       : null;
   if (read) return read;
   return primaryDate ? addDays(primaryDate, -filing.days) : null;
+}
+
+const ELECTION_PARAMETERS = (
+  electionParameters as unknown as {
+    parameters: Record<string, { value: number }>;
+  }
+).parameters;
+
+/** A number from the election parameter table (`data/elections/parameters.json`). */
+export function electionParameter(key: string): number {
+  const row = ELECTION_PARAMETERS[key];
+  if (!row) throw new Error(`Unknown election parameter: ${key}`);
+  return row.value;
 }

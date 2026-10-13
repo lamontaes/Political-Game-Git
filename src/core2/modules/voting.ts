@@ -50,6 +50,7 @@ import { OFFICES_MODULE_ID, putTerm, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
+import { electionParameter } from "../term-rules";
 import { drawOfficialIdentity } from "../officials-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
@@ -116,6 +117,8 @@ export const VOTING_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       chosen: {},
+      /** One row per Election Day a stop was put on the player's clock. */
+      electionStops: {},
       ballots: {
         indexes: {
           byContest: { fields: ["contestId"] },
@@ -185,6 +188,18 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
       source,
       sourceRecordIds: [contest.id],
     });
+  // The day before an election, the player's clock gets an Election Day
+  // stop when they can vote that day (PW-5): a skip stops at the polls.
+  const eve = dayBefore(contest.electionDate);
+  if (eve > date && !calendar.get(`election-eve:${contest.electionDate}`))
+    calendar.schedule({
+      key: `election-eve:${contest.electionDate}`,
+      date: eve,
+      kind: "election-eve",
+      source,
+      sourceRecordIds: [contest.id],
+    });
+  else if (eve <= date) stopPlayerOnElectionDay(api, contest.electionDate);
   calendar.schedule({
     key: `election:${contest.id}`,
     date: contest.electionDate,
@@ -195,6 +210,102 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
         : { ...source, tag: "ESTIMATED", estimatedFrom: source.citation },
     sourceRecordIds: [contest.id],
   });
+}
+
+function dayBefore(date: string): string {
+  const d = new Date(`${date}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
+/** The contests held on `date` a person may vote in: they live in town and are 18 that day. */
+export function contestsOnBallotFor(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): readonly ContestRow[] {
+  const person = api.state.people.get(personId);
+  if (!person?.alive || person.placeId !== town(api).townPlaceId) return [];
+  if (ageOn(person, date) < 18) return [];
+  return (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[]
+  )
+    .filter(
+      (c) =>
+        c.electionDate === date && !table(api, "results").get(`result:${c.id}`),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * The player's ballot for today, from the records: each contest they may
+ * vote in, its candidates with their party, and the choice already marked.
+ * For the screen; the words come from the English engine.
+ */
+export function playerBallotV1(
+  api: CoreAPI,
+  personId: string,
+): readonly {
+  readonly contestId: string;
+  readonly officeId: string;
+  readonly district: string | null;
+  readonly candidates: readonly {
+    readonly candidateId: string;
+    readonly party: string | null;
+    readonly identity: ReturnType<typeof candidateIdentity>;
+  }[];
+  readonly marked: string | null | undefined;
+}[] {
+  return contestsOnBallotFor(api, personId, api.state.date).map((contest) => {
+    const chosen = table(api, "chosen").get(`${contest.id}|${personId}`) as
+      { candidateId: string | null; by?: string } | undefined;
+    return {
+      contestId: contest.id,
+      officeId: contest.officeId,
+      district: contest.district,
+      candidates: ballot(api, contest.id).map((f) => ({
+        candidateId: f.personId,
+        party: f.party ?? null,
+        identity: candidateIdentity(api, f.personId),
+      })),
+      marked: chosen?.by === "player" ? chosen.candidateId : undefined,
+    };
+  });
+}
+
+/**
+ * Put an Election Day stop on the player's clock at the hour the polls open,
+ * once per day, when the player can vote in a contest held that day.
+ */
+function stopPlayerOnElectionDay(api: CoreAPI, date: string): void {
+  const state = api.state as CoreState;
+  const playerId = state.playerId;
+  if (!playerId || date < api.state.date) return;
+  const id = `election-day:${date}:${playerId}`;
+  if (table(api, "electionStops").get(id)) return;
+  const contests = contestsOnBallotFor(api, playerId, date);
+  if (!contests.length) return;
+  api.moduleCalendar(VOTING_MODULE_ID).registerStop({
+    recordId: id,
+    controlledPersonId: playerId,
+    at: { date, minuteOfDay: electionParameter("pollsOpenMinuteOfDay") },
+    kind: "interrupt",
+    reasonKey: "election-day",
+    source: {
+      tag: "SOURCED",
+      citation: contests[0]!.sources.join(" ; ") || "election calendar",
+      asOf: api.state.date,
+    },
+    hold: false,
+  });
+  table(api, "electionStops").put({
+    id,
+    date,
+    contestIds: contests.map((c) => c.id),
+  } as unknown as ModuleRow);
 }
 
 /** Once a seat's contest is decided, its next cycle's contest opens. */
@@ -212,6 +323,13 @@ function votingCalendarWork(
   if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
   if (work.kind === "election-day") holdElection(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
+  if (work.kind === "election-eve") {
+    const contest = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .get(work.sourceRecordIds[0]!) as unknown as ContestRow | undefined;
+    if (contest) stopPlayerOnElectionDay(api, contest.electionDate);
+  }
 }
 
 function town(api: CoreAPI) {
@@ -938,6 +1056,7 @@ export function castBallot(
   table(api, "chosen").put({
     id: `${contestId}|${voterId}`,
     candidateId,
+    by: "player",
   } as unknown as ModuleRow);
 }
 
@@ -970,9 +1089,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // A voter who chose their ballot (the player, by hand) votes as they
     // chose; with none chosen (a player skipping past election day), they
     // vote or stay home on their own reasons like everyone else.
-    const chosen = table(api, "chosen").get(
-      `${contestId}|${voter.id}`,
-    ) as unknown as { candidateId: string | null } | undefined;
+    const marked = table(api, "chosen").get(`${contestId}|${voter.id}`) as
+      { candidateId: string | null; by?: string } | undefined;
+    const chosen = marked && marked.by !== "own-reasons" ? marked : undefined;
     const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
     const t = chosen ? { ...decided, votes: true } : decided;
     const ranked = Object.entries(appeal).sort(
@@ -1009,6 +1128,18 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       ),
       choice,
     });
+    // The player's ballot goes in the chosen table either way: marked by
+    // hand, or decided on their own reasons through this same path (PW-5).
+    if (voter.id === (api.state as CoreState).playerId && !chosen)
+      table(api, "chosen").put({
+        id: `${contestId}|${voter.id}`,
+        candidateId: choice,
+        by: "own-reasons",
+        voted: t.votes,
+        turnoutReasons: { duty: t.duty, interest: t.interest, cost: t.cost },
+        appeal,
+        date,
+      } as unknown as ModuleRow);
     table(api, "ballots").put({
       id: `ballot:${contestId}:${voter.id}`,
       contestId,

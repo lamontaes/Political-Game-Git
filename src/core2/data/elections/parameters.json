@@ -1,0 +1,11 @@
+{
+  "about": "Numbers the election calendar and voting dates use, each tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Read by src/core2/term-rules.ts.",
+  "parameters": {
+    "pollsOpenMinuteOfDay": {
+      "value": 420,
+      "tag": "ESTIMATED",
+      "source": "National Conference of State Legislatures, 'State Poll Opening and Closing Times': polling places open between 6 a.m. and 8 a.m. local time, most commonly 7 a.m. The minute of the day the Election Day stop is set at.",
+      "spread": [360, 480]
+    }
+  }
+}
