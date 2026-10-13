@@ -144,4 +144,30 @@ function dropOldReceiptDetail(core: CoreState): void {
     if (shift.personId === player) continue;
     Map.prototype.delete.call(shifts, id);
   }
+  if (core.date.endsWith("-01")) dropOldPayrollSources(core, before);
+}
+
+/**
+ * Old payroll settlement records go too, monthly, except the ones pay still
+ * reads (each ledger's last payroll and each job's latest) and the player's.
+ */
+function dropOldPayrollSources(core: CoreState, before: string): void {
+  const work = core.work;
+  const sources = work.payrollCashSources;
+  if (!sources.size) return;
+  const kept = new Set<string>();
+  for (const ledger of work.payrollLedgerByCommitment.values())
+    if (ledger.lastPayrollReceiptId) kept.add(ledger.lastPayrollReceiptId);
+  for (const latest of work.latestPayrollByJob.values()) {
+    kept.add(latest.id);
+    const group = (latest as { groupReceiptId?: string }).groupReceiptId;
+    if (group) kept.add(group);
+  }
+  const player = core.playerId;
+  for (const [id, source] of sources) {
+    if (source.date >= before) break;
+    if (kept.has(id)) continue;
+    if (player && JSON.stringify(source.result).includes(player)) continue;
+    Map.prototype.delete.call(sources, id);
+  }
 }
