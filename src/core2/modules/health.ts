@@ -373,8 +373,9 @@ function payAcuteCare(
   person: Readonly<PersonState>,
 ): { covered: boolean | null; paid: number; id?: string } {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return { covered: null, paid: 0 };
-  const chain = lawChain(api),
-    facts = townFacts(api, person.placeId);
+  const chain = lawChain(api);
+  if (person.placeId !== chain.townPlaceId) return { covered: null, paid: 0 };
+  const facts = townFacts(api, person.placeId);
   const expansion = lawInForce(
     api,
     "us-policy-positions:health-human-services.expand-medicaid-eligibility",
