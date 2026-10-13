@@ -284,7 +284,7 @@ const ALLOWED_FILES: readonly {
   readonly reason: string;
 }[] = [
   {
-    file: /^src\/simulation\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
+    file: /^src\/(?:simulation|core2\/reference)\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
     reason:
       "Census place, county and government names: Centre County, Centreville, Grey Eagle, Holiday Island, Flat Rock, Tyre, Seward",
   },
