@@ -45,7 +45,7 @@ import {
   setOperatingLimit,
 } from "../business-operating-rules";
 
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 
@@ -649,7 +649,7 @@ function month(api: CoreAPI): void {
     for (const [organizationId, book] of c.finance.businesses) {
       if (book.closedAt) continue;
       const org = c.organizations.get(organizationId);
-      if (!org) continue;
+      if (!org || org.placeId !== lawChain(api).townPlaceId) continue;
       const sync = (question: string, law: typeof privacy, share: number) => {
         const cause = question;
         if (law.value !== 1 || !law.governing) {
