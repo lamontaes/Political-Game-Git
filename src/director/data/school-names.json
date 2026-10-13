@@ -1,0 +1,117 @@
+{
+  "version": "school-names-v1",
+  "about": "How a school's directory name (NCES Common Core of Data, often abbreviated and in capitals) is said in full. An abbreviation is expanded only where it ends the name, or comes before the word that confirms it, so \"El Dorado High\" and \"King Jr Elementary\" keep their words.",
+  "endings": [
+    {
+      "words": ["J", "H", "S"],
+      "said": "Junior High School"
+    },
+    {
+      "words": ["JHS"],
+      "said": "Junior High School"
+    },
+    {
+      "words": ["H", "S"],
+      "said": "High School"
+    },
+    {
+      "words": ["M", "S"],
+      "said": "Middle School"
+    },
+    {
+      "words": ["E", "S"],
+      "said": "Elementary School"
+    },
+    {
+      "words": ["HS"],
+      "said": "High School"
+    },
+    {
+      "words": ["MS"],
+      "said": "Middle School"
+    },
+    {
+      "words": ["ES"],
+      "said": "Elementary School"
+    },
+    {
+      "words": ["EL"],
+      "said": "Elementary"
+    },
+    {
+      "words": ["ELEM"],
+      "said": "Elementary"
+    },
+    {
+      "words": ["SCH"],
+      "said": "School"
+    },
+    {
+      "words": ["SCHL"],
+      "said": "School"
+    },
+    {
+      "words": ["INT"],
+      "said": "Intermediate"
+    },
+    {
+      "words": ["ACAD"],
+      "said": "Academy"
+    },
+    {
+      "words": ["CTR"],
+      "said": "Center"
+    }
+  ],
+  "before": [
+    {
+      "word": "EL",
+      "next": ["SCHOOL", "SCH"],
+      "said": "Elementary"
+    },
+    {
+      "word": "ELEM",
+      "next": ["SCHOOL", "SCH"],
+      "said": "Elementary"
+    },
+    {
+      "word": "JR",
+      "next": ["HIGH", "HI"],
+      "said": "Junior"
+    },
+    {
+      "word": "SR",
+      "next": ["HIGH", "HI"],
+      "said": "Senior"
+    },
+    {
+      "word": "HI",
+      "next": ["SCHOOL", "SCH"],
+      "said": "High"
+    },
+    {
+      "word": "INT",
+      "next": ["SCHOOL", "SCH"],
+      "said": "Intermediate"
+    }
+  ],
+  "numbered": [
+    {
+      "word": "PS",
+      "said": "P.S."
+    },
+    {
+      "word": "IS",
+      "said": "I.S."
+    },
+    {
+      "word": "MS",
+      "said": "M.S."
+    },
+    {
+      "word": "JHS",
+      "said": "J.H.S."
+    }
+  ],
+  "minorWords": ["of", "and", "the", "for", "at", "in", "on", "a", "an"]
+}

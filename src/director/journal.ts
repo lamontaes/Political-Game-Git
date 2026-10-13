@@ -18,7 +18,7 @@ import {
 } from "../presentation/grounded-english";
 import journalJson from "./data/journal.json" with { type: "json" };
 import type { Director } from "./ledger";
-import { properName } from "./words";
+import { properName, schoolName } from "./words";
 import { directorStopgap } from "./stopgaps";
 import type { Moment } from "./types";
 
@@ -178,7 +178,7 @@ export function composeJournal(
       : undefined;
     if (fact?.facts?.schoolName)
       facts.school = {
-        text: properName(fact.facts.schoolName),
+        text: schoolName(fact.facts.schoolName),
         sourceRecordIds: [fact.id],
       };
     if (moment.causeKind === "work:opening") {

@@ -30,7 +30,13 @@ import conversationJson from "./data/conversation.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
 import { renderLine, type Fact } from "./render";
 import { markWordsStopgap } from "./stopgaps";
-import { properName, spoken, spokenMonth, spokenWhen } from "./words";
+import {
+  properName,
+  schoolName,
+  spoken,
+  spokenMonth,
+  spokenWhen,
+} from "./words";
 
 const zero = P.zero;
 const one = P.one;
@@ -217,7 +223,7 @@ export function subjectsBetween(
         aboutId: context.id,
         facts: {
           school: {
-            text: properName(context.facts?.schoolName ?? ""),
+            text: schoolName(context.facts?.schoolName ?? ""),
             sourceRecordIds: [fact.id, context.id],
           },
           years: {

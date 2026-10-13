@@ -1,4 +1,5 @@
 /** Small word rules shared by the journal, conversations and scenes. */
+import schoolNamesJson from "./data/school-names.json" with { type: "json" };
 import { P } from "../core2/parameters";
 
 /**
@@ -13,6 +14,67 @@ export function properName(text: string): string {
       /(^|[\s\-/(])([a-z])/g,
       (_all, lead: string, letter: string) => `${lead}${letter.toUpperCase()}`,
     );
+}
+
+interface SchoolNameRules {
+  /** A numbered school's prefix ("PS 123" is P.S. 123). */
+  numbered: readonly { word: string; said: string }[];
+  /** Words kept lowercase inside a name. */
+  minorWords: readonly string[];
+  endings: readonly { words: readonly string[]; said: string }[];
+  before: readonly { word: string; next: readonly string[]; said: string }[];
+}
+const SCHOOL_NAMES = schoolNamesJson as unknown as SchoolNameRules;
+
+/**
+ * A school's directory name as people say it: abbreviations expanded where
+ * they end the name or come before the word that confirms them ("Kennedy
+ * Elem" is Kennedy Elementary; "El Dorado High" keeps "El"), then in
+ * proper case.
+ */
+export function schoolName(text: string): string {
+  const words = text.trim().split(/\s+/);
+  const key = (word: string) => word.replace(/\.$/, "").toUpperCase();
+  for (const rule of SCHOOL_NAMES.endings) {
+    const tail = words.slice(-rule.words.length).map(key);
+    if (
+      words.length > rule.words.length &&
+      tail.join(" ") === rule.words.join(" ")
+    ) {
+      words.splice(-rule.words.length, rule.words.length, rule.said);
+      break;
+    }
+  }
+  for (let at = P.zero; at < words.length - P.one; at += P.one) {
+    const rule = SCHOOL_NAMES.before.find(
+      (row) =>
+        row.word === key(words[at]!) &&
+        row.next.includes(key(words[at + P.one]!)),
+    );
+    if (rule) words[at] = rule.said;
+  }
+  // A numbered school keeps its prefix: "PS 123" is P.S. 123.
+  const numbered = SCHOOL_NAMES.numbered.find(
+    (row) =>
+      row.word === key(words[P.zero] ?? "") && /^\d/.test(words[P.one] ?? ""),
+  );
+  if (numbered) words[P.zero] = numbered.said;
+  const joined = words.join(" ");
+  // A name held in capitals is said in proper case, expanded words included.
+  const said =
+    text === text.toUpperCase() ? properName(joined.toUpperCase()) : joined;
+  // Small words stay lowercase inside a name ("Academy of Science"), and a
+  // numbered prefix keeps its capitals.
+  return said
+    .split(" ")
+    .map((word, index) =>
+      index > P.zero && SCHOOL_NAMES.minorWords.includes(word.toLowerCase())
+        ? word.toLowerCase()
+        : numbered && index === P.zero
+          ? numbered.said
+          : word,
+    )
+    .join(" ");
 }
 
 /** How a resident says a town aloud: without the state it sits in. */
