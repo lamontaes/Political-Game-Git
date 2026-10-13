@@ -9,6 +9,7 @@ import { countyPopulationSharesForPlace } from "../../simulation/government-unit
 import { lifePlaceByKey } from "../../simulation/life-places";
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import housingData from "../data/housing/housing.json" with { type: "json" };
+import regions from "../data/regional/regions.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -78,6 +79,13 @@ const COUNTY_TENURE = housingData.countyTenure as unknown as Record<
 >;
 const LEASE_KIND = "household-purchase";
 const NATION = "nation";
+const STATE_PREFIX = "state:";
+const FIPS_OF_USPS = new Map(
+  (regions.regions as { stateFips: string; stateUsps: string }[]).map((row) => [
+    row.stateUsps,
+    row.stateFips,
+  ]),
+);
 /** The nation's owner share and household-weighted county median rent and value, for places no county table covers. */
 const NATIONAL = (() => {
   let homes = 0,
@@ -108,8 +116,33 @@ function nationTenure(town: { county: string }): [number, number] | undefined {
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
+/** Each state's household-weighted county median rent and value, for a county the tables don't carry (Connecticut's old counties, replaced by planning regions in the 2022 ACS). */
+const STATE_RENT_VALUE = (() => {
+  const sums = new Map<string, [number, number, number]>();
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    const rv = RENT_VALUE[county];
+    if (!rv?.[0] || !rv[1]) continue;
+    const state = county.slice(0, "SS".length);
+    const sum = sums.get(state) ?? [0, 0, 0];
+    sum[0] += rv[0] * row[0];
+    sum[1] += rv[1] * row[0];
+    sum[2] += row[0];
+    sums.set(state, sum);
+  }
+  return new Map(
+    [...sums].map(([state, [rent, value, weight]]) => [
+      `${STATE_PREFIX}${state}`,
+      [Math.round(rent / weight), Math.round(value / weight)] as [
+        number,
+        number,
+      ],
+    ]),
+  );
+})();
 function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
+  if (county.startsWith(STATE_PREFIX))
+    return STATE_RENT_VALUE.get(county) ?? [null, null];
   return (RENT_VALUE[county] as [number, number] | undefined) ?? [null, null];
 }
 const DWELLINGS_KEY = "housingDwellings";
@@ -156,8 +189,18 @@ function townOf(input: CoreInput): Town | undefined {
       : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
   const usps = place?.stateJurisdictionKey?.slice("US-".length);
   if (!placeId || !usps) return undefined;
-  // A place no county table covers (the island areas) uses the nation's figures, estimated.
-  return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
+  // A county the tables don't carry uses its state's figures; a place no county table covers (the island areas) the nation's, estimated.
+  const fips = county
+    ? county.slice(0, "SS".length)
+    : (FIPS_OF_USPS.get(usps) ?? "");
+  const known =
+    county && RENT_VALUE[county]?.[0]
+      ? county
+      : STATE_RENT_VALUE.has(`${STATE_PREFIX}${fips}`)
+        ? `${STATE_PREFIX}${fips}`
+        : "";
+  if (known.startsWith(STATE_PREFIX)) stopgap("SG-WORLD-housing-state-figures");
+  return { geoid, county: known || `${NATION}:${usps}`, usps, placeId };
 }
 
 const UNITS = housingData.unitsInStructure as unknown as {

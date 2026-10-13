@@ -803,6 +803,14 @@ function paidShare(c: CoreState, personId: string, jobId: string): number {
   return 1;
 }
 
+/** A consumer loan rate cap (a share a year), or none: new household loans are written at no more than it. */
+export function setConsumerRateCap(
+  api: CoreAPI,
+  capShare: number | null,
+): void {
+  store(api).table("banks").put({ id: "law:consumer-rate-cap", capShare });
+}
+
 /** A household's monthly pay as a lender counts it: wages times the share of due pay actually paid. */
 export function monthlyIncome(
   api: CoreAPI,
@@ -909,9 +917,16 @@ function householdApplications(
       { policyRatePct: number } | undefined
   )?.policyRatePct;
   if (prime === undefined) return room;
-  const rate =
+  // A consumer loan rate cap in force holds the rate to it.
+  const cap = (
+    store(api).table("banks").get("law:consumer-rate-cap") as
+      { capShare: number | null } | undefined
+  )?.capShare;
+  const rate = Math.min(
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
-    p("macroHundred");
+      p("macroHundred"),
+    cap ?? Number.POSITIVE_INFINITY,
+  );
   const owing = new Set(
     (
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]

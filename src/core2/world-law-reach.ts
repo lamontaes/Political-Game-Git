@@ -10,6 +10,7 @@
  * whenever the law in force on its key may have changed. The magnitudes are
  * OPUS-GOV's law-reach parameters.
  */
+import { setConsumerRateCap } from "./modules/credit";
 import { setCannabisLegal } from "./business-cannabis";
 import { setRightToWork } from "./jobs-unions";
 import reachA from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -248,6 +249,11 @@ const HANDLERS: Readonly<Record<string, PolicyHandler>> = {
         law.inForce,
         gov("cannabisAge"),
       );
+  },
+  // A consumer loan rate cap: the town bank writes household loans at no more (bank personal loans rarely reach it).
+  [`${POLICY}business-commerce.cap-consumer-loan-rates`]: (api, law) => {
+    if (has(api, "credit"))
+      setConsumerRateCap(api, law.inForce ? gov("consumerLoanRateCap") : null);
   },
   // Right-to-work: represented workers needn't join or pay the union, so fewer do (jobs-unions.ts).
   [`${POLICY}labor-workforce.right-to-work`]: (api, law) => {

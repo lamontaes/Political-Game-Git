@@ -181,6 +181,18 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.se
     }
   }, 600_000);
 
+  it("a consumer loan rate cap holds new household loans to 36% a year", () => {
+    enact(`${P}business-commerce.cap-consumer-loan-rates`);
+    expect(
+      (
+        api
+          .moduleState("credit")
+          .table("banks")
+          .get("law:consumer-rate-cap") as { capShare: number } | undefined
+      )?.capShare,
+    ).toBe(0.36);
+  }, 600_000);
+
   it("a repeal ends the rule", () => {
     enact(`${P}transportation-infrastructure.fare-free-transit`, 0);
     expect(rule("transit-fare", "price")).toBeUndefined();
