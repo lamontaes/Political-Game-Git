@@ -5,6 +5,7 @@ import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
+  peerCohortSize,
   residentsRuntime,
   enterResidentMarket,
   releaseResidentHousehold,
@@ -1841,17 +1842,24 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       ]),
     );
     const rebuilt = new Map(
-      buildDeepPast({
-        seed: build.seed,
-        startedAt: build.startedAt,
-        people: rebuild.map((row) => ({
-          ...row,
-          pastFacts: before.get(row.id)!.head,
-        })),
-        households: [taken.household],
-        jobs: taken.jobs,
-        gaps: [],
-      } as unknown as CoreInput).people.map((row) => [row.id, row]),
+      buildDeepPast(
+        {
+          seed: build.seed,
+          startedAt: build.startedAt,
+          people: rebuild.map((row) => ({
+            ...row,
+            pastFacts: before.get(row.id)!.head,
+          })),
+          households: [taken.household],
+          jobs: taken.jobs,
+          gaps: [],
+        } as unknown as CoreInput,
+        {
+          // The opening's class and workgroup sizes, so the same peer groups form.
+          peerCohortSize: (circle, contextKey, present) =>
+            peerCohortSize(core, circle, contextKey) ?? present,
+        },
+      ).people.map((row) => [row.id, row]),
     );
     record = {
       ...taken,
