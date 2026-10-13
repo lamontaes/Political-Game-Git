@@ -37,6 +37,7 @@ import type {
   PersonInput,
   PlaceId,
 } from "../types";
+import { registerWorldMapPart } from "../snapshot";
 
 export const COUNTED_DRIFT_MODULE_ID = "core2-counted-drift-v1";
 
@@ -63,6 +64,7 @@ interface Runtime {
   names?: Names;
 }
 const runtimes = new WeakMap<CoreState, Runtime>();
+registerWorldMapPart("core2-counted-drift", runtimes);
 
 /** Deaths, births and moves in the wider population, by month and place. */
 export function countedDrift(core: CoreState): ReadonlyMap<string, DriftTally> {
@@ -341,7 +343,9 @@ function leaveRate(
         >
       )[state] ?? moverRates.national
     ).departurePerYearByAge;
-    rates = BANDS.map((band) => row[band.label] ?? 0);
+    rates = BANDS.map(
+      (band) => (row as Record<string, number>)[band.label] ?? 0,
+    );
     ratesByState.set(state, rates);
   }
   const index = BANDS.findIndex((band) => age >= band.low && age <= band.high);
@@ -411,8 +415,8 @@ function moveHousehold(
   const family =
     pick(names.family, `${core.seed}:${householdId}:${core.date}:family`) ??
     record.people[0]!.familyName;
-  const ids = new Map(
-    record.people.map((person) => [
+  const ids = new Map<PersonId, PersonId>(
+    record.people.map((person): [PersonId, PersonId] => [
       person.id,
       createStableId(
         "person",
@@ -446,7 +450,7 @@ function moveHousehold(
       },
       familyIds: person.familyIds
         .map((other) => ids.get(other))
-        .filter((other): other is string => !!other),
+        .filter((other): other is PersonId => !!other),
       knownIds: [],
       looks: { gender },
       pastFacts: [],

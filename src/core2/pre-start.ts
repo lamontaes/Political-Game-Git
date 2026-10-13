@@ -17,6 +17,7 @@ import type {
   PlaceId,
   Source,
 } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 export const PRE_START_PHASES = ["economy", "people", "government"] as const;
 export type PreStartPhase = (typeof PRE_START_PHASES)[number];
@@ -94,6 +95,7 @@ export function preStartWindow(
 
 const ran = new WeakSet<CoreState>();
 const histories = new WeakMap<CoreState, HistoryRecord[]>();
+registerWorldMapPart("core2-pre-start-histories", histories);
 
 /** What happened before the start, oldest first. */
 export function preStartHistory(

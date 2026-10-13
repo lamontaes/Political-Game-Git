@@ -34,6 +34,7 @@ import type {
   Relationship,
   WeightedReason,
 } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 
@@ -59,6 +60,7 @@ export interface PlannedAct {
 }
 
 const plans = new WeakMap<CoreState, Map<IsoDate, PlannedAct[]>>();
+registerWorldMapPart("core2-free-block-plans", plans);
 
 /** Acts planned for this date, removed from the plan as they are handed out. */
 export function takePlannedActs(

@@ -7,10 +7,13 @@
  */
 import { parameter } from "./parameters";
 import type { CoreState, DecisionResult } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-queue", queues);
 /** Condensed circle acts, to drop once older than circleActRetentionMonths. */
 const dropQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
 
 /** A kept act record with full reasons, to condense once it ages out. */
 export function queueDecisionDetail(

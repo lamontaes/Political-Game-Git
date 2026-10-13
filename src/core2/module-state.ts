@@ -262,3 +262,15 @@ export function moduleTableSizes(core: CoreState): Record<string, number> {
       sizes[`${id}/${name}`] = table.rows.size;
   return sizes;
 }
+
+/** Every installed engine's table store (world snapshots). */
+export function moduleStateStores(
+  core: CoreState,
+): Map<string, ModuleStateStore> {
+  return new Map(
+    [...(stores.get(core)?.keys() ?? [])].map((id) => [
+      id,
+      moduleState(core, id),
+    ]),
+  );
+}

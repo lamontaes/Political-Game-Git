@@ -27,6 +27,7 @@ import type {
   PersonId,
   PlaceId,
 } from "../types";
+import { registerWorldMapPart } from "../snapshot";
 
 const DAYS_PER_YEAR = 365;
 
@@ -97,6 +98,7 @@ interface ResidentMonth {
 const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
+registerWorldMapPart("core2-residents", runtimes);
 
 export function residentsRuntime(
   core: CoreState,
@@ -164,7 +166,8 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     // passes, and the next one pays the days since the opening.
     let nextAt = makeIsoDate(row.firstAt);
     if (row.earnedDaysByDue)
-      while (nextAt <= core.date) nextAt = advanceCadence(nextAt, row.cadence);
+      while (nextAt <= core.date)
+        nextAt = makeIsoDate(advanceCadence(nextAt, row.cadence));
     if (nextAt <= core.date)
       nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
     const flow: FlowState = { ...row, nextAt, arrearsMinor: 0 };

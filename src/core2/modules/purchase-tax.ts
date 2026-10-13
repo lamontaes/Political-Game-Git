@@ -17,6 +17,7 @@ import type {
   SalesReceiptNotice,
   Source,
 } from "../types";
+import { registerWorldMapPart } from "../snapshot";
 
 export const PURCHASE_TAX_MODULE_ID = "core2-purchase-tax-v1";
 
@@ -44,6 +45,7 @@ export interface PurchaseTaxState extends PurchaseTaxInput {
 }
 
 const runtimes = new WeakMap<CoreState, Map<string, PurchaseTaxState>>();
+registerWorldMapPart("core2-purchase-tax", runtimes);
 
 function taxes(core: CoreState): Map<string, PurchaseTaxState> {
   let rows = runtimes.get(core);
