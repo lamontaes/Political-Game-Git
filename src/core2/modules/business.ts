@@ -21,15 +21,21 @@ import type {
   PreStartWindow,
 } from "../pre-start";
 import bdsRates from "../data/business/bds-rates.json" with { type: "json" };
+import ownership from "../data/business/ownership.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import {
+  addResidentFlow,
   countedJobsOf,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
-import { residentPerson, residentsRuntime } from "./residents";
-import { lendForFounding } from "./credit";
+import {
+  residentPerson,
+  residentsRuntime,
+  supplierBillsOwed,
+} from "./residents";
+import { foundingLoanLimit, lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
 import {
@@ -102,13 +108,72 @@ function option(share: number, reasons: Record<string, number>): ActOffer {
   };
 }
 
+const OUTSIDE_FIRM = "outside-firm";
+
+/**
+ * The opening's businesses that belong to firms based outside the town: the
+ * largest by staff, in order, until their share of the town's jobs reaches
+ * the state's share of employment in multi-establishment firms (Census).
+ * Their parent is the place's outside account.
+ */
+function outsideOwned(api: CoreAPI): Map<string, string> {
+  const c = core(api);
+  const usps = c.placeMetadata?.housingState ?? "";
+  const share =
+    (ownership.byState as Record<string, number>)[usps] ?? ownership.national;
+  const sized = [...c.finance.businesses.entries()]
+    .filter(([, book]) => !book.closedAt)
+    .map(([id]) => ({
+      id,
+      placeId: c.organizations.get(id)?.placeId,
+      staff:
+        [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
+          (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+        ).length + countedJobsOf(c, id).length,
+    }))
+    .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
+  const total = sized.reduce((n, row) => n + row.staff, 0);
+  const out = new Map<string, string>();
+  let taken = 0;
+  for (const row of sized) {
+    // Stop where one more would overshoot the share by more than it falls short.
+    if (taken + row.staff / 2 > share * total) break;
+    const parent = [...c.organizations.values()].find(
+      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
+    )?.id;
+    if (!parent) continue;
+    out.set(row.id, parent);
+    taken += row.staff;
+  }
+  return out;
+}
+
 /** The opening's owners: each business's highest-paid current worker, as owner-operator. */
 function open(api: CoreAPI): void {
   const c = core(api);
   // Owners are generated as owner-operators until founding gives businesses their founders.
   stopgap("SG-WORLD-business-opening-owners");
+  const outside = outsideOwned(api);
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt) continue;
+    const parent = outside.get(id);
+    if (parent) {
+      store(api)
+        .table("owners")
+        .put({
+          id,
+          isOwner: true,
+          ownerId: parent,
+          since: c.date,
+          basis: OUTSIDE_FIRM,
+          salesThrough: book.salesReceivedMinor,
+          wagesThrough: book.wagesPaidMinor,
+          operatingThrough: book.operatingPaidMinor,
+          retainedMinor: 0,
+          netThrough: netCash(c, id),
+        });
+      continue;
+    }
     const staff = [...(c.finance.jobsByOrganization.get(id) ?? [])]
       .map((jobId) => c.jobs.get(jobId)!)
       .filter((job) => job.endsAt === undefined && c.people.get(job.personId))
@@ -168,9 +233,10 @@ function scheduleMonth(api: CoreAPI): void {
   });
 }
 
-/** A business's cash less what it owes on its credit lines. */
+/** A business's cash less what it owes on its credit lines and to its suppliers. */
 function netCash(c: CoreState, organizationId: string): number {
-  let owed = 0;
+  // Supplier bills accrued on its sales are owed already, though not yet billed.
+  let owed = supplierBillsOwed(c, organizationId);
   for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
     owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
   return (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed;
@@ -207,7 +273,7 @@ function decide(c: CoreState, personId: string, offers: ActOffer[]): ActOffer {
 
 /** Where an owner's money goes: their own cash, or their place's pooled residents account while counted. */
 function ownerAccount(c: CoreState, personId: string): string | undefined {
-  if (c.people.has(personId)) return personId;
+  if (c.people.has(personId) || c.organizations.has(personId)) return personId;
   const placeId = residentPerson(c, personId)?.placeId;
   return residentsRuntime(c)?.input.accounts.find(
     (row) => row.placeId === placeId,
@@ -216,6 +282,7 @@ function ownerAccount(c: CoreState, personId: string): string | undefined {
 
 /** An owner-operator who no longer works at the business, or an owner who has died, hands it on. */
 function stillOwns(c: CoreState, row: OwnerRow): boolean {
+  if (row.basis === OUTSIDE_FIRM) return true;
   const operator =
     row.basis === "highest-paid-worker" || row.basis === "successor";
   if (!c.people.has(row.ownerId))
@@ -466,15 +533,18 @@ function reviewClosures(api: CoreAPI): void {
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
     const book = c.finance.businesses.get(row.id);
-    const found = ownerPerson(c, row.ownerId);
-    if (!book || book.closedAt || !found?.alive) continue;
+    const outsideFirm = row.basis === OUTSIDE_FIRM;
+    const found = outsideFirm ? undefined : ownerPerson(c, row.ownerId);
+    if (!book || book.closedAt || (!outsideFirm && !found?.alive)) continue;
     const monthlyCosts =
       (book.annualPayrollMinor + book.annualOtherCostsMinor) /
       p("macroMonthsPerYear");
     const losses =
       monthlyCosts > 0 ? Math.max(0, -row.retainedMinor) / monthlyCosts : 0;
-    const age =
-      Number(c.date.slice(0, 4)) - Number(found.person.birthDate.slice(0, 4));
+    // A firm based elsewhere weighs a branch's losses; it doesn't age out.
+    const age = found
+      ? Number(c.date.slice(0, 4)) - Number(found.person.birthDate.slice(0, 4))
+      : p("jobsEarliestRetirementAge");
     const reasons = {
       baseline: p("businessCloseBaseline"),
       losses: p("businessCloseLossWeight") * losses,
@@ -515,6 +585,48 @@ function reviewClosures(api: CoreAPI): void {
   }
 }
 
+/** A branch of a firm based elsewhere sends its parent the cash above its cushion, out of the profit it has kept. */
+function sweepToParent(api: CoreAPI, row: OwnerRow): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const book = c.finance.businesses.get(row.id);
+  if (!book || book.closedAt) return;
+  const net = netCash(c, row.id);
+  const retained = row.retainedMinor + (net - (row.netThrough ?? net));
+  const cash = c.organizations.get(row.id)!.liquidMinor;
+  const cushion =
+    (book.annualPayrollMinor / p("macroMonthsPerYear")) *
+    p("businessCushionMonths");
+  const swept =
+    retained > 0
+      ? transferCash(
+          api,
+          `parent-sweep:${row.id}:${c.date}`,
+          row.id,
+          row.ownerId,
+          Math.min(retained, Math.max(0, cash - cushion)),
+          {
+            tag: "ESTIMATED",
+            asOf: c.date,
+            citation: businessData.source.citation,
+            estimatedFrom:
+              "A branch of a firm based outside the town sends its parent the cash above its cushion, out of profit it has kept.",
+          },
+        )
+      : 0;
+  store(api)
+    .table("owners")
+    .put({
+      ...row,
+      isOwner: true,
+      salesThrough: book.salesReceivedMinor,
+      wagesThrough: book.wagesPaidMinor,
+      operatingThrough: book.operatingPaidMinor,
+      retainedMinor: retained - swept,
+      netThrough: net - swept,
+    });
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -525,6 +637,10 @@ function month(api: CoreAPI): void {
   for (const row of store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
+    if (row.basis === OUTSIDE_FIRM) {
+      sweepToParent(api, row);
+      continue;
+    }
     const book = c.finance.businesses.get(row.id),
       found = ownerPerson(c, row.ownerId),
       owner = found?.person,
@@ -544,6 +660,8 @@ function month(api: CoreAPI): void {
         ? owner.liquidMinor / owner.livingCostDailyMinor
         : Number.POSITIVE_INFINITY;
     const short = cushion > 0 ? Math.max(0, 1 - cash / cushion) : 0;
+    // Cash beyond the cushion is profit the business doesn't need: on a sliding scale toward 1.
+    const spare = cash > cushion ? 1 - cushion / cash : 0;
     const need = 1 / (1 + ownerDays / p("businessDaysPerMonth"));
     let drawn = 0,
       share = 0;
@@ -555,6 +673,7 @@ function month(api: CoreAPI): void {
           option(s, {
             need: p("businessDrawNeedWeight") * need * s,
             keep: -p("businessDrawKeepWeight") * short * s,
+            surplus: p("businessDrawSurplusWeight") * spare * s,
             size: -p("businessDrawSizeWeight") * s * s,
           }),
         ),
@@ -964,9 +1083,57 @@ function found(
   const parentName = location
     ? c.organizations.get(location.parentId)?.name
     : undefined;
-  const share = 1 / (market.incumbents.length + 1);
+  const equal = 1 / (market.incumbents.length + 1);
   // No customers to win (no buyers reach this market's businesses): nothing to found.
-  if (purchaseShareOf(c, new Set(market.incumbents), share) <= 0) return false;
+  if (purchaseShareOf(c, new Set(market.incumbents), equal) <= 0) return false;
+  // How big it opens: an equal share of the market is the most it could win;
+  // it plans a typical startup's staff, smaller when the founder's own money
+  // and what the bank will lend on it reach less (most new firms start small).
+  const term = p("businessStartupTermMonths");
+  const fullCost = startupCost(api, market),
+    fullProfit = prospectMonthly(api, market),
+    fullStaff = market.staff * equal;
+  const ownerFrom = location ? location.parentId : ownerAccount(c, founderId);
+  if (!ownerFrom) return false;
+  const equityMinor = Math.min(
+    Math.max(0, c.organizations.get(ownerFrom)?.liquidMinor ?? Infinity),
+    location
+      ? Math.max(0, location.fundsMinor)
+      : Math.max(
+          0,
+          founder.liquidMinor -
+            founder.livingCostDailyMinor *
+              p("businessDaysPerMonth") *
+              p("businessFounderReserveMonths"),
+        ),
+  );
+  const shortOfMoney = (size: number) =>
+    size * fullCost >
+    equityMinor +
+      foundingLoanLimit(
+        api,
+        { equityMinor, monthlyProfitMinor: fullProfit * size },
+        term,
+      );
+  let scale = Math.min(
+    1,
+    fullStaff > 0 ? p("businessStartupStaff") / fullStaff : 1,
+  );
+  if (shortOfMoney(scale)) {
+    // The largest size the money reaches, by halving the interval.
+    let low = 0,
+      high = scale;
+    for (let i = 0; i < 30; i++) {
+      const mid = (low + high) / 2;
+      if (shortOfMoney(mid)) high = mid;
+      else low = mid;
+    }
+    scale = low;
+  }
+  // Too little to open with even one worker (or the whole share, where that is less): the founder can't open it.
+  if (scale <= 0 || (fullStaff > 0 && scale < Math.min(1, 1 / fullStaff)))
+    return false;
+  const share = equal * scale;
   api.addOrganization({
     id,
     placeId: market.placeId,
@@ -1001,7 +1168,7 @@ function found(
           organizationId: id,
           placeId: market.placeId,
           like: market.incumbents[0]!,
-          capacityMinor,
+          capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
   const annualDemandMinor =
@@ -1062,20 +1229,39 @@ function found(
     costContractIds: [],
     source,
   });
+  // What a business that buys from outside suppliers doesn't buy locally, it buys outside, like every opening firm.
+  const supplies = [...market.incumbents]
+    .map((rid) => residentsRuntime(c)?.flows.get(`outside-costs:${rid}`))
+    .find((flow) => flow && !flow.endedAt);
+  if (supplies)
+    addResidentFlow(c, {
+      id: `outside-costs:${id}`,
+      kind: "outside-costs",
+      financeKind: supplies.financeKind,
+      payerId: id,
+      payeeId: supplies.payeeId,
+      residentsId: supplies.residentsId,
+      placeId: supplies.placeId,
+      amountMinor: 0,
+      firstAt: supplies.nextAt,
+      cadence: supplies.cadence,
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: supplies.source,
+    });
   const startup =
     ((annualPayrollMinor + annualOtherCostsMinor) / p("macroMonthsPerYear")) *
     p("businessStartupMonthsOfCosts");
-  // A location is funded first from its parent's spare cash; a loan covers the rest.
-  const funded = location
-    ? transferCash(
-        api,
-        `location-funding:${id}`,
-        location.parentId,
-        id,
-        Math.min(startup, location.fundsMinor),
-        source,
-      )
-    : 0;
+  // A location is funded first from its parent's spare cash, a new business
+  // from its founder's savings; a loan covers the rest.
+  const funded = transferCash(
+    api,
+    `${location ? "location-funding" : "founder-equity"}:${id}`,
+    ownerFrom,
+    id,
+    Math.min(startup, equityMinor),
+    source,
+  );
   // Funding a location moves the parent's cash, not its profit.
   if (location && funded > 0) {
     const parent = store(api).table("owners").get(location.parentId) as
@@ -1087,12 +1273,13 @@ function found(
   }
   const loan =
     startup - funded > 0
-      ? lendForFounding(
-          api,
-          id,
-          startup - funded,
-          p("businessStartupTermMonths"),
-        )
+      ? lendForFounding(api, id, startup - funded, term, {
+          founderId,
+          equityMinor: funded,
+          monthlyProfitMinor:
+            (annualDemandMinor * p(kind.marginParameter)) /
+            p("macroMonthsPerYear"),
+        })
       : 0;
   const book = c.finance.businesses.get(id)!;
   store(api)
@@ -1129,7 +1316,11 @@ function found(
       room: market.room,
       customersMonthlyMinor: monthly,
       loanMinor: loan,
-      parentFundsMinor: funded,
+      // The founder's own money in it (a location's comes from its parent).
+      ...(location ? {} : { equityMinor: funded }),
+      parentFundsMinor: location ? funded : 0,
+      scale,
+      staff: Math.max(1, Math.round(market.staff * share)),
       incumbents: market.incumbents.length,
       ...(location
         ? { parentId: location.parentId, parentStrength: location.strength }
