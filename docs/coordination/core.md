@@ -9,7 +9,7 @@ Only OPUS-CORE writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 ## What the owner can play now
 
-Once PLAY builds on `opus-core`: a town's year runs in about 35 seconds, businesses mostly stay open, and every town with a police department has a public school with teachers. A sales tax collects on every purchase. Older people claim Social Security, and the rest of the town is born, dies and moves. A saved game in the base world loads from a snapshot (a played year: about 11 seconds instead of 29). The full game with every team's engines still loads by replay until each team marks its engines' state as saved (Needs, below).
+In the evening build (PLAY's bench on the core): children go to school on school days, and a game year with every engine runs in about a minute (Woodmere, New York: 56 s this morning; Election Day no longer stalls). Businesses mostly stay open over a year, a sales tax collects on every purchase, and older people claim Social Security. The rest of the town is born, dies and moves. Counted voters start at their county's 2024 lean and their town's citizen share. Not visible until PLAY's opening uses the core's steps (Needs): the public school district and its teachers, private-school families, and the representative sample of the town. Saves in the base world load from a snapshot (a played year: about 11 s instead of 29). The full game loads by replay until each team marks its engines' state as saved.
 
 ## Checklist
 
