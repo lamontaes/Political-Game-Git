@@ -30,6 +30,7 @@ import { stateOfPlaceKey } from "../places";
 import type { ResidentHouseholdRecord } from "../residents";
 import { endCountedJob, endFlowPart } from "../residents-economy";
 import { voterGroups } from "../voter-groups";
+import { RENEWAL_MODULE_ID } from "./renewal";
 import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
@@ -709,6 +710,10 @@ export const COUNTED_DRIFT_MODULE: CoreModule = {
   id: COUNTED_DRIFT_MODULE_ID,
   onDay(api) {
     if (!api.state.date.endsWith("-01")) return undefined;
+    // Where the renewal engine runs, its counted flows (PW-8,
+    // births-counted.ts) move the counts; this engine stands down so no
+    // birth, death or move happens twice.
+    if (api.state.modules.has(RENEWAL_MODULE_ID)) return undefined;
     let rt = runtimes.get(api.state);
     if (!rt)
       runtimes.set(

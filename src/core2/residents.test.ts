@@ -390,10 +390,13 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("lets a full person's relative wait in the counts as a husk", () => {
     const full = two.people.find((row) => row.id === two.playerId)!;
-    const husks = new Set((two.husks ?? []).map((row) => row.id));
+    // Someone the opening hasn't already made a husk (the builder does that for
+    // a kept person's own relatives, e.g. seed dc27fe8a0505956b38264457df7fbb42).
+    const waiting = new Set((two.husks ?? []).map((row) => row.id));
+    expect(waiting.size).toBe((two.husks ?? []).length);
     const relative = two
       .residents!.households.flatMap((row) => row.people)
-      .find((row) => !husks.has(row.id))!;
+      .find((row) => !waiting.has(row.id))!;
     const input = {
       ...two,
       people: two.people.map((row) =>
