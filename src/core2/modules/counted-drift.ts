@@ -31,7 +31,7 @@ import type { ResidentHouseholdRecord } from "../residents";
 import { endCountedJob, endFlowPart } from "../residents-economy";
 import { voterGroups } from "../voter-groups";
 import { RENEWAL_MODULE_ID } from "./renewal";
-import { residentsRuntime } from "./residents";
+import { ownMap, residentsRuntime } from "./residents";
 import type {
   CoreAPI,
   CoreModule,
@@ -227,7 +227,7 @@ function removeCountedPerson(month: Month, personId: PersonId): void {
   });
 }
 
-/** End each ended contract's part of every merged flow, in one pass and one copy per flow. */
+/** End each ended contract's part of every merged flow, in one pass, copying a flow's parts only once ever. */
 function endParts(core: CoreState, ending: Ending): void {
   if (!ending.size) return;
   for (const flow of residentsRuntime(core)!.flows.values()) {
@@ -238,7 +238,7 @@ function endParts(core: CoreState, ending: Ending): void {
     for (const id of ending) {
       const amount = parts[id];
       if (amount === undefined) continue;
-      next ??= { ...parts };
+      next ??= ownMap(parts);
       delete next[id];
       ended += amount;
     }
