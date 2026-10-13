@@ -181,6 +181,8 @@ export function answerIn(
   api: CoreAPI,
   stateKey: string,
   question: string,
+  /** Count acts already enacted that haven't taken effect yet. */
+  enacted = false,
 ): number | null {
   const rows = (
     api
@@ -188,7 +190,7 @@ export function answerIn(
       .table("laws")
       .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
   )
-    .filter((r) => r.effectiveDate <= api.state.date)
+    .filter((r) => enacted || r.effectiveDate <= api.state.date)
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
   if (rows[0]) return rows[0].value === 1 ? 1 : -1;
   const answer = POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
@@ -236,29 +238,32 @@ function needsChange(direction: number, now: number | null): boolean {
   return direction > 0 ? now !== 1 : now === 1;
 }
 
-/** Whether a policy is law for the town at any level (the state's recorded starting answer counting until a state act replaces it). */
+/**
+ * Whether a policy is law for the town at any level as enacted, an act
+ * waiting on its effective date included (the state's recorded starting
+ * answer counting until a state act replaces it).
+ */
 function inForceForTown(api: CoreAPI, question: string): boolean {
   const chain = lawChain(api);
   return chain.levels.some(({ level, jurisdiction }) =>
     level === "state"
-      ? answerIn(api, jurisdiction, question) === 1
+      ? answerIn(api, jurisdiction, question, true) === 1
       : ownRow(api, jurisdiction, question) === 1,
   );
 }
 
+/** A jurisdiction's own latest enacted row on a question, whether or not it has taken effect yet. */
 function ownRow(
   api: CoreAPI,
   jurisdiction: string,
   question: string,
 ): number | null {
-  const row = (
-    api
+  const row = [
+    ...(api
       .moduleState(LAWS_MODULE_ID)
       .table("laws")
-      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]
-  )
-    .filter((r) => r.effectiveDate <= api.state.date)
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]),
+  ].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
   return row ? (row.value === 1 ? 1 : -1) : null;
 }
 
@@ -530,7 +535,7 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         : sessionFloorDays(jurisdiction, api.state.date),
     billsPerFloorDay: campaignParameter("floorBillsPerLegislativeDay"),
     needsChange: (question, direction) =>
-      needsChange(direction, answerIn(api, jurisdiction, question)),
+      needsChange(direction, answerIn(api, jurisdiction, question, true)),
     allowed: () => true,
     // A new session takes every bill up afresh.
     barred: () => false,
