@@ -46,11 +46,15 @@ import {
   governments,
   type withholdingOf,
 } from "../../src/core2/modules/budgets";
-import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  POLICY_QUESTIONS,
+} from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
+  checkEligibility,
   incumbentOf,
 } from "../../src/core2/modules/elections";
 import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
@@ -68,6 +72,16 @@ import {
 import { PLACE_PRICES_MODULE_ID } from "../../src/core2/modules/place-prices";
 import { outcomeIssueView } from "../../src/core2/modules/views";
 import { withholdingFor } from "../../src/core2/tax-withholding";
+import { healthReport } from "../../src/core2/modules/health";
+import {
+  termLimitReached,
+  TERM_LIMITS,
+  RESTORE_VOTE,
+} from "../../src/core2/law-reach/group-a-voting";
+import { purchaseTaxes } from "../../src/core2/modules/purchase-tax";
+import { jobsAt } from "../../src/core2/law-reach/group-b-money";
+import { reachParameter } from "../../src/core2/law-reach/group-b-people";
+
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { WEB_LINKS } from "../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../src/core2/laws-starting";
@@ -177,9 +191,16 @@ let cashPayments = new Map<
     grossDebitMinor: number;
   }
 >();
+let liftedOperatingLimits = new Map<
+  string,
+  { recordId: string; date: string; before: number; after: number }
+>();
+let endedComplianceCosts = new Map<string, string>();
 /** Counts calls and observes completed payments without retaining full game history. */
 function countCalls(core: CoreState) {
   cashPayments = new Map();
+  liftedOperatingLimits = new Map();
+  endedComplianceCosts = new Map();
   calls = new Map();
   const count = (id: string) => calls.set(id, (calls.get(id) ?? 0) + 1);
   const wrap = <F extends (...args: never[]) => unknown>(id: string, f: F) =>
@@ -231,7 +252,76 @@ function countCalls(core: CoreState) {
         };
         const forwarded = [...args];
         forwarded[0] = observed as never;
-        return f(...forwarded);
+        // The business engine deletes repealed limits. Observe its existing
+        // sales-flow amounts across that act instead of losing the evidence.
+        const limits =
+          id === "business"
+            ? api
+                .moduleState("business")
+                .table("operating")
+                .rows()
+                .filter(
+                  (row) => row.kind === "limit" && row.input === "groundwater",
+                )
+            : [];
+        const flows = limits.flatMap((rule) =>
+          [...(residentsRuntime(api.state as CoreState)?.flows.values() ?? [])]
+            .filter(
+              (flow) =>
+                flow.kind === "outside-sales" &&
+                !flow.endedAt &&
+                flow.payeeId === rule.organizationId,
+            )
+            .map((flow) => ({
+              ruleId: rule.id,
+              question: String(rule.cause),
+              flow,
+              before: flow.amountMinor,
+            })),
+        );
+        const costs =
+          id === "business"
+            ? api
+                .moduleState("business")
+                .table("operating")
+                .rows()
+                .filter(
+                  (row) =>
+                    row.kind === "cost" &&
+                    ((api.state as CoreState).finance.businesses.get(
+                      String(row.organizationId),
+                    )?.annualOtherCostsMinor ?? 0) > 0 &&
+                    [...cashPayments.values()].some(
+                      (paid) =>
+                        paid.sourceRef.id.startsWith(`compliance:${row.id}:`) &&
+                        paid.grossDebitMinor > 0,
+                    ),
+                )
+            : [];
+        const result = f(...forwarded);
+        for (const held of flows) {
+          if (
+            api.moduleState("business").table("operating").get(held.ruleId) ||
+            held.before === held.flow.amountMinor
+          )
+            continue;
+          const law = lawInForce(api, held.question);
+          if (law.value === 0 && law.governing)
+            liftedOperatingLimits.set(law.governing.id, {
+              recordId: held.flow.id,
+              date: api.state.date,
+              before: held.before,
+              after: held.flow.amountMinor,
+            });
+        }
+        for (const held of costs) {
+          if (api.moduleState("business").table("operating").get(held.id))
+            continue;
+          const law = lawInForce(api, String(held.cause));
+          if (law.value === 0 && law.governing)
+            endedComplianceCosts.set(law.governing.id, held.id);
+        }
+        return result;
       }
       return f(...args);
     }) as unknown as F;
@@ -302,7 +392,7 @@ function playWorld(seed: string) {
   const buildSeconds = (performance.now() - buildStarted) / 1000;
   const core = world.core;
   const start = core.date;
-  const end = addDays(makeIsoDate(start), Math.round(365.25 * years));
+  let end = addDays(makeIsoDate(start), Math.round(365.25 * years));
   const nextJanuary = `${Number(start.slice(0, 4)) + 1}-01-01`;
   const playerId = world.playerId!;
   const playerBirth = makeIsoDate(core.people.get(playerId)!.birthDate);
@@ -367,6 +457,41 @@ function playWorld(seed: string) {
       }
     }
     day = next;
+  }
+  // A restoration rule needs an election. Continue this played world to
+  // its next recorded election when the annual window ended before it.
+  const restoration = rowsOf(core, LAWS_MODULE_ID, "laws")
+    .filter(
+      (row) =>
+        row.series === RESTORE_VOTE &&
+        String(row.effectiveDate) >= start &&
+        String(row.effectiveDate) <= core.date &&
+        lawInForce(
+          coreAPI(core),
+          RESTORE_VOTE,
+          addDays(makeIsoDate(String(row.effectiveDate)), -1),
+        ).value !== row.value,
+    )
+    .sort((a, b) =>
+      String(a.effectiveDate).localeCompare(String(b.effectiveDate)),
+    )
+    .at(-1);
+  if (restoration) {
+    const contests = rowsOf(core, ELECTIONS_MODULE_ID, "contests").filter(
+      (row) => String(row.electionDate) >= String(restoration.effectiveDate),
+    );
+    const observed = contests.some((row) =>
+      resultOf(coreAPI(core), String(row.id)),
+    );
+    const next = contests
+      .filter((row) => String(row.electionDate) > core.date)
+      .sort((a, b) =>
+        String(a.electionDate).localeCompare(String(b.electionDate)),
+      )[0];
+    if (!observed && next) {
+      end = addDays(makeIsoDate(String(next.electionDate)), 1);
+      advanceCore(core, end);
+    }
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
   const gc = (globalThis as { gc?: () => void }).gc;
@@ -485,6 +610,70 @@ function playWorld(seed: string) {
       law.series,
       addDays(makeIsoDate(law.effectiveDate), -1),
     );
+    // An enactment can repeat existing law or be preempted by a governing
+    // level. Neither creates a new effect for this town (owner, Oct. 13).
+    const governingAtEnactment = lawInForce(api, law.series, law.effectiveDate);
+    const noOp =
+      (previousLaw.value ?? 0) === law.value
+        ? `no-op: already ${law.value}; prior ${previousLaw.governing?.id ?? "default"}`
+        : governingAtEnactment.governing?.id !== law.id
+          ? `no-op: governed by ${governingAtEnactment.governing?.id ?? "default"}`
+          : undefined;
+    // A researched delay is not a missing effect. Verify the cause actually
+    // reached a kept outcome row that views read, retaining its size/lag.
+    const registeredCause = api
+      .moduleState(OUTCOME_WEB_MODULE_ID)
+      .table("laws")
+      .get(law.id);
+    const superseded = enactedLaws
+      .filter(
+        (other) =>
+          other.series === law.series &&
+          other.effectiveDate > law.effectiveDate &&
+          lawInForce(api, law.series, other.effectiveDate).governing?.id !==
+            law.id,
+      )
+      .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))[0];
+    const observedUntil = superseded?.effectiveDate ?? core.date;
+    const deferredLink =
+      registeredCause &&
+      links.find((link) => {
+        const due = new Date(`${law.effectiveDate}T00:00:00Z`);
+        due.setUTCMonth(due.getUTCMonth() + link.lagMonths);
+        return (
+          link.size !== null &&
+          Number.isFinite(link.size) &&
+          link.lagMonths > 0 &&
+          due.toISOString().slice(0, 10) > observedUntil &&
+          registeredCause.series === law.series &&
+          Number(registeredCause.value) === law.value &&
+          webMonths.some(
+            (row) =>
+              row.placeId === lawChain(api).townPlaceId &&
+              row.date >= law.effectiveDate &&
+              Number.isFinite(row.effects[link.key]) &&
+              outcomeIssueView(api, row.placeId, law.series, 0.5).recordIds
+                .length > 0,
+          )
+        );
+      });
+    const deferred = deferredLink
+      ? `${registeredCause!.id}: registered ${deferredLink.key}, size=${deferredLink.size}, lag=${deferredLink.lagMonths} months${superseded ? `; superseded before landing by ${superseded.id}` : ""}`
+      : undefined;
+    const purchaseRule =
+      law.series ===
+        "us-policy-positions:fiscal.exempt-groceries-from-sales-tax" &&
+      lawInForce(api, law.series).governing?.id === law.id
+        ? [...purchaseTaxes(core).values()].find(
+            (row) =>
+              row.placeId === lawChain(api).townPlaceId &&
+              row.from >= law.effectiveDate &&
+              row.ratePercent > 0 &&
+              !row.endedAt &&
+              Boolean(row.exemptClassificationPrefixes?.length) ===
+                (law.value === 1),
+          )
+        : undefined;
     const price =
       previousLaw.value !== law.value
         ? api
@@ -507,6 +696,173 @@ function playWorld(seed: string) {
               (changes[index - 1]?.hourlyMinor ?? wagesAtStart.get(jobId)),
         ),
     );
+    let engineNoOp: string | undefined;
+    if (
+      law.series ===
+      "us-policy-positions:education.raise-teacher-minimum-salary"
+    ) {
+      const publicTeachers = jobsAt(
+        api,
+        ["service:school"],
+        "profession:teacher",
+      );
+      const teachers = publicTeachers.length
+        ? publicTeachers
+        : jobsAt(api, ["service:private-school"], "profession:teacher");
+      const floor =
+        (reachParameter("teacherMinimumSalaryDollars") *
+          reachParameter("centsPerDollar")) /
+        reachParameter("daysPerYear");
+      if (
+        !raise &&
+        !salary &&
+        teachers.every((job) => job.wageDailyMinor >= floor)
+      )
+        engineNoOp = `no-op: ${teachers.length} covered teachers already meet daily floor ${floor}; jobs=${teachers.map((job) => job.id).join(",")}`;
+    }
+    if (law.series === "us-policy-positions:fiscal.adopt-income-tax") {
+      const existing = lawInForce(
+        api,
+        "income-tax",
+        addDays(makeIsoDate(law.effectiveDate), -1),
+      ).levels.find(
+        (row) => row.level === law.level && row.row && (row.row.value ?? 0) > 0,
+      );
+      if (existing?.row)
+        engineNoOp = `no-op: income tax already collected under ${existing.row.id}`;
+    }
+    if (
+      law.series ===
+      "us-policy-positions:government-operations.broaden-local-authority"
+    ) {
+      const localBills = rowsOf(core, LEGISLATURE_MODULE_ID, "bills").filter(
+        (bill) =>
+          String(bill.introduced) >= law.effectiveDate &&
+          !/:(legislature-|us-house|us-senate)/.test(String(bill.bodyOfficeId)),
+      );
+      const unregulated = localBills.filter((bill) =>
+        (bill.provisions as { kind: string; question?: string }[]).some(
+          (provision) =>
+            provision.kind === "policy-question" &&
+            provision.question &&
+            !POLICY_QUESTIONS[provision.question]?.answers[
+              lawChain(api).stateKey
+            ],
+        ),
+      );
+      if (!unregulated.length)
+        engineNoOp = `no-op in this window: no local bill needs home rule for an unregulated matter; inspected=${localBills.map((bill) => bill.id).join(",") || "no local bills"}`;
+      else if (
+        unregulated.some((bill) =>
+          (bill.authority as { source: string }[]).some(
+            (row) => row.source === law.id,
+          ),
+        )
+      )
+        engineNoOp = `decision authority: ${
+          unregulated.find((bill) =>
+            (bill.authority as { source: string }[]).some(
+              (row) => row.source === law.id,
+            ),
+          )!.id
+        }`;
+    }
+    if (
+      law.series === TERM_LIMITS &&
+      lawInForce(api, law.series).governing?.id === law.id
+    ) {
+      const heldTerms = rowsOf(core, OFFICES_MODULE_ID, "terms").filter(
+        (row) => row.personId && row.officeId,
+      );
+      const barred = heldTerms.flatMap((term) =>
+        rowsOf(core, ELECTIONS_MODULE_ID, "contests")
+          .filter(
+            (contest) =>
+              contest.officeId === term.officeId &&
+              core.people.has(String(term.personId)),
+          )
+          .flatMap((contest) =>
+            checkEligibility(api, String(term.personId), String(contest.id))
+              .filter((check) => check.rule === "term-limit" && !check.met)
+              .map(() => `${term.id}; contest=${contest.id}`),
+          ),
+      );
+      if (barred.length)
+        engineNoOp = `filing eligibility: ${barred.join(",")}; term-limit requirement fails in the election engine`;
+      if (
+        heldTerms.every(
+          (row) =>
+            !termLimitReached(api, String(row.personId), String(row.officeId)),
+        )
+      )
+        engineNoOp = `no-op: no recorded officeholder has reached the engine's term limit; inspected ${heldTerms.length} term records`;
+    }
+    if (
+      law.series ===
+      "us-policy-positions:health-human-services.medicaid-work-requirement"
+    ) {
+      const cases = healthReport(core).cases.filter(
+        (row) =>
+          row.onsetDate >= law.effectiveDate && row.onsetDate < observedUntil,
+      );
+      if (!cases.length)
+        engineNoOp = `no-op in this window: no care-onset eligibility decision while this law governed, through ${observedUntil}`;
+      else if (
+        cases.every(
+          (row) =>
+            lawInForce(
+              api,
+              "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              row.onsetDate,
+            ).value !== 1,
+        )
+      )
+        engineNoOp = `no-op: Medicaid expansion was inactive at every care admission; payments=${cases.map((row) => row.carePaymentId ?? row.personId).join(",")}`;
+    }
+    if (law.series === RESTORE_VOTE) {
+      const grantsAt = (date: string) =>
+        lawChain(api).levels.flatMap((level) => {
+          const latest = (
+            api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .query("bySeries", [
+                level.jurisdiction,
+                RESTORE_VOTE,
+              ]) as unknown as LawRowInput[]
+          )
+            .filter((row) => row.effectiveDate <= date)
+            .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+          return latest?.value === 1 ? [latest.id] : [];
+        });
+      const beforeGrants = grantsAt(
+        addDays(makeIsoDate(law.effectiveDate), -1),
+      );
+      const currentGrants = grantsAt(law.effectiveDate);
+      if (Boolean(beforeGrants.length) === Boolean(currentGrants.length))
+        engineNoOp = `no-op: restoration eligibility unchanged across active levels; grants=${currentGrants.join(",") || "none"}`;
+      const result = rowsOf(core, ELECTIONS_MODULE_ID, "contests")
+        .map((contest) => resultOf(api, String(contest.id)))
+        .find(
+          (row) =>
+            row &&
+            row.date >= law.effectiveDate &&
+            row.date < observedUntil &&
+            row.countedEligible > 0 &&
+            lawInForce(api, law.series, row.date).governing?.id === law.id,
+        );
+      if (result && !engineNoOp)
+        engineNoOp = `eligibility at election: ${result.id}; ${result.countedEligible} counted voters served`;
+      else if (
+        superseded &&
+        !rowsOf(core, ELECTIONS_MODULE_ID, "contests").some(
+          (row) =>
+            String(row.electionDate) >= law.effectiveDate &&
+            String(row.electionDate) < observedUntil,
+        )
+      )
+        engineNoOp = `no-op in this window: superseded by ${superseded.id} before an election could use this rule`;
+    }
     const constructionPrice =
       law.series ===
         "us-policy-positions:environment-energy.ban-new-gas-hookups" &&
@@ -580,6 +936,15 @@ function playWorld(seed: string) {
               ),
           )
       : undefined;
+    const lifted = liftedOperatingLimits.get(law.id);
+    const liftedPayment =
+      lifted &&
+      paidReceipts.find(
+        (row) =>
+          row.date >= lifted.date &&
+          row.sourceRef.id.includes(lifted.recordId) &&
+          row.grossDebitMinor > 0,
+      );
     const complianceRule = core.modules.has("business")
       ? api
           .moduleState("business")
@@ -603,6 +968,10 @@ function playWorld(seed: string) {
           row.grossDebitMinor > 0,
       );
     if (
+      noOp ||
+      engineNoOp ||
+      purchaseRule ||
+      deferred ||
       effect ||
       payment ||
       raise ||
@@ -611,14 +980,16 @@ function playWorld(seed: string) {
       constructionPrice ||
       withheld ||
       premium ||
-      compliance
+      compliance ||
+      liftedPayment ||
+      endedComplianceCosts.has(law.id)
     )
       lawEffects.push(
-        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? constructionPrice?.id ?? withheld?.id ?? premium?.id ?? compliance!.id}`,
+        `${law.id} -> ${noOp ?? engineNoOp ?? purchaseRule?.id ?? deferred ?? effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? constructionPrice?.id ?? withheld?.id ?? premium?.id ?? compliance?.id ?? liftedPayment?.id ?? endedComplianceCosts.get(law.id)}`,
       );
     else
       ineffective.push(
-        `${law.id} (${law.series}): no changed read measure, wage/price, or attributable payment`,
+        `${law.id} (${law.series}): no changed read measure, wage/price, or attributable payment; value=${law.value}, previous=${previousLaw.value}, governing=${governingAtEnactment.governing?.id}`,
       );
   }
   verdicts["enacted laws change money or read measures"] = !enactedLaws.length
