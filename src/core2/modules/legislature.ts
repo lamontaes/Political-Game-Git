@@ -48,6 +48,8 @@ import {
 } from "./budgets";
 import { partyName, partySide } from "../appointments";
 import mayorVetoData from "../../../data/research/local-government/mayor-veto-2026.json" with { type: "json" };
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -115,6 +117,8 @@ export interface MemberPosition {
   readonly deal: number;
   /** What organized interests that met the member pressed on them. */
   readonly lobby: number;
+  /** What the member's traits add: every trait's lean toward yes over no. */
+  readonly trait: number;
   readonly total: number;
 }
 
@@ -422,7 +426,13 @@ function executivePriorities(
   if (!holder || !base) return null;
   const key = memberKey(holder);
   const lean = leanOf(api, key);
-  const share = campaignParameter("executivePriorityShare");
+  const share =
+    campaignParameter("executivePriorityShare") *
+    Math.max(
+      0,
+      1 +
+        traitLean(api, key, "legislature.budget-priorities", ["move", "hold"]),
+    );
   const changes: Record<string, number> = {};
   for (const [line, amount] of Object.entries(base.spendingMinor)) {
     const change = Math.round(
@@ -927,6 +937,23 @@ function townLean(api: CoreAPI): number {
   );
 }
 
+/**
+ * A full person's traits' lean between two options of a registered decision,
+ * at the shared weight; a named official not filled in yet adds nothing.
+ */
+function traitLean(
+  api: CoreAPI,
+  memberId: string,
+  decisionId: string,
+  [toward, over]: readonly [string, string],
+): number {
+  const person = api.state.people.get(memberId);
+  return person
+    ? parameter("traitDecisionWeight") *
+        decisionLean(api.state, person, decisionId, toward, over)
+    : 0;
+}
+
 /** One member's position on a bill, part by part. */
 export function memberPosition(
   api: CoreAPI,
@@ -1028,6 +1055,10 @@ function positionOn(
     (sum, term) => sum + term(api, bill, memberId),
     0,
   );
+  const trait = traitLean(api, memberId, "legislature.member-position", [
+    "yes",
+    "no",
+  ]);
   return {
     memberId,
     views,
@@ -1035,7 +1066,8 @@ function positionOn(
     sponsor,
     deal,
     lobby,
-    total: views + c * constituents + sponsor + deal + lobby,
+    trait,
+    total: views + c * constituents + sponsor + deal + lobby + trait,
   };
 }
 
@@ -1409,7 +1441,13 @@ function committeeStage(
     }
   }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const heard = chairPosition.total >= 0;
+  const heard =
+    chairPosition.total +
+      traitLean(api, memberKey(chair), "legislature.hold-hearing", [
+        "hear",
+        "bury",
+      ]) >=
+    0;
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -1618,7 +1656,11 @@ function executiveAction(
       } as unknown as ModuleRow);
       return waiting;
     }
-    const vetoes = decided ? !decided.sign : position.total < 0;
+    const signLean = traitLean(api, key, "legislature.sign-or-veto", [
+      "sign",
+      "veto",
+    ]);
+    const vetoes = decided ? !decided.sign : position.total + signLean < 0;
     if (vetoes) {
       // Two thirds of each body's whole membership (not of those voting).
       const share =

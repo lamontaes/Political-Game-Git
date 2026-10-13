@@ -534,6 +534,534 @@
           "actKinds": ["change", "take-risk", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "voting.turnout",
+      "site": "src/core2/modules/voting.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-home",
+          "actKinds": ["withdraw", "stay-quiet", "delay", "play-safe"]
+        },
+        {
+          "id": "vote",
+          "actKinds": ["engage", "follow-rules", "speak-out", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "voting.back-incumbent",
+      "site": "src/core2/modules/voting.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "challenger",
+          "actKinds": ["change", "distrust"]
+        },
+        {
+          "id": "incumbent",
+          "actKinds": ["keep-same", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "voting.exit-poll",
+      "site": "src/core2/modules/voting.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["stay-quiet", "refuse", "distrust"]
+        },
+        {
+          "id": "tell",
+          "actKinds": ["speak-out", "cooperate", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "voting.stand-again",
+      "site": "src/core2/modules/voting.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "retire",
+          "actKinds": ["withdraw", "change"]
+        },
+        {
+          "id": "stand",
+          "actKinds": ["engage", "commit", "keep-same"]
+        }
+      ]
+    },
+    {
+      "id": "ballot-measures.vote",
+      "site": "src/core2/modules/ballot-measures.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "no",
+          "actKinds": ["keep-same"]
+        },
+        {
+          "id": "yes",
+          "actKinds": ["change"]
+        }
+      ]
+    },
+    {
+      "id": "recalls.organize",
+      "site": "src/core2/modules/recalls.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "leave-it",
+          "actKinds": ["withdraw", "concede", "stay-quiet", "play-safe"]
+        },
+        {
+          "id": "organize",
+          "actKinds": ["engage", "confront", "speak-out", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "recalls.sign",
+      "site": "src/core2/modules/recalls.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "pass",
+          "actKinds": ["stay-quiet", "concede", "keep-same"]
+        },
+        {
+          "id": "sign",
+          "actKinds": ["speak-out", "confront", "change"]
+        }
+      ]
+    },
+    {
+      "id": "recalls.vote",
+      "site": "src/core2/modules/recalls.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["keep-same", "concede", "trust"]
+        },
+        {
+          "id": "remove",
+          "actKinds": ["change", "confront", "distrust"]
+        }
+      ]
+    },
+    {
+      "id": "elections.sign-petition",
+      "site": "src/core2/modules/elections.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "refuse",
+          "actKinds": ["refuse", "distrust", "withdraw"]
+        },
+        {
+          "id": "sign",
+          "actKinds": ["help-others", "cooperate", "trust", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.volunteer",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["refuse", "withdraw", "self-interest"]
+        },
+        {
+          "id": "volunteer",
+          "actKinds": ["help-others", "engage", "commit", "cooperate"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.donate",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["self-interest", "play-safe"]
+        },
+        {
+          "id": "give",
+          "actKinds": ["help-others", "commit", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.endorse",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["stay-quiet", "delay", "play-safe"]
+        },
+        {
+          "id": "endorse",
+          "actKinds": ["speak-out", "commit", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.open-door",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "ignore",
+          "actKinds": ["withdraw", "distrust"]
+        },
+        {
+          "id": "open",
+          "actKinds": ["engage", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.retell",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["stay-quiet"]
+        },
+        {
+          "id": "tell",
+          "actKinds": ["speak-out"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.answer-poll",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "no-opinion",
+          "actKinds": ["stay-quiet", "refuse", "distrust"]
+        },
+        {
+          "id": "answer",
+          "actKinds": ["speak-out", "cooperate", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.rival-hours",
+      "site": "src/core2/modules/campaigns.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "rest",
+          "actKinds": ["withdraw", "delay"]
+        },
+        {
+          "id": "campaign",
+          "actKinds": ["engage", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "parties.join",
+      "site": "src/core2/modules/parties.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-out",
+          "actKinds": ["withdraw", "delay"]
+        },
+        {
+          "id": "join",
+          "actKinds": ["commit", "engage", "cooperate"]
+        }
+      ]
+    },
+    {
+      "id": "interest-groups.employer-join",
+      "site": "src/core2/modules/interest-groups.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-out",
+          "actKinds": ["withdraw", "stay-quiet", "play-safe"]
+        },
+        {
+          "id": "join",
+          "actKinds": ["engage", "confront", "cooperate", "speak-out"]
+        }
+      ]
+    },
+    {
+      "id": "interest-groups.lobbyist",
+      "site": "src/core2/modules/interest-groups.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["stay-quiet", "withdraw"]
+        },
+        {
+          "id": "serve",
+          "actKinds": ["speak-out", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "offices.accept-appointment",
+      "site": "src/core2/modules/offices.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["withdraw", "play-safe"]
+        },
+        {
+          "id": "accept",
+          "actKinds": ["engage", "commit", "help-others", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "legislature.member-position",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "no",
+          "actKinds": ["keep-same", "refuse", "delay"]
+        },
+        {
+          "id": "yes",
+          "actKinds": ["change", "cooperate", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "legislature.hold-hearing",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "bury",
+          "actKinds": ["delay", "refuse"]
+        },
+        {
+          "id": "hear",
+          "actKinds": ["engage", "cooperate"]
+        }
+      ]
+    },
+    {
+      "id": "legislature.sign-or-veto",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "veto",
+          "actKinds": ["confront", "refuse"]
+        },
+        {
+          "id": "sign",
+          "actKinds": ["cooperate", "concede"]
+        }
+      ]
+    },
+    {
+      "id": "legislature.budget-priorities",
+      "site": "src/core2/modules/legislature.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "hold",
+          "actKinds": ["keep-same", "play-safe"]
+        },
+        {
+          "id": "move",
+          "actKinds": ["change", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "world-legislating.bring-agenda",
+      "site": "src/core2/modules/world-legislating.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "hold",
+          "actKinds": ["keep-same", "delay", "play-safe"]
+        },
+        {
+          "id": "bring",
+          "actKinds": ["change", "engage", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "constituent-cases.bring-case",
+      "site": "src/core2/modules/constituent-cases.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "let-it-go",
+          "actKinds": ["withdraw", "stay-quiet", "concede"]
+        },
+        {
+          "id": "bring",
+          "actKinds": ["engage", "speak-out", "confront"]
+        }
+      ]
+    },
+    {
+      "id": "constituent-cases.handle-case",
+      "site": "src/core2/modules/constituent-cases.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "turn-away",
+          "actKinds": ["refuse", "self-interest", "delay"]
+        },
+        {
+          "id": "help",
+          "actKinds": ["help-others", "follow-rules", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "staff.follow-through",
+      "site": "src/core2/modules/staff.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["refuse", "delay"]
+        },
+        {
+          "id": "follow-through",
+          "actKinds": ["help-others", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "site": "src/core2/jobs-benefits.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "delay", "play-safe"]
+        },
+        {
+          "id": "file",
+          "actKinds": ["self-interest", "engage", "follow-rules"]
+        }
+      ]
+    },
+    {
+      "id": "news.pass-on",
+      "site": "src/core2/modules/news.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["stay-quiet", "keep-same"]
+        },
+        {
+          "id": "tell",
+          "actKinds": ["speak-out", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "press.follow-news",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "keep-same"]
+        },
+        {
+          "id": "follow",
+          "actKinds": ["engage", "follow-rules"]
+        }
+      ]
+    },
+    {
+      "id": "press.accept-interview",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "decline",
+          "actKinds": ["withdraw", "stay-quiet", "play-safe"]
+        },
+        {
+          "id": "accept",
+          "actKinds": ["speak-out", "engage", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "meetings.take-part",
+      "site": "src/core2/modules/meetings.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-away",
+          "actKinds": ["withdraw", "stay-quiet", "keep-same"]
+        },
+        {
+          "id": "take-part",
+          "actKinds": ["speak-out", "engage", "follow-rules", "commit"]
+        }
+      ]
     }
   ],
   "outside": [
@@ -588,6 +1116,98 @@
     {
       "site": "src/director/conversation.ts otherAsks and otherRaises",
       "why": "Which subject comes up follows shared records; OPUS-PEOPLE's conversation rework (audit 1) owns topic choice."
+    },
+    {
+      "site": "src/core2/modules/voting.ts groupVote and addPrimaryGroups",
+      "why": "The unnamed electorate votes in lean bands copied from the named voters' choices, so the named voters' trait terms flow through; bands have no individual traits."
+    },
+    {
+      "site": "src/core2/modules/ballot-measures.ts state bands",
+      "why": "The rest of the state's lean bands (registered stopgap); no individual traits."
+    },
+    {
+      "site": "src/core2/modules/recalls.ts unnamed signers and voters",
+      "why": "Scaled from the named people's choices, which weigh traits."
+    },
+    {
+      "site": "src/core2/modules/world-races.ts",
+      "why": "Coarse electorates and House delegations by lean and party sums; placeholder officials with no person."
+    },
+    {
+      "site": "src/core2/membership-dues.ts",
+      "why": "Union membership is a state rate over pooled cash (registered stopgap), not one person's choice yet."
+    },
+    {
+      "site": "src/core2/appointments.ts",
+      "why": "The appointer is a party-side number, not a person, and confirmation is by party-side numbers; no production caller yet. When an appointer is a person, add a trait term."
+    },
+    {
+      "site": "src/core2/central-bank-appointments.ts",
+      "why": "Stand-in appointer (registered stopgap); reserve bank presidents serve to retirement age by System rule."
+    },
+    {
+      "site": "src/core2/modules/legislature.ts thresholds, override, committee roster, drafting",
+      "why": "Chamber rules, the override stand-in, seniority and clerical steps; each member's own vote weighs traits through legislature.member-position."
+    },
+    {
+      "site": "src/core2/modules/world-legislating.ts leader choice",
+      "why": "The leader is the most senior majority member by rule; the leader's agenda choice weighs traits."
+    },
+    {
+      "site": "src/core2/modules/voting.ts term limits, winner, taking office, drawn challengers",
+      "why": "Law, the count and placeholder challengers with no person (registered stopgap)."
+    },
+    {
+      "site": "src/core2/modules/elections.ts eligibility and signature threshold",
+      "why": "Filing law."
+    },
+    {
+      "site": "src/core2/modules/offices.ts openOffices, vacancy method, special elections",
+      "why": "Opening generation and rules from law; the appointee's acceptance weighs traits."
+    },
+    {
+      "site": "src/core2/modules/budgets.ts",
+      "why": "Carry-forward by budget rule and withholding by law."
+    },
+    {
+      "site": "src/core2/modules/laws.ts, law-effects.ts, src/core2/law-reach",
+      "why": "Enforcement and who a law reaches, read from records."
+    },
+    {
+      "site": "src/core2/modules/outcome-web.ts",
+      "why": "Outcome links landing on residents by selector; no one decides."
+    },
+    {
+      "site": "src/core2/business-operating-rules.ts",
+      "why": "Limits and compliance costs a law imposes; paying is mandatory."
+    },
+    {
+      "site": "src/core2/housing-prices.ts and housing-construction.ts",
+      "why": "Index arithmetic and a calibrated supply rule; buying a new home is housing.buy-home."
+    },
+    {
+      "site": "src/core2/modules/place-prices.ts",
+      "why": "Average consumption and a fixed public-broadband subscription share (registered stopgap); no one household's choice yet."
+    },
+    {
+      "site": "src/core2/campaign-views.ts, campaigns.ts reach and rapport, record.ts, staff.ts workQuality",
+      "why": "Forming views, impressions and ability from traits, not a choice between options; they feed the choices listed in decisions."
+    },
+    {
+      "site": "src/core2/modules/parties.ts opening affiliation and leader",
+      "why": "Affiliation set at the opening and a leader picked by others; joining the party organization weighs traits."
+    },
+    {
+      "site": "src/core2/jobs-benefits.ts eligibility and payments",
+      "why": "The state program's terms; filing a claim weighs traits."
+    },
+    {
+      "site": "src/core2/law-reach/group-a-staffing.ts",
+      "why": "An employer's staffing rule under a law (who is hired), not the worker's choice."
+    },
+    {
+      "site": "src/core2/modules/retirement-claims.ts covered years",
+      "why": "Covered work years estimated from reliability are a fact about the past; the claim age itself weighs traits (retirement.claim-age)."
     }
   ]
 }
