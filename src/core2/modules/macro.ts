@@ -5,6 +5,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
+import { webFactor } from "../world-web";
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
@@ -169,8 +170,11 @@ function publishConditions(
       placeId,
       at: api.state.date,
       generalPriceFactor: prices,
+      // The outcome web's links on the place's median earnings (collective bargaining, a privacy law, defense spending) move pay too.
       wagePriceFactor:
-        (row.hourlyEarnings / opening.hourlyEarnings) * region.wage,
+        (row.hourlyEarnings / opening.hourlyEarnings) *
+        region.wage *
+        webFactor(api, placeId, "labor.median-earnings"),
       // Demand outside the town: national output against its trend, relative to the opening month.
       macroDemandFactor: demand,
       source: dated(

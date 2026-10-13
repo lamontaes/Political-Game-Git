@@ -32,6 +32,7 @@ import { withoutOutsideShelter } from "../housing-shelter";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
 import { reviewRefinances } from "../housing-refinance";
+import { webFactor } from "../world-web";
 import {
   buildMonth,
   openStock,
@@ -1791,12 +1792,14 @@ export function ownedHomes(
       c.households.get(row.householdId)?.placeId ??
       residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
     if (!placeId) continue;
-    // Opening values move with prices since the opening; a purchase is valued at its price.
+    // Opening values move with prices since the opening; a purchase is valued at its price; the outcome web's links on home prices (a severe disaster) move both.
     out.push({
       householdId: row.householdId,
       placeId,
       valueMinor: Math.round(
-        row.valueMinor * (row.basis === "opening" ? prices() : 1),
+        row.valueMinor *
+          (row.basis === "opening" ? prices() : 1) *
+          webFactor(api, placeId, "housing.home-prices"),
       ),
     });
   }
@@ -1831,8 +1834,15 @@ export function homeOf(
     .table("mortgages")
     .get(`${MORTGAGE_PREFIX}${householdId}`) as
     { balanceMinor: number } | undefined;
+  const placeId =
+    c.households.get(householdId)?.placeId ??
+    residentsRuntime(c)?.households.get(householdId)?.household.placeId;
   return {
-    valueMinor: Math.round(row.valueMinor * ratio),
+    valueMinor: Math.round(
+      row.valueMinor *
+        ratio *
+        (placeId ? webFactor(api, placeId, "housing.home-prices") : 1),
+    ),
     owedMinor: loan?.balanceMinor ?? 0,
   };
 }
