@@ -38,8 +38,9 @@ import { recordVote } from "./record";
 import {
   amendBudget,
   budgetPriorities,
-  proposedBudget,
-  putBudget,
+  carriedBudget,
+  clearBudgetPriorities,
+  enactBudget,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -254,20 +255,23 @@ function councilBudget(
     }
   }
   const votes = tallies.join(", ");
-  const proposal = proposedBudget(
-    api,
-    gov,
-    fy,
-    `${chambers.body} vote ${votes}, ${bill.number}`,
-  );
-  const budget: BudgetRow = adopted
-    ? proposal
-    : {
-        ...proposal,
-        spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
-        adoptedBy: `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      };
-  putBudget(api, budget);
+  // A passed bill's line changes become the government's enacted lines; a
+  // failed one leaves last year's enacted lines in force.
+  const budget = adopted
+    ? enactBudget(
+        api,
+        gov,
+        fy,
+        `${chambers.body} vote ${votes}, ${bill.number}`,
+        priorities?.changes ?? {},
+      )
+    : carriedBudget(
+        api,
+        gov,
+        fy,
+        `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
+      );
+  clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
     kind: "budget",

@@ -104,8 +104,6 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "every module": { owner: "FIXER-WIRE-ALL-MODULES" },
   "player turns 18": { owner: "FIXER-PLAYER-START" },
   "school-age people attend school": { owner: "OPUS-CORE" },
-  "taxes are withheld after January 1": { owner: "FIXER-TAXES-BUDGETS" },
-  "a passed budget changes spending": { owner: "FIXER-TAXES-BUDGETS" },
   // State and federal terms are filled since races elsewhere run in the
   // played world; some towns still leave local terms unfilled.
   "every ended term is filled": {
@@ -403,12 +401,22 @@ function playWorld(seed: string) {
         .map((l) => `${l.level}:${l.tax}`),
     ),
   );
-  verdicts["taxes are withheld after January 1"] =
-    taxes.has("federal:income") && taxes.has("federal:social-security")
-      ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
-      : fail(
-          `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
-        );
+  // Residents of the five territories owe no federal income tax on income
+  // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
+  // the Virgin Islands, American Samoa and the Northern Marianas pay their
+  // own territorial income tax instead), but Social Security and Medicare
+  // still apply. A place's key starts with its state or territory FIPS code.
+  const territory = ["60", "66", "69", "72", "78"].includes(
+    String(place.key).padStart(7, "0").slice(0, 2),
+  );
+  const federalWithheld = territory
+    ? taxes.has("federal:social-security") && taxes.has("federal:medicare")
+    : taxes.has("federal:income") && taxes.has("federal:social-security");
+  verdicts["taxes are withheld after January 1"] = federalWithheld
+    ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
+    : fail(
+        `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
+      );
 
   // Break 6: a passed budget changes the adopted spending.
   const bills = rowsOf(core, LEGISLATURE_MODULE_ID, "bills").filter(
@@ -435,7 +443,10 @@ function playWorld(seed: string) {
       !budgets.some((adopted) => {
         if (
           adopted.adoptedOn < String(bill.introduced) ||
-          !adopted.adoptedBy.endsWith(`, ${String(bill.number)}`)
+          // Amendments after adoption are appended ("; amended by ...").
+          !adopted.adoptedBy
+            .split("; ")[0]!
+            .endsWith(`, ${String(bill.number)}`)
         )
           return false;
         const before = budgetsOf(api, adopted.governmentId)
