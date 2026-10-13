@@ -194,7 +194,7 @@ describe("the simulated electorate", () => {
       expect(
         Math.abs(got - (1 - row.democraticTwoPartyShare!)),
         `${seed} ${row.stateUsps}-${row.districtCode}`,
-      ).toBeLessThan(0.005);
+      ).toBeLessThan(0.001);
     }
   });
 });

@@ -167,8 +167,12 @@ export interface Block {
   readonly source: string;
 }
 
-/** Fit a block's center so that with no candidate inputs it votes its target share. */
-function fit(target: number): { mu: number; shift: number } {
+/**
+ * Fit a block's center so that it votes its target share with the inputs it
+ * had then: none, or the holder's incumbency (appeal `lift` toward the
+ * Republican side).
+ */
+function fit(target: number, lift: number): { mu: number; shift: number } {
   const bound = electorateParameter("calibrationBound");
   const steps = electorateParameter("calibrationSteps");
   const solve = (f: (x: number) => number) => {
@@ -181,26 +185,38 @@ function fit(target: number): { mu: number; shift: number } {
     }
     return (lo + hi) / 2;
   };
-  const low = baseRightShare(-bound, 0),
-    high = baseRightShare(bound, 0);
+  const low = baseRightShare(-bound, lift),
+    high = baseRightShare(bound, lift);
   if (target > high)
-    return { mu: bound, shift: solve((s) => baseRightShare(bound, s)) };
+    return {
+      mu: bound,
+      shift: solve((s) => baseRightShare(bound, s + lift)),
+    };
   if (target < low)
-    return { mu: -bound, shift: solve((s) => baseRightShare(-bound, s)) };
-  return { mu: solve((m) => baseRightShare(m, 0)), shift: 0 };
+    return {
+      mu: -bound,
+      shift: solve((s) => baseRightShare(-bound, s + lift)),
+    };
+  return { mu: solve((m) => baseRightShare(m, lift)), shift: 0 };
 }
 
+/**
+ * A block fit to its 2024 two-party vote. `holderSide` names the party whose
+ * candidate carried an incumbent's standing in it then, so that the same
+ * holder standing again with the opening's inputs lands on 2024.
+ */
 function makeBlock(
   id: string,
   name: string,
   dem: number,
   rep: number,
   source: string,
-  adjust = 0,
+  holderSide = 0,
 ): Block | null {
   if (dem + rep <= 0) return null;
-  const target = Math.min(0.999, Math.max(0.001, rep / (dem + rep) + adjust));
-  return { id, name, votes: dem + rep, target, ...fit(target), source };
+  const target = rep / (dem + rep);
+  const lift = holderSide * appealOfShare(campaignParameter("incumbencyShare"));
+  return { id, name, votes: dem + rep, target, ...fit(target, lift), source };
 }
 
 const COUNTY_ROWS = COUNTY_PRESIDENTIAL.byStateCounty as unknown as Record<
@@ -208,6 +224,14 @@ const COUNTY_ROWS = COUNTY_PRESIDENTIAL.byStateCounty as unknown as Record<
   [number, number]
 >;
 const COUNTY_CITATION = COUNTY_PRESIDENTIAL.citation;
+const COUNTIES_BY_STATE = (() => {
+  const byState = new Map<string, [string, [number, number]][]>();
+  for (const [name, row] of Object.entries(COUNTY_ROWS)) {
+    const usps = name.slice(0, name.indexOf("|"));
+    byState.set(usps, [...(byState.get(usps) ?? []), [name, row]]);
+  }
+  return byState;
+})();
 const CAL = calibration as unknown as {
   presidentialByState: {
     stateUsps: string;
@@ -248,8 +272,7 @@ export function stateBlocks(
   const hit = stateBlockCache.get(key);
   if (hit) return hit;
   const blocks: Block[] = [];
-  for (const [name, [dem, rep]] of Object.entries(COUNTY_ROWS)) {
-    if (!name.startsWith(`${usps}|`)) continue;
+  for (const [name, [dem, rep]] of COUNTIES_BY_STATE.get(usps) ?? []) {
     const block = makeBlock(
       `county:${name}`,
       name.slice(usps.length + 1),
@@ -289,18 +312,30 @@ export function stateBlocks(
 
 /** A state's two-party presidential votes in 2024. */
 export function stateTwoPartyVotes(usps: string): number {
-  return stateBlocks(usps).reduce((sum, b) => sum + b.votes, 0);
+  let votes = stateVotesCache.get(usps);
+  if (votes === undefined) {
+    votes = stateBlocks(usps).reduce((sum, b) => sum + b.votes, 0);
+    stateVotesCache.set(usps, votes);
+  }
+  return votes;
 }
+const stateVotesCache = new Map<string, number>();
 
 /**
- * A U.S. House district's block: its 2024 House vote, less the incumbency
- * the 2024 winner carried (about nine in ten seats were won by the sitting
- * member's party; the rest stand as if they were), so that the same holder
- * standing again with the opening's inputs lands on 2024. A seat no one
+ * A U.S. House district's block: its 2024 House vote, fit with the
+ * incumbency the 2024 winner carried (about nine in ten seats were won by the
+ * sitting member's party; the rest stand as if they were), so that the same
+ * holder standing again with the opening's inputs lands on 2024. A seat no one
  * contested in 2024 leans like its state, toward the winner by the typical
  * margin, sized as the state's average district.
  */
 export function houseBlock(usps: string, code: string): Block | null {
+  const key = `${usps}-${code}`;
+  if (!houseCache.has(key)) houseCache.set(key, readHouseBlock(usps, code));
+  return houseCache.get(key)!;
+}
+const houseCache = new Map<string, Block | null>();
+function readHouseBlock(usps: string, code: string): Block | null {
   const row = CAL.house.find(
     (h) => h.stateUsps === usps && h.districtCode === code,
   );
@@ -310,7 +345,6 @@ export function houseBlock(usps: string, code: string): Block | null {
     : /^democrat/i.test(winner ?? "")
       ? -1
       : 0;
-  const incumbency = -side * campaignParameter("incumbencyShare");
   const dem = row?.candidateTotalsByParty.democratic ?? 0;
   const rep = row?.candidateTotalsByParty.republican ?? 0;
   if (row && dem > 0 && rep > 0)
@@ -320,7 +354,7 @@ export function houseBlock(usps: string, code: string): Block | null {
       dem,
       rep,
       CLERK,
-      incumbency,
+      side,
     );
   const districts = CAL.house.filter((h) => h.stateUsps === usps).length || 1;
   const votes = stateTwoPartyVotes(usps) / districts;
@@ -332,7 +366,7 @@ export function houseBlock(usps: string, code: string): Block | null {
     votes * (1 - share),
     votes * share,
     `${CLERK} (uncontested in 2024: the holder's party at the typical margin)`,
-    incumbency,
+    side,
   );
 }
 
@@ -363,7 +397,7 @@ export function stateRightShare(usps: string): number | null {
  * A state legislative district's block: the state's two-party vote over its
  * districts, leaning like the town's own county where the town votes in it,
  * else toward its holder's party at the typical margin (no district results
- * are read: SG-GOV-world-race-lean), less the holder's incumbency.
+ * are read: SG-GOV-world-race-lean), fit with the holder's incumbency.
  */
 export function legislativeBlock(
   usps: string,
@@ -384,7 +418,7 @@ export function legislativeBlock(
     ownLean === null
       ? `${CLERK} (state two-party vote over its districts; the holder's party at the typical margin)`
       : `${CLERK} (state two-party vote over its districts; the town's county's 2024 lean)`,
-    -holderSide * campaignParameter("incumbencyShare"),
+    holderSide,
   );
 }
 

@@ -148,7 +148,9 @@ describe("M2-10 state and federal races in the world", () => {
           .slice(0, 25),
       }),
     );
-  });
+    // Building the town and counting every race in the country takes about
+    // 18 seconds alone; beside other worlds in a parallel run, more.
+  }, 120_000);
 
   it("the presidency is won in the electoral college, and the winner and running mate take office January 20", () => {
     const state = pick(states, "pres:state");
@@ -212,5 +214,5 @@ describe("M2-10 state and federal races in the world", () => {
           .map((s) => `${s.stateKey}:${s.republicanShare.toFixed(3)}`),
       }),
     );
-  });
+  }, 120_000);
 });
