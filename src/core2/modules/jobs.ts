@@ -1563,9 +1563,10 @@ export const JOBS_MODULE: CoreModule = {
     for (const job of rt?.jobs.values() ?? []) {
       if (job.organizationId !== organizationId) continue;
       if (job.endsAt && job.endsAt !== api.state.date) continue;
-      const flow = rt!.wageFlowByJob.get(job.id);
-      if (flow && !flow.endedAt) continue;
       if (store(api).table("countedSeekers").get(job.personId)) continue;
+      // The job ends with the employer today; its wage flow stops paying at its next date.
+      if (!job.endsAt && !endCountedJob(core(api), job.id))
+        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
       const person = residentPerson(core(api), job.personId);
       if (!person) continue;
       record(api, {
