@@ -4,6 +4,17 @@ import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "../simulation/names-data";
 import { SeededRng } from "../simulation/rng";
 import { stopgap } from "./stopgaps";
+import cesViews from "./data/views/ces-2024-views.json" with { type: "json" };
+import viewsData from "./data/views/views.json" with { type: "json" };
+
+const CES = cesViews as unknown as {
+  ageBands: string[];
+  national: { mean: number; sd: number };
+  byAge: Record<string, { mean: number; sd: number }>;
+};
+const VIEWS_PARAMETERS = viewsData.parameters as unknown as {
+  leanMax: { value: number };
+};
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,
@@ -289,16 +300,30 @@ export function nextTerm(
 }
 
 /** Seeded generation of who could fill a seat; who is chosen is the appointer's decision. */
-/** Who the candidate is, politically: seeded with the person, spread evenly across the spectrum. */
-function candidateLean(seed: string, id: string): number {
+/**
+ * Who the candidate is, politically: a seeded draw that places them in the
+ * spread of Americans their age (CES 2024 ideology, on its -2 to +2 scale),
+ * as views.ts places each person, read on the board's -1 to 1.
+ */
+function candidateLean(seed: string, id: string, age: number): number {
   stopgap("SG-WORLD-board-candidate-lean");
-  return (
+  const even =
     new SeededRng(
       JSON.stringify(["central-bank-candidate-lean-v1", seed, id]),
     ).next() *
       2 -
-    1
-  );
+    1;
+  // The draw's place in the spread: the logistic with the normal's variance.
+  const u = (even + 1) / 2;
+  const z = (Math.log(u / (1 - u)) * Math.sqrt(3)) / Math.PI;
+  const band =
+    CES.ageBands.find((row) => {
+      const [low, high] = row.split("-");
+      return age >= Number(low) && (high === "plus" || age <= Number(high));
+    }) ?? CES.ageBands[0]!;
+  const cell = CES.byAge[band] ?? CES.national;
+  const scale = VIEWS_PARAMETERS.leanMax.value;
+  return Math.max(-1, Math.min(1, (cell.mean + cell.sd * z) / scale));
 }
 
 export function boardCandidates(
@@ -342,7 +367,7 @@ export function boardCandidates(
       career: rng.pick(board.careers),
       experiencedInflationPct: experiencedInflationPct(birthYear, year, p),
       // Drawn on its own stream so the candidates' other facts stay as they were.
-      politicalLean: candidateLean(seed, id),
+      politicalLean: candidateLean(seed, id, age),
     };
   });
 }

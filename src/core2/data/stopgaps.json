@@ -2965,12 +2965,12 @@
     "id": "SG-WORLD-board-candidate-lean",
     "kind": "assumed-data",
     "file": "src/core2/central-bank-board.ts",
-    "line": 294,
-    "whatItFakes": "A central bank candidate's politics are drawn evenly across the spectrum when the seat opens, not from a career and views of their own.",
+    "line": 309,
+    "whatItFakes": "A central bank candidate's politics are a seeded place in the CES 2024 ideology spread for their age (the public's, not a career record's): economists and bankers are drawn like any American their age.",
     "why": "Board candidates are filled in only when appointed; the views engine gives leans to people it already holds.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE's views engine seeding a filled-in candidate's lean from their career and background.",
+    "replacement": "A candidate's lean from a career and public record (past appointments, writings, party registration), as the officials engine records officials.",
     "status": "open"
   },
   {
