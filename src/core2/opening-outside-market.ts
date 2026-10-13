@@ -6,7 +6,7 @@
  * sourced share of receipts from outside the town, paid weekly from one
  * outside account per place, so every such dollar is reported outside money.
  */
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import outsideMarket from "./data/outside-market.json" with { type: "json" };
 import openingCapital from "./data/opening-capital.json" with { type: "json" };

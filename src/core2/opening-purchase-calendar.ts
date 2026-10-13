@@ -1,4 +1,4 @@
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import financeDataJson from "./data/finance.json" with { type: "json" };
 import openingDataJson from "./data/opening-finance.json" with { type: "json" };
 import type { FinanceContractInput, FinancePolicyData } from "./finance-types";

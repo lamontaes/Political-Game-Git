@@ -29,7 +29,7 @@ import type {
   WorkAttendanceInput,
 } from "./types";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 
 const zero = p("zero"),
   one = p("one"),

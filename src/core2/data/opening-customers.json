@@ -241,6 +241,21 @@
       ],
       "stopgapId": "SG-P8-opening-customer-generation",
       "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B3413; Nonphysician clinical service component only. Drugs, dental/eye services, hospital rooms, nursing-home residence and insurance reimbursements are excluded. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "club-memberships",
+      "label": "Social, recreation and health club memberships",
+      "contractKind": "household.customer.club-memberships",
+      "componentAnnualParameter": "openingCustomerClubMembershipsAnnualNationalUsd",
+      "parentKey": "feesAdmissions",
+      "supplierClassifications": ["enterprise:recreation"],
+      "supplierOccupations": [
+        "occupation:fitness-trainer",
+        "occupation:recreation-attendant"
+      ],
+      "exclusiveRecordedKinds": ["household.customer.club-memberships"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "BLS, The Economics Daily, 'The new year and household spending' (2026), https://www.bls.gov/opub/ted/2026/the-new-year-and-household-spending.htm: social, recreation and health club memberships averaged $272 per consumer unit in 2024 (Consumer Expenditure Survey). Membership component only; national component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
     }
   ],
   "publicPurchases": {

@@ -6,9 +6,9 @@ import booksCatalog from "./data/business-books.json" with { type: "json" };
 import {
   LIVING_COSTS_CATEGORY_DATA,
   LIVING_COSTS_CATEGORY_SOURCES,
-} from "../simulation/living-costs-category-data";
-import { stableHash } from "../simulation/ids";
-import { makeIsoDate } from "../simulation/dates";
+} from "./reference/living-costs-category-data";
+import { stableHash } from "./kernel/ids";
+import { makeIsoDate } from "./kernel/dates";
 import { P, PARAMETERS, type Parameter } from "./parameters";
 import type { FinanceReadGuard } from "./finance-plan";
 import type { CoreInput, HouseholdInput, Source } from "./types";

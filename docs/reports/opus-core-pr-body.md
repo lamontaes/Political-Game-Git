@@ -1,16 +1,33 @@
-# Businesses keep their own cash steady, workers go to work, and retirees choose when to claim
+# Children go to school, a year runs faster, the town's population changes, and laws reach real people
 
-Before: in Vonore, Tennessee, employers' cash doubled in a year, from $43.6 million to $93.6 million, piling up instead of moving through the town. In Birch Creek, Alaska, 3 of 19 businesses closed, all restaurants. In three towns, 8 of 46 workers the player can meet never went to a shift.
+Before: Vonore, Tennessee's employers doubled their cash in a year ($43.6 million to $93.6 million). 8 of 46 workers the player can meet (three towns) never went to a shift, children never went to school, and sales taxes collected nothing.
 
-After: Vonore's employers end the year with $44.9 million of their own, plus money held for supplier bills. Birch Creek keeps every business. In the same three towns, every worker the player can meet goes to work. Every dollar balances.
+After: Vonore's employers end the year with $44.9 million of their own. Those workers work, children attend school, and sales taxes pay the treasury. A full-game year in Woodmere, New York takes 56 seconds, not 84.
 
-**What you need to do:** play the evening build once the CTO merges this. It carries the CTO's audit fixes and Social Security claims during play.
+**What you need to do:** after the merge, pass a sales tax in the evening build and watch the treasury.
+
+**Also read first:** three problems and one CTO call (next section). The evening build won't show public school teachers or the town sample yet.
+
+## Known problems and a pending call
+
+- **On main, not fixed here:** Scenic, Arizona and Camp Pendleton Mainside, California won't open; the people team has the cause and is fixing it, so pick another town until then. A game year also runs slower on main than it did on October 12: 26.9 seconds in Vonore against 11.3, because every household now gets its relatives when a town opens. I've asked the people team to build relatives only when the player meets a household.
+- **The played game skips five of the core's opening steps:** the public school district, private-school families, the sample of the town, matching buyers from outside town to each business's industry, and custom-world settings. The play team's opening needs to call them (more under "What happens next").
+- **Waiting on the CTO:** whether businesses should be staffed to match what their customers buy. I recommend leaving it off (details under "What happens next").
 
 ## What changed for the player
 
 - Towns keep their businesses: restaurants get their diners, and a town's only garage doesn't swallow every repair job.
 - People work their shifts, part-time and full-time in realistic shares.
-- Older people claim Social Security when it suits them, between 62 and 70, and start drawing it during play.
+- Older people claim Social Security when it suits them, between 62 and 70, and start drawing it during play, whether the player has met them or not.
+- A sales-tax law collects on every purchase in town and pays the treasury.
+- Towns get a public school district with teachers for their children, so school pay laws reach real teachers. The district copies how the town pays its police department, so a town without one gets no district; I haven't counted how many towns that is. The evening build doesn't have it yet (see the problems above).
+- Officials the game fills in from a name and office get their own personalities instead of blank ones.
+- The rest of the town changes year to year: people die, babies are born, and households move away while others move in.
+- The people the game fully simulates now include a sample of the whole town (young and old, lower and higher pay), not only the player's circle. Also not in the evening build yet.
+- A saved game loads from a snapshot of the town instead of replaying every day since the start, so a year-old game loads in about a third of the time.
+- Children aged 5 to 17 go to school on school days.
+- In Woodmere, New York, with every team's engines running, a game year takes about 56 seconds instead of 84, and Election Day no longer stalls for 10 seconds.
+- The town's voters start from their county's 2024 vote and their town's own share of citizens, not the state's.
 
 ## Why each fix works
 
@@ -19,13 +36,13 @@ After: Vonore's employers end the year with $44.9 million of their own, plus mon
 **Owners stop taking the business's money.** What the code does now (inferred from the code):
 
 - Every firm pays its outside suppliers, wholesalers included (`src/core2/opening-outside-market.ts:127`).
-- Owners are paid only above one median cash buffer, after supplier bills already owed (`src/core2/modules/residents.ts:261`).
+- Owners are paid only from cash above what a typical business keeps on hand (27 days of spending, from the JPMorgan Chase Institute), after supplier bills already owed (`src/core2/modules/residents.ts:261`).
 
-Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a year; the code shows firms never paid outside suppliers, and owners drew on that money. After, firms end the year with $95.9 million on hand. $51.0 million of that is for supplier bills not yet due, which they now keep until they pay them. That leaves $44.9 million of their own, close to the $43.6 million they started with.
+Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a year. The code shows why (inferred from the code): firms never paid outside suppliers, and owners drew on that money. After, firms end the year with $95.9 million on hand. $51.0 million of that is for supplier bills not yet due, which they now keep until they pay them. That leaves $44.9 million of their own, close to the $43.6 million they started with.
 
-**No business gets sales it didn't earn.** What the code did (inferred from the code): any gap between a firm's books and its local sales was filled with sales to buyers outside the town. Now its outside sales are only its industry's sourced share of receipts (`src/core2/opening-outside-market.ts:124`). Measured: 2 of 27 businesses closed in Vonore and 1 of 29 in Sutherlin, Oregon, each with a recorded cause.
+**No business gets sales it didn't earn.** What the code did (inferred from the code): any gap between a firm's books and its local sales was filled with sales to buyers outside the town. Now its outside sales are only its industry's sourced share of receipts (`src/core2/opening-outside-market.ts:124`). Measured over a game year: 2 of 27 businesses closed in Vonore and 1 of 29 in Sutherlin, Oregon, each with a recorded cause.
 
-**Restaurants get their diners.** What the code does now (inferred from the code): each household's food budget splits between groceries and eating out by its region's share in the 2024 Consumer Expenditure Survey; nationally about 39% is eaten out (`src/core2/opening-finance.ts:1164`). Measured in Birch Creek: 3 of 19 businesses closed before the split, all three restaurants; 0 of 19 after.
+**Restaurants get their diners.** What the code does now (inferred from the code): each household's food budget splits between groceries and eating out by its region's share in the 2024 Consumer Expenditure Survey; nationally about 39% is eaten out (`src/core2/opening-finance.ts:1164`). Measured in Birch Creek, Alaska: 3 of 19 businesses closed before the split, all three restaurants; 0 of 19 after.
 
 **A small seller serves only what it can.** What the code does now (inferred from the code): spending beyond a seller's monthly capacity buys the same thing outside the town (`src/core2/modules/residents.ts:389`). Measured in North Johns, Alabama: the town's one-worker garage had taken about 24 times its projected sales and then closed; after the fix it stayed open, and 2 of 28 businesses closed.
 
@@ -33,19 +50,50 @@ Measured in Vonore: before, cash grew from $43.6 million to $93.6 million in a y
 
 **Realistic hours.** What the code did (inferred from the code): when the opening filled a town's jobs, it reused the hours of the first worker it found in each kind of job, and most of those worked part-time. New jobs now follow the town generator's part-time shares (`src/core2/opening-employment.ts:472`). Measured: part-time jobs fell from 98% to 27% in Dargan and from 99% to 29% in Chino Hills, California.
 
-**Retirement is the person's decision inside the law.** What the code does now (inferred from the code): each retiree claims between 62 and 70, starting from the full retirement age for their birth year: earlier with little saved, later with more patience (`src/core2/retirement-claim.ts:41`). Measured over 3,694 generated retirees in Wayland, New York; Frederiksted, U.S. Virgin Islands; and Bloomingdale, Indiana: average claim age 64.1, against the Social Security Administration's 63.4–65.0.
+**Retirement is the person's decision inside the law.** What the code does now (inferred from the code): each retiree claims between 62 and 70, starting from the full retirement age for their birth year: earlier with little saved, later with more patience (`src/core2/retirement-claim.ts:41`). People the player hasn't met claim too, and their award goes with them when the player meets them (`src/core2/modules/retirement-claims.ts:225`). Measured over 3,694 generated retirees in Wayland, New York; Frederiksted, U.S. Virgin Islands; and Bloomingdale, Indiana: average claim age 64.1, against the Social Security Administration's 63.4–65.0.
+
+**Sales tax reaches every purchase.** What the code does now (inferred from the code): a tax in force on a place takes its share out of each paid sale there, from named and counted households alike. The seller pays it to the treasury the same day (`src/core2/modules/purchase-tax.ts:87`). Measured in Carolina, West Virginia (seed tax-a), at 7% with general stores exempt: 238 taxed sales worth $674,373 paid the treasury $44,116.71, exactly the tax inside them. The 132 exempt sales paid nothing.
+
+**Towns have public schools.** What the code does now (inferred from the code): each town with a police department gets a public school district, paid the way the town pays its police (a town without one gets none). The number of teachers is the town's children aged 5 to 17, times the 0.87 share in public school, divided by 15.4 pupils per teacher. Both figures come from the National Center for Education Statistics (`src/core2/opening-public-schools.ts:85`). The teachers are workers the opening hadn't given a job. Measured: North Palm Beach, Florida got 65 teachers for 1,159 children; Vonore got 129 for 2,289.
+
+**No one is paid for days before the game starts.** What the code did (inferred from the code): when the opening grouped the counted workers' pay, the first payday paid a whole pay period, even when most of it fell before the opening. Now it pays only the days since the opening, as it already did for named workers (the grouping, `src/core2/residents.ts:370`). Measured in Interlochen, Michigan: a kitchen owed a month of wages on January 5, 2021 had closed, along with 2 other businesses (3 of 28). After the fix, 1 of 28 closed.
+
+**Private schools and gyms get their customers.** What the code did (inferred from the code): no household spending reached a private school, and gyms got only sports fees. Measured: a private school closed within a game year in each of Interlochen, Michigan; Aniak, Alaska; and Washington, D.C. Now each family with children aged 5 to 17 pays its children's share of the town's private tuition: 0.085 of children in private school, at $12,420 a year (National Center for Education Statistics). Households also pay club memberships, $272 a year (Consumer Expenditure Survey 2024) (`src/core2/opening-private-tuition.ts:37`). Measured on the same seeds (m8-c for Washington, m8-f for Sunnyvale): Washington, D.C. went from 3 of 23 businesses closed to 2 of 23, and Sunnyvale, California from 2 of 28 to 0 of 28. Interlochen's school stayed open, and Aniak's closures are under "What happens next".
+
+**Officials have personalities.** What the code did (inferred from the code): an official filled in from a name and office got an empty trait list. Now they get traits from the people team's temperament model, seeded by the world and the person (`src/core2/state.ts:2034`). Measured in Bismarck, North Dakota (seed off-a): a governor filled in this way got all 98 traits a generated resident carries, on a scale from −2 to 2, with 0 as typical. 47 of them are not 0, for example deliberation 1 and sociability −1. Before, the list was empty.
+
+**The rest of the town changes.** What the code does now (inferred from the code): each month every place adds up the deaths, births and moves its counted people are due. The rates are the Social Security Administration's life tables by age, sex and birth year; the 2024 birth rates by mother's age (National Center for Health Statistics); and the 2024 American Community Survey's rates of leaving the county by age, for each state. When a whole death, birth or move is due, the person or household with the strongest cause goes; nothing is rolled (`src/core2/modules/counted-drift.ts:1`). A household's pull to move builds month by month and is held back by a mortgage or school-age children. Newcomers move into the homes leavers left, and the jobs engine fills leavers' jobs. Measured over 2021: Vonore had 360 deaths and 387 births among 39,685 counted people (0.9% and 1.0%; the U.S. is about 0.9% and 1.1%). In Mangilao, Guam, 264 of 6,511 people moved out. Newcomers can only move into homes that leavers emptied, and Guam's rates bring more newcomers than leavers, so every emptied home was refilled: 264 people moved in.
+
+**A sample of the town is simulated in full.** What the code does now (inferred from the code): the town's households are grouped by the oldest member's age (18–34, 35–49, 50–64, 65 and over) and pay (above or below the town's median). This happens before the town is split into full and counted people. One household per group stays full, and each of its people stands for the group's share of the town for estimates such as polls (`src/core2/representative-sample.ts:29`). Measured in Hollandale, Wisconsin, with pay split into thirds: 12 groups, 33 sampled people standing for 1,447 residents. In Jacksonville, Georgia, that made a year 22% slower, over the 20% speed limit. So pay is split in two instead: 8 groups and about 20 people, who together stand for every household outside the player's circle. With the sample alone, a Jacksonville year took 37.3 seconds against 32.9, 13% slower; speeding up the population changes then brought the build to 35.0 seconds, 6% slower (see Checks).
+
+**Long games load fast.** What the code did (inferred from the code): loading a save rebuilt the town and replayed every day since the start, about half a minute per game year. Now a save also holds a snapshot of the town whenever every engine's state can be saved and no choice is waiting. Loading restores it and replays only the commands given after it; a save from another version still replays from the start (`src/core2/saves.ts:186`). Measured in Finley, North Dakota, after a played year: the save is 8.9 MB compressed. It loads in 10.7 seconds against 29.3 seconds by replay. In a random place each test run, the loaded town then runs six weeks identical to the original. The full game with every team's engines doesn't take snapshots yet: each team first marks its engines' state as saved (asked under "What happens next").
+
+**Memory stays smaller.** What the code did (inferred from the code): every choice by someone in the player's circle kept every option's score forever. Now, after 30 days, only the chosen option and its reasons stay, and a year later the routine entry goes. The player's own choices and anything they were part of stay in full (`src/core2/decision-detail.ts:40`). Measured over three played years in Juliaetta, Idaho: memory grows about 6.6 MB a month in the last two years. Before this change it grew about 17 MB a month in the same town.
+
+**Children go to school.** What the code does now (inferred from the code): on each weekday of the school year, every school-age person the game simulates in full decides whether to attend. The decision works like deciding to go to a work shift. Because school is required, the pull to go is as strong as any pull can be (`src/core2/modules/school.ts:1`). The player gets "attend school" among their own choices. Measured over a played month in Ramona, California: all 21 school-age children the game simulates in full in town attended all 15 school days. Real attendance is about 94% a day; illness and truancy aren't modeled yet.
+
+**A faster year, and Election Day no longer stalls.** What the code did (inferred from the code): each time an engine looked something up in its own records, the core first set up a fresh way in to those records. The voting engine looks things up once per voter. Now that way in is set up once and reused, with the same safety checks on every use (`src/core2/module-state.ts:148`). Measured in Woodmere, New York, over a full game year with every engine: Election Day went from 10.6 seconds to 2.5. The whole year went from 83.5 seconds to 55.8.
+
+**Voters start where their county does.** What the code did (inferred from the code): every counted voter group started at its state's 2024 presidential margin, with the state's share of adults who are citizens. Now each starts at its county's 2024 margin and its town's own citizen share from the Census Bureau's 2020–2024 survey (`src/core2/opening-voter-groups.ts:97`). Measured as the 2024 two-party margin in points: Oakvale, West Virginia (Mercer County) starts 58 points Republican, where West Virginia's 43 applied before. Windham County, Vermont starts 44 points Democratic, where Vermont's 33 applied before.
 
 ## Checks
 
-- Core tests: 1,610 of 1,610 pass.
-- The golden-path suite is green. It now includes the year-long check that every dollar balances, which passed in Fallon, Nevada.
-- Speed: a year in Vonore takes 25.5 seconds on this branch and 26.9 seconds on main.
+- The blocking golden-path checks pass.
+- The year-long business check isn't blocking yet. It passes in 7 of 8 places: Interlochen, Michigan; Lavalette, West Virginia; Sherwood, North Dakota; Washington, D.C.; Las Piedras, Puerto Rico; Oneonta, Alabama; and Sunnyvale, California. Aniak, Alaska fails with 3 of 21 businesses closed (the limit is under 10%). Money balanced in all eight.
+- New golden-path checks. A custom world with different wages, household cash, outside demand, political lean and turnout showed each setting (Hopelawn, New Jersey). An old build's save loaded and played on (Greenville, Delaware).
+- Speed and memory, the new early-access check (cloud machine, not a minimum-spec PC): in Woodmere, New York, a new game loads in 55.7 seconds and a full year runs in 55.8, each against a two-minute budget. The slowest day takes 2.9 seconds against a 3-second budget, and a year-old save is 15.6 MB compressed against a 40 MB budget.
+- Speed, earlier: a year in Vonore takes 27.3 seconds on this branch and 26.9 seconds on main (measured before the population changes and the sample were added). With both added, a year in Jacksonville, Georgia takes 35.0 seconds against 32.9 seconds without them, 6% slower.
 
 ## What happens next
 
-- Main itself got slower: before the people team's relatives arrived, the same Vonore year took 11.3 seconds. Every household now gets its relatives when a town opens, so Vonore's counted population grew from 9,940 to 39,685 people and 96 of them stay full people instead of 64 of 9,940. I've asked the people team to build relatives only when a household is filled in; details are in `docs/coordination/core.md`.
+- Aniak's closures are two general stores and a fitness center. Their staff came from the county's job mix, and local customers buy 11% of a store's projected sales and 8% of the gym's. I built a setting that staffs each business to what its customers buy. It's off in the game. With it, none of the eight places lost a business, but wages paid in town fell 35% to 62% (Sherwood: $64.3 million to $24.3 million). I recommend leaving it off, and I've asked the CTO.
+- Main itself got slower: before the people team's relatives arrived, the same Vonore year took 11.3 seconds. Every household now gets its relatives when a town opens, so Vonore's counted population grew from 9,940 to 39,685 people, and 96 people stay full people, against 64 before. I've asked the people team to build relatives only when a household is filled in.
 - Opening Vonore takes 34.8 seconds on main, against 11.1 seconds before. Most of it goes to generating everyone in full before the town keeps only its full people; the same request would shorten it.
+- Games are meant to open in 2026, matching today's laws. The opening can do that now: Biddle, Montana; Mina, Nevada; Aniak, Alaska; and Amonate, Virginia each ran two months from January 1, 2026, with money balanced. The switch waits for the CTO to schedule it, because every team's tests use 2021 dates.
+
+- The played game's opening (the play team's `src/bench/world.ts`) builds without five of the core's steps. Without them it has no public school district, no private-school families, no representative sample and no custom-world settings. I've asked the play team, through the CTO, to build from the core's opening.
+- For saves to load from a snapshot in the full game, each team marks its engines' state as saved (`declareSnapshotCovered`). A round trip of the full game in two towns differed in one place: the people team's birth engine sets up opening pregnancies again after loading. The three-line fix is in `docs/coordination/core.md`.
 
 ## Method
 
-Measured on this branch on October 12, 2026, one run each, in the cloud, seed hours-a for Vonore.
+Measured on this branch on October 12 and 13, 2026, one run each, in the cloud. Vonore used seed hours-a, Jacksonville rs-speed-a, Finley snapm-a and Woodmere m701-a; details for every run are in `docs/coordination/core.md`.

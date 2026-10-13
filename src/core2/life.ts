@@ -1,5 +1,5 @@
 import { runModuleCalendar } from "./module-calendar";
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import {
   advanceDate,
   duePeople,
@@ -39,11 +39,19 @@ import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./accounts";
+import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
+import { SCHOOL_MODULE } from "./modules/school";
+import { declareSnapshotCovered } from "./snapshot";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
-import { coreAPI, createCore, resolveOperation } from "./state";
+import {
+  condenseCircleDecisions,
+  coreAPI,
+  createCore,
+  resolveOperation,
+} from "./state";
 import type {
   ActOffer,
   CoreAPI,
@@ -60,6 +68,26 @@ export type Controller = (
   decision: DecisionResult,
   offers: readonly ActOffer[],
 ) => string | undefined;
+
+// The base world's engines keep all their state where a world snapshot
+// reaches it (src/core2/snapshot.test.ts proves the round trip).
+declareSnapshotCovered(
+  LIFE_MODULE.id,
+  PEOPLE_MODULE.id,
+  SCHOOL_MODULE.id,
+  WORK_MODULE.id,
+  FINANCE_MODULE.id,
+  ACCOUNTS_MODULE.id,
+  PURCHASE_TAX_MODULE.id,
+  RESIDENTS_MODULE.id,
+  RETIREMENT_CLAIMS_MODULE.id,
+  COUNTED_DRIFT_MODULE.id,
+  // Installed on first use: the journal's cash writers.
+  ...[
+    DEFAULT_DATA.finance?.cashJournal?.moduleId,
+    DEFAULT_DATA.work?.payrollCashModuleId,
+  ].filter((id): id is string => !!id),
+);
 
 export function createLifeCore(
   input: CoreInput,
@@ -119,6 +147,7 @@ export function createLifeCore(
     modules: [
       LIFE_MODULE,
       PEOPLE_MODULE,
+      SCHOOL_MODULE,
       // Attendance accrues wages; recorded payday cash precedes purchase budgets.
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),
@@ -127,7 +156,9 @@ export function createLifeCore(
       // Sales taxes in force collect on each paid sale (none until a law sets one).
       ...(input.finance || input.residents ? [PURCHASE_TAX_MODULE] : []),
       // The game's worlds (two levels) also claim retirement during play.
-      ...(input.residents ? [RESIDENTS_MODULE, RETIREMENT_CLAIMS_MODULE] : []),
+      ...(input.residents
+        ? [RESIDENTS_MODULE, RETIREMENT_CLAIMS_MODULE, COUNTED_DRIFT_MODULE]
+        : []),
       ...(options.modules ?? []),
     ],
   });
@@ -514,6 +545,7 @@ export function advanceCore(
     for (const module of core.modules.values()) module.onAfterDay?.(api);
     compactRoutineMetrics(core);
     compactQuietWorkResults(core, coreAPI(core));
+    condenseCircleDecisions(core);
   }
   return {
     simulatedDays: daysBetween(makeIsoDate(started), target),

@@ -2,7 +2,7 @@ import { readGeneratedHouseholdSourceBasis } from "./generated-household-source"
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
 import { bookkeeping } from "./bookkeeping";
 import { countedJob } from "./modules/residents";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import {
   FinancePlanningSession,

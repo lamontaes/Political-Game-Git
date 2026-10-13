@@ -1,11 +1,7 @@
 import dataJson from "./data/opening-income-funding.json" with { type: "json" };
-import {
-  daysBetween,
-  isoDateFromParts,
-  makeIsoDate,
-} from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
-import { seatOfGovernmentPlace } from "../simulation/life-places";
+import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
+import { coreSeatOfGovernmentPlace } from "./place-lookup";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import {
@@ -462,7 +458,7 @@ export function buildOpeningRetirementFunding(
   let externalPlace = options.contributorPlace;
   const resolveExternalPlace = (): OpeningIncomePlace => {
     if (!externalPlace) {
-      const actual = seatOfGovernmentPlace(data.contributorJurisdictionKey);
+      const actual = coreSeatOfGovernmentPlace(data.contributorJurisdictionKey);
       if (!actual)
         throw new Error("No canonical named external contributor place.");
       externalPlace = {

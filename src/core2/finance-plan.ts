@@ -1,7 +1,7 @@
 import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 import { bookkeeping } from "./bookkeeping";
 /** Internal read-only preparation. It grants no source authority and never writes cash. */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import {
   currentHouseholdPurchaseCalendarBasis,
   nextHouseholdPurchaseDate,

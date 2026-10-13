@@ -11,7 +11,7 @@
  * by its own effect. Acts planned for a later date are kept here and happen on
  * that date, so their effects land when they occur.
  */
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
   closenessAfter,
@@ -34,6 +34,7 @@ import type {
   Relationship,
   WeightedReason,
 } from "./types";
+import { registerWorldMapPart } from "./snapshot";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 
@@ -59,6 +60,7 @@ export interface PlannedAct {
 }
 
 const plans = new WeakMap<CoreState, Map<IsoDate, PlannedAct[]>>();
+registerWorldMapPart("core2-free-block-plans", plans);
 
 /** Acts planned for this date, removed from the plan as they are handed out. */
 export function takePlannedActs(
