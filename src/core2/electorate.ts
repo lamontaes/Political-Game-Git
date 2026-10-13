@@ -4,8 +4,12 @@
  * filled in as a full person. Filled-in residents are full people and vote
  * through the named route.
  */
-import { registerCountedPeople } from "./campaign-views";
+import { registerCountedPeople, registerViewLeans } from "./campaign-views";
 import { residentsRuntime } from "./modules/residents";
+import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import viewsData from "./data/views/views.json" with { type: "json" };
+import { coreAPI } from "./state";
 import type { CoreState, PersonInput } from "./types";
 
 export interface CountedVoter {
@@ -54,4 +58,59 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
 /** Let the counted residents rank with the full people for lean. */
 export function registerElectorate(core: CoreState): void {
   registerCountedPeople(core.people, () => countedResidents(core));
+  // Where PEOPLE's views engine runs, a full person's lean is their own
+  // view; a counted resident's is their survey cell's (state, age,
+  // education and faith) spread by their personality.
+  if (!core.modules.has(VIEWS_MODULE_ID)) return;
+  const api = coreAPI(core);
+  const counted = new Map<string, CountedVoter>();
+  registerViewLeans(core.people, (person, z) => {
+    if (core.people.has(person.id)) return viewOf(api, person.id)?.lean ?? 0;
+    if (!counted.size)
+      for (const row of countedResidents(core)) counted.set(row.id, row);
+    const row = counted.get(person.id);
+    if (!row) return 0;
+    const cell = surveyCell(row.placeId, row.birthDate, core.startedAt);
+    return cell.mean + cell.sd * z;
+  });
+}
+
+const MIN_CELL = (
+  viewsData.parameters as unknown as Record<string, { value: number }>
+).minimumCellRespondents!.value;
+const cells = new Map<string, { mean: number; sd: number }>();
+/**
+ * A counted resident's survey cell: their state's CES 2024 spread at their
+ * age (the state's whole spread where the age cell is thin, the nation's
+ * where the survey has no state sample), shared by everyone of that age.
+ */
+function surveyCell(
+  placeId: string,
+  birthDate: string,
+  date: string,
+): { mean: number; sd: number } {
+  const key = lifePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
+  const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
+  const age =
+    Number(date.slice(0, 4)) -
+    Number(birthDate.slice(0, 4)) -
+    (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+  const band =
+    VIEWS_KEYS.ageBands.find((b) => {
+      const [low, high] = b.split("-");
+      return age >= Number(low) && (high === "plus" || age <= Number(high));
+    }) ?? VIEWS_KEYS.ageBands[0]!;
+  const id = `${state}:${band}`;
+  let cell = cells.get(id);
+  if (!cell) {
+    const row = VIEWS_KEYS.states[state];
+    const byAge = row?.byAge[band];
+    cell = row
+      ? byAge && byAge.n >= MIN_CELL
+        ? byAge
+        : row
+      : VIEWS_KEYS.national;
+    cells.set(id, cell);
+  }
+  return cell;
 }
