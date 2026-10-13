@@ -19,7 +19,6 @@ import {
   sittingCountyRowOfficers,
 } from "../../src/simulation/living-world/local-government-seats";
 import { countyElectedRowOffices } from "../../src/simulation/nationwide-world/county-row-offices";
-import { workUniform } from "../../src/presentation/work-uniform";
 import type { EntityId, World } from "../../src/simulation/types";
 import { smallWorld } from "../fixtures/small-world";
 
@@ -226,10 +225,6 @@ describe("a county's sheriff and prosecutor at work (CO-4)", () => {
             0,
           );
         }
-        // The sheriff is drawn in the city police uniform until their own
-        // is drawn (ART-2), and an ordinary resident is not.
-        expect(workUniform(later, sheriff.personId, undefined)).toBe("police");
-        expect(workUniform(later, sheriff.personId, "business")).toBe("police");
         record(
           JSON.stringify({
             place: row.place,

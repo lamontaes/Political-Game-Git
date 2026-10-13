@@ -7,7 +7,7 @@ import {
   BACKDROP_ASPECT,
   type PlaceStaging,
   type StagingSpot,
-} from "../presentation/backdrop-people";
+} from "./staging";
 import manifest from "../../art/people-whole/manifest.json" with { type: "json" };
 import rules from "./data/whole-figures.json" with { type: "json" };
 import { orgPlace } from "./scene";
@@ -32,6 +32,8 @@ const FIGURES = (manifest.figures as Figure[]).filter(
     row.angle === "three-quarter" &&
     existsSync(new URL(`../../art/people-whole/${row.file}`, import.meta.url)),
 );
+
+const SEXES = new Set(FIGURES.map((row) => row.sex));
 
 // Engineering choices for picking a look, not model values: how far a look's
 // drawn age may be from the person's, and a band's middle age when a look
@@ -84,7 +86,7 @@ export interface WholeFigure {
 
 /**
  * The person's whole figure on this spot, or null where none fits (a seated
- * spot, or no look for their sex and age), and the people engine draws them.
+ * spot, or no look for their sex and age), and nobody is drawn there.
  */
 export function wholeFigureFor(
   core: CoreState,
@@ -97,7 +99,11 @@ export function wholeFigureFor(
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
   const band = ageBand(age);
   const outfits = outfitsFor(core, person.id, place, band, person.official);
-  const sexOk = (row: Figure) => !person.gender || row.sex === person.gender;
+  // A person whose sex has no looks painted (nonbinary) may wear any look.
+  const sexOk = (row: Figure) =>
+    !person.gender ||
+    !SEXES.has(person.gender) ||
+    row.sex === person.gender;
   // Children are drawn only as children, and adults never as children.
   const bandOk = (row: Figure) =>
     (row.ageBand === "child") === (band === "child");
