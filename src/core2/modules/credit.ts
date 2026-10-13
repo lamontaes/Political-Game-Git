@@ -8,6 +8,7 @@
  */
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
+import { bankBalances, reviewDeposits } from "../credit-deposits";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../../simulation/government-units";
 import { lifePlaceByKey } from "../../simulation/life-places";
@@ -177,6 +178,13 @@ function store(api: CoreAPI) {
 }
 const core = (api: CoreAPI) => api.state as CoreState;
 
+function depositTables(api: CoreAPI) {
+  return {
+    deposits: store(api).table("deposits"),
+    securities: store(api).table("securities"),
+  };
+}
+
 function bankOf(api: CoreAPI) {
   const row = store(api).table("banks").get("credit:bank") as
     { organizationId: string; openingEquityMinor: number } | undefined;
@@ -208,13 +216,24 @@ function equity(api: CoreAPI, bankId: string) {
   // change in what they owe since the opening counts, so a repayment moves cash, not capital.
   const held = heldMortgages(api, bankId);
   const cash = c.organizations.get(bankId)!.liquidMinor;
+  // What it owes its depositors, and the securities it holds against them.
+  const { depositsMinor, securitiesMinor } = bankBalances(depositTables(api));
   return {
     cash,
     principal,
     loans,
     limits,
     lost,
-    equity: cash + principal + loans + held.now - held.opening,
+    depositsMinor,
+    securitiesMinor,
+    equity:
+      cash +
+      principal +
+      loans +
+      held.now -
+      held.opening +
+      securitiesMinor -
+      depositsMinor,
   };
 }
 
@@ -348,6 +367,13 @@ function review(api: CoreAPI): void {
     p = (key: string) => api.parameter(key);
   const bank = bankOf(api);
   if (!bank) return;
+  reviewDeposits(api, depositTables(api), bank, {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation: creditData.source.citation,
+    estimatedFrom:
+      "The residents' cash beyond a month of their income on deposit at the town bank; the bank's reserve and securities.",
+  });
   const book = equity(api, bank.organizationId);
   const capitalRoom = book.equity / bank.openingEquityMinor;
   store(api)
@@ -530,6 +556,8 @@ export const CREDIT_MODULE: CoreModule = {
         },
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
+      deposits: { indexes: { all: { fields: ["isDeposit"] } } },
+      securities: {},
     },
   },
   reasonProviders: {
@@ -547,8 +575,6 @@ export const CREDIT_MODULE: CoreModule = {
     const bank = [...core(api).organizations.values()].find(
       (row) => row.kind === creditData.bankKind,
     );
-    // Deposits move into bank accounts when the core's accounts land; until then the bank lends its equity.
-    stopgap("SG-WORLD-credit-bank-equity-only");
     store(api)
       .table("banks")
       .put({

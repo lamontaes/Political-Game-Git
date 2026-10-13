@@ -1843,7 +1843,7 @@
     "id": "SG-WORLD-credit-business-applies",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",
-    "line": 399,
+    "line": 425,
     "whatItFakes": "A business with no recorded owner (a public employer, an ownerless landlord) applies for a line whenever its cash is below a few months of payroll; owned businesses' owners decide.",
     "why": "Businesses have no recorded owners until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -1857,11 +1857,11 @@
     "file": "src/core2/modules/credit.ts",
     "line": 551,
     "whatItFakes": "The town bank opens holding only its own equity as cash and lends from that; households' and businesses' money is not on deposit with it.",
-    "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book.",
+    "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book. Resolved by OPUS-WORLD (2026-10-13): the residents' cash beyond a month of income goes on deposit at the town bank, which keeps a reserve and holds the rest in securities (src/core2/credit-deposits.ts); full households' own deposits are SG-WORLD-credit-full-household-deposits.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-housing-landlord",
@@ -1974,7 +1974,7 @@
     "id": "SG-WORLD-business-counted-owner-choice",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/business.ts",
-    "line": 268,
+    "line": 280,
     "whatItFakes": "An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.",
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
@@ -2007,7 +2007,7 @@
     "id": "SG-WORLD-credit-island-deposits",
     "kind": "assumed-data",
     "file": "src/core2/modules/credit.ts",
-    "line": 116,
+    "line": 117,
     "whatItFakes": "Where no county deposit row covers a place (American Samoa, the Virgin Islands, places without a county), the town bank's deposits are the territory's FDIC deposits per resident (Guam, Northern Marianas) or the nation's, times the town's people.",
     "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
     "addedBy": "OPUS-WORLD",
@@ -2813,6 +2813,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "An entrant's outside sales split into buyer accounts at founding, renewing like the others.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-full-household-deposits",
+    "kind": "faked-mechanic",
+    "file": "src/core2/credit-deposits.ts",
+    "line": 77,
+    "whatItFakes": "Only the residents' pooled accounts keep deposits at the town bank; a full household keeps all its money as cash.",
+    "why": "Full households' saving is their own choice, made through the chooser with their goals.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-13",
+    "replacement": "Full households choose what to keep on deposit, through the chooser.",
     "status": "open"
   }
 ]

@@ -189,5 +189,49 @@
     "citation": "Banks' unsecured personal loans start at about $1,000 (published product minimums at large U.S. banks and credit unions).",
     "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded.",
     "stopgapId": "SG-WORLD-credit-minimum-loan"
+  },
+  "creditResidentsCashMonths": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Households keep about a month of income in cash and checking to spend, the rest in savings (Federal Reserve SCF 2022 transaction-account balances; JPMorgan Chase Institute checking-balance studies).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "months of income",
+      "citation": "Households keep about a month of income in cash and checking to spend, the rest in savings (Federal Reserve SCF 2022 transaction-account balances; JPMorgan Chase Institute checking-balance studies)."
+    }
+  },
+  "creditDepositRatePassThrough": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "Banks pass a small share of the policy rate to savings deposits (FDIC national deposit rates against the federal funds rate, 2015-2024: savings near 0.45% at a 5.3% funds rate).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.5,
+      "unit": "share of the policy rate",
+      "citation": "Banks pass a small share of the policy rate to savings deposits (FDIC national deposit rates against the federal funds rate, 2015-2024: savings near 0.45% at a 5.3% funds rate)."
+    }
+  },
+  "creditDepositRateFloor": {
+    "value": 0.0005,
+    "tag": "TUNABLE",
+    "citation": "The lowest savings rate banks paid when the policy rate sat at zero (FDIC national savings rate, 2021: about 0.05%).",
+    "spread": {
+      "low": 0,
+      "high": 0.002,
+      "unit": "annual rate",
+      "citation": "The lowest savings rate banks paid when the policy rate sat at zero (FDIC national savings rate, 2021: about 0.05%)."
+    }
+  },
+  "creditBankReserveShare": {
+    "value": 0.08,
+    "tag": "TUNABLE",
+    "citation": "Community banks' cash and balances due from other banks against deposits (FDIC Quarterly Banking Profile, community banks, 2019-2024).",
+    "spread": {
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of deposits",
+      "citation": "Community banks' cash and balances due from other banks against deposits (FDIC Quarterly Banking Profile, community banks, 2019-2024)."
+    }
   }
 }
