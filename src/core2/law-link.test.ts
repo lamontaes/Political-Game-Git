@@ -113,6 +113,9 @@ describe("59 policies in the played world, 90 days", () => {
       const oldPrices = new Map(
         prices.rows().map((row) => [row.id, row.value]),
       );
+      const oldHourly = new Map(
+        [...core.jobs.values()].map((job) => [job.id, job.hourlyMinor]),
+      );
       const lawId = enact(question, 1).id;
       const end = addDays(makeIsoDate(core.date), 90);
       advanceCore(core, end);
@@ -190,6 +193,27 @@ describe("59 policies in the played world, 90 days", () => {
               after: Number(raise.toMinor),
               lawId,
             });
+        }
+        if (!evidence.has(question)) {
+          for (const [jobId, changes] of core.work.payChanges) {
+            const old = oldHourly.get(jobId);
+            const changed = changes.find(
+              (row) =>
+                row.source.citation.includes(lawId) &&
+                old !== undefined &&
+                row.hourlyMinor !== old,
+            );
+            if (changed && old !== undefined) {
+              evidence.set(question, {
+                recordId: jobId,
+                measure: "price:hourly-wage",
+                before: old,
+                after: changed.hourlyMinor,
+                lawId,
+              });
+              break;
+            }
+          }
         }
         if (!evidence.has(question)) {
           const paid = [...core.cashJournal.detailedReceipts.values()].find(
