@@ -1,8 +1,20 @@
 import { describe, expect, it } from "vitest";
 import manifest from "../../art/campuses/manifest.json" with { type: "json" };
-import { campusPictureFor, campusRecords } from "./campus-backdrops";
+import {
+  campusPictureFor,
+  campusRecords,
+  campusVariantUrls,
+} from "./campus-backdrops";
 
 describe("college campus pictures", () => {
+  it("has every campus in midday, morning, night, rain and winter", () => {
+    for (const record of campusRecords())
+      expect(
+        [...campusVariantUrls(record.campus).keys()].sort(),
+        record.campus,
+      ).toEqual(["midday", "morning", "night", "rain", "winter"]);
+  });
+
   it("has a picture file for every painted campus", () => {
     expect(campusRecords()).toHaveLength(52);
     expect(manifest.selection.requiredMatch).toEqual([
