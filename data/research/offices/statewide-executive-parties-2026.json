@@ -1,0 +1,1468 @@
+{
+  "id": "statewide-executive-parties-2026",
+  "about": "Party of each non-governor statewide executive officeholder as of January 2026, and whether the general election carries party labels. Web access to Ballotpedia failed during compilation, so values come from prior knowledge of public records and were not re-fetched live; rows with lower confidence carry an estimated reason. Joint-ticket lieutenant governors are marked partisan.",
+  "asOf": "2026-01",
+  "sources": [
+    {
+      "id": "ballotpedia-state-executives",
+      "title": "Ballotpedia, Partisan composition of state executive offices (per-office pages)",
+      "url": "https://ballotpedia.org/Partisan_composition_of_state_executive_offices",
+      "retrieved": "2026-10-13"
+    },
+    {
+      "id": "nass",
+      "title": "National Association of Secretaries of State",
+      "url": "https://www.nass.org/",
+      "retrieved": "2026-10-13"
+    }
+  ],
+  "places": {
+    "US-AL": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "public-service-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-AK": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-AZ": {
+      "lieutenant-governor": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Arizona has no lieutenant governor until the 2026 election creates the office; no holder in January 2026."
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "state-mine-inspector": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "corporation-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-AR": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "land-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-CA": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "controller": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Democratic",
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-CO": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-CT": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "comptroller": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-DE": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-FL": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed mid-term in 2025; recalled, not live-confirmed."
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Florida chief financial officer, appointed mid-term in 2025; not live-confirmed."
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-GA": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "labor-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "public-service-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-HI": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "office-of-hawaiian-affairs-trustees": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Nine-member board; no single holder party, elected nonpartisan."
+      }
+    },
+    "US-ID": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "controller": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-IL": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "comptroller": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-IN": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-IA": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-KS": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-KY": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-LA": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-MD": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "comptroller": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-MA": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-MI": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "state-board-of-education": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      },
+      "university-boards": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-MN": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Not live-confirmed."
+      }
+    },
+    "US-MS": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-MO": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed mid-term in 2025; not live-confirmed."
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-MT": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-NE": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-NV": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "controller": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-NJ": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Office changed hands Jan 20, 2026; both holders are Democrats."
+      }
+    },
+    "US-NM": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "land-commissioner": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-NY": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "comptroller": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-NC": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "labor-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-ND": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "tax-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "public-service-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-OH": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed mid-term in 2025; not live-confirmed."
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-OK": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Mid-term change in 2025 (appointed by the governor); affiliation not live-confirmed."
+      },
+      "labor-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "corporation-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-OR": {
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "labor-commissioner": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-PA": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-RI": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-SC": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "comptroller": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-SD": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed mid-term in 2025; not live-confirmed."
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "land-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Selection method and holder party not confirmed."
+      },
+      "public-utilities-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-TX": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "comptroller": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed mid-term in 2025; not live-confirmed."
+      },
+      "land-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "railroad-commission": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Multi-member board; party is the majority of members, not live-confirmed."
+      }
+    },
+    "US-UT": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-VT": {
+      "lieutenant-governor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Holder listed as Democratic/Progressive; not live-confirmed."
+      }
+    },
+    "US-VA": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Office changed hands on Jan 17, 2026 (Republican before, Democratic after); the later holder is shown."
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Office changed hands on Jan 17, 2026 (Republican before, Democratic after); the later holder is shown."
+      }
+    },
+    "US-WA": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "land-commissioner": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Democratic",
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "insurance-commissioner": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-WV": {
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "agriculture-commissioner": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-WI": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "secretary-of-state": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Not live-confirmed."
+      },
+      "superintendent": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Nonpartisan office; holder listed without party."
+      }
+    },
+    "US-WY": {
+      "secretary-of-state": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "auditor": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "treasurer": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "superintendent": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      }
+    },
+    "US-DC": {
+      "mayor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "attorney-general": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "council-chair": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives"
+      },
+      "state-board-of-education-president": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Election type and affiliation not confirmed."
+      }
+    },
+    "US-GU": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Not live-confirmed."
+      },
+      "attorney-general": {
+        "party": "Republican",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Not live-confirmed."
+      },
+      "public-auditor": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed by a commission, not elected; party unknown."
+      },
+      "consolidated-commission-on-utilities": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Election type not confirmed."
+      }
+    },
+    "US-VI": {
+      "lieutenant-governor": {
+        "party": "Democratic",
+        "partisanElection": true,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Territory party affiliation recalled, not live-confirmed."
+      },
+      "board-of-education": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Election type not confirmed."
+      },
+      "board-of-elections": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Election type and party labels not confirmed."
+      }
+    },
+    "US-AS": {
+      "lieutenant-governor": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "American Samoa elections are nonpartisan; not live-confirmed."
+      }
+    },
+    "US-MP": {
+      "lieutenant-governor": {
+        "party": "Independent",
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Territorial offices run without clear party labels; affiliation is a best estimate."
+      },
+      "attorney-general": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Appointed by the governor, not elected; party unknown."
+      },
+      "board-of-education": {
+        "party": null,
+        "partisanElection": false,
+        "sourceId": "ballotpedia-state-executives",
+        "estimated": "Election type not confirmed."
+      }
+    }
+  }
+}

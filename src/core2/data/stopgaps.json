@@ -1159,7 +1159,7 @@
     "id": "SG-GOV-committee-structure",
     "kind": "estimated-rule",
     "file": "src/core2/modules/legislature.ts",
-    "line": 1234,
+    "line": 1334,
     "whatItFakes": "Committee seats go to each party's most senior members by the chamber's party ratio; real committees are appointed by the presiding officer or a committee on committees. Committee size is now sourced (about 11 members, 5 to 20; Book of the States 2023, Table 3.23).",
     "why": "Each body's committee rules, sizes, assignments and chairs aren't read yet.",
     "replacement": "Leadership appoints committee members (leadership races and chamber leadership research, #3788's chamber-leadership.json).",
@@ -1207,7 +1207,7 @@
     "id": "SG-GOV-staff-unpaid",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
-    "line": 140,
+    "line": 141,
     "whatItFakes": "A hired staffer takes the post without a pay commitment: no wage flows from the government's treasury to them, and they keep any job they had.",
     "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
     "addedBy": "OPUS-GOV",
@@ -2837,6 +2837,18 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
     "replacement": "The collector remits each level's share by its Census property-tax revenue line, on the county's own due dates.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-statewide-parties-unverified",
+    "kind": "assumed-data",
+    "file": "src/core2/offices-state.ts",
+    "line": 428,
+    "whatItFakes": "The party holding each statewide executive office (lieutenant governor, attorney general, treasurer and the rest) comes from a research file compiled without live sources (data/research/offices/statewide-executive-parties-2026.json); 38 of 261 rows are flagged as estimates.",
+    "why": "Ballotpedia could not be fetched when the file was compiled.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-13",
+    "replacement": "Every row checked against Ballotpedia's partisan composition pages or the state's own records.",
     "status": "open"
   }
 ]
