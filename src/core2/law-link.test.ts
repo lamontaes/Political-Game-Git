@@ -35,6 +35,7 @@ import { WEB_LINKS } from "./outcome-web-model";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import groupA from "./data/laws/reach-group-a.json" with { type: "json" };
 import groupB from "./data/laws/reach-group-b.json" with { type: "json" };
+import construction from "./data/housing/construction.json" with { type: "json" };
 
 const questions = [
   ...new Set(
@@ -226,6 +227,45 @@ describe("59 policies in the played world, 90 days", () => {
                 measure: "price:hourly-wage",
                 before: old,
                 after: changed.hourlyMinor,
+                lawId,
+              });
+              break;
+            }
+          }
+        }
+        if (
+          !evidence.has(question) &&
+          question ===
+            "us-policy-positions:environment-energy.ban-new-gas-hookups"
+        ) {
+          // A new house's installment price includes the electric-code cost
+          // factor. Require a project begun under this act and an actual paid
+          // installment; a zoning flag or an old project is not evidence.
+          const factor = 1 + construction.single.allElectricCostChange;
+          for (const project of api
+            .moduleState("housing")
+            .table("projects")
+            .rows()) {
+            if (
+              project.kind !== "single" ||
+              project.placeId !== chain.townPlaceId ||
+              lawInForce(api, question, String(project.startedAt)).governing
+                ?.id !== lawId
+            )
+              continue;
+            const price = Number(project.monthlyCostMinor);
+            const withoutCode = Math.round(price / factor);
+            const paid = [...core.cashJournal.detailedReceipts.values()].find(
+              (row) =>
+                row.sourceRef.id.startsWith(`construction:${project.id}:`) &&
+                row.grossDebitMinor > 0,
+            );
+            if (paid && price > 0 && price !== withoutCode) {
+              evidence.set(question, {
+                recordId: String(project.id),
+                measure: "price:paid-construction-installment",
+                before: withoutCode,
+                after: price,
                 lawId,
               });
               break;

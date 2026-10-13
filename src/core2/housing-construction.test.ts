@@ -104,6 +104,38 @@ function month(upzoned: boolean) {
 }
 
 describe("new homes", () => {
+  it("the all-electric code changes actual apartment construction payments", () => {
+    const base = month(true),
+      electric = month(true);
+    setZoning(electric.tables.stock, place, { allElectric: true });
+    for (const t of [base, electric]) {
+      t.tables.stock.put({
+        ...t.tables.stock.get(`stock:${place}`)!,
+        carryMulti: 30,
+      });
+      t.run();
+    }
+    const ordinary = base.tables.projects.rows()[0]!;
+    const project = electric.tables.projects.rows()[0]!;
+    const expected = Math.round(
+      (construction.multi.costPerUnitMinor *
+        Number(project.units) *
+        (1 + construction.multi.allElectricCostChange)) /
+        Math.ceil(construction.multi.monthsToComplete),
+    );
+    expect(project.monthlyCostMinor).toBe(expected);
+    expect(project.paidMinor).toBe(expected);
+    expect(project.paidMinor).not.toBe(ordinary.paidMinor);
+    expect(
+      electric.core.organizations.get(landlord)!.liquidMinor -
+        base.core.organizations.get(landlord)!.liquidMinor,
+    ).toBe(Number(ordinary.paidMinor) - expected);
+    for (const t of [base, electric]) {
+      expect(t.core.cashJournal.totals.grossDebitMinor).toBe(
+        t.core.cashJournal.totals.grossCreditMinor,
+      );
+    }
+  });
   it("allowing apartments on all residential land raises apartment starts by the upzoning response", () => {
     const base = month(false),
       upzoned = month(true);

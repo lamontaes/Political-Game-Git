@@ -291,7 +291,10 @@ export function buildMonth(
     carrySingle -= 1;
   }
   const buildingUnits = Math.max(1, Math.round(p("housingUnitsPerBuilding")));
-  const unitCost = construction.multi.costPerUnitMinor * priceLevel;
+  const unitCost =
+    construction.multi.costPerUnitMinor *
+    priceLevel *
+    (1 + (z.allElectric ? construction.multi.allElectricCostChange : 0));
   while (carryMulti >= buildingUnits) {
     if (
       !start("multi", buildingUnits, input.landlordId, unitCost * buildingUnits)

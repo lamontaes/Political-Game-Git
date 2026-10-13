@@ -28,6 +28,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
+import housingConstruction from "../../src/core2/data/housing/construction.json" with { type: "json" };
 import { buildBenchWorld } from "../../src/bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
@@ -59,7 +60,11 @@ import {
   OUTCOME_WEB_MODULE_ID,
   type WebMonth,
 } from "../../src/core2/modules/outcome-web";
-import { LAWS_MODULE_ID, lawInForce } from "../../src/core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+} from "../../src/core2/modules/laws";
 import { PLACE_PRICES_MODULE_ID } from "../../src/core2/modules/place-prices";
 import { outcomeIssueView } from "../../src/core2/modules/views";
 import { withholdingFor } from "../../src/core2/tax-withholding";
@@ -505,6 +510,37 @@ function playWorld(seed: string) {
               (changes[index - 1]?.hourlyMinor ?? wagesAtStart.get(jobId)),
         ),
     );
+    const constructionPrice =
+      law.series ===
+        "us-policy-positions:environment-energy.ban-new-gas-hookups" &&
+      law.value === 1 &&
+      previousLaw.value !== 1
+        ? api
+            .moduleState("housing")
+            .table("projects")
+            .rows()
+            .find((project) => {
+              const price = Number(project.monthlyCostMinor);
+              return (
+                project.kind === "single" &&
+                project.placeId === lawChain(api).townPlaceId &&
+                lawInForce(api, law.series, String(project.startedAt)).governing
+                  ?.id === law.id &&
+                price > 0 &&
+                price !==
+                  Math.round(
+                    price /
+                      (1 + housingConstruction.single.allElectricCostChange),
+                  ) &&
+                paidReceipts.some(
+                  (row) =>
+                    row.sourceRef.id.startsWith(
+                      `construction:${project.id}:`,
+                    ) && row.grossDebitMinor > 0,
+                )
+              );
+            })
+        : undefined;
     const beforeDate = addDays(makeIsoDate(law.effectiveDate), -1);
     const withheld = (
       api
@@ -575,12 +611,13 @@ function playWorld(seed: string) {
       raise ||
       price ||
       salary ||
+      constructionPrice ||
       withheld ||
       premium ||
       compliance
     )
       lawEffects.push(
-        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? withheld?.id ?? premium?.id ?? compliance!.id}`,
+        `${law.id} -> ${effect?.id ?? payment?.id ?? raise?.jobId ?? price?.id ?? salary?.[0] ?? constructionPrice?.id ?? withheld?.id ?? premium?.id ?? compliance!.id}`,
       );
     else
       ineffective.push(
