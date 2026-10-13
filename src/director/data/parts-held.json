@@ -1,0 +1,24 @@
+{
+  "about": "Mined parts the director holds back: each says something its records don't (reported to OPUS-WORDS).",
+  "held": {
+    "conversation.own-work-answer-brief.busy": "claims a state no record holds",
+    "conversation.home-answer-always.i-was-born-here": "birthplace is not what 'always' records",
+    "conversation.home-lie-elsewhere.we-moved-to-claimed": "says others went too",
+    "conversation.home-new-ask-where.where-are-you-from": "asks for origin; the move asks where they live",
+    "conversation.home-new-ask-where.where-do-you-come-from": "asks for origin; the move asks where they live",
+    "conversation.home-new-answer-always.i-was-born-in-place": "birthplace is not what 'always' records",
+    "conversation.home-new-answer-always.i-was-born-and-raised-in-place": "birthplace is not what 'always' records",
+    "conversation.asked-mutual-answer-not.not-for-a-long-time": "claims a length of time no record holds",
+    "conversation.asked-mutual-answer-turn.why": "asks a question the conversation can't follow",
+    "conversation.home-lie-moved.we-left-place": "says others went too; the record is one person's move",
+    "journal.home-line-moved.we-moved-to-place": "says others went too; the record is one person's move",
+    "journal.home-line-moved.we-moved-back-to-place": "says others went too and that they lived there before",
+    "journal.home-line-moved.i-moved-back-to-place": "says they lived there before; no record holds that",
+    "journal.home-line-moved.we-came-to-place": "says others went too",
+    "journal.money-line-short.i-didnt-get-paid": "the record is pay that came up short, not none",
+    "journal.contact-line-saw.i-met-other": "meeting is its own record; this row is a later contact",
+    "journal.contact-line-saw.i-visited-other": "says where the contact happened; no record holds that",
+    "journal.contact-line-saw.i-went-to-see-other": "says where the contact happened; no record holds that",
+    "journal.look-back-line-died.i-was-born-in-place": "birthplace is not what 'always' records"
+  }
+}

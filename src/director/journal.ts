@@ -18,6 +18,7 @@ import {
 } from "../presentation/grounded-english";
 import journalJson from "./data/journal.json" with { type: "json" };
 import type { Director } from "./ledger";
+import { withParts } from "./parts";
 import { properName, schoolName } from "./words";
 import { directorStopgap } from "./stopgaps";
 import type { Moment } from "./types";
@@ -317,7 +318,10 @@ export function composeJournal(
     if (!facts) continue;
     const sourceIds = [moment.causeId];
     const own = !facts.other || moment.causeKind === "family:child";
-    const rows = own ? row.line : (row.otherLine ?? row.line);
+    const field = own || !row.otherLine ? "line" : "otherLine";
+    const rows = (own ? row.line : (row.otherLine ?? row.line)).flatMap(
+      (variant) => withParts("journal", row.kindPrefix, field, variant),
+    );
     // A turn opens a chapter, unless the chapter already began with the same
     // kind of turn (the schools of a childhood, the children of a family).
     if (!chapter || (row.turn && chapterKind !== row.kindPrefix)) {

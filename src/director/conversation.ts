@@ -28,6 +28,7 @@ import type {
 } from "../core2/types";
 import conversationJson from "./data/conversation.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
+import { withParts } from "./parts";
 import { renderLine, type Fact } from "./render";
 import { markWordsStopgap } from "./stopgaps";
 import {
@@ -497,11 +498,13 @@ function words(
     holderId: speakerId,
     bankKey: `conversation:${kind}:${part}`,
     version: data.version,
-    variants: moves?.map((row) => ({
-      key: row.key,
-      text: row.text,
-      ...(row.stages ? { stages: row.stages } : {}),
-    })),
+    variants: moves?.flatMap((row) =>
+      withParts("conversation", kind, part, {
+        key: row.key,
+        text: row.text,
+        ...(row.stages ? { stages: row.stages } : {}),
+      }),
+    ),
     facts: Object.fromEntries(
       Object.entries(facts).filter(([, fact]) => fact.text !== ""),
     ),
