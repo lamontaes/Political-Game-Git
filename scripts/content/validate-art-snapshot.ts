@@ -9,19 +9,14 @@ globalThis.__ocdRuntimeArt = {
   ...manifest,
   id: createHash("sha256").update(raw).digest("hex"),
 };
-const {
-  ENGINE_PEOPLE29_INPUT_ERROR,
-  ENGINE_PEOPLE29_CHARACTER_LIBRARY: library,
-} = await import("../../src/presentation/engine-people29-review");
-if (ENGINE_PEOPLE29_INPUT_ERROR) throw new Error(ENGINE_PEOPLE29_INPUT_ERROR);
+// The character-library check went with the old character review screens
+// (#4036); the scene catalog check stays.
 const { SCENE_REGISTRY } =
   await import("../../src/presentation/scene-registry");
 console.log(
   JSON.stringify({
     schema: "ocd-content-validation/v1",
     contentId: globalThis.__ocdRuntimeArt.id,
-    generation: library.catalogGeneration,
-    components: library.components.size,
     scenes: SCENE_REGISTRY.scenes.size,
   }),
 );
