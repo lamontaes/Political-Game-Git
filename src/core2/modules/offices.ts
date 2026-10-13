@@ -307,7 +307,7 @@ function withRuleTerm<T extends OfficeInput>(office: T, stateKey: string): T {
 export function putTerm(api: CoreAPI, term: TermRow): void {
   table(api, "terms").put(term as unknown as ModuleRow);
   if (term.status !== "serving" || !term.endDate) return;
-  if (term.endDate < api.state.date) return;
+  if (term.endDate <= api.state.date) return;
   const calendar = api.moduleCalendar(OFFICES_MODULE_ID);
   const key = `term-ends:${term.id}:${term.endDate}`;
   if (calendar.get(key)) return;

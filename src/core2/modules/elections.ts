@@ -457,6 +457,8 @@ export function openElections(core: CoreState): void {
 function contestFor(
   api: CoreAPI,
   { office, seat, holder }: ReturnType<typeof townSeats>[number],
+  /** The end of a term already won but not yet begun, which the next contest follows. */
+  wonTermEnd?: string | null,
 ): ContestRow | null {
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
@@ -474,7 +476,7 @@ function contestFor(
       termEnd,
       onDate,
     });
-  let dates = at(holder?.endDate ?? null);
+  let dates = at(wonTermEnd ?? holder?.endDate ?? null);
   // A holder whose seat's election passed with no one elected holds over;
   // the seat's next election comes a full term on.
   if (
@@ -537,10 +539,11 @@ function contestFor(
 export function openNextContest(
   api: CoreAPI,
   seatId: string,
+  wonTermEnd?: string | null,
 ): ContestRow | null {
   const entry = townSeats(api).find((s) => s.seat.id === seatId);
   if (!entry) return null;
-  const contest = contestFor(api, entry);
+  const contest = contestFor(api, entry, wonTermEnd);
   if (!contest || table(api, "contests").get(contest.id)) return null;
   table(api, "contests").put(contest as unknown as ModuleRow);
   return contest;

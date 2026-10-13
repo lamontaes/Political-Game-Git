@@ -309,8 +309,12 @@ function stopPlayerOnElectionDay(api: CoreAPI, date: string): void {
 }
 
 /** Once a seat's contest is decided, its next cycle's contest opens. */
-export function openNextCycle(api: CoreAPI, seatId: string): void {
-  const next = openNextContest(api, seatId);
+export function openNextCycle(
+  api: CoreAPI,
+  seatId: string,
+  wonTermEnd?: string | null,
+): void {
+  const next = openNextContest(api, seatId, wonTermEnd);
   if (next) scheduleContest(api, next);
 }
 
@@ -1294,7 +1298,16 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       sourceRecordIds: [result.id],
     });
   else if (winnerId) takeOffice(api, result.id);
-  else openNextCycle(api, contest.seatId);
+  // The seat's next regular contest opens with the result, a full term on
+  // from the term just won (dated from the rules), so every cycle has its
+  // own contest.
+  openNextCycle(
+    api,
+    contest.seatId,
+    winnerId && office
+      ? termEndAfter(office, regularElectionDate(contest), town(api).stateKey)
+      : undefined,
+  );
   return result;
 }
 
