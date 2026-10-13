@@ -668,6 +668,61 @@
           "text": "Huh."
         }
       ]
+    },
+    "news": {
+      "raise": [
+        {
+          "key": "married",
+          "text": "Did you hear? {{name}} got married.",
+          "stages": ["married"]
+        },
+        {
+          "key": "moved-in",
+          "text": "{{name}} moved in with {{their}} partner.",
+          "stages": ["moved-in"]
+        },
+        {
+          "key": "baby",
+          "text": "Did you hear? {{name}} had a baby.",
+          "stages": ["baby"]
+        },
+        {
+          "key": "moved-away",
+          "text": "{{name}} moved away.",
+          "stages": ["moved-away"]
+        },
+        {
+          "key": "job-lost",
+          "text": "{{name}} lost {{their}} job.",
+          "stages": ["job-lost"]
+        }
+      ],
+      "answers": [
+        {
+          "key": "glad",
+          "text": "That's wonderful.",
+          "stages": ["married", "moved-in", "baby"]
+        },
+        {
+          "key": "sorry",
+          "text": "I'm sorry to hear that.",
+          "stages": ["moved-away", "job-lost"]
+        },
+        {
+          "key": "didnt-know",
+          "text": "I didn't know that."
+        },
+        {
+          "key": "brief",
+          "text": "Huh.",
+          "raises": "next"
+        },
+        {
+          "key": "turn",
+          "text": "Really?",
+          "raises": "next-2"
+        }
+      ]
     }
   },
   "otherRaises": {
@@ -682,6 +737,26 @@
     "kin": {
       "kind": "asked-kin",
       "stage": "default"
+    },
+    "news": {
+      "kind": "news",
+      "stage": "default"
     }
-  }
+  },
+  "news": {
+    "days": 90,
+    "kinds": {
+      "family.married": "married",
+      "family.moved-in-together": "moved-in",
+      "person-birth": "baby",
+      "person.moved-away": "moved-away",
+      "work.job-lost": "job-lost"
+    },
+    "possessive": {
+      "female": "her",
+      "male": "his",
+      "other": "their"
+    }
+  },
+  "kinPerConversation": 2
 }

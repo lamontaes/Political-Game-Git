@@ -12,6 +12,7 @@
  * its exact claim as a belief in everyone present, the director keeps it, and
  * anyone who knows the truth sets a believer straight when they next talk.
  */
+import { addDays, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { P } from "../core2/parameters";
@@ -68,6 +69,14 @@ export interface ConversationData {
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
+  /** How many of their relatives a person asks about in one conversation. */
+  kinPerConversation: number;
+  /** Recent news someone witnessed about a person both know, by event kind. */
+  news: {
+    days: number;
+    kinds: Readonly<Record<string, string>>;
+    possessive: Readonly<Record<string, string>>;
+  };
 }
 export const CONVERSATION_DATA =
   conversationJson as unknown as ConversationData;
@@ -83,6 +92,8 @@ export interface Subject {
   own?: { key: string; value: string };
   /** The person a mutual or kin subject is about, or the shared context's record. */
   aboutId?: string;
+  /** The stage its replies are chosen in (good or bad news). */
+  stage?: string;
 }
 
 export interface ConversationLine {
@@ -319,7 +330,56 @@ export function subjectsBetween(
       },
     });
   }
+  out.push(...newsBetween(core, speaker, listener));
   return out;
+}
+
+/**
+ * News the speaker witnessed in the last months about someone the listener
+ * knows (a marriage, a baby, a move away, a lost job), told by name.
+ */
+function newsBetween(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Subject[] {
+  const news = CONVERSATION_DATA.news;
+  const out: Subject[] = [];
+  const since = addDays(makeIsoDate(core.date), -news.days);
+  for (const fact of core.knowledgeByPerson.get(speaker.id)?.values() ?? []) {
+    if (!fact.key.startsWith("event:") || !fact.key.endsWith(":experienced"))
+      continue;
+    const event = core.durableLog.get(fact.sourceId);
+    const stage = event ? news.kinds[event.kind] : undefined;
+    if (!event || !stage || event.date < since) continue;
+    const childId = event.facts?.childId;
+    const aboutId = event.personIds.find(
+      (id) =>
+        id !== speaker.id &&
+        id !== listener.id &&
+        id !== childId &&
+        listener.knownIds.has(id) &&
+        core.people.get(id)?.alive,
+    );
+    if (!aboutId) continue;
+    const about = core.people.get(aboutId)!;
+    out.push({
+      id: `news:${event.id}`,
+      kind: "news",
+      aboutId,
+      stage,
+      facts: {
+        name: { text: about.givenName, sourceRecordIds: [event.id] },
+        their: {
+          text:
+            news.possessive[about.looks?.gender ?? "other"] ??
+            news.possessive.other!,
+          sourceRecordIds: [event.id],
+        },
+      },
+    });
+  }
+  return out.sort((a, b) => b.id.localeCompare(a.id));
 }
 
 /** The facts the listener answers a raised subject with, from their own records. */
@@ -587,12 +647,20 @@ function otherRaises(
   data: ConversationData,
 ): boolean {
   const { playerId, otherId } = conversation;
-  const theirs = subjectsBetween(core, otherId, playerId).filter(
-    (row) =>
-      data.otherRaises[row.kind] &&
-      !conversation.used.includes(`${otherId}>${row.id}`) &&
-      !conversation.used.includes(row.id),
-  );
+  // Fresh news comes first; a person asks about only a few of their
+  // relatives in one conversation.
+  const kinAsked = conversation.used.filter((id) =>
+    id.startsWith(`${otherId}>kin:`),
+  ).length;
+  const theirs = subjectsBetween(core, otherId, playerId)
+    .filter(
+      (row) =>
+        data.otherRaises[row.kind] &&
+        !conversation.used.includes(`${otherId}>${row.id}`) &&
+        !conversation.used.includes(row.id) &&
+        (row.kind !== "kin" || kinAsked < data.kinPerConversation),
+    )
+    .sort((a, b) => Number(b.kind === "news") - Number(a.kind === "news"));
   const subject = theirs[zero];
   if (!subject) return false;
   const then = data.otherRaises[subject.kind]!;
@@ -605,6 +673,7 @@ function otherRaises(
     data.subjects[subject.kind]?.raise,
     subject.facts,
     `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
+    subject.stage,
   );
   if (!line) return false;
   conversation.lines.push({
@@ -629,7 +698,7 @@ function otherRaises(
     subject: raised,
     kind: then.kind,
     facts: subject.facts,
-    stage: then.stage,
+    stage: subject.stage ?? then.stage,
   };
   offerChoices(core, conversation, data);
   return true;

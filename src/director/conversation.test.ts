@@ -15,6 +15,7 @@ import {
   doubtsClaim,
   openConversation,
   say,
+  subjectsBetween,
 } from "./conversation";
 import { createDirector } from "./ledger";
 import { REGISTER_CARDS } from "../presentation/speech-registers";
@@ -264,5 +265,55 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         say(core, talk, talk.choices[turn % talk.choices.length]!.key);
       }
     }
+  });
+
+  it("tells news someone witnessed about a person both know", () => {
+    const teller = strangers[0]!;
+    const aboutId = others.find((id) => id !== teller.id)!;
+    const spouseId = strangers.at(-1)!.id;
+    applyCoreEvent(core, {
+      id: "family.married:fixture-news",
+      date: core.date,
+      kind: "family.married",
+      personIds: [aboutId, spouseId],
+      witnessIds: [teller.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the partnering engine.",
+        estimatedFrom: "Fixture.",
+      },
+      facts: { partnershipKind: "legal:marriage" },
+    });
+    const news = subjectsBetween(core, teller.id, me.id).find(
+      (row) => row.kind === "news",
+    );
+    expect(news?.aboutId).toBe(aboutId);
+    expect(news?.stage).toBe("married");
+    // Someone who didn't witness it has no such news.
+    expect(
+      subjectsBetween(core, strangers[1]!.id, me.id).some(
+        (row) => row.id === "news:family.married:fixture-news",
+      ),
+    ).toBe(false);
+    // In a conversation the teller raises it, and the player's replies fit.
+    const talk = openConversation(core, me.id, teller.id);
+    let told = false;
+    for (let turn = 0; turn < 12 && !told; turn += 1) {
+      told = talk.lines.some((line) =>
+        line.text.endsWith(
+          `${core.people.get(aboutId)!.givenName} got married.`,
+        ),
+      );
+      if (told || !talk.choices.length) break;
+      // A reply that raises nothing leaves the next subject to the teller.
+      const quiet =
+        talk.choices.find((row) => !row.raises) ?? talk.choices.at(-1)!;
+      say(core, talk, quiet.key);
+    }
+    expect(told).toBe(true);
+    expect(talk.choices.map((row) => row.text)).toContain("That's wonderful.");
   });
 });

@@ -301,6 +301,19 @@ function unite(
     date: api.state.date,
     kind: event,
     personIds: pair,
+    // Their relatives in town hear of it.
+    witnessIds: [
+      ...new Set(
+        [a!, b!].flatMap((who) =>
+          [...who.familyIds].filter((id) => {
+            const kin = core.people.get(id);
+            return (
+              !!kin?.alive && kin.tier !== INACTIVE_TIER && !pair.includes(id)
+            );
+          }),
+        ),
+      ),
+    ].sort(),
     placeId: a!.placeId,
     source: {
       tag: "ESTIMATED",
