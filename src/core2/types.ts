@@ -1216,6 +1216,13 @@ export interface CoreAPI {
     partnershipKind: string,
     sourceId: string,
   ): string;
+  /**
+   * P15 (for OPUS-CORE review): a person moves into another household in the
+   * same place mid-run (a newlywed joining their spouse's home). Their old
+   * household must keep at least one member; contracts and cash stay where
+   * they are.
+   */
+  moveIntoHouseholdV1(personId: PersonId, householdId: string): void;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,

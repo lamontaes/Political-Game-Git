@@ -91,6 +91,16 @@ describe(`marriages over a year in ${towns.map(({ place }) => `${place.name} (se
           ).toBe(true);
         }
         expect(core.familyLinks.get(marriage.id)?.kind).toBe("partner");
+        // A newlywed who moved in lives in the spouse's home now, and the
+        // home they left still has someone in it.
+        if (marriage.movedIn) {
+          const mover = core.people.get(marriage.movedIn)!;
+          const spouse = mover.id === a!.id ? b! : a!;
+          expect(mover.householdId).toBe(spouse.householdId);
+          expect(core.households.get(mover.householdId)!.memberIds).toContain(
+            mover.id,
+          );
+        }
       }
   });
 

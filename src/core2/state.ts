@@ -813,6 +813,31 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    moveIntoHouseholdV1(personId, householdId) {
+      const person = core.people.get(personId);
+      const from = person ? core.households.get(person.householdId) : undefined;
+      const to = core.households.get(householdId);
+      if (
+        !person?.alive ||
+        !from ||
+        !to ||
+        from.id === to.id ||
+        from.memberIds.length < 2 ||
+        to.placeId !== person.placeId
+      )
+        throw new Error(
+          "A household move needs a living person leaving a shared home for another in the same place.",
+        );
+      core.households.set(from.id, {
+        ...from,
+        memberIds: from.memberIds.filter((id) => id !== personId),
+      });
+      core.households.set(to.id, {
+        ...to,
+        memberIds: [...to.memberIds, personId],
+      });
+      person.householdId = to.id;
+    },
     formPartnershipV1(personIds, partnershipKind, sourceId) {
       const people = personIds.map((id) => core.people.get(id));
       const partnered = (id: PersonId) =>

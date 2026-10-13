@@ -13,6 +13,8 @@ import type { CoreAPI, CoreModule, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 
 export const RENEWAL_MODULE_ID = "core2-renewal-v1";
+/** The partnering engine's record of a marriage during play. */
+const MARRIED_EVENT = "family.married";
 const INACTIVE_TIER = "husk";
 const initialized = new WeakSet<object>();
 const source = (api: CoreAPI): Source => ({
@@ -314,8 +316,57 @@ function initialize(api: CoreAPI): void {
   }
 }
 
+/**
+ * A couple who married during play and share a home join the couples whose
+ * plans for a child are reviewed, from the day they married.
+ */
+function addMarriedCouple(api: CoreAPI, personIds: readonly string[]): void {
+  const people = personIds.map((id) => api.state.people.get(id));
+  const mother = people.find((person) => person?.looks?.gender === "female");
+  const other = people.find((person) => person && person !== mother);
+  if (
+    !mother?.alive ||
+    !other?.alive ||
+    mother.householdId !== other.householdId ||
+    table(api, "couples").query("byMother", [mother.id]).length
+  )
+    return;
+  const link = [...api.state.familyLinks.values()].find(
+    (row) =>
+      row.kind === "partner" &&
+      row.personIds.includes(mother.id) &&
+      row.personIds.includes(other.id),
+  );
+  if (!link) return;
+  const childIds = [...api.state.familyLinks.values()]
+    .filter(
+      (row) =>
+        row.kind === "parent-child" &&
+        (row.personIds[0] === mother.id || row.personIds[0] === other.id),
+    )
+    .map((row) => row.personIds[1]);
+  const row: BirthCouple = {
+    id: link.id,
+    motherId: mother.id,
+    otherParentId: other.id,
+    startedAt: api.state.date,
+    childIds: [...new Set(childIds)],
+  };
+  table(api, "couples").put({
+    ...row,
+    childIds: [...row.childIds],
+    status: "active",
+  });
+  review(api, row);
+}
+
 export const RENEWAL_MODULE: CoreModule = {
   id: RENEWAL_MODULE_ID,
+  eventKinds: [MARRIED_EVENT],
+  onEvent(api, event) {
+    if (!table(api, "parameters").get("renewalReviewDays")) return;
+    addMarriedCouple(api, event.personIds);
+  },
   state: {
     schemaVersion: 1,
     tables: {

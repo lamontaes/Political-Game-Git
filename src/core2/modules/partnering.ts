@@ -84,6 +84,48 @@ export interface Marriage {
   date: string;
   /** The pull behind it, by cause, as each partner weighed it. */
   reasons: Readonly<Record<string, number>>;
+  /** Who moved into the other's home, if anyone did. */
+  movedIn?: PersonId;
+}
+
+/**
+ * A newlywed who shares a home with others (a young adult at their parents')
+ * moves into the spouse's own home, where the spouse is its only adult. Two
+ * who each live alone, or each with others, keep their homes until the
+ * housing engine can give them one (SG-P15-partnering-homes).
+ */
+function moveIn(
+  api: CoreAPI,
+  a: Readonly<PersonState>,
+  b: Readonly<PersonState>,
+): PersonId | undefined {
+  const core = api.state as CoreState;
+  const adults = (householdId: string) =>
+    (core.households.get(householdId)?.memberIds ?? []).filter((id) => {
+      const member = core.people.get(id);
+      return (
+        !!member?.alive && ageOf(api, member) >= q(api, "partneringMinimumAge")
+      );
+    });
+  const size = (householdId: string) =>
+    core.households.get(householdId)?.memberIds.length ?? api.parameter("zero");
+  for (const [mover, host] of [
+    [a, b],
+    [b, a],
+  ] as const) {
+    if (
+      mover.householdId !== host.householdId &&
+      mover.placeId === host.placeId &&
+      size(mover.householdId) > api.parameter("one") &&
+      adults(host.householdId).length === api.parameter("one") &&
+      adults(mover.householdId).length > api.parameter("one")
+    ) {
+      api.moveIntoHouseholdV1(mover.id, host.householdId);
+      return mover.id;
+    }
+  }
+  api.stopgap(HOMES_STOPGAP);
+  return undefined;
 }
 
 /** Who can marry now: alive, in town, an adult, of a recorded gender. */
@@ -293,11 +335,13 @@ export function monthlyReview(api: CoreAPI): Marriage[] {
     const partnershipId = api.formPartnershipV1(pair, MARRIAGE_KIND, eventId);
     for (const who of pair) partnered.add(who);
     store(api).table("courtships").remove(pairKey);
+    const movedIn = moveIn(api, person, chosen.other);
     const marriage: Marriage = {
       id: partnershipId,
       personIds: pair,
       date: api.state.date,
       reasons: { ...reasons, courtship: pull },
+      ...(movedIn ? { movedIn } : {}),
     };
     store(api)
       .table("marriages")
