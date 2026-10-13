@@ -1,0 +1,581 @@
+{
+  "retrievedAt": "2026-10-13",
+  "sources": [
+    {
+      "id": "pss-205.80",
+      "title": "Digest of Education Statistics 2023, Table 205.80: Private elementary and secondary schools, enrollment, teachers, and high school graduates, by state",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/dt23_205.80.asp",
+      "table": "205.80, column 'Fall 2021 - Kindergarten through grade 12'",
+      "year": "fall 2021 (PSS 2021-22)",
+      "notes": "Private counts rounded to nearest 10 by NCES. Covers 50 states + DC only (PSS does not survey territories). Excludes private prekindergarten-only schools; K-12 column excludes PK pupils."
+    },
+    {
+      "id": "ccd-203.40",
+      "title": "Digest of Education Statistics 2022, Table 203.40: Enrollment in public elementary and secondary schools, by level, grade, and state or jurisdiction: Fall 2021",
+      "url": "https://nces.ed.gov/programs/digest/d22/tables/dt22_203.40.asp",
+      "table": "203.40, 'Total, all grades' minus 'Prekindergarten'",
+      "year": "fall 2021 (CCD 2021-22)",
+      "notes": "publicK12 computed = total all grades - prekindergarten (includes ungraded and grade 13). US row includes BIE and DoDEA. Territories rows: Guam, N. Marianas, Puerto Rico, USVI present; American Samoa not available."
+    },
+    {
+      "id": "coe-private",
+      "title": "Condition of Education: Private School Enrollment (indicator cgc)",
+      "url": "https://nces.ed.gov/programs/coe/indicator/cgc/private-school-enrollment",
+      "table": "indicator text",
+      "year": "fall 2021",
+      "notes": "States 4.7 million K-12 private students = 9 percent of combined public+private in fall 2019 and fall 2021; state range 2 percent (Wyoming, Utah) to 20 percent (DC). Fall 2021 orientation counts: Catholic 1.7M, other religious 2.0M, nonsectarian 1.1M. Private-student poverty rate 11 percent vs 17 percent public."
+    },
+    {
+      "id": "nhes-206.10",
+      "title": "Digest of Education Statistics 2022, Table 206.10: Number and percentage of homeschooled students ages 5 through 17 with a grade equivalent of K-12",
+      "url": "https://nces.ed.gov/programs/digest/d22/tables/dt22_206.10.asp",
+      "table": "206.10",
+      "year": "2019 (PFI-NHES:2019)",
+      "notes": "2019 excludes students enrolled in school more than 24 hours/week."
+    },
+    {
+      "id": "nhes-206.30",
+      "title": "Digest of Education Statistics 2022, Table 206.30: Percentage distribution of students enrolled in grades 1 through 12, by public school type and charter status, private school orientation, and selected child and household characteristics: 2019",
+      "url": "https://nces.ed.gov/programs/digest/d22/tables/dt22_206.30.asp",
+      "table": "206.30",
+      "year": "2019 (PFI-NHES:2019)",
+      "notes": "Column percentages (composition of each school type). Private school total = 9.2% of enrolled grade 1-12 students (religious 7.4%, nonsectarian 1.8%). Excludes homeschoolers."
+    },
+    {
+      "id": "school-choice-2019",
+      "title": "School Choice in the United States: 2019 (NCES 2019-106), Indicator 5 Homeschooling",
+      "url": "https://nces.ed.gov/programs/schoolchoice/ind_05.asp",
+      "table": "Indicator 5",
+      "year": "2016 (PFI-NHES:2016)",
+      "notes": "3.3 percent of ages 5-17 K-12 homeschooled in 2016, up from 1.7 percent in 1999."
+    },
+    {
+      "id": "acs-b14002",
+      "title": "American Community Survey 2024 1-year, Table B14002 Sex by school enrollment by level of school by type of school (retrieved via Census Reporter API, which mirrors Census ACS data)",
+      "url": "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B14002&geo_ids=04000US72,01000US",
+      "table": "B14002 (kindergarten, grades 1-4, 5-8, 9-12; public vs private, both sexes summed)",
+      "year": "2024 (ACS 1-year)",
+      "notes": "Official api.census.gov now requires a key and refused the request. ACS 'private' includes homeschooled children (ACS questionnaire groups home school with private), so ACS private shares run higher than PSS: US ACS K-12 private share 13.4% vs PSS/CCD 9.0%."
+    },
+    {
+      "id": "pew-rls-2023-24",
+      "title": "Pew Research Center, Religion, fertility and child-rearing (2023-24 Religious Landscape Study)",
+      "url": "https://www.pewresearch.org/religion/2025/02/26/religion-fertility-and-child-rearing/",
+      "table": "report text",
+      "year": "2023-24",
+      "notes": "Not federal. Combines homeschool with private religious school; no per-denomination private rates published."
+    }
+  ],
+  "privateShareByState": {
+    "AK": {
+      "share": 0.034,
+      "privateK12": 4470,
+      "publicK12": 127017,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "AL": {
+      "share": 0.0801,
+      "privateK12": 63190,
+      "publicK12": 725900,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "AR": {
+      "share": 0.0469,
+      "privateK12": 23330,
+      "publicK12": 473861,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "AZ": {
+      "share": 0.0566,
+      "privateK12": 66950,
+      "publicK12": 1116643,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "CA": {
+      "share": 0.0844,
+      "privateK12": 543280,
+      "publicK12": 5892073,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "CO": {
+      "share": 0.0577,
+      "privateK12": 52070,
+      "publicK12": 849703,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "CT": {
+      "share": 0.0999,
+      "privateK12": 54590,
+      "publicK12": 492077,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "DC": {
+      "share": 0.1979,
+      "privateK12": 19110,
+      "publicK12": 77460,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "DE": {
+      "share": 0.1258,
+      "privateK12": 19850,
+      "publicK12": 137895,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "FL": {
+      "share": 0.1321,
+      "privateK12": 422170,
+      "publicK12": 2774130,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "GA": {
+      "share": 0.0821,
+      "privateK12": 151510,
+      "publicK12": 1694034,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "HI": {
+      "share": 0.1753,
+      "privateK12": 36470,
+      "publicK12": 171600,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "IA": {
+      "share": 0.0914,
+      "privateK12": 48410,
+      "publicK12": 481250,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "ID": {
+      "share": 0.0579,
+      "privateK12": 19080,
+      "publicK12": 310737,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "IL": {
+      "share": 0.0937,
+      "privateK12": 185920,
+      "publicK12": 1797260,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "IN": {
+      "share": 0.0997,
+      "privateK12": 112390,
+      "publicK12": 1015440,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "KS": {
+      "share": 0.0806,
+      "privateK12": 40570,
+      "publicK12": 462879,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "KY": {
+      "share": 0.0927,
+      "privateK12": 64470,
+      "publicK12": 631019,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "LA": {
+      "share": 0.1346,
+      "privateK12": 102440,
+      "publicK12": 658407,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MA": {
+      "share": 0.103,
+      "privateK12": 102630,
+      "publicK12": 893364,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MD": {
+      "share": 0.1278,
+      "privateK12": 125070,
+      "publicK12": 853694,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "ME": {
+      "share": 0.0922,
+      "privateK12": 17020,
+      "publicK12": 167624,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MI": {
+      "share": 0.0772,
+      "privateK12": 116870,
+      "publicK12": 1396620,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MN": {
+      "share": 0.0828,
+      "privateK12": 76630,
+      "publicK12": 848619,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MO": {
+      "share": 0.1005,
+      "privateK12": 95830,
+      "publicK12": 857619,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MS": {
+      "share": 0.0907,
+      "privateK12": 43340,
+      "publicK12": 434401,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "MT": {
+      "share": 0.0639,
+      "privateK12": 10140,
+      "publicK12": 148624,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NC": {
+      "share": 0.0783,
+      "privateK12": 127730,
+      "publicK12": 1503919,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "ND": {
+      "share": 0.092,
+      "privateK12": 11560,
+      "publicK12": 114027,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NE": {
+      "share": 0.1066,
+      "privateK12": 36820,
+      "publicK12": 308505,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NH": {
+      "share": 0.1116,
+      "privateK12": 20880,
+      "publicK12": 166146,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NJ": {
+      "share": 0.1209,
+      "privateK12": 179810,
+      "publicK12": 1306871,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NM": {
+      "share": 0.0672,
+      "privateK12": 22160,
+      "publicK12": 307505,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NV": {
+      "share": 0.0488,
+      "privateK12": 24400,
+      "publicK12": 475855,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "NY": {
+      "share": 0.1252,
+      "privateK12": 355310,
+      "publicK12": 2483362,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "OH": {
+      "share": 0.1079,
+      "privateK12": 198750,
+      "publicK12": 1643165,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "OK": {
+      "share": 0.0496,
+      "privateK12": 34500,
+      "publicK12": 660660,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "OR": {
+      "share": 0.0726,
+      "privateK12": 43270,
+      "publicK12": 553012,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "PA": {
+      "share": 0.1156,
+      "privateK12": 220600,
+      "publicK12": 1688256,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "RI": {
+      "share": 0.1114,
+      "privateK12": 17020,
+      "publicK12": 135732,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "SC": {
+      "share": 0.0732,
+      "privateK12": 59640,
+      "publicK12": 755629,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "SD": {
+      "share": 0.092,
+      "privateK12": 13980,
+      "publicK12": 137943,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "TN": {
+      "share": 0.0953,
+      "privateK12": 101900,
+      "publicK12": 967278,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "TX": {
+      "share": 0.0473,
+      "privateK12": 257560,
+      "publicK12": 5183478,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "UT": {
+      "share": 0.0228,
+      "privateK12": 15770,
+      "publicK12": 674892,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "VA": {
+      "share": 0.0886,
+      "privateK12": 118440,
+      "publicK12": 1218369,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "VT": {
+      "share": 0.0991,
+      "privateK12": 8410,
+      "publicK12": 76415,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "WA": {
+      "share": 0.0837,
+      "privateK12": 97060,
+      "publicK12": 1062685,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "WI": {
+      "share": 0.1474,
+      "privateK12": 134530,
+      "publicK12": 778151,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "WV": {
+      "share": 0.0469,
+      "privateK12": 11740,
+      "publicK12": 238404,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    },
+    "WY": {
+      "share": 0.0179,
+      "privateK12": 1680,
+      "publicK12": 92329,
+      "sourceId": "pss-205.80+ccd-203.40",
+      "year": "fall 2021"
+    }
+  },
+  "territories": {
+    "PR": {
+      "share": 0.2812,
+      "privateK12": 110418,
+      "publicK12": 282239,
+      "sourceId": "acs-b14002",
+      "year": "2024",
+      "notes": "Computed from ACS B14002 K + grades 1-12, public vs private, males+females. Not comparable with state PSS figures: ACS private includes homeschool and is a survey estimate (ACS US-level same method gives 13.4% vs 9.0% PSS). CCD fall 2021 public K-12 for PR = 257,539 (Table 203.40); no NCES private count for PR."
+    },
+    "GU": {
+      "share": null,
+      "publicK12": 27739,
+      "sourceId": "ccd-203.40",
+      "year": "fall 2021",
+      "notes": "Public K-12 only (total 28,402 minus PK 663). No federal private count found."
+    },
+    "MP": {
+      "share": null,
+      "publicK12": 9201,
+      "sourceId": "ccd-203.40",
+      "year": "fall 2021",
+      "notes": "Public K-12 only (9,491 minus PK 290). No federal private count found."
+    },
+    "VI": {
+      "share": null,
+      "publicK12": 10145,
+      "sourceId": "ccd-203.40",
+      "year": "fall 2021",
+      "notes": "Public K-12 only (10,234 minus PK 89). No federal private count found."
+    },
+    "AS": {
+      "share": null,
+      "publicK12": null,
+      "sourceId": "ccd-203.40",
+      "year": "fall 2021",
+      "notes": "CCD reports 'Not available' for American Samoa."
+    }
+  },
+  "nationalPrivateShare": {
+    "share": 0.0897,
+    "privateK12": 4731300,
+    "publicK12": 48022538,
+    "sourceId": "pss-205.80+ccd-203.40",
+    "year": "fall 2021",
+    "notes": "Computed 4,731,300 / (4,731,300 + 48,022,538). Matches Condition of Education's stated 9 percent (coe-private). NHES 2019 survey gives 9.2% of grade 1-12 enrolled students (nhes-206.30); ACS 2024 gives 13.4% but counts homeschool as private."
+  },
+  "homeschoolShare": {
+    "value": 0.028,
+    "year": "2019",
+    "sourceId": "nhes-206.10",
+    "notes": "2.8% (SE 0.18) of ages 5-17, K-12 grade equivalent; 1,457 thousand students. 2016: 3.3% (school-choice-2019 / 206.10); 2012: 3.4%; 1999: 1.7%. 2019 by household income: <=$20k 3.0%, $20-50k 2.5%, $50-75k 3.6%, $75-100k 3.2%, >$100k 2.5%. Two parents with one in labor force: 6.6%. Rural 4.7%. Post-2020 federal figure not found (Census Household Pulse showed a pandemic spike but is experimental)."
+  },
+  "privateShareByIncome": [
+    {
+      "band": "poor (below poverty threshold)",
+      "share": 0.0535,
+      "sourceId": "nhes-206.30",
+      "notes": "Computed: 0.092 (private share of enrolled grades 1-12) x 0.096 (share of private students who are poor) / 0.165 (share of all students who are poor). Source text: private students 8% poor in 2016 (School Choice 2019, Indicator 4)."
+    },
+    {
+      "band": "near-poor (100-199% of poverty)",
+      "share": 0.045,
+      "sourceId": "nhes-206.30",
+      "notes": "Computed: 0.092 x 0.093 / 0.190"
+    },
+    {
+      "band": "nonpoor (200%+ of poverty)",
+      "share": 0.1157,
+      "sourceId": "nhes-206.30",
+      "notes": "Computed: 0.092 x 0.810 / 0.644"
+    },
+    {
+      "band": "parent education: HS diploma/GED",
+      "share": 0.0385,
+      "sourceId": "nhes-206.30",
+      "notes": "Computed by same Bayes step from column distribution (private 7.9% vs all 18.9%)"
+    },
+    {
+      "band": "parent education: bachelor's/some grad",
+      "share": 0.1201,
+      "sourceId": "nhes-206.30",
+      "notes": "Computed (34.2% vs 26.2%)"
+    },
+    {
+      "band": "parent education: graduate/professional degree",
+      "share": 0.1668,
+      "sourceId": "nhes-206.30",
+      "notes": "Computed (33.9% vs 18.7%)"
+    }
+  ],
+  "privateShareByReligion": {
+    "note": "No federal source gives private attendance by family religion (NHES and ACS do not ask religion). Closest figures:",
+    "schoolOrientation": [
+      {
+        "group": "religious private schools, share of all enrolled grade 1-12 students",
+        "share": 0.074,
+        "sourceId": "nhes-206.30",
+        "year": "2019"
+      },
+      {
+        "group": "nonsectarian private schools, share of all enrolled grade 1-12 students",
+        "share": 0.018,
+        "sourceId": "nhes-206.30",
+        "year": "2019"
+      },
+      {
+        "group": "Catholic schools, share of private K-12 students",
+        "share": 0.362,
+        "sourceId": "coe-private",
+        "year": "fall 2021",
+        "notes": "Computed 1.7M/4.7M from rounded counts (orientation counts include PK-capable schools; CoE rounding)"
+      },
+      {
+        "group": "other religious schools, share of private K-12 students",
+        "share": 0.426,
+        "sourceId": "coe-private",
+        "year": "fall 2021",
+        "notes": "Computed 2.0M/4.7M"
+      },
+      {
+        "group": "nonsectarian schools, share of private K-12 students",
+        "share": 0.234,
+        "sourceId": "coe-private",
+        "year": "fall 2021",
+        "notes": "Computed 1.1M/4.7M; the three sum to ~1.02 due to rounding"
+      }
+    ],
+    "byParentReligiosity": [
+      {
+        "group": "all parents of minor children: homeschool or private religious school",
+        "share": 0.17,
+        "sourceId": "pew-rls-2023-24"
+      },
+      {
+        "group": "Christian parents: homeschool or private religious school",
+        "share": 0.22,
+        "sourceId": "pew-rls-2023-24"
+      },
+      {
+        "group": "highly religious parents: homeschool or private religious school",
+        "share": 0.29,
+        "sourceId": "pew-rls-2023-24"
+      }
+    ]
+  },
+  "gaps": [
+    "Private K-12 counts for Guam, N. Marianas, USVI, American Samoa: PSS covers only 50 states + DC; ACS does not cover Island Areas; the 2020 Island Areas Census DHC/DP2 tables on data.census.gov were not checked table-by-table (api.census.gov now requires a key).",
+    "Puerto Rico share is ACS-based (includes homeschool, survey estimate) and not directly comparable to the PSS/CCD state figures; scale or treat as an upper bound.",
+    "Private share by detailed household income dollar bands not published for 2019; only poverty status (computed shares from column distributions in Table 206.30). Raw shares by income band would need NHES 2019 public-use microdata.",
+    "Private attendance by family religion (Catholic, evangelical, Jewish, etc.): no federal source; Pew 2023-24 gives only combined homeschool+private-religious rates for all/Christian/highly religious parents.",
+    "State counts are fall 2021 (latest PSS by state in Digest 2023); PSS 2023-24 state tables not yet checked.",
+    "State private counts are rounded to tens and some states carry sampling SE (e.g., OK SE 5,050; AZ 7,525; DE 5,241 in PSS area-frame estimates)."
+  ]
+}
