@@ -120,8 +120,9 @@ describe("M2-02 election calendars and filing rules", () => {
       expect(rules.filedWith.length).toBeGreaterThan(0);
       // An independent files by the independent route's own deadline,
       // where the place's law sets one apart.
-      const own = filingRequirementsRead[stateKey]?.[contest.family]
-        ?.independent?.deadline2026;
+      const own =
+        filingRequirementsRead[stateKey]?.[contest.family]?.independent
+          ?.deadline2026;
       if (own)
         expect(
           filingRequirements(stateKey, contest.family, "independent").deadline,
@@ -176,8 +177,8 @@ describe("M2-03 filing (engine)", () => {
     const filing = result.filing;
     expect(filing.status).toBe("on-ballot");
     expect(ballot(api, contest.id).map((f) => f.personId)).toContain(
-        candidate.id,
-      );
+      candidate.id,
+    );
     // File once.
     const again = fileCandidacy(api, {
       personId: candidate.id,

@@ -15,6 +15,7 @@
  */
 import { registerElectorate } from "../electorate";
 import { termLimitReached } from "../law-reach/group-a-voting";
+import { campaignParameter } from "../campaign-views";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };

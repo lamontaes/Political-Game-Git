@@ -33,10 +33,7 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import {
-  fileForOffice,
-  governmentView,
-} from "./government";
+import { fileForOffice, governmentView } from "./government";
 import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";

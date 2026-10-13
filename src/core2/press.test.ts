@@ -19,7 +19,6 @@ import {
   fileCandidacy,
   openContests,
   openElections,
-  requestSignature,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -71,15 +70,7 @@ function fileAndQualify(
     platform,
   });
   if (result.status === "refused") return null;
-  let filing = result.filing;
-  for (const neighbor of [...api.state.people.keys()].sort()) {
-    if (filing.status === "on-ballot") break;
-    if (neighbor !== personId) requestSignature(api, filing.id, neighbor);
-    filing = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("filings")
-      .get(filing.id) as unknown as FilingRow;
-  }
+  const filing = result.filing;
   return filing.status === "on-ballot" ? filing : null;
 }
 

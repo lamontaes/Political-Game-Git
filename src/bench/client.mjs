@@ -430,12 +430,7 @@ async function renderGovernment(id) {
   );
   element("filings").replaceChildren(
     ...v.filings.map((filing) =>
-      row(
-        [
-          filing.contestId,
-          filing.filedWith,
-          filing.status,
-        ]),
+      row([filing.contestId, filing.filedWith, filing.status]),
     ),
   );
 }
