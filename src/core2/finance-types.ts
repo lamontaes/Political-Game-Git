@@ -1,38 +1,9 @@
+import type { LivingPlan } from "./cost-of-living";
 import type { IsoDate, PersonId, Source, WorkResult } from "./types";
 import type { CashJournalSourceRef } from "./journal";
 import type { CashJournalPostedMarker } from "./journal-state";
 import type { WorkPayrollJournalReceipt } from "./work-payroll-cash";
 
-export interface HouseholdPurchaseCalendarInput {
-  ruleId: string;
-  stopgapId: string;
-  householdId: string;
-  firstNominalDueAt: IsoDate;
-  openingBasisIds: readonly string[];
-  source: Source;
-}
-export interface HouseholdPurchaseCalendarBasis {
-  nominalDueAt: IsoDate;
-  effectiveDueAt: IsoDate;
-  mode: "opening" | "work" | "recipient-income" | "missing-income";
-  references: readonly {
-    id: string;
-    kind:
-      | "opening-basis"
-      | "job"
-      | "commitment"
-      | "payroll-calendar"
-      | "earned-pay-period"
-      | "payroll-receipt"
-      | "income-contract"
-      | "income-award";
-    source: Source;
-    paySource?: Source;
-  }[];
-  source: Source;
-}
-
-/** Standing terms describe obligations or a budget; they never supply cash. */
 export interface FinanceContractInput {
   id: string;
   householdId?: string;
@@ -62,14 +33,10 @@ export interface FinanceContractInput {
     sourceFactId: string;
   };
   externalInflow?: FinanceExternalInflow;
-  /** Generated household phase only; real supplied invoice dates omit this marker. */
-  householdPurchaseCalendar?: HouseholdPurchaseCalendarInput;
   source: Source;
 }
 
 export interface FinanceContractState extends FinanceContractInput {
-  nominalDueAt?: IsoDate;
-  householdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
   billingDay: number;
@@ -166,8 +133,6 @@ export interface FinancePayment {
 }
 
 export interface FinanceReceipt {
-  householdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
-  nextHouseholdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
   id: string;
   contractId: string;
   date: IsoDate;
@@ -321,6 +286,11 @@ export interface FinanceRuntime extends FinanceCashRuntimeFields {
   detailedReceipts: Map<string, FinanceReceipt>;
   closures: Map<string, EmployerClosure>;
   totalsByKind: Map<string, FinanceTotals>;
+  /** Each household's everyday spending (cost-of-living.ts), by household. */
+  livingPlans: Map<string, LivingPlan>;
+  livingDueAt: Map<IsoDate, Set<string>>;
+  /** A household's housing and other owed bills, kept back before everyday spending. */
+  obligationsByHousehold: Map<string, Set<string>>;
 }
 
 export interface FinancePolicyData {

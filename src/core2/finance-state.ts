@@ -4,8 +4,8 @@ import {
   residentWageShortfall,
   supplierBillsOwedTo,
 } from "./modules/residents";
-import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
+import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
@@ -66,6 +66,9 @@ export function emptyFinanceRuntime(at: string): FinanceRuntime {
     detailedReceipts: new Map(),
     closures: new Map(),
     totalsByKind: new Map(),
+    livingPlans: new Map(),
+    livingDueAt: new Map(),
+    obligationsByHousehold: new Map(),
   };
 }
 
@@ -449,10 +452,9 @@ export function admitFinanceContract(
   input: FinanceContractInput,
   openingBook?: BusinessBooksInput,
 ): void {
-  const householdPurchaseCalendar = validateHouseholdPurchaseCalendarAdmission(
-    input,
-    core.date,
-  );
+  // A household's purchases are one everyday-living amount, not bills.
+  if (isEverydayPurchase(core, input))
+    return admitEverydayPurchase(core, input);
   policy(api);
   financeSettlementPhase(api, input);
   validateRecipientIncome(core, api, input);
@@ -533,23 +535,6 @@ export function admitFinanceContract(
     api.stopgap(policy(api).salesReceiptBudgetStopgapId);
   const row = {
     ...input,
-    ...(householdPurchaseCalendar
-      ? {
-          householdPurchaseCalendar,
-          nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
-          householdPurchaseCalendarBasis: {
-            nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
-            effectiveDueAt: dueAt,
-            mode: "opening" as const,
-            references: householdPurchaseCalendar.openingBasisIds.map((id) => ({
-              id,
-              kind: "opening-basis" as const,
-              source: { ...householdPurchaseCalendar.source },
-            })),
-            source: { ...householdPurchaseCalendar.source },
-          },
-        }
-      : {}),
     ...(input.recipientIncome
       ? { recipientIncome: { ...input.recipientIncome } }
       : {}),
@@ -570,6 +555,8 @@ export function admitFinanceContract(
     );
   if (row.endsAt)
     financeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+  if (row.householdId && row.accruesArrears)
+    financeIndex(core.finance.obligationsByHousehold, row.householdId, row.id);
   for (const id of [...row.payerIds, row.payeeId])
     if (core.organizations.has(id))
       financeIndex(core.finance.contractsByBusiness, id, row.id);
