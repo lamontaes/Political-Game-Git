@@ -30,8 +30,11 @@ import {
   type PromiseRow,
 } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
+import { openParties } from "./modules/parties";
+import { openVoting } from "./modules/voting";
 import {
   answerInterview,
+  candidateAnswers,
   followersOf,
   interviewsFor,
   openPress,
@@ -253,4 +256,72 @@ describe("campaign interviews", () => {
       `no town with a local outlet and a race: ${tried.join("; ")}`,
     );
   }, 300_000);
+});
+
+describe("interviews with state and federal candidates", () => {
+  // Regression (wire-all-modules, Oct 12): in the played world, outlets ask
+  // the state and federal candidates on the town's ballot, who aren't full
+  // people; publishing their interview threw on the missing person.
+  it("a candidate who isn't a full person is interviewed and published", () => {
+    const start = "2026-10-12";
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 16; attempt += 1) {
+      const state = pick(states, `official:state:${attempt}`);
+      const places = [
+        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `official:place:${attempt}`).key;
+      const where = `seed ${seed}, ${state} place ${key}`;
+      tried.push(where);
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: start,
+          minimumPeople: 120,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      openVoting(core);
+      openRecord(core);
+      const outlets = openPress(core);
+      const api = coreAPI(core);
+      const outsider = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .rows() as unknown as FilingRow[]
+      )
+        .filter((f) => f.status === "on-ballot" && !core.people.has(f.personId))
+        .sort((a, b) => a.id.localeCompare(b.id))[0];
+      if (!outsider) continue;
+      // The candidate asks each outlet in turn; a television station may pass
+      // on a race it finds not newsworthy enough.
+      for (const outlet of outlets) {
+        const row = requestInterview(api, {
+          filingId: outsider.id,
+          outletId: outlet.id,
+        });
+        if (row.status !== "invited") continue;
+        const done = answerInterview(
+          api,
+          row.id,
+          candidateAnswers(api, row.questions, outsider),
+        );
+        expect(done.status, where).toBe("published");
+        expect(done.candidateId.startsWith("official:"), where).toBe(true);
+        return;
+      }
+    }
+    throw new Error(
+      `No town interviewed an outside candidate: ${tried.join("; ")}`,
+    );
+  });
 });

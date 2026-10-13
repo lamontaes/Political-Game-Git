@@ -14,7 +14,7 @@ import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
 import { openOffices, townSeats } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -40,7 +40,7 @@ import {
   holdElection,
   openVoting,
 } from "./modules/voting";
-import { openRecord, promisesOf, recordVote } from "./modules/record";
+import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import {
@@ -238,5 +238,52 @@ describe("M4-06 the record follows you", () => {
         oneVoter: changed[0],
       }),
     );
+  });
+});
+
+describe("a vote by a member who isn't a full person", () => {
+  // Regression (wire-all-modules, Oct 12): with Congress voting in the played
+  // world, each of its members' votes became its own story in the town and
+  // every resident heard hundreds a session, slowing the year tenfold. The
+  // roll call's own story carries the count; the vote stays on the record.
+  it("is on the record but is not its own event", () => {
+    const state = pick(states, "outsider:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "outsider:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 20,
+      }),
+    );
+    openRecord(core);
+    const heard: string[] = [];
+    registerModule(core, {
+      id: "probe-vote-recorded",
+      eventKinds: ["vote-recorded"],
+      onEvent: (_api, event) => void heard.push(event.id),
+    });
+    const api = coreAPI(core);
+    const resident = [...core.people.keys()].sort()[0]!;
+    const outsider = "official:congress:seat:US-AK:us-house:00";
+    for (const personId of [resident, outsider])
+      recordVote(api, {
+        personId,
+        body: "office:test",
+        measureId: "2026-001",
+        stance: { question: PLATFORM_QUESTIONS[0]!, position: 1 },
+        passed: null,
+      });
+    const where = `seed ${seed}, ${state} place ${key}`;
+    expect(votesOf(api, outsider).length, where).toBe(1);
+    expect(votesOf(api, resident).length, where).toBe(1);
+    expect(heard, where).toEqual([`vote-recorded:vote:2026-001:${resident}`]);
   });
 });

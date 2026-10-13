@@ -36,10 +36,12 @@ import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
 import {
+  BUDGETS_MODULE_ID,
   amendBudget,
   budgetPriorities,
-  proposedBudget,
-  putBudget,
+  carriedBudget,
+  clearBudgetPriorities,
+  enactBudget,
   registerBudgetVote,
   type BudgetRow,
   type GovernmentRow,
@@ -56,6 +58,9 @@ import {
   OFFICIALS_MODULE_ID,
   seatOfficial,
 } from "./officials";
+import mayorVetoData from "../../../data/research/local-government/mayor-veto-2026.json" with { type: "json" };
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import { stateActEffectiveDate } from "../state-effective-date";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
@@ -132,6 +137,8 @@ export interface MemberPosition {
   readonly wing?: number;
   readonly ambition?: number;
   readonly press?: number;
+  /** What the member's traits add: every trait's lean toward yes over no. */
+  readonly trait: number;
   readonly total: number;
 }
 
@@ -170,6 +177,17 @@ export function registerLegislatureHooks(input: {
     positionTerms.push(input.positionTerm);
   if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
     beforeVoteHooks.push(input.beforeVote);
+}
+
+type RosterProvider = (
+  api: CoreAPI,
+  chamber: string,
+  committee: string,
+) => { memberIds: readonly string[]; chairId: string } | null;
+let rosterProvider: RosterProvider | null = null;
+/** The leadership engine seats committees and their chairs (`leadership.ts`). */
+export function registerCommitteeRosterProvider(fn: RosterProvider): void {
+  rosterProvider = fn;
 }
 
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
@@ -239,63 +257,151 @@ function councilBudget(
   });
   // Each member's duty to adopt a budget sits beside their views on its
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
-  const tallies: string[] = [];
-  let adopted = true;
-  for (const chamber of chambers.chambers) {
-    let yes = 0;
-    let no = 0;
-    for (const member of members(api, chamber)) {
-      const key = memberKey(member);
-      const position = memberPosition(api, bill.id, key);
-      const total =
-        position.total -
-        position.sponsor +
-        campaignParameter("budgetAdoptionDuty");
-      if (total > 0) yes += 1;
-      else if (total < 0) no += 1;
-      table(api, "votes").put({
-        id: `vote:${bill.id}:${key}`,
-        billId: bill.id,
-        memberId: key,
-        chamber,
-        vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
-        position: { ...position, total },
-      } as unknown as ModuleRow);
+  const roll = (kept: readonly Provision[]) => {
+    const trial = { ...bill, provisions: kept } as BillRow;
+    const tallies: string[] = [];
+    const rows: ModuleRow[] = [];
+    for (const chamber of chambers.chambers) {
+      let yes = 0;
+      let no = 0;
+      const against: string[] = [];
+      for (const member of members(api, chamber)) {
+        const key = memberKey(member);
+        const position = positionOn(api, trial, key);
+        const total =
+          position.total -
+          position.sponsor +
+          campaignParameter("budgetAdoptionDuty");
+        if (total > 0) yes += 1;
+        else if (total < 0) {
+          no += 1;
+          against.push(key);
+        }
+        rows.push({
+          id: `vote:${bill.id}:${key}`,
+          billId: bill.id,
+          memberId: key,
+          chamber,
+          vote: total > 0 ? "yes" : total < 0 ? "no" : "abstain",
+          position: { ...position, total },
+        } as unknown as ModuleRow);
+      }
+      tallies.push(`${yes}-${no}`);
+      const cloture =
+        chamber === FEDERAL_SENATE &&
+        yes <
+          Math.ceil(
+            members(api, chamber).length *
+              campaignParameter("senateClotureShare"),
+          );
+      if (yes <= no || cloture)
+        return { adopted: false, tallies, rows, against };
     }
-    tallies.push(`${yes}-${no}`);
-    const cloture =
-      chamber === FEDERAL_SENATE &&
-      yes <
-        Math.ceil(
-          members(api, chamber).length *
-            campaignParameter("senateClotureShare"),
+    return { adopted: true, tallies, rows, against: [] as string[] };
+  };
+  // A rejected budget is negotiated, not abandoned: the leaders drop the
+  // change its opponents in the failing chamber object to most and vote
+  // again, until it passes or no change is left (then last year's carries).
+  let kept: readonly Provision[] = provisions;
+  let result = roll(kept);
+  const dropped: string[] = [];
+  while (!result.adopted && kept.length) {
+    const objection = (p: Provision) =>
+      result.against.reduce((sum, key) => {
+        const one = positionOn(
+          api,
+          { ...bill, provisions: [p] } as BillRow,
+          key,
         );
-    if (yes <= no || cloture) {
-      adopted = false;
-      break;
-    }
+        return sum + one.views + one.constituents;
+      }, 0);
+    const worst = [...kept]
+      .map((p) => ({ p, o: objection(p) }))
+      .sort(
+        (a, b) =>
+          a.o - b.o ||
+          String((a.p as { line?: string }).line).localeCompare(
+            String((b.p as { line?: string }).line),
+          ),
+      )[0]!.p;
+    dropped.push(String((worst as { line?: string }).line));
+    kept = kept.filter((p) => p !== worst);
+    result = roll(kept);
   }
-  const votes = tallies.join(", ");
-  const proposal = proposedBudget(
-    api,
-    gov,
-    fy,
-    `${chambers.body} vote ${votes}, ${bill.number}`,
+  for (const row of result.rows) table(api, "votes").put(row);
+  const tallies = result.tallies;
+  const adopted = result.adopted;
+  // The changes that passed, after any the negotiation dropped.
+  const passed = Object.fromEntries(
+    kept.map((p) => {
+      const line = p as unknown as { line: string; value: number };
+      return [line.line, line.value];
+    }),
   );
-  const budget: BudgetRow = adopted
-    ? proposal
-    : {
-        ...proposal,
-        spendingMinor: (budgetCarry(api, gov, fy) ?? proposal).spendingMinor,
-        adoptedBy: `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      };
-  putBudget(api, budget);
+  const votes = tallies.join(", ");
+  // A passed bill's line changes become the government's enacted lines; a
+  // failed one leaves last year's enacted lines in force.
+  const budget = adopted
+    ? enactBudget(
+        api,
+        gov,
+        fy,
+        `${chambers.body} vote ${votes}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}, ${bill.number}`,
+        passed,
+      )
+    : carriedBudget(
+        api,
+        gov,
+        fy,
+        `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
+      );
+  clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
+    provisions: kept,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
   return budget;
+}
+
+/**
+ * What each member of the bodies that vote a government's budget thinks of
+ * one proposed line change on its own: their views and their constituents'
+ * on that change (the budget's other terms are the same for every line).
+ * For staff advice on budget priorities; null where no body votes it.
+ */
+export function budgetLineStakes(
+  api: CoreAPI,
+  governmentId: string,
+  line: string,
+  delta: number,
+): { chamber: string; memberId: string; stake: number }[] | null {
+  const gov = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("governments")
+    .get(governmentId) as unknown as GovernmentRow | undefined;
+  const chambers = gov ? budgetChambers(api, gov) : null;
+  if (!chambers) return null;
+  const trial = {
+    id: `trial:${governmentId}:${line}`,
+    number: "",
+    bodyOfficeId: chambers.introducedIn,
+    sponsorId: "",
+    introduced: api.state.date,
+    provisions: [{ kind: "budget-line", line, value: delta }],
+    costEstimate: { workersRaised: 0, annualPayMinor: 0, note: "" },
+    authority: [],
+    status: "drafted",
+    deals: [],
+  } as unknown as BillRow;
+  return chambers.chambers.flatMap((chamber) =>
+    members(api, chamber).map((m) => {
+      const memberId = memberKey(m);
+      const p = positionOn(api, trial, memberId);
+      return { chamber, memberId, stake: p.views + p.constituents };
+    }),
+  );
 }
 
 /**
@@ -342,7 +448,13 @@ function executivePriorities(
   if (!holder || !base) return null;
   const key = memberKey(holder);
   const lean = leanOf(api, key);
-  const share = campaignParameter("executivePriorityShare");
+  const share =
+    campaignParameter("executivePriorityShare") *
+    Math.max(
+      0,
+      1 +
+        traitLean(api, key, "legislature.budget-priorities", ["move", "hold"]),
+    );
   const changes: Record<string, number> = {};
   for (const [line, amount] of Object.entries(base.spendingMinor)) {
     const change = Math.round(
@@ -870,6 +982,23 @@ function townLean(api: CoreAPI): number {
   );
 }
 
+/**
+ * A full person's traits' lean between two options of a registered decision,
+ * at the shared weight; a named official not filled in yet adds nothing.
+ */
+function traitLean(
+  api: CoreAPI,
+  memberId: string,
+  decisionId: string,
+  [toward, over]: readonly [string, string],
+): number {
+  const person = api.state.people.get(memberId);
+  return person
+    ? parameter("traitDecisionWeight") *
+        decisionLean(api.state, person, decisionId, toward, over)
+    : 0;
+}
+
 /** One member's position on a bill, part by part. */
 export function memberPosition(
   api: CoreAPI,
@@ -987,6 +1116,10 @@ function positionOn(
         press: parts.press,
       }
     : null;
+  const trait = traitLean(api, memberId, "legislature.member-position", [
+    "yes",
+    "no",
+  ]);
   return {
     memberId,
     views,
@@ -995,12 +1128,14 @@ function positionOn(
     deal,
     lobby,
     ...(further ?? {}),
+    trait,
     total:
       views +
       answersHome +
       sponsor +
       deal +
       lobby +
+      trait +
       (further
         ? further.party + further.wing + further.ambition + further.press
         : 0),
@@ -1362,10 +1497,28 @@ function committeeStage(
           b.serviceStart ?? b.startDate,
         ) || memberKey(a).localeCompare(memberKey(b)),
     );
-  const chair =
-    roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
+  let chair = roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
+  // Where the chamber's leadership has seated the committee, its members and
+  // chair stand in place of seniority.
+  const seated = rosterProvider?.(api, chamber, committeeFor(bill));
+  if (seated?.memberIds.length) {
+    const byKey = new Map(all.map((t) => [memberKey(t), t]));
+    const members = seated.memberIds
+      .map((id) => byKey.get(id))
+      .filter((t): t is TermRow => t !== undefined);
+    if (members.length) {
+      roster.splice(0, roster.length, ...members);
+      chair = byKey.get(seated.chairId) ?? members[0]!;
+    }
+  }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const heard = chairPosition.total >= 0;
+  const heard =
+    chairPosition.total +
+      traitLean(api, memberKey(chair), "legislature.hold-hearing", [
+        "hear",
+        "bury",
+      ]) >=
+    0;
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -1557,7 +1710,10 @@ function executiveAction(
     : undefined;
   const executive = seated ? holderOf(api, seated) : undefined;
   let status: BillRow["status"] = "enacted";
-  if (executive) {
+  // A mayor vetoes only where the state's law gives the office a veto (and
+  // above any population line), overridden by the state's own share.
+  const mayorRule = executiveOffice?.kind === "mayor" ? mayorVeto(api) : null;
+  if (executive && (!mayorRule || mayorRule.veto)) {
     const key = memberKey(executive);
     const position = memberPosition(api, bill.id, key);
     const decided = table(api, "choices").get(
@@ -1572,13 +1728,21 @@ function executiveAction(
       } as unknown as ModuleRow);
       return waiting;
     }
-    const vetoes = decided ? !decided.sign : position.total < 0;
+    const signLean = traitLean(api, key, "legislature.sign-or-veto", [
+      "sign",
+      "veto",
+    ]);
+    const vetoes = decided ? !decided.sign : position.total + signLean < 0;
     if (vetoes) {
       // Two thirds of each body's whole membership (not of those voting).
+      const share =
+        mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
       status = tallies.every(
         (t) =>
           t.yes >=
-          Math.ceil(t.members * campaignParameter("vetoOverrideShare") - 1e-9),
+          (mayorRule?.plusOne
+            ? Math.floor(t.members * share) + 1
+            : Math.ceil(t.members * share - 1e-9)),
       )
         ? "overridden"
         : "vetoed";
@@ -1595,6 +1759,44 @@ function executiveAction(
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
   return enact(api, next);
+}
+
+const MAYOR_VETO = (
+  mayorVetoData as unknown as {
+    states: Record<
+      string,
+      {
+        mayorCouncil: {
+          veto: boolean;
+          minPopulation: number | null;
+          overrideShare: number;
+          overridePlusOne?: boolean;
+        };
+      }
+    >;
+  }
+).states;
+
+/**
+ * Whether the town's mayor holds a veto under the state's law for its
+ * mayor-council cities (`data/research/local-government/mayor-veto-2026.json`,
+ * from the state baselines' statute notes), and the override it takes.
+ */
+export function mayorVeto(api: CoreAPI): {
+  veto: boolean;
+  overrideShare: number;
+  plusOne: boolean;
+} {
+  const rule = MAYOR_VETO[lawChain(api).stateKey]?.mayorCouncil;
+  const population = Number(api.state.placeMetadata.referencePopulation) || 0;
+  return {
+    veto:
+      (rule?.veto ?? true) &&
+      (rule?.minPopulation == null || population >= rule.minPopulation),
+    overrideShare:
+      rule?.overrideShare ?? campaignParameter("vetoOverrideShare"),
+    plusOne: rule?.overridePlusOne ?? false,
+  };
 }
 
 /** A member's own vote on a bill, cast before the vote is held (the player's). */

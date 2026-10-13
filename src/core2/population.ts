@@ -28,6 +28,8 @@ import {
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
+  type HouseholdMix,
+  type HouseholdShape,
 } from "../simulation/household-mix";
 import { createStableId, stableHash } from "../simulation/ids";
 import {
@@ -132,6 +134,11 @@ export interface PopulationOptions {
   openingEmployment?: boolean;
   /** Independent schedule import switch; runtime can also disable scheduled work. */
   scheduledWork?: boolean;
+  /**
+   * An age the opening always holds at least one resident of (the bench's
+   * player is a 17-year-old who turns 18 in play).
+   */
+  cohortAge?: number;
 }
 
 interface CountyContext {
@@ -555,23 +562,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     (sum, county) => sum + county.share,
     p("zero"),
   );
-  for (
-    let index = p("zero");
-    inputs.length < minimumPeople;
-    index += p("one")
-  ) {
-    // P15: members are aged from the place's records by household type, and
-    // some housemates are a parent and grown child (opening-partnership.ts).
-    const {
-      skeleton,
-      people: householdPeople,
-      grownChildren,
-      grownChildParents,
-    } = partnerAgedHousehold({
+  // P15: members are aged from the place's records by household type, and
+  // some housemates are a parent and grown child (opening-partnership.ts).
+  const drawHousehold = (index: number, shape?: HouseholdShape) =>
+    partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
-      skeleton: townHouseholdSkeleton(seedWorld, town, index),
-      people: townHouseholdPeople(seedWorld, town, index),
+      skeleton: townHouseholdSkeleton(seedWorld, town, index, shape),
+      people: townHouseholdPeople(seedWorld, town, index, shape),
       rebirth: (person, age, sex) => {
         const birthDate = inventedPersonBirthDate(
           new SeededRng(seedWorld.seed).fork(`${person.stableKey}:p15-birth`),
@@ -653,6 +651,15 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         };
       },
     });
+  const addHousehold = (
+    index: number,
+    {
+      skeleton,
+      people: householdPeople,
+      grownChildren,
+      grownChildParents,
+    }: ReturnType<typeof drawHousehold>,
+  ) => {
     const stableKey = `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
     const county = [...counties].sort((left, right) => {
       const gap = (row: CountyContext) =>
@@ -682,6 +689,51 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...(grownChildren.length ? { grownChildren, grownChildParents } : {}),
     });
     inputs.push(...householdPeople);
+  };
+  let index = p("zero");
+  for (; inputs.length < minimumPeople; index += p("one"))
+    addHousehold(index, drawHousehold(index));
+  // The player's cohort: a town whose own sample shows no family with a
+  // child that age (a small place's survey count can show none at all)
+  // still opens with one. The town's next households are drawn as families,
+  // in the place's split of couples and single parents with children (the
+  // nation's where the place shows neither), and the first holding a child
+  // that age moves in, every member aged from the place's records as above.
+  const cohortAge = options.cohortAge;
+  const ofCohort = (person: CharacterHistoryContextPersonInput) =>
+    ageOnDate(makeIsoDate(person.birthDate), startedAt) === cohortAge;
+  if (cohortAge !== undefined && !inputs.some(ofCohort)) {
+    const familyShares = (shares: HouseholdMix["shares"]) =>
+      shares.filter(
+        ([shape, share]) =>
+          share > p("zero") &&
+          (shape === "couple-with-children" ||
+            shape === "parent-with-children"),
+      );
+    const families = familyShares(mix.shares).length
+      ? familyShares(mix.shares)
+      : familyShares(householdMixForJurisdiction(null).shares);
+    const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
+    // Searched no further than as many households again as the town has.
+    const last = index + plans.length;
+    for (; ; index += p("one")) {
+      if (index > last)
+        throw new Error(
+          `No household of ${place.displayName} holds a resident aged ${cohortAge}.`,
+        );
+      let point =
+        new SeededRng(seedWorld.seed)
+          .fork(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}:cohort`)
+          .next() * total;
+      const shape =
+        families.find(([, share]) => (point -= share) < p("zero"))?.[0] ??
+        families.at(-1)![0];
+      const drawn = drawHousehold(index, shape);
+      if (drawn.people.some(ofCohort)) {
+        addHousehold(index, drawn);
+        break;
+      }
+    }
   }
   const peopleWorld = withFamilyContext(
     createCharacterHistoryContextPeople(seedWorld, inputs),
@@ -1439,12 +1491,20 @@ function openingFamilies(input: OpeningFamilyInput): {
     sharedTraitSource: Source | undefined,
   ) => {
     const core = temperament.get(id) ?? {};
-    // A recorded facet from upbringing outranks the generated estimate; the
-    // five temperament dimensions always come from the temperament model.
+    // A recorded facet from upbringing shifts the generated level by its
+    // recorded value (within the -2..2 levels), so the record counts and a
+    // person can still sit low; the five temperament dimensions always come
+    // from the temperament model.
     const recorded = Object.fromEntries(
-      Object.entries(traits).filter(
-        ([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`),
-      ),
+      Object.entries(traits)
+        .filter(([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+        .map(([key, value]) => [
+          key,
+          Math.max(
+            -p("two"),
+            Math.min(p("two"), (core[key] ?? p("zero")) + value),
+          ),
+        ]),
     );
     // Every generated trait shares one temperament source; recorded facets
     // keep the source they already had.

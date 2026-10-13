@@ -15,6 +15,7 @@
  * choice from their reasons, and every vote is each member's.
  */
 import sessions from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import { leaderOf, presidingOfficer } from "./leadership";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -28,12 +29,15 @@ import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { partySide } from "../appointments";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import {
   authorityFor,
   draftBill,
   FEDERAL_HOUSE,
   holdVote,
   leanOf,
+  memberKey,
   members,
   POLICY_QUESTIONS,
   type BillRow,
@@ -77,7 +81,20 @@ export function openWorldLegislating(core: CoreState): void {
     scheduleMeeting(api, office, "localAgendaMeetingsPerYear");
   for (const session of sessionRows[stateKey] ?? []) {
     const date = agendaDate(session.adjournAt, session.conveneAt);
-    if (date <= core.date) continue;
+    if (date <= core.date) {
+      // A session already over when the world opens comes back on the same
+      // day the next year it can, as a held session carries itself forward.
+      let next = date;
+      while (next <= core.date)
+        next = `${Number(next.slice(0, 4)) + 1}${next.slice(4)}`;
+      scheduleSession(api, stateKey, next, {
+        tag: "ESTIMATED",
+        citation: "the recorded session's end, carried forward a year",
+        asOf: core.date,
+        estimatedFrom: session.sourceUrl ?? "NCSL 2026 session calendar",
+      });
+      continue;
+    }
     scheduleSession(api, stateKey, date, {
       tag: "SOURCED",
       citation:
@@ -255,13 +272,30 @@ function bringAgenda(
   const leaderKey = input.leader
     ? (input.leader.personId ?? `official:${input.leader.id}`)
     : null;
+  // A person leader's traits tilt how much of the unmet gap is worth the
+  // floor time; a named official not filled in yet adds nothing.
+  const leaderPerson = input.leader?.personId
+    ? api.state.people.get(input.leader.personId)
+    : undefined;
+  const traitTilt = leaderPerson
+    ? parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        leaderPerson,
+        "world-legislating.bring-agenda",
+        "bring",
+        "hold",
+      )
+    : 0;
   const agenda = PLATFORM_QUESTIONS.map((question) => {
     const want = personStance(input.lean, question);
     return { question, want, gap: input.gapFor(question, want) };
   })
     .filter(
       (item) =>
-        item.gap > 0 && input.allowed(item.question, Math.sign(item.want)),
+        item.gap > 0 &&
+        item.gap + traitTilt > 0 &&
+        input.allowed(item.question, Math.sign(item.want)),
     )
     .sort((a, b) => b.gap - a.gap || a.question.localeCompare(b.question))
     .slice(0, input.bills);
@@ -328,13 +362,19 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         chamber(api, jurisdiction, "legislature-unicameral"));
   const sides = (lower?.members ?? []).map((m) => partySide(m.party));
   const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
-  // The floor leader: the most senior member of the majority (of the whole
-  // body where no party holds one).
-  const leader = senior(
-    (lower?.members ?? []).filter(
-      (m) => majority === 0 || partySide(m.party) === majority,
-    ),
-  );
+  // The floor leader: the majority leader the chamber elected (leadership
+  // engine), else the most senior member of the majority (of the whole body
+  // where no party holds one).
+  const elected = lower ? leaderOf(api, lower.id, "majority-leader") : null;
+  const leader =
+    (elected
+      ? lower?.members.find((m) => memberKey(m) === elected)
+      : undefined) ??
+    senior(
+      (lower?.members ?? []).filter(
+        (m) => majority === 0 || partySide(m.party) === majority,
+      ),
+    );
   bringAgenda(api, {
     key: work.key,
     jurisdiction,
@@ -359,7 +399,12 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
   scheduleMeeting(api, officeId, work.key);
   const body: Body = { id: officeId, members: members(api, officeId) };
-  const leader = senior(body.members);
+  // The presiding member the body elected, else the most senior.
+  const presiding = presidingOfficer(api, officeId);
+  const leader =
+    (presiding
+      ? body.members.find((m) => memberKey(m) === presiding)
+      : undefined) ?? senior(body.members);
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")

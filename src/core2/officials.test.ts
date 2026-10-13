@@ -147,6 +147,7 @@ describe(
               position.sponsor +
               position.deal +
               position.lobby +
+              position.trait +
               (position.party ?? 0) +
               (position.wing ?? 0) +
               (position.ambition ?? 0) +

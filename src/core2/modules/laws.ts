@@ -14,6 +14,8 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
+import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
 import {
   lawChainForPlace,
   startingLawRows,
@@ -88,6 +90,17 @@ export function openLaws(core: CoreState): LawChain {
         sourceRecordIds: [row.id],
       });
   }
+  // The minimum wage's dated changes since 2000, before the starting rows
+  // (owner's history ruling; OPUS-WEB reads the law at past dates).
+  for (const row of minimumWageHistoryRows(chain.stateKey, [
+    ...state.table("laws").rows(),
+  ] as unknown as LawRowInput[]))
+    if (!state.table("laws").get(row.id))
+      state.table("laws").put(row as unknown as ModuleRow);
+  // Social Security's retirement ages are federal law (owner, Oct 12).
+  for (const row of socialSecurityRows(today))
+    if (!state.table("laws").get(row.id))
+      state.table("laws").put(row as unknown as ModuleRow);
   // The state's researched answers to the policy questions are its law in
   // force at the opening (audit 3; BOARD "next" item 4).
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
@@ -112,6 +125,139 @@ export function openLaws(core: CoreState): LawChain {
       state.table("laws").put(row as unknown as ModuleRow);
   }
   return chain;
+}
+
+type WageStep = {
+  effectiveDate: string;
+  rateMinor: number;
+  sourceId: string;
+  estimated?: string;
+};
+const WAGE_HISTORY = wageHistory as unknown as {
+  sources: { id: string; citation?: string; url?: string; title?: string }[];
+  federal: WageStep[];
+  places: Record<string, WageStep[] | { noStateMinimum?: boolean }>;
+};
+
+/**
+ * Earlier minimum wage rows for the federal level and the town's state: each
+ * step ends where the next begins, and the last ends where that level's first
+ * starting row begins. Levels without a starting row get none (no state law).
+ */
+function minimumWageHistoryRows(
+  stateKey: string,
+  existing: readonly LawRowInput[],
+): LawRowInput[] {
+  const out: LawRowInput[] = [];
+  const levels: [string, "federal" | "state", WageStep[]][] = [
+    ["US", "federal", WAGE_HISTORY.federal],
+  ];
+  const own = WAGE_HISTORY.places[stateKey];
+  if (Array.isArray(own)) levels.push([stateKey, "state", own]);
+  for (const [jurisdiction, level, steps] of levels) {
+    const first = existing
+      .filter(
+        (r) =>
+          r.series === "minimum-wage" &&
+          r.level === level &&
+          r.jurisdiction === jurisdiction &&
+          r.tier === "general",
+      )
+      .map((r) => r.effectiveDate)
+      .sort()[0];
+    if (!first) continue;
+    const before = steps
+      .filter((s) => s.effectiveDate < first)
+      .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
+    for (const [i, step] of before.entries()) {
+      const source = WAGE_HISTORY.sources.find((s) => s.id === step.sourceId);
+      out.push({
+        id: `law:${jurisdiction}:${level}:minimum-wage:general:${step.effectiveDate}`,
+        jurisdiction,
+        level,
+        series: "minimum-wage",
+        tier: "general",
+        value: step.rateMinor,
+        unit: "minor/hour",
+        effectiveDate: step.effectiveDate,
+        endDate: before[i + 1]?.effectiveDate ?? first,
+        source: [
+          "data/research/laws/minimum-wage-history-2000-2026.json",
+          source?.url ?? step.sourceId,
+        ].join(" ; "),
+        retrieved: "2026-10-13",
+        estimate: step.estimated !== undefined || step.sourceId === "RECALL",
+      });
+    }
+  }
+  return out;
+}
+
+const SOCIAL_SECURITY = socialSecurity as unknown as {
+  source: string;
+  retrieved: string;
+  effectiveDate: string;
+  series: Record<
+    string,
+    {
+      valueYears: number;
+      schedule?: { bornThrough: number; months: number }[];
+    }
+  >;
+};
+
+function socialSecurityRows(today: string): LawRowInput[] {
+  return Object.entries(SOCIAL_SECURITY.series).map(([series, row]) => ({
+    id: `law:US:federal:${series}:general:starting`,
+    jurisdiction: "US",
+    level: "federal",
+    series,
+    tier: "general",
+    value: row.valueYears,
+    unit: "years",
+    effectiveDate:
+      SOCIAL_SECURITY.effectiveDate < today
+        ? SOCIAL_SECURITY.effectiveDate
+        : today,
+    endDate: null,
+    source: SOCIAL_SECURITY.source,
+    retrieved: SOCIAL_SECURITY.retrieved,
+    estimate: false,
+    ...(row.schedule ? { terms: { schedule: row.schedule } } : {}),
+  }));
+}
+
+/**
+ * A person's Social Security ages under the law in force, in months of age:
+ * the earliest claim, the full retirement age for their birth year (an
+ * enacted change replaces the schedule or the age), and the age delayed
+ * credits stop. For CORE's retirement choice, which decides within them.
+ */
+export function socialSecurityAges(
+  api: CoreAPI,
+  birthDate: string,
+  date: string = api.state.date,
+): { earliestMonths: number; fullMonths: number; delayedMaxMonths: number } {
+  const years = (series: string, fallback: number) =>
+    lawInForce(api, series, date).value ?? fallback;
+  const full = lawInForce(api, "social-security-full-retirement-age", date);
+  const schedule = (full.governing?.terms?.schedule ?? []) as {
+    bornThrough: number;
+    months: number;
+  }[];
+  // Born on January 1: treated as born the year before (20 C.F.R. § 404.102).
+  const year =
+    Number(birthDate.slice(0, 4)) - (birthDate.slice(5) === "01-01" ? 1 : 0);
+  const scheduled = schedule.find((r) => year <= r.bornThrough);
+  return {
+    earliestMonths: Math.round(
+      years("social-security-earliest-claim-age", 62) * 12,
+    ),
+    fullMonths: scheduled?.months ?? Math.round((full.value ?? 67) * 12),
+    delayedMaxMonths: Math.round(
+      years("social-security-delayed-credit-age", 70) * 12,
+    ),
+  };
 }
 
 export function lawChain(api: CoreAPI): LawChain {

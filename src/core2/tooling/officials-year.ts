@@ -117,7 +117,7 @@ console.log(
   JSON.stringify(
     {
       seed,
-      place: `${world.place.name ?? world.place.key}`,
+      place: `${world.place.displayName}`,
       placeKey: world.place.key,
       start,
       buildSeconds: Math.round(buildSeconds),

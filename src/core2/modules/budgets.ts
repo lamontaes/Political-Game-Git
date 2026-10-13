@@ -9,11 +9,13 @@
  *   from the Census Bureau's state and local finances (fiscal 2022, carried to
  *   the opening year by NASBO's calibration; `public-budget-bases.json`) per
  *   resident times its residents, and the Treasury's fiscal 2025 statement for
- *   the federal government. Local spending is shared between county and city
- *   by function (stand-in: SG-GOV-local-budget-split). Each new fiscal year's
+ *   the federal government. Local spending divides between county and city
+ *   by each function's real shares in the state (Census 2022). Each new fiscal year's
  *   budget is adopted on its start date by the old rule (carry the year's
  *   amounts forward) until a council or legislature votes it (M3):
- *   SG-GOV-budget-adopted-by-rule.
+ *   SG-GOV-budget-adopted-by-rule. A budget bill the legislature passes adds
+ *   its line changes to the government's enacted lines, which every later
+ *   year's budget starts from.
  * - Withholding: each paycheck's income, Social Security and Medicare taxes,
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
@@ -21,8 +23,8 @@
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
+import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { stopgap } from "../stopgaps";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -32,13 +34,33 @@ import {
   countyGovernmentUnit,
   governmentUnitsForPlace,
 } from "../../simulation/government-units";
-import { lawChain, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { registerPropertyTax } from "../housing-property-tax";
+import type { LawRowInput } from "../laws-starting";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
 
 /** Spending functions a county carries; the rest of local spending is the city's or township's. */
+type TypeShares = {
+  county: number;
+  municipal: number;
+  township: number;
+};
+const LOCAL_SPLIT = localSplit as unknown as {
+  national: Record<string, TypeShares>;
+  states: Record<string, Record<string, TypeShares>>;
+};
+/** The county's share of a function's local spending against the city's. */
+function countyShare(stateKey: string, fn: string): number {
+  const row = LOCAL_SPLIT.states[stateKey]?.[fn] ?? LOCAL_SPLIT.national[fn];
+  const city = (row?.municipal ?? 0) + (row?.township ?? 0);
+  const total = (row?.county ?? 0) + city;
+  return total > 0 ? row!.county / total : COUNTY_FUNCTIONS.has(fn) ? 1 : 0;
+}
+
+/** Functions a county carries where the survey shows no local spending on them. */
 const COUNTY_FUNCTIONS = new Set([
   "welfareAndMedicaid",
   "healthAndHospitals",
@@ -124,14 +146,28 @@ export const BUDGETS_MODULE: CoreModule = {
       budgets: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       withholding: { indexes: { byPerson: { fields: ["personId"] } } },
       priorities: {},
+      /** Each government's spending changes from every budget bill it enacted. */
+      enacted: {},
       yearToDate: {},
+      outsideRevenue: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
     },
   },
   journalSourceProviders: {
     [WITHHOLDING_KIND]: (api, reference) => withholdingSlot(api, reference.id),
   },
-  onCalendarWork: adoptBudget,
+  onCalendarWork: (api, work) => {
+    adoptBudget(api, work);
+    receiveOutsideRevenue(api, work);
+  },
   onWorkPayroll: withhold,
+  eventKinds: ["law-took-effect"],
+  onEvent: (api, event) => {
+    const series = event.facts?.series;
+    if (series === "sales-tax" || series === GROCERY_EXEMPTION)
+      syncSalesTax(api);
+  },
 };
 
 function table(api: CoreAPI, name: string) {
@@ -212,11 +248,16 @@ function budgetFor(
     for (const [k, v] of Object.entries(place.state.spending))
       spending[k] = minor(v, gov.residents, factor);
   } else if (place?.local) {
-    stopgap("SG-GOV-local-budget-split");
+    // Each function's local spending divides between county and city by the
+    // state's real shares (Census 2022, by type of government); school and
+    // special districts' shares divide the same way, as the game has no
+    // separate districts.
     const county = gov.level === "county";
-    for (const [k, v] of Object.entries(place.local.spending))
-      if (COUNTY_FUNCTIONS.has(k) === county)
-        spending[k] = minor(v, gov.residents, factor);
+    for (const [k, v] of Object.entries(place.local.spending)) {
+      const share = countyShare(stateKey, k);
+      const mine = county ? share : 1 - share;
+      if (mine > 0) spending[k] = minor(v * mine, gov.residents, factor);
+    }
     const share =
       Object.values(spending).reduce((a, b) => a + b, 0) /
       Math.max(
@@ -373,7 +414,276 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       sourceRecordIds: [gov.id],
     });
   }
+  syncSalesTax(api);
+  scheduleOutsideRevenue(api, core.date);
   return govs;
+}
+
+const MONTHS_PER_YEAR = 12;
+
+/** Revenue lines a flow in the town already pays (withholding, sales tax, property tax). */
+const TOWN_PAID_LINES = new Set([
+  "individualIncomeTax",
+  "generalSalesTax",
+  "propertyTax",
+]);
+
+function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
+  const d = new Date(`${after.slice(0, 7)}-01T00:00:00Z`);
+  d.setUTCMonth(d.getUTCMonth() + 1);
+  const date = d.toISOString().slice(0, 10);
+  api.moduleCalendar(BUDGETS_MODULE_ID).schedule({
+    key: `outside-revenue:${date}`,
+    date,
+    kind: "outside-revenue",
+    source: {
+      tag: "ESTIMATED",
+      citation: "Census per-resident revenue (public-budget-bases.json)",
+      asOf: api.state.date,
+      estimatedFrom: "SG-GOV-outside-revenue-monthly",
+    },
+    sourceRecordIds: ["budgets:outside-revenue"],
+  });
+}
+
+/**
+ * Each month, the revenue that reaches a state, county or city treasury from
+ * outside what the town's own flows pay: state and federal aid, charges and
+ * fees, and the taxes no flow in the town models, in full; and the taxes
+ * the town does pay (income, general sales, property) for the government's
+ * residents outside the town. A twelfth of the year's budget each month.
+ */
+function receiveOutsideRevenue(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  if (work.kind !== "outside-revenue") return;
+  remitPropertyTax(api, work.source);
+  // stopgapId: SG-GOV-outside-revenue-monthly
+  api.stopgap("SG-GOV-outside-revenue-monthly");
+  const town = lawChain(api).townPlaceId;
+  // The town's outside account, else any (the money comes from outside).
+  const outside = [...api.state.organizations.values()]
+    .filter((o) => o.outsideFlow !== undefined)
+    .sort(
+      (a, b) =>
+        Number(b.placeId === town) - Number(a.placeId === town) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  const townResidents =
+    Number(api.state.placeMetadata.referencePopulation) ||
+    api.state.people.size;
+  if (outside)
+    for (const gov of governments(api)) {
+      if (gov.level === "federal") continue;
+      const budget = budgetsOf(api, gov.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1);
+      if (!budget) continue;
+      const away =
+        gov.residents > 0
+          ? Math.max(0, Math.min(1, 1 - townResidents / gov.residents))
+          : 0;
+      let annual = 0;
+      for (const [line, amount] of Object.entries(budget.revenueMinor))
+        annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
+      const monthly = Math.round(annual / MONTHS_PER_YEAR);
+      if (monthly <= 0) continue;
+      const accounts = api.accounts();
+      const receipt = accounts.transfer({
+        id: `outside-revenue:${gov.id}:${api.state.date}`,
+        from: accounts.main(outside.id),
+        to: accounts.main(gov.organizationId),
+        amountMinor: monthly,
+        reasonKey: "outside-revenue",
+        source: work.source,
+      });
+      table(api, "outsideRevenue").put({
+        id: receipt.id,
+        governmentId: gov.id,
+        date: api.state.date,
+        amountMinor: receipt.paidMinor,
+      } as unknown as ModuleRow);
+    }
+  scheduleOutsideRevenue(api, api.state.date);
+}
+
+const GROCERY_EXEMPTION =
+  "us-policy-positions:fiscal.exempt-groceries-from-sales-tax";
+/** Grocery stores' classification (NAICS 445, food and beverage retailers). */
+const GROCERY_SELLERS = ["445"];
+
+/**
+ * The sales tax in force collected on every purchase in town (core2-api-v21):
+ * each level's rate to its own treasury (a local rate without a city
+ * government goes to the county, else the state), set so the levels' shares
+ * sum to the combined tax inside the price; groceries are exempt where a
+ * grocery exemption is law. Re-run when a sales-tax law takes effect.
+ */
+export function syncSalesTax(api: CoreAPI): void {
+  registerPropertyTax(propertyTaxTerms);
+  taxCollector(api);
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const answer = lawInForce(api, "sales-tax");
+  const town = lawChain(api).townPlaceId;
+  const govs = governments(api);
+  const payee = (level: string) =>
+    (level === "city"
+      ? (govs.find((g) => g.level === "city") ??
+        govs.find((g) => g.level === "county"))
+      : level === "county"
+        ? govs.find((g) => g.level === "county")
+        : undefined) ?? govs.find((g) => g.level === "state");
+  const rates = new Map<string, number>();
+  for (const l of answer.levels) {
+    if (!l.row || l.setAside || l.level === "federal") continue;
+    const gov = payee(l.level);
+    const value = l.row.value ?? 0;
+    if (!gov || !(value > 0)) continue;
+    rates.set(gov.id, (rates.get(gov.id) ?? 0) + value);
+  }
+  const total = [...rates.values()].reduce((a, b) => a + b, 0);
+  const exempt = groceryExemptionInForce(api) ? GROCERY_SELLERS : undefined;
+  for (const gov of govs) {
+    const id = `sales-tax:${gov.id}`;
+    const rate = rates.get(gov.id) ?? 0;
+    const account = accountFor(api, gov.id);
+    if (!account) continue;
+    // The share of a tax-inclusive price that is this level's: rate / (100 + total).
+    const effective = rate > 0 ? (100 * rate) / (100 + total - rate) : 0;
+    api.setPurchaseTax({
+      id,
+      placeId: town,
+      ratePercent: effective,
+      payeeAccountId: account,
+      ...(exempt ? { exemptClassificationPrefixes: exempt } : {}),
+      from: api.state.date,
+      source: {
+        tag: answer.estimate ? "ESTIMATED" : "SOURCED",
+        citation: `Sales tax in force (${gov.name})`,
+        asOf: api.state.date,
+        ...(answer.estimate ? { estimatedFrom: "starting-law" } : {}),
+      },
+    });
+  }
+}
+
+/**
+ * Property tax for WORLD's billing: the county's rate in force (a share of
+ * the home's value), paid to the treasury that collects it: the county,
+ * else the city, else the state.
+ */
+function propertyTaxTerms(api: CoreAPI) {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return undefined;
+  const answer = lawInForce(api, "property-tax");
+  const row = answer.governing;
+  if (!row || answer.value === null || !(answer.value >= 0)) return undefined;
+  const collector = taxCollector(api);
+  if (!collector) return undefined;
+  const citation = Array.isArray(row.source)
+    ? row.source.join(" ; ")
+    : (row.source as string);
+  return {
+    rate: answer.value / 100,
+    payeeId: collector,
+    source: {
+      tag: "ESTIMATED" as const,
+      citation,
+      asOf: api.state.date,
+      estimatedFrom: "Property tax in force, to the county's tax collector",
+    },
+  };
+}
+
+/**
+ * The county's tax collector (the city's, else the state's, where there's no
+ * county government): owners pay it, and it passes each levying
+ * government's share on each month.
+ */
+function taxCollector(api: CoreAPI): string | null {
+  const govs = governments(api);
+  const county =
+    govs.find((g) => g.level === "county") ??
+    govs.find((g) => g.level === "city") ??
+    govs.find((g) => g.level === "state");
+  if (!county) return null;
+  const id = `organization:tax-collector:${county.id}`;
+  if (!api.state.organizations.has(id))
+    api.addOrganization({
+      id,
+      placeId: lawChain(api).townPlaceId,
+      name: `${county.name} tax collector`,
+      kind: "government-treasury",
+      liquidMinor: 0,
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Census Bureau, 2025 government units listing",
+        asOf: api.state.date,
+      },
+      governmentFacts: { governmentKey: county.id },
+    });
+  return id;
+}
+
+/**
+ * The tax collector passes on what it collected: each government that
+ * levies property tax (state, county, city) gets its share, by what it
+ * levies per resident (Census property-tax revenue over residents).
+ */
+function remitPropertyTax(api: CoreAPI, source: Source): void {
+  const id = taxCollector(api);
+  const collected = id
+    ? (api.state.organizations.get(id)?.liquidMinor ?? 0)
+    : 0;
+  if (!id || collected <= 0) return;
+  const levies = governments(api)
+    .filter((g) => g.level !== "federal" && g.residents > 0)
+    .map((g) => {
+      const budget = budgetsOf(api, g.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1);
+      return {
+        gov: g,
+        perResident: (budget?.revenueMinor.propertyTax ?? 0) / g.residents,
+      };
+    })
+    .filter((l) => l.perResident > 0);
+  const total = levies.reduce((sum, l) => sum + l.perResident, 0);
+  if (!(total > 0)) return;
+  const accounts = api.accounts();
+  let left = collected;
+  levies.forEach((l, i) => {
+    const amount =
+      i === levies.length - 1
+        ? left
+        : Math.floor((collected * l.perResident) / total);
+    left -= amount;
+    if (amount > 0)
+      accounts.transfer({
+        id: `property-tax-remit:${l.gov.id}:${api.state.date}`,
+        from: accounts.main(id),
+        to: accounts.main(l.gov.organizationId),
+        amountMinor: amount,
+        reasonKey: "property-tax-remit",
+        source,
+      });
+  });
+}
+
+function groceryExemptionInForce(api: CoreAPI): boolean {
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const date = api.state.date;
+  return lawChain(api).levels.some(({ jurisdiction }) => {
+    const latest = (
+      laws.query("bySeries", [
+        jurisdiction,
+        GROCERY_EXEMPTION,
+      ]) as unknown as LawRowInput[]
+    )
+      .filter((r) => r.effectiveDate <= date)
+      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    return latest?.value === 1;
+  });
 }
 
 /** The executive's budget priorities for the next fiscal year: changes to lines, by government. */
@@ -391,6 +701,14 @@ export function setBudgetPriorities(
   } as unknown as ModuleRow);
 }
 
+/** The year's priorities are spent once its budget bill is voted. */
+export function clearBudgetPriorities(
+  api: CoreAPI,
+  governmentId: string,
+): void {
+  table(api, "priorities").remove(governmentId);
+}
+
 export function budgetPriorities(
   api: CoreAPI,
   governmentId: string,
@@ -404,15 +722,40 @@ export function budgetPriorities(
   );
 }
 
+/** The spending changes every budget bill a government enacted has made, by line. */
+export function enactedBudgetChanges(
+  api: CoreAPI,
+  governmentId: string,
+): Readonly<Record<string, number>> {
+  return (
+    (
+      table(api, "enacted").get(governmentId) as unknown as
+        { changes: Record<string, number> } | undefined
+    )?.changes ?? {}
+  );
+}
+
 /**
- * The next year's budget as proposed: this year's lines carried forward, with
- * the executive's priorities applied. The legislature engine votes it.
+ * A year's budget as the legislature has written it: the base amounts with
+ * every enacted budget bill's line changes, plus the given changes. Acts and
+ * laws that amend a year's budget (`amendBudget`) apply on top each year, so
+ * they never pile up by being carried forward.
  */
-export function proposedBudget(
+/** A year's budget at its Census base: no enacted or proposed changes. */
+export function baseBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): BudgetRow {
+  return budgetFor(gov, lawChain(api).stateKey, fy, api.state.date, "base");
+}
+
+function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
   adoptedBy: string,
+  changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const base = budgetFor(
     gov,
@@ -421,11 +764,66 @@ export function proposedBudget(
     api.state.date,
     adoptedBy,
   );
-  const changes = budgetPriorities(api, gov.id)?.changes ?? {};
   const spending = { ...base.spendingMinor };
-  for (const [line, delta] of Object.entries(changes))
-    spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
+  for (const set of [enactedBudgetChanges(api, gov.id), changes])
+    for (const [line, delta] of Object.entries(set))
+      spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
   return { ...base, spendingMinor: spending };
+}
+
+/**
+ * The next year's budget as proposed: the lines the legislature has enacted
+ * carried forward, with the priorities set for the year applied. The
+ * legislature engine votes it.
+ */
+export function proposedBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+): BudgetRow {
+  return legislatedBudget(
+    api,
+    gov,
+    fy,
+    adoptedBy,
+    budgetPriorities(api, gov.id)?.changes ?? {},
+  );
+}
+
+/**
+ * A budget bill the legislature passed: its line changes join the
+ * government's enacted lines and the year's budget is adopted with them.
+ */
+export function enactBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+  changes: Readonly<Record<string, number>>,
+): BudgetRow {
+  const enacted = { ...enactedBudgetChanges(api, gov.id) };
+  for (const [line, delta] of Object.entries(changes))
+    enacted[line] = (enacted[line] ?? 0) + delta;
+  table(api, "enacted").put({
+    id: gov.id,
+    changes: enacted,
+  } as unknown as ModuleRow);
+  const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
+  putBudget(api, budget);
+  return budget;
+}
+
+/** A year's budget when its bill fails: the enacted lines carried forward. */
+export function carriedBudget(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  adoptedBy: string,
+): BudgetRow {
+  const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
+  putBudget(api, budget);
+  return budget;
 }
 
 export function putBudget(api: CoreAPI, budget: BudgetRow): void {
@@ -449,20 +847,19 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   // The town's council votes its own budget where the legislature engine runs.
+  const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
   const voted = councilBudgetVote?.(api, gov, fy) ?? null;
   let budget: BudgetRow;
   if (voted) budget = voted;
   else {
     // stopgapId: SG-GOV-budget-adopted-by-rule
     api.stopgap("SG-GOV-budget-adopted-by-rule");
-    budget = budgetFor(
+    budget = carriedBudget(
+      api,
       gov,
-      lawChain(api).stateKey,
       fy,
-      api.state.date,
       "carried forward by the budget rule until the council or legislature votes it",
     );
-    table(api, "budgets").put(budget as unknown as ModuleRow);
   }
   api.emit({
     id: `budget-adopted:${budget.id}`,
@@ -475,6 +872,38 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     news: true,
     facts: { governmentId: gov.id, fiscalYear: String(fy) },
   });
+  // The line changes the body enacted this year reach whatever each line
+  // pays for, as an amendment's change does (law-effects handlers).
+  if (voted) {
+    const after = enactedBudgetChanges(api, gov.id);
+    for (const line of [
+      ...new Set([...Object.keys(after), ...Object.keys(enactedBefore)]),
+    ].sort()) {
+      const delta = (after[line] ?? 0) - (enactedBefore[line] ?? 0);
+      if (delta === 0) continue;
+      api.emit({
+        id: `budget-line-changed:${budget.id}:${line}:adopted`,
+        date: api.state.date,
+        kind: "budget-line-changed",
+        personIds: [],
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `Budget adopted (${budget.adoptedBy})`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: false,
+        facts: {
+          governmentId: gov.id,
+          level: gov.level,
+          line,
+          deltaMinor: String(delta),
+          measureId: `budget:${gov.id}:${fy}`,
+        },
+      });
+    }
+  }
   api.moduleCalendar(BUDGETS_MODULE_ID).schedule({
     key: `adopt:${gov.id}:${fy + 1}`,
     date: `${fy + 1}-${gov.fiscalYearStart}`,
@@ -626,6 +1055,15 @@ export function amendBudget(
     },
   });
   return amended;
+}
+
+/** What a government's treasury has received from outside the town's flows. */
+export function outsideRevenueOf(api: CoreAPI, governmentId: string): number {
+  return (
+    table(api, "outsideRevenue").query("byGovernment", [
+      governmentId,
+    ]) as unknown as { amountMinor: number }[]
+  ).reduce((sum, r) => sum + r.amountMinor, 0);
 }
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
