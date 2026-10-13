@@ -1204,6 +1204,8 @@ export function officialCandidate(
     (row) =>
       row.ended === null &&
       row.stateKey === facts.stateKey &&
+      // The state's own officeholders: not the federal executive.
+      !row.seatId.startsWith("seat:US:") &&
       pool.has(row.bodyKind) &&
       row.seatId !== contest.seatId &&
       row.id !== holder &&
