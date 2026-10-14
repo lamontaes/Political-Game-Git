@@ -107,7 +107,7 @@ for (let attempt = 0; attempt < 12; attempt += 1) {
   );
   const taken = crimes.filter((c) => c.subjectId === drafted.id && c.taken);
   const end = addDays(makeIsoDate(core.date), days);
-  while (core.date < end) advanceCore(core, 1);
+  advanceCore(core, end);
   const named = [...core.people.values()].filter(
     (p) => p.alive && p.tier !== "husk",
   );

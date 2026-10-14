@@ -1158,6 +1158,38 @@
           "actKinds": ["concede", "play-safe", "cooperate"]
         }
       ]
+    },
+    {
+      "id": "meetings.hold-town-hall",
+      "site": "src/core2/modules/meetings.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "skip",
+          "actKinds": ["withdraw", "stay-quiet", "concede"]
+        },
+        {
+          "id": "hold",
+          "actKinds": ["engage", "speak-out", "confront"]
+        }
+      ]
+    },
+    {
+      "id": "campaigns.party-firmness",
+      "site": "src/core2/campaign-stances.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "options": [
+        {
+          "id": "stay-out",
+          "actKinds": ["withdraw", "delay"]
+        },
+        {
+          "id": "join",
+          "actKinds": ["commit", "engage", "cooperate"]
+        }
+      ]
     }
   ],
   "outside": [
