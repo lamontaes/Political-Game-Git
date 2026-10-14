@@ -1,7 +1,5 @@
 /** M1-04 checks on a recorded fixture; the generated-world year is tooling's job. */
 import { describe, expect, it } from "vitest";
-// Load the core first: the past modules import each other and must start from it.
-import "./life";
 import { createHash } from "node:crypto";
 import { openLaws, lawInForce } from "./modules/laws";
 import { unemploymentTerms } from "./jobs-benefits";

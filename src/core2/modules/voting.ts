@@ -119,10 +119,14 @@ import {
   candidateInputs,
   candidateReasons,
   electorateChange,
+  electorateParameter,
   raceConditions,
   rememberOpeningElectorate,
   type CandidateReasons,
 } from "../electorate-inputs";
+import { scandalsOf } from "./corruption";
+import { convictionsOf } from "./justice";
+import { newsKey, trustWeight } from "./news";
 
 function electionsParameter(key: string): number {
   const row = (
@@ -226,6 +230,8 @@ interface CountedBallotsRow {
   readonly choice: readonly number[];
   readonly lean: readonly number[];
   readonly incumbentLean: readonly number[];
+  /** Each voter's trust in the press against the average reader (absent on rows kept before it was). */
+  readonly trust?: readonly number[];
   readonly duty: readonly number[];
   readonly interest: readonly number[];
   readonly cost: readonly number[];
@@ -545,6 +551,16 @@ function appealFor(
     const relationship =
       campaignParameter("ballotRelationshipWeight") *
       relationshipWith(api, voter, entry.id);
+    // Their own knowledge of a scandal in place of the town's share of it,
+    // weighed by how far they trust the press.
+    const scandal = heardScandal(
+      api,
+      voter.id,
+      scandalStoriesOf(api, entry.id, api.state.date),
+    )
+      ? -appealOfShare(electorateParameter("scandalShare")) *
+        trustWeight(api, lean)
+      : 0;
     appeal[entry.id] = {
       total:
         parts.party +
@@ -555,7 +571,8 @@ function appealFor(
         partyTieTerm +
         relationship +
         record +
-        parts.ballot,
+        parts.ballot +
+        scandal,
       party: parts.party,
       standing,
       incumbent: parts.incumbent,
@@ -566,6 +583,7 @@ function appealFor(
       relationship,
       record,
       ballot: parts.ballot,
+      scandal,
     };
   }
   const basis: "platform" | "party-name-incumbency" = heardPlatform
@@ -701,11 +719,60 @@ function contestView(
       outsideRecognition: knownBeyondTown(api, f.personId, facts.isIncumbent),
       platform: facts.platform,
       ballotCues: cues.get(f.personId) ?? [],
+      // A reported scandal as far as its story reached the town's people.
+      scandal: scandalAppeal(api, f.personId, named),
     };
   });
   const view = { field: rows, publicRecord };
   byKey.set(key, view);
   return view;
+}
+
+/**
+ * A reported scandal in appeal units, times the share of the town's named
+ * adults whose news reached them (the counted adults are read at the same
+ * share; a named voter reads their own knowledge). Zero where none was
+ * reported or none of it reached anyone.
+ */
+function scandalAppeal(
+  api: CoreAPI,
+  candidateId: string,
+  named: readonly Readonly<PersonState>[],
+): number {
+  const stories = scandalStoriesOf(api, candidateId, api.state.date);
+  if (!stories.length || !named.length) return 0;
+  const reached = named.filter((p) => heardScandal(api, p.id, stories)).length;
+  return (
+    appealOfShare(electorateParameter("scandalShare")) *
+    (reached / named.length)
+  );
+}
+
+/**
+ * The news stories that make a candidate's scandal, by the date: a taken
+ * bribe someone reported to the press, and a conviction the court made
+ * public. Voters read only the ones that reached them.
+ */
+export function scandalStoriesOf(
+  api: CoreAPI,
+  candidateId: string,
+  date: string,
+): readonly string[] {
+  return [
+    ...scandalsOf(api, candidateId, date),
+    ...convictionsOf(api, candidateId, date).map(
+      (row) => `justice.convicted:${row.id}`,
+    ),
+  ];
+}
+
+/** Whether a scandal story about the candidate reached this person. */
+function heardScandal(
+  api: CoreAPI,
+  personId: string,
+  stories: readonly string[],
+): boolean {
+  return stories.some((storyId) => api.knows(personId, newsKey(storyId)));
 }
 
 function countedField(
@@ -1304,6 +1371,7 @@ export function holdPrimary(
         inTown: true,
         local: true,
         incumbentLean: incumbentLeanOf(api, voter),
+        trust: trustWeight(api, leanOf.get(voter.id) ?? 0),
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
       });
@@ -1948,6 +2016,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     choice: [] as number[],
     lean: [] as number[],
     incumbentLean: [] as number[],
+    trust: [] as number[],
     duty: [] as number[],
     interest: [] as number[],
     cost: [] as number[],
@@ -1963,6 +2032,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       inTown: true,
       local: true,
       incumbentLean,
+      trust: trustWeight(api, lean),
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: countedEligible - 1,
     });
@@ -1979,6 +2049,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.choice.push(choice ? field.findIndex((f) => f.id === choice) : -1);
     kept.lean.push(lean);
     kept.incumbentLean.push(incumbentLean);
+    kept.trust.push(trustWeight(api, lean));
     kept.duty.push(t.duty);
     kept.interest.push(t.interest);
     kept.cost.push(t.cost);
@@ -2385,7 +2456,7 @@ const reasonsByDay = new WeakMap<
 
 /**
  * Each candidate's public standing in a partisan state or federal race (the
- * presidency too): incumbency, experience, scandal, the campaign's books,
+ * presidency too): incumbency, experience, the campaign's books,
  * the officeholder's record, the economy and the midterm penalty, as every
  * voter in the race sees them. Null for a local or nonpartisan race.
  */
@@ -2702,6 +2773,7 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       inTown: true,
       local: true,
       incumbentLean: row.incumbentLean[i]!,
+      trust: row.trust?.[i] ?? 1,
       ballotForm: i,
     }),
     basis: "party-name-incumbency",

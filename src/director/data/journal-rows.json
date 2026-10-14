@@ -117,7 +117,8 @@
           "text": "{{employer}}"
         }
       ],
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "family:child",
@@ -141,7 +142,8 @@
         }
       ],
       "sameDay": "event:person.moved-away",
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "unpaid-wages",
@@ -174,13 +176,15 @@
           "text": "{{name}}"
         }
       ],
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:housing.eviction",
       "turn": false,
       "hasOtherLine": true,
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:housing.purchase",
@@ -210,7 +214,8 @@
         }
       ],
       "wordsFrom": "family:child",
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:person.moved-away",
@@ -218,13 +223,15 @@
       "hasOtherLine": true,
       "hasGroupLine": true,
       "selfWhenNamed": true,
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:health.serious-illness",
       "turn": false,
       "hasOtherLine": true,
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:office.replied",

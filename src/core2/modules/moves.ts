@@ -18,7 +18,7 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
@@ -271,6 +271,34 @@ function ownsHome(api: CoreAPI, householdId: string): boolean {
   return ownsWithMortgage(core, householdId);
 }
 
+/**
+ * Who holds an office today: the officials roster's seated members and the
+ * offices engine's serving terms. Read by module id: the offices engine
+ * imports this one.
+ */
+const officeByCore = new WeakMap<
+  CoreState,
+  { date: string; ids: Set<string> }
+>();
+function officeholders(api: CoreAPI): ReadonlySet<PersonId> {
+  const core = api.state as CoreState;
+  const held = officeByCore.get(core);
+  if (held?.date === core.date) return held.ids;
+  const ids = new Set<string>();
+  if (core.modules.has("core2-officials-v1"))
+    for (const row of api
+      .moduleState("core2-officials-v1")
+      .table("officials")
+      .rows())
+      if (row.ended === null) ids.add(row.id);
+  if (core.modules.has("core2-offices-v1"))
+    for (const row of api.moduleState("core2-offices-v1").table("terms").rows())
+      if (row.status === "serving" && typeof row.personId === "string")
+        ids.add(row.personId);
+  officeByCore.set(core, { date: core.date, ids });
+  return ids;
+}
+
 /** What holds this person in town, each a weight against the pull. */
 export function holdsOf(
   api: CoreAPI,
@@ -314,37 +342,18 @@ export function holdsOf(
     children: children ? m(api, "movesChildrenHold") : zero,
     kin:
       m(api, "movesKinHold") * Math.min(relatives, m(api, "movesKinHoldCap")),
-    job: person.jobId ? m(api, "movesJobHold") : zero,
-    // An elected office: leaving the district ends it.
-    office: holdsOffice(api, person.id) ? m(api, "movesOfficeHold") : zero,
+    // Holding office is a job, and the strongest hold: leaving town gives up the seat.
+    job:
+      person.jobId || officeholders(api).has(person.id)
+        ? m(api, "movesJobHold")
+        : zero,
+    office: officeholders(api).has(person.id)
+      ? m(api, "movesOfficeHold")
+      : zero,
     // A lean toward change and risk loosens the hold; one toward keeping
     // things the same tightens it.
     temperament: -m(api, "movesRiskWeight") * temperament,
   };
-}
-
-/**
- * Whether a person holds an elected or appointed office, read from the
- * offices and officials engines' records by their module ids (the offices
- * engine reads this module's move event, so it isn't imported here).
- */
-function holdsOffice(api: CoreAPI, personId: PersonId): boolean {
-  const core = api.state as CoreState;
-  if (
-    core.modules.has("core2-offices-v1") &&
-    api
-      .moduleState("core2-offices-v1")
-      .table("terms")
-      .query("byPerson", [personId])
-      .some((t) => (t as unknown as { status: string }).status === "serving")
-  )
-    return true;
-  if (!core.modules.has("core2-officials-v1")) return false;
-  const row = api
-    .moduleState("core2-officials-v1")
-    .table("officials")
-    .get(personId) as unknown as { ended: string | null } | undefined;
-  return !!row && row.ended === null;
 }
 
 interface Conditions {
@@ -695,9 +704,14 @@ function leave(
     }
     if (left > 0) departure.cashLeftMinor = left;
   }
+  // The jobs each mover leaves, named on the event so their employers replace them.
+  const jobsLeft: Record<string, string> = {};
   for (const id of going) {
     const mover = core.people.get(id)!;
-    if (mover.jobId) api.endJob(mover.jobId, departure.id);
+    if (mover.jobId) {
+      jobsLeft[`person:${id}:job`] = mover.jobId;
+      api.endJob(mover.jobId, departure.id);
+    }
     api.updatePerson(id, { tier: INACTIVE_TIER });
     store(api).table("pulls").remove(id);
   }
@@ -733,9 +747,12 @@ function leave(
     publicRecord: false,
     topic: where.destinationId,
     source,
-    facts: Object.fromEntries(
-      going.map((id) => [`person:${id}:residence`, where.destinationId]),
-    ),
+    facts: {
+      ...Object.fromEntries(
+        going.map((id) => [`person:${id}:residence`, where.destinationId]),
+      ),
+      ...jobsLeft,
+    },
   });
   return departure;
 }
@@ -762,6 +779,9 @@ function accumulate(
 ): void {
   const band = bandOf(api, person);
   if (!band) return;
+  // A seat holds its holder: only a recorded event (a job lost, a death at
+  // home, an eviction, kin leaving) builds their pull while they serve.
+  if (officeholders(api).has(person.id)) return;
   const pull = pullOf(api, person);
   const { factor, pushes } = netFactor(api, person);
   const conditions = place ?? placeConditions(api, person.placeId);
@@ -799,8 +819,9 @@ function accumulate(
 function openingPulls(api: CoreAPI, adults: readonly PersonState[]): void {
   const zero = api.parameter("zero");
   const one = api.parameter("one");
+  const seated = officeholders(api);
   const rows = adults
-    .filter((person) => bandOf(api, person))
+    .filter((person) => bandOf(api, person) && !seated.has(person.id))
     .map((person) => ({ person, ...netFactor(api, person) }))
     .sort((a, b) => a.net - b.net);
   const stay = m(api, "movesStayPull");
@@ -892,6 +913,14 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     api.stopgap(OWNER_STOPGAP);
     return null;
   }
+  // An officeholder in the household leaves only for a recorded cause (an
+  // event's pull), never on a partner's stage of life alone.
+  const seated = officeholders(api);
+  if (
+    going.some((id) => seated.has(id)) &&
+    !Object.keys(pull.causes).some((key) => EVENT_PULLS[key] !== undefined)
+  )
+    return null;
   const pinned = pinnedJobs(api.state as CoreState);
   if (
     going.some((id) => {
@@ -939,6 +968,78 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
   return leave(api, person, pull, holds);
 }
 
+/**
+ * The pull at which leaving would outscore staying for this person today,
+ * with every other reason in their choice as it stands: the chooser's two
+ * scores are straight lines in the pull, so two readings place the point.
+ */
+function leavingPoint(api: CoreAPI, person: Readonly<PersonState>): number {
+  const zero = api.parameter("zero");
+  const offers: ActOffer[] = [STAY_PUT, MOVE_AWAY].map((definition) => ({
+    definition,
+    targetId: person.placeId,
+    availableHours: api.parameter("hoursPerDay"),
+  }));
+  const margin = (value: number) => {
+    pending.set(api.state, {
+      pull: { id: person.id, value, causes: {}, reads: {} },
+    });
+    const scored = scoreOffers(api.state, person.id, offers, {
+      needValues: { time: zero },
+    });
+    pending.delete(api.state);
+    const score = (id: string) =>
+      scored.find((row) => row.offer.definition.id === id)!.score;
+    return score(MOVE_AWAY.id) - score(STAY_PUT.id);
+  };
+  const atZero = margin(zero);
+  const slope = margin(api.parameter("one")) - atZero;
+  return slope > zero ? -atZero / slope : Number.POSITIVE_INFINITY;
+}
+
+/** The partner who decides for a couple (listed first), or the person alone. */
+function decider(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): Readonly<PersonState> {
+  const partner = partnerAtHome(api, person);
+  return partner && partner.id.localeCompare(person.id) < api.parameter("zero")
+    ? partner
+    : person;
+}
+
+const PERSON_REVIEW_KIND = "moves-person-review";
+
+/**
+ * Books one person's own review of leaving on a day (the earliest booked
+ * stands): the day a cause reached them, or the day their building pull
+ * reaches the point where leaving would win.
+ */
+function bookReview(api: CoreAPI, personId: PersonId, date: string): void {
+  const calendar = api.moduleCalendar(MOVES_MODULE_ID);
+  const key = `person-review:${personId}`;
+  const held = calendar.get(key);
+  if (held?.status === "running") return;
+  if (held?.status === "pending") {
+    if (held.date <= date) return;
+    calendar.cancel(key);
+  } else if (held) calendar.forget(key);
+  calendar.schedule({
+    key,
+    date,
+    kind: PERSON_REVIEW_KIND,
+    payload: { personId },
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation:
+        "The day a cause reached this person, or the day their pull to leave reaches the point where leaving wins.",
+      estimatedFrom: STOPGAP,
+    },
+    sourceRecordIds: [personId],
+  });
+}
+
 /** One adult's month: their pull builds, then they (or their couple) choose. */
 export function reviewMove(
   api: CoreAPI,
@@ -954,16 +1055,17 @@ export function reviewMove(
 
 const REVIEW_KIND = "moves-review";
 
-/** Books the next review on the first day of next month. */
+/** The first day of the month after a date. */
+function scheduleDate(api: CoreAPI, date: string): string {
+  const [year, month] = date.split("-").map(Number) as [number, number];
+  return month === api.parameter("monthsPerYear")
+    ? `${year + api.parameter("one")}-01-01`
+    : `${year}-${String(month + api.parameter("one")).padStart(2, "0")}-01`;
+}
+
+/** Books the next month's building of every pull, on its first day. */
 function scheduleReview(api: CoreAPI): void {
-  const [year, month] = api.state.date.split("-").map(Number) as [
-    number,
-    number,
-  ];
-  const next =
-    month === api.parameter("monthsPerYear")
-      ? `${year + api.parameter("one")}-01-01`
-      : `${year}-${String(month + api.parameter("one")).padStart(2, "0")}-01`;
+  const next = scheduleDate(api, api.state.date);
   api.moduleCalendar(MOVES_MODULE_ID).schedule({
     key: `review:${next}`,
     date: next,
@@ -971,14 +1073,19 @@ function scheduleReview(api: CoreAPI): void {
     source: {
       tag: "ESTIMATED",
       asOf: api.state.date,
-      citation: "The monthly review of who chooses to move away.",
+      citation:
+        "The month's building of each adult's pull to leave, at their stage of life.",
       estimatedFrom: STOPGAP,
     },
     sourceRecordIds: ["moves:state"],
   });
 }
 
-/** Every adult in town reviews once a month, on its first day. */
+/**
+ * Once a month every adult's pull builds by a month of their stage of life
+ * (the rates are yearly, by age), and each one whose pull will reach the
+ * point of leaving is booked a review on that day.
+ */
 function monthlyReview(api: CoreAPI): void {
   const core = api.state as CoreState;
   const adults = [...core.people.values()]
@@ -1015,15 +1122,42 @@ function monthlyReview(api: CoreAPI): void {
       .put({ ...state, openingRanked: true });
   }
   const places = new Map<string, { factor: number; reads: string[] }>();
+  const before = new Map<PersonId, number>();
   for (const person of adults) {
     let place = places.get(person.placeId);
     if (!place) {
       place = placeConditions(api, person.placeId);
       places.set(person.placeId, place);
     }
+    before.set(person.id, pullOf(api, person).value);
     accumulate(api, person, typical, place);
   }
-  for (const person of adults) if (inTown(core, person.id)) decide(api, person);
+  // Each couple or adult alone leaves on the day in the month their pull,
+  // building evenly, reaches the point where leaving wins; nobody's choice
+  // waits for the 1st.
+  const next = makeIsoDate(scheduleDate(api, api.state.date));
+  const monthDays = Math.round(
+    (Date.parse(`${next}T00:00:00Z`) -
+      Date.parse(`${api.state.date}T00:00:00Z`)) /
+      86_400_000,
+  );
+  for (const person of adults) {
+    if (!inTown(core, person.id) || decider(api, person) !== person) continue;
+    const partner = partnerAtHome(api, person);
+    const ids = partner ? [person.id, partner.id] : [person.id];
+    const mean = (values: number[]) =>
+      values.reduce((n, v) => n + v, api.parameter("zero")) / values.length;
+    const from = mean(ids.map((id) => before.get(id) ?? api.parameter("zero")));
+    const to = mean(ids.map((id) => pullOf(api, core.people.get(id)!).value));
+    const point = leavingPoint(api, person);
+    if (to < point) continue;
+    const share =
+      from >= point || to <= from
+        ? api.parameter("zero")
+        : (point - from) / (to - from);
+    const day = Math.max(api.parameter("one"), Math.ceil(share * monthDays));
+    bookReview(api, person.id, addDays(makeIsoDate(api.state.date), day));
+  }
 }
 
 /** An event's push toward leaving, added to the people it names. */
@@ -1080,6 +1214,13 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
       [event.kind]: [...(pull.reads[event.kind] ?? []), event.id],
     };
     savePull(api, pull);
+    // The cause changed their pull: they weigh leaving the next day.
+    if (inTown(core, id))
+      bookReview(
+        api,
+        decider(api, person).id,
+        addDays(makeIsoDate(api.state.date), api.parameter("one")),
+      );
   }
 }
 
@@ -1097,8 +1238,8 @@ export const movesModule: CoreModule = {
   onEvent(api, event) {
     addEventPull(api, event);
   },
-  // Leaving ends jobs, which happens only from calendar work: the review is
-  // booked on the module calendar for the first of each month.
+  // Leaving ends jobs, which happens only from calendar work: each person's
+  // review is booked on the module calendar for their own day.
   onDay(api) {
     if (store(api).table("state").get("moves:state")) return;
     store(api)
@@ -1107,6 +1248,18 @@ export const movesModule: CoreModule = {
     scheduleReview(api);
   },
   onCalendarWork(api, work) {
+    if (work.kind === PERSON_REVIEW_KIND) {
+      const id = (work.payload as { personId?: string } | undefined)?.personId;
+      const person = id ? api.state.people.get(id) : undefined;
+      if (
+        person?.alive &&
+        person.tier !== INACTIVE_TIER &&
+        inTown(api.state as CoreState, person.id) &&
+        ageOf(api, person) >= m(api, "movesMinimumAge")
+      )
+        decide(api, decider(api, person));
+      return;
+    }
     if (work.kind !== REVIEW_KIND) return;
     monthlyReview(api);
     scheduleReview(api);

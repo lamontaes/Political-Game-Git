@@ -134,7 +134,8 @@
       },
       "enforcer": "state treasurer and education department",
       "source": "Model of education savings account and voucher laws (EdChoice, The ABCs of School Choice 2025)",
-      "stopgapId": "SG-GOV-REACH-B-voucher-payment"
+      "stopgapId": "SG-GOV-REACH-B-voucher-payment",
+      "employersGain": true
     },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "mechanic": "teacher-floor",
@@ -193,7 +194,8 @@
       },
       "organizations": ["enterprise:retail"],
       "enforcer": "department of revenue",
-      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)"
+      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)",
+      "employersGain": true
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "mechanic": "balanced-budget",
