@@ -10,14 +10,19 @@
  * Each month the union's members are the workers at covered workplaces times
  * the share of represented workers who join: the state's own share at the
  * opening, and, where a right-to-work law takes effect or ends in play, the
- * share right-to-work (or other) states show. The members' dues (a share of
- * the place's median pay) are the union local's income, paid from the wider
- * population's pooled cash.
+ * share right-to-work (or other) states show. The members' dues are the
+ * union local's income: the wider population's (a share of the place's median
+ * pay) from its groups' cash; full workers' (the same share of their own pay)
+ * from their own, where the represented full workers most inclined to join
+ * by their traits are members, as many as the place's share (one model, two
+ * tiers).
  */
 import unionData from "./data/business/union-membership.json" with { type: "json" };
 import { residentsRuntime } from "./modules/residents";
 import type { ModuleTable } from "./module-state";
 import { stopgap } from "./stopgaps";
+import { traitLeanBetween } from "./trait-decisions";
+import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState } from "./types";
 
 const UNION = "membership:labor-union";
@@ -31,6 +36,7 @@ const DATA = unionData as unknown as {
   industryOfClassification: Record<string, string>;
   industryOfKind: Record<string, string>;
   rightToWork: { states: string[] };
+  joinChoice: { join: string[]; stay: string[]; source: string };
 };
 const RTW = new Set(DATA.rightToWork.states);
 
@@ -54,6 +60,9 @@ export interface UnionMonth {
   members: number;
   rightToWork: boolean;
   duesMonthlyMinor: number;
+  /** Full members this month, and the dues they paid from their own cash. */
+  fullMembers: number;
+  fullDuesPaidMinor: number;
 }
 
 /** A place's right-to-work law as the laws engine last set it, else the state's law on record. */
@@ -191,7 +200,6 @@ export function reviewUnions(
       countedRepresented += row.coveredShare * (countedStaff.get(id) ?? 0);
     }
     const members = Math.round(represented * join);
-    // Full members' dues aren't charged yet (they'd pay from their own cash, by their own choice).
     const payingMembers = Math.round(countedRepresented * join);
     const list = [...(pay.get(local.placeId) ?? [])].sort((a, b) => a - b);
     const median = list[Math.floor(list.length / 2)] ?? 0;
@@ -204,6 +212,57 @@ export function reviewUnions(
     const flow = rt.flows.get(`dues:${local.id}`);
     if (flow && !flow.endedAt) flow.amountMinor = dues;
     const month = c.date.slice(0, "YYYY-MM".length);
+    // Full represented workers here: the most inclined to join (by their traits) are members, as many as the place's share of them.
+    const candidates: {
+      personId: string;
+      weight: number;
+      lean: number;
+      dailyMinor: number;
+    }[] = [];
+    for (const job of c.jobs.values()) {
+      if (job.endsAt !== undefined) continue;
+      if (c.organizations.get(job.organizationId)?.placeId !== local.placeId)
+        continue;
+      const row = unions.get(`covered:${job.organizationId}`) as
+        { coveredShare: number } | undefined;
+      const person = c.people.get(job.personId);
+      if (!row || !person?.alive) continue;
+      candidates.push({
+        personId: person.id,
+        weight: row.coveredShare,
+        lean: traitLeanBetween(
+          c,
+          person,
+          DATA.joinChoice.join,
+          DATA.joinChoice.stay,
+        ),
+        dailyMinor: job.wageDailyMinor,
+      });
+    }
+    const fullCount = Math.round(
+      candidates.reduce((n, row) => n + row.weight, 0) * join,
+    );
+    let fullDues = 0;
+    for (const row of candidates
+      .sort((a, b) => b.lean - a.lean || (a.personId < b.personId ? -1 : 1))
+      .slice(0, fullCount))
+      fullDues += transferCash(
+        api,
+        `union-dues:${row.personId}:${month}`,
+        row.personId,
+        local.id,
+        Math.round(
+          ((row.dailyMinor * api.parameter("jobsDaysPerYear")) /
+            api.parameter("macroMonthsPerYear")) *
+            api.parameter("businessUnionDuesShare"),
+        ),
+        {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: DATA.joinChoice.source,
+          estimatedFrom: `A union member's monthly dues: the parameter businessUnionDuesShare of their own monthly pay.`,
+        },
+      );
     const record: UnionMonth = {
       id: `union-month:${local.placeId}:${month}`,
       placeId: local.placeId,
@@ -212,6 +271,8 @@ export function reviewUnions(
       members,
       rightToWork,
       duesMonthlyMinor: flow && !flow.endedAt ? dues : 0,
+      fullMembers: fullCount,
+      fullDuesPaidMinor: fullDues,
     };
     unions.put({ ...record });
   }

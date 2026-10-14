@@ -10,6 +10,7 @@
  * whenever the law in force on its key may have changed. The magnitudes are
  * OPUS-GOV's law-reach parameters.
  */
+import { residentsRuntime } from "./modules/residents";
 import { setConsumerRateCap } from "./modules/credit";
 import { setCannabisLegal } from "./business-cannabis";
 import { setRightToWork } from "./jobs-unions";
@@ -202,25 +203,41 @@ const rentHelp: PolicyHandler = (api, law) => {
     (budget.spendingMinor.housing ?? 0) -
     baseLine(api, government, budget, "housing");
   const slots = Math.max(0, Math.floor(extra / annual));
-  const byHousehold = new Map<string, { cash: number; members: number }>();
+  // Renters in both tiers, the lowest income per member first (vouchers go by income; HUD income limits).
+  const perYear = api.parameter("jobsDaysPerYear");
+  const renters: { id: string; incomePerMember: number }[] = [];
+  const full = new Map<string, { income: number; members: number }>();
   for (const person of c.people.values()) {
     if (!person.alive || person.placeId !== law.placeId) continue;
-    const row = byHousehold.get(person.householdId) ?? { cash: 0, members: 0 };
-    row.cash += person.liquidMinor;
+    const row = full.get(person.householdId) ?? { income: 0, members: 0 };
+    const job = person.jobId ? c.jobs.get(person.jobId) : undefined;
+    row.income +=
+      job && job.endsAt === undefined ? job.wageDailyMinor * perYear : 0;
     row.members += 1;
-    byHousehold.set(person.householdId, row);
+    full.set(person.householdId, row);
   }
-  const chosen = [...byHousehold]
+  for (const [id, row] of full) {
+    const lease = c.finance.contracts.get(`lease:${id}`);
+    if (lease && !lease.endedAt)
+      renters.push({ id, incomePerMember: row.income / row.members });
+  }
+  const rt = residentsRuntime(c);
+  for (const h of rt?.store.liveHouseholds() ?? []) {
+    if (h.placeId !== law.placeId) continue;
+    const flow = rt!.flows.get(`rent:${h.id}`);
+    const members = rt!.store.countedCount(h);
+    if (!flow || flow.endedAt || !members) continue;
+    renters.push({
+      id: h.id,
+      incomePerMember: (h.wagesMinorYear + h.retirementMinorYear) / members,
+    });
+  }
+  const chosen = renters
     .sort(
-      ([a, x], [b, y]) =>
-        x.cash / x.members - y.cash / y.members || a.localeCompare(b),
+      (a, b) => a.incomePerMember - b.incomePerMember || (a.id < b.id ? -1 : 1),
     )
     .slice(0, slots)
-    .map(([id]) => id)
-    .filter((id) => {
-      const lease = c.finance.contracts.get(`lease:${id}`);
-      return lease !== undefined && !lease.endedAt;
-    });
+    .map((row) => row.id);
   setRentHelp(api, {
     governmentKey: government.id,
     payerId: government.organizationId,

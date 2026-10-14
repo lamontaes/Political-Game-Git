@@ -16,13 +16,11 @@ import {
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "jobs-unions",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "jobs-unions");
 const RTW = "us-policy-positions:labor-workforce.right-to-work";
 
-describe(`unions (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`unions (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("covers workplaces to the state's rates, sets dues by members, and a right-to-work change moves who joins", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),
@@ -52,7 +50,7 @@ describe(`unions (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
     // A place with no union local (or no state rates) has none to check.
     if (!state || !first.length) return;
     console.log(
-      `${drawn.name}: ${first.map((row) => `${row.members} members of ${row.represented} represented, dues $${Math.round(row.duesMonthlyMinor / 100)} a month`).join("; ")}`,
+      `${drawn.name}: ${first.map((row) => `${row.members} members of ${row.represented} represented (${row.fullMembers} full), dues $${Math.round(row.duesMonthlyMinor / 100)} a month, full members' $${Math.round(row.fullDuesPaidMinor / 100)}`).join("; ")}`,
     );
     for (const row of first) {
       // Members join at the state's own members-per-represented share.
@@ -73,6 +71,10 @@ describe(`unions (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
       );
       if (flow && !flow.endedAt)
         expect(flow.amountMinor).toBe(row.duesMonthlyMinor);
+      // Full members pay their own dues from their own cash (one model, two tiers).
+      expect(row.fullMembers).toBeLessThanOrEqual(row.members);
+      if (row.fullMembers > 0)
+        expect(row.fullDuesPaidMinor, row.id).toBeGreaterThan(0);
     }
     // Flip the town's right-to-work law and see who joins move to the other states' average.
     // Right-to-work is a state law: change it there.

@@ -1,4 +1,5 @@
 /** Laws reach the economy, in a generated world: a drawn town enacts each policy and its engine changes. Place and seed in the test name. */
+import { residentsRuntime } from "./modules/residents";
 import { randomUUID } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
@@ -175,9 +176,46 @@ describe(`laws reach the economy (${drawn.name}, ${drawn.state}, seed ${drawn.se
       monthlyLimitMinor: number;
     }[];
     expect(rows.length).toBeLessThanOrEqual(5);
+    // Renters of either tier: a lease, or a counted household's rent (one model, two tiers).
+    const flows = residentsRuntime(core)?.flows;
     for (const row of rows) {
-      expect(core.finance.contracts.has(`lease:${row.householdId}`)).toBe(true);
+      const flow = flows?.get(`rent:${row.householdId}`);
+      expect(
+        core.finance.contracts.has(`lease:${row.householdId}`) ||
+          (flow !== undefined && !flow.endedAt),
+        row.householdId,
+      ).toBe(true);
       expect(row.monthlyLimitMinor).toBe(Math.round(1_150_000 / 12));
+    }
+    // Past the next monthly review, a counted renter's help is the voucher rule on its own rent and pay, paid to its group.
+    const later = new Date(`${core.date}T00:00:00Z`);
+    later.setUTCDate(later.getUTCDate() + 35);
+    advanceCore(core, later.toISOString().slice(0, "YYYY-MM-DD".length));
+    const rt = residentsRuntime(core)!;
+    for (const row of [...housing("rentHelp").rows()] as unknown as {
+      householdId: string;
+      monthlyLimitMinor: number;
+      helpMinor?: number;
+    }[]) {
+      const ix = rt.store.householdOf.get(row.householdId);
+      const flow = rt.flows.get(`rent:${row.householdId}`);
+      if (ix === undefined || !flow || flow.endedAt) continue;
+      const h = rt.store.households[ix]!;
+      const owed = Math.round(
+        Math.min(
+          row.monthlyLimitMinor,
+          Math.max(
+            0,
+            flow.amountMinor -
+              (0.3 * (h.wagesMinorYear + h.retirementMinorYear)) / 12,
+          ),
+        ),
+      );
+      console.log(
+        `counted renter ${row.householdId}: rent ${flow.amountMinor}, help ${row.helpMinor} (owed ${owed})`,
+      );
+      expect(row.helpMinor ?? 0, row.householdId).toBeLessThanOrEqual(owed);
+      if (owed > 0) expect(row.helpMinor, row.householdId).toBeGreaterThan(0);
     }
   }, 600_000);
 

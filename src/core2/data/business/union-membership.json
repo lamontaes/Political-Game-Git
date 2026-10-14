@@ -420,5 +420,10 @@
   "dues": {
     "shareOfPay": 0.015,
     "citation": "Recalled from union constitutions and bylaws: UAW dues are 2.5 hours' straight-time pay per month since 2014 (about 1.44% of pay at 173 hours/month), many SEIU, AFSCME and UFCW locals set roughly 1.0-2.0% of base pay, building-trades locals combine flat monthly dues with 1-5% work assessments; summaries (e.g., Congressional Research Service, union LM-2 per-capita data) put typical dues near 1-2% of pay, often $40-$90 per month. Not opened in this session."
+  },
+  "joinChoice": {
+    "join": ["engage", "commit"],
+    "stay": ["withdraw", "play-safe"],
+    "source": "Who joins among represented workers follows their own inclination to take part and commit (union membership as collective action; Freeman and Medoff 1984, What Do Unions Do?), as many as the place's members per represented worker (BLS Union Members 2025)."
   }
 }

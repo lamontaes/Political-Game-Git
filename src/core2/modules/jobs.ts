@@ -1371,6 +1371,17 @@ function reviewWorkers(api: CoreAPI): void {
   raisePay(api);
 }
 
+/** The counted jobs whose employer's wage flow still pays them. */
+function liveCountedJobs(c: CoreState): JobInput[] {
+  const rt = residentsRuntime(c);
+  const out: JobInput[] = [];
+  for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
+    const job = rt!.jobs.get(jobId);
+    if (job && job.endsAt === undefined && !flow.endedAt) out.push(job);
+  }
+  return out;
+}
+
 /** The place's pay level against the opening: national hourly earnings times its region's pay. */
 function payLevel(api: CoreAPI, placeId: string): number {
   const c = core(api);
@@ -1394,7 +1405,8 @@ function raisePay(api: CoreAPI): void {
     ...[...c.jobs.values()].filter(
       (job) => job.endsAt === undefined && c.people.get(job.personId)?.alive,
     ),
-    ...[...c.finance.businesses.keys()].flatMap((id) => countedJobsOf(c, id)),
+    // Every counted job still paid, at businesses, public employers and work elsewhere alike (one model, two tiers).
+    ...liveCountedJobs(c),
   ];
   for (const job of jobs) {
     const placeId = c.organizations.get(job.organizationId)?.placeId;

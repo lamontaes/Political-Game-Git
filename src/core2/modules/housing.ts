@@ -15,7 +15,7 @@ import housingParameters from "../data/housing/parameters.json" with { type: "js
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
-import { countedHousingInArrears } from "../counted-money";
+import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
@@ -2046,7 +2046,11 @@ function payRentHelp(api: CoreAPI): void {
       table.remove(row.id);
       continue;
     }
-    if (!lease || !household) continue;
+    if (!lease) {
+      payCountedRentHelp(api, row, table);
+      continue;
+    }
+    if (!household) continue;
     let income = 0;
     for (const id of household.memberIds) {
       const job = c.people.get(id)?.jobId;
@@ -2076,6 +2080,60 @@ function payRentHelp(api: CoreAPI): void {
       billedFrom: lease.dueAt,
     });
   }
+}
+
+/**
+ * Rent help for a counted renter household (one model, two tiers): the same
+ * voucher rule as a lease's (rent above 30% of the household's pay, up to the
+ * program's amount), paid each month to the household's group, which pays its
+ * whole rent. Its row ends with its rent.
+ */
+function payCountedRentHelp(
+  api: CoreAPI,
+  row: RentHelpRow,
+  table: ModuleTable,
+): void {
+  const rt = residentsRuntime(core(api));
+  const flow = rt?.flows.get(`rent:${row.householdId}`);
+  const ix = rt?.store.householdOf.get(row.householdId);
+  const h = ix === undefined ? undefined : rt!.store.households[ix];
+  if (!rt || !flow || flow.endedAt || !h || h.gone) {
+    table.remove(row.id);
+    return;
+  }
+  const income =
+    (h.wagesMinorYear + h.retirementMinorYear) /
+    api.parameter("macroMonthsPerYear");
+  const help = Math.round(
+    Math.min(
+      row.monthlyLimitMinor,
+      Math.max(
+        0,
+        flow.amountMinor -
+          api.parameter("housingAssistanceRentShareOfIncome") * income,
+      ),
+    ),
+  );
+  const month = api.state.date.slice(0, "YYYY-MM".length);
+  const paid =
+    help > 0
+      ? countedPayment(api, {
+          id: `rent-help:${row.householdId}:${month}`,
+          placeId: flow.placeId,
+          householdId: row.householdId,
+          otherOwnerId: row.payerId,
+          amountMinor: -help,
+          reasonKey: "housing.rent-help",
+          source: {
+            tag: "ESTIMATED",
+            asOf: api.state.date,
+            citation:
+              "HUD Housing Choice Voucher program: the household pays about 30% of its income toward rent and the housing agency pays the rest (24 CFR 982.505, 982.451).",
+            estimatedFrom: `Rent help for ${row.householdId}'s rent of ${flow.amountMinor} a month: rent above 30% of the household's recorded pay and awards, up to the program's monthly amount, paid to the household's group.`,
+          },
+        })
+      : 0;
+  table.put({ ...row, helpMinor: paid, billedMinor: flow.amountMinor });
 }
 
 export function setRentIncreaseCap(
