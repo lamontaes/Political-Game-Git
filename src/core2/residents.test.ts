@@ -5,6 +5,7 @@ import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels, fullPeople } from "./residents";
 import { representativeSample } from "./representative-sample";
 import { countedDrift } from "./modules/counted-drift";
+import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
@@ -120,6 +121,8 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     let drift = 0;
     for (const row of countedDrift(core).values())
       drift += row.births - row.deaths + row.movedIn - row.movedOut;
+    for (const row of countedMoves(coreAPI(core)))
+      drift += row.direction === "in" ? row.people : -row.people;
     expect(counts.reduce((n, row) => n + row.people, 0)).toBe(
       full.people.length - two.people.length + drift,
     );

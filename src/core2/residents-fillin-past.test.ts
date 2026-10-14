@@ -19,13 +19,16 @@ describe(`fill-in past is the same every time (seed ${seed})`, () => {
       (row) => row.people.length > 1,
     )!;
     expect(record.people.every((row) => !row.pastFacts?.length)).toBe(true);
-    fillInPerson(core, record.people[0]!.id);
-    for (const row of record.people)
-      expect(core.people.get(row.id)!.pastFacts?.length).toBeGreaterThan(0);
+    // The record reads the counts live: once filled in, its people are full people.
+    const ids = record.people.map((row) => row.id);
+    fillInPerson(core, ids[0]!);
+    expect(record.people).toHaveLength(0);
+    for (const id of ids)
+      expect(core.people.get(id)!.pastFacts?.length).toBeGreaterThan(0);
     // And the same person comes back on a second fill-in in another world
     // built from the same opening.
     const again = createLifeCore(two);
-    fillInPerson(again, record.people[0]!.id);
+    fillInPerson(again, ids[0]!);
     const person = (c: typeof core, id: string) => {
       const p = c.people.get(id)!;
       return JSON.stringify({
@@ -37,7 +40,6 @@ describe(`fill-in past is the same every time (seed ${seed})`, () => {
         actsByKind: undefined,
       });
     };
-    for (const row of record.people)
-      expect(person(again, row.id)).toBe(person(core, row.id));
+    for (const id of ids) expect(person(again, id)).toBe(person(core, id));
   }, 600_000);
 });

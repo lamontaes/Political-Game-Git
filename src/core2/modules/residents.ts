@@ -329,7 +329,7 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  const people = rt.store.countedMembers(h).length;
+  const people = rt.store.countedCount(h);
   const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
   // Its share of the old group's money goes with it.
@@ -346,8 +346,7 @@ function householdCash(rt: ResidentsRuntime, h: CountedHousehold): number {
   const people = peopleInGroup(rt, h.group);
   return people > 0
     ? Math.floor(
-        (fundBalance(rt.api, rt, h.group) * rt.store.countedMembers(h).length) /
-          people,
+        (fundBalance(rt.api, rt, h.group) * rt.store.countedCount(h)) / people,
       )
     : 0;
 }
@@ -1212,7 +1211,12 @@ export function residentPerson(
 ): PersonInput | undefined {
   const rt = runtimes.get(core);
   const m = rt?.store.countedMember(personId);
-  return m === undefined ? undefined : rt!.store.personInput(m, "packed");
+  if (m === undefined) return undefined;
+  const store = rt!.store;
+  const id = store.ids[m]!;
+  return store
+    .peopleOf(store.households[store.household[m]!]!)
+    .find((row) => row.id === id);
 }
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
@@ -1866,6 +1870,9 @@ export function removeCountedPerson(core: CoreState, personId: PersonId): void {
     "retirement",
   ]);
   store.state[m] = MemberState.Dead;
+  store.version++;
+  store.membersVersion++;
+  store.touch(h);
   h.jobs = h.jobs.filter((row) => row.personId !== personId);
   h.workCommitments = h.workCommitments.filter(
     (row) => row.personId !== personId,
@@ -1985,6 +1992,7 @@ export function addCountedPerson(
     if (o !== undefined && rt.store.household[o] === h.index) h.kin.push(o, m);
   }
   h.members.push(m);
+  rt.store.touch(h);
   regroupHousehold(rt, h, core.date);
 }
 
@@ -2041,6 +2049,8 @@ export function replaceCountedMembers(
     "retirement",
   ]);
   for (const m of store.countedMembers(h)) store.state[m] = MemberState.Moved;
+  store.membersVersion++;
+  store.touch(h);
   const members = newcomers.map((person) => store.addMember(person, h.index));
   const position = new Map(newcomers.map((p, i) => [p.id, members[i]!]));
   h.kin = [];

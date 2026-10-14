@@ -3,6 +3,8 @@ import { gameStartDate } from "./game-start";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
+import { countedMoves } from "./modules/counted-moves";
+import { coreAPI } from "./state";
 import { countedDrift } from "./modules/counted-drift";
 import { residentsRuntime } from "./modules/residents";
 import { generatedOpening } from "./tooling/generated-world";
@@ -57,6 +59,10 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
       movedOut += row.movedOut;
       movedIn += row.movedIn;
     }
+    // People move from causes on the counted-moves engine (one model, two tiers).
+    for (const row of countedMoves(coreAPI(core)))
+      if (row.direction === "out") movedOut += row.people;
+      else movedIn += row.people;
     // A year's deaths and births among the counts, near the U.S. rates
     // (about 0.9% and 1.1% a year).
     expect(deaths / before).toBeGreaterThan(0.003);
@@ -68,7 +74,6 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
     expect(movedOut / before).toBeGreaterThan(0.02);
     expect(movedOut / before).toBeLessThan(0.15);
     expect(movedIn).toBeGreaterThan(0);
-    expect(movedIn).toBeLessThanOrEqual(movedOut);
     expect(counted()).toBe(before - deaths + births - movedOut + movedIn);
     // The dead are gone from the records; the newborns are new people.
     const now = [...rt.households.values()].flatMap((row) =>

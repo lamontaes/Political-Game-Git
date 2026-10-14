@@ -40,7 +40,7 @@ const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
   // Kept for the day, until someone is filled in or the people change.
-  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.version ?? 0}`;
+  const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   if (hit && hit.date === key) return hit.rows;
   const rt = residentsRuntime(core);
   const rows: CountedVoter[] = [];

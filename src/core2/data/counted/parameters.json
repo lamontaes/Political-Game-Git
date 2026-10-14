@@ -70,5 +70,101 @@
       "unit": "personal outlays / disposable personal income",
       "citation": "BEA NIPA Table 2.1: saving 12% of disposable income in 2021 (the low end of outlays) to 3.5% in 2022 (the high end)."
     }
+  },
+  "countedMovesInStateShare": {
+    "value": 0.57,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, CPS ASEC 2023, Geographical Mobility: 2022 to 2023, Table 1 (people 1 year and over): about 6.0 million moved from a different county in the same state and about 4.6 million from a different state, so 0.57 of those who left their county stayed in their state.",
+    "estimatedFrom": "Of a group's people who leave their county in a year (the ACS rate for their age), this share move elsewhere in their own state and the rest to another state or territory.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.65,
+      "unit": "share of county leavers",
+      "citation": "CPS ASEC 2019 to 2023 tables, same table each year."
+    }
+  },
+  "countedMovesIncomeElasticity": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "Kleven, Landais, Munoz and Stantcheva (2020), 'Taxation and Migration: Evidence and Policy Implications', Journal of Economic Perspectives 34(2): estimated elasticities of where people live to the after-tax income it offers run from near 0.1 for the whole population to about 1.8 for star scientists (Moretti and Wilson 2017) and above for some groups.",
+    "estimatedFrom": "How strongly a place's pull follows its after-tax income in real terms (state income tax in force, regional prices) against home: the pull is scaled by that ratio to this power. A starting value inside the published range.",
+    "spread": {
+      "low": 0.1,
+      "high": 2.0,
+      "unit": "elasticity of the pull to the after-tax real income ratio",
+      "citation": "Kleven et al. (2020), Table 1 and section 3."
+    }
+  },
+  "countedMovesUnemploymentPull": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Blanchard and Katz (1992), 'Regional Evolutions', Brookings Papers on Economic Activity: a state's relative unemployment drives net migration away from it within a few years; the size per point is a starting value.",
+    "estimatedFrom": "Each point a place's unemployment runs below home multiplies its pull by exp(this); above home, the reverse.",
+    "spread": {
+      "low": 0.03,
+      "high": 0.3,
+      "unit": "log pull per unemployment point",
+      "citation": "Blanchard and Katz (1992); Dao, Furceri and Loungani (2017), Review of Economics and Statistics 99(2)."
+    }
+  },
+  "countedPeopleShareUnder18": {
+    "value": 0.215,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 21.5% of residents under 18.",
+    "estimatedFrom": "A state's or territory's people at the coarse grain, by age band, are its BEA population times the national shares.",
+    "spread": {
+      "low": 0.19,
+      "high": 0.25,
+      "unit": "share of population",
+      "citation": "State shares in the same estimates range about 19% to 25%."
+    }
+  },
+  "countedPeopleShare18to29": {
+    "value": 0.16,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 16% of residents 18 to 29.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.14,
+      "high": 0.2,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedPeopleShare30to44": {
+    "value": 0.199,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 19.9% of residents 30 to 44.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.17,
+      "high": 0.23,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedPeopleShare45to64": {
+    "value": 0.246,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 24.6% of residents 45 to 64.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.22,
+      "high": 0.28,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
+  },
+  "countedPeopleShare65plus": {
+    "value": 0.18,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Vintage 2024 national population estimates by age (NC-EST2024-AGESEX): about 18% of residents 65 and over.",
+    "estimatedFrom": "National share for the coarse grain.",
+    "spread": {
+      "low": 0.12,
+      "high": 0.22,
+      "unit": "share of population",
+      "citation": "State range in the same estimates."
+    }
   }
 }

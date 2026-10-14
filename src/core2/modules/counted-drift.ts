@@ -28,6 +28,7 @@ import { drawCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { stateOfPlaceKey } from "../places";
 import { endCountedJob, endFlowPart } from "../residents-economy";
 import { RENEWAL_MODULE_ID } from "./renewal";
+import { COUNTED_MOVES_MODULE_ID } from "./counted-moves";
 import {
   addCountedPerson,
   departCountedHousehold,
@@ -490,14 +491,18 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       }),
     };
     const arrive = arrivalRate(state) / 12;
+    const movesFromCauses = core.modules.has(COUNTED_MOVES_MODULE_ID);
     for (const person of record.people) {
       const age = ageOn(person.birthDate, date);
       row.deaths += (yearlyDeathRate(person, date, age) * mortality) / 12;
       row.births += birthRate(person, date, age) / 12;
       if (age >= 18) {
         const rate = leaveRate(state, person, date, age);
-        row.leavers += rate / 12;
-        row.arrivals += arrive;
+        // Where counted moves run, people move from causes there instead.
+        if (!movesFromCauses) {
+          row.leavers += rate / 12;
+          row.arrivals += arrive;
+        }
         if (rate > topRate) topRate = rate;
       } else if (age >= 5) kids = true;
       const gender = person.looks?.gender;

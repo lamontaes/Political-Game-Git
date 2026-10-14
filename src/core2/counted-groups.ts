@@ -81,6 +81,8 @@ export interface CountedHousehold {
   tenure: Tenure;
   /** The district it lives in, where its place has districts. */
   district?: string;
+  /** Bumped when its members or their records change (readers' cached views go stale). */
+  rev?: number;
   gone?: true;
 }
 
@@ -181,8 +183,15 @@ export class CountedStore {
   private readonly traitViews: (PackedTraits | undefined)[] = [];
   /** Members packed from the opening (later ones were born or moved in during play). */
   openingMembers = 0;
-  /** Bumped by every change to who is counted, so readers know a cached list is stale. */
+  /** Each household's people as records, kept until the household changes (`touch`). */
+  private readonly peopleViews = new Map<
+    number,
+    { rev: number; people: readonly PersonInput[] }
+  >();
+  /** Bumped by every change to who is counted or how they are grouped. */
   version = 0;
+  /** Bumped only when someone joins or leaves the counts (not on a regroup). */
+  membersVersion = 0;
 
   constructor(traitNames: readonly string[] = []) {
     for (const name of traitNames) this.traitSlot(name);
@@ -228,6 +237,7 @@ export class CountedStore {
   /** Pack one person as a counted member of household `household`. */
   addMember(person: PersonInput, household: number): number {
     this.version++;
+    this.membersVersion++;
     const m = this.ids.length;
     const width = this.traitNames.length;
     this.ids.push(person.id);
@@ -262,6 +272,8 @@ export class CountedStore {
     )
       this.traitSourceByPlace.set(person.placeId, person.sharedTraitSource);
     this.memberOf.set(person.id, m);
+    const h = this.households[household];
+    if (h) this.touch(h);
     return m;
   }
 
@@ -322,6 +334,30 @@ export class CountedStore {
       this.groupOf.set(id, ix);
     }
     return this.groups[ix]!;
+  }
+
+  /** A household's members or their records changed. */
+  touch(h: CountedHousehold): void {
+    h.rev = (h.rev ?? 0) + 1;
+    this.peopleViews.delete(h.index);
+  }
+
+  /** A household's counted people as records (in-place traits), built once per change. */
+  peopleOf(h: CountedHousehold): readonly PersonInput[] {
+    const held = this.peopleViews.get(h.index);
+    if (held && held.rev === (h.rev ?? 0)) return held.people;
+    const people = this.countedMembers(h).map((m) =>
+      this.personInput(m, "packed"),
+    );
+    this.peopleViews.set(h.index, { rev: h.rev ?? 0, people });
+    return people;
+  }
+
+  /** How many members of a household are still counted, without a list. */
+  countedCount(h: CountedHousehold): number {
+    let n = 0;
+    for (const m of h.members) if (this.state[m] === MemberState.Counted) n++;
+    return n;
   }
 
   /** Counted members of a household (the ones not filled in, dead or moved). */
@@ -462,6 +498,8 @@ export class CountedStore {
   /** Take a household out of the counts (filled in, moved away or emptied). */
   retire(h: CountedHousehold, state: MemberState): void {
     this.version++;
+    this.membersVersion++;
+    this.touch(h);
     for (const m of h.members)
       if (this.state[m] === MemberState.Counted) this.state[m] = state;
     if (h.group >= 0) this.groups[h.group]!.households.delete(h.index);
@@ -471,7 +509,6 @@ export class CountedStore {
 
 /** A household seen as the old per-person record, its people built on first read. */
 class HouseholdView implements ResidentHouseholdRecord {
-  private builtPeople?: readonly PersonInput[];
   constructor(
     private readonly store: CountedStore,
     private readonly h: CountedHousehold,
@@ -487,9 +524,7 @@ class HouseholdView implements ResidentHouseholdRecord {
     };
   }
   get people(): readonly PersonInput[] {
-    return (this.builtPeople ??= this.store
-      .countedMembers(this.h)
-      .map((m) => this.store.personInput(m, "packed")));
+    return this.store.peopleOf(this.h);
   }
   get jobs(): readonly JobInput[] {
     return this.h.jobs;
@@ -605,7 +640,13 @@ export function encodeStore(store: CountedStore): unknown {
     ...Object.fromEntries(
       Object.entries(store).filter(
         ([key]) =>
-          !["state", "traits", "traitView", "traitViews"].includes(key),
+          ![
+            "state",
+            "traits",
+            "traitView",
+            "traitViews",
+            "peopleViews",
+          ].includes(key),
       ),
     ),
     state: [...store.state.subarray(0, store.memberCount)],

@@ -47,7 +47,7 @@ function groupPeople(rt: ResidentsRuntime): Map<number, number> {
     return cache.people;
   const people = new Map<number, number>();
   for (const h of rt.store.liveHouseholds()) {
-    const n = rt.store.countedMembers(h).length;
+    const n = rt.store.countedCount(h);
     if (n) people.set(h.group, (people.get(h.group) ?? 0) + n);
   }
   cache.people = people;
@@ -56,7 +56,11 @@ function groupPeople(rt: ResidentsRuntime): Map<number, number> {
 }
 
 export function peopleInGroup(rt: ResidentsRuntime, group: number): number {
-  return groupPeople(rt).get(group) ?? 0;
+  // Read from the group's own households: a regroup changes the counts often.
+  let n = 0;
+  for (const i of rt.store.groups[group]?.households ?? [])
+    n += rt.store.countedCount(rt.store.households[i]!);
+  return n;
 }
 
 /** The place's groups weighted by their people: who shares a bill nobody keyed. */
@@ -97,10 +101,37 @@ function partHousehold(
  * part's amount (jobs' pay per day, households' parts) where it is keyed,
  * else the place's groups by their people.
  */
+const weightCache = new WeakMap<
+  object,
+  {
+    parts: unknown;
+    version: number;
+    amount: number;
+    weights: Map<number, number>;
+  }
+>();
+
 export function flowWeights(
   rt: ResidentsRuntime,
   flow: SplitFlow,
 ): Map<number, number> {
+  // Kept until the flow's parts or the counts change.
+  const parts = flow.amountByContract ?? flow.perDayMinorByJob;
+  const held = weightCache.get(flow);
+  const amount = (flow as { amountMinor?: number }).amountMinor ?? 0;
+  if (
+    held &&
+    held.parts === parts &&
+    held.version === rt.store.version &&
+    held.amount === amount
+  )
+    return new Map(held.weights);
+  const weights = weighFlow(rt, flow);
+  weightCache.set(flow, { parts, version: rt.store.version, amount, weights });
+  return new Map(weights);
+}
+
+function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Map<number, number> {
   const out = new Map<number, number>();
   let unkeyed = 0;
   const add = (h: CountedHousehold | undefined, amount: number) => {
@@ -298,6 +329,28 @@ function governmentAccounts(api: CoreAPI): Map<string, string> {
  * full paycheck's function on the group's pay per worker, times its
  * workers. Outside the town, only the federal, state and county levels apply.
  */
+export interface PaydayLaw {
+  readonly accounts: Map<string, string>;
+  readonly town: string;
+  readonly incomeTax: ReturnType<typeof lawInForce>;
+  readonly socialSecurity: ReturnType<typeof lawInForce>;
+  readonly medicare: ReturnType<typeof lawInForce>;
+}
+
+/** The law in force on a payday and where each government is paid (once per payday). */
+export function paydayLaw(api: CoreAPI): PaydayLaw | undefined {
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return undefined;
+  const accounts = governmentAccounts(api);
+  if (!accounts.size) return undefined;
+  return {
+    accounts,
+    town: lawChain(api).townPlaceId,
+    incomeTax: lawInForce(api, "income-tax"),
+    socialSecurity: lawInForce(api, "social-security-tax"),
+    medicare: lawInForce(api, "medicare-tax"),
+  };
+}
+
 export function groupWithholding(
   api: CoreAPI,
   rt: ResidentsRuntime,
@@ -305,24 +358,23 @@ export function groupWithholding(
   grossMinor: number,
   workers: number,
   periodDays: number,
+  law: PaydayLaw | undefined = paydayLaw(api),
 ): Withheld[] {
-  if (grossMinor <= 0 || workers <= 0) return [];
-  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return [];
-  const accounts = governmentAccounts(api);
-  if (!accounts.size) return [];
+  if (grossMinor <= 0 || workers <= 0 || !law) return [];
+  const accounts = law.accounts;
   const row = rt.store.groups[group]!;
   const year = api.state.date.slice(0, 4);
   const ytdKey = `${row.id}|${year}`;
   const ytd = rt.withholdingYtd.get(ytdKey) ?? 0;
   const perWorker = grossMinor / workers;
-  const town = lawChain(api).townPlaceId;
+  const town = law.town;
   const lines = withholdingFor({
     paidMinor: Math.round(perWorker),
     periodDays,
     yearToDateMinor: Math.round(ytd),
-    incomeTax: lawInForce(api, "income-tax"),
-    socialSecurity: lawInForce(api, "social-security-tax"),
-    medicare: lawInForce(api, "medicare-tax"),
+    incomeTax: law.incomeTax,
+    socialSecurity: law.socialSecurity,
+    medicare: law.medicare,
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];
@@ -393,6 +445,7 @@ export function payGroups(
   const net = new Map<number, number>();
   const wages = input.flow.kind === "wages";
   const workers = wages ? workersByGroup(rt, input.flow) : undefined;
+  const law = wages ? paydayLaw(api) : undefined;
   const periodDays =
     input.flow.cadence.kind === "days"
       ? input.flow.cadence.every
@@ -407,6 +460,7 @@ export function payGroups(
         gross,
         workers!.get(group) ?? 0,
         periodDays,
+        law,
       )) {
         const minor = Math.min(line.minor, gross - taxes);
         if (minor <= 0) continue;

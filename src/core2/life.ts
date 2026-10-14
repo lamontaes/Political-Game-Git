@@ -40,6 +40,7 @@ import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./accounts";
 import { COUNTED_DRIFT_MODULE } from "./modules/counted-drift";
+import { COUNTED_MOVES_MODULE } from "./modules/counted-moves";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
@@ -82,6 +83,7 @@ declareSnapshotCovered(
   RESIDENTS_MODULE.id,
   RETIREMENT_CLAIMS_MODULE.id,
   COUNTED_DRIFT_MODULE.id,
+  COUNTED_MOVES_MODULE.id,
   // Installed on first use: the journal's cash writers.
   ...[
     DEFAULT_DATA.finance?.cashJournal?.moduleId,
@@ -157,7 +159,13 @@ export function createLifeCore(
       ...(input.finance || input.residents ? [PURCHASE_TAX_MODULE] : []),
       // The game's worlds (two levels) also claim retirement during play.
       ...(input.residents
-        ? [RESIDENTS_MODULE, RETIREMENT_CLAIMS_MODULE, COUNTED_DRIFT_MODULE]
+        ? [
+            RESIDENTS_MODULE,
+            RETIREMENT_CLAIMS_MODULE,
+            COUNTED_DRIFT_MODULE,
+            // Counted people move between places from causes (one model, two tiers).
+            COUNTED_MOVES_MODULE,
+          ]
         : []),
       ...(options.modules ?? []),
     ],
