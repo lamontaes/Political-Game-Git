@@ -3,7 +3,7 @@
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).
-- **Branches now:** `gov/bill-sections` (#4277), `gov/ordinance-form` (#4278, stacked on #4277). Merged today: #4275, #4193, #4206, #4214, #4236, #4241, #4248, #4253, #4255, #4259, #4263, #4266.
+- **Branches now:** `gov/floor-deals` (#4281; it also carries the ordinance form, since #4278 merged into the bill-sections branch after #4277 reached main). Merged today: #4277, #4275, #4193, #4206, #4214, #4236, #4241, #4248, #4253, #4255, #4259, #4263, #4266.
 - **Source:** the stress audit of Oct 14 (`docs/reports/stress-audit-2026-10-14/README.md`, PR #4160), defects 3, 18, 19, 4 and 6.
 
 ## What the owner can play now
@@ -49,7 +49,7 @@ Once PRs #4206 and #4214 merge:
 5. Owner rulings on bills (OWNER-DECISIONS.md, "afternoon"):
    - [x] Sections composed from the record (series, old and new value, the statute cited); editable terms are number, date and shape; a graduated tax keeps its brackets (#4277).
    - [x] Town and county ordinances in their own form: number, that body's enacting words, sections, a closing effective-date section (#4278).
-   - [ ] Members trade votes for amendments, add poison pills and ask favors through the deals engine.
+   - [x] Members trade votes for sections of their own and move poison pills on the floor; favors were already deals (#4281). Next: trades in committee markup, where most bills die.
    - Needs from OPUS-PEOPLE: a purpose phrase per policy series from the words batch, for a section's opening and the bill's title.
 6. [ ] Estate and inheritance taxes as law series (`docs/packages/homelessness.md`, branch `packages/homelessness`).
 7. [ ] Federal candidates in federal races; the empty race decided by the place's law.
