@@ -1411,15 +1411,17 @@ const sheets = {
       ),
       row(words.age ?? "", c.age),
       row(words.born ?? "", born),
-      row(
-        words.home ?? "",
-        [
-          me.placeName,
-          ...(c.home?.members ?? []).map(
-            (m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`,
-          ),
-        ].join(", "),
-      ),
+      row(words.home ?? "", me.placeName),
+      ...(c.home?.members.length
+        ? [
+            row(
+              words.family ?? "",
+              c.home.members
+                .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
+                .join(", "),
+            ),
+          ]
+        : []),
       ...(occupation
         ? [row(c.job ? (words.work ?? "") : (words.school ?? ""), occupation)]
         : []),
