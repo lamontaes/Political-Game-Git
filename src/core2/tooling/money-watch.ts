@@ -22,6 +22,8 @@ export interface MoneyLine {
 interface Watch {
   since: string;
   openingMinor: number;
+  /** The person's act counts when the watch opened, to count what they did since. */
+  openingActs: Map<string, number>;
   lines: Map<string, MoneyLine>;
 }
 
@@ -79,11 +81,12 @@ export function watchMoney(
       held.set(id, {
         since: core.date,
         openingMinor: core.people.get(id)?.liquidMinor ?? 0,
+        openingActs: new Map(core.people.get(id)?.actsByKind ?? []),
         lines: new Map(),
       });
 }
 
-/** A watched person's money since the watch opened: each kind in and out, and cash then and now. */
+/** A watched person's money since the watch opened: each kind in and out, cash then and now, and their acts since. */
 export function moneySince(core: CoreState, personId: string) {
   const watch = watches.get(core)?.get(personId);
   if (!watch) return undefined;
@@ -92,6 +95,11 @@ export function moneySince(core: CoreState, personId: string) {
   );
   const inMinor = lines.reduce((n, row) => n + row.inMinor, 0);
   const outMinor = lines.reduce((n, row) => n + row.outMinor, 0);
+  const acts: Record<string, number> = {};
+  for (const [kind, count] of core.people.get(personId)?.actsByKind ?? []) {
+    const done = count - (watch.openingActs.get(kind) ?? 0);
+    if (done > 0) acts[kind] = done;
+  }
   return {
     since: watch.since,
     through: core.date,
@@ -100,5 +108,7 @@ export function moneySince(core: CoreState, personId: string) {
     inMinor,
     outMinor,
     lines,
+    /** What they did since, by act kind (work shifts among them). */
+    acts,
   };
 }
