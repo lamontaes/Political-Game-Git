@@ -76,10 +76,10 @@
         </div>
       </section>
 
-      <section id="front" class="panel menu">
+      <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
         <p class="sub">A life in American government.</p>
-        <button id="new-life" class="item" type="button">
+        <button id="new-life" class="item" type="button" data-testid="new-game">
           <b>New game</b><span>Begin a life in a real place.</span>
         </button>
         <label class="field"
@@ -88,8 +88,18 @@
         /></label>
         <datalist id="places"></datalist>
         <div class="progress" hidden><span></span></div>
-        <p id="front-status" class="when" role="status"></p>
-        <button id="front-options" class="item" type="button">
+        <p
+          id="front-status"
+          class="when"
+          role="status"
+          data-testid="loading-line"
+        ></p>
+        <button
+          id="front-options"
+          class="item"
+          type="button"
+          data-testid="title-options"
+        >
           <b>Options</b>
         </button>
         <div id="custom" class="dev-only">
@@ -291,7 +301,7 @@
         </button>
       </nav>
 
-      <section id="sheet" class="panel" hidden>
+      <section id="sheet" class="panel" data-testid="sheet" hidden>
         <header class="sheet-head">
           <h2 id="sheet-title" class="heading"></h2>
           <div class="acts">
@@ -300,6 +310,7 @@
               class="glyph close"
               type="button"
               aria-label="Close"
+              data-testid="sheet-close"
             ></button>
           </div>
         </header>

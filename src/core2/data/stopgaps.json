@@ -4176,5 +4176,29 @@
     "addedAt": "2026-10-14",
     "replacement": "Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-desktop-update-dialog-text",
+    "kind": "player-text-gap",
+    "file": "desktop/main.mjs",
+    "line": 244,
+    "whatItFakes": "The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine.",
+    "why": "The shell runs outside the game, where the English engine is not loaded; the owner ordered a plain dialog telling the player what the Mac install does (Oct 14, 2026).",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "Shell lines drawn from an English-engine bank shipped beside the client, read by main.mjs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-windows-package-allowed-to-fail",
+    "kind": "owner-decision",
+    "file": ".github/workflows/desktop-package.yml",
+    "line": 46,
+    "whatItFakes": "The Windows package job (and the Windows build in each release) may fail without failing the checks or blocking the Mac release.",
+    "why": "Owner's call (Oct 14, 2026): the Mac build is what matters now; Windows can stay red until early access.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
+    "status": "open"
   }
 ]

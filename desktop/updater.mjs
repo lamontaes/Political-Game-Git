@@ -8,9 +8,10 @@
  * every failure surfaced instead of retried. main.mjs supplies the real
  * dialog/window/electron-updater dependencies.
  *
- * Proving this logic with fakes proves the logic only. It is NOT a claim
- * of signed Mac automatic-update installation, which remains unverified
- * until real signing credentials exist.
+ * Proving this logic with fakes proves the logic only. On Windows the
+ * updater is electron-updater's NSIS updater (differential download from the
+ * release's blockmap); on a Mac it is mac-install.mjs, because the app is
+ * unsigned and Squirrel.Mac refuses unsigned installs.
  */
 
 /**
@@ -112,6 +113,9 @@ export function assessCandidate({ currentVersion, channel, updateInfo }) {
  *                          quitAndInstall, setAutoInstallOnAppQuit }
  *   ask(msg, detail, buttons) — async; resolves chosen button index
  *   notify(msg, detail)  — async info/warning surface
+ *   installNote          — optional; what installing does on this system
+ *   holdQuit(on)         — optional; while on, closing the last window does
+ *                          not quit the app (the install quits it)
  *   closeAllWindows()    — async; asks every window to close through the
  *                          normal close flow; resolves true only if all
  *                          actually closed (the game finished persisting)
@@ -185,7 +189,8 @@ export async function runUpdateCheck(deps) {
 
   const installNow = await deps.ask(
     "Update downloaded and verified.",
-    "Install now, or keep playing — it will install the next time you quit the app yourself.",
+    deps.installNote ??
+      "Install now, or keep playing — it will install the next time you quit the app yourself.",
     ["Restart and install", "Later"],
   );
   if (installNow !== 0) {
@@ -195,8 +200,11 @@ export async function runUpdateCheck(deps) {
     return "deferred-to-quit";
   }
 
+  // Closing the last window must not quit the app before the install starts.
+  deps.holdQuit?.(true);
   const allClosed = await deps.closeAllWindows();
   if (!allClosed) {
+    deps.holdQuit?.(false);
     // A window declined to close (the game is mid-something). Keep the
     // player's install decision for their own quit instead of forcing it.
     updater.setAutoInstallOnAppQuit(true);
