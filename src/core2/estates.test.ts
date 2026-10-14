@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { heirsOf, settleEstate } from "./estates";
+import { heirsOf, settleEstate, willOf } from "./estates";
 import type { CoreInput, CoreState, PersonInput } from "./types";
 
 const fact = (personId: string, relation: string, otherId: string) => ({
@@ -115,5 +115,29 @@ describe("estates (money audit defect 6)", () => {
     api.updatePerson("dead", { alive: false });
     expect(settleEstate(api, "dead", "event:death")).toEqual([]);
     expect(core.people.get("dead")!.liquidMinor).toBe(900);
+  });
+
+  it("passes an old person's estate by their will, in shares by how close each heir was", () => {
+    const old = {
+      ...person("dead", 30_000, { a: "child", b: "child" }),
+      birthDate: "1925-01-01",
+    };
+    const core = world([
+      old,
+      person("a", 0, { dead: "parent" }),
+      person("b", 0, { dead: "parent" }),
+    ]);
+    const api = coreAPI(core);
+    api.relationship("dead", "a", "family", 900);
+    api.relationship("dead", "b", "family", 100);
+    const will = willOf(api, core.people.get("dead")!);
+    expect(will?.map((row) => row.id)).toEqual(["a", "b"]);
+    api.updatePerson("dead", { alive: false });
+    const paid = settleEstate(api, "dead", "event:death");
+    const byId = Object.fromEntries(
+      paid.map((row) => [row.toId, row.amountMinor]),
+    );
+    expect(byId.a! + byId.b!).toBe(30_000);
+    expect(byId.a!).toBeGreaterThan(byId.b!);
   });
 });
