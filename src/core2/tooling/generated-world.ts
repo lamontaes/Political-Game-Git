@@ -51,7 +51,7 @@ export interface WorldSettings {
   };
 }
 
-function checkSettings(settings: WorldSettings): void {
+export function checkSettings(settings: WorldSettings): void {
   const multiplier = (value: number | undefined, name: string) => {
     if (value !== undefined && !(value >= 0.25 && value <= 4))
       throw new Error(`World setting ${name} must be between 0.25 and 4.`);
@@ -227,7 +227,7 @@ function buildOpening(
 }
 
 /** Wages and household cash, applied before the economy is built from them. */
-function applyOpeningSettings(
+export function applyOpeningSettings(
   input: CoreInput,
   settings: WorldSettings,
 ): CoreInput {
@@ -274,7 +274,7 @@ function applyOpeningSettings(
   };
 }
 
-function scaleOutsideSales(factor: number, input: CoreInput): CoreInput {
+export function scaleOutsideSales(factor: number, input: CoreInput): CoreInput {
   if (factor === 1 || !input.residents) return input;
   return {
     ...input,

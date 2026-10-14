@@ -2856,7 +2856,8 @@
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The bench applies custom-world settings through the core's own settings step (checkSettings, applyOpeningSettings and scaleOutsideSales, now exported from the generated world), not a copy."
   },
   {
     "id": "SG-GOV-appointee-pay",
