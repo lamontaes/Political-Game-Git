@@ -39,6 +39,8 @@ import {
 } from "../elections-calendar";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import type { SeatInput } from "../offices-state";
+import type { OfficeInput } from "../offices-local";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -408,6 +410,22 @@ function noteEstimates(api: CoreAPI, dates: ElectionDates): void {
   }
 }
 
+/** A seat the offices engine holds that doesn't cover the town, with its office and holder. */
+function seatElsewhere(api: CoreAPI, seatId: string) {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(seatId) as unknown as
+    SeatInput | undefined;
+  if (!seat) return undefined;
+  const office = offices.table("offices").get(seat.officeId) as unknown as
+    OfficeInput | undefined;
+  if (!office) return undefined;
+  const holder = offices
+    .table("terms")
+    .query("bySeatStatus", [seatId, "serving"])[0] as unknown as
+    TermRow | undefined;
+  return { office, seat, holder: holder ?? null };
+}
+
 /**
  * A special election for a vacant seat: the seat's race on the date the
  * vacancy rule sets, filing open from today and closing the place's usual
@@ -423,7 +441,11 @@ export function specialContestFor(
     readonly termEnd: string | null;
   },
 ): ContestRow | null {
-  const entry = townSeats(api).find((s) => s.seat.id === race.seatId);
+  // A seat of the town's own or one elsewhere in its state's government
+  // (a legislator's district beyond the town): its district votes.
+  const entry =
+    townSeats(api).find((s) => s.seat.id === race.seatId) ??
+    seatElsewhere(api, race.seatId);
   if (!entry || !entry.office.elected) return null;
   const family = officeFamily(entry.office);
   const { stateKey } = town(api);

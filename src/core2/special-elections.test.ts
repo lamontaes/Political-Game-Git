@@ -135,4 +135,103 @@ describe("special elections", () => {
       `no seat with a special-election rule in twelve draws (seed ${seed})`,
     );
   }, 900_000);
+
+  it("a seat beyond the town gets its special too, voted by its own district", () => {
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      const state = pick(states, `elsewhere-state:${attempt}`);
+      const places = [
+        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `elsewhere-place:${attempt}`).key;
+      const core = createLifeCore(
+        buildPopulation({
+          seed: `${seed}:elsewhere:${attempt}`,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 200,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      openVoting(core);
+      const api = coreAPI(core);
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      // A legislative seat elsewhere in the state whose law calls a special.
+      const target = (
+        offices.table("seats").rows() as unknown as {
+          id: string;
+          officeId: string;
+          coversTown: boolean;
+        }[]
+      )
+        .filter((seat) => !seat.coversTown)
+        .sort((a, b) => a.id.localeCompare(b.id))
+        .map((seat) => ({
+          seat,
+          office: offices.table("offices").get(seat.officeId) as unknown as {
+            elected: boolean;
+            kind: string;
+            vacancyRule: { method: string };
+          },
+          holder: offices
+            .table("terms")
+            .query("bySeatStatus", [seat.id, "serving"])[0] as unknown as
+            TermRow | undefined,
+        }))
+        .find(
+          (s) =>
+            s.holder &&
+            s.office.elected &&
+            /^legislature-|^us-house/.test(s.office.kind) &&
+            /special/.test(s.office.vacancyRule.method),
+        );
+      if (!target) continue;
+      const where = `seed ${seed}:elsewhere:${attempt}, ${state} place ${key}, ${target.seat.id}`;
+      const vacancy = vacateSeat(api, target.seat.id, "resignation")!;
+      const contest = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]
+      ).find((c) => c.special?.vacancyId === vacancy.id);
+      expect(contest, `${where}: no special contest`).toBeTruthy();
+      advanceCore(
+        core,
+        new Date(Date.parse(`${contest!.electionDate}T00:00:00Z`) + 86_400_000)
+          .toISOString()
+          .slice(0, 10),
+      );
+      const result = resultOf(api, contest!.id);
+      expect(result, where).toBeTruthy();
+      // The town's people don't vote for a seat that isn't theirs.
+      expect(result!.namedEligible, where).toBe(0);
+      expect(result!.countedEligible, where).toBe(0);
+      if (result!.winnerId) {
+        const seated = offices
+          .table("terms")
+          .query("bySeatStatus", [target.seat.id, "serving"])[0] as unknown as
+          TermRow | undefined;
+        expect(seated?.reached, where).toMatch(/special election/);
+      }
+      govReport(
+        "special-elections",
+        JSON.stringify({
+          where,
+          election: contest!.electionDate,
+          totals: result!.totals,
+          winner: result!.winnerId,
+        }),
+      );
+      return;
+    }
+    throw new Error(
+      `no seat beyond the town with a special-election rule in twelve draws (seed ${seed})`,
+    );
+  }, 900_000);
 });

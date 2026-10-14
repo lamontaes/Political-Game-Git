@@ -108,6 +108,7 @@ import {
 import {
   citizenShareOf,
   countyPlaceIdOf,
+  housePlace,
   housePlaceByGeoid,
   legislativePlace,
   statePlaces,
@@ -1827,8 +1828,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
+  // The town's own voters vote where the seat covers the town; a seat
+  // elsewhere (a special for another district) is its district's alone.
+  const local = seatCoversTown(api, contest.seatId);
   // A named adult the state's law bars for a felony conviction can't vote.
-  const named = townAdults(api).filter((p) => !barredFromVoting(api, p.id));
+  const named = local
+    ? townAdults(api).filter((p) => !barredFromVoting(api, p.id))
+    : [];
   const playerId = (api.state as CoreState).playerId ?? null;
   const namedVotes: Record<string, number> = {};
   const exitPoll: Record<string, number> = {};
@@ -1933,7 +1939,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     cost: [] as number[],
   };
   for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== townPlaceId) continue;
+    if (!local || voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
     if (age < 18) continue;
     countedEligible += 1;
@@ -2247,6 +2253,15 @@ function basePlaces(
     };
   }
   if (contest.family === "usHouse") {
+    // A district elsewhere in the state: the seat's own.
+    if (!seatCoversTown(api, contest.seatId)) {
+      const place = contest.district
+        ? housePlace(usps, contest.district)
+        : null;
+      return place
+        ? { places: [place], home: null }
+        : { places: [], home: null };
+    }
     const district = townDistrict(geoid, usps, "congressional", api.state.date);
     const place = housePlaceByGeoid(usps, district?.geoid ?? null);
     return place
@@ -2269,9 +2284,11 @@ function basePlaces(
       api.state.placeMetadata.countyNames as string | undefined,
       usps,
     );
-    const own = county
-      ? (statePlaces(usps).find((p) => p.id === county)?.rightShare ?? null)
-      : null;
+    // The town's county lean is the seat's own only where it covers the town.
+    const own =
+      county && seatCoversTown(api, contest.seatId)
+        ? (statePlaces(usps).find((p) => p.id === county)?.rightShare ?? null)
+        : null;
     const place = legislativePlace(
       usps,
       contest.seatId,
@@ -2284,6 +2301,15 @@ function basePlaces(
       : { places: [], home: null };
   }
   return { places: [], home: null };
+}
+
+/** Whether a seat's district covers the town (a seat the town doesn't vote for, otherwise). */
+function seatCoversTown(api: CoreAPI, seatId: string): boolean {
+  const seat = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("seats")
+    .get(seatId) as unknown as { coversTown?: boolean } | undefined;
+  return seat?.coversTown !== false;
 }
 
 /**

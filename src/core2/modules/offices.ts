@@ -970,6 +970,47 @@ export function registerSuccessorProvider(
 }
 
 /**
+ * A filled vacancy is a public record: who took the seat, how (appointed,
+ * succeeded), who appointed them and why, as the press and the town read it
+ * (`took-office`, at the office's own level).
+ */
+function announceFill(
+  api: CoreAPI,
+  office: OfficeInput,
+  seat: SeatInput,
+  term: TermRow,
+  how: {
+    readonly how: string;
+    readonly appointedBy: string | null;
+    readonly reasons: Readonly<Record<string, number>> | null;
+    readonly citation: string;
+  },
+): void {
+  const date = api.state.date;
+  api.emit({
+    id: `took-office:${seat.id}:${date}:${term.id}`,
+    date,
+    kind: "took-office",
+    personIds: term.personId ? [term.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: source(how.citation, date, office.vacancyRule?.estimate ?? true),
+    publicRecord: true,
+    news: true,
+    facts: {
+      office: office.title,
+      seatId: seat.id,
+      winnerId: term.personId ?? "",
+      level: office.level,
+      how: how.how,
+      appointedBy: how.appointedBy ?? "",
+      ...(how.reasons ? { reasons: JSON.stringify(how.reasons) } : {}),
+    },
+  });
+}
+
+/**
  * The holder of the office a successor rule names in the same government
  * ("lieutenant governor" reads the lieutenant governor's seat), a living full
  * person, or null where the rule names no such office or no one holds it.
@@ -1055,6 +1096,12 @@ function fillVacancy(
       endEstimated: previous.endEstimated,
     };
     table(api, "terms").put(finished as unknown as ModuleRow);
+    announceFill(api, office, seat, finished, {
+      how: reached,
+      appointedBy: chosen?.appointerId ?? rule.appointedBy ?? null,
+      reasons: chosen?.reasons ?? null,
+      citation: rule.citation ?? rule.source ?? office.source,
+    });
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
   if (rule.method === "remains-vacant") return vacancy;
@@ -1080,6 +1127,12 @@ function fillVacancy(
     const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
     table(api, "vacancies").put(filled as unknown as ModuleRow);
     named.then?.();
+    announceFill(api, office, seat, term, {
+      how: named.reached,
+      appointedBy: null,
+      reasons: null,
+      citation: rule.citation ?? rule.source ?? office.source,
+    });
     return filled;
   }
   // The successor the law names, where it is an office of the same
@@ -1104,6 +1157,12 @@ function fillVacancy(
     const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
     table(api, "vacancies").put(filled as unknown as ModuleRow);
     vacateSeat(api, rising.seatId, `succeeded as ${office.title}`);
+    announceFill(api, office, seat, term, {
+      how: term.reached,
+      appointedBy: null,
+      reasons: null,
+      citation: rule.citation ?? rule.source ?? office.source,
+    });
     return filled;
   }
   if (rule.method === "successor")
