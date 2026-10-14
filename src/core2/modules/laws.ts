@@ -101,6 +101,19 @@ export function openLaws(core: CoreState): LawChain {
   for (const row of socialSecurityRows(today))
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
+  // A law whose first recorded phase starts after the start date is in force
+  // on day one at that phase's terms, as an estimate (never unknown).
+  const carried = rowsCarriedToStart(
+    [...state.table("laws").rows()] as unknown as LawRowInput[],
+    today,
+  );
+  if (carried.length) {
+    // stopgapId: SG-GOV-start-law-carried-back
+    api.stopgap("SG-GOV-start-law-carried-back");
+    for (const row of carried)
+      if (!state.table("laws").get(row.id))
+        state.table("laws").put(row as unknown as ModuleRow);
+  }
   // The state's researched answers to the policy questions are its law in
   // force at the opening (audit 3; BOARD "next" item 4).
   for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
@@ -160,8 +173,7 @@ function minimumWageHistoryRows(
         (r) =>
           r.series === "minimum-wage" &&
           r.level === level &&
-          r.jurisdiction === jurisdiction &&
-          r.tier === "general",
+          r.jurisdiction === jurisdiction,
       )
       .map((r) => r.effectiveDate)
       .sort()[0];
@@ -189,6 +201,42 @@ function minimumWageHistoryRows(
         estimate: step.estimated !== undefined || step.sourceId === "RECALL",
       });
     }
+  }
+  return out;
+}
+
+/**
+ * Rows for laws recorded only from a later date: for each level's series with
+ * no phase in force on the start date, its earliest phase (every tier of it)
+ * applies from the start until that phase begins, marked as an estimate.
+ */
+function rowsCarriedToStart(
+  rows: readonly LawRowInput[],
+  today: string,
+): LawRowInput[] {
+  const groups = new Map<string, LawRowInput[]>();
+  for (const row of rows) {
+    const key = `${row.jurisdiction}|${row.level}|${row.series}`;
+    groups.set(key, [...(groups.get(key) ?? []), row]);
+  }
+  const out: LawRowInput[] = [];
+  for (const group of groups.values()) {
+    if (group.some((row) => inForceOn(row, today))) continue;
+    const later = group.filter((row) => row.effectiveDate > today);
+    if (!later.length) continue;
+    const first = later.map((row) => row.effectiveDate).sort()[0]!;
+    for (const row of later.filter((r) => r.effectiveDate === first))
+      out.push({
+        ...row,
+        id: `${row.id}:from-start`,
+        effectiveDate: today,
+        endDate: first,
+        source: [
+          ...(Array.isArray(row.source) ? row.source : [row.source]),
+          `estimate: the phase recorded from ${first}, applied from the start date until then`,
+        ].join(" ; "),
+        estimate: true,
+      });
   }
   return out;
 }

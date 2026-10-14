@@ -31,6 +31,7 @@ import assert from "node:assert/strict";
 import housingConstruction from "../../src/core2/data/housing/construction.json" with { type: "json" };
 import reachAParameters from "../../src/core2/data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { buildBenchWorld } from "../../src/bench/world";
+import { gameStartDate } from "../../src/core2/game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -101,7 +102,7 @@ import type { CoreAPI, CoreModule, CoreState } from "../../src/core2/types";
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 
 /** The bench's opening day (src/bench/m0-check.ts). */
-const OPENING_DATE = "2026-10-12";
+const OPENING_DATE = gameStartDate();
 const nightly = process.env.GOLDEN_PATH_MODE === "nightly";
 /** The runner's own draw for its first world, so its receipt names the place that ran. */
 const runnerPlace =

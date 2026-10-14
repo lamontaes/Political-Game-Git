@@ -42,6 +42,9 @@ export async function paired({ base, head, output }) {
   head = git("rev-parse", `${head}^{commit}`);
   const { drawPlace } = await import("../../tests/golden-path/place.ts");
   const place = drawPlace(head, "M0-11");
+  // Base and head open on the head's start date, so the two worlds match.
+  const { gameStartDate } = await import("../../src/core2/game-start.ts");
+  const startDate = gameStartDate();
   const directory = mkdtempSync(resolve(tmpdir(), "core2-paired-"));
   for (const name of ["month.mjs", "policies.json", "profile-summary.mjs"])
     copyFileSync(
@@ -97,6 +100,8 @@ export async function paired({ base, head, output }) {
           place.seed,
           "--place-key",
           place.key,
+          "--start-date",
+          startDate,
           "--output",
           receiptPath,
         ]);
@@ -123,6 +128,8 @@ export async function paired({ base, head, output }) {
         place.seed,
         "--place-key",
         place.key,
+        "--start-date",
+        startDate,
         "--output",
         resolve(profileDir, "month.json"),
       ]);
