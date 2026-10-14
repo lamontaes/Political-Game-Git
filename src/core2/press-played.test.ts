@@ -40,7 +40,11 @@ describe("the press in the played world", () => {
       return;
     }
     for (const outlet of outlets) {
+      expect(outlet.ownerId, where).toBeTruthy();
       expect(outlet.headId, where).toBeTruthy();
+      // A national outlet's people are named but live and work outside the
+      // town (registered stopgap SG-PEOPLE-press-national-payroll).
+      if (outlet.tier === "national") continue;
       expect(outlet.reporterIds.length, where).toBeGreaterThan(0);
       for (const id of [outlet.headId!, ...outlet.reporterIds]) {
         const person = core.people.get(id);
@@ -55,14 +59,25 @@ describe("the press in the played world", () => {
     expect(stories.length, where).toBeGreaterThan(0);
     for (const story of stories) {
       expect(story.topic, where).toBeTruthy();
-      if (!story.interviewId)
+      // Desk stories keep why they were picked; an interview, a profile, a
+      // checked claim and an exposure come from their own paths.
+      const ownPath = [
+        "interview",
+        "profile",
+        "claim-checked",
+        "press.exposed",
+      ];
+      if (!ownPath.includes(story.kind))
         expect(story.pick?.rank ?? 0, where).toBeGreaterThan(0);
     }
     // Staff are paid from the outlet's own cash.
     const paid = outlets
+      .filter((o) => o.tier !== "national")
       .flatMap((o) => [o.headId!, ...o.reporterIds])
       .filter((id) => (core.people.get(id)?.liquidMinor ?? 0) > 0);
-    expect(paid.length, where).toBeGreaterThan(0);
+    // A news desert has only the national tier, whose people the town does not pay.
+    if (outlets.some((o) => o.tier !== "national"))
+      expect(paid.length, where).toBeGreaterThan(0);
     // A follower read a printed story and their stance on its topic moved.
     const printed = new Set(stories.map((s) => s.id));
     const moved = outlets.some((o) =>

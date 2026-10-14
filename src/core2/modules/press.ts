@@ -550,11 +550,10 @@ export function openPress(core: CoreState): readonly OutletRow[] {
  * outlets.
  */
 function countedAudience(api: CoreAPI, outlet: OutletRow): number {
-  const core = api.state as CoreState;
   const town = outlet.placeId;
   const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
   let total = 0;
-  for (const row of residentCounts(core)) {
+  for (const row of countsThisWeek(api)) {
     if (row.placeId !== town) continue;
     for (const [bandKey, people] of Object.entries(row.byAgeBand ?? {})) {
       const low = Number(bandKey.split("-")[0]);
@@ -660,8 +659,15 @@ function audienceOfKind(
  * lean is nearest their own (selective exposure: Stroud 2011).
  */
 export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
+  // Who follows what is settled once a week (the press's own cycle), or
+  // again when something changes it (an attack on an outlet).
   const cached = followCache.get(api.state);
-  if (cached?.date === api.state.date) return cached.map.get(outletId) ?? [];
+  if (
+    cached &&
+    cached.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(cached.date), 7)
+  )
+    return cached.map.get(outletId) ?? [];
   const map = new Map<string, readonly string[]>();
   const outlets = outletsHere(api);
   const scores = new Map<string, number>();
@@ -1672,6 +1678,44 @@ function writeProfile(
  * adults, split among the kind's outlets.
  */
 function countedFollowersOf(api: CoreAPI, outlet: OutletRow): number {
+  // Counted once a week: the count reads every counted household.
+  const cached = countedCache.get(api.state);
+  if (
+    cached &&
+    cached.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(cached.date), 7)
+  ) {
+    const held = cached.byOutlet.get(outlet.id);
+    if (held !== undefined) return held;
+  } else
+    countedCache.set(api.state, { date: api.state.date, byOutlet: new Map() });
+  const value = countedFollowersNow(api, outlet);
+  countedCache.get(api.state)!.byOutlet.set(outlet.id, value);
+  return value;
+}
+/** The town's counted residents by place, read at most once a week. */
+function countsThisWeek(api: CoreAPI): ReturnType<typeof residentCounts> {
+  const held = countsCache.get(api.state);
+  if (
+    held &&
+    held.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(held.date), 7)
+  )
+    return held.rows;
+  const rows = residentCounts(api.state as CoreState);
+  countsCache.set(api.state, { date: api.state.date, rows });
+  return rows;
+}
+const countsCache = new WeakMap<
+  object,
+  { date: string; rows: ReturnType<typeof residentCounts> }
+>();
+const countedCache = new WeakMap<
+  object,
+  { date: string; byOutlet: Map<string, number> }
+>();
+
+function countedFollowersNow(api: CoreAPI, outlet: OutletRow): number {
   if (outlet.tier !== "national")
     return Math.max(
       0,
@@ -1680,7 +1724,7 @@ function countedFollowersOf(api: CoreAPI, outlet: OutletRow): number {
   const row = NATIONAL.kinds.find((k) => k.kind === outlet.kind);
   if (!row) return 0;
   let adults = 0;
-  for (const counts of residentCounts(api.state as CoreState))
+  for (const counts of countsThisWeek(api))
     if (
       counts.placeId === outlet.placeId ||
       counts.placeId === lawChain(api).townPlaceId
@@ -1750,10 +1794,14 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
+  // A national outlet covers the nation and the town's own state; a town's
+  // council is not its beat.
+  const wider = wire.filter((i) => i.level === "nation" || i.level === "state");
   const ctx = deskContext(api);
   for (const outlet of outletsHere(api)) {
-    runDesk(api, ctx, outlet, wire);
-    if (outlet.kind === "magazine") writeProfile(api, ctx, outlet, wire);
+    const beat = outlet.tier === "national" ? wider : wire;
+    runDesk(api, ctx, outlet, beat);
+    if (outlet.kind === "magazine") writeProfile(api, ctx, outlet, beat);
   }
   forgetOldWire(api);
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
