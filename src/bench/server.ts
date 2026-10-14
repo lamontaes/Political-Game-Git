@@ -5,7 +5,6 @@ import {
   searchGuideTerms,
 } from "../presentation/guide-terms";
 import { createServer } from "node:http";
-import { resolveBuildIdentity } from "../../scripts/release/build-identity";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
@@ -305,8 +304,9 @@ const server = createServer(async (request, response) => {
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/version") {
-      // Source runs have no bundler define, so the release machinery answers.
-      send(200, { version: resolveBuildIdentity(process.cwd()).version });
+      // Source runs have no bundler define; the package's release number is the record.
+      const { version } = JSON.parse(await readFile("package.json", "utf8"));
+      send(200, { version });
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/places") {
