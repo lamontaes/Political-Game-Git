@@ -584,7 +584,11 @@ function ballotCues(
     ? new Map(partiesHere(api).map((p) => [p.name, p.share]))
     : new Map<string, number>();
   const stateKey = town(api).stateKey;
-  const stage = contest.primaryDate === api.state.date ? "primary" : "general";
+  // Until the race's primary is held, its ballot is the primary's.
+  const stage =
+    contest.primaryDate && api.state.date <= contest.primaryDate
+      ? "primary"
+      : "general";
   if (ballotOrderRule(stateKey, stage)?.estimate) {
     // stopgapId: SG-GOV-ballot-order-estimates
     api.stopgap("SG-GOV-ballot-order-estimates");
