@@ -87,12 +87,9 @@ export function wireItem(
       };
     }
     case "vote-recorded":
-      return {
-        ...base,
-        topic: facts.question ?? event.kind,
-        desiredChange: Number(facts.position) > 0 ? "enact" : "repeal",
-        ending: false,
-      };
+      // One member's vote is part of the roll call's story, which names
+      // every member who voted; it is not a story of its own.
+      return null;
     case "budget-line-changed":
       return {
         ...base,

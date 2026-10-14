@@ -423,7 +423,14 @@ export function runDesk(
         };
       })
       .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
-    const count = Math.min(p("storiesPerReporterWeek"), scored.length);
+    const count = Math.min(
+      p(
+        outlet.tier === "national"
+          ? "nationalStoriesPerReporterWeek"
+          : "storiesPerReporterWeek",
+      ),
+      scored.length,
+    );
     for (let rank = 0; rank < count; rank += 1) {
       const row = scored[rank]!;
       taken.add(row.item.id);

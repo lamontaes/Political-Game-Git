@@ -433,8 +433,15 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       return row.id;
     };
     const staffHome = spec.tier === "local" ? undefined : basedAt;
+    // A station covers a market: its news director works at the station in
+    // the market's city (the state, here); its reporter is the one on the
+    // town. A local paper's editor works in town.
+    const headHome =
+      spec.tier === "local" && spec.kind !== "newspaper"
+        ? chain.stateKey
+        : staffHome;
     const ownerId = hire(ownerRole, 0, spec.ownerLivesAt);
-    const headId = hire(headRole, 0, staffHome);
+    const headId = hire(headRole, 0, headHome);
     const reporterIds = Array.from({ length: spec.reporters }, (_, i) =>
       hire(reporterRole, i, staffHome),
     );
@@ -553,7 +560,7 @@ function countedAudience(api: CoreAPI, outlet: OutletRow): number {
   const town = outlet.placeId;
   const own = outletsHere(api).filter((o) => o.kind === outlet.kind).length;
   let total = 0;
-  for (const row of countsThisWeek(api)) {
+  for (const row of countsThisMonth(api)) {
     if (row.placeId !== town) continue;
     for (const [bandKey, people] of Object.entries(row.byAgeBand ?? {})) {
       const low = Number(bandKey.split("-")[0]);
@@ -1712,13 +1719,17 @@ function countedFollowersOf(api: CoreAPI, outlet: OutletRow): number {
   countedCache.get(api.state)!.byOutlet.set(outlet.id, value);
   return value;
 }
-/** The town's counted residents by place, read at most once a week. */
-function countsThisWeek(api: CoreAPI): ReturnType<typeof residentCounts> {
+/**
+ * The town's counted residents by place, read at most once a month: the
+ * count walks every counted household, and an outlet's audience moves slowly.
+ */
+function countsThisMonth(api: CoreAPI): ReturnType<typeof residentCounts> {
   const held = countsCache.get(api.state);
   if (
     held &&
     held.date <= api.state.date &&
-    api.state.date < addDays(makeIsoDate(held.date), 7)
+    api.state.date <
+      addDays(makeIsoDate(held.date), pressParameter("audienceRecountDays"))
   )
     return held.rows;
   const rows = residentCounts(api.state as CoreState);
@@ -1743,7 +1754,7 @@ function countedFollowersNow(api: CoreAPI, outlet: OutletRow): number {
   const row = NATIONAL.kinds.find((k) => k.kind === outlet.kind);
   if (!row) return 0;
   let adults = 0;
-  for (const counts of countsThisWeek(api))
+  for (const counts of countsThisMonth(api))
     if (
       counts.placeId === outlet.placeId ||
       counts.placeId === lawChain(api).townPlaceId

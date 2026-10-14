@@ -46,7 +46,13 @@ describe("the press in the played world", () => {
       // town (registered stopgap SG-PEOPLE-press-national-payroll).
       if (outlet.tier === "national") continue;
       expect(outlet.reporterIds.length, where).toBeGreaterThan(0);
-      for (const id of [outlet.headId!, ...outlet.reporterIds]) {
+      // A station's news director works at the station, outside the town;
+      // a paper's editor and every reporter work in town.
+      const inTown =
+        outlet.kind === "newspaper"
+          ? [outlet.headId!, ...outlet.reporterIds]
+          : outlet.reporterIds;
+      for (const id of inTown) {
         const person = core.people.get(id);
         expect(person?.placeId, where).toBe(world.placeId);
         const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
@@ -73,7 +79,7 @@ describe("the press in the played world", () => {
     // Staff are paid from the outlet's own cash.
     const paid = outlets
       .filter((o) => o.tier !== "national")
-      .flatMap((o) => [o.headId!, ...o.reporterIds])
+      .flatMap((o) => o.reporterIds)
       .filter((id) => (core.people.get(id)?.liquidMinor ?? 0) > 0);
     // A news desert has only the national tier, whose people the town does not pay.
     if (outlets.some((o) => o.tier !== "national"))

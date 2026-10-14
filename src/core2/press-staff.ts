@@ -192,18 +192,20 @@ export function hireStaffMember(
   // stopgapId: SG-PEOPLE-press-national-payroll
   if (home !== input.townPlaceId)
     api.stopgap("SG-PEOPLE-press-national-payroll");
-  const jobId = pay
-    ? startPublicJob(api, {
-        personId: id,
-        employerId: input.organizationId,
-        post: key,
-        title: input.role.title,
-        hourlyMinor: Math.round(
-          input.parameter(pay) / input.parameter("fullTimeHoursPerYear"),
-        ),
-        citation: input.source.citation,
-      })
-    : null;
+  // Only people living in the town hold a job on the town's payroll path.
+  const jobId =
+    pay && home === input.townPlaceId
+      ? startPublicJob(api, {
+          personId: id,
+          employerId: input.organizationId,
+          post: key,
+          title: input.role.title,
+          hourlyMinor: Math.round(
+            input.parameter(pay) / input.parameter("fullTimeHoursPerYear"),
+          ),
+          citation: input.source.citation,
+        })
+      : null;
   return {
     id,
     outletId: input.outletId,

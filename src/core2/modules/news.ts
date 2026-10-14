@@ -348,8 +348,23 @@ function scheduleDeliveries(
     // People who trust the media less check it less, and hear later.
     const reach =
       engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
-    const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
-    if (delay > maxAge) continue;
+    const exact = Math.ceil(n(api, "newsOutletDelayDays") / reach);
+    if (exact > maxAge) continue;
+    // A printed story's readers catch up with it in waves: the next day,
+    // then each time the delay grows by the wave factor, so a story is read
+    // on a few days rather than every day of its life (one reading event
+    // per wave).
+    const factor = n(api, "newsReadingWaveFactor");
+    const delay = story.topic
+      ? Math.min(
+          maxAge,
+          factor **
+            Math.ceil(
+              Math.log(Math.max(api.parameter("one"), exact)) /
+                Math.log(factor),
+            ),
+        )
+      : exact;
     deliveries(api).put({
       id: `${story.id}:${personId}`,
       storyId: story.id,

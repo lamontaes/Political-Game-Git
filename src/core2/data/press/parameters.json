@@ -62,9 +62,9 @@
       "spread": [-1.5, -0.5]
     },
     "reportersPerNewspaper": {
-      "value": 2,
+      "value": 1,
       "tag": "ESTIMATED",
-      "source": "Reporters a local newspaper puts on one town's government (Medill State of Local News 2024: about 5 journalists per surviving paper across all its beats and towns).",
+      "source": "Reporters a local newspaper puts on one town's government (Medill State of Local News 2024: about 5 journalists per surviving paper across all its beats and towns; a small-town paper has one on its government).",
       "spread": [1, 4]
     },
     "reportersPerStation": {
@@ -131,9 +131,9 @@
       "spread": [1500, 6000]
     },
     "storiesPerReporterWeek": {
-      "value": 3,
+      "value": 2,
       "tag": "TUNABLE",
-      "source": "Government and politics stories a local reporter files in a week beside other assignments (Pew 2019 study of local news: local outlets run about 0.6 civic stories a day per reporter).",
+      "source": "Government and politics stories a local reporter files in a week beside other assignments (Pew 2019 study of local news: local outlets run about 0.6 civic stories a day across their staff, about two a week per reporter covering a town).",
       "spread": [2, 6]
     },
     "storyProximityTown": {
@@ -373,6 +373,18 @@
       "tag": "TUNABLE",
       "source": "How far a magazine profile moves a reader's view of the person it profiles, at full framing (profiles shape name recognition and warmth more than a news item).",
       "spread": [0.1, 0.4]
+    },
+    "audienceRecountDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days between recounts of the town's counted residents for an outlet's audience and its stories' counted readers; audiences move by births, deaths and moves, which change a town's counts slowly within a month.",
+      "spread": [7, 90]
+    },
+    "nationalStoriesPerReporterWeek": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Stories a week a national outlet runs that bear on one town's state or the nation as its readers there follow it (a national outlet's few daily political stories are mostly about the capital and other states).",
+      "spread": [1, 3]
     }
   }
 }
