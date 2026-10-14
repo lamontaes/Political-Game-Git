@@ -992,15 +992,20 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   // who doesn't meet the rules isn't put on the ballot. The stand-in files
   // for them when filing closes; when they would have filed is the
   // stand-in's to fake, so its filing counts as on time.
-  const put = (personId: string, party: string | null, how: string) => {
-    if (ballot(api, contestId).some((f) => f.personId === personId)) return;
+  const put = (
+    personId: string,
+    party: string | null,
+    how: string,
+  ): boolean => {
+    if (ballot(api, contestId).some((f) => f.personId === personId))
+      return true;
     if (
       api.state.people.has(personId) &&
       checkEligibility(api, personId, contestId, party).some(
         (c) => !c.met && c.rule !== "filing-deadline",
       )
     )
-      return;
+      return false;
     const filing: FilingRow = {
       id: `filing:${contestId}:${personId}`,
       contestId,
@@ -1015,7 +1020,16 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     };
     filings.put(filing as unknown as ModuleRow);
     announce(api, filing, contest);
+    return true;
   };
+  // A party's own official who can't stand (too young, living elsewhere,
+  // working for an outlet) leaves the party's stand-in to file instead.
+  const putOr = (
+    personId: string | null | undefined,
+    standIn: string,
+    party: string | null,
+    how: string,
+  ) => (personId && put(personId, party, how)) || put(standIn, party, how);
   const alive =
     incumbent &&
     incumbent.status === "serving" &&
@@ -1074,17 +1088,17 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
           partySide(f.party ?? null) === -partySide(incumbent.party),
       )
     )
-      put(
-        officialCandidate(api, contest, other) ??
-          officialCandidateId(`challenger:${contest.id}`),
+      putOr(
+        officialCandidate(api, contest, other),
+        officialCandidateId(`challenger:${contest.id}`),
         other,
         "challenger",
       );
     // An open seat: the incumbent's party nominates someone new.
     if (termLimited(api, contest, incumbent))
-      put(
-        officialCandidate(api, contest, incumbent.party!) ??
-          officialCandidateId(`nominee:${contest.id}`),
+      putOr(
+        officialCandidate(api, contest, incumbent.party!),
+        officialCandidateId(`nominee:${contest.id}`),
         incumbent.party,
         "nominee for an open seat",
       );
@@ -1120,9 +1134,9 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
             partySide(f.party ?? null) === partySide(party),
         )
       )
-        put(
-          officialCandidate(api, contest, party) ??
-            officialCandidateId(`nominee:${party}:${contest.id}`),
+        putOr(
+          officialCandidate(api, contest, party),
+          officialCandidateId(`nominee:${party}:${contest.id}`),
           party,
           "nominee for an open seat",
         );

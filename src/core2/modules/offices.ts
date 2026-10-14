@@ -1173,8 +1173,12 @@ function fillVacancy(
     });
     return filled;
   }
+  // No one holds the successor's office today: the seat is filled by
+  // appointment, and the record says so rather than naming a succession.
   if (rule.method === "successor")
-    return appoint(`succeeded as ${rule.successor ?? "next in line"}`);
+    return appoint(
+      `appointed; no ${rule.successor ?? "successor"} in office to succeed`,
+    );
   if (rule.method === "appointment")
     return appoint(
       `appointed by ${rule.appointedBy ?? "the appointing authority"}`,
