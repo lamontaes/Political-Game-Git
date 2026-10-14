@@ -51,7 +51,6 @@ const contracts: readonly SkillContract[] = [
       /do not use to author prose, review prose style, or repair history by hand/i,
     links: [
       "docs/systems/prose-corpus.md",
-      "scripts/prose-corpus/cli.ts",
       "scripts/prose-corpus/anchor-history.ts",
     ],
   },
@@ -74,9 +73,6 @@ const contracts: readonly SkillContract[] = [
       /do not use for deliberately fictional authored content or unsourced design speculation/i,
     links: [
       "docs/systems/source-substrate.md",
-      "scripts/source/verify-artifacts.ts",
-      "scripts/source/validate.ts",
-      "scripts/source/replay.ts",
     ],
   },
   {
@@ -104,9 +100,7 @@ const contracts: readonly SkillContract[] = [
       "src/simulation/legislation-program-families.ts",
       "src/simulation/legislation-drafting.ts",
       "src/simulation/life-opportunities.ts",
-      "src/simulation/people-study-plan.ts",
       "src/simulation/decisions.ts",
-      "src/presentation/contextual-scene-producers.ts",
     ],
   },
   {
@@ -120,7 +114,7 @@ const contracts: readonly SkillContract[] = [
       "src/simulation/executive-authority-rule-packs.ts",
       "src/simulation/civil-personnel-contract.ts",
       "src/simulation/municipal-government.ts",
-      "src/simulation/government-units.ts",
+      "src/core2/reference/government-units.ts",
     ],
   },
   {
@@ -129,11 +123,6 @@ const contracts: readonly SkillContract[] = [
     nontrigger: /not new simulation rules or unrelated UI frameworks/i,
     boundary: /## Completion evidence/,
     links: [
-      "src/player/ShellNav.tsx",
-      "src/player/ShellWorkspaces.tsx",
-      "src/player/PlayerGame.tsx",
-      "src/player/controls/GameSelect.tsx",
-      "src/player/controls/controls.css",
     ],
   },
   {

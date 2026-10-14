@@ -23,7 +23,6 @@
     "export:college-kinds": "node --import tsx scripts/source/export-college-kinds.ts",
     "test": "vitest run",
     "test:skill-ops": "vitest run scripts/skill-ops/skill-ops.test.ts scripts/prose-eval/grounding.test.ts scripts/prose-eval/portability.test.ts scripts/prose-eval/american-english.test.ts scripts/report-check/report-check.test.ts tests/content-american-english.test.ts scripts/agent-run-receipt.test.ts scripts/agent-test-cadence.test.ts",
-    "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
     "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts && npm run check:law-consequence-modules && npm run check:trait-effects",
