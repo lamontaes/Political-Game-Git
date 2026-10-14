@@ -78,6 +78,8 @@
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
     "dialogue:coverage": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/coverage-batch.ts",
     "dialogue:batch": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/grading-batch.ts",
+    "dialogue:guard": "node --import tsx scripts/dialogue-batch/repetition-guard.ts",
+    "dialogue:guard-measure": "node --import tsx scripts/dialogue-batch/measure-real.ts",
     "report:check": "node scripts/report-check/cli.mjs",
     "kit:art": "node --import tsx scripts/art-asset-factory/cli-kit41.ts",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run zero-dice && npm run build && npm run validate:art && npm run admit:wave-a-candidates -- --check && npm run derive:wave-a-wardrobe -- --check",

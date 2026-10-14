@@ -101,6 +101,26 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         expect(variant.text).not.toMatch(feelings);
   });
 
+  it("frames by age only what happens around a young person, and keeps names", () => {
+    // A race, a filing or a letter is told as itself, never "When I was 17".
+    const framed = JOURNAL_DATA.lines.filter((row) => row.framesAge);
+    expect(framed.length).toBeGreaterThan(0);
+    for (const row of framed)
+      expect(row.kindPrefix).not.toMatch(/^event:(election|candidate|office)/);
+    const names = new Set(
+      [...core.people.values()].map((person) => person.givenName),
+    );
+    for (const id of initialFocusPeople(input))
+      for (const chapter of composeJournal(core, director, id))
+        for (const line of chapter.lines) {
+          const after = /^When I was \d+[^,]*, (\p{L}+)/u.exec(line.text)?.[1];
+          if (!after) continue;
+          const named = after.charAt(0).toUpperCase() + after.slice(1);
+          // A name after the frame keeps its capital ("Emma won", not "emma").
+          if (names.has(named)) expect(after).toBe(named);
+        }
+  });
+
   it("never makes a school, a workplace or a visit an entry by itself", () => {
     // Owner, grading batch 7: "School entries are not journal entries" unless
     // something happened there; a job or a contact is a setting, not a story.
