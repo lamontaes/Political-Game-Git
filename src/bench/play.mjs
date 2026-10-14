@@ -2088,10 +2088,39 @@ function closeSheet() {
 $("sheet-close").addEventListener("click", closeSheet);
 
 // ---- New life ----
-// The title screen: a national convention hall at night, full window (owner,
-// Oct 8: a recognizable national civic scene, never a state capitol).
-const TITLE_BACKDROP = "/art/backdrops/convention-hall__night.jpg";
-$("backdrop").src = TITLE_BACKDROP;
+// The title screen: a national scene or event, full window, that moves on with
+// each visit (owner, Oct 8 and Oct 14). The life in progress, if any, stands
+// in it and is what Continue resumes.
+let titleLife = null;
+api("/api/title").then((title) => {
+  if (!$("front").hidden) {
+    $("backdrop").src = title.backdrop.url;
+    drawPeople(title.people);
+  }
+  titleLife = title.life;
+  $("front-continue").disabled = !titleLife;
+});
+$("front-continue").addEventListener("click", async () => {
+  const life = titleLife;
+  if (!life) return;
+  me = {
+    id: life.personId,
+    placeName: life.placeName,
+    date: life.date,
+    names: {},
+  };
+  seenChanges = await changeCount();
+  show("front", false);
+  for (const id of ["rings", "card", "journal-note"]) show(id, true);
+  $("game").classList.add("in-play");
+  if (life.packet) renderPacket(life.packet);
+  await refresh();
+});
+// The desktop window closes (and the app quits); a browser tab has no Quit.
+if (window.location.protocol === "app:") {
+  show("front-quit", true);
+  $("front-quit").addEventListener("click", () => window.close());
+}
 api("/api/seed").then((value) => {
   $("seed").value = value.seed;
   $("date").value = value.date;

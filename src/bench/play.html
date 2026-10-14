@@ -78,15 +78,23 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
-        <p class="sub">A life in American government.</p>
         <div id="front-main">
+          <button
+            id="front-continue"
+            class="item"
+            type="button"
+            data-testid="continue"
+            disabled
+          >
+            <b>Continue</b>
+          </button>
           <button
             id="new-life"
             class="item"
             type="button"
             data-testid="new-game"
           >
-            <b>New game</b><span>Begin a life in a real place.</span>
+            <b>New game</b>
           </button>
           <button
             id="front-options"
@@ -95,6 +103,16 @@
             data-testid="title-options"
           >
             <b>Options</b>
+          </button>
+          <!-- Quit is the desktop's; a browser tab has none to offer. -->
+          <button
+            id="front-quit"
+            class="item"
+            type="button"
+            data-testid="title-quit"
+            hidden
+          >
+            <b>Quit</b>
           </button>
         </div>
         <!-- New game, second step: where the life begins. -->

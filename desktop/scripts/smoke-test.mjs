@@ -155,15 +155,29 @@ async function launch() {
       painted: backdrop.naturalWidth > 0,
       version: /\bv?\d+\.\d+\.\d+/.test(front.innerText),
       placeShown: Boolean(place && place.offsetParent !== null),
+      subtitle: Boolean(front.querySelector(".sub")),
+      newGameLine: Boolean(document.querySelector("#new-life span")),
+      continueShown: Boolean(document.getElementById("front-continue")),
+      continueDisabled: document.getElementById("front-continue")?.disabled,
+      quitShown: !document.getElementById("front-quit")?.hidden,
     };
   });
   check(
     "title: the backdrop is a painted national scene",
     titleScreen.src !== "" &&
       titleScreen.painted &&
-      !/state-capitol/.test(titleScreen.src),
+      /^\/art\/backdrops\/(white-house-exterior|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
+        titleScreen.src,
+      ),
     titleScreen.src,
   );
+  check("title: no subtitle under the title", !titleScreen.subtitle);
+  check("title: no description line under New game", !titleScreen.newGameLine);
+  check(
+    "title: Continue is there, disabled with no life in progress",
+    titleScreen.continueShown && titleScreen.continueDisabled === true,
+  );
+  check("title: Quit is offered on the desktop", titleScreen.quitShown);
   check("title: no version string on the title", !titleScreen.version);
   check("title: no place field on the title", !titleScreen.placeShown);
   if (screenshot) {
@@ -225,6 +239,10 @@ async function launch() {
   await page.waitForLoadState("domcontentloaded");
   await page.getByTestId("title-menu").waitFor();
   check("options: Quit to title returns to the title menu", true);
+  await page.waitForFunction(
+    () => !document.getElementById("front-continue").disabled,
+  );
+  check("title: Continue is offered for the life in progress", true);
   const title = await app.evaluate(({ BrowserWindow }) =>
     BrowserWindow.getAllWindows()[0].getTitle(),
   );

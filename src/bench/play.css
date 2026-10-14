@@ -713,11 +713,7 @@ input[type="range"]::-moz-range-thumb {
   font: 800 30px/1.1 var(--name);
   letter-spacing: 0.07em;
   color: var(--gold);
-}
-.sub {
-  font: 500 14.5px var(--speech);
-  color: var(--text-2);
-  margin: 6px 0 18px;
+  margin-bottom: 14px;
 }
 .item {
   display: block;
@@ -729,12 +725,6 @@ input[type="range"]::-moz-range-thumb {
   font: 800 15px var(--name);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-}
-.item span {
-  display: block;
-  font: 400 13px var(--ui);
-  color: var(--text-2);
-  margin-top: 2px;
 }
 #new-life b {
   color: #fff;

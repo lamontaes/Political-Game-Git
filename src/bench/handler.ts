@@ -38,6 +38,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
+import { titleScene } from "./title";
 import { pollingScene } from "./polling";
 import {
   openConversation,
@@ -60,6 +61,9 @@ let director: Director | undefined;
 let player: BenchPlayer | undefined;
 let placeId = "";
 let building = false;
+let placeName = "";
+/** Visits to the title since the server started; each moves the scene on. */
+let titleVisits = 0;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
 // Where the build is, for the loading screen's polls.
@@ -225,6 +229,7 @@ export async function benchRequest(
           player = new BenchPlayer(world.core, world.director);
           conversation = undefined;
           placeId = world.placeId;
+          placeName = world.place.displayName;
           const entrant = { personId: world.playerId! };
           player.select(entrant.personId);
           // The opening is prepared during loading; its whole figures are files.
@@ -344,6 +349,29 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
           ),
         );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/title") {
+        // One visit to the title: its scene, and the life in progress to
+        // continue (the server's current life), or none.
+        const personId = core ? player?.personId : undefined;
+        const scene = titleScene(
+          new Date().toISOString().slice(0, 10),
+          titleVisits++,
+          core,
+          personId,
+        );
+        send(200, {
+          ...scene,
+          life: personId
+            ? {
+                personId,
+                placeName,
+                date: core!.date,
+                packet: player!.packet,
+              }
+            : null,
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/version") {
@@ -862,6 +890,7 @@ export async function benchRequest(
           player = new BenchPlayer(next, nextDirector);
           conversation = undefined;
           placeId = place.context.jurisdiction.id;
+          placeName = place.displayName;
           send(200, {
             seed: core.seed,
             date: core.date,
