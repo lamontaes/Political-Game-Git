@@ -487,7 +487,14 @@ export function electionInYear(input: {
   readonly onDate: string;
 }): ElectionDates | null {
   const { office, stateKey, placeGeoid, year, onDate } = input;
-  const from = onDate > `${year}-01-01` ? onDate : `${year}-01-01`;
+  // A town's calendar reads the year asked and keeps today as today (a
+  // spring election's filing can close in the winter before its year); the
+  // state and county calendars look ahead from the start of the year asked.
+  const town =
+    office.level !== "federal" &&
+    office.level !== "state" &&
+    office.level !== "county";
+  const from = town || onDate > `${year}-01-01` ? onDate : `${year}-01-01`;
   const found = nextFrom(office, stateKey, placeGeoid, year, from);
   return found &&
     found.electionDate > onDate &&

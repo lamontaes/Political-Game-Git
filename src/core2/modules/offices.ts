@@ -217,7 +217,9 @@ function termEnd(
   const year = seat.electionYear ?? office.nextElectionYear;
   const election =
     year !== undefined
-      ? electionInYear({ ...where, year, onDate: `${year}-01-01` })
+      ? // Asked from the year before: a spring election's filing can close
+        // in the winter before its year.
+        electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
       : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
   if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";

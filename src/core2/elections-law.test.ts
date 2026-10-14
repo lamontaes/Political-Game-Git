@@ -43,7 +43,12 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
-import { lifePlaceSearch, lifePlaceCoverage } from "../simulation/life-places";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
+import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
 
 const START = "2026-01-05";
 const seed =
@@ -155,6 +160,61 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
         onDate: "2025-01-01",
       })?.electionDate,
     ).toBe("2025-06-03");
+  });
+
+  it("every place's municipal election years match its state's data (all 56, the drawn place named)", () => {
+    const rows = cycles.states as Record<
+      string,
+      { anchorYear: number; periodYears: number; timing: string }
+    >;
+    const yearsOf = (stateKey: string) => {
+      const years: number[] = [];
+      for (let year = 2020; year <= 2032; year += 1)
+        if (
+          electionInYear({
+            office: town(stateKey),
+            stateKey,
+            placeGeoid: "0000000",
+            year,
+            // Asked from mid-year before: a spring election's filing can
+            // close in the winter before it.
+            onDate: `${year - 1}-06-01`,
+          })?.electionDate.startsWith(`${year}-`)
+        )
+          years.push(year);
+      return years;
+    };
+    const states = [
+      ...new Set([...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey)),
+    ].sort();
+    expect(states.length).toBe(56);
+    for (const stateKey of [drawn.state, ...states]) {
+      const where = `${stateKey}${stateKey === drawn.state ? ` (drawn: ${drawn.name}, seed ${seed.slice(0, 12)})` : ""}`;
+      const timing = resolveMunicipalElectionTiming(
+        stateKey.slice(3),
+        "0",
+      )?.timing;
+      if (!timing) continue;
+      const years = yearsOf(stateKey);
+      if (timing.startsWith("quadrennial")) {
+        // A multi-year cycle is read from the state's own row, never assumed.
+        const row = rows[stateKey];
+        expect(row, `${where}: ${timing} has no cycle row`).toBeDefined();
+        expect(row!.timing, where).toBe(timing);
+        const expected: number[] = [];
+        for (let year = 2020; year <= 2032; year += 1)
+          if ((year - row!.anchorYear) % row!.periodYears === 0)
+            expected.push(year);
+        expect(years, where).toEqual(expected);
+      } else {
+        // Every other timing holds a town election in every four years.
+        for (let start = 2020; start <= 2029; start += 1)
+          expect(
+            years.some((y) => y >= start && y < start + 4),
+            `${where}: ${timing} holds no town election in ${start} to ${start + 3}`,
+          ).toBe(true);
+      }
+    }
   });
 
   it("a special election follows the state's law for the office, else the estimate", () => {
