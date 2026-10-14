@@ -1,0 +1,69 @@
+{
+  "about": "The national tier of outlets every town's people can follow (OPUS-PEOPLE press, owner ruling Oct 14): national cable channels with a lean (one left, one right), a weekly magazine that writes profiles, an online opinion show and a national paper (owner ruling Oct 14: one of each but cable). Names are generated from these words, never real brands. Each outlet's audience lean is the mean lean of its kind's real audiences, on the views scale (-2 very liberal to +2 very conservative). Each national outlet sends one reporter to cover the town's state and the nation for this town's readers.",
+  "source": "Pew Research Center, 'U.S. Media Polarization and the 2020 Election: A Nation Divided' (January 2020): the ideological placement of each major outlet's regular audience (left-leaning cable and online audiences about -0.5 to -1, right-leaning about +1); Pew 'News Platform Fact Sheet' (2023): shares of adults who often get news from cable TV, news websites, podcasts and print.",
+  "tag": "ESTIMATED",
+  "basedIn": "US-DC",
+  "kinds": [
+    {
+      "kind": "cable",
+      "followShare": 0.33,
+      "audienceLeans": [-0.9, 1.1],
+      "reporters": 1,
+      "nameWords": [
+        "Liberty",
+        "Meridian",
+        "Beacon",
+        "Keystone",
+        "Pinnacle",
+        "Compass",
+        "Bulwark",
+        "Lodestar"
+      ],
+      "nameSuffix": " News Network"
+    },
+    {
+      "kind": "magazine",
+      "followShare": 0.08,
+      "audienceLeans": [-0.6],
+      "reporters": 1,
+      "nameWords": [
+        "Bellwether",
+        "Porchlight",
+        "Cornerstone",
+        "Lantern",
+        "Crossroads",
+        "Groundswell"
+      ],
+      "namePrefix": "The "
+    },
+    {
+      "kind": "online",
+      "followShare": 0.2,
+      "audienceLeans": [1.2],
+      "reporters": 1,
+      "nameWords": [
+        "Straight Talk",
+        "Open Line",
+        "Town Square",
+        "Front Porch",
+        "Plain Speaking",
+        "Common Ground"
+      ],
+      "nameSuffix": " Show"
+    },
+    {
+      "kind": "national-paper",
+      "followShare": 0.15,
+      "audienceLeans": [-0.4],
+      "reporters": 1,
+      "nameWords": [
+        "Continental Dispatch",
+        "Federal Courier",
+        "American Ledger",
+        "Republic Herald",
+        "National Sentinel"
+      ],
+      "namePrefix": "The "
+    }
+  ]
+}
