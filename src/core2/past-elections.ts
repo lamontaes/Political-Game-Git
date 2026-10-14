@@ -81,8 +81,6 @@ const TENURE = (
   tenure as unknown as { parameters: Record<string, { value: number }> }
 ).parameters;
 
-const PRESIDENTIAL_YEAR = 2024;
-
 function terms(api: CoreAPI, seatId: string): readonly TermRow[] {
   return api
     .moduleState(OFFICES_MODULE_ID)
@@ -166,7 +164,8 @@ function realResult(
       : null;
   }
   if (office.kind === "president" || office.kind === "vice-president") {
-    if (year !== PRESIDENTIAL_YEAR) return null;
+    if (year !== pastParameter(null, "pastPresidentialElectionYear"))
+      return null;
     let total = 0;
     let dem = 0;
     for (const row of CORPUS.presidentialByState) {
@@ -198,7 +197,11 @@ function turnoutRatio(date: string): number {
   const year = Number(date.slice(0, 4));
   if (date !== novemberGeneralElectionDay(year))
     return pastParameter(null, "pastLocalTurnoutRatio");
-  return year % 4 === 0 ? 1 : pastParameter(null, "pastMidtermTurnoutRatio");
+  return year % pastParameter(null, "pastPresidentialCycleYears") ===
+    pastParameter(null, "pastPresidentialElectionYear") %
+      pastParameter(null, "pastPresidentialCycleYears")
+    ? 1
+    : pastParameter(null, "pastMidtermTurnoutRatio");
 }
 
 /** Every ballot cast in the race, before turnout: the electorate it covers. */
@@ -207,10 +210,15 @@ function electorateBallots(
   town: PastTown,
   office: PastOffice,
 ): number {
-  const state = stateBallots(town);
+  // A territory casts no presidential vote: its own town's ballots stand in
+  // for the territory's electorate.
+  const reported = stateBallots(town);
+  if (!reported) api.stopgap("SG-CORE-past-territory-ballots");
+  const state = reported || townBallots(api, town);
   switch (office.level) {
     case "federal":
-      if (office.kind === "us-house") return state / Math.max(1, office.seats);
+      if (office.kind.startsWith("us-house"))
+        return state / Math.max(1, office.seats);
       if (office.kind === "us-senate") return state;
       return CORPUS.presidentialByState.reduce((s, r) => s + r.totalVotes, 0);
     case "state":
@@ -284,7 +292,13 @@ function groupSplit(
   return rows.map((r) => ({
     groupId: r.groupId,
     ballots: Math.round(r.ballots),
-    winnerShare: Math.min(0.98, Math.max(0.02, share + slope * (r.x - mean))),
+    winnerShare: Math.min(
+      pastParameter(api, "pastGroupShareMax"),
+      Math.max(
+        pastParameter(api, "pastGroupShareMin"),
+        share + slope * (r.x - mean),
+      ),
+    ),
   }));
 }
 
@@ -328,9 +342,9 @@ export function buildPriorElections(
         const spread = pastParameter(api, "pastWinnerShareSpread");
         const base = real?.share ?? term.elected?.share ?? averageShare(office);
         const share = Math.min(
-          0.95,
+          pastParameter(api, "pastWinnerShareMax"),
           Math.max(
-            0.505,
+            pastParameter(api, "pastWinnerShareMin"),
             seededBetween(
               town.seed,
               `${key}:share`,
@@ -349,7 +363,11 @@ export function buildPriorElections(
           side > 0 ? "Democratic" : side < 0 ? "Republican" : null;
         const challengerLean =
           side !== 0
-            ? -side * Math.max(Math.abs(winnerLean), 0.25)
+            ? -side *
+              Math.max(
+                Math.abs(winnerLean),
+                pastParameter(api, "pastChallengerLeanMin"),
+              )
             : seededBetween(town.seed, `${key}:challenger-lean`, -1, 1);
         const challengerName = pastIdentityName(
           town,

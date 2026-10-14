@@ -187,5 +187,97 @@
     "value": 100,
     "tag": "SOURCED",
     "citation": "Members of the U.S. Senate: U.S. Const. art. I, \u00a7 3 and amend. XVII (two senators from each of the 50 states)."
+  },
+  "pastWinnerShareMin": {
+    "value": 0.505,
+    "tag": "TUNABLE",
+    "citation": "Smallest share a prior election's winner holds against one challenger: more than half.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.52,
+      "unit": "share of the vote",
+      "citation": "A two-candidate race's winner has a majority."
+    }
+  },
+  "pastWinnerShareMax": {
+    "value": 0.95,
+    "tag": "TUNABLE",
+    "citation": "Largest share a contested prior election's winner holds.",
+    "spread": {
+      "low": 0.85,
+      "high": 0.99,
+      "unit": "share of the vote",
+      "citation": "Ballotpedia: contested races rarely exceed 90 to 95 percent."
+    }
+  },
+  "pastGroupShareMin": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Smallest share any town voter group gives a candidate.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.1,
+      "unit": "share of the group's ballots",
+      "citation": "Pew Research Center validated voters, 2024: even the most partisan groups give the other side a few percent."
+    }
+  },
+  "pastGroupShareMax": {
+    "value": 0.98,
+    "tag": "TUNABLE",
+    "citation": "Largest share any town voter group gives a candidate.",
+    "spread": {
+      "low": 0.9,
+      "high": 0.99,
+      "unit": "share of the group's ballots",
+      "citation": "Pew Research Center validated voters, 2024."
+    }
+  },
+  "pastChallengerLeanMin": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "How far from the center a major-party challenger stands at least, on the winner's opposite side.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "lean",
+      "citation": "Nominees stand on their party's side of the center (DW-NOMINATE first dimension)."
+    }
+  },
+  "pastLawMarginLow": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Lowest yes share for a law passed by seats whose votes the record cannot read a stance from (a chamber's seats then), before the majority it needed.",
+    "spread": {
+      "low": 0.5,
+      "high": 0.6,
+      "unit": "share of the seats",
+      "citation": "Most enacted bills pass with a majority to a wide margin."
+    }
+  },
+  "pastLawMarginHigh": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Highest yes share for such a law: unanimous.",
+    "spread": {
+      "low": 0.9,
+      "high": 1,
+      "unit": "share of the seats",
+      "citation": "Many uncontested bills pass unanimously."
+    }
+  },
+  "pastPresidentialCycleYears": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "The president's term: U.S. Const. art. II, \u00a7 1; presidential elections fall every four years."
+  },
+  "pastPresidentialElectionYear": {
+    "value": 2024,
+    "tag": "SOURCED",
+    "citation": "The presidential election the research holds: Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024 (data/source/electoral-calibration-2024/corpus.json)."
+  },
+  "pastDaysPerYear": {
+    "value": 365.25,
+    "tag": "SOURCED",
+    "citation": "Mean days in a Julian year (365 days plus a leap day every fourth year), for turning years into days."
   }
 }

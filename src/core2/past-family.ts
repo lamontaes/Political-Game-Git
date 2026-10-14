@@ -50,7 +50,7 @@ const RELATIONSHIP_TRAITS = [
   "personality-v1:facet-generous",
 ] as const;
 
-const DAYS_PER_YEAR = 365.25;
+const DAYS_PER_YEAR = pastParameter(null, "pastDaysPerYear");
 
 function years(date: string, count: number): string {
   return shiftDays(date, Math.round(count * DAYS_PER_YEAR));

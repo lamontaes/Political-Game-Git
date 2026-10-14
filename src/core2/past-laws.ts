@@ -262,7 +262,10 @@ export function buildPriorTerms(
   let votes = 0;
   for (const chamber of chambersOf(api)) {
     const years = chamber.office.termYears ?? 2;
-    const start = shiftDays(town.opening, -Math.round(years * 365.25));
+    const start = shiftDays(
+      town.opening,
+      -Math.round(years * pastParameter(api, "pastDaysPerYear")),
+    );
     // Questions the members ran on, then the catalog's, in a seeded order.
     const own = chamber.members.flatMap(
       (term) => promised.get(term.personId!) ?? [],
@@ -287,7 +290,7 @@ export function buildPriorTerms(
             town.seed,
             `${chamber.body}:${question}:date`,
             0,
-            years * 365,
+            years * pastParameter(api, "pastDaysPerYear"),
           ),
         ),
       );
@@ -441,7 +444,7 @@ export function buildLawHistories(
         ? shiftDays(
             town.opening,
             -Math.round(
-              365.25 *
+              pastParameter(api, "pastDaysPerYear") *
                 seededBetween(
                   town.seed,
                   `${id}:age`,
@@ -476,11 +479,9 @@ export function buildLawHistories(
             ),
           )
         : [];
-      for (
-        let guard = 0;
-        calls.some((c) => !c.passes) && guard < 64;
-        guard += 1
-      ) {
+      // Each step moves the passage before an opposing member's first day,
+      // so fewer serve each time and the loop ends.
+      while (calls.some((c) => !c.passes)) {
         const opposed = calls
           .flatMap((c, i) =>
             c.passes
@@ -512,7 +513,12 @@ export function buildLawHistories(
         : lawChambers.map((c) => {
             const yes = Math.ceil(
               c.seats *
-                seededBetween(town.seed, `${id}:${c.body}:margin`, 0.5, 1),
+                seededBetween(
+                  town.seed,
+                  `${id}:${c.body}:margin`,
+                  pastParameter(api, "pastLawMarginLow"),
+                  pastParameter(api, "pastLawMarginHigh"),
+                ),
             );
             return {
               body: c.body,

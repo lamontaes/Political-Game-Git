@@ -25,7 +25,7 @@ import { votesOf } from "./modules/record";
 import type { TermRow } from "./modules/offices";
 import { strongestQuestions } from "./past-elections";
 import { heardOn } from "./past-news";
-import { townOffices, type PastTown } from "./past-bodies";
+import { townOffices, type PastOffice, type PastTown } from "./past-bodies";
 import {
   pastParameter,
   pastTable,
@@ -107,7 +107,15 @@ export function buildPublicFigures(
   const awareness = pastParameter(api, "pastPublicAwarenessAge");
   const people = [...api.state.people.values()].filter((p) => p.alive);
   const figures: PublicFigureRow[] = [];
-  for (const office of townOffices(api)) {
+  // The president and vice president are known everywhere, territories
+  // included, whether or not their seats cover the town.
+  const national = (
+    api
+      .moduleState("core2-offices-v1")
+      .table("offices")
+      .rows() as unknown as PastOffice[]
+  ).filter((o) => FIGURE_SCOPES[o.kind] === "nation" && !o.coversTown);
+  for (const office of [...townOffices(api), ...national]) {
     if (!(office.kind in FIGURE_SCOPES)) continue;
     const seats = (
       api
@@ -117,7 +125,7 @@ export function buildPublicFigures(
         id: string;
         coversTown: boolean;
       }[]
-    ).filter((s) => s.coversTown);
+    ).filter((s) => s.coversTown || FIGURE_SCOPES[office.kind] === "nation");
     const holders = members(api, office.id).filter(
       (t): t is TermRow & { personId: string } =>
         !!t.personId &&
@@ -171,7 +179,7 @@ export function buildPublicFigures(
         if (ageOnDate(born, makeIsoDate(town.opening)) < awareness) continue;
         const cameOfAge = shiftDays(
           viewer.birthDate,
-          Math.ceil(awareness * 365.25),
+          Math.ceil(awareness * pastParameter(api, "pastDaysPerYear")),
         );
         const learnedAt = cameOfAge > known ? cameOfAge : known;
         const fact = (key: string, value: string) =>
