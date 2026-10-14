@@ -1241,40 +1241,75 @@ function runWeek(api: CoreAPI): void {
     switchCost = p("jobsSwitchCost"),
     needWeight = p("jobsUnemployedNeedWeight"),
     traitWeight = p("traitWeight");
+  // Each counted seeker's reasons, worked out once; they apply to every opening within reach that clears them.
+  type Applier = {
+    seeker: SeekerRow;
+    reference: number;
+    standing: number;
+    traitTerm: number;
+  };
+  const applies = (row: Applier, hourlyMinor: number) =>
+    rateWeight *
+      (payWeight * (row.reference > 0 ? hourlyMinor / row.reference - 1 : 0) +
+        row.standing) +
+      row.traitTerm >
+    0;
+  // Who can reach each place's openings: its own seekers and those who commute there.
+  const reaching = new Map<string, Applier[]>();
   for (const seeker of counted) {
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
     const person = actorOf(api, seeker.personId);
-    const traitTerm =
-      traitWeight *
-      (traitLean(c, person, jobsData.actions.apply.actKinds) -
-        traitLean(c, person, jobsData.actions.wait.actKinds));
-    const reference = seeker.referenceHourlyMinor;
-    // Someone with a job gives up what they have to move: it takes a raise.
-    const standing = seeker.employed ? -switchCost : needWeight;
-    for (const position of byPlace.get(seeker.placeId) ?? [])
-      if (
-        rateWeight *
-          (payWeight *
-            (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            standing) +
-          traitTerm >
-        0
-      )
-        apply(position.id, seeker);
+    const row: Applier = {
+      seeker,
+      reference: seeker.referenceHourlyMinor,
+      // Someone with a job gives up what they have to move: it takes a raise.
+      standing: seeker.employed ? -switchCost : needWeight,
+      traitTerm:
+        traitWeight *
+        (traitLean(c, person, jobsData.actions.apply.actKinds) -
+          traitLean(c, person, jobsData.actions.wait.actKinds)),
+    };
+    for (const placeId of new Set([
+      seeker.placeId,
+      ...(commutes[seeker.placeId] ?? []),
+    ])) {
+      if (!inPlace.has(placeId)) continue;
+      const list = reaching.get(placeId);
+      if (list) list.push(row);
+      else reaching.set(placeId, [row]);
+    }
   }
   // Matching takes time (Petrongolo and Pissarides 2001): each place fills no
   // more of its openings with counted applicants this week than its matching
   // function gives, efficiency x applicants^(1-a) x openings^a; the fraction
   // left carries to next week.
+  // Who is counted, once a week.
+  const countedNow = new Map<string, boolean>();
+  const counts = (personId: string) => {
+    let value = countedNow.get(personId);
+    if (value === undefined)
+      countedNow.set(personId, (value = isCounted(api, personId)));
+    return value;
+  };
+  // A place's counted applicants: those within reach whom one of its openings clears (the rule is linear in pay, so the best- or worst-paid one decides).
   const applicantsAt = new Map<string, Set<string>>();
-  for (const position of positions)
-    for (const row of applications.get(position.id) ?? [])
-      if (isCounted(api, row.personId)) {
-        const set = applicantsAt.get(position.placeId) ?? new Set<string>();
-        set.add(row.personId);
-        applicantsAt.set(position.placeId, set);
-      }
+  for (const [placeId, open] of inPlace) {
+    let low = Number.POSITIVE_INFINITY,
+      high = Number.NEGATIVE_INFINITY;
+    for (const position of open) {
+      low = Math.min(low, position.hourlyMinor);
+      high = Math.max(high, position.hourlyMinor);
+    }
+    const set = new Set<string>();
+    for (const row of reaching.get(placeId) ?? [])
+      if (
+        counts(row.seeker.personId) &&
+        (applies(row, high) || applies(row, low))
+      )
+        set.add(row.seeker.personId);
+    if (set.size) applicantsAt.set(placeId, set);
+  }
   const vacancyShare = p("jobsMatchingVacancyElasticity");
   const weekOfMonth =
     DAYS_PER_WEEK / (p("jobsDaysPerYear") / p("macroMonthsPerYear"));
@@ -1297,14 +1332,6 @@ function runWeek(api: CoreAPI): void {
   }
   // Each seeker's fit for an occupation, worked out once a week.
   const hired = new Set<string>();
-  // Who is counted, once a week.
-  const countedNow = new Map<string, boolean>();
-  const counts = (personId: string) => {
-    let value = countedNow.get(personId);
-    if (value === undefined)
-      countedNow.set(personId, (value = isCounted(api, personId)));
-    return value;
-  };
   const fitWeights = {
     experience: p("jobsFitExperienceWeight"),
     reliability: p("jobsFitReliabilityWeight"),
@@ -1321,12 +1348,20 @@ function runWeek(api: CoreAPI): void {
   for (const position of positions) {
     // A full person can take only a role whose schedule is on record.
     const fullRole = roleTemplate(c, position) !== undefined;
-    const applicants = applications
-      .get(position.id)
-      ?.filter(
-        (row) => !hired.has(row.personId) && (fullRole || counts(row.personId)),
-      );
-    if (!applicants?.length) continue;
+    const full = (applications.get(position.id) ?? []).filter(
+      (row) => !hired.has(row.personId) && (fullRole || counts(row.personId)),
+    );
+    // With no match left in this place and no full applicant, nobody can be hired here this week.
+    if (!full.length && (matchesLeft.get(position.placeId) ?? 0) < 1) continue;
+    const applicants = [...full];
+    for (const row of reaching.get(position.placeId) ?? [])
+      if (
+        !hired.has(row.seeker.personId) &&
+        (fullRole || counts(row.seeker.personId)) &&
+        applies(row, position.hourlyMinor)
+      )
+        applicants.push(row.seeker);
+    if (!applicants.length) continue;
     let byPerson = fitsBy.get(position.occupation);
     if (!byPerson) fitsBy.set(position.occupation, (byPerson = new Map()));
     const fits = byPerson;
