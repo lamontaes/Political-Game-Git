@@ -58,8 +58,8 @@ const daysBetween = (from: string, to: string) =>
     (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 864e5,
   );
 
-/** Seats empty past the grace with nothing filling them: the offices engine's vacancies and the officials roster. */
-function unfilledSeats(core: CoreState): string[] {
+/** Seats emptied during the run and empty past the grace with nothing filling them: the offices engine's vacancies and the officials roster. */
+function unfilledSeats(core: CoreState, since: string): string[] {
   const out: string[] = [];
   for (const row of rows(core, OFFICES, "vacancies")) {
     if (row.status === "filled") continue;
@@ -88,6 +88,8 @@ function unfilledSeats(core: CoreState): string[] {
       .map((row) => row.ended as string)
       .sort()
       .at(-1)!;
+    // A seat emptied before the world opened is history (a past cabinet).
+    if (last < since) continue;
     if (daysBetween(last, core.date) > VACANCY_GRACE_DAYS)
       out.push(`${seatId} roster empty since ${last}`);
   }
@@ -170,6 +172,7 @@ function run(job: PlaceJob) {
     new BenchPlayer(core, world.director),
     world.placeId,
   );
+  const opened = core.date;
   const openingCash = cash(core);
   const openingOutside = outsideNet(core);
   try {
@@ -193,7 +196,7 @@ function run(job: PlaceJob) {
           moneyBalances:
             balanceGapMinor === 0 ? true : `off by ${balanceGapMinor} cents`,
           noEndedJobRerated: passOr(rerated),
-          seatsFilled: passOr(unfilledSeats(core)),
+          seatsFilled: passOr(unfilledSeats(core, opened)),
           contestsOnBallot: passOr(missing),
         },
       });
