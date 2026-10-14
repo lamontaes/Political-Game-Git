@@ -10,3 +10,5 @@ A member who likes change now backs changing long-standing law and resists undoi
 A mayor, county executive, governor or president brings bills of their own through the member most inclined to carry them, and anyone, including a candidate who lost, can ask a member to carry a bill. A local seat left vacant, or one the town has too few residents to fill at the start, is filled from the town's own residents or else a named official, and whoever holds a seat on election day runs as its incumbent, an appointee included.
 
 A bill stays editable on paper until its vote: its sponsor can add a section, replace one or strike one, and each change is checked again for the body's power and cost. Councils, legislatures and Congress can draft a floor for public pay.
+
+People blame or credit a law, a vote or a bill only once they have learned of it, from someone who told them or a story they heard, and their view records how they learned.
