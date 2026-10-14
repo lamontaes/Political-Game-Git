@@ -4069,18 +4069,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-credit-income-test-tiers",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/credit.ts",
-    "line": 847,
-    "whatItFakes": "The bank's income test for a mortgage reads a full household's pay as earned times the share of pay actually paid, and a counted household's as its posted wage rate.",
-    "why": "Counted pay is settled per group, so a household's own paid share isn't kept.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-14",
-    "replacement": "The same paid-share income for both tiers, a counted household's from its group's paid share.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORLD-credit-counted-hardship-rows",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",

@@ -1378,17 +1378,21 @@ function buyCountedHomes(api: CoreAPI): void {
       Math.floor(listing?.newHomesForSale ?? 0) +
       Math.floor(listing?.existingForSale ?? 0);
     if (forSale < 1) continue;
-    // Each counted renter household's monthly pay, from its members' counted jobs.
+    // Each counted renter household's monthly pay as a lender counts it, from its members' counted jobs: the wage times the share of due pay its employer's flow actually paid, as for a full household.
     const pay = new Map<string, number>();
     for (const [jobId, flow] of rt.wageFlowByJob) {
       const job = rt.jobs.get(jobId);
       if (!job || job.endsAt !== undefined || flow.endedAt) continue;
       const household = rt.householdOfPerson.get(job.personId);
+      const paidShare =
+        flow.arrearsMinor > 0
+          ? flow.amountMinor / (flow.amountMinor + flow.arrearsMinor)
+          : 1;
       if (household)
         pay.set(
           household,
           (pay.get(household) ?? 0) +
-            (job.wageDailyMinor * p("jobsDaysPerYear")) /
+            (job.wageDailyMinor * paidShare * p("jobsDaysPerYear")) /
               p("macroMonthsPerYear"),
         );
     }

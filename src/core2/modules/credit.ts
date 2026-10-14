@@ -846,7 +846,6 @@ export function setConsumerRateCap(
 }
 
 /** A household's monthly pay as a lender counts it: wages times the share of due pay actually paid. */
-// stopgapId: SG-WORLD-credit-income-test-tiers
 export function monthlyIncome(
   api: CoreAPI,
   memberIds: readonly string[],
