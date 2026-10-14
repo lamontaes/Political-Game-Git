@@ -9,7 +9,7 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 ## Ruled, October 14, 2026 (evening)
 
 - **Dev mode (the old "watch the world", to be renamed):** one mode where the owner or a player can do anything: pass or repeal any law at any level instantly, make any person or body take any decision, jump time, trace any record's causes, and watch the world run. "What if" experiments live here and are a player feature in early access.
-- **Press:** the player can influence a paper and influence people; reporters are people in the world with their own records.
+- **Press:** the player can influence a paper and influence people; reporters are people in the world with their own records. Outlets have biases and owners: a landscape like today's (cable channels with a lean, a profile-writing magazine, an online opinion show, local papers), names generated, never real brands; owners are wealthy people whose relationships with politicians read into coverage of them and of their opponents, both ways. The world has to exist without the player: every outlet acts on everyone by the same reads.
 - **Indictment and prison:** if the player is caught, the trial plays in scenes; then the player is gone for the sentence while the world runs, and may die in prison. The game is real, not raunchy: temptation and scandal exist (an affair, a payoff), told without graphic detail.
 - **Capability tests belong in dev mode:** can the background world organize a protest, produce a demagogue, in rare cases overthrow a government, produce a realignment on the scale of 1933 to 1945, or drift toward a war? Real politicians' lives are tests of capability, never scripts.
 - **The reward loop** is the effect of the player's actions on the simulation over time.
