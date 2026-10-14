@@ -271,15 +271,6 @@ export function withHousing(input: CoreInput): CoreInput {
   const [medianRent] = rentValueOf(town.county);
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
-  // Income awards (retirement and the like) count as income too.
-  const awarded = new Set(
-    [
-      ...(input.finance?.contracts ?? []),
-      ...(input.residents?.households.flatMap((row) => row.contracts) ?? []),
-    ]
-      .filter((row) => row.recipientIncome)
-      .map((row) => row.recipientIncome!.householdId),
-  );
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
   // Full households and the wider population's, ranked together for owning.
