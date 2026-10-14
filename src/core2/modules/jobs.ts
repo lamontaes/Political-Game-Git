@@ -40,6 +40,7 @@ import {
   addCountedJob,
   addCountedRetiree,
   countedJobsOf,
+  firstCountedJobOf,
   customerSalesByBusiness,
   endCountedJob,
   rerateCountedJobs,
@@ -1167,6 +1168,10 @@ function lastPay(api: CoreAPI, personId: string): number {
 }
 
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
+/** Each counted seeker's trait lean toward applying over waiting, and toward accepting an offer over declining it, by person (a counted person's traits don't change). */
+const applyLeans = new WeakMap<CoreState, Map<string, number>>();
+const acceptLeans = new WeakMap<CoreState, Map<string, number>>();
+
 function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -1276,16 +1281,23 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
-    const person = actorOf(api, seeker.personId);
+    // A counted person's traits don't change, so their lean is worked out once.
+    let leans = applyLeans.get(c);
+    if (!leans) applyLeans.set(c, (leans = new Map()));
+    let lean = leans.get(seeker.personId);
+    if (lean === undefined) {
+      const person = actorOf(api, seeker.personId);
+      lean =
+        traitLean(c, person, jobsData.actions.apply.actKinds) -
+        traitLean(c, person, jobsData.actions.wait.actKinds);
+      leans.set(seeker.personId, lean);
+    }
     const row: Applier = {
       seeker,
       reference: seeker.referenceHourlyMinor,
       // Someone with a job gives up what they have to move: it takes a raise.
       standing: seeker.employed ? -switchCost : needWeight,
-      traitTerm:
-        traitWeight *
-        (traitLean(c, person, jobsData.actions.apply.actKinds) -
-          traitLean(c, person, jobsData.actions.wait.actKinds)),
+      traitTerm: traitWeight * lean,
     };
     for (const placeId of new Set([
       seeker.placeId,
@@ -1354,6 +1366,8 @@ function runWeek(api: CoreAPI): void {
     reliability: p("jobsFitReliabilityWeight"),
   };
   const fitsBy = new Map<string, Map<string, number>>();
+  const sortedReach = new Map<string, Applier[]>();
+  const hiredPast = new Map<Applier[], number>();
   const acceptTerms = {
     rate: p("jobsRateWeight"),
     baseline: p("jobsAcceptBaseline"),
@@ -1370,15 +1384,6 @@ function runWeek(api: CoreAPI): void {
     );
     // With no match left in this place and no full applicant, nobody can be hired here this week.
     if (!full.length && (matchesLeft.get(position.placeId) ?? 0) < 1) continue;
-    const applicants = [...full];
-    for (const row of reaching.get(position.placeId) ?? [])
-      if (
-        !hired.has(row.seeker.personId) &&
-        (fullRole || counts(row.seeker.personId)) &&
-        applies(row, position.hourlyMinor)
-      )
-        applicants.push(row.seeker);
-    if (!applicants.length) continue;
     let byPerson = fitsBy.get(position.occupation);
     if (!byPerson) fitsBy.set(position.occupation, (byPerson = new Map()));
     const fits = byPerson;
@@ -1399,13 +1404,53 @@ function runWeek(api: CoreAPI): void {
     // The best fit first; ties to the earlier id.
     const before = (a: SeekerRow, b: SeekerRow) => {
       const gap = fit(a) - fit(b);
-      return gap !== 0 ? gap > 0 : a.id.localeCompare(b.id) < 0;
+      // Ids are plain ASCII, so code-unit order (much faster than a locale compare) decides ties.
+      return gap !== 0 ? gap > 0 : a.id < b.id;
     };
-    let best = applicants[0]!;
-    for (const row of applicants) if (before(row, best)) best = row;
-    // A counted applicant who can't be placed gives way to the next best (the rest in fit order, sorted only when needed).
-    let ordered: SeekerRow[] | undefined;
-    let next = 1;
+    const order = (a: SeekerRow, b: SeekerRow) =>
+      before(a, b) ? -1 : before(b, a) ? 1 : 0;
+    // The counted within reach in fit order, sorted once a week for each place and occupation.
+    const key = `${position.placeId}|${position.occupation}`;
+    let sorted = sortedReach.get(key);
+    if (!sorted) {
+      sorted = [...(reaching.get(position.placeId) ?? [])].sort((a, b) =>
+        order(a.seeker, b.seeker),
+      );
+      sortedReach.set(key, sorted);
+    }
+    const fullSorted = [...full].sort(order);
+    // The applicants in fit order: the full and the counted this opening's pay clears, not yet hired.
+    // Those hired this week stay hired: the front of the list past them is kept.
+    let first = hiredPast.get(sorted) ?? 0;
+    while (first < sorted.length && hired.has(sorted[first]!.seeker.personId))
+      first += 1;
+    hiredPast.set(sorted, first);
+    const list = sorted;
+    let i = first,
+      j = 0;
+    const nextApplicant = (): SeekerRow | undefined => {
+      while (i < list.length) {
+        const row = list[i]!;
+        if (
+          !hired.has(row.seeker.personId) &&
+          (fullRole || counts(row.seeker.personId)) &&
+          applies(row, position.hourlyMinor)
+        )
+          break;
+        i += 1;
+      }
+      const counted = list[i]?.seeker,
+        person = fullSorted[j];
+      if (counted && (!person || before(counted, person))) {
+        i += 1;
+        return counted;
+      }
+      if (person) j += 1;
+      return person;
+    };
+    let best = nextApplicant();
+    if (!best) continue;
+    // A counted applicant who can't be placed gives way to the next best.
     let settled = false;
     while (counts(best.personId)) {
       // No match left in this place this week: its counted applicants wait.
@@ -1415,7 +1460,16 @@ function runWeek(api: CoreAPI): void {
       }
       // A counted seeker answers the offer by the same reasons a full person
       // weighs, every trait included.
-      const person = actorOf(api, best.personId);
+      let acceptLeansNow = acceptLeans.get(c);
+      if (!acceptLeansNow) acceptLeans.set(c, (acceptLeansNow = new Map()));
+      let lean = acceptLeansNow.get(best.personId);
+      if (lean === undefined) {
+        const person = actorOf(api, best.personId);
+        lean =
+          traitLean(c, person, jobsData.actions.accept.actKinds) -
+          traitLean(c, person, jobsData.actions.decline.actKinds);
+        acceptLeansNow.set(best.personId, lean);
+      }
       const reference = best.referenceHourlyMinor;
       const accepts =
         acceptTerms.rate *
@@ -1423,9 +1477,7 @@ function runWeek(api: CoreAPI): void {
             acceptTerms.pay *
               (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
             (best.employed ? -acceptTerms.switchCost : acceptTerms.need)) +
-          acceptTerms.trait *
-            (traitLean(c, person, jobsData.actions.accept.actKinds) -
-              traitLean(c, person, jobsData.actions.decline.actKinds)) >
+          acceptTerms.trait * lean >
         0;
       if (accepts && hireCounted(api, position, best, fit(best))) {
         matchesLeft.set(
@@ -1437,14 +1489,12 @@ function runWeek(api: CoreAPI): void {
         settled = true;
         break;
       }
-      ordered ??= [...applicants].sort((a, b) =>
-        before(a, b) ? -1 : before(b, a) ? 1 : 0,
-      );
-      if (next >= ordered.length) {
+      const following = nextApplicant();
+      if (!following) {
         settled = true;
         break;
       }
-      best = ordered[next++]!;
+      best = following;
     }
     if (settled) continue;
     const reference = best.referenceHourlyMinor;
@@ -1507,7 +1557,7 @@ function hireCounted(
   const template =
     c.jobs.get(position.templateJobId) ??
     residentsRuntime(c)?.jobs.get(position.templateJobId) ??
-    countedJobsOf(c, position.organizationId)[0];
+    firstCountedJobOf(c, position.organizationId);
   if (!template) return false;
   const jobId = `job:${position.id}:${seeker.personId}`;
   const hours = template.hoursDaily;
