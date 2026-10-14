@@ -1080,6 +1080,38 @@
       ]
     },
     {
+      "id": "press.dig",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["trust", "play-safe", "cooperate", "delay"]
+        },
+        {
+          "id": "dig",
+          "actKinds": ["distrust", "confront", "take-risk", "commit"]
+        }
+      ]
+    },
+    {
+      "id": "press.tip",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["stay-quiet", "play-safe", "keep-same"]
+        },
+        {
+          "id": "tip",
+          "actKinds": ["speak-out", "confront", "take-risk"]
+        }
+      ]
+    },
+    {
       "id": "meetings.take-part",
       "site": "src/core2/modules/meetings.ts",
       "owner": "OPUS-GOV",
