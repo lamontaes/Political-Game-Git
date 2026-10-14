@@ -76,11 +76,12 @@ export function foreclosureSteps(usps: string): StateSteps & {
     redemptionDaysAfterSale: row?.redemptionDaysAfterSale ?? null,
     statute: row?.statute ?? "",
     confidence: row?.confidence ?? "low",
-    // Sales follow the state's typical time from first filing; the statute's own notices where that is unknown.
+    // Sales follow the state's average time from first filing to sale; the
+    // nation's where none is published (the statute's notices are the floor).
     daysToSale: Math.max(
       1,
-      row?.typicalDaysToComplete ??
-        (statutory > 0 ? statutory : DATA.nationalTypicalDaysToComplete),
+      statutory,
+      row?.typicalDaysToComplete ?? DATA.nationalTypicalDaysToComplete,
     ),
     redemptionDays: Math.max(0, row?.redemptionDaysAfterSale ?? 0),
   };

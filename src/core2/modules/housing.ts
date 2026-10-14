@@ -629,7 +629,11 @@ function rehouse(api: CoreAPI): void {
     api,
     (householdId) => {
       const placeId = c.households.get(householdId)?.placeId;
-      return placeId ? townFigures(api, placeId).rentMinor : 0;
+      // The town's typical rent; its own last rent where the town has no other renters.
+      const typical = placeId ? townFigures(api, placeId).rentMinor : 0;
+      return typical > 0
+        ? typical
+        : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ?? 0);
     },
     (householdId, rentMinor) => {
       const household = c.households.get(householdId)!;
