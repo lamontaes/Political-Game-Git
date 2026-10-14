@@ -681,7 +681,8 @@ export function composeJournal(
         ),
       ].filter(Boolean) as NonNullable<ReturnType<typeof render>>[];
       // Remembering needs saying who they became; a bare name tells nothing.
-      if (!said2.some((part) => part.text.includes(office.text.toLowerCase()))) continue;
+      if (!said2.some((part) => part.text.includes(office.text.toLowerCase())))
+        continue;
       row.lines.push({
         id: `${row.key}:remember:${mateId}`,
         date: row.through,
@@ -735,9 +736,10 @@ export function composeJournal(
  * The office a person holds now, from the offices engine's serving terms,
  * as a fact the journal can name: "{name} became {office}."
  */
-function officeHolding(core: Readonly<CoreState>) {
-  if (!core.modules.has(OFFICES_MODULE_ID))
-    return (_personId: PersonId): Fact | undefined => undefined;
+function officeHolding(
+  core: Readonly<CoreState>,
+): (personId: PersonId) => Fact | undefined {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return () => undefined;
   const api = coreAPI(core as CoreState);
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
