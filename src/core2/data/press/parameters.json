@@ -244,12 +244,6 @@
       "source": "How far a brief answer carries in print against a plain one.",
       "spread": [0.25, 0.75]
     },
-    "partyBreakNewsworthiness": {
-      "value": 0.5,
-      "tag": "TUNABLE",
-      "source": "How much more a reporter wants to ask about a question where the candidate's own record breaks with their party's side.",
-      "spread": [0.2, 1]
-    },
     "outletLeanHeadWeight": {
       "value": 0.4,
       "tag": "TUNABLE",
@@ -277,6 +271,24 @@
       "value": 12,
       "tag": "SOURCED",
       "source": "Months in a calendar year."
+    },
+    "interviewHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Hours a reporter and a candidate spend together in a local interview.",
+      "spread": [0.5, 2]
+    },
+    "contradictionWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far a printed story setting a candidate's record against their word moves a reader's view of them, at the reporter's full resolve (fact-checks lower favorability of the checked politician: Nyhan and Reifler 2015; Wintersieck 2017).",
+      "spread": [0.1, 0.5]
+    },
+    "distrustDistance": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How far full distrust of an outlet moves a follower away from it, on the views lean scale (-2 to 2): at full distrust, as far as the scale's half-width (hostile media effect and outlet switching: Vallone, Ross and Lepper 1985; Stroud 2011).",
+      "spread": [1, 4]
     }
   }
 }

@@ -3059,7 +3059,7 @@
     "id": "SG-PEOPLE-press-outlet-revenue",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
-    "line": 367,
+    "line": 399,
     "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks.",
     "why": "Local advertising needs businesses that choose to advertise, which the business engine (OPUS-WORLD) does not model; the outlet's people must be paid from its own cash now.",
     "addedBy": "OPUS-PEOPLE",

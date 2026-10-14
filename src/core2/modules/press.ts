@@ -35,12 +35,15 @@ import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
   makeStatements,
+  touchImpression,
   registerAdOutlet,
   parsePlatform,
   type CampaignRow,
   type ImpressionRow,
 } from "./campaigns";
-import { promisesOf } from "./record";
+import { promisesOf, votesOf } from "./record";
+import { partySide } from "../appointments";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   personLean,
@@ -56,13 +59,23 @@ import {
   STAFF_ROLES,
   type StaffRow,
 } from "../press-staff";
-import { viewOf, VIEWS_MODULE_ID } from "./views";
+import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts } from "./residents";
 import { startOutletRevenue } from "../press-money";
 import { wireItem, type WireItem } from "../press-topics";
-import { runDesk, type DeskContext, type PrintedStory } from "../press-desk";
+import {
+  closeness,
+  grudge,
+  printItem,
+  runDesk,
+  slantOf,
+  type DeskContext,
+  type PrintedStory,
+} from "../press-desk";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
+/** The change a speech against an outlet asks of its hearers. */
+export const DISTRUST = "distrust";
 
 export type OutletKind = "newspaper" | "television" | "radio";
 const KINDS: readonly OutletKind[] = ["newspaper", "television", "radio"];
@@ -86,10 +99,21 @@ export interface OutletRow {
   readonly audienceRevenueMinor: number;
 }
 
+/**
+ * How an answer is given, the conversation's moves: plainly, with a further
+ * fact from the record, turning it back on a rival, briefly; or the lie, a
+ * position the candidate's own record contradicts.
+ */
+export type InterviewMove = "plain" | "further" | "turn" | "brief" | "lie";
+
 export interface InterviewAnswer {
   readonly question: string;
   /** The stated position in [-1, 1], or null where the candidate declined. */
   readonly position: number | null;
+  /** How it was said (plain where not given). */
+  readonly move?: InterviewMove;
+  /** The record it rests on: a vote that backs a further fact, or one a lie contradicts. */
+  readonly recordId?: string | null;
 }
 
 export interface InterviewRow {
@@ -113,6 +137,10 @@ export interface InterviewRow {
   readonly answers: readonly InterviewAnswer[];
   readonly audience: number;
   readonly newsworthiness: number;
+  /** The outlet's reporter who asks: the one closest to the candidate. */
+  readonly reporterId?: string | null;
+  /** The story the outlet printed from it. */
+  readonly storyId?: string | null;
 }
 
 interface ParameterRow {
@@ -160,6 +188,7 @@ export const PRESS_MODULE: CoreModule = {
       outlets: {},
       staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
       wire: { indexes: { byDate: { fields: ["date"] } } },
+      digs: {},
       stories: {
         indexes: {
           byWire: { fields: ["wireId"] },
@@ -175,7 +204,10 @@ export const PRESS_MODULE: CoreModule = {
       },
     },
   },
-  onCalendarWork: (api, work) => pressWeek(api, work),
+  onCalendarWork: (api, work) => {
+    if (work.kind === "press-dig") checkClaim(api, work);
+    else pressWeek(api, work);
+  },
   eventKinds: ["*"],
   onEvent(api, event) {
     // Every public record in the town's coverage goes on the wire.
@@ -509,12 +541,22 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
     const own = outlets.filter((o) => o.kind === kind);
     if (!own.length) continue;
     const lists = new Map<string, string[]>(own.map((o) => [o.id, []]));
+    const views = api.state.modules.has(VIEWS_MODULE_ID);
     for (const id of audienceOfKind(api, kind, scores)) {
       const lean = leanOf(api, id);
+      // Distrust of an outlet (a speech against it they took in) pushes a
+      // follower away from it, on the lean scale.
+      const distrust = new Map<string, number>();
+      if (views)
+        for (const stance of stancesOf(api, id))
+          if (stance.desiredChange === DISTRUST)
+            distrust.set(stance.topic, stance.strength);
+      const distance = (o: OutletRow) =>
+        Math.abs((o.lean ?? 0) - lean) +
+        pressParameter("distrustDistance") *
+          (distrust.get(o.organizationId) ?? 0);
       const nearest = own.reduce((best, o) =>
-        Math.abs((o.lean ?? 0) - lean) < Math.abs((best.lean ?? 0) - lean)
-          ? o
-          : best,
+        distance(o) < distance(best) ? o : best,
       );
       lists.get(nearest.id)!.push(id);
     }
@@ -609,13 +651,48 @@ export function newsworthiness(api: CoreAPI, filing: FilingRow): number {
 }
 
 /**
- * What the reporter asks, in order: a promise the candidate broke, the
- * question on which they differ most from a rival, and the most divisive
+ * Where a candidate stands on a question, as a reporter reads it: what they
+ * said in the campaign, else how they last voted on it, else their party's
+ * side of it, else the side their own lean puts them on; 0 where none says.
+ */
+export function standingOn(
+  api: CoreAPI,
+  filing: FilingRow,
+  question: string,
+): {
+  position: number;
+  from: "platform" | "vote" | "party" | "lean" | "none";
+  recordId: string | null;
+} {
+  const stated = platformOf(api, filing).find((s) => s.question === question);
+  if (stated)
+    return { position: stated.position, from: "platform", recordId: null };
+  const vote = votesOf(api, filing.personId)
+    .filter((v) => v.stance.question === question)
+    .at(-1);
+  if (vote)
+    return { position: vote.stance.position, from: "vote", recordId: vote.id };
+  const side = partySide(filing.party) * Math.sign(questionAxis(question));
+  if (side) return { position: side, from: "party", recordId: null };
+  const person = api.state.people.get(filing.personId);
+  const lean = person
+    ? Math.sign(personStance(personLean(api.state.people, person, 0), question))
+    : 0;
+  return { position: lean, from: lean ? "lean" : "none", recordId: null };
+}
+
+/**
+ * What the reporter asks, in order: a promise the candidate broke; where
+ * their own votes broke with their party; where they stand furthest from what
+ * the outlet's readers want, weighted by how much the readers care (so a
+ * hostile outlet asks where the candidate is weakest with its audience); the
+ * question on which they differ most from a rival; and the most divisive
  * question in play (most partisan and most evenly split nationally).
  */
 export function interviewQuestions(
   api: CoreAPI,
   filing: FilingRow,
+  outlet?: Pick<OutletRow, "id" | "lean"> | null,
 ): readonly string[] {
   const out: string[] = [];
   const add = (q: string | undefined) => {
@@ -625,12 +702,64 @@ export function interviewQuestions(
     .filter((p) => p.status === "broken")
     .sort((a, b) => b.promise.date.localeCompare(a.promise.date));
   add(broken[0]?.promise.stance.question);
+  // The candidate's party: a vote against their party's side is news.
+  const side = partySide(filing.party);
+  if (side) {
+    const breaks = votesOf(api, filing.personId)
+      .filter(
+        (v) =>
+          Math.sign(v.stance.position) ===
+          -side * Math.sign(questionAxis(v.stance.question)),
+      )
+      .sort(
+        (a, b) =>
+          Math.abs(questionAxis(b.stance.question)) -
+            Math.abs(questionAxis(a.stance.question)) ||
+          b.date.localeCompare(a.date),
+      );
+    add(breaks[0]?.stance.question);
+  }
   const own = platformOf(api, filing);
   const position = (platform: readonly Stance[], q: string) =>
     platform.find((s) => s.question === q)?.position ?? 0;
   const rivals = ballot(api, filing.contestId).filter(
     (f) => f.id !== filing.id && f.status === "on-ballot",
   );
+  const inPlay = [
+    ...new Set(
+      [filing, ...rivals].flatMap((f) =>
+        platformOf(api, f).map((s) => s.question),
+      ),
+    ),
+  ];
+  const pool = inPlay.length ? inPlay : Object.keys(POLICY_QUESTIONS);
+  // The outlet's readers: where the candidate stands furthest from the side
+  // the outlet's line takes, on what its followers care about.
+  if (outlet) {
+    const followers = followersOf(api, outlet.id);
+    const care = (q: string) =>
+      followers.length
+        ? followers.reduce(
+            (s, id) => s + Math.abs((leanOf(api, id) / 2) * questionAxis(q)),
+            0,
+          ) / followers.length
+        : 0;
+    const candidates = [
+      ...new Set([
+        ...pool,
+        ...votesOf(api, filing.personId).map((v) => v.stance.question),
+      ]),
+    ];
+    const scored = candidates
+      .map((q) => {
+        const line = Math.sign((outlet.lean / 2) * questionAxis(q));
+        const theirs = standingOn(api, filing, q).position;
+        return { q, score: care(q) * Math.abs(line - theirs) };
+      })
+      .filter((row) => row.score > 0)
+      .sort((a, b) => b.score - a.score || a.q.localeCompare(b.q));
+    add(scored[0]?.q);
+  }
   let widest: { q: string; gap: number } | null = null;
   for (const rival of rivals) {
     const theirs = platformOf(api, rival);
@@ -644,14 +773,6 @@ export function interviewQuestions(
   add(widest?.q);
   const divisive = (q: string) =>
     Math.abs(questionAxis(q)) - Math.abs(publicOffset(q));
-  const inPlay = [
-    ...new Set(
-      [filing, ...rivals].flatMap((f) =>
-        platformOf(api, f).map((s) => s.question),
-      ),
-    ),
-  ];
-  const pool = inPlay.length ? inPlay : Object.keys(POLICY_QUESTIONS);
   for (const q of pool
     .slice()
     .sort((a, b) => divisive(b) - divisive(a) || a.localeCompare(b))) {
@@ -731,6 +852,8 @@ function arrange(
     answers: [] as InterviewAnswer[],
     audience: 0,
     newsworthiness: worth,
+    reporterId: reporterFor(api, outlet, filing.personId),
+    storyId: null,
   };
   const declined = (reason: InterviewRow["reason"]) =>
     record(api, { ...base, status: "declined", reason });
@@ -745,8 +868,26 @@ function arrange(
     ...base,
     status: "invited",
     reason: null,
-    questions: interviewQuestions(api, filing),
+    questions: interviewQuestions(api, filing, outlet),
   });
+}
+
+/**
+ * Which of an outlet's reporters asks a candidate: the one closest to them
+ * (a friend gets the friendly reporter), else its first.
+ */
+function reporterFor(
+  api: CoreAPI,
+  outlet: OutletRow,
+  candidateId: string,
+): string | null {
+  const reporters = (outlet.reporterIds ?? []).filter(
+    (id) => api.state.people.get(id)?.alive,
+  );
+  if (!reporters.length) return null;
+  return reporters
+    .map((id) => ({ id, tie: closeness(api, id, candidateId) }))
+    .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0]!.id;
 }
 
 /** Interviews offered to or arranged by a person, newest first. */
@@ -766,8 +907,10 @@ export function interviewsFor(
 
 /**
  * Answer an arranged interview: a position on each question asked, or null
- * to decline it. The interview runs at once; its readers or viewers hear the
- * positions as statements on the record.
+ * to decline it, each said with one of the conversation's moves (plain where
+ * not given): plainly, with a further fact from the record, turning it back
+ * on a rival, briefly, or the lie (a position the candidate's record
+ * contradicts). The interview runs at once and the outlet prints it.
  */
 export function answerInterview(
   api: CoreAPI,
@@ -778,18 +921,40 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
-  const given = row.questions.map((question) => {
+  const filing = filingOf(api, row.filingId);
+  const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
+    const position =
+      answer?.position === null || answer?.position === undefined
+        ? null
+        : Math.max(-1, Math.min(1, answer.position));
+    const move: InterviewMove = answer?.move ?? "plain";
+    // The record the answer rests on, or that it contradicts.
+    const truth = standingOn(api, filing, question);
     return {
       question,
-      position:
-        answer?.position === null || answer?.position === undefined
-          ? null
-          : Math.max(-1, Math.min(1, answer.position)),
+      position,
+      move,
+      recordId: truth.from === "vote" ? truth.recordId : null,
     };
   });
   return publish(api, row, given);
 }
+
+function filingOf(api: CoreAPI, filingId: string): FilingRow {
+  return api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow;
+}
+
+const MOVE_WEIGHT: Readonly<Record<InterviewMove, string>> = {
+  plain: "moveWeightPlain",
+  further: "moveWeightFurther",
+  turn: "moveWeightTurn",
+  brief: "moveWeightBrief",
+  lie: "moveWeightPlain",
+};
 
 function publish(
   api: CoreAPI,
@@ -800,25 +965,134 @@ function publish(
     a.position === null ? [] : [{ question: a.question, position: a.position }],
   );
   campaignFor(api, row.filingId);
+  const outlet = table(api, "outlets").get(
+    row.outletId,
+  ) as unknown as OutletRow;
   const audience = followersOf(api, row.outletId).filter(
     (id) => id !== row.candidateId,
   );
+  const reporterId =
+    row.reporterId ?? reporterFor(api, outlet, row.candidateId);
+  // The interview is time together: a reporter and a candidate who never
+  // met now have, and those who had grow closer.
+  if (reporterId && api.state.people.has(row.candidateId)) {
+    const hours = pressParameter("interviewHours");
+    if (
+      !api.meet(reporterId, row.candidateId, {
+        placeId: lawChain(api).townPlaceId,
+        sourceId: row.id,
+        cause: "interview",
+        hours,
+      })
+    )
+      api.relationship(
+        reporterId,
+        row.candidateId,
+        "contact",
+        hours,
+        undefined,
+        {
+          cause: "interview",
+          sourceId: row.id,
+        },
+      );
+  }
+  // How it reads in print: the outlet's line, the reporter's and publisher's
+  // ties to the candidate and the candidate's ad money at the outlet.
+  const said = statements[0];
+  const printed = said
+    ? slantOf(api, deskContext(api), outlet, reporterId ?? "", {
+        topic: said.question,
+        desiredChange: said.position > 0 ? "enact" : "repeal",
+        subjectIds: [row.candidateId],
+      })
+    : null;
+  const moves = answers.filter((a) => a.position !== null);
+  const carry = moves.length
+    ? moves.reduce(
+        (s, a) => s + pressParameter(MOVE_WEIGHT[a.move ?? "plain"]),
+        0,
+      ) / moves.length
+    : 0;
+  // A friendly print carries the candidate's words further, a hostile one
+  // less far.
+  const weight =
+    pressParameter("interviewWeight") *
+    carry *
+    Math.max(0, 1 + (printed?.slant ?? 0));
   const causes = makeStatements(api, {
     filingId: row.filingId,
     venue: row.outletId,
     statements,
     audienceIds: audience,
     act: "interview",
-    weight: pressParameter("interviewWeight"),
+    weight,
     faceToFace: false,
   });
+  let storyId: string | null = null;
+  if (said && reporterId && api.state.people.has(reporterId)) {
+    const story = printItem(
+      api,
+      deskContext(api),
+      outlet,
+      reporterId,
+      {
+        id: row.id,
+        kind: "interview",
+        date: api.state.date,
+        level: "town",
+        topic: said.question,
+        desiredChange: said.position > 0 ? "enact" : "repeal",
+        ending: false,
+        subjectIds: api.state.people.has(row.candidateId)
+          ? [row.candidateId]
+          : [],
+      },
+      null,
+      {
+        interviewId: row.id,
+        ...(printed ? { slant: printed } : {}),
+        facts: { [`interview:${row.id}:candidate`]: row.candidateId },
+      },
+    );
+    storyId = story.id;
+  }
   const done: InterviewRow = {
     ...row,
     status: "published",
     answers,
     audience: causes.length,
+    reporterId,
+    storyId,
   };
   record(api, done);
+  // A position the candidate's own votes contradict: the reporter may check
+  // the record and print what they find, weeks later.
+  answers.forEach((answer, index) => {
+    if (
+      answer.position === null ||
+      !answer.recordId ||
+      !reporterId ||
+      answer.move !== "lie"
+    )
+      return;
+    const date = addDays(
+      makeIsoDate(api.state.date),
+      pressParameter("digDelayDays"),
+    );
+    api.moduleCalendar(PRESS_MODULE_ID).schedule({
+      key: `press-dig:${row.id}:${index}`,
+      date,
+      kind: "press-dig",
+      source: {
+        tag: "ESTIMATED",
+        citation: "A reporter checks a candidate's claim against the record",
+        asOf: api.state.date,
+        estimatedFrom: "digDelayDays",
+      },
+      sourceRecordIds: [row.id, String(index)],
+    });
+  });
   api.emit({
     id: `interview-published:${row.id}`,
     date: api.state.date,
@@ -830,8 +1104,6 @@ function publish(
       citation: `Interview ${row.id}`,
       asOf: api.state.date,
     },
-    publicRecord: true,
-    news: true,
     facts: {
       interviewId: row.id,
       outletId: row.outletId,
@@ -839,9 +1111,101 @@ function publish(
       contestId: row.contestId,
       answered: String(statements.length),
       declined: String(answers.length - statements.length),
+      ...(storyId ? { storyId } : {}),
     },
   });
   return done;
+}
+
+/**
+ * A reporter checks a candidate's claim against their votes, on the day set
+ * when the interview ran. Whether they dig is theirs: their own lean toward
+ * digging over letting it go (every trait), their grudge against the
+ * candidate, and their closeness to them, which holds them back. When they
+ * dig, the outlet prints the record against the claim, and its readers think
+ * less of the candidate.
+ */
+function checkClaim(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const [interviewId, index] = work.sourceRecordIds;
+  const row = table(api, "interviews").get(interviewId!) as unknown as
+    InterviewRow | undefined;
+  const answer = row?.answers[Number(index)];
+  const reporter = row?.reporterId
+    ? api.state.people.get(row.reporterId)
+    : undefined;
+  if (!row || !answer?.recordId || !reporter?.alive) return;
+  const outlet = table(api, "outlets").get(row.outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet) return;
+  const lean =
+    decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
+    grudge(api, reporter.id, row.candidateId) -
+    closeness(api, reporter.id, row.candidateId);
+  const dug = lean > 0;
+  table(api, "digs").put({
+    id: `${interviewId}:${index}`,
+    interviewId,
+    question: answer.question,
+    recordId: answer.recordId,
+    reporterId: reporter.id,
+    lean,
+    dug,
+    date: api.state.date,
+  } as unknown as ModuleRow);
+  if (!dug) return;
+  const vote = votesOf(api, row.candidateId).find(
+    (v) => v.id === answer.recordId,
+  );
+  const ctx = deskContext(api);
+  const story = printItem(
+    api,
+    ctx,
+    outlet,
+    reporter.id,
+    {
+      id: `claim:${interviewId}:${index}`,
+      kind: "claim-checked",
+      date: api.state.date,
+      level: "town",
+      topic: answer.question,
+      desiredChange: (vote?.stance.position ?? 0) > 0 ? "enact" : "repeal",
+      ending: false,
+      subjectIds: api.state.people.has(row.candidateId)
+        ? [row.candidateId]
+        : [],
+    },
+    null,
+    {
+      interviewId: row.id,
+      slant: {
+        slant: -Math.min(1, lean),
+        reasons: {
+          lean: 0,
+          tie: -Math.min(1, lean),
+          publisher: 0,
+          advertiser: 0,
+        },
+      },
+      facts: {
+        [`claim:${interviewId}:${index}:record`]: answer.recordId,
+      },
+    },
+  );
+  // Its readers think less of a candidate whose record belies their word.
+  for (const id of ctx.followers(outlet.id))
+    if (id !== row.candidateId)
+      touchImpression(api, {
+        voterId: id,
+        officialId: row.candidateId,
+        act: "interview",
+        target: -1,
+        weight: pressParameter("contradictionWeight") * Math.min(1, lean),
+        rapport: 0,
+      });
+  table(api, "digs").put({
+    ...(table(api, "digs").get(`${interviewId}:${index}`) as object),
+    storyId: story.id,
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -857,13 +1221,17 @@ export function candidateAnswers(
   const person = api.state.people.get(filing.personId);
   return questions.map((question) => {
     const stated = platform.find((s) => s.question === question);
-    if (stated) return { question, position: stated.position };
+    if (stated) return { question, position: stated.position, move: "plain" };
     if (!person) return { question, position: null };
     const view = personStance(
       personLean(api.state.people, person, 0),
       question,
     );
-    return { question, position: view === 0 ? null : Math.sign(view) };
+    return {
+      question,
+      position: view === 0 ? null : Math.sign(view),
+      move: "plain",
+    };
   });
 }
 
@@ -992,15 +1360,37 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   ).filter(
     (c) => c.electionDate >= api.state.date && c.electionDate <= horizon,
   );
-  if (!contests.length) return;
   const playerId = (api.state as CoreState).playerId;
+  // An invitation the player let pass until the race was over is a refusal.
+  if (playerId)
+    for (const row of interviewsFor(api, playerId))
+      if (
+        row.status === "invited" &&
+        contestOf(api, row.contestId).electionDate < api.state.date
+      )
+        refuse(api, row);
+  if (!contests.length) return;
   const filings = contests
     .flatMap((c) => ballot(api, c.id))
     .filter((f) => f.status === "on-ballot")
-    .map((f) => ({ f, worth: newsworthiness(api, f) }))
-    .sort((a, b) => b.worth - a.worth || a.f.id.localeCompare(b.f.id));
+    .map((f) => ({ f, worth: newsworthiness(api, f) }));
   for (const outlet of outletsHere(api))
-    for (const { f, worth } of filings) {
+    // Access: a candidate close to the outlet's reporters is asked first.
+    for (const { f, worth } of filings
+      .map((row) => ({
+        ...row,
+        access: Math.max(
+          0,
+          ...(outlet.reporterIds ?? []).map((id) =>
+            closeness(api, id, row.f.personId),
+          ),
+        ),
+      }))
+      .sort(
+        (a, b) =>
+          b.worth + b.access - (a.worth + a.access) ||
+          a.f.id.localeCompare(b.f.id),
+      )) {
       if (weekCount(api, outlet.id) >= pressParameter("interviewsPerWeek"))
         break;
       if (already(api, outlet.id, f.id)) continue;
@@ -1012,23 +1402,114 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       const row = arrange(api, f.id, outlet.id, "outlet");
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
+      const reporter = row.reporterId ?? "";
       const willing = person
-        ? // Every trait's lean, on the trait scale the bar was set on.
+        ? // Every trait's lean, on the trait scale the bar was set on, and
+          // how they stand with the reporter who asks.
           parameter("traitScale") *
-          decisionLean(
-            api.state,
-            person,
-            "press.accept-interview",
-            "accept",
-            "decline",
-          )
+            decisionLean(
+              api.state,
+              person,
+              "press.accept-interview",
+              "accept",
+              "decline",
+            ) +
+          closeness(api, person.id, reporter) -
+          grudge(api, person.id, reporter)
         : 0;
-      if (willing < pressParameter("interviewShyness"))
-        record(api, {
-          ...row,
-          status: "declined",
-          reason: "candidate-declined",
-        });
+      if (willing < pressParameter("interviewShyness")) refuse(api, row);
       else publish(api, row, candidateAnswers(api, row.questions, f));
     }
+}
+
+/**
+ * A candidate refuses an interview: the refusal is on the record, and the
+ * outlet's people take it as a snub that their drives may answer with a
+ * grudge (the drives engine decides, from each one's traits).
+ */
+function refuse(api: CoreAPI, row: InterviewRow): InterviewRow {
+  const done = record(api, {
+    ...row,
+    status: "declined",
+    reason: "candidate-declined",
+  });
+  snubbed(api, "press.snubbed", row.outletId, row.candidateId, row.id);
+  return done;
+}
+
+function snubbed(
+  api: CoreAPI,
+  kind: "press.snubbed" | "press.attacked",
+  outletId: string,
+  byId: string,
+  sourceId: string,
+): void {
+  const outlet = table(api, "outlets").get(outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet || !api.state.people.has(byId)) return;
+  const staff = [outlet.headId, ...(outlet.reporterIds ?? [])].filter(
+    (id): id is string => !!id && !!api.state.people.get(id)?.alive,
+  );
+  if (!staff.length) return;
+  api.emit({
+    id: `${kind}:${sourceId}`,
+    date: api.state.date,
+    kind,
+    personIds: staff,
+    placeId: outlet.placeId,
+    // The one who snubbed or attacked them is the responsible party.
+    topic: byId,
+    desiredChange: kind,
+    facts: { outletId, byId },
+    source: {
+      tag: "SOURCED",
+      citation: `${kind === "press.snubbed" ? "Interview refused" : "Speech against the outlet"}: ${sourceId}`,
+      asOf: api.state.date,
+    },
+  });
+}
+
+/** The player turns down an interview an outlet offered. */
+export function declineInterview(
+  api: CoreAPI,
+  interviewId: string,
+): InterviewRow {
+  const row = table(api, "interviews").get(interviewId) as unknown as
+    InterviewRow | undefined;
+  if (!row || row.status !== "invited")
+    throw new Error(`No interview waiting: ${interviewId}`);
+  return refuse(api, row);
+}
+
+/**
+ * A speech against an outlet: those in the room hear it as a speech on the
+ * outlet (their stance on it moves toward distrust, nearest the speaker's
+ * lean most), and the outlet's people take it as an attack their drives may
+ * answer with a grudge. Followers who come to distrust the outlet drift to
+ * another of its kind.
+ */
+export function attackOutlet(
+  api: CoreAPI,
+  input: {
+    readonly speakerId: string;
+    readonly outletId: string;
+    readonly audienceIds: readonly string[];
+  },
+): string {
+  const outlet = table(api, "outlets").get(input.outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet) throw new Error(`No outlet ${input.outletId}`);
+  const id = `speech:${input.speakerId}:${api.state.date}:attack:${outlet.organizationId}`;
+  if (api.state.modules.has(SPEECH_MODULE_ID))
+    deliverSpeech(api, {
+      id,
+      speakerId: input.speakerId,
+      placeId: outlet.placeId,
+      topic: outlet.organizationId,
+      desiredChange: DISTRUST,
+      audienceIds: input.audienceIds,
+    });
+  snubbed(api, "press.attacked", outlet.id, input.speakerId, id);
+  followCache.delete(api.state);
+  return id;
 }
