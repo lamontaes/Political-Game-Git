@@ -146,3 +146,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 ## Ruling, October 14, 2026, evening (owner; relayed by the CTO)
 
 - **Sessions don't wait on GitHub Actions.** Each session runs its gate in its own session, on the files it changed only: typecheck, eslint, prettier and the tests for those files, never the full suite. A new file nothing else reads needs no run. The result goes as one line at the top of the PR body, and the CTO merges on that line.
+
+## Ruling, October 14, 2026, night (owner; relayed by the CTO)
+
+- **The art bench is removed; only the game client ships.** The private hub and controller (Art Desk, Agents and Settings tabs, the Follow main source selector), its packaging and smoke scripts, its update worker and received channel, the `internal-art-review` build profile and its CI row, and the Art Desk and art bench dev tools are deleted, not hidden. What remains is one desktop app: the game client, opening on the title screen, updating itself from GitHub Releases. The Mac package is the one that must pass; the Windows row stays allowed-to-fail (`SG-PLAY-windows-package-allowed-to-fail`) until early access.
