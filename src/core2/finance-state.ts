@@ -5,6 +5,7 @@ import {
   supplierBillsOwedTo,
 } from "./modules/residents";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
+import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
@@ -1267,6 +1268,88 @@ export function closeEmployer(
   );
 }
 
+/** Cash a closing firm must keep for its full workers' final pay: accrued wages and arrears. */
+function payrollHeld(core: CoreState, organizationId: string): number {
+  let held = 0;
+  for (const ledger of core.work.payrollLedgerByCommitment.values())
+    if (ledger.organizationId === organizationId)
+      held += ledger.accruedMinor + ledger.arrearsMinor;
+  return held;
+}
+
+/**
+ * A closing firm's credit lines close with it: what its cash above final pay
+ * covers goes to the lender in one balanced entry (interest owed first, then
+ * principal), and the lender writes off the rest. A closed line takes no draw,
+ * accrues nothing and is never repriced or billed again.
+ */
+function closeCreditLines(
+  core: CoreState,
+  api: CoreAPI,
+  closure: EmployerClosure,
+): EmployerClosure["creditLines"] {
+  const organizationId = closure.organizationId;
+  let available = Math.max(
+    0,
+    core.organizations.get(organizationId)!.liquidMinor -
+      payrollHeld(core, organizationId),
+  );
+  const lines: {
+    facilityId: string;
+    settledMinor: number;
+    writtenOffMinor: number;
+  }[] = [];
+  for (const facilityId of [
+    ...(core.finance.facilitiesByBorrower.get(organizationId) ?? []),
+  ].sort()) {
+    const facility = core.finance.facilities.get(facilityId)!;
+    if (facility.closedAt) continue;
+    const accounts = available > 0 ? api.accounts() : undefined;
+    const paid =
+      accounts &&
+      Math.min(
+        available,
+        facility.principalMinor + facility.interestArrearsMinor,
+      ) > 0
+        ? accounts.transfer({
+            id: `${closure.sourceReceiptId}:credit-settlement:${facilityId}`,
+            from: accounts.main(organizationId),
+            to: accounts.main(facility.lenderId),
+            amountMinor: Math.min(
+              available,
+              facility.principalMinor + facility.interestArrearsMinor,
+            ),
+            reasonKey: "business.credit-settlement",
+            source: closure.source,
+          }).paidMinor
+        : 0;
+    available -= paid;
+    const towardInterest = Math.min(paid, facility.interestArrearsMinor);
+    const writtenOffMinor =
+      facility.principalMinor -
+      (paid - towardInterest) +
+      (facility.interestArrearsMinor - towardInterest);
+    facility.principalMinor = 0;
+    facility.interestArrearsMinor = 0;
+    facility.unbilledInterestMinor = 0;
+    facility.interestRemainderMinor = 0;
+    facility.lastAccruedAt = core.date;
+    facility.active = false;
+    facility.closedAt = core.date;
+    facility.settledMinor = paid;
+    facility.writtenOffMinor = writtenOffMinor;
+    for (const id of core.finance.contractsByBusiness.get(organizationId) ??
+      []) {
+      const term = core.finance.contracts.get(id)!;
+      if (term.interestFacilityId !== facilityId) continue;
+      term.arrearsMinor = 0;
+      delete term.firstUnpaidAt;
+    }
+    lines.push({ facilityId, settledMinor: paid, writtenOffMinor });
+  }
+  return lines;
+}
+
 /** Ends a closing firm's jobs, contracts and books, and records the closure. */
 function windDownEmployer(
   core: CoreState,
@@ -1295,6 +1378,8 @@ function windDownEmployer(
     endedJobIds.push(jobId);
     affectedPersonIds.push(job.personId);
   }
+  // Counted workers (and a counted owner) lose their jobs today too; the jobs engine ends them on the closure event.
+  const countedJobs = countedJobsOf(core, organizationId);
   const closure: EmployerClosure = {
     organizationId,
     date: core.date,
@@ -1303,10 +1388,14 @@ function windDownEmployer(
     cause,
     endedJobIds,
     affectedPersonIds,
+    endedCountedJobIds: countedJobs.map((job) => job.id),
+    affectedCountedPersonIds: countedJobs.map((job) => job.personId),
+    creditLines: [],
     source: actualSource(api, sourceText),
   };
   book.closedAt = core.date;
   book.closingReasonKey = reasonKey;
+  closure.creditLines = closeCreditLines(core, api, closure);
   removeIndex(core.finance.reviewsDueAt, book.nextReviewedAt, organizationId);
   for (const jobId of endedJobIds) {
     const job = core.jobs.get(jobId)!;
@@ -1337,7 +1426,6 @@ function windDownEmployer(
   }
   for (const id of core.finance.contractsByBusiness.get(organizationId) ?? []) {
     const row = core.finance.contracts.get(id)!;
-    if (row.interestFacilityId) continue;
     row.endedAt = core.date;
     removeIndex(core.finance.contractsDueAt, row.dueAt, id);
     if (row.endsAt) removeIndex(core.finance.contractsEndingAt, row.endsAt, id);
@@ -1474,13 +1562,10 @@ export function closeBusinessByChoice(
       });
   }
   // And its lenders: an open credit line's balance is the lender's, not the owner's.
-  let held = 0;
+  let held = payrollHeld(core, organizationId);
   for (const facility of core.finance.facilities.values())
     if (facility.borrowerId === organizationId)
       held += facility.principalMinor + facility.interestArrearsMinor;
-  for (const ledger of core.work.payrollLedgerByCommitment.values())
-    if (ledger.organizationId === organizationId)
-      held += ledger.accruedMinor + ledger.arrearsMinor;
   const left = Math.max(
     0,
     accounts.balance(accounts.main(organizationId)) - held,
