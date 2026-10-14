@@ -483,10 +483,19 @@ async function act(path) {
   busy = true;
   renderPacket();
   try {
+    // Polls still open (the page reloaded at the polls): vote first.
+    const polls = await api("/api/polling-place");
+    if (polls) await atThePolls(polls);
     const result = await post(path);
     me.names = { ...me.names, ...result.names };
     busy = false;
     renderPacket(result.packet);
+    if (result.pollingPlace) {
+      // The day stopped at the polls: vote, then the day goes on.
+      await atThePolls(result.pollingPlace);
+      busy = false;
+      return act(path);
+    }
     await refresh();
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
@@ -496,6 +505,78 @@ async function act(path) {
     busy = false;
     renderPacket();
   }
+}
+
+// ---- Election day (owner, Oct 14, 2026: election day is a scene) ----
+// The polling place's picture with the voter and the household members who
+// may vote, and the ballot: each race as the elections engine lists it, each
+// candidate by name and party. A click marks the race; Leave blank and Leave
+// are control names. The voting engine counts what is marked.
+function atThePolls(scene) {
+  return new Promise((resolve) => {
+    const draw = (value) => {
+      scene = value;
+      $("backdrop").src = scene.backdrop.url;
+      drawPeople(scene.people);
+      $("ballot-races").replaceChildren(
+        ...scene.contests.map((contest) => {
+          const mark = (candidateId) => async () => {
+            const result = await post(
+              `/api/polling-place/mark?${new URLSearchParams({
+                contestId: contest.id,
+                candidateId: candidateId ?? "",
+              })}`,
+            );
+            if (result.pollingPlace) draw(result.pollingPlace);
+            else finish();
+          };
+          const chosen = contest.marked;
+          const button = (text, candidateId) => {
+            const node = el("button", {
+              className: "action",
+              type: "button",
+              textContent: text,
+            });
+            if (chosen) {
+              node.disabled = true;
+              if (chosen.candidateId === candidateId)
+                node.classList.add("primary");
+            } else node.addEventListener("click", mark(candidateId));
+            return node;
+          };
+          return el(
+            "div",
+            { className: "race" },
+            el("h3", { className: "heading", textContent: contest.title }),
+            el(
+              "div",
+              { className: "acts" },
+              ...contest.candidates.map((candidate) =>
+                button(
+                  [candidate.name, candidate.party].filter(Boolean).join(" · "),
+                  candidate.personId,
+                ),
+              ),
+              button(controls.polling?.leaveBlank ?? "", null),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("ballot", false);
+      $("game").classList.remove("cinema");
+      resolve();
+    };
+    $("ballot-leave").textContent = controls.polling?.leave ?? "";
+    $("ballot-leave").onclick = async () => {
+      await post("/api/polling-place/leave");
+      finish();
+    };
+    $("game").classList.add("cinema");
+    draw(scene);
+    show("ballot", true);
+  });
 }
 // The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
 $("day").addEventListener("click", () => act("/api/advance?mode=day"));
