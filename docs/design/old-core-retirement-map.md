@@ -1,6 +1,6 @@
 # The new game still builds its opening town with the old engine
 
-The new game reached into the old engine from 186 of its own files on October 14, 2026. After this change, 5 shipped files still do, and all 5 serve two jobs the new core has not taken over: building the opening town and the health condition pack. Everything else now reads the new core. The opening builder alone keeps 886 old files alive, because it builds an old-engine world and checks it with the old engine's integrity pass. Porting it is the one job that retires the old engine. It belongs to OPUS-CORE, with the people pieces from OPUS-PEOPLE and the pay and jobs tables from OPUS-WORLD.
+The new game reached into the old engine from 186 of its own files on October 14, 2026. After this change, 5 shipped files still do, and all 5 serve two jobs the new core has not taken over: building the opening town and the health condition pack. Everything else now reads the new core. With the dead-files cleanup, the repository went from 12,803 files (3,152 MB) to 10,404 (2,689 MB), and play is unchanged. The opening builder alone keeps 886 old files alive, because it builds an old-engine world and checks it with the old engine's integrity pass. Porting it belongs to OPUS-CORE, with the people pieces from OPUS-PEOPLE and the pay and jobs tables from OPUS-WORLD.
 
 ## Where the 186 files stood
 
@@ -106,6 +106,24 @@ Statuses in the table:
 | Parity tests              | `municipal-*-rules.ts`, `municipal-government.ts`, `nationwide-world/*-rules.ts`, the two election calendars, `county-row-offices.ts`, `living-world/town-business-books.generated.ts`                                                                                                                                                                                                                                                                                                                                                                                         | `src/core2/gov-rules.test.ts` (OPUS-GOV), `src/core2/business-books.test.ts` (OPUS-WORLD)                                                                        | Retire with the old files                                                                                                                       |
 
 Measured: the health module alone reaches the whole 886-file tangle, because the condition pack imports the old engine's queries, which import everything else. So the tangle leaves only when both ports are done. The opening builder is the larger job: it writes people, households, kin and jobs into an old world, runs the old integrity pass on it, and then copies the result into the new core's input.
+
+## The shipped game's folders, proposed
+
+What a shipped game's repository holds once the opening port is done. Nothing here is moved yet except the English engine, which this change gathered into `src/english`.
+
+| Folder         | Holds                                                                                                                                                  | Comes from                                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `src/engine`   | The simulation: state, clock, choices, ledger, population, money, and every engine module (`modules/`, helpers, `kernel/`, `reference/`, `gov-rules/`) | `src/core2`, renamed; `src/rules`, `src/release`'s runtime parts and `src/districts`' readers folded in |
+| `data`         | Every table the game reads, sourced and tagged                                                                                                         | `data/` and `src/core2/data/` together, so the engine has one data root                                 |
+| `src/director` | The story director: scenes, journal, conversations, opening story                                                                                      | `src/director` as it is                                                                                 |
+| `src/english`  | The English engine: grounded English, composition, grades, speech registers, newscast and address banks                                                | done in this change                                                                                     |
+| `src/play`     | The player's screens and the play server                                                                                                               | `src/bench`, renamed once PLAY calls it the game rather than the bench                                  |
+| `desktop`      | The packaged app                                                                                                                                       | `desktop` as it is                                                                                      |
+| `tooling`      | Data pipelines, art intake, prose and English authoring, guards' scripts                                                                               | `scripts/`, `tooling/`, `src/core2/tooling/`, `src/source`, `src/authoring` and the art scripts         |
+| `tests`        | The automatic guards: golden path, played world, speed, dollars, zero dice, American English, tripwires, release check                                 | `tests/` plus the guard tests now under `scripts/`                                                      |
+| `docs`         | The roadmap, design, coordination and research a builder still reads; `docs/archive` for history                                                       | `docs/`                                                                                                 |
+
+Why no rename happens in this change: `src/core2` is named in every pillar's open branch, in `AGENTS.md`, in the speed guard's path filter (`.github/workflows/m0-guard.yml`) and in about 1,500 import lines. Renaming it while five sessions write to it would put a conflict in every open pull request at once. So it is a pure rename the CTO schedules for a quiet hour after the opening port lands, as one commit with the guards run before and after. `src/bench` to `src/play` is the same: PLAY's branch writes there all day.
 
 ## Every import site on October 14
 
