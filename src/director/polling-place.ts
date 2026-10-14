@@ -17,9 +17,9 @@ import {
   type ContestRow,
 } from "../core2/modules/elections";
 import { castBallot } from "../core2/modules/voting";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
-import type { IsoDate } from "../simulation/types";
+import type { IsoDate } from "../core2/kernel/brands";
 import type { Ledger, PollingVisitRecord } from "./types";
 import pollingData from "./data/polling-place.json" with { type: "json" };
 import { markWordsStopgap } from "./stopgaps";
