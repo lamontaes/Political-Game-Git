@@ -27,7 +27,10 @@ describe(`town economy rows (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`
       modules: [...WORLD_MODULES],
     });
     advanceCore(core, opening.startedAt);
-    advanceCore(core, "2021-02-02");
+    // The first month's rows, written on the second of the next month.
+    const next = new Date(`${opening.startedAt.slice(0, 7)}-02T00:00:00Z`);
+    next.setUTCMonth(next.getUTCMonth() + 1);
+    advanceCore(core, next.toISOString().slice(0, 10));
     const rows = townMetrics(coreAPI(core)).filter((row) => row.adults > 0);
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {

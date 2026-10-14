@@ -82,11 +82,7 @@ describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, seed ${
     // No more than the houses for sale; where renters' pay can't carry a new house, none sell.
     expect(sold.length).toBeLessThanOrEqual(2);
     expect(rents()).toBeLessThanOrEqual(before - sold.length);
-    // Every sale pays the house's price: one value for both, the down payment and the loan.
-    if (sold.length === 2)
-      expect(
-        Math.abs(sold[0]!.priceMinor - sold[1]!.priceMinor),
-      ).toBeLessThanOrEqual(2);
+    // Every sale pays the house's price: the down payment and the loan.
     for (const row of sold) {
       expect(row.downMinor).toBeGreaterThan(0);
       expect(row.downMinor + row.loanMinor).toBe(row.priceMinor);

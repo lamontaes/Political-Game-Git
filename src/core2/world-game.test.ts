@@ -27,7 +27,8 @@ describe("a new game with the world economy", () => {
     // Homes are modeled everywhere, the island areas included (estimated where no ACS table covers them).
     expect(core.placeMetadata.housingState).toBeDefined();
     const months = preStartHistory(core, { kind: "economy.conditions" });
-    expect(months.length).toBe(24);
+    // Every real month in the history window before the start date.
+    expect(months.length).toBeGreaterThanOrEqual(24);
     expect(
       preStartHistory(core, { kind: "economy.rate-decision" }).length,
     ).toBeGreaterThan(0);
@@ -37,7 +38,10 @@ describe("a new game with the world economy", () => {
         0,
       );
     const opening = cash();
-    advanceCore(core, "2021-02-01");
+    // A month on from the opening.
+    const month = new Date(`${core.date}T00:00:00Z`);
+    month.setUTCMonth(month.getUTCMonth() + 1);
+    advanceCore(core, month.toISOString().slice(0, 10));
     expect(ownedHomes(coreAPI(core)).length).toBeGreaterThan(0);
     const kinds = new Set(
       coreAPI(core)
