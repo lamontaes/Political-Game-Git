@@ -2,20 +2,23 @@
 
 Before: no disaster touched a town, and Congress couldn't change Social Security ages.
 
-After: in a game opening before October 9, 2026, FEMA's real disasters strike on their dates, with aid and repairs; a game opened today gets none. Claims follow the ages in force.
+After: games opening before October 9, 2026, get FEMA's real disasters on their dates, with aid and repairs. Claims follow the ages in force.
 
-**Your call:** after FEMA's records end, either the game keeps its own weather record and storms follow it, or later games have no disasters.
+**Your calls:**
 
-**What you need to do:** in the evening build, type an opening date of January 1, 2021, pick a Louisiana or Florida town, and play the year.
+- After FEMA's records end: the game keeps its own weather record, or later games have no disasters.
+- At your personality weight of 1, a test worker's effort trait alone chose work or rest, even under stress (see "Known problems"). Keep 1, or rebalance?
 
-**Also read first:** a Woodmere, New York year takes 92.6 seconds; its slowest day is still over budget (next section).
+**What you need to do:** in the evening build, open on January 1, 2021 in a Louisiana or Florida town and play the year.
+
+**Also read first:** a played year's slowest day is over budget (next section).
 
 ## Known problems
 
 - **A year went over budget overnight, and is back under.** Main's lawmaking-volume change (#4118) took main's Woodmere year from 87.1 to 209.9 seconds, timed at each pull request in that batch. After this branch's fixes and main's lighter bench town (#4123), a Woodmere year takes 92.6 seconds in one run, against a two-minute budget.
 - **The slowest day is over budget:** it takes 4.8 seconds against 3, in one run on October 14.
 - **The CI speed job stops on this pull request.** It now runs on core changes (fixed here) and stops on this one because it changes how a town opens; the job refuses any such comparison. I've proposed a rule change to the CTO; it needs his sign-off because it changes a guard's test.
-- **Three choice tests broke on main.** The owner's October 14 ruling raised the personality weight from 0.2 to 1 (#4152), and three core choice tests in `src/core2/life.test.ts` failed on main from that merge. They test how stress, wages and a trait's direction move one choice, sized at the old weight. This branch runs them at 0.2, the low end of the weight's checked range; play uses 1. That is settled, not open: they test that stress, wages and a trait can each turn a choice, which holds at any weight. At 1, the strongest-effort worker in them keeps working when stressed. The golden-path suite plays at 1.
+- **Three choice tests broke on main; stress may no longer turn a worker's choice.** The owner's October 14 ruling raised the personality weight from 0.2 to 1 (#4152), and three core choice tests in `src/core2/life.test.ts` failed on main from that merge. Each gives a one-job worker the strongest effort trait and checks that stress, wages or the trait's direction turns the worker's choice. This branch runs those three at 0.2, where they pass; play uses 1. Measured at 1 with the same worker: high stress did not turn a choice from work to rest at any effort level I tried (from an eighth of the scale to half of it). With no effort trait, the worker rested even when calm. So the effort trait alone decided the choice. That is one test worker, not a played town. Your call, at the top; I've noted it for the people team too.
 
 ## What changed for the player
 
@@ -50,7 +53,7 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 - The golden-path suite passes on this branch's head, including its three checks: the suite runs and fits its time (Silver Summit, Utah), the golden-path speed guard (Carmet, California), and a played world that runs a full year with every engine (Lamar, Mississippi). The speed guard tests only its comparison arithmetic, so it passes even with a slow day (see "What happens next").
 - Disasters: the test draws places from its seed until one has a disaster beginning in 2021, then checks one news event per disaster, no payment above FEMA's figure, and balanced money. It passed in Winchester, Idaho (1 disaster); Long Beach, New York (3, with one housing-aid payment and three repair payments); and Dyersburg, Tennessee (2), with seeds a1, c3 and e5.
 - Speed and memory in Woodmere (cloud machine, not a minimum-spec PC), after the October 14 merge with main, one run: a new game loads in 44.4 seconds and a year runs in 92.6, each against a two-minute budget. The slowest day takes 4.8 seconds against 3, and a year-old save is 13.2 MB compressed against 40 MB.
-- The release check, the no-dice check, type checks and the changed files' tests pass (the three chooser tests at a personality weight of 0.2, as above).
+- The release check, the no-dice check, type checks and the changed files' tests pass (the three choice tests at a personality weight of 0.2, as above).
 
 ## What happens next
 
