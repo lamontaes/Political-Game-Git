@@ -2396,7 +2396,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1215,
+    "line": 1218,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
@@ -2610,7 +2610,7 @@
     "id": "SG-WORLD-jobs-counted-retiree-income",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1597,
+    "line": 1626,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
     "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
     "addedBy": "OPUS-WORLD",
@@ -3190,12 +3190,24 @@
     "id": "SG-WORLD-property-tax-escrow-shortage",
     "kind": "assumed-behavior",
     "file": "src/core2/housing-property-tax.ts",
-    "line": 460,
+    "line": 468,
     "whatItFakes": "An escrow's monthly deposit stays a twelfth of the year's tax with no cushion; when an installment comes due before the escrow holds enough, the servicer advances the rest and later deposits repay it, instead of a yearly escrow analysis that raises the payment. A servicer outside the town (a loan held outside) pays the county a twelfth each month as deposits arrive.",
     "why": "The yearly analysis, the two-month cushion and the shortage spread over twelve months (RESPA, 12 CFR 1024.17) need each loan's escrow history.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "A yearly escrow analysis per loan under 12 CFR 1024.17: a cushion of up to a sixth of the year's tax, and a shortage spread over the next twelve payments.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-state-jobs-report-unread",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/regional.ts",
+    "line": 160,
+    "whatItFakes": "Each state's monthly jobs report (`economy.state-jobs-report`, a public event with the state's unemployment and jobs) is emitted, but no engine reads it yet, so it changes nothing in play.",
+    "why": "The news engine (OPUS-PEOPLE) doesn't subscribe to economy events yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The news engine reports each state's jobs report and people's views of the economy read it.",
     "status": "open"
   }
 ]

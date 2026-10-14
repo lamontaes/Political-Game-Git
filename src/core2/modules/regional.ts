@@ -17,6 +17,7 @@ import {
   type RegionMonth,
 } from "../regional-model";
 import { statePurchasesAboveMinor } from "../macro-public";
+import { stopgap } from "../stopgaps";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
@@ -155,7 +156,8 @@ export function stepRegional(
   )?.openingMonth;
   if (!gone.endsWith("-12") && gone !== opening)
     for (const row of months.query("byMonth", [gone])) months.remove(row.id);
-  // Each state's monthly jobs report is a public record other engines (the news) can read.
+  // Each state's monthly jobs report is a public record other engines (the news) can read; none reads it yet (see the stopgap).
+  stopgap("SG-WORLD-state-jobs-report-unread");
   for (const fips of new Set(stepped.map((row) => row.stateFips))) {
     const rows = stepped.filter((row) => row.stateFips === fips);
     const people = rows.reduce((sum, row) => sum + row.population, 0) || 1;
