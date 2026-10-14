@@ -2117,7 +2117,8 @@ const sheets = {
       }),
     );
     if (levels.length) draw(levels[0]);
-    return [...(await sheets.map()), picker, list];
+    // The map's own legend repeats the seats below, so only the map shows.
+    return [...(await sheets.map()).slice(0, 1), picker, list];
   },
   // The parties that hold the seats around you, from the seats' own records.
   async parties() {
