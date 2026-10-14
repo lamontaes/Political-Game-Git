@@ -1699,25 +1699,24 @@ const sheets = {
       }
       months.push(grid);
     }
-    const later = items.filter(
-      (i) =>
-        i.date >=
-        new Date(first.getFullYear(), first.getMonth() + 2, 1, 12)
-          .toISOString()
-          .slice(0, 10),
-    );
+    // The next ten things from today on, below the months.
+    const next = items.filter((i) => i.date >= date).slice(0, 10);
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      });
     return [
       ...months,
-      ...later
-        .slice(0, 8)
-        .map((i) =>
-          el(
-            "div",
-            { className: "row" },
-            el("b", { textContent: i.date }),
-            el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
-          ),
+      ...next.map((i) =>
+        el(
+          "div",
+          { className: "row" },
+          el("b", { textContent: dateWords(i.date) }),
+          el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
         ),
+      ),
     ];
   },
   async news() {
