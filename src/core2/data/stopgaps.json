@@ -3234,5 +3234,17 @@
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-town-growth-neutral",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/macro.ts",
+    "line": 251,
+    "whatItFakes": "Until the town has at least macroTownGrowthMinMonths of recorded income with the same months a year earlier (about 15 months into a game), the national step hears a neutral stand-in for the town's income growth: trend growth plus the inflation anchor.",
+    "why": "The town's income is recorded only from the opening, so a year-over-year growth needs a year of records first.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month.",
+    "status": "open"
   }
 ]

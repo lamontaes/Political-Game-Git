@@ -24,7 +24,7 @@ import type {
   CoreState,
   Source,
 } from "../types";
-import { linkCreditLineToPrime } from "./macro";
+import { linkCreditLineToPrime, quotedLineRate } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
@@ -344,6 +344,37 @@ export function lendMortgage(
   return lent;
 }
 
+/**
+ * What the bank reads of a borrower's record: sales against wages paid so far.
+ * Before any wages are paid, the books' own plan stands in: expected yearly
+ * demand against planned payroll. The record sets the line's risk spread.
+ */
+function lineTerms(
+  api: CoreAPI,
+  books: {
+    wagesPaidMinor: number;
+    salesReceivedMinor: number;
+    annualDemandMinor: number;
+    annualPayrollMinor: number;
+  },
+): { salesToWages: number; record: number; spreadPct: number } {
+  const p = (key: string) => api.parameter(key);
+  const salesToWages =
+    books.wagesPaidMinor > 0
+      ? books.salesReceivedMinor / books.wagesPaidMinor
+      : books.annualPayrollMinor > 0
+        ? books.annualDemandMinor / books.annualPayrollMinor
+        : p("zero");
+  const record = Math.tanh(salesToWages);
+  return {
+    salesToWages,
+    record,
+    spreadPct:
+      p("creditPrimeSpreadPct") +
+      p("creditRiskSpreadPct") * (p("one") - record),
+  };
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -375,13 +406,6 @@ function review(api: CoreAPI): void {
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const rate =
-    ((
-      api.moduleState("macro").table("state").get("macro:state") as
-        { policyRatePct: number } | undefined
-    )?.policyRatePct ?? p("zero")) /
-      p("macroHundred") +
-    p("creditPrimeSpreadPct") / p("macroHundred");
   const wanted: { id: string; requested: number }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
@@ -402,6 +426,8 @@ function review(api: CoreAPI): void {
       continue;
     }
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // The owner weighs the rate the bank will charge this borrower, risk spread and all.
+    const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
       baseline: p("creditBorrowBaseline"),
       need: p("creditBorrowNeedWeight") * Math.min(p("one"), requested / cover),
@@ -436,17 +462,10 @@ function review(api: CoreAPI): void {
   )) {
     const books = c.finance.businesses.get(id)!;
     const cash = c.organizations.get(id)!.liquidMinor;
-    const salesToWages =
-      books.wagesPaidMinor > 0
-        ? books.salesReceivedMinor / books.wagesPaidMinor
-        : p("one");
-    const record = Math.tanh(salesToWages);
+    const { salesToWages, record, spreadPct } = lineTerms(api, books);
     const limitMinor = Math.floor(
       Math.min(requested * appetite * record, room),
     );
-    const spreadPct =
-      p("creditPrimeSpreadPct") +
-      p("creditRiskSpreadPct") * (p("one") - record);
     store(api)
       .table("applications")
       .put({
