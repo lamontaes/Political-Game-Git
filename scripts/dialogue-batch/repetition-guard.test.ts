@@ -120,6 +120,18 @@ describe("the repetition guard's line rules", () => {
         }),
       ),
     ).toBeNull();
+    // Anyone's named school, in a tribute too, but not in talk.
+    expect(
+      lineProblem(
+        line(
+          "emotion",
+          "Gabriel Day graduated from Nicholas S. Lacorte School No. 3. I thank Gabriel Day.",
+        ),
+      ),
+    ).toBe("institution-event");
+    expect(
+      lineProblem(line("conversation", "I go to Sycamore Middle School.")),
+    ).toBeNull();
     // The revision names a school only as where someone was known.
     expect(
       lineProblem(
