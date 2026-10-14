@@ -62,7 +62,6 @@ const contracts: readonly SkillContract[] = [
       ".agents/workflows/pg-visual-review.md",
       ".agents/rules/visual-acceptance.md",
       "scripts/dev-identified.mjs",
-      "playwright.config.ts",
     ],
   },
   {
