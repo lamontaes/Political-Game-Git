@@ -1514,11 +1514,15 @@ function reviewJobless(api: CoreAPI): void {
   // Out of work and looking, a full person weighs each month whether to keep
   // looking by the same reasons that started the search: the household's
   // money pushes toward looking on, scarce jobs toward stopping.
-  const seekers = store(api).table("seekers");
+  const seekers = store(api).table("seekers"),
+    claims = store(api).table("claims");
   for (const row of seekers.query("all", [true]) as unknown as SeekerRow[]) {
-    if (row.employed) continue;
+    // A search begun in this review (a layoff today) is weighed from the next one.
+    if (row.employed || row.since >= c.date) continue;
     const person = c.people.get(row.personId);
     if (!person?.alive || person.jobId) continue;
+    // A claimant must keep searching to be paid (Social Security Act sec. 303(a)(12), every state's work-search rule).
+    if (claims.query("byPerson", [person.id, true]).length) continue;
     const household = c.households.get(person.householdId);
     if (!household) continue;
     let liquid = 0,
@@ -1534,6 +1538,8 @@ function reviewJobless(api: CoreAPI): void {
       offer("wait", person.id, {}),
       offer("look", person.id, {
         baseline: p("jobsEnterBaseline"),
+        // A search under way carries on: most of the unemployed are still looking a month later (the CPS flow behind the counted stop-looking pull).
+        searching: -p("jobsCountedStopLookingBaseline"),
         needWork:
           p("jobsUnemployedNeedWeight") /
           (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear"))),
