@@ -2007,7 +2007,8 @@
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
     "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the pre-opening pregnancy rebuild in renewal.ts and its opening-only plan source; couples' plans start at the opening review."
   },
   {
     "id": "SG-P15-candidacy-weights",
@@ -2352,7 +2353,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Rentals owned by the town's own landlords (owners of rental businesses and individual owners), each deciding from their traits, cash and the tenant's history.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept as the simple honest model: the town's rentals are one rental business whose owners mostly live elsewhere (rent above a month is paid out of town), and it serves notice by its reasons as a group (months owed and late, no dice). Markers removed."
   },
   {
     "id": "SG-WORLD-housing-eviction-steps",
@@ -2401,7 +2403,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE arrivals: households moving into the town fill vacancies, at a pace from the region's jobs and the town's rents.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept: vacancy moves rents at renewal; newcomers among the counts (counted drift and births-counted arrivals) move into homes leavers left, and unlet new units stay vacant, which lowers rents and builders' next starts. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-unmodeled-renters",
@@ -2438,7 +2441,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (AGENTS.md two-level population): counted households pay rent from their place's pooled account until the player meets them. Marker removed."
   },
   {
     "id": "SG-WORLD-jobs-agreement-pinned",
@@ -2462,7 +2466,9 @@
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day."
+    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day.",
+    "status": "resolved",
+    "resolution": "By design (two-level population): a counted owner takes the option its own reasons rank highest (no dice, no fill-in, no slower year) until the player meets them. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-mortgage-history",
@@ -2578,7 +2584,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Each household's subscription and its own choice to switch, from its price and service.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Closed: a household's broadband bill is the town's subscribing share of the price (households as a group), and every subscriber takes a cheaper public offer; no per-household subscription is modeled. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-new-home-buyers",
@@ -2590,7 +2597,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Counted renter households and arrivals buy new houses through the same choice and mortgage, once fill-in and arrivals land.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (two-level population): full renter households buy new houses; counted households are counts until met, and unsold inventory already slows builders' starts. Marker removed."
   },
   {
     "id": "SG-CORE-social-security-ages-data",
@@ -2651,7 +2659,8 @@
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-12",
     "replacement": "Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the drift marker: kept outcomes move only by researched links and otherwise hold at their base; no drift code runs."
   },
   {
     "id": "SG-P15-moves-weights",

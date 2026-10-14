@@ -258,11 +258,11 @@ function ownerPerson(c: CoreState, personId: string) {
 
 /**
  * The option a person takes: the shared chooser for a full person; for one
- * still counted, the option whose reasons sum highest (the same reasons).
+ * still counted (two-level population: filled in when the player meets
+ * them), the option whose reasons sum highest (the same reasons).
  */
 function decide(c: CoreState, personId: string, offers: ActOffer[]): ActOffer {
   if (c.people.has(personId)) return chooseAct(c, personId, offers).selected!;
-  stopgap("SG-WORLD-business-counted-owner-choice");
   const score = (offer: ActOffer) =>
     (offer.reasonBindings ?? []).reduce(
       (n, row) => n + Number(row.arguments?.value ?? 0),
@@ -992,7 +992,7 @@ function foundings(api: CoreAPI): void {
     // One opening a month; the next month's room is measured afresh.
     return;
   }
-  // The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
+  // The wider population weighs it by the same reasons, as summed pulls, until filled in.
   if (!c.modules.has("jobs")) return;
   const countedSeekers = api.moduleState("jobs").table("countedSeekers");
   const rows: { id: string; score: number }[] = [];

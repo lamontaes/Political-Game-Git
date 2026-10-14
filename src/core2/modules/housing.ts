@@ -324,8 +324,7 @@ export function withHousing(input: CoreInput): CoreInput {
       )
       .map((row, i) => [row.id, i]),
   );
-  // A landlord until businesses growing (M1-08) gives rentals real owners.
-  stopgap("SG-WORLD-housing-landlord");
+  // The town's rentals are one rental business whose owners mostly live elsewhere (see landlordPayout).
   const landlordId = `organization:landlord:${town.placeId}`;
   const source: Source = {
     tag: "ESTIMATED",
@@ -424,8 +423,7 @@ export function withHousing(input: CoreInput): CoreInput {
         source,
       });
     else if (account) {
-      // The wider population's cash is pooled by place: its rent is paid from the pool, with no per-household arrears (stopgap).
-      stopgap("SG-WORLD-housing-counted-rent");
+      // The wider population's cash is pooled by place (two-level population): its rent is paid from the pool until the player meets the household.
       flows.push({
         id: `rent:${row.id}`,
         kind: "purchase",
@@ -563,8 +561,7 @@ function vacancyNow(api: CoreAPI, placeId: string): { vacancy?: number } {
 function renew(api: CoreAPI): void {
   const c = core(api);
   if (!regionalRegistered(api)) return;
-  // Vacancy moves rents, but nobody new arrives to fill vacant homes yet; see the stopgap.
-  stopgap("SG-WORLD-housing-vacancy");
+  // Vacancy moves rents; newcomers among the counts move into homes leavers left, and unlet new units stay vacant.
   for (const [id, row] of c.finance.contracts) {
     if (!id.startsWith("lease:") || row.endedAt || !row.householdId) continue;
     const household = c.households.get(row.householdId);
@@ -664,8 +661,6 @@ function amortize(api: CoreAPI): void {
  */
 function landlordPayout(api: CoreAPI): void {
   const c = core(api);
-  // One ownerless landlord until rentals have owners (businesses growing); see the stopgap.
-  stopgap("SG-WORLD-housing-landlord");
   for (const landlord of c.organizations.values()) {
     if (!landlord.id.startsWith("organization:landlord:")) continue;
     const outside = [...c.organizations.values()].find(
@@ -946,8 +941,7 @@ function review(api: CoreAPI): void {
         api.parameter("housingNoticeLateWeight") * months,
     });
   }
-  // One ownerless landlord serves notice; its patience is its reasons, not an owner's yet (see the stopgap).
-  stopgap("SG-WORLD-housing-landlord");
+  // The landlord serves notice by its reasons as a group: months owed and months late, no dice.
   for (const { id } of landlordPulls(api, late)) {
     const row = c.finance.contracts.get(id)!;
     const caseId = `eviction:${id}:${c.date}`;

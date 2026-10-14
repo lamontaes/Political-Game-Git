@@ -17,7 +17,6 @@ import goods from "../data/prices/goods.json" with { type: "json" };
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { residentPerson, residentsRuntime } from "./residents";
-import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
@@ -243,8 +242,7 @@ export function monthlyChange(
     }
     case "offer": {
       // Subscribers take the public offer when it's cheaper; the old bill no longer leaves the town.
-      // Each household switches as the subscribing share of one, not by its own choice yet.
-      stopgap("SG-WORLD-prices-household-shares");
+      // A household's bill is the town's subscribing share of the price (households as a group).
       const b = g.broadband;
       if (rule.value >= b.monthlyPriceMinor)
         return { payMinor: 0, refundMinor: 0 };

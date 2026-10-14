@@ -18,7 +18,6 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
-import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -142,8 +141,7 @@ export function takeNewHome(
 ): string | undefined {
   const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
   if (!row || row.newHomesForSale < 1) return undefined;
-  // Only full renters buy; counted renters and households moving in don't yet.
-  stopgap("SG-WORLD-housing-new-home-buyers");
+  // Full renter households buy (the counts are households until the player meets them); unsold inventory slows builders' starts.
   const builder = (
     projects.query("all", [true]) as unknown as ProjectRow[]
   ).find(
