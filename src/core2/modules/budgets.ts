@@ -806,12 +806,22 @@ export function enactBudget(
   adoptedBy: string,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
-  const enacted = { ...enactedBudgetChanges(api, gov.id) };
-  for (const [line, delta] of Object.entries(changes))
+  const prior = table(api, "enacted").get(gov.id) as unknown as
+    | {
+        changes: Record<string, number>;
+        byYear?: Record<string, Record<string, number>>;
+      }
+    | undefined;
+  const enacted = { ...(prior?.changes ?? {}) };
+  const year = { ...(prior?.byYear?.[String(fy)] ?? {}) };
+  for (const [line, delta] of Object.entries(changes)) {
     enacted[line] = (enacted[line] ?? 0) + delta;
+    year[line] = (year[line] ?? 0) + delta;
+  }
   table(api, "enacted").put({
     id: gov.id,
     changes: enacted,
+    byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
   } as unknown as ModuleRow);
   const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
   putBudget(api, budget);
@@ -844,6 +854,26 @@ export function adoptedLine(
   line: string,
 ): number {
   return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+}
+
+/**
+ * A line as it stood before the year's own budget bill: the adopted line less
+ * what that bill changed in it. What a service is measured against, so a
+ * change the body adopts this year reaches the people the line serves, and
+ * becomes the base the next year.
+ */
+export function lineBeforeBill(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  line: string,
+): number {
+  const year =
+    (
+      table(api, "enacted").get(gov.id) as unknown as
+        { byYear?: Record<string, Record<string, number>> } | undefined
+    )?.byYear?.[String(fy)]?.[line] ?? 0;
+  return Math.max(0, adoptedLine(api, gov, fy, line) - year);
 }
 
 /** A year's budget when its bill fails: the enacted lines carried forward. */
