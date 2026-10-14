@@ -1,26 +1,25 @@
 /**
  * The federal day in the world the owner plays: the bench world, a place and
- * seed nobody chose, every module installed. Dev mode's custom start seats a
- * town adult in the town's House seat; the member's week follows Congress's
- * published calendar unless they choose otherwise; the official salary is
- * paid; their own bill's vote stops them on its day and their vote is the
- * one counted; an interview the character answers is printed like one the
- * player answers; a child cannot be seated. Then a second town adult is
- * seated as president: a nomination goes to the Senate and is voted on its
- * sitting day by the senators' own sides; the budget request due on its
- * statutory day is sent by the character when the player lets the day pass,
- * and the budgets engine's proposed budget carries it; a trip to a town drawn
- * at random meets people there; the daily brief leaves facts the president
- * now knows.
+ * seed nobody chose, every module installed, played through the bench's own
+ * player. The player takes the town's sitting U.S. representative: the week
+ * follows Congress's published calendar unless they choose otherwise; their
+ * own bill's vote holds them the evening before and their vote is the one
+ * counted; a week spent at home misses a vote, recorded as an abstention;
+ * the office is paid. Then the player takes the sitting president: a vacant
+ * cabinet post holds them; their nominee goes to the Senate, which votes on
+ * its sitting day by the senators' own sides; the character nominates the
+ * rest once the player turns that stop off; the budget request due on its
+ * statutory day is sent by the character, and the budgets engine's proposed
+ * budget carries it; a trip to a town drawn at random meets people there;
+ * the daily brief comes each working day.
  */
-import { randomBytes, createHash } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { BenchPlayer } from "../bench/player";
 import { gameStartDate } from "./game-start";
-import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { addDays, makeIsoDate } from "../simulation/dates";
-import { townSeats } from "./modules/offices";
+import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
 import {
   billOf,
   committeeRecords,
@@ -30,35 +29,39 @@ import {
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
 import {
+  deskWaiting,
+  leaveDeskToCharacter,
+  officeActsOf,
+  setStops,
+} from "./modules/office-day";
+import {
+  addDays,
   budgetRequestDate,
   nthSitting,
   washingtonWeek,
+  weekOf,
 } from "./office-day-federal-calendar";
 import {
-  actsOf,
-  askForInterview,
   chooseWeek,
-  federalDay,
-  giveInterview,
-  holderRow,
-  minimumAge,
-  startAsFederalOfficeholder,
+  federalSeatOf,
+  heldFederal,
+  releaseFederal,
   voteOnFloor,
   whereOn,
 } from "./office-day-federal";
+import {
+  NOMINATIONS,
+  cabinetOf,
+  nominate,
+  nominationCandidates,
+  travelToTown,
+} from "./office-day-federal-president";
 import { drawPlace } from "../../scripts/core2-year/place";
 import {
   budgetPriorities,
   governments,
   proposedBudget,
 } from "./modules/budgets";
-import {
-  cabinetOf,
-  dailyBrief,
-  nominate,
-  nominationCandidates,
-  travelToTown,
-} from "./office-day-federal-president";
 
 const seed = process.env.OFFICE_FEDERAL_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "office-federal");
@@ -69,106 +72,184 @@ const world = buildBenchWorld(seed, gameStartDate(), {
 });
 const core = world.core;
 const api = coreAPI(core);
+const player = new BenchPlayer(core, world.director);
+const holderOf = (seatId: string) =>
+  (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+  )[0]?.personId;
 const house = townSeats(api).find((s) => s.office.kind.startsWith("us-house"))!;
-const age = (birth: string) =>
-  Number(core.date.slice(0, 4)) -
-  Number(birth.slice(0, 4)) -
-  (core.date.slice(5) < birth.slice(5) ? 1 : 0);
-const hash = (id: string) =>
-  createHash("sha256")
-    .update(seed + id)
-    .digest("hex");
-const adults = [...core.people.values()]
-  .filter(
-    (p) =>
-      p.alive &&
-      p.placeId === world.placeId &&
-      age(p.birthDate) >= minimumAge(house.office.kind)!,
-  )
-  .sort((a, b) => hash(a.id).localeCompare(hash(b.id)));
-const step = (days = 1) =>
-  advanceCore(core, addDays(makeIsoDate(core.date), days));
+const member = holderOf(house.seat.id)!;
+const voter = house.office.kind === "us-house";
+
+/** The House's first sitting in a later week than `date`'s. */
+function sittingAfterWeekOf(date: string): string {
+  for (let n = 1; ; n++) {
+    const day = nthSitting("house", date, n);
+    if (weekOf(day) !== weekOf(date)) return day;
+  }
+}
+
+/** A bill of the member's own, its vote on a House sitting day (see the fixture note below). */
+function ownBill(n: number, voteOn: string) {
+  const snap = lawInForce(api, "snap-maximum").value ?? 0;
+  const bill = draftBill(api, {
+    bodyOfficeId: house.office.id,
+    sponsorId: member,
+    provisions: [
+      { kind: "law-amount", series: "snap-maximum", value: snap + 100 * n },
+    ],
+  });
+  // Fixture: the vote goes on a real House sitting day. The legislature's
+  // own floor week for Congress does not read the House calendar yet; that
+  // is OPUS-GOV's, reported on the PR.
+  api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+    key: `meeting:${bill.id}`,
+    date: voteOn,
+    kind: "council-meeting",
+    source: {
+      tag: "ESTIMATED",
+      citation: "test fixture: a House sitting day",
+      asOf: core.date,
+      estimatedFrom: "office-day-federal test",
+    },
+    sourceRecordIds: [bill.id],
+  });
+  return { bill, voteOn };
+}
+
+/**
+ * Play day by day through `date`. A federal hold is handed to `onHold`; what
+ * it leaves is left to the character. The polls and a bill on the desk are
+ * left to the character too.
+ */
+function playThrough(date: string, onHold: (key: string) => void = () => {}) {
+  for (let guard = 0; guard < 2_000; guard++) {
+    if (player.pollingPlace) player.leavePolls();
+    const packet = player.packet;
+    if (packet?.kind === "stop") {
+      for (const key of heldFederal(api)) onHold(key);
+      for (const key of heldFederal(api)) releaseFederal(api, key);
+      for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+      player.resume({ kind: "stop", pauseId: packet.pauseId });
+      continue;
+    }
+    if (packet?.kind === "choice") {
+      player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+      continue;
+    }
+    if (core.date >= date) return;
+    player.advance("day");
+  }
+  throw new Error(`The day did not reach ${date}`);
+}
 
 describe(`the federal day (${place.name}, seed ${seed})`, () => {
-  it("never seats someone under the Constitution's age", () => {
-    const child = [...core.people.values()].find(
-      (p) => p.alive && age(p.birthDate) < 25,
-    )!;
-    expect(() =>
-      startAsFederalOfficeholder(core, child.id, house.seat.id),
-    ).toThrow(/under 25/);
+  const president = holderOf("seat:US:president")!;
+  let stateVoteOn = "";
+  it("holds the president on a vacant cabinet post and sends the nominee to the Senate", () => {
+    player.select(president);
+    expect(federalSeatOf(api, president)?.kind).toBe("president");
+    let held = false;
+    // The next morning holds them: every post is vacant in Inauguration Week.
+    playThrough(addDays(core.date, 2), (key) => {
+      if (key !== NOMINATIONS || held) return;
+      held = true;
+      const pool = nominationCandidates(api, president);
+      expect(pool.length).toBeGreaterThan(0);
+      nominate(api, president, "state", pool[0]!.id);
+    });
+    expect(held).toBe(true);
+    const state = cabinetOf(api).find((c) => c.postId === "state")!;
+    expect(state.status).toBe("nominated");
+    stateVoteOn = state.voteOn!;
+    expect(stateVoteOn > core.date).toBe(true);
   });
 
-  const me = adults[0]!;
-  it("seats the player and keeps Congress's weeks", () => {
-    const row = startAsFederalOfficeholder(core, me.id, house.seat.id);
-    expect(core.playerId).toBe(me.id);
-    expect(row.kind).toBe(house.office.kind);
-    const day = federalDay(api, me.id);
-    expect(day.where).toBe(
-      washingtonWeek("house", day.date) ? "washington" : "district",
+  it("lets the character nominate the rest once that stop is off", () => {
+    setStops(api, president, { nomination: false });
+    playThrough(addDays(core.date, 2));
+    expect(
+      cabinetOf(api).every(
+        (c) =>
+          c.status === "nominated" ||
+          c.status === "confirmed" ||
+          c.status === "rejected",
+      ),
+    ).toBe(true);
+    expect(
+      officeActsOf(api, president).some(
+        (a) => a.kind === "nominate" && a.how === "own-choice",
+      ),
+    ).toBe(true);
+  });
+
+  it("sends the budget request on its day, and the proposed budget carries it", () => {
+    // The first Monday in February (31 U.S.C. 1105(a)).
+    const due = budgetRequestDate(Number(core.date.slice(0, 4))).date;
+    playThrough(due);
+    const set = budgetPriorities(api, "US");
+    expect(set?.setBy).toBe(president);
+    const gov = governments(api).find((g) => g.id === "US")!;
+    const [line, delta] = Object.entries(set!.changes)[0] ?? ["", 0];
+    if (line) {
+      const proposed = proposedBudget(
+        api,
+        gov,
+        Number(due.slice(0, 4)) + 1,
+        president,
+      );
+      expect(proposed.spendingMinor[line]).toBeGreaterThan(0);
+      expect(Math.abs(delta)).toBeGreaterThan(0);
+    }
+  });
+
+  it("meets people in a town drawn at random, and has the brief each working day", () => {
+    const town = drawPlace(`${seed}:trip`, "office-federal-trip");
+    const tripId = travelToTown(api, president, town.key);
+    const trip = officeActsOf(api, president).find(
+      (a) => a.recordId === tripId,
+    )!;
+    expect(trip.kind).toBe("trip");
+    const met = [...core.people.values()].filter((p) =>
+      p.id.startsWith(`person:trip:${town.key}:${core.date}:`),
+    );
+    expect(met.length).toBeGreaterThan(0);
+    for (const p of met)
+      expect(core.people.get(president)!.knownIds.has(p.id)).toBe(true);
+    expect(
+      officeActsOf(api, president).filter((a) => a.kind === "daily-brief")
+        .length,
+    ).toBeGreaterThan(0);
+    expect(api.knows(president, "brief:cabinet-vacancies")).toBeDefined();
+  });
+
+  it("takes the sitting member and keeps Congress's weeks", () => {
+    expect(federalSeatOf(api, member)?.kind).toBe(house.office.kind);
+    // Control moves from the president to the member; the president's day goes on as the character's.
+    player.select(member);
+    setStops(api, member, { "floor-vote": true });
+    expect(whereOn(api, member, core.date)).toBe(
+      washingtonWeek("house", core.date) ? "washington" : "district",
     );
     // The player chooses a week at home whatever the House does.
-    chooseWeek(api, me.id, day.date, "district");
-    expect(whereOn(holderRow(api, me.id)!, day.date)).toBe("district");
-    chooseWeek(api, me.id, day.date, "washington");
+    chooseWeek(api, member, core.date, "district");
+    expect(whereOn(api, member, core.date)).toBe("district");
+    chooseWeek(api, member, core.date, "washington");
   });
 
-  const president = adults.find(
-    (p) => p.id !== me.id && age(p.birthDate) >= minimumAge("president")!,
-  )!;
-  let stateVoteOn = "";
-  it("seats a president on Inauguration Day and sends a nominee to the Senate", () => {
-    startAsFederalOfficeholder(core, president.id, "seat:US:president");
-    const pool = nominationCandidates(api, president.id);
-    expect(pool.length).toBeGreaterThan(0);
-    const act = nominate(api, president.id, "state", pool[0]!.id);
-    stateVoteOn = String(act.facts.voteOn);
-    expect(stateVoteOn > core.date).toBe(true);
-    expect(cabinetOf(api).find((c) => c.postId === "state")!.status).toBe(
-      "nominated",
-    );
-  });
-
-  it("stops the player for their own bill's vote and counts the vote they cast", () => {
-    const snap = lawInForce(api, "snap-maximum").value ?? 0;
-    const bill = draftBill(api, {
-      bodyOfficeId: house.office.id,
-      sponsorId: me.id,
-      provisions: [
-        { kind: "law-amount", series: "snap-maximum", value: snap + 100 },
-      ],
+  it("holds the player the morning of their own bill's vote and counts the vote they cast", () => {
+    // The second sitting: the first may fall on the day ahead, before any morning holds.
+    const { bill, voteOn } = ownBill(1, nthSitting("house", core.date, 2));
+    chooseWeek(api, member, voteOn, "washington");
+    const held: string[] = [];
+    playThrough(voteOn, (key) => {
+      if (key !== `federal-floor:${bill.id}`) return;
+      held.push(core.date);
+      voteOnFloor(api, member, bill.id, "no");
     });
-    expect(bill.status).toBe("drafted");
-    // Fixture: the vote goes on the House's next real sitting day. The
-    // legislature's own floor week for Congress (scheduleVote) does not read
-    // the House calendar yet; that is OPUS-GOV's, reported on the PR.
-    const voteOn = nthSitting("house", core.date, 1);
-    api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
-      key: `meeting:${bill.id}`,
-      date: voteOn,
-      kind: "council-meeting",
-      source: {
-        tag: "ESTIMATED",
-        citation: "test fixture: the House's next sitting",
-        asOf: core.date,
-        estimatedFrom: "office-day-federal test",
-      },
-      sourceRecordIds: [bill.id],
-    });
-    while (addDays(makeIsoDate(core.date), 1) < voteOn) step();
-    const day = federalDay(api, me.id);
-    expect(day.date).toBe(voteOn);
-    const item = day.items.find((i) => i.sourceRecordIds[0] === bill.id);
-    if (house.office.kind === "us-house-delegate") {
-      // A delegate does not vote on final passage (House Rule III).
-      expect(item).toBeUndefined();
-      expect(() => voteOnFloor(api, me.id, bill.id, "yes")).toThrow();
-    } else {
-      expect(item).toMatchObject({ kind: "own-bill-vote", stops: true });
-      voteOnFloor(api, me.id, bill.id, "no");
-    }
-    step();
     // A committee chair who opposes a bill does not hear it, and it dies
     // there with no floor vote (the legislature's committee stage).
     const committee = committeeRecords(api, bill.id)[0];
@@ -177,69 +258,49 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
       expect(billOf(api, bill.id).status).toBe("failed");
       return;
     }
-    const mine = votesOn(api, bill.id).find((v) => v.memberId === me.id);
-    if (house.office.kind === "us-house-delegate") expect(mine).toBeUndefined();
-    else expect(mine?.vote).toBe("no");
-  });
-
-  it("pays the office through official pay", () => {
-    while (core.date < "2025-02-02") step();
-    const pay = api
-      .moduleState("core2-official-pay-v1")
-      .table("pay")
-      .get(me.id) as unknown as { annualMinor: number; payerId: string };
-    expect(pay.annualMinor).toBeGreaterThan(0);
-    expect(pay.payerId).toContain("US");
-  });
-
-  it("prints an interview the character answered, as one the player answered", () => {
-    const asked = askForInterview(api, me.id);
-    if (asked.status !== "invited") {
-      // The outlet's own reasons (room, newsworthiness) may turn the member down.
-      expect(asked.reason).not.toBeNull();
+    const mine = votesOn(api, bill.id).find((v) => v.memberId === member);
+    if (!voter) {
+      // A delegate does not vote on final passage (House Rule III).
+      expect(held).toEqual([]);
+      expect(mine).toBeUndefined();
       return;
     }
-    const act = giveInterview(api, me.id, asked.id);
-    expect(act.mode).toBe("simulated");
-    expect(act.facts.status).toBe("published");
-    expect(actsOf(api, me.id).some((a) => a.id === act.id)).toBe(true);
+    expect(held.length).toBeGreaterThan(0);
+    expect(mine?.vote).toBe("no");
+    expect(
+      officeActsOf(api, member).some(
+        (a) => a.kind === "vote" && a.recordId === bill.id && a.how === "did",
+      ),
+    ).toBe(true);
+  });
+
+  it("misses a vote in a week spent at home", () => {
+    const { bill, voteOn } = ownBill(2, sittingAfterWeekOf(core.date));
+    chooseWeek(api, member, voteOn, "district");
+    playThrough(voteOn);
+    if (!voter || !votesOn(api, bill.id).length) return;
+    expect(votesOn(api, bill.id).find((v) => v.memberId === member)?.vote).toBe(
+      "abstain",
+    );
+    expect(
+      officeActsOf(api, member).find((a) => a.recordId === bill.id)?.detail,
+    ).toMatch(/missed/);
   });
 
   it("puts the nominee to the Senate's vote on its sitting day", () => {
-    while (core.date < stateVoteOn) step();
+    playThrough(stateVoteOn);
     const post = cabinetOf(api).find((c) => c.postId === "state")!;
     expect(["confirmed", "rejected"]).toContain(post.status);
     expect(post.yes + post.no).toBe(100);
     expect(post.status === "confirmed").toBe(post.yes > post.no);
   });
 
-  it("sends the budget request on its day, and the proposed budget carries it", () => {
-    // The first Monday in February (31 U.S.C. 1105(a)); it passes while the nomination waits.
-    const due = budgetRequestDate(2025).date;
-    expect(core.date >= due).toBe(true);
-    const set = budgetPriorities(api, "US");
-    expect(set?.setBy).toBe(president.id);
-    const gov = governments(api).find((g) => g.id === "US")!;
-    const [line, delta] = Object.entries(set!.changes)[0] ?? ["", 0];
-    if (line) {
-      const proposed = proposedBudget(
-        api,
-        gov,
-        Number(due.slice(0, 4)) + 1,
-        president.id,
-      );
-      expect(proposed.spendingMinor[line]).toBeGreaterThan(0);
-      expect(Math.abs(delta)).toBeGreaterThan(0);
-    }
-  });
-
-  it("meets people in a town drawn at random, and learns from the brief", () => {
-    const town = drawPlace(`${seed}:trip`, "office-federal-trip");
-    const act = travelToTown(api, president.id, town.key);
-    expect(act.facts.met).toBeGreaterThan(0);
-    for (const id of act.sourceRecordIds.slice(1))
-      expect(core.people.get(president.id)!.knownIds.has(id)).toBe(true);
-    dailyBrief(api, president.id);
-    expect(api.knows(president.id, "brief:cabinet-vacancies")).toBeDefined();
+  it("pays the member through official pay", () => {
+    const pay = api
+      .moduleState("core2-official-pay-v1")
+      .table("pay")
+      .get(member) as unknown as { annualMinor: number; payerId: string };
+    expect(pay.annualMinor).toBeGreaterThan(0);
+    expect(pay.payerId).toContain("US");
   });
 });

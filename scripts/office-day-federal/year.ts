@@ -2,9 +2,9 @@
  * One played year (every module installed) in a drawn place: the speed check
  * for the federal day, one run, one number. Seconds to build and to run.
  *
- * With --federal, the federal day is installed and dev mode seats a town adult
- * as the town's U.S. representative and another as president for the year
- * (the cost of the federal day measured against the same year without it).
+ * With --federal, the player takes the sitting president through the bench's
+ * own player and skips the year (the cost of the federal day for the person
+ * the player controls; without it, no one is controlled).
  *
  * Run: node --max-old-space-size=8192 --import tsx scripts/office-day-federal/year.ts <seed> [days] [--federal]
  */
@@ -15,9 +15,12 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../src/simulation/dates";
 import { drawPlace } from "../core2-year/place";
 import { coreAPI } from "../../src/core2/state";
-import { townSeats } from "../../src/core2/modules/offices";
-import { startAsFederalOfficeholder } from "../../src/core2/office-day-federal";
-import "../../src/core2/office-day-federal-president";
+import { BenchPlayer } from "../../src/bench/player";
+import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../src/core2/modules/offices";
+import { playThrough } from "./drive";
 
 setBookkeeping(false);
 const seed = process.argv[2] ?? "office-federal-speed";
@@ -31,30 +34,31 @@ const world = buildBenchWorld(seed, gameStartDate(), {
   placeKey: place.key,
 });
 const buildSeconds = (Date.now() - built) / 1000;
-if (process.argv.includes("--federal")) {
-  const core = world.core;
-  const api = coreAPI(core);
-  const house = townSeats(api).find((s) =>
-    s.office.kind.startsWith("us-house"),
-  )!;
-  const adults = [...core.people.values()]
-    .filter(
-      (p) =>
-        p.alive &&
-        p.placeId === world.placeId &&
-        Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) > 36,
-    )
-    .sort((a, b) => a.id.localeCompare(b.id));
-  startAsFederalOfficeholder(core, adults[0]!.id, "seat:US:president");
-  startAsFederalOfficeholder(core, adults[1]!.id, house.seat.id);
-}
 const started = Date.now();
-advanceCore(world.core, addDays(makeIsoDate(world.core.date), days));
+const through = addDays(makeIsoDate(world.core.date), days);
+if (process.argv.includes("--federal")) {
+  // The player takes the sitting president and skips the year, the
+  // character taking every federal moment the player leaves.
+  const api = coreAPI(world.core);
+  const president = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        "seat:US:president",
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0]!.personId!;
+  const player = new BenchPlayer(world.core, world.director);
+  player.select(president);
+  playThrough(player, api, through, () => {}, "skip");
+} else advanceCore(world.core, through);
 console.log(
   JSON.stringify({
     seed,
     place: `${place.name} (${place.key})`,
     days,
+    federal: process.argv.includes("--federal"),
     buildSeconds,
     seconds: (Date.now() - started) / 1000,
   }),

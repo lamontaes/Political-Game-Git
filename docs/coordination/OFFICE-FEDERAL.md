@@ -18,7 +18,12 @@ Once PR #4220 merges, in dev mode, from a script (no screen yet):
 - [ ] Presidential orders, pardons, the situation room: registered stand-ins, waiting on GOV and on crisis records.
 - [ ] District projects (community project funding): waits on GOV (an appropriation with a named recipient government).
 - [x] The midterm: the member's own filing window stops them and they file through the elections engine; election day is listed.
-- [ ] Move onto OFFICE-LOCAL's engine when it lands; delete this branch's stand-in tables.
+- [ ] Move onto OFFICE-LOCAL's engine (on main since #4219), branch `office/federal-engine`. Plan:
+  - Delete what the engine already does: the stops table (engine's `registerStopKinds`, `stopsOf`, `setStops`), the act log (engine's act record through `officeHost.keep`), the floor-vote and desk hooks (`ownVote`, `deskArrived`), interviews and town halls (the local kit offers them to any officeholder the player controls), the end-of-day town hall.
+  - Delete the custom start: the player takes the sitting member or president with the bench's `BenchPlayer.select`.
+  - Federal acts become a registered kit (`registerOfficeActs`): re-election filing, nominations, the budget request, the joint address, the daily brief, the trip; the chooser decides for the character. Duties with a legal day (the budget request, the address) are given by the character on that day if the player has not.
+  - Keep: Congress's calendar, the week choice, the cabinet, committee seats, the whip (asked the day before a vote).
+  - Ask OFFICE-LOCAL: a member away in the district misses a vote (the engine casts every vote now); a bill's vote reaches every chamber it passes through (a senator on a House bill); `prepareAct` for a registered kit's acts.
 
 ## Needs from other sessions
 

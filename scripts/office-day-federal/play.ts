@@ -1,49 +1,54 @@
 /**
- * The federal day played (office play, FEDERAL): ten days as the town's U.S.
- * representative, as the owner plays it. A drawn place and seed; dev mode's
- * custom start seats the player; they set what stops them, do one interview
- * and simulate another, hold a town hall, file a bill, skip a week at home,
- * and read what the press printed and what the character did on its own.
+ * The federal day played (office play, FEDERAL), as the owner plays it: ten
+ * days as the town's sitting U.S. representative, then ten as the sitting
+ * president, through the bench's own player. A drawn place and seed. As the
+ * member: what stops them, their own bill's vote, a week at home that misses
+ * one, committee seats. As the president: a nomination of their own, the
+ * rest left to the character, the Senate's votes, the budget request, a trip
+ * to a town drawn at random. Prints each act on the record, who did it (the
+ * player or the character) and why.
  *
  * Run: node --max-old-space-size=10000 --import tsx scripts/office-day-federal/play.ts [seed]
  */
 import { createHash } from "node:crypto";
 import { buildBenchWorld } from "../../src/bench/world";
+import { BenchPlayer } from "../../src/bench/player";
 import { gameStartDate } from "../../src/core2/game-start";
-import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
-import { townSeats } from "../../src/core2/modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "../../src/core2/modules/offices";
 import {
   LEGISLATURE_MODULE_ID,
   draftBill,
-  scheduleVote,
   votesOn,
 } from "../../src/core2/modules/legislature";
 import { lawInForce } from "../../src/core2/modules/laws";
+import { officeActsOf, setStops } from "../../src/core2/modules/office-day";
 import {
-  interviewsFor,
-  outletsHere,
-  storiesPrinted,
-  candidateAnswers,
-  officeholderSpeaker,
-} from "../../src/core2/modules/press";
+  addDays,
+  nthSitting,
+  weekOf,
+} from "../../src/core2/office-day-federal-calendar";
 import {
-  actsOf,
-  askForInterview,
+  chooseWeek,
   committeeSeats,
-  federalDay,
-  holderRow,
-  giveInterview,
-  holdDistrictTownHall,
-  minimumAge,
-  setFederalStops,
-  startAsFederalOfficeholder,
   voteOnFloor,
+  whereOn,
 } from "../../src/core2/office-day-federal";
-import { composeJournal } from "../../src/director/journal";
+import {
+  NOMINATIONS,
+  cabinetOf,
+  nominate,
+  nominationCandidates,
+  travelToTown,
+} from "../../src/core2/office-day-federal-president";
+import { budgetPriorities } from "../../src/core2/modules/budgets";
 import { drawPlace } from "../core2-year/place";
+import { playThrough } from "./drive";
 
 setBookkeeping(false);
 const seed =
@@ -56,161 +61,118 @@ const world = buildBenchWorld(seed, gameStartDate(), {
 });
 const core = world.core;
 const api = coreAPI(core);
+const player = new BenchPlayer(core, world.director);
 const out: Record<string, unknown> = {
   seed,
   place: `${place.name} (${place.key})`,
+  start: core.date,
 };
+const holderOf = (seatId: string) =>
+  (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+  )[0]?.personId;
 
-// Who the player continues as: an adult of the starting player's own
-// household old enough to sit in the House, else the town's eligible full
-// person whose id hashes nearest the seed (dev mode's choice, not an actor's).
+// ---- Ten days as the member ------------------------------------------------
 const house = townSeats(api).find((s) => s.office.kind.startsWith("us-house"));
 if (!house) throw new Error("No House seat covers the town");
-const floor = minimumAge(house.office.kind)!;
-const age = (birth: string) =>
-  Number(core.date.slice(0, 4)) -
-  Number(birth.slice(0, 4)) -
-  (core.date.slice(5) < birth.slice(5) ? 1 : 0);
-const start = world.playerId ? core.people.get(world.playerId) : undefined;
-const household = start ? core.households.get(start.householdId) : undefined;
-const eligible = [...core.people.values()].filter(
-  (p) => p.alive && p.placeId === world.placeId && age(p.birthDate) >= floor,
-);
-const hash = (id: string) =>
-  createHash("sha256")
-    .update(seed + id)
-    .digest("hex");
-const me =
-  eligible.find((p) => household?.memberIds.includes(p.id)) ??
-  eligible.sort((a, b) => hash(a.id).localeCompare(hash(b.id)))[0];
-if (!me) throw new Error("No one in town is old enough to sit in the House");
-startAsFederalOfficeholder(core, me.id, house.seat.id);
-// The director keeps the journal of the person the player now is.
-world.director.watch(core, me.id);
-out.player = {
-  id: me.id,
-  age: age(me.birthDate),
+const member = holderOf(house.seat.id)!;
+player.select(member);
+setStops(api, member, { "floor-vote": true, "whip-ask": true });
+// The House's second sitting, then its first sitting in a later week.
+const first = nthSitting("house", core.date, 2);
+let later = first;
+for (let n = 3; weekOf(later) === weekOf(first); n++)
+  later = nthSitting("house", core.date, n);
+const bills = [first, later].map((voteOn, n) => {
+  const bill = draftBill(api, {
+    bodyOfficeId: house.office.id,
+    sponsorId: member,
+    provisions: [
+      {
+        kind: "law-amount",
+        series: "snap-maximum",
+        value: (lawInForce(api, "snap-maximum").value ?? 0) + 100 * (n + 1),
+      },
+    ],
+  });
+  // As in the test: the vote goes on a real House sitting day (GOV's floor
+  // week does not read the House calendar yet).
+  api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+    key: `meeting:${bill.id}`,
+    date: voteOn,
+    kind: "council-meeting",
+    source: {
+      tag: "ESTIMATED",
+      citation: "play script: a House sitting day",
+      asOf: core.date,
+      estimatedFrom: "office-day-federal play",
+    },
+    sourceRecordIds: [bill.id],
+  });
+  return { id: bill.id, voteOn };
+});
+// The second bill's week is spent at home.
+chooseWeek(api, member, bills[1]!.voteOn, "district");
+const memberHolds: string[] = [];
+playThrough(player, api, addDays(core.date, 10), (key) => {
+  memberHolds.push(`${core.date} ${key}`);
+  const bill = bills.find((b) => key === `federal-floor:${b.id}`);
+  if (bill) voteOnFloor(api, member, bill.id, "yes");
+});
+out.member = {
+  id: member,
   seat: house.seat.id,
-  startingPlayer: world.playerId,
+  holds: memberHolds,
+  weeks: bills.map((b) => ({
+    voteOn: b.voteOn,
+    where: whereOn(api, member, b.voteOn),
+  })),
+  votes: bills.map((b) => ({
+    bill: b.id,
+    voteOn: b.voteOn,
+    mine: votesOn(api, b.id).find((v) => v.memberId === member)?.vote ?? null,
+    yes: votesOn(api, b.id).filter((v) => v.vote === "yes").length,
+    no: votesOn(api, b.id).filter((v) => v.vote === "no").length,
+  })),
+  committees: committeeSeats(api, member),
+  acts: officeActsOf(api, member).map(
+    (a) => `${a.date} ${a.kind} ${a.how} ${a.recordId} ${a.detail}`,
+  ),
 };
 
-// The owner's settings: stop for interviews too, and for every floor vote.
-setFederalStops(api, me.id, { "interview-invite": true, "floor-vote": true });
-
-const days: unknown[] = [];
-const step = () => advanceCore(core, addDays(makeIsoDate(core.date), 1));
-let billId: string | null = null;
-for (let i = 0; i < 10; i++) {
-  const day = federalDay(api, me.id);
-  const did: string[] = [];
-  if (i === 0) {
-    // File a bill of their own: raise the federal SNAP maximum by a dollar a month.
-    const snap = lawInForce(api, "snap-maximum").value ?? 0;
-    const bill = draftBill(api, {
-      bodyOfficeId: house.office.id,
-      sponsorId: me.id,
-      provisions: [
-        { kind: "law-amount", series: "snap-maximum", value: snap + 100 },
-      ],
-    });
-    billId = bill.id;
-    did.push(
-      `filed ${bill.id} (${bill.status}), vote ${bill.status === "drafted" ? scheduleVote(api, bill.id) : "none"}`,
-    );
-  }
-  if (i === 1) {
-    // Do one interview: the player answers, each a little more strongly than their own view.
-    const asked = askForInterview(api, me.id);
-    did.push(
-      `asked ${asked.outletId}: ${asked.status}${asked.reason ? ` (${asked.reason})` : ""}`,
-    );
-    if (asked.status === "invited") {
-      const speaker = officeholderSpeaker(api, me.id)!;
-      const own = candidateAnswers(api, asked.questions, speaker);
-      const answers = own.map((a) => ({
-        ...a,
-        position:
-          a.position === null
-            ? null
-            : Math.max(-1, Math.min(1, a.position * 1.5)),
-      }));
-      did.push(
-        `did interview ${giveInterview(api, me.id, asked.id, answers).id}`,
-      );
-    }
-  }
-  if (i === 2) {
-    // Simulate another: ask a second outlet and let the character answer.
-    const second = outletsHere(api).filter((o) => o.tier !== "national")[1]?.id;
-    const asked = askForInterview(api, me.id, second);
-    did.push(
-      `asked ${asked.outletId}: ${asked.status}${asked.reason ? ` (${asked.reason})` : ""}`,
-    );
-    if (asked.status === "invited")
-      did.push(`simulated interview ${giveInterview(api, me.id, asked.id).id}`);
-  }
-  for (const item of day.items)
-    if (item.stops && item.kind.endsWith("vote") && item.sourceRecordIds[0])
-      did.push(
-        `stopped for ${item.id}: voted ${voteOnFloor(api, me.id, item.sourceRecordIds[0], "yes").facts.vote}`,
-      );
-  if (i === 6) {
-    did.push(
-      `town hall ${holdDistrictTownHall(api, me.id, undefined).sourceRecordIds[0]}`,
-    );
-  }
-  days.push({ ...day, did });
-  step();
-  if (i === 4) {
-    // Skip a week: nothing stops the player for seven days; the character
-    // lives them and the director turns waiting scenes into journal lines.
-    const stops = holderRow(api, me.id)!.stops;
-    const skipFrom = core.date;
-    setFederalStops(
-      api,
-      me.id,
-      Object.fromEntries(Object.keys(stops).map((k) => [k, false])),
-    );
-    world.director.setMode("skipping");
-    advanceCore(core, addDays(makeIsoDate(core.date), 7));
-    world.director.setMode("live");
-    setFederalStops(api, me.id, stops);
-    out.skippedWeek = { from: skipFrom, to: core.date };
-  }
-}
-
-out.days = days;
-
-out.acts = actsOf(api, me.id);
-out.committees = committeeSeats(api, me.id);
-out.interviews = interviewsFor(api, me.id).map((i) => ({
-  id: i.id,
-  status: i.status,
-  reason: i.reason,
-  outlet: i.outletId,
-  questions: i.questions,
-}));
-out.stories = outletsHere(api).flatMap((o) =>
-  storiesPrinted(api, o.id)
-    .filter((s) => JSON.stringify(s).includes(me.id))
-    .map((s) => ({ outlet: o.id, ...(s as object) })),
+// ---- Ten days as the president -------------------------------------------------
+const president = holderOf("seat:US:president")!;
+player.select(president);
+const presidentHolds: string[] = [];
+let mine = "";
+playThrough(player, api, addDays(core.date, 3), (key) => {
+  presidentHolds.push(`${core.date} ${key}`);
+  if (key !== NOMINATIONS || mine) return;
+  const pool = nominationCandidates(api, president);
+  mine = nominate(api, president, "state", pool[0]!.id);
+});
+setStops(api, president, { nomination: false });
+const town = drawPlace(`${seed}:trip`, "office-federal-trip");
+const trip = travelToTown(api, president, town.key);
+playThrough(player, api, addDays(core.date, 7), (key) =>
+  presidentHolds.push(`${core.date} ${key}`),
 );
-out.bill = billId
-  ? {
-      row: api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId),
-      myVote:
-        votesOn(api, billId).find((v) => v.memberId === me.id)?.vote ?? null,
-      tally: votesOn(api, billId).reduce<Record<string, number>>(
-        (t, v) => ({ ...t, [v.vote]: (t[v.vote] ?? 0) + 1 }),
-        {},
-      ),
-    }
-  : null;
-out.pay = {
-  row: api.moduleState("core2-official-pay-v1").table("pay").get(me.id) ?? null,
-  jobId: core.people.get(me.id)?.jobId ?? null,
+out.president = {
+  id: president,
+  holds: presidentHolds,
+  ownNominee: mine,
+  trip: { town: `${town.name} (${town.key})`, record: trip },
+  cabinet: cabinetOf(api).map(
+    (c) =>
+      `${c.postId} ${c.status} ${c.nomineeId} vote ${c.voteOn} ${c.yes}-${c.no}`,
+  ),
+  budgetRequest: budgetPriorities(api, "US") ?? null,
+  acts: officeActsOf(api, president).map(
+    (a) => `${a.date} ${a.kind} ${a.how} ${a.recordId} ${a.detail}`,
+  ),
 };
-out.journal = composeJournal(core, world.director, me.id).map((c) =>
-  JSON.stringify(c).slice(0, 400),
-);
-console.log(JSON.stringify(out, null, 1));
+out.end = core.date;
+console.log(JSON.stringify(out, null, 2));
