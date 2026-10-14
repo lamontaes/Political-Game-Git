@@ -1,5 +1,7 @@
 ---
 id: desktop-serves-play-api
+section: Fixed
+title: The installed app builds a town and reaches the play screen
 impact: patch
 ---
 
