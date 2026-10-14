@@ -3077,6 +3077,6 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
-    "status": "open"
+    "status": "resolved"
   }
 ]

@@ -36,6 +36,7 @@ import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
 import { viewOn } from "./views";
+import { closenessBetween } from "../closeness";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -1110,14 +1111,11 @@ function positionOn(
       openingViews += personStance(lean, stance.question) * stance.position;
       constituents += personStance(home, stance.question) * stance.position;
     }
-  const relationship = (api.state as CoreState).relationships.get(
-    [memberId, bill.sponsorId].sort().join(":"),
-  );
   const sponsor =
     memberId === bill.sponsorId
       ? 1
       : campaignParameter("sponsorRelationshipWeight") *
-        (relationship?.level ?? 0);
+        closenessBetween(api.state as CoreState, memberId, bill.sponsorId);
   // Only a deal the member took moves them: what the sponsor now owes them.
   const deal = bill.deals
     .filter((d) => d.memberId === memberId && d.status !== "declined")
@@ -1286,9 +1284,7 @@ function dealValue(
     return weight * strongest * 2;
   }
   const tie = sponsorId
-    ? ((api.state as CoreState).relationships.get(
-        [memberId, sponsorId].sort().join(":"),
-      )?.level ?? 0)
+    ? closenessBetween(api.state as CoreState, memberId, sponsorId)
     : 0;
   return weight * (1 + Math.max(0, tie));
 }

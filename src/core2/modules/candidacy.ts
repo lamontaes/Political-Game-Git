@@ -30,6 +30,7 @@ import type {
   PersonState,
 } from "../types";
 import { decisionKinds } from "../trait-decisions";
+import { closenessBetween } from "../closeness";
 import { PLATFORM_QUESTIONS, questionAxis } from "../campaign-views";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
@@ -143,15 +144,10 @@ export function candidacyReasons(
   // doesn't run against them; someone at odds with them is drawn to.
   let incumbentTie = zero;
   if (contest.incumbentId && contest.incumbentId !== person.id)
-    for (const id of api.state.relationshipsByPerson.get(person.id) ?? []) {
-      const row = api.state.relationships.get(id);
-      if (
-        row &&
-        (row.otherId === contest.incumbentId ||
-          row.actorId === contest.incumbentId)
-      )
-        incumbentTie = Math.max(-one, Math.min(one, row.level));
-    }
+    incumbentTie = Math.min(
+      one,
+      closenessBetween(api.state, person.id, contest.incumbentId),
+    );
   return reasonsFrom(
     api,
     {
