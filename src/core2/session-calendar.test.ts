@@ -16,7 +16,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { openLegislature } from "./modules/legislature";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import {
   openWorldLegislating,
   sessionAgendaDates,
@@ -133,7 +133,7 @@ describe("state session calendar table", () => {
       openCampaigns(core);
       openRecord(core);
       openLegislature(core);
-      openLawEffects(core);
+      openLawReach(core);
       openWorldLegislating(core);
       const calendar = coreAPI(core).moduleCalendar(
         WORLD_LEGISLATING_MODULE_ID,

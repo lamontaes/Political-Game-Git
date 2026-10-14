@@ -19,7 +19,7 @@ import {
   allCases,
   handleCase,
   openCases,
-  openCasesFor,
+  casesOpenFor,
   problemOf,
 } from "./modules/constituent-cases";
 import { governmentUnitsForPlace } from "../simulation/government-units";
@@ -87,7 +87,7 @@ describe("M3-08 constituent cases", () => {
         ).toBe(c.problem);
       const [helped, declined] = [cases[0]!, cases[1]!];
       // Each official's desk holds their open cases, soonest deadline first.
-      const desk = openCasesFor(api, helped.officialId);
+      const desk = casesOpenFor(api, helped.officialId);
       expect(desk.map((c) => c.id)).toContain(helped.id);
       expect(desk.every((c) => c.status === "open")).toBe(true);
       expect(
@@ -116,7 +116,7 @@ describe("M3-08 constituent cases", () => {
       const done = allCases(api).filter((c) => c.opened <= "2026-02-05");
       expect(done.every((c) => c.status !== "open")).toBe(true);
       expect(
-        openCasesFor(api, helped.officialId).filter(
+        casesOpenFor(api, helped.officialId).filter(
           (c) => c.opened <= "2026-02-05",
         ),
       ).toEqual([]);

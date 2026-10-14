@@ -362,7 +362,7 @@ function resolve(
  * player decides these (`handleCase`); one left past its deadline goes to the
  * office's staff, or to the office's own habit where it has none.
  */
-export function openCasesFor(
+export function casesOpenFor(
   api: CoreAPI,
   officialId: string,
 ): readonly CaseRow[] {

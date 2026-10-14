@@ -19,7 +19,7 @@
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
-import { registerPolicyHandler } from "../modules/law-effects";
+import { registerPolicyHandler } from "./host";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {

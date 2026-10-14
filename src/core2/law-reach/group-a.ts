@@ -9,7 +9,7 @@
 import {
   registerPolicyHandler,
   type PolicyHandler,
-} from "../modules/law-effects";
+} from "./host";
 import { applyRecords, POLICIES } from "./group-a-records";
 import {
   federalMinimumWage,

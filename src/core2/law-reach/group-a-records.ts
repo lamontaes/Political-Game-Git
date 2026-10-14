@@ -246,7 +246,7 @@ export const tomorrow = (date: string) =>
 
 /**
  * The levels (with their jurisdictions) whose latest law in force on a
- * policy says yes: the same reading as law-effects' `inForceHere`.
+ * policy says yes: the same reading as the law-reach host's `inForceHere`.
  */
 export function yesLevels(
   api: CoreAPI,
