@@ -43,6 +43,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { closenessBetween } from "../closeness";
+import { bribePull } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -176,6 +177,8 @@ export interface MemberPosition {
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
   readonly consistency: number;
+  /** What a bribe they took on this bill pulls them toward (the payer's side). */
+  readonly bribe: number;
   readonly total: number;
 }
 
@@ -1300,6 +1303,8 @@ function positionOn(
   // A member's own record: undoing what they just voted for, or redoing what
   // they just voted against, weighs against them while the law is fresh.
   const consistency = recordConsistency(api, memberId, bill);
+  // A bribe they took on this bill, as far as it moves them.
+  const bribe = bribePull(api, memberId, bill.id);
   return {
     memberId,
     views,
@@ -1311,6 +1316,7 @@ function positionOn(
     ...(further ?? {}),
     trait,
     consistency,
+    bribe,
     total:
       views +
       answersHome +
@@ -1319,6 +1325,7 @@ function positionOn(
       lobby +
       trait +
       consistency +
+      bribe +
       (further
         ? further.party + further.wing + further.ambition + further.press
         : 0),

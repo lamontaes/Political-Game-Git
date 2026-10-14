@@ -12,7 +12,7 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { LAWS_MODULE_ID, openLaws } from "./modules/laws";
 import { openBudgets } from "./modules/budgets";
-import { inForceHere, openLawEffects } from "./modules/law-effects";
+import { inForceHere, openLawReach } from "./law-reach/host";
 import { answerIn } from "./modules/world-legislating";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
@@ -64,7 +64,7 @@ describe("starting policy answers are law at the opening", () => {
     );
     openLaws(core);
     openBudgets(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
     const yes: string[] = [];

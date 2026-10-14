@@ -3,13 +3,12 @@
  * a developer screen: for each case, the act, who knew, the complaint, the
  * investigation's reasons, the charge, the verdict, the sentence, the seat
  * vacated, the fine on the journal, and what other engines read of it (the
- * news story the event became, and the scandal the candidacy inputs see).
+ * news story the event became, and the scandal voters read from it).
  * Reads only; writes nothing.
  */
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./modules/corruption";
 import {
   JUSTICE_MODULE_ID,
-  convictionsOf,
   type CaseRow,
   type ComplaintRow,
   type CustodyRow,
@@ -18,7 +17,7 @@ import {
 } from "./modules/justice";
 import { NEWS_MODULE_ID } from "./modules/news";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { candidateInputs } from "./electorate-inputs";
+import { scandalStoriesOf } from "./modules/voting";
 import type { CoreAPI } from "./types";
 
 export interface JusticeChain {
@@ -100,16 +99,12 @@ export function justiceChains(api: CoreAPI): JusticeChain[] {
         .map((v) => v.id),
       fineJournalIds: sentence?.finePaidMinor ? [`fine:${sentence.id}`] : [],
       storyIds: events.filter((id) => stories.has(id)),
-      scandalRead:
-        convictionsOf(api, row.defendantId).length > 0 &&
-        candidateInputs(api, {
-          id: row.defendantId,
-          party: null,
-          filingId: null,
-          incumbent: false,
-          seatParty: null,
-          raceLean: 0,
-        }).scandal,
+      // Voters hold the conviction against them through its news story.
+      scandalRead: scandalStoriesOf(
+        api,
+        row.defendantId,
+        api.state.date,
+      ).includes(`justice.convicted:${row.id}`),
     };
   });
 }

@@ -19,7 +19,8 @@ import { openRecord } from "./modules/record";
 import { campaignParameter } from "./campaign-views";
 import { openLegislature } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
-import { effectsOn, openLawEffects } from "./modules/law-effects";
+import { openLawReach, reachOn } from "./law-reach/host";
+import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import {
   openWorldLegislating,
   congressAgendaDate,
@@ -77,7 +78,7 @@ describe("M3-10 other governments legislate", () => {
       openCampaigns(core);
       openRecord(core);
       openLegislature(core);
-      openLawEffects(core);
+      openLawReach(core);
       openWorldLegislating(core);
       const api = coreAPI(core);
       const end = [...sessionAgendaDates(state)]
@@ -107,9 +108,7 @@ describe("M3-10 other governments legislate", () => {
         expect(answerIn(api, state, bill.question)).not.toBeNull();
       }
       const reached = [...core.people.keys()].filter((id) =>
-        effectsOn(api, id).some((e) =>
-          passed.some((b) => b.question === e.question),
-        ),
+        reachOn(api, id).some((e) => passed.some((b) => b.question === e.key)),
       );
       report = {
         seed,
@@ -151,7 +150,7 @@ describe("M3-10 other governments legislate", () => {
     openCampaigns(core);
     openRecord(core);
     openLegislature(core);
-    openLawEffects(core);
+    openLawReach(core);
     openWorldLegislating(core);
     const api = coreAPI(core);
     const day = congressAgendaDate(2026);
@@ -174,9 +173,7 @@ describe("M3-10 other governments legislate", () => {
     for (const bill of passed)
       expect(answerIn(api, "US", bill.question), bill.question).not.toBeNull();
     const reached = [...core.people.keys()].filter((id) =>
-      effectsOn(api, id).some((e) =>
-        passed.some((b) => b.question === e.question),
-      ),
+      reachOn(api, id).some((e) => passed.some((b) => b.question === e.key)),
     );
     govReport(
       "world-legislating-congress",
@@ -216,7 +213,7 @@ describe("M3-10 other governments legislate", () => {
     openCampaigns(core);
     openRecord(core);
     openLegislature(core);
-    openLawEffects(core);
+    openLawReach(core);
     openWorldLegislating(core);
     const api = coreAPI(core);
     const bodies = (
@@ -340,7 +337,7 @@ describe("M3-10 other governments legislate", () => {
       }),
     );
     openLaws(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const question =
       "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work";
@@ -353,9 +350,11 @@ describe("M3-10 other governments legislate", () => {
       measureId: "test-federal-act",
       citation: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
     });
-    const reached = [...core.people.keys()].filter((id) =>
-      effectsOn(api, id).some((e) => e.question === question),
-    );
+    // It binds the town's employers and landlords (law-reach's records).
+    const reached = api
+      .moduleState(REACH_A_MODULE_ID)
+      .table("reach")
+      .query("byKey", [question, null]);
     expect(reached.length, `${state} ${key}`).toBeGreaterThan(0);
   });
 });
@@ -392,7 +391,7 @@ describe("a session already over when the world opens", () => {
     openCampaigns(core);
     openRecord(core);
     openLegislature(core);
-    openLawEffects(core);
+    openLawReach(core);
     openWorldLegislating(core);
     const calendar = coreAPI(core).moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
     // Each slot comes back on the table's next row for it (the next year the

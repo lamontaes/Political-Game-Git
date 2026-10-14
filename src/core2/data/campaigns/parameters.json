@@ -1061,6 +1061,12 @@
       "source": "How much a person of 80 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
       "spread": [0.077, 0.095]
     },
+    "boundEmployerCostShare": {
+      "value": 0.01,
+      "tag": "ESTIMATED",
+      "source": "What one new rule binding an employer's line of business costs it a year, as a share of its payroll: U.S. firms' total federal regulatory compliance runs about 8 to 12 percent of payroll across all rules (Crain and Crain, NAM, 2014: about $9,991 per employee a year), and one rule is a small part of that. Stands for each law's own cost until law-reach moves the money (SG-GOV-bound-employer-cost-estimate).",
+      "spread": [0.002, 0.03]
+    },
     "chairVoteRelationshipWeight": {
       "value": 1,
       "tag": "TUNABLE",

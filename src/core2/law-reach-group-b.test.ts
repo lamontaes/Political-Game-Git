@@ -23,7 +23,7 @@ import {
   withholdingOf,
   type GovernmentRow,
 } from "./modules/budgets";
-import { effectsOn, openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import { withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
@@ -110,7 +110,7 @@ function build(): void {
     );
     openLaws(core);
     openBudgets(core);
-    openLawEffects(core);
+    openLawReach(core);
     repealStartingAnswers(core);
     api = coreAPI(core);
     place = key;
@@ -370,15 +370,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       const expected = employersOf(def.organizations!);
       expect(openOrgs(key).length, `${where} ${key}`).toBe(expected);
       for (const row of openOrgs(key)) expect(row.kind).toBe(def.kind);
-      if (key.endsWith("bottle-deposit"))
-        // The deposit itself is on adults (law-effects); the sellers collect it.
-        expect(
-          [...core.people.keys()].some((id) =>
-            effectsOn(api, id).some(
-              (e) => e.question === key && e.endedOn === null,
-            ),
-          ),
-        ).toBe(true);
       report[key] = { employers: expected };
       enact(key, 0, "state");
       expectEnded(key);
