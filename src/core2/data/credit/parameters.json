@@ -185,10 +185,14 @@
   },
   "creditMinimumLoanMinor": {
     "value": 100000,
-    "tag": "ESTIMATED",
-    "citation": "Banks' unsecured personal loans start at about $1,000 (published product minimums at large U.S. banks and credit unions).",
-    "estimatedFrom": "A common published minimum; the town bank's own product terms are not recorded.",
-    "stopgapId": "SG-WORLD-credit-minimum-loan"
+    "tag": "TUNABLE",
+    "citation": "FDIC 2011 Survey of Banks' Efforts to Serve the Unbanked and Underbanked, other products (https://www.fdic.gov/consumer-research/2011-bank-survey-results-other-products): of banks offering unsecured personal loans, 43% set no minimum and another 53% a minimum of $2,500 or less.",
+    "spread": {
+      "low": 0,
+      "high": 250000,
+      "unit": "cents, the smallest personal loan",
+      "citation": "FDIC 2011 Survey of Banks' Efforts to Serve the Unbanked and Underbanked, other products (https://www.fdic.gov/consumer-research/2011-bank-survey-results-other-products): of banks offering unsecured personal loans, 43% set no minimum and another 53% a minimum of $2,500 or less."
+    }
   },
   "creditResidentsCashMonths": {
     "value": 1,

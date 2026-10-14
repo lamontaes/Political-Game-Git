@@ -2491,7 +2491,10 @@
     "why": "Community banks' product terms are not in the data.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A sourced range of community-bank personal loan minimums (FDIC or call-report product data)."
+    "replacement": "A sourced range of community-bank personal loan minimums (FDIC or call-report product data).",
+    "status": "resolved",
+    "resolvedAt": "2026-10-14",
+    "resolution": "The minimum is a tunable figure inside the FDIC's 2011 bank survey range (no minimum at 43% of banks, $2,500 or less at another 53%), in the parameter table."
   },
   {
     "id": "SG-WORLD-property-tax-rate",
