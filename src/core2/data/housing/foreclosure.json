@@ -1,0 +1,10 @@
+{
+  "source": {
+    "tag": "SOURCED",
+    "citation": "12 CFR 1024.41(f)(1) (Regulation X); state foreclosure law from data/research/housing/foreclosure-steps-2026.json.",
+    "asOf": "2026-10-14"
+  },
+  "federalDelinquencyDays": 120,
+  "nationalTypicalDaysToComplete": 0,
+  "places": {}
+}

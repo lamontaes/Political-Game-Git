@@ -233,5 +233,17 @@
       "unit": "monthly income per month of rent",
       "citation": "HUD's 30 percent rent-burden standard; landlord screening at two and a half to three times the rent."
     }
+  },
+  "housingForeclosureSaleShare": {
+    "value": 0.73,
+    "tag": "ESTIMATED",
+    "citation": "A forced sale brings about 27 percent less than the home's value (Campbell, Giglio and Pathak 2011, American Economic Review 101(5), foreclosure discount in Massachusetts sales 1987-2009).",
+    "estimatedFrom": "one state's sales; national spread 20 to 30 percent",
+    "spread": {
+      "low": 0.7,
+      "high": 0.8,
+      "unit": "share of the home's value",
+      "citation": "Campbell, Giglio and Pathak 2011; Clauretie and Daneshvary 2009 (about 8 percent after controls)."
+    }
   }
 }

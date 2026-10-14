@@ -48,6 +48,12 @@ import {
 } from "../housing-prices";
 import { residentsRuntime } from "./residents";
 import {
+  countedOwnersBehind,
+  foreclosureRemoval,
+  foreclosureSale,
+  startForeclosures,
+} from "../housing-foreclosure";
+import {
   countedLate,
   countedOwed,
   nextDue,
@@ -698,17 +704,28 @@ function amortize(api: CoreAPI): void {
       requestedMinor: totals.requestedMinor,
       paidMinor: totals.paidMinor,
     });
+  // Counted owners behind: their group's housing arrears, least income first.
+  const behind = countedOwnersBehind(api);
   for (const row of store(api)
     .table("mortgages")
     .rows() as unknown as (MortgageTerms & {
     id: string;
+    missedMonths?: number;
+    foreclosedAt?: string;
   })[]) {
-    if (row.monthsLeft <= 0) continue;
-    // A full household's bill in arrears paid no principal this month (counted households pay from the pool).
+    if (row.monthsLeft <= 0 || row.foreclosedAt) continue;
+    // A full household's bill in arrears paid no principal this month; it counts toward the lender's patience.
     const bill = c.finance.contracts.get(row.id);
-    if (bill && !bill.endedAt && bill.arrearsMinor > 0) continue;
-    // A counted household's group short on housing paid no principal either.
-    if (!bill && countedHousingInArrears(c, row.householdId)) continue;
+    const late = bill
+      ? !bill.endedAt && bill.arrearsMinor > 0
+      : behind.has(row.householdId) &&
+        countedHousingInArrears(c, row.householdId);
+    if (late) {
+      store(api)
+        .table("mortgages")
+        .put({ ...row, missedMonths: (row.missedMonths ?? 0) + 1 });
+      continue;
+    }
     const interest = Math.round((row.balanceMinor * row.rate) / months);
     // Interest accrues in full; the balance falls only by what was paid past it (an unpaid part adds to it).
     const paidMinor = c.finance.contracts.has(row.id)
@@ -723,7 +740,7 @@ function amortize(api: CoreAPI): void {
         : 0;
     store(api)
       .table("mortgages")
-      .put({ ...row, balanceMinor: balance, monthsLeft });
+      .put({ ...row, balanceMinor: balance, monthsLeft, missedMonths: 0 });
     if (monthsLeft > 0) continue;
     if (c.finance.contracts.has(row.id)) api.endStandingContract(row.id);
     else {
@@ -1000,6 +1017,9 @@ function review(api: CoreAPI): void {
   rehouse(api);
   renew(api);
   amortize(api);
+  // Mortgages behind past the federal period go to the state's foreclosure.
+  for (const { caseId, saleAt } of startForeclosures(api, law.usps))
+    schedule(api, `sale:${caseId}`, saleAt, "housing-foreclosure-sale", caseId);
   billPropertyTax(
     api,
     store(api).table("assessments"),
@@ -1601,6 +1621,9 @@ export const HOUSING_MODULE: CoreModule = {
       projects: { indexes: { all: { fields: ["isProject"] } } },
       affordable: {},
       statuses: { indexes: { byPlace: { fields: ["placeId"] } } },
+      foreclosures: {
+        indexes: { openByMortgage: { fields: ["mortgageId", "open"] } },
+      },
       statusByPerson: {},
     },
   },
@@ -1613,6 +1636,28 @@ export const HOUSING_MODULE: CoreModule = {
     if (work.kind === "housing-review") {
       review(api);
       scheduleReview(api);
+    } else if (work.kind === "housing-foreclosure-sale") {
+      const caseId = work.sourceRecordIds[0]!;
+      const removalAt = foreclosureSale(api, caseId, steps(api).usps);
+      if (removalAt)
+        schedule(
+          api,
+          `foreclosure-removal:${caseId}`,
+          removalAt,
+          "housing-foreclosure-removal",
+          caseId,
+        );
+    } else if (work.kind === "housing-foreclosure-removal") {
+      const caseId = work.sourceRecordIds[0]!;
+      const row = store(api).table("foreclosures").get(caseId) as
+        { householdId: string; counted?: boolean } | undefined;
+      if (row && foreclosureRemoval(api, caseId))
+        placeRemovedHousehold(api, {
+          householdId: row.householdId,
+          caseId,
+          counted: Boolean(row.counted),
+          usps: steps(api).usps,
+        });
     } else step(api, work.sourceRecordIds[0]!, work.kind);
   },
   onDay(api) {
