@@ -3019,7 +3019,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
     "replacement": "When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the pin: a counted worker named in a public supplier agreement dies or moves like anyone else, and the agreement falls to the supplier's current product staff (finance-cash.ts productJobRelations)."
   },
   {
     "id": "SG-CORE-school-days",
