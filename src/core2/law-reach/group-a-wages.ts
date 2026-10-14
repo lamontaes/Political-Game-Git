@@ -142,15 +142,39 @@ export const raiseMinimumWage: PolicyHandler = (api, change) => {
     change.lawId,
     new Set(yes.map((l) => l.jurisdiction)),
   );
-  for (const level of yes)
+  for (const level of yes) {
+    // The $15 standard, or where the floor in force already meets it, the
+    // next step above that floor: a raise always raises.
+    const floor = governingWage(api, level.jurisdiction);
+    const step =
+      Math.ceil(
+        (floor * (1 + reachParameter("minimumWageNextStepShare"))) / 25,
+      ) * 25;
     setLevelWage(
       api,
       RAISE_KEY,
       level,
-      reachParameter("stateMinimumWageTargetMinor"),
+      Math.max(reachParameter("stateMinimumWageTargetMinor"), step),
       level.lawId,
     );
+  }
 };
+
+/**
+ * The minimum wage that governs at a level today: the highest floor of that
+ * level and every level above it in the town's chain (a city's own, its
+ * county's, its state's, the federal).
+ */
+function governingWage(api: CoreAPI, jurisdiction: string): number {
+  const levels = lawChain(api).levels;
+  const at = levels.findIndex((l) => l.jurisdiction === jurisdiction);
+  return Math.max(
+    0,
+    ...levels
+      .slice(0, at < 0 ? levels.length : at + 1)
+      .map((l) => levelWage(api, l.jurisdiction) ?? 0),
+  );
+}
 
 /**
  * The state lets its places set a minimum wage (or takes the power back):
