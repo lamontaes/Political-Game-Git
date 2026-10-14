@@ -29,6 +29,9 @@ Nothing on a screen of its own yet; the economy runs in every new game started w
   - Property tax rates and caps.
   - Electricity and fuel prices, transit fares, mileage fees, bottle deposits, public broadband and road condition.
   - Groundwater limits and clean-air compliance costs.
+- **Who moves away, and why (Oct 14):** each adult's pull to leave town comes from their own life: rent or mortgage against what the household earns, a job in another town, family they're close to living elsewhere, a death at home, and the region's jobs getting worse than the nation's. Nobody leaves by chance.
+- **Officials' aides (Oct 14):** officials hire people from around town who are of working age; out-of-town relatives are no longer hired as if they were out of work, and a hire from the wider population becomes a full person with their own past.
+- **Paychecks (Oct 14):** taxes come out by the law where the worker lives, and each paycheck's record says when the tax figures are estimates.
 - **Long games:** twenty years in drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`).
 
 ## Checklist
@@ -74,6 +77,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **Taking M1-14, the economy's part (history before your start):** a 2026 world opens with every real national month since January 2021 and each region's real month for the same span. Built on #3996.
 
 ## Helpers run
+
+- Oct 14, PR #4166: two Sonnet sub-agents on separate files. One fixed withholding (`budgets.ts` withhold, `tax-withholding.ts`, a new test; four stopgaps). The other ended closed organizations' law-reach rows (`group-b-store.ts`) and registered the wage credit-line stopgap (`residents.ts`), because a real draw needs a finance-engine entry (OPUS-CORE).
 
 - Eviction research (general-purpose): hearing and stay periods from official statute text for 40 places.
 - Fresh-eyes review (general-purpose): 12 findings, 11 fixed.
@@ -155,6 +160,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-14: stress-audit wiring (PR #4166). Moves read records, with no opening draw. Aides are people the records can place. Withholding follows the law where the worker lives. Voucher rows end on closure. Wage credit is a registered stopgap. A played year in a drawn Missouri town (seed `5f15bfc9bc43292720332b33c24634b5`) took 172 s: 65 departures, each with its pull's parts by record id; 28 aides, none from out of town, the oldest 57; withholding records tagged ESTIMATED from the law rows they read. Next: the CTO's laws-reach-the-economy and money and business audit items.
 
 - 2026-10-12: the town's largest employers belong to firms based outside it. At the opening, businesses go to outside owners in order of size until their share of the town's jobs reaches the state's estimated share in multi-unit firms (Census 2022: 61.7% nationally; states from SUSB 500+ firm shares, scaled); each month such a branch sends its parent the cash above its cushion, out of the profit it kept, and the parent closes a losing branch by its reasons. Also sped up counted hiring (an index of each counted person's job instead of a scan per hire): three years in Absecon 139 → 112 s after merging main (the merged trait-based job choices and core changes had taken it from about 100 to 136 s; the core alone is 53 s). Every dollar balances.
 - 2026-10-12: a counted worker who retires keeps an income: their place's retirees' flow from outside the town (Social Security and pensions) gains them at the average the place's opening retirees draw (stand-in `SG-WORLD-jobs-counted-retiree-income` until their own claim is modeled). Tried cutting staff at loss-making businesses for more layoffs; it changed nothing measurable (few businesses keep losses), so it's not kept. Absecon, three years: 2,578 jobs, 100 s, every dollar balances.
