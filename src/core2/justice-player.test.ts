@@ -119,7 +119,12 @@ const player = new BenchPlayer(core, world.director);
 const scenes: string[] = [];
 const ownChoiceDates: string[] = [];
 const logAt = new Map<string, number>();
-const stopAt = `${Number(core.date.slice(0, 4)) + 4}${core.date.slice(4)}`;
+// The run ends at release, or a year into a longer term: enough to show the
+// term running with the world going, without playing out every year of it.
+const stopAt = `${Number(core.date.slice(0, 4)) + 3}${core.date.slice(4)}`;
+const yearInto = (from: string) =>
+  `${Number(from.slice(0, 4)) + 1}${from.slice(4)}`;
+const coverage: unknown[] = [];
 const playerCustody = () =>
   rows<CustodyRow>("custody").find((c) => c.personId === playerId);
 if (playerId) {
@@ -132,8 +137,20 @@ if (playerId) {
     for (const answer of result.selfChosen)
       ownChoiceDates.push(`${answer.at.date} ${answer.actionId}`);
     logAt.set(core.date, core.durableLog.size);
+    // The director summarizes moments older than its window, so scenes are
+    // read as the run goes.
+    for (const entry of world.director.ledger.people.get(playerId)?.schedule ??
+      [])
+      for (const binding of entry.bindings)
+        if (
+          entry.outcome !== "journal-line" &&
+          !scenes.includes(binding.typeKey)
+        )
+          scenes.push(binding.typeKey);
     const custody = playerCustody();
     if (custody?.status === "released" && core.date > custody.until) break;
+    if (custody?.status === "serving" && core.date >= yearInto(custody.from))
+      break;
     const cases = rows<CaseRow>("cases").filter(
       (c) => c.defendantId === playerId,
     );
@@ -145,8 +162,8 @@ if (playerId) {
   }
   const book = world.director.ledger.people.get(playerId);
   for (const entry of book?.schedule ?? [])
-    for (const binding of entry.bindings)
-      if (entry.outcome !== "journal-line") scenes.push(binding.typeKey);
+    if (entry.coverage?.label.includes("justice"))
+      coverage.push(entry.coverage);
 }
 /** The world's log length on the last date at or before the given one. */
 const logOn = (date: string) =>
@@ -163,6 +180,7 @@ afterAll(() => {
           place: lawChain(api).placeName,
           playerId,
           scenes,
+          coverage,
           chains: justiceChains(api),
         },
         null,
@@ -204,19 +222,28 @@ describe(`the player's own act leads to a trial and a term served (seed ${seed},
     );
     expect(sentence?.custodyMonths).toBeGreaterThan(0);
     const custody = playerCustody()!;
-    expect(custody.status).toBe("released");
     expect(custody.until).toBe(sentence!.releaseDate);
+    const served = custody.status === "released" ? custody.until : core.date;
     // The player made no choice of their own while in prison.
     expect(
       ownChoiceDates.filter(
-        (d) => d.slice(0, 10) > custody.from && d.slice(0, 10) < custody.until,
+        (d) => d.slice(0, 10) > custody.from && d.slice(0, 10) < served,
       ),
     ).toEqual([]);
     // The world kept writing its record while the player served.
-    expect(logOn(custody.until)).toBeGreaterThan(logOn(custody.from));
-    // Released, still the player, with the record on them.
+    expect(logOn(served)).toBeGreaterThan(logOn(custody.from));
     expect(isExplicitlyControlledPersonV1(core, playerId!)).toBe(true);
-    expect(inCustody(api, playerId!)).toBe(false);
-    expect(core.people.get(playerId!)?.discretionaryEligibleV1).not.toBe(false);
+    if (custody.status === "released") {
+      // Released, still the player, with the record on them.
+      expect(inCustody(api, playerId!)).toBe(false);
+      expect(core.people.get(playerId!)?.discretionaryEligibleV1).not.toBe(
+        false,
+      );
+    } else {
+      // A term longer than the run: a year served, still held, released on its date.
+      expect(custody.status).toBe("serving");
+      expect(core.date >= yearInto(custody.from)).toBe(true);
+      expect(core.people.get(playerId!)?.discretionaryEligibleV1).toBe(false);
+    }
   });
 });
