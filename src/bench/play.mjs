@@ -1743,6 +1743,7 @@ const sheets = {
       el("p", { className: "version", textContent: await displayVersion() }),
     );
     const quit = el("button", { type: "button", textContent: "Quit to title" });
+    quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
     rows.push(quit);
     return rows;
