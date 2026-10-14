@@ -445,6 +445,24 @@
       "tag": "TUNABLE",
       "source": "Weight on a policy question the asking reporter holds a cause on, at full strength.",
       "spread": [0.2, 1]
+    },
+    "interestHeadWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far an editor's regard for someone asking (closeness, a grudge, how near their views sit) weighs in whether the outlet gives them an interview, beside newsworthiness (editors' access relationships with sources: Gans 1979, Deciding What's News; same scale as the owner's slantOwnerWeight).",
+      "spread": [0.1, 0.5]
+    },
+    "interestReadersWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of the share of an outlet's followers who have heard of someone asking for an interview (outlets cover who their audience follows: Gentzkow and Shapiro 2010).",
+      "spread": [0.2, 1]
+    },
+    "interviewAgainDays": {
+      "value": 28,
+      "tag": "TUNABLE",
+      "source": "Days before an outlet sits down again with an officeholder between races (a local beat reporter's monthly check-in with a council member or mayor).",
+      "spread": [14, 90]
     }
   }
 }

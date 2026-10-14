@@ -157,19 +157,27 @@ export interface InterviewRow {
   readonly id: string;
   readonly outletId: string;
   readonly candidateId: string;
-  readonly filingId: string;
-  readonly contestId: string;
+  /** The race's filing; null for an officeholder between races. */
+  readonly filingId: string | null;
+  readonly contestId: string | null;
   readonly askedBy: "candidate" | "outlet";
   readonly date: string;
   readonly status: "invited" | "declined" | "published";
-  /** Why it was declined: by the outlet (room, newsworthiness) or the candidate. */
+  /**
+   * Why it was declined: by the outlet (room, newsworthiness, its people's
+   * regard and its readers' interest) or the one asked.
+   */
   readonly reason:
     | "no-room"
     | "not-newsworthy"
+    | "not-interested"
     | "already-interviewed"
     | "race-over"
+    | "no-standing"
     | "candidate-declined"
     | null;
+  /** How the outlet weighed an ask (`outletInterest`), when one asked it. */
+  readonly interest?: OutletInterest | null;
   readonly questions: readonly string[];
   readonly answers: readonly InterviewAnswer[];
   readonly audience: number;
@@ -736,7 +744,46 @@ function contestOf(api: CoreAPI, contestId: string): ContestRow {
     .get(contestId) as unknown as ContestRow;
 }
 
-function platformOf(api: CoreAPI, filing: FilingRow): readonly Stance[] {
+/**
+ * Who an interview is with: a candidate on the ballot (their filing) or an
+ * officeholder between races (no filing; their party from the seat they
+ * hold).
+ */
+export interface Speaker {
+  readonly personId: string;
+  readonly party: string | null;
+  readonly filing: FilingRow | null;
+}
+
+function asSpeaker(who: FilingRow | Speaker): Speaker {
+  return "filing" in who
+    ? who
+    : { personId: who.personId, party: who.party ?? null, filing: who };
+}
+
+function servingTerms(api: CoreAPI, personId: string): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [personId]) as unknown as TermRow[]
+  ).filter((t) => t.status === "serving");
+}
+
+/** An officeholder as a speaker, or null for someone who holds no seat. */
+export function officeholderSpeaker(
+  api: CoreAPI,
+  personId: string,
+): Speaker | null {
+  const term = servingTerms(api, personId)[0];
+  return term ? { personId, party: term.party ?? null, filing: null } : null;
+}
+
+function platformOf(api: CoreAPI, who: FilingRow | Speaker): readonly Stance[] {
+  const filing = asSpeaker(who).filing;
+  // Between races there is no platform; the record and their views speak.
+  if (!filing) return [];
   const campaign = api.state.modules.has(CAMPAIGNS_MODULE_ID)
     ? (api
         .moduleState(CAMPAIGNS_MODULE_ID)
@@ -761,7 +808,37 @@ function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
  * heard of them, whether they hold the seat, and their share of the money
  * raised in the race.
  */
-export function newsworthiness(api: CoreAPI, filing: FilingRow): number {
+export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
+  const speaker = asSpeaker(who);
+  const filing = speaker.filing;
+  if (!filing) {
+    // An officeholder between races: who has heard of them, and the seat.
+    const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
+      ? api.moduleState(CAMPAIGNS_MODULE_ID)
+      : null;
+    const adults =
+      api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
+    // Each voter once, across the races they were met in.
+    const known = campaigns
+      ? new Set(
+          (
+            campaigns
+              .table("impressions")
+              .query("byCandidate", [
+                speaker.personId,
+              ]) as unknown as ImpressionRow[]
+          )
+            .filter((i) => i.heardOf)
+            .map((i) => i.voterId),
+        ).size / adults
+      : 0;
+    return (
+      Math.min(1, known) +
+      (servingTerms(api, speaker.personId).length
+        ? pressParameter("incumbentNewsworthiness")
+        : 0)
+    );
+  }
   const contest = contestOf(api, filing.contestId);
   const town = lawChain(api).townPlaceId;
   const adults = [...(api.state.peopleByPlace.get(town) ?? [])].length || 1;
@@ -801,13 +878,14 @@ export function newsworthiness(api: CoreAPI, filing: FilingRow): number {
 /** A candidate's public position on a question: what they've stated, else where they stand. */
 function statedPosition(
   api: CoreAPI,
-  filing: FilingRow,
+  who: FilingRow | Speaker,
   platform: readonly Stance[],
   question: string,
 ): number {
+  const { personId, party } = asSpeaker(who);
   return (
     platform.find((s) => s.question === question)?.position ??
-    candidateStance(api, filing.personId, filing.party ?? null, question) ??
+    candidateStance(api, personId, party, question) ??
     0
   );
 }
@@ -824,28 +902,24 @@ const concernCache = new WeakMap<
  */
 export function standingOn(
   api: CoreAPI,
-  filing: FilingRow,
+  who: FilingRow | Speaker,
   question: string,
 ): {
   position: number;
   from: "platform" | "vote" | "party" | "none";
   recordId: string | null;
 } {
-  const stated = platformOf(api, filing).find((s) => s.question === question);
+  const { personId, party } = asSpeaker(who);
+  const stated = platformOf(api, who).find((s) => s.question === question);
   if (stated)
     return { position: stated.position, from: "platform", recordId: null };
-  const vote = votesOf(api, filing.personId)
+  const vote = votesOf(api, personId)
     .filter((v) => v.stance.question === question)
     .at(-1);
   if (vote)
     return { position: vote.stance.position, from: "vote", recordId: vote.id };
   // Their own view blended with their party's (GOV's campaign stances).
-  const stance = candidateStance(
-    api,
-    filing.personId,
-    filing.party ?? null,
-    question,
-  );
+  const stance = candidateStance(api, personId, party, question);
   return stance === null
     ? { position: 0, from: "none", recordId: null }
     : { position: stance, from: "party", recordId: null };
@@ -894,7 +968,7 @@ function townConcern(api: CoreAPI, question: string): number {
  */
 export function interviewQuestions(
   api: CoreAPI,
-  filing: FilingRow,
+  who: FilingRow | Speaker,
   outlet?:
     | (Pick<OutletRow, "id" | "lean"> & Partial<Pick<OutletRow, "reporterIds">>)
     | null,
@@ -903,28 +977,36 @@ export function interviewQuestions(
   const add = (q: string | undefined, weight: number) => {
     if (q) score.set(q, (score.get(q) ?? 0) + weight);
   };
-  for (const p of promisesOf(api, filing.personId))
+  const speaker = asSpeaker(who);
+  const filing = speaker.filing;
+  const personId = speaker.personId;
+  for (const p of promisesOf(api, personId))
     if (p.status === "broken")
       add(p.promise.stance.question, pressParameter("brokenPromiseNewsWeight"));
-  const contest = contestOf(api, filing.contestId);
-  if (isIncumbent(api, contest, filing.personId))
-    for (const vote of votesOf(api, filing.personId).slice(
+  // The seat's record: the race's incumbent, or an officeholder between races.
+  const holds = filing
+    ? isIncumbent(api, contestOf(api, filing.contestId), personId)
+    : servingTerms(api, personId).length > 0;
+  if (holds)
+    for (const vote of votesOf(api, personId).slice(
       -pressParameter("recordVotesConsidered"),
     ))
       add(vote.stance.question, pressParameter("recordVoteNewsWeight"));
   // The candidate's party: a recorded vote against their party's side.
-  const side = partySide(filing.party);
+  const side = partySide(speaker.party);
   if (side)
-    for (const v of votesOf(api, filing.personId))
+    for (const v of votesOf(api, personId))
       if (
         Math.sign(v.stance.position) ===
         -side * Math.sign(questionAxis(v.stance.question))
       )
         add(v.stance.question, pressParameter("partyBreakNewsWeight"));
-  const own = platformOf(api, filing);
-  const rivals = ballot(api, filing.contestId).filter(
-    (f) => f.id !== filing.id && f.status === "on-ballot",
-  );
+  const own = platformOf(api, speaker);
+  const rivals = filing
+    ? ballot(api, filing.contestId).filter(
+        (f) => f.id !== filing.id && f.status === "on-ballot",
+      )
+    : [];
   const questions = [
     ...new Set([
       ...PLATFORM_QUESTIONS,
@@ -933,7 +1015,7 @@ export function interviewQuestions(
     ]),
   ].sort();
   const mine = new Map(
-    questions.map((q) => [q, statedPosition(api, filing, own, q)]),
+    questions.map((q) => [q, statedPosition(api, speaker, own, q)]),
   );
   // The asking outlet's readers: how far the candidate stands from the side
   // the outlet's line takes, on what its followers care about.
@@ -951,14 +1033,14 @@ export function interviewQuestions(
         q,
         (pressParameter("outletReadersNewsWeight") *
           care *
-          Math.abs(line - standingOn(api, filing, q).position)) /
+          Math.abs(line - standingOn(api, speaker, q).position)) /
           2,
       );
     }
   }
   // The asking reporter's own causes on a policy question.
   const reporterId = outlet?.reporterIds
-    ? reporterFor(api, outlet as OutletRow, filing.personId)
+    ? reporterFor(api, outlet as OutletRow, personId)
     : null;
   const reporter = reporterId ? api.state.people.get(reporterId) : undefined;
   if (reporter)
@@ -986,7 +1068,7 @@ export function interviewQuestions(
   // Asked before, on the record: less to learn from asking again.
   const asked = new Map<string, number>();
   for (const row of table(api, "interviews").query("byCandidate", [
-    filing.personId,
+    personId,
   ]) as unknown as InterviewRow[])
     if (row.status !== "declined")
       for (const q of row.questions) asked.set(q, (asked.get(q) ?? 0) + 1);
@@ -1017,22 +1099,110 @@ function already(api: CoreAPI, outletId: string, filingId: string) {
   ).some((i) => i.filingId === filingId && i.status !== "declined");
 }
 
+/** Whether an outlet talked with this person within the last stretch. */
+function talkedLately(api: CoreAPI, outletId: string, personId: string) {
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -pressParameter("interviewAgainDays"),
+  );
+  return (
+    table(api, "interviews").query("byCandidate", [
+      personId,
+    ]) as unknown as InterviewRow[]
+  ).some(
+    (i) =>
+      i.outletId === outletId && i.status !== "declined" && i.date >= since,
+  );
+}
+
 function record(api: CoreAPI, row: InterviewRow): InterviewRow {
   table(api, "interviews").put(row as unknown as ModuleRow);
   return row;
 }
 
+/** How an outlet weighs someone asking it for an interview. */
+export interface OutletInterest {
+  /** How newsworthy they are (`newsworthiness`). */
+  readonly worth: number;
+  /** The editor's regard for them, weighted. */
+  readonly head: number;
+  /** The owner's regard for them, weighted. */
+  readonly owner: number;
+  /** The share of the outlet's followers who have heard of them, weighted. */
+  readonly readers: number;
+  readonly total: number;
+}
+
 /**
- * A candidate asks an outlet for an interview. The outlet says yes while its
- * reporter has room this week, and a television station only for a
- * candidate newsworthy enough for airtime. A yes comes with its questions,
- * for the candidate to answer (`answerInterview`).
+ * How much an outlet wants to talk with someone who asks: how newsworthy
+ * they are, its editor's and owner's regard for them (closeness, a grudge,
+ * how near their views sit), and how many of its followers know who they
+ * are.
+ */
+export function outletInterest(
+  api: CoreAPI,
+  outlet: OutletRow,
+  speaker: Speaker,
+): OutletInterest {
+  const p = pressParameter;
+  const regardOf = (id: string | null) =>
+    id && api.state.people.get(id)?.alive
+      ? regard(api, p, id, speaker.personId)
+      : 0;
+  const worth = newsworthiness(api, speaker);
+  const head = p("interestHeadWeight") * regardOf(outlet.headId);
+  const owner = p("slantOwnerWeight") * regardOf(outlet.ownerId);
+  const followers = followersOf(api, outlet.id);
+  const heard =
+    followers.length && api.state.modules.has(CAMPAIGNS_MODULE_ID)
+      ? new Set(
+          (
+            api
+              .moduleState(CAMPAIGNS_MODULE_ID)
+              .table("impressions")
+              .query("byCandidate", [
+                speaker.personId,
+              ]) as unknown as ImpressionRow[]
+          )
+            .filter((i) => i.heardOf)
+            .map((i) => i.voterId),
+        )
+      : new Set<string>();
+  const readers =
+    p("interestReadersWeight") *
+    (followers.length
+      ? followers.filter((id) => heard.has(id)).length / followers.length
+      : 0);
+  return { worth, head, owner, readers, total: worth + head + owner + readers };
+}
+
+/**
+ * A candidate or an officeholder asks an outlet for an interview, at any
+ * time. A candidate asks with their filing; an officeholder between races
+ * with no filing. The outlet decides by its reads: a reporter with room this
+ * week, and its interest (`outletInterest`: how newsworthy they are, its
+ * editor's and owner's regard, its followers who know them) over its bar.
+ * A refusal is a record like a yes. A yes comes with its questions, for the
+ * one asked to answer (`answerInterview`).
  */
 export function requestInterview(
   api: CoreAPI,
-  input: { readonly filingId: string; readonly outletId: string },
+  input: {
+    readonly outletId: string;
+    readonly filingId?: string | null;
+    readonly personId?: string;
+  },
 ): InterviewRow {
-  return arrange(api, input.filingId, input.outletId, "candidate");
+  if (input.filingId)
+    return arrange(api, input.filingId, input.outletId, "candidate");
+  if (!input.personId)
+    throw new Error("An interview needs a filing or a person");
+  const speaker = officeholderSpeaker(api, input.personId) ?? {
+    personId: input.personId,
+    party: null,
+    filing: null,
+  };
+  return arrangeWith(api, speaker, input.outletId, "candidate");
 }
 
 function arrange(
@@ -1046,46 +1216,82 @@ function arrange(
     .table("filings")
     .get(filingId) as unknown as FilingRow;
   if (!filing) throw new Error(`No filing ${filingId}`);
+  return arrangeWith(api, asSpeaker(filing), outletId, askedBy);
+}
+
+function arrangeWith(
+  api: CoreAPI,
+  speaker: Speaker,
+  outletId: string,
+  askedBy: InterviewRow["askedBy"],
+): InterviewRow {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
   if (!outlet) throw new Error(`No outlet ${outletId}`);
-  const contest = contestOf(api, filing.contestId);
-  const worth = newsworthiness(api, filing);
+  const filing = speaker.filing;
+  const worth = newsworthiness(api, speaker);
+  const key = filing?.id ?? speaker.personId;
   const base = {
     // One row per ask: a second ask the same day never overwrites the first.
-    id: `interview:${outletId}:${filingId}:${api.state.date}:${
+    id: `interview:${outletId}:${key}:${api.state.date}:${
       (
         table(api, "interviews").query("byOutlet", [
           outletId,
         ]) as unknown as InterviewRow[]
-      ).filter((i) => i.filingId === filingId).length
+      ).filter((i) => (i.filingId ?? i.candidateId) === key).length
     }`,
     outletId,
-    candidateId: filing.personId,
-    filingId,
-    contestId: filing.contestId,
+    candidateId: speaker.personId,
+    filingId: filing?.id ?? null,
+    contestId: filing?.contestId ?? null,
     askedBy,
     date: api.state.date,
     questions: [] as string[],
     answers: [] as InterviewAnswer[],
     audience: 0,
     newsworthiness: worth,
-    reporterId: reporterFor(api, outlet, filing.personId),
+    reporterId: reporterFor(api, outlet, speaker.personId),
     storyId: null,
   };
-  const declined = (reason: InterviewRow["reason"]) =>
-    record(api, { ...base, status: "declined", reason });
-  if (contest.electionDate < api.state.date || filing.status !== "on-ballot")
-    return declined("race-over");
-  if (already(api, outletId, filingId)) return declined("already-interviewed");
+  const declined = (
+    reason: InterviewRow["reason"],
+    interest: OutletInterest | null = null,
+  ) => record(api, { ...base, status: "declined", reason, interest });
+  if (filing) {
+    if (
+      contestOf(api, filing.contestId).electionDate < api.state.date ||
+      filing.status !== "on-ballot"
+    )
+      return declined("race-over");
+    if (already(api, outletId, filing.id))
+      return declined("already-interviewed");
+  } else {
+    // Between races, only one who holds a seat has a record to be asked on.
+    if (!servingTerms(api, speaker.personId).length)
+      return declined("no-standing");
+    if (talkedLately(api, outletId, speaker.personId))
+      return declined("already-interviewed");
+  }
   if (weekCount(api, outletId) >= pressParameter("interviewsPerWeek"))
     return declined("no-room");
-  if (worth < newsworthyBar(outlet)) return declined("not-newsworthy");
+  // One who asks is weighed by the outlet's people and readers (a friend of
+  // the owner may get airtime their name alone would not); an outlet's own
+  // invitation was already its choice.
+  const bar = newsworthyBar(outlet);
+  const interest =
+    askedBy === "candidate" ? outletInterest(api, outlet, speaker) : null;
+  if (interest && interest.total < bar)
+    return declined(
+      worth < bar ? "not-newsworthy" : "not-interested",
+      interest,
+    );
+  if (!interest && worth < bar) return declined("not-newsworthy");
   return record(api, {
     ...base,
     status: "invited",
     reason: null,
-    questions: interviewQuestions(api, filing, outlet),
+    interest,
+    questions: interviewQuestions(api, speaker, outlet),
   });
 }
 
@@ -1151,7 +1357,7 @@ export function answerInterview(
     throw new Error(`No interview waiting: ${interviewId}`);
   // stopgapId: SG-PEOPLE-press-interview-conversation
   api.stopgap("SG-PEOPLE-press-interview-conversation");
-  const filing = filingOf(api, row.filingId);
+  const speaker = speakerOf(api, row);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
     const position =
@@ -1160,7 +1366,7 @@ export function answerInterview(
         : Math.max(-1, Math.min(1, answer.position));
     const move: InterviewMove = answer?.move ?? "plain";
     // The record the answer rests on, or that it contradicts.
-    const truth = standingOn(api, filing, question);
+    const truth = standingOn(api, speaker, question);
     return {
       question,
       position,
@@ -1171,11 +1377,22 @@ export function answerInterview(
   return publish(api, row, given);
 }
 
-function filingOf(api: CoreAPI, filingId: string): FilingRow {
-  return api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("filings")
-    .get(filingId) as unknown as FilingRow;
+/** Who an interview row is with: the filing's candidate, else the officeholder. */
+function speakerOf(api: CoreAPI, row: InterviewRow): Speaker {
+  if (row.filingId) {
+    const filing = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .get(row.filingId) as unknown as FilingRow;
+    return asSpeaker(filing);
+  }
+  return (
+    officeholderSpeaker(api, row.candidateId) ?? {
+      personId: row.candidateId,
+      party: null,
+      filing: null,
+    }
+  );
 }
 
 const MOVE_WEIGHT: Readonly<Record<InterviewMove, string>> = {
@@ -1194,7 +1411,7 @@ function publish(
   const statements: Stance[] = answers.flatMap((a) =>
     a.position === null ? [] : [{ question: a.question, position: a.position }],
   );
-  campaignFor(api, row.filingId);
+  if (row.filingId) campaignFor(api, row.filingId);
   const outlet = table(api, "outlets").get(
     row.outletId,
   ) as unknown as OutletRow;
@@ -1250,16 +1467,21 @@ function publish(
     pressParameter("interviewWeight") *
     carry *
     Math.max(0, 1 + (printed?.slant ?? 0));
-  const causes = makeStatements(api, {
-    filingId: row.filingId,
-    venue: row.outletId,
-    statements,
-    audienceIds: audience,
-    act: "interview",
-    weight,
-    faceToFace: false,
-  });
+  // A candidate's words reach the race's voters as campaign statements;
+  // an officeholder's between races reach readers through the story alone.
+  const causes = row.filingId
+    ? makeStatements(api, {
+        filingId: row.filingId,
+        venue: row.outletId,
+        statements,
+        audienceIds: audience,
+        act: "interview",
+        weight,
+        faceToFace: false,
+      })
+    : [];
   let storyId: string | null = null;
+  let reached = causes.length;
   if (said && reporterId && api.state.people.has(reporterId)) {
     const story = printItem(
       api,
@@ -1286,12 +1508,13 @@ function publish(
       },
     );
     storyId = story.id;
+    if (!row.filingId) reached = story.receivedNamed;
   }
   const done: InterviewRow = {
     ...row,
     status: "published",
     answers,
-    audience: causes.length,
+    audience: reached,
     reporterId,
     storyId,
   };
@@ -1338,7 +1561,7 @@ function publish(
       interviewId: row.id,
       outletId: row.outletId,
       candidateId: row.candidateId,
-      contestId: row.contestId,
+      ...(row.contestId ? { contestId: row.contestId } : {}),
       answered: String(statements.length),
       declined: String(answers.length - statements.length),
       ...(storyId ? { storyId } : {}),
@@ -1446,19 +1669,15 @@ function checkClaim(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 export function candidateAnswers(
   api: CoreAPI,
   questions: readonly string[],
-  filing: FilingRow,
+  who: FilingRow | Speaker,
 ): readonly InterviewAnswer[] {
-  const platform = platformOf(api, filing);
+  const { personId, party } = asSpeaker(who);
+  const platform = platformOf(api, who);
   return questions.map((question) => {
     const stated = platform.find((s) => s.question === question);
     if (stated) return { question, position: stated.position, move: "plain" };
     // Their own view blended with their party's; none only with neither.
-    const stance = candidateStance(
-      api,
-      filing.personId,
-      filing.party ?? null,
-      question,
-    );
+    const stance = candidateStance(api, personId, party, question);
     return {
       question,
       position: stance === null ? null : Math.round(stance * 1000) / 1000,
@@ -1916,6 +2135,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     for (const row of interviewsFor(api, playerId))
       if (
         row.status === "invited" &&
+        row.contestId &&
         contestOf(api, row.contestId).electionDate < api.state.date
       )
         refuse(api, row);
