@@ -12,6 +12,12 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Ruled, October 14, 2026 (evening)
 
+- **The world has a past.** History does not start on the day the player generates in. Laws in force carry their enactment history; the prior election for every seat exists with its campaign facts; officials have voting records from the prior term; the year before day one has a news archive; two seeds in one place produce different, recognizable pasts.
+- **Public figures are known.** Everyone knows what the public knows about the president, the vice president, their governor, their representative and their mayor (positions, record, reputation), distinct from having met them; "you have never met" is never the only line.
+- **The player's own context:** parents, their relationship, siblings, where the family came from and a few remembered moments are kept facts the journal and dossier render from day one.
+- **Standard for the morning build:** the behind-the-scenes logic makes sense and every system works as intended; what remains is graphics, English and the human feel. The player can run for office, debate, read the news.
+- **English calibration** may draw on everything readable (the web, books, Claude's own documents) to sound natural; nothing ships in dev speak.
+
 - **The player casts their own ballot** (owner, Oct 13: "you should be able to cast your vote"); the engine never votes for the player, and a candidate's own ballot is theirs to cast.
 - **A yes-or-no vote resolves from a sliding score** (CTO, from the sliding-scales rule, which governs causes, not the final yes or no): a deal offered to someone already in favor counts as accepted.
 - **Filing under a party** requires being a member (joining reads the person's views against the party's positions, per the register's votes-from-principles ruling) or filing as an independent where the place allows it.
