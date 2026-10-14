@@ -2180,7 +2180,20 @@ const groups = {
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
+/** Whether the player holds an office: a seat on a body, or an office job. */
+async function holdsOffice() {
+  const [seat, office] = await Promise.all([
+    api(`/api/seat?id=${encodeURIComponent(me.id)}`),
+    api(`/api/office?id=${encodeURIComponent(me.id)}`),
+  ]);
+  return seat.bodies.length > 0 || office.jobs.length > 0;
+}
 async function openSheet(tab) {
+  // Your office is not shown at all until the player holds an office.
+  const hidden = new Set();
+  if (groupOf(tab) === "politics" && !(await holdsOffice()))
+    hidden.add("office");
+  if (hidden.has(tab)) tab = homeTab[groupOf(tab)];
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
@@ -2188,15 +2201,17 @@ async function openSheet(tab) {
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
   $("sheet-tabs").replaceChildren(
-    ...(groups[group] ?? []).map((name) => {
-      const b = el("button", {
-        type: "button",
-        className: `tab${name === tab ? " on" : ""}`,
-        textContent: titles[name],
-      });
-      b.addEventListener("click", () => openSheet(name));
-      return b;
-    }),
+    ...(groups[group] ?? [])
+      .filter((name) => !hidden.has(name))
+      .map((name) => {
+        const b = el("button", {
+          type: "button",
+          className: `tab${name === tab ? " on" : ""}`,
+          textContent: titles[name],
+        });
+        b.addEventListener("click", () => openSheet(name));
+        return b;
+      }),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
