@@ -5,35 +5,25 @@
  * causes, compliance and outside-cost records, payroll and profit taxes, the
  * regional price level, credit lines drawn, and a business's books record.
  *
- * node --import tsx src/core2/tooling/world-business-year.ts <seed> [placeKey] [days]
+ * node --import tsx scripts/world-proofs/world-business-year.ts <seed> [placeKey] [days]
  */
-import { createHash } from "node:crypto";
 import { performance } from "node:perf_hooks";
-import { buildBenchWorld } from "../../bench/world";
-import { placeLocalities, placeStateKeys } from "../places";
-import { gameStartDate } from "../game-start";
-import { advanceCore } from "../life";
-import { coreAPI } from "../state";
-import { JOBS_MODULE_ID } from "../modules/jobs";
-import { BUSINESS_MODULE_ID } from "../modules/business";
-import { EMPLOYER_TAXES_MODULE_ID } from "../modules/employer-taxes";
-import { regionalLevel } from "../modules/regional";
-import { lawChain } from "../modules/laws";
-import { businessBooksView } from "../business-books-view";
+import { buildBenchWorld } from "../../src/bench/world";
+import { gameStartDate } from "../../src/core2/game-start";
+import { advanceCore } from "../../src/core2/life";
+import { coreAPI } from "../../src/core2/state";
+import { JOBS_MODULE_ID } from "../../src/core2/modules/jobs";
+import { BUSINESS_MODULE_ID } from "../../src/core2/modules/business";
+import { EMPLOYER_TAXES_MODULE_ID } from "../../src/core2/modules/employer-taxes";
+import { regionalLevel } from "../../src/core2/modules/regional";
+import { lawChain } from "../../src/core2/modules/laws";
+import { businessBooksView } from "../../src/core2/business-books-view";
+
+import { drawPlace } from "../../tests/golden-path/place";
 
 const seed = process.argv[2] ?? `${Date.now()}`;
-function drawPlace(from: string): string {
-  const hash = createHash("sha256")
-    .update(`${from}:world-business`)
-    .digest("hex");
-  const states = [...placeStateKeys()].sort((a, b) => a.localeCompare(b));
-  const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
-  const places = [...placeLocalities(state)].sort((a, b) =>
-    a.key.localeCompare(b.key),
-  );
-  return places[parseInt(hash.slice(8, 16), 16) % places.length]!.key;
-}
-const placeKey = process.argv[3] || drawPlace(seed);
+// A place drawn from all 56 by the seed, as the golden-path runner draws.
+const placeKey = process.argv[3] || drawPlace(seed, "world-business").key;
 const days = Number(process.argv[4] ?? 365);
 const start = gameStartDate();
 
