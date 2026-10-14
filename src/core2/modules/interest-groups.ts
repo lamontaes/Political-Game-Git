@@ -27,7 +27,9 @@ import {
   registerLegislatureHooks,
   type BillRow,
 } from "./legislature";
-import { personLean, personStance } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { registerStanceListener, viewOf, viewOn } from "./views";
+import { makeCase } from "./speech";
 import { concerns, meetingParameter } from "./meetings";
 import { parameter } from "../parameters";
 import type { PersonState } from "../types";
@@ -229,6 +231,7 @@ function organize(api: CoreAPI, billId: string): void {
   );
   const share =
     memberOrgs.filter((id) => costs.has(id)).length / Math.max(1, costs.size);
+  const question = billQuestionOf(api, b);
   for (const member of lobbied(api, b)) {
     const memberId = member.personId ?? `official:${member.id}`;
     const meeting: LobbyMeeting = {
@@ -241,9 +244,22 @@ function organize(api: CoreAPI, billId: string): void {
       annualCostMinor: annual,
       share,
     };
+    const first = !table(api, "meetings").get(meeting.id);
     table(api, "meetings").put(meeting as unknown as ModuleRow);
-    if (group.lobbyistId && member.personId)
+    if (group.lobbyistId && member.personId) {
       api.relationship(group.lobbyistId, member.personId, "contact", 0.1);
+      // The lobbyist makes the employers' case against the bill.
+      if (first && question)
+        makeCase(api, {
+          id: `case:${meeting.id}`,
+          speakerId: group.lobbyistId,
+          listenerIds: [member.personId],
+          placeId: lawChain(api).townPlaceId,
+          topic: question.question,
+          desiredChange: question.position > 0 ? "repeal" : "enact",
+          citation: `Lobbying visit on ${b.number}`,
+        });
+    }
   }
 }
 
@@ -377,25 +393,21 @@ const ageOn = (p: Readonly<PersonState>, date: string) =>
 
 /**
  * Residents organize over a bill: each feels its pull by how strongly they
- * stand on its question, more where it touches their own life (their work,
- * children at home, age, housing), and joins the group on their side when
- * that pull and their own traits toward joining clear the bar. A group forms once
- * enough have joined, recruits on every later bill on its question, names
- * the member most willing to speak for it, and meets the members who vote.
+ * stand on its question today (the views engine), more where it touches
+ * their own life (their work, children at home, age, housing), and joins the
+ * group on their side of the question when that pull and their own traits
+ * toward joining clear the bar. Joining one side leaves the other. A group
+ * forms once enough have joined, recruits on every later bill on its
+ * question, names the member most willing to speak for it, and meets the
+ * members who vote; its speaker makes the group's case to each one.
  */
 function organizeResidents(api: CoreAPI, b: BillRow): void {
-  const local =
-    !b.bodyOfficeId.includes(":legislature-") &&
-    !b.bodyOfficeId.includes(":us-");
-  const stance =
-    b.provisions
-      .filter((p) => p.kind === "policy-question")
-      .map((p) => provisionStance(api, p, local ? "city" : "state"))
-      .find((row) => row !== null) ?? null;
+  const stance = billQuestionOf(api, b, "policy-question");
   if (!stance) return;
   const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
   const date = api.state.date;
+  // Each resident's view on the question itself (+ for it, - against it).
   const feeling = [...(state.peopleByPlace.get(town) ?? [])]
     .map((id) => state.people.get(id))
     .filter(
@@ -405,16 +417,14 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((p) => ({
       p,
-      view:
-        personStance(personLean(state.people, p, 0), stance.question) *
-        stance.position,
+      view: viewOn(api, p.id, stance.question, personLean(state.people, p, 0)),
       touches: concerns(api, p)(stance.question),
     }))
     .filter((row) => row.view !== 0);
   for (const side of [1, -1]) {
     const onSide = feeling.filter((row) => Math.sign(row.view) === side);
     if (!onSide.length) continue;
-    const groupId = `group:${town}:${stance.question}:${side > 0 ? "for" : "against"}`;
+    const groupId = groupIdFor(town, stance.question, side);
     const organizationId = `organization:${groupId}`;
     const existing = table(api, "groups").get(groupId) as unknown as
       GroupRow | undefined;
@@ -422,16 +432,7 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
     const joining = onSide.filter(
       (row) =>
         !joined.has(row.p.id) &&
-        Math.abs(row.view) *
-          (1 + meetingParameter("lifeConcernWeight") * (row.touches ? 1 : 0)) +
-          parameter("traitDecisionWeight") *
-            decisionLean(
-              state,
-              row.p,
-              "interest-groups.member-join",
-              "join",
-              "stay-out",
-            ) >=
+        joinPull(api, row.p, row.view * side, row.touches) >=
           campaignParameter("groupJoinBar"),
     );
     if (!existing && joining.length < campaignParameter("groupFoundingMembers"))
@@ -450,10 +451,19 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
           asOf: date,
         },
       });
-    for (const row of joining) api.join(row.p.id, organizationId);
-    const memberIds = [...joined, ...joining.map((row) => row.p.id)].sort();
+    for (const row of joining)
+      joinSide(api, row.p.id, town, stance.question, side);
+    const group = table(api, "groups").get(groupId) as unknown as
+      GroupRow | undefined;
+    const memberIds = [
+      ...new Set([
+        ...(group?.memberPersonIds ?? []),
+        ...joining.map((row) => row.p.id),
+      ]),
+    ].sort();
     const speaker =
       existing?.lobbyistId &&
+      memberIds.includes(existing.lobbyistId) &&
       state.people.get(existing.lobbyistId)?.alive &&
       lobbyingBarredUntil(api, existing.lobbyistId) === null
         ? existing.lobbyistId
@@ -475,7 +485,7 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
                 Math.abs(y.view) - Math.abs(x.view) ||
                 x.p.id.localeCompare(y.p.id),
             )[0]?.p.id ?? null);
-    const group: GroupRow = {
+    table(api, "groups").put({
       id: groupId,
       organizationId,
       interest: stance.question,
@@ -484,14 +494,15 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
       memberOrganizationIds: [],
       memberPersonIds: memberIds,
       lobbyistId: speaker,
-    };
-    table(api, "groups").put(group as unknown as ModuleRow);
+    } satisfies GroupRow as unknown as ModuleRow);
     // The group speaks for its share of the residents on its side.
     const share = memberIds.length / Math.max(1, onSide.length);
     for (const member of lobbied(api, b)) {
       const memberId = member.personId ?? `official:${member.id}`;
+      const id = `lobby:${groupId}:${b.id}:${memberId}`;
+      const first = !table(api, "meetings").get(id);
       table(api, "meetings").put({
-        id: `lobby:${groupId}:${b.id}:${memberId}`,
+        id,
         groupId,
         billId: b.id,
         memberId,
@@ -499,13 +510,149 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
         date,
         annualCostMinor: 0,
         share: Math.min(1, share),
-        side,
+        // Its way on the bill: its side of the question times the bill's.
+        side: side * stance.position,
       } satisfies LobbyMeeting as unknown as ModuleRow);
-      if (speaker && member.personId && speaker !== member.personId)
+      if (speaker && member.personId && speaker !== member.personId) {
         api.relationship(speaker, member.personId, "contact", 0.1);
+        if (first)
+          makeCase(api, {
+            id: `case:${id}`,
+            speakerId: speaker,
+            listenerIds: [member.personId],
+            placeId: town,
+            topic: stance.question,
+            desiredChange: side > 0 ? "enact" : "repeal",
+            citation: `Lobbying visit on ${b.number}`,
+          });
+      }
     }
   }
 }
+
+/** The bill's first policy question, and which way the bill takes it. */
+function billQuestionOf(
+  api: CoreAPI,
+  b: BillRow,
+  kind?: string,
+): { question: string; position: number } | null {
+  const local =
+    !b.bodyOfficeId.includes(":legislature-") &&
+    !b.bodyOfficeId.includes(":us-");
+  return (
+    b.provisions
+      .filter((p) => !kind || p.kind === kind)
+      .map((p) => provisionStance(api, p, local ? "city" : "state"))
+      .find((row) => row !== null) ?? null
+  );
+}
+
+const groupIdFor = (town: string, question: string, side: number) =>
+  `group:${town}:${question}:${side > 0 ? "for" : "against"}`;
+
+/** How hard a side of a question pulls a resident: their view toward it, their stake, and their traits toward joining. */
+function joinPull(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  toward: number,
+  touches: boolean,
+): number {
+  return (
+    Math.max(0, toward) *
+      (1 + meetingParameter("lifeConcernWeight") * (touches ? 1 : 0)) +
+    parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        person,
+        "interest-groups.member-join",
+        "join",
+        "stay-out",
+      )
+  );
+}
+
+/** Take a resident out of a side's group (no-op if they are not in it). */
+function leaveSide(
+  api: CoreAPI,
+  personId: string,
+  town: string,
+  question: string,
+  side: number,
+): boolean {
+  const groupId = groupIdFor(town, question, side);
+  const group = table(api, "groups").get(groupId) as unknown as
+    GroupRow | undefined;
+  if (!group?.memberPersonIds?.includes(personId)) return false;
+  table(api, "groups").put({
+    ...group,
+    memberPersonIds: group.memberPersonIds.filter((id) => id !== personId),
+    lobbyistId: group.lobbyistId === personId ? null : group.lobbyistId,
+  } as unknown as ModuleRow);
+  api.leave(personId, group.organizationId);
+  return true;
+}
+
+/** A resident joins a side's group, leaving the other side's: no one belongs to both. */
+function joinSide(
+  api: CoreAPI,
+  personId: string,
+  town: string,
+  question: string,
+  side: number,
+): void {
+  leaveSide(api, personId, town, question, -side);
+  const groupId = groupIdFor(town, question, side);
+  const group = table(api, "groups").get(groupId) as unknown as
+    GroupRow | undefined;
+  if (group && !group.memberPersonIds?.includes(personId))
+    table(api, "groups").put({
+      ...group,
+      memberPersonIds: [...(group.memberPersonIds ?? []), personId].sort(),
+    } as unknown as ModuleRow);
+  api.join(personId, `organization:${groupId}`);
+}
+
+/**
+ * Membership follows the view, on the day it moves: a member whose view on
+ * the group's question has crossed to the other side, by a margin that
+ * slides with how closely they follow politics (the engaged hold on longer),
+ * leaves; they join the other side's group if its pull clears the bar.
+ */
+function reviewMember(api: CoreAPI, personId: string, question: string): void {
+  if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
+  const town = lawChain(api).townPlaceId;
+  const person = api.state.people.get(personId);
+  if (!person?.alive) return;
+  for (const side of [1, -1]) {
+    const group = table(api, "groups").get(
+      groupIdFor(town, question, side),
+    ) as unknown as GroupRow | undefined;
+    if (!group?.memberPersonIds?.includes(personId)) continue;
+    const view = viewOn(
+      api,
+      personId,
+      question,
+      personLean(api.state.people, person, 0),
+    );
+    const margin =
+      campaignParameter("groupLeaveMargin") *
+      (1 + (viewOf(api, personId)?.engagement ?? 0));
+    if (view * side >= -margin) return;
+    leaveSide(api, personId, town, question, side);
+    const other = table(api, "groups").get(
+      groupIdFor(town, question, -side),
+    ) as unknown as GroupRow | undefined;
+    if (
+      other &&
+      joinPull(api, person, -view * side, concerns(api, person)(question)) >=
+        campaignParameter("groupJoinBar")
+    )
+      joinSide(api, personId, town, question, -side);
+    return;
+  }
+}
+
+registerStanceListener(reviewMember);
 
 export function groupsHere(api: CoreAPI): readonly GroupRow[] {
   return table(api, "groups").rows() as unknown as GroupRow[];

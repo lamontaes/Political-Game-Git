@@ -1099,11 +1099,11 @@
     "file": "src/core2/modules/voting.ts",
     "line": 1517,
     "whatItFakes": "In a nonpartisan or local race, voters the world doesn't name vote as lean bands around the place's lean, sized from the town's population times the 2024 share of people who voted, each band voting with its named people. (Partisan state and federal races now count them in blocks: src/core2/electorate-blocks.ts.) The figures are researched: 0.46 of residents vote on a presidential date, scaled by cycle (midterm 0.72, off-cycle 0.39; Hajnal and Green 2024); what stays a stand-in is the local groups themselves.",
-    "why": "CORE's voter groups exist as a table but generated worlds don't populate them yet.",
+    "why": "CORE's voter groups exist as a table but generated worlds don't populate them yet. Resolved by the one-electorate change (owner, Oct 14, 2026): the lean bands and the group store are deleted; the rest of a local race's electorate (the town's population past its counted residents) votes on the counted residents' own engine (src/core2/electorate.ts countPlaces), and no race sizes its electorate from a share of population any more.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "CORE's populated voter groups (counts by place, age, job and household, with lean and turnout), each voting as a group.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-who-runs-stand-in",
@@ -1231,8 +1231,8 @@
     "id": "SG-GOV-world-race-lean",
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
-    "line": 611,
-    "whatItFakes": "A race the town doesn't vote in is counted in its blocks of simulated voters (a House district's, the state's counties', a legislative district's) on the same engine as the town's races, but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
+    "line": 682,
+    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
     "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
@@ -1353,11 +1353,11 @@
     "file": "src/core2/opening-voter-groups.ts",
     "line": 1,
     "whatItFakes": "Counted adults in the town vote as one group per age band: eligible voters are the count times the place's ACS 2020–2024 citizen share of adults blended with the state's CPS 2024 share for the band, turnout is the state's CPS 2024 citizen turnout (national rows where no state row exists, as for the island areas), and every group starts with its county's 2024 presidential two-party margin as its lean (the state's in Alaska, which reports by house district).",
-    "why": "In a two-level town only about 60 named people vote individually; elections need the counted population to vote from its own records (PLAY's report on GOV's elections).",
+    "why": "In a two-level town only about 60 named people vote individually; elections need the counted population to vote from its own records (PLAY's report on GOV's elections). Resolved by the one-electorate change (owner, Oct 14, 2026): the groups are deleted; every counted adult votes from their own record and place in the town's lean order (src/core2/electorate.ts), counted votes are scaled by the place's ACS citizen share (src/core2/electorate-places.ts citizenShareOf), and CPS 2024 turnout is a check in src/core2/electorate.test.ts, not an input.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Residents' own views (PEOPLE's views engine) set each group's lean, refined by GOV's elections; each counted person's own citizenship once the counts record it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-A-leave-claims",
@@ -2302,11 +2302,11 @@
     "file": "src/core2/jobs-benefits.ts",
     "line": 60,
     "whatItFakes": "Every state's unemployment insurance pays half the lost weekly pay up to $611 a week for 26 weeks after one waiting week, with a $2,775 base-period minimum (the states' medians).",
-    "why": "Each state's own terms are law in force on OPUS-GOV's branch (lawInForce(api, \"unemployment-insurance\")), not yet on this one.",
+    "why": "Resolved by OPUS-GOV (2026-10-14): jobs-benefits.ts reads lawInForce directly, no stand-in. Was: each state's own terms are law in force on OPUS-GOV's branch (lawInForce(api, \"unemployment-insurance\")), not yet on this one.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerUnemploymentTerms with the state's terms from lawInForce once the laws module is on the same branch.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-business-applies",
@@ -2745,18 +2745,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-opening-without-speech",
-    "kind": "player-text-gap",
-    "file": "src/bench/opening.ts",
-    "line": 10,
-    "whatItFakes": "The opening cuts from the President to each level of government and then home with only each holder’s title and name; the President’s speech that should carry it is missing.",
-    "why": "The speech’s words must come from the English engine, built from real inaugural and State of the Union addresses, which is not on the new core yet.",
-    "addedBy": "OPUS-PLAY",
-    "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE’s speech writer reading the world’s real numbers; the opening plays its lines over these shots.",
-    "status": "open"
-  },
-  {
     "id": "SG-PLAY-doors-fill-in",
     "kind": "faked-mechanic",
     "file": "src/bench/campaign.ts",
@@ -2999,8 +2987,8 @@
     "id": "SG-GOV-electorate-approval",
     "kind": "missing-data",
     "file": "src/core2/electorate-inputs.ts",
-    "line": 100,
-    "whatItFakes": "The national mood that moves every block's vote for the president's party is read from the national economy since the opening (unemployment and inflation) and the midterm penalty, with no presidential approval behind it.",
+    "line": 274,
+    "whatItFakes": "The national mood that moves every voter's choice for the president's party is read from the national economy since the opening (unemployment and inflation) and the midterm penalty, with no presidential approval behind it.",
     "why": "No engine records the president's approval yet (the executive's record and the public's view of it).",
     "addedBy": "SIM-ELECTORATE",
     "addedAt": "2026-10-13",
@@ -3053,6 +3041,66 @@
     "addedBy": "PEOPLE",
     "addedAt": "2026-10-13",
     "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-cause-group-ads-only",
+    "kind": "cause-group-spending",
+    "file": "src/core2/modules/drives.ts",
+    "line": 1,
+    "whatItFakes": "A cause group spends its money only on ad time, bought through the campaigns engine's ad purchase; it holds no events, sends no mailers and pays none of a cause's own costs.",
+    "why": "Stress audit defect 2 (Oct 14): groups took donations and never spent them. The ad purchase was the one existing way to buy reach.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "A group chooses among the reach it can buy (events, mailers, press) and a cause's costs (a lawyer, a petition drive where the golden path needs one), read from its members' plans.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-closeness-gov-raw-reads",
+    "kind": "closeness-read",
+    "file": "src/core2/closeness.ts",
+    "line": 1,
+    "whatItFakes": "candidacy.ts (incumbent tie) and legislature.ts (two member ties) still read a relationship's stored level, the closeness at the last contact, instead of today's faded closeness (closenessBetween).",
+    "why": "Stress audit defect 21 (Oct 14). Every other engine now reads closenessBetween; those two files belong to gov/wiring-votes-and-views this round and OPUS-CORE may not edit them.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PLAY-dev-law-reach-full-only",
+    "kind": "missing-core-api",
+    "file": "src/bench/dev-mode.ts",
+    "line": 349,
+    "whatItFakes": "Dev mode's count of who a law reached reads only the law-effects, law-reach and law raise records that name the law: full people by id, counted people where a record names one or carries a count. A law's effect that leaves no record naming it is not counted.",
+    "why": "The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-dev-public-salary-floor",
+    "kind": "owner-decision",
+    "file": "src/bench/dev-mode.ts",
+    "line": 707,
+    "whatItFakes": "Dev mode's public-salary base raises every public job paid under it once, through rerateJob and the law-reach teacher floor's daily-pay arithmetic; it is not a standing law, so a public job filled later is not held to it except where the employer's pay for a new hire follows its raised staff.",
+    "why": "No law series in the catalog sets every public worker's pay; whether a public-salary base is a law at each level or a budget line is the owner's call. Resolved by OPUS-PLAY (2026-10-14): the CTO ruled a public-salary base is a standing law; the public pay floor law series (src/core2/public-pay-floor.ts) replaces the one-time raise, and dev mode's experiment passes that law.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: a public-salary-floor law series read by the law-reach engine (OPUS-GOV), generalizing the teacher floor to read the law's value and every public employer, after which the experiment becomes a law step.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-public-pay-floor-owner",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/laws.ts",
+    "line": 471,
+    "whatItFakes": "The public pay floor law was added by OPUS-PLAY in the GOV-owned law engine: its employer-to-level map is a first cut (public schools count as town employers), a later public hire is held to the floor at the next monthly review rather than on the day it is hired, and no bill catalog entry yet lets a legislature draft it.",
+    "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "OPUS-GOV owns the series: a bill catalog provision so councils and legislatures can pass it, school districts as their own level, and the hiring engines reading the floor when they set a new public hire's pay.",
     "status": "open"
   },
   {

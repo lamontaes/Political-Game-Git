@@ -489,6 +489,28 @@ describe("a closure names its owner", () => {
 const api = (core: CoreState) => coreAPI(core);
 
 describe("closing by choice", () => {
+  it("weighs the owner's exact age: born late in the year, a year younger before the birthday", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE],
+        scheduledWork: false,
+      }),
+      api = coreAPI(core);
+    books(core);
+    advanceCore(core, "2021-01-15");
+    // 62 on 2021-02-01 by the calendar (turns 63 on 2021-12-31), though 2021 minus 1958 is 63.
+    core.people.get("owner")!.birthDate = "1958-12-31";
+    const owners = api.moduleState("business").table("owners");
+    const row = owners.get(shop)!;
+    owners.put({ ...row, retainedMinor: -15_000_000 });
+    advanceCore(core, "2021-02-02");
+    const choice = api
+      .moduleState("business")
+      .table("choices")
+      .get(`choice:${shop}:2021-02-01`) as { values: Record<string, number> };
+    expect(choice.values.age).toBe(0);
+  });
+
   it("an owner whose business has kept 15 months of losses closes it and takes what's left; money balances", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
@@ -497,6 +519,10 @@ describe("closing by choice", () => {
       }),
       api = coreAPI(core),
       total = money(core);
+    const closed: { facts?: Readonly<Record<string, string>> }[] = [];
+    api.subscribeEvents("test", ["business.closed"], (_api, event) => {
+      closed.push(event);
+    });
     books(core);
     advanceCore(core, "2021-01-15");
     const owners = api.moduleState("business").table("owners");
@@ -518,6 +544,11 @@ describe("closing by choice", () => {
     expect(
       api.moduleState("business").table("closures").get(`closure:${shop}`),
     ).toMatchObject({ cause: "losses-kept" });
+    // The news record carries that same recorded reason as data.
+    expect(closed).toHaveLength(1);
+    expect(closed[0]!.facts).toEqual({
+      [`organization:${shop}:closing-reason`]: "losses-kept",
+    });
     expect(money(core)).toBe(total);
   });
 });

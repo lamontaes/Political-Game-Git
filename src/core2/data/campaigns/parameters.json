@@ -136,15 +136,7 @@
       "value": 0.46,
       "tag": "SOURCED",
       "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46. Scaled by each election's cycle (midterm 0.72, off-cycle 0.39 of a presidential year's) where the race's electorate is sized.",
-      "spread": [0.15, 0.55],
-      "stopgapId": "SG-GOV-voter-groups-stand-in"
-    },
-    "voterGroupBands": {
-      "value": 10,
-      "tag": "TUNABLE",
-      "source": "How many lean bands, evenly across the whole left-right scale, the unnamed electorate is split into; each band votes as a group, split the way its named people chose; an even count, so the scale's middle is a band edge and no band spans both sides.",
-      "spread": [6, 20],
-      "stopgapId": "SG-GOV-voter-groups-stand-in"
+      "spread": [0.15, 0.55]
     },
     "partyIdentifierShare": {
       "value": 0.56,
@@ -300,7 +292,7 @@
       "value": 0.5,
       "tag": "TUNABLE",
       "source": "How strongly a resident must be moved (their grievance with a member's vote plus the weighted trait lean between organizing and leaving it, about -1 to 1 on the shared trait scale, recalls.organize) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
-      "spread": [0.3, 1.0]
+      "spread": [0.3, 1]
     },
     "recallElectionDays": {
       "value": 75,
@@ -325,6 +317,12 @@
       "tag": "TUNABLE",
       "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
       "spread": [0.75, 1.5]
+    },
+    "groupLeaveMargin": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far past neutral a member's view on their group's question must cross to the other side before they leave, doubled for someone who follows politics most of the time (they hold on to a commitment longer). Group members who change their minds tend to drift out rather than quit at the first doubt (Han 2014, How Organizations Develop Activists). No study sets the size; checked by members leaving only after hearing cases against their side.",
+      "spread": [0.05, 0.25]
     },
     "groupFoundingMembers": {
       "value": 3,
@@ -491,13 +489,7 @@
       "value": 1.4,
       "tag": "TUNABLE",
       "source": "What a primary adds to the cost of voting, against a general election: checked so a party's primary turnout lands near the real 20 to 30% of its eligible voters (Bipartisan Policy Center, 2022 primary turnout: about 21% of registered voters; Pew 2022). Measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026): 25 to 34% of named adults clear this cost.",
-      "spread": [0.8, 2.0]
-    },
-    "primaryShareOfGeneral": {
-      "value": 0.45,
-      "tag": "ESTIMATED",
-      "source": "Primary voters as a share of the same year's general-election voters: 2022 statewide primaries cast about 21% of registered voters' ballots against about 46% in November (Bipartisan Policy Center and U.S. Elections Project), so about 0.45.",
-      "spread": [0.3, 0.6]
+      "spread": [0.8, 2]
     },
     "partyMeetingDays": {
       "value": 30,
@@ -539,13 +531,13 @@
       "value": 0.7,
       "tag": "TUNABLE",
       "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named turnout falls near the 2022 midterm's 46.6% of the voting-eligible population (U.S. Elections Project, Michael McDonald), 0.72 of a presidential year's; measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 46% at this value.",
-      "spread": [0.3, 1.0]
+      "spread": [0.3, 1]
     },
     "offCycleTurnoutCost": {
       "value": 1.4,
       "tag": "TUNABLE",
       "source": "What an off-cycle election adds to the cost of voting, checked so named turnout falls near 0.39 of a presidential year's, about 25% of eligible adults (Hajnal and Green, 'Big Cities, Tiny Votes?', 2024; off-cycle mayoral turnout in large cities averages about 20% of eligible voters, Portland State University, 'Who Votes for Mayor?', 2016); measured over eight random places and seeds with every trait counted (FIXER-TRAITS-TURNOUT, Oct 13, 2026), 25 to 34% at this value.",
-      "spread": [0.8, 2.0]
+      "spread": [0.8, 2]
     },
     "officeTermYearsEstimate": {
       "value": 4,
@@ -654,6 +646,54 @@
       "tag": "TUNABLE",
       "source": "How much working in the department already adds to a resident's qualification for heading it (department heads are usually promoted from within or hired from the field: ICMA local government management surveys).",
       "spread": [0.1, 0.5]
+    },
+    "appointmentBaseQualification": {
+      "value": 0.35,
+      "tag": "TUNABLE",
+      "source": "What an adult resident with no years of experience, no work in the department and a neutral temperament brings to heading it; with the age term it puts a typical 35-year-old near one half, the old fixed starting score. Checked against the share of appointees who are long-serving residents of the town (ICMA local government management surveys).",
+      "spread": [0.2, 0.5]
+    },
+    "appointmentTemperamentWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much a resident's reliability and deliberation (summed, each on a -1 to 1 scale) add to or take from their qualification for a department: conscientiousness is the personality trait that best predicts job performance across occupations (Barrick and Mount 1991, Personnel Psychology 44).",
+      "spread": [0.1, 0.4]
+    },
+    "appointmentAdulthoodAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "source": "Age of majority in 46 states (19 in Alabama and Nebraska, 21 in Mississippi); the game uses the common 18 as the first year of adult working experience, matching the working-age minimum used in town employment (canonical town-employment.ts WORKING_AGE_MIN=18). Structural: below it nobody holds a post.",
+      "spread": [18, 21]
+    },
+    "appointmentExperienceHalfYears": {
+      "value": 17,
+      "tag": "ESTIMATED",
+      "source": "Years of adult life at which experience counts half of its full weight toward heading a department; the median age of local department heads is in the low-to-mid 40s, about 25 years past adulthood, and public-sector median tenure with an employer is about 6.5 years (BLS Employee Tenure, 2024; ICMA Municipal Year Book).",
+      "spread": [8, 25]
+    },
+    "appointmentExperienceAgeWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "The most that years of adult experience can add to a resident's qualification, approached smoothly with age and never switched on at an age (department heads are seldom the youngest adults but are not barred from it).",
+      "spread": [0.1, 0.5]
+    },
+    "cabinetQualificationBase": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "Qualification of the most qualified of a governor's cabinet candidates, who come from the governor's circle of experienced officials (National Governors Association, Cabinet Appointments in the States).",
+      "spread": [0.4, 0.8]
+    },
+    "cabinetQualificationStep": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How much less qualified each later candidate in a governor's cabinet shortlist is than the one before.",
+      "spread": [0.05, 0.2]
+    },
+    "cabinetLeanSpread": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Share of the governor-side lean each later cabinet candidate gives up: governors draw shortlists from their own coalition but not all of it sits at the governor's own position (NGA cabinet appointment surveys).",
+      "spread": [0.1, 0.4]
     },
     "confirmationTolerance": {
       "value": 1.5,

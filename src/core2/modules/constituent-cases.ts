@@ -18,6 +18,7 @@
  * moves, as a cause their next ballot reads.
  */
 import { coreAPI, registerModule } from "../state";
+import { closenessBetween } from "../closeness";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -28,10 +29,21 @@ import { members } from "./legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { touchImpression } from "./campaigns";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
+import { makeCase, SPEECH_MODULE_ID } from "./speech";
+import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
 
 export type Problem = "looking-for-work" | "paid-under-minimum-wage";
+
+const PROBLEM_QUESTIONS = (
+  problemQuestions as unknown as {
+    problems: Record<
+      string,
+      { question: string; desiredChange: string } | null
+    >;
+  }
+).problems;
 
 export interface CaseRow {
   readonly id: string;
@@ -209,8 +221,7 @@ function officeHours(api: CoreAPI): void {
     // They go to the official they know best (the senior one if none).
     const official = [...officials].sort((a, b) => {
       const level = (t: TermRow) =>
-        state.relationships.get([person.id, t.personId!].sort().join(":"))
-          ?.level ?? 0;
+        closenessBetween(state, person.id, t.personId!);
       return (
         level(b) - level(a) ||
         (a.serviceStart ?? a.startDate).localeCompare(
@@ -234,6 +245,19 @@ function officeHours(api: CoreAPI): void {
     };
     table(api).put(row as unknown as ModuleRow);
     api.relationship(person.id, official.personId!, "contact", 0.05);
+    // Bringing the problem makes the resident's case on its question to the
+    // official, who is moved by the resident's standing with them.
+    const argues = PROBLEM_QUESTIONS[row.problem];
+    if (argues && api.state.modules.has(SPEECH_MODULE_ID))
+      makeCase(api, {
+        id: `case-made:${row.id}`,
+        speakerId: person.id,
+        listenerIds: [row.officialId],
+        placeId: town,
+        topic: argues.question,
+        desiredChange: argues.desiredChange,
+        citation: `Constituent case ${row.id}`,
+      });
     api.moduleCalendar(CASES_MODULE_ID).schedule({
       key: `case-due:${row.id}`,
       date: row.respondBy,
