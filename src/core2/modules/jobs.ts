@@ -1213,24 +1213,28 @@ function runWeek(api: CoreAPI): void {
     return false;
   });
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
+  const rateWeight = p("jobsRateWeight"),
+    payWeight = p("jobsApplyPayWeight"),
+    switchCost = p("jobsSwitchCost"),
+    needWeight = p("jobsUnemployedNeedWeight"),
+    traitWeight = p("traitWeight");
   for (const seeker of counted) {
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
     const person = actorOf(api, seeker.personId);
     const traitTerm =
-      p("traitWeight") *
+      traitWeight *
       (traitLean(c, person, jobsData.actions.apply.actKinds) -
         traitLean(c, person, jobsData.actions.wait.actKinds));
     const reference = seeker.referenceHourlyMinor;
+    // Someone with a job gives up what they have to move: it takes a raise.
+    const standing = seeker.employed ? -switchCost : needWeight;
     for (const position of byPlace.get(seeker.placeId) ?? [])
       if (
-        p("jobsRateWeight") *
-          (p("jobsApplyPayWeight") *
+        rateWeight *
+          (payWeight *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            // Someone with a job gives up what they have to move: it takes a raise.
-            (seeker.employed
-              ? -p("jobsSwitchCost")
-              : p("jobsUnemployedNeedWeight"))) +
+            standing) +
           traitTerm >
         0
       )
@@ -1270,12 +1274,17 @@ function runWeek(api: CoreAPI): void {
   }
   // Each seeker's fit for an occupation, worked out once a week.
   const fits = new Map<string, number>();
+  const hired = new Set<string>();
   for (const position of positions) {
     // A full person can take only a role whose schedule is on record.
     const fullRole = roleTemplate(c, position) !== undefined;
     const applicants = applications
       .get(position.id)
-      ?.filter((row) => fullRole || isCounted(api, row.personId));
+      ?.filter(
+        (row) =>
+          !hired.has(row.personId) &&
+          (fullRole || isCounted(api, row.personId)),
+      );
     if (!applicants?.length) continue;
     const fit = (seeker: SeekerRow) => {
       const key = `${seeker.personId}|${position.occupation}`;
@@ -1328,9 +1337,8 @@ function runWeek(api: CoreAPI): void {
           position.placeId,
           (matchesLeft.get(position.placeId) ?? 0) - 1,
         );
-        for (const row of applications.values())
-          for (let i = row.length - 1; i >= 0; i--)
-            if (row[i]!.personId === best.personId) row.splice(i, 1);
+        // Hired: no longer among anyone's applicants.
+        hired.add(best.personId);
         break;
       }
       pool = pool.filter((row) => row !== best);
@@ -1351,10 +1359,7 @@ function runWeek(api: CoreAPI): void {
     ]);
     if (answer.selected!.definition.id !== jobsData.actions.accept.id) continue;
     hire(api, position, best, fit(best));
-    for (const row of applications.values()) {
-      const i = row.indexOf(best);
-      if (i >= 0) row.splice(i, 1);
-    }
+    hired.add(best.personId);
   }
   // What's left of each place's matches carries to next week, never more than one.
   for (const [placeId, left] of matchesLeft)
