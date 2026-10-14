@@ -1,0 +1,62 @@
+{
+  "countedIncomeFifthLimit1Dollars": {
+    "value": 33000,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the lowest fifth, 2023 dollars.",
+    "estimatedFrom": "The upper limit of the lowest national household-income fifth keys a counted household's income band; the same limits apply in every place.",
+    "spread": {
+      "low": 31350,
+      "high": 34650,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit, covering the survey's margin and a year of price change."
+    }
+  },
+  "countedIncomeFifthLimit2Dollars": {
+    "value": 62200,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the second fifth, 2023 dollars.",
+    "estimatedFrom": "Upper limit of the second national household-income fifth.",
+    "spread": {
+      "low": 59090,
+      "high": 65310,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit."
+    }
+  },
+  "countedIncomeFifthLimit3Dollars": {
+    "value": 101000,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the third fifth, 2023 dollars.",
+    "estimatedFrom": "Upper limit of the third national household-income fifth.",
+    "spread": {
+      "low": 95950,
+      "high": 106050,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit."
+    }
+  },
+  "countedIncomeFifthLimit4Dollars": {
+    "value": 165300,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Income in the United States: 2023 (P60-282), Table A-4, household income at the upper limit of the fourth fifth, 2023 dollars.",
+    "estimatedFrom": "Upper limit of the fourth national household-income fifth.",
+    "spread": {
+      "low": 157035,
+      "high": 173565,
+      "unit": "dollars a year",
+      "citation": "Within 5% of the published limit."
+    }
+  },
+  "countedWorkingAgeFrom": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS Current Population Survey: the civilian labor force age bands the opening's employment target uses (ACS/CPS 18 and over in the town's own employment receipt).",
+    "estimatedFrom": "Counted adults from this age without a recorded job share the place's unplaced workers."
+  },
+  "countedWorkingAgeBelow": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Social Security Administration: full retirement age 66 to 67 for people born 1943 to 1960 and later; 65 is the age band edge the ACS employment tables and the opening's age bands use.",
+    "estimatedFrom": "Counted adults below this age without a recorded job share the place's unplaced workers."
+  }
+}

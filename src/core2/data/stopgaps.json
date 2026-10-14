@@ -3054,5 +3054,53 @@
     "addedAt": "2026-10-13",
     "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-counted-person-views",
+    "kind": "faked-mechanic",
+    "file": "src/core2/counted-groups.ts",
+    "line": 1,
+    "whatItFakes": "Engines that still read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns, with no past, no ties outside the household and no sources of their own.",
+    "why": "One model, two tiers (owner, Oct 14): counted people are held once per group; the engines that read them one by one belong to other lanes and move to group reads one at a time.",
+    "replacement": "Each engine reads counted groups and their counts (reachOf, group fields) instead of one counted person at a time; the views are then deleted.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-town-districts",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1,
+    "whatItFakes": "A town's districts are the state House districts its population splits into (from the place-district join), else the whole town; city council wards are not modeled.",
+    "why": "The game has no ward geography; the owner has not said whether council wards should be districts.",
+    "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-fill-in-outside-kin",
+    "kind": "owner-decision",
+    "file": "src/core2/state.ts",
+    "line": 1,
+    "whatItFakes": "A counted person built at fill-in has their household, job and coworkers but no relatives living outside their household.",
+    "why": "Counted people keep no ties outside their household (one model, two tiers); building relatives at fill-in needs the relative generator to run for one person. The owner has not ruled whether that is needed for early access.",
+    "replacement": "The owner's ruling; if wanted, the opening's relative generator run for one filled-in household, seeded by the world.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-demotion-days",
+    "kind": "owner-decision",
+    "file": "src/core2/data/counted/parameters.json",
+    "line": 1,
+    "whatItFakes": "A full person out of the player's life for 180 days returns to their counted group (TUNABLE).",
+    "why": "The owner asked for demotion after 'a long while' without naming how long.",
+    "replacement": "The owner's number of days.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
   }
 ]

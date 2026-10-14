@@ -10,6 +10,7 @@ import {
   peerCohortSize,
   residentsRuntime,
   enterResidentMarket,
+  countedSinceOpening,
   releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
@@ -1824,9 +1825,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
   // Their past exists only from now: rebuilt from the world's seed, as the
   // opening would have built it.
+  // Counted people carry no past at all (one model, two tiers): everyone in
+  // the household gets theirs now.
   const build = residentsRuntime(core)?.input.pastBuild;
   const rebuild = build
-    ? taken.people.filter((row) => build.deepPastAt[row.id] !== undefined)
+    ? taken.people.filter((row) => countedSinceOpening(core, row.id))
     : [];
   let record = taken;
   if (build && rebuild.length) {
@@ -1834,8 +1837,8 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       rebuild.map((row) => [
         row.id,
         {
-          head: (row.pastFacts ?? []).slice(0, build.deepPastAt[row.id]),
-          tail: (row.pastFacts ?? []).slice(build.deepPastAt[row.id]),
+          head: row.pastFacts ?? [],
+          tail: [],
         },
       ]),
     );
