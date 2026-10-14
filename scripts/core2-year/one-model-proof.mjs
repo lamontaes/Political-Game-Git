@@ -42,6 +42,10 @@ const { countedMoves, countedPull, coarsePlace } = await at(
 const { countedDemotions } = await at("src/core2/modules/counted-demotion.ts");
 const { scheduleTax } = await at("src/core2/tax-withholding.ts");
 const { BUDGETS_MODULE_ID } = await at("src/core2/modules/budgets.ts");
+const { corePlaceByKey } = await at("src/core2/place-lookup.ts");
+const { placeReferencePopulation } = await at(
+  "src/simulation/nationwide-world/place-population.ts",
+);
 
 const total = (core) =>
   [...core.people.values(), ...core.organizations.values()].reduce(
@@ -95,12 +99,23 @@ async function run(withLaw) {
   const stateKey = chain.stateKey;
   const stateUsps = stateKey.slice(3);
   const opening = total(core);
+  const townId = residents.townPlaceOf(core);
+  const geoid = corePlaceByKey(core.placeMetadata?.placeKey)?.sourceGeoid;
   const result = {
     seed,
     place: world.place.key,
     placeName: world.place.displayName ?? world.place.name,
     state: stateKey,
     withLaw,
+    census: geoid ? placeReferencePopulation(geoid) : null,
+    townPeopleAtOpening: {
+      full: [...core.people.values()].filter(
+        (p) => p.placeId === townId && p.alive && p.tier !== "husk",
+      ).length,
+      counted:
+        residents.residentCounts(core).find((r) => r.placeId === townId)
+          ?.people ?? 0,
+    },
     balanced: true,
     unbalancedDays: [],
     filled: [],
@@ -141,11 +156,21 @@ async function run(withLaw) {
         const person = fillInPerson(core, id);
         const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
         const home = core.households.get(person.householdId);
-        const wages = (home?.memberIds ?? [])
+        const jobWages = (home?.memberIds ?? [])
           .map((m) => core.people.get(m))
           .map((p) => (p?.jobId ? core.jobs.get(p.jobId) : undefined))
           .filter((j) => j && j.endsAt === undefined)
           .reduce((n, j) => n + j.wageDailyMinor * 365, 0);
+        // Its share of the place's unplaced workers' pay, now its own flow.
+        const unplacedPay = [...rt.flows.values()]
+          .filter(
+            (f) =>
+              !f.endedAt &&
+              f.financeKind === "work.unplaced-residents" &&
+              home?.memberIds.includes(f.payeeId),
+          )
+          .reduce((n, f) => n + (f.amountMinor * 365) / 14, 0);
+        const wages = jobWages + unplacedPay;
         const contracts = [...core.finance.contracts.values()].filter(
           (c) => c.householdId === person.householdId && !c.endedAt,
         );
@@ -163,7 +188,8 @@ async function run(withLaw) {
                   hourlyDollars: (job.hourlyMinor ?? 0) / 100,
                 }
               : null,
-            householdRecordedPayDollarsYear: Math.round(wages / 100),
+            householdRecordedPayDollarsYear: Math.round(jobWages / 100),
+            householdUnplacedPayDollarsYear: Math.round(unplacedPay / 100),
             incomeBandOfThatPay: residents.incomeBandOf(wages),
             rent:
               contracts.find((c) => c.id.startsWith("lease:"))?.amountMinor ??
@@ -259,7 +285,11 @@ async function run(withLaw) {
     if (core.date.endsWith("-01")) {
       const counted = countedState();
       const month = core.date.slice(0, 7);
-      const moves = countedMoves(api).filter((m) => m.date.startsWith(month));
+      const moves = countedMoves(api).filter(
+        (m) =>
+          m.date.startsWith(month) &&
+          (m.fromPlace === townId || m.toPlace === townId),
+      );
       const outBy = {};
       for (const m of moves.filter((m) => m.direction === "out"))
         outBy[m.toPlace] = (outBy[m.toPlace] ?? 0) + m.people;
@@ -285,8 +315,14 @@ async function run(withLaw) {
             0,
           ),
         ),
+        // The town's three largest working groups.
         pulls: rt.store.groups
-          .filter((g) => g.households.size > 150)
+          .filter(
+            (g) =>
+              g.work === "working" &&
+              rt.store.households[[...g.households][0]]?.placeId === townId,
+          )
+          .sort((a, b) => b.households.size - a.households.size)
           .slice(0, 3)
           .map((g) => ({ groupId: g.id, ...countedPull(api, g.id) })),
       });
