@@ -1901,6 +1901,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-ballot-order-estimates",
+    "kind": "missing-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 589,
+    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
+    "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
+    "addedBy": "OPUS-GOV-ELECTIONS",
+    "addedAt": "2026-10-14",
+    "replacement": "Each estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-ballot-order",
     "kind": "behavior",
     "file": "src/core2/modules/voting.ts",
@@ -1909,8 +1921,8 @@
     "why": "Each state's ballot-order law (alphabetical, rotation by precinct, a drawing, the incumbent's or the governor's party first) is not read into data yet.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's ballot-order rule as a data row with its statute, read by ballotCues: a rotated ballot gives each candidate the first place in its share of precincts, and an alphabetical one orders by surname.",
-    "status": "open"
+    "replacement": "RESOLVED (CTO, Oct 14, 2026: closed by the law of the place): src/core2/ballot-order.ts reads each of the 56 places' ballot-order rule from data/research/elections/ballot-order-2026.json (alphabetical, a drawn alphabet, a lot per contest, rotation by precinct, by party, the incumbent first), and every voter reads the form of the ballot they hold.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-tie-race-size",
