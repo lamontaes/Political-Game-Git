@@ -544,7 +544,8 @@ function appealFor(
         warmth +
         partyTieTerm +
         relationship +
-        record,
+        record +
+        parts.ballot,
       party: parts.party,
       standing,
       incumbent: parts.incumbent,
@@ -554,12 +555,33 @@ function appealFor(
       partyTie: partyTieTerm,
       relationship,
       record,
+      ballot: parts.ballot,
     };
   }
   const basis: "platform" | "party-name-incumbency" = heardPlatform
     ? "platform"
     : "party-name-incumbency";
   return { appeal, lean, recordReasons, basis };
+}
+
+/**
+ * What each candidate's place on the printed ballot brings every voter, in
+ * appeal units: the first-listed edge, sliding to nothing at the bottom. The
+ * ballot lists the field in the order its candidates filed.
+ */
+function ballotCues(field: readonly FilingRow[]): Map<string, number> {
+  const order = [...field].sort(
+    (a, b) => a.filedOn.localeCompare(b.filedOn) || a.id.localeCompare(b.id),
+  );
+  // stopgapId: SG-GOV-ballot-order
+  const edge = appealOfShare(electionsParameter("ballotFirstPositionShare"));
+  const last = Math.max(1, order.length - 1);
+  return new Map(
+    order.map((f, i) => [
+      f.personId,
+      order.length > 1 ? (edge * (last - i)) / last : 0,
+    ]),
+  );
 }
 
 /**
@@ -599,6 +621,7 @@ function contestView(
   const reasons = publicReasons(api, contest, field);
   const holder = seatHolder(api, contest);
   const publicRecord: Record<string, number> = {};
+  const cues = ballotCues(field);
   const rows = field.map((f) => {
     const facts = candidateFacts(api, f, contest);
     const heard = named.filter(
@@ -638,6 +661,7 @@ function contestView(
       // reached, over all the town's adults.
       recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
+      ballotCue: cues.get(f.personId) ?? 0,
     };
   });
   const view = { field: rows, publicRecord };
@@ -1177,21 +1201,12 @@ export function holdPrimary(
       }
     }
   };
-  // The wider electorate's view of the field: the ballot names the
-  // incumbent, and with no incumbent in the field they leave it blank.
-  const primaryField = (field: readonly FilingRow[]): CountedFieldEntry[] =>
-    field.map((f) => {
-      const incumbent = candidateFacts(api, f, contest).isIncumbent;
-      return {
-        id: f.personId,
-        side: 0,
-        isIncumbent: incumbent,
-        standing: incumbent ? campaignParameter("incumbentRecognition") : 0,
-        localStanding: 0,
-        recognition: 0,
-        platform: [],
-      };
-    });
+  // The wider electorate sees the field as the town's counted voters do: the
+  // candidates' public standing, the incumbent's name and record, and their
+  // places on the ballot (CTO, Oct 14: a race is never left blank by most
+  // voters for want of a platform to tell candidates apart).
+  const primaryField = (field: readonly FilingRow[]) =>
+    countedField(api, contest, field);
   const countCounted = (
     field: readonly FilingRow[],
     who: readonly CountedVoter[],

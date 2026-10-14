@@ -19,6 +19,7 @@
  * their reasons, and every vote is each member's. The session's filings,
  * hearings and votes are counted together on its floor day.
  */
+import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import {
   sessionWindows,
   sessionYear,
@@ -35,7 +36,7 @@ import {
   personStance,
   PLATFORM_QUESTIONS,
 } from "../campaign-views";
-import { lawChain, LAWS_MODULE_ID } from "./laws";
+import { lastEnactment, lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { partySide } from "../appointments";
@@ -43,15 +44,20 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import {
   authorityFor,
+  beyondPower,
   draftBill,
+  executiveOf,
   FEDERAL_HOUSE,
   holdVote,
   leanOf,
   memberKey,
   members,
   POLICY_QUESTIONS,
+  proposeAsExecutive,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
+  settledness,
+  tasteForChange,
   type BillRow,
 } from "./legislature";
 
@@ -202,6 +208,12 @@ function scheduleSession(
 }
 
 /** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
+const FEDERAL_ANSWERS = (
+  federalAnswers as unknown as {
+    questions: Record<string, { answer: string }>;
+  }
+).questions;
+
 export function answerIn(
   api: CoreAPI,
   stateKey: string,
@@ -218,7 +230,10 @@ export function answerIn(
     .filter((r) => enacted || r.effectiveDate <= api.state.date)
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
   if (rows[0]) return rows[0].value === 1 ? 1 : -1;
-  const answer = POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
+  const answer =
+    stateKey === "US"
+      ? FEDERAL_ANSWERS[question]?.answer
+      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
   return answer === "yes" ? 1 : answer === "no" ? -1 : null;
 }
 
@@ -351,13 +366,45 @@ function filerOf(api: CoreAPI, term: TermRow): Filer {
   };
 }
 
+/**
+ * How the law on a question stands, for anyone weighing a change to it: how
+ * settled it is (-1 passed today, 1 long standing) and, for a change that
+ * would reverse the latest law, the body's reluctance to undo it, larger the
+ * fresher it is and the wider it passed (owner, Oct 14: no body's rules are
+ * in data, so a sliding reluctance from recency and margin; no fixed cooldown).
+ */
+function lawStanding(
+  api: CoreAPI,
+  question: string,
+  direction: number,
+): { settled: number; reluctance: number } {
+  const settled = settledness(api, question);
+  const last = lastEnactment(api, question);
+  const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
+  return {
+    settled,
+    reluctance: reverses
+      ? campaignParameter("reversalReluctance") *
+        Math.max(0, last.margin) *
+        ((1 - settled) / 2)
+      : 0,
+  };
+}
+
 /** A member's own reasons to carry a change on a question, pointing one way. */
-function filingReason(f: Filer, question: string, direction: number): number {
+function filingReason(
+  f: Filer,
+  question: string,
+  direction: number,
+  law: { settled: number; reluctance: number },
+): number {
   return (
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction +
-    f.trait
+    // A taste for change backs changing a settled law, not undoing a fresh one.
+    tasteForChange(f.trait, law.settled) -
+    law.reluctance
   );
 }
 
@@ -411,17 +458,27 @@ function holdSession(
     sponsor: Filer;
     cosponsors: number;
     leaderReason: number;
+    /** The bill a member filed at the executive's request. */
+    drafted?: BillRow;
   }[] = [];
+  // The executive over the body brings what no member files, through the
+  // member they ask (the player decides their own requests).
+  const head = input.body ? executiveOf(api, input.body.id).term : undefined;
+  const executive =
+    head && memberKey(head) !== (api.state as CoreState).playerId
+      ? filerOf(api, head)
+      : null;
   for (const question of input.body ? PLATFORM_QUESTIONS : []) {
     for (const direction of [1, -1]) {
       if (!input.needsChange(question, direction)) continue;
       if (!input.allowed(question, direction)) continue;
       if (input.barred(question, direction)) continue;
+      const law = lawStanding(api, question, direction);
       let sponsor: Filer | null = null;
       let best = 0;
       let cosponsors = 0;
       for (const member of filers) {
-        const reason = filingReason(member, question, direction);
+        const reason = filingReason(member, question, direction, law);
         if (reason <= 0) continue;
         cosponsors += 1;
         if (
@@ -432,13 +489,48 @@ function holdSession(
           sponsor = member;
         }
       }
-      if (!sponsor) continue;
+      if (!sponsor) {
+        if (
+          !executive ||
+          filingReason(executive, question, direction, law) <= 0
+        )
+          continue;
+        const request = proposeAsExecutive(api, {
+          bodyOfficeId: input.body!.id,
+          provisions: [{ kind: "policy-question", question, value: direction }],
+        });
+        const drafted = request?.billId
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(request.billId) as unknown as BillRow)
+          : undefined;
+        if (!request || !drafted) continue;
+        filed.push({
+          question,
+          direction,
+          sponsor:
+            filers.find((f) => f.key === request.memberId) ??
+            filerOf(
+              api,
+              input.filers.find((t) => memberKey(t) === request.memberId)!,
+            ),
+          cosponsors,
+          leaderReason: leader
+            ? filingReason(leader, question, direction, law)
+            : 0,
+          drafted,
+        });
+        continue;
+      }
       filed.push({
         question,
         direction,
         sponsor,
         cosponsors,
-        leaderReason: leader ? filingReason(leader, question, direction) : 0,
+        leaderReason: leader
+          ? filingReason(leader, question, direction, law)
+          : 0,
       });
     }
   }
@@ -452,17 +544,19 @@ function holdSession(
   const floorTime = Math.round(input.floorDays * input.billsPerFloorDay);
   const bills: SessionBill[] = [];
   filed.forEach((item, index) => {
-    const drafted = draftBill(api, {
-      bodyOfficeId: input.body!.id,
-      sponsorId: item.sponsor.key,
-      provisions: [
-        {
-          kind: "policy-question",
-          question: item.question,
-          value: item.direction,
-        },
-      ],
-    });
+    const drafted =
+      item.drafted ??
+      draftBill(api, {
+        bodyOfficeId: input.body!.id,
+        sponsorId: item.sponsor.key,
+        provisions: [
+          {
+            kind: "policy-question",
+            question: item.question,
+            value: item.direction,
+          },
+        ],
+      });
     const reached = index < floorTime;
     const bill = reached
       ? holdVote(api, drafted.id)
@@ -580,7 +674,12 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     billsPerFloorDay: campaignParameter("floorBillsPerLegislativeDay"),
     needsChange: (question, direction) =>
       needsChange(direction, answerIn(api, jurisdiction, question, true)),
-    allowed: () => true,
+    // A legislature answers only the questions its level may (data).
+    allowed: (question, value) =>
+      !beyondPower(
+        { kind: "policy-question", question, value },
+        jurisdiction === "US" ? "federal" : "state",
+      ),
     // A new session takes every bill up afresh.
     barred: () => false,
   });
@@ -660,6 +759,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? !inForceForTown(api, question)
         : !!own && ownRow(api, own, question) === 1,
     allowed: (question, value) =>
+      !beyondPower({ kind: "policy-question", question, value }, "local") &&
       authorityFor(api, { kind: "policy-question", question, value }).allowed,
     barred: (question, direction) =>
       recentlyDefeated(api, officeId, question, direction),

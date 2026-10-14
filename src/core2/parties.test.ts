@@ -7,7 +7,6 @@
  * party with two candidates for a seat picks one in its primary.
  */
 import { createHash } from "node:crypto";
-import { countedResidents } from "./electorate";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -162,11 +161,11 @@ describe("M2-08 parties", () => {
       // The primary counts the party's wider electorate, not only the
       // town's named voters (audit 2, item 1).
       const total = Object.values(votes).reduce((a, b) => a + b, 0);
-      // Where the town has counted residents, they vote in it too; a world
-      // of named people only has no one else to count.
-      if (countedResidents(core).length)
-        expect(total).toBeGreaterThan(namedVotes);
-      else expect(total).toBe(namedVotes);
+      expect(total).toBeGreaterThan(members.length);
+      // Same-party candidates no platform tells apart are still told apart
+      // by standing, reach and the ballot itself, so the party's voters
+      // beyond the town vote in it too (CTO, Oct 14).
+      expect(total).toBeGreaterThan(namedVotes);
       govReport(
         "parties",
         JSON.stringify({

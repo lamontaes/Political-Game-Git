@@ -360,6 +360,37 @@
       "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
       "spread": [0.75, 1.5]
     },
+    "carryStandingWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much the standing of someone who asks a member to carry a bill (how many people in town know them, up to carryStandingCircle) weighs in the member's answer, beside the member's own position on the bill and their tie to the asker. Legislators take up constituents' and activists' proposals more readily from people with a following (Miller and Stokes 1963; Butler and Broockman 2011, American Journal of Political Science 55(3):463-477, on responsiveness to constituent requests). Checked by a well-known asker moving a member who is near even on the bill, and no one carrying a bill they oppose outright. Spread 0.1 to 0.5.",
+      "spread": [0.1, 0.5]
+    },
+    "carryStandingCircle": {
+      "value": 50,
+      "tag": "TUNABLE",
+      "source": "How many people must know an asker for their standing to count in full when they ask a member to carry a bill; the same circle a local campaign starts from (candidacyStandingCircle; Lawless and Fox 2010, ch. 5). Spread 25 to 150.",
+      "spread": [25, 150]
+    },
+    "localSigningDays": {
+      "value": 10,
+      "tag": "ESTIMATED",
+      "source": "Days a mayor or county executive has to sign or veto a passed ordinance before it becomes law without a signature. Municipal charters commonly allow 10 days, matching the federal and most state windows (Book of the States 2023, Table 3.16, for states; the National League of Cities' summaries of mayor-council charters for cities).",
+      "estimatedFrom": "Book of the States 2023 Table 3.16 modal window; NLC charter summaries",
+      "spread": [5, 15]
+    },
+    "settledLawDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "source": "How many days after it passed a law counts as half settled: a change to it then reads as neither a fresh reversal nor a change to settled law. Members with a taste for change back changing long-standing law and resist undoing what the body just did. Legislatures rarely revisit an act within its first year; reversal is mostly a matter of a new majority after an election (Maltzman and Shipan 2008, American Journal of Political Science 52(2):252-267, on the durability of enacted law). Spread 180 to 730.",
+      "spread": [180, 730]
+    },
+    "reversalReluctance": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strongly a body's members resist filing to undo the law it last enacted on a question, at full freshness and a unanimous margin; it slides down as the law settles and with a narrower margin. Most bodies' rules also require a motion to reconsider within days by a member of the prevailing side (Mason's Manual of Legislative Procedure, sec. 466 to 470); where a place's data records no such rule, this reluctance stands in. Checked by a board not repealing a law it passed weeks earlier unless members' views have moved. Spread 0.25 to 1.",
+      "spread": [0.25, 1]
+    },
     "groupLeaveMargin": {
       "value": 0.1,
       "tag": "TUNABLE",
