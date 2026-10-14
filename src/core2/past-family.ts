@@ -50,10 +50,12 @@ const RELATIONSHIP_TRAITS = [
   "personality-v1:facet-generous",
 ] as const;
 
-const DAYS_PER_YEAR = pastParameter(null, "pastDaysPerYear");
+// Read when first used: this file loads inside the import cycle through state.ts, before past-module's table is set.
+let daysPerYear: number | undefined;
 
 function years(date: string, count: number): string {
-  return shiftDays(date, Math.round(count * DAYS_PER_YEAR));
+  daysPerYear ??= pastParameter(null, "pastDaysPerYear");
+  return shiftDays(date, Math.round(count * daysPerYear));
 }
 
 function factsOf(person: PersonInput, kind: string): readonly Fact[] {
