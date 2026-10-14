@@ -1,6 +1,6 @@
 # Inverness, Illinois: a busy legislative year with no recorded births or deaths
 
-Seed 86d630fba9a0, run January 20, 2025 to January 20, 2026.
+The state legislature and the local board voted all year, and every tally counted every seat, with nobody absent. No birth or death was recorded while four people stopped being alive and the head count rose. A member of Congress was recorded as council president on December 15, 2025.
 
 ## The year
 
@@ -102,3 +102,7 @@ The file's own totals. Its trace sections show only a sample of these records.
 | case.made | 52 |
 | cause-group.ad-ran | 51 |
 | budget-line-changed | 44 |
+
+## Method
+
+World seed `86d630fba9a0`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/illinois.txt`.

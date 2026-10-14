@@ -2,8 +2,6 @@
 
 The run changed territorial taxes with no recorded vote, closed five businesses, and produced a population count that does not reconcile.
 
-World seed: 22cf0e5b9d81, run January 20, 2025 to January 20, 2026.
-
 ## The year
 
 On January 20, 2025, Mangilao had 1,603 people and 118 organizations.
@@ -94,3 +92,7 @@ Records this year: 9304.
 | 8 | bill-held-in-committee | 12 |
 | 9 | person.moved-away | 8 |
 | 10 | organization.closed | 5 (tied with business.closed 5 and housing.completed 5) |
+
+## Method
+
+World seed `22cf0e5b9d81`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/guam.txt`.

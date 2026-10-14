@@ -2,8 +2,6 @@
 
 The visible board votes all failed, the mayor won 10,283 to 1, and the file records no deaths and no births. Several vote records, vacancies and counts do not match each other or the population, so this year needs checking before anyone relies on it.
 
-Seed `b6b680d034f8`, run January 20, 2025 to January 20, 2026.
-
 ## The year
 
 On February 1, 2025, a council seat and the mayor's seat both emptied when their holders moved away. The file records no appointment to either seat.
@@ -92,3 +90,7 @@ Top 10 record kinds:
 8. committee-hearing=50
 9. bill-held-in-committee=50
 10. campaign-message=44
+
+## Method
+
+World seed `b6b680d034f8`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/idaho.txt`.

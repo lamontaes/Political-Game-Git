@@ -1,6 +1,6 @@
 # Kaunakakai, Hawaii: a local board passed ten measures, and no election or death was recorded
 
-Seed d26da2cdad16, run January 20, 2025 to January 20, 2026.
+The county board enacted eleven measures, but no election, filing or contest happened all year. No death or birth was recorded while the head count changed. On December 15, 2025, a member of Congress was recorded as the board's council president.
 
 ## The year
 
@@ -68,3 +68,7 @@ Top 10 record kinds:
 - cause-group.ad-ran=103
 - office.approached=97
 - office.replied=97
+
+## Method
+
+World seed `d26da2cdad16`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/hawaii.txt`.

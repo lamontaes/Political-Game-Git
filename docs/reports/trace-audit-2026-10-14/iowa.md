@@ -1,6 +1,6 @@
 # Jefferson, Iowa: council bills failed in every vote shown, and vacancies have no recorded fill
 
-Seed 346122177e93, run January 20, 2025 to January 20, 2026.
+Almost every council bill failed. A television reporter sponsored the council's bills and also ran for mayor. Seats emptied under a special-election rule were never filled, and no death was recorded while people died.
 
 ## The year
 
@@ -52,3 +52,7 @@ Records this year: 52,053.
 | office.approached | 617 |
 | office.replied | 605 |
 | cause-group.joined | 477 |
+
+## Method
+
+World seed `346122177e93`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/iowa.txt`.

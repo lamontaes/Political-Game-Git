@@ -1,6 +1,6 @@
 # Van Buren, Maine: a year of board votes, vacant seats and no elections
 
-Seed 13744ef7bcc3, run January 20, 2025 to January 20, 2026.
+The local board voted all year with two empty seats that were never filled. Five state seats emptied under a special-election rule, and none got an election. No contest was held anywhere in the year.
 
 ## The year
 
@@ -80,3 +80,7 @@ Top 10 record kinds (from the file's summary):
 | cause-group.ad-ran | 54 |
 | cause.donated | 50 |
 | case.made | 47 |
+
+## Method
+
+World seed `13744ef7bcc3`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/maine.txt`.

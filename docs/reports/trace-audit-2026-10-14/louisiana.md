@@ -1,6 +1,6 @@
 # Lacassine, Louisiana: six local seats emptied with no appointments on record
 
-Seed ceb1b7c7f016, run January 20, 2025 to January 20, 2026.
+Six local seats emptied in February and March 2025 with no appointment, yet the board kept recording six votes. Four state seats emptied under a special-election rule with no special election. No death or birth was recorded.
 
 ## The year
 
@@ -105,3 +105,7 @@ Records this year: 9090 (news items: 447).
 | legislative-vote | 64 |
 | bill-held-in-committee | 51 |
 | drive.strengthened | 47 |
+
+## Method
+
+World seed `ceb1b7c7f016`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/louisiana.txt`.

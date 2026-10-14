@@ -1,6 +1,6 @@
 # St. Matthews, Kentucky: near-unanimous council votes and vacancies that never refilled
 
-Seed ea10d2e9ff8c, run January 20, 2025 to January 20, 2026.
+The council kept voting while a newspaper reporter sat as mayor pro tem and a member of Congress was named council president. Six state seats emptied and none was refilled. One state law took effect before its bill existed.
 
 ## The year
 
@@ -84,3 +84,7 @@ Records this year: 15,897 (news items: 404).
 | legislative-vote | 61 |
 | cause-group.ad-ran | 60 |
 | drive.strengthened | 56 |
+
+## Method
+
+World seed `ea10d2e9ff8c`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/kentucky.txt`.
