@@ -13,9 +13,39 @@
         <div id="people"></div>
       </div>
 
-      <section id="caption" class="panel" hidden>
-        <p id="caption-title" class="label"></p>
-        <h2 id="caption-names" class="name"></h2>
+      <!-- The opening: the President's speech box, then the night's news at home. -->
+      <section id="opening-box" class="panel chat" hidden>
+        <div class="who">
+          <div id="opening-bust" class="bust"></div>
+          <div>
+            <div id="opening-name" class="name"></div>
+            <div id="opening-role" class="role"></div>
+          </div>
+        </div>
+        <p id="opening-speech" class="speech"></p>
+      </section>
+      <!-- Who the camera passes, pointed out by name and office. -->
+      <div id="opening-point" class="panel" hidden>
+        <div id="opening-point-name" class="name"></div>
+        <div id="opening-point-role" class="role"></div>
+      </div>
+      <button id="news-surface" class="panel" type="button" hidden>
+        <span id="news-surface-label" class="label"></span>
+        <span id="news-surface-headline" class="prose"></span>
+      </button>
+      <section id="news-reader" class="panel" hidden>
+        <div class="news-reader-main">
+          <h2 id="news-reader-headline" class="heading"></h2>
+          <div id="news-reader-body"></div>
+        </div>
+        <div>
+          <div class="acts">
+            <button id="news-reader-close" class="action primary" type="button">
+              Close
+            </button>
+          </div>
+          <div id="news-reader-more"></div>
+        </div>
       </section>
 
       <section id="front" class="panel menu">
@@ -145,6 +175,14 @@
         </button>
         <button type="button" class="nav-item" data-tab="options">
           <span class="nl">Options</span>
+        </button>
+        <button
+          id="dev-mode"
+          type="button"
+          class="nav-item dev-only"
+          onclick="window.open('/dev')"
+        >
+          <span class="nl">Dev mode</span>
         </button>
       </nav>
 
@@ -313,11 +351,7 @@
         <div class="time">
           <p id="card-why" class="label"></p>
           <div class="acts">
-            <button id="day" class="action" type="button">Day</button>
-            <button id="week" class="action" type="button">Week</button>
-            <button id="skip" class="action primary" type="button">
-              Until needed
-            </button>
+            <button id="day" class="action primary" type="button">Day</button>
             <button id="continue" class="action primary" type="button" hidden>
               Continue
             </button>

@@ -48,6 +48,10 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
+## Dev mode (owner, Oct 14, 2026)
+
+Status in `docs/coordination/OPUS-PLAY.md` under "Dev mode".
+
 ## Audit fixes (owner, Oct 12, 9:15 a.m.: before new features)
 
 From `docs/reports/audit-2026-10-12/`, in BOARD's order.

@@ -48,6 +48,7 @@ import { initialFocusPeople } from "../core2/focus";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { recordOpeningStory } from "../director/opening-story";
 import {
   applyWorldSettings,
   checkWorldSettings,
@@ -140,7 +141,7 @@ function familyClosure(input: CoreInput): Set<string> {
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "done";
+  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -332,6 +333,12 @@ function* benchWorldStages(
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   director.start(core);
+  yield "opening";
+  // The opening, told as a story from the records (owner, Oct 14, 2026): the
+  // President's address and that night's news, composed once while the
+  // world loads and kept on the director's ledger for the screens.
+  if (playerId)
+    director.ledger.opening = recordOpeningStory(core, playerId) ?? undefined;
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]
     .filter((person) => person.placeId === placeId)
