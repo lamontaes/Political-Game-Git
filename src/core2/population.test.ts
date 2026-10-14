@@ -10,8 +10,8 @@ import { WORKING_AGE_MIN } from "../simulation/living-world/town-employment";
 import {
   materializeTownHousehold,
   townHouseholdPeople,
-  townHouseholdSkeleton,
 } from "../simulation/living-world/town-residents";
+import { townHouseholdSkeleton } from "./town-households";
 import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { PERSONALITY_TRAIT_REGISTRY } from "../simulation/personality-trait-registry";
 import { createWorld } from "../simulation/world";
@@ -117,7 +117,7 @@ describe("real-place one-time population import", () => {
     const checkedShapes = new Set<string>();
     for (const [index, household] of residentHouseholds(opening).entries()) {
       const skeleton = townHouseholdSkeleton(
-        context,
+        context.seed,
         place.context.jurisdiction.id,
         index,
       );
