@@ -20,6 +20,7 @@ import partyCounts from "../../../data/research/offices/legislature-party-counts
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
+import { partySide } from "../appointments";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -85,12 +86,6 @@ const NOT_PARTIES =
 function value(key: string): number {
   return (parameters as { parameters: Record<string, { value: number }> })
     .parameters[key]!.value;
-}
-
-function sideOf(name: string): number {
-  if (/^democrat|popular democr/i.test(name)) return -1;
-  if (/^republican|nuevo progresista/i.test(name)) return 1;
-  return 0;
 }
 
 /** The parties of one state, with their shares, from the 2024 ballot or the legislature. */
@@ -206,7 +201,7 @@ export function openParties(core: CoreState): void {
       stateKey,
       organizationId,
       share: party.share,
-      side: sideOf(party.name),
+      side: partySide(party.name),
       nominationMethod: rules?.method ?? null,
       voterAccess: rules?.voterAccess ?? null,
       leaderId: null,

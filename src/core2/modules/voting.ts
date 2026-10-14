@@ -73,6 +73,7 @@ import { termEndAfter, termStartAfter } from "../elections-calendar";
 import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
 import { partiesHere, partyTie } from "./parties";
+import { partySide } from "../appointments";
 import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
 import { VIEWS_DATA, VIEWS_MODULE_ID, viewOf } from "./views";
@@ -344,14 +345,6 @@ function townLean(api: CoreAPI): number {
   return lean;
 }
 const townLeans = new WeakMap<object, { date: string; lean: number }>();
-
-/** A party's side of the left-right scale: -1 for the Democratic family, +1 Republican, 0 otherwise. */
-function partySide(party: string | null): number {
-  if (!party) return 0;
-  if (/democrat|popular democr/i.test(party)) return -1;
-  if (/republican|nuevo progresista/i.test(party)) return 1;
-  return 0;
-}
 
 /**
  * What a candidate stands for, as the voter can know it: the stated platform

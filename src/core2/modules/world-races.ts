@@ -22,7 +22,7 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
-import { partySide } from "../appointments";
+import { caucusSide, partySide } from "../appointments";
 import { lawChain } from "./laws";
 import { FEDERAL_HOUSE, members } from "./legislature";
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
@@ -704,9 +704,8 @@ function entries(
   }));
 }
 
-/** Independents in Congress caucus with the Democrats. */
-const sideOf = (party: string | null) =>
-  partySide(party) || (/independent/i.test(party ?? "") ? -1 : 0);
+/** A member's side, with the side an independent caucuses with (party-sides data). */
+const sideOf = caucusSide;
 
 /**
  * Decide a race the town doesn't vote in: its blocks count it on the same
