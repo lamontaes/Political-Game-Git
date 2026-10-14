@@ -3,17 +3,6 @@
   "scannedAt": "48b3e24c4",
   "entries": [
     {
-      "file": "src/presentation/campus-backdrops.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "let hash = 2166136261; for (let i = 0; i < name.length; i += 1) { hash = Math.imul(hash ^ name.charCodeAt(i), 16777619) >>> 0; } const sorted = [...records].sort((a, b) => a.campus.localeCompare(b.campus)); return sorted[hash % sorted.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "college name hash",
-      "reason": "Stable pick among equally good campus pictures so a college keeps its picture.",
-      "replacement": null
-    },
-    {
       "file": "src/presentation/character-components.ts",
       "kind": "list-pick",
       "build": null,
@@ -41,72 +30,6 @@
       "build": "Build 6",
       "count": 1,
       "code": ".next() < (slot.presence_rate ?? 0);"
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const start = bodies.length ? rng.integer(0, bodies.length) : 0;",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting body family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const headStart = heads.length ? rng.integer(0, heads.length) : 0;",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting head family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "initialFamilies[kind] = rng .fork(`wardrobe:${kind}`) .pick(choices);",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + wardrobe kind",
-      "reason": "Starting wardrobe family per outfit kind drawn from the person's seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/complete-outfit.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const hairStart = hairFamilies.length ? rng.integer(0, hairFamilies.length)",
-      "class": "IDENTITY",
-      "keyedBy": "appearance seed + initialization version",
-      "reason": "Starting hair family drawn from the person's appearance seed; an appearance.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/engine-people29-data.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "palettes[channel] = rng.fork(channel).pick(choices);",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + channel (skin, hair, top, bottom)",
-      "reason": "Skin, hair and garment palette channel drawn from the seed among authored swatches; a look.",
-      "replacement": null
-    },
-    {
-      "file": "src/presentation/engine-people29-data.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "variant: rng.fork(kind).pick(choices),",
-      "class": "IDENTITY",
-      "keyedBy": "person seed + feature kind",
-      "reason": "Eye, brow, nose and mouth variant drawn from the seed; a face.",
-      "replacement": null
     },
     {
       "file": "src/simulation/candidate-petitions.ts",
