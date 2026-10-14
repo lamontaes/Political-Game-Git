@@ -1046,6 +1046,8 @@ export interface CoreAPI {
     commitment: WorkCommitmentInput,
     calendar: WorkPayrollCalendarInput,
   ): void;
+  /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
+  startSalariedPost(job: JobInput): void;
   /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
   endJob(jobId: string, sourceId: string): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */

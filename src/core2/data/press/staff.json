@@ -1,0 +1,30 @@
+{
+  "about": "Who owns and works at an outlet (OPUS-PEOPLE press): its owner, who holds it and is paid by none; its head, who sets the editorial line; and its reporters. Titles are the Standard Occupational Classification's names; ages and pay are rows in parameters.json.",
+  "source": "BLS Standard Occupational Classification 2018: 11-1011 Chief Executives; 27-3041 Editors; 27-3023 News Analysts, Reporters, and Journalists.",
+  "roles": [
+    {
+      "id": "owner",
+      "soc": "11-1011",
+      "title": "Chief Executives",
+      "payParameter": null,
+      "ageMinParameter": "ownerAgeMin",
+      "ageMaxParameter": "ownerAgeMax"
+    },
+    {
+      "id": "head",
+      "soc": "27-3041",
+      "title": "Editors",
+      "payParameter": "editorAnnualPayMinor",
+      "ageMinParameter": "editorAgeMin",
+      "ageMaxParameter": "editorAgeMax"
+    },
+    {
+      "id": "reporter",
+      "soc": "27-3023",
+      "title": "News Analysts, Reporters, and Journalists",
+      "payParameter": "reporterAnnualPayMinor",
+      "ageMinParameter": "reporterAgeMin",
+      "ageMaxParameter": "reporterAgeMax"
+    }
+  ]
+}
