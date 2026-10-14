@@ -37,6 +37,7 @@ import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
+import { openOfficeDay } from "../core2/modules/office-day";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openThePast } from "../core2/past";
@@ -336,6 +337,10 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
+  // calendar, the meeting as a scene, the player's chosen stops and the
+  // character's own votes and desk decisions when the player does not stop.
+  openOfficeDay(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law

@@ -3718,5 +3718,41 @@
     "addedAt": "2026-10-14",
     "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
     "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-gov-meeting-dates",
+    "kind": "calendar",
+    "file": "src/core2/office-day-calendar.ts",
+    "line": 15,
+    "whatItFakes": "A council or board meets on its own rule for the bills placed before it, but the meetings where members file their own ordinances keep the world-legislating engine's tunable yearly count, so one body has two sets of meeting dates.",
+    "why": "The world-legislating engine is OPUS-GOV's and is being rewritten on its sessions branch; office-day may not edit it.",
+    "addedBy": "OFFICE-LOCAL",
+    "addedAt": "2026-10-14",
+    "replacement": "world-legislating's scheduleMeeting reads nextMeeting from office-day-calendar.ts, so every meeting of a body is one meeting on one rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-member-filings-at-midnight",
+    "kind": "timing",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 412,
+    "whatItFakes": "Ordinances other members file at a regular meeting are voted at the start of the meeting's day, before the player's stop at the meeting's hour, so the player's character votes them on its own even when the player is at the meeting.",
+    "why": "The world-legislating engine files and votes in one calendar step at midnight; holding the vote until the player's scene needs a change in OPUS-GOV's engine.",
+    "addedBy": "OFFICE-LOCAL",
+    "addedAt": "2026-10-14",
+    "replacement": "world-legislating splits a local meeting into filing (the agenda) and the vote, with a hook that lets office-day hold the vote until the player's meeting scene takes it up.",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-desk-rule-copy",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 464,
+    "whatItFakes": "When the player leaves the desk to the character, office-day recomputes the sign-or-veto lean (position plus temperament scaled by how settled the law is) from the legislature engine's exported parts, a copy of the rule other executives use.",
+    "why": "The legislature engine keeps its executive's own decision inside executiveAction and does not export it.",
+    "addedBy": "OFFICE-LOCAL",
+    "addedAt": "2026-10-14",
+    "replacement": "The legislature engine exports the executive's own sign-or-veto choice and office-day calls it.",
+    "status": "open"
   }
 ]
