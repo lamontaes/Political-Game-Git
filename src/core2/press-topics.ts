@@ -98,6 +98,7 @@ export function wireItem(
         ending: false,
       };
     case "legislative-vote":
+    case "executive-action":
     case "public-comment": {
       // A bill's vote or hearing is about what the bill changes.
       const bill =
@@ -115,7 +116,9 @@ export function wireItem(
       const passed =
         event.kind === "legislative-vote"
           ? Number(facts.yes) > Number(facts.no)
-          : Number(facts.for) >= Number(facts.against);
+          : event.kind === "executive-action"
+            ? facts.action !== "vetoed"
+            : Number(facts.for) >= Number(facts.against);
       const enacts = (first?.value ?? 1) > 0;
       return {
         ...base,

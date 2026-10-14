@@ -43,6 +43,7 @@ import { decisionLean } from "../trait-decisions";
 import {
   authorityFor,
   beyondPower,
+  bodyOf,
   draftBill,
   executiveOf,
   FEDERAL_HOUSE,
@@ -155,19 +156,12 @@ function chamber(
   return office ? { id: office.id, members: members(api, office.id) } : null;
 }
 
-/** The House, reached through the town's own House seat's office (bills are introduced there). */
-function houseOffice(
-  api: CoreAPI,
-): { id: string; members: readonly TermRow[] } | null {
-  const office = (
-    api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
-      id: string;
-      kind: string;
-    }[]
-  ).find((o) => o.kind.startsWith("us-house"));
-  return office
-    ? { id: office.id, members: members(api, FEDERAL_HOUSE) }
-    : null;
+/** The House: one national chamber, the same in every world (bills are introduced there). */
+function houseOffice(api: CoreAPI): {
+  id: string;
+  members: readonly TermRow[];
+} {
+  return { id: FEDERAL_HOUSE, members: members(api, FEDERAL_HOUSE) };
 }
 
 /**
@@ -580,11 +574,7 @@ function nextSitting(api: CoreAPI, bodyOfficeId: string): Sitting | null {
         estimatedFrom: "localRegularMeetingsPerYear",
       },
     };
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(bodyOfficeId) as unknown as
-    { kind: string; jurisdiction: string } | undefined;
+  const office = bodyOf(api, bodyOfficeId);
   if (!office) return null;
   const jurisdiction =
     office.kind.startsWith("us-house") || office.kind === "us-senate"
@@ -941,14 +931,7 @@ function originChamber(
     const senator = members(api, FEDERAL_SENATE).some(
       (t) => memberKey(t) === sponsor,
     );
-    const offices = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as { id: string; kind: string }[];
-    return (
-      (senator ? offices.find((o) => o.kind === "us-senate")?.id : undefined) ??
-      row.bodyOfficeId
-    );
+    return senator ? FEDERAL_SENATE : FEDERAL_HOUSE;
   }
   for (const kind of [
     "legislature-lower",

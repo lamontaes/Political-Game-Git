@@ -120,6 +120,8 @@ for (const name of [
   "app-protocol.mjs",
   "download-policy.mjs",
   "runtime-content.mjs",
+  "play-api-client.mjs",
+  "play-api-host.mjs",
 ])
   cpSync(path.join(desktopRoot, name), path.join(packagedRoot, name));
 // The hub's own trusted health-check harness for candidate builds.

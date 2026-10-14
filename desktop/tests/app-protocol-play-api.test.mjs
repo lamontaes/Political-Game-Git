@@ -51,7 +51,7 @@ test("files still come from the packaged client, and POST to a file is refused",
   assert.equal(post.status, 404);
 });
 
-test("a host without a play server (the hub) still answers /api with 404", async () => {
+test("a host without a play server still answers /api with 404", async () => {
   const response = await serveAppRequest(
     root,
     new Request("app://game/api/scene"),

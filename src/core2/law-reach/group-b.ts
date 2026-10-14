@@ -41,6 +41,8 @@ import {
 } from "./group-b-store";
 import {
   balancePlan,
+  budgetGap,
+  type BalanceRule,
   holdReserve,
   incomeTaxAct,
   jobsAt,
@@ -106,6 +108,13 @@ export const GROUP_B_KEYS: readonly string[] = [
 
 export function groupBPolicy(key: string): PolicyDef | undefined {
   return data.policies[key];
+}
+
+/** The balanced-budget law's rule for how a gap is closed at this level (data, cited). */
+function balanceRule(def: unknown, level: string): BalanceRule {
+  const rules = (def as { sequestration: Record<string, BalanceRule> })
+    .sequestration;
+  return rules[level] ?? rules.default!;
 }
 
 const termsOf = (def: { terms?: Readonly<Record<string, string>> }) =>
@@ -284,6 +293,9 @@ function runPolicy(
       });
       break;
     case "balanced-budget": {
+      // Set when this call balances a budget (not on a later review of one
+      // already balanced).
+      let firstGap: number | null = null;
       // Applied once a fiscal year while the act stands; a repeal restores
       // the lines it cut this year.
       const moved = moveBudget(api, {
@@ -291,12 +303,28 @@ function runPolicy(
         level,
         inForce: input.enacting,
         lawId: `${input.lawId}#balance`,
-        plan: (_gov, budget) => balancePlan(budget),
+        plan: (gov, budget) => {
+          const years = rowsOf<{ id: string; firstGapMinor: number }>(
+            api,
+            "taken",
+          ).filter((r) => r.id.startsWith(`balance|${gov.id}|`));
+          firstGap = years[0]?.firstGapMinor ?? budgetGap(budget);
+          return balancePlan(
+            budget,
+            balanceRule(def, gov.level),
+            years.length,
+            firstGap,
+          );
+        },
       });
       const cut = -Object.values(moved?.moves ?? {}).reduce((a, b) => a + b, 0);
-      if (input.enacting && moved && cut)
+      if (input.enacting && moved && cut && firstGap !== null)
         putRow(api, "taken", {
-          id: `balance|${moved.governmentId}|${api.state.date}`,
+          // One record per fiscal year's budget the law has balanced; the
+          // phase-in counts them.
+          id: `balance|${moved.governmentId}|${moved.budgetId}`,
+          // The gap the law first met: its phase-in steps down from it.
+          firstGapMinor: firstGap,
           key,
           governmentId: moved.governmentId,
           cutMinor: cut,
