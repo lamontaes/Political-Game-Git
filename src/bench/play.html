@@ -13,12 +13,35 @@
         <div id="people"></div>
       </div>
 
-      <section id="caption" class="panel corners" hidden>
-        <p id="caption-title"></p>
-        <h2 id="caption-names"></h2>
-        <p id="caption-detail"></p>
-        <div id="caption-words"></div>
-        <button id="caption-full" type="button" hidden></button>
+      <!-- The opening: the President's speech box, then the night's news at home. -->
+      <section id="opening-box" class="panel" hidden>
+        <div class="opening-who">
+          <div id="opening-bust" class="bust"></div>
+          <div>
+            <div id="opening-name" class="name"></div>
+            <div id="opening-role" class="role"></div>
+          </div>
+        </div>
+        <p id="opening-speech" class="speech"></p>
+      </section>
+      <button id="news-surface" class="panel" type="button" hidden>
+        <span id="news-surface-label" class="label"></span>
+        <span id="news-surface-headline" class="prose"></span>
+      </button>
+      <section id="news-reader" class="panel" hidden>
+        <button
+          id="news-reader-close"
+          class="close"
+          type="button"
+          aria-label="Close"
+        >
+          ×
+        </button>
+        <div class="news-reader-main">
+          <h2 id="news-reader-headline"></h2>
+          <div id="news-reader-body"></div>
+        </div>
+        <div id="news-reader-more"></div>
       </section>
 
       <section id="front" class="panel corners">

@@ -4,13 +4,18 @@ import { lifePlaceByKey } from "../simulation/life-places";
 import { capitolPlaceFor } from "../presentation/place-backdrops";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropFile, stagePeople, homeOf } from "./scene";
-import shots from "./data/opening-shots.json" with { type: "json" };
+import pictures from "./data/opening-pictures.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
-import type { OpeningStory } from "../director/opening-story";
+import type { OpeningSentence, OpeningStory } from "../director/opening-story";
 
-// The opening's shots show who holds each office from the records; the
-// President's address, the evening news and the morning after come from the
-// director's opening story, composed by the English engine at loading.
+// The opening (owner, Oct 14, 2026): the President's address, full screen,
+// sentence by sentence in the speech box, the picture cutting to what each
+// sentence is about; then home, where that night's news can be picked up.
+// Every word is the director's opening story, composed by the English engine
+// at loading; this file only chooses the pictures and who stands in them.
+
+/** The evening of the opening day, when the household has the news on. */
+export const OPENING_EVENING_MINUTE = 20 * 60 + 30;
 
 const PICTURED = new Set(
   manifest.backdrops
@@ -18,178 +23,129 @@ const PICTURED = new Set(
     .map((row) => row.place),
 );
 
-interface Shot {
-  officeKinds?: string[][];
-  family?: boolean;
-  player?: boolean;
-  newscast?: boolean;
-  morning?: boolean;
-  /** The parts of the address spoken over this shot. */
-  speech?: string[];
-  /** The hour the shot is lit for, when not the evening. */
-  hour?: number;
+interface Picture {
   places: string[];
+  cast?: string;
 }
+const RULES = pictures as unknown as {
+  facts: (Picture & { facts: string[] })[];
+  levels: Record<string, Picture>;
+  cast: Record<string, string[][]>;
+  hour: number;
+};
 
-/** One line on screen: who says it and the record ids it came from. */
-interface ShotLine {
-  speaker: "president" | "anchor" | "reporter";
-  text: string;
-  /** "opening" and "remembered" lines of the address (Sept 28 ruling). */
-  role?: "opening" | "remembered";
-  headline?: string;
-  sourceRecordIds: readonly string[];
+/** The picture a sentence is shown over: its first matching fact, else its part of the address. */
+function pictureFor(sentence: OpeningSentence): Picture {
+  return (
+    RULES.facts.find((rule) =>
+      rule.facts.some((key) => sentence.facts.includes(key)),
+    ) ??
+    RULES.levels[sentence.level] ??
+    RULES.levels.occasion!
+  );
 }
 
 /**
- * The opening: who governs the player's town, level by level, while the
- * President speaks; that night's news; then home on the morning of day two.
- * Without a story (an older world), the shots carry names only.
+ * The opening's frames: one per change of picture, each with the sentences
+ * the President says over it and who stands in it. Read-only.
  */
-export function openingShots(
+export function openingFrames(
   core: CoreState,
   playerId: string,
-  story?: OpeningStory,
+  story: OpeningStory,
 ) {
   const player = core.people.get(playerId);
   if (!player) throw new Error("No such person.");
   const api = coreAPI(core);
   const seats = townSeats(api);
-  const usps = lifePlaceByKey(
-    api.state.placeMetadata.placeKey ?? "",
-  )?.stateJurisdictionKey?.slice(3);
-  const resolve = (place: string, minute: number) =>
+  const minute = RULES.hour * 60;
+  const usps =
+    lifePlaceByKey(
+      api.state.placeMetadata.placeKey ?? "",
+    )?.stateJurisdictionKey?.slice(3) ?? null;
+  // A state's own capitol where it is pictured (the presentation helper reads
+  // the browser build's picture list, which the bench server doesn't have).
+  const capitol = (code: string | null) =>
+    code && PICTURED.has(`state-capitol-${code.toLowerCase()}`)
+      ? `state-capitol-${code.toLowerCase()}`
+      : capitolPlaceFor(code);
+  const resolve = (place: string, sentence: OpeningSentence) =>
     place === "capitol"
-      ? capitolPlaceFor(usps ?? null)
-      : place === "@home"
-        ? homeOf(core, playerId, minute)
-        : place;
-  const out = [];
-  for (const shot of shots.shots as Shot[]) {
-    if ((shot.newscast || shot.morning) && !story) continue;
-    const minute = (shot.hour ?? 20.5) * 60;
-    const place = shot.places
-      .map((row) => resolve(row, minute))
-      .find((row) => PICTURED.has(row));
-    if (!place) continue;
-    let cast: {
-      id: string;
-      name: string;
-      title?: string;
-      detail?: string[];
-    }[] = [];
-    let lines: ShotLine[] = [];
-    if (shot.officeKinds) {
-      for (const kinds of shot.officeKinds) {
-        cast = seats
-          .filter((row) => kinds.includes(row.office.kind) && row.holder)
-          .map(({ office, holder }) => ({
-            id: holder!.personId ?? holder!.id,
-            name: `${holder!.identity.givenName} ${holder!.identity.familyName}`,
-            title: office.title,
-          }));
-        if (cast.length) break;
-      }
-      if (!cast.length) continue;
-      // The President's own record: home state and the office before.
-      if (story)
-        cast = cast.map((row) =>
-          row.id === story.president.id
-            ? {
-                ...row,
-                detail: [
-                  story.president.homeState,
-                  story.president.priorOffice,
-                ].filter((text): text is string => Boolean(text)),
-              }
-            : row,
-        );
-    } else if (shot.newscast) {
-      lines = story!.newscast.flatMap((item) =>
-        item.broadcast.map((line, index) => ({
-          speaker: line.speaker,
-          text: line.text,
-          ...(index === 0 && item.headline ? { headline: item.headline } : {}),
-          sourceRecordIds: item.sourceRecordIds,
-        })),
-      );
-    } else if (shot.family || shot.morning) {
-      const members = shot.morning
-        ? story!.morning.memberIds
-        : (core.households.get(player.householdId)?.memberIds ?? []);
-      cast = members
-        .filter(
-          (id) =>
-            (shot.morning || id !== playerId) && core.people.get(id)?.alive,
-        )
+      ? capitol(usps)
+      : place === "@visited-capitol"
+        ? capitol(sentence.stateKey?.slice(3) ?? null)
+        : place === "@home"
+          ? homeOf(core, playerId, minute)
+          : place;
+  const castOf = (key: string | undefined) => {
+    if (key === "family")
+      return (core.households.get(player.householdId)?.memberIds ?? [])
+        .filter((id) => core.people.get(id)?.alive)
         .map((id) => {
           const row = core.people.get(id)!;
           return { id, name: `${row.givenName} ${row.familyName}` };
         });
-      if (!cast.length) continue;
-    } else
-      cast = [
-        { id: playerId, name: `${player.givenName} ${player.familyName}` },
-      ];
-    // What the President says over this shot: the opening line first, then
-    // the line people remember where its part of the address falls.
-    if (story && shot.speech) {
-      const { openingLine, rememberedLine } = story.address;
-      const first = out.length === 0;
-      if (first)
-        lines.push({
-          speaker: "president",
-          text: openingLine.text,
-          role: "opening",
-          sourceRecordIds: openingLine.sourceRecordIds,
-        });
-      if (
-        shot.speech.includes(rememberedLine.level) &&
-        rememberedLine.text !== openingLine.text
-      )
-        lines.push({
-          speaker: "president",
-          text: rememberedLine.text,
-          role: "remembered",
-          sourceRecordIds: rememberedLine.sourceRecordIds,
-        });
+    for (const kinds of (key && RULES.cast[key]) || []) {
+      const cast = seats
+        .filter((row) => kinds.includes(row.office.kind) && row.holder)
+        .map(({ office, holder }) => ({
+          id: holder!.personId ?? holder!.id,
+          name: `${holder!.identity.givenName} ${holder!.identity.familyName}`,
+          title: office.title,
+        }));
+      if (cast.length) return cast;
     }
-    const { people } = stagePeople(core, place, cast);
-    out.push({
+    return [];
+  };
+  const frames: {
+    place: string;
+    backdrop: ReturnType<typeof backdropFile>;
+    cast: { id: string; name: string; title?: string }[];
+    people: ReturnType<typeof stagePeople>["people"];
+    lines: OpeningSentence[];
+  }[] = [];
+  for (const sentence of story.address.sentences) {
+    const picture = pictureFor(sentence);
+    const place = picture.places
+      .map((row) => resolve(row, sentence))
+      .find((row) => PICTURED.has(row));
+    const last = frames.at(-1);
+    if (!place || place === last?.place) {
+      last?.lines.push(sentence);
+      continue;
+    }
+    const cast = castOf(picture.cast);
+    frames.push({
       place,
       backdrop: backdropFile(place, minute),
-      cast: cast.map(({ id, name, title, detail }) => ({
-        id,
-        name,
-        title,
-        ...(detail?.length ? { detail } : {}),
-      })),
-      people,
-      lines,
-      ...(shot.morning
-        ? {
-            date: story!.morning.date,
-            // The subject the household can bring up: the address, quoted.
-            subject: {
-              eventId: story!.morning.subjectEventId,
-              quote: story!.address.rememberedLine.text,
-            },
-          }
-        : {}),
+      cast,
+      people: stagePeople(core, place, cast).people,
+      lines: [sentence],
     });
   }
-  return out;
-}
-
-/** The whole address, for the full text a tap away. */
-export function openingAddress(story: OpeningStory | undefined) {
-  return story
-    ? {
-        id: story.id,
-        date: story.date,
-        kind: story.speechKind,
-        president: story.president,
-        sentences: story.address.sentences,
-      }
-    : null;
+  const presidentFigure = frames
+    .flatMap((frame) => frame.people)
+    .find((row) => row.personId === story.president.id)?.figureUrl;
+  return {
+    /** Who is speaking, for the speech box. */
+    speaker: {
+      id: story.president.id,
+      name: story.president.name,
+      title:
+        seats.find((row) => row.office.kind === "president")?.office.title ??
+        null,
+      detail: [story.president.homeState, story.president.priorOffice].filter(
+        (text): text is string => Boolean(text),
+      ),
+      ...(presidentFigure ? { figureUrl: presidentFigure } : {}),
+    },
+    frames,
+    /** That night's news, which the player picks up at home. */
+    news: {
+      id: story.id,
+      stories: story.newscast,
+      address: story.address.sentences.map((row) => row.text),
+    },
+    home: { ...story.home, minuteOfDay: OPENING_EVENING_MINUTE },
+  };
 }

@@ -1,0 +1,72 @@
+{
+  "about": "What the opening shows while the President speaks (owner, Oct 14, 2026: full screen, cinematic; the picture cuts when the speech's subject changes). Each sentence of the address takes the picture of the first rule below whose facts it said, else its part of the address's picture; consecutive sentences with the same picture stay on it. '@visited-capitol' is the capitol of the state a place line names (from the President's campaign-visit record), 'capitol' the player's own state's, '@home' the player's home. Each picture lists places to try in order; the first with a picture wins. 'cast' names who stands in it, from the offices records.",
+  "facts": [
+    { "facts": ["place"], "places": ["@visited-capitol"] },
+    {
+      "facts": ["goal"],
+      "places": ["us-capitol-exterior", "us-house-floor"],
+      "cast": "congress"
+    },
+    {
+      "facts": ["unemployment-rate", "unemployment-down", "jobless"],
+      "places": ["unemployment-office", "workforce-center"]
+    },
+    {
+      "facts": ["jobs-up", "jobs-added", "factory-jobs-up"],
+      "places": ["factory-floor", "construction-site"]
+    },
+    { "facts": ["wages-up"], "places": ["factory-floor", "workforce-center"] },
+    { "facts": ["gas-down"], "places": ["gas-station"] },
+    {
+      "facts": [
+        "inflation-rate",
+        "inflation-down",
+        "inflation-up",
+        "prices-high",
+        "prices-up",
+        "prices-down"
+      ],
+      "places": ["grocery-store", "general-store"]
+    },
+    {
+      "facts": ["growth-up", "growth-high"],
+      "places": ["main-street", "downtown-sidewalk"]
+    },
+    { "facts": ["crime-down"], "places": ["police-station"] },
+    {
+      "facts": ["deficit-down", "deficit-cut", "national-debt"],
+      "places": ["us-capitol-exterior"]
+    }
+  ],
+  "levels": {
+    "occasion": {
+      "places": ["white-house-exterior", "oval-office-resolute"],
+      "cast": "president"
+    },
+    "country": {
+      "places": ["oval-office-resolute", "oval-office"],
+      "cast": "president"
+    },
+    "congress": {
+      "places": ["us-house-floor", "us-capitol-exterior"],
+      "cast": "congress"
+    },
+    "governors": {
+      "places": ["capitol", "governor-office"],
+      "cast": "governor"
+    },
+    "towns": { "places": ["main-street", "council-chamber"], "cast": "town" },
+    "families": { "places": ["@home"], "cast": "family" },
+    "close": {
+      "places": ["oval-office-resolute", "white-house-exterior"],
+      "cast": "president"
+    }
+  },
+  "cast": {
+    "president": [["president"]],
+    "congress": [["us-senate", "us-house"]],
+    "governor": [["governor"]],
+    "town": [["mayor", "municipal-council"], ["county-board"]]
+  },
+  "hour": 12
+}

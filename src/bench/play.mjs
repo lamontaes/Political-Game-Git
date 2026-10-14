@@ -80,90 +80,135 @@ function drawPeople(people) {
   );
 }
 
-// The opening: each level of government over the player's town, then home.
-const SHOT_MS = 4500;
+// ---- The opening (owner, Oct 14, 2026) ----
+// The President's address, full screen, sentence by sentence in the speech
+// box, the picture cutting when what the sentence is about changes; then
+// home that evening, where the night's news can be picked up, and the first
+// controls pointed out. Every word is the director's opening story.
 let skipOpening;
-// The opening's shots, fetched and their pictures loaded during loading.
-let openingShotsReady;
+// The opening, fetched and its pictures loaded during loading.
+let openingReady;
+/** How long a spoken line stays up: a beat plus reading time. */
+const lineMs = (text) => 1800 + text.length * 45;
 async function playOpening() {
-  const shots =
-    openingShotsReady ??
-    (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
-  openingShotsReady = undefined;
-  show("caption", true);
-  $("game").classList.add("letterbox");
-  let morning;
-  for (const shot of shots) {
-    $("backdrop").src = shot.backdrop.url;
-    drawPeople(shot.people);
+  const opening =
+    openingReady ?? (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
+  openingReady = undefined;
+  if (!opening?.frames?.length) return opening;
+  const { speaker } = opening;
+  $("opening-bust").style.backgroundImage = speaker.figureUrl
+    ? `url("${speaker.figureUrl}")`
+    : "";
+  $("opening-name").textContent = speaker.name;
+  $("opening-role").textContent = [speaker.title, ...speaker.detail]
+    .filter(Boolean)
+    .join(" · ");
+  show("opening-box", true);
+  $("game").classList.add("letterbox", "cinema");
+  frames: for (const frame of opening.frames) {
+    $("backdrop").src = frame.backdrop.url;
+    drawPeople(frame.people);
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    const titles = [...new Set(shot.cast.map((c) => c.title).filter(Boolean))];
-    $("caption-title").textContent = shot.date
-      ? new Date(`${shot.date}T12:00:00`).toLocaleDateString("en-US", {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        })
-      : titles.join(" · ");
-    $("caption-names").textContent = shot.cast.map((c) => c.name).join(" · ");
-    // The President's own record: home state and the office before.
-    $("caption-detail").textContent = shot.cast
-      .flatMap((c) => c.detail ?? [])
-      .join(" · ");
-    // What is said over the shot: the address's opening and remembered
-    // lines, the newscast, or the subject the household can bring up.
-    const said = [
-      ...(shot.lines ?? []).flatMap((line) => [
-        ...(line.headline
-          ? [el("p", { className: "headline", textContent: line.headline })]
-          : []),
-        el("blockquote", {
-          className: line.role ?? line.speaker,
-          textContent: line.text,
-        }),
-      ]),
-      ...(shot.subject
-        ? [
-            el("blockquote", {
-              className: "subject",
-              textContent: shot.subject.quote,
-            }),
-          ]
-        : []),
-    ];
-    $("caption-words").replaceChildren(...said);
-    const speech = shot.lines?.some((line) => line.speaker === "president");
-    $("caption-full").hidden = !speech;
-    $("caption-full").textContent = controls.opening?.fullText ?? "";
-    if (shot.date) morning = shot.date;
-    const wait = SHOT_MS * Math.max(1, (shot.lines?.length ?? 0) / 2);
-    const skipped = await new Promise((resolve) => {
-      const timer = setTimeout(() => resolve(false), wait);
-      skipOpening = () => resolve(true);
-      // The full text a tap away (Sept 28 ruling); the opening waits.
-      $("caption-full").onclick = async () => {
-        clearTimeout(timer);
-        const address = await api("/api/opening/address");
-        $("caption-words").replaceChildren(
-          ...(address?.sentences ?? []).map((row) =>
-            el("blockquote", { textContent: row.text }),
-          ),
-        );
-        $("caption-full").textContent = controls.opening?.resume ?? "";
-        $("caption-full").onclick = () => resolve(false);
-      };
-    });
-    if (skipped) break;
+    for (const line of frame.lines) {
+      $("opening-speech").textContent = line.text;
+      // A click moves on to the next sentence; Skip ends the address.
+      const skipped = await new Promise((resolve) => {
+        const timer = setTimeout(() => resolve(false), lineMs(line.text));
+        skipOpening = () => {
+          clearTimeout(timer);
+          resolve(true);
+        };
+        $("opening-box").onclick = () => {
+          clearTimeout(timer);
+          resolve(false);
+        };
+      });
+      if (skipped) break frames;
+    }
   }
   skipOpening = undefined;
-  $("caption-full").hidden = true;
-  $("caption-words").replaceChildren();
-  show("caption", false);
-  $("game").classList.remove("letterbox");
-  return morning;
+  $("opening-box").onclick = null;
+  show("opening-box", false);
+  $("game").classList.remove("letterbox", "cinema");
+  return opening;
+}
+
+/** That night's news at home: on the table, picked up to read. */
+function showNewsSurface(news) {
+  const story = news?.stories?.[0];
+  if (!story) return;
+  $("news-surface-label").textContent = controls.opening?.news ?? "";
+  $("news-surface-headline").textContent =
+    story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
+  $("news-surface").onclick = () => openNewsReader(news);
+  show("news-surface", true);
+  // The paper stays on the table for the evening; living on clears it.
+  for (const id of ["day", "week", "skip"])
+    $(id).addEventListener("click", () => show("news-surface", false), {
+      once: true,
+    });
+}
+function openNewsReader(news) {
+  const [lead, ...rest] = news.stories;
+  $("news-reader-headline").textContent =
+    lead.headline ?? lead.lede ?? lead.broadcast[0]?.text ?? "";
+  $("news-reader-body").replaceChildren(
+    ...lead.broadcast.map((line) =>
+      el("p", { className: "prose", textContent: line.text }),
+    ),
+    // The address itself, as the record quotes it.
+    ...news.address.map((text) =>
+      el("p", { className: "speech quote", textContent: text }),
+    ),
+  );
+  $("news-reader-more").replaceChildren(
+    ...rest.map((item) =>
+      el(
+        "div",
+        { className: "item" },
+        el("b", {
+          textContent:
+            item.headline ??
+            item.lede ??
+            item.broadcast.map((line) => line.text).join(" "),
+        }),
+      ),
+    ),
+  );
+  show("news-reader", true);
+}
+$("news-reader-close").addEventListener("click", () =>
+  show("news-reader", false),
+);
+
+/**
+ * The first choices, pointed out one at a time: the news, the people you
+ * know, then living the day. Each glows until it is used; nothing to read.
+ */
+function coachFirstChoices() {
+  const steps = ["news-surface", "people-tab", "day"]
+    .map((id) =>
+      id === "people-tab"
+        ? document.querySelector('#stack [data-tab="people"]')
+        : $(id),
+    )
+    .filter((node) => node && !node.hidden);
+  const next = () => {
+    const node = steps.shift();
+    if (!node) return;
+    node.classList.add("coach");
+    node.addEventListener(
+      "click",
+      () => {
+        node.classList.remove("coach");
+        next();
+      },
+      { once: true },
+    );
+  };
+  next();
 }
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
@@ -208,7 +253,7 @@ async function renderCard() {
   $("card-name").textContent = card.name;
   $("card-place").textContent = `${me.placeName} · ${card.age}`;
   $("card-clock").textContent = clock(
-    packet?.at ?? { date: me.date, minuteOfDay: 0 },
+    packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 },
   );
 }
 
@@ -1682,14 +1727,14 @@ $("new-life").addEventListener("click", async () => {
       clearInterval(poll);
     }
     // Every picture the opening shows is loaded before it plays.
-    const shots = await api(
+    const opening = await api(
       `/api/opening?id=${encodeURIComponent(life.personId)}`,
     );
     const urls = [
       ...new Set(
-        shots.flatMap((shot) => [
-          shot.backdrop.url,
-          ...shot.people.map((person) => person.figureUrl),
+        (opening?.frames ?? []).flatMap((frame) => [
+          frame.backdrop.url,
+          ...frame.people.map((person) => person.figureUrl),
         ]),
       ),
     ];
@@ -1710,7 +1755,7 @@ $("new-life").addEventListener("click", async () => {
           }),
       ),
     );
-    openingShotsReady = shots;
+    openingReady = opening;
     me = {
       id: life.personId,
       placeName: life.placeName,
@@ -1720,13 +1765,15 @@ $("new-life").addEventListener("click", async () => {
     // What was already law at the start isn't news; only what changes after.
     seenChanges = await changeCount();
     show("front", false);
-    const morning = await playOpening();
-    // The opening covered the first day; the player's clock already starts
-    // the morning after, which is what the card shows.
-    if (morning) me.date = morning;
+    await playOpening();
+    if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
+    // Home that evening (the server's rule for the opening day), with the
+    // night's news to pick up, then the first choices pointed out.
     for (const id of ["tabs", "stack", "card"]) show(id, true);
     renderPacket(life.packet);
     await refresh();
+    showNewsSurface(opening?.news);
+    coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;
     $("new-life").disabled = false;

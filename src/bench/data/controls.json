@@ -42,7 +42,6 @@
     "done": "Ready"
   },
   "opening": {
-    "fullText": "Full text",
-    "resume": "Continue"
+    "news": "News"
   }
 }

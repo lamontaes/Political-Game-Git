@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { openingShots } from "../bench/opening";
+import { openingFrames } from "../bench/opening";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
@@ -101,19 +101,24 @@ describe("the opening story", () => {
       for (const line of item.broadcast) expect(line.text).not.toMatch(/^I'm /);
     }
     // The player saw the address: it is theirs to bring up at home.
-    const other = story.morning.memberIds.find((id) => id !== playerId);
+    const other = story.home.memberIds.find((id) => id !== playerId);
     if (other)
       expect(
         subjectsBetween(core, playerId, other).some(
           (row) => row.kind === "address" && row.aboutId === story.id,
         ),
       ).toBe(true);
-    // The bench's opening carries the address's opening and remembered
-    // lines, the newscast and the morning of day two.
-    const shots = openingShots(core, playerId, story);
-    const lines = shots.flatMap((shot) => shot.lines);
-    expect(lines.some((line) => line.role === "opening")).toBe(true);
-    expect(lines.some((line) => line.speaker === "anchor")).toBe(true);
-    expect(shots.at(-1)?.date).toBe(story.morning.date);
+    // The bench's opening speaks every sentence, in order, over pictures
+    // that cut when the subject changes; a place line shows that state.
+    const opening = openingFrames(core, playerId, story);
+    expect(opening.frames.flatMap((frame) => frame.lines)).toEqual(
+      story.address.sentences,
+    );
+    for (let i = 1; i < opening.frames.length; i += 1)
+      expect(opening.frames[i]!.place).not.toBe(opening.frames[i - 1]!.place);
+    for (const frame of opening.frames)
+      for (const line of frame.lines.filter((row) => row.stateKey))
+        expect(frame.place).toMatch(/^state-capitol-/);
+    expect(opening.news.stories).toEqual(story.newscast);
   });
 });

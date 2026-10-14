@@ -5,6 +5,8 @@
  */
 export const ADDRESS_FACT = {
   event: "address:event",
+  /** The offices engine's inauguration record the address was given at. */
+  inauguration: "address:inauguration",
   president: "address:president",
   kind: "address:kind",
   opening: "address:opening",

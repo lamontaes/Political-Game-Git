@@ -1,7 +1,7 @@
 /**
  * The opening, told as a story (owner, Oct 14, 2026): the President's address
  * about the world the simulation made, that night's evening news, then the
- * player's household on the morning of day two. Everything said comes from
+ * player's household at home that evening, where the news can be picked up. Everything said comes from
  * the English engine's mined banks with the world's records in its slots,
  * composed once while the world loads; a sentence the records can't support
  * is left out, never written.
@@ -51,7 +51,7 @@ import billCatalog from "../core2/data/legislature/bill-catalog.json" with { typ
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { ADDRESS_FACT } from "./opening-facts";
 import { markWordsStopgap } from "./stopgaps";
-import { addDays, ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { P } from "../core2/parameters";
 import { properName, spoken } from "./words";
 
@@ -59,6 +59,10 @@ export interface OpeningSentence {
   readonly level: OpeningLevel;
   readonly text: string;
   readonly sourceRecordIds: readonly string[];
+  /** What the sentence is about: the facts it said ("jobs-up", "place", "goal"). */
+  readonly facts: readonly string[];
+  /** The state a place line names, from the campaign visit it came from. */
+  readonly stateKey?: string;
 }
 
 export interface OpeningNewsStory {
@@ -100,8 +104,8 @@ export interface OpeningStory {
   };
   /** That evening's news: the address, then the town's own lead story. */
   readonly newscast: readonly OpeningNewsStory[];
-  /** The handoff: the player's household on the morning of day two. */
-  readonly morning: {
+  /** The handoff: the player's household at home on the evening of day one. */
+  readonly home: {
     readonly date: string;
     readonly householdId: string;
     readonly memberIds: readonly PersonId[];
@@ -134,6 +138,9 @@ const anchorLines = (role: string) =>
   );
 const ANCHOR_OPENS = anchorLines("open");
 const ANCHOR_CLOSES = anchorLines("close");
+
+/** The offices engine's public record of the taking of office on Inauguration Day. */
+const INAUGURATION_EVENT = "inauguration";
 
 /** The kind of public event the address is recorded as. */
 export const OPENING_ADDRESS_EVENT = "president.address";
@@ -388,9 +395,16 @@ function composeAddressOf(
     }
     for (const move of address.moves) {
       const used = new Set(move.parts.flatMap((part) => part.usedFactKeys));
+      const visit = [...used].includes("place")
+        ? own.place?.sourceRecordIds
+            .map((id) => /:visit:(US-[A-Z]{2})$/.exec(id)?.[P.one])
+            .find(Boolean)
+        : undefined;
       sentences.push({
         level: section.level,
         text: move.text,
+        facts: [...used].sort(),
+        ...(visit ? { stateKey: visit } : {}),
         sourceRecordIds: [
           ...new Set([
             president.id,
@@ -553,6 +567,7 @@ export function composeOpeningStory(
     sentences.find((row) => row.level === "country") ??
     sentences[P.zero]!;
   const id = `${OPENING_ADDRESS_EVENT}:${core.date}`;
+  const inauguration = `${INAUGURATION_EVENT}:${core.date}`;
   const allIds = [...new Set(sentences.flatMap((row) => row.sourceRecordIds))];
   // The evening news: the address, then the town's own lead story.
   const newscast: OpeningNewsStory[] = [
@@ -561,6 +576,9 @@ export function composeOpeningStory(
         fullName(president),
         president.id,
         ...(elected ? [elected.id] : []),
+        // The offices engine's record of the taking of office, when the
+        // world opens on Inauguration Day.
+        ...(core.eventIds.has(inauguration) ? [inauguration] : []),
       ),
       ...(elected ? { won: fact("yes", elected.id) } : {}),
       ...(townName ? { place: fact(townName, player.placeId) } : {}),
@@ -605,8 +623,8 @@ export function composeOpeningStory(
       sourceRecordIds: allIds,
     },
     newscast: program,
-    morning: {
-      date: addDays(makeIsoDate(core.date), P.one),
+    home: {
+      date: core.date,
       householdId: player.householdId,
       memberIds: (household?.memberIds ?? []).filter(
         (memberId) => core.people.get(memberId)?.alive,
@@ -644,6 +662,9 @@ export function recordOpeningStory(
     news: true,
     facts: {
       [ADDRESS_FACT.event]: story.id,
+      ...(core.eventIds.has(`${INAUGURATION_EVENT}:${core.date}`)
+        ? { [ADDRESS_FACT.inauguration]: `${INAUGURATION_EVENT}:${core.date}` }
+        : {}),
       [ADDRESS_FACT.president]: story.president.id,
       [ADDRESS_FACT.kind]: story.speechKind,
       [ADDRESS_FACT.opening]: story.address.openingLine.text,
