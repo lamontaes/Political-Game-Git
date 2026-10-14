@@ -415,7 +415,7 @@
       {
         "rule": "institution-event",
         "kind": "emotion",
-        "text": "Rowan McKenzie: James McCarthy graduated from Napaaqtugmiut School."
+        "text": "Rowan McKenzie: James Mercer graduated from Napaaqtugmiut School."
       },
       {
         "rule": "institution-event",
@@ -440,7 +440,7 @@
       {
         "rule": "institution-event",
         "kind": "emotion",
-        "text": "James McCarthy: Jennifer Montoya graduated from Napaaqtugmiut School."
+        "text": "James Mercer: Jennifer Montoya graduated from Napaaqtugmiut School."
       },
       {
         "rule": "institution-event",
@@ -455,7 +455,7 @@
       {
         "rule": "institution-event",
         "kind": "emotion",
-        "text": "Mr. Speaker, I rise today in recognition of James McCarthy. James McCarthy graduated from Napaaqtugmiut School. I thank James McCarthy for his service. I yield back."
+        "text": "Mr. Speaker, I rise today in recognition of James Mercer. James Mercer graduated from Napaaqtugmiut School. I thank James Mercer for his service. I yield back."
       },
       {
         "rule": "institution-event",
@@ -2296,7 +2296,7 @@
       "context": "The roll call on 2026-2 (\"Ban discrimination in housing and work\") before the Borough of Northwest Arctic commissioner: 1 for, 6 against; the bill failed. Each name is read from a member's recorded vote.",
       "situation": "The roll call on 2026-2 (\"Ban discrimination in housing and work\") before the Borough of Northwest Arctic commissioner: 1 for, 6 against; the bill failed. Each name is read from a member's recorded vote.",
       "prior": "",
-      "text": "Voting against this action: Quinn Noel, Michael Gordon, Jennifer Montoya, Paul Romero, James McCarthy and Thomas McCarthy.",
+      "text": "Voting against this action: Quinn Noel, Michael Gordon, Jennifer Montoya, Paul Romero, James Mercer and Thomas McCarthy.",
       "lie": false,
       "emotion": [],
       "parts": ["minutes.vote.voting-against-this-action-members"],
@@ -4027,9 +4027,9 @@
       "category": "emotion",
       "place": "Junction City, Wisconsin",
       "life": 0,
-      "speaker": "Daniel Clark",
-      "context": "Daniel Clark lost the race for undefined to Jeremy Strong (the voting module's recorded result) and concedes.",
-      "situation": "Daniel Clark lost the race for undefined to Jeremy Strong (the voting module's recorded result) and concedes.",
+      "speaker": "Daniel Clarkson",
+      "context": "Daniel Clarkson lost the race for undefined to Jeremy Strong (the voting module's recorded result) and concedes.",
+      "situation": "Daniel Clarkson lost the race for undefined to Jeremy Strong (the voting module's recorded result) and concedes.",
       "prior": "",
       "text": "This is not the end.",
       "lie": false,
@@ -4555,10 +4555,10 @@
       "place": "Vauxhall, New Jersey",
       "life": 1,
       "speaker": "Jacob McIntyre",
-      "context": "Jacob McIntyre lost the race for undefined to Joseph McLaughlin (the voting module's recorded result) and concedes.",
-      "situation": "Jacob McIntyre lost the race for undefined to Joseph McLaughlin (the voting module's recorded result) and concedes.",
+      "context": "Jacob McIntyre lost the race for undefined to Joseph McLauren (the voting module's recorded result) and concedes.",
+      "situation": "Jacob McIntyre lost the race for undefined to Joseph McLauren (the voting module's recorded result) and concedes.",
       "prior": "",
-      "text": "I congratulate Joseph McLaughlin.",
+      "text": "I congratulate Joseph McLauren.",
       "lie": false,
       "emotion": ["joy"],
       "parts": ["address.concession-concede.i-congratulate-opponent"],
@@ -4584,8 +4584,8 @@
           "parts": [
             "address.concession-concede.i-want-to-congratulate-opponent"
           ],
-          "partText": "I want to congratulate Joseph McLaughlin.",
-          "text": "I want to congratulate Joseph McLaughlin."
+          "partText": "I want to congratulate Joseph McLauren.",
+          "text": "I want to congratulate Joseph McLauren."
         }
       ]
     },
@@ -4595,9 +4595,9 @@
       "category": "emotion",
       "place": "Vauxhall, New Jersey",
       "life": 1,
-      "speaker": "Joseph McLaughlin",
-      "context": "Joseph McLaughlin won the race for undefined against Jacob McIntyre (the voting module's recorded result) and speaks on election night.",
-      "situation": "Joseph McLaughlin won the race for undefined against Jacob McIntyre (the voting module's recorded result) and speaks on election night.",
+      "speaker": "Joseph McLauren",
+      "context": "Joseph McLauren won the race for undefined against Jacob McIntyre (the voting module's recorded result) and speaks on election night.",
+      "situation": "Joseph McLauren won the race for undefined against Jacob McIntyre (the voting module's recorded result) and speaks on election night.",
       "prior": "",
       "text": "We did it.",
       "lie": false,

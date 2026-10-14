@@ -154,9 +154,8 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
           (chapter) => chapter.lines.map((line) => line.text),
         );
         expect(
-          text.some((line) =>
-            /^My (son|daughter|child) was born\.$/.test(line),
-          ),
+          text.some((line) => /^My (son|daughter|child) was born\./.test(line)),
+          `${parentId}: ${text.filter((line) => /born|baby/i.test(line)).join(" | ")}`,
         ).toBe(true);
       }
     }

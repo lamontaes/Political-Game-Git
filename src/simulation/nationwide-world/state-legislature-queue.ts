@@ -437,10 +437,12 @@ export const stateLegislatureWakeHandler: FutureTransitionHandler = (
     outcomeEventId: null,
   };
 };
-export const STATE_LEGISLATURE_QUEUE_HANDLERS =
-  createFutureTransitionHandlerRegistry([
+/** The wake handler, built when time asks for it, never at module load. */
+export function createStateLegislatureQueueHandlers() {
+  return createFutureTransitionHandlerRegistry([
     [STATE_LEGISLATURE_WAKE_TRANSITION, stateLegislatureWakeHandler],
   ]);
+}
 
 /** Preserve the existing opening/late-field catch-up once, then register wakes. */
 export function prepareStateLegislatureQueue(

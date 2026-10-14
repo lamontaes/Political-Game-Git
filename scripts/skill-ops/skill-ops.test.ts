@@ -127,6 +127,55 @@ const contracts: readonly SkillContract[] = [
     nontrigger: /not a whole-project architecture or style review/i,
     links: [".codex/agents/civic-gameplay-auditor.toml"],
   },
+  {
+    name: "ask-why",
+    trigger: /Use before sending any report or proof/i,
+    nontrigger: /or "not found"/i,
+    boundary: /## Rules/,
+    links: ["scripts/report-check/cli.mjs", "src/core2/data"],
+  },
+  {
+    name: "cto",
+    trigger: /Use when acting as the CTO session/i,
+    nontrigger: /recording\s+rulings and reporting to the owner/i,
+    boundary: /## Rulings/,
+    links: [
+      "docs/coordination/DECISION-REGISTER.md",
+      "docs/coordination/OWNER-DECISIONS.md",
+    ],
+  },
+  {
+    name: "played-world-proof",
+    trigger: /Use before calling any feature finished/i,
+    nontrigger:
+      /with another engine reading what it wrote, named by record id/i,
+    boundary: /## Rules/,
+    links: [
+      "scripts/trace/viewer.ts",
+      "tests/golden-path/played-world.node-test.ts",
+      "tests/golden-path/played-world-modules.node-test.ts",
+    ],
+  },
+  {
+    name: "session-start",
+    trigger: /Use first in every cloud session, before changing anything/i,
+    nontrigger:
+      /the opening\s+order, push rules and limits that every session follows/i,
+    boundary: /## Finish/,
+    links: [
+      "AGENTS.md",
+      "docs/coordination/OWNER-DECISIONS.md",
+      "docs/coordination/DECISION-REGISTER.md",
+      "tests/golden-path/runner.mjs",
+    ],
+  },
+  {
+    name: "trace-audit",
+    trigger: /Use to run the 56-place trace audit/i,
+    nontrigger: /verify every why against code, and write the graded report/i,
+    boundary: /## Rules/,
+    links: ["scripts/trace/viewer.ts", "scripts/report-check/cli.mjs"],
+  },
 ];
 
 function skillText(name: string): string {

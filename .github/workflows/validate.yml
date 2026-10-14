@@ -1,11 +1,8 @@
 name: Deterministic validation
 
-# The browser suite lives in browser.yml since 2026-09-22, split out with
-# lamontae's approval so the unit shards stop queueing behind 21-to-59-minute
-# browser shards. This workflow is the fast one: repository plus six unit
-# shards, about 38 job-minutes, and the aggregate `validate` below no longer
-# waits on the browser suite. Making the browser suite gate merging again is a
-# branch-protection change, not a change here.
+# Checks only what a change touches (owner, Oct 12, 2026): its changed files in
+# `repository` and its changed test files in `unit`. The browser suite and its
+# workflow were retired with the old screens (Oct 14, 2026).
 
 on:
   pull_request:

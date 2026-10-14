@@ -5,6 +5,7 @@ import { openingFrames } from "../bench/opening";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
+import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { subjectsBetween } from "./conversation";
@@ -89,10 +90,15 @@ describe("the opening story", () => {
 
   it("is a public record the news carries, the evening news, and a subject at home", () => {
     const api = coreAPI(core);
-    const stored = api
-      .moduleState(NEWS_MODULE_ID)
-      .table("stories")
-      .get(story.id) as unknown as { kind: string } | undefined;
+    // Where the press runs, its reporters pick stories from the wire it
+    // keeps (modules/news.ts leaves the choice to them); elsewhere the news
+    // engine carries it as a story.
+    const stored = (core.modules.has(PRESS_MODULE_ID)
+      ? api.moduleState(PRESS_MODULE_ID).table("wire").get(story.id)
+      : api
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .get(story.id)) as unknown as { kind: string } | undefined;
     expect(stored?.kind).toBe(OPENING_ADDRESS_EVENT);
     expect(story.newscast.length).toBeGreaterThan(0);
     for (const item of story.newscast) {

@@ -139,15 +139,16 @@ describe("household spending on its actual modeled payday", () => {
     expect(payroll).toHaveLength(1);
     expect(payroll[0]!.date).toBe(wage.date);
     expect(payroll[0]!.result).toMatchObject({ requestedMinor: 100 });
-    const purchase = core.finance.latestReceiptsByContract.get("purchase")!;
+    // A household's purchases are its everyday-living plan (finance-state.ts).
+    const purchase = core.finance.livingPlans.get("home")!;
     expect(wage.date).toBe("2021-01-02");
     expect(wage.attendedMinutes).toBe(60);
-    expect(purchase.date).toBe(wage.date);
-    expect(purchase.paidMinor).toBe(50);
-    expect(purchase.unfundedMinor).toBe(0);
+    expect(purchase.lastAt).toBe(wage.date);
+    expect(purchase.lastRequestedMinor).toBe(50);
+    expect(purchase.lastPaidMinor).toBe(50);
     expect(core.people.get("worker")!.liquidMinor).toBe(50);
     expect(core.organizations.get("employer")!.liquidMinor).toBe(0);
     expect(core.organizations.get("seller")!.liquidMinor).toBe(50);
-    expect(core.finance.contracts.get("purchase")!.dueAt).toBe("2021-02-02");
+    expect(purchase.dueAt).toBe("2021-02-02");
   });
 });

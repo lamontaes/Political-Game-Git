@@ -255,7 +255,7 @@ describe("a reporter who runs", () => {
     for (let attempt = 0; attempt < 12; attempt += 1) {
       const state = pick(states, `rstate:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),

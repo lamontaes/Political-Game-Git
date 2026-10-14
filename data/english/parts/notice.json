@@ -62,7 +62,8 @@
       "shippable": true,
       "source": {
         "document": "Notice of Election, General Municipal Election",
-        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf"
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
+        "date": "2026-07-01"
       }
     }
   ]

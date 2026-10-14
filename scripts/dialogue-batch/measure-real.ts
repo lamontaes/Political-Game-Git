@@ -48,7 +48,7 @@ export const REAL_SAMPLES: Record<
     moves: ["short-title", "long-title", "enacting-clause"],
     lines: 12,
   },
-  notices: { banks: ["notices"], lines: 2 },
+  notices: { banks: ["notice"], lines: 2 },
   minutes: { banks: ["minutes"], lines: 4 },
   hearing: { banks: ["hearing"], lines: 4 },
   meeting: { banks: ["meeting"], lines: 12 },

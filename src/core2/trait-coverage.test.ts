@@ -6,6 +6,7 @@ import coverageData from "../../data/content/trait-coverage.json" with { type: "
 import actKindsData from "../../data/content/act-kinds.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { chooseAct, traitLean } from "./choice";
 import { createLifeCore } from "./life";
 import { buildPopulation } from "./population";
@@ -227,7 +228,7 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
     for (const person of adults) {
       // One working copy of the person's traits, set for this trait.
       const traits = working.get(person.id)!;
-      const before = traits[traitId]!;
+      const before = traits[traitId];
       traits[traitId] = value;
       const actor = { traits };
       for (const decision of decisions) {
@@ -236,7 +237,10 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
         row[id] = (row[id] ?? 0) + 1;
         counts.set(decision.id, row);
       }
-      traits[traitId] = before;
+      // A facet at the middle is not recorded (notable-only): put it back
+      // as it was, absent, not as an undefined level.
+      if (before === undefined) delete traits[traitId];
+      else traits[traitId] = before;
     }
     return new Map(
       [...counts].map(([id, row]) => [
@@ -251,9 +255,15 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
   it("carries a level on every trait for every adult, low as well as high", () => {
     expect(adults.length).toBeGreaterThan(50);
     const ids = Object.keys(traits);
+    // The five temperament dimensions are always recorded; a facet only when
+    // notable (population.ts: a facet at the middle level is not recorded).
     const missing = adults.flatMap((person) =>
       ids
-        .filter((id) => person.traits[id] === undefined)
+        .filter(
+          (id) =>
+            id.startsWith(`${PEOPLE_MIND_VERSION}:`) &&
+            person.traits[id] === undefined,
+        )
         .map((id) => `${person.id} ${id}`),
     );
     expect(missing).toEqual([]);
