@@ -745,12 +745,22 @@ input[type="range"]::-moz-range-thumb {
 #custom {
   margin-top: 8px;
 }
+/* About keeps the version; the title never shows one. */
 .version {
   margin-top: 12px;
   color: var(--text-3);
 }
-.version:empty {
-  display: none;
+/* New game, second step: Random, or a typed place. */
+#front-place .field input {
+  width: 220px;
+}
+/* No chevron at rest: the suggestions open as the player types. */
+#place::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+#front-place .acts {
+  justify-content: space-between;
+  margin-top: 12px;
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
 .progress {

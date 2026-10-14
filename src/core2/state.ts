@@ -1635,6 +1635,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         `${row.placeId}:${row.kind}`,
         row.id,
       );
+      recordEntry(core, {
+        id: row.id,
+        kind: "organization",
+        reason: row.kind,
+        placeId: row.placeId,
+      });
     },
     lookupPublicOrganization(personId, organizationId) {
       const row = core.publicOrganizations.get(organizationId);
@@ -1737,6 +1743,40 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   writerAPIs.set(core, api);
   return api;
+}
+
+/**
+ * Everyone and everything that enters the world after its opening day leaves a
+ * record (trace audit item 2): who or what came in, why, and where. In the
+ * town's own places it is a public record; elsewhere a plain one.
+ */
+function recordEntry(
+  core: CoreState,
+  entry: {
+    readonly id: string;
+    readonly kind: "person" | "organization";
+    readonly reason: string;
+    readonly placeId: string;
+  },
+): void {
+  // The opening's own people and organizations are the world as it began.
+  if (core.date <= core.startedAt) return;
+  const id = `${entry.kind}.recorded:${entry.id}:${core.date}`;
+  if (core.eventIds.has(id)) return;
+  coreAPI(core).emit({
+    id,
+    date: core.date,
+    kind: `${entry.kind}.recorded`,
+    personIds: entry.kind === "person" ? [entry.id] : [],
+    placeId: entry.placeId,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: `Entered the world: ${entry.reason}`,
+    },
+    publicRecord: core.visiblePlaceIds.has(entry.placeId),
+    facts: { recordId: entry.id, reason: entry.reason },
+  });
 }
 
 export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
@@ -1994,7 +2034,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           : 0;
       if (amount > 0)
         accounts.transfer({
-          id: `fill-in:${row.id}:cash`,
+          id: `fill-in:${row.id}:${released.sequence}:cash`,
           from,
           to: accounts.main(row.id),
           amountMinor: amount,
@@ -2060,6 +2100,13 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             );
         }
   for (const actor of admitted) {
+    // Counted all along; now followed in full, with a record of it.
+    recordEntry(core, {
+      id: actor.id,
+      kind: "person",
+      reason: returning ? "returned" : "filled-in",
+      placeId: actor.placeId,
+    });
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)
       if (core.people.has(id)) {
@@ -2190,7 +2237,7 @@ export function fillInIdentity(
         ]
       : []),
   ];
-  return admitPerson(core, {
+  const person = admitPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -2208,6 +2255,13 @@ export function fillInIdentity(
     ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
     pastFacts: facts,
   });
+  recordEntry(core, {
+    id: person.id,
+    kind: "person",
+    reason: identity.seatKey ? "seated-official" : "named-person",
+    placeId: person.placeId,
+  });
+  return person;
 }
 
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
@@ -2244,6 +2298,12 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
     ...input,
     said: husk.said,
     looks: husk.looks,
+  });
+  recordEntry(core, {
+    id: actor.id,
+    kind: "person",
+    reason: "promoted",
+    placeId: actor.placeId,
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds)

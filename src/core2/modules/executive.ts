@@ -226,6 +226,12 @@ function fillTownPost(
       .filter((a) => a.post !== spec.key)
       .map((a) => a.holderId),
   );
+  // The player's decisions are theirs: nobody appoints the player to a post
+  // they didn't choose (trace audit item 3). Stopgap
+  // SG-CORE-owner-decision-player-offered-post: whether an appointer may
+  // offer the player a post to accept is the owner's call.
+  const playerId = (api.state as CoreState).playerId;
+  if (playerId) api.stopgap("SG-CORE-owner-decision-player-offered-post");
   const pool = [...(api.state.peopleByPlace.get(town) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter(
@@ -234,6 +240,7 @@ function fillTownPost(
         p.alive &&
         ageOn(p, date) >= campaignParameter("appointmentAdulthoodAge") &&
         p.id !== appointer?.personId &&
+        p.id !== playerId &&
         !holding.has(p.id) &&
         (!chosenId || p.id === chosenId) &&
         (!outOfWork ||
