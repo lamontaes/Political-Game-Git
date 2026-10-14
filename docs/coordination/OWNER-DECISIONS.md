@@ -4,13 +4,17 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Open
 
-- **A player who loses an election (player-path audit, Oct 14).** CTO ruling pending the owner: a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
-- **Unions and strikes:** early access or 1.0?
-- **Police and the National Guard as deciding bodies, and the war design:** when (the register already says war decisions stay strategic; the proposal asks only timing).
+- **A player who loses an election (player-path audit, Oct 14), confirmed by the owner:** a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
 
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
-## Ruled, October 14, 2026 (evening)
+## Ruled, October 14, 2026 (late)
+
+- **Election day is a scene.** The player goes to their polling place and marks a ballot there; the vote is cast in the scene, never in a menu. Firefly images already made may stand in for the place and the ballot while the screens are crude, on the kit.
+- **Unions and strikes: 1.0. Police, the National Guard and the war design: 1.0;** specific questions may be asked later.
+- **Ask why.** Every proof answers why, by record: why a vote was 5 to 0, why a person knew a law caused their smaller check. A session that cannot answer why has found a defect.
+- **Knowing is a read.** Nobody attributes a change in their life to a law unless they learned of it: from the news they received, a conversation, a notice on the check, or an ad. Most people only notice something happened and grumble. A stance that cites a law must cite how the person heard of it.
+- **Slim the repository like a real game** before early access: unneeded files, tests of deleted or old-core code, duplicate tooling and documents go; the guards stay.
 
 - **The world has a past.** History does not start on the day the player generates in. Laws in force carry their enactment history; the prior election for every seat exists with its campaign facts; officials have voting records from the prior term; the year before day one has a news archive; two seeds in one place produce different, recognizable pasts.
 - **Public figures are known.** Everyone knows what the public knows about the president, the vice president, their governor, their representative and their mayor (positions, record, reputation), distinct from having met them; "you have never met" is never the only line.
