@@ -1637,6 +1637,7 @@ const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
   openTab = tab;
+  show("tip", false);
   const group = groupOf(tab);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
@@ -1676,6 +1677,7 @@ for (const b of document.querySelectorAll("[data-tab]"))
   );
 function closeSheet() {
   openTab = undefined;
+  show("tip", false);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.remove("active");
   show("sheet", false);
