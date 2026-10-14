@@ -236,6 +236,8 @@ export interface FigurePerson {
   act?: string;
   /** The player keeps one look family as they age. */
   player?: boolean;
+  /** The look family chosen in the creator, which leads over the drawn one. */
+  family?: string;
 }
 
 /**
@@ -296,7 +298,12 @@ export function pickLook(
   if (!pool.length) return null;
   // The player's look family leads, whatever they wear (their identity holds
   // across ages; stopgap SG-PEOPLE-one-look-per-activity).
-  const lineage = person.player ? lineageOf(person, fits) : undefined;
+  const chosen =
+    person.family && fits.some((row) => row.family === person.family)
+      ? person.family
+      : undefined;
+  const lineage =
+    chosen ?? (person.player ? lineageOf(person, fits) : undefined);
   const family = lineage ? fits.filter((row) => row.family === lineage) : [];
   const own = family.length ? near(family) : [];
   const from = own.length ? own : pool;
@@ -316,6 +323,28 @@ export function pickLook(
     variants.find((row) => wanted.includes(row.activity)) ??
     variants[hash(`${person.id}:${person.act ?? ""}`) % variants.length]!
   );
+}
+
+/** The sexes the approved looks are painted in, for the creator. */
+export const LOOK_SEXES = [...SEXES].sort();
+
+/**
+ * The look families the creator steps through for a sex: those painted at
+ * more than one age first (one person as they grow), then the rest.
+ */
+export function lookFamilies(gender: string): string[] {
+  const bands = new Map<string, Set<string>>();
+  for (const row of FIGURES)
+    if (row.family && row.sex === gender)
+      bands.set(
+        row.family,
+        (bands.get(row.family) ?? new Set()).add(row.ageBand),
+      );
+  const all = [...bands.keys()].sort();
+  return [
+    ...all.filter((f) => bands.get(f)!.size > 1),
+    ...all.filter((f) => bands.get(f)!.size === 1),
+  ];
 }
 
 /**

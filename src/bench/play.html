@@ -78,35 +78,115 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
-        <!-- The front as it stood on Oct 13 (fd3574c979): seed, date, place,
-             and the world's custom settings, all used by New game. -->
-        <div class="field">
-          <label for="seed">Seed</label>
-          <span class="seed-row"
-            ><input id="seed" /><button
-              id="seed-random"
-              class="action small"
-              type="button"
-              data-testid="seed-random"
-            >
-              Random
-            </button></span
+        <div id="front-main">
+          <button
+            id="new-life"
+            class="item"
+            type="button"
+            data-testid="new-game"
           >
+            <b>New game</b>
+          </button>
+          <button
+            id="front-continue"
+            class="item"
+            type="button"
+            data-testid="continue"
+            disabled
+          >
+            <b>Continue</b>
+          </button>
+          <button
+            id="front-options"
+            class="item"
+            type="button"
+            data-testid="title-options"
+          >
+            <b>Options</b>
+          </button>
+          <!-- Patch notes waits for a notes route. -->
+          <button
+            id="front-patch-notes"
+            class="item"
+            type="button"
+            data-testid="title-patch-notes"
+            disabled
+          >
+            <b>Patch notes</b>
+          </button>
+          <!-- Quit is the desktop's; a browser tab has none to offer. -->
+          <button
+            id="front-quit"
+            class="item"
+            type="button"
+            data-testid="title-quit"
+            hidden
+          >
+            <b>Quit</b>
+          </button>
         </div>
-        <label class="field"
-          >Opening date <input id="date" type="date" readonly
-        /></label>
-        <label class="field"
-          >Place
-          <input
-            id="place"
-            list="places"
-            placeholder="Random"
-            autocomplete="off"
-        /></label>
-        <datalist id="places"></datalist>
-        <details id="custom" data-testid="customize-world">
-          <summary class="label">Customize the world</summary>
+        <!-- New game: how the world begins. -->
+        <div id="front-new" data-testid="new-game-choice" hidden>
+          <button
+            id="new-start"
+            class="item"
+            type="button"
+            data-testid="start-life"
+          >
+            <b>Start a life</b>
+          </button>
+          <button
+            id="new-custom"
+            class="item"
+            type="button"
+            data-testid="custom-world"
+          >
+            <b>Custom world</b>
+          </button>
+          <button
+            id="new-world"
+            class="item"
+            type="button"
+            data-testid="new-world"
+          >
+            <b>New world</b>
+          </button>
+          <button
+            id="new-back"
+            class="item"
+            type="button"
+            data-testid="new-game-back"
+          >
+            <b>Back</b>
+          </button>
+        </div>
+        <!-- Custom world: the Oct 13 front's settings. -->
+        <div id="front-custom" data-testid="custom-world-panel" hidden>
+          <div class="field">
+            <label for="seed">Seed</label>
+            <span class="seed-row"
+              ><input id="seed" /><button
+                id="seed-random"
+                class="action small"
+                type="button"
+                data-testid="seed-random"
+              >
+                Random
+              </button></span
+            >
+          </div>
+          <label class="field"
+            >Opening date <input id="date" type="date" readonly
+          /></label>
+          <label class="field"
+            >Place
+            <input
+              id="place"
+              list="places"
+              placeholder="Random"
+              autocomplete="off"
+          /></label>
+          <datalist id="places"></datalist>
           <label class="field"
             >Town size
             <input
@@ -167,43 +247,91 @@
               step="0.05"
               placeholder="1"
           /></label>
-        </details>
-        <div id="front-main">
-          <button
-            id="new-life"
-            class="item"
-            type="button"
-            data-testid="new-game"
-          >
-            <b>New game</b>
-          </button>
-          <button
-            id="front-continue"
-            class="item"
-            type="button"
-            data-testid="continue"
-            disabled
-          >
-            <b>Continue</b>
-          </button>
-          <button
-            id="front-options"
-            class="item"
-            type="button"
-            data-testid="title-options"
-          >
-            <b>Options</b>
-          </button>
-          <!-- Quit is the desktop's; a browser tab has none to offer. -->
-          <button
-            id="front-quit"
-            class="item"
-            type="button"
-            data-testid="title-quit"
-            hidden
-          >
-            <b>Quit</b>
-          </button>
+          <div class="acts">
+            <button id="custom-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="custom-begin"
+              class="action primary small"
+              type="button"
+              data-testid="custom-begin"
+            >
+              Begin
+            </button>
+          </div>
+        </div>
+        <!-- The creator: who you are, then how you look. -->
+        <div id="creator-who" data-testid="creator-who" hidden>
+          <label class="field"
+            >Given name <input id="cr-given" maxlength="40" autocomplete="off"
+          /></label>
+          <label class="field"
+            >Family name
+            <input id="cr-family" maxlength="40" autocomplete="off"
+          /></label>
+          <label class="field"
+            >Age <input id="cr-age" type="number" step="1"
+          /></label>
+          <div class="field">
+            <span>Birthday</span>
+            <span class="seed-row"
+              ><select id="cr-month" aria-label="Birth month"></select
+              ><input
+                id="cr-day"
+                type="number"
+                min="1"
+                max="31"
+                step="1"
+                aria-label="Birth day"
+            /></span>
+          </div>
+          <div class="acts">
+            <span></span>
+            <button
+              id="cr-next"
+              class="action primary small"
+              type="button"
+              data-testid="creator-next"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+        <div id="creator-look" data-testid="creator-look" hidden>
+          <div id="cr-sexes" class="swatches"></div>
+          <div class="look-step">
+            <button
+              id="cr-prev-look"
+              class="action small"
+              type="button"
+              aria-label="Previous look"
+            >
+              ‹
+            </button>
+            <span id="cr-look-count" class="when"></span>
+            <button
+              id="cr-next-look"
+              class="action small"
+              type="button"
+              aria-label="Next look"
+            >
+              ›
+            </button>
+          </div>
+          <div class="acts">
+            <button id="cr-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="cr-begin"
+              class="action primary small"
+              type="button"
+              data-testid="creator-begin"
+            >
+              Begin
+            </button>
+          </div>
         </div>
         <div class="progress" hidden><span></span></div>
         <p

@@ -1,9 +1,10 @@
 /**
  * The title screen follows the owner's standing rulings
  * (docs/coordination/prior-rulings/screens.md items 1 and 5): a full-window
- * national scene or event behind the Kit 13 menu, holding the Oct 13
- * front's controls (seed, opening date, place, Customize the world) and New
- * game, Continue, Options, and Quit on the desktop, and no version string.
+ * national scene or event behind the Kit 13 menu, holding New game,
+ * Continue, Options, Patch notes and Quit on the desktop. New game opens Start
+ * a life, Custom world (the Oct 13 front's settings) and New world, then the
+ * creator.
  */
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -51,9 +52,41 @@ test("the title rotates through national scenes from the backdrop manifest", () 
   assert.match(script, /\$\("backdrop"\)\.src = title\.backdrop\.url;/);
 });
 
-test("the front is the Oct 13 front: seed, date, place, custom world, menu", () => {
+test("the title holds only the menu; New game opens the three choices", () => {
   assert.doesNotMatch(front, /class="sub"/);
   assert.doesNotMatch(front, /id="version"/);
+  const main = front.slice(
+    front.indexOf('id="front-main"'),
+    front.indexOf('id="front-new"'),
+  );
+  const order = [
+    "new-game",
+    "continue",
+    "title-options",
+    "title-patch-notes",
+    "title-quit",
+  ].map((id) => main.indexOf(`data-testid="${id}"`));
+  assert.ok(
+    order.every((at) => at > 0),
+    "every item is on the menu",
+  );
+  assert.deepEqual(
+    [...order].sort((x, y) => x - y),
+    order,
+    "in order",
+  );
+  assert.doesNotMatch(main, /<span>|id="seed"|id="place"|saved-games|watch/i);
+  const choice = front.slice(
+    front.indexOf('id="front-new"'),
+    front.indexOf('id="front-custom"'),
+  );
+  assert.match(choice, /data-testid="new-game-choice" hidden/);
+  for (const id of ["start-life", "custom-world", "new-world", "new-game-back"])
+    assert.match(choice, new RegExp(`data-testid="${id}"`));
+  const custom = front.slice(
+    front.indexOf('id="front-custom"'),
+    front.indexOf('id="creator-who"'),
+  );
   for (const id of [
     "seed",
     "seed-random",
@@ -66,30 +99,10 @@ test("the front is the Oct 13 front: seed, date, place, custom world, menu", () 
     "set-lean",
     "set-turnout",
   ])
-    assert.match(front, new RegExp(`id="${id}"`), `${id} is on the front`);
-  assert.match(front, /<details id="custom"/);
-  assert.match(front, /id="place"[^>]*placeholder="Random"/);
-  const main = front.slice(
-    front.indexOf('id="front-main"'),
-    front.indexOf('class="progress"'),
-  );
-  const order = ["new-game", "continue", "title-options", "title-quit"].map(
-    (id) => main.indexOf(`data-testid="${id}"`),
-  );
-  assert.ok(
-    order.every((at) => at > 0),
-    "every item is on the front",
-  );
-  assert.deepEqual(
-    [...order].sort((x, y) => x - y),
-    order,
-    "in order",
-  );
-  assert.doesNotMatch(main, /<span>|saved-games|patch-notes|watch/i);
-  assert.doesNotMatch(front, /front-place|place-begin/);
-  assert.match(
-    script,
-    /\$\("new-life"\)\.addEventListener\("click", \(\) => startLife\(typedPlace\(\)\)\)/,
-  );
+    assert.match(custom, new RegExp(`id="${id}"`), `${id} is in Custom world`);
+  for (const id of ["cr-given", "cr-family", "cr-age", "cr-month", "cr-day"])
+    assert.match(front, new RegExp(`id="${id}"`), `${id} is in the creator`);
+  assert.match(front, /id="cr-prev-look"[\s\S]*id="cr-next-look"/);
+  assert.match(script, /fetch|api\(at\)/);
   assert.doesNotMatch(script, /drawPeople\(title/);
 });

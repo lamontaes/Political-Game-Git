@@ -2169,15 +2169,133 @@ $("front-options").addEventListener("click", () => openSheet("options"));
 $("dev-toggle").addEventListener("click", () =>
   document.body.classList.toggle("dev"),
 );
-// New game starts with what the front holds: an empty place is Random.
-$("new-life").addEventListener("click", () => startLife(typedPlace()));
-const placeControls = ["new-life", "seed", "seed-random", "place"];
-async function startLife(chosen) {
+// New game: Start a life (a random place, then the creator), Custom world
+// (the world's settings, then the creator) or New world (straight in).
+const FRONT_PANELS = [
+  "front-main",
+  "front-new",
+  "front-custom",
+  "creator-who",
+  "creator-look",
+];
+function frontPanel(name) {
+  for (const id of FRONT_PANELS) show(id, id === name);
+  // The creator's preview figure stands left; its panel moves right.
+  $("front").classList.toggle("creating", name.startsWith("creator"));
+}
+$("new-life").addEventListener("click", () => frontPanel("front-new"));
+$("new-back").addEventListener("click", () => frontPanel("front-main"));
+$("new-custom").addEventListener("click", () => frontPanel("front-custom"));
+$("custom-back").addEventListener("click", () => frontPanel("front-new"));
+$("new-start").addEventListener("click", () =>
+  startLife(undefined, { creator: true }),
+);
+$("new-world").addEventListener("click", () => startLife(undefined, {}));
+$("custom-begin").addEventListener("click", () =>
+  startLife(typedPlace(), { custom: true, creator: true }),
+);
+const placeControls = [
+  "new-start",
+  "new-custom",
+  "new-world",
+  "new-back",
+  "custom-begin",
+  "custom-back",
+];
+
+// ---- The creator: name, age and birthday, then the look ----
+const MONTHS = Array.from({ length: 12 }, (_, i) =>
+  new Date(Date.UTC(2000, i, 1)).toLocaleString("en-US", {
+    month: "long",
+    timeZone: "UTC",
+  }),
+);
+$("cr-month").replaceChildren(
+  ...MONTHS.map((name, i) =>
+    el("option", { value: String(i + 1), textContent: name }),
+  ),
+);
+function runCreator(id) {
+  const at = `/api/creator?id=${encodeURIComponent(id)}`;
+  let view;
+  const preview = (v) => {
+    view = v;
+    $("backdrop").src = v.preview.backdrop.url;
+    drawPeople(v.preview.people);
+    $("cr-sexes").replaceChildren(
+      ...v.sexes.map((sex) => {
+        const b = el("button", {
+          type: "button",
+          className: "action small",
+          textContent: sex[0].toUpperCase() + sex.slice(1),
+        });
+        b.setAttribute("aria-pressed", String(sex === v.sex));
+        if (sex === v.sex) b.classList.add("primary");
+        b.addEventListener("click", () => change({ sex }));
+        return b;
+      }),
+    );
+    const n = v.families.indexOf(v.family);
+    $("cr-look-count").textContent =
+      `${n < 0 ? "–" : n + 1} / ${v.families.length}`;
+  };
+  const change = async (fields) => {
+    try {
+      preview(await post(`${at}&${new URLSearchParams(fields)}`));
+      $("front-status").textContent = "";
+      return true;
+    } catch (error) {
+      $("front-status").textContent = error.message;
+      return false;
+    }
+  };
+  const step = (by) => {
+    const n = view.families.indexOf(view.family);
+    const from = n < 0 ? (by > 0 ? -1 : 0) : n;
+    const next = (from + by + view.families.length) % view.families.length;
+    void change({ family: view.families[next] });
+  };
+  return new Promise((resolve) => {
+    void api(at).then((v) => {
+      preview(v);
+      $("cr-given").value = v.givenName;
+      $("cr-family").value = v.familyName;
+      $("cr-age").value = v.age;
+      $("cr-age").min = v.minAge;
+      $("cr-age").max = v.maxAge;
+      $("cr-month").value = String(v.birthMonth);
+      $("cr-day").value = v.birthDay;
+      $("front-status").textContent = "";
+      frontPanel("creator-who");
+      $("cr-given").focus();
+    });
+    $("cr-next").onclick = async () => {
+      if (
+        await change({
+          givenName: $("cr-given").value,
+          familyName: $("cr-family").value,
+          age: $("cr-age").value,
+          birthMonth: $("cr-month").value,
+          birthDay: $("cr-day").value,
+        })
+      )
+        frontPanel("creator-look");
+    };
+    $("cr-prev-look").onclick = () => step(-1);
+    $("cr-next-look").onclick = () => step(1);
+    $("cr-back").onclick = () => frontPanel("creator-who");
+    $("cr-begin").onclick = () => resolve();
+  });
+}
+
+async function startLife(chosen, { custom = false, creator = false }) {
   for (const id of placeControls) $(id).disabled = true;
   show("front-status", true);
   document.querySelector("#front .progress").hidden = false;
   try {
-    const settings = worldSettings();
+    const settings = custom ? worldSettings() : undefined;
+    // Outside Custom world, a fresh seed draws the world.
+    const seed = custom ? $("seed").value : (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
     const bar = document.querySelector("#front .progress span");
     bar.classList.add("steady");
@@ -2189,9 +2307,11 @@ async function startLife(chosen) {
       "government",
       "opening",
     ];
+    // A poll still in flight when the build ends leaves the line alone.
+    let built = false;
     const poll = setInterval(async () => {
       const p = await api("/api/newlife/progress").catch(() => undefined);
-      if (!p) return;
+      if (!p || built) return;
       const at =
         p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
       const within = p.total ? p.done / p.total : 0;
@@ -2202,10 +2322,17 @@ async function startLife(chosen) {
     let life;
     try {
       life = await post(
-        `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+        `/api/newlife?${new URLSearchParams({ seed, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
       );
     } finally {
       clearInterval(poll);
+      built = true;
+    }
+    if (creator) {
+      document.querySelector("#front .progress").hidden = true;
+      $("front-status").textContent = "";
+      await runCreator(life.personId);
+      document.querySelector("#front .progress").hidden = false;
     }
     // Every picture the opening shows is loaded before it plays.
     const opening = await api(

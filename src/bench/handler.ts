@@ -39,6 +39,7 @@ import {
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
 import { titleScene } from "./title";
+import { applyCreator, creatorView } from "./creator";
 import { pollingScene } from "./polling";
 import {
   openConversation,
@@ -349,6 +350,36 @@ export async function benchRequest(
             url.searchParams.get("id") ?? "",
           ),
         );
+        return;
+      }
+      if (url.pathname === "/api/creator") {
+        // The creator: the new life's name, birth date and look.
+        const id = url.searchParams.get("id") ?? "";
+        if (!player || player.personId !== id)
+          throw new Error("No new life to shape.");
+        if (request.method === "GET") {
+          send(200, creatorView(requireCore(), id));
+          return;
+        }
+        const num = (key: string) =>
+          url.searchParams.has(key)
+            ? Number(url.searchParams.get(key))
+            : undefined;
+        const text = (key: string) => url.searchParams.get(key) ?? undefined;
+        const view = applyCreator(requireCore(), id, {
+          givenName: text("givenName"),
+          familyName: text("familyName"),
+          age: num("age"),
+          birthMonth: num("birthMonth"),
+          birthDay: num("birthDay"),
+          sex: text("sex"),
+          family: text("family"),
+        });
+        // The opening shows the person as they now are.
+        opening = director?.ledger.opening
+          ? openingFrames(requireCore(), id, director.ledger.opening)
+          : null;
+        send(200, view);
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/title") {

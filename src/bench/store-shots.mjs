@@ -46,8 +46,15 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.goto(url);
   await page.waitForTimeout(1500);
   if (n === 0) await shot("title");
-  await page.fill("#seed", seed);
   await page.click("#new-life");
+  await page.click("#new-custom");
+  await page.fill("#seed", seed);
+  await page.click("#custom-begin");
+  // The creator: keep the drawn person.
+  await page.waitForSelector("#creator-who:not([hidden])", { timeout: 300000 });
+  await page.click("#cr-next");
+  await page.waitForSelector("#creator-look:not([hidden])");
+  await page.click("#cr-begin");
   // The opening: the President, then the Senate.
   await page.waitForSelector("#caption:not([hidden])", { timeout: 300000 });
   await page.waitForTimeout(1500);

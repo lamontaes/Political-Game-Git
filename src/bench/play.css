@@ -734,13 +734,6 @@ input[type="range"]::-moz-range-thumb {
 #front .title {
   margin-bottom: 14px;
 }
-#custom {
-  margin: 4px 0 10px;
-}
-#custom summary {
-  cursor: pointer;
-  padding: 6px 0;
-}
 .seed-row {
   display: flex;
   gap: 8px;
@@ -748,6 +741,33 @@ input[type="range"]::-moz-range-thumb {
 }
 .seed-row input {
   width: 150px;
+}
+.seed-row #cr-day {
+  width: 60px;
+}
+/* The creator's look step: the sex swatches, then the arrows through looks. */
+.swatches {
+  display: flex;
+  gap: 8px;
+  margin: 6px 0 12px;
+}
+.look-step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+#front.creating {
+  left: auto;
+  right: 56px;
+}
+#cr-age {
+  width: 80px;
+}
+#front .acts {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
 }
 /* About keeps the version; the title never shows one. */
 .version {

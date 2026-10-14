@@ -156,8 +156,7 @@ async function launch() {
       version: /\bv?\d+\.\d+\.\d+/.test(front.innerText),
       placeShown: Boolean(place && place.offsetParent !== null),
       seedShown: Boolean(document.getElementById("seed")?.offsetParent),
-      seedRandom: Boolean(document.getElementById("seed-random")),
-      customize: Boolean(document.getElementById("custom")),
+      patchNotes: document.getElementById("front-patch-notes")?.disabled,
       subtitle: Boolean(front.querySelector(".sub")),
       itemLines: front.querySelectorAll(".item span").length,
       continueShown: Boolean(document.getElementById("front-continue")),
@@ -181,11 +180,12 @@ async function launch() {
     titleScreen.itemLines === 0,
   );
   check(
-    "title: Seed with Random, Place and Customize the world are on the front",
-    titleScreen.seedShown &&
-      titleScreen.seedRandom &&
-      titleScreen.placeShown &&
-      titleScreen.customize,
+    "title: no seed or place controls on the title",
+    !titleScreen.seedShown && !titleScreen.placeShown,
+  );
+  check(
+    "title: Patch notes is there, disabled",
+    titleScreen.patchNotes === true,
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(
@@ -212,6 +212,7 @@ async function launch() {
     { timeout: 240000 },
   );
   await page.getByTestId("new-game").click();
+  await page.getByTestId("new-world").click();
   await page.waitForFunction(
     () => {
       const line = document.querySelector('[data-testid="loading-line"]');
