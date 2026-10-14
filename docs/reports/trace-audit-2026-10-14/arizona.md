@@ -2,31 +2,23 @@
 
 One generated Arizona town ran a full simulated year without crashing, but its records disagree with each other in several places. The year shows four people not alive with zero deaths recorded, three appointed seat vacancies with no appointment record, and state and federal votes that repeat the same tallies.
 
-- Town: Orange Grove Mobile Manor, Arizona (place 0451465 in the trace reports)
-- State: Arizona (US-AZ)
-- Seed: 50614edd9c55
-- Start date: January 20, 2025 (the year runs to January 20, 2026)
-- People: 1,798 at build (start); 1,865 at year end, 1,861 alive
-- Orgs: 123 at build (start); 146 at year end
-- Year runtime: 76 seconds; heap 1,737 MB (the build took 45 seconds)
-- Player: Mateo Walker (`person_16f99c6617a8dae8`), born January 21, 2007
-
 ## The year in this place
 
-1. On January 21, 2025 a state minimum-wage law took effect at value 1500 (the file cuts the unit off at "minor/hour").
-2. On February 4, 2025 the council (`office:gus2025:160818:board`) organized with council-president `person_4efc340ef5690a7b` and passed bills 2025-001 through 2025-005, each 5 yes to 0 no.
-3. On February 19, 2025 the council passed bills 2025-009, 2025-010 and 2025-011, each 5 to 0.
-4. On March 1, 2025 state upper seat `seat:US-AZ:upper:015:0` was vacated (cause "moved away", rule "appointment"); the file has no appointment record.
-5. On March 6, 2025 five county laws took effect (2025-001 through 2025-005, including the groundwater limit), and five recall petitions were recorded the same day against the five board seats, all tied to the groundwater law.
-6. On March 21, 2025 three more county laws took effect (2025-009, 2025-010, 2025-011).
-7. On April 22, 2025 the state lower body introduced 52 bills on one date. The lower body passed bill 2025-001 52 to 8 and the upper body passed it 29 to 1; the file records no final enactment step for that bill.
-8. On July 1, 2025 the state legislature adopted the state budget (2025-053) by votes of 55-5 and 29-1, with eleven budget lines dropped.
-9. On August 1, 2025 state lower seat `seat:US-AZ:lower:023:1` was vacated with cause "death" (rule "appointment"); the file has no death record and no appointment record for that seat.
-10. On October 1, 2025 Congress adopted the federal budget (2025-001) by 272-161 and 70-30, and two federal laws took effect the same day: medicaid-match 64.34 percent and snap-maximum 298 USD per month.
-11. On November 1, 2025 `person_9181be439e002f7d` moved away, and on December 1, 2025 `organization_11351444a6f47d7e` closed (reason "owner-retiring").
-12. On December 15, 2025 six federal policy laws took effect at value 1 each; 24 U.S. House bills were introduced; federal bill 2025-025 was recorded at 207 yes and 226 no; and a U.S. House member was recorded as council-president.
-13. On January 1, 2026 federal income tax (37 percent top rate) and social security tax (6.2 percent of wages) took effect; a county property-tax law at 0.612 percent of home value replaced a "from-start" law; and state lower seat `seat:US-AZ:lower:017:0` was vacated (moved away).
-14. The player ends the year alive, with no job, cash $0, in household `household_08a9171f55ba7d46`.
+1. On January 21, 2025 a state minimum-wage law took effect at value 1500; the file cuts the unit off at "minor/hour".
+2. On February 4, 2025 the county board organized and named a council president, then passed five bills, each 5 yes to 0 no.
+3. On February 19, 2025 the board passed three more bills, each 5 to 0.
+4. On March 1, 2025 an upper-chamber state senate seat was vacated when its holder moved away, under an appointment rule; the file has no appointment record.
+5. On March 6, 2025 five county laws took effect, including a groundwater limit, and five recall petitions were recorded the same day against all five board seats, all tied to the groundwater law.
+6. On March 21, 2025 three more county laws took effect.
+7. On April 22, 2025 the state lower chamber introduced 52 bills on one date; the lower chamber passed the first of them 52 to 8, and the upper chamber passed it 29 to 1. The file records no final enactment step for that bill.
+8. On July 1, 2025 the state legislature adopted the state budget by votes of 55-5 and 29-1, with eleven budget lines dropped.
+9. On August 1, 2025 a state lower-chamber seat was vacated with cause "death"; the file has no death record and no appointment record for that seat.
+10. On October 1, 2025 Congress adopted the federal budget by 272-161 and 70-30, and two federal laws took effect the same day: a Medicaid match of 64.34 percent and a SNAP maximum of 298 dollars per month.
+11. On November 1, 2025 one resident moved away, and on December 1, 2025 a business closed, with the reason "owner-retiring".
+12. On December 15, 2025 six federal policy laws took effect at value 1 each; 24 U.S. House bills were introduced; one federal bill was recorded at 207 yes and 226 no; and a U.S. House member was recorded as council president.
+13. On January 1, 2026 federal income tax (37 percent top rate) and social security tax (6.2 percent of wages) took effect.
+14. Also on January 1, 2026 a county property-tax law at 0.612 percent of home value replaced an earlier law, and a second state lower-chamber seat was vacated when its holder moved away.
+15. The player ends the year alive, with no job and cash of $0, in their household.
 
 ## Needs a why
 
@@ -68,32 +60,46 @@ One generated Arizona town ran a full simulated year without crashing, but its r
 
 ## Raw facts for the report
 
-- office:US-AZ:legislature-lower 2025-04-22: 52
-- office:US-AZ:legislature-lower 2025-07-01: 1
-- office:US-AZ:us-house 2025-10-01: 1
-- office:US-AZ:us-house 2025-12-15: 24
-- office:gus2025:160818:board 2025-02-04: 8
-- office:gus2025:160818:board 2025-02-19: 3
-- office:gus2025:160818:board 2025-07-01: 1
-- office:US-AZ:legislature-lower enacted: 9
-- office:US-AZ:legislature-lower failed: 39
-- office:US-AZ:legislature-lower vetoed: 5
-- office:US-AZ:us-house enacted: 7
-- office:US-AZ:us-house failed: 18
-- office:gus2025:160818:board enacted: 9
-- office:gus2025:160818:board failed: 3
-- budget-adopted 2025-07-01 {"governmentId":"US-AZ","fiscalYear":"2025","adoptedBy":"the legislature vote 55-5, 29-1 (amended: welfareAndMedicaid, naturalResources, police, localAid, housing, higherEducation, healthAndHospitals, schools, otherPrograms, administration, corrections dropped), 2025-053"}
-- budget-adopted 2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 272-161, 70-30 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
-- seat-vacated 2025-03-01 {"officeId":"office:US-AZ:legislature-upper","seatId":"seat:US-AZ:upper:015:0","cause":"moved away","rule":"appointment"}
-- seat-vacated 2025-08-01 {"officeId":"office:US-AZ:legislature-lower","seatId":"seat:US-AZ:lower:023:1","cause":"death","rule":"appointment"}
-- seat-vacated 2026-01-01 {"officeId":"office:US-AZ:legislature-lower","seatId":"seat:US-AZ:lower:017:0","cause":"moved away","rule":"appointment"}
-- FED 2026-01-01 income-tax value=37 percent-top-rate
-- FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
-- FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1
-- FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1
-- FED 2025-12-15 us-policy-positions:health-human-services.expand-medicaid-eligibility value=1
-- FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1
-- FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1
-- FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1
-- FED 2025-10-01 medicaid-match value=64.34 percent
-- FED 2025-10-01 snap-maximum value=298 USD/month
+- Town: Orange Grove Mobile Manor, Arizona (place 0451465 in the trace reports); state Arizona (US-AZ)
+- Seed: 50614edd9c55; start date January 20, 2025 (the year runs to January 20, 2026)
+- People: 1,798 at build (start); 1,865 at year end, 1,861 alive
+- Orgs: 123 at build (start); 146 at year end
+- Year runtime: 76 seconds; heap 1,737 MB (the build took 45 seconds)
+- Player: Mateo Walker (person_16f99c6617a8dae8), born January 21, 2007; alive, no job, cash $0, household household_08a9171f55ba7d46
+
+Copied lines from the file:
+
+```
+office:US-AZ:legislature-lower 2025-04-22: 52
+office:US-AZ:legislature-lower 2025-07-01: 1
+office:US-AZ:us-house 2025-10-01: 1
+office:US-AZ:us-house 2025-12-15: 24
+office:gus2025:160818:board 2025-02-04: 8
+office:gus2025:160818:board 2025-02-19: 3
+office:gus2025:160818:board 2025-07-01: 1
+office:US-AZ:legislature-lower enacted: 9
+office:US-AZ:legislature-lower failed: 39
+office:US-AZ:legislature-lower vetoed: 5
+office:US-AZ:us-house enacted: 7
+office:US-AZ:us-house failed: 18
+office:gus2025:160818:board enacted: 9
+office:gus2025:160818:board failed: 3
+
+budget-adopted 2025-07-01 {"governmentId":"US-AZ","fiscalYear":"2025","adoptedBy":"the legislature vote 55-5, 29-1 (amended: welfareAndMedicaid, naturalResources, police, localAid, housing, higherEducation, healthAndHospitals, schools, otherPrograms, administration, corrections dropped), 2025-053"}
+budget-adopted 2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 272-161, 70-30 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+seat-vacated 2025-03-01 {"officeId":"office:US-AZ:legislature-upper","seatId":"seat:US-AZ:upper:015:0","cause":"moved away","rule":"appointment"}
+seat-vacated 2025-08-01 {"officeId":"office:US-AZ:legislature-lower","seatId":"seat:US-AZ:lower:023:1","cause":"death","rule":"appointment"}
+seat-vacated 2026-01-01 {"officeId":"office:US-AZ:legislature-lower","seatId":"seat:US-AZ:lower:017:0","cause":"moved away","rule":"appointment"}
+
+FED 2026-01-01 income-tax value=37 percent-top-rate
+FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1
+FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1
+FED 2025-12-15 us-policy-positions:health-human-services.expand-medicaid-eligibility value=1
+FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1
+FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1
+FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1
+FED 2025-10-01 medicaid-match value=64.34 percent
+FED 2025-10-01 snap-maximum value=298 USD/month
+```
