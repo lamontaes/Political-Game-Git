@@ -71,17 +71,21 @@ A treasurer candidate sent a campaign message on January 9, 2026, for the Novemb
 
 Records this year: 21392.
 
-| Record kind | Count |
-| --- | --- |
-| person.acted | 19061 |
-| cause.shared | 516 |
-| news.read | 390 |
-| speech.retold | 364 |
-| case.made | 249 |
-| cause.donated | 105 |
-| vote-recorded | 98 |
-| office.approached | 64 |
-| office.replied | 64 |
-| cause.volunteered | 63 |
+| Record kind       | Count |
+| ----------------- | ----- |
+| person.acted      | 19061 |
+| cause.shared      | 516   |
+| news.read         | 390   |
+| speech.retold     | 364   |
+| case.made         | 249   |
+| cause.donated     | 105   |
+| vote-recorded     | 98    |
+| office.approached | 64    |
+| office.replied    | 64    |
+| cause.volunteered | 63    |
 
 Method: seed 1254cc0932d2, run January 20, 2025 to January 20, 2026, read from `audit/maryland.txt` only.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

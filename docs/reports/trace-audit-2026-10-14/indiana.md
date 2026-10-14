@@ -84,3 +84,7 @@ Top 10 record kinds:
 8. case.made: 189
 9. speech.heard: 164
 10. drive.formed: 143
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

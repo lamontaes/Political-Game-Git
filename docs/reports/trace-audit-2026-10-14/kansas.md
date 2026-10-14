@@ -62,17 +62,21 @@ The player, Jaden Guzman, was alive at year end, working as a server with $4,638
 
 Records this year: 16,138 (from the file header; the detail lines are a partial sample).
 
-| Record kind | Count |
-| --- | --- |
-| person.acted | 12682 |
-| cause.shared | 1108 |
-| speech.retold | 599 |
-| news.read | 235 |
-| vote-recorded | 196 |
-| cause.donated | 158 |
-| case.made | 143 |
-| campaign-message | 131 |
-| cause-group.ad-ran | 111 |
-| speech.heard | 102 |
+| Record kind        | Count |
+| ------------------ | ----- |
+| person.acted       | 12682 |
+| cause.shared       | 1108  |
+| speech.retold      | 599   |
+| news.read          | 235   |
+| vote-recorded      | 196   |
+| cause.donated      | 158   |
+| case.made          | 143   |
+| campaign-message   | 131   |
+| cause-group.ad-ran | 111   |
+| speech.heard       | 102   |
 
 Method: seed 32e4998ec48b, run January 20, 2025 to January 20, 2026.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

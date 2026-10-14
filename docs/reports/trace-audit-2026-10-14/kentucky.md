@@ -72,19 +72,23 @@ The player, Cameron Velasquez, was alive at year end, working as a cook with $1,
 
 Records this year: 15,897 (news items: 404).
 
-| Record kind | Count |
-| --- | --- |
-| person.acted | 12806 |
-| cause.shared | 753 |
-| news.read | 723 |
-| cause.volunteered | 462 |
-| speech.retold | 410 |
-| vote-recorded | 132 |
-| speech.heard | 90 |
-| legislative-vote | 61 |
-| cause-group.ad-ran | 60 |
-| drive.strengthened | 56 |
+| Record kind        | Count |
+| ------------------ | ----- |
+| person.acted       | 12806 |
+| cause.shared       | 753   |
+| news.read          | 723   |
+| cause.volunteered  | 462   |
+| speech.retold      | 410   |
+| vote-recorded      | 132   |
+| speech.heard       | 90    |
+| legislative-vote   | 61    |
+| cause-group.ad-ran | 60    |
+| drive.strengthened | 56    |
 
 ## Method
 
 World seed `ea10d2e9ff8c`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/kentucky.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

@@ -74,3 +74,7 @@ Records this year: 13058
 ## Method
 
 World seed `cc170e511472`, one year, January 20, 2025 to January 20, 2026, through the trace viewer.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

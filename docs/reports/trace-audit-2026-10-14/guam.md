@@ -80,19 +80,23 @@ Line numbers refer to `audit/guam.txt`.
 
 Records this year: 9304.
 
-| Rank | Record kind | Count |
-|---|---|---|
-| 1 | person.acted | 9048 |
-| 2 | news.read | 130 |
-| 3 | committee-hearing | 22 |
-| 4 | legislative-vote | 18 |
-| 5 | budget-line-changed | 16 |
-| 6 | law-took-effect | 13 |
-| 7 | speech.retold | 13 |
-| 8 | bill-held-in-committee | 12 |
-| 9 | person.moved-away | 8 |
-| 10 | organization.closed | 5 (tied with business.closed 5 and housing.completed 5) |
+| Rank | Record kind            | Count                                                   |
+| ---- | ---------------------- | ------------------------------------------------------- |
+| 1    | person.acted           | 9048                                                    |
+| 2    | news.read              | 130                                                     |
+| 3    | committee-hearing      | 22                                                      |
+| 4    | legislative-vote       | 18                                                      |
+| 5    | budget-line-changed    | 16                                                      |
+| 6    | law-took-effect        | 13                                                      |
+| 7    | speech.retold          | 13                                                      |
+| 8    | bill-held-in-committee | 12                                                      |
+| 9    | person.moved-away      | 8                                                       |
+| 10   | organization.closed    | 5 (tied with business.closed 5 and housing.completed 5) |
 
 ## Method
 
 World seed `22cf0e5b9d81`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/guam.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

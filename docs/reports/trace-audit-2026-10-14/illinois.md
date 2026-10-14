@@ -90,19 +90,23 @@ The file's own totals. Its trace sections show only a sample of these records.
 
 - Records this year: 14909. News items: 407 (federal 36).
 
-| Record kind | Count |
-| --- | --- |
-| person.acted | 13578 |
-| news.read | 388 |
-| cause.shared | 279 |
-| vote-recorded | 103 |
-| speech.retold | 86 |
-| committee-hearing | 63 |
-| legislative-vote | 52 |
-| case.made | 52 |
-| cause-group.ad-ran | 51 |
-| budget-line-changed | 44 |
+| Record kind         | Count |
+| ------------------- | ----- |
+| person.acted        | 13578 |
+| news.read           | 388   |
+| cause.shared        | 279   |
+| vote-recorded       | 103   |
+| speech.retold       | 86    |
+| committee-hearing   | 63    |
+| legislative-vote    | 52    |
+| case.made           | 52    |
+| cause-group.ad-ran  | 51    |
+| budget-line-changed | 44    |
 
 ## Method
 
 World seed `86d630fba9a0`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/illinois.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

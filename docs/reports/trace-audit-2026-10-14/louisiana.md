@@ -93,19 +93,23 @@ The file records no deaths and no births.
 
 Records this year: 9090 (news items: 447).
 
-| Record kind | Count |
-| --- | --- |
-| person.acted | 7547 |
-| cause.shared | 311 |
-| vote-recorded | 219 |
-| news.read | 180 |
-| speech.heard | 116 |
-| speech.retold | 104 |
-| cause.volunteered | 96 |
-| legislative-vote | 64 |
-| bill-held-in-committee | 51 |
-| drive.strengthened | 47 |
+| Record kind            | Count |
+| ---------------------- | ----- |
+| person.acted           | 7547  |
+| cause.shared           | 311   |
+| vote-recorded          | 219   |
+| news.read              | 180   |
+| speech.heard           | 116   |
+| speech.retold          | 104   |
+| cause.volunteered      | 96    |
+| legislative-vote       | 64    |
+| bill-held-in-committee | 51    |
+| drive.strengthened     | 47    |
 
 ## Method
 
 World seed `ceb1b7c7f016`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/louisiana.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

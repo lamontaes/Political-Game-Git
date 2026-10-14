@@ -68,19 +68,23 @@ Records this year: 19812. News items: 365 (federal 38).
 
 Top 10 record kinds (from the file's summary):
 
-| Kind | Count |
-| --- | --- |
-| person.acted | 18056 |
-| news.read | 633 |
-| cause.shared | 292 |
-| speech.retold | 214 |
-| vote-recorded | 89 |
-| legislative-vote | 63 |
-| committee-hearing | 60 |
-| cause-group.ad-ran | 54 |
-| cause.donated | 50 |
-| case.made | 47 |
+| Kind               | Count |
+| ------------------ | ----- |
+| person.acted       | 18056 |
+| news.read          | 633   |
+| cause.shared       | 292   |
+| speech.retold      | 214   |
+| vote-recorded      | 89    |
+| legislative-vote   | 63    |
+| committee-hearing  | 60    |
+| cause-group.ad-ran | 54    |
+| cause.donated      | 50    |
+| case.made          | 47    |
 
 ## Method
 
 World seed `13744ef7bcc3`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/maine.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

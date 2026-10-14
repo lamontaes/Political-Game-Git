@@ -94,3 +94,7 @@ Top 10 record kinds:
 ## Method
 
 World seed `b6b680d034f8`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/idaho.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.

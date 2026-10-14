@@ -40,19 +40,23 @@ Congress adopted the federal budget on October 1, 2025, after seven budget lines
 
 Records this year: 52,053.
 
-| Record kind | Count |
-| --- | --- |
-| person.acted | 35,336 |
-| cause.shared | 5,491 |
-| cause.donated | 2,754 |
-| speech.retold | 1,493 |
-| drive.strengthened | 1,199 |
-| case.made | 1,057 |
-| cause.volunteered | 988 |
-| office.approached | 617 |
-| office.replied | 605 |
-| cause-group.joined | 477 |
+| Record kind        | Count  |
+| ------------------ | ------ |
+| person.acted       | 35,336 |
+| cause.shared       | 5,491  |
+| cause.donated      | 2,754  |
+| speech.retold      | 1,493  |
+| drive.strengthened | 1,199  |
+| case.made          | 1,057  |
+| cause.volunteered  | 988    |
+| office.approached  | 617    |
+| office.replied     | 605    |
+| cause-group.joined | 477    |
 
 ## Method
 
 World seed `346122177e93`, one year from January 20, 2025 to January 20, 2026, through the trace viewer. Raw trace: `raw-trace-2/iowa.txt`.
+
+## Verification
+
+Every item above was checked against the code. The causes, and the items that turned out not to be defects, are in `README-TRACE-2.md`.
