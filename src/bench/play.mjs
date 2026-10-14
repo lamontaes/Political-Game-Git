@@ -340,9 +340,12 @@ async function renderScene() {
   $("backdrop").src = scene.backdrop.url;
   drawPeople(scene.people, showPerson);
   me.scene = scene;
+  // The look chosen in the creator is the player's own portrait.
   setBust(
     "card-bust",
-    scene.people.find((p) => p.personId === me.id)?.figureUrl,
+    me.portrait
+      ? `/api/portrait?id=${encodeURIComponent(me.id)}`
+      : scene.people.find((p) => p.personId === me.id)?.figureUrl,
   );
 }
 
@@ -2095,7 +2098,19 @@ api("/api/title").then((title) => {
   if (!$("front").hidden) $("backdrop").src = title.backdrop.url;
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
+  $("front-continue-life").textContent = titleLife
+    ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
+    : "";
 });
+// The build version, bottom right of the title (#4014).
+void displayVersion().then((v) => ($("title-version").textContent = v));
+// Not yet routes on the new core: said on the control itself.
+for (const [id, key] of [
+  ["front-watch", "watch"],
+  ["front-saves", "saves"],
+  ["front-patch-notes", "patchNotes"],
+])
+  $(id).title = controls.titleUnavailable?.[key] ?? "";
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
@@ -2104,6 +2119,7 @@ $("front-continue").addEventListener("click", async () => {
     placeName: life.placeName,
     date: life.date,
     names: {},
+    portrait: life.portrait,
   };
   seenChanges = await changeCount();
   show("front", false);
@@ -2125,17 +2141,6 @@ const drawSeed = () =>
   });
 void drawSeed();
 $("seed-random").addEventListener("click", () => void drawSeed());
-let placeRows = [];
-const typedPlace = () => placeRows.find((row) => row.name === $("place").value);
-$("place").addEventListener("input", async () => {
-  const typed = $("place").value;
-  const rows = await api(`/api/places?q=${encodeURIComponent(typed)}`);
-  if ($("place").value !== typed) return;
-  placeRows = rows;
-  $("places").replaceChildren(
-    ...placeRows.map((row) => el("option", { value: row.name })),
-  );
-});
 /** What the player changed from real data; nothing means a real world. */
 function worldSettings() {
   const read = (id) => {
@@ -2169,133 +2174,369 @@ $("front-options").addEventListener("click", () => openSheet("options"));
 $("dev-toggle").addEventListener("click", () =>
   document.body.classList.toggle("dev"),
 );
-// New game: Start a life (a random place, then the creator), Custom world
-// (the world's settings, then the creator) or New world (straight in).
+// New game: Custom world (the world's settings, then the creator), Start a
+// life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
   "front-main",
   "front-new",
   "front-custom",
-  "creator-who",
-  "creator-look",
+  "cr-character",
+  "cr-place",
+  "cr-look",
 ];
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
-  // The creator's preview figure stands left; its panel moves right.
-  $("front").classList.toggle("creating", name.startsWith("creator"));
 }
-$("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-back").addEventListener("click", () => frontPanel("front-main"));
-$("new-custom").addEventListener("click", () => frontPanel("front-custom"));
-$("custom-back").addEventListener("click", () => frontPanel("front-new"));
-$("new-start").addEventListener("click", () =>
-  startLife(undefined, { creator: true }),
-);
-$("new-world").addEventListener("click", () => startLife(undefined, {}));
-$("custom-begin").addEventListener("click", () =>
-  startLife(typedPlace(), { custom: true, creator: true }),
-);
-const placeControls = [
-  "new-start",
-  "new-custom",
-  "new-world",
-  "new-back",
-  "custom-begin",
-  "custom-back",
-];
-
-// ---- The creator: name, age and birthday, then the look ----
+// What the creator has chosen so far (the Oct 12 SetupScreen's setup).
+const setup = {
+  custom: false,
+  seed: "",
+  gender: null,
+  nameDraws: 0,
+  birthdayDraws: 0,
+  appearanceDraws: 0,
+  state: null,
+  town: null,
+  recipe: null,
+  initial: null,
+  previous: [],
+};
 const MONTHS = Array.from({ length: 12 }, (_, i) =>
   new Date(Date.UTC(2000, i, 1)).toLocaleString("en-US", {
     month: "long",
     timeZone: "UTC",
   }),
 );
+const proseDate = (iso) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+const genderName = (g) =>
+  document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
   ...MONTHS.map((name, i) =>
     el("option", { value: String(i + 1), textContent: name }),
   ),
 );
-function runCreator(id) {
-  const at = `/api/creator?id=${encodeURIComponent(id)}`;
-  let view;
-  const preview = (v) => {
-    view = v;
-    $("backdrop").src = v.preview.backdrop.url;
-    drawPeople(v.preview.people);
-    $("cr-sexes").replaceChildren(
-      ...v.sexes.map((sex) => {
+function fillDays() {
+  const month = Number($("cr-month").value);
+  const length = new Date(Date.UTC(2001, month, 0)).getUTCDate();
+  const keep = Number($("cr-day").value) || 1;
+  $("cr-day").replaceChildren(
+    ...Array.from({ length }, (_, i) =>
+      el("option", { value: String(i + 1), textContent: String(i + 1) }),
+    ),
+  );
+  $("cr-day").value = String(Math.min(keep, length));
+}
+async function fillYears(keepYear) {
+  const { start, years } = await api(
+    `/api/creator/years?month=${$("cr-month").value}&day=${$("cr-day").value}`,
+  );
+  setup.start = start;
+  const want = keepYear ?? Number($("cr-year").value);
+  $("cr-year").replaceChildren(
+    ...years.map((row) =>
+      el("option", { value: String(row.year), textContent: row.label }),
+    ),
+  );
+  const nearest = years.reduce(
+    (best, row) =>
+      Math.abs(row.year - want) < Math.abs(best.year - want) ? row : best,
+    years[0],
+  );
+  $("cr-year").value = String(nearest.year);
+  derivedAge();
+}
+function chosenAge() {
+  return /\(age (\d+)\)/.exec(
+    $("cr-year").selectedOptions[0]?.textContent ?? "",
+  )?.[1];
+}
+function derivedAge() {
+  $("cr-derived-age").textContent =
+    `${chosenAge() ?? ""} · ${setup.start ? proseDate(setup.start) : ""}`;
+}
+$("cr-month").addEventListener("change", async () => {
+  fillDays();
+  await fillYears();
+});
+$("cr-day").addEventListener("change", () => fillYears());
+$("cr-year").addEventListener("change", derivedAge);
+function pickGender(g) {
+  setup.gender = g;
+  for (const b of document.querySelectorAll("[data-gender]")) {
+    const on = b.dataset.gender === g;
+    b.classList.toggle("primary", on);
+    b.setAttribute("aria-pressed", String(on));
+  }
+}
+for (const b of document.querySelectorAll("[data-gender]"))
+  b.addEventListener("click", () => pickGender(b.dataset.gender));
+$("cr-random-name").addEventListener("click", async () => {
+  setup.nameDraws++;
+  const name = await api(
+    `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
+  );
+  $("cr-given").value = name.givenName;
+  $("cr-family").value = name.familyName;
+});
+async function randomBirthday() {
+  setup.birthdayDraws++;
+  const b = await api(
+    `/api/creator/birthday?${new URLSearchParams({ seed: setup.seed, draw: setup.birthdayDraws })}`,
+  );
+  $("cr-month").value = String(b.month);
+  fillDays();
+  $("cr-day").value = String(b.day);
+  await fillYears(b.year);
+}
+$("cr-random-birthday").addEventListener("click", () => void randomBirthday());
+
+/** Opens the creator for Start a life or Custom world. */
+async function openCreator(custom) {
+  setup.custom = custom;
+  if (!setup.seed) setup.seed = (await api("/api/seed")).seed;
+  $("cr-route-name").textContent = $(
+    custom ? "new-custom" : "new-start",
+  ).textContent.trim();
+  if (!$("cr-year").options.length) await randomBirthday();
+  frontPanel("cr-character");
+}
+$("new-life").addEventListener("click", () => frontPanel("front-new"));
+$("new-back").addEventListener("click", () => frontPanel("front-main"));
+$("new-custom").addEventListener("click", () => frontPanel("front-custom"));
+$("new-start").addEventListener("click", () => void openCreator(false));
+$("new-world").addEventListener("click", () => startLife({}));
+$("custom-back").addEventListener("click", () => frontPanel("front-new"));
+$("custom-next").addEventListener("click", () => void openCreator(true));
+$("cr-route").addEventListener("click", () => frontPanel("front-new"));
+$("cr-character-back").addEventListener("click", () =>
+  frontPanel(setup.custom ? "front-custom" : "front-new"),
+);
+$("cr-character-next").addEventListener("click", () => {
+  const given = $("cr-given").value.trim();
+  const family = $("cr-family").value.trim();
+  if (!setup.gender || !given || !family) {
+    $("front-status").textContent = !setup.gender
+      ? $("cr-character").querySelector("legend").textContent
+      : $("cr-random-name").textContent;
+    return;
+  }
+  $("front-status").textContent = "";
+  $("cr-summary-name").textContent = `${given} ${family}`;
+  $("cr-summary-age").textContent =
+    `Age ${chosenAge()} · ${genderName(setup.gender)}`;
+  const pad = (n) => String(n).padStart(2, "0");
+  $("cr-summary-born").textContent =
+    `Born ${proseDate(`${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`)}`;
+  frontPanel("cr-place");
+  void showStates();
+});
+$("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
+$("cr-place-back").addEventListener("click", () => frontPanel("cr-character"));
+
+// Where are you from: a state, then a city or town with its population.
+let states = [];
+async function showStates() {
+  if (!states.length) states = await api("/api/creator/states");
+  const show2 = !setup.state;
+  show("cr-state-pick", show2);
+  show("cr-town-pick", !show2);
+  if (show2) listStates();
+  else void listTowns();
+}
+function listStates() {
+  const q = $("cr-state-search").value.trim().toLowerCase();
+  $("cr-states").replaceChildren(
+    ...states
+      .filter((s) => s.name.toLowerCase().includes(q))
+      .map((s) => {
+        const b = el("button", {
+          type: "button",
+          className: "item",
+          textContent: s.name,
+        });
+        b.dataset.testid = `state-${s.key}`;
+        b.addEventListener("click", () => {
+          setup.state = s;
+          $("cr-state-name").textContent = s.name;
+          $("cr-town-search").value = "";
+          void showStates();
+        });
+        return b;
+      }),
+  );
+}
+$("cr-state-search").addEventListener("input", listStates);
+$("cr-state").addEventListener("click", () => {
+  setup.state = null;
+  setup.town = null;
+  void showStates();
+});
+let townAsk = 0;
+async function listTowns() {
+  const ask = ++townAsk;
+  const towns = await api(
+    `/api/creator/towns?${new URLSearchParams({ state: setup.state.key, q: $("cr-town-search").value })}`,
+  );
+  if (ask !== townAsk) return;
+  const count = new Intl.NumberFormat("en-US");
+  $("cr-towns").replaceChildren(
+    ...towns.map((t) => {
+      const b = el(
+        "button",
+        { type: "button", className: "item" },
+        el("b", { textContent: t.name }),
+        ...(t.population
+          ? [
+              el("small", {
+                textContent: `${count.format(t.population)} people`,
+              }),
+            ]
+          : []),
+      );
+      b.addEventListener("click", () => {
+        setup.town = t;
+        void openLook();
+      });
+      return b;
+    }),
+  );
+}
+$("cr-town-search").addEventListener("input", () => void listTowns());
+
+// Character appearance: the people engine's portrait and arrows.
+function showLook(view) {
+  setup.recipe = view.recipe;
+  $("cr-portrait").src =
+    `/api/portrait?recipe=${encodeURIComponent(JSON.stringify(view.recipe))}`;
+  $("cr-rows").replaceChildren(
+    ...view.rows.map((row) => {
+      const arrow = (by, glyph) => {
         const b = el("button", {
           type: "button",
           className: "action small",
-          textContent: sex[0].toUpperCase() + sex.slice(1),
+          textContent: glyph,
         });
-        b.setAttribute("aria-pressed", String(sex === v.sex));
-        if (sex === v.sex) b.classList.add("primary");
-        b.addEventListener("click", () => change({ sex }));
+        b.setAttribute(
+          "aria-label",
+          `${by < 0 ? "Previous" : "Next"} ${row.label.toLowerCase()}`,
+        );
+        b.addEventListener("click", () => void moveLook(row.id, by));
         return b;
-      }),
-    );
-    const n = v.families.indexOf(v.family);
-    $("cr-look-count").textContent =
-      `${n < 0 ? "–" : n + 1} / ${v.families.length}`;
-  };
-  const change = async (fields) => {
-    try {
-      preview(await post(`${at}&${new URLSearchParams(fields)}`));
-      $("front-status").textContent = "";
-      return true;
-    } catch (error) {
-      $("front-status").textContent = error.message;
-      return false;
-    }
-  };
-  const step = (by) => {
-    const n = view.families.indexOf(view.family);
-    const from = n < 0 ? (by > 0 ? -1 : 0) : n;
-    const next = (from + by + view.families.length) % view.families.length;
-    void change({ family: view.families[next] });
-  };
-  return new Promise((resolve) => {
-    void api(at).then((v) => {
-      preview(v);
-      $("cr-given").value = v.givenName;
-      $("cr-family").value = v.familyName;
-      $("cr-age").value = v.age;
-      $("cr-age").min = v.minAge;
-      $("cr-age").max = v.maxAge;
-      $("cr-month").value = String(v.birthMonth);
-      $("cr-day").value = v.birthDay;
-      $("front-status").textContent = "";
-      frontPanel("creator-who");
-      $("cr-given").focus();
-    });
-    $("cr-next").onclick = async () => {
-      if (
-        await change({
-          givenName: $("cr-given").value,
-          familyName: $("cr-family").value,
-          age: $("cr-age").value,
-          birthMonth: $("cr-month").value,
-          birthDay: $("cr-day").value,
-        })
-      )
-        frontPanel("creator-look");
-    };
-    $("cr-prev-look").onclick = () => step(-1);
-    $("cr-next-look").onclick = () => step(1);
-    $("cr-back").onclick = () => frontPanel("creator-who");
-    $("cr-begin").onclick = () => resolve();
-  });
+      };
+      const value = el("span", { className: "look-value" });
+      if (row.swatch)
+        value.append(
+          Object.assign(el("i", { className: "swatch" }), {
+            style: `background:${row.swatch}`,
+          }),
+        );
+      value.append(row.value);
+      const line = el(
+        "div",
+        { className: "look-row" },
+        el("span", { className: "label", textContent: row.label }),
+        arrow(-1, "‹"),
+        value,
+        arrow(1, "›"),
+      );
+      line.dataset.testid = `engine-appearance-${row.id}`;
+      return line;
+    }),
+  );
+  $("cr-reset").disabled =
+    JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);
+  $("cr-undo").disabled = setup.previous.length === 0;
 }
+const lookQuery = (extra) =>
+  new URLSearchParams({
+    seed: setup.seed,
+    gender: setup.gender,
+    draw: setup.appearanceDraws,
+    ...extra,
+  });
+async function openLook() {
+  if (!setup.recipe || setup.lookGender !== setup.gender) {
+    setup.lookGender = setup.gender;
+    setup.previous = [];
+    const view = await api(`/api/creator/appearance?${lookQuery({})}`);
+    setup.initial = view.recipe;
+    showLook(view);
+  } else
+    showLook(
+      await api(
+        `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
+      ),
+    );
+  frontPanel("cr-look");
+}
+async function moveLook(row, by) {
+  const view = await post(
+    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, by })}`,
+  );
+  setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(view);
+}
+async function setLook(recipe, keepHistory) {
+  if (keepHistory)
+    setup.previous = [...setup.previous, setup.recipe].slice(-20);
+  showLook(
+    await api(
+      `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(recipe) })}`,
+    ),
+  );
+}
+$("cr-randomize").addEventListener("click", async () => {
+  setup.appearanceDraws++;
+  const view = await api(`/api/creator/appearance?${lookQuery({})}`);
+  await setLook(view.recipe, true);
+});
+$("cr-reset").addEventListener(
+  "click",
+  () => void setLook(setup.initial, true),
+);
+$("cr-undo").addEventListener("click", () => {
+  const last = setup.previous.pop();
+  if (last) void setLook(last, false);
+});
+$("cr-look-back").addEventListener("click", () => {
+  frontPanel("cr-place");
+  void showStates();
+});
+$("cr-begin").addEventListener("click", () =>
+  startLife({
+    custom: setup.custom,
+    placeKey: setup.town.key,
+    person: {
+      givenName: $("cr-given").value.trim(),
+      familyName: $("cr-family").value.trim(),
+      gender: setup.gender,
+      birthYear: Number($("cr-year").value),
+      birthMonth: Number($("cr-month").value),
+      birthDay: Number($("cr-day").value),
+      recipe: setup.recipe,
+    },
+  }),
+);
+const placeControls = ["new-world", "cr-begin"];
 
-async function startLife(chosen, { custom = false, creator = false }) {
+async function startLife({ custom = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
+  // The loading card: the panel holds only the progress over the scene.
+  frontPanel(null);
   show("front-status", true);
   document.querySelector("#front .progress").hidden = false;
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
-    const seed = custom ? $("seed").value : (await api("/api/seed")).seed;
+    const seed = custom
+      ? $("seed").value
+      : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
     const bar = document.querySelector("#front .progress span");
     bar.classList.add("steady");
@@ -2322,17 +2563,11 @@ async function startLife(chosen, { custom = false, creator = false }) {
     let life;
     try {
       life = await post(
-        `/api/newlife?${new URLSearchParams({ seed, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+        `/api/newlife?${new URLSearchParams({ seed, date: $("date").value, ...(placeKey ? { placeKey } : {}), ...(person ? { person: JSON.stringify(person) } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
       );
     } finally {
       clearInterval(poll);
       built = true;
-    }
-    if (creator) {
-      document.querySelector("#front .progress").hidden = true;
-      $("front-status").textContent = "";
-      await runCreator(life.personId);
-      document.querySelector("#front .progress").hidden = false;
     }
     // Every picture the opening shows is loaded before it plays.
     const opening = await api(
@@ -2369,6 +2604,7 @@ async function startLife(chosen, { custom = false, creator = false }) {
       placeName: life.placeName,
       date: life.date,
       names: life.names,
+      portrait: Boolean(person?.recipe),
     };
     // What was already law at the start isn't news; only what changes after.
     seenChanges = await changeCount();
@@ -2386,6 +2622,7 @@ async function startLife(chosen, { custom = false, creator = false }) {
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
+    frontPanel(person ? "cr-look" : "front-new");
   } finally {
     document.querySelector("#front .progress").hidden = true;
   }

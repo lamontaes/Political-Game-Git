@@ -489,7 +489,6 @@ interface Looks {
   birthDate: string;
   gender?: string;
   seed?: string;
-  family?: string;
 }
 const OFFICES = "core2-offices-v1";
 export function looksOf(core: CoreState, id: string): Looks | null {
@@ -502,7 +501,6 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       ...(person.looks?.appearanceSeed
         ? { seed: person.looks.appearanceSeed }
         : {}),
-      ...(person.looks?.family ? { family: person.looks.family } : {}),
     };
   const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
     | {
@@ -573,7 +571,6 @@ export function stagePeople(
       official: isOfficial(core, id),
       ...(act?.actionId ? { act: act.actionId } : {}),
       ...(id === core.playerId ? { player: true } : {}),
-      ...(looks.family ? { family: looks.family } : {}),
     };
     const look = pickLook(core, who, place, taken);
     if (!look) {

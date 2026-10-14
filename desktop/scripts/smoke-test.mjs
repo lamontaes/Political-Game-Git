@@ -141,7 +141,7 @@ async function launch() {
       (await page.getByTestId("title-options").isVisible()),
   );
   // The title is a full-window national scene with the menu over it: the
-  // backdrop has a picture, and the front shows no version and no place field.
+  // backdrop has a picture, the build version in the corner, and no place field on the front.
   const titleScreen = await page.evaluate(async () => {
     const backdrop = document.getElementById("backdrop");
     if (backdrop.getAttribute("src") && !backdrop.complete)
@@ -153,10 +153,14 @@ async function launch() {
     return {
       src: backdrop.getAttribute("src") ?? "",
       painted: backdrop.naturalWidth > 0,
-      version: /\bv?\d+\.\d+\.\d+/.test(front.innerText),
+      version: /\d+\.\d+\.\d+/.test(
+        document.getElementById("title-version")?.textContent ?? "",
+      ),
       placeShown: Boolean(place && place.offsetParent !== null),
       seedShown: Boolean(document.getElementById("seed")?.offsetParent),
       patchNotes: document.getElementById("front-patch-notes")?.disabled,
+      watch: document.getElementById("front-watch")?.disabled,
+      saves: document.getElementById("front-saves")?.disabled,
       subtitle: Boolean(front.querySelector(".sub")),
       itemLines: front.querySelectorAll(".item span").length,
       continueShown: Boolean(document.getElementById("front-continue")),
@@ -184,8 +188,10 @@ async function launch() {
     !titleScreen.seedShown && !titleScreen.placeShown,
   );
   check(
-    "title: Patch notes is there, disabled",
-    titleScreen.patchNotes === true,
+    "title: Watch the world, Saved games and Patch notes are there, disabled",
+    titleScreen.patchNotes === true &&
+      titleScreen.watch === true &&
+      titleScreen.saves === true,
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(
@@ -193,7 +199,7 @@ async function launch() {
     titleScreen.continueShown && titleScreen.continueDisabled === true,
   );
   check("title: Quit is offered on the desktop", titleScreen.quitShown);
-  check("title: no version string on the title", !titleScreen.version);
+  check("title: the build version shows on the title", titleScreen.version);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }

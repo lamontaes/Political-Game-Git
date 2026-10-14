@@ -742,27 +742,93 @@ input[type="range"]::-moz-range-thumb {
 .seed-row input {
   width: 150px;
 }
-.seed-row #cr-day {
-  width: 60px;
+/* The title's build version, bottom right (#4014). */
+.title-version {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  color: var(--text-3);
+  font: 400 11px var(--ui);
 }
-/* The creator's look step: the sex swatches, then the arrows through looks. */
-.swatches {
+.item small {
+  display: block;
+  font: 400 12.5px var(--ui);
+  color: var(--text-2);
+  margin-top: 2px;
+}
+/* The creator (the Oct 12 SetupScreen's steps). */
+#front:has(#cr-character:not([hidden])),
+#front:has(#cr-place:not([hidden])),
+#front:has(#cr-look:not([hidden])) {
+  width: 420px;
+}
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(214, 189, 132, 0.2);
+}
+.summary-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--text);
+}
+.summary-name {
+  font: 700 15px var(--name);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+.summary-edit {
+  color: var(--gold);
+  font: 600 12px var(--ui);
+}
+#front h2.label {
+  margin: 12px 0 6px;
+}
+.group {
+  border: 0;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.choices {
   display: flex;
   gap: 8px;
-  margin: 6px 0 12px;
+  margin-top: 6px;
 }
-.look-step {
+.choice-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+#front input[type="search"] {
+  width: 100%;
+}
+.look-row {
+  display: grid;
+  grid-template-columns: 110px 34px 1fr 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+.look-value {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
+  gap: 6px;
+  justify-content: center;
 }
-#front.creating {
-  left: auto;
-  right: 56px;
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--brass);
 }
-#cr-age {
-  width: 80px;
+.portrait {
+  display: block;
+  height: 260px;
+  margin: 0 auto 4px;
 }
 #front .acts {
   display: flex;
@@ -773,10 +839,6 @@ input[type="range"]::-moz-range-thumb {
 .version {
   margin-top: 12px;
   color: var(--text-3);
-}
-/* No chevron at rest: the suggestions open as the player types. */
-#place::-webkit-calendar-picker-indicator {
-  display: none !important;
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
 .progress {

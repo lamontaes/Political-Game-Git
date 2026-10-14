@@ -78,6 +78,7 @@
 
       <section id="front" class="panel menu" data-testid="title-menu">
         <h1 class="title">Our Civic Duty</h1>
+        <!-- The title menu as the Oct 12 title had it (TitleScreen.tsx, 29be9982f5^). -->
         <div id="front-main">
           <button
             id="new-life"
@@ -88,13 +89,31 @@
             <b>New game</b>
           </button>
           <button
+            id="front-watch"
+            class="item"
+            type="button"
+            data-testid="watch-world"
+            disabled
+          >
+            <b>Watch the world</b>
+          </button>
+          <button
             id="front-continue"
             class="item"
             type="button"
             data-testid="continue"
             disabled
           >
-            <b>Continue</b>
+            <b>Continue</b><small id="front-continue-life"></small>
+          </button>
+          <button
+            id="front-saves"
+            class="item"
+            type="button"
+            data-testid="open-saves"
+            disabled
+          >
+            <b>Saved games</b>
           </button>
           <button
             id="front-options"
@@ -104,7 +123,6 @@
           >
             <b>Options</b>
           </button>
-          <!-- Patch notes waits for a notes route. -->
           <button
             id="front-patch-notes"
             class="item"
@@ -119,22 +137,19 @@
             id="front-quit"
             class="item"
             type="button"
-            data-testid="title-quit"
+            data-testid="quit"
             hidden
           >
             <b>Quit</b>
           </button>
+          <small
+            id="title-version"
+            class="title-version"
+            data-testid="title-version"
+          ></small>
         </div>
         <!-- New game: how the world begins. -->
         <div id="front-new" data-testid="new-game-choice" hidden>
-          <button
-            id="new-start"
-            class="item"
-            type="button"
-            data-testid="start-life"
-          >
-            <b>Start a life</b>
-          </button>
           <button
             id="new-custom"
             class="item"
@@ -142,6 +157,14 @@
             data-testid="custom-world"
           >
             <b>Custom world</b>
+          </button>
+          <button
+            id="new-start"
+            class="item"
+            type="button"
+            data-testid="start-life"
+          >
+            <b>Start a life</b>
           </button>
           <button
             id="new-world"
@@ -178,15 +201,6 @@
           <label class="field"
             >Opening date <input id="date" type="date" readonly
           /></label>
-          <label class="field"
-            >Place
-            <input
-              id="place"
-              list="places"
-              placeholder="Random"
-              autocomplete="off"
-          /></label>
-          <datalist id="places"></datalist>
           <label class="field"
             >Town size
             <input
@@ -247,87 +261,219 @@
               step="0.05"
               placeholder="1"
           /></label>
+
           <div class="acts">
             <button id="custom-back" class="action small" type="button">
               Back
             </button>
             <button
-              id="custom-begin"
+              id="custom-next"
               class="action primary small"
               type="button"
-              data-testid="custom-begin"
+              data-testid="custom-continue"
             >
-              Begin
+              Continue
             </button>
           </div>
         </div>
-        <!-- The creator: who you are, then how you look. -->
-        <div id="creator-who" data-testid="creator-who" hidden>
-          <label class="field"
-            >Given name <input id="cr-given" maxlength="40" autocomplete="off"
-          /></label>
-          <label class="field"
-            >Family name
-            <input id="cr-family" maxlength="40" autocomplete="off"
-          /></label>
-          <label class="field"
-            >Age <input id="cr-age" type="number" step="1"
-          /></label>
-          <div class="field">
-            <span>Birthday</span>
-            <span class="seed-row"
-              ><select id="cr-month" aria-label="Birth month"></select
-              ><input
-                id="cr-day"
-                type="number"
-                min="1"
-                max="31"
-                step="1"
-                aria-label="Birth day"
-            /></span>
-          </div>
-          <div class="acts">
-            <span></span>
+        <!-- The creator, step by step as the Oct 12 SetupScreen had it. -->
+        <div id="cr-character" data-testid="creator-stage-character" hidden>
+          <button
+            id="cr-route"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-route"
+          >
+            <span id="cr-route-name" class="summary-value"></span
+            ><span class="summary-edit">Change</span>
+          </button>
+          <h2 class="label">Your character</h2>
+          <fieldset class="group" data-testid="gender-choices">
+            <legend class="label">Gender (required)</legend>
+            <div class="choices">
+              <button
+                type="button"
+                class="action small"
+                data-gender="female"
+                data-testid="gender-female"
+              >
+                Female
+              </button>
+              <button
+                type="button"
+                class="action small"
+                data-gender="male"
+                data-testid="gender-male"
+              >
+                Male
+              </button>
+              <button
+                type="button"
+                class="action small"
+                data-gender="nonbinary"
+                data-testid="gender-nonbinary"
+              >
+                Non-binary
+              </button>
+            </div>
+          </fieldset>
+          <div class="group">
+            <span class="label">Name</span>
+            <label class="field"
+              >First name
+              <input id="cr-given" maxlength="40" autocomplete="off"
+            /></label>
+            <label class="field"
+              >Last name
+              <input id="cr-family" maxlength="40" autocomplete="off"
+            /></label>
             <button
-              id="cr-next"
+              id="cr-random-name"
+              class="action small"
+              type="button"
+              data-testid="creator-randomize-name"
+            >
+              Randomize name
+            </button>
+          </div>
+          <fieldset class="group" data-testid="creator-birthday">
+            <legend class="label">Birthday</legend>
+            <label class="field"
+              >Month
+              <select id="cr-month" data-testid="start-birth-month"></select
+            ></label>
+            <label class="field"
+              >Day
+              <select id="cr-day" data-testid="start-birth-day"></select
+            ></label>
+            <label class="field"
+              >Year
+              <select id="cr-year" data-testid="start-birth-year"></select
+            ></label>
+            <button
+              id="cr-random-birthday"
+              class="action small"
+              type="button"
+              data-testid="creator-randomize-birthday"
+            >
+              Randomize birthday
+            </button>
+            <p
+              id="cr-derived-age"
+              class="when"
+              data-testid="creator-derived-age"
+            ></p>
+          </fieldset>
+          <div class="acts">
+            <button id="cr-character-back" class="action small" type="button">
+              Back
+            </button>
+            <button
+              id="cr-character-next"
               class="action primary small"
               type="button"
-              data-testid="creator-next"
+              data-testid="creator-continue-character"
             >
-              Next
+              Continue
             </button>
           </div>
         </div>
-        <div id="creator-look" data-testid="creator-look" hidden>
-          <div id="cr-sexes" class="swatches"></div>
-          <div class="look-step">
+        <div id="cr-place" data-testid="creator-stage-place" hidden>
+          <button
+            id="cr-summary"
+            class="summary"
+            type="button"
+            data-testid="creator-summary-character"
+          >
+            <span class="summary-value"
+              ><strong id="cr-summary-name" class="summary-name"></strong
+              ><span id="cr-summary-age"></span
+              ><span id="cr-summary-born"></span></span
+            ><span class="summary-edit">Change</span>
+          </button>
+          <h2 class="label">Where are you from?</h2>
+          <div id="cr-state-pick">
+            <label class="field" for="cr-state-search">Choose a state</label>
+            <input
+              id="cr-state-search"
+              type="search"
+              autocomplete="off"
+              data-testid="state-search"
+            />
+            <div
+              id="cr-states"
+              class="choice-list"
+              data-testid="state-choices"
+            ></div>
+          </div>
+          <div id="cr-town-pick" hidden>
             <button
-              id="cr-prev-look"
-              class="action small"
+              id="cr-state"
+              class="summary"
               type="button"
-              aria-label="Previous look"
+              data-testid="creator-change-state"
             >
-              ‹
+              <span id="cr-state-name" class="summary-value"></span
+              ><span class="summary-edit">Change</span>
             </button>
-            <span id="cr-look-count" class="when"></span>
+            <label class="field" for="cr-town-search">Search</label>
+            <input
+              id="cr-town-search"
+              type="search"
+              autocomplete="off"
+              data-testid="place-search"
+            />
+            <div
+              id="cr-towns"
+              class="choice-list"
+              data-testid="place-choices"
+            ></div>
+          </div>
+          <div class="acts">
+            <button id="cr-place-back" class="action small" type="button">
+              Back
+            </button>
+          </div>
+        </div>
+        <div id="cr-look" data-testid="creator-stage-appearance" hidden>
+          <img
+            id="cr-portrait"
+            class="portrait"
+            alt=""
+            data-testid="creator-engine-figure"
+          />
+          <h2 class="label">Character appearance</h2>
+          <div id="cr-rows" data-testid="engine-appearance-controls"></div>
+          <button id="cr-randomize" class="action small" type="button">
+            Randomize
+          </button>
+          <div class="acts">
             <button
-              id="cr-next-look"
+              id="cr-reset"
               class="action small"
               type="button"
-              aria-label="Next look"
+              data-testid="creator-reset-appearance"
             >
-              ›
+              Reset appearance
+            </button>
+            <button
+              id="cr-undo"
+              class="action small"
+              type="button"
+              data-testid="creator-undo-appearance"
+            >
+              Undo
             </button>
           </div>
           <div class="acts">
-            <button id="cr-back" class="action small" type="button">
+            <button id="cr-look-back" class="action small" type="button">
               Back
             </button>
             <button
               id="cr-begin"
               class="action primary small"
               type="button"
-              data-testid="creator-begin"
+              data-testid="begin"
             >
               Begin
             </button>

@@ -52,19 +52,20 @@ test("the title rotates through national scenes from the backdrop manifest", () 
   assert.match(script, /\$\("backdrop"\)\.src = title\.backdrop\.url;/);
 });
 
-test("the title holds only the menu; New game opens the three choices", () => {
+test("the title menu and the creator follow the Oct 12 build", () => {
   assert.doesNotMatch(front, /class="sub"/);
-  assert.doesNotMatch(front, /id="version"/);
   const main = front.slice(
     front.indexOf('id="front-main"'),
     front.indexOf('id="front-new"'),
   );
   const order = [
     "new-game",
+    "watch-world",
     "continue",
+    "open-saves",
     "title-options",
     "title-patch-notes",
-    "title-quit",
+    "quit",
   ].map((id) => main.indexOf(`data-testid="${id}"`));
   assert.ok(
     order.every((at) => at > 0),
@@ -75,34 +76,44 @@ test("the title holds only the menu; New game opens the three choices", () => {
     order,
     "in order",
   );
-  assert.doesNotMatch(main, /<span>|id="seed"|id="place"|saved-games|watch/i);
+  assert.match(main, /data-testid="title-version"/);
+  assert.doesNotMatch(main, /id="seed"|id="place"/);
   const choice = front.slice(
     front.indexOf('id="front-new"'),
     front.indexOf('id="front-custom"'),
   );
-  assert.match(choice, /data-testid="new-game-choice" hidden/);
-  for (const id of ["start-life", "custom-world", "new-world", "new-game-back"])
+  for (const id of ["custom-world", "start-life", "new-world", "new-game-back"])
     assert.match(choice, new RegExp(`data-testid="${id}"`));
-  const custom = front.slice(
-    front.indexOf('id="front-custom"'),
-    front.indexOf('id="creator-who"'),
-  );
   for (const id of [
-    "seed",
-    "seed-random",
-    "date",
-    "place",
-    "set-population",
-    "set-wages",
-    "set-cash",
-    "set-demand",
-    "set-lean",
-    "set-turnout",
+    "gender-female",
+    "gender-male",
+    "gender-nonbinary",
+    "creator-randomize-name",
+    "start-birth-month",
+    "start-birth-day",
+    "start-birth-year",
+    "creator-randomize-birthday",
+    "creator-derived-age",
+    "creator-summary-character",
+    "state-search",
+    "state-choices",
+    "creator-change-state",
+    "place-search",
+    "place-choices",
+    "creator-engine-figure",
+    "engine-appearance-controls",
+    "creator-reset-appearance",
+    "creator-undo-appearance",
+    "begin",
   ])
-    assert.match(custom, new RegExp(`id="${id}"`), `${id} is in Custom world`);
-  for (const id of ["cr-given", "cr-family", "cr-age", "cr-month", "cr-day"])
-    assert.match(front, new RegExp(`id="${id}"`), `${id} is in the creator`);
-  assert.match(front, /id="cr-prev-look"[\s\S]*id="cr-next-look"/);
-  assert.match(script, /fetch|api\(at\)/);
-  assert.doesNotMatch(script, /drawPeople\(title/);
+    assert.match(front, new RegExp(`data-testid="${id}"`), id);
+  // Randomize name works before a gender is chosen (owner, Oct 14).
+  assert.doesNotMatch(
+    front.slice(
+      front.indexOf('id="cr-random-name"'),
+      front.indexOf("Randomize name"),
+    ),
+    /disabled/,
+  );
+  assert.doesNotMatch(script, /drawPeople\(title|drawPeople\(v\.preview/);
 });

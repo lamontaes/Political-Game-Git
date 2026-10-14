@@ -2,7 +2,7 @@
 id: play-title-menu-and-scenes
 impact: patch
 section: Changed
-title: The title menu, New game's three ways to begin, and the character creator
+title: The title menu and the character creator are back as they were
 ---
 
-The title holds New game, Continue, Options, Patch notes and, on the desktop, Quit, over a national scene that changes each visit. New game offers Start a life, Custom world (seed, opening date, place and the world's settings) or New world. Start a life and Custom world then open the creator: your name, age and birthday, then your look, with arrows through the looks and a preview of you at home.
+The title has its menu from before: New game, Watch the world, Continue, Saved games, Options, Patch notes and, on the desktop, Quit, with the build version in the corner, over a national scene that changes each visit. New game offers Custom world, Start a life or New world. Start a life asks your gender, name and birthday (each with a Randomize button), then the state and the city or town you are from, then your appearance with a portrait you shape arrow by arrow. Begin builds the world for that person and place.
