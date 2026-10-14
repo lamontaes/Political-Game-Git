@@ -2017,7 +2017,7 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
 /**
  * The employer picked the person the player controls: it offers them the
  * job and holds the position until the deadline. The clock stops now so the
- * player sees the offer, and again at the deadline until they answer.
+ * player sees the offer, and again on the deadline.
  */
 function offerToPlayer(
   api: CoreAPI,
@@ -2058,6 +2058,7 @@ function offerToPlayer(
     sourceRecordIds: [id],
   });
   if (!isExplicitlyControlledPersonV1(c, personId)) return;
+  stopgap("SG-WORLD-jobs-offer-deadline-reminder");
   const stopSource = source(
     api,
     `${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
@@ -2083,10 +2084,13 @@ function offerToPlayer(
       recordId: `${id}:deadline`,
       controlledPersonId: personId,
       at: { date: deadline, minuteOfDay: 0 },
-      kind: "offer-deadline",
+      // A reminder, not a hold: until the play screen can answer an offer
+      // (OPUS-PLAY), a held deadline would stop the clock for good.
+      // stopgapId: SG-WORLD-jobs-offer-deadline-reminder
+      kind: "interrupt",
       reasonKey: jobsData.reasons.offered,
       source: stopSource,
-      hold: true,
+      hold: false,
     }),
   ]);
 }
