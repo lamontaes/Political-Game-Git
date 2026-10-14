@@ -1874,42 +1874,6 @@ const sheets = {
       });
       rows.push(skip);
     }
-    // Which kinds of scene may stop your day (a record the director reads).
-    const filter = await api("/api/scene-filter").catch(() => null);
-    if (filter) {
-      const allowed = new Set(filter.allowed ?? filter.kinds);
-      const save = () =>
-        post(
-          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
-        );
-      rows.push(
-        el("p", {
-          className: "label",
-          textContent: controls.sceneFilter ?? "",
-        }),
-        el(
-          "div",
-          { className: "scene-filter" },
-          ...filter.kinds.map((kind) => {
-            const box = el("input", {
-              type: "checkbox",
-              checked: allowed.has(kind),
-            });
-            box.addEventListener("change", () => {
-              if (box.checked) allowed.add(kind);
-              else allowed.delete(kind);
-              save();
-            });
-            return el(
-              "label",
-              {},
-              box,
-              ` ${controls.sceneKinds?.[kind] ?? kind}`,
-            );
-          }),
-        ),
-      );
-    }
     rows.push(
       el("p", { className: "version", textContent: await displayVersion() }),
     );
