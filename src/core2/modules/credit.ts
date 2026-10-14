@@ -30,6 +30,8 @@ import { linkCreditLineToPrime, quotedLineRate } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
+import { residentsRuntime } from "./residents";
+import { countedPayment, fundBalance, peopleInGroup } from "../counted-money";
 import type { ActOffer } from "../types";
 
 const CREDIT_PULL = "credit:pull";
@@ -903,19 +905,36 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.balanceMinor + interest,
         loan.paymentMinor + loan.pastDueMinor,
       );
-    const paid = transferCash(
-      api,
-      `loan-payment:${loan.id}:${c.date}`,
-      loan.borrowerId,
-      bankId,
-      due,
-      {
-        tag: "ESTIMATED",
-        asOf: c.date,
-        citation: creditData.source.citation,
-        estimatedFrom: `Payment on ${loan.id}: the borrower pays what their cash covers.`,
-      },
-    );
+    const paymentSource = {
+      tag: "ESTIMATED" as const,
+      asOf: c.date,
+      citation: creditData.source.citation,
+      estimatedFrom: `Payment on ${loan.id}: the borrower pays what their cash covers.`,
+    };
+    // A counted household's loan is paid from its group's money.
+    const countedHousehold = (loan as { counted?: boolean }).counted
+      ? residentsRuntime(c)?.store.households[
+          residentsRuntime(c)!.store.householdOf.get(loan.householdId) ?? -1
+        ]
+      : undefined;
+    const paid = countedHousehold
+      ? countedPayment(api, {
+          id: `loan-payment:${loan.id}:${c.date}`,
+          placeId: countedHousehold.placeId,
+          householdId: loan.householdId,
+          otherOwnerId: bankId,
+          amountMinor: Math.round(due),
+          reasonKey: "credit.loan-payment",
+          source: paymentSource,
+        })
+      : transferCash(
+          api,
+          `loan-payment:${loan.id}:${c.date}`,
+          loan.borrowerId,
+          bankId,
+          due,
+          paymentSource,
+        );
     const towardInterest = Math.min(paid, interest);
     const balance = Math.max(0, loan.balanceMinor + interest - paid);
     const pastDue = Math.max(0, due - paid);
@@ -937,7 +956,9 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         paidMinor: paid,
         interestMinor: Math.round(towardInterest),
         cashBeforeMinor: (person?.liquidMinor ?? 0) + paid,
-        employed: Boolean(person?.jobId),
+        employed: countedHousehold
+          ? countedHousehold.jobs.some((job) => job.endsAt === undefined)
+          : Boolean(person?.jobId),
         standing,
       });
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
@@ -953,7 +974,13 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         ...(standing === "charged-off"
           ? {
               chargedOffAt: c.date,
-              chargeOffCause: person?.jobId
+              chargeOffCause: (
+                countedHousehold
+                  ? countedHousehold.jobs.some(
+                      (job) => job.endsAt === undefined,
+                    )
+                  : person?.jobId
+              )
                 ? "payments-beyond-cash"
                 : "income-lost",
             }
@@ -963,7 +990,6 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
 }
 
 /** Households short of money choose whether to borrow; the bank answers from their income and payments, on a sliding scale. */
-// stopgapId: SG-WORLD-credit-counted-personal-loans
 function householdApplications(
   api: CoreAPI,
   bankId: string,
@@ -1123,6 +1149,171 @@ function householdApplications(
         openedAt: c.date,
         pastDueMinor: 0,
         standing: "current",
+      });
+    room -= lent;
+  }
+  return countedApplications(
+    api,
+    bankId,
+    appetite,
+    room,
+    rate,
+    owing,
+    reported,
+  );
+}
+
+/**
+ * The wider population's households borrow by the same reasons (one model,
+ * two tiers): a household's cash is its share of its group's money, its
+ * income its recorded pay and awards. Who applies is summed pulls on the
+ * same borrow score; the bank answers with the same sliding yes, and the loan
+ * is paid into and out of the household's group.
+ */
+function countedApplications(
+  api: CoreAPI,
+  bankId: string,
+  appetite: number,
+  room: number,
+  rate: number,
+  owing: ReadonlySet<string>,
+  reported: ReadonlySet<string>,
+): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const rt = residentsRuntime(c);
+  if (!rt || room <= 0) return room;
+  const store_ = rt.store;
+  const groupPeople = new Map<number, number>();
+  const shareOf = (group: number) => {
+    let n = groupPeople.get(group);
+    if (n === undefined) groupPeople.set(group, (n = peopleInGroup(rt, group)));
+    return n;
+  };
+  const months = p("macroMonthsPerYear");
+  const rows: {
+    id: string;
+    score: number;
+    h: (typeof store_.households)[number];
+    cash: number;
+    costs: number;
+    income: number;
+    amount: number;
+    payment: number;
+  }[] = [];
+  for (const h of store_.liveHouseholds()) {
+    if (owing.has(h.id) || h.group < 0) continue;
+    const members = store_.countedMembers(h);
+    if (!members.length) continue;
+    const people = shareOf(h.group);
+    const cash =
+      people > 0
+        ? (fundBalance(api, rt, h.group) * members.length) / people
+        : 0;
+    const costs =
+      members.reduce((n, m) => n + store_.living[m]!, 0) *
+      p("businessDaysPerMonth");
+    if (costs <= 0 || cash >= costs) continue;
+    const income = (h.wagesMinorYear + h.retirementMinorYear) / months;
+    const amount = costs * p("creditPersonalMonthsOfCosts");
+    const payment = amortizedPayment(
+      amount,
+      rate,
+      p("creditPersonalTermMonths"),
+      p,
+    );
+    const need = Math.max(0, 1 - cash / costs);
+    const burden = income > 0 ? payment / income : Number.POSITIVE_INFINITY;
+    rows.push({
+      id: h.id,
+      score:
+        p("creditBorrowBaseline") +
+        p("creditBorrowNeedWeight") * need -
+        p("creditBorrowCostWeight") * Math.min(burden, p("two")),
+      h,
+      cash,
+      costs,
+      income,
+      amount,
+      payment,
+    });
+  }
+  for (const row of strongestPulls(api, "counted-borrow", rows)) {
+    if (room <= 0) break;
+    const { h, income, costs, amount, payment } = row;
+    const dti =
+      income > 0
+        ? (p("macroHundred") * payment) / income
+        : Number.POSITIVE_INFINITY;
+    const residualPct =
+      income > 0
+        ? (p("macroHundred") * (income - costs - payment)) / income
+        : -p("macroHundred");
+    const history = reported.has(h.id) ? p("creditChargedOffYesShare") : 1;
+    const yes = Number.isFinite(dti)
+      ? (history * appetite) /
+        (1 +
+          Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
+        (1 + Math.exp(-p("creditDtiSlope") * residualPct))
+      : 0;
+    const offered = Math.floor(Math.min(amount * yes, room));
+    const principal = offered >= p("creditMinimumLoanMinor") ? offered : 0;
+    const head = store_.ids[store_.countedMembers(h)[0]!]!;
+    store(api)
+      .table("applications")
+      .put({
+        id: `application:${c.date}:${h.id}`,
+        householdId: h.id,
+        organizationId: null,
+        borrowerId: head,
+        date: c.date,
+        requestedMinor: Math.round(amount),
+        monthlyIncomeMinor: Math.round(income),
+        debtToIncomePct: Number.isFinite(dti) ? dti : null,
+        residualIncomePct: residualPct,
+        appetite,
+        approvedShare: yes,
+        limitMinor: principal,
+        approved: principal > 0,
+        kind: "personal",
+        counted: true,
+      });
+    if (principal <= 0) continue;
+    const lent = countedPayment(api, {
+      id: `loan:${h.id}:${c.date}`,
+      placeId: h.placeId,
+      householdId: h.id,
+      otherOwnerId: bankId,
+      amountMinor: -principal,
+      reasonKey: "credit.personal-loan",
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: creditData.source.citation,
+        estimatedFrom: `A personal loan at prime plus ${p("creditPersonalSpreadPct")} points, sized from the household's costs and its debt-to-income, paid to its group.`,
+      },
+    });
+    if (!(lent > 0)) continue;
+    store(api)
+      .table("loans")
+      .put({
+        id: `loan:${h.id}:${c.date}`,
+        isLoan: true,
+        open: true,
+        householdId: h.id,
+        borrowerId: head,
+        lenderId: bankId,
+        kind: "personal",
+        principalMinor: lent,
+        balanceMinor: lent,
+        annualRate: rate,
+        paymentMinor: Math.round(
+          amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
+        ),
+        openedAt: c.date,
+        pastDueMinor: 0,
+        standing: "current",
+        counted: true,
       });
     room -= lent;
   }

@@ -4081,23 +4081,11 @@
     "status": "open"
   },
   {
-    "id": "SG-WORLD-credit-counted-personal-loans",
-    "kind": "faked-mechanic",
-    "file": "src/core2/modules/credit.ts",
-    "line": 966,
-    "whatItFakes": "Only full households apply for personal loans; the wider population never borrows, and the consumer rate cap touches full borrowers only.",
-    "why": "Personal loans are standing contracts on a household's own account, which counted households don't hold.",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-14",
-    "replacement": "Counted households apply by the same reasons, their loans paid from their group's fund.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORLD-credit-counted-hardship-rows",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",
     "line": 639,
-    "whatItFakes": "Monthly hardship rows (cash, housing, unpaid bills, claims) exist for full households only, and a counted borrower's loan records read as not employed with an income-lost charge-off cause.",
+    "whatItFakes": "Monthly hardship rows (cash, housing, unpaid bills, claims) exist for full households only.",
     "why": "Counted households' money is held per group, not per household.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
