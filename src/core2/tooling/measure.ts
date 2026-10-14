@@ -797,7 +797,7 @@ export function sourceHash(): {
     directRuntimeDependencies: [
       "src/core2/kernel/dates.ts",
       "src/core2/kernel/ids.ts",
-      "src/simulation/life-places.ts",
+      "src/core2/place-lookup.ts",
       "src/core2/reference/living-costs-data.ts",
       "src/core2/reference/living-costs-category-data.ts",
       "data/content/act-kinds.json",

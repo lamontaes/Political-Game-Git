@@ -48,6 +48,10 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
+## Dev mode (owner, Oct 14, 2026)
+
+Status in `docs/coordination/OPUS-PLAY.md` under "Dev mode".
+
 ## Audit fixes (owner, Oct 12, 9:15 a.m.: before new features)
 
 From `docs/reports/audit-2026-10-12/`, in BOARD's order.
@@ -69,7 +73,7 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 - [x] **"Bring it up" in conversations (the bench side).** When you open a conversation, the other person first brings up the newest change they know of and who they believe caused it (OPUS-PEOPLE's `bringItUp`), and telling you passes it on. PEOPLE's engine covers only business closures so far. In Knappa, Oregon (seed open-a), no business closed in five months, so nobody had anything to bring up. The line will show the first time a closure reaches someone you talk to.
 - [x] **Every town opens, even with a stray kin move.** A town whose kin moves fall after the opening day (Barrigada, Guam, seed k-a) used to crash on the new opening. It now opens on the finance-only route (stopgap SG-PLAY-opening-economy-fallback; see Needs).
 - [ ] Councils, legislatures and Congress acting on their own (`world-legislating`). It's built, but off for now: it makes play about 11 times slower after its first session (see Needs).
-- [x] **What changed (first slice).** When a law takes effect while you play, Until needed stops with "A law took effect" and the What changed sheet opens. Day and Week open it too, and it's also in Politics. Each law shows its date and what it was before and after (a wage in dollars an hour), then who in town it reached and what it means for each, including you. In Botsford, Connecticut (seed wl-a), the state minimum wage went from $16.94 to $17.48 an hour on January 1, 2027. A wage amount reaches nobody by name yet: the law-effects records cover catalogued policies, not amounts, so pay rising at each job is the next slice (it needs OPUS-WORLD's `rerateJob` on a wage law).
+- [x] **What changed (first slice).** When a law takes effect while you play, Until needed stops with "A law took effect" and the What changed sheet opens. Day and Week open it too, and it's also in Politics. Each law shows its date and what it was before and after (a wage in dollars an hour), then who in town it reached and what it means for each, including you. In Botsford, Connecticut (seed wl-a), the state minimum wage went from $16.94 to $17.48 an hour on January 1, 2027. A wage amount reaches nobody by name yet: the law-effects records cover cataloged policies, not amounts, so pay rising at each job is the next slice (it needs OPUS-WORLD's `rerateJob` on a wage law).
 
 ## Queue from the CTO's relays (Oct 12 afternoon), in order
 

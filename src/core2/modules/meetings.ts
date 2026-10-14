@@ -60,6 +60,7 @@ import {
   questionAxis,
   type Stance,
 } from "../campaign-views";
+import { viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -246,13 +247,22 @@ function publicComment(api: CoreAPI, billId: string): void {
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
   const already = new Set(remarksOn(api, billId).map((r) => r.personId));
+  // The body's own members vote on the bill; public comment is the public's.
+  const seated = new Set(
+    members(api, bill.bodyOfficeId).flatMap((t) =>
+      t.personId ? [t.personId] : [],
+    ),
+  );
   const speakers = townAdults(api)
     .filter(
-      (p) => !already.has(p.id) && p.id !== (api.state as CoreState).playerId,
+      (p) =>
+        !already.has(p.id) &&
+        !seated.has(p.id) &&
+        p.id !== (api.state as CoreState).playerId,
     )
     .map((p) => {
       const view =
-        personStance(personLean(api.state.people, p, 0), stance.question) *
+        viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
         stance.position;
       return { p, view, drive: Math.abs(view) * (1 + civic(p, api.state)) };
     })
@@ -281,16 +291,20 @@ function publicComment(api: CoreAPI, billId: string): void {
       ),
       ...said.map((r) => r.personId),
     ].filter((id) => api.state.people.get(id)?.alive);
-    for (const s of speakers)
-      deliverSpeech(api, {
-        id: `speech:remark:${bill.id}:${s.p.id}`,
-        speakerId: s.p.id,
-        placeId: lawChain(api).townPlaceId,
-        topic: stance.question,
-        desiredChange:
-          Math.sign(s.view) * stance.position > 0 ? "enact" : "repeal",
-        audienceIds: [...new Set(room)].filter((id) => id !== s.p.id).sort(),
-      });
+    // Everyone who spoke is heard: those who signed up (the player among
+    // them) and those moved to stand up.
+    for (const r of said)
+      if (api.state.people.get(r.personId)?.alive)
+        deliverSpeech(api, {
+          id: `speech:remark:${bill.id}:${r.personId}`,
+          speakerId: r.personId,
+          placeId: lawChain(api).townPlaceId,
+          topic: stance.question,
+          desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
+          audienceIds: [...new Set(room)]
+            .filter((id) => id !== r.personId)
+            .sort(),
+        });
   }
   api.emit({
     id: `public-comment:${bill.id}`,

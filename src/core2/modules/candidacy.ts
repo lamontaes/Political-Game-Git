@@ -30,6 +30,7 @@ import type {
   PersonState,
 } from "../types";
 import { decisionKinds } from "../trait-decisions";
+import { closenessBetween } from "../closeness";
 import { PLATFORM_QUESTIONS, questionAxis } from "../campaign-views";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import type { OfficeInput } from "../offices-local";
@@ -51,6 +52,7 @@ import {
   viewCell,
   viewOf,
 } from "./views";
+import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentPerson } from "./residents";
 import { stableHash } from "../kernel/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
@@ -98,6 +100,12 @@ function c(api: CoreAPI, key: string): number {
   return row.value;
 }
 
+const causeKinds: ReadonlySet<string> = new Set(
+  DEFAULT_DRIVES_DATA.driveKinds
+    .filter((kind) => kind.shareable)
+    .map((kind) => kind.id),
+);
+
 /** What a person's record says that bears on running. */
 interface RunFacts {
   readonly id: PersonId;
@@ -125,22 +133,21 @@ export function candidacyReasons(
   const one = api.parameter("one");
   const view = viewOf(api, person.id);
   let cause = zero;
+  // Only drives about a question the town faces (the shareable kinds in the
+  // drives data: a cause, a calling) are reasons to run. A grudge, family or
+  // status drive is about a person or oneself and gives filing no push.
   for (const drive of person.drives.values())
-    cause = Math.max(cause, Math.min(one, drive.strength));
+    if (drive.kind && causeKinds.has(drive.kind))
+      cause = Math.max(cause, Math.min(one, drive.strength));
   const job = person.jobId ? api.state.jobs.get(person.jobId) : undefined;
   // How they stand with the incumbent: someone close to the officeholder
   // doesn't run against them; someone at odds with them is drawn to.
   let incumbentTie = zero;
   if (contest.incumbentId && contest.incumbentId !== person.id)
-    for (const id of api.state.relationshipsByPerson.get(person.id) ?? []) {
-      const row = api.state.relationships.get(id);
-      if (
-        row &&
-        (row.otherId === contest.incumbentId ||
-          row.actorId === contest.incumbentId)
-      )
-        incumbentTie = Math.max(-one, Math.min(one, row.level));
-    }
+    incumbentTie = Math.min(
+      one,
+      closenessBetween(api.state, person.id, contest.incumbentId),
+    );
   return reasonsFrom(
     api,
     {

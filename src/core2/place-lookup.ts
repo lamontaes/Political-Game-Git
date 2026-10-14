@@ -1,9 +1,9 @@
 /**
  * The core's own place lookup: a place by key or by jurisdiction id, the
- * canonical state identities, and a government's seat. Same answers as the old
- * `src/simulation/life-places` lookups (a parity test compares them), but read
- * from data under `data/places/` and `data/research/` so core files need
- * nothing from `src/simulation`.
+ * canonical state identities, a state's own record, a government's seat and
+ * the place search. Ported from the old engine's place lookup (the answers
+ * were compared before the new game switched over), read from data under
+ * `data/places/` and `data/research/`.
  *
  * Sources: the 2025 Census Gazetteer places and counties (identity only), the
  * registered placeholder list of territory villages, the authored hometown
@@ -412,9 +412,9 @@ export function corePlaceByJurisdictionId(
   return row ? synthesizeNationwidePlace(row) : null;
 }
 
-/** A state's or territory's name by its USPS code (`KY`), else the code. */
-export function coreStateName(usps: string): string {
-  return stateName(usps);
+/** A state's or territory's name by its USPS code (`KY`); null when unknown. */
+export function coreStateName(usps: string): string | null {
+  return STATE_CLOCKS[usps]?.name ?? null;
 }
 
 /** Canonical USPS / `US-KY` identities, not names recovered from place labels. */

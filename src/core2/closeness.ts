@@ -70,7 +70,6 @@ export function currentCloseness(
   );
 }
 
-// stopgapId: SG-CORE-closeness-gov-raw-reads (candidacy.ts and legislature.ts still read the stored level)
 /**
  * How close two people are today: the one closeness read every engine uses
  * (stress audit defect 21). The stored level is closeness as of the last

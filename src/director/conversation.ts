@@ -12,6 +12,7 @@
  * its exact claim as a belief in everyone present, the director keeps it, and
  * anyone who knows the truth sets a believer straight when they next talk.
  */
+import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
@@ -303,6 +304,24 @@ export function subjectsBetween(
       },
     });
   }
+  // The President's address, once the speaker saw it or heard of it: its
+  // remembered line is theirs to quote. Last, so it never takes the place of
+  // a subject the banks can word.
+  const known = core.knowledgeByPerson.get(speakerId);
+  const address = known?.get(ADDRESS_FACT.event);
+  const quote = known?.get(ADDRESS_FACT.remembered);
+  if (address && quote)
+    out.push({
+      id: `address:${address.value}`,
+      kind: "address",
+      aboutId: address.value,
+      facts: {
+        quote: {
+          text: quote.value,
+          sourceRecordIds: [address.value, quote.sourceId],
+        },
+      },
+    });
   return out;
 }
 

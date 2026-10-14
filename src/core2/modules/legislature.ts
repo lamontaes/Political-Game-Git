@@ -35,6 +35,9 @@ import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
+import { viewOn } from "./views";
+import { closenessBetween } from "../closeness";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
@@ -123,7 +126,10 @@ export interface BillRow {
 /** One member's reasons on one bill. */
 export interface MemberPosition {
   readonly memberId: string;
+  /** Where the member stands on the bill's questions today. */
   readonly views: number;
+  /** Where they stood at the opening, before any case was made to them. */
+  readonly openingViews: number;
   readonly constituents: number;
   readonly sponsor: number;
   readonly deal: number;
@@ -1095,20 +1101,21 @@ function positionOn(
   const lean = leanOf(api, memberId);
   const home = townLean(api);
   let views = parts?.views ?? 0;
+  let openingViews = views;
   let constituents = 0;
+  // A town member's views are where they stand on each question today: the
+  // opening lean plus every case made to them since (the views engine).
   if (!parts)
     for (const stance of stances) {
-      views += personStance(lean, stance.question) * stance.position;
+      views += viewOn(api, memberId, stance.question, lean) * stance.position;
+      openingViews += personStance(lean, stance.question) * stance.position;
       constituents += personStance(home, stance.question) * stance.position;
     }
-  const relationship = (api.state as CoreState).relationships.get(
-    [memberId, bill.sponsorId].sort().join(":"),
-  );
   const sponsor =
     memberId === bill.sponsorId
       ? 1
       : campaignParameter("sponsorRelationshipWeight") *
-        (relationship?.level ?? 0);
+        closenessBetween(api.state as CoreState, memberId, bill.sponsorId);
   // Only a deal the member took moves them: what the sponsor now owes them.
   const deal = bill.deals
     .filter((d) => d.memberId === memberId && d.status !== "declined")
@@ -1137,6 +1144,7 @@ function positionOn(
   return {
     memberId,
     views,
+    openingViews,
     constituents: answersHome,
     sponsor,
     deal,
@@ -1276,9 +1284,7 @@ function dealValue(
     return weight * strongest * 2;
   }
   const tie = sponsorId
-    ? ((api.state as CoreState).relationships.get(
-        [memberId, sponsorId].sort().join(":"),
-      )?.level ?? 0)
+    ? closenessBetween(api.state as CoreState, memberId, sponsorId)
     : 0;
   return weight * (1 + Math.max(0, tie));
 }
@@ -1549,6 +1555,28 @@ function committeeStage(
           stake: `paid ${c.hourlyMinor} an hour, under the proposed floor`,
         });
     }
+  }
+  // Each witness makes their case to the committee's members who are people
+  // (the speech engine moves each by the witness's standing with them), and
+  // the committee then votes on where its members stand after hearing it.
+  const question = bill.provisions
+    .map((p) => provisionStance(api, p, billLevel(api, bill)))
+    .find((row) => row !== null);
+  if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
+    const room = roster.flatMap((t) =>
+      t.personId && api.state.people.get(t.personId)?.alive ? [t.personId] : [],
+    );
+    for (const w of witnesses)
+      if (api.state.people.get(w.personId)?.alive && room.length)
+        deliverSpeech(api, {
+          id: `speech:hearing:${bill.id}:${chamber}:${w.personId}`,
+          speakerId: w.personId,
+          placeId: lawChain(api).townPlaceId,
+          topic: question.question,
+          // A witness paid under the proposed floor speaks for the raise.
+          desiredChange: question.position > 0 ? "enact" : "repeal",
+          audienceIds: room.filter((id) => id !== w.personId),
+        });
   }
   let yes = 0;
   let no = 0;

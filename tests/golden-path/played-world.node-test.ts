@@ -127,6 +127,11 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   // Full couples of childbearing age are rare among the full people today
   // (OPUS-CORE, BOARD item 4: a representative sample).
   "a baby is born": { owner: "OPUS-CORE", byTown: true },
+  // Some towns decide a race nobody filed for (incumbents who did not run).
+  "every race has someone on the ballot": {
+    owner: "OPUS-GOV (candidacy)",
+    byTown: true,
+  },
   // Alive in some towns; others still leave a home unpriced.
   "homes have values and rents": { owner: "FIXER-ECONOMY", byTown: true },
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
@@ -611,13 +616,30 @@ function playWorld(seed: string) {
   const local = held.filter(
     (c) => c.level !== "federal" && c.level !== "state",
   );
+  // A race nobody filed for has no one to vote for: that is a candidacy
+  // matter (who runs), counted under "a named challenger runs", not a silent
+  // counted population.
   const silent = local.filter(
     (c) =>
+      ballot(api, String(c.id)).length > 0 &&
       Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
         (n, v) => n + v,
         0,
       ) === 0,
   );
+  const empty = held.filter((c) => !ballot(api, String(c.id)).length);
+  verdicts["every race has someone on the ballot"] = !held.length
+    ? unobserved("no race was decided in the run")
+    : empty.length
+      ? fail(
+          `${empty.length} of ${held.length} races decided in the run had no one on the ballot (for example ${empty
+            .slice(0, 3)
+            .map((c) => `${c.title} ${c.electionDate}`)
+            .join(
+              "; ",
+            )}). Who runs (src/core2/modules/candidacy.ts) must put the incumbent or a challenger on every ballot.`,
+        )
+      : pass(`all ${held.length} races had someone on the ballot`);
   verdicts["counted voters vote in local races"] = !local.length
     ? unobserved("no local race was decided in the run")
     : !silent.length
@@ -628,7 +650,7 @@ function playWorld(seed: string) {
             .map((c) => c.title)
             .join(
               "; ",
-            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels.`,
+            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
         );
 
   // Break 12: the counted population changes.
@@ -770,6 +792,7 @@ for (const [index, seed] of seeds.entries()) {
     alive("every ended term is filled");
     alive("nobody serves after moving away");
     alive("a named challenger runs");
+    alive("every race has someone on the ballot");
     alive("counted voters vote in local races");
     alive("the counted population changes");
     alive("a baby is born", true);

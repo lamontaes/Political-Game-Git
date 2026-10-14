@@ -1,8 +1,8 @@
 /**
  * M2-10 (first slice): in an election year every state and federal race
  * resolves: the town's own races with named voters (voting.ts) and every
- * other seat counted in its blocks of simulated voters
- * (electorate-blocks.ts). Winners are seated on the real dates.
+ * other seat counted on the same engine, place by place
+ * (electorate.ts, electorate-places.ts). Winners are seated on the real dates.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -89,9 +89,9 @@ describe("M2-10 state and federal races in the world", () => {
     expect(senate.length).toBeGreaterThanOrEqual(30);
     for (const r of races) {
       expect(r.date).toBe("2026-11-03");
-      // Counted in its blocks: the share is the blocks' votes, and every
+      // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
-      expect(r.blocks, r.seatId).toBeGreaterThan(0);
+      expect(r.places, r.seatId).toBeGreaterThan(0);
       expect(r.republicanShare).toBeCloseTo(
         r.votes!.republican / (r.votes!.republican + r.votes!.democratic),
         9,

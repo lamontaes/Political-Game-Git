@@ -12,7 +12,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { lawInForce, openLaws } from "./modules/laws";
 import { openOffices, townSeats } from "./modules/offices";
 import {
@@ -84,9 +83,7 @@ function career(family: "stateLegislative" | "usHouse", label: string) {
       // The player: an adult who qualifies for the seat (residency, voter
       // registration, the fee), the wealthiest first so the fee is in reach.
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: you.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: you.id }),
       );
       openLaws(core);
       openOffices(core, seed);
