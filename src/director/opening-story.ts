@@ -44,6 +44,7 @@ import {
 } from "../presentation/english-opening-speech";
 import {
   composeNewsStory,
+  NEWSCAST_BANK,
   type StoryKind,
 } from "../presentation/english-newscast";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -121,6 +122,18 @@ interface OpeningData {
 }
 const DATA = openingData as unknown as OpeningData;
 const N = DATA.numbers;
+
+/** The anchor's greetings and sign-offs, the newscast bank's lines with no slot. */
+const anchorLines = (role: string) =>
+  new Set(
+    NEWSCAST_BANK.parts
+      .filter((part) =>
+        part.uses.some((use) => use.subject === "anchor" && use.role === role),
+      )
+      .map((part) => part.text),
+  );
+const ANCHOR_OPENS = anchorLines("open");
+const ANCHOR_CLOSES = anchorLines("close");
 
 /** The kind of public event the address is recorded as. */
 export const OPENING_ADDRESS_EVENT = "president.address";
@@ -556,6 +569,19 @@ export function composeOpeningStory(
   const local = townName ? townStory(core, player.placeId, townName) : null;
   if (local)
     newscast.push(newsStory(core, local.kind, local.recordId, local.facts));
+  // One broadcast: the anchor greets once, at the top, and signs off once.
+  const program = newscast.map((item, index) => ({
+    ...item,
+    broadcast: item.broadcast.filter(
+      (line, at) =>
+        !(index > P.zero && at === P.zero && ANCHOR_OPENS.has(line.text)) &&
+        !(
+          index < newscast.length - P.one &&
+          at === item.broadcast.length - P.one &&
+          ANCHOR_CLOSES.has(line.text)
+        ),
+    ),
+  }));
   const household = core.households.get(player.householdId);
   return {
     id,
@@ -578,7 +604,7 @@ export function composeOpeningStory(
       text: sentences.map((row) => row.text).join(" "),
       sourceRecordIds: allIds,
     },
-    newscast,
+    newscast: program,
     morning: {
       date: addDays(makeIsoDate(core.date), P.one),
       householdId: player.householdId,

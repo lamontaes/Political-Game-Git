@@ -1721,12 +1721,12 @@ $("new-life").addEventListener("click", async () => {
     seenChanges = await changeCount();
     show("front", false);
     const morning = await playOpening();
+    // The opening covered the first day; the player's clock already starts
+    // the morning after, which is what the card shows.
+    if (morning) me.date = morning;
     for (const id of ["tabs", "stack", "card"]) show(id, true);
     renderPacket(life.packet);
     await refresh();
-    // The opening covered the first day; play starts the morning after.
-    if (morning && morning > (life.packet?.at?.date ?? life.date))
-      await act(`/api/advance?mode=calendar&date=${morning}`);
   } catch (error) {
     $("front-status").textContent = error.message;
     $("new-life").disabled = false;
