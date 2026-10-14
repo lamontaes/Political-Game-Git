@@ -87,7 +87,11 @@
     "value": 1,
     "tag": "TUNABLE",
     "citation": "How much a town or township official's case is worth to a prosecutor, the base the other levels are measured against.",
-    "stopgapId": "SG-GOV-justice-weights"
+    "stopgapId": "SG-GOV-justice-weights",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The unit the other prominence levels are measured against; it is fixed at 1 and only the ratios matter."
+    }
   },
   "prominenceCounty": {
     "value": 1.5,

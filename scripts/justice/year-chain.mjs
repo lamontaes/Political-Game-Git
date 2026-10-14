@@ -28,6 +28,7 @@ const seed = value_(
   (await import("node:crypto")).randomBytes(8).toString("hex"),
 );
 const placeKey = value_("--place", undefined);
+console.error(`seed ${seed}${placeKey ? ` place ${placeKey}` : ""}`);
 const world = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   ...(placeKey ? { placeKey } : {}),
