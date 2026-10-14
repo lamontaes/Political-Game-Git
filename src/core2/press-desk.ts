@@ -10,7 +10,8 @@
  * the people it names: the outlet's lean, the reporter's and the publisher's
  * ties to those people (closeness softens, a grudge sharpens), and the money
  * a named candidate spent on the outlet's ads. The printed story argues the
- * change it favors, and its readers near the outlet's lean are moved most.
+ * change it favors, and its readers are moved by their standing with the
+ * reporter who wrote it.
  */
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { questionAxis } from "./campaign-views";
@@ -22,7 +23,7 @@ import {
   stancesOf,
   viewOf,
   VIEWS_MODULE_ID,
-  VIEWS_SPEECH_LEAN_KEY,
+  VIEWS_SPEAKER_KEY,
 } from "./modules/views";
 
 export interface DeskOutlet {
@@ -354,10 +355,12 @@ export function printItem(
       framing: slant,
       moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
       facts: {
-        // What a reader can bring up: which outlet printed what, and the
-        // outlet's lean, which moves readers near it most.
+        // What a reader can bring up: which outlet printed what. The reporter
+        // makes the story's case, so a reader moves by their standing with
+        // the reporter (views engine); the outlet's line already chose the
+        // change the story argues.
         [`printed:${outlet.organizationId}:story`]: story.id,
-        [VIEWS_SPEECH_LEAN_KEY]: String(outlet.lean),
+        [VIEWS_SPEAKER_KEY]: reporterId,
         ...(options.facts ?? {}),
       },
     },
