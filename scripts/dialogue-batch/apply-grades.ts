@@ -75,9 +75,25 @@ const GRADE_WORDS: Readonly<Record<string, OwnerGrade>> = {
   good: "good",
   bad: "bad",
   kill: "bad",
+  fail: "bad",
+  pass: "good",
   fix: "fix",
   rewrite: "fix",
 };
+
+/** A grade file's rows: `{ grades: [...] }`, `{ items: [...] }`, a list, or rows keyed by number. */
+function rowsOf(grades: unknown): readonly GradeFileRow[] {
+  const file = grades as {
+    grades?: readonly GradeFileRow[];
+    items?: readonly GradeFileRow[];
+  };
+  if (file.grades) return file.grades;
+  if (file.items) return file.items;
+  if (Array.isArray(grades)) return grades as GradeFileRow[];
+  return Object.values(grades as Record<string, GradeFileRow>).filter(
+    (row) => typeof row === "object" && row !== null && "i" in row,
+  );
+}
 
 export function ownerGrade(row: GradeFileRow, where: string): OwnerGrade {
   const word = (row.grade ?? row.verdict ?? "").trim().toLowerCase();
@@ -160,7 +176,7 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
     const id = batch?.id ?? grades.batch ?? "batch";
     batches.push(id);
     const byNumber = new Map(batch?.items.map((item) => [item.i, item]));
-    for (const row of grades.grades ?? grades.items ?? []) {
+    for (const row of rowsOf(grades)) {
       const number = row.i ?? row.n;
       const where = `${id} item ${number}`;
       const keys =
@@ -211,7 +227,7 @@ export function gradedCoverage(graded: readonly GradedBatch[]): GradedCoverage {
         (item) => [item.i, item],
       ),
     );
-    for (const row of grades.grades ?? grades.items ?? []) {
+    for (const row of rowsOf(grades)) {
       const item = items.get(row.i ?? row.n ?? -1);
       if (row.axes) {
         for (const axis of Object.keys(row.axes)) {
@@ -251,7 +267,7 @@ export function readGradedBatches(
         readFileSync(join(gradeDir, name), "utf8"),
       ) as GradeFile;
       // A grade file that carries each line's parts stands on its own.
-      const selfContained = (grades.grades ?? grades.items ?? []).every(
+      const selfContained = rowsOf(grades).every(
         (row) => (row.parts?.length ?? 0) > 0,
       );
       if (!existsSync(batchPath) && !selfContained)
@@ -265,9 +281,61 @@ export function readGradedBatches(
     });
 }
 
+/**
+ * Adds a fresh fold to grades kept from batches whose files were since
+ * removed from the repository (the old batch and grade files were deleted
+ * once folded), so no earlier grade is lost.
+ */
+export function withKept(
+  fresh: PartGradeLedger,
+  existing: PartGradeLedger | undefined,
+): PartGradeLedger {
+  const kept = (existing?.batches ?? []).filter(
+    (id) => !fresh.batches.includes(id),
+  );
+  if (!existing || !kept.length) return fresh;
+  if (kept.length !== existing.batches.length)
+    throw new Error(
+      `${LEDGER_FILE}: some of its batches are on disk and some are not (${kept.join(", ")} missing); restore their files or fold them together`,
+    );
+  const parts: Record<string, PartGradeCounts> = { ...existing.parts };
+  for (const [key, add] of Object.entries(fresh.parts)) {
+    const was = parts[key] ?? EMPTY;
+    const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
+    for (const [axis, counts] of Object.entries(add.axes ?? {}) as [
+      string,
+      AxisGradeCounts,
+    ][]) {
+      const prior = axes[axis] ?? { good: 0, bad: 0, fix: 0 };
+      axes[axis] = {
+        good: prior.good + counts.good,
+        bad: prior.bad + counts.bad,
+        fix: prior.fix + counts.fix,
+      };
+    }
+    parts[key] = {
+      good: was.good + add.good,
+      bad: was.bad + add.bad,
+      fix: was.fix + add.fix,
+      sharedGood: was.sharedGood + add.sharedGood,
+      sharedBad: was.sharedBad + add.sharedBad,
+      sharedFix: was.sharedFix + add.sharedFix,
+      ...(Object.keys(axes).length ? { axes } : {}),
+    };
+  }
+  const sorted: Record<string, PartGradeCounts> = {};
+  for (const key of Object.keys(parts).sort()) sorted[key] = parts[key]!;
+  return { ...fresh, batches: [...kept, ...fresh.batches], parts: sorted };
+}
+
 function main() {
   const graded = readGradedBatches();
-  const ledger = foldGrades(graded);
+  const ledger = withKept(
+    foldGrades(graded),
+    existsSync(LEDGER_FILE)
+      ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
+      : undefined,
+  );
   // The coverage file keeps what batches asked (byKind, cells) beside what the
   // owner has graded, axis by kind.
   const coverage = existsSync(COVERAGE_FILE)
