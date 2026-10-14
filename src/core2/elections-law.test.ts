@@ -413,6 +413,47 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(second).toBe(1);
   });
 
+  it("a race-size tie rule reads the statute's own line where the data names one", () => {
+    const states = tieRules.states as Record<
+      string,
+      Record<
+        string,
+        {
+          method: string;
+          smallRace?: { method: string; atOrBelowVotes?: number };
+        }
+      >
+    >;
+    const state = Object.keys(states)
+      .sort()
+      .find((k) => states[k]!.generalElectionTie?.smallRace?.atOrBelowVotes)!;
+    const rule = states[state]!.generalElectionTie!;
+    const line = rule.smallRace!.atOrBelowVotes!;
+    const api = coreAPI(worldIn(placeInState(state))) as CoreAPI;
+    const local = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    )[0]!;
+    const methodAt = (votes: number) => {
+      const contest = {
+        ...local,
+        id: `${local.id}:size-${votes}`,
+        family: "federalOffice",
+      } as unknown as ContestRow;
+      breakElectionTie(api, contest, ["a", "b"], () => {}, votes);
+      return (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("ties")
+          .get(`tie:${contest.id}`) as unknown as { method: string }
+      ).method;
+    };
+    expect(methodAt(line), state).toBe(rule.smallRace!.method);
+    expect(methodAt(line + 1), state).toBe(rule.method);
+  });
+
   it("felony disenfranchisement is the state's own share; no named person is barred without a record", () => {
     const core = worldIn(drawn.key);
     const api = coreAPI(core) as CoreAPI;

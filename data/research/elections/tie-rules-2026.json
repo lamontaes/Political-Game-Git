@@ -1237,8 +1237,9 @@
         "smallRace": {
           "method": "lot",
           "belowVotesParameter": "tieSmallRaceVotes",
-          "citation": "The same row's detail text, 'new election for large races; lot for small'; the line between large and small is not read (SG-GOV-tie-race-size).",
-          "estimate": true
+          "atOrBelowVotes": 5000,
+          "citation": "N.C. Gen. Stat. 163-182.8: more than 5,000 voters casting ballots in the ballot item, the State Board orders a new election; 5,000 or fewer, the board certifying the election breaks the tie by random selection. https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-182.8.html",
+          "estimate": false
         }
       },
       "legislativeTie": {
@@ -1249,8 +1250,9 @@
         "smallRace": {
           "method": "lot",
           "belowVotesParameter": "tieSmallRaceVotes",
-          "citation": "The same row's detail text, 'new election for large races; lot for small'; the line between large and small is not read (SG-GOV-tie-race-size).",
-          "estimate": true
+          "atOrBelowVotes": 5000,
+          "citation": "N.C. Gen. Stat. 163-182.8: more than 5,000 voters casting ballots in the ballot item, the State Board orders a new election; 5,000 or fewer, the board certifying the election breaks the tie by random selection. https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-182.8.html",
+          "estimate": false
         }
       },
       "statewideExecutiveTie": {

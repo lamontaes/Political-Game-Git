@@ -39,7 +39,10 @@ interface TieRule {
   readonly estimate?: boolean;
   readonly smallRace?: {
     readonly method: string;
+    /** The ESTIMATED line, for a state whose statute names no number. */
     readonly belowVotesParameter: string;
+    /** The statute's own line, where it names one. */
+    readonly atOrBelowVotes?: number;
   };
 }
 
@@ -109,10 +112,14 @@ export function breakElectionTie(
   const rule = rules[stateOf(api)]?.[ruleField(contest)];
   let method = rule?.method ?? "new-election";
   if (rule?.smallRace && raceVotes !== undefined) {
-    // stopgapId: SG-GOV-tie-race-size
-    api.stopgap("SG-GOV-tie-race-size");
-    if (raceVotes <= electionsParameter(rule.smallRace.belowVotesParameter))
-      method = rule.smallRace.method;
+    // The statute's number where it names one (CTO for the owner, Oct 14).
+    let line = rule.smallRace.atOrBelowVotes;
+    if (line === undefined) {
+      // stopgapId: SG-GOV-tie-race-size
+      api.stopgap("SG-GOV-tie-race-size");
+      line = electionsParameter(rule.smallRace.belowVotesParameter);
+    }
+    if (raceVotes <= line) method = rule.smallRace.method;
   }
   const base = {
     id: `tie:${contest.id}`,
