@@ -18,12 +18,8 @@ import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { openRecalls, recallRule, recallsOf } from "./modules/recalls";
 import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
-import { governmentUnitsForPlace } from "../simulation/government-units";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { governmentUnitsForPlace } from "./reference/government-units";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -33,7 +29,7 @@ function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
   return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
 }
-const allStates = [...lifePlaceStateIdentities()]
+const allStates = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 const after = (date: string, days: number) =>
@@ -48,7 +44,7 @@ describe("M3-10 recalls", () => {
     for (let attempt = 0; attempt < 12 && !report; attempt += 1) {
       const state = pick(allStates, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),

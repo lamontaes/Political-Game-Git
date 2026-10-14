@@ -1,5 +1,5 @@
-import { addDays, makeIsoDate } from "../dates";
-import type { IsoDate } from "../types";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import type { IsoDate } from "../../core2/kernel/brands";
 import { resolveMunicipalElectionTiming } from "../municipal-ballot-rules";
 import type { MunicipalBallotRuleBasis } from "../municipal-ballot-rules";
 import type { MunicipalElectionTiming } from "../municipal-election-rules";

@@ -24,7 +24,7 @@
  * times. Holidays and vacations are not modeled.
  */
 
-import { daysBetween, makeIsoDate } from "../dates";
+import { daysBetween, makeIsoDate } from "../../core2/kernel/dates";
 import { currentLifeCutoff, organizationProfileAt } from "../life-queries";
 import { scheduledActivityState } from "../time-work";
 import type {

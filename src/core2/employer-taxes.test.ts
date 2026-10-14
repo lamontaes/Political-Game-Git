@@ -19,16 +19,12 @@ import {
   openEmployerTaxes,
   type EmployerTaxRecord,
 } from "./modules/employer-taxes";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`employer-taxes:${Date.now()}`).digest("hex");
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
@@ -40,7 +36,7 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
   it("is paid to the federal treasury from the employer's cash, balanced, at the law's rate, capped at the wage base", () => {
     const state = pick(states, "state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

@@ -23,12 +23,12 @@ import {
   addSimulationMinutes,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   electionContestStatus,
   requireElectionContest,
 } from "./election-contests";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { workRoleHistory, workStatusAt } from "./life-queries";
 import { personName } from "./people";
 import {

@@ -9,7 +9,7 @@ import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { buildPopulation } from "../../src/core2/population";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   beliefsModule,
   openConversation,

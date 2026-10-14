@@ -46,7 +46,7 @@ import {
   type PastCandidate,
   type PastElectionRow,
 } from "./past-module";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { countedResidents } from "./electorate";
 import { cpsAgeBand, cpsTurnout } from "./electorate-places";
 import { viewOf } from "./modules/views";

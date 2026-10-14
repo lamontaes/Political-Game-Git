@@ -3881,6 +3881,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "driveKeepHomeHalfLifeDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Half-life of the resolve to secure a home, without new events or acts: about the length of a homelessness episode (most sheltered stays end within six months, HUD Annual Homeless Assessment Report 2023, Part 2), after which the pull eases.",
+    "spread": {
+      "low": 90,
+      "high": 365,
+      "unit": "days",
+      "citation": "A season to a year."
+    }
+  },
   "driveStatusHalfLifeDays": {
     "value": 365,
     "tag": "TUNABLE",
@@ -4256,6 +4267,17 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "responseSecureHomeFit": {
+    "value": 3.0,
+    "tag": "TUNABLE",
+    "citation": "How strongly losing a home, or facing an eviction, pushes toward a resolve to secure a home again. Carrying on keeps its baseline (responseCarryOnBaseline), so a fit near 3 lets most people form the resolve while those whose traits lean toward keeping things the same carry on (owner, Oct 14: 'not being homeless is some people's motivation'). Measured: Washington, D.C. (seed 646c5d940e1a), a home loss given to 7 jobless adults on February 19, 2025 (dev mode): 5 formed it and 2 carried on; at 1.5, 1 of 7; at 4.0, 7 of 7.",
+    "spread": {
+      "low": 2.0,
+      "high": 4.0,
+      "unit": "fit",
+      "citation": "From one in three forming it to all of them, in the same check."
+    }
+  },
   "responseAmbitionFit": {
     "value": 1.9,
     "tag": "TUNABLE",
@@ -4292,7 +4314,7 @@
   "resilienceHashDigits": {
     "value": 8,
     "tag": "SOURCED",
-    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/core2/kernel/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/core2/kernel/fixed-point.ts). A generation key, not a behavioral draw."
   },
   "driveClosureImpulse": {
     "value": 0.47,
@@ -4305,6 +4327,71 @@
     "tag": "ESTIMATED",
     "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
     "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
+  },
+  "driveHomeLostImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's home (doubled up with kin, in a shelter or on the street), sized like an eviction (driveEvictionImpulse): the Social Readjustment Rating Scale's nearest items are 'Foreclosure of mortgage or loan' at 30 and 'Fired at work' at 47 life-change units (Holmes and Rahe 1967), and homelessness follows the eviction that caused it.",
+    "estimatedFrom": "Holmes and Rahe (1967), as for driveEvictionImpulse; spread 0.3 to 0.6"
+  },
+  "healthShelteredHazardFactor": {
+    "value": 2.0,
+    "tag": "ESTIMATED",
+    "citation": "How much faster strain toward serious illness and death builds for a person in a homeless shelter. Homeless people in high-income countries die at two to five times the rate of the general population (Fazel, Geddes and Kushel 2014, 'The health of homeless people in high-income countries', The Lancet 384(9953):1529-1540); sheltered people sit at the low end.",
+    "estimatedFrom": "Fazel, Geddes and Kushel (2014); the low end of their range for sheltered adults",
+    "spread": {
+      "low": 1.5,
+      "high": 3.0,
+      "unit": "times the housed rate",
+      "citation": "Within Fazel et al.'s range for sheltered adults."
+    }
+  },
+  "healthUnshelteredHazardFactor": {
+    "value": 3.5,
+    "tag": "ESTIMATED",
+    "citation": "How much faster strain builds for a person sleeping outside: the upper part of Fazel et al.'s two-to-five-times range, because unsheltered adults die at higher rates than sheltered ones (Roncarati et al. 2018, 'Mortality Among Unsheltered Homeless Adults in Boston, Massachusetts, 2000-2009', JAMA Internal Medicine 178(9):1242-1248).",
+    "estimatedFrom": "Fazel, Geddes and Kushel (2014) and Roncarati et al. (2018)",
+    "spread": {
+      "low": 2.5,
+      "high": 5.0,
+      "unit": "times the housed rate",
+      "citation": "The upper half of Fazel et al.'s range."
+    }
+  },
+  "healthDoubledUpHazardFactor": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "How much faster strain builds for a person doubled up with relatives after losing their home: crowded and unstable housing raises the risk of illness, well short of a shelter's (the sheltered factor's lower bound is 1.5).",
+    "spread": {
+      "low": 1.0,
+      "high": 1.5,
+      "unit": "times the housed rate",
+      "citation": "From no change to the sheltered factor's low end."
+    }
+  },
+  "healthEvictionHazardFactor": {
+    "value": 1.1,
+    "tag": "ESTIMATED",
+    "citation": "How much faster strain builds in the years after an eviction: eviction raises hospital and emergency department use and lowers earnings for about two years (Collinson, Humphries, Mader, Reed, Tannenbaum and van Dijk 2024, 'Eviction and Poverty in American Cities', The Quarterly Journal of Economics 139(1):57-120).",
+    "estimatedFrom": "Collinson et al. (2024); a modest rise, as their effects on health care use are modest",
+    "spread": {
+      "low": 1.0,
+      "high": 1.3,
+      "unit": "times the rate before",
+      "citation": "From no change to a third higher."
+    }
+  },
+  "healthEvictionEffectDays": {
+    "value": 730,
+    "tag": "ESTIMATED",
+    "citation": "How long an eviction's effect on health lasts: about two years after the filing (Collinson et al. 2024).",
+    "estimatedFrom": "Collinson et al. (2024)",
+    "spread": {
+      "low": 365,
+      "high": 1095,
+      "unit": "days",
+      "citation": "One to three years."
+    }
   },
   "schoolCohortPopulationShare": {
     "value": 0.0129,

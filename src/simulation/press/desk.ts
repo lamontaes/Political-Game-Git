@@ -1,5 +1,5 @@
 import { eventById } from "../event-index";
-import { addDays, spokenDate } from "../dates";
+import { addDays, spokenDate } from "../../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import { enrichCivicInputs } from "../../core2/civic-inputs";
 import { buildDeepPast } from "../../core2/deep-past";
 import { initialFocusPeople } from "../../core2/focus";

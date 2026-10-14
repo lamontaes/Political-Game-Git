@@ -1,6 +1,6 @@
 import germanenessTable from "../../../data/research/legislative-procedure/germaneness.json" with { type: "json" };
 import singleSubjectTable from "../../../data/research/legislative-procedure/single-subject.json" with { type: "json" };
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type {
   ChamberRule,
   FloorStageRule,

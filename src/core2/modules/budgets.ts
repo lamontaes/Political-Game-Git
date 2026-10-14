@@ -32,7 +32,7 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import { countyGovernmentUnit } from "../../simulation/government-units";
+import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
 import {

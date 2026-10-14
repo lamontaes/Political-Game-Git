@@ -54,7 +54,7 @@ import {
   type PastElectionRow,
   type RollCall,
 } from "./past-module";
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import type { CoreAPI } from "./types";
 
 const SERIES_QUESTION = (

@@ -12,7 +12,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { DevMode } from "../../src/bench/dev-mode";
 import { BenchPlayer } from "../../src/bench/player";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 
 setBookkeeping(false);
 const seed = process.argv[2] ?? "31a4370993ef";

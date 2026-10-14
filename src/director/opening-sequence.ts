@@ -20,8 +20,8 @@ import {
   members,
 } from "../core2/modules/legislature";
 import { officialOf } from "../core2/modules/officials";
-import { stateNameForUsps } from "../simulation/state-reference";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { coreStateName } from "../core2/place-lookup";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { markWordsStopgap } from "./stopgaps";
@@ -106,7 +106,7 @@ function officesOf(
 function stateOf(core: CoreState, playerId: PersonId): string | null {
   const player = core.people.get(playerId);
   return player
-    ? (lifePlaceByJurisdictionId(player.placeId as never)
+    ? (corePlaceByJurisdictionId(player.placeId as never)
         ?.stateJurisdictionKey ?? null)
     : null;
 }
@@ -225,7 +225,7 @@ export function openingSequence(
         office: office?.title ?? titleOfKind(official?.officeKind),
         state:
           state && state !== ownState
-            ? (stateNameForUsps(state.replace(/^US-/, "")) ?? null)
+            ? (coreStateName(state.replace(/^US-/, "")) ?? null)
             : null,
         sourceRecordIds: [
           `${chamber}:${rule.post}`,

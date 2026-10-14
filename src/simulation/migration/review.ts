@@ -24,7 +24,12 @@ import {
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { schoolTermOn } from "../school-calendar";
 import { attendingSchool } from "../school-moves";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -36,7 +41,7 @@ import {
 import { drawCanonicalNamedIdentity } from "../people";
 import { observerAnchorPersonId } from "../people-continuation";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,

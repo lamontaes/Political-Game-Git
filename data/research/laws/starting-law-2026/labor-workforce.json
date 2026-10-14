@@ -1788,7 +1788,7 @@
               "tier": "long-island-and-westchester",
               "geographyEvidence": {
                 "source": "https://www.nysenate.gov/legislation/laws/LAB/652",
-                "recordSource": "src/simulation/national-counties.generated.ts",
+                "recordSource": "src/core2/reference/national-counties.generated.ts",
                 "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
               }
             }
@@ -1920,7 +1920,7 @@
               "tier": "standard",
               "geographyEvidence": {
                 "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
-                "recordSource": "src/simulation/national-counties.generated.ts",
+                "recordSource": "src/core2/reference/national-counties.generated.ts",
                 "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
               }
             },
@@ -1959,7 +1959,7 @@
               "tier": "nonurban",
               "geographyEvidence": {
                 "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
-                "recordSource": "src/simulation/national-counties.generated.ts",
+                "recordSource": "src/core2/reference/national-counties.generated.ts",
                 "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
               }
             },
@@ -1995,7 +1995,7 @@
               "tier": "standard",
               "geographyEvidence": {
                 "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
-                "recordSource": "src/simulation/national-counties.generated.ts",
+                "recordSource": "src/core2/reference/national-counties.generated.ts",
                 "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
               }
             },
@@ -2034,7 +2034,7 @@
               "tier": "nonurban",
               "geographyEvidence": {
                 "source": "https://www.oregon.gov/boli/workers/pages/minimum-wage.aspx",
-                "recordSource": "src/simulation/national-counties.generated.ts",
+                "recordSource": "src/core2/reference/national-counties.generated.ts",
                 "scope": "Exact recorded county workplace identity; no city/county containment or Portland urban growth boundary membership claimed."
               }
             }

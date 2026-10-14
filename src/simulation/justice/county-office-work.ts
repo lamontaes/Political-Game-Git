@@ -1,4 +1,4 @@
-import type { GovernmentUnitIdentity } from "../government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import {
   eventsOfType,
   heldBeforeTrialOn,
@@ -18,7 +18,7 @@ import {
 } from "./prosecution";
 import { sittingCountyRowOfficers } from "../living-world/local-government-seats";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 
 /**

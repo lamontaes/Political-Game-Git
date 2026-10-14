@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI } from "../core2/state";

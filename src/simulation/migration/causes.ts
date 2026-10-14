@@ -56,7 +56,7 @@
  * `who-may-move`).
  */
 
-import { addDays, spokenDate } from "../dates";
+import { addDays, spokenDate } from "../../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "../decisions";
 import {
   activeWorkRelationshipsAt,

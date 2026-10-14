@@ -5,7 +5,7 @@ import {
 import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
 import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordById } from "./history-index";
 import { recordWorldEvent } from "./world";
 import type {

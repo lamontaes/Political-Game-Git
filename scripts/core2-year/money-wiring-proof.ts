@@ -12,7 +12,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { OFFICIAL_PAY_MODULE_ID } from "../../src/core2/modules/official-pay";
 import { drawPlace } from "./place";
 

@@ -2,7 +2,7 @@ import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
 } from "./legislative-institutions";
-import { governmentUnit } from "./government-units";
+import { governmentUnit } from "../core2/reference/government-units";
 import { rulePackById } from "./legislature-rule-packs";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { stateJurisdictionForKey } from "./life-places";
@@ -13,7 +13,7 @@ import {
   municipalGovernmentForRulePackId,
 } from "./municipal-government";
 import type { LegislativeRulePack } from "./legislature-rules";
-import { addDays, makeIsoDate, yearOf } from "./dates";
+import { addDays, makeIsoDate, yearOf } from "../core2/kernel/dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   formatMinorUnits,

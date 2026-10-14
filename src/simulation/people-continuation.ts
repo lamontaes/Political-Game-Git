@@ -10,8 +10,8 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   householdMembershipStateHistory,
   householdMembershipsAt,

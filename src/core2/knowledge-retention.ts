@@ -9,7 +9,7 @@
  */
 import { bookkeeping } from "./bookkeeping";
 import { parameter } from "./parameters";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreState } from "./types";
 
 const PREFIX = "event:";

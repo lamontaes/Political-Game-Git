@@ -41,7 +41,7 @@
  * No rent, price or mortgage payment is recorded here.
  */
 
-import { ageOnDate, addDays } from "../dates";
+import { ageOnDate, addDays } from "../../core2/kernel/dates";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   createDwelling,

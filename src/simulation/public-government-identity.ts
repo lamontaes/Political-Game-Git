@@ -7,7 +7,7 @@ import {
   allGovernmentUnits,
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "./government-units";
+} from "../core2/reference/government-units";
 import {
   currentLifeCutoff,
   organizationsAt,
