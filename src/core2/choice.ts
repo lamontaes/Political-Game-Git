@@ -14,10 +14,21 @@ import type {
   WeightedReason,
 } from "./types";
 /** Per person: each act kind's summed trait pull, and the pulls one kind gets on average. */
+/**
+ * A traits record's summed pull per act kind, by the kind's index in
+ * `KIND_INDEX` (a compact array: one is cached for every counted person).
+ */
 interface KindLean {
-  sum: Map<string, number>;
+  sum: Float64Array;
   perKind: number;
 }
+/** Act kinds in the order first met; an index past an array's end reads 0. */
+const KIND_INDEX = new Map<string, number>();
+const kindIndex = (kind: string) => {
+  let i = KIND_INDEX.get(kind);
+  if (i === undefined) KIND_INDEX.set(kind, (i = KIND_INDEX.size));
+  return i;
+};
 const kindLeans = new WeakMap<PersonState, KindLean>();
 const leansByTraits = new WeakMap<object, { sum: number; lean: KindLean }>();
 
@@ -68,12 +79,15 @@ function kindLean(
   // confirms the values are unchanged.
   const checked = bookkeeping();
   const byTraits = leansByTraits.get(actor.traits);
-  const sum = checked ? traitChecksum(actor.traits) : Number.NaN;
-  if (byTraits && (!checked || byTraits.sum === sum)) return byTraits.lean;
+  const checksum = checked ? traitChecksum(actor.traits) : Number.NaN;
+  if (byTraits && (!checked || byTraits.sum === checksum)) return byTraits.lean;
   const p = (key: string) => parameter(key, core.data.parameters);
-  const lean: KindLean = { sum: new Map(), perKind: p("zero") };
-  const add = (kind: string, value: number) =>
-    lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
+  const sums = new Map<number, number>();
+  let perKind = p("zero");
+  const add = (kind: string, value: number) => {
+    const i = kindIndex(kind);
+    sums.set(i, (sums.get(i) ?? p("zero")) + value);
+  };
   for (const [id, raw] of Object.entries(actor.traits)) {
     const row = core.data.traitPulls[id];
     if (!row || raw === p("zero")) continue;
@@ -82,12 +96,15 @@ function kindLean(
     const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
     for (const kind of side.toward ?? []) add(kind, weight);
     for (const kind of side.away ?? []) add(kind, -weight);
-    lean.perKind +=
+    perKind +=
       ((side.toward?.length ?? p("zero")) + (side.away?.length ?? p("zero"))) /
       core.data.actKinds.length;
   }
+  const sum = new Float64Array(KIND_INDEX.size);
+  for (const [i, value] of sums) sum[i] = value;
+  const lean: KindLean = { sum, perKind };
   kindLeans.set(actor as PersonState, lean);
-  leansByTraits.set(actor.traits, { sum, lean });
+  leansByTraits.set(actor.traits, { sum: checksum, lean });
   return lean;
 }
 
@@ -112,7 +129,7 @@ export function traitLean(
   const lean = kindLean(core, actor);
   let sum = zero;
   for (let i = 0; i < actKinds.length; i++)
-    sum += lean.sum.get(actKinds[i]!) ?? zero;
+    sum += lean.sum[KIND_INDEX.get(actKinds[i]!) ?? lean.sum.length] ?? zero;
   return actKinds.length && lean.perKind > zero
     ? Math.max(
         parameter("negativeOne", parameters),
