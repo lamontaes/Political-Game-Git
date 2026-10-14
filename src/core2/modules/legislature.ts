@@ -77,6 +77,7 @@ import representation from "../data/offices/federal-representation.json" with { 
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
+import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import {
   bodyNumbering,
   designation,
@@ -1908,17 +1909,10 @@ export interface CommitteeRecord {
   readonly reported: boolean;
 }
 
-/** The subject committee a bill goes to, by what its first provision touches. */
+/** The subject committee a bill goes to, by what its first section touches (data). */
 function committeeFor(bill: BillRow): string {
   const p = bill.provisions[0];
-  if (
-    p?.kind === "budget-line" ||
-    p?.series === "income-tax" ||
-    p?.series === "sales-tax"
-  )
-    return "finance";
-  if (p?.series === "minimum-wage") return "labor";
-  return "general";
+  return p ? committeeForSection(p) : COMMITTEES[COMMITTEES.length - 1]!;
 }
 
 /**
