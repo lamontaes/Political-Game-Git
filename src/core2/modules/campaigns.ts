@@ -1433,12 +1433,17 @@ export function makeStatements(
     ...campaignFor(api, input.filingId),
     platform: withStatements.platform,
   });
-  // In person (a speech, a town hall), a candidate who is a person is heard
-  // as a speaker on each statement's question: the speech engine moves those
-  // in the room by the candidate's standing with them and lets them retell
-  // it at home. Broadcasts (debates, interviews) reach their audiences
-  // through the causes above.
-  if (input.faceToFace && speaker && api.state.modules.has(SPEECH_MODULE_ID)) {
+  // In person (a speech, a town hall) and in a debate (owner, Oct 14: the
+  // audience's views move by the same read as a speech), a candidate who is
+  // a person is heard as a speaker on each statement's question: the speech
+  // engine moves those who heard it by the candidate's standing with them
+  // and lets them retell it at home. Interviews reach their readers and
+  // viewers through the causes above.
+  if (
+    (input.faceToFace || input.act === "debate") &&
+    speaker &&
+    api.state.modules.has(SPEECH_MODULE_ID)
+  ) {
     const audienceIds = [...new Set(causes.map((c) => c.voterId))].filter(
       (id) => id !== speaker.id && api.state.people.get(id)?.alive,
     );

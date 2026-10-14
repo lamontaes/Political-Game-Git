@@ -19,6 +19,7 @@
  * are positions in [-1, 1]; a candidate has no answer only when they have
  * neither a view nor a party.
  */
+import { votesOf } from "./modules/record";
 import { partyName, partySide } from "./appointments";
 import { decisionLean } from "./trait-decisions";
 import type { CoreAPI } from "./types";
@@ -216,10 +217,27 @@ export function candidateStance(
 ): number | null {
   const own = ownStance(api, personId, question);
   const theirs = partyPosition(api, party, question);
-  if (own === null) return theirs;
-  if (theirs === null) return own;
-  const firm = partyFirmness(api, personId);
-  return clamp((1 - firm) * own + firm * theirs);
+  const held =
+    own === null
+      ? theirs
+      : theirs === null
+        ? own
+        : clamp(
+            (1 - partyFirmness(api, personId)) * own +
+              partyFirmness(api, personId) * theirs,
+          );
+  // What they've done on it: an officeholder who has voted on the question
+  // answers toward how they voted, the more votes the more firmly.
+  const votes = votesOf(api, personId).filter(
+    (v) => v.stance.question === question,
+  );
+  if (!votes.length) return held;
+  const voted =
+    votes.reduce((sum, v) => sum + v.stance.position, 0) / votes.length;
+  if (held === null) return clamp(voted);
+  const weight =
+    votes.length / (votes.length + campaignParameter("recordFamiliarityItems"));
+  return clamp((1 - weight) * held + weight * voted);
 }
 
 /** A candidate's overall lean, blended with their party's the same way. */
