@@ -1,6 +1,6 @@
 # Owner decisions
 
-The CTO's only writer. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
+The CTO's only writer. When two rulings conflict, the most recent wins unless the older one makes more sense; either way the conflict is flagged here. Per-area digests of the owner's earlier Drive rulings live in `docs/coordination/prior-rulings/`; every session reads its area's digest before asking. Open questions block the release build (stopgap kind `owner-decision`). Rulings stay here so no session asks twice.
 
 ## Open
 
