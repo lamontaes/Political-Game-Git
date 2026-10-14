@@ -455,6 +455,20 @@
       "roles": ["witness"],
       "channels": ["threat", "injustice"],
       "responses": ["hold-grudge", "carry-on"]
+    },
+    {
+      "id": "press-snubbed",
+      "eventKind": "press.snubbed",
+      "roles": ["subject"],
+      "channels": ["injustice"],
+      "responses": ["hold-grudge", "carry-on"]
+    },
+    {
+      "id": "press-attacked",
+      "eventKind": "press.attacked",
+      "roles": ["subject"],
+      "channels": ["injustice", "threat"],
+      "responses": ["hold-grudge", "carry-on"]
     }
   ],
   "actions": [
@@ -653,5 +667,10 @@
     "prefix": "organization:",
     "suffix": ":status"
   },
-  "responsibleInTopic": ["work.job-lost", "housing.eviction"]
+  "responsibleInTopic": [
+    "work.job-lost",
+    "housing.eviction",
+    "press.snubbed",
+    "press.attacked"
+  ]
 }

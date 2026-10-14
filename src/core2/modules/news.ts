@@ -1,12 +1,17 @@
 /**
- * Basic news (M2-09). A public record (a closure, a result, a law taking
- * effect) becomes a story for the place it happened in. Outlets carry it to
- * each resident after a delay set by how closely they follow politics (their
- * view's engagement): someone who follows it most of the time hears the next
- * day, someone who hardly follows hears much later, and past the story's life
- * never. People also pass the newest story the other hasn't heard at each
- * real contact. Hearing a story teaches its facts; people who never hear it
- * don't know it.
+ * News (M2-09; the press, Oct 14). Where the press runs, a story is what a
+ * town outlet's reporter chose to print (`printStory`): it reaches the
+ * outlet's followers after a delay set by how closely they follow politics
+ * (their view's engagement) and how far they trust the media. Someone who
+ * follows it most of the time hears the next day, someone who hardly follows
+ * hears much later, and past the story's life never. Each day's readers of a
+ * story are one event with its topic, so their views and drives read what
+ * was printed. People also pass the newest story the other hasn't heard at
+ * each real contact. Hearing a story teaches its facts; people who never hear
+ * it don't know it.
+ *
+ * In a world without the press (unit tests of other engines), a public
+ * record itself is a story for every resident of its place.
  *
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
@@ -24,6 +29,9 @@ import type {
 } from "../types";
 import { decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
+
+/** The press module's id (kept here so news does not import the press). */
+const PRESS_MODULE_ID = "core2-press-v1";
 
 const passOnLeans = new WeakMap<
   object,
@@ -57,20 +65,30 @@ const n = (api: CoreAPI, key: string) => {
 export interface Story {
   id: string;
   kind: string;
-  /** The outlet that carried it: the place's local outlet record. */
+  /** The outlet that carried it: its organization's id. */
   outletId: string;
   date: string;
   placeId: string;
   facts: Readonly<Record<string, string>>;
+  /** What the story is about and the change it argues for, for readers' views. */
+  topic?: string;
+  desiredChange?: string;
+  moodImpulse?: number;
+  /**
+   * How the outlet framed it, -1 to 1: for (+) or against (-) the change it
+   * reports and the people it names (the press's slant).
+   */
+  framing?: number;
 }
+
+/** The event kind for one day's readers of a printed story. */
+export const NEWS_READ = "news.read";
 
 const stories = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("stories");
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
-const outlets = (api: CoreAPI) =>
-  api.moduleState(NEWS_MODULE_ID).table("outlets");
 
 /**
  * Trust in the media from a person's lean, interpolated between Gallup's
@@ -313,6 +331,68 @@ function forgetOldNews(api: CoreAPI): void {
   }
 }
 
+/** Schedules a story's delivery to each reader by their habits and trust. */
+function scheduleDeliveries(
+  api: CoreAPI,
+  story: Story,
+  readerIds: Iterable<PersonId>,
+  skip: ReadonlySet<PersonId>,
+): number {
+  let scheduled = 0;
+  const maxAge = n(api, "newsMaxAgeDays");
+  for (const personId of readerIds) {
+    if (skip.has(personId)) continue;
+    const view = viewOf(api, personId);
+    const engagement = view?.engagement ?? api.parameter("zero");
+    if (engagement <= api.parameter("zero")) continue;
+    // People who trust the media less check it less, and hear later.
+    const reach =
+      engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+    const exact = Math.ceil(n(api, "newsOutletDelayDays") / reach);
+    if (exact > maxAge) continue;
+    // A printed story's readers catch up with it in waves: the next day,
+    // then each time the delay grows by the wave factor, so a story is read
+    // on a few days rather than every day of its life (one reading event
+    // per wave).
+    const factor = n(api, "newsReadingWaveFactor");
+    const delay = story.topic
+      ? Math.min(
+          maxAge,
+          factor **
+            Math.ceil(
+              Math.log(Math.max(api.parameter("one"), exact)) /
+                Math.log(factor),
+            ),
+        )
+      : exact;
+    deliveries(api).put({
+      id: `${story.id}:${personId}`,
+      storyId: story.id,
+      personId,
+      date: addDays(makeIsoDate(story.date), delay),
+    });
+    scheduled += 1;
+  }
+  return scheduled;
+}
+
+/**
+ * A town outlet prints a story its reporter chose (the press): it reaches the
+ * outlet's followers, each on their own day, as far as their habits and
+ * trust carry it. Returns how many of them will receive it.
+ */
+export function printStory(
+  api: CoreAPI,
+  story: Story,
+  readerIds: readonly PersonId[],
+): number {
+  // A world without news keeps the press's own record of the story only.
+  if (!api.state.modules.has(NEWS_MODULE_ID) || stories(api).get(story.id))
+    return 0;
+  stories(api).put(story as unknown as { id: string });
+  return scheduleDeliveries(api, story, readerIds, new Set());
+}
+
 /**
  * The news module. `tellable` lists what a teller can pass on, newest first;
  * tests swap in the full rescan (`storiesHeard`) to check both tell the same.
@@ -330,6 +410,9 @@ export function createNewsModule(
       schemaVersion: 1,
       tables: {
         stories: {},
+        // The archive's stand-in outlet per place (OPUS-CORE's year before
+        // day one, src/core2/past-news.ts), until the archive is carried by
+        // the press's own outlets.
         outlets: {},
         deliveries: { indexes: { byDate: { fields: ["date"] } } },
         heard: { indexes: { byPerson: { fields: ["personId"] } } },
@@ -337,19 +420,12 @@ export function createNewsModule(
     },
     eventKinds: ["*"],
     onEvent(api, event, learnedBy) {
+      // Where the press runs, its reporters decide what becomes a story.
+      if (api.state.modules.has(PRESS_MODULE_ID)) return;
       if (!event.publicRecord || stories(api).get(event.id)) return;
-      const outletId = `outlet:${event.placeId}`;
-      if (!outlets(api).get(outletId))
-        // One local outlet per place stands for its newspapers, stations and
-        // sites until real outlets are records (stopgap SG-P15-news-habits).
-        outlets(api).put({
-          id: outletId,
-          placeId: event.placeId,
-          kind: "local",
-        });
       const story: Story = {
         id: event.id,
-        outletId,
+        outletId: `outlet:${event.placeId}`,
         kind: event.kind,
         date: event.date,
         placeId: event.placeId,
@@ -358,24 +434,12 @@ export function createNewsModule(
       stories(api).put(story as unknown as { id: string });
       // The people the event itself reached already know it.
       for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
-      const maxAge = n(api, "newsMaxAgeDays");
-      for (const personId of readersOf(api, event.placeId)) {
-        if (learnedBy.includes(personId)) continue;
-        const view = viewOf(api, personId);
-        const engagement = view?.engagement ?? api.parameter("zero");
-        if (engagement <= api.parameter("zero")) continue;
-        // People who trust the media less check it less, and hear later.
-        const reach =
-          engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
-        const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
-        if (delay > maxAge) continue;
-        deliveries(api).put({
-          id: `${story.id}:${personId}`,
-          storyId: story.id,
-          personId,
-          date: addDays(makeIsoDate(event.date), delay),
-        });
-      }
+      scheduleDeliveries(
+        api,
+        story,
+        readersOf(api, event.placeId),
+        new Set(learnedBy),
+      );
     },
     relationshipKinds: ["*"],
     onRelationshipChange(api, notice) {
@@ -420,12 +484,46 @@ export function createNewsModule(
     },
     onAfterDay(api) {
       if (api.state.date.endsWith("-01")) forgetOldNews(api);
+      const readers = new Map<string, PersonId[]>();
       for (const row of deliveries(api).query("byDate", [api.state.date])) {
         const story = stories(api).get(
           row.storyId as string,
         ) as unknown as Story;
-        if (story) hear(api, row.personId as string, story, "public", story.id);
+        if (
+          story &&
+          hear(api, row.personId as string, story, "public", story.id)
+        )
+          readers.set(story.id, [
+            ...(readers.get(story.id) ?? []),
+            row.personId as string,
+          ]);
         deliveries(api).remove(row.id);
+      }
+      // Today's readers of a printed story take in what it argued.
+      for (const [storyId, ids] of [...readers].sort((a, b) =>
+        a[0].localeCompare(b[0]),
+      )) {
+        const story = stories(api).get(storyId) as unknown as Story;
+        if (!story.topic || !story.desiredChange) continue;
+        api.emit({
+          id: `${NEWS_READ}:${story.id}:${api.state.date}`,
+          date: api.state.date,
+          kind: NEWS_READ,
+          personIds: [],
+          witnessIds: ids.filter((id) => api.state.people.get(id)?.alive),
+          placeId: story.placeId,
+          topic: story.topic,
+          desiredChange: story.desiredChange,
+          ...(story.moodImpulse === undefined
+            ? {}
+            : { moodImpulse: story.moodImpulse }),
+          facts: story.facts,
+          source: {
+            tag: "SOURCED",
+            citation: `Story ${story.id}, read by its outlet's followers`,
+            asOf: api.state.date,
+          },
+        });
       }
     },
   };
