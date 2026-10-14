@@ -4337,12 +4337,12 @@
     "id": "SG-GOV-official-attendance",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
-    "line": 1908,
-    "whatItFakes": "A state legislator or member of Congress who is not a full person (an official from elsewhere) is present at every vote; only full-person members miss a sitting, from their own day.",
-    "why": "The audit found nobody ever absent. Officials from elsewhere have no day, health or family record to miss a vote from.",
+    "line": 1913,
+    "whatItFakes": "A member with no person record (a seat held by no one filled in) is present at every vote; every other member decides from their own day.",
+    "why": "The audit found nobody ever absent. A member without a person record has no day, health or temperament to miss a vote from.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "An official's own calendar (campaign stops, district work, illness from the health engine once they are filled in) read the same way as a full person's day.",
+    "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's.",
     "status": "open"
   }
 ]
