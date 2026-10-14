@@ -12,7 +12,7 @@ import {
 import { addDays, makeIsoDate } from "../dates";
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
-import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import { sessionYear } from "../state-session-calendar";
 
 /**
  * The state governing due records the canonical clock keeps filled. Dates
@@ -26,26 +26,17 @@ type SessionWindow = {
   readonly adjournAt: string | "full-year";
 };
 
-const REGULAR_SESSIONS = (
-  stateSessionCalendar as unknown as {
-    readonly regularSessions: Readonly<
-      Record<string, readonly SessionWindow[]>
-    >;
-  }
-).regularSessions;
-const RECORDED_SESSION_YEAR = Number(stateSessionCalendar.asOf.slice(0, 4));
-
 export const GOVERNING_SEASON = "governing:season" as const;
 
 export type SeasonKind = "budget" | "bill";
 
-/** Read only the calendar year the source actually records. */
+/** The windows the session table records for the date's year; none where the body doesn't meet that year. */
 export function recordedStateSessionWindows(
   jurisdictionKey: string,
   onDate: IsoDate,
 ): readonly SessionWindow[] | null {
-  if (Number(onDate.slice(0, 4)) !== RECORDED_SESSION_YEAR) return null;
-  return REGULAR_SESSIONS[jurisdictionKey] ?? null;
+  const row = sessionYear(jurisdictionKey, Number(onDate.slice(0, 4)));
+  return row ? (row.meets ? row.windows : []) : null;
 }
 
 /** A per-jurisdiction session record applies to its recorded year. */
@@ -83,7 +74,9 @@ function recordedStateBillDate(
       world.currentDate,
       "bill",
       {
-        notBefore: makeIsoDate(`${RECORDED_SESSION_YEAR + 1}-01-01`),
+        notBefore: makeIsoDate(
+          `${Number(world.currentDate.slice(0, 4)) + 1}-01-01`,
+        ),
         eligibleYear: (year) =>
           regularSessionYearForWorld(world, jurisdictionId, year),
       },
