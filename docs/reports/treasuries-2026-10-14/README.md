@@ -1,14 +1,14 @@
 # Treasuries now spend their budgets, and a federal cut lowers a retiree's check
 
-OPUS-CORE needs to make one change before a federal cut reaches most retirees: let the finance engine change the amount of an existing Social Security award. Until then, a cut reaches only people the game tracks one by one who start Social Security during play. In Lydia, South Carolina, that was 2 people in town, while 837 kept their old amount (measured).
+OPUS-CORE needs to make two changes before a federal cut reaches most retirees: let the finance engine change an existing Social Security award, and let the pooled payments of townspeople tracked as counts change too. Until then, a cut reaches only people the game tracks one by one who start Social Security during play. In Lydia, South Carolina, that was 2 people in town, while 837 kept their old amount (measured).
 
-The rest works. Every government treasury now pays its adopted budget each month instead of only collecting. Over the same 400 days in Lydia, the county treasury paid out $154.4 million of the $176.0 million it took in. Before this change it paid out $395,000.
+The rest works. Every government treasury now pays its adopted budget each month instead of only collecting. Over 400 days in Lydia, the county treasury paid out $154.4 million of the $176.0 million it took in. Before this change it paid out $395,000.
 
 ## Before and after
 
 Before: each month every state, county and town treasury received a twelfth of its yearly revenue from outside the town and paid almost nothing out. The U.S. treasury collected withholding and paid nothing. A federal budget cut changed no one's payment.
 
-After: each treasury pays every line of its budget each month, to people and businesses in town first and the rest outside the town, line by line. A federal cut to Social Security lowers the next check of a retiree who claimed during play.
+After: each treasury pays every line of its budget each month, to people and businesses in town first and the rest outside the town, line by line. A federal cut to Social Security lowers the next check of a retiree the game tracks one by one who claimed during play.
 
 ## What a treasury does each month
 
