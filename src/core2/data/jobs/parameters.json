@@ -469,5 +469,16 @@
       "unit": "open positions withdrawn per position of surplus, per month",
       "citation": "An employer that has all the staff it wants lets its open postings lapse over a couple of months rather than at once; vacancies stay open about a month on average (BLS JOLTS vacancy duration, DHI)."
     }
+  },
+  "jobsNationalOpeningsPerUnemployed": {
+    "value": 1.1,
+    "tag": "TUNABLE",
+    "citation": "Job openings per unemployed person in the nation, January 2025: about 7.7 million openings (BLS JOLTS) against 6.8 million unemployed (BLS CPS), 1.1; the 2001-2019 average was about 0.6 and the 2022 peak about 2.0.",
+    "spread": {
+      "low": 0.6,
+      "high": 2.0,
+      "unit": "openings per unemployed worker",
+      "citation": "Job openings per unemployed person in the nation, January 2025: about 7.7 million openings (BLS JOLTS) against 6.8 million unemployed (BLS CPS), 1.1; the 2001-2019 average was about 0.6 and the 2022 peak about 2.0."
+    }
   }
 }

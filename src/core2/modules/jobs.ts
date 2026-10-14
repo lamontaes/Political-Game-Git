@@ -630,6 +630,34 @@ const unemploymentReads = new WeakMap<
   CoreState,
   { date: string; byPlace: Map<string, number> }
 >();
+/**
+ * The region's openings per unemployed worker: the nation's (JOLTS over the
+ * CPS), with the region's own unemployment against the nation's (openings
+ * per worker as the nation's). The nation's where no economy runs.
+ */
+function regionalTightness(api: CoreAPI, placeId: string): number {
+  const national = api.parameter("jobsNationalOpeningsPerUnemployed");
+  const gap = unemploymentGap(api, placeId);
+  const c = core(api);
+  const macro = c.modules.has("macro")
+    ? (api.moduleState("macro").table("state").get("macro:state") as
+        { latestMonth: string } | undefined)
+    : undefined;
+  const nationPct = macro
+    ? (
+        api
+          .moduleState("macro")
+          .table("months")
+          .get(`macro-month:${macro.latestMonth}`) as
+          { unemploymentPct: number } | undefined
+      )?.unemploymentPct
+    : undefined;
+  const regionPct = gap + api.parameter("macroNaturalUnemploymentPct");
+  return nationPct !== undefined && regionPct > 0 && macro
+    ? (national * nationPct) / regionPct
+    : national;
+}
+
 function unemploymentGap(api: CoreAPI, placeId: string): number {
   const c = core(api);
   let cache = unemploymentReads.get(c);
@@ -1038,14 +1066,20 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
   ]
     .map((id) => core(api).work.commitments.get(id)!)
     .find((row) => row.jobId === job.id);
+  // The opening's jobs, the ones placed elsewhere when this engine opened included.
   const started = api.state.startedAt,
+    opened =
+      (
+        store(api).table("state").get("jobs:state") as
+          { openedAt?: string } | undefined
+      )?.openedAt ?? started,
     since =
       commitment?.startsAt ??
       (job.source.asOf > started ? job.source.asOf : started);
   const years =
     daysBetween(makeIsoDate(since), makeIsoDate(api.state.date)) /
     api.parameter("jobsDaysPerYear");
-  if (since > started) return years;
+  if (since > (opened > started ? opened : started)) return years;
   // A job held at the opening was held for years before it: the median for the worker's age then (BLS Employee Tenure).
   const person =
     core(api).people.get(job.personId) ??
@@ -1620,53 +1654,6 @@ function runWeek(api: CoreAPI): void {
       countedNow.set(personId, (value = isCounted(api, personId)));
     return value;
   };
-  // A place's counted applicants: those within reach whom one of its openings clears (the rule is linear in pay, so the best- or worst-paid one decides).
-  const applicantsAt = new Map<string, Set<string>>();
-  for (const [placeId, open] of inPlace) {
-    let low = Number.POSITIVE_INFINITY,
-      high = Number.NEGATIVE_INFINITY;
-    for (const position of open) {
-      low = Math.min(low, position.hourlyMinor);
-      high = Math.max(high, position.hourlyMinor);
-    }
-    const set = new Set<string>();
-    for (const row of reaching.get(placeId) ?? [])
-      if (
-        counts(row.seeker.personId) &&
-        (applies(row, high) || applies(row, low))
-      )
-        set.add(row.seeker.personId);
-    if (set.size) applicantsAt.set(placeId, set);
-  }
-  const vacancyShare = p("jobsMatchingVacancyElasticity");
-  const weekOfMonth =
-    DAYS_PER_WEEK / (p("jobsDaysPerYear") / p("macroMonthsPerYear"));
-  const matchesLeft = new Map<string, number>();
-  for (const [placeId, open] of inPlace) {
-    const carry =
-      (
-        store(api).table("state").get(`matches:${placeId}`) as
-          { carry: number } | undefined
-      )?.carry ?? 0;
-    const applicants = applicantsAt.get(placeId)?.size ?? 0;
-    matchesLeft.set(
-      placeId,
-      carry +
-        p("jobsMatchingEfficiencyPerMonth") *
-          weekOfMonth *
-          applicants ** (1 - vacancyShare) *
-          open.length ** vacancyShare,
-    );
-  }
-  // Each seeker's fit for an occupation, worked out once a week.
-  const hired = new Set<string>();
-  const fitWeights = {
-    experience: p("jobsFitExperienceWeight"),
-    reliability: p("jobsFitReliabilityWeight"),
-  };
-  const fitsBy = new Map<string, Map<string, number>>();
-  const sortedReach = new Map<string, Applier[]>();
-  const hiredPast = new Map<Applier[], number>();
   const acceptTerms = {
     rate: p("jobsRateWeight"),
     baseline: p("jobsAcceptBaseline"),
@@ -1706,6 +1693,85 @@ function runWeek(api: CoreAPI): void {
       placeId,
       open.reduce((n, row) => Math.max(n, row.hourlyMinor), 0),
     );
+  // A place's counted applicants: those within reach whom one of its openings clears (the rule is linear in pay, so the best- or worst-paid one decides) and who would take one.
+  const applicantsAt = new Map<string, Set<string>>();
+  for (const [placeId, open] of inPlace) {
+    let low = Number.POSITIVE_INFINITY,
+      high = Number.NEGATIVE_INFINITY;
+    for (const position of open) {
+      low = Math.min(low, position.hourlyMinor);
+      high = Math.max(high, position.hourlyMinor);
+    }
+    const set = new Set<string>();
+    for (const row of reaching.get(placeId) ?? [])
+      if (
+        counts(row.seeker.personId) &&
+        (applies(row, high) || applies(row, low)) &&
+        // Searching in earnest: someone who'd turn every opening down takes no match.
+        (!risesWithPay || acceptsAt(row.seeker, high))
+      )
+        set.add(row.seeker.personId);
+    if (set.size) applicantsAt.set(placeId, set);
+  }
+  const vacancyShare = p("jobsMatchingVacancyElasticity");
+  const weekOfMonth =
+    DAYS_PER_WEEK / (p("jobsDaysPerYear") / p("macroMonthsPerYear"));
+  // Openings at employers outside the town are the region's: its seekers
+  // compete for them too, so they fill at the region's tightness (openings
+  // per unemployed worker), not at the town's openings over the town's seekers.
+  const elsewhereIds = new Set(
+    (
+      store(api)
+        .table("employers")
+        .query("all", [true]) as unknown as EmployerRow[]
+    )
+      .filter((row) => row.elsewhere)
+      .map((row) => row.id),
+  );
+  const poolOf = (position: PositionRow) =>
+    elsewhereIds.has(position.organizationId)
+      ? `${position.placeId}|elsewhere`
+      : position.placeId;
+  const matchesLeft = new Map<string, number>();
+  const carryOf = (key: string) =>
+    (
+      store(api).table("state").get(`matches:${key}`) as
+        { carry: number } | undefined
+    )?.carry ?? 0;
+  for (const [placeId, open] of inPlace) {
+    const applicants = applicantsAt.get(placeId)?.size ?? 0;
+    const elsewhere = open.filter((row) =>
+      elsewhereIds.has(row.organizationId),
+    ).length;
+    const town = open.length - elsewhere;
+    if (town > 0)
+      matchesLeft.set(
+        placeId,
+        carryOf(placeId) +
+          p("jobsMatchingEfficiencyPerMonth") *
+            weekOfMonth *
+            applicants ** (1 - vacancyShare) *
+            town ** vacancyShare,
+      );
+    if (elsewhere > 0)
+      matchesLeft.set(
+        `${placeId}|elsewhere`,
+        carryOf(`${placeId}|elsewhere`) +
+          p("jobsMatchingEfficiencyPerMonth") *
+            weekOfMonth *
+            applicants *
+            regionalTightness(api, placeId) ** vacancyShare,
+      );
+  }
+  // Each seeker's fit for an occupation, worked out once a week.
+  const hired = new Set<string>();
+  const fitWeights = {
+    experience: p("jobsFitExperienceWeight"),
+    reliability: p("jobsFitReliabilityWeight"),
+  };
+  const fitsBy = new Map<string, Map<string, number>>();
+  const sortedReach = new Map<string, Applier[]>();
+  const hiredPast = new Map<Applier[], number>();
   for (const position of positions) {
     // A full person can take only a role whose schedule is on record.
     const fullRole = roleTemplate(c, position) !== undefined;
@@ -1713,7 +1779,8 @@ function runWeek(api: CoreAPI): void {
       (row) => !hired.has(row.personId) && (fullRole || counts(row.personId)),
     );
     // With no match left in this place and no full applicant, nobody can be hired here this week.
-    if (!full.length && (matchesLeft.get(position.placeId) ?? 0) < 1) continue;
+    const pool = poolOf(position);
+    if (!full.length && (matchesLeft.get(pool) ?? 0) < 1) continue;
     let byPerson = fitsBy.get(position.occupation);
     if (!byPerson) fitsBy.set(position.occupation, (byPerson = new Map()));
     const fits = byPerson;
@@ -1790,16 +1857,13 @@ function runWeek(api: CoreAPI): void {
     let settled = false;
     while (counts(best.personId)) {
       // No match left in this place this week: its counted applicants wait.
-      if ((matchesLeft.get(position.placeId) ?? 0) < 1) {
+      if ((matchesLeft.get(pool) ?? 0) < 1) {
         settled = true;
         break;
       }
       const accepts = acceptsAt(best, position.hourlyMinor);
       if (accepts && hireCounted(api, position, best, fit(best))) {
-        matchesLeft.set(
-          position.placeId,
-          (matchesLeft.get(position.placeId) ?? 0) - 1,
-        );
+        matchesLeft.set(pool, (matchesLeft.get(pool) ?? 0) - 1);
         // Hired: no longer among anyone's applicants.
         hired.add(best.personId);
         settled = true;
@@ -1834,10 +1898,10 @@ function runWeek(api: CoreAPI): void {
     hired.add(best.personId);
   }
   // What's left of each place's matches carries to next week, never more than one.
-  for (const [placeId, left] of matchesLeft)
+  for (const [key, left] of matchesLeft)
     store(api)
       .table("state")
-      .put({ id: `matches:${placeId}`, carry: Math.max(0, Math.min(1, left)) });
+      .put({ id: `matches:${key}`, carry: Math.max(0, Math.min(1, left)) });
 }
 
 /** A counted seeker joins the employer's wage flow at the position's pay. */

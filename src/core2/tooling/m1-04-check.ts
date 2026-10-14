@@ -190,9 +190,13 @@ const named = layoff
 const byKind: Record<string, number> = {};
 for (const row of townChanges) byKind[row.kind] = (byKind[row.kind] ?? 0) + 1;
 const elsewhereByKind: Record<string, number> = {};
+const elsewhereByReason: Record<string, number> = {};
 for (const row of changes)
-  if (outside.has(row.organizationId))
+  if (outside.has(row.organizationId)) {
     elsewhereByKind[row.kind] = (elsewhereByKind[row.kind] ?? 0) + 1;
+    const key = `${row.kind}:${row.reasonKey}`;
+    elsewhereByReason[key] = (elsewhereByReason[key] ?? 0) + 1;
+  }
 console.log(
   JSON.stringify(
     {
@@ -223,6 +227,7 @@ console.log(
           0,
         ),
         changes: elsewhereByKind,
+        byReason: elsewhereByReason,
       },
       namedLayoff: named,
       seconds: Math.round((Date.now() - started) / 1000),
