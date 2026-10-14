@@ -71,64 +71,74 @@ One death was recorded, on November 6, 2025. The player, Monique Sweeney, ended 
    - **Cause:** `src/core2/modules/legislature.ts:1676-1722` (`chamberVote`) — each member's vote is the sign of `memberPosition(...).total` (zero abstains) and nothing is random, so bills on questions that divide a chamber the same way get the same count from the same members. There is no absence concept in the vote rule; a member is only yes, no or abstain (zero position) (verified).
 
 10. **Budget vote arithmetic does not match the chamber**
-   - **What:** The state budget vote "88-62, 19-11" sums to 30 in the Senate, which has 31 seats. The federal vote "256-177" sums to 433 in the House, which has 435 seats, yet no House vacancy is recorded before November 1, 2025.
-   - **Record ids:** budget-adopted `governmentId US-TX fiscalYear 2025` (adopted September 1, 2025); budget-adopted `governmentId US fiscalYear 2025` (adopted October 1, 2025); `seat:US-TX:us-house:10` (first vacancy, November 1, 2025)
-   - **Line:** 343, 444-453
-   - **Cause:** `src/core2/modules/legislature.ts:326-345` (`councilBudget` `roll`) and `:1689-1696` (`chamberVote`) — a member whose total is exactly zero abstains, and `members` (`:906-922`) counts only serving terms, so yes plus no can be below the seat count when a seat is vacant or a member abstains. Texas's Senate has 31 seats but upper seat 006 was vacated July 1 under the special-election rule with no interim holder (`offices.ts:922-998`), so only 30 serve on the September 1 budget vote; the 433 federal total is two House members with a zero position abstaining (verified).
+
+- **What:** The state budget vote "88-62, 19-11" sums to 30 in the Senate, which has 31 seats. The federal vote "256-177" sums to 433 in the House, which has 435 seats, yet no House vacancy is recorded before November 1, 2025.
+- **Record ids:** budget-adopted `governmentId US-TX fiscalYear 2025` (adopted September 1, 2025); budget-adopted `governmentId US fiscalYear 2025` (adopted October 1, 2025); `seat:US-TX:us-house:10` (first vacancy, November 1, 2025)
+- **Line:** 343, 444-453
+- **Cause:** `src/core2/modules/legislature.ts:326-345` (`councilBudget` `roll`) and `:1689-1696` (`chamberVote`) — a member whose total is exactly zero abstains, and `members` (`:906-922`) counts only serving terms, so yes plus no can be below the seat count when a seat is vacant or a member abstains. Texas's Senate has 31 seats but upper seat 006 was vacated July 1 under the special-election rule with no interim holder (`offices.ts:922-998`), so only 30 serve on the September 1 budget vote; the 433 federal total is two House members with a zero position abstaining (verified).
 
 11. **Federal House bill attributed to a Texas body with out-of-state sponsor and chair**
-   - **What:** The traced bill sits in the Texas U.S. House office but is sponsored by a Washington seat and chaired by a Louisiana seat. It has 0 yes and 0 no and was held in committee. The `us-house` office is Texas-jurisdiction with 38 seats. Its 21 bills dated December 15, 2025 are the same batch.
-   - **Record ids:** `bill:office:US-TX:us-house:2025-12-15:official:seat:US-WA:us-house:01:123`; chair `official:seat:US-LA:us-house:05`
-   - **Line:** 275-282, 410
-   - **Cause:** `src/core2/modules/world-legislating.ts:258-272` (`houseOffice`) and `:638-662` (`endOfSession`) — Congress's yearly session is held through the first `us-house` office found (the player's state delegation), with every member of the House and Senate as filers (`members(api, FEDERAL_HOUSE)`), so federal bills are filed under `office:US-XX:us-house` with sponsors, chairs and voters from other states (`congressMembers`, `src/core2/modules/legislature.ts:953`); and `src/core2/modules/legislature.ts:1861-1868` and `:1907-1913` (`committeeStage`) — when the chair does not hold a hearing (`heard` is false) the yes and no counts are never computed, so the record is written as `bill-held-in-committee` (`:1932`) with yes 0 and no 0, and `holdVote` fails the bill at `:1980-1984` (verified).
+
+- **What:** The traced bill sits in the Texas U.S. House office but is sponsored by a Washington seat and chaired by a Louisiana seat. It has 0 yes and 0 no and was held in committee. The `us-house` office is Texas-jurisdiction with 38 seats. Its 21 bills dated December 15, 2025 are the same batch.
+- **Record ids:** `bill:office:US-TX:us-house:2025-12-15:official:seat:US-WA:us-house:01:123`; chair `official:seat:US-LA:us-house:05`
+- **Line:** 275-282, 410
+- **Cause:** `src/core2/modules/world-legislating.ts:258-272` (`houseOffice`) and `:638-662` (`endOfSession`) — Congress's yearly session is held through the first `us-house` office found (the player's state delegation), with every member of the House and Senate as filers (`members(api, FEDERAL_HOUSE)`), so federal bills are filed under `office:US-XX:us-house` with sponsors, chairs and voters from other states (`congressMembers`, `src/core2/modules/legislature.ts:953`); and `src/core2/modules/legislature.ts:1861-1868` and `:1907-1913` (`committeeStage`) — when the chair does not hold a hearing (`heard` is false) the yes and no counts are never computed, so the record is written as `bill-held-in-committee` (`:1932`) with yes 0 and no 0, and `holdVote` fails the bill at `:1980-1984` (verified).
 
 12. **Mislabeled record and count mismatches**
-   - **What:** A federal House record dated December 15, 2025 carries the key "council-president", which is a local office. Year count `chamber-organized=3` (5 in the federal and state dump, plus the local one on February 4, 2025). Year count `law-took-effect=38` against 37 federal and state records, plus two city laws and one county law in the file, which makes 40.
-   - **Record ids:** `official:term:seat:US-TX:us-house:02:2025-01-20` (key council-president, December 15, 2025); chamber-organized council-president `person_45bf8ed970af887a` (February 4, 2025); `law:place:4848072:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-03-06:2025-001`
-   - **Line:** 5, 14, 138-139, 249, 441, 455, 460
-   - **Cause:** `src/core2/modules/world-legislating.ts:638-648` asks `leaderOf` for the town's `us-house` office id, and `src/core2/modules/leadership.ts:113-138` (`templateOf`) has no branch for a `us-house` office, so it falls through to the council template whose presiding post is `council-president`; `organize` then emits `chamber-organized` with that key (`leadership.ts:400-423`) for a congressional delegation. The count mismatches come from the viewer: the year line counts all records of a kind (`viewer.ts:71-79`) while the dump counts only records whose facts or id match a state or federal pattern (`:278-282`, `:309-311`) (verified).
+
+- **What:** A federal House record dated December 15, 2025 carries the key "council-president", which is a local office. Year count `chamber-organized=3` (5 in the federal and state dump, plus the local one on February 4, 2025). Year count `law-took-effect=38` against 37 federal and state records, plus two city laws and one county law in the file, which makes 40.
+- **Record ids:** `official:term:seat:US-TX:us-house:02:2025-01-20` (key council-president, December 15, 2025); chamber-organized council-president `person_45bf8ed970af887a` (February 4, 2025); `law:place:4848072:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-03-06:2025-001`
+- **Line:** 5, 14, 138-139, 249, 441, 455, 460
+- **Cause:** `src/core2/modules/world-legislating.ts:638-648` asks `leaderOf` for the town's `us-house` office id, and `src/core2/modules/leadership.ts:113-138` (`templateOf`) has no branch for a `us-house` office, so it falls through to the council template whose presiding post is `council-president`; `organize` then emits `chamber-organized` with that key (`leadership.ts:400-423`) for a congressional delegation. The count mismatches come from the viewer: the year line counts all records of a kind (`viewer.ts:71-79`) while the dump counts only records whose facts or id match a state or federal pattern (`:278-282`, `:309-311`) (verified).
 
 13. **Moves counted as six vacancies but one person record**
-   - **What:** Six seat-vacated records carry cause "moved away", but the year counts show person.moved-away=1.
-   - **Record ids:** `seat:US-TX:upper:006:0` (July 1, 2025); person.moved-away (kind; one record, id not in file)
-   - **Line:** 5, 444-449
-   - **Cause:** `src/core2/modules/moves.ts:702-715` emits `person.moved-away` with `publicRecord: false` and no news, so `retainLog` (`src/core2/state.ts:690-715`) keeps only moves in the player's circle, while every mover who holds a seat still vacates it through `offices.ts:138-146`; one departure covers the mover and the household members who go with them (`moves.ts:596-607`) (verified).
+
+- **What:** Six seat-vacated records carry cause "moved away", but the year counts show person.moved-away=1.
+- **Record ids:** `seat:US-TX:upper:006:0` (July 1, 2025); person.moved-away (kind; one record, id not in file)
+- **Line:** 5, 444-449
+- **Cause:** `src/core2/modules/moves.ts:702-715` emits `person.moved-away` with `publicRecord: false` and no news, so `retainLog` (`src/core2/state.ts:690-715`) keeps only moves in the player's circle, while every mover who holds a seat still vacates it through `offices.ts:138-146`; one departure covers the mover and the household members who go with them (`moves.ts:596-607`) (verified).
 
 14. **Eight module tables not registered in the dump**
-   - **What:** These tables print as "Unregistered module table": elections.vacancies, voting.contests, voting.filings, voting.campaigns, executive.offices, executive.terms, legislature.governments, legislature.budgets. Local government, executive, campaign and vacancy records cannot be checked from the file.
-   - **Record ids:** none (tables not registered)
-   - **Line:** 390-405
-   - **Cause:** `scripts/trace/viewer.ts:234-241` (`dump`) — the viewer asks for module and table names that do not match where the tables are registered (vacancies: `src/core2/modules/offices.ts:111-131`; contests and filings: `src/core2/modules/elections.ts:116-128`; campaigns: `src/core2/modules/campaigns.ts:213`; executive offices and terms: the offices tables, because the executive module registers only appointments, orders, desk and review at `src/core2/modules/executive.ts:95-100`; governments and budgets: `src/core2/modules/budgets.ts:166-167`), so `dump` (`viewer.ts:194-208`) prints "Unregistered module table"; the game holds the data, the viewer asked the wrong module (verified).
+
+- **What:** These tables print as "Unregistered module table": elections.vacancies, voting.contests, voting.filings, voting.campaigns, executive.offices, executive.terms, legislature.governments, legislature.budgets. Local government, executive, campaign and vacancy records cannot be checked from the file.
+- **Record ids:** none (tables not registered)
+- **Line:** 390-405
+- **Cause:** `scripts/trace/viewer.ts:234-241` (`dump`) — the viewer asks for module and table names that do not match where the tables are registered (vacancies: `src/core2/modules/offices.ts:111-131`; contests and filings: `src/core2/modules/elections.ts:116-128`; campaigns: `src/core2/modules/campaigns.ts:213`; executive offices and terms: the offices tables, because the executive module registers only appointments, orders, desk and review at `src/core2/modules/executive.ts:95-100`; governments and budgets: `src/core2/modules/budgets.ts:166-167`), so `dump` (`viewer.ts:194-208`) prints "Unregistered module table"; the game holds the data, the viewer asked the wrong module (verified).
 
 15. **County property-tax law has no traced cause**
-   - **What:** The county law effective January 1, 2026 replaces a "from-start" law. The trace shows the law, the county government and the treasury, but no vote, budget or other record that caused the change.
-   - **Record ids:** `law:county:48329:county:property-tax:general:2026-01-01`; `law:county:48329:county:property-tax:general:2026-01-01:from-start`
-   - **Line:** 246-255
-   - **Cause:** Not a defect: `src/core2/laws-starting.ts:136-165` (`propertyTaxRows`) — the county property-tax law is a dated data row (effective 2026-01-01, from the ACS estimate) and `laws.ts:96-104` fires `law-took-effect` on that date, replacing the `:from-start` carry-back row (`laws.ts:225-254`); it is data, not an enacted measure, so no vote or board record exists (verified).
+
+- **What:** The county law effective January 1, 2026 replaces a "from-start" law. The trace shows the law, the county government and the treasury, but no vote, budget or other record that caused the change.
+- **Record ids:** `law:county:48329:county:property-tax:general:2026-01-01`; `law:county:48329:county:property-tax:general:2026-01-01:from-start`
+- **Line:** 246-255
+- **Cause:** Not a defect: `src/core2/laws-starting.ts:136-165` (`propertyTaxRows`) — the county property-tax law is a dated data row (effective 2026-01-01, from the ACS estimate) and `laws.ts:96-104` fires `law-took-effect` on that date, replacing the `:from-start` carry-back row (`laws.ts:225-254`); it is data, not an enacted measure, so no vote or board record exists (verified).
 
 16. **Three closures cite cash exhaustion; source trace ends at "opening"**
-   - **What:** Three businesses closed with reason finance.unfunded-obligation-cash-and-credit-exhausted, each sourced to a payroll calendar. The owner-closed business traced at October 1, 2025 has its source resolved to "opening [core2-officials-v1.loaded]", not to an owner decision record. Why the cash ran out is not in the file.
-   - **Record ids:** `organization_507e99fea3adae57` (March 25, 2025); `organization_3f9763e0640197dc` (May 24, 2025); `organization_0a7d3dbb7503762d` (May 29, 2025); `organization_4abefd30f4490a5d` (October 1, 2025)
-   - **Line:** 140-145, 302-307
-   - **Cause:** `src/core2/modules/business.ts:603-608` — an owner who closes by choice records "losses-kept" when the business carried losses, else "owner-retiring" (`src/core2/data/business/business.json:48-52`), and `src/core2/finance-state.ts:1518-1530` names the closing receipt `owner-closed:<date>:<org>`; the reason and the closure source are two different fields, not two reasons; and `src/bench/dev-trace.ts:42-79` (`findRecord`) resolves any string to the first module row with that id, the organization's source text is the word "opening", and `src/core2/modules/officials.ts:526` writes a row with id "opening" in `core2-officials-v1.loaded`, so the trace ends at that unrelated row instead of a business record. Forced closures take their reason key from the finance engine that closes the business (`src/core2/finance-state.ts:1380-1397`) (verified).
+
+- **What:** Three businesses closed with reason finance.unfunded-obligation-cash-and-credit-exhausted, each sourced to a payroll calendar. The owner-closed business traced at October 1, 2025 has its source resolved to "opening [core2-officials-v1.loaded]", not to an owner decision record. Why the cash ran out is not in the file.
+- **Record ids:** `organization_507e99fea3adae57` (March 25, 2025); `organization_3f9763e0640197dc` (May 24, 2025); `organization_0a7d3dbb7503762d` (May 29, 2025); `organization_4abefd30f4490a5d` (October 1, 2025)
+- **Line:** 140-145, 302-307
+- **Cause:** `src/core2/modules/business.ts:603-608` — an owner who closes by choice records "losses-kept" when the business carried losses, else "owner-retiring" (`src/core2/data/business/business.json:48-52`), and `src/core2/finance-state.ts:1518-1530` names the closing receipt `owner-closed:<date>:<org>`; the reason and the closure source are two different fields, not two reasons; and `src/bench/dev-trace.ts:42-79` (`findRecord`) resolves any string to the first module row with that id, the organization's source text is the word "opening", and `src/core2/modules/officials.ts:526` writes a row with id "opening" in `core2-officials-v1.loaded`, so the trace ends at that unrelated row instead of a business record. Forced closures take their reason key from the finance engine that closes the business (`src/core2/finance-state.ts:1380-1397`) (verified).
 
 17. **Trace defects: duplicate learned lines and truncated fields**
-   - **What:** The speech.retold trace repeats the same learned line three times. The speech.heard trace repeats the same learned line about seven times across its eight witnesses. The bill-vote trace repeats the same "billId" learned line five times. The campaign-message trace lists campaignId twice. Trace text is cut off mid-field in several places. No "trace failed" line appears.
-   - **Record ids:** `speech:party-meeting:party:US-TX:republican:2026-01-15:retold:person_91927d22e1e11257`; `speech:party-meeting:party:US-TX:republican:2026-01-15`; `bill-vote:bill:office:gus2025:194825:council:2025-12-31:person_a68bf958ef81d0da:126:office:gus2025:194825:council`; `life.death:person_bd829a4c71634c66:2025-11-06` (cut off)
-   - **Line:** 219-226, 230-235, 244, 257-264, 300, 138-139
-   - **Cause:** `scripts/trace/viewer.ts:153-161` cuts each child value to 160 characters and the list to 1,500, and prints `kind:via=value` without the child's id, so ids run off the line and the same fact shown for several different people reads as a repeat; and `src/bench/dev-trace.ts:202-218` (`learnedOf`) adds one child per person who learned the record, each with the same fact key, and `scripts/trace/viewer.ts:158` omits the person id, so one fact appears many times; and `scripts/trace/viewer.ts:180-193` (`slim`) cuts any field whose JSON is over 220 characters to 200 plus "…" (a vacancy-rule object longer than that prints as an escaped, cut-off string) and `:204` cuts each row to 700 characters (verified).
+
+- **What:** The speech.retold trace repeats the same learned line three times. The speech.heard trace repeats the same learned line about seven times across its eight witnesses. The bill-vote trace repeats the same "billId" learned line five times. The campaign-message trace lists campaignId twice. Trace text is cut off mid-field in several places. No "trace failed" line appears.
+- **Record ids:** `speech:party-meeting:party:US-TX:republican:2026-01-15:retold:person_91927d22e1e11257`; `speech:party-meeting:party:US-TX:republican:2026-01-15`; `bill-vote:bill:office:gus2025:194825:council:2025-12-31:person_a68bf958ef81d0da:126:office:gus2025:194825:council`; `life.death:person_bd829a4c71634c66:2025-11-06` (cut off)
+- **Line:** 219-226, 230-235, 244, 257-264, 300, 138-139
+- **Cause:** `scripts/trace/viewer.ts:153-161` cuts each child value to 160 characters and the list to 1,500, and prints `kind:via=value` without the child's id, so ids run off the line and the same fact shown for several different people reads as a repeat; and `src/bench/dev-trace.ts:202-218` (`learnedOf`) adds one child per person who learned the record, each with the same fact key, and `scripts/trace/viewer.ts:158` omits the person id, so one fact appears many times; and `scripts/trace/viewer.ts:180-193` (`slim`) cuts any field whose JSON is over 220 characters to 200 plus "…" (a vacancy-rule object longer than that prints as an escaped, cut-off string) and `:204` cuts each row to 700 characters (verified).
 
 18. **Office data: railroad seat count and vacancy rules**
-   - **What:** The Railroad Commission title says "3 members, statewide", but seats is 1. The vacancyRule field is an escaped JSON string on eight offices and an object on the rest, and all eight strings are cut off with "…".
-   - **Record ids:** `office:US-TX:railroad-commission`; `office:US-TX:governor`
-   - **Line:** 332-344
-   - **Cause:** `scripts/trace/viewer.ts:180-193` (`slim`) cuts any field whose JSON is over 220 characters to 200 plus "…" (a vacancy-rule object longer than that prints as an escaped, cut-off string) and `:204` cuts each row to 700 characters. The Railroad Commission's `seats: 1` is hard-coded for every researched executive office (`src/core2/offices-state.ts:494`) while its title text comes from the research row, so the two disagree (verified).
+
+- **What:** The Railroad Commission title says "3 members, statewide", but seats is 1. The vacancyRule field is an escaped JSON string on eight offices and an object on the rest, and all eight strings are cut off with "…".
+- **Record ids:** `office:US-TX:railroad-commission`; `office:US-TX:governor`
+- **Line:** 332-344
+- **Cause:** `scripts/trace/viewer.ts:180-193` (`slim`) cuts any field whose JSON is over 220 characters to 200 plus "…" (a vacancy-rule object longer than that prints as an escaped, cut-off string) and `:204` cuts each row to 700 characters. The Railroad Commission's `seats: 1` is hard-coded for every researched executive office (`src/core2/offices-state.ts:494`) while its title text comes from the research row, so the two disagree (verified).
 
 19. **The player has no records in the file**
-   - **What:** The player's record shows front desk clerk, cash $12,009 and home `household_af8abfd5dd9d0302` at year end. The start cash and any income or action records are not in the file, so it cannot be told whether the player did anything this year. The player was 17 at the start (born January 23, 2007).
-   - **Record ids:** `person_486b81c184cd2e17`; `household_af8abfd5dd9d0302`
-   - **Line:** 2, 217
-   - **Cause:** Not a defect: `scripts/trace/viewer.ts:41-44,112-115` selects the player but never issues a command and prints only the final player state, and no engine acts for the player (`chamberVote` abstains for the player, `src/core2/modules/legislature.ts:1689-1691`), so no player-directed record exists (verified).
+
+- **What:** The player's record shows front desk clerk, cash $12,009 and home `household_af8abfd5dd9d0302` at year end. The start cash and any income or action records are not in the file, so it cannot be told whether the player did anything this year. The player was 17 at the start (born January 23, 2007).
+- **Record ids:** `person_486b81c184cd2e17`; `household_af8abfd5dd9d0302`
+- **Line:** 2, 217
+- **Cause:** Not a defect: `scripts/trace/viewer.ts:41-44,112-115` selects the player but never issues a command and prints only the final player state, and no engine acts for the player (`chamberVote` abstains for the player, `src/core2/modules/legislature.ts:1689-1691`), so no player-directed record exists (verified).
 
 ## Levels at a glance
 

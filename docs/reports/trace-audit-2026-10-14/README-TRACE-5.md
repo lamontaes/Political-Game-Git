@@ -6,18 +6,18 @@ In ten places run for one game year, the state legislatures, budgets and Congres
 
 Grades: works, works with the gap named, or doesn't. Every place ran a full year with no crash.
 
-| Place (town) | Local | State | Federal |
-|---|---|---|---|
-| South Dakota (Kranzburg) | Works with gap: each April 1 council and mayor race had one candidate; a reporter holding the mayor's seat appointed the city administrator | Works with gap: three vacated seats refilled with no record | Works with gap |
-| Tennessee (White House) | Works with gap: the council and board voted; no town election was held in the year | Works with gap: six seats vacated; one special election held | Works with gap |
-| Texas (Midland) | Works with gap: the council and board voted; no town election was held in the year | Works with gap: six seats vacated under the special-election rule; no special election held | Works with gap |
-| Utah (Bountiful) | Works: contested November 4 council and mayor races; department heads appointed | Works with gap: four seats vacated; the U.S. Senate special election had one candidate | Works with gap |
-| Vermont (North Clarendon) | Works with gap: one Selectboard seat had no candidate and no winner; 12 county party primaries counted no votes | Works with gap: four vacated seats refilled with no record | Works with gap |
-| Virginia (Mount Olive) | Doesn't: no local body appears in the year | Works with gap: no House of Delegates race was held; a dead candidate won governor; five seats vacated, none filled | Works with gap |
-| Washington (Clear Lake) | Works with gap: eight county races, each with one candidate; primary vote totals are fractions | Works with gap: three vacated seats have no fill record | Works with gap |
-| West Virginia (Addison) | Works with gap: the board and council enacted 10 of 16 bills | Works with gap: 13 of 16 Senate votes were 32 to 2; three vacated seats refilled with no record | Works with gap |
-| Wisconsin (Balsam Lake) | Works with gap: seven recall petitions with no outcome; no town election was held | Works with gap: the nonpartisan spring superintendent race ran as a November party race; three seats vacated, one special election held | Works with gap |
-| Wyoming (Ranchettes) | Works with gap: the board enacted 1 of 25 bills; no election was held | Works with gap: 12 of 16 House votes were 56 to 6; four vacated seats refilled with no record | Works with gap |
+| Place (town)              | Local                                                                                                                                       | State                                                                                                                                   | Federal        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| South Dakota (Kranzburg)  | Works with gap: each April 1 council and mayor race had one candidate; a reporter holding the mayor's seat appointed the city administrator | Works with gap: three vacated seats refilled with no record                                                                             | Works with gap |
+| Tennessee (White House)   | Works with gap: the council and board voted; no town election was held in the year                                                          | Works with gap: six seats vacated; one special election held                                                                            | Works with gap |
+| Texas (Midland)           | Works with gap: the council and board voted; no town election was held in the year                                                          | Works with gap: six seats vacated under the special-election rule; no special election held                                             | Works with gap |
+| Utah (Bountiful)          | Works: contested November 4 council and mayor races; department heads appointed                                                             | Works with gap: four seats vacated; the U.S. Senate special election had one candidate                                                  | Works with gap |
+| Vermont (North Clarendon) | Works with gap: one Selectboard seat had no candidate and no winner; 12 county party primaries counted no votes                             | Works with gap: four vacated seats refilled with no record                                                                              | Works with gap |
+| Virginia (Mount Olive)    | Doesn't: no local body appears in the year                                                                                                  | Works with gap: no House of Delegates race was held; a dead candidate won governor; five seats vacated, none filled                     | Works with gap |
+| Washington (Clear Lake)   | Works with gap: eight county races, each with one candidate; primary vote totals are fractions                                              | Works with gap: three vacated seats have no fill record                                                                                 | Works with gap |
+| West Virginia (Addison)   | Works with gap: the board and council enacted 10 of 16 bills                                                                                | Works with gap: 13 of 16 Senate votes were 32 to 2; three vacated seats refilled with no record                                         | Works with gap |
+| Wisconsin (Balsam Lake)   | Works with gap: seven recall petitions with no outcome; no town election was held                                                           | Works with gap: the nonpartisan spring superintendent race ran as a November party race; three seats vacated, one special election held | Works with gap |
+| Wyoming (Ranchettes)      | Works with gap: the board enacted 1 of 25 bills; no election was held                                                                       | Works with gap: 12 of 16 House votes were 56 to 6; four vacated seats refilled with no record                                           | Works with gap |
 
 Federal works the same way in all ten. Congress adopts its budget on October 1, 2025. It holds one floor day, December 15, 2025, for the whole year. Federal laws take effect January 1, 2026. The gaps are that one floor day, bills filed under the home state's delegation with sponsors and chairs from other states, and, in eight of ten places, the U.S. House's leadership recorded under the key "council-president".
 
@@ -55,15 +55,15 @@ Still open: why Wyoming's board members vote against bills they filed, why so fe
 
 Each place ran with the trace viewer for one year from January 20, 2025, three worlds at a time, on October 14, 2026. One Haiku agent per place wrote its file, and one Sonnet agent added a cause to all 192 items. Of the 192, 152 were confirmed at a code line, 28 were judged correct behavior or a quirk of the viewer, 8 are probable, and 4 were not found. The Virginia death was confirmed by a second run on the same seed. The viewer asks for eight module tables under names the modules do not register, so its dump omits contests, vacancies, executive offices and budgets. The raw viewer files are in `raw-trace-5/` beside this report, and the line numbers in the place files point into them. The table lists each world's town, seed and run time for its year.
 
-| State | Town | Seed | Year run time |
-|---|---|---|---|
-| South Dakota | Kranzburg | `85748008adb3` | 84 seconds |
-| Tennessee | White House | `57efda3fe008` | 127 seconds |
-| Texas | Midland | `b08f4ec07e71` | 86 seconds |
-| Utah | Bountiful | `49fec817bf1f` | 222 seconds |
-| Vermont | North Clarendon | `7cf881828c25` | 93 seconds |
-| Virginia | Mount Olive | `a0b90e61b6e6` | 91 seconds |
-| Washington | Clear Lake | `0e4e6bf1f6bc` | 79 seconds |
-| West Virginia | Addison | `3f38dc269c37` | 64 seconds |
-| Wisconsin | Balsam Lake | `f872f1774f2b` | 134 seconds |
-| Wyoming | Ranchettes | `171cc24ba5ed` | 84 seconds |
+| State         | Town            | Seed           | Year run time |
+| ------------- | --------------- | -------------- | ------------- |
+| South Dakota  | Kranzburg       | `85748008adb3` | 84 seconds    |
+| Tennessee     | White House     | `57efda3fe008` | 127 seconds   |
+| Texas         | Midland         | `b08f4ec07e71` | 86 seconds    |
+| Utah          | Bountiful       | `49fec817bf1f` | 222 seconds   |
+| Vermont       | North Clarendon | `7cf881828c25` | 93 seconds    |
+| Virginia      | Mount Olive     | `a0b90e61b6e6` | 91 seconds    |
+| Washington    | Clear Lake      | `0e4e6bf1f6bc` | 79 seconds    |
+| West Virginia | Addison         | `3f38dc269c37` | 64 seconds    |
+| Wisconsin     | Balsam Lake     | `f872f1774f2b` | 134 seconds   |
+| Wyoming       | Ranchettes      | `171cc24ba5ed` | 84 seconds    |
