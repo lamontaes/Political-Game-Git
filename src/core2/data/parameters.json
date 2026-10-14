@@ -282,9 +282,9 @@
     }
   },
   "traitWeight": {
-    "value": 0.2,
+    "value": 1,
     "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "citation": "Set equal to need, goal and drive on the owner's ruling Oct 14, 2026, from the traits-in-play audit (2.3% of choices changed at 0.2; about 15% of daily and 25% of drive choices at 1.0). Tunable, checked against the spread 0.2 to 1.0.",
     "stopgapId": "SG-P8-param-traitWeight",
     "spread": {
       "status": "unmeasured",

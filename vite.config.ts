@@ -1,9 +1,10 @@
 import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
 import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
+import { renameSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
 import react from "@vitejs/plugin-react";
-import { configDefaults, defineConfig } from "vitest/config";
+import { configDefaults, defineConfig, type Plugin } from "vitest/config";
 import {
   buildIdentityDefines,
   resolveBuildIdentity,
@@ -21,11 +22,33 @@ import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
 import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
+// The play page is the game's only page, so it ships as the client's root
+// document: the desktop shell loads `/index.html` and the staging check
+// requires `client/index.html`.
+function playIsIndex(): Plugin {
+  let outDir = "";
+  return {
+    name: "our-civic-duty-play-is-index",
+    apply: "build",
+    configResolved(config) {
+      outDir = resolve(config.root, config.build.outDir);
+    },
+    closeBundle() {
+      renameSync(
+        resolve(outDir, "src/bench/play.html"),
+        resolve(outDir, "index.html"),
+      );
+      rmSync(resolve(outDir, "src"), { recursive: true, force: true });
+    },
+  };
+}
+
 export default defineConfig({
   cacheDir:
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
   plugins: [
+    playIsIndex(),
     runtimeArtBuild(),
     runtimeContentOrigin(),
     react(),
@@ -52,7 +75,7 @@ export default defineConfig({
   },
   build: {
     outDir: "dist/client",
-    rolldownOptions: { input: { app: "index.html", review: "review.html" } },
+    rolldownOptions: { input: { play: "src/bench/play.html" } },
   },
   test: {
     // Hosted shards deal the path-sorted suite out one file per shard so

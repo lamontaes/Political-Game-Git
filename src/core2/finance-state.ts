@@ -7,6 +7,7 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { countedJobsOf } from "./residents-economy";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -32,7 +33,7 @@ import type {
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
-import type { CoreAPI, CoreState, Source } from "./types";
+import type { CoreAPI, CoreState, JobInput, Source } from "./types";
 
 export function emptyFinanceRuntime(at: string): FinanceRuntime {
   return {
@@ -970,6 +971,7 @@ export function admitBusinessBooks(
     anchorPrice: input.price,
     lastGeneralPriceFactor: one,
     lastWagePriceFactor: one,
+    lastHourlyByJob: ownHourlyPay(core, input.organizationId).hourly,
     receivedMinor: zero,
     salesReceivedMinor: zero,
     operatingPaidMinor: zero,
@@ -1043,10 +1045,23 @@ export function reviewBusiness(
   date.setUTCMonth(date.getUTCMonth() - p("one"));
   const month = date.toISOString().slice(p("zero"), p("isoMonthCharacters"));
   const paid = core.finance.paidIncomeByPlaceMonth.get(`${month}:${place}`);
+  // The opening's anchor counts residents' pay from the town's own firms; the
+  // month's measure also counts pay from elsewhere and retirement. So the
+  // first full month the book reads (never the game's opening month, which
+  // starts partway) becomes its basis, and each later month moves the anchor
+  // by its change from that basis.
+  if (
+    book.incomeBasisMinor === undefined &&
+    paid !== undefined &&
+    paid > p("zero") &&
+    month > core.startedAt.slice(p("zero"), p("isoMonthCharacters"))
+  )
+    book.incomeBasisMinor = paid * p("monthsPerYear");
   const income =
-    paid === undefined
+    paid === undefined || book.incomeBasisMinor === undefined
       ? book.openingTownIncomeMinor
-      : paid * p("monthsPerYear");
+      : (book.openingTownIncomeMinor * paid * p("monthsPerYear")) /
+        book.incomeBasisMinor;
   const conditions = core.finance.conditionsByPlace.get(place) ?? [];
   const condition = conditions
     .filter((row) => row.at <= core.date)
@@ -1085,12 +1100,15 @@ export function reviewBusiness(
     },
     options,
   );
+  const pay = ownHourlyPay(core, id);
   const price = projectBusinessPrice(
     {
       priorPrice: book.price,
       annualPlannedPayMinor: book.annualPayrollMinor,
       annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor: wagePrice / book.lastWagePriceFactor,
+      wagePriceFactor:
+        ownRaise(book.lastHourlyByJob, pay) ??
+        wagePrice / book.lastWagePriceFactor,
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
@@ -1120,7 +1138,58 @@ export function reviewBusiness(
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
   book.lastWagePriceFactor = wagePrice;
+  book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);
+}
+
+/** Each current job's hourly pay and daily hours at a firm, full or counted. */
+function ownHourlyPay(
+  core: CoreState,
+  organizationId: string,
+): { hourly: Record<string, number>; hours: Record<string, number> } {
+  const hourly: Record<string, number> = {},
+    hours: Record<string, number> = {};
+  const add = (job: JobInput) => {
+    if (job.endsAt !== undefined && job.endsAt <= core.date) return;
+    const rate =
+      job.hourlyMinor ??
+      (job.hoursDaily > 0 ? job.wageDailyMinor / job.hoursDaily : undefined);
+    if (rate === undefined || !(rate > 0) || !(job.hoursDaily > 0)) return;
+    hourly[job.id] = rate;
+    hours[job.id] = job.hoursDaily;
+  };
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ??
+    []) {
+    const job = core.jobs.get(jobId);
+    if (job) add(job);
+  }
+  for (const job of countedJobsOf(core, organizationId)) add(job);
+  return { hourly, hours };
+}
+
+/**
+ * The firm's own pay change since its last review, over the jobs it had then
+ * and still has, weighted by their hours now: a raise (a minimum wage, the
+ * yearly pay review) passes into its price, a hire at different pay doesn't.
+ * Undefined when no job carries over; the place's pay index stands in.
+ */
+function ownRaise(
+  before: Readonly<Record<string, number>> | undefined,
+  now: {
+    hourly: Readonly<Record<string, number>>;
+    hours: Readonly<Record<string, number>>;
+  },
+): number | undefined {
+  if (!before) return undefined;
+  let paid = 0,
+    wasPaid = 0;
+  for (const jobId in now.hourly) {
+    const prior = before[jobId];
+    if (prior === undefined) continue;
+    paid += now.hourly[jobId]! * now.hours[jobId]!;
+    wasPaid += prior * now.hours[jobId]!;
+  }
+  return wasPaid > 0 ? paid / wasPaid : undefined;
 }
 
 export function businessAvailableCredit(

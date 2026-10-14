@@ -65,7 +65,6 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
           "incumbentTie",
           "reach",
           "standing",
-          "temperament",
           "time",
         ].sort(),
       );

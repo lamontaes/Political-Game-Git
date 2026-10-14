@@ -1,8 +1,8 @@
-import directoryJson from "../../data/research/places/local-institutions.json" with { type: "json" };
 import { makeIsoDate } from "./kernel/dates";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
+import { groupedJsonTable } from "./reference/lazy-data";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, JobInput, PublicOrganization, Source } from "./types";
 
@@ -74,6 +74,19 @@ export const DEFAULT_CIVIC_INPUTS_DATA: CivicInputsData = {
   })),
 };
 
+// Read on first use, only for the states a world asks about.
+const DIRECTORY = groupedJsonTable(
+  new URL(
+    "../../data/research/places/local-institutions.json",
+    import.meta.url,
+  ),
+  ["places", "counties"],
+);
+const DIRECTORY_STORES: Readonly<Record<string, (geoid: string) => unknown>> = {
+  places: DIRECTORY.section("places"),
+  counties: DIRECTORY.section("counties"),
+};
+
 export interface CivicInputsOptions {
   data?: CivicInputsData;
   directory?: CivicDirectory;
@@ -111,12 +124,14 @@ export function enrichCivicInputs(
   const data = options.data ?? DEFAULT_CIVIC_INPUTS_DATA;
   const marker = stopgap(data.stopgapId);
   const startedAt = makeIsoDate(input.startedAt);
-  const directory = options.directory ?? directoryJson;
-  makeIsoDate(directory.asOf);
-  const stores: Readonly<Record<string, Readonly<Record<string, unknown>>>> = {
-    places: directory.places,
-    counties: directory.counties,
-  };
+  const directory = options.directory;
+  makeIsoDate(directory?.asOf ?? DIRECTORY.rest<{ asOf: string }>().asOf);
+  const stores: Readonly<Record<string, (geoid: string) => unknown>> = directory
+    ? {
+        places: (geoid) => directory.places[geoid],
+        counties: (geoid) => directory.counties[geoid],
+      }
+    : DIRECTORY_STORES;
   const gapPrefix = `Civic inputs ${data.version}: `;
   const gaps = new Set(input.gaps.filter((gap) => !gap.startsWith(gapPrefix)));
   const publicById = new Map<string, PublicOrganization>();
@@ -259,7 +274,7 @@ export function enrichCivicInputs(
     const store = stores[scope.store];
     if (!store)
       throw new Error(`Unavailable civic directory store: ${scope.store}`);
-    const group = store[place.sourceGeoid];
+    const group = store(place.sourceGeoid);
     if (group === undefined) continue;
     if (!isRecord(group))
       throw new Error(`Malformed civic directory group: ${placeId}`);

@@ -33,6 +33,19 @@ const npcId = "person:npc";
 const staffId = "person:recorded-staff";
 const uninformedId = "person:uninformed";
 const voluntaryEffort = "personality-v1:voluntary-effort";
+// The chooser tests below check how needs, stress, wages and a trait's
+// direction move one choice, with a fixture worker at the top of the effort
+// scale. They were sized with personality at the low end of its tuned spread,
+// so they run there and stay independent of where the tuned weight sits.
+const SIZED_DATA = extendData(DEFAULT_DATA, {
+  parameters: {
+    traitWeight: {
+      ...DEFAULT_DATA.parameters.traitWeight!,
+      // The low end of traitWeight's checked spread (0.2 to 1.0).
+      value: 0.2,
+    },
+  },
+});
 const source: Source = {
   tag: "ESTIMATED",
   asOf: startedAt,
@@ -295,7 +308,12 @@ describe("shared actor chooser and committed effects", () => {
   });
 
   it("re-evaluates resource pressure after wages and commits a different recovery consequence", () => {
-    const core = createLifeCore({ ...workers([actorId]), playerId: actorId });
+    const core = createLifeCore(
+      { ...workers([actorId]), playerId: actorId },
+      {
+        data: SIZED_DATA,
+      },
+    );
     const openingMoney = money(core);
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
@@ -323,13 +341,16 @@ describe("shared actor chooser and committed effects", () => {
       "commit",
     );
     const make = (strength: number) =>
-      createLifeCore({
-        ...workers([actorId], {
-          liquidMinor: p("minorPerDollar") * p("moneyBufferDays"),
-          traits: { [voluntaryEffort]: strength },
-        }),
-        playerId: actorId,
-      });
+      createLifeCore(
+        {
+          ...workers([actorId], {
+            liquidMinor: p("minorPerDollar") * p("moneyBufferDays"),
+            traits: { [voluntaryEffort]: strength },
+          }),
+          playerId: actorId,
+        },
+        { data: SIZED_DATA },
+      );
     const high = make(p("traitScale"));
     const low = make(p("traitScale") * p("negativeOne"));
     const openingHigh = money(high);
@@ -366,7 +387,10 @@ describe("shared actor chooser and committed effects", () => {
 
   it("lets mood and stress change the chosen act through action-specific recorded emotion contributions", () => {
     const decide = (mood: number, stress: number) => {
-      const core = createLifeCore({ ...workers([actorId]), playerId: actorId });
+      const core = createLifeCore(
+        { ...workers([actorId]), playerId: actorId },
+        { data: SIZED_DATA },
+      );
       const actor = core.people.get(actorId)!;
       coreAPI(core).updatePerson(actorId, {
         affect: { ...actor.affect, mood, stress },

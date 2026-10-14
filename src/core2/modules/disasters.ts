@@ -316,7 +316,12 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
         accounts.main(org.id),
         Math.floor((damage * size(org.id)) / total),
       ])
-    : [[outsideMarketFor(core, residentsRuntime(core)!, town), damage]];
+    : [
+        [
+          accounts.main(outsideMarketFor(core, residentsRuntime(core)!, town)),
+          damage,
+        ],
+      ];
   parts[0]![1] += damage - parts.reduce((n, [, v]) => n + v, 0);
   for (const [to, cents] of parts) {
     if (cents <= 0) continue;
