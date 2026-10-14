@@ -1,15 +1,15 @@
-# Real disasters in games that open before October 9, 2026, Social Security under the law in force, and a played year under two minutes
+# Real disasters in games that open before October 9, 2026, Social Security under the law in force, prices that no longer run away, and a played year under two minutes
 
-Before: no disaster touched a town, and Congress couldn't change Social Security ages.
+Before: no disasters, fixed Social Security ages, and Woodmere prices up 21% a year.
 
-After: games opening before October 9, 2026, get FEMA's real disasters on their dates, with aid and repairs. Claims follow the ages in force.
+After: games opening before October 9, 2026, get FEMA's real disasters on their dates, with aid and repairs. Claims follow the ages in force, and Woodmere prices rose 1.9% in a year.
 
 **Your calls:**
 
-- After FEMA's records end: the game keeps its own weather record, or later games have no disasters.
-- At your personality weight of 1, a test worker's effort trait alone chose work or rest, even under stress (see "Known problems"). Keep 1, or rebalance?
+- After FEMA's records end: our own weather record, or no disasters?
+- At your personality weight of 1, a test worker's effort trait alone chose work or rest, even stressed ("Known problems"). Keep 1, or rebalance?
 
-**What you need to do:** in the evening build, open on January 1, 2021 in a Louisiana or Florida town and play the year.
+**What you need to do:** in the evening build, open January 1, 2021, in a Louisiana or Florida town; play the year.
 
 **Also read first:** a played year's slowest day is over budget (next section).
 
@@ -26,6 +26,7 @@ After: games opening before October 9, 2026, get FEMA's real disasters on their 
 - Social Security claims during play follow the law in force, so if Congress raises the full retirement age, people claim later. The evening build opens the laws engine (`src/bench/world.ts:300`), so this applies there.
 - Residents' relatives who live in other towns now spend most of their income instead of keeping all of it, so far less money piles up in the background population.
 - Families with children in private school split their tuition among the town's private schools by size, instead of each family being assigned to one.
+- Town prices no longer run away. Over a year in Woodmere, New York, the average business's price rose 1.9%, where it had risen 21%; the price index the game reads rose 3.1%. A business also raises its prices when its own workers get a raise, such as a new minimum wage.
 - Families who move into town get family names from the generator that names invented officials. It draws from the state's name records and refuses a real officeholder's name (`src/core2/officials-identity.ts:72`).
 
 ## Why each change works
@@ -46,6 +47,10 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 **Relatives elsewhere spend.** What the code did (inferred from the code): the counted population keeps one account for the town and one for each place where residents' relatives live. Only accounts with purchase flows ever spent, and the relatives' accounts have none, since they have no local stores. Now an account with income and nothing to buy locally spends 84% of its income, the share of personal income Americans spend (BEA), with sellers outside the town at each month's close (`src/core2/modules/residents.ts:702`). Measured over 2021 in Duncan Ranch Colony, Montana (seed 58b6bb74f3a80de69433f1d29cdc1851): the town's and the relatives' accounts together ended with $36.3 million instead of $56.9 million, against $6.9 million at the opening, and money balanced. The rest of that growth is the 16% of income that stands for taxes and saving. These accounts take in about $190 million a year in wages and Social Security, and 16% of that is about $30 million, close to the $29 million rise. Counted residents pay no taxes yet, and I've asked the government team about it.
 
+**Prices follow the town's real income.** What the code did (inferred from the code): each business judges demand by comparing the town's income each month with its income at the opening. The opening figure counted only residents' pay from the town's own businesses; the monthly figure also counts pay from jobs elsewhere and retirement income (`src/core2/finance-state.ts:1047`). Measured in Woodmere (seed m701-a, one run): the monthly figure read 5.6 times the opening's from the first month. By year end the income businesses read was 2.33 times the opening's, demand was 1.41 times what they could serve, and prices had risen about 17% beyond the price index. Why those three differ (inferred from the code): the income a business reads moves only partway toward each month's figure, and demand grows more slowly than income (`src/core2/business-books.ts:258`). Now each business takes the first full month it reads as its starting point and reacts to changes from there (inferred from the code, `src/core2/finance-state.ts:1053`). Same town, seed and year, one run: the income businesses read rose 2.1%, demand ended at 1.001 times what they could serve, and the average business's price rose 1.9%. Why prices now trail the 3.1% index isn't explained yet; I'll check it next.
+
+**A raise reaches prices** (the economy team asked for this). What the code does now (inferred from the code): at each monthly review a business records each worker's hourly pay. At the next review it compares those same workers' pay now with then, weighted by their hours, and raises its price by that change times pay's share of its costs. A worker hired since then isn't in the comparison, so hiring someone at higher pay doesn't raise prices (`src/core2/finance-state.ts:1176`). Measured in the test (`src/core2/finance-writer-contract.test.ts`, passing): doubling the pay of a firm whose costs are 83% pay raised its price to 1.83 times an identical firm's.
+
 **No dice in private schools or newcomers' names.** What the code did (inferred from the code): a hash of a family's id picked which private school it paid, and a hash of a household's id picked a family name from the town's names. Now tuition is split by each school's staff (`src/core2/opening-private-tuition.ts:71`), and family names come from the officials' name generator (`src/core2/modules/counted-drift.ts:436`). The no-dice check flags no new seeded pick on this branch.
 
 ## Checks
@@ -57,6 +62,7 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 ## What happens next
 
+- Find why Woodmere's prices rose 1.9% against a 3.1% price index. Raises aren't the reason: the 14 jobs that carried over through the year got raises averaging 3.1%.
 - No check caught the earlier slowdowns when main was merged into this branch on October 13 (at 11:20 and 13:23 UTC). The CI speed job shows "skipped" on all ten pull requests those merges brought in (#4079, #4095, #4096, #4097, #4102, #4105, #4106, #4107, #4108 and #4110). That job times a month of the played world before and after a change. The golden-path speed check (M0-11) tests only its comparison arithmetic on fixed numbers. The cause (from the job's log): the step that decides whether a pull request changes the core calls a search tool GitHub's machines don't have, so it always answered no. This pull request switches that step to the standard tool (`.github/workflows/m0-guard.yml:60`). The speed job then ran on this pull request; it stops for the reason under "Known problems".
 - The research for each place's citizenship rule at birth is ready for the people and government teams; full people don't carry citizenship yet.
 - Three retired parameters are gone, and two more estimates are settled (the share of a career with covered work, and the mood baseline).
