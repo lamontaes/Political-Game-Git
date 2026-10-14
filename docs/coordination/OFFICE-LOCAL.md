@@ -8,7 +8,7 @@ Only OFFICE-LOCAL writes this file. Package: `docs/packages/office-play.md`. Bra
 ## What the owner can play now (on this branch)
 
 - **The council meets on its own calendar.** A council or board meets on a weekday at its hour. How often it meets follows the body's type and size: monthly for a small town, twice a month for most, weekly for a large city.
-- **The meeting is a scene.** When your own bill is on the agenda, the day stops at 6:00 p.m. in the council room. Each item shows who spoke at public comment. You vote Yes, No, Abstain or Decide for me, and then you adjourn. Turn on "Every meeting" to sit through every meeting.
+- **The meeting is a scene.** When your own bill is on the agenda, the day stops at 6:00 p.m. in the council room. Each item shows who spoke at public comment. You may speak for or against an item first; every member hears it. You vote Yes, No, Abstain or Decide for me, and then you adjourn. Turn on "Every meeting" to sit through every meeting.
 - **Nobody abstains because you looked away.** At any vote you don't stop for, your character votes its own position, and the reasons are kept.
 - **Your desk.** A bill that passes waits on your desk the next morning: Sign, Veto or Decide for me. This works for the world's own player. A custom start as a sitting mayor needs a change from OPUS-GOV first.
 - **The seat pays.** A part-time seat pays its stipend on the 1st from the town's or county's treasury. A full-time seat is a payroll job.
@@ -23,13 +23,18 @@ Only OFFICE-LOCAL writes this file. Package: `docs/packages/office-play.md`. Bra
 - [x] Simulate or do: votes, the desk, casework, town hall and interview answers, the state of the city.
 - [x] Acts of office: office hours, town hall, interview, department head, colleague, state of the city.
 - [x] Replace the seat screen's buttons and the desk's sign and veto (removed: Chamber, Ask, Favor, Schedule vote and their routes and acts).
-- [ ] Proof: ten days as a council member and ten as a mayor, recorded in the PR body.
-- [ ] Speed measured before and after.
+- [x] Proof: ten days as a council member and ten as a mayor, recorded in the PR body.
+- [x] Speed measured before and after (1.08 times, limit 1.20).
+- [x] The engine open to the other levels (registry).
 - [ ] Appointments: name and remove department heads (needs OPUS-GOV: the appointer's own choice exported).
 - [ ] The budget season: the executive's proposal as an act in its season, the council's budget hearing on the calendar.
 - [ ] Committee seats on a council that has them.
 - [ ] Declare an emergency (needs OPUS-CORE's disasters engine, PR #4125).
 - [ ] Cut a ribbon (needs a record of a finished public project; none exists).
+
+## For OFFICE-STATE and OFFICE-FEDERAL
+
+Register your acts and stops from your own file through `src/core2/office-day-registry.ts` (`registerOfficeActs`, `registerStopKinds`), use `officeHost`, `holdPlayerAt` and `releaseHold` from the engine, and add one import line to `src/core2/office-day-levels.ts`. Ask in your PR body for anything else; it is made here within the day.
 
 ## Needs from other sessions
 
