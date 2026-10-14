@@ -325,9 +325,9 @@
     }
   },
   "jobsLetGoBaseline": {
-    "value": -4.6,
+    "value": -3.9,
     "tag": "TUNABLE",
-    "citation": "Layoffs and discharges at establishments that are not shrinking, where the role is refilled (Davis, Faberman and Haltiwanger 2012, J. Monetary Econ. 59(1), the hires and separations against establishment growth); checked against JOLTS layoffs and hires.",
+    "citation": "Layoffs and discharges at establishments that are not shrinking, where the role is refilled (Davis, Faberman and Haltiwanger 2012, J. Monetary Econ. 59(1), the hires and separations against establishment growth); checked against JOLTS layoffs and hires. Recalibrated Oct 14 after opening tenure and the matching function: layoffs 1.1 to 1.2% a month in Monett, Missouri, East Carbon, Utah and Seneca, Pennsylvania (JOLTS 1.4%).",
     "spread": {
       "low": -5.5,
       "high": -3.0,
