@@ -626,16 +626,12 @@ function budgetChambers(
     level: string;
     jurisdiction: string;
   }[];
-  if (gov.level === "federal") {
-    const house = offices.find((o) => o.kind.startsWith("us-house"));
-    return house
-      ? {
-          chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
-          introducedIn: house.id,
-          body: "Congress",
-        }
-      : null;
-  }
+  if (gov.level === "federal")
+    return {
+      chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
+      introducedIn: FEDERAL_HOUSE,
+      body: "Congress",
+    };
   if (gov.level === "state") {
     const state = offices
       .filter(
@@ -848,15 +844,7 @@ function numberAndForm(
   api: CoreAPI,
   officeId: string,
 ): Pick<BillRow, "number" | "form"> {
-  const body = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(officeId) as unknown as {
-    id: string;
-    kind: string;
-    jurisdiction: string;
-    governmentName: string;
-  };
+  const body = bodyOf(api, officeId)!;
   const numbering = bodyNumbering(body, api.state.date);
   if (numbering.kind === "ordinance") {
     // stopgapId: SG-GOV-local-bill-numbering (one national ordinance numbering for every town)
@@ -1095,6 +1083,48 @@ const NON_VOTING = new Set(
 );
 export const FEDERAL_HOUSE = "federal:us-house";
 export const FEDERAL_SENATE = "federal:us-senate";
+
+/**
+ * A bill's body: its office row, or for Congress, the one national chamber
+ * (the House or the Senate, the same in every world), not any state's seat.
+ */
+export function bodyOf(
+  api: CoreAPI,
+  officeId: string,
+):
+  | {
+      readonly id: string;
+      readonly kind: string;
+      readonly jurisdiction: string;
+      readonly governmentName: string;
+    }
+  | undefined {
+  if (officeId === FEDERAL_HOUSE)
+    return {
+      id: officeId,
+      kind: "us-house",
+      jurisdiction: "US",
+      governmentName: "the Congress of the United States",
+    };
+  if (officeId === FEDERAL_SENATE)
+    return {
+      id: officeId,
+      kind: "us-senate",
+      jurisdiction: "US",
+      governmentName: "the Congress of the United States",
+    };
+  return api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as
+    | {
+        id: string;
+        kind: string;
+        jurisdiction: string;
+        governmentName: string;
+      }
+    | undefined;
+}
 
 /**
  * Every member of Congress, seat by seat with the party that holds it (public
@@ -1811,11 +1841,7 @@ export function obligationsOf(
 
 /** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
 function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(bill.bodyOfficeId) as unknown as
-    { kind: string; jurisdiction: string } | undefined;
+  const office = bodyOf(api, bill.bodyOfficeId);
   if (office?.kind.startsWith("us-house") || office?.kind === "us-senate")
     return office.kind === "us-senate"
       ? [FEDERAL_SENATE, FEDERAL_HOUSE]
@@ -2211,10 +2237,7 @@ export function executiveOf(
   readonly federal: boolean;
 } {
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const body = offices.table("offices").get(bodyOfficeId) as unknown as {
-    jurisdiction: string;
-    kind: string;
-  };
+  const body = bodyOf(api, bodyOfficeId)!;
   const federal = body.kind.startsWith("us-house") || body.kind === "us-senate";
   const office = (
     offices
