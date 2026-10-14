@@ -68,9 +68,8 @@ console.log(
             s.bills.filter((b) => b.fate === "voted").map((b) => b.decidedOn),
           ).size,
           firstVote: s.bills.find((b) => b.fate === "voted")?.decidedOn,
-          lastVote: [...s.bills]
-            .reverse()
-            .find((b) => b.fate === "voted")?.decidedOn,
+          lastVote: [...s.bills].reverse().find((b) => b.fate === "voted")
+            ?.decidedOn,
           died: s.bills.filter((b) => b.fate === "not-reached").length,
           byStatus: tally(s.bills.map((b) => b.status)),
           example: s.bills[0] ?? null,
