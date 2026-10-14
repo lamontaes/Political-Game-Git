@@ -24,7 +24,7 @@ import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import { registerModule } from "./state";
 import { endRecipientIncomeAtDeath } from "./finance-state";
-import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type {
   CoreAPI,
   CoreModule,
