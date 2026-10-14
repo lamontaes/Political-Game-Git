@@ -69,6 +69,7 @@ import {
   ballot,
   type ContestRow,
   type FilingRow,
+  seatCoversTown,
 } from "./elections";
 import {
   CAMPAIGNS_MODULE_ID,
@@ -2386,15 +2387,6 @@ function basePlaces(
       : { places: [], home: null };
   }
   return { places: [], home: null };
-}
-
-/** Whether a seat's district covers the town (a seat the town doesn't vote for, otherwise). */
-function seatCoversTown(api: CoreAPI, seatId: string): boolean {
-  const seat = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("seats")
-    .get(seatId) as unknown as { coversTown?: boolean } | undefined;
-  return seat?.coversTown !== false;
 }
 
 /**

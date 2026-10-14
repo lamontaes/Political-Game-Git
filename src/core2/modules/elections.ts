@@ -556,6 +556,15 @@ export function filingOfficeFor(
   return filingRulesFor(api, contest, side);
 }
 
+/** Whether a seat's district covers the town (a seat the town doesn't vote for, otherwise). */
+export function seatCoversTown(api: CoreAPI, seatId: string): boolean {
+  const seat = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("seats")
+    .get(seatId) as unknown as { coversTown?: boolean } | undefined;
+  return seat?.coversTown !== false;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -595,11 +604,31 @@ export function checkEligibility(
         "serving",
       ]) as unknown as TermRow[]
   ).some((t) => t.personId === personId);
+  // A legislative district's own rule: its members live in it. A legislator
+  // serving another district of the same chamber lives there, and a town
+  // resident lives in the district only if the district covers the town.
+  const chamber = (seatId: string) => seatId.split(":").slice(0, 3).join(":");
+  const otherDistrict =
+    contest.family === "stateLegislative" &&
+    ((
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("byPerson", [personId]) as unknown as TermRow[]
+    ).some(
+      (t) =>
+        t.status === "serving" &&
+        t.seatId !== contest.seatId &&
+        chamber(t.seatId) === chamber(contest.seatId),
+    ) ||
+      (person.placeId === town(api).townPlaceId &&
+        !seatCoversTown(api, contest.seatId)));
   const resident =
     holdsSeat ||
-    (contest.level === "federal" || contest.level === "state"
-      ? stateOfPlace(person.placeId) === town(api).stateKey
-      : person.placeId === town(api).townPlaceId);
+    (!otherDistrict &&
+      (contest.level === "federal" || contest.level === "state"
+        ? stateOfPlace(person.placeId) === town(api).stateKey
+        : person.placeId === town(api).townPlaceId));
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",

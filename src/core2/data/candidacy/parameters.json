@@ -200,6 +200,12 @@
     "citation": "How many people a party's officers ask in turn, strongest standing first, to fill a seat its side has no candidate for, before they give up. Party recruiters work down a short list (Sanbonmatsu 2006, ch. 4; Kazee 1994, Who Runs for Congress?, ch. 5). Spread 3 to 10.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
+  "candidacyCommitteeNamed": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The reason a party's committee adds when it names a nominee for a race no one it asked agreed to run in, filling its ballot vacancy as state election codes allow (e.g. 10 ILCS 5/7-61; Pa. 25 P.S. 2939): recorded on the nominee's decision so the run says why. The size only marks the reason; the committee's choice is the asked person whose own reasons came nearest to running. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "candidacyScreenMargin": {
     "value": 0.5,
     "tag": "TUNABLE",

@@ -417,6 +417,13 @@ function table(api: CoreAPI) {
   return api.moduleState(CANDIDACY_MODULE_ID).table("decisions");
 }
 
+/** How near a decision came to running: its run score less staying out. */
+function runGap(decision: CandidacyDecision): number {
+  const score = (id: string) =>
+    decision.scores.find((s) => s.actionId === id)?.score ?? 0;
+  return score(RUN.id) - score(STAY_OUT.id);
+}
+
 /** One person decides whether to run in an open contest; the decision is kept. */
 export function decideToRun(
   api: CoreAPI,
@@ -1128,6 +1135,32 @@ function recruitParties(
       if (decision?.run) {
         accepted = person.id;
         break;
+      }
+    }
+    // No one asked agreed: the party's committee fills its ballot vacancy,
+    // as state election codes let it (e.g. 10 ILCS 5/7-61), naming the one
+    // asked whose own reasons came nearest to running.
+    if (!accepted) {
+      const nearest = askedIds
+        .map((id) => table(api).get(`${contest.id}:${id}`))
+        .map((row) => row as unknown as CandidacyDecision | undefined)
+        .filter((row): row is CandidacyDecision => !!row)
+        .map((row) => ({ row, gap: runGap(row) }))
+        .sort(
+          (a, b) =>
+            b.gap - a.gap || a.row.personId.localeCompare(b.row.personId),
+        )[0];
+      if (nearest) {
+        table(api).put({
+          ...nearest.row,
+          run: true,
+          reasons: {
+            ...nearest.row.reasons,
+            committee: c(api, "candidacyCommitteeNamed"),
+          },
+          sourceIds: [...nearest.row.sourceIds, party.id],
+        } as unknown as ModuleRow);
+        accepted = nearest.row.personId;
       }
     }
     recruits.put({

@@ -269,11 +269,15 @@ export function countedAppeal(
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
     // Being known, and for what: in town by the town's share who know the
-    // candidate; beyond it by the race's share who do.
-    const recognition =
-      (where.inTown ? entry.recognition : (entry.outsideRecognition ?? 0)) *
-      (campaignParameter("countedRecognitionWeight") +
-        platformAgreement(lean, entry.platform));
+    // candidate, the name itself a cue in a low-information local race;
+    // beyond it by the race's share who know what the candidate stands for
+    // (the bare name's pull there is the incumbency already counted).
+    const recognition = where.inTown
+      ? entry.recognition *
+        (campaignParameter("countedRecognitionWeight") +
+          platformAgreement(lean, entry.platform))
+      : (entry.outsideRecognition ?? 0) *
+        platformAgreement(lean, entry.platform);
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
