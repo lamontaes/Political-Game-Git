@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   bodyForChamber,
+  createLegislativeScenario,
   type LegislativeScenario,
 } from "./legislation-scenarios";
-import { createLegislativeScenario } from "./legislation-scenario-world";
 import {
   introduceMeasure,
   placeMeasureOnCalendar,

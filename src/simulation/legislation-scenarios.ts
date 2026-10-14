@@ -1,15 +1,8 @@
-import {
-  ALASKA_CONTEXT,
-  KENTUCKY_CONTEXT,
-  NEBRASKA_CONTEXT,
-  type DemoJurisdictionContext,
-} from "./demo-jurisdiction-context";
-
-export {
-  ALASKA_CONTEXT,
-  KENTUCKY_CONTEXT,
-  NEBRASKA_CONTEXT,
-} from "./demo-jurisdiction-context";
+import { makeIsoDate } from "./dates";
+import { createScenarioWorld } from "./demo";
+import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
+import { createStableId } from "./ids";
+import { introduceMeasure } from "./legislation";
 import {
   ALASKA_RULE_PACK,
   KENTUCKY_RULE_PACK,
@@ -20,6 +13,7 @@ import {
   legislativeInstitutionContext,
   legislativePackForWorkKey,
 } from "./legislative-institutions";
+import { personName } from "./people";
 import type {
   EntityId,
   IsoDate,
@@ -156,6 +150,80 @@ export function votePlanKeyForConcurrence(chamberKey: string): string {
   return `concurrence:${chamberKey}`;
 }
 
+const KENTUCKY_JURISDICTION_ID = createStableId(
+  "jurisdiction",
+  "definition:us-ky-commonwealth-placeholder",
+);
+const NEBRASKA_JURISDICTION_ID = createStableId(
+  "jurisdiction",
+  "definition:us-ne-state-placeholder",
+);
+const ALASKA_JURISDICTION_ID = createStableId(
+  "jurisdiction",
+  "definition:us-ak-state-placeholder",
+);
+
+function stateContext(
+  id: EntityId,
+  slug: string,
+  name: string,
+  parentName: string,
+  timeZone: string,
+  utcOffsetMinutes: number,
+): DemoJurisdictionContext {
+  return {
+    jurisdiction: {
+      id,
+      slug,
+      name,
+      kind: "state-placeholder",
+      parentName,
+      provenance: {
+        asOf: null,
+        source: null,
+        jurisdiction: id,
+        status: "placeholder",
+      },
+    },
+    initialMoment: {
+      date: makeIsoDate("2026-01-05"),
+      minuteOfDay: 9 * 60 + 10,
+      timeZone,
+      utcOffsetMinutes,
+    },
+    creationSummary: `Seeded world created with a ${name} placeholder for legislative play.`,
+    goalScope: `${name} placeholder`,
+    householdLocationLabel: `Synthetic ${name} location`,
+  };
+}
+
+export const KENTUCKY_CONTEXT = stateContext(
+  KENTUCKY_JURISDICTION_ID,
+  "us-ky-commonwealth-placeholder",
+  "Kentucky",
+  "United States",
+  "America/New_York",
+  -300,
+);
+
+export const NEBRASKA_CONTEXT = stateContext(
+  NEBRASKA_JURISDICTION_ID,
+  "us-ne-state-placeholder",
+  "Nebraska",
+  "United States",
+  "America/Chicago",
+  -360,
+);
+
+export const ALASKA_CONTEXT = stateContext(
+  ALASKA_JURISDICTION_ID,
+  "us-ak-state-placeholder",
+  "Alaska",
+  "United States",
+  "America/Anchorage",
+  -540,
+);
+
 const CAUCUS_LABELS = ["Majority", "Minority", "Unaffiliated"] as const;
 
 /**
@@ -260,7 +328,7 @@ export function jointBody(scenario: LegislativeProcedureContext): SeatedBody {
   };
 }
 
-export interface ScenarioBlueprint {
+interface ScenarioBlueprint {
   readonly scenarioKey: string;
   readonly label: string;
   readonly seed: string;
@@ -663,15 +731,86 @@ export function legislativeScenarioKeysForPlace(
   ).map((blueprint) => blueprint.scenarioKey);
 }
 
-/** The authored scenario behind a key, seed included (developer worlds build from it). */
-export function authoredScenario(
-  scenarioKey: string,
-): ScenarioBlueprint | undefined {
-  return BLUEPRINTS.find((candidate) => candidate.scenarioKey === scenarioKey);
-}
-
 export function legislativeScenarioKeys(): readonly string[] {
   return BLUEPRINTS.map((blueprint) => blueprint.scenarioKey);
+}
+
+/**
+ * Builds a playable scenario: a seeded world, a seated legislature, and one
+ * measure already filed and waiting for referral.
+ */
+export function createLegislativeScenario(
+  scenarioKey: string,
+): LegislativeScenario {
+  const blueprint = BLUEPRINTS.find(
+    (candidate) => candidate.scenarioKey === scenarioKey,
+  );
+  if (!blueprint) {
+    throw new Error(`No legislative scenario named '${scenarioKey}'.`);
+  }
+
+  const baseWorld = createScenarioWorld(blueprint.seed, blueprint.context, {
+    peopleCount: 6,
+  });
+  const playerPersonId = baseWorld.personOrder[0];
+  if (!playerPersonId) {
+    throw new Error("Legislative scenario world produced no people.");
+  }
+
+  const linked = baseWorld.personOrder.map((personId) => ({
+    personId,
+    name: personName(baseWorld.people[personId]!),
+  }));
+
+  const world = introduceMeasure(
+    { ...baseWorld, control: { kind: "person", personId: playerPersonId } },
+    {
+      stableKey: `${blueprint.scenarioKey}:measure`,
+      jurisdictionId: blueprint.context.jurisdiction.id,
+      rulePackId: blueprint.pack.packId,
+      designation: blueprint.designation,
+      shortTitle: blueprint.shortTitle,
+      summary: blueprint.summary,
+      origin: "member-introduction",
+      subjectClass: blueprint.subjectClass,
+      sponsorPersonId: playerPersonId,
+    },
+  );
+
+  const measure = (world.history.legislativeMeasures ?? []).find(
+    (record) => record.stableKey === `${blueprint.scenarioKey}:measure`,
+  );
+  if (!measure) {
+    throw new Error("Legislative scenario failed to file its measure.");
+  }
+
+  const bodies = blueprint.pack.chambers.map((chamber, index) =>
+    seatChamber(
+      chamber.chamberKey,
+      chamber.name,
+      authoredScenarioSeatCount(blueprint.pack, chamber.chamberKey),
+      index === 0 ? linked : [],
+      blueprint.nonpartisan,
+    ),
+  );
+
+  const committeeSize =
+    blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? 7;
+
+  return {
+    scenarioKey: blueprint.scenarioKey,
+    label: blueprint.label,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
+    world,
+    pack: blueprint.pack,
+    measureId: measure.id,
+    bodies,
+    playerPersonId,
+    committeeMemberCount: committeeSize,
+    votePlan: blueprint.votePlan,
+    governorAction: blueprint.governorAction,
+    governorRationale: blueprint.governorRationale,
+  };
 }
 
 /**

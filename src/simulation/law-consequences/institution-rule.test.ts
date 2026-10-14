@@ -1,8 +1,10 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { createWorld, assertWorldIntegrity } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
-import { type LegislativeScenario } from "../legislation-scenarios";
-import { createLegislativeScenario } from "../legislation-scenario-world";
+import {
+  createLegislativeScenario,
+  type LegislativeScenario,
+} from "../legislation-scenarios";
 import { stateJurisdictionForKey } from "../life-places";
 import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";

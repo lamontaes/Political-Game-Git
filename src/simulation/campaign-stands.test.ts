@@ -4,8 +4,10 @@ import {
   stateCampaignStand,
   type LiveQuestion,
 } from "./campaign-stands";
-import { bodyForChamber } from "./legislation-scenarios";
-import { createLegislativeScenario } from "./legislation-scenario-world";
+import {
+  bodyForChamber,
+  createLegislativeScenario,
+} from "./legislation-scenarios";
 import {
   introduceMeasure,
   placeMeasureOnCalendar,

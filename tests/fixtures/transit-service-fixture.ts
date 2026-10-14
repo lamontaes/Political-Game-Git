@@ -1,5 +1,7 @@
-import { type LegislativeProcedureContext } from "../../src/simulation/legislation-scenarios";
-import { createLegislativeScenario } from "../../src/simulation/legislation-scenario-world";
+import {
+  createLegislativeScenario,
+  type LegislativeProcedureContext,
+} from "../../src/simulation/legislation-scenarios";
 import { compileBillDraft } from "../../src/simulation/legislation-drafting";
 import { standingAuthority } from "../../src/simulation/legislation-program-families";
 import { recordFiledProvision } from "../../src/simulation/legislative-politics";
