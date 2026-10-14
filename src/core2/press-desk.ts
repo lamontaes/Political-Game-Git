@@ -141,11 +141,9 @@ export function grudge(
 ): number {
   const person = api.state.people.get(holderId);
   if (!person) return 0;
-  let out = 0;
-  for (const drive of person.drives.values())
-    if (drive.kind === "grudge" && drive.topic === `grudge:${targetId}`)
-      out = Math.max(out, drive.strength);
-  return clamp(out, 0, 1);
+  // A grudge's id names its target (the drives engine's `kind:topic`).
+  const drive = person.drives.get(`grudge:grudge:${targetId}`);
+  return drive ? clamp(drive.strength, 0, 1) : 0;
 }
 
 /**

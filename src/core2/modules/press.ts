@@ -1406,12 +1406,31 @@ export function candidateAnswers(
  */
 /** What the reporter's desk reads from the press. */
 export function deskContext(api: CoreAPI): DeskContext {
+  // Read once per desk run: a race's rivals and a campaign's ad money hold
+  // for the day's stories.
+  const rivals = new Map<string, readonly string[]>();
+  const ads = new Map<string, number>();
   return {
     parameter: pressParameter,
     followers: (outletId) => followersOf(api, outletId),
     townPlaceId: lawChain(api).townPlaceId,
-    adMoney: (outlet, personId) => adMoneyAt(api, outlet, personId),
-    rivals: (personId) => rivalsOf(api, personId),
+    adMoney: (outlet, personId) => {
+      const key = `${outlet.organizationId}|${personId}`;
+      let held = ads.get(key);
+      if (held === undefined) {
+        held = adMoneyAt(api, outlet, personId);
+        ads.set(key, held);
+      }
+      return held;
+    },
+    rivals: (personId) => {
+      let held = rivals.get(personId);
+      if (!held) {
+        held = rivalsOf(api, personId);
+        rivals.set(personId, held);
+      }
+      return held;
+    },
     printed: (wireId, outletId) =>
       (
         table(api, "stories").query("byWire", [
