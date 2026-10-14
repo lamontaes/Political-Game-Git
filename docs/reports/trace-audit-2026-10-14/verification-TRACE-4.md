@@ -34,6 +34,7 @@ Effect on the player: a whole year of play dies with an exception when a newspap
 Places and items: NM 1; NY 4; NC 8; ND 2; OH 8, 19; OK 10; OR 3; RI 11; SC 4.
 
 Cause:
+
 - The viewer line `deaths: N` counts log records whose kind matches /death|died/ in `core.durableLog` for the year (viewer.ts:98-100). The people count `alive` is read from `core.people` (viewer.ts:67).
 - A death happens at `health.ts:419-446`: `api.updatePerson(id, { alive: false })`, then `api.emit` of kind `life.death` (kind from `src/core2/data/health.json:6`). That event sets no `publicRecord` and no `news` (health.ts:350-390, `caseEvent`).
 - `state.ts:690-715` `retainLog()` keeps an event in `durableLog` only if it touches the player's circle, the focus people, or is a public record at a visible place, or is news. Most deaths are none of these, so they are not kept.
@@ -49,6 +50,7 @@ Effect on the player: none directly. The audit cannot count deaths from the log.
 Places and items: NM 6; NY 11; NC 8, 9; OH 19; OK 10, 11; OR 3, 6; RI 11; SC 5.
 
 Cause:
+
 - Counted births and arrivals: `src/core2/births-counted.ts:340-367` births (written to the births table only) and `births-counted.ts:430-460` arrivals (`admitCountedHousehold`, no `api.emit`). Named births do emit `person-birth` (`renewal.ts:224`), and SC shows two of them.
 - Counted deaths and departures: `births-counted.ts:285-304` and `departCountedHousehold` at 398-426. No event.
 - Organization growth: many engines call `api.addOrganization` and none emits `organization.founded`. Examples: campaign committees (`campaigns.ts:362`), stand-in ad sellers (`campaigns.ts:870, 1500`), government treasuries and tax collectors (`budgets.ts:244, 606`), outlets (`press.ts:418`), employers' groups and resident groups (`interest-groups.ts:203, 469`), parties (`parties.ts:191`). Only a business founding emits (`business.ts:1366`). Cause groups emit `cause-group.founded`, counted separately.
@@ -62,6 +64,7 @@ Effect on the player: none. People and places change by counts, and a filled-in 
 Places and items: NM 13 (first half); NY 16; ND 1; OH 6; OK 14; OR 2; PA 12; RI 3 (first sentence); SC 12 (first sentence).
 
 Cause:
+
 - `world-legislating.ts:638-648`, `endOfSession()`: for the U.S. session the "lower" body is `houseOffice(api)` (`world-legislating.ts:258-270`), which returns `{ id: <the town state's first us-house office id> }`. Line 648 then calls `leaderOf(api, lower.id, "majority-leader")` with that office id, not with the federal chamber id `federal:us-house` (`legislature.ts:930`).
 - `leadership.ts:288-300` `organize()` takes `members(api, "office:US-XX:us-house")`, which is only that state's House delegation (`legislature.ts:907-923`).
 - `leadership.ts:113-138` `templateOf()` knows only the ids `federal:us-house` and `federal:us-senate`. For any other office whose kind is `us-house...` it falls through to "council-manager" (line 136-137). Council-manager posts include "council-president".
@@ -77,6 +80,7 @@ Effect on the player: a stray council-president post for a congress member appea
 Places and items: NM 12; OH 7; OK 6; OR 14; PA 11; RI 3 (second and third sentences); SC 11, 12 (second half).
 
 Cause:
+
 - Bill home: `legislature.ts:545-551` `budgetChambers()` sets `introducedIn: house.id` where `house` is the first `us-house` office found. `world-legislating.ts:258-270` does the same for session bills. So every federal bill is filed under `office:US-<town state>:us-house`, which has the town state's seats (17 in PA).
 - Votes and committee: `chambersOf` (`legislature.ts:1640-1650`) turns that office into `[federal:us-house, federal:us-senate]`, so the floor vote is the whole House (433 votes) and the committee chair comes from the whole House (`committeeStage`, `legislature.ts:1791-1860`, `leadership.ts` organize of `federal:us-house`). A chair from US-KS or US-LA is the real House committee chair.
 - Sponsor: `world-legislating.ts:657-662` sets `filers` to every House and Senate member; `world-legislating.ts:480-491` picks the highest filing reason. A senator from Virginia can sponsor a bill whose home office is the New Mexico House office.
@@ -109,6 +113,7 @@ Effect on the player: a state senator has no bills to carry or study, and Senate
 Places and items: NM 8, 9 (date); NY 9; NC 18, 14 (Oct 1 and Dec 15); ND 6, 7; OH 5; OK 6, 7; OR 13, 16; PA 10; RI 5, 8; SC 9, 10.
 
 Cause:
+
 - `world-legislating.ts:74-109` `openWorldLegislating()` schedules one `session-end` for the U.S. on `congressAgendaDate` (`world-legislating.ts:167-173`, day 349 of the year = December 15, parameter `congressAgendaDayOfYear` in `src/core2/data/campaigns/parameters.json`) and one per state session on its recorded adjournment date (`agendaDatesOf`, `world-legislating.ts:111-130`; legislatures that sit all year use month 6, `fullYearSessionAgendaMonth`, so June 30).
 - `world-legislating.ts:613-692` `endOfSession()` and `world-legislating.ts:433-587` `holdSession()`: on that day every member files, `draftBill` stamps `introduced = today` (`legislature.ts:810-826`), `holdVote` runs committee, floor and executive at once (`world-legislating.ts:546-573`). Bills past the day's floor time die (`dieOnCalendar`, `world-legislating.ts:590-598`).
 
@@ -121,6 +126,7 @@ Effect on the player: a bill cannot be seen moving; everything is introduced and
 Places and items: NM 8; NY 9; NC 18; ND 6, 7; OH 5, 7; OK 4; OR 12, 13; PA 10; RI 5; SC 9, 10.
 
 Cause:
+
 - `legislature.ts:1768-1778` `committeeFor()` sends almost every bill to the "general" committee (only budget lines and income or sales tax go to "finance", minimum wage to "labor"). One committee means one chair for most bills.
 - `legislature.ts:1791-1860` `committeeStage()`: the roster size is `committeeSize` = 11 (`src/core2/data/campaigns/parameters.json:843`), so each hearing's yes plus no is 11 (OR 12, NY 9, ND 6).
 - `legislature.ts:1861-1869`: the chair holds a hearing only when the chair's own position plus a trait lean is not negative. Otherwise `heard` is false and the roster is not polled (`legislature.ts:1898-1903` counts yes and no only `if (heard)`), so the record is `bill-held-in-committee` with yes 0, no 0 (emitted at `legislature.ts:1932-1948`).
@@ -137,6 +143,7 @@ Effect on the player: most bills die in the chair's drawer with no recorded reas
 Places and items: NM 2 (state part), 9; NY 18 (see R12); ND 5; OH 4; OR 12; RI 7; SC 2; PA 9 (close split).
 
 Cause:
+
 - `legislature.ts:1676-1722` `chamberVote()` polls every member and counts `position.total > 0` as yes, `< 0` as no, `== 0` as abstain. There is no absence model, so yes + no equals the membership (99 in the OH House, 203 in the PA House).
 - `legislature.ts:1242-1330` `positionOn()`: for an official, `officials.ts:1021-1098` `officialParts()` gives a party term `pull * loyalty * lead * |care|` (`officials.ts:1054-1064`) where `lead` is the party leader's side on that bill. When the party term dominates, every member of a party votes with the leader and unrelated bills produce the same split (83-11, 26-16).
 - Budget votes use the same positions plus a duty to adopt, `budgetAdoptionDuty` = 0.3 (`legislature.ts:326-329`), so the adopted budget repeats a bill's tally (OH 4, ND 5, RI 7, NM 9).
@@ -151,6 +158,7 @@ Effect on the player: state and federal votes read as party-line stamps, so an u
 Places and items: NM 2 (board part), 4; NY 3, 6, 8; NC 3; ND 4; OH 1, 2; OK 1, 2; PA 2, 13; SC 2, 3, 14, 15.
 
 Cause:
+
 - The sponsor of each bill is the member with the highest filing reason (`world-legislating.ts:480-491`). `filingReason` (`world-legislating.ts:395-409`) includes the member's trait lean (`filerOf`, `world-legislating.ts:345-372`, a fixed per-person number from `world-legislating.bring-agenda`). The member who scores highest on that constant tends to sponsor every bill at a meeting.
 - The sponsor votes yes by definition (`legislature.ts:1268-1272`, sponsor term = 1 for oneself). Every other member votes on views plus the same per-member `trait` term (`legislature.ts:1296-1300`, `traitLean` at 1091-1102, `traitDecisionWeight` = 0.5 in `src/core2/data/parameters.json:4580`) and the sponsor-closeness term.
 - Result: 1 yes and the rest no on bill after bill (NY 3, OH 1, OK 1, SC 2), or the same 4-2 split (NM 2).
@@ -166,6 +174,7 @@ Effect on the player: town votes look the same bill after bill, so winning a vot
 Places and items: NC 1, 2 (mirrored count); OR 10; ND 10; RI 6; OK 17 (lines differ only in position).
 
 Cause: `legislature.ts:1712-1720`: `position: vote === "yes" ? stance.position : -stance.position`. `stance.position` is +1 if the bill's provision enacts the policy and -1 if it repeals it (`provisionStance`, `legislature.ts:629-660`, `value > 0 ? 1 : -1`). On a repeal bill, a "no" vote records position +1 (still for the policy). So five no votes on a repeal read as five +1 positions against a "yes 2, no 5" tally. The repeat votes are repeal attempts of a policy just enacted: `world-legislating.ts:721-770` `localMeeting()` lets a member who wants the policy gone file a repeal (`needsChange` for direction below zero at 759-763), and `lawStanding` (`world-legislating.ts:~380-393`) adds only a reluctance, not a bar.
+
 - ND 10: the graduated tax was ended by a bill that voted yes; the members' -1 positions are "against the tax", consistent with yes votes on a repeal. `laws.ts:523-526` marks `change: "ended"` when a policy question is set to 0.
 - OR 10: position -1 beside a 58-2 pass is the same thing for the two no votes of a bill, or yes votes on a repeal.
 
@@ -178,6 +187,7 @@ Effect on the player: none; the vote count is the ballot.
 Places and items: NY 18; NC 3; ND 4; OH 3; OK 5, 17; OR 11; PA 8; RI 9 (measure reuse); SC 2.
 
 Cause:
+
 - Numbering: `legislature.ts:750-758` `nextNumber()` counts per `officeId:year`. Every body (council, board, state house, U.S. House) starts at 2025-001, so one measure number names a different bill in each body.
 - `record.ts:68-80` `recordVote()` keys a row `vote:<measureId>:<personId>`, so the id does not name the body. If one person voted on the same number in two bodies, the second row would overwrite the first, and `state.ts:704` (`durableLog.has(event.id)`) would drop the second `vote-recorded` event.
 - `record.ts:102-106`: the event keeps `measureId`, `question` and `position` in `facts`. The voter is in `personIds` (`record.ts:94`) and the body is only in the source citation (`record.ts:96-100`). The viewer prints `facts` only (viewer.ts:97-98), so the voter looks missing and lines look identical.
@@ -205,6 +215,7 @@ Effect on the player: the player cannot see who took a vacated seat, or how, or 
 Places and items: NY 5 (state seats); OK 8; PA 5; RI 1; SC 7.
 
 Cause:
+
 - `offices.ts:920-947` `fillVacancy()` sets status "awaiting-election" and a date, then asks the elections engine to open a real race (`specialElections`, registered at `voting.ts:296-301`).
 - `elections.ts:399-400` `specialContestFor()` looks the seat up in `townSeats()` (seats that cover the town) and returns null when it is not found. A state-house seat for another district is not found, so no contest, no filing, no result.
 - `offices.ts:949-957`: with no race, a `special-election` calendar item is scheduled. `offices.ts:1000-1051` `officesCalendarWork()` on that date ends the interim term and fills the seat by `fillVacancy` with a forced "appointment" ("the special election (stand-in)"), seating a named official. Registered stopgap `SG-GOV-special-election-appointee` (offices.ts:1007-1009).
@@ -219,6 +230,7 @@ Effect on the player: state and federal vacancies never become elections the pla
 Places and items: OH 9 (mayor); SC 6 (assessor, board seat 5 specials).
 
 Cause:
+
 - Who runs: the pool is town people plus counted adults who clear the stay-out bar (`candidacy.ts:699-745`, `countedScreen` at `candidacy.ts:777-823`). If no one clears it, `runIds` is empty.
 - `voting.ts:1963-1969`: `totals` is built from the filings, so it is `{}`. `voting.ts:1976-1989`: with no one above zero, `winnerId` is null.
 - `voting.ts:2060-2062`: no winner means `openNextCycle(api, contest.seatId)` and nothing else. For a special election, `vacancyFilled` (voting.ts:2528) is only called on a win, so the vacancy stays "awaiting-election" forever (SC 6).
@@ -233,6 +245,7 @@ Effect on the player: an open mayor's office or council seat can simply stay vac
 Places and items: NM 10, 11; NY 5 (tables part), 16 (terms count); NC 16; ND 12, 13; OK 3, 8; OR 17; PA 5, 6, 15; RI 1, 15; SC 8, 17.
 
 Cause:
+
 - `viewer.ts:235-242` dumps tables that do not exist under those module names. `module-state.ts:182` throws "Unregistered module table: <name>" and `viewer.ts:195-207` prints the message. Real homes: vacancies in `core2-offices-v1` (`offices.ts:128`); contests and filings in `core2-elections-v1`; campaigns in `core2-campaigns-v1`; the executive module has `appointments`, `orders`, `desk`, `review` (`executive.ts:95-99`) but no `offices` or `terms`; budgets and governments live in `core2-budgets-v1` (`budgets.ts:55`), not `core2-legislature-v1`; the voting module has `chosen`, `ballots`, `countedBallots`, `turnout`, `pollingPlaces`, `results`, `places` (`voting.ts:259-276`).
 - "0 of N": the `high` filter (`viewer.ts:210-212`) keeps only rows without `gus2025`, `place:<digit>` or `county:<digit>` in the id. Local contests are removed, so N counts everything and the shown count is state and federal only.
 - "terms 709 of 897 lists 12": the second terms dump passes `limit` 12 (`viewer.ts:224-229`).
@@ -246,6 +259,7 @@ Verdict: VIEWER (except the NM 10 contradiction, NOT FOUND).
 Places and items: NY 1, 2; NC 6; PA 1; SC 1; OH 12 (lopsided totals).
 
 Cause:
+
 - `voting.ts:1883-1962`: the count adds named voters, counted residents scaled up by `countedScale` (citizen share, `voting.ts:2136-2145`), and the rest of the race's electorate place by place.
 - `voting.ts:2152-2176` `restOfTown()` adds the town's `referencePopulation` past its named and counted people, at their adult and citizen shares. `voting.ts:2256-2290` `racePlaces()` turns that into the "rest of the town" electorate.
 - The header's `people` is `core.people.size` (viewer.ts:67), which holds named people only. The counted residents and the rest of the town are not in it.
@@ -266,6 +280,7 @@ Verdict: EXPECTED (an ESTIMATED average per kind). Weak as history.
 Places and items: NM 16, 19; NY 14 (first half); NC 15; OK 12; OR 15; RI 2; SC 13.
 
 Cause:
+
 - Unit: budget values are minor units, which are cents (viewer divides by 100, viewer.ts:115). `-11083760726950` cents is $110.8 billion. NY 14's "if dollars, $11 trillion" is the wrong reading.
 - The law "fiscal.balanced-operating-budget" passes Congress on December 15 (R7). `law-reach/group-b.ts:285-295` applies it through `moveBudget` (`law-reach/group-b-money.ts:~362-418`) with `balancePlan` (`law-reach/group-b-money.ts:427-444`): it cuts every non-interest line in proportion, `-ceil(minor * ratio)`, until spending fits revenue. `budgets.ts:1310-1357` `amendBudget()` writes it and emits `budget-line-changed` (the measure id `...#balance#2025-12-15` is the stamp, `group-b-money.ts:~372`).
 - The same cut lowers the Social Security line, which lowers each retiree's award. `budgets-treasury.ts:556-600` `landOn()` emits `law.effect-landed` with from and to amounts (NM 16: 170832 to 120629) and by design names no law id ("Nothing here says why"). The law is stored in the `landed` row (`budgets-treasury.ts:599-613`) and the person ties it to the law only if they learned of it (`attribute`, `budgets-treasury.ts:632-676`).
@@ -304,6 +319,7 @@ Verdict: EXPECTED (a marked ESTIMATE, `laws.ts:244-251`).
 Places and items: NM 3, 11 (governor); NC 10; ND 13, 17; OK 3; OR 8; PA 15; RI 6, 15; SC 17 (executive part); OH 17 (no tally on the record).
 
 Cause:
+
 - `legislature.ts:2133-2166` `executiveAction()`: the veto sets `status` "vetoed" or "overridden", writes `votes` rows and calls the desk hook. `executive.ts:505-518` `recordDesk()` writes a `desk` table row. Nothing calls `api.emit`; there is no `bill-vetoed` kind. The viewer asks for kinds `bill-signed`, `bill-vetoed`, `veto` (viewer.ts:292-306) that the engine never emits.
 - A failed bill (tie or no majority) sets `status: "failed"` with no event (`legislature.ts:2019-2023`, and the committee fail at 1983-1989). Ties fail: no tie-breaker exists for boards or a 30-seat Senate without a lieutenant governor (`legislature.ts:1129-1175` `tieBreaker`, `legislature.ts:1990-2012`). That explains OR 7 (three 15-15 ties) and RI 6 (2-2). Both are EXPECTED outcomes with no outcome record.
 - Budget votes are table rows only (`legislature.ts:316-345`, `rows.push` ... `table(api,"votes")`), no `legislative-vote` and no `vote-recorded`, so OH 17's budget bill has no tally on its record and NM 9's measure 2025-054 has no vote record.
@@ -316,6 +332,7 @@ Effect on the player: a veto or a failed vote never becomes news or a scene.
 ### R24. The viewer shows only part of the log
 
 Places and items:
+
 - NM 3 (which bills enacted), 4 (voters).
 - NY 7, 15.
 - NC 11, 12 (took-office and debate counts), 16, 17.
@@ -327,6 +344,7 @@ Places and items:
 - SC 4 (vacancy line), 8 (34 contests with no result line), 14.
 
 Cause:
+
 - Local news is the first 200 items after a reverse sort, so the newest are cut (`viewer.ts:97-98`). ND printed 12 `law-took-effect` lines while the year had 31; the missing local items come after the cut.
 - `elect` records are cut at 40 (`viewer.ts:109-112`); each fact string at 240 or 260 characters (`viewer.ts:98, 111`) - NC 6's line "stops mid-field" and OH 12's seat 0 totals "cut off" are this; dumped rows at 700 characters (`viewer.ts:205`); long values at 200 (`viewer.ts:185-190`, which also prints a long `vacancyRule` object as JSON text, RI 16).
 - The state and federal kind sections keep 60 rows per kind and only rows whose facts or id match a US-state regex (`viewer.ts:292-320`). That drops local `took-office`, local `seat-vacated` and the budget-adopted lines for non-US ids, so counts in the kinds line (32 vs 35, 14 vs 12, 5 vs 7) disagree with the lines shown.
@@ -356,6 +374,7 @@ Verdict: VIEWER.
 Places and items: ND 3 (4-1), 15, 16; NC 14 (fiscal year label); NY 12; OH 16, 17; OR 4, 18; PA 2 (5-0); RI 10; NM 9 (budget part).
 
 Cause:
+
 - A budget vote adds a duty to adopt (`budgetAdoptionDuty` = 0.3, `legislature.ts:326-329`), so a council that rejects every bill passes the budget 4-1, 5-0 or 3-0.
 - A rejected budget drops the most objected-to change and re-votes (`legislature.ts:350-378`), so the adopted budget lists dropped lines (OH 16, OH 17).
 - Fiscal years are named by the year they start (`budgets.ts:331-335`). The federal year starting October 1, 2025 is "2025" (real convention: FY2026), the same label as a state year starting July 1, 2025 (NC 14).
