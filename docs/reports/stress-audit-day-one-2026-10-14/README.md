@@ -51,7 +51,7 @@ That is 21 confirmed defects. Two smaller ones are also true. The 64 relatives l
 ## What came back clean
 
 - A counted worker filled in at the biggest employer matched the counted record exactly in both worlds: the same job, title, employer, pay and hours.
-- All 204 seats, from president to select board, are filled. Each partisan seat holds the party the source roster gives, and every officeholder was 28 or older when the term began.
+- All 204 seats, from president to select board, are filled: 193 federal and Maine seats, and 11 seats in Lubec and Washington County held by local residents. Each partisan seat holds the party the source roster gives, and every officeholder was 28 or older when the term began.
 - Federal terms start on the real dates: January 3 for Congress and January 20 for the president.
 - Of the 1,577 officials, 1,384 serve outside Maine and exist as people: 98 other senators, 437 other representatives, 49 other governors and 800 sampled state legislators.
 - Birth dates, partners, parents, siblings, grandparents, job tenure and household membership agree with each other, with no exceptions found.
