@@ -71,10 +71,15 @@ export interface Candidate {
   moment?: string;
   stage: string;
   sociability: number | null;
+  /** The scales' false version of a line (`conversation.lies`). */
+  lie?: boolean;
 }
 
 /** Every line a life said and every true reply it offered, with the line before it. */
-export function candidatesOf(life: PlayedLife): Candidate[] {
+export function candidatesOf(
+  life: PlayedLife,
+  options: { lies?: boolean } = {},
+): Candidate[] {
   const rows: Candidate[] = [];
   life.conversations.forEach((talk: RecordedConversation, at) => {
     let before = "";
@@ -101,7 +106,9 @@ export function candidatesOf(life: PlayedLife): Candidate[] {
         });
         before = `${line.speaker}: ${line.text}`;
       }
-      for (const choice of turn.choices) {
+      for (const choice of options.lies
+        ? [...turn.choices, ...turn.lies]
+        : turn.choices) {
         rows.push({
           id: `${life.seed.slice(0, 8)}:${at}:${turnAt}:${rows.length}`,
           seed: life.seed,
@@ -118,6 +125,7 @@ export function candidatesOf(life: PlayedLife): Candidate[] {
           moment: choice.wording?.bank,
           stage: choice.wording?.stage ?? "",
           sociability: sociability(talk.playerId),
+          ...(choice.lie ? { lie: true } : {}),
         });
       }
     });

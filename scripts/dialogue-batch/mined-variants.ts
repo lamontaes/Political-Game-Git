@@ -88,6 +88,8 @@ const DIRECTOR_SUBJECT: Record<string, [string, string]> = {
 
 /** The mined moment a director line was worded in: `conversation:ack:reply` is `conversation|ack/reply`. */
 export function minedMoment(bank: string | undefined): string | undefined {
+  // A mined moment passes through: `address|campaign/thanks`.
+  if (bank?.includes("|")) return bank;
   const [file, kind, role] = bank?.split(":") ?? [];
   if (!file || !kind || !role) return undefined;
   const [subject, use] = DIRECTOR_SUBJECT[`${kind}:${role}`] ?? [
@@ -240,6 +242,8 @@ export function variantsFor(
   sociability?: number,
   all = minedParts(),
   moment?: string,
+  /** Refuses a part that is the same moment in name but not in meaning. */
+  accept?: (other: IndexedPart, base: IndexedPart) => boolean,
 ): { varied: IndexedPart; variants: Variant[] } | null {
   let best: { varied: IndexedPart; variants: Variant[] } | null = null;
   for (const key of partKeys) {
@@ -250,6 +254,7 @@ export function variantsFor(
     const said = line.slice(found.index, found.index + found.length);
     const byAxis = new Map<Axis, Variant & { distance: number }>();
     for (const other of sameMoment(part, all, minedMoment(moment))) {
+      if (accept && !accept(other, part)) continue;
       const partText = fill(other.text, found.values);
       if (partText === null) continue;
       const axis = axisOf(said, partText, sociability);
