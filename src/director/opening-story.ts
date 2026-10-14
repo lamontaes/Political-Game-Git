@@ -6,11 +6,18 @@
  * composed once while the world loads; a sentence the records can't support
  * is left out, never written.
  *
+ * - It opens on the player's household at home that evening, the anchor
+ *   leading into the address by its title, so the player knows what they
+ *   are watching before the President speaks (owner, Oct 14, 2026).
  * - The address reads the macro engine's opening month against the year
- *   before (what is up, what is down), the President's own three issues (an
- *   ask of Congress only for an issue the President supports), a place only
- *   from the President's campaign-visit past facts, and the Speaker's
- *   recorded gender for the salutation.
+ *   before, saying a figure with what it is, never a bare claim ("Prices are
+ *   too high"); the President's own three issues (an ask of Congress only
+ *   for an issue the President supports); a place only from a campaign visit
+ *   to the player's own state; a governor's name only when the scene
+ *   introduces the governor; and the Speaker's recorded gender for the
+ *   salutation.
+ * - Each person the camera points out is there for a recorded reason: the
+ *   sentence that names them, or the player's own household.
  * - The news reads the address as that night's lead story and the town's own
  *   lead story that day (a closure, a hazard, a death, else its jobs figure).
  * - The address is recorded once as a public event, so the news engine
@@ -43,6 +50,7 @@ import {
   type OpeningSpeechKind,
 } from "../presentation/english-opening-speech";
 import {
+  composeLeadIn,
   composeNewsStory,
   NEWSCAST_BANK,
   type StoryKind,
@@ -53,6 +61,7 @@ import { ADDRESS_FACT } from "./opening-facts";
 import {
   openingChambers,
   openingSequence,
+  type OpeningFigure,
   type OpeningStage,
 } from "./opening-sequence";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
@@ -108,6 +117,15 @@ export interface OpeningStory {
     readonly text: string;
     readonly sourceRecordIds: readonly string[];
   };
+  /**
+   * What the player is watching, said first: the anchor's lead into the
+   * address by its title, on the news the household has on at home.
+   */
+  readonly lead: readonly {
+    readonly speaker: "anchor";
+    readonly text: string;
+    readonly sourceRecordIds: readonly string[];
+  }[];
   /** That evening's news: the address, then the town's own lead story. */
   readonly newscast: readonly OpeningNewsStory[];
   /**
@@ -134,6 +152,10 @@ interface OpeningData {
   };
   actionWords: readonly string[];
   townStoryKinds: Readonly<Record<string, StoryKind>>;
+  speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
+  named: {
+    rules: readonly { role: string; says?: string; fact?: string }[];
+  };
 }
 const DATA = openingData as unknown as OpeningData;
 const N = DATA.numbers;
@@ -298,21 +320,21 @@ function presidentGoals(official: OfficialRow): GroundedEnglishFact[] {
   });
 }
 
-/** The state the address names: the town's own state if the campaign went there, else the campaign's last stop. */
+/**
+ * The state the address names: the player's own state, when the President's
+ * campaign went there; never another state (owner, Oct 14, 2026: "I went to
+ * Minnesota" to a player in West Virginia).
+ */
 function visitedPlace(
   president: PersonState,
   townState: string | null,
 ): GroundedEnglishFact | null {
-  const visits = (president.pastFacts ?? []).filter(
-    (row) => row.kind === PRESIDENT_FACT.visit && row.facts?.stateName,
+  const chosen = (president.pastFacts ?? []).find(
+    (row) =>
+      row.kind === PRESIDENT_FACT.visit &&
+      row.facts?.stateName &&
+      row.facts?.stateKey === townState,
   );
-  const chosen =
-    visits.find((row) => row.facts?.stateKey === townState) ??
-    visits
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id))[
-      P.zero
-    ];
   return chosen ? fact(chosen.facts!.stateName!, chosen.id) : null;
 }
 
@@ -323,6 +345,7 @@ function sectionFacts(
   official: OfficialRow,
   kind: OpeningSpeechKind,
   townState: string | null,
+  onStage: ReadonlySet<string>,
 ): Record<OpeningLevel, Facts> {
   const api = coreAPI(core);
   const country = countryFacts(core, kind);
@@ -330,7 +353,12 @@ function sectionFacts(
   const governor = townState
     ? officialsIn(api, `${townState}:governor`)[P.zero]
     : undefined;
-  const governorPerson = governor ? core.people.get(governor.id) : undefined;
+  // A governor is thanked by name only when the scene introduces them by
+  // office and state (owner, Oct 14, 2026: "Thank you, Governor Munoz").
+  const governorPerson =
+    governor && onStage.has(governor.id)
+      ? core.people.get(governor.id)
+      : undefined;
   const place = visitedPlace(president, townState);
   return {
     occasion: third ? { goal: third } : {},
@@ -366,29 +394,45 @@ function composeAddressOf(
   official: OfficialRow,
   kind: OpeningSpeechKind,
   townState: string | null,
+  onStage: ReadonlySet<string>,
 ): OpeningSentence[] | null {
-  const facts = sectionFacts(core, president, official, kind, townState);
+  const facts = sectionFacts(
+    core,
+    president,
+    official,
+    kind,
+    townState,
+    onStage,
+  );
   const stage = chairStage(core);
   const sentences: OpeningSentence[] = [];
   for (const section of OPENING_SECTIONS) {
     const own = facts[section.level];
-    const moves = openingMoves(kind, section.level).map((move) => ({
-      ...move,
-      bank: {
-        ...move.bank,
-        parts: {
-          core: {
-            // A President taking office can't claim the last term's record.
-            variants: move.bank.parts.core!.variants.filter(
-              (variant) =>
-                kind !== "inaugural" ||
-                !("text" in variant) ||
-                !/^We(?:'ve| have)? (?:created|cut)\b/.test(variant.text),
-            ),
+    const moves = openingMoves(kind, section.level)
+      .map((move) => ({
+        ...move,
+        bank: {
+          ...move.bank,
+          parts: {
+            core: {
+              variants: move.bank.parts.core!.variants.filter(
+                (variant) =>
+                  "text" in variant &&
+                  // A President taking office can't claim the last term's record.
+                  (kind !== "inaugural" ||
+                    !/^We(?:'ve| have)? (?:created|cut)\b/.test(
+                      variant.text,
+                    )) &&
+                  // The country is told by its figures: a sentence that
+                  // carries the number and what it is, never a bare claim
+                  // ("Prices are too high", owner, Oct 14, 2026).
+                  (section.level !== "country" || variant.text.includes("{{")),
+              ),
+            },
           },
         },
-      },
-    }));
+      }))
+      .filter((move) => move.bank.parts.core.variants.length);
     const base = packet(
       `opening:${core.date}:${president.id}/${section.level}`,
       core.seed,
@@ -539,6 +583,45 @@ function newsStory(
 }
 
 /**
+ * Who the camera points out, each with the reason they are there: the first
+ * address sentence that names them (a salutation's "Mr. Speaker", "Thank
+ * you, Governor ..."), or the player's own household at home. Anyone else is
+ * left out (owner, Oct 14, 2026: a person lit with no recorded reason is a
+ * defect).
+ */
+function withReasons(
+  stages: readonly OpeningStage[],
+  sentences: readonly OpeningSentence[],
+  core: CoreState,
+): OpeningStage[] {
+  const namedBy = (figure: OpeningFigure): number | undefined => {
+    for (const rule of DATA.named.rules.filter(
+      (row) => row.role === figure.role,
+    )) {
+      const at = sentences.findIndex((sentence) =>
+        rule.says
+          ? new RegExp(rule.says).test(sentence.text)
+          : rule.fact
+            ? sentence.facts.includes(rule.fact) &&
+              sentence.sourceRecordIds.includes(figure.id)
+            : false,
+      );
+      if (at >= P.zero) return at;
+    }
+    return undefined;
+  };
+  return stages.map((stage) => ({
+    ...stage,
+    people: stage.people.flatMap((figure) => {
+      if (figure.role === "household")
+        return core.people.get(figure.id)?.alive ? [figure] : [];
+      const at = namedBy(figure);
+      return at === undefined ? [] : [{ ...figure, namedBy: at }];
+    }),
+  }));
+}
+
+/**
  * Compose the opening from the world's records. Pure: reads the core and
  * writes nothing. Null when the world seats no President or the address
  * can't open and close from the record.
@@ -558,14 +641,17 @@ export function composeOpeningStory(
   const kind = openingSpeechKind(
     Number(core.date.slice(P.zero, core.date.indexOf("-"))),
   );
+  const staged = openingSequence(core, playerId, president.id);
   const sentences = composeAddressOf(
     core,
     president,
     official,
     kind,
     townState,
+    new Set(staged.flatMap((stage) => stage.people.map((row) => row.id))),
   );
   if (!sentences?.length) return null;
+  const sequence = withReasons(staged, sentences, core);
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -633,8 +719,22 @@ export function composeOpeningStory(
       text: sentences.map((row) => row.text).join(" "),
       sourceRecordIds: allIds,
     },
+    lead: composeLeadIn({
+      ...packet(
+        `opening-lead:${core.date}`,
+        core.seed,
+        id,
+        "default",
+        {
+          evening: fact("yes", id),
+          topic: fact(DATA.speechTitles[kind], id),
+        },
+        [id],
+      ),
+      bankVersion: "words-newscast-v1",
+    }),
     newscast: program,
-    sequence: openingSequence(core, playerId, president.id),
+    sequence,
     home: {
       date: core.date,
       householdId: player.householdId,
