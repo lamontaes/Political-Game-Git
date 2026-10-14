@@ -55,8 +55,8 @@ import {
 } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import { organizationProfileAt } from "../life-queries";
-import { householdMixForJurisdiction } from "../household-mix";
-import type { HouseholdShape } from "../household-mix";
+import { householdMixForJurisdiction } from "../../core2/household-mix";
+import type { HouseholdShape } from "../../core2/household-mix";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";

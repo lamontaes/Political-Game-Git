@@ -4,13 +4,13 @@ import {
   householdMixForJurisdiction,
   HOUSEHOLD_SHAPE_ORDER,
 } from "./household-mix";
-import { lifePlaceByKey } from "./life-places";
+import { corePlaceByKey } from "./place-lookup";
 
 const RENO = "3260600";
 
 describe("what kinds of households a town has", () => {
   it("reads a town's own counts, and they sum to one", () => {
-    const reno = lifePlaceByKey(RENO)!;
+    const reno = corePlaceByKey(RENO)!;
     const mix = householdMixForJurisdiction(reno.context.jurisdiction.id);
     expect(mix.basis).toBe("place");
     expect(mix.shares.map(([shape]) => shape)).toEqual(HOUSEHOLD_SHAPE_ORDER);
@@ -18,7 +18,7 @@ describe("what kinds of households a town has", () => {
       1,
     );
     // Two towns are not the same town: the mix is not one number for all.
-    const houma = lifePlaceByKey("2236255")!;
+    const houma = corePlaceByKey("2236255")!;
     expect(
       householdMixForJurisdiction(houma.context.jurisdiction.id).shares,
     ).not.toEqual(mix.shares);

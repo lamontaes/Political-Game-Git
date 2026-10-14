@@ -30,7 +30,7 @@ import {
   householdMixForJurisdiction,
   type HouseholdMix,
   type HouseholdShape,
-} from "../simulation/household-mix";
+} from "./household-mix";
 import { createStableId, stableHash } from "./kernel/ids";
 import {
   corePlaceByKey,

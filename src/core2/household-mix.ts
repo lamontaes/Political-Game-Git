@@ -1,9 +1,9 @@
-import { lifePlaceByJurisdictionId } from "./life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import {
   HOUSEHOLD_MIX_META,
   HOUSEHOLD_MIX_ROWS,
 } from "./household-mix.generated";
-import type { EntityId } from "../core2/kernel/brands";
+import type { EntityId } from "./kernel/brands";
 
 export { HOUSEHOLD_MIX_META };
 
@@ -72,7 +72,7 @@ export function householdMixForJurisdiction(
   jurisdictionId: EntityId | null,
 ): HouseholdMix {
   const geoid = jurisdictionId
-    ? (lifePlaceByJurisdictionId(jurisdictionId)?.sourceGeoid ?? null)
+    ? (corePlaceByJurisdictionId(jurisdictionId)?.sourceGeoid ?? null)
     : null;
   if (geoid) {
     const place = rows().get(geoid);
