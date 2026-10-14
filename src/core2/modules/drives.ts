@@ -1242,16 +1242,25 @@ export function createDrivesModule(
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {
+        // Every confidant of one drive scores the same and ties go to the
+        // lowest id, so only that one is offered: the choice is unchanged
+        // and a person with many acquaintances scores one offer, not dozens.
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action)) {
-          if (!drive.shareable) continue;
-          for (const id of [
-            ...new Set([...actor.familyIds, ...actor.knownIds]),
-          ].sort()) {
-            if (drive.told.has(id) || id === actor.id) continue;
-            if (!api.state.people.get(id)?.alive) continue;
-            out.push(driveOffer(api, action, id, drive));
-          }
+        const serving = servingDrives(api, actor, action).filter(
+          (drive) => drive.shareable,
+        );
+        if (!serving.length) return out;
+        const ids = [
+          ...new Set([...actor.familyIds, ...actor.knownIds]),
+        ].sort();
+        for (const drive of serving) {
+          const id = ids.find(
+            (id) =>
+              !drive.told.has(id) &&
+              id !== actor.id &&
+              api.state.people.get(id)?.alive,
+          );
+          if (id) out.push(driveOffer(api, action, id, drive));
         }
         return out;
       },
