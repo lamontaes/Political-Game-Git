@@ -56,6 +56,8 @@ describe(`counted rents renew (${drawn.name}, ${drawn.state}, seed ${drawn.seed}
       new Set(counted.map((row) => row.renewedAt.slice(0, 7))).size,
     ).toBeGreaterThanOrEqual(Math.min(11, before.size));
     const after = rents();
-    for (const row of counted) expect(after.get(row.id)).toBe(row.rentMinor);
+    // A lease still running bills its renewed rent (a household that has since bought a new house rents no more).
+    for (const row of counted)
+      if (after.has(row.id)) expect(after.get(row.id)).toBe(row.rentMinor);
   }, 600_000);
 });

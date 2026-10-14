@@ -30,6 +30,7 @@ import {
   type MortgageTerms,
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
+import { strongestPulls } from "./jobs";
 import { withoutOutsideShelter } from "../housing-shelter";
 import housingConstruction from "../data/housing/construction.json" with { type: "json" };
 import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
@@ -1042,13 +1043,20 @@ function buyHomes(api: CoreAPI): void {
       c.date,
       macroPrices(api),
     );
-    // The home the household's income would buy at the county's median, as rent scales with income.
+    // A finished new house sells at today's typical home value here; otherwise the home the household's income would buy at the county's median, as rent scales with income.
+    const newHouse =
+      ((
+        store(api).table("stock").get(`stock:${household.placeId}`) as
+          { newHomesForSale?: number } | undefined
+      )?.newHomesForSale ?? 0) >= 1;
     const value =
       town[1] *
       100 *
       prices *
-      (contractRent(api, household.id, lease.amountMinor) /
-        ((town[0] ?? 1) * 100 || 1));
+      (newHouse
+        ? 1
+        : contractRent(api, household.id, lease.amountMinor) /
+          ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
     const result = chooseAct(c, head!.id, [
@@ -1152,6 +1160,186 @@ function buyHomes(api: CoreAPI): void {
   }
 }
 
+/**
+ * The wider population's renters buy the town's finished new houses from
+ * their builders, by the same reasons as a full household (the payment
+ * against the rent, the down payment against what they hold), summed as
+ * counted pulls. The down payment comes from their place's pooled cash and
+ * the pool pays the bank's loan; their rent ends.
+ */
+function buyCountedHomes(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const rt = residentsRuntime(c);
+  if (!rt || !c.modules.has("credit") || !c.modules.has("macro")) return;
+  const stock = store(api).table("stock");
+  const latest = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth: string } | undefined;
+  const month = latest
+    ? (api
+        .moduleState("macro")
+        .table("months")
+        .get(`macro-month:${latest.latestMonth}`) as
+        { mortgage30Pct: number } | undefined)
+    : undefined;
+  const town = rentValueOf(c.placeMetadata?.housingCounty ?? "");
+  if (!month || !town?.[1]) return;
+  const rate = month.mortgage30Pct / p("macroHundred"),
+    term = p("housingMortgageTermYears") * p("macroMonthsPerYear"),
+    r = rate / p("macroMonthsPerYear");
+  const factor = (principal: number) =>
+    r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
+  const prices = homePriceRatio(
+    c.placeMetadata?.housingState ?? "",
+    ACS_VALUE_DATE,
+    c.date,
+    macroPrices(api),
+  );
+  for (const account of rt.input.accounts) {
+    const placeId = account.placeId;
+    const forSale = (
+      stock.get(`stock:${placeId}`) as { newHomesForSale?: number } | undefined
+    )?.newHomesForSale;
+    if (!forSale || forSale < 1) continue;
+    // Each counted renter household's monthly pay, from its members' counted jobs.
+    const pay = new Map<string, number>();
+    for (const [jobId, flow] of rt.wageFlowByJob) {
+      const job = rt.jobs.get(jobId);
+      if (!job || job.endsAt !== undefined || flow.endedAt) continue;
+      const household = rt.householdOfPerson.get(job.personId);
+      if (household)
+        pay.set(
+          household,
+          (pay.get(household) ?? 0) +
+            (job.wageDailyMinor * p("jobsDaysPerYear")) /
+              p("macroMonthsPerYear"),
+        );
+    }
+    const homes = [...rt.households.values()].filter(
+      (row) => row.household.placeId === placeId,
+    ).length;
+    const pool = c.organizations.get(account.accountId);
+    // What a household holds is its share of the pool (their cash is pooled by place).
+    const cash = homes > 0 ? (pool?.liquidMinor ?? 0) / homes : 0;
+    const rows: {
+      id: string;
+      score: number;
+      value: number;
+      down: number;
+      payment: number;
+      income: number;
+      rentMinor: number;
+    }[] = [];
+    for (const flow of rt.flows.values()) {
+      if (
+        !flow.id.startsWith("rent:") ||
+        flow.endedAt ||
+        flow.placeId !== placeId
+      )
+        continue;
+      const householdId = flow.id.slice("rent:".length);
+      const income = pay.get(householdId) ?? 0;
+      if (income <= 0) continue;
+      // A new house sells at today's typical home value here.
+      const value = town[1] * 100 * prices;
+      const down = value * housingData.mortgage.downPayment.firstTime;
+      const payment = factor(value - down);
+      rows.push({
+        id: householdId,
+        // The bank's willingness to lend is one of the reasons: a loan it would hardly make pulls little.
+        score:
+          Math.log(Math.max(Number.MIN_VALUE, bankYes(api, payment, income))) +
+          p("housingBuyBaseline") -
+          p("housingBuyCostWeight") * ((payment - flow.amountMinor) / income) -
+          p("housingBuyDownWeight") *
+            Math.max(0, Math.log((down + 1) / (cash + 1))),
+        value,
+        down,
+        payment,
+        income,
+        rentMinor: flow.amountMinor,
+      });
+    }
+    // Only finished new houses: the counted households' other moves are the core's arrivals and departures.
+    for (const row of strongestPulls(api, `housing-buy:${placeId}`, rows).slice(
+      0,
+      Math.floor(forSale),
+    )) {
+      // A new house has its price: the loan is the rest of it.
+      const principal = Math.floor(row.value - row.down);
+      if (principal <= 0 || (pool?.liquidMinor ?? 0) < row.down) continue;
+      const seller = takeNewHome(stock, store(api).table("projects"), placeId);
+      if (!seller) break;
+      const source = {
+        tag: "ESTIMATED" as const,
+        asOf: c.date,
+        citation: housingData.mortgage.source,
+        estimatedFrom: `A new house bought by a household of the wider population for about ${Math.round((principal + row.down) / 100)} dollars with ${Math.round(row.down / 100)} down at ${(rate * 100).toFixed(2)}%, paid from its place's pooled cash.`,
+      };
+      const down = transferCash(
+        api,
+        `down-payment:${row.id}:${c.date}`,
+        account.accountId,
+        seller,
+        Math.round(row.down),
+        source,
+      );
+      const lent = lendMortgage(api, {
+        householdId: row.id,
+        borrowerId: account.accountId,
+        sellerId: seller,
+        principalMinor: principal,
+        annualRate: rate,
+        termMonths: term,
+      });
+      // What the bank can't lend the pool pays, so the builder gets the house's price.
+      const rest = transferCash(
+        api,
+        `house-price:${row.id}:${c.date}`,
+        account.accountId,
+        seller,
+        principal - lent,
+        source,
+      );
+      const rent = rt.flows.get(`rent:${row.id}`)!;
+      rent.endedAt = makeIsoDate(c.date);
+      rent.endedReason = "housing.purchase";
+      store(api)
+        .table("purchases")
+        .put({
+          id: `purchase:${row.id}:${c.date}`,
+          householdId: row.id,
+          buyerId: account.accountId,
+          date: c.date,
+          priceMinor: down + lent + rest,
+          downMinor: down + rest,
+          loanMinor: lent,
+          rate,
+          rentBeforeMinor: row.rentMinor,
+          monthlyIncomeMinor: Math.round(row.income),
+          counted: true,
+        });
+      store(api)
+        .table("dwellings")
+        .put({
+          id: `dwelling:${row.id}`,
+          householdId: row.id,
+          tenure: "own",
+          kind: "house",
+          valueMinor: down + lent + rest,
+          loanHolderId:
+            lent > 0
+              ? ([...c.organizations.values()].find(
+                  (org) => org.kind === "bank" && org.placeId === placeId,
+                )?.id ?? "")
+              : "",
+          since: c.date,
+          basis: "purchase",
+        });
+    }
+  }
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
@@ -1163,6 +1351,7 @@ function review(api: CoreAPI): void {
   payRentHelp(api);
   landlordPayout(api);
   buyHomes(api);
+  buyCountedHomes(api);
   // The landlord weighs each late lease past the grace period: how many months of rent are owed and how long.
   const late: { id: string; score: number; months: number }[] = [];
   for (const [id, row] of c.finance.contracts) {

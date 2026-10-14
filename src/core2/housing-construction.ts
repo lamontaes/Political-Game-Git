@@ -143,7 +143,7 @@ export function takeNewHome(
 ): string | undefined {
   const row = stock.get(`stock:${placeId}`) as unknown as StockRow | undefined;
   if (!row || row.newHomesForSale < 1) return undefined;
-  // Only full renters buy; counted renters and households moving in don't yet.
+  // Renters already in town buy; households moving in don't yet.
   stopgap("SG-WORLD-housing-new-home-buyers");
   const builder = (
     projects.query("all", [true]) as unknown as ProjectRow[]
