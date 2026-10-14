@@ -40,6 +40,18 @@
     "medicare-tax": {
       "levels": ["federal"],
       "source": "26 U.S.C. § 3101(b)"
+    },
+    "federal-unemployment-tax": {
+      "levels": ["federal"],
+      "source": "26 U.S.C. §§ 3301-3302"
+    },
+    "state-unemployment-tax": {
+      "levels": ["state"],
+      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+    },
+    "corporate-income-tax": {
+      "levels": ["federal", "state"],
+      "source": "26 U.S.C. § 11 (federal); state corporate income taxes under state law"
     }
   }
 }

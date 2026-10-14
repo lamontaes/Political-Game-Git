@@ -3198,5 +3198,41 @@
     "addedAt": "2026-10-14",
     "replacement": "The seat's coarse population (people by age and work, as the town's counted population is kept), from which the official's applicants come by the same reach and working-age reads.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-profit-pass-through",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 170,
+    "whatItFakes": "An owner-run business pays no tax on its profit: under the law its profit is its owner's income (a pass-through), and owners' draws and profit aren't taxed as income yet. Only businesses owned by another organization pay the corporate rate each quarter.",
+    "why": "Owner income from a business reaches the owner as draws, not payroll, and the income tax engine withholds only wages.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's share of the business's profit taxed by the income tax law in force where they live (quarterly estimated payments), read from the business's books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-premises-property-tax",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 154,
+    "whatItFakes": "Businesses pay no property tax on their premises; the property-tax engine bills homes only.",
+    "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-owner-decision-business-books",
+    "kind": "owner-decision",
+    "file": "src/core2/business-books-view.ts",
+    "line": 50,
+    "whatItFakes": "The record a screen would read for a business's books (cash, sales, costs, wages, profit, taxes paid and owed, its credit line) is built, but no screen shows it: whether a player sees another business's books is the owner's open decision.",
+    "why": "Owner ruling, Oct 14 (business audit question 5): register the question as an owner decision and build the record the screen would read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
+    "status": "open"
   }
 ]
