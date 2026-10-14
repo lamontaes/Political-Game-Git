@@ -114,7 +114,7 @@ describe("property tax bills", () => {
     const paid = billPropertyTax(api, table, homes);
     expect(paid).toBe(Math.round((40_000_000 * stateEffectiveRate("NJ")) / 4));
   });
-  it("an owner with a mortgage pays a twelfth each month into the servicer's escrow, which pays the county on New Jersey's February due date", () => {
+  it("an owner with a mortgage pays a twelfth each month into the servicer's escrow, which pays the county on New Jersey's February due date and keeps a cushion", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
         modules: [HOUSING_MODULE],
@@ -146,13 +146,17 @@ describe("property tax bills", () => {
     expect(core.people.get("owner")!.liquidMinor).toBe(
       10_000_000 - 2 * deposit,
     );
-    // The escrow paid out all it held for the quarter.
-    expect(api.accounts().balance("escrow:organization:servicer")).toBe(0);
-    // The servicer set aside December's deposit and advanced at most a cent of rounding.
+    // The escrow paid the quarter and keeps RESPA's cushion, a sixth of the year's tax.
+    expect(
+      Math.abs(
+        api.accounts().balance("escrow:organization:servicer") - annual / 6,
+      ),
+    ).toBeLessThanOrEqual(2);
+    // The servicer set aside at most December's deposit and the cushion, to within rounding.
     expect(
       100_000_000 -
         core.organizations.get("organization:servicer")!.liquidMinor,
-    ).toBeLessThanOrEqual(deposit + 1);
+    ).toBeLessThanOrEqual(deposit + annual / 6 + 2);
   });
   it("when the mortgage is paid off, the escrow's balance goes back to the owner, who then pays the installment directly", () => {
     const core = createLifeCore(input(), {
@@ -295,8 +299,17 @@ describe("property tax bills", () => {
     const levied = !["AS", "MP"].includes(
       opening.placeMetadata?.housingState ?? "",
     );
-    expect(before - cash()).toBe(
-      levied ? Math.round((30_000_000 * rate) / 12) : 0,
-    );
+    // The deposit is the yearly escrow analysis's: a twelfth of the year's tax, with any shortage below the cushion spread over twelve months.
+    const twelfth = Math.round((30_000_000 * rate) / 12);
+    const deposit = (
+      table.get(`assessment:${householdId}`) as
+        { depositMinor?: number } | undefined
+    )?.depositMinor;
+    if (!levied) expect(before - cash()).toBe(0);
+    else {
+      expect(before - cash()).toBe(deposit);
+      expect(deposit!).toBeGreaterThanOrEqual(twelfth - Math.ceil(twelfth / 6));
+      expect(deposit!).toBeLessThanOrEqual(twelfth * 4);
+    }
   }, 300_000);
 });

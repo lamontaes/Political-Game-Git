@@ -73,13 +73,16 @@ describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, seed ${
         priceMinor: number;
         downMinor: number;
         loanMinor: number;
+        sellerId?: string;
       }[]
     ).filter((row) => row.counted);
+    // Homes households gone from the town left behind sell too; the builder's are the new ones.
+    const newHouses = sold.filter((row) => row.sellerId === builder.id);
     console.log(
       `${drawn.name}: ${sold.length} new houses sold to counted renters, prices ${sold.map((r) => Math.round(r.priceMinor / 100)).join(", ")}`,
     );
     // No more than the houses for sale; where renters' pay can't carry a new house, none sell.
-    expect(sold.length).toBeLessThanOrEqual(2);
+    expect(newHouses.length).toBeLessThanOrEqual(2);
     // Each buyer's rent ended with the purchase (households moving in may have started new ones).
     expect(
       [...rt.flows.values()].filter(
@@ -91,6 +94,6 @@ describe(`counted renters buy new houses (${drawn.name}, ${drawn.state}, seed ${
       expect(row.downMinor).toBeGreaterThan(0);
       expect(row.downMinor + row.loanMinor).toBe(row.priceMinor);
     }
-    if (sold.length) expect(builder.liquidMinor).not.toBe(builderCash);
+    if (newHouses.length) expect(builder.liquidMinor).not.toBe(builderCash);
   }, 600_000);
 });

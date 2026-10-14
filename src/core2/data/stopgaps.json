@@ -3142,7 +3142,7 @@
     "id": "SG-WORLD-property-tax-due-dates-unverified",
     "kind": "assumed-data",
     "file": "src/core2/housing-property-tax.ts",
-    "line": 171,
+    "line": 216,
     "whatItFakes": "In seven places the property tax installments are the statewide default or most common local schedule without official text read: Connecticut and Texas (official code sites could not be opened), Maine, Pennsylvania, Rhode Island and Vermont (the statute leaves dates to each town), and Virginia's June half (only the December 5 default is statutory). The other 49 were confirmed or corrected from official text on 2026-10-13.",
     "why": "A research pass gathered the schedules for all 56 places in one sitting without fetching each statute; counties and towns set their own dates in several states.",
     "addedBy": "OPUS-WORLD",
@@ -3216,11 +3216,11 @@
     "file": "src/core2/housing-property-tax.ts",
     "line": 468,
     "whatItFakes": "An escrow's monthly deposit stays a twelfth of the year's tax with no cushion; when an installment comes due before the escrow holds enough, the servicer advances the rest and later deposits repay it, instead of a yearly escrow analysis that raises the payment. A servicer outside the town (a loan held outside) pays the county a twelfth each month as deposits arrive.",
-    "why": "The yearly analysis, the two-month cushion and the shortage spread over twelve months (RESPA, 12 CFR 1024.17) need each loan's escrow history.",
+    "why": "The yearly analysis, the two-month cushion and the shortage spread over twelve months (RESPA, 12 CFR 1024.17) need each loan's escrow history. Resolved by OPUS-WORLD (2026-10-14): each escrow is analyzed yearly (src/core2/housing-property-tax.ts, analyzeEscrow): a cushion of a sixth of the year's tax, a projected shortage spread over the next twelve deposits, and a surplus of $50 or more refunded to the owner. A servicer outside the town still pays the county a twelfth as deposits arrive.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-13",
     "replacement": "A yearly escrow analysis per loan under 12 CFR 1024.17: a cushion of up to a sixth of the year's tax, and a shortage spread over the next twelve payments.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-state-jobs-report-unread",

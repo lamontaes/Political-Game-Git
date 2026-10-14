@@ -134,6 +134,51 @@ interface AssessmentRow {
   escrowMinor?: number;
   /** Who holds that escrow. */
   servicerId?: string;
+  /** The monthly escrow deposit set by the last yearly analysis. */
+  depositMinor?: number;
+  /** When that analysis ran (YYYY-MM). */
+  analyzedMonth?: string;
+}
+
+/**
+ * RESPA's yearly escrow analysis (12 CFR 1024.17): the next twelve months of
+ * deposits and installments projected from today's balance, held to a
+ * cushion. A projected shortage is spread over the next twelve deposits; a
+ * surplus of at least the refund threshold goes back to the owner, and a
+ * smaller one lowers the deposit.
+ */
+function analyzeEscrow(
+  usps: string,
+  month: number,
+  months: number,
+  annual: number,
+  balance: number,
+  cushionShare: number,
+  refundThresholdMinor: number,
+): { depositMinor: number; refundMinor: number } {
+  const base = annual / months;
+  let running = balance,
+    lowest = Number.POSITIVE_INFINITY;
+  for (let k = 0; k < months; k++) {
+    const at = ((month - 1 + k) % months) + 1;
+    running += base - (dueShare(usps, at) ?? 1 / months) * annual;
+    lowest = Math.min(lowest, running);
+  }
+  const gap = annual * cushionShare - lowest;
+  if (gap > 0)
+    return { depositMinor: Math.round(base + gap / months), refundMinor: 0 };
+  if (-gap >= refundThresholdMinor)
+    return { depositMinor: Math.round(base), refundMinor: Math.floor(-gap) };
+  return { depositMinor: Math.round(base + gap / months), refundMinor: 0 };
+}
+
+/** Whole months from one YYYY-MM to another. */
+function monthsFrom(from: string, to: string): number {
+  return (
+    (Number(to.slice(0, 4)) - Number(from.slice(0, 4))) * 12 +
+    Number(to.slice(5, 7)) -
+    Number(from.slice(5, 7))
+  );
 }
 
 /**
@@ -407,6 +452,8 @@ export function billPropertyTax(
         const rest: Record<string, unknown> = { ...held };
         delete rest.escrowMinor;
         delete rest.servicerId;
+        delete rest.depositMinor;
+        delete rest.analyzedMonth;
         assessments.put(rest as { id: string });
       }
       // No mortgage: the owner pays each installment as it falls due.
@@ -420,21 +467,50 @@ export function billPropertyTax(
       );
       continue;
     }
-    // With a mortgage: a twelfth each month into the servicer's escrow, which pays the county on the due dates.
+    // With a mortgage: a monthly deposit into the servicer's escrow, which pays the county on the due dates.
     const row = assessments.get(id) as unknown as AssessmentRow;
-    const deposit = Math.round(annual / months);
     const escrow = escrowAccount(servicer, t.source);
+    const cushion = api.parameter("housingEscrowCushionShare");
     let balance = row.escrowMinor ?? 0;
     // Only an opening mortgage's escrow is already funded; a loan made in play starts empty.
     if (row.escrowMinor === undefined && loan!.opening)
-      // A new escrow already holds the deposits made since the last installment: the servicer sets them aside from its cash.
+      // A new escrow already holds the deposits made since the last installment, and its cushion: the servicer sets them aside from its cash.
       balance = moveTo(
         `escrow-opening:${home.householdId}:${c.date}`,
         accounts.main(servicer),
         escrow,
-        annual * escrowHeldShare(usps, Number(c.date.slice(5, 7)), months),
+        annual *
+          (escrowHeldShare(usps, Number(c.date.slice(5, 7)), months) + cushion),
         t.source,
       );
+    // Once a year the servicer analyzes the escrow and sets the deposit (and refunds a surplus).
+    const month = c.date.slice(0, "YYYY-MM".length);
+    let deposit = row.depositMinor ?? Math.round(annual / months);
+    let analyzedMonth = row.analyzedMonth;
+    if (
+      analyzedMonth === undefined ||
+      monthsFrom(analyzedMonth, month) >= months
+    ) {
+      const plan = analyzeEscrow(
+        usps,
+        Number(c.date.slice(5, 7)),
+        months,
+        annual,
+        balance,
+        cushion,
+        api.parameter("housingEscrowSurplusRefundMinor"),
+      );
+      deposit = plan.depositMinor;
+      analyzedMonth = month;
+      if (plan.refundMinor > 0)
+        balance -= moveTo(
+          `escrow-surplus:${home.householdId}:${c.date}`,
+          escrow,
+          ownerAccount(home.householdId, home.placeId) ?? county,
+          plan.refundMinor,
+          t.source,
+        );
+    }
     // A deposit first repays what the servicer advanced.
     const repay = Math.min(deposit, Math.max(0, -balance));
     balance += pay(
@@ -453,7 +529,13 @@ export function billPropertyTax(
       "escrow",
       t.source,
     );
-    assessments.put({ ...row, escrowMinor: balance, servicerId: servicer });
+    assessments.put({
+      ...row,
+      escrowMinor: balance,
+      servicerId: servicer,
+      depositMinor: deposit,
+      analyzedMonth,
+    });
     if (installment > 0)
       fromEscrow.push({
         id,
@@ -465,7 +547,6 @@ export function billPropertyTax(
         source: t.source,
       });
   }
-  if (escrowed.size) stopgap("SG-WORLD-property-tax-escrow-shortage");
   // The wider population's cash is pooled by place: its owners' taxes and escrow are paid from the pool.
   for (const [key, row] of pooled) {
     const account = residentsRuntime(c)?.input.accounts.find(

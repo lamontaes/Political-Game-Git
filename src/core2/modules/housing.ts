@@ -1400,6 +1400,7 @@ function buyCountedHomes(api: CoreAPI): void {
           rentBeforeMinor: row.rentMinor,
           monthlyIncomeMinor: Math.round(row.income),
           counted: true,
+          sellerId: seller,
         });
       store(api)
         .table("dwellings")

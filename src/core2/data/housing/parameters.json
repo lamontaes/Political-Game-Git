@@ -308,5 +308,15 @@
       "unit": "homes",
       "citation": "How many homes' worth of its county's owner share a place's own ACS owner share is weighed against: a place with few homes in the 5-year sample (a third of places count under 200, often 100% or 0% owner-occupied) leans toward its county, a large one keeps its own (ACS 5-year margins of error for small places)."
     }
+  },
+  "housingEscrowCushionShare": {
+    "value": 0.16666666666666666,
+    "tag": "SOURCED",
+    "citation": "RESPA, 12 CFR 1024.17(c)(1): a servicer may require a cushion of no more than one-sixth of the estimated total annual payments from the escrow account."
+  },
+  "housingEscrowSurplusRefundMinor": {
+    "value": 5000,
+    "tag": "SOURCED",
+    "citation": "RESPA, 12 CFR 1024.17(f)(2): a surplus of $50 or more is refunded to the borrower within 30 days of the escrow account analysis; a smaller one may be refunded or credited against next year's payments."
   }
 }
