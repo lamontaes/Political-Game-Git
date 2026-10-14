@@ -6,272 +6,470 @@
   "sheets": { "midday": "county-commission-rural__seats__midday.png" },
   "seats": [
     {
-      "id": "county-commission-rural:seat:0",
-      "head": [707.2, 163.5],
+      "id": "county-commission-rural:chair:board-01",
+      "chair": "board-01",
+      "head": [703.2675327034883, 164.18489583333334],
       "variants": [
         {
-          "rect": [112, 369, 105, 123],
-          "at": { "midday": [648, 157] },
-          "bottom": 277,
-          "activity": "plain"
-        },
-        {
-          "rect": [418, 369, 90, 117],
-          "at": { "midday": [655, 152] },
-          "bottom": 266,
-          "activity": "plain"
-        },
-        {
-          "rect": [815, 369, 106, 113],
-          "at": { "midday": [657, 158] },
-          "bottom": 268,
-          "activity": "plain"
-        },
-        {
-          "rect": [1028, 369, 116, 112],
-          "at": { "midday": [651, 162] },
-          "bottom": 271,
-          "activity": "reading"
-        },
-        {
-          "rect": [1507, 369, 95, 109],
-          "at": { "midday": [659, 161] },
-          "bottom": 267,
-          "activity": "reading"
-        },
-        {
-          "rect": [1691, 369, 93, 108],
-          "at": { "midday": [659, 162] },
-          "bottom": 267,
-          "activity": "reading"
-        },
-        {
-          "rect": [1146, 369, 127, 111],
-          "at": { "midday": [654, 161] },
-          "bottom": 269,
-          "activity": "reading"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:1",
-      "head": [839.0, 164.5],
-      "variants": [
-        {
-          "rect": [180, 511, 94, 99],
-          "at": { "midday": [789, 164] },
-          "bottom": 260,
-          "activity": "plain"
-        },
-        {
-          "rect": [722, 369, 91, 114],
-          "at": { "midday": [792, 164] },
-          "bottom": 275,
-          "activity": "plain"
-        },
-        {
-          "rect": [628, 369, 92, 115],
-          "at": { "midday": [791, 152] },
-          "bottom": 264,
-          "activity": "plain"
-        },
-        {
-          "rect": [1275, 369, 117, 111],
-          "at": { "midday": [781, 159] },
-          "bottom": 267,
-          "activity": "plain"
-        },
-        {
-          "rect": [1901, 369, 93, 106],
-          "at": { "midday": [795, 161] },
-          "bottom": 264,
-          "activity": "reading"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:2",
-      "head": [969.5, 163.8],
-      "variants": [
-        {
-          "rect": [923, 369, 103, 113],
-          "at": { "midday": [923, 166] },
-          "bottom": 276,
-          "activity": "plain"
-        },
-        {
-          "rect": [318, 369, 98, 121],
-          "at": { "midday": [926, 152] },
-          "bottom": 270,
-          "activity": "plain"
-        },
-        {
-          "rect": [510, 369, 116, 116],
-          "at": { "midday": [910, 157] },
-          "bottom": 270,
-          "activity": "reading"
-        },
-        {
-          "rect": [97, 511, 81, 100],
-          "at": { "midday": [916, 164] },
-          "bottom": 261,
-          "activity": "reading"
-        },
-        {
-          "rect": [1394, 369, 111, 111],
-          "at": { "midday": [912, 162] },
-          "bottom": 270,
-          "activity": "reading"
-        },
-        {
-          "rect": [0, 511, 95, 102],
-          "at": { "midday": [919, 164] },
-          "bottom": 263,
-          "activity": "reading"
-        },
-        {
-          "rect": [1786, 369, 113, 108],
-          "at": { "midday": [913, 160] },
+          "rect": [1478, 1085, 84, 102],
+          "at": { "midday": [660, 164] },
           "bottom": 265,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [703.2675327034883, 164.18489583333334]
         },
         {
-          "rect": [1604, 369, 85, 109],
-          "at": { "midday": [921, 164] },
+          "rect": [736, 1085, 108, 110],
+          "at": { "midday": [655, 157] },
+          "bottom": 266,
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [702.5428443649374, 156.83333333333334]
+        },
+        {
+          "rect": [1043, 1085, 89, 103],
+          "at": { "midday": [662, 163] },
+          "bottom": 265,
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [700.8183139534883, 162.95963541666669]
+        },
+        {
+          "rect": [1134, 1085, 119, 103],
+          "at": { "midday": [656, 163] },
+          "bottom": 265,
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [715.0154104791258, 162.95963541666669]
+        },
+        {
+          "rect": [846, 1085, 92, 106],
+          "at": { "midday": [661, 159] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [704.2711267605633, 159.28385416666669]
+        },
+        {
+          "rect": [321, 1085, 98, 118],
+          "at": { "midday": [660, 153] },
           "bottom": 270,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [707.8052325581396, 153.15755208333334]
         }
       ]
     },
     {
-      "id": "county-commission-rural:seat:3",
-      "head": [174.7, 241.7],
+      "id": "county-commission-rural:chair:board-02",
+      "chair": "board-02",
+      "head": [840.4370155038758, 165.41015625],
       "variants": [
         {
-          "rect": [1815, 0, 120, 208],
-          "at": { "midday": [139, 239] },
-          "bottom": 444,
-          "activity": "plain"
+          "rect": [1874, 1085, 85, 100],
+          "at": { "midday": [796, 165] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [840.4370155038758, 165.41015625]
         },
         {
-          "rect": [1699, 0, 114, 212],
-          "at": { "midday": [138, 246] },
+          "rect": [1255, 1085, 104, 103],
+          "at": { "midday": [787, 163] },
+          "bottom": 265,
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [840.3425467022494, 162.95963541666669]
+        },
+        {
+          "rect": [1361, 1085, 115, 103],
+          "at": { "midday": [781, 163] },
+          "bottom": 265,
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [837.2151162790698, 162.95963541666669]
+        },
+        {
+          "rect": [1750, 1085, 122, 101],
+          "at": { "midday": [776, 164] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [836.3983987800228, 164.18489583333334]
+        },
+        {
+          "rect": [515, 1085, 109, 111],
+          "at": { "midday": [785, 154] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [838.0318337781166, 154.3828125]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:board-03",
+      "chair": "board-03",
+      "head": [961.0513144590495, 171.53645833333334],
+      "variants": [
+        {
+          "rect": [81, 1289, 96, 93],
+          "at": { "midday": [919, 172] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [961.0513144590495, 171.53645833333334]
+        },
+        {
+          "rect": [1961, 1085, 72, 100],
+          "at": { "midday": [927, 161] },
+          "bottom": 260,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [959.48370186809, 160.50911458333334]
+        },
+        {
+          "rect": [940, 1085, 101, 106],
+          "at": { "midday": [916, 159] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [959.6424839905627, 159.28385416666669]
+        },
+        {
+          "rect": [0, 1289, 79, 100],
+          "at": { "midday": [928, 165] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [965.4813611491107, 165.41015625]
+        },
+        {
+          "rect": [626, 1085, 108, 111],
+          "at": { "midday": [914, 156] },
+          "bottom": 266,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [971.3813122923588, 155.60807291666669]
+        },
+        {
+          "rect": [1564, 1085, 89, 102],
+          "at": { "midday": [922, 165] },
+          "bottom": 266,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [966.7218570947084, 165.41015625]
+        },
+        {
+          "rect": [1655, 1085, 93, 102],
+          "at": { "midday": [930, 164] },
+          "bottom": 265,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [974.0559033989266, 164.18489583333334]
+        },
+        {
+          "rect": [421, 1085, 92, 112],
+          "at": { "midday": [926, 153] },
+          "bottom": 264,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [970.7128911857593, 153.15755208333334]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-001",
+      "chair": "chair-001",
+      "head": [157.85945399393327, 253.62890625000003],
+      "variants": [
+        {
+          "rect": [210, 1085, 109, 186],
+          "at": { "midday": [129, 254] },
+          "bottom": 439,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [157.85945399393327, 253.62890625000003]
+        },
+        {
+          "rect": [114, 1085, 94, 187],
+          "at": { "midday": [132, 248] },
+          "bottom": 434,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [162.5592545396623, 247.50260416666669]
+        },
+        {
+          "rect": [0, 1085, 112, 202],
+          "at": { "midday": [141, 244] },
+          "bottom": 445,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [175.35548172757473, 243.82682291666669]
+        },
+        {
+          "rect": [1716, 767, 104, 210],
+          "at": { "midday": [140, 246] },
           "bottom": 455,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [169.7257059800664, 246.27734375000003]
         },
         {
-          "rect": [1553, 0, 144, 229],
-          "at": { "midday": [128, 234] },
+          "rect": [1330, 767, 125, 223],
+          "at": { "midday": [140, 238] },
           "bottom": 460,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [179.32650825749914, 237.70052083333334]
         }
       ]
     },
     {
-      "id": "county-commission-rural:seat:4",
-      "head": [92.8, 254.0],
+      "id": "county-commission-rural:chair:chair-000",
+      "chair": "chair-000",
+      "head": [85.91884689922479, 265.8815104166667],
       "variants": [
         {
-          "rect": [1284, 0, 118, 239],
-          "at": { "midday": [42, 253] },
-          "bottom": 489,
-          "activity": "plain"
+          "rect": [1457, 767, 106, 219],
+          "at": { "midday": [57, 266] },
+          "bottom": 484,
+          "activity": "plain",
+          "chair": "chair-000",
+          "head": [85.91884689922479, 265.8815104166667]
         },
         {
-          "rect": [1133, 0, 149, 243],
-          "at": { "midday": [44, 251] },
-          "bottom": 491,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:5",
-      "head": [184.0, 388.0],
-      "variants": [
-        {
-          "rect": [969, 0, 162, 265],
-          "at": { "midday": [123, 386] },
-          "bottom": 648,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:6",
-      "head": [1140.5, 395.0],
-      "variants": [
-        {
-          "rect": [1404, 0, 147, 234],
-          "at": { "midday": [1061, 393] },
-          "bottom": 624,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:7",
-      "head": [1332.5, 406.0],
-      "variants": [
-        {
-          "rect": [0, 369, 110, 140],
-          "at": { "midday": [1280, 404] },
-          "bottom": 541,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:8",
-      "head": [554.0, 420.0],
-      "variants": [
-        {
-          "rect": [219, 369, 97, 123],
-          "at": { "midday": [505, 418] },
-          "bottom": 538,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:9",
-      "head": [402.0, 589.0],
-      "variants": [
-        {
-          "rect": [771, 0, 196, 332],
-          "at": { "midday": [326, 587] },
-          "bottom": 916,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "county-commission-rural:seat:10",
-      "head": [1554.3, 572.5],
-      "variants": [
-        {
-          "rect": [262, 0, 274, 366],
-          "at": { "midday": [1396, 569] },
-          "bottom": 932,
-          "activity": "plain"
+          "rect": [1223, 767, 105, 228],
+          "at": { "midday": [52, 260] },
+          "bottom": 487,
+          "activity": "plain",
+          "chair": "chair-000",
+          "head": [78.85747264021887, 259.75520833333337]
         },
         {
-          "rect": [0, 0, 260, 367],
-          "at": { "midday": [1405, 572] },
-          "bottom": 936,
-          "activity": "plain"
+          "rect": [1113, 767, 108, 232],
+          "at": { "midday": [50, 259] },
+          "bottom": 490,
+          "activity": "plain",
+          "chair": "chair-000",
+          "head": [85.8089430894309, 258.5299479166667]
         }
       ]
     },
     {
-      "id": "county-commission-rural:seat:11",
-      "head": [158.5, 594.0],
+      "id": "county-commission-rural:chair:chair-015",
+      "chair": "chair-015",
+      "head": [189.07353284104158, 387.5734939759036],
       "variants": [
         {
-          "rect": [538, 0, 231, 347],
-          "at": { "midday": [58, 592] },
-          "bottom": 936,
-          "activity": "plain"
+          "rect": [1545, 411, 217, 347],
+          "at": { "midday": [63, 385] },
+          "bottom": 731,
+          "activity": "plain",
+          "chair": "chair-015",
+          "head": [189.07353284104158, 387.5734939759036]
+        },
+        {
+          "rect": [0, 0, 289, 409],
+          "at": { "midday": [42, 386] },
+          "bottom": 794,
+          "activity": "plain",
+          "chair": "chair-015",
+          "head": [188.94125340029294, 388.01129943502826]
+        },
+        {
+          "rect": [303, 411, 248, 353],
+          "at": { "midday": [78, 387] },
+          "bottom": 739,
+          "activity": "plain",
+          "chair": "chair-015",
+          "head": [188.36881188118812, 388.335]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-012",
+      "chair": "chair-012",
+      "head": [1137.7410804508356, 395.34216867469877],
+      "variants": [
+        {
+          "rect": [0, 767, 198, 316],
+          "at": { "midday": [1023, 393] },
+          "bottom": 708,
+          "activity": "plain",
+          "chair": "chair-012",
+          "head": [1137.7410804508356, 395.34216867469877]
+        },
+        {
+          "rect": [610, 0, 263, 372],
+          "at": { "midday": [1004, 393] },
+          "bottom": 764,
+          "activity": "plain",
+          "chair": "chair-012",
+          "head": [1137.7330508474577, 394.8305084745763]
+        },
+        {
+          "rect": [1764, 411, 226, 321],
+          "at": { "midday": [1037, 394] },
+          "bottom": 714,
+          "activity": "plain",
+          "chair": "chair-012",
+          "head": [1137.4480198019803, 395.215]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-008",
+      "chair": "chair-008",
+      "head": [1324.7016712009327, 405.74939759036147],
+      "variants": [
+        {
+          "rect": [963, 767, 148, 236],
+          "at": { "midday": [1239, 404] },
+          "bottom": 639,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [1324.7016712009327, 405.74939759036147]
+        },
+        {
+          "rect": [417, 767, 197, 278],
+          "at": { "midday": [1225, 405] },
+          "bottom": 682,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [1324.887031805817, 406.3672316384181]
+        },
+        {
+          "rect": [792, 767, 169, 240],
+          "at": { "midday": [1249, 405] },
+          "bottom": 644,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [1324.02599009901, 405.9075]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-013",
+      "chair": "chair-013",
+      "head": [561.7857753595025, 419.54698795180724],
+      "variants": [
+        {
+          "rect": [1822, 767, 131, 209],
+          "at": { "midday": [486, 418] },
+          "bottom": 626,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [561.7857753595025, 419.54698795180724]
+        },
+        {
+          "rect": [616, 767, 174, 246],
+          "at": { "midday": [474, 419] },
+          "bottom": 664,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [562.3298545720862, 420.2090395480226]
+        },
+        {
+          "rect": [1565, 767, 149, 212],
+          "at": { "midday": [496, 419] },
+          "bottom": 630,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [562.345297029703, 419.8025]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-005",
+      "chair": "chair-005",
+      "head": [400.98810726778083, 589.122891566265],
+      "variants": [
+        {
+          "rect": [1227, 0, 264, 355],
+          "at": { "midday": [248, 586] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-005",
+          "head": [400.98810726778083, 589.122891566265]
+        },
+        {
+          "rect": [1493, 0, 351, 354],
+          "at": { "midday": [223, 587] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-005",
+          "head": [401.31073446327684, 589.4406779661017]
+        },
+        {
+          "rect": [0, 411, 301, 354],
+          "at": { "midday": [267, 587] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-005",
+          "head": [400.9306930693069, 588.62]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-014",
+      "chair": "chair-014",
+      "head": [1559.1738119312436, 596.7018229166667],
+      "variants": [
+        {
+          "rect": [200, 767, 215, 280],
+          "at": { "midday": [1423, 597] },
+          "bottom": 876,
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1559.1738119312436, 596.7018229166667]
+        },
+        {
+          "rect": [291, 0, 317, 373],
+          "at": { "midday": [1355, 568] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1553.3179168286047, 572.0481927710844]
+        },
+        {
+          "rect": [875, 0, 350, 372],
+          "at": { "midday": [1322, 569] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1553.1435446746182, 572.1638418079096]
+        }
+      ]
+    },
+    {
+      "id": "county-commission-rural:chair:chair-007",
+      "chair": "chair-007",
+      "head": [151.90268169452003, 593.6722891566266],
+      "variants": [
+        {
+          "rect": [553, 411, 282, 351],
+          "at": { "midday": [0, 590] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-007",
+          "head": [151.90268169452003, 593.6722891566266]
+        },
+        {
+          "rect": [837, 411, 355, 350],
+          "at": { "midday": [0, 591] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-007",
+          "head": [151.68021552626072, 593.8700564971751]
+        },
+        {
+          "rect": [1194, 411, 349, 349],
+          "at": { "midday": [0, 592] },
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-007",
+          "head": [152.49257425742576, 593.905]
         }
       ]
     }

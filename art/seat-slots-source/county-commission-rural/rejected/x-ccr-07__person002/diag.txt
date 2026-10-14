@@ -1,0 +1,14 @@
+{
+  "source": "x-ccr-07.jpg",
+  "instance": 2,
+  "chair": "chair-008",
+  "reasons": [
+    "disconnected",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.06286494274664442,
+  "shift": [
+    0,
+    -2
+  ]
+}
