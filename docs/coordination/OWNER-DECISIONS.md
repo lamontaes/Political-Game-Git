@@ -4,6 +4,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **Towns larger than 10,000 (two-tier package, #4172).** A town under 10,000 now opens at its real Census size. A larger town still opens with 10,000, the October 9 target. Should a bigger town count its full population, each counted household standing for several? (SG-CORE-owner-decision-town-size)
+- **What a town's districts are.** The game has no city wards; a town's districts are the state House districts its people split into, else the whole town. Should council wards come later as their own districts? (SG-CORE-owner-decision-town-districts)
+- **Relatives of a person met for the first time.** They come with household, job, coworkers and employer, but no relatives living elsewhere. Acceptable for early access? (SG-CORE-owner-decision-fill-in-outside-kin)
+- **Demotion wait.** A filled-in household returns to the counts after 180 days without contact (never the player's household, circle, officials, public workers, business owners). Is 180 days right? (SG-CORE-owner-decision-demotion-days)
+
 - **Kit 12 versus Kit 13 (found by the Drive digests, Oct 14).** The play page was restyled tonight on Kit 12 (the Oct 2 packet). Kit 13's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md, owner Oct 4 and 5) is newer: brass corner ornaments ON the panel, no scrolling inside a menu, the chevron rule (only on a static button while activated, never in radial menus), People / Calendar / Money tabs with the selected tab a raised glass box, the approved icons, search, dropdown, slider and progress bar. Same fonts. Newest wins: PLAY reconciles the page to Kit 13's controls. Owner to confirm that logo and Steam art stay navy (the UI ban on navy does not name them).
 
 - **Who the opening's "key people" are** behind the president and in the state legislature: the owner clarifies tomorrow; ranked from the offices data until then (registered).
@@ -13,6 +18,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
+
+- **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
 
 - **Town size (day-one audit):** a town opens at its real Census size; nothing pads it to 10,000. Follows one model, two tiers (counts must match the place).
 - **Which place is the town:** the governing unit the player lives in, the one whose offices they could run for (the town, not the village inside it), from the place data.
