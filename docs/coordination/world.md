@@ -97,6 +97,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-GOV: small towns' treasuries can't pay their officials (#4234).** Brookford, North Carolina's treasury held $93 at year's end against a finance director at $270 a day, and a Mississippi town's held $0 to $67. Those officials go unpaid and are the first evicted.
+- **OPUS-CORE: the played-world check is red on `main` (#4234 comment).** Staff hiring fills in two people who carry the same counted household id, 11 months apart, and the fill-in cash transfer id is reused. Also, the world build fails in Polebridge, Montana (no resident aged 17).
+- **OPUS-PEOPLE: no journal line for a person's own eviction.** The director records the moment, but the journal bank has no wording for `event:housing.eviction`. The press engine also throws `Invalid meeting endpoints` in one world (seed in #4234).
+
 - **OPUS-CORE: counted workers never die or move away.** With the renewal engine, a Hawaii town's 109 deaths and 338 departing households in three months included nobody with a job, and none over the year (seed `ca545ed9…`). Who dies or leaves (`births-counted.ts`) leans so hard on work that working people never go. Jobs replaces them once they do (#4224).
 
 - **OPUS-CORE / CTO, speed after #4067 (trait-based job choices in `jobs.ts`):** three years of Absecon went from about 100 s to 136 s on the merged head while the core alone stayed at 53 s; I took back 24 s in my own code (counted hiring's per-hire scan, now 112 s). What's left is mostly `traitLean`/`kindLean` (`choice.ts`, about 8% of a run) called per counted seeker each week; caching per person on my side gained nothing measurable, so the cost is inside those functions.
@@ -162,6 +166,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Questions for the owner
 
+- **Can the player's own household be evicted? (owner decision, registered `SG-WORLD-owner-decision-player-eviction`).** As built, yes, like any other.
+
 - **Does a player see another business's books? (owner decision, registered `SG-WORLD-owner-decision-business-books`).** The record is built and no screen shows it. Simplest answer: the owner and the bank, plus anything the law makes public.
 - **The federal budget's push on the economy.** The national model reads a budget change at a multiplier of 1.2 on the whole budget, interest included. Real multipliers differ by line (interest paid to bondholders moves less than spending on goods). Per-line multipliers would need your call (question in #4184).
 
@@ -172,6 +178,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-14: homelessness items 1 to 3 plus foreclosure (#4234). Every renter, full or counted, can be evicted; owners lose homes through the state's foreclosure, and the bank carries the loss; removed households go to kin, a shelter bed or the street, and a status record says which. Brookford, North Carolina (randomly drawn): 4 cases, 1 unsheltered of 429 (23 per 10,000 against the state's 10.5). New Jersey 18.7 against 13.4, Iowa 6.2 against 8.1. Mellen, a year: 39 s against main's 41. Next: watch CI; foreclosure in a played two-year run.
 
 - 2026-10-14: stress-audit wiring (PR #4166). Moves read records, with no opening draw. Aides are people the records can place. Withholding follows the law where the worker lives. Voucher rows end on closure. Wage credit is a registered stopgap. A played year in a drawn Missouri town (seed `5f15bfc9bc43292720332b33c24634b5`) took 172 s: 65 departures, each with its pull's parts by record id; 28 aides, none from out of town, the oldest 57; withholding records tagged ESTIMATED from the law rows they read. Next: the CTO's laws-reach-the-economy and money and business audit items.
 
