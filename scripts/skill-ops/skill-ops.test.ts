@@ -71,9 +71,7 @@ const contracts: readonly SkillContract[] = [
       /real-world source additions, source-status reviews, or claims that sourced data affects play/i,
     nontrigger:
       /do not use for deliberately fictional authored content or unsourced design speculation/i,
-    links: [
-      "docs/systems/source-substrate.md",
-    ],
+    links: ["docs/systems/source-substrate.md"],
   },
   {
     name: "asset-scene-admission",
@@ -122,8 +120,7 @@ const contracts: readonly SkillContract[] = [
     trigger: /Use for coherent controls, fitting and\s+hover\/focus behavior/i,
     nontrigger: /not new simulation rules or unrelated UI frameworks/i,
     boundary: /## Completion evidence/,
-    links: [
-    ],
+    links: [],
   },
   {
     name: "civic-gameplay-audit",
