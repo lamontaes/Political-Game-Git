@@ -37,6 +37,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -331,6 +332,9 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The world has a past (OPUS-CORE): prior elections, voting records, law
+  // histories, the year's news and what the public knows, before day one.
+  openThePast(core, seed);
   director.start(core);
   yield "opening";
   // The opening, told as a story from the records (owner, Oct 14, 2026): the
