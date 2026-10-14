@@ -467,7 +467,14 @@ describe("story director on the new core", () => {
         expect(row.stopgapId && row.checkRange).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
-    expect(openDirectorStopgapCount()).toBe(DIRECTOR_STOPGAPS.length);
+    // A resolved row says how it was resolved; the rest stay open.
+    const resolved = DIRECTOR_STOPGAPS.filter(
+      (row) => row.status === "resolved",
+    );
+    for (const row of resolved) expect(row.why).toMatch(/Resolved/);
+    expect(openDirectorStopgapCount()).toBe(
+      DIRECTOR_STOPGAPS.length - resolved.length,
+    );
     const folder = join(process.cwd(), "src", "director");
     const literals: string[] = [];
     for (const name of readdirSync(folder)) {

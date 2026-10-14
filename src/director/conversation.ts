@@ -1020,6 +1020,8 @@ function offerChoices(
     (row) =>
       !conversation.used.includes(row.id) &&
       row.id !== last.subject.id &&
+      // Never the person or thing just asked about, under another subject.
+      !(last.subject.aboutId && row.aboutId === last.subject.aboutId) &&
       raisable(data, row.kind),
   );
   const taken = new Set<string>();
@@ -1049,7 +1051,12 @@ function offerChoices(
       stage,
       last.subject,
     );
-  const add = (choiceKey: string, group: readonly Move[], raised?: Subject) => {
+  const add = (
+    choiceKey: string,
+    group: readonly Move[],
+    raised?: Subject,
+    bank = answerBank,
+  ) => {
     // Each raised subject has its own moment, so brief answers vary.
     const answer = answerWith(
       group,
@@ -1099,7 +1106,7 @@ function offerChoices(
         ...new Set([...head.sourceRecordIds, ...(tail?.sourceRecordIds ?? [])]),
       ],
       wording: {
-        bank: answerBank,
+        bank,
         parts: [...head.wording.parts, ...(tail?.wording.parts ?? [])],
         stage,
         facts: [
@@ -1134,14 +1141,15 @@ function offerChoices(
   // subjects. Where nothing brief is mined for this subject, taking it in
   // ("Okay.", "Right.") serves, as the other person's acknowledgment does.
   const briefKey = "brief";
+  const ackBank = groups.has(briefKey) ? answerBank : "conversation:ack:reply";
   const brief =
     groups.get(briefKey) ??
     data.subjects.ack?.reply?.map((move) => ({ ...move, key: briefKey }));
-  if (!groups.size && brief) add("ack", brief);
+  if (!groups.size && brief) add("ack", brief, undefined, ackBank);
   for (const subject of unused) {
     if (conversation.choices.length >= data.minimumChoices || !brief) break;
     if (EXPLICIT_ONLY.includes(subject.kind)) continue;
-    if (!taken.has(subject.id)) add(briefKey!, brief, subject);
+    if (!taken.has(subject.id)) add(briefKey, brief, subject, ackBank);
   }
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
