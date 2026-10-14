@@ -145,13 +145,23 @@ for (let i = 0; i < days; i++) {
   }
   cursor = next;
 }
-const $ = (m) => Math.round(m / 100);
+const $ = (m) => Math.round((m ?? 0) / 100);
 const rows = [...core.finance.businesses.values()].map((b) => {
-  const o = opening.get(b.organizationId);
-  const history = monthly.get(b.organizationId);
-  const last = history.at(-1);
+  // A business founded during the year opens at zero: its founding capital
+  // came by a journaled transfer, which the cash totals already count.
+  const o = opening.get(b.organizationId) ?? {
+    cash: 0,
+    annualPayroll: b.annualPayrollMinor,
+    annualDemand: b.annualDemandMinor,
+    annualOther: b.annualOtherCostsMinor,
+  };
+  const history = monthly.get(b.organizationId) ?? [];
+  const last = history.at(-1) ?? {};
   return {
-    name: orgs.get(b.organizationId)?.name,
+    name: (
+      orgs.get(b.organizationId) ?? core.organizations.get(b.organizationId)
+    )?.name,
+    founded: !opening.has(b.organizationId),
     kind: b.kindId,
     closedAt: b.closedAt ?? "",
     openingCash$: $(o.cash),
