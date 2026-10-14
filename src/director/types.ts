@@ -229,6 +229,23 @@ export interface Ledger {
   opening?: OpeningStory;
   /** Each player's scene filter: the kinds of scene they allow to interrupt them. */
   sceneFilters: Map<PersonId, SceneFilter>;
+  /** Each voter's election-day visit to the polls, by `<person>:<election date>`. */
+  pollingVisits: Map<string, PollingVisitRecord>;
+}
+
+/**
+ * A voter's election-day visit (owner, Oct 14, 2026: election day is a
+ * scene): the contests on their ballot, what they marked, and whether they
+ * voted or left. The voting engine counts what was marked (`castBallot`).
+ */
+export interface PollingVisitRecord {
+  readonly id: string;
+  readonly personId: PersonId;
+  readonly electionDate: IsoDate;
+  readonly contestIds: readonly string[];
+  /** Each contest marked: the candidate, or null for a race left blank. */
+  readonly marked: Readonly<Record<string, string | null>>;
+  readonly status: "open" | "voted" | "left";
 }
 
 /**
