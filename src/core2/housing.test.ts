@@ -247,6 +247,11 @@ describe("buying a home", () => {
     expect(purchases[0]).toMatchObject({ householdId: "household:payer" });
     expect(purchases[0]!.downMinor).toBeGreaterThan(0);
     expect(purchases[0]!.loanMinor).toBeGreaterThan(0);
+    // The loan never exceeds what the down payment actually paid supports at the lender's loan-to-value rule.
+    const share = housingData.mortgage.downPayment.firstTime;
+    expect(purchases[0]!.loanMinor).toBeLessThanOrEqual(
+      Math.floor((purchases[0]!.downMinor * (1 - share)) / share),
+    );
     expect(
       core.finance.contracts.get("lease:household:payer")!.endedAt,
     ).toBeDefined();
@@ -338,5 +343,56 @@ describe("right to counsel in eviction", () => {
     expect(core.eventIds.has(`event:housing.eviction:${settled.id}`)).toBe(
       false,
     );
+  });
+});
+
+describe("a counted household's mortgage", () => {
+  it("falls only by the principal actually paid: an unpaid month leaves the principal where it was, a paid month amortizes", () => {
+    const core = createLifeCore(input("TX"), {
+        data: worldCoreData(),
+        modules: [HOUSING_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-02");
+    const table = api.moduleState("housing").table("mortgages");
+    const row = {
+      id: "mortgage:fixture",
+      householdId: "household:payer",
+      holderId: landlord,
+      boughtYear: 2015,
+      rate: 0.06,
+      originalMinor: 20_000_000,
+      balanceMinor: 10_000_000,
+      paymentMinor: 120_000,
+      monthsLeft: 200,
+    };
+    table.put(row);
+    const interest = Math.round((row.balanceMinor * row.rate) / 12);
+    // Nothing of the month's mortgage payments posted: the balance doesn't fall.
+    core.finance.totalsByKind.set("household.mortgage", {
+      requestedMinor: 120_000,
+      paidMinor: 0,
+      unfundedMinor: 120_000,
+      borrowedMinor: 0,
+      repaidMinor: 0,
+    });
+    advanceCore(core, "2021-02-10");
+    const unpaid = table.get("mortgage:fixture") as unknown as typeof row;
+    expect(unpaid.balanceMinor).toBeGreaterThanOrEqual(row.balanceMinor);
+    expect(unpaid.balanceMinor).toBe(row.balanceMinor + interest);
+    expect(unpaid.monthsLeft).toBe(200);
+    // The next month's payment posted in full: the balance falls by the principal in it.
+    core.finance.totalsByKind.set("household.mortgage", {
+      requestedMinor: 240_000,
+      paidMinor: 120_000,
+      unfundedMinor: 120_000,
+      borrowedMinor: 0,
+      repaidMinor: 0,
+    });
+    advanceCore(core, "2021-03-10");
+    const paid = table.get("mortgage:fixture") as unknown as typeof row;
+    const interest2 = Math.round((unpaid.balanceMinor * 0.06) / 12);
+    expect(paid.balanceMinor).toBe(unpaid.balanceMinor - (120_000 - interest2));
+    expect(paid.monthsLeft).toBe(199);
   });
 });

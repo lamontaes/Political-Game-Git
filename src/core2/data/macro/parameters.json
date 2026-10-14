@@ -304,15 +304,15 @@
   "macroPublicBudgetImpulse": {
     "value": 0,
     "tag": "ESTIMATED",
-    "citation": "Until M1-07 budgets land, public money adds no impulse beyond its real average, which the trend already carries.",
+    "citation": "The impulse from public budgets where no federal budget is kept in the world (the budgets engine absent): none beyond the real average the trend already carries. Where the budgets engine runs, the federal budget's purchases and transfers to people above their base are read each month (src/core2/macro-public.ts) and enter the public part of the gap.",
     "estimatedFrom": "Trend growth 1990-2019 includes average public spending.",
-    "stopgapId": "SG-WORLD-macro-public-budget",
     "spread": {
       "low": -0.5,
       "high": 0.5,
       "unit": "gap points per year",
       "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."
-    }
+    },
+    "stopgapId": "SG-WORLD-macro-public-budget"
   },
   "macroTaylorInflationResponse": {
     "value": 0.5,

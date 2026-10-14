@@ -217,6 +217,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     growth ?? neutral,
     state.townResidents,
     p,
+    // The federal budget in force: purchases and transfers to people above their base (macro-public.ts).
     federalPurchasesPct(api),
   );
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.

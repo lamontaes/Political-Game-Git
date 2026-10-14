@@ -41,8 +41,6 @@ import {
 } from "./group-b-store";
 import {
   balancePlan,
-  budgetNow,
-  governmentAt,
   holdReserve,
   incomeTaxAct,
   jobsAt,
@@ -54,7 +52,6 @@ import {
   scalePayroll,
   serviceLevel,
 } from "./group-b-money";
-import { amendBudget } from "../modules/budgets";
 
 type Mechanic =
   | "records"
@@ -124,7 +121,9 @@ function employers(api: CoreAPI, classifications: readonly string[]): string[] {
   for (const org of api.state.organizations.values())
     if (
       org.placeId === town &&
-      classifications.includes(org.classification ?? "")
+      classifications.includes(org.classification ?? "") &&
+      // A closed organization is no longer bound; the review must not re-add it.
+      !api.state.finance.businesses.get(org.id)?.closedAt
     )
       out.push(org.id);
   return out.sort();
@@ -283,28 +282,23 @@ function runPolicy(
       });
       break;
     case "balanced-budget": {
-      const gov = governmentAt(api, level);
-      const budget = gov ? budgetNow(api, gov.id) : undefined;
-      if (input.enacting && gov && budget) {
-        const plan = balancePlan(budget);
-        let cut = 0;
-        for (const [line, delta] of Object.entries(plan)) {
-          amendBudget(api, {
-            governmentId: gov.id,
-            line,
-            deltaMinor: delta,
-            measureId: `${input.lawId}#balance#${api.state.date}`,
-          });
-          cut -= delta;
-        }
-        if (cut)
-          putRow(api, "taken", {
-            id: `balance|${gov.id}|${api.state.date}`,
-            key,
-            governmentId: gov.id,
-            cutMinor: cut,
-          });
-      }
+      // Applied once a fiscal year while the act stands; a repeal restores
+      // the lines it cut this year.
+      const moved = moveBudget(api, {
+        key,
+        level,
+        inForce: input.enacting,
+        lawId: `${input.lawId}#balance`,
+        plan: (_gov, budget) => balancePlan(budget),
+      });
+      const cut = -Object.values(moved?.moves ?? {}).reduce((a, b) => a + b, 0);
+      if (input.enacting && moved && cut)
+        putRow(api, "taken", {
+          id: `balance|${moved.governmentId}|${api.state.date}`,
+          key,
+          governmentId: moved.governmentId,
+          cutMinor: cut,
+        });
       break;
     }
     case "reserve": {

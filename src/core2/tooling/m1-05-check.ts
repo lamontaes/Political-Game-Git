@@ -11,7 +11,6 @@
  * hearing after its days, judgment only on rent still owed, removal after
  * the stay. Exits nonzero on failure.
  */
-import homeValues from "../../../data/tables/county-home-value.json" with { type: "json" };
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "../life";
 import type { MacroMonth } from "../macro-model";
@@ -113,8 +112,6 @@ const fipsOf = (usps: string) =>
   })[usps];
 const usps = input.placeMetadata?.housingState ?? "";
 const fips = fipsOf(usps);
-const rows = (text: string) =>
-  text.split(";").map((row) => row.split(":") as [string, string]);
 const spread = (values: number[]) => {
   const sorted = values.filter((v) => v > 0).sort((a, b) => a - b);
   return sorted.length
@@ -132,9 +129,9 @@ const rentSpread = spread(
     .map(([, [rent]]) => rent ?? 0),
 );
 const valueSpread = spread(
-  rows(homeValues.COUNTY_HOME_VALUE_ROWS)
+  Object.entries(countyRentValue)
     .filter(([county]) => fips && county.startsWith(fips))
-    .map(([, value]) => Number(value)),
+    .map(([, [, value]]) => value ?? 0),
 );
 // Prices since the opening widen the range both ways (the tables are recent; the world may open earlier).
 const macro = api.moduleState("macro");

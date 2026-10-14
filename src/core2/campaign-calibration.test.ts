@@ -103,7 +103,9 @@ describe("campaign calibration on totals", () => {
       const met = knockDoors(api, {
         filingId: filing.id,
         canvasserId: player.id,
-        hours: 3,
+        // About 180 doors: a few dozen leaves the contact rate within chance of
+        // the 15% floor in a town that answers at the field rate.
+        hours: 12,
       });
       const knocked = campaignFor(api, filing.id).doorsKnocked.length;
       const contact = met.length / Math.max(1, knocked);

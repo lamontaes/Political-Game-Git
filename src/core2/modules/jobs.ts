@@ -22,6 +22,7 @@ import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
 import { REGIONAL_MODULE_ID, regionalMonth } from "./regional";
+import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
@@ -699,17 +700,33 @@ function reviewEmployers(api: CoreAPI): void {
   }
 }
 
-/** A new hire's pay: what the business pays that role now, moved with the region's pay since. */
+/**
+ * A new opening's pay: the role's own rate, moved with the place's pay level
+ * since that rate was set (the region's pay), never under the wage floor in
+ * force. Each role keeps its own rate above the floor; the median of whoever
+ * holds the role now plays no part (owner, Oct 14).
+ */
 function payFor(
   api: CoreAPI,
   organizationId: string,
   template: JobInput,
 ): number {
-  const peers = currentJobs(api, organizationId).filter(
-    (job) => job.occupationClassification === template.occupationClassification,
-  );
-  const rates = peers.map((job) => job.hourlyMinor ?? 0).sort((a, b) => a - b);
-  return rates[Math.floor(rates.length / 2)] ?? template.hourlyMinor ?? 0;
+  const placeId = core(api).organizations.get(organizationId)?.placeId;
+  const set = store(api).table("pay").get(template.id) as
+    { level: number } | undefined;
+  const rate = template.hourlyMinor ?? 0;
+  const market = placeId
+    ? Math.round(
+        (rate * payLevel(api, placeId)) / (set?.level ?? api.parameter("one")),
+      )
+    : rate;
+  return Math.max(market, wageFloor(api));
+}
+
+/** The minimum wage in force for the town, in cents an hour (0 where none is recorded). */
+function wageFloor(api: CoreAPI): number {
+  if (!core(api).modules.has(LAWS_MODULE_ID)) return api.parameter("zero");
+  return lawInForce(api, "minimum-wage").value ?? api.parameter("zero");
 }
 
 function tenureYears(api: CoreAPI, job: JobInput): number {

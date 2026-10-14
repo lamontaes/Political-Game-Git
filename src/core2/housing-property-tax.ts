@@ -32,8 +32,24 @@ export interface PropertyTaxTerms {
   readonly assessmentCapShare?: number;
   /** Who's paid; the place's outside account when not given. */
   readonly payeeId?: string;
+  /** The law row the rate comes from; named on any arrears it leaves. */
+  readonly lawRowId?: string;
   readonly source: Source;
 }
+
+/** Tax a household (or a place's counted owners) couldn't pay; the next bill adds it and is paid it first. */
+export interface PropertyTaxArrearsRow {
+  id: string;
+  householdId: string;
+  dwellingId: string;
+  placeId: string;
+  amountMinor: number;
+  since: string;
+  lawRowId: string;
+}
+
+const ARREARS_PREFIX = "tax-arrears:";
+const STATE_AVERAGE_LAW = "property-tax:state-average-rate";
 
 type TermsSource = (
   api: CoreAPI,
@@ -229,6 +245,8 @@ export function billPropertyTax(
     placeId: string;
     valueMinor: number;
   }[],
+  /** Where unpaid tax is kept as arrears rows (the assessments table when not given). */
+  arrears: ModuleTable = assessments,
 ): number {
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
@@ -283,6 +301,31 @@ export function billPropertyTax(
     { placeId: string; to: string; amountMinor: number; source: Source }
   >();
   let total = 0;
+  const owedRow = (id: string) =>
+    arrears.get(ARREARS_PREFIX + id) as unknown as
+      PropertyTaxArrearsRow | undefined;
+  /** What stays unpaid is kept as the household's arrears (the earliest start kept); a fully paid row is removed. */
+  const keepArrears = (
+    id: string,
+    home: { householdId: string; placeId: string },
+    t: PropertyTaxTerms,
+    unpaid: number,
+  ) => {
+    const prior = owedRow(id);
+    if (unpaid <= 0) {
+      if (prior) arrears.remove(ARREARS_PREFIX + id);
+      return;
+    }
+    arrears.put({
+      id: ARREARS_PREFIX + id,
+      householdId: home.householdId,
+      dwellingId: `dwelling:${home.householdId}`,
+      placeId: home.placeId,
+      amountMinor: unpaid,
+      since: prior?.since ?? c.date,
+      lawRowId: prior?.lawRowId ?? t.lawRowId ?? STATE_AVERAGE_LAW,
+    });
+  };
   const pay = (
     householdId: string,
     placeId: string,
@@ -326,6 +369,34 @@ export function billPropertyTax(
         source,
       );
     }
+    return paid;
+  };
+  /** Tax a household pays the county itself this month: last months' unpaid tax is added and paid first, and what stays unpaid is its arrears (the wider population's are kept by place). */
+  const payDirect = (
+    home: { householdId: string; placeId: string },
+    county: string,
+    amountMinor: number,
+    t: PropertyTaxTerms,
+  ): number => {
+    if (!c.households.has(home.householdId))
+      return pay(
+        home.householdId,
+        home.placeId,
+        county,
+        amountMinor,
+        "property-tax",
+        t.source,
+      );
+    const bill = amountMinor + (owedRow(home.householdId)?.amountMinor ?? 0);
+    const paid = pay(
+      home.householdId,
+      home.placeId,
+      county,
+      bill,
+      "property-tax",
+      t.source,
+    );
+    keepArrears(home.householdId, home, t, bill - paid);
     return paid;
   };
   const accounts = api.accounts();
@@ -418,14 +489,7 @@ export function billPropertyTax(
     const servicer = loan?.servicer;
     // A servicer outside the town keeps no account here: its escrow pays the county a twelfth as each deposit arrives.
     if (servicer && c.organizations.get(servicer)?.outsideFlow !== undefined) {
-      total += pay(
-        home.householdId,
-        home.placeId,
-        county,
-        Math.round(annual / months),
-        "property-tax",
-        t.source,
-      );
+      total += payDirect(home, county, Math.round(annual / months), t);
       continue;
     }
     if (!servicer) {
@@ -456,15 +520,8 @@ export function billPropertyTax(
         delete rest.analyzedMonth;
         assessments.put(rest as { id: string });
       }
-      // No mortgage: the owner pays each installment as it falls due.
-      total += pay(
-        home.householdId,
-        home.placeId,
-        county,
-        installment,
-        "property-tax",
-        t.source,
-      );
+      // No mortgage: the owner pays each installment as it falls due (and any tax left unpaid before).
+      total += payDirect(home, county, installment, t);
       continue;
     }
     // With a mortgage: a monthly deposit into the servicer's escrow, which pays the county on the due dates.
@@ -548,18 +605,34 @@ export function billPropertyTax(
       });
   }
   // The wider population's cash is pooled by place: its owners' taxes and escrow are paid from the pool.
+  const owedAdded = new Set<string>();
   for (const [key, row] of pooled) {
     const account = residentsRuntime(c)?.input.accounts.find(
       (a) => a.placeId === row.placeId,
     )?.accountId;
     if (!account) continue;
+    // The place's owners' tax left unpaid before is added to their direct tax and paid first.
+    const direct = key.endsWith("|property-tax");
+    const owedId = `counted:${row.placeId}`;
+    const owed =
+      direct && !owedAdded.has(owedId)
+        ? (owedRow(owedId)?.amountMinor ?? 0)
+        : 0;
+    if (direct) owedAdded.add(owedId);
     const paid = moveTo(
       `${key.split("|")[2]}:counted:${row.placeId}:${row.to}:${c.date}`,
       accounts.main(account),
       row.to,
-      row.amountMinor,
+      row.amountMinor + owed,
       row.source,
     );
+    if (direct)
+      keepArrears(
+        owedId,
+        { householdId: owedId, placeId: row.placeId },
+        termsFor(row.placeId),
+        row.amountMinor + owed - paid,
+      );
     if (row.to.startsWith("escrow:") || key.endsWith("|escrow-repay")) {
       // An escrow deposit or repayment the pool couldn't fully pay: each home's record keeps only its share of what was paid.
       const short = row.amountMinor > 0 ? 1 - paid / row.amountMinor : 0;
