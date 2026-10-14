@@ -45,7 +45,7 @@ Once PRs #4206 and #4214 merge:
    - [x] The balanced-budget rule: sequestration's exemptions, over five years (#4259, merged).
    - [x] Recall petitions finding their bill by id; township budgets (#4263, merged); the minimum wage raise and 11 record-only laws registered (#4266, merged).
    - [x] Absences: a member misses only a vote they care little about, by the same choice as going to work (#4275, merged).
-   - [ ] Members voting from district, record, caucus and deal. Measured party unity (share of members voting with their party on bills the parties split on), one year each: Congress 88% to 95% (real: about 90%, CQ); West Virginia's legislature 99.5%, Arizona's 94%. Next: each state's own within-party spread (Shor-McCarty state legislative data) in place of Congress's; measured with `scripts/gov-wiring/vote-parts.ts` and a party-unity count per bill.
+   - [ ] (parked on the license question below) Members voting from district, record, caucus and deal. Measured party unity (share of members voting with their party on bills the parties split on), one year each: Congress 88% to 95% (real: about 90%, CQ); West Virginia's legislature 99.5%, Arizona's 94%. Next: each state's own within-party spread (Shor-McCarty state legislative data) in place of Congress's; measured with `scripts/gov-wiring/vote-parts.ts` and a party-unity count per bill.
 5. Owner rulings on bills (OWNER-DECISIONS.md, "afternoon"):
    - [x] Sections composed from the record (series, old and new value, the statute cited); editable terms are number, date and shape; a graduated tax keeps its brackets (#4277).
    - [x] Town and county ordinances in their own form: number, that body's enacting words, sections, a closing effective-date section (#4278).
@@ -90,7 +90,7 @@ Once PRs #4206 and #4214 merge:
 
 ## Questions for the owner
 
-- None. Read `DECISION-REGISTER.md` and `OWNER-DECISIONS.md` before asking.
+- **Can a non-commercial dataset calibrate the game?** Each state legislature's own party spread (to bring West Virginia's 99.5% party unity toward its real level) comes only from Shor and McCarty's state data (Harvard Dataverse, January 2025 release), licensed CC BY-NC-SA 4.0: no commercial use. The register's license rule (#11) covers text, not data. Until a ruling, state chambers keep one national scale (`stateMeanScale`, ESTIMATED) and this item is parked, not built.
 
 ## Treasuries
 
