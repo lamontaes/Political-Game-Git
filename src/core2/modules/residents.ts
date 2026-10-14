@@ -1451,7 +1451,11 @@ export function releaseResidentHousehold(
       flow.amountMinor = Math.max(0, flow.amountMinor - removed);
     }
   }
-  for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  // The jobs are full records now (core.jobs): the counted books keep no row for them.
+  for (const id of jobIds) {
+    rt.wageFlowByJob.delete(id);
+    rt.jobs.delete(id);
+  }
   const ownFlows = options.ownFlows !== false;
   // Admitted after the scan: the person must be a full person by now.
   for (const flow of ownFlows ? retirees : []) {

@@ -50,5 +50,10 @@
     "noSuccessor": "no-successor",
     "losses": "losses-kept",
     "retiring": "owner-retiring"
+  },
+  "compliance": {
+    "kinds": ["manufacturing", "quarry"],
+    "cause": "clean-air",
+    "citation": "EPA Green Book nonattainment duties fall on stationary emitters; the Census PACE survey counts manufacturers and mining as the abating industries (MA200(05))."
   }
 }

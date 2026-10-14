@@ -741,6 +741,17 @@ export function buildOpeningCustomers(
     rows.push(job);
     ownedOccupationJobs.set(job.organizationId, rows);
   }
+  // A seller's capacity as its record shows it: the daily wages of its current
+  // jobs (payroll is a fixed share of a business's sales, so it ranks sales).
+  const payrollByOrganization = new Map<string, number>();
+  for (const job of input.jobs) {
+    if (job.endsAt) continue;
+    payrollByOrganization.set(
+      job.organizationId,
+      (payrollByOrganization.get(job.organizationId) ?? zero) +
+        job.wageDailyMinor,
+    );
+  }
   const providersByOrganization = new Map<string, RecordedCustomerProvider[]>();
   for (const provider of providerRecords.values()) {
     const rows = providersByOrganization.get(provider.organizationId) ?? [];
@@ -1190,7 +1201,7 @@ export function buildOpeningCustomers(
         asOf: at,
         citation,
         estimatedFrom:
-          "The household's share of the BLS Consumer Expenditure Survey budget for this service, in equal shares at the town's sellers of it; part of its everyday living (cost-of-living.ts), or of the residents' purchase flows for a counted household.",
+          "The household's share of the BLS Consumer Expenditure Survey budget for this service, split among the town's sellers of it by each seller's recorded payroll (its capacity); part of its everyday living (cost-of-living.ts), where the amount follows the sellers' prices and the household's pay, or of the residents' purchase flows for a counted household.",
       };
       countedSources.set(citation, source);
     }
@@ -1592,11 +1603,25 @@ export function buildOpeningCustomers(
         continue;
       }
       const agreementId = `${ownedPrefix}household:${household.id}:${service.key}`;
-      // Equal seller shares, one monthly amount each; the core folds a
-      // household's purchases into its everyday living (cost-of-living.ts).
+      // Seller shares weigh each seller's recorded capacity (its payroll); a
+      // seller with no recorded jobs takes the average of those that have
+      // them. The core folds a household's purchases into its everyday living
+      // (cost-of-living.ts), where the amount follows prices and pay.
+      const recorded = sellerRows
+        .map((row) => payrollByOrganization.get(row.id) ?? zero)
+        .filter((payroll) => payroll > zero);
+      const average = recorded.length
+        ? sum(recorded, "seller capacity") / recorded.length
+        : one;
       for (const share of apportion(
         allocation.amount,
-        sellerRows.map((row) => ({ id: row.id, weight: one })),
+        sellerRows.map((row) => ({
+          id: row.id,
+          weight:
+            (payrollByOrganization.get(row.id) ?? zero) > zero
+              ? payrollByOrganization.get(row.id)!
+              : average,
+        })),
       )) {
         if (share.amount <= zero) continue;
         householdContractIds.add(`${agreementId}:contract:${share.id}`);

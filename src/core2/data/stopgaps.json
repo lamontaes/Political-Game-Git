@@ -1925,6 +1925,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-GOV-succession-qualifications",
+    "kind": "missing-record",
+    "file": "src/core2/modules/succession.ts",
+    "line": 122,
+    "whatItFakes": "Everyone in the line of succession to the presidency is taken to be a natural-born citizen and 14 years a resident; only the age of 35 is checked.",
+    "why": "People's records hold no place of birth by citizenship or years of residence in the United States.",
+    "addedBy": "OPUS-GOV-ELECTIONS",
+    "addedAt": "2026-10-14",
+    "replacement": "OPUS-PEOPLE: citizenship at birth and years of residence on a person's record; the line then passes over anyone who fails U.S. Const. art. II, sec. 1, cl. 5.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-tie-race-size",
     "kind": "estimated-calendar",
     "file": "src/core2/election-ties.ts",
@@ -2576,8 +2588,8 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 902,
-    "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
+    "line": 1350,
+    "whatItFakes": "Counted workers (the wider population) retire, quit, start looking and stop looking by summed pulls (strongestPulls) rather than the shared chooser; they apply to every opening in their place, and an employed counted worker accepts by acceptScore. Counted closures and layoffs also run through this path.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
@@ -2784,7 +2796,7 @@
     "id": "SG-WORLD-jobs-counted-retiree-income",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 1167,
+    "line": 1401,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
     "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
     "addedBy": "OPUS-WORLD",
@@ -3705,6 +3717,54 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-profit-pass-through",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 170,
+    "whatItFakes": "An owner-run business pays no tax on its profit: under the law its profit is its owner's income (a pass-through), and owners' draws and profit aren't taxed as income yet. Only businesses owned by another organization pay the corporate rate each quarter.",
+    "why": "Owner income from a business reaches the owner as draws, not payroll, and the income tax engine withholds only wages.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's share of the business's profit taxed by the income tax law in force where they live (quarterly estimated payments), read from the business's books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-premises-property-tax",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/employer-taxes.ts",
+    "line": 154,
+    "whatItFakes": "Businesses pay no property tax on their premises; the property-tax engine bills homes only.",
+    "why": "A business's books record no premises or their value, so there is nothing for the property-tax rate in force to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Business premises recorded with an assessed value (commercial values by place), billed at the property-tax rate in force like homes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-owner-decision-business-books",
+    "kind": "owner-decision",
+    "file": "src/core2/business-books-view.ts",
+    "line": 50,
+    "whatItFakes": "The record a screen would read for a business's books (cash, sales, costs, wages, profit, taxes paid and owed, its credit line) is built, but no screen shows it: whether a player sees another business's books is the owner's open decision.",
+    "why": "Owner ruling, Oct 14 (business audit question 5): register the question as an owner decision and build the record the screen would read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling on who sees a business's books (its owner, the player as owner, public filings only, or anyone), after which OPUS-PLAY shows this record on the screen that ruling names.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-town-growth-neutral",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/macro.ts",
+    "line": 251,
+    "whatItFakes": "Until the town has at least macroTownGrowthMinMonths of recorded income with the same months a year earlier (about 15 months into a game), the national step hears a neutral stand-in for the town's income growth: trend growth plus the inflation anchor.",
+    "why": "The town's income is recorded only from the opening, so a year-over-year growth needs a year of records first.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month.",
     "status": "open"
   },
   {

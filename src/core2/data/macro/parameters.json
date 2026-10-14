@@ -485,5 +485,16 @@
     "value": 29184900000000,
     "tag": "SOURCED",
     "citation": "U.S. gross domestic product, 2024, current dollars: $29,184.9 billion (BEA, National Income and Product Accounts, Table 1.1.5, annual 2024). The scale a change in federal outlays is measured against."
+  },
+  "macroTownGrowthMinMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The fewest months of the town's paid income compared with the same months a year earlier before the national step hears the town's growth; a quarter averages out the count of paydays in a month.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "One month reads paydays as growth; six leaves the town out of the national step for most of its first year and a half."
+    }
   }
 }
