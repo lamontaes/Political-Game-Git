@@ -12,7 +12,20 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
-## Ruled, October 14, 2026 (late)
+## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
+
+- **Town size (day-one audit):** a town opens at its real Census size; nothing pads it to 10,000. Follows one model, two tiers (counts must match the place).
+- **Which place is the town:** the governing unit the player lives in, the one whose offices they could run for (the town, not the village inside it), from the place data.
+- **A generated official's campaign past** holds an opponent, vote totals, promises and the result (#4190 built it); a date and a fixed share is a placeholder.
+- **A law with two effective dates** (premiums collected from one date, benefits paid from another) carries both, each read by the engine that collects or pays.
+- **The opening past** (falling-outs, favors, who held which job) may be seeded generation of what happened, consistent with each person's record, as the register allows for who exists; nothing after day one is a draw.
+- **State party leaders** come from the whole state's generated people, not the player's town.
+- **Tie by lot in a small race:** the state's statute from data where it names a size; else a registered ESTIMATED line (elections PR #4171).
+- **Felony-barred share** on the voting-eligible base as published, an estimate with its source.
+- **A named voter's single vote** follows a running account of their own voting record (sliding, no coin).
+- **A primary where nothing separates two candidates** is still decided: voters read what does separate them (standing, incumbency, money, endorsements, name recognition from the press); a race is never left blank by most voters.
+- **A child does not take up a cause:** drives read a person's age and standing on a sliding scale; a three-year-old with activist traits is a defect, not a personality (traitWeight 1.0 stands).
+- **Tests of removed mechanics are retired** with the mechanic (replace, never layer).
 
 - **The opening's sequence:** the president's address with the vice president and key people behind them, pointed out by name and office as the camera passes; then Congress; then your governor with a few important state legislators; then your family, if you have one (else skip); then into the game at home. Cutaways during the address follow the sentence's subject.
 
