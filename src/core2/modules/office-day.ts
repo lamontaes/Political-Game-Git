@@ -478,11 +478,7 @@ export function adjourn(api: CoreAPI, meetingIdValue: string): MeetingRow {
   const left = row.agenda.filter((id) => !row.takenUp.includes(id));
   for (const billId of left) holdVote(api, billId);
   finish(api, { ...row, takenUp: [...row.takenUp, ...left] });
-  const token = tokens.get(api.state)?.get(row.id);
-  if (token) {
-    api.moduleCalendar(OFFICE_DAY_MODULE_ID).releaseStop(token);
-    tokens.get(api.state)!.delete(row.id);
-  }
+  releaseHeld(api, row.id);
   return meetingOf(api, row.id)!;
 }
 
@@ -535,10 +531,32 @@ function deskArrived(api: CoreAPI, action: DeskAction): void {
   if (!api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
   const player = playerOf(api);
   if (action.status !== "awaiting" || action.executiveId !== player) return;
-  if (stopsOf(api, player).desk) return;
-  const date = new Date(Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000)
-    .toISOString()
-    .slice(0, 10);
+  const date = dayOffset(api.state.date, 1);
+  if (stopsOf(api, player).desk) {
+    // The desk stops the player the next morning, if they hold the clock;
+    // otherwise it waits until the deadline the office's law sets.
+    if (snapshotExplicitControlV1(api.state).personId !== player) return;
+    const token = api.moduleCalendar(OFFICE_DAY_MODULE_ID).registerStop({
+      recordId: deskStopId(action.bill.id),
+      controlledPersonId: player,
+      at: {
+        date: makeIsoDate(date),
+        minuteOfDay: officeDayParameter("deskMinute"),
+      },
+      kind: "interrupt",
+      reasonKey: "office-day.desk",
+      source: {
+        tag: "SOURCED",
+        citation: `${action.bill.number} passed and is on the desk until ${action.signBy ?? "its deadline"}`,
+        asOf: api.state.date,
+      },
+      hold: true,
+    });
+    const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
+    held.set(deskStopId(action.bill.id), token);
+    tokens.set(api.state, held);
+    return;
+  }
   api.moduleCalendar(OFFICE_DAY_MODULE_ID).schedule({
     key: `desk-own-choice:${action.bill.id}`,
     date,
@@ -619,7 +637,43 @@ export function decideDesk(
     position: null,
     detail: sign ? "sign" : "veto",
   });
-  return executiveDecision(api, billId, sign);
+  const decided = executiveDecision(api, billId, sign);
+  releaseHeld(api, deskStopId(billId));
+  return decided;
+}
+
+/** The player leaves a bill on the desk to the character, who decides it now. */
+export function leaveDeskToCharacter(api: CoreAPI, billId: string): BillRow {
+  if (billOf(api, billId)?.status !== "awaiting-signature")
+    throw new Error("No bill is waiting on your desk.");
+  deskOwnChoice(api, billId);
+  releaseHeld(api, deskStopId(billId));
+  return billOf(api, billId);
+}
+
+/** Bills on the player's desk now. */
+export function deskWaiting(api: CoreAPI): BillRow[] {
+  const player = playerOf(api);
+  return (
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as (BillRow & { signBy?: string })[]
+  ).filter(
+    (b) =>
+      b.status === "awaiting-signature" &&
+      tokens.get(api.state)?.has(deskStopId(b.id)) &&
+      player !== undefined,
+  );
+}
+
+const deskStopId = (billId: string) => `desk:${billId}`;
+
+function releaseHeld(api: CoreAPI, recordId: string): void {
+  const token = tokens.get(api.state)?.get(recordId);
+  if (!token) return;
+  api.moduleCalendar(OFFICE_DAY_MODULE_ID).releaseStop(token);
+  tokens.get(api.state)!.delete(recordId);
 }
 
 /** The acts of office a person took, by the player or on their own. */
@@ -801,7 +855,7 @@ export function officeJobsOf(api: CoreAPI, personId: string): OfficeJobRow[] {
 export function prepareAct(
   api: CoreAPI,
   personId: string,
-  actId: "office-hours" | "town-hall" | "interview",
+  actId: "office-hours" | "town-hall" | "interview" | "talk-to-colleague",
   prepared: Prepared,
 ): void {
   table(api, "prepared").put({

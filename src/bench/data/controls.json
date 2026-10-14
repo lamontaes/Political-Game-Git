@@ -9,7 +9,16 @@
     "join-association": "Join",
     "organize-meeting": "Hold a meeting",
     "approach-office": "Visit the office",
-    "look-up-local-institution": "Look up"
+    "look-up-local-institution": "Look up",
+    "office-hours": "Office hours",
+    "town-hall": "Town hall",
+    "interview": "Interview",
+    "meet-department-head": "Meet",
+    "talk-to-colleague": "Talk about your bill",
+    "vote": "Vote",
+    "sign": "Sign",
+    "veto": "Veto",
+    "case": "Case"
   },
   "endedBy": {
     "start": "Shift starts",
@@ -17,7 +26,9 @@
     "moment": "Something needs you",
     "choice": "A choice",
     "results": "Election results",
-    "law": "A law took effect"
+    "law": "A law took effect",
+    "office-day.meeting": "The meeting",
+    "office-day.desk": "Your desk"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
@@ -82,5 +93,29 @@
   "polling": {
     "leaveBlank": "Leave blank",
     "leave": "Leave"
+  },
+  "meeting": {
+    "yes": "Yes",
+    "no": "No",
+    "abstain": "Abstain",
+    "own": "Decide for me",
+    "adjourn": "Adjourn",
+    "for": "For",
+    "against": "Against",
+    "sign": "Signed",
+    "veto": "Vetoed"
+  },
+  "desk": {
+    "sign": "Sign",
+    "veto": "Veto",
+    "own": "Decide for me"
+  },
+  "officeStops": {
+    "own-bill-vote": "Your bill's vote",
+    "every-meeting": "Every meeting",
+    "desk": "Your desk",
+    "emergency": "An emergency",
+    "election-day": "Election day",
+    "ownChoice": "Decided for me"
   }
 }

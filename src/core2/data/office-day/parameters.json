@@ -36,6 +36,12 @@
       "tag": "SOURCED",
       "source": "Full-time work is 35 hours or more a week (U.S. Bureau of Labor Statistics, Current Population Survey definitions). A seat whose estimated hours reach it is the holder's job.",
       "spread": [30, 40]
+    },
+    "deskMinute": {
+      "value": 540,
+      "tag": "TUNABLE",
+      "source": "When a bill that passed reaches the executive's desk: the next working morning, 9:00 a.m., when the clerk's transmittal is read. The office's own signing deadline (the legislature engine) is unchanged.",
+      "spread": [480, 720]
     }
   }
 }

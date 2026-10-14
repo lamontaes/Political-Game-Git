@@ -1200,7 +1200,9 @@ body.dev .dev-ring {
 /* ---- Polling place (director/scenes-and-filters, owner Oct 14, 2026) ----
    Election day's ballot over the polling place's picture: kit12's panel,
    heading and actions; positions only. */
-#ballot {
+#ballot,
+#meeting,
+#desk {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
@@ -1209,13 +1211,19 @@ body.dev .dev-ring {
   padding: 20px 24px;
   overflow: auto;
 }
-#ballot .race + .race {
+#ballot .race + .race,
+#meeting .race + .race,
+#desk .race + .race {
   margin-top: 18px;
 }
-#ballot .heading {
+#ballot .heading,
+#meeting .heading,
+#desk .heading {
   margin: 0 0 8px;
 }
-#ballot .acts {
+#ballot .acts,
+#meeting .acts,
+#desk .acts {
   display: grid;
   gap: 6px;
 }

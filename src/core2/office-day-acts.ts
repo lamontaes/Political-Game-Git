@@ -36,9 +36,18 @@ import {
 } from "./modules/press";
 import { appointmentsIn } from "./modules/executive";
 import { lawChain } from "./modules/laws";
+import {
+  learnStake,
+  LEGISLATURE_MODULE_ID,
+  memberKey,
+  members,
+  offerDeal,
+  type BillRow,
+} from "./modules/legislature";
 
 export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
+const COLLEAGUE = "colleague";
 
 const act = (
   id: string,
@@ -74,6 +83,12 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     ["cooperate", "engage"],
     DEPARTMENT_HEAD,
   ),
+  act(
+    "talk-to-colleague",
+    "colleagueActHours",
+    ["cooperate", "engage", "speak-out"],
+    COLLEAGUE,
+  ),
 ];
 
 const HOURS = (
@@ -105,6 +120,12 @@ export function officeDayData(base: CoreData): CoreData {
         "A local newspaper or radio interview with an official: about thirty minutes to an hour with travel.",
         "Typical local interview length.",
         [0.5, 1.5],
+      ),
+      colleagueActHours: HOURS(
+        0.5,
+        "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
+        "Typical one-on-one conversation about a pending vote.",
+        [0.25, 1.5],
       ),
       meetHeadActHours: HOURS(
         1,
@@ -149,6 +170,8 @@ export interface Prepared {
   readonly answers?: Readonly<Record<string, number | null>>;
   /** Decisions by case id for office hours. */
   readonly cases?: Readonly<Record<string, "help" | "decline">>;
+  /** A deal to offer a colleague, by member, when talking about the player's bill. */
+  readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
 }
 
 export function officeActProviders(host: OfficeActHost) {
@@ -187,7 +210,38 @@ export function officeActProviders(host: OfficeActHost) {
               availableHours: api.parameter(action.effortParameter),
             }))
         : [],
+    // Each fellow member of a body where the actor's own bill waits for a vote.
+    [COLLEAGUE]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] => {
+      if (!holds(api, actor)) return [];
+      const others = new Set<string>();
+      for (const bill of pendingBillsOf(api, actor.id))
+        for (const term of members(api, bill.bodyOfficeId)) {
+          const key = memberKey(term);
+          if (key !== actor.id) others.add(key);
+        }
+      return [...others].sort().map((targetId) => ({
+        definition: action,
+        targetId,
+        availableHours: api.parameter(action.effortParameter),
+      }));
+    },
   };
+}
+
+/** The actor's own bills drafted and waiting for a vote. */
+function pendingBillsOf(api: CoreAPI, personId: string): BillRow[] {
+  return (
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  )
+    .filter((b) => b.sponsorId === personId && b.status === "drafted")
+    .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 // ---- What they do --------------------------------------------------------
@@ -303,6 +357,47 @@ export function officeActHandlers(host: OfficeActHost) {
         detail: `${outlet.id}: ${done.status}`,
       });
       host.clearPrepared(api, actorId, "interview");
+    },
+    /**
+     * A conversation with a colleague about the actor's pending bills: the
+     * actor learns where they stand and why, and offers the deal they
+     * prepared, if any; the colleague decides it from their own position.
+     */
+    "talk-to-colleague": (api: CoreAPI, actorId: string, offer: ActOffer) => {
+      const deal = host.prepared(api, actorId, "talk-to-colleague")?.deals?.[
+        offer.targetId
+      ];
+      for (const bill of pendingBillsOf(api, actorId)) {
+        if (
+          !members(api, bill.bodyOfficeId).some(
+            (t) => memberKey(t) === offer.targetId,
+          )
+        )
+          continue;
+        const position = learnStake(
+          api,
+          bill.id,
+          offer.targetId,
+          "conversation",
+        );
+        const dealt = deal
+          ? offerDeal(api, {
+              billId: bill.id,
+              memberId: offer.targetId,
+              kind: deal,
+            })
+          : null;
+        host.keep(api, {
+          personId: actorId,
+          kind: "talk-to-colleague",
+          how: "did",
+          recordId: `${bill.id}|${offer.targetId}`,
+          position: dealt ? dealt.after.total : position.total,
+          detail: dealt
+            ? `${deal}: ${dealt.accepted ? "accepted" : "declined"}`
+            : "asked",
+        });
+      }
     },
     /** An hour with a department head: they come to know each other. */
     "meet-department-head": (
