@@ -1,5 +1,4 @@
 import { OPENING_KIN } from "./opening-kin";
-import firstYearsJson from "./data/school-first-years.json" with { type: "json" };
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,

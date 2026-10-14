@@ -297,7 +297,7 @@
       "low": 0.2,
       "high": 1,
       "unit": "same unit as the value",
-      "citation": "Owner's ruling, Oct 14, 2026: the traits-in-play audit's checked range."
+      "citation": "Tuning range named in this row's citation (0.2 to 1.0)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
