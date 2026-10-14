@@ -22,9 +22,10 @@ import { buildPopulation, POPULATION_VERSION } from "./population";
 import { realLocalities } from "./places";
 import { recordedTraitSource } from "./trait-source";
 import type { CoreInput } from "./types";
+import { gameStartDate } from "./game-start";
 
 const seed = "p8-household-source-parity";
-const startedAt = "2021-01-01";
+const startedAt = gameStartDate();
 let opening: CoreInput;
 const residentsOf = (input: CoreInput) =>
   input.people.filter((person) => person.tier !== OPENING_KIN.kinTier);

@@ -4,6 +4,11 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { residentsRuntime } from "./modules/residents";
 import { loadGame, newGame, runCommand, saveGame } from "./saves";
 import type { CoreModule, CoreState } from "./types";
+import { gameStartDate } from "./game-start";
+import { addDays } from "./kernel/dates";
+
+/** A date some days after the game's start. */
+const day = (days: number) => addDays(gameStartDate(), days);
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-saves");
@@ -37,12 +42,12 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     } as CoreModule;
     const game = newGame(recipe, { modules: () => [history] });
     expect(windows).toEqual(["2000-01-01/quarter"]);
-    runCommand(game, "advance", { through: "2021-01-20" });
+    runCommand(game, "advance", { through: day(19) });
     const counted = [...residentsRuntime(game.core)!.households.values()].find(
       (row) => row.people.length,
     )!;
     runCommand(game, "fill-in", { personId: counted.people[0]!.id });
-    runCommand(game, "advance", { through: "2021-02-15" });
+    runCommand(game, "advance", { through: day(45) });
     const save = JSON.parse(JSON.stringify(saveGame(game)));
     const loaded = loadGame(save);
     expect(loaded.skipped).toEqual([]);
@@ -60,7 +65,7 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       settings: { population: 1500 },
     };
     const game = newGame(recipe);
-    runCommand(game, "advance", { through: "2021-01-10" });
+    runCommand(game, "advance", { through: day(9) });
     const save = saveGame(game);
     const loaded = loadGame({
       ...save,
@@ -86,12 +91,12 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
       preStart: false as const,
     };
     const game = newGame(recipe);
-    runCommand(game, "advance", { through: "2021-01-20" });
+    runCommand(game, "advance", { through: day(19) });
     const counted = [...residentsRuntime(game.core)!.households.values()].find(
       (row) => row.people.length,
     )!;
     runCommand(game, "fill-in", { personId: counted.people[0]!.id });
-    runCommand(game, "advance", { through: "2021-02-15" });
+    runCommand(game, "advance", { through: day(45) });
     const save = JSON.parse(JSON.stringify(saveGame(game))) as ReturnType<
       typeof saveGame
     >;
@@ -104,18 +109,18 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
         {
           date: save.savedAt,
           kind: "advance",
-          payload: { through: "2021-02-20" },
+          payload: { through: day(50) },
         },
       ],
-      savedAt: "2021-02-20",
+      savedAt: day(50),
     } as typeof save;
     const loaded = loadGame(later);
     expect(loaded.skipped).toEqual([]);
     expect(loaded.commands.length).toBe(game.commands.length + 1);
-    runCommand(game, "advance", { through: "2021-02-20" });
+    runCommand(game, "advance", { through: day(50) });
     expect(digest(loaded.core)).toBe(digest(game.core));
-    runCommand(game, "advance", { through: "2021-03-20" });
-    runCommand(loaded, "advance", { through: "2021-03-20" });
+    runCommand(game, "advance", { through: day(78) });
+    runCommand(loaded, "advance", { through: day(78) });
     expect(digest(loaded.core)).toBe(digest(game.core));
     // Under another version the snapshot is set aside and every command replays.
     const replayed = loadGame({ ...save, coreApiVersion: "core2-api-v1" });
