@@ -25,7 +25,19 @@
       "value": 1,
       "tag": "TUNABLE",
       "source": "How hard a change to someone's benefit lands on their mood and stress, per share of the benefit it moved (a 29% cut lands as a mood impulse of -0.29 and a stress impulse of 0.29). Checked against the life-event impulses the drives engine reads (lifeEventMoodScale, lifeEventStressScale).",
-      "spread": [0.5, 2]
+      "spread": [
+        0.5,
+        2
+      ]
+    },
+    "staffBudgetRoomWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much the room left on the line staff pay draws on leans an official's decision to hire, against the trait lean (traitDecisionWeight) and staffHireBase it adds to: an exhausted line subtracts up to this much, room for many years of the post's pay adds up to it.",
+      "spread": [
+        0.1,
+        0.5
+      ]
     }
   },
   "postLines": {
@@ -82,19 +94,26 @@
         "education",
         "communityAndRegionalDevelopment"
       ],
-      "state": ["localAid"]
+      "state": [
+        "localAid"
+      ]
     }
   },
   "providers": {
     "about": "Spending lines that buy work from private businesses: the share of the line that is purchases (capital outlay and contracted services), paid to the town's businesses of these kinds for the town's share of the line, by how many people each employs. Where the town has none, that part goes to the outside account, recorded as such.",
     "lines": {
       "highways": {
-        "classifications": ["enterprise:construction"],
+        "classifications": [
+          "enterprise:construction"
+        ],
         "purchasedShare": {
           "value": 0.55,
           "tag": "ESTIMATED",
           "source": "Census Bureau, 2022 Annual Survey of State and Local Government Finances: highway capital outlay over total highway spending, state and local (about $128 billion of $230 billion).",
-          "spread": [0.45, 0.65]
+          "spread": [
+            0.45,
+            0.65
+          ]
         }
       },
       "housing": {
@@ -106,7 +125,10 @@
           "value": 0.35,
           "tag": "ESTIMATED",
           "source": "Census Bureau, 2022 Annual Survey of State and Local Government Finances: housing and community development capital outlay over the function's spending.",
-          "spread": [0.25, 0.45]
+          "spread": [
+            0.25,
+            0.45
+          ]
         }
       },
       "parks": {
@@ -118,7 +140,10 @@
           "value": 0.25,
           "tag": "ESTIMATED",
           "source": "Census Bureau, 2022 Annual Survey of State and Local Government Finances: parks and recreation capital outlay over the function's spending.",
-          "spread": [0.15, 0.35]
+          "spread": [
+            0.15,
+            0.35
+          ]
         }
       },
       "administration": {
@@ -130,7 +155,10 @@
           "value": 0.1,
           "tag": "ESTIMATED",
           "source": "Census Bureau, 2022 Annual Survey of State and Local Government Finances: financial administration, judicial and general control spending other than salaries and capital, taken as contracted professional services.",
-          "spread": [0.05, 0.2]
+          "spread": [
+            0.05,
+            0.2
+          ]
         }
       },
       "schools": {
@@ -142,16 +170,25 @@
           "value": 0.06,
           "tag": "ESTIMATED",
           "source": "NCES Digest of Education Statistics 2023, Table 236.10: student transportation and operations and maintenance purchased from contractors, a part of current spending.",
-          "spread": [0.03, 0.1]
+          "spread": [
+            0.03,
+            0.1
+          ]
         }
       },
       "healthAndHospitals": {
-        "classifications": ["enterprise:health-care", "enterprise:health"],
+        "classifications": [
+          "enterprise:health-care",
+          "enterprise:health"
+        ],
         "purchasedShare": {
           "value": 0.15,
           "tag": "ESTIMATED",
           "source": "Census Bureau, 2022 Annual Survey of State and Local Government Finances: health spending other than public hospitals' own payroll, taken as care bought from private providers.",
-          "spread": [0.1, 0.25]
+          "spread": [
+            0.1,
+            0.25
+          ]
         }
       }
     }

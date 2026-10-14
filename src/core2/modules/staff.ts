@@ -150,13 +150,9 @@ export function hireStaff(
   );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
-  // On the payroll of the government the official serves, at the post's pay,
-  // if the line the post draws on has room for a year of it.
+  // On the payroll of the government the official serves, at the post's
+  // pay; each payday counts against the budget line the post draws on.
   const employer = employerOf(api, input.officialId);
-  if (employer && !lineHasRoom(api, employer, input.officialId))
-    throw new Error(
-      `No room on the budget line for staff to ${input.officialId}`,
-    );
   const jobId = employer
     ? startPublicJob(api, {
         personId: input.personId,
@@ -183,12 +179,24 @@ export function hireStaff(
   return row;
 }
 
-/** A year of a staffer's pay fits in the room left on the line staff pay draws on. */
-function lineHasRoom(api: CoreAPI, employer: string, officialId: string) {
-  return (
-    publicPayRoom(api, employer, `staff:${officialId}`) >=
+/**
+ * How the room left on the line staff pay draws on leans an official toward
+ * or away from hiring: room for many years of the post's pay pushes toward
+ * it, an exhausted line away from it, smoothly in between (0 at exactly a
+ * year's room).
+ */
+function budgetLean(api: CoreAPI, officialId: string): number {
+  const employer = employerOf(api, officialId);
+  if (!employer) return 0;
+  const yearly =
     campaignParameter("staffHourlyMinor") *
-      treasuryParameter("fullTimeHoursPerYear")
+    treasuryParameter("fullTimeHoursPerYear");
+  const years = Math.max(
+    0,
+    publicPayRoom(api, employer, `staff:${officialId}`) / yearly,
+  );
+  return (
+    treasuryParameter("staffBudgetRoomWeight") * ((2 * years) / (1 + years) - 1)
   );
 }
 
@@ -471,13 +479,11 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (
       campaignParameter("staffHireBase") +
         parameter("traitDecisionWeight") *
-          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") <=
+          decisionLean(api.state, official, "staff.hire", "hire", "do-alone") +
+        budgetLean(api, officialId) <=
       0
     )
       continue;
-    // The budget line staff pay draws on must have room for a year of it.
-    const employer = employerOf(api, officialId);
-    if (employer && !lineHasRoom(api, employer, officialId)) continue;
     // stopgapId: SG-GOV-staff-hire-out-of-work
     api.stopgap("SG-GOV-staff-hire-out-of-work");
     // Only people out of work: taking the post would end a job that other

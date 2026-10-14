@@ -64,7 +64,7 @@ Each is read in code; the runs did not single any of them out.
 
 - Taxes are now withheld from the pay of townspeople the game tracks only as counts, each month, as they are from people it tracks one by one (money audit defect 4; `src/core2/modules/budgets.ts:1080`).
 - A withholding record is kept only after its payment posts (defect 16), and lists only the taxes that reached a treasury (defect 11; `src/core2/modules/budgets.ts:1005`).
-- A staffer is hired only if the budget line their pay draws on has room for a year of it (defect 19; `src/core2/modules/staff.ts:187`).
+- Each payday a treasury pays its staff counts against the budget line the post draws on, and the room left on that line leans an official toward or away from hiring, never a flat no (defect 19; `src/core2/modules/staff.ts`, `budgetLean`).
 - The paid-leave premium is capped by the cash it is taken from (defect 15; `src/core2/law-reach/group-a-money.ts:130`).
 - A bribe is recorded once the money moves (defect 17; `src/core2/modules/corruption.ts:212`).
 - Poll costs are filed as polls, not ads (defect 18; `src/core2/modules/campaigns.ts:1351`).

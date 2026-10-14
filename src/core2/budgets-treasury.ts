@@ -167,8 +167,8 @@ export function notePublicPay(
 
 /**
  * The room left this year on the line a public post's pay draws on: the
- * town's share of the line less the yearly pay of everyone the treasury
- * already pays from it.
+ * government's whole line (its offices serve all its residents) less the
+ * yearly pay of everyone the treasury already pays from it.
  */
 export function publicPayRoom(
   api: CoreAPI,
@@ -189,9 +189,7 @@ export function publicPayRoom(
       lineForPost(gov.level, job.id) === line
     )
       committed += job.wageDailyMinor * treasuryParameter("daysPerYear");
-  return Math.round(
-    (budget.spendingMinor[line] ?? 0) * townShareOf(api, gov) - committed,
-  );
+  return Math.round((budget.spendingMinor[line] ?? 0) - committed);
 }
 
 export interface TreasuryLine {
