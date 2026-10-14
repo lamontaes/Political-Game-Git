@@ -4,7 +4,8 @@
  * joining a group meets its other members. Each meeting is a dated fact naming
  * the place and the other person, and the first tie holds the hours spent
  * together, so closeness grows only through later contact. A new hire
- * meets the coworkers already working there.
+ * meets the coworkers already working there, and the host of a town hall
+ * meets the residents who stand up to ask a question.
  */
 import data from "./data/encounters.json" with { type: "json" };
 import type { CoreAPI } from "./types";
@@ -22,7 +23,6 @@ export function meetAtVisit(
   const host = api.state.people.get(hostId);
   const visitor = api.state.people.get(visitorId);
   if (!host || !visitor) return api.parameter("zero");
-  api.stopgap(data.stopgapId);
   let met = api.parameter("zero");
   for (const id of api.state.households.get(host.householdId)?.memberIds ??
     []) {
@@ -49,7 +49,6 @@ export function meetAtJoin(
   organizationId: string,
   hours: number,
 ): number {
-  api.stopgap(data.stopgapId);
   const person = api.state.people.get(personId);
   if (!person) return api.parameter("zero");
   const place =
@@ -84,7 +83,6 @@ export function meetAtWork(
   hours: number,
   sourceId: string,
 ): number {
-  api.stopgap(data.stopgapId);
   const person = api.state.people.get(personId);
   if (!person) return api.parameter("zero");
   const place =
@@ -99,6 +97,34 @@ export function meetAtWork(
         placeId: place,
         sourceId,
         cause: data.causes.metAtWork,
+        hours,
+      })
+    )
+      met += api.parameter("one");
+  }
+  return met;
+}
+
+/** The people who spoke with a meeting's host face to face, met at the meeting. */
+export function meetAtMeeting(
+  api: CoreAPI,
+  hostId: string,
+  speakerIds: readonly string[],
+  placeId: string,
+  sourceId: string,
+): number {
+  const host = api.state.people.get(hostId);
+  if (!host) return api.parameter("zero");
+  const hours = api.parameter("civicHours");
+  let met = api.parameter("zero");
+  for (const id of speakerIds) {
+    const speaker = api.state.people.get(id);
+    if (id === hostId || !speaker?.alive || host.knownIds.has(id)) continue;
+    if (
+      api.meet(hostId, id, {
+        placeId,
+        sourceId,
+        cause: data.causes.metAtMeeting,
         hours,
       })
     )

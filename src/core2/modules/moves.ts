@@ -52,8 +52,6 @@ export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
-const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
-const INCOME_STOPGAP = "SG-FIXER-moves-income-household";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -198,45 +196,6 @@ function kinOf(core: CoreState): Kin {
 function inTown(core: CoreState, id: PersonId): boolean {
   const person = core.people.get(id);
   return !!person?.alive && person.tier !== INACTIVE_TIER;
-}
-
-const pinnedByCore = new WeakMap<CoreState, Set<string>>();
-
-/** Every job id a saved record names under `jobIds`, through nested JSON text. */
-function collectJobIds(value: unknown, ids: Set<string>): void {
-  if (typeof value === "string") {
-    if (!value.includes("jobIds")) return;
-    try {
-      collectJobIds(JSON.parse(value), ids);
-    } catch {
-      return;
-    }
-  } else if (Array.isArray(value)) {
-    for (const item of value) collectJobIds(item, ids);
-  } else if (value && typeof value === "object") {
-    for (const [key, item] of Object.entries(value)) {
-      if (key === "jobIds" && Array.isArray(item)) {
-        for (const id of item) if (typeof id === "string") ids.add(id);
-      } else collectJobIds(item, ids);
-    }
-  }
-}
-
-/**
- * Jobs a saved agreement (a visitor's lodging, a public supplier contract)
- * names as its provider's qualification: the core rejects the agreement's
- * next payment once such a job ends, so their holders stay for now. A copy
- * of the jobs engine's own lookup until it is exported (registered stopgap).
- */
-function pinnedJobs(core: CoreState): Set<string> {
-  let ids = pinnedByCore.get(core);
-  if (ids) return ids;
-  ids = new Set();
-  collectJobIds(Object.values(core.placeMetadata ?? {}), ids);
-  for (const organization of core.organizations.values())
-    collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
-  pinnedByCore.set(core, ids);
-  return ids;
 }
 
 function ownsWithMortgage(core: CoreState, householdId: string): boolean {
@@ -587,38 +546,6 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     ownsWithMortgage(api.state as CoreState, person.householdId)
   ) {
     api.stopgap(OWNER_STOPGAP);
-    return null;
-  }
-  const pinned = pinnedJobs(api.state as CoreState);
-  if (
-    going.some((id) => {
-      const job = api.state.people.get(id)?.jobId;
-      return !!job && pinned.has(job);
-    })
-  ) {
-    api.stopgap(PINNED_STOPGAP);
-    return null;
-  }
-  // A recorded income award (a pension, Social Security) names the household
-  // it is paid into; a mover who would leave that household behind keeps
-  // it until an award can follow its person (registered stopgap).
-  const core = api.state as CoreState;
-  const home = core.households.get(person.householdId);
-  if (
-    home?.memberIds.some((id) => !going.includes(id)) &&
-    going.some((id) =>
-      [...(core.finance.incomeContractsByPerson.get(id) ?? [])].some(
-        (contractId) => {
-          const row = core.finance.contracts.get(contractId);
-          return (
-            !row?.endedAt &&
-            row?.recipientIncome?.householdId === person.householdId
-          );
-        },
-      ),
-    )
-  ) {
-    api.stopgap(INCOME_STOPGAP);
     return null;
   }
   pending.set(api.state, { pull });

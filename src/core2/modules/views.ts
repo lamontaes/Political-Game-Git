@@ -1,9 +1,11 @@
 /**
- * Political views (M1-10), first version on the new core.
+ * Political views (M1-10) on the new core.
  *
  * Each person's opening lean comes from who they are on record: the CES 2024
- * spread for their state and age band, with a share their household holds in
- * common (families and partners lean alike). That is who someone is at the
+ * spread for their state and age band, shifted by their own education and
+ * faith, with a share their household holds in common (families and partners
+ * lean alike). Their stance on each policy question reads from that lean
+ * (campaign-views). That is who someone is at the
  * opening, keyed to them and their home, never a choice made in play. How
  * closely they follow politics comes the same way. After the opening, views
  * change only from causes: an event with a topic that reaches the person moves
@@ -60,7 +62,6 @@ export const VIEWS_KEYS = keysJson as unknown as {
 };
 export const VIEWS_DATA = viewsJson as {
   version: string;
-  stopgapId: string;
   parameters: Readonly<Record<string, { value: number }>>;
   labels: readonly string[];
 };
@@ -197,7 +198,6 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   if (held) return held;
   const person = api.state.people.get(personId);
   if (!person) return null;
-  api.stopgap(VIEWS_DATA.stopgapId);
   const { cell, shares, basis } = viewCell(
     person,
     api.state.startedAt,

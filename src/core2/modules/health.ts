@@ -33,8 +33,8 @@ import type {
 } from "../types";
 
 /**
- * P10 producer, not a health engine: the existing Ruling 29/38/39 mortality
- * rule applied to core2 residents. Each resident's opening chronic conditions
+ * The core2 health engine: the Ruling 29/38/39 mortality rule applied to
+ * core2 residents. Each resident's opening chronic conditions
  * come from the condition pack's prevalence cells (income-ranked, evenly
  * spaced; no roll), their strain accumulates from the SSA 2023 hazard times
  * those recorded weights from the world's opening day, and a serious illness
@@ -44,7 +44,6 @@ import type {
  */
 export interface HealthData {
   version: string;
-  stopgapId: string;
   calibrationCategory: "equal-mixture" | "male" | "female";
   onsetEventKind: string;
   deathEventKind: string;
@@ -168,7 +167,6 @@ function resilienceLine(api: CoreAPI, data: HealthData, personId: string) {
 
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   const p = (key: string) => api.parameter(key);
-  api.stopgap(data.stopgapId);
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
   const alive = [...api.state.people.values()].filter((person) => person.alive);
@@ -295,7 +293,6 @@ export function createHealthModule(
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
         if (!person?.alive || !found) continue;
-        api.stopgap(data.stopgapId);
         const event = caseEvent(
           api,
           data,
@@ -320,7 +317,6 @@ export function createHealthModule(
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
         if (!person?.alive || !found) continue;
-        api.stopgap(data.stopgapId);
         const event = caseEvent(
           api,
           data,
