@@ -86,6 +86,7 @@ export function journalDataFromBank(
     countWords: rows.countWords,
     manyTimes: rows.manyTimes,
     firstTitle: rows.firstTitle,
+    ...(rows.lookBacks ? { lookBacks: rows.lookBacks } : {}),
     // A row no record words is left out, as the director leaves out any
     // moment no line covers.
     lines: rows.lines.flatMap((row) => {

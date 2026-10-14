@@ -84,6 +84,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     for (const chapter of chapters)
       for (const line of chapter.lines) {
         const child = born.exec(line.text)?.[1];
+        // A birth is remembered, never "I didn't know at the time" (owner, batch 9).
+        if (child)
+          expect(line.text).not.toMatch(/know|idea|clue|realize|meant/i);
         if (child && chapter.title.startsWith("My "))
           expect(chapter.title).toBe(child);
         const said = line.text.split(/(?<=[.!?])\s+/);
