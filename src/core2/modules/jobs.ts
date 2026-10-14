@@ -23,7 +23,11 @@ import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
 import { REGIONAL_MODULE_ID, regionalMonth } from "./regional";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
-import { residentPerson, residentsRuntime } from "./residents";
+import {
+  residentPerson,
+  residentsRuntime,
+  syncCountedJobRecord,
+} from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
@@ -2169,8 +2173,11 @@ export const JOBS_MODULE: CoreModule = {
       if (job.endsAt && job.endsAt !== api.state.date) continue;
       if (store(api).table("countedSeekers").get(job.personId)) continue;
       // The job ends with the employer today; its wage flow stops paying at its next date.
-      if (!job.endsAt && !endCountedJob(core(api), job.id))
-        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
+      if (!job.endsAt && !endCountedJob(core(api), job.id)) {
+        const ended = { ...job, endsAt: api.state.date };
+        rt!.jobs.set(job.id, ended);
+        syncCountedJobRecord(core(api), ended);
+      }
       const person = residentPerson(core(api), job.personId);
       if (!person) continue;
       record(api, {
