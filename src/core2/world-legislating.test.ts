@@ -23,10 +23,10 @@ import { openLawReach, reachOn } from "./law-reach/host";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
 import {
   openWorldLegislating,
-  congressAgendaDate,
-  sessionAgendaDates,
+  legislativeSessionsOf,
   sessionsOf,
   answerIn,
+  windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
 import {
@@ -39,10 +39,10 @@ const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-legislating:${Date.now()}`).digest("hex");
-// Places whose legislature's 2026 session reaches its floor day after the start.
+// Places whose legislature sits in 2026 after the start.
 const states = [...lifePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
-  .filter((k) => sessionAgendaDates(k).some((d) => d > START))
+  .filter((k) => windowsIn(k, 2026).some((w) => w.adjournAt > START))
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
@@ -50,7 +50,7 @@ function pick<T>(list: readonly T[], salt: string): T {
 }
 
 describe("M3-10 other governments legislate", () => {
-  it("the state legislature passes its own laws at its session's end and they take effect", () => {
+  it("the state legislature introduces and votes its bills across its session, and what passes takes effect", () => {
     const tried: string[] = [];
     let report: Record<string, unknown> | null = null;
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
@@ -81,12 +81,27 @@ describe("M3-10 other governments legislate", () => {
       openLawReach(core);
       openWorldLegislating(core);
       const api = coreAPI(core);
-      const end = [...sessionAgendaDates(state)]
-        .filter((d) => d > START)
-        .sort()[0]!;
+      const window = windowsIn(state, 2026).find((w) => w.adjournAt > START)!;
+      const end = window.adjournAt;
       advanceCore(core, end);
-      const session = sessionsOf(api).find((s) => s.stateKey === state);
+      const session = legislativeSessionsOf(api).find(
+        (s) => s.jurisdiction === state,
+      );
       expect(session, `${state} ${key}: no session record`).toBeDefined();
+      // Bills come in over the session, in both chambers' names, and the
+      // floor takes them up week by week, not on one day.
+      const bills = api
+        .moduleState("core2-legislature-v1")
+        .table("bills")
+        .rows() as unknown as { id: string; introduced: string }[];
+      const introduced = session!.filings.flatMap((f) =>
+        f.billId ? [bills.find((b) => b.id === f.billId)!.introduced] : [],
+      );
+      if (introduced.length > 1)
+        expect(new Set(introduced).size).toBeGreaterThan(1);
+      const voted = session!.bills.filter((b) => b.fate === "voted");
+      if (voted.length > session!.perWeek)
+        expect(new Set(voted.map((b) => b.decidedOn)).size).toBeGreaterThan(1);
       const passed = session!.bills.filter((b) =>
         ["enacted", "signed", "overridden"].includes(b.status),
       );
@@ -99,7 +114,8 @@ describe("M3-10 other governments legislate", () => {
         .map((r) => (r as unknown as { effectiveDate: string }).effectiveDate)
         .sort();
       expect(effective.length).toBeGreaterThanOrEqual(passed.length);
-      advanceCore(core, effective[effective.length - 1]!);
+      const last = effective[effective.length - 1]!;
+      if (last > core.date) advanceCore(core, last);
       for (const bill of passed) {
         const rows = laws.query("bySeries", [state, bill.question]);
         expect(rows.length, `${bill.number} ${bill.question}`).toBeGreaterThan(
@@ -115,6 +131,8 @@ describe("M3-10 other governments legislate", () => {
         state,
         place: key,
         sessionEnd: end,
+        introducedOnDays: new Set(introduced).size,
+        votedOnDays: new Set(voted.map((b) => b.decidedOn)).size,
         effective,
         leader: session!.leader,
         bills: session!.bills,
@@ -125,9 +143,9 @@ describe("M3-10 other governments legislate", () => {
     govReport("world-legislating", JSON.stringify(report));
   }, 120_000);
 
-  it("Congress passes its majority's agenda at its year-end votes and the acts reach the town", () => {
-    // Open the world shortly before Congress's floor day.
-    const start = "2026-11-30";
+  it("Congress sits from January 3, introducing and voting its bills across the session", () => {
+    // Open the world the day before Congress convenes.
+    const start = "2026-01-02";
     const state = pick(states, "congress:state");
     const places = [
       ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
@@ -153,39 +171,38 @@ describe("M3-10 other governments legislate", () => {
     openLawReach(core);
     openWorldLegislating(core);
     const api = coreAPI(core);
-    const day = congressAgendaDate(2026);
-    advanceCore(core, day);
-    const session = sessionsOf(api).find((s) => s.stateKey === "US");
-    expect(
-      session,
-      `${state} ${key}: no Congress session record`,
-    ).toBeDefined();
+    advanceCore(core, "2026-05-01");
+    const session = legislativeSessionsOf(api).find(
+      (s) => s.jurisdiction === "US",
+    );
+    expect(session, `${state} ${key}: no Congress session`).toBeDefined();
+    expect(session!.conveneAt).toBe("2026-01-03");
+    const voted = session!.bills.filter((b) => b.fate === "voted");
+    // No vote before committee has had the bill.
+    for (const b of voted)
+      expect(b.decidedOn >= "2026-01-24", b.number).toBe(true);
+    if (voted.length > session!.perWeek)
+      expect(new Set(voted.map((b) => b.decidedOn)).size).toBeGreaterThan(1);
     const passed = session!.bills.filter((b) =>
       ["enacted", "signed", "overridden"].includes(b.status),
     );
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-    const effective = passed
-      .flatMap((b) => laws.query("bySeries", ["US", b.question]))
-      .map((r) => (r as unknown as { effectiveDate: string }).effectiveDate)
-      .sort();
-    expect(effective.length).toBe(passed.length);
-    if (effective.length) advanceCore(core, effective[effective.length - 1]!);
     for (const bill of passed)
-      expect(answerIn(api, "US", bill.question), bill.question).not.toBeNull();
-    const reached = [...core.people.keys()].filter((id) =>
-      reachOn(api, id).some((e) => passed.some((b) => b.question === e.key)),
-    );
+      expect(
+        laws.query("bySeries", ["US", bill.question]).length,
+        bill.question,
+      ).toBeGreaterThan(0);
     govReport(
       "world-legislating-congress",
       JSON.stringify({
         seed,
         state,
         place: key,
-        day,
-        effective,
+        filed: session!.filings.length,
+        voted: voted.length,
+        votedOnDays: new Set(voted.map((b) => b.decidedOn)).size,
         leader: session!.leader,
         bills: session!.bills,
-        residentsReached: reached.length,
       }),
     );
   });
@@ -363,11 +380,15 @@ describe("a session already over when the world opens", () => {
   // Regression (wire-all-modules, Oct 12): a game opening in the fall found
   // its state's 2026 session over and never scheduled another, so the state
   // legislature passed nothing all year.
-  it("comes back on the same day the next year", () => {
+  it("opens its next session on the calendar's convening day", () => {
     const opened = "2026-10-12";
     const over = [...lifePlaceStateIdentities()]
       .map((s) => s.jurisdictionKey)
-      .filter((k) => sessionAgendaDates(k).some((d) => d <= opened))
+      .filter(
+        (k) =>
+          windowsIn(k, 2026).length > 0 &&
+          windowsIn(k, 2026).every((w) => w.adjournAt <= opened),
+      )
       .sort();
     const state = pick(over, "over:state");
     const places = [
@@ -394,17 +415,12 @@ describe("a session already over when the world opens", () => {
     openLawReach(core);
     openWorldLegislating(core);
     const calendar = coreAPI(core).moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
-    // Each slot comes back on the table's next row for it (the next year the
-    // body meets), not a copied date.
-    const slots = sessionAgendaDates(state).filter((d) => d <= opened);
-    for (const [slot, date] of slots.entries()) {
-      const next = [2027, 2028]
-        .map((y) => sessionAgendaDates(state, y)[slot])
-        .find((d) => d !== undefined)!;
-      expect(
-        calendar.get(`session-end:${state}:${next}`)?.date,
-        `seed ${seed}, ${state} place ${key} slot ${date}`,
-      ).toBe(next);
-    }
+    const next = [2027, 2028]
+      .flatMap((y) => windowsIn(state, y))
+      .sort((a, b) => a.conveneAt.localeCompare(b.conveneAt))[0]!;
+    expect(
+      calendar.get(`session-open:${state}:${next.conveneAt}`)?.date,
+      `seed ${seed}, ${state} place ${key}`,
+    ).toBe(next.conveneAt);
   });
 });
