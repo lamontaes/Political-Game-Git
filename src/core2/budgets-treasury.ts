@@ -301,9 +301,51 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   }
   const providers = providersIndex(api);
   const aidReceived = new Map<string, number>();
+  const total = (lines: Readonly<Record<string, number>>) =>
+    Object.values(lines).reduce((a, b) => a + b, 0);
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
+    // Where the finances record a jurisdiction's whole government at a lower
+    // level (one government doing both jobs), this treasury carries no lines
+    // of its own: what it collects passes to the government below that
+    // carries the budget.
+    if (!total(budget.spendingMinor) && !total(budget.revenueMinor)) {
+      const carrier = govs.find(
+        (g) =>
+          LEVEL_ORDER[g.level] > LEVEL_ORDER[gov.level] &&
+          total(budgets.get(g.id)?.spendingMinor ?? {}) > 0,
+      );
+      const main = accounts.main(gov.organizationId);
+      const held = Math.max(0, accounts.balance(main));
+      const paymentIds: string[] = [];
+      if (carrier && held > 0) {
+        const id = `treasury-aid:${gov.id}:${carrier.id}:passThrough:${date}`;
+        const paid = accounts.transfer({
+          id,
+          from: main,
+          to: accounts.main(carrier.organizationId),
+          amountMinor: held,
+          reasonKey: "treasury-aid",
+          source,
+        }).paidMinor;
+        aidReceived.set(carrier.id, (aidReceived.get(carrier.id) ?? 0) + paid);
+        paymentIds.push(id);
+      }
+      table(api, "treasuryMonths").put({
+        id: `treasury-month:${gov.id}:${date}`,
+        governmentId: gov.id,
+        date,
+        budgetId: budget.id,
+        revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+        aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
+        aidPaidMinor: carrier ? held : 0,
+        borrowedMinor: 0,
+        lines: {},
+        paymentIds,
+      } satisfies TreasuryMonthRow as unknown as ModuleRow);
+      continue;
+    }
     const since =
       (
         table(api, "sinceClose").get(gov.id) as unknown as

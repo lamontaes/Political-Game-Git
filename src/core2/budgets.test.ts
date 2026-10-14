@@ -84,11 +84,13 @@ describe(
         for (const budget of adopted)
           expect(budget.adoptedOn).toBe(budget.startsOn);
         if (gov.level !== "federal") {
-          const spend = Object.values(adopted[0]!.spendingMinor).reduce(
-            (a, b) => a + b,
-            0,
-          );
-          expect(spend).toBeGreaterThan(0);
+          const sum = (lines: Readonly<Record<string, number>>) =>
+            Object.values(lines).reduce((a, b) => a + b, 0);
+          const spend = sum(adopted[0]!.spendingMinor);
+          // A government the finances record as one with the level below it
+          // carries no lines; what it collects passes on (checked below).
+          if (sum(adopted[0]!.revenueMinor) > 0)
+            expect(spend, `${gov.id} in ${place}`).toBeGreaterThan(0);
         }
       }
       // Withholding: one named worker's paycheck, line by line, against the law.
@@ -137,9 +139,23 @@ describe(
         // The treasury paid its lines: every month's close spent money.
         expect(treasuryMonthsOf(api, gov.id).length, gov.id).toBeGreaterThan(0);
       }
-      // Aid, fees and the rest arrive each month for the local governments.
-      for (const gov of govs.filter((g) => g.level !== "federal"))
-        expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);
+      // Aid, fees and the rest arrive each month for the local governments;
+      // one with no budget of its own passes what it collects on.
+      for (const gov of govs.filter((g) => g.level !== "federal")) {
+        const own = budgetsOf(api, gov.id).some(
+          (b) => Object.values(b.revenueMinor).reduce((x, y) => x + y, 0) > 0,
+        );
+        if (own)
+          expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);
+        else
+          expect(
+            treasuryMonthsOf(api, gov.id).reduce(
+              (sum, m) => sum + m.aidPaidMinor,
+              0,
+            ),
+            gov.id,
+          ).toBeGreaterThan(0);
+      }
       // The sales tax in force is collected wherever purchases are taxed.
       const stateRate = lawInForce(api, "sales-tax").levels.find(
         (l) => l.level === "state",
