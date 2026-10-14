@@ -28,6 +28,7 @@ import { personStance } from "../campaign-views";
 import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
+import drivesJson from "../data/drives.json" with { type: "json" };
 import type { CoreAPI, CoreModule, PersonId, PersonState } from "../types";
 
 interface CellKey {
@@ -82,6 +83,22 @@ const v = (key: string): number => {
 };
 
 export const VIEWS_MODULE_ID = "views";
+const DRIVE_MOMENTS = new Set<string>(
+  Object.entries(
+    (drivesJson as { eventKinds: Record<string, string> }).eventKinds,
+  )
+    .filter(([key]) => key === "formed" || key === "strengthened")
+    .map(([, kind]) => kind),
+);
+/** The drives engine's acts (sharing a cause, donating, volunteering, going to an office, ...). */
+const DRIVE_ACTS = new Set<string>([
+  ...Object.values(
+    (drivesJson as { eventKinds: Record<string, string> }).eventKinds,
+  ),
+  ...((
+    drivesJson as { civicActEvents?: readonly { eventKind: string }[] }
+  ).civicActEvents?.map((row) => row.eventKind) ?? []),
+]);
 /** The fact an event that makes a case carries: who made it. */
 export const VIEWS_SPEAKER_KEY = "views:speaker";
 /** The parties and record engines' tables, read by id (they import this one). */
@@ -414,8 +431,11 @@ export const viewsModule: CoreModule = {
   },
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
-    // Only an event with a topic and a wanted change carries a stance.
+    // Only an event with a topic and a wanted change carries a stance. A
+    // drive forming or growing restates a change the event behind it already
+    // made, so it moves nothing again.
     if (!event.topic || !event.desiredChange) return;
+    if (DRIVE_MOMENTS.has(event.kind)) return;
     const impulse =
       Math.abs(event.moodImpulse ?? v("zero")) +
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
@@ -426,8 +446,16 @@ export const viewsModule: CoreModule = {
       const id = `${personId}:${event.topic}`;
       const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
       // A case made by a speaker moves the listener by the speaker's
-      // standing with them; an event with no speaker reaches them in full.
-      const speakerId = event.facts?.[VIEWS_SPEAKER_KEY];
+      // standing with them: the speaker the event names, or for someone who
+      // only witnessed it, the person whose act it was (a cause shared with
+      // them). An event about the person themselves reaches them in full.
+      // A person's own act for their cause is their drive at work (the drives
+      // engine strengthens it); it moves only those it reaches.
+      if (DRIVE_ACTS.has(event.kind) && event.personIds.includes(personId))
+        continue;
+      const speakerId =
+        event.facts?.[VIEWS_SPEAKER_KEY] ??
+        (event.personIds.includes(personId) ? undefined : event.personIds[0]);
       if (speakerId === personId) continue;
       const nearness = speakerId
         ? standingWith(api, view, speakerId, event.topic, event.desiredChange)

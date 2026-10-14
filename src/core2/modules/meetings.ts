@@ -282,16 +282,20 @@ function publicComment(api: CoreAPI, billId: string): void {
       ),
       ...said.map((r) => r.personId),
     ].filter((id) => api.state.people.get(id)?.alive);
-    for (const s of speakers)
-      deliverSpeech(api, {
-        id: `speech:remark:${bill.id}:${s.p.id}`,
-        speakerId: s.p.id,
-        placeId: lawChain(api).townPlaceId,
-        topic: stance.question,
-        desiredChange:
-          Math.sign(s.view) * stance.position > 0 ? "enact" : "repeal",
-        audienceIds: [...new Set(room)].filter((id) => id !== s.p.id).sort(),
-      });
+    // Everyone who spoke is heard: those who signed up (the player among
+    // them) and those moved to stand up.
+    for (const r of said)
+      if (api.state.people.get(r.personId)?.alive)
+        deliverSpeech(api, {
+          id: `speech:remark:${bill.id}:${r.personId}`,
+          speakerId: r.personId,
+          placeId: lawChain(api).townPlaceId,
+          topic: stance.question,
+          desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
+          audienceIds: [...new Set(room)]
+            .filter((id) => id !== r.personId)
+            .sort(),
+        });
   }
   api.emit({
     id: `public-comment:${bill.id}`,

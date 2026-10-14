@@ -22,7 +22,12 @@ const days = Number(value("--days", "365"));
 const out = value("--out", "");
 
 setBookkeeping(false);
-const place = drawPlace(seed, "gov-wiring");
+// --place-key and --place-seed rerun a world someone else drew (the audit's).
+const drawn = drawPlace(seed, "gov-wiring");
+const place = {
+  key: value("--place-key", drawn.key),
+  seed: value("--place-seed", drawn.seed),
+};
 const built = performance.now();
 const world = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
@@ -49,7 +54,12 @@ const rows = (module: string, name: string): Row[] =>
 // Interest-group membership, watched day by day (switches show on the day).
 const GROUPS = "core2-interest-groups-v1";
 const membersBefore = new Map<string, Set<string>>();
-const switches: { personId: string; from: string; to: string | null; date: string }[] = [];
+const switches: {
+  personId: string;
+  from: string;
+  to: string | null;
+  date: string;
+}[] = [];
 const snapshot = () => {
   const now = new Map<string, Set<string>>();
   for (const g of rows(GROUPS, "groups"))
@@ -68,7 +78,9 @@ for (let i = 0; i < days; i++) {
     for (const personId of before)
       if (!after.has(personId)) {
         const base = groupId.replace(/:(for|against)$/, "");
-        const other = groupId.endsWith(":for") ? `${base}:against` : `${base}:for`;
+        const other = groupId.endsWith(":for")
+          ? `${base}:against`
+          : `${base}:for`;
         switches.push({
           personId,
           from: groupId,
@@ -79,21 +91,34 @@ for (let i = 0; i < days; i++) {
   }
   previous = now;
   day = next;
-  if (next.endsWith("-01")) console.error(`${next} ${((performance.now() - ran) / 1000).toFixed(0)} s`);
+  if (next.endsWith("-01"))
+    console.error(`${next} ${((performance.now() - ran) / 1000).toFixed(0)} s`);
 }
 const runSeconds = (performance.now() - ran) / 1000;
 void membersBefore;
 
 // 1. Votes that went the other way because of what members heard.
 const LEG = "core2-legislature-v1";
-const legId = [...core.modules.keys()].find((id) => id.includes("legislature")) ?? LEG;
+const legId =
+  [...core.modules.keys()].find((id) => id.includes("legislature")) ?? LEG;
 const votes = rows(legId, "votes").filter(
-  (v) => (v.position as { openingViews?: number } | undefined)?.openingViews !== undefined,
+  (v) =>
+    (v.position as { openingViews?: number } | undefined)?.openingViews !==
+    undefined,
 );
 const moved = votes.map((v) => {
-  const p = v.position as { total: number; views: number; openingViews: number };
+  const p = v.position as {
+    total: number;
+    views: number;
+    openingViews: number;
+  };
   const opening = p.total - p.views + p.openingViews;
-  return { v, p, opening, flipped: Math.sign(opening) !== Math.sign(p.total) && p.total !== 0 };
+  return {
+    v,
+    p,
+    opening,
+    flipped: Math.sign(opening) !== Math.sign(p.total) && p.total !== 0,
+  };
 });
 const stancesFor = (personId: string) =>
   rows("views", "stances").filter((s) => s.personId === personId);
@@ -106,7 +131,13 @@ const flips = moved
       desiredChange: s.desiredChange,
       strength: s.strength,
       causes: (s.causes as { eventId: string; date: string; change: number }[])
-        .filter((c) => c.date <= String((m.v.id as string).match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? "9999"))
+        .filter(
+          (c) =>
+            c.date <=
+            String(
+              (m.v.id as string).match(/\d{4}-\d{2}-\d{2}/)?.[0] ?? "9999",
+            ),
+        )
         .sort((a, b) => b.change - a.change)
         .slice(0, 5),
       causeCount: (s.causes as unknown[]).length,
@@ -122,7 +153,9 @@ const flips = moved
       stances,
     };
   });
-const viewMoves = moved.filter((m) => Math.abs(m.p.views - m.p.openingViews) > 1e-9);
+const viewMoves = moved.filter(
+  (m) => Math.abs(m.p.views - m.p.openingViews) > 1e-9,
+);
 
 // 2. Cases made by kind of event, and stance changes they caused.
 const allStances = rows("views", "stances");
@@ -141,25 +174,30 @@ for (const s of allStances)
               ? "retold"
               : c.eventId.startsWith("speech:")
                 ? "campaign or other speech"
-                : "other event";
+                : `other: ${c.eventId.split(":")[0]}`;
     causeKinds.set(kind, (causeKinds.get(kind) ?? 0) + 1);
   }
 
 // 3. Interest groups: nobody on both sides.
-const groups = rows(GROUPS, "groups").filter((g) => (g.memberPersonIds as string[] | undefined)?.length);
+const groups = rows(GROUPS, "groups").filter(
+  (g) => (g.memberPersonIds as string[] | undefined)?.length,
+);
 const both: string[] = [];
 for (const g of groups.filter((g) => g.id.endsWith(":for"))) {
   const other = groups.find((x) => x.id === g.id.replace(/:for$/, ":against"));
   if (!other) continue;
   const theirs = new Set(other.memberPersonIds as string[]);
-  for (const id of g.memberPersonIds as string[]) if (theirs.has(id)) both.push(`${id} in ${g.id}`);
+  for (const id of g.memberPersonIds as string[])
+    if (theirs.has(id)) both.push(`${id} in ${g.id}`);
 }
 
 // 4. Unemployment claims and the law they read.
 const claims = [...core.modules.keys()].flatMap((m) =>
   ["claims"].flatMap((t) => {
     try {
-      return (api.moduleState(m).table(t).rows() as unknown as Row[]).map((r) => ({ module: m, ...r }));
+      return (api.moduleState(m).table(t).rows() as unknown as Row[]).map(
+        (r) => ({ module: m, ...r }),
+      );
     } catch {
       return [];
     }
@@ -187,9 +225,30 @@ const result = {
   votes: votes.length,
   votesWhoseViewsMoved: viewMoves.length,
   votesFlippedByWhatTheyHeard: flips.length,
+  closestMoved: viewMoves
+    .map((m) => ({
+      voteId: m.v.id,
+      vote: m.v.vote,
+      shift: m.p.views - m.p.openingViews,
+      total: m.p.total,
+      opening: m.opening,
+      stances: stancesFor(String(m.v.memberId)).map((s) => ({
+        id: s.id,
+        desiredChange: s.desiredChange,
+        strength: s.strength,
+        causes: (s.causes as { eventId: string; change: number }[])
+          .slice(0, 4)
+          .map((c) => `${c.eventId} ${c.change.toFixed(4)}`),
+      })),
+    }))
+    .sort((a, b) => Math.abs(a.total) - Math.abs(b.total))
+    .slice(0, 10),
   flips: flips.slice(0, 5),
   stanceChangesByCause: Object.fromEntries(causeKinds),
-  groups: groups.map((g) => ({ id: g.id, members: (g.memberPersonIds as string[]).length })),
+  groups: groups.map((g) => ({
+    id: g.id,
+    members: (g.memberPersonIds as string[]).length,
+  })),
   groupSwitches: switches.slice(0, 20),
   groupSwitchCount: switches.length,
   inBothSides: both,
