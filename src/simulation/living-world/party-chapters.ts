@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { scheduledActivityAnswer } from "../scheduled-activity-answer";
 import { ensurePeopleTraits } from "../people-traits";
 import { createCharacterHistoryContextPeople } from "../character-history";

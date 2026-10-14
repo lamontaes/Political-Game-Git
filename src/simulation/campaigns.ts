@@ -4,7 +4,7 @@ import {
 } from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
 import { campaignCompliancePackIdForPlace } from "./campaign-compliance";
-import { inventedPersonBirthDate } from "./invented-person-age";
+import { inventedPersonBirthDate } from "../core2/gov-rules/invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
   HOUSEHOLD_LOAN_MONTH_KEY,
