@@ -36,14 +36,19 @@ describe(`town economy rows (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`
       expect(row.unemploymentRate).toBeLessThan(1);
       expect(row.pastDueMinor).toBeGreaterThanOrEqual(0);
       expect(row.householdsPastDue).toBeGreaterThanOrEqual(0);
+      expect(row.povertyRate).toBeGreaterThanOrEqual(0);
+      expect(row.povertyRate).toBeLessThanOrEqual(1);
+      expect(row.medianHouseholdIncomeMinor).toBeGreaterThanOrEqual(0);
     }
     // The town (the place with the most businesses), logged: its employment rate depends on how many residents the opening employs.
     const town = [...rows].sort(
       (a, b) => b.businessesOpen - a.businessesOpen,
     )[0]!;
     console.log(
-      `${drawn.name}: employment rate ${(town.employmentRate * 100).toFixed(1)}%, unemployment ${(town.unemploymentRate * 100).toFixed(1)}%`,
+      `${drawn.name}: employment rate ${(town.employmentRate * 100).toFixed(1)}%, unemployment ${(town.unemploymentRate * 100).toFixed(1)}%, median household income $${Math.round(town.medianHouseholdIncomeMinor / 100)}, poverty ${(town.povertyRate * 100).toFixed(1)}%`,
     );
     expect(town.employmentRate).toBeGreaterThan(0);
+    // Working households have income, so the town's median household has some.
+    expect(town.medianHouseholdIncomeMinor).toBeGreaterThan(0);
   }, 600_000);
 });

@@ -1,0 +1,15 @@
+{
+  "source": "U.S. Census Bureau, Poverty Thresholds for 2021 by Size of Family and Number of Related Children Under 18 Years, weighted average thresholds (https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-thresholds.html). Thresholds rise each year with consumer prices (CPI-U), as the Census Bureau updates them.",
+  "year": 2021,
+  "weightedAverageByHouseholdSize": {
+    "1": 13788,
+    "2": 17529,
+    "3": 21559,
+    "4": 27740,
+    "5": 32865,
+    "6": 37161,
+    "7": 42156,
+    "8": 46630,
+    "9": 56845
+  }
+}

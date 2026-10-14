@@ -1,7 +1,7 @@
 /**
  * The town's economy as dated records: on the second of each month, after
  * the month's reviews, one row per place with jobs, unemployment, the employment rate, pay and
- * low-wage jobs, prices, businesses, rent, home values, eviction filings, households' past-due bills, mortgages and bank lending, read from the
+ * low-wage jobs, household income and poverty, prices, businesses, rent, home values, eviction filings, households' past-due bills, mortgages and bank lending, read from the
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
@@ -9,6 +9,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { ownedHomes } from "./housing";
 import { residentsRuntime } from "./residents";
+import poverty from "../data/world-metrics-poverty.json" with { type: "json" };
 
 export const WORLD_METRICS_MODULE_ID = "world-metrics";
 
@@ -184,6 +185,107 @@ export function townMetrics(api: CoreAPI) {
       rt?.households.get(row.householdId)?.household.placeId;
     if (placeId) filed.set(placeId, (filed.get(placeId) ?? 0) + 1);
   }
+  // Each household's money income a year, as the Census Bureau counts it for
+  // poverty: pay, retirement and other awards, unemployment benefits.
+  const monthsPerYear = api.parameter("macroMonthsPerYear"),
+    daysPerYear = api.parameter("jobsDaysPerYear");
+  const personIncome = new Map<string, number>();
+  const addPay = (personId: string, yearlyMinor: number) =>
+    personIncome.set(personId, (personIncome.get(personId) ?? 0) + yearlyMinor);
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined)
+      addPay(job.personId, job.wageDailyMinor * daysPerYear);
+  for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
+    const job = rt!.jobs.get(jobId);
+    if (job && job.endsAt === undefined && !flow.endedAt)
+      addPay(job.personId, job.wageDailyMinor * daysPerYear);
+  }
+  for (const flow of rt?.flows.values() ?? [])
+    if (flow.id.startsWith("retirement-claim:") && !flow.endedAt)
+      addPay(
+        flow.id.slice("retirement-claim:".length),
+        flow.amountMinor * monthsPerYear,
+      );
+  for (const row of rows(api, "jobs", "claims") as unknown as {
+    personId: string;
+    open: boolean;
+    weeklyMinor: number;
+  }[])
+    if (row.open) addPay(row.personId, (row.weeklyMinor * daysPerYear) / 7);
+  const awards = (
+    contracts: readonly {
+      recipientIncome?: { personId: string };
+      amountMinor: number;
+      periodMonths?: number;
+      endedAt?: string;
+    }[],
+  ) => {
+    for (const row of contracts)
+      if (row.recipientIncome && !row.endedAt)
+        addPay(
+          row.recipientIncome.personId,
+          (row.amountMinor / (row.periodMonths || 1)) * monthsPerYear,
+        );
+  };
+  awards([...c.finance.contracts.values()] as never);
+  for (const record of rt?.households.values() ?? [])
+    awards(record.contracts as never);
+  // The year's poverty lines, carried from 2021 by consumer prices.
+  const priceIndex = (month: string) =>
+    ((api.state as CoreState).modules.has("macro")
+      ? (api
+          .moduleState("macro")
+          .table("months")
+          .get(`macro-month:${month}`) as { priceIndex?: number } | undefined)
+      : undefined
+    )?.priceIndex;
+  const macroState = (api.state as CoreState).modules.has("macro")
+    ? (api.moduleState("macro").table("state").get("macro:state") as
+        { latestMonth?: string } | undefined)
+    : undefined;
+  const base = priceIndex(`${poverty.year}-06`),
+    now = macroState?.latestMonth
+      ? priceIndex(macroState.latestMonth)
+      : undefined;
+  const carried = base && now ? now / base : 1;
+  const lines = poverty.weightedAverageByHouseholdSize as Record<
+    string,
+    number
+  >;
+  const lineFor = (size: number) =>
+    (lines[String(Math.min(9, Math.max(1, size)))] ?? 0) * 100 * carried;
+  const incomes = new Map<string, number[]>();
+  const poor = new Map<string, { people: number; poor: number }>();
+  const household = (
+    placeId: string,
+    memberIds: readonly string[],
+    living: (id: string) => boolean,
+  ) => {
+    if (!modeled.has(placeId)) return;
+    const members = memberIds.filter(living);
+    if (!members.length) return;
+    const income = members.reduce(
+      (n, id) => n + (personIncome.get(id) ?? 0),
+      0,
+    );
+    const list = incomes.get(placeId);
+    if (list) list.push(income);
+    else incomes.set(placeId, [income]);
+    const row = poor.get(placeId) ?? { people: 0, poor: 0 };
+    row.people += members.length;
+    if (income < lineFor(members.length)) row.poor += members.length;
+    poor.set(placeId, row);
+  };
+  for (const h of c.households.values())
+    household(h.placeId, [...h.memberIds], (id) =>
+      Boolean(c.people.get(id)?.alive),
+    );
+  for (const record of rt?.households.values() ?? []) {
+    const people = new Set(record.people.map((person) => person.id));
+    household(record.household.placeId, record.household.memberIds, (id) =>
+      people.has(id),
+    );
+  }
   return [...places]
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([placeId, row]) => ({
@@ -211,6 +313,12 @@ export function townMetrics(api: CoreAPI) {
       // Jobs here paying under two-thirds of the median hourly pay (the OECD's low-pay line).
       lowWageShare: lowWageShare(row.hourly),
       medianHomeValueMinor: median(values.get(placeId) ?? []),
+      // Households' money income a year, and the share of residents below the poverty line for their household's size (Census Bureau thresholds).
+      medianHouseholdIncomeMinor: median(incomes.get(placeId) ?? []),
+      povertyRate:
+        (poor.get(placeId)?.people ?? 0) > 0
+          ? poor.get(placeId)!.poor / poor.get(placeId)!.people
+          : 0,
       evictionFilingsThisMonth: filed.get(placeId) ?? 0,
       evictionFilingsPerThousandRenters:
         row.rents.length > 0
