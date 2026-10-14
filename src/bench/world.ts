@@ -36,6 +36,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openJustice } from "../core2/modules/justice";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
@@ -331,6 +332,8 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // Prosecutors, trials and prisons: reads the corruption engine's records.
+  openJustice(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]

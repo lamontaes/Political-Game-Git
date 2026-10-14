@@ -498,7 +498,8 @@ describe("story director on the new core", () => {
 
   it("keeps situation types to human moments, with no election-night type", () => {
     const types = SITUATION_LIBRARY.types;
-    expect(types).toHaveLength(31);
+    // 31, plus the justice engine's hearing and verdict (OPUS-GOV, October 14, 2026).
+    expect(types).toHaveLength(33);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));

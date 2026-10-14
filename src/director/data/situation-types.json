@@ -128,13 +128,16 @@
           "opening": "farewell"
         },
         {
-          "awaitingProducer": "jailed",
           "bind": {
             "leaving": "subject",
             "staying": "kin"
           },
           "opener": "leaving",
-          "opening": "farewell"
+          "opening": "farewell",
+          "match": {
+            "label": "feeling:event:justice.imprisoned",
+            "counterpart": "none"
+          }
         }
       ],
       "awaiting": ["record:deployment"]
@@ -226,14 +229,17 @@
           "opening": "tell"
         },
         {
-          "awaitingProducer": "jailed",
           "bind": {
             "about": "subject",
             "receiver": "kin",
             "bearer": "present"
           },
           "opener": "bearer",
-          "opening": "tell"
+          "opening": "tell",
+          "match": {
+            "label": "feeling:event:justice.imprisoned",
+            "counterpart": "none"
+          }
         },
         {
           "match": {
@@ -1073,12 +1079,15 @@
       "timing": "next-together",
       "causes": [
         {
-          "awaitingProducer": "jailed",
           "bind": {
             "cannot-come": "subject",
             "visitor": "kin"
           },
-          "opener": "visitor"
+          "opener": "visitor",
+          "match": {
+            "label": "feeling:event:justice.imprisoned",
+            "counterpart": "none"
+          }
         },
         {
           "awaitingProducer": "held-before-trial",
@@ -1328,6 +1337,146 @@
       "timing": "at-cause",
       "causes": [],
       "awaiting": ["record:choice-needing-permission"]
+    },
+    {
+      "key": "hearing",
+      "roles": [
+        {
+          "key": "accused",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["deflect", "confess", "refuse", "tell", "request"],
+          "wants": ["self-interest", "play-safe", "confront"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "some",
+          "moves": ["comfort", "tell", "promise"],
+          "wants": ["help-others", "engage"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "others",
+          "fill": "present",
+          "count": "some",
+          "moves": ["tell", "blame"],
+          "wants": ["stay-quiet", "speak-out"],
+          "bearing": "nervous"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.charged",
+            "counterpart": "none"
+          },
+          "bind": {
+            "accused": "subject",
+            "family": "household"
+          },
+          "opener": "accused",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.charged",
+            "counterpart": "some"
+          },
+          "bind": {
+            "accused": "counterpart",
+            "family": "subject"
+          },
+          "opener": "family",
+          "opening": "comfort"
+        }
+      ],
+      "awaiting": ["record:prosecutor-in-scene"]
+    },
+    {
+      "key": "verdict",
+      "roles": [
+        {
+          "key": "defendant",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "confess", "apologize", "refuse", "tell"],
+          "wants": ["engage", "concede", "withdraw"],
+          "bearing": "braced"
+        },
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "some",
+          "moves": ["comfort", "tell", "promise", "farewell"],
+          "wants": ["help-others", "commit"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "others",
+          "fill": "present",
+          "count": "some",
+          "moves": ["tell", "blame"],
+          "wants": ["stay-quiet", "speak-out"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.convicted",
+            "counterpart": "none"
+          },
+          "bind": {
+            "defendant": "subject",
+            "family": "household"
+          },
+          "opener": "defendant",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.convicted",
+            "counterpart": "some"
+          },
+          "bind": {
+            "defendant": "counterpart",
+            "family": "subject"
+          },
+          "opener": "family",
+          "opening": "comfort"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.acquitted",
+            "counterpart": "none"
+          },
+          "bind": {
+            "defendant": "subject",
+            "family": "household"
+          },
+          "opener": "defendant",
+          "opening": "thank"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.acquitted",
+            "counterpart": "some"
+          },
+          "bind": {
+            "defendant": "counterpart",
+            "family": "subject"
+          },
+          "opener": "family",
+          "opening": "comfort"
+        }
+      ],
+      "awaiting": ["record:judge-in-scene"]
     }
   ]
 }
