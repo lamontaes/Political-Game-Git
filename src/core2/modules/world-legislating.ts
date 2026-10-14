@@ -21,6 +21,7 @@
  */
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
+import { townConcernShare } from "./meetings";
 import { sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
@@ -42,6 +43,7 @@ import { decisionLean } from "../trait-decisions";
 import {
   authorityFor,
   beyondPower,
+  bodyOf,
   draftBill,
   executiveOf,
   FEDERAL_HOUSE,
@@ -154,19 +156,12 @@ function chamber(
   return office ? { id: office.id, members: members(api, office.id) } : null;
 }
 
-/** The House, reached through the town's own House seat's office (bills are introduced there). */
-function houseOffice(
-  api: CoreAPI,
-): { id: string; members: readonly TermRow[] } | null {
-  const office = (
-    api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
-      id: string;
-      kind: string;
-    }[]
-  ).find((o) => o.kind.startsWith("us-house"));
-  return office
-    ? { id: office.id, members: members(api, FEDERAL_HOUSE) }
-    : null;
+/** The House: one national chamber, the same in every world (bills are introduced there). */
+function houseOffice(api: CoreAPI): {
+  id: string;
+  members: readonly TermRow[];
+} {
+  return { id: FEDERAL_HOUSE, members: members(api, FEDERAL_HOUSE) };
 }
 
 /**
@@ -432,10 +427,19 @@ function fileChanges(
       });
     }
   }
-  // The floor leader's calendar: the most backed first, then their own.
+  // The floor leader's calendar: the most backed first, a change weighing
+  // more as more of the town's residents live with what it touches; then the
+  // leader's own reasons.
+  const weight = campaignParameter("floorConcernWeight");
+  const backing = new Map(
+    filed.map((f) => [
+      f,
+      f.cosponsors * (1 + weight * townConcernShare(api, f.question)),
+    ]),
+  );
   filed.sort(
     (a, b) =>
-      b.cosponsors - a.cosponsors ||
+      backing.get(b)! - backing.get(a)! ||
       b.leaderReason - a.leaderReason ||
       a.question.localeCompare(b.question),
   );
@@ -570,11 +574,7 @@ function nextSitting(api: CoreAPI, bodyOfficeId: string): Sitting | null {
         estimatedFrom: "localRegularMeetingsPerYear",
       },
     };
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(bodyOfficeId) as unknown as
-    { kind: string; jurisdiction: string } | undefined;
+  const office = bodyOf(api, bodyOfficeId);
   if (!office) return null;
   const jurisdiction =
     office.kind.startsWith("us-house") || office.kind === "us-senate"
@@ -931,14 +931,7 @@ function originChamber(
     const senator = members(api, FEDERAL_SENATE).some(
       (t) => memberKey(t) === sponsor,
     );
-    const offices = api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("offices")
-      .rows() as unknown as { id: string; kind: string }[];
-    return (
-      (senator ? offices.find((o) => o.kind === "us-senate")?.id : undefined) ??
-      row.bodyOfficeId
-    );
+    return senator ? FEDERAL_SENATE : FEDERAL_HOUSE;
   }
   for (const kind of [
     "legislature-lower",

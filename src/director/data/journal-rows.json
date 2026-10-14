@@ -74,50 +74,27 @@
   "lines": [
     {
       "kindPrefix": "school:",
-      "turn": true,
-      "title": [
-        {
-          "key": "school",
-          "text": "{{school}}"
-        }
-      ],
+      "turn": false,
       "oncePer": "school",
       "entry": "setting"
     },
     {
       "kindPrefix": "work:opening",
-      "turn": true,
-      "title": [
-        {
-          "key": "employer",
-          "text": "{{employer}}"
-        }
-      ],
+      "turn": false,
       "entry": "setting"
     },
     {
       "kindPrefix": "job-started",
-      "turn": true,
+      "turn": false,
       "hasOtherLine": true,
-      "title": [
-        {
-          "key": "employer",
-          "text": "{{employer}}"
-        }
-      ],
       "entry": "setting"
     },
     {
       "kindPrefix": "job-ended",
-      "turn": true,
+      "turn": false,
       "hasOtherLine": true,
-      "title": [
-        {
-          "key": "after",
-          "text": "{{employer}}"
-        }
-      ],
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "family:child",
@@ -141,7 +118,8 @@
         }
       ],
       "sameDay": "event:person.moved-away",
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "unpaid-wages",
@@ -174,13 +152,15 @@
           "text": "{{name}}"
         }
       ],
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:housing.eviction",
       "turn": false,
       "hasOtherLine": true,
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:housing.purchase",
@@ -210,7 +190,8 @@
         }
       ],
       "wordsFrom": "family:child",
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:person.moved-away",
@@ -218,13 +199,15 @@
       "hasOtherLine": true,
       "hasGroupLine": true,
       "selfWhenNamed": true,
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:health.serious-illness",
       "turn": false,
       "hasOtherLine": true,
-      "entry": "story"
+      "entry": "story",
+      "framesAge": true
     },
     {
       "kindPrefix": "event:office.replied",

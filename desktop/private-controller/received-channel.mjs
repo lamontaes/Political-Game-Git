@@ -26,6 +26,7 @@ export const CHANNEL_SCHEMA = "ocd-received-channel/v1";
  * Publication is separate so verification can run before the owner sees it. */
 export function stageReceivedCode({
   clientDir,
+  playApiDir = null,
   dataRoot,
   revision,
   version,
@@ -85,12 +86,25 @@ export function stageReceivedCode({
       }) + "\n",
       { flag: "wx" },
     );
+    if (playApiDir) copyPlayApi(playApiDir, path.join(resources, "play-api"));
     renameSync(temporary, final);
     // Only the updater holds the lease through staging and state publication.
     // Standalone receiver preparation may intentionally precede publication.
     if (ownedUpdate) recordVersionOwnership(dataRoot, final);
   }
+  // A version staged before the play server rode along gets it now: the
+  // play server sits beside the client, outside its verified tree.
+  const playApi = path.join(appPath, "Contents/Resources/play-api");
+  if (playApiDir && !existsSync(path.join(playApi, "play-api.mjs")))
+    copyPlayApi(playApiDir, playApi);
   return verifyReceivedBuild(build, dataRoot);
+}
+/** The bundled play server (desktop/scripts/build-play-api.mjs) answers the
+ * page's /api and /art requests; without it New game cannot start. */
+function copyPlayApi(source, target) {
+  if (!existsSync(path.join(source, "play-api.mjs")))
+    throw new Error("The staged game has no play server");
+  cpSync(source, target, { recursive: true, dereference: false });
 }
 export function channelPath(dataRoot, track) {
   if (!track.startsWith("branch:")) return null;

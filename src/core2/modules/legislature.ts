@@ -77,9 +77,22 @@ import representation from "../data/offices/federal-representation.json" with { 
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
+import { COMMITTEES, committeeForSection } from "../legislature-committees";
+import {
+  bodyNumbering,
+  designation,
+  type BillFormKind,
+} from "../legislature-bill-form";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+
+/** A trial bill, read for members' positions and never put on the record, has no form. */
+const TRIAL_FORM = {
+  kind: "act",
+  enactingClause: "",
+  enactingSource: "",
+} as const;
 
 export interface Provision {
   /** A law-in-force series the bill changes, or a policy question it answers. */
@@ -122,7 +135,17 @@ export type AuthorityReason =
 
 export interface BillRow {
   readonly id: string;
+  /** The body's own designation: "LB 12", "H.R. 25", "S. 3", "2025-12". */
   readonly number: string;
+  /**
+   * What the bill is in its body (a bill for an act, or an ordinance) and the
+   * enacting clause the law prescribes for it, with that law's citation.
+   */
+  readonly form: {
+    readonly kind: BillFormKind;
+    readonly enactingClause: string;
+    readonly enactingSource: string;
+  };
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
@@ -175,6 +198,8 @@ export interface MemberPosition {
   readonly wing?: number;
   readonly ambition?: number;
   readonly press?: number;
+  /** A member of Congress's state's stake in the bill's budget lines, within `constituents`. */
+  readonly stateStake?: number;
   /** What the member's traits add: every trait's lean toward yes over no. */
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
@@ -400,6 +425,39 @@ function councilBudget(
     result = roll(kept);
   }
   for (const row of result.rows) table(api, "votes").put(row);
+  // Each chamber's roll call on the budget is public record the press reads,
+  // like any bill's.
+  for (const chamber of chambers.chambers) {
+    const rows = result.rows.filter(
+      (r) => (r as unknown as { chamber: string }).chamber === chamber,
+    ) as unknown as { memberId: string; vote: string }[];
+    api.emit({
+      id: `bill-vote:${bill.id}:${chamber}`,
+      date: api.state.date,
+      kind: "legislative-vote",
+      personIds: rows
+        .map((r) => r.memberId)
+        .filter((id) => api.state.people.has(id)),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `Vote on ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        form: bill.form.kind,
+        motion: "pass",
+        subjects: "budget",
+        chamber,
+        yes: String(rows.filter((r) => r.vote === "yes").length),
+        no: String(rows.filter((r) => r.vote === "no").length),
+      },
+    });
+  }
   const tallies = result.tallies;
   const adopted = result.adopted;
   // The changes that passed, after any the negotiation dropped.
@@ -466,6 +524,7 @@ export function budgetLineStakes(
   const trial = {
     id: `trial:${governmentId}:${line}`,
     number: "",
+    form: TRIAL_FORM,
     bodyOfficeId: chambers.introducedIn,
     sponsorId: "",
     introduced: api.state.date,
@@ -567,16 +626,12 @@ function budgetChambers(
     level: string;
     jurisdiction: string;
   }[];
-  if (gov.level === "federal") {
-    const house = offices.find((o) => o.kind.startsWith("us-house"));
-    return house
-      ? {
-          chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
-          introducedIn: house.id,
-          body: "Congress",
-        }
-      : null;
-  }
+  if (gov.level === "federal")
+    return {
+      chambers: [FEDERAL_HOUSE, FEDERAL_SENATE],
+      introducedIn: FEDERAL_HOUSE,
+      body: "Congress",
+    };
   if (gov.level === "state") {
     const state = offices
       .filter(
@@ -784,14 +839,35 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   };
 }
 
-function nextNumber(api: CoreAPI, officeId: string): string {
-  const year = api.state.date.slice(0, 4);
-  const key = `${officeId}:${year}`;
-  const n =
-    ((table(api, "counters").get(key) as unknown as { n: number } | undefined)
-      ?.n ?? 0) + 1;
-  table(api, "counters").put({ id: key, n } as unknown as ModuleRow);
-  return `${year}-${String(n).padStart(3, "0")}`;
+/** The body's numbering for a bill drafted today, and the bill's form in it. */
+function numberAndForm(
+  api: CoreAPI,
+  officeId: string,
+): Pick<BillRow, "number" | "form"> {
+  const body = bodyOf(api, officeId)!;
+  const numbering = bodyNumbering(body, api.state.date);
+  if (numbering.kind === "ordinance") {
+    // stopgapId: SG-GOV-local-bill-numbering (one national ordinance numbering for every town)
+    api.stopgap("SG-GOV-local-bill-numbering");
+  }
+  const counter = table(api, "counters").get(numbering.runKey) as unknown as
+    { n: number } | undefined;
+  const n = counter ? counter.n + 1 : numbering.firstNumber;
+  table(api, "counters").put({
+    id: numbering.runKey,
+    n,
+  } as unknown as ModuleRow);
+  return {
+    number: designation(numbering, n),
+    form: {
+      kind: numbering.kind,
+      enactingClause: numbering.enactingClause.replace(
+        "{body}",
+        body.governmentName,
+      ),
+      enactingSource: numbering.enactingSource,
+    },
+  };
 }
 
 /** Workers in town paid under a proposed minimum wage, and what raising them costs a year. */
@@ -843,6 +919,47 @@ export function beyondPower(
   };
 }
 
+/**
+ * What a bill's title says, as record parts the English engine words: its
+ * form ("A bill for an act" or "An ordinance"), its designation, and what each
+ * section does, by the catalog policy, question, series or budget line it was
+ * drafted from ("To shift highway funds to transit, and for other purposes").
+ */
+export interface BillTitle {
+  readonly kind: BillFormKind;
+  readonly designation: string;
+  readonly subjects: readonly {
+    readonly key: string;
+    readonly operation: string | null;
+  }[];
+}
+export function billTitle(bill: BillRow): BillTitle {
+  return {
+    kind: bill.form.kind,
+    designation: bill.number,
+    subjects: bill.provisions.map((p) => ({
+      key: subjectKey(p),
+      operation: p.operation ?? null,
+    })),
+  };
+}
+function subjectKey(p: Provision): string {
+  return (
+    p.policyId ??
+    p.question ??
+    p.series ??
+    (p.line ? `budget-line:${p.line}` : p.kind)
+  );
+}
+
+/**
+ * The motion a body votes a bill on: a council adopts an ordinance, a chamber
+ * passes a bill for an act.
+ */
+export function motionOn(bill: BillRow): "adopt" | "pass" {
+  return bill.form.kind === "ordinance" ? "adopt" : "pass";
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -854,7 +971,7 @@ export function draftBill(
 ): BillRow {
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
-    number: nextNumber(api, input.bodyOfficeId),
+    ...numberAndForm(api, input.bodyOfficeId),
     bodyOfficeId: input.bodyOfficeId,
     sponsorId: input.sponsorId,
     introduced: api.state.date,
@@ -966,6 +1083,48 @@ const NON_VOTING = new Set(
 );
 export const FEDERAL_HOUSE = "federal:us-house";
 export const FEDERAL_SENATE = "federal:us-senate";
+
+/**
+ * A bill's body: its office row, or for Congress, the one national chamber
+ * (the House or the Senate, the same in every world), not any state's seat.
+ */
+export function bodyOf(
+  api: CoreAPI,
+  officeId: string,
+):
+  | {
+      readonly id: string;
+      readonly kind: string;
+      readonly jurisdiction: string;
+      readonly governmentName: string;
+    }
+  | undefined {
+  if (officeId === FEDERAL_HOUSE)
+    return {
+      id: officeId,
+      kind: "us-house",
+      jurisdiction: "US",
+      governmentName: "the Congress of the United States",
+    };
+  if (officeId === FEDERAL_SENATE)
+    return {
+      id: officeId,
+      kind: "us-senate",
+      jurisdiction: "US",
+      governmentName: "the Congress of the United States",
+    };
+  return api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as
+    | {
+        id: string;
+        kind: string;
+        jurisdiction: string;
+        governmentName: string;
+      }
+    | undefined;
+}
 
 /**
  * Every member of Congress, seat by seat with the party that holds it (public
@@ -1326,6 +1485,7 @@ function positionOn(
         wing: parts.wing,
         ambition: parts.ambition,
         press: parts.press,
+        stateStake: parts.stateStake,
       }
     : null;
   // A taste for change backs changing a settled law and resists reversing
@@ -1442,6 +1602,7 @@ export function askToCarry(
   const asked = {
     id: `ask:${input.bodyOfficeId}:${api.state.date}:${input.askerId}`,
     number: "",
+    form: TRIAL_FORM,
     bodyOfficeId: input.bodyOfficeId,
     sponsorId: input.askerId,
     introduced: api.state.date,
@@ -1526,6 +1687,7 @@ export function proposeAsExecutive(
   const trial = {
     id: `propose:${input.bodyOfficeId}:${api.state.date}:${executiveId}`,
     number: "",
+    form: TRIAL_FORM,
     bodyOfficeId: input.bodyOfficeId,
     sponsorId: executiveId,
     introduced: api.state.date,
@@ -1679,11 +1841,7 @@ export function obligationsOf(
 
 /** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
 function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
-  const office = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .get(bill.bodyOfficeId) as unknown as
-    { kind: string; jurisdiction: string } | undefined;
+  const office = bodyOf(api, bill.bodyOfficeId);
   if (office?.kind.startsWith("us-house") || office?.kind === "us-senate")
     return office.kind === "us-senate"
       ? [FEDERAL_SENATE, FEDERAL_HOUSE]
@@ -1780,6 +1938,11 @@ function chamberVote(
     facts: {
       billId: bill.id,
       number: bill.number,
+      form: bill.form.kind,
+      motion: motionOn(bill),
+      subjects: billTitle(bill)
+        .subjects.map((t) => t.key)
+        .join(","),
       chamber: officeId,
       yes: String(yes),
       no: String(no),
@@ -1805,17 +1968,10 @@ export interface CommitteeRecord {
   readonly reported: boolean;
 }
 
-/** The subject committee a bill goes to, by what its first provision touches. */
+/** The subject committee a bill goes to, by what its first section touches (data). */
 function committeeFor(bill: BillRow): string {
   const p = bill.provisions[0];
-  if (
-    p?.kind === "budget-line" ||
-    p?.series === "income-tax" ||
-    p?.series === "sales-tax"
-  )
-    return "finance";
-  if (p?.series === "minimum-wage") return "labor";
-  return "general";
+  return p ? committeeForSection(p) : COMMITTEES[COMMITTEES.length - 1]!;
 }
 
 /**
@@ -2081,10 +2237,7 @@ export function executiveOf(
   readonly federal: boolean;
 } {
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const body = offices.table("offices").get(bodyOfficeId) as unknown as {
-    jurisdiction: string;
-    kind: string;
-  };
+  const body = bodyOf(api, bodyOfficeId)!;
   const federal = body.kind.startsWith("us-house") || body.kind === "us-senate";
   const office = (
     offices
@@ -2137,6 +2290,7 @@ function executiveAction(
   } = executiveOf(api, bill.bodyOfficeId);
   let status: BillRow["status"] = "enacted";
   let decision: { executiveId: string; action: string } | undefined;
+  let override: ReturnType<typeof overrideVote> | null = null;
   // A mayor vetoes only where the state's law gives the office a veto (and
   // above any population line), overridden by the state's own share.
   const mayorRule = executiveOffice?.kind === "mayor" ? mayorVeto(api) : null;
@@ -2184,7 +2338,7 @@ function executiveAction(
       // Two thirds of each body's whole membership (not of those voting).
       const share =
         mayorRule?.overrideShare ?? campaignParameter("vetoOverrideShare");
-      status = overrideVote(
+      override = overrideVote(
         api,
         bill,
         memberSide(api, key, executive.party),
@@ -2192,9 +2346,8 @@ function executiveAction(
           mayorRule?.plusOne
             ? Math.floor(n * share) + 1
             : Math.ceil(n * share - 1e-9),
-      )
-        ? "overridden"
-        : "vetoed";
+      );
+      status = override.passed ? "overridden" : "vetoed";
     } else status = "signed";
     table(api, "votes").put({
       id: `vote:${bill.id}:${key}`,
@@ -2212,6 +2365,38 @@ function executiveAction(
         temperament: decided ? 0 : signLean,
       });
     decision = { executiveId: key, action: status };
+    // The signature, the veto and any override vote are public record the
+    // press reads, like the floor's roll call.
+    api.emit({
+      id: `executive-action:${bill.id}`,
+      date: api.state.date,
+      kind: "executive-action",
+      personIds: [
+        ...(executive.personId ? [executive.personId] : []),
+        ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
+      ],
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${status === "signed" ? "Signing" : "Veto"} of ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        executiveId: key,
+        action: status,
+        ...(override
+          ? {
+              override: override.tallies
+                .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+                .join(","),
+            }
+          : {}),
+      },
+    });
   }
   const next: BillRow = { ...bill, status };
   table(api, "bills").put(next as unknown as ModuleRow);
@@ -2231,7 +2416,21 @@ function overrideVote(
   bill: BillRow,
   executiveSide: number,
   needed: (members: number) => number,
-): boolean {
+): {
+  readonly passed: boolean;
+  readonly tallies: readonly {
+    chamber: string;
+    yes: number;
+    needed: number;
+    members: number;
+  }[];
+} {
+  const tallies: {
+    chamber: string;
+    yes: number;
+    needed: number;
+    members: number;
+  }[] = [];
   for (const chamber of chambersOf(api, bill)) {
     const roster = members(api, chamber);
     let yes = 0;
@@ -2267,9 +2466,15 @@ function overrideVote(
         position: { ...position, executive, total },
       } as unknown as ModuleRow);
     }
-    if (yes < needed(roster.length)) return false;
+    tallies.push({
+      chamber,
+      yes,
+      needed: needed(roster.length),
+      members: roster.length,
+    });
+    if (yes < needed(roster.length)) return { passed: false, tallies };
   }
-  return true;
+  return { passed: true, tallies };
 }
 
 /** A member's party side: an official's caucus or party, else their term's. */
@@ -2435,7 +2640,7 @@ function enact(
   const citation = federal
     ? `Public Law (bill ${bill.number})`
     : state
-      ? `Act ${bill.number}${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
+      ? `${bill.number}, enacted${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
       : `Ordinance ${bill.number}`;
   for (const provision of bill.provisions) {
     const effectiveDate = provision.effectiveDate ?? defaultDate;

@@ -171,6 +171,8 @@ export interface ResidentsRuntime {
    * closes.
    */
   outsideOutlay: Map<number, number>;
+  /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
+  fillIns: number;
 }
 
 interface ResidentMonth {
@@ -609,6 +611,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     moneyCache: { serial: 0 },
     fillInCash: new Map(),
     outsideOutlay: new Map(),
+    fillIns: 0,
   };
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
@@ -1418,9 +1421,12 @@ export function releaseResidentHousehold(
   calendars: Map<string, WorkPayrollCalendarInput>;
   cashShare: number;
   accountId?: string;
+  /** This release's number, for naming its transfers. */
+  sequence: number;
 } {
   const rt = runtimes.get(core)!;
   const householdId = record.household.id;
+  const sequence = (rt.fillIns += 1);
   const jobIds = new Set(record.jobs.map((row) => row.id));
   const parts = partsOf(householdId);
   let outsideLiving: { amount: number; flow: FlowState } | undefined;
@@ -1537,7 +1543,7 @@ export function releaseResidentHousehold(
     }
     if (total > 0)
       transferSplit(core, rt.api, {
-        id: `fill-in:${householdId}:cash`,
+        id: `fill-in:${householdId}:${sequence}:cash`,
         lines: [
           { accountId: fundOf(rt.api, rt, cash.group), deltaMinor: -total },
           ...lines,
@@ -1608,6 +1614,7 @@ export function releaseResidentHousehold(
     schedule(rt, flow);
   }
   return {
+    sequence,
     calendars,
     // Paid from its group's account above; the pool's share is for a world
     // whose groups hold no money yet.
@@ -2023,6 +2030,27 @@ export function ownMap(
   return copy;
 }
 
+/**
+ * Every job row the counted books hold for these people: the household's
+ * opening jobs and the ones its members were hired into since (those live in
+ * `rt.jobs` only), so a leaver never leaves a job standing for a person who
+ * is gone.
+ */
+function countedJobIdsOf(
+  rt: ResidentsRuntime,
+  householdJobs: readonly JobInput[],
+  personIds: ReadonlySet<PersonId>,
+): Set<string> {
+  const ids = new Set(
+    householdJobs
+      .filter((row) => personIds.has(row.personId))
+      .map((row) => row.id),
+  );
+  for (const job of rt.jobs.values())
+    if (personIds.has(job.personId)) ids.add(job.id);
+  return ids;
+}
+
 /** Remove counted jobs from their employers' wage flows (the worker is gone). */
 function dropCountedJobs(rt: ResidentsRuntime, jobIds: ReadonlySet<string>) {
   if (!jobIds.size) return;
@@ -2077,8 +2105,7 @@ export function removeCountedPerson(core: CoreState, personId: PersonId): void {
   if (!rt || m === undefined) return;
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
-  const jobs = h.jobs.filter((row) => row.personId === personId);
-  dropCountedJobs(rt, new Set(jobs.map((row) => row.id)));
+  dropCountedJobs(rt, countedJobIdsOf(rt, h.jobs, new Set([personId])));
   const awards = h.incomeContracts.filter(
     (row) => row.recipientIncome?.personId === personId,
   );
@@ -2125,7 +2152,14 @@ function endHouseholdFlows(
   h: CountedHousehold,
   date: IsoDate,
 ): void {
-  dropCountedJobs(rt, new Set(h.jobs.map((row) => row.id)));
+  dropCountedJobs(
+    rt,
+    countedJobIdsOf(
+      rt,
+      h.jobs,
+      new Set(rt.store.countedMembers(h).map((m) => rt.store.ids[m]!)),
+    ),
+  );
   dropCountedContracts(
     rt,
     new Set([...h.incomeContracts.map((row) => row.id), ...partsOf(h.id)]),

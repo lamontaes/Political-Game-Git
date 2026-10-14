@@ -318,5 +318,40 @@
     "value": 5000,
     "tag": "SOURCED",
     "citation": "RESPA, 12 CFR 1024.17(f)(2): a surplus of $50 or more is refunded to the borrower within 30 days of the escrow account analysis; a smaller one may be refunded or credited against next year's payments."
+  },
+  "housingHostMaxPeople": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The most people a relative's home takes in before it is crowded: a household of six or more is past one person per room in a typical five- or six-room home (American Housing Survey crowding standard, more than one person per room); checked against the spread 5 to 8.",
+    "spread": {
+      "low": 5,
+      "high": 8,
+      "unit": "people in the host's home",
+      "citation": "American Housing Survey crowding standard (more than one person per room); typical homes of five to six rooms."
+    }
+  },
+  "housingRehouseIncomeMultiple": {
+    "value": 3,
+    "tag": "ESTIMATED",
+    "citation": "Landlords commonly ask for monthly income of about three times the rent before they lease (the 30 percent rent-burden standard, HUD); spread 2.5 to 3.",
+    "estimatedFrom": "rent-screening practice",
+    "spread": {
+      "low": 2.5,
+      "high": 3,
+      "unit": "monthly income per month of rent",
+      "citation": "HUD's 30 percent rent-burden standard; landlord screening at two and a half to three times the rent."
+    }
+  },
+  "housingForeclosureSaleShare": {
+    "value": 0.73,
+    "tag": "ESTIMATED",
+    "citation": "A forced sale brings about 27 percent less than the home's value (Campbell, Giglio and Pathak 2011, American Economic Review 101(5), foreclosure discount in Massachusetts sales 1987-2009).",
+    "estimatedFrom": "one state's sales; national spread 20 to 30 percent",
+    "spread": {
+      "low": 0.7,
+      "high": 0.8,
+      "unit": "share of the home's value",
+      "citation": "Campbell, Giglio and Pathak 2011; Clauretie and Daneshvary 2009 (about 8 percent after controls)."
+    }
   }
 }

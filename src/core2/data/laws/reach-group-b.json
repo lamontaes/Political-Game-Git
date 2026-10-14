@@ -202,7 +202,31 @@
       "effect": "balanced-budget-required",
       "kind": "rule",
       "enforcer": "the legislature and the budget office",
-      "source": "NASBO, Budget Processes in the States (2021): balanced-budget requirements"
+      "source": "NASBO, Budget Processes in the States (2021): balanced-budget requirements",
+      "sequestration": {
+        "federal": {
+          "exempt": [
+            "socialSecurity",
+            "veterans",
+            "incomeSecurity",
+            "netInterest",
+            "interest"
+          ],
+          "caps": {
+            "medicare": 0.04
+          },
+          "tag": "SOURCED",
+          "source": "How an across-the-board federal cut falls: the Balanced Budget and Emergency Deficit Control Act exempts Social Security benefits, veterans' compensation and pensions, Medicaid, SNAP, Supplemental Security Income, refundable tax credits and net interest (2 U.S.C. § 905), and limits the Medicare cut to 4 percent under statutory pay-as-you-go (2 U.S.C. § 906(d); 2 U.S.C. § 934(d)(2)). The game's income-security line is mostly those exempt programs, so it is exempt whole. The gap closes in equal steps over five fiscal years, as the Balanced Budget and Emergency Deficit Control Act of 1985 (Gramm-Rudman-Hollings) set its deficit targets falling to zero from fiscal year 1986 to 1991.",
+          "phaseYears": 5
+        },
+        "default": {
+          "exempt": ["interest", "netInterest"],
+          "caps": {},
+          "tag": "SOURCED",
+          "source": "A state or local balanced-budget requirement closes a gap across the budget, never by defaulting on debt service (NASBO, Budget Processes in the States, 2021; every state constitution that limits debt pledges its payment). A state closes its gap within the year: the requirement applies to each year's enacted budget.",
+          "phaseYears": 1
+        }
+      }
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
       "mechanic": "pension-funding",

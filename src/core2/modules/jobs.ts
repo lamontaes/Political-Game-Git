@@ -1628,6 +1628,11 @@ function runWeek(api: CoreAPI): void {
   // Who can reach each place's openings: its own seekers and those who commute there.
   const reaching = new Map<string, Applier[]>();
   for (const seeker of counted) {
+    // A seeker who died or moved away with their household is no one to hire.
+    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+      store(api).table("countedSeekers").remove(seeker.personId);
+      continue;
+    }
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
     // A counted person's traits don't change, so their lean is worked out once.

@@ -1,10 +1,14 @@
-/* The play page on Kit 12, the owner's locked look (docs/codex/ui-logo-packet/01_kit12_ui/kit12.css).
+/* The play page on Kit 13, the owner's approved control set (docs/ui/kit13/APPROVED-2026-10-04.md).
    Every screen uses these classes and nothing else:
-   .panel (dark glass, slim brass between iron hairlines), .bust (a figure cropped to head and
+   .panel (dark glass, brass frame, brass corner ornaments), .bust (a figure cropped to head and
    shoulders), .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
-   (Fira Sans), .replies / .reply (numbered lines), .action (small capitals, .primary underlined
-   red), .tabs / .tab, .nav-item, .item, .ring, .row (a gold label and its value), .lie-scales.
-   Any text shadow is head-on, never offset. No chevrons, no button boxes, no navy. */
+   (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
+   plain is Back, .small the second size; the brass corner mark shows only while .active or
+   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
+   The chevron rule: a mark appears only on a static button while it is activated; never in
+   radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
+   Any text shadow is head-on, never offset. No button chevrons, no thin gold rules, no navy. */
 @font-face {
   font-family: "Cinzel";
   font-weight: 800;
@@ -51,7 +55,7 @@
   src: url("/fonts/kit12/fira-sans-600.ttf") format("truetype");
 }
 
-/* ---- Kit 12 tokens ---- */
+/* ---- Kit 13 tokens ---- */
 :root {
   color-scheme: dark;
   --glass-top: rgba(42, 42, 44, 0.72);
@@ -64,7 +68,11 @@
   --text-strong: #f6f1e8;
   --text-2: rgba(242, 237, 228, 0.78);
   --text-3: rgba(242, 237, 228, 0.55);
-  --rule: rgba(214, 189, 132, 0.16);
+  --brass-hi: #f3dba7;
+  --brass-lo: #806337;
+  --key: linear-gradient(#34343a, #1d1d20);
+  --key-hover: linear-gradient(#3e3e44, #26262a);
+  --raised: linear-gradient(#4a4a50, #2a2a2e);
   --lying: #ffc9bd;
   --name: "Cinzel", "Trajan Pro", Georgia, serif;
   --speech: "Andada Pro", Georgia, serif;
@@ -159,7 +167,7 @@ ol {
   }
 }
 
-/* ---- Kit 12 components ---- */
+/* ---- Kit 13 components ---- */
 .panel {
   position: absolute;
   background: linear-gradient(var(--glass-top), var(--glass-bottom));
@@ -176,6 +184,30 @@ ol {
   font: 400 14.5px/1.4 var(--ui);
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
   font-variant-numeric: lining-nums tabular-nums;
+}
+/* Brass corner ornaments, part of the approved panel frame. */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 28px 28px;
+}
+.panel::before {
+  background-image:
+    url("/ui/kit13/corner-tl.svg"), url("/ui/kit13/corner-tr.svg");
+  background-position:
+    left top,
+    right top;
+}
+.panel::after {
+  background-image:
+    url("/ui/kit13/corner-bl.svg"), url("/ui/kit13/corner-br.svg");
+  background-position:
+    left bottom,
+    right bottom;
 }
 /* The game's own figure, cropped to head and shoulders, fading into the glass. */
 .bust {
@@ -221,7 +253,9 @@ ol {
   color: var(--text-2);
 }
 
-/* Every control is plain type on the glass: no boxes, no chevrons. */
+/* Buttons: dark glass with a fine grain and clean edges. Continue (.primary) and Back (plain),
+   in two sizes. The brass corner mark shows only while a button is activated (.active,
+   aria-pressed, or held down), never at rest or on hover. */
 button {
   font: inherit;
   color: inherit;
@@ -243,27 +277,55 @@ select:focus-visible {
   outline: 1px solid var(--gold);
   outline-offset: 2px;
 }
-/* Actions: small capitals; the main one carries a thin red underline. */
 .action,
 #sheet-body button,
 #person-facts button {
-  font: 600 12px var(--ui);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #e6d3a6;
-  margin-right: 18px;
-  padding: 2px 0;
+  position: relative;
+  display: inline-block;
+  min-height: 38px;
+  padding: 7px 26px;
+  margin: 0 12px 0 0;
+  font: 500 16px/1.2 var(--ui);
+  color: var(--text-strong);
+  text-align: center;
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1px;
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
-.action.primary,
-.action.active {
-  color: var(--text);
-  border-bottom: 1.5px solid var(--red);
+.action.small,
+#sheet-body button,
+#person-facts button,
+.me .action {
+  min-height: 30px;
+  padding: 4px 16px;
+  font-size: 14px;
+}
+.action.primary {
+  min-width: 120px;
+  font-weight: 500;
+}
+.action.primary.active::before,
+.action.primary[aria-pressed="true"]::before,
+.action.primary:active:not(:disabled)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
+  pointer-events: none;
 }
 .acts {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  row-gap: 6px;
+  align-items: center;
+  row-gap: 10px;
 }
 /* Replies: plain numbered lines, no boxes. */
 .replies {
@@ -287,49 +349,48 @@ select:focus-visible {
   color: var(--gold);
   font-weight: 500;
 }
-/* Tabs across the top: the open one underlined in gold. */
+/* Tabs: plain type; the open one is a raised glass box. */
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
-  border-bottom: 1px solid rgba(214, 189, 132, 0.28);
-  margin: 12px 0 14px;
+  gap: 10px;
+  margin: 14px 0 16px;
 }
 .tabs:empty {
   display: none;
 }
 .tab {
-  font: 600 12px var(--ui);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 0 0 7px;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
+  font: 500 16px var(--ui);
+  color: var(--text-2);
+  padding: 6px 18px;
+  border: 1px solid transparent;
 }
 .tab.on {
-  color: var(--text);
-  border-bottom-color: var(--gold);
+  color: var(--gold);
+  background: var(--raised);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
-/* Round brass controls (the radial row over the player card). */
+/* Icons: gold line icons on a small glass key (the row over the player card). */
 .ring {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
   display: grid;
   place-items: center;
-  background: linear-gradient(var(--glass-top), var(--glass-bottom));
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1.5px solid var(--brass);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 1px;
   box-shadow:
-    0 0 0 1px var(--iron),
-    inset 0 0 0 1px var(--iron),
-    0 3px 6px rgba(0, 0, 0, 0.5);
+    0 2px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 .ring svg {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   fill: none;
   stroke: var(--gold);
   stroke-width: 1.6;
@@ -337,20 +398,31 @@ select:focus-visible {
   stroke-linejoin: round;
 }
 .ring.active {
-  box-shadow:
-    0 0 0 1px var(--iron),
-    inset 0 0 0 1px var(--iron),
-    0 0 0 3px rgba(214, 189, 132, 0.35),
-    0 3px 6px rgba(0, 0, 0, 0.5);
+  background: var(--raised);
+  border-color: rgba(255, 255, 255, 0.28);
 }
-/* A label and its value on one ruled line. */
+/* Thin light close X and return arrow. */
+.glyph {
+  width: 34px;
+  height: 34px;
+  background: 50% 50% / 22px 22px no-repeat;
+}
+.glyph.close {
+  background-image: url("/ui/kit13/close.svg");
+}
+.glyph.back {
+  background-image: url("/ui/kit13/back.svg");
+}
+.glyph:hover {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
+}
+/* A label and its value on one line. */
 .row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 18px;
   padding: 7px 0;
-  border-bottom: 1px solid var(--rule);
   break-inside: avoid;
 }
 .row span b {
@@ -437,10 +509,15 @@ select:focus-visible {
     box-shadow 0.25s ease,
     filter 0.25s ease;
 }
-.reply:hover:not(:disabled),
 .action:hover:not(:disabled),
 #sheet-body button:hover:not(:disabled),
-#person-facts button:hover,
+#person-facts button:hover {
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key-hover);
+  color: #fff;
+}
+.reply:hover:not(:disabled),
 .tab:hover,
 .nav-item:hover .nl,
 .item:hover:not(:disabled) b,
@@ -455,11 +532,9 @@ select:focus-visible {
     0 0 16px rgba(214, 88, 64, 0.35);
 }
 .ring:hover {
-  box-shadow:
-    0 0 0 1px var(--iron),
-    inset 0 0 0 1px var(--iron),
-    0 0 12px rgba(255, 255, 255, 0.35),
-    0 3px 6px rgba(0, 0, 0, 0.5);
+  background:
+    url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
+    var(--key-hover);
 }
 .lie-scales:hover:not(:disabled) svg {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7));
@@ -469,37 +544,161 @@ select:focus-visible {
     drop-shadow(0 0 10px rgba(214, 88, 64, 0.75));
 }
 
-/* Fields: text on a brass hairline. */
+/* Fields. Search: icon and text at rest, a thin box on hover, a solid box with a caret when
+   clicked. Dropdown: plain text at rest with no chevron, a thin box on hover, a plain list when
+   open. */
 input,
 select {
-  font: 400 14px var(--ui);
+  font: 400 15px var(--ui);
   color: var(--text);
   background: transparent;
-  border: 0;
-  border-bottom: 1px solid rgba(214, 189, 132, 0.45);
+  border: 1px solid transparent;
   border-radius: 0;
-  padding: 3px 2px;
+  padding: 5px 8px;
   max-width: 260px;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+input:hover:not(:focus),
+select:hover:not(:focus) {
+  border-color: rgba(242, 237, 228, 0.28);
+}
+input:focus,
+select:focus {
+  outline: none;
+  background-color: rgba(8, 8, 9, 0.72);
+  border-color: var(--gold);
+  caret-color: var(--text-strong);
 }
 input::placeholder {
   color: var(--text-3);
+}
+input[type="search"],
+input#place {
+  padding-left: 34px;
+  background: url("/ui/kit13/search.svg") 8px 50% / 18px 18px no-repeat;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="search"]:focus,
+input#place:focus {
+  background-color: rgba(8, 8, 9, 0.72);
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+input#place::-webkit-calendar-picker-indicator {
+  display: none;
+}
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 8px;
+  cursor: pointer;
 }
 select option,
 select optgroup {
   background: #1f1f21;
   color: var(--text);
+  padding: 4px 8px;
+}
+/* Checkboxes: a gold outline; checked, a gold check. */
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1.5px solid var(--gold);
+  border-radius: 1px;
+  background: transparent 50% 50% / 16px 16px no-repeat;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked {
+  background-image: url("/ui/kit13/check.svg");
+}
+input[type="checkbox"]:focus {
+  background-color: transparent;
+}
+/* Slider: a brass handle on a gold-and-dark track; rest, hover and dragging. */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    var(--brass-lo),
+    var(--gold) 55%,
+    #26262a 55%
+  );
+  border: 1px solid #0d0d0d;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 26px;
+  margin-top: -9px;
+  background: linear-gradient(
+    90deg,
+    var(--brass-hi),
+    var(--gold) 50%,
+    var(--brass-lo)
+  );
+  border: 1px solid #141412;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+input[type="range"]:hover::-webkit-slider-thumb {
+  box-shadow:
+    0 0 8px rgba(255, 240, 199, 0.55),
+    0 2px 3px rgba(0, 0, 0, 0.6);
+}
+input[type="range"]:active::-webkit-slider-thumb {
+  background: linear-gradient(90deg, #fff0c7, var(--brass-hi) 50%, var(--gold));
+  box-shadow:
+    0 0 12px rgba(255, 240, 199, 0.8),
+    0 2px 3px rgba(0, 0, 0, 0.6);
+}
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: #26262a;
+  border: 1px solid #0d0d0d;
+}
+input[type="range"]::-moz-range-progress {
+  height: 8px;
+  background: linear-gradient(90deg, var(--brass-lo), var(--gold));
+}
+input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 26px;
+  border-radius: 0;
+  background: linear-gradient(
+    90deg,
+    var(--brass-hi),
+    var(--gold) 50%,
+    var(--brass-lo)
+  );
+  border: 1px solid #141412;
 }
 .field {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
   padding: 6px 0;
   color: var(--text-2);
-  font-size: 13px;
+  font-size: 14px;
 }
 .field input {
-  width: 150px;
+  width: 170px;
 }
 
 /* ---- Title screen ---- */
@@ -524,7 +723,6 @@ select optgroup {
   display: block;
   width: 100%;
   padding: 9px 0;
-  border-top: 1px solid var(--rule);
 }
 .item b {
   display: block;
@@ -538,43 +736,56 @@ select optgroup {
   color: var(--text-2);
   margin-top: 2px;
 }
-#new-life {
-  box-shadow: inset 3px 0 0 var(--brass);
-  padding-left: 12px;
-  margin-left: -14px;
-  width: calc(100% + 14px);
-}
 #new-life b {
   color: #fff;
-}
-#front .field {
-  border-top: 1px solid var(--rule);
 }
 #front-status:empty {
   display: none;
 }
 #custom {
   margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid var(--rule);
 }
+/* About keeps the version; the title never shows one. */
 .version {
   margin-top: 12px;
   color: var(--text-3);
 }
-.version:empty {
-  display: none;
+/* New game, second step: Random, or a typed place. */
+#front-place .field input {
+  width: 220px;
 }
+/* No chevron at rest: the suggestions open as the player types. */
+#place::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+#front-place .acts {
+  justify-content: space-between;
+  margin-top: 12px;
+}
+/* Progress: a brass frame, the fill running dark to light gold. */
 .progress {
-  height: 3px;
-  margin: 10px 0 6px;
-  background: rgba(156, 131, 80, 0.3);
+  position: relative;
+  height: 24px;
+  margin: 12px 0 8px;
+  border-style: solid;
+  border-width: 12px;
+  border-image: url("/ui/kit13/progress-frame.svg") 12 stretch;
+  background: #0c0c0d;
+  background-clip: padding-box;
 }
 .progress span {
-  display: block;
-  height: 100%;
+  position: absolute;
+  left: -2px;
+  top: -8px;
+  height: 16px;
   width: 40%;
-  background: linear-gradient(90deg, var(--brass), var(--gold));
+  max-width: calc(100% + 4px);
+  background: linear-gradient(
+    90deg,
+    var(--brass-lo),
+    var(--gold) 60%,
+    var(--brass-hi)
+  );
   animation: fill 2s ease-in-out infinite alternate;
 }
 .progress span.steady {
@@ -660,9 +871,14 @@ body.dev .dev-ring {
   display: none;
 }
 .me .time {
-  margin-left: 6px;
-  padding-left: 14px;
-  border-left: 1px solid var(--rule);
+  margin-left: 0;
+  padding-left: 8px;
+}
+.me .action,
+.me .action.primary {
+  min-width: 0;
+  padding: 4px 12px;
+  margin-right: 8px;
 }
 .me .time .action {
   margin-right: 14px;
@@ -742,8 +958,6 @@ body.dev .dev-ring {
   bottom: 162px;
   width: 284px;
   padding: 18px 0;
-  overflow: hidden auto;
-  scrollbar-width: none;
 }
 .menu-title {
   font: 800 16px var(--name);
@@ -752,7 +966,6 @@ body.dev .dev-ring {
   color: var(--text-strong);
   padding: 0 18px 12px;
   margin-bottom: 8px;
-  border-bottom: 1px solid var(--rule);
 }
 .nav-item {
   display: block;
@@ -773,8 +986,10 @@ body.dev .dev-ring {
   margin-top: 1px;
 }
 .nav-item.active {
-  box-shadow: inset 3px 0 0 var(--brass);
-  background: rgba(214, 189, 132, 0.06);
+  background: var(--raised);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 .nav-item.active .nl {
   color: #fff;
@@ -804,16 +1019,21 @@ body.dev .dev-ring {
 }
 #sheet-tabs:empty + #sheet-body {
   margin-top: 14px;
-  border-top: 1px solid rgba(214, 189, 132, 0.28);
-  padding-top: 12px;
 }
 #sheet-body {
   flex: 1;
   min-height: 0;
-  overflow: hidden auto;
+  position: relative;
+  /* Nothing inside a menu scrolls: a long screen pages (Back / Continue). */
+  overflow: hidden;
   max-width: 760px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--brass) transparent;
+}
+#sheet-pager {
+  flex: none;
+  margin-top: 12px;
+}
+#sheet-pager:not([hidden]) {
+  display: flex;
 }
 /* A long screen reads in two columns. */
 #sheet-body.cols {
@@ -906,11 +1126,9 @@ body.dev .dev-ring {
   text-transform: uppercase;
   color: var(--gold);
   padding-bottom: 4px;
-  border-bottom: 1px solid rgba(214, 189, 132, 0.28);
 }
 .month .day {
   min-height: 48px;
-  border-bottom: 1px solid var(--rule);
   padding: 3px 2px;
   font-size: 11px;
   overflow: hidden;
@@ -920,8 +1138,10 @@ body.dev .dev-ring {
   color: var(--text-2);
 }
 .month .day.today b {
-  color: #fff;
-  border-bottom: 2px solid var(--gold);
+  color: var(--gold);
+  background: var(--raised);
+  padding: 1px 7px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 .month .day.jump {
   cursor: pointer;
@@ -1036,8 +1256,6 @@ body.dev .dev-ring {
 }
 #person-role {
   margin: 4px 0 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(214, 189, 132, 0.28);
 }
 #person-role:empty {
   display: none;
@@ -1051,8 +1269,6 @@ body.dev .dev-ring {
   top: var(--gutter);
   right: var(--gutter);
   width: 380px;
-  max-height: 60vh;
-  overflow: hidden auto;
   padding: 14px 18px;
 }
 #filing-overlay .name {
@@ -1134,7 +1350,21 @@ body.dev .dev-ring {
   grid-template-columns: 1fr 280px;
   gap: 28px;
   padding: 26px 30px;
-  overflow: auto;
+  overflow: hidden;
+}
+#news-reader {
+  grid-template-rows: minmax(0, 1fr);
+}
+.news-reader-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#news-reader-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
 }
 #news-reader .heading {
   margin: 0 0 12px;
@@ -1150,7 +1380,6 @@ body.dev .dev-ring {
 #news-reader-more .prose {
   margin: 0;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(242, 237, 228, 0.12);
 }
 /* The scenes the player lets stop the day (Options). */
 .scene-filter {
@@ -1200,22 +1429,48 @@ body.dev .dev-ring {
 /* ---- Polling place (director/scenes-and-filters, owner Oct 14, 2026) ----
    Election day's ballot over the polling place's picture: kit12's panel,
    heading and actions; positions only. */
-#ballot {
+#ballot,
+#meeting,
+#desk {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
   z-index: 6;
   width: min(420px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
-  overflow: auto;
+  overflow: hidden;
 }
-#ballot .race + .race {
+#ballot {
+  display: flex;
+  flex-direction: column;
+}
+#ballot-races {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+#ballot-pager,
+#news-reader-pager {
+  margin-top: 10px;
+}
+#ballot-pager:not([hidden]),
+#news-reader-pager:not([hidden]) {
+  display: flex;
+}
+#ballot .race + .race,
+#meeting .race + .race,
+#desk .race + .race {
   margin-top: 18px;
 }
-#ballot .heading {
+#ballot .heading,
+#meeting .heading,
+#desk .heading {
   margin: 0 0 8px;
 }
-#ballot .acts {
+#ballot .acts,
+#meeting .acts,
+#desk .acts {
   display: grid;
   gap: 6px;
 }

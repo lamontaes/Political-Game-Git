@@ -4,15 +4,16 @@
  * records (owner, Sept 22 and Oct 1; Oct 14: "a dramatized story, not a list
  * of facts").
  *
- * A school or a job is a setting, never an entry by itself: it names a
- * chapter, and the chapter is told only when something happened in it. Each
+ * A school or a job is a setting, never an entry and never a chapter: it is
+ * kept only as where the person knew someone who matters later. Each
  * entry is a scene: the event, framed by the person's age when they were
  * young ("When I was 7, my father died."), a hard time after a loss, and a
  * look-back when the moment's hindsight (its impact grown by how much the
  * people in it matter now) reaches the interrupt line. Running, winning and
  * losing are entries. The journal is composed when it is read, so it is
- * revised as life goes on: a quiet school chapter gains the schoolmate who
- * later holds office ("except for {name}"). Every slot is a recorded fact;
+ * revised as life goes on: a schoolmate or co-worker who later holds office
+ * is remembered in the latest chapter ("I knew {name} from {school}. {name}
+ * became mayor."). Every slot is a recorded fact;
  * a feeling is never invented.
  */
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -63,6 +64,8 @@ interface LineRow {
   sameDay?: string;
   /** A fact told once: a later moment with the same text for it is skipped. */
   oncePer?: string;
+  /** What happens around a young person (a death, a move): their age frames it. */
+  framesAge?: boolean;
 }
 
 /** A journal row's structure before the mined bank words it. */
@@ -77,6 +80,7 @@ export interface RowShape {
   selfWhenNamed?: boolean;
   sameDay?: string;
   oncePer?: string;
+  framesAge?: boolean;
   /** The mined target whose sentences word this row, when it is not the row's own kind. */
   wordsFrom?: string;
   /** The row also has a line for someone else's moment. */
@@ -370,11 +374,20 @@ export function composeJournal(
     DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value;
   const lower = (text: string) =>
     text.charAt(zero).toLowerCase() + text.slice(one);
+  // A line that opens with a fact (a person's name) keeps its capital.
+  const opensWithFact = (
+    text: string,
+    facts: Readonly<Record<string, { text: string }>>,
+  ) =>
+    Object.values(facts).some(
+      (fact) => fact.text.length > zero && text.startsWith(fact.text),
+    );
 
-  const chapters: (JournalChapter & {
-    settingFactIds: string[];
-    employerIds: string[];
-  })[] = [];
+  const chapters: JournalChapter[] = [];
+  // Where life happened (a school, a job): never a chapter or an entry, only
+  // where the person knew someone who matters later (owner, Oct 14).
+  const settingFactIds: string[] = [];
+  const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
@@ -385,8 +398,6 @@ export function composeJournal(
       from: date,
       through: date,
       lines: [],
-      settingFactIds: [],
-      employerIds: [],
     };
     chapters.push(chapter);
   };
@@ -443,8 +454,16 @@ export function composeJournal(
       toldOnce.add(`${row.kindPrefix}|${once}`);
     }
     const sourceIds = [moment.causeId];
-    // A turn opens a chapter titled by its record (a school, an employer, a
-    // race), unless the chapter began with the same kind of turn.
+    // A setting is where life happened, not something that happened: it
+    // neither opens a chapter nor titles one.
+    if (row.entry === "setting") {
+      if (moment.causeFactId) settingFactIds.push(moment.causeFactId);
+      const employer = facts.employer?.sourceRecordIds.at(-one);
+      if (employer) employerIds.push(employer);
+      continue;
+    }
+    // A turn opens a chapter titled by its record (a race, a child), unless
+    // the chapter began with the same kind of turn.
     if (!chapter || (row.turn && chapterKind !== row.kindPrefix)) {
       chapterKind = row.turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
@@ -464,13 +483,6 @@ export function composeJournal(
           sourceIds,
         );
       open(moment.id, title?.text ?? "", moment.date);
-    }
-    // A setting is where life happened, not something that happened.
-    if (row.entry === "setting") {
-      if (moment.causeFactId) chapter!.settingFactIds.push(moment.causeFactId);
-      const employer = facts.employer?.sourceRecordIds.at(-one);
-      if (employer) chapter!.employerIds.push(employer);
-      continue;
     }
     // The scene: the event itself, worded for whose it was.
     const own =
@@ -546,8 +558,8 @@ export function composeJournal(
     const parts = [event];
     // When they were young, the age frames it: "When I was 7, my father died."
     // Only what happened around a young person (a death, a move, an
-    // illness), never their own child's birth.
-    if (young && !moment.causeKind.startsWith("family:child")) {
+    // illness), as the row says; never a race or their own child's birth.
+    if (young && row.framesAge) {
       const frame = render(
         "journal-memoir:when-age",
         memoir.whenAge,
@@ -562,7 +574,7 @@ export function composeJournal(
       if (frame)
         parts[zero] = {
           ...event,
-          text: `${frame.text.replace(/[.]$/, ",")} ${lower(event.text)}`,
+          text: `${frame.text.replace(/[.]$/, ",")} ${opensWithFact(event.text, facts) ? event.text : lower(event.text)}`,
           sourceRecordIds: [
             ...new Set([...frame.sourceRecordIds, ...event.sourceRecordIds]),
           ],
@@ -623,16 +635,16 @@ export function composeJournal(
       (lead === "she" && gender === "female")
     );
   };
-  // Revised as life goes on: a schoolmate or a co-worker from a chapter who
-  // now holds office is remembered there, and a quiet chapter turns on them.
+  // Revised as life goes on: a schoolmate or a co-worker who now holds office
+  // is remembered in the latest chapter, as the story of that person.
   const offices = options.officeOf ?? officeHolding(core);
-  for (const row of chapters) {
+  {
     const mates = (person.pastFacts ?? []).filter(
       (fact) =>
         (fact.kind === "social:generated-school-acquaintance" &&
-          row.settingFactIds.includes(fact.facts?.contextFactId ?? "")) ||
+          settingFactIds.includes(fact.facts?.contextFactId ?? "")) ||
         (fact.kind === "social:generated-coworker" &&
-          row.employerIds.includes(
+          employerIds.includes(
             core.jobs.get((fact.facts?.contextFactId ?? "").split(":")[zero]!)
               ?.organizationId ?? "",
           )),
@@ -642,7 +654,7 @@ export function composeJournal(
       const office = mateId ? offices(mateId) : undefined;
       const said = mateId ? other(mateId) : undefined;
       if (!office || !said) continue;
-      const setting = row.settingFactIds
+      const setting = settingFactIds
         .map((id) => factsById.get(id))
         .find((entry) => entry?.facts?.schoolName);
       const facts: Facts = {
@@ -659,17 +671,7 @@ export function composeJournal(
           : {}),
       };
       const ids = [fact.id, ...office.sourceRecordIds];
-      const quiet = !row.lines.length;
       const said2 = [
-        quiet
-          ? render(
-              "journal-memoir:except",
-              memoir.except,
-              facts,
-              `${fact.id}:except`,
-              ids,
-            )
-          : null,
         render(
           "journal-memoir:remember",
           // Only a sentence that names them: "We were friends." points to no one.
@@ -690,6 +692,20 @@ export function composeJournal(
       // Remembering needs saying who they became; a bare name tells nothing.
       if (!said2.some((part) => part.text.includes(office.text.toLowerCase())))
         continue;
+      // The latest chapter, or the first one when nothing else is told yet,
+      // titled as every first chapter is (never by the school).
+      if (!chapters.length) {
+        const place = placeName(person.placeId);
+        const title = render(
+          "journal-title:first",
+          data.firstTitle,
+          place ? { place } : {},
+          `${fact.id}:title`,
+          ids,
+        );
+        open(`${fact.id}:remember`, title?.text ?? "", through);
+      }
+      const row = chapters.at(-one)!;
       row.lines.push({
         id: `${row.key}:remember:${mateId}`,
         date: row.through,
@@ -730,13 +746,7 @@ export function composeJournal(
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
-  return chapters
-    .filter((row) => row.lines.length > zero)
-    .map(({ settingFactIds, employerIds, ...row }) => {
-      void settingFactIds;
-      void employerIds;
-      return row;
-    });
+  return chapters.filter((row) => row.lines.length > zero);
 }
 
 /**
@@ -760,11 +770,18 @@ function officeHolding(
     ).find((row) => row.status === "serving");
     const office = term
       ? (offices.get(term.officeId) as unknown as
-          { title?: string } | undefined)
+          { title?: string; seats?: number } | undefined)
       : undefined;
-    return office?.title
-      ? { text: office.title, sourceRecordIds: [term!.id] }
-      : undefined;
+    if (!office?.title) return undefined;
+    // One of several seats takes an article: "a council member", but "mayor".
+    const article = /^[aeiou]/i.test(office.title) ? "an" : "a";
+    return {
+      text:
+        (office.seats ?? one) > one
+          ? `${article} ${office.title}`
+          : office.title,
+      sourceRecordIds: [term!.id],
+    };
   };
 }
 

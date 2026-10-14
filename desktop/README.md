@@ -19,6 +19,14 @@ npm run dist:mac                 # Mac .app + DMG + ZIP (Apple Silicon)
 npm run dist:win                 # Windows x64 NSIS installer (cross-build on Mac)
 ```
 
+The play page's `/api` and `/art` requests are answered by the play server's
+request handler (`src/bench/handler.ts`), which `scripts/stage.mjs` bundles
+with `scripts/build-play-api.mjs` into `staged/play-api/` (the bundle plus the
+art and data files it reads, copied by reading the code's own lookups). The
+shell runs it in a utility process (`play-api-host.mjs`) behind `app://game`:
+no network listener, nothing written outside the profile, developer routes
+off.
+
 Artifacts land in `desktop/release-artifacts/`. `npm run dist:mac-intel`
 cross-builds Intel Mac output (untested until launched on an Intel Mac).
 Rebuilding after newer accepted UI/game changes is exactly the same
@@ -104,7 +112,8 @@ figure as the modular result.
 `scripts/stage.mjs` copies a provenance-checked `dist/client` and stamps
 `build-identity.json` from the canonical repository `package.json`
 version, the matching git revision, the client tree sha256, distribution,
-channel, profile, and composition. The About dialog shows it.
+channel, profile, and composition. The About dialog shows it, and the
+window title shows the version and the short commit.
 The tracked `desktop/package.json` version is a fixed `0.0.0`
 placeholder that no build step ever rewrites: `scripts/package.mjs`
 injects the staged version into electron-builder through
@@ -117,23 +126,34 @@ the canonical version and exist only for throwaway artifacts.
 
 ## Updates
 
-- Direct updater (electron-updater, generic provider) ships **disabled
-  and unconfigured**: `update-config.json` has `enabled: false` and no
-  feed URL. Activating it requires explicitly writing an authorized
-  https endpoint at stage time — a deliberate, reviewed act.
+- Every release the release workflow publishes onto `main` is packaged on
+  macOS (Apple Silicon dmg + zip) and Windows (NSIS), launched and played
+  once, and published to this repository's GitHub Releases as `v<version>`
+  with the installers, the zip, `latest.yml` / `latest-mac.yml` and the
+  blockmaps (`.github/workflows/release.yml`, jobs `desktop_package` and
+  `desktop_publish`; the release is a draft until every file is uploaded).
+  Packaging itself never uploads: `scripts/package.mjs` passes
+  `--publish never`. `update-config.json` ships enabled with that feed
+  (provider github).
 - "Check for Updates…" is finite and user-controlled: check → ask →
   download → ask again; nothing restarts on its own and unsaved play is
   never discarded (install-on-restart only proceeds once every window
-  actually closed through the normal close flow after the game's
-  unsaved-work guard; a timeout is not treated as persistence, and a
-  blocked or failed flush does not force quit or claim a safe update). Choosing "Later"
-  arms install-on-your-own-next-quit — exactly what the dialog says.
-  Malformed metadata, an untrusted-channel candidate, a downgrade, and
-  a failed or unverifiable download are refused and surfaced, never
-  retried or silently installed. The whole contract is deterministic:
-  `npm test` runs `tests/updater.test.mjs` against the extracted seam
-  in `updater.mjs` (logic proof only — NOT signed automatic-install
-  proof).
+  actually closed through the normal close flow; a window that stays open
+  turns it into install-on-your-own-next-quit). Choosing "Later" arms
+  install-on-your-own-next-quit — exactly what the dialog says. Malformed
+  metadata, a downgrade, and a failed or unverifiable download are refused
+  and surfaced, never retried or silently installed (`tests/updater.test.mjs`).
+- Windows: electron-updater's NSIS updater, which downloads only the changed
+  blocks against the installed version's blockmap.
+- Mac: the app is unsigned and Squirrel.Mac refuses unsigned installs, so
+  `mac-install.mjs` installs it: it downloads the release zip, checks its
+  sha512 against `latest-mac.yml`, unpacks it, ad-hoc signs the new bundle
+  and clears its quarantine, and when the player quits a small helper waits
+  for the app to exit, moves the new bundle into the old one's place (the old
+  one is put back if that fails) and opens it. It refuses, and says why, when
+  the app runs from the disk image or macOS's translocated copy (move it to
+  Applications first) or its folder cannot be written. The decisions are in
+  `mac-swap.mjs` and proved in `tests/mac-swap.test.mjs`.
 - Steam-output builds (`npm run dist:steam`, which stamps
   `distribution: steam` and produces bare directories suitable for later
   SteamPipe upload) **hard-disable** the direct updater regardless of
@@ -146,8 +166,9 @@ the canonical version and exist only for throwaway artifacts.
   (`identity`, `hardenedRuntime`, `notarize`, or `CSC_LINK`/
   `CSC_KEY_PASSWORD`). Until credentials exist, Mac builds are unsigned
   (Gatekeeper may require the ordinary one-time right-click → Open
-  confirmation), and **signed Mac automatic-update installation is NOT
-  VERIFIED**. Do not disable Gatekeeper or remove quarantine broadly.
+  confirmation). The Mac updater clears quarantine only on the bundle it
+  just verified and signed; never disable Gatekeeper or remove quarantine
+  broadly.
 
 ### Tracked secret scan
 
@@ -179,7 +200,8 @@ Renderer: `nodeIntegration` off; `contextIsolation`, `sandbox`,
 requests denied; navigation restricted to `app://game`; `window.open`
 denied (https links open in the OS browser); CSP allows only the
 packaged origin. There is no filesystem or shell bridge, no remote-code
-hot reload, and no self-patcher.
+hot reload. The only self-update is the Mac bundle swap above, of a
+sha512-verified release zip, when the player quits.
 
 ## Proof
 
