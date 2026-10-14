@@ -57,6 +57,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -115,6 +116,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -154,6 +156,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -187,6 +190,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -246,6 +250,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -294,6 +299,7 @@
         "jobs-benefits.file-claim",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -382,6 +388,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -435,6 +442,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -491,6 +499,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -536,6 +545,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -590,6 +600,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -647,6 +658,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -703,6 +715,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -762,6 +775,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -855,6 +869,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -1062,6 +1077,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -1113,6 +1129,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -1167,6 +1184,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -1212,7 +1230,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ],
       "low": [
         "life.daily-act",
@@ -1416,6 +1435,7 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -1450,6 +1470,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -1472,7 +1493,8 @@
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-assertive": {
@@ -1500,6 +1522,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -1526,6 +1549,7 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -1554,6 +1578,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -1580,6 +1605,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -1628,6 +1654,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -1662,6 +1689,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -1717,6 +1745,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -1828,6 +1857,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -1872,7 +1902,8 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-charming": {
@@ -1917,6 +1948,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -1957,6 +1989,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -2110,6 +2143,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -2152,6 +2186,7 @@
         "jobs-benefits.file-claim",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -2284,6 +2319,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -2306,7 +2342,8 @@
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-contented": {
@@ -2363,6 +2400,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -2409,6 +2447,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -2438,6 +2477,7 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.dig",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -2458,7 +2498,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-curious": {
@@ -2511,6 +2552,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -2561,6 +2603,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -2697,6 +2740,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -2725,7 +2769,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ],
       "low": [
         "life.daily-act",
@@ -2781,6 +2826,7 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -2798,7 +2844,8 @@
         "interest-groups.employer-join",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-devoted": {
@@ -2849,6 +2896,7 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -2893,6 +2941,7 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -2935,6 +2984,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -2983,6 +3033,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -3025,6 +3076,7 @@
         "staff.follow-through",
         "news.pass-on",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -3096,6 +3148,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -3147,6 +3200,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -3188,6 +3242,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -3266,6 +3321,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -3315,6 +3371,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -3367,6 +3424,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -3420,6 +3478,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -3519,6 +3578,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -3565,6 +3625,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -3592,7 +3653,8 @@
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ],
       "low": [
         "life.daily-act",
@@ -3610,7 +3672,8 @@
         "interest-groups.employer-join",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-friendly": {
@@ -3777,6 +3840,7 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -3811,7 +3875,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ],
       "low": [
         "life.daily-act",
@@ -3835,7 +3900,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-guarded": {
@@ -3882,6 +3948,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -3951,7 +4018,8 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ],
       "low": [
         "life.daily-act",
@@ -3976,7 +4044,8 @@
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-hot-headed": {
@@ -4019,6 +4088,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -4050,7 +4120,8 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-humble": {
@@ -4086,6 +4157,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -4121,6 +4193,7 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -4160,6 +4233,7 @@
         "world-legislating.bring-agenda",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -4210,6 +4284,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -4314,6 +4389,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -4355,6 +4431,7 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -4417,6 +4494,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -4515,6 +4593,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -4557,6 +4636,7 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -4608,6 +4688,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -4655,6 +4736,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -4691,6 +4773,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -4755,6 +4838,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -4794,6 +4878,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -4910,6 +4995,7 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -4952,6 +5038,7 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -4998,7 +5085,8 @@
         "world-legislating.bring-agenda",
         "constituent-cases.bring-case",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "press.tip"
       ],
       "low": [
         "drives.respond",
@@ -5034,6 +5122,7 @@
         "world-legislating.bring-agenda",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -5155,6 +5244,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -5200,6 +5290,7 @@
         "jobs-benefits.file-claim",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -5303,6 +5394,7 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -5355,6 +5447,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -5406,6 +5499,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -5588,6 +5682,7 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -5621,6 +5716,7 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -5643,6 +5739,7 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -5691,6 +5788,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -5734,6 +5832,7 @@
         "jobs-benefits.file-claim",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -5767,6 +5866,7 @@
         "staff.follow-through",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -5798,6 +5898,7 @@
         "staff.follow-through",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -5847,6 +5948,7 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -5893,6 +5995,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -5921,6 +6024,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -5947,6 +6051,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -6000,6 +6105,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -6050,6 +6156,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -6139,6 +6246,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -6179,6 +6287,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -6231,6 +6340,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -6272,6 +6382,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -6307,6 +6418,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -6335,6 +6447,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -6461,6 +6574,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -6591,6 +6705,7 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -6699,6 +6814,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -6828,6 +6944,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -6855,6 +6972,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -6904,6 +7022,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -6954,6 +7073,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -6987,7 +7107,8 @@
         "world-legislating.bring-agenda",
         "constituent-cases.bring-case",
         "jobs-benefits.file-claim",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ],
       "low": [
         "life.daily-act",
@@ -7011,6 +7132,7 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.dig",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -7069,6 +7191,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -7120,6 +7243,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -7156,6 +7280,7 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.dig",
+        "press.tip",
         "school.attend"
       ],
       "low": [
@@ -7175,7 +7300,8 @@
         "interest-groups.employer-join",
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
-        "press.dig"
+        "press.dig",
+        "press.tip"
       ]
     },
     "personality-v1:facet-work-centered": {
@@ -7222,6 +7348,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -7279,6 +7406,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -7340,6 +7468,7 @@
         "news.pass-on",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -7478,6 +7607,7 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
+        "press.tip",
         "school.attend"
       ]
     },
@@ -7527,6 +7657,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -7613,6 +7744,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -7665,6 +7797,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -7724,6 +7857,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -7773,6 +7907,7 @@
         "staff.follow-through",
         "press.follow-news",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -7829,6 +7964,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ],
       "low": [
@@ -7871,6 +8007,7 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -7930,6 +8067,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -7989,6 +8127,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -8024,6 +8163,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -8053,6 +8193,7 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part"
       ]
     },
@@ -8109,6 +8250,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ],
@@ -8161,6 +8303,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]
@@ -8274,6 +8417,7 @@
         "press.follow-news",
         "press.accept-interview",
         "press.dig",
+        "press.tip",
         "meetings.take-part",
         "school.attend"
       ]

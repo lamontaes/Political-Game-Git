@@ -1489,6 +1489,17 @@
       "keyedBy": "world seed + outlet id + role + index",
       "reason": "A fictional reporter's or editor's family name from the place's corpus; who they are.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": "OPUS-PEOPLE",
+      "count": 1,
+      "code": "const name = `${input.prefix}${rng.fork(String(attempt)).pick(input.words)}${input.suffix}`;",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + attempt",
+      "reason": "A national outlet's generated name from its kind's words; who the outlet is, never a real brand.",
+      "replacement": null
     }
   ]
 }

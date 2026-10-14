@@ -27,13 +27,14 @@ import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
 
-export type StaffRole = "head" | "reporter";
+export type StaffRole = "owner" | "head" | "reporter";
 
 interface RoleRow {
   readonly id: StaffRole;
   readonly soc: string;
   readonly title: string;
-  readonly payParameter: string;
+  /** Null for an owner, who holds the outlet and is on no payroll. */
+  readonly payParameter: string | null;
   readonly ageMinParameter: string;
   readonly ageMaxParameter: string;
 }
@@ -85,6 +86,22 @@ export function outletName(input: {
   }
 }
 
+/** A national outlet's name from its kind's words, seeded by the outlet. */
+export function nationalOutletName(input: {
+  readonly seed: string;
+  readonly outletId: string;
+  readonly words: readonly string[];
+  readonly prefix: string;
+  readonly suffix: string;
+  readonly taken: ReadonlySet<string>;
+}): string {
+  const rng = new SeededRng(input.seed).fork(`press-name:${input.outletId}`);
+  for (let attempt = 0; ; attempt += 1) {
+    const name = `${input.prefix}${rng.fork(String(attempt)).pick(input.words)}${input.suffix}`;
+    if (!input.taken.has(name)) return name;
+  }
+}
+
 export interface StaffRow {
   /** The person's id. */
   readonly id: PersonId;
@@ -95,9 +112,9 @@ export interface StaffRow {
 }
 
 /**
- * Generate and hire one member of an outlet's staff: a named person of the
- * role's working age in the town, on the outlet's payroll at the role's pay.
- * Returns the person's id.
+ * Generate one of an outlet's people: a named person of the role's age where
+ * they live (the town, unless given), and for staff a job on the outlet's
+ * payroll at the role's pay. An owner holds the outlet and draws no pay.
  */
 export function hireStaffMember(
   api: CoreAPI,
@@ -108,6 +125,8 @@ export function hireStaffMember(
     readonly index: number;
     readonly townPlaceId: string;
     readonly stateKey: string;
+    /** Where they live, when not the town (a station group's owner). */
+    readonly livesAt?: string;
     readonly parameter: (key: string) => number;
     readonly source: Source;
   },
@@ -146,9 +165,13 @@ export function hireStaffMember(
     if (!isRealOfficeholderName(givenName, familyName)) break;
   }
   const id = `person:press:${input.outletId}:${input.role.id}:${input.index}`;
-  const neighbor = [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
-    .map((pid) => core.people.get(pid))
-    .find((p) => p?.alive && p.countyId);
+  const home = input.livesAt ?? input.townPlaceId;
+  const neighbor =
+    home === input.townPlaceId
+      ? [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
+          .map((pid) => core.people.get(pid))
+          .find((p) => p?.alive && p.countyId)
+      : undefined;
   // stopgapId: SG-PEOPLE-press-staff-households
   api.stopgap("SG-PEOPLE-press-staff-households");
   fillInIdentity(core, {
@@ -156,22 +179,31 @@ export function hireStaffMember(
     givenName,
     familyName,
     birthDate,
-    placeId: input.townPlaceId,
+    placeId: home,
     ...(neighbor?.countyId ? { countyId: neighbor.countyId } : {}),
     gender: gender === "female" || gender === "male" ? gender : "nonbinary",
     // The town's own cadence, as its neighbors live.
     ...(neighbor?.tier ? { tier: neighbor.tier } : {}),
     source: input.source,
   } as Parameters<typeof fillInIdentity>[1]);
-  const annual = input.parameter(input.role.payParameter);
-  const jobId = startPublicJob(api, {
-    personId: id,
-    employerId: input.organizationId,
-    post: key,
-    title: input.role.title,
-    hourlyMinor: Math.round(annual / input.parameter("fullTimeHoursPerYear")),
-    citation: input.source.citation,
-  });
+  const pay = input.role.payParameter;
+  // A national outlet's people sit outside the town's economy: the shared
+  // payroll path finds no schedule there to follow, and they go unpaid.
+  // stopgapId: SG-PEOPLE-press-national-payroll
+  if (home !== input.townPlaceId)
+    api.stopgap("SG-PEOPLE-press-national-payroll");
+  const jobId = pay
+    ? startPublicJob(api, {
+        personId: id,
+        employerId: input.organizationId,
+        post: key,
+        title: input.role.title,
+        hourlyMinor: Math.round(
+          input.parameter(pay) / input.parameter("fullTimeHoursPerYear"),
+        ),
+        citation: input.source.citation,
+      })
+    : null;
   return {
     id,
     outletId: input.outletId,

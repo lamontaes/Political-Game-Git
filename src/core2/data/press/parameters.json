@@ -245,10 +245,10 @@
       "spread": [0.25, 0.75]
     },
     "outletLeanHeadWeight": {
-      "value": 0.4,
+      "value": 0.25,
       "tag": "TUNABLE",
       "source": "Share of an outlet's lean set by its head's own views; the rest follows its audience (Gentzkow and Shapiro 2010: slant tracks readers' lean far more than owners'; Martin and McCrain 2019: a new owner moved local TV coverage right).",
-      "spread": [0.2, 0.6]
+      "spread": [0.1, 0.4]
     },
     "coworkerHoursAtOpening": {
       "value": 40,
@@ -289,6 +289,90 @@
       "tag": "TUNABLE",
       "source": "How far full distrust of an outlet moves a follower away from it, on the views lean scale (-2 to 2): at full distrust, as far as the scale's half-width (hostile media effect and outlet switching: Vallone, Ross and Lepper 1985; Stroud 2011).",
       "spread": [1, 4]
+    },
+    "ownerAgeMin": {
+      "value": 40,
+      "tag": "ESTIMATED",
+      "source": "Youngest owners of a local outlet or station group (owners of U.S. newspapers and station groups are mostly past 50: Pew 2019 newspaper ownership study; Forbes 400 media owners).",
+      "spread": [30, 50]
+    },
+    "ownerAgeMax": {
+      "value": 85,
+      "tag": "ESTIMATED",
+      "source": "Oldest owners still holding an outlet (family owners commonly hold into their eighties).",
+      "spread": [75, 90]
+    },
+    "outletLeanOwnerWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "Share of an outlet's lean set by its owner's views (a new owner moved local TV coverage right: Martin and McCrain 2019; owners' influence on endorsements: Gentzkow and Shapiro 2010).",
+      "spread": [0.1, 0.4]
+    },
+    "slantOwnerWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How far the owner's regard for the people a story names (closeness, a grudge, how near their views sit) turns its framing (Martin and McCrain 2019; Durante and Knight 2012 on owner-driven slant).",
+      "spread": [0.1, 0.5]
+    },
+    "slantRivalWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far the owner's regard for a candidate's rivals turns the candidate's own coverage the other way: an owner who crossed a rival favors the candidate.",
+      "spread": [0.05, 0.4]
+    },
+    "regardViewsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of how near two people's leans sit in one's regard for the other, beside closeness and grudges.",
+      "spread": [0.2, 0.8]
+    },
+    "tipDocumentsWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a paper trail (a payment on the books) pushes a reporter to dig into a tip, against a rumor with nothing to check.",
+      "spread": [0.2, 1]
+    },
+    "exposureWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How far a printed story exposing an official's bribe moves a reader's view of them, at the outlet's full resolve (scandal coverage costs incumbents votes in proportion to exposure: Ferraz and Finan 2008; Snyder and Strömberg 2010).",
+      "spread": [0.2, 0.7]
+    },
+    "nationalProximityTown": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "Weight of a town story at a national outlet against a national one (national outlets rarely cover one town's council).",
+      "spread": [0.02, 0.3]
+    },
+    "nationalProximityCounty": {
+      "value": 0.15,
+      "tag": "TUNABLE",
+      "source": "Weight of a county story at a national outlet against a national one.",
+      "spread": [0.05, 0.3]
+    },
+    "nationalProximityState": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "Weight of a state story at a national outlet against a national one (statehouse fights reach national news when they are national questions).",
+      "spread": [0.3, 0.8]
+    },
+    "nationalProximityNation": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of a national story at a national outlet, the scale its other proximity weights are set on.",
+      "spread": [1, 1]
+    },
+    "nationalInterviewBar": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "How newsworthy a candidate must be before a national outlet asks for an interview (name recognition, incumbency, money).",
+      "spread": [0.4, 1]
+    },
+    "profileWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How far a magazine profile moves a reader's view of the person it profiles, at full framing (profiles shape name recognition and warmth more than a news item).",
+      "spread": [0.1, 0.4]
     }
   }
 }

@@ -74,6 +74,11 @@ export interface Story {
   topic?: string;
   desiredChange?: string;
   moodImpulse?: number;
+  /**
+   * How the outlet framed it, -1 to 1: for (+) or against (-) the change it
+   * reports and the people it names (the press's slant).
+   */
+  framing?: number;
 }
 
 /** The event kind for one day's readers of a printed story. */

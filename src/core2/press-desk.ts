@@ -29,10 +29,12 @@ export interface DeskOutlet {
   readonly id: string;
   readonly organizationId: string;
   readonly placeId: string;
+  readonly ownerId?: string | null;
   readonly headId: string | null;
   readonly reporterIds: readonly string[];
   readonly lean: number;
   readonly audienceRevenueMinor: number;
+  readonly tier?: "local" | "national";
 }
 
 /** Why a reporter picked a story, by term. */
@@ -55,6 +57,10 @@ export interface SlantReasons {
   readonly lean: number;
   readonly tie: number;
   readonly publisher: number;
+  /** The owner's regard for the people named. */
+  readonly owner?: number;
+  /** The owner's regard for their rivals, turned: a rival the owner dislikes helps. */
+  readonly rivals?: number;
   readonly advertiser: number;
 }
 
@@ -89,6 +95,8 @@ export interface DeskContext {
   readonly townPlaceId: string;
   /** Yearly ad money a person's campaign spent at this outlet. */
   readonly adMoney: (outlet: DeskOutlet, personId: string) => number;
+  /** The candidates running against a person in their open races. */
+  readonly rivals: (personId: string) => readonly string[];
   readonly printed: (wireId: string, outletId: string) => boolean;
   readonly save: (story: PrintedStory) => void;
 }
@@ -100,6 +108,13 @@ const PROXIMITY: Readonly<Record<WireLevel, string>> = {
   county: "storyProximityCounty",
   state: "storyProximityState",
   nation: "storyProximityNation",
+};
+/** A national outlet weighs the nation first and a town least. */
+const NATIONAL_PROXIMITY: Readonly<Record<WireLevel, string>> = {
+  town: "nationalProximityTown",
+  county: "nationalProximityCounty",
+  state: "nationalProximityState",
+  nation: "nationalProximityNation",
 };
 
 /** How close two people are today (0 to 1), from the core's relationship record. */
@@ -121,6 +136,25 @@ export function grudge(
     if (drive.kind === "grudge" && drive.topic === `grudge:${targetId}`)
       out = Math.max(out, drive.strength);
   return clamp(out, 0, 1);
+}
+
+/**
+ * One person's regard for another, -1 to 1: how close they are, less a
+ * grudge, and how near their views sit (the lean scale's full width apart
+ * is -1, the same lean +1), weighted.
+ */
+export function regard(
+  api: CoreAPI,
+  p: (key: string) => number,
+  holderId: string,
+  otherId: string,
+): number {
+  const apart = Math.abs(leanOf(api, holderId) - leanOf(api, otherId));
+  return clamp(
+    closeness(api, holderId, otherId) -
+      grudge(api, holderId, otherId) +
+      p("regardViewsWeight") * (1 - apart / 2),
+  );
 }
 
 /** A person's lean, -2 to 2; level where the world keeps no views. */
@@ -175,7 +209,7 @@ function driveTerm(api: CoreAPI, reporterId: string, item: WireItem): number {
 /** The slant of a story at an outlet by a reporter. */
 export function slantOf(
   api: CoreAPI,
-  ctx: Pick<DeskContext, "parameter" | "adMoney">,
+  ctx: Pick<DeskContext, "parameter" | "adMoney" | "rivals">,
   outlet: DeskOutlet,
   reporterId: string,
   item: Pick<WireItem, "topic" | "desiredChange" | "subjectIds">,
@@ -201,6 +235,22 @@ export function slantOf(
   const publisher = head
     ? clamp(mean((id) => closeness(api, head, id) - grudge(api, head, id)))
     : 0;
+  // The owner's regard for the people named, and for their rivals: an owner
+  // who has fallen out with a candidate's opponent turns the candidate's
+  // coverage warmer, though the candidate did nothing for it.
+  const owner = outlet.ownerId ?? null;
+  const ownerTerm = owner ? mean((id) => regard(api, p, owner, id)) : 0;
+  const rivalsTerm = owner
+    ? mean((id) => {
+        const rivals = ctx
+          .rivals(id)
+          .filter((r) => r !== owner && api.state.people.has(r));
+        return rivals.length
+          ? -rivals.reduce((s, r) => s + regard(api, p, owner, r), 0) /
+              rivals.length
+          : 0;
+      })
+    : 0;
   const advertiser = clamp(
     mean((id) =>
       outlet.audienceRevenueMinor > 0
@@ -210,12 +260,21 @@ export function slantOf(
     0,
     1,
   );
-  const reasons = { lean, tie, publisher, advertiser };
+  const reasons = {
+    lean,
+    tie,
+    publisher,
+    owner: ownerTerm,
+    rivals: rivalsTerm,
+    advertiser,
+  };
   return {
     slant: clamp(
       p("slantLeanWeight") * lean +
         p("slantTieWeight") * tie +
         p("slantPublisherWeight") * publisher +
+        p("slantOwnerWeight") * ownerTerm +
+        p("slantRivalWeight") * rivalsTerm +
         p("slantAdvertiserWeight") * advertiser,
     ),
     reasons,
@@ -279,7 +338,10 @@ export function printItem(
       date: api.state.date,
       placeId: ctx.townPlaceId,
       topic: story.topic,
-      desiredChange: argued,
+      // Readers take a side only on a question they can hold one on (a policy
+      // or a budget line); a jobs report or a filing informs without one.
+      ...(isPolicyTopic(story.topic) ? { desiredChange: argued } : {}),
+      framing: slant,
       moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
       facts: {
         // What a reader can bring up: which outlet printed what, and the
@@ -317,7 +379,9 @@ export function runDesk(
     core.people.get(id)?.placeId === ctx.townPlaceId;
   const base = open.map((item) => ({
     item,
-    proximity: p(PROXIMITY[item.level]),
+    proximity: p(
+      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
+    ),
     readerCare: care.get(item.topic) ?? 0,
     people: Math.log1p(item.subjectIds.filter(inTown).length),
   }));
