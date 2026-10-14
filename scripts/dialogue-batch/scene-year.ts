@@ -73,6 +73,8 @@ const report = {
   days,
   quietDays: 0,
   scenes: [] as unknown[],
+  /** Every moment the year recorded for the player, and what it became. */
+  moments: [] as unknown[],
 };
 const book = () => director.ledger.people.get(playerId);
 let seen = book()?.schedule.length ?? 0;
@@ -81,6 +83,17 @@ for (let day = 0; day < days; day += 1) {
   const schedule = book()?.schedule ?? [];
   const fresh = schedule.slice(seen);
   seen = schedule.length;
+  for (const entry of fresh) {
+    const moment = book()!.momentsById.get(entry.momentId)!;
+    report.moments.push({
+      date: moment.date,
+      label: moment.label,
+      impact: Number(moment.impact.toFixed(3)),
+      causeId: moment.causeId,
+      outcome: entry.outcome,
+      counterparts: moment.counterpartIds.map((id) => nameOf(core, id)),
+    });
+  }
   const staged = fresh.filter((entry) => entry.outcome !== "journal-line");
   if (!staged.length) report.quietDays += 1;
   for (const entry of staged) {
@@ -131,6 +144,14 @@ for (let day = 0; day < days; day += 1) {
 report.householdAtEnd = membersAt();
 const summary = `${report.scenes.length} scenes in ${days} days (${report.quietDays} quiet days) for ${report.player} in ${place.name} (seed ${seed}, household ${household?.id})`;
 console.log(summary);
+console.log(
+  `moments: ${report.moments.length}; by label: ${JSON.stringify(
+    (report.moments as { label: string }[]).reduce<Record<string, number>>(
+      (all, row) => ({ ...all, [row.label]: (all[row.label] ?? 0) + 1 }),
+      {},
+    ),
+  )}`,
+);
 for (const row of report.scenes as {
   date: string;
   outcome: string;
