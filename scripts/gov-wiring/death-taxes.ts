@@ -12,7 +12,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { stancesOf } from "../../src/core2/modules/views";
 import { heirsOf } from "../../src/core2/estates";
 import startingLaw from "../../src/core2/data/laws/starting-law.json" with { type: "json" };
