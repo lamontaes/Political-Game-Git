@@ -31,7 +31,7 @@ import {
   personStance,
   PLATFORM_QUESTIONS,
 } from "../campaign-views";
-import { lawChain, LAWS_MODULE_ID } from "./laws";
+import { lastEnactment, lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { partySide } from "../appointments";
@@ -48,6 +48,8 @@ import {
   POLICY_QUESTIONS,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
+  settledness,
+  tasteForChange,
   type BillRow,
 } from "./legislature";
 
@@ -327,13 +329,44 @@ function filerOf(api: CoreAPI, term: TermRow): Filer {
   };
 }
 
+/**
+ * How the law on a question stands, for anyone weighing a change to it: how
+ * settled it is (-1 passed today, 1 long standing) and, for a change that
+ * would reverse the latest law, the body's reluctance to undo it, larger the
+ * fresher it is and the wider it passed.
+ */
+function lawStanding(
+  api: CoreAPI,
+  question: string,
+  direction: number,
+): { settled: number; reluctance: number } {
+  const settled = settledness(api, question);
+  const last = lastEnactment(api, question);
+  const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
+  return {
+    settled,
+    reluctance: reverses
+      ? campaignParameter("reversalReluctance") *
+        Math.max(0, last.margin) *
+        ((1 - settled) / 2)
+      : 0,
+  };
+}
+
 /** A member's own reasons to carry a change on a question, pointing one way. */
-function filingReason(f: Filer, question: string, direction: number): number {
+function filingReason(
+  f: Filer,
+  question: string,
+  direction: number,
+  law: { settled: number; reluctance: number },
+): number {
   return (
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction +
-    f.trait
+    // A taste for change backs changing a settled law, not undoing a fresh one.
+    tasteForChange(f.trait, law.settled) -
+    law.reluctance
   );
 }
 
@@ -393,11 +426,12 @@ function holdSession(
       if (!input.needsChange(question, direction)) continue;
       if (!input.allowed(question, direction)) continue;
       if (input.barred(question, direction)) continue;
+      const law = lawStanding(api, question, direction);
       let sponsor: Filer | null = null;
       let best = 0;
       let cosponsors = 0;
       for (const member of filers) {
-        const reason = filingReason(member, question, direction);
+        const reason = filingReason(member, question, direction, law);
         if (reason <= 0) continue;
         cosponsors += 1;
         if (
@@ -414,7 +448,9 @@ function holdSession(
         direction,
         sponsor,
         cosponsors,
-        leaderReason: leader ? filingReason(leader, question, direction) : 0,
+        leaderReason: leader
+          ? filingReason(leader, question, direction, law)
+          : 0,
       });
     }
   }

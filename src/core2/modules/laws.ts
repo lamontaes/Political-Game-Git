@@ -321,6 +321,36 @@ function seriesRows(api: CoreAPI, series: string): readonly LawRowInput[] {
     .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
 }
 
+/**
+ * The latest law enacted on a series in play (not a starting row): the day
+ * it passed, the margin it passed by (the narrowest chamber's yes minus no,
+ * over its members), and its value. Null when nothing has been enacted on it
+ * since the opening.
+ */
+export function lastEnactment(
+  api: CoreAPI,
+  series: string,
+): { passedOn: string; margin: number; value: number; lawId: string } | null {
+  let latest: {
+    passedOn: string;
+    margin: number;
+    value: number;
+    lawId: string;
+  } | null = null;
+  for (const row of seriesRows(api, series)) {
+    if (!row.terms?.enactedBy) continue;
+    if (latest && row.retrieved <= latest.passedOn) continue;
+    const margin = Number(row.terms.margin);
+    latest = {
+      passedOn: row.retrieved,
+      margin: Number.isFinite(margin) ? margin : 0,
+      value: row.value ?? 0,
+      lawId: row.id,
+    };
+  }
+  return latest;
+}
+
 /** The law on a series for the town, on a date (today by default), at every level. */
 export function lawInForce(
   api: CoreAPI,

@@ -30,11 +30,17 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
 import { governmentUnitsForPlace } from "../../simulation/government-units";
-import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
+import {
+  enactLaw,
+  lastEnactment,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+} from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { recordVote } from "./record";
+import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { closenessBetween } from "../closeness";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
@@ -146,6 +152,8 @@ export interface MemberPosition {
   readonly press?: number;
   /** What the member's traits add: every trait's lean toward yes over no. */
   readonly trait: number;
+  /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
+  readonly consistency: number;
   readonly total: number;
 }
 
@@ -1084,6 +1092,78 @@ function tieBreaker(api: CoreAPI, chamber: string): string | null {
   return term ? memberKey(term) : null;
 }
 
+/** The series a provision changes in the law table (none for a budget line). */
+function provisionSeries(provision: Provision): string | undefined {
+  if (provision.kind === "policy-question") return provision.question;
+  if (provision.kind === "law-amount") return provision.series;
+  return undefined;
+}
+
+/**
+ * How settled the law a change would move is, from -1 (passed today) to 1
+ * (long standing): (age - H) / (age + H), where age is the days since the
+ * last law enacted on it passed and H is `settledLawDays`. A law nothing has
+ * changed since the opening is fully settled.
+ */
+export function settledness(api: CoreAPI, series: string | undefined): number {
+  const last = series ? lastEnactment(api, series) : null;
+  if (!last) return 1;
+  const age = Math.max(
+    0,
+    (Date.parse(`${api.state.date}T00:00:00Z`) -
+      Date.parse(`${last.passedOn}T00:00:00Z`)) /
+      86_400_000,
+  );
+  const half = campaignParameter("settledLawDays");
+  return (age - half) / (age + half);
+}
+
+/**
+ * A trait's lean toward change, read against how settled the law is: one who
+ * likes change backs changing settled law and resists undoing fresh law (the
+ * lean times settledness); one who keeps things as they are resists any
+ * change to the law in force, fresh or settled.
+ */
+export function tasteForChange(lean: number, settled: number): number {
+  return lean > 0 ? lean * settled : lean;
+}
+
+/**
+ * How a member's own last vote on a bill's questions weighs on this one,
+ * while the law is fresh: plus for a bill that goes the way they voted, minus
+ * for one that undoes it, by `reversalReluctance` times freshness.
+ */
+function recordConsistency(
+  api: CoreAPI,
+  memberId: string,
+  bill: BillRow,
+): number {
+  let sum = 0;
+  for (const p of bill.provisions) {
+    const series = provisionSeries(p);
+    const stance = provisionStance(api, p, billLevel(api, bill));
+    if (!series || !stance) continue;
+    const last = votesOf(api, memberId)
+      .filter((v) => v.stance.question === stance.question)
+      .at(-1);
+    if (!last) continue;
+    const freshness = (1 - settledness(api, series)) / 2;
+    sum +=
+      campaignParameter("reversalReluctance") *
+      freshness *
+      Math.sign(last.stance.position * stance.position);
+  }
+  return sum;
+}
+
+/** A bill's settledness: the least settled law any of its provisions moves. */
+function billSettledness(api: CoreAPI, bill: BillRow): number {
+  return bill.provisions.reduce(
+    (least, p) => Math.min(least, settledness(api, provisionSeries(p))),
+    1,
+  );
+}
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
   api: CoreAPI,
@@ -1137,10 +1217,15 @@ function positionOn(
         press: parts.press,
       }
     : null;
-  const trait = traitLean(api, memberId, "legislature.member-position", [
-    "yes",
-    "no",
-  ]);
+  // A taste for change backs changing a settled law and resists reversing
+  // a fresh one: the trait part reads the bill against the law in force.
+  const trait = tasteForChange(
+    traitLean(api, memberId, "legislature.member-position", ["yes", "no"]),
+    billSettledness(api, bill),
+  );
+  // A member's own record: undoing what they just voted for, or redoing what
+  // they just voted against, weighs against them while the law is fresh.
+  const consistency = recordConsistency(api, memberId, bill);
   return {
     memberId,
     views,
@@ -1151,6 +1236,7 @@ function positionOn(
     lobby,
     ...(further ?? {}),
     trait,
+    consistency,
     total:
       views +
       answersHome +
@@ -1158,6 +1244,7 @@ function positionOn(
       deal +
       lobby +
       trait +
+      consistency +
       (further
         ? further.party + further.wing + further.ambition + further.press
         : 0),
@@ -1770,10 +1857,10 @@ function executiveAction(
       } as unknown as ModuleRow);
       return waiting;
     }
-    const signLean = traitLean(api, key, "legislature.sign-or-veto", [
-      "sign",
-      "veto",
-    ]);
+    const signLean = tasteForChange(
+      traitLean(api, key, "legislature.sign-or-veto", ["sign", "veto"]),
+      billSettledness(api, bill),
+    );
     const vetoes = decided ? !decided.sign : position.total + signLean < 0;
     if (vetoes) {
       // Two thirds of each body's whole membership (not of those voting).
@@ -1810,7 +1897,7 @@ function executiveAction(
   const next: BillRow = { ...bill, status };
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
-  return enact(api, next);
+  return enact(api, next, tallies);
 }
 
 /**
@@ -1971,7 +2058,17 @@ function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
  * after enactment unless it names a date; a state act by its state's default
  * rule.
  */
-function enact(api: CoreAPI, bill: BillRow): BillRow {
+function enact(
+  api: CoreAPI,
+  bill: BillRow,
+  tallies: readonly { yes: number; no: number; members: number }[] = [],
+): BillRow {
+  // How widely it passed: the narrowest chamber's yes minus no, over its
+  // members (a later move to undo it reads this).
+  const margin = tallies.length
+    ? Math.min(...tallies.map((t) => (t.yes - t.no) / Math.max(1, t.members)))
+    : null;
+  const terms = margin === null ? undefined : { margin };
   const chain = lawChain(api);
   // A federal act takes effect when it becomes law unless it names a date
   // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
@@ -2021,6 +2118,7 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
         effectiveDate,
         measureId: bill.number,
         citation,
+        ...(terms ? { terms } : {}),
       });
     if (provision.kind === "budget-line" && provision.line)
       amendBudget(api, {
@@ -2038,6 +2136,7 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
         effectiveDate,
         measureId: bill.number,
         citation,
+        ...(terms ? { terms } : {}),
       });
   }
   const next: BillRow = {
