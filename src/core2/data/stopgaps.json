@@ -1901,6 +1901,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-ballot-order",
+    "kind": "behavior",
+    "file": "src/core2/modules/voting.ts",
+    "line": 576,
+    "whatItFakes": "Every printed ballot lists its candidates in the order they filed, so the first to file takes the first-listed edge in every precinct.",
+    "why": "Each state's ballot-order law (alphabetical, rotation by precinct, a drawing, the incumbent's or the governor's party first) is not read into data yet.",
+    "addedBy": "OPUS-GOV-ELECTIONS",
+    "addedAt": "2026-10-14",
+    "replacement": "Each state's ballot-order rule as a data row with its statute, read by ballotCues: a rotated ballot gives each candidate the first place in its share of precincts, and an alphabetical one orders by surname.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-tie-race-size",
     "kind": "estimated-calendar",
     "file": "src/core2/election-ties.ts",
