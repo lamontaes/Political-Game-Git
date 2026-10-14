@@ -48,6 +48,14 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
+## Dev mode (owner, Oct 14, 2026)
+
+Branch `play/dev-mode`, a draft PR to main. One page, `/dev`, reached from one control on the play page: change any law at any level, make any full person take a choice the core offers them, cast any vote or sign or veto a bill, jump time, trace any record, watch the town month by month, and run a saved "what if" (the first is the $70,000 public-salary base). It folds in and deletes the old developer page at `/`.
+
+- **Status:** in progress.
+- **Sub-agents:** none yet.
+- **Needs from other sessions:** OPUS-CORE's law-reach count (dev mode counts full people until it lands); OPUS-GOV's public-salary law, if the owner wants one; OPUS-CORE's save to refuse a release save that carries dev-mode marks.
+
 ## Audit fixes (owner, Oct 12, 9:15 a.m.: before new features)
 
 From `docs/reports/audit-2026-10-12/`, in BOARD's order.
