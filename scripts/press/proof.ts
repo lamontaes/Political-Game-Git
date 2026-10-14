@@ -328,7 +328,7 @@ for (;;) {
     for (const row of staffOf(api, o.id))
       if (row.leftOn || row.hiredOn > start)
         console.log(
-          `- ${o.id}: ${name(core, row.id)} (${row.id}), ${row.role}, hired ${row.hiredOn}${row.leftOn ? `, left ${row.leftOn} (now ${core.people.get(row.id)?.alive ? (core.people.get(row.id)?.jobId ?? "no job") : "dead"})` : ""}`,
+          `- ${o.id}: ${name(core, row.id)} (${row.id}), ${row.role}, hired ${row.hiredOn}${row.leftOn ? `, left ${row.leftOn}, ${row.leftBecause} (now ${core.people.get(row.id)?.alive ? (core.people.get(row.id)?.jobId ?? "no job") : "dead"})` : ""}`,
         );
   console.log(`\n## Asked for an interview`);
   for (const line of asks) console.log(`- ${line}`);

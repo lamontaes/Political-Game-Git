@@ -56,6 +56,7 @@ import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { JOBS_MODULE_ID } from "./jobs";
 import {
   PLATFORM_QUESTIONS,
   publicOffset,
@@ -2099,6 +2100,22 @@ export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
   ]) as unknown as StaffRow[];
 }
 
+/** Why one of an outlet's people left: death, a move, or the jobs engine's record. */
+function whyLeft(api: CoreAPI, row: StaffRow): string {
+  const person = api.state.people.get(row.id);
+  if (!person?.alive) return "died";
+  if (!row.jobId) return "unknown";
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return "left-job";
+  const changes = api.moduleState(JOBS_MODULE_ID).table("changes");
+  // The departure fell within the week since the last check.
+  for (let back = 0; back < 7; back += 1) {
+    const date = addDays(makeIsoDate(api.state.date), -back);
+    for (const kind of ["layoff", "quit", "left-work", "closure"])
+      if (changes.get(`job-change:${date}:${row.jobId}:${kind}`)) return kind;
+  }
+  return person.placeId === lawChain(api).townPlaceId ? "left-job" : "moved";
+}
+
 /**
  * A town outlet's people who left its payroll (a better job, a move) or
  * died are replaced: the outlet hires the next person for the role, the same
@@ -2122,7 +2139,13 @@ function replaceDeparted(api: CoreAPI): void {
       table(api, "staff").put({
         ...row,
         leftOn: api.state.date,
+        leftBecause: whyLeft(api, row),
       } as unknown as ModuleRow);
+      // The jobs engine reopens a position a worker quits, but fills it from
+      // its own seekers, who are not the outlet's named people; the outlet
+      // hires its own replacement beside it.
+      // stopgapId: SG-PEOPLE-press-staff-turnover
+      api.stopgap("SG-PEOPLE-press-staff-turnover");
       const role = STAFF_ROLES.find((r) => r.id === row.role)!;
       const next = hireStaffMember(api, {
         outletId: outlet.id,

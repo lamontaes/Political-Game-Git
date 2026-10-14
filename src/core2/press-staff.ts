@@ -111,6 +111,8 @@ export interface StaffRow {
   readonly hiredOn: string;
   /** When they left the outlet (another job, a move, death). */
   readonly leftOn?: string;
+  /** Why: died, moved, layoff, quit, left-work, closure, left-job. */
+  readonly leftBecause?: string;
 }
 
 /**
