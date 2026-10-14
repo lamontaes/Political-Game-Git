@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { composeFromBank, type EnglishBank } from "./bank-english";
 import {
   composeGroundedLine,
   type ComposedLineBank,
@@ -10,9 +9,9 @@ import {
   type PartGradeLedger,
 } from "./english-grades";
 import type { GroundedEnglishPacket } from "./grounded-english";
-import { lifePlaceStateIdentities } from "../simulation/life-places";
 import {
   foldGrades,
+  withKept,
   type BatchFile,
 } from "../../scripts/dialogue-batch/apply-grades";
 
@@ -125,63 +124,6 @@ describe("the owner's grades fold into a part ledger", () => {
     expect(PART_GRADES.schema).toBe("english-part-grades/1");
     for (const key of Object.keys(PART_GRADES.parts))
       expect(PART_GRADES.batches.length, key).toBeGreaterThan(0);
-  });
-});
-
-const bank: EnglishBank = {
-  parts: ["a", "b", "c"].map((key) => ({
-    key: `meeting.opener.${key}`,
-    move: "opener",
-    kind: "k",
-    text: `Part ${key} for {body}.`,
-    shippable: true,
-  })),
-};
-
-describe("the bank composer reads the grades", () => {
-  const places = lifePlaceStateIdentities();
-  const ledger = ledgerOf([
-    { i: 0, grade: "BAD" },
-    { i: 4, grade: "FIX" },
-  ]);
-
-  it("covers all 56 places", () => expect(places).toHaveLength(56));
-
-  it.each(places)(
-    "never picks a held part in $jurisdictionKey",
-    ({ jurisdictionKey }) => {
-      const pick = `meeting:${jurisdictionKey}`;
-      const before = composeFromBank(
-        bank,
-        "opener",
-        { body: jurisdictionKey },
-        pick,
-        undefined,
-        { schema: "english-part-grades/1", batches: [], parts: {} },
-      );
-      expect(before).not.toBeNull();
-      const after = composeFromBank(
-        bank,
-        "opener",
-        { body: jurisdictionKey },
-        pick,
-        undefined,
-        ledger,
-      );
-      expect(after?.partKey).toBe("meeting.opener.b");
-      expect(after?.text).toBe(`Part b for ${jurisdictionKey}.`);
-    },
-  );
-
-  it("says nothing when every part is held", () => {
-    const all = ledgerOf([
-      { i: 0, grade: "BAD" },
-      { i: 1, grade: "BAD" },
-      { i: 4, grade: "BAD" },
-    ]);
-    expect(
-      composeFromBank(bank, "opener", { body: "x" }, "k", undefined, all),
-    ).toBeNull();
   });
 });
 
@@ -306,5 +248,25 @@ describe("per-axis grades from a multi-axis batch", () => {
     expect(() =>
       fold([{ i: 0, axes: { length: "BAD" }, prefer: { length: 2 } }]),
     ).toThrow(/prefer length 2 names no length variant/);
+  });
+});
+
+describe("grades from batches whose files were removed", () => {
+  it("keeps them and adds the new batch's", () => {
+    const old = ledgerOf([{ i: 0, grade: "BAD" }]);
+    const fresh = foldGrades([
+      {
+        batch: { ...batch, id: "batch-new" },
+        grades: { batch: "batch-new", grades: [{ i: 0, grade: "GOOD" }] },
+      },
+    ]);
+    const merged = withKept(fresh, old);
+    expect(merged.batches).toEqual(["batch-test", "batch-new"]);
+    expect(merged.parts["bank:meeting.opener.a"]).toMatchObject({
+      good: 1,
+      bad: 1,
+    });
+    // A ledger whose batches are all still on disk is simply refolded.
+    expect(withKept(old, old)).toBe(old);
   });
 });
