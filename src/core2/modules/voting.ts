@@ -172,6 +172,30 @@ export interface ResultRow {
   readonly placesCast?: number;
 }
 
+/**
+ * Every counted resident's ballot in one contest, kept by column (a town
+ * holds thousands): each voter's own lean, the incumbent side of their
+ * traits, their turnout reasons and choice, and the field they saw. A
+ * ballot's appeal and its parts are the engine's own reading of these
+ * (`countedBallotOf`), the same numbers it decided by.
+ */
+interface CountedBallotsRow {
+  readonly id: string;
+  readonly contestId: string;
+  readonly date: string;
+  readonly field: readonly CountedFieldEntry[];
+  readonly voterIds: readonly string[];
+  /** 1 voted, 0 stayed home. */
+  readonly voted: readonly number[];
+  /** The field index of their choice; -1 none. */
+  readonly choice: readonly number[];
+  readonly lean: readonly number[];
+  readonly incumbentLean: readonly number[];
+  readonly duty: readonly number[];
+  readonly interest: readonly number[];
+  readonly cost: readonly number[];
+}
+
 /** One counted resident's ballot, with its reasons. */
 export interface CountedBallotRow {
   readonly id: string;
@@ -203,13 +227,8 @@ export const VOTING_MODULE: CoreModule = {
           byVoter: { fields: ["voterId"] },
         },
       },
-      /** Each counted resident's ballot, with its reasons. */
-      countedBallots: {
-        indexes: {
-          byContest: { fields: ["contestId"] },
-          byVoter: { fields: ["voterId"] },
-        },
-      },
+      /** Each contest's counted residents' ballots, with their reasons. */
+      countedBallots: {},
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each place's votes in a contest, counted coarsely. */
       places: { indexes: { byContest: { fields: ["contestId"] } } },
@@ -1278,17 +1297,27 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   let countedVoted = 0;
   let countedEligible = 0;
   const field = countedField(api, contest, filings);
-  const countedBallots = table(api, "countedBallots");
+  const kept = {
+    voterIds: [] as string[],
+    voted: [] as number[],
+    choice: [] as number[],
+    lean: [] as number[],
+    incumbentLean: [] as number[],
+    duty: [] as number[],
+    interest: [] as number[],
+    cost: [] as number[],
+  };
   for (const voter of countedResidents(api.state as CoreState)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
     if (age < 18) continue;
     countedEligible += 1;
     const lean = personLean(api.state.people, voter, townLean(api));
+    const incumbentLean = incumbentLeanOf(api, voter);
     const appeal = countedAppeal(lean, field, {
       inTown: true,
       local: true,
-      incumbentLean: incumbentLeanOf(api, voter),
+      incumbentLean,
     });
     const t = atThePolls(
       api,
@@ -1298,19 +1327,14 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       voter.weeklyMinutes,
     );
     const choice = t.votes ? countedChoice(appeal) : null;
-    countedBallots.put({
-      id: `ballot:${contestId}:${voter.id}`,
-      contestId,
-      voterId: voter.id,
-      date,
-      counted: true,
-      voted: t.votes,
-      turnoutReasons: { duty: t.duty, interest: t.interest, cost: t.cost },
-      choice,
-      appeal,
-      basis: "party-name-incumbency",
-      lean,
-    } as unknown as ModuleRow);
+    kept.voterIds.push(voter.id);
+    kept.voted.push(t.votes ? 1 : 0);
+    kept.choice.push(choice ? field.findIndex((f) => f.id === choice) : -1);
+    kept.lean.push(lean);
+    kept.incumbentLean.push(incumbentLean);
+    kept.duty.push(t.duty);
+    kept.interest.push(t.interest);
+    kept.cost.push(t.cost);
     if (!t.votes) continue;
     countedVoted += 1;
     if (choice) {
@@ -1320,6 +1344,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       votes[choice] = (votes[choice] ?? 0) + 1;
     }
   }
+  table(api, "countedBallots").put({
+    id: `counted:${contestId}`,
+    contestId,
+    date,
+    field,
+    ...kept,
+  } as unknown as ModuleRow);
   // Each counted resident stands for the town's people like them; those who
   // aren't citizens (the place's ACS share) and those barred for a felony
   // conviction (the share a restoration law in force returns is counted
@@ -1915,7 +1946,7 @@ function officialIdentity(
   };
 }
 
-/** Why one voter, named or counted, voted as they did. */
+/** Why one named voter voted as they did. */
 export function ballotOf(
   api: CoreAPI,
   contestId: string,
@@ -1923,12 +1954,62 @@ export function ballotOf(
 ): BallotRow | null {
   return (
     (table(api, "ballots").get(`ballot:${contestId}:${voterId}`) as unknown as
-      BallotRow | undefined) ??
-    (table(api, "countedBallots").get(
-      `ballot:${contestId}:${voterId}`,
-    ) as unknown as BallotRow | undefined) ??
-    null
+      BallotRow | undefined) ?? null
   );
+}
+
+function countedRow(
+  api: CoreAPI,
+  contestId: string,
+): CountedBallotsRow | undefined {
+  return table(api, "countedBallots").get(`counted:${contestId}`) as unknown as
+    CountedBallotsRow | undefined;
+}
+
+/** The engine's own reading of one kept counted ballot. */
+function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
+  const choice = row.choice[i]!;
+  return {
+    id: `ballot:${row.contestId}:${row.voterIds[i]!}`,
+    contestId: row.contestId,
+    voterId: row.voterIds[i]!,
+    date: row.date,
+    counted: true,
+    voted: row.voted[i] === 1,
+    turnoutReasons: {
+      duty: row.duty[i]!,
+      interest: row.interest[i]!,
+      cost: row.cost[i]!,
+    },
+    choice: choice >= 0 ? row.field[choice]!.id : null,
+    appeal: countedAppeal(row.lean[i]!, row.field, {
+      inTown: true,
+      local: true,
+      incumbentLean: row.incumbentLean[i]!,
+    }),
+    basis: "party-name-incumbency",
+    lean: row.lean[i]!,
+  };
+}
+
+/** Why one counted resident voted as they did: their ballot and its reasons. */
+export function countedBallotOf(
+  api: CoreAPI,
+  contestId: string,
+  voterId: string,
+): CountedBallotRow | null {
+  const row = countedRow(api, contestId);
+  const i = row ? row.voterIds.indexOf(voterId) : -1;
+  return row && i >= 0 ? countedBallotAt(row, i) : null;
+}
+
+/** Every counted resident's ballot in a contest, with its reasons. */
+export function countedBallotsOf(
+  api: CoreAPI,
+  contestId: string,
+): readonly CountedBallotRow[] {
+  const row = countedRow(api, contestId);
+  return row ? row.voterIds.map((_, i) => countedBallotAt(row, i)) : [];
 }
 
 export function resultOf(api: CoreAPI, contestId: string): ResultRow | null {
