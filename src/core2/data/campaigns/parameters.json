@@ -1084,6 +1084,24 @@
       "tag": "TUNABLE",
       "source": "The change to a budget line, as a share of the line, at which a member's stance on it is as strong as on a yes-or-no question; a smaller change draws a proportionally smaller stance. Members fight over a few percent of a line far less than over a tenth of it: annual appropriations changes are mostly within a few percent of the prior year (CBO, budget function histories), and the large ones are the fought-over ones.",
       "spread": [0.05, 0.25]
+    },
+    "chairVoteRelationshipWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a party member's closeness to a colleague (the closeness scale, 0 to 1) counts in whom they back for chair. Set equal to agreement so a close friend and a like-minded stranger weigh alike; checked against the spread, which keeps either from deciding alone.",
+      "spread": [0.5, 2]
+    },
+    "chairVoteAgreementWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much nearness of views (1 minus half the lean gap, 0 to 1) counts in whom a party member backs for chair; the same scale as closeness so neither swamps the other.",
+      "spread": [0.5, 2]
+    },
+    "chairVotePullWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
+      "spread": [0.25, 1]
     }
   }
 }

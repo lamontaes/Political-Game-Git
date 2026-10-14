@@ -846,6 +846,31 @@ export function vacateSeat(
   return filled;
 }
 
+/**
+ * Who takes a vacated seat where the law names the person (the line of
+ * succession to the presidency, a vice president nominated and confirmed),
+ * by office kind. The provider names a full person, why they took it, and
+ * what follows once they hold it (a successor's own seat vacated in turn).
+ */
+export type SuccessorProvider = (
+  api: CoreAPI,
+  input: { readonly seatId: string; readonly previous: TermRow },
+) => {
+  readonly personId: string;
+  readonly party: string | null;
+  readonly reached: string;
+  readonly then?: () => void;
+} | null;
+const successorProviders = new Map<string, SuccessorProvider>();
+
+/** The engine that names a successor for an office kind registers here. */
+export function registerSuccessorProvider(
+  officeKind: string,
+  provider: SuccessorProvider,
+): void {
+  successorProviders.set(officeKind, provider);
+}
+
 function fillVacancy(
   api: CoreAPI,
   office: OfficeInput & { vacancyRule: VacancyRule },
@@ -910,6 +935,30 @@ function fillVacancy(
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
   if (rule.method === "remains-vacant") return vacancy;
+  // The person the law names, where an engine reads the line.
+  const named = successorProviders.get(office.kind)?.(api, {
+    seatId: seat.id,
+    previous,
+  });
+  if (named) {
+    const term = seatResident(
+      api,
+      office,
+      { ...seat, party: named.party },
+      named.personId,
+      date,
+      named.reached,
+    );
+    table(api, "terms").put({
+      ...term,
+      endDate: previous.endDate,
+      endEstimated: previous.endEstimated,
+    } as unknown as ModuleRow);
+    const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
+    table(api, "vacancies").put(filled as unknown as ModuleRow);
+    named.then?.();
+    return filled;
+  }
   if (rule.method === "successor")
     return appoint(`succeeded as ${rule.successor ?? "next in line"}`);
   if (rule.method === "appointment")

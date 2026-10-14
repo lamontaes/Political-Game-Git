@@ -23,8 +23,11 @@ import type {
 } from "../pre-start";
 import bdsRates from "../data/business/bds-rates.json" with { type: "json" };
 import ownership from "../data/business/ownership.json" with { type: "json" };
+import openingFinance from "../data/opening-finance.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
+import { businessName, businessNameContext } from "../business-names";
+import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
   countedJobsOf,
@@ -41,8 +44,8 @@ import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
 import {
   addRegulatoryCost,
+  countyNonattainment,
   endOperatingRule,
-  payOperatingCosts,
   setOperatingLimit,
 } from "../business-operating-rules";
 
@@ -67,6 +70,14 @@ interface OwnerRow {
   netThrough?: number;
   /** The business this one is a location of, when an owner opened it. */
   parentId?: string;
+  /**
+   * Months of revenue lost to operating losses (sales less wages, purchases,
+   * outside costs and compliance costs from the books), decayed over the
+   * memory window and floored at zero: what pulls an owner toward closing.
+   */
+  lossMonths?: number;
+  /** The outside-costs flow's cumulative paid at the last snapshot. */
+  outsideThrough?: number;
 }
 
 interface Market {
@@ -237,10 +248,13 @@ function scheduleMonth(api: CoreAPI): void {
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
 function netCash(c: CoreState, organizationId: string): number {
   // Supplier bills accrued on its sales are owed already, though not yet billed.
-  let owed = supplierBillsOwed(c, organizationId);
+  // Whole cents: the books never carry a fraction of a cent.
+  let owed = Math.floor(supplierBillsOwed(c, organizationId));
   for (const id of c.finance.facilitiesByBorrower.get(organizationId) ?? [])
     owed += c.finance.facilities.get(id)?.principalMinor ?? 0;
-  return (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed;
+  return Math.round(
+    (c.organizations.get(organizationId)?.liquidMinor ?? 0) - owed,
+  );
 }
 
 /** The owner as a full person, or as a counted person until they are filled in. */
@@ -553,11 +567,64 @@ function closeOffer(
 }
 
 /**
- * Each owner weighs closing against carrying on: losses kept over the
- * months (in months of the business's costs) and the owner's years past
- * the usual retirement age pull toward closing. A full owner decides
- * through the shared chooser; counted owners by summed pulls, at a baseline
- * set from the state's establishment exit rate.
+ * A counted owner's pulls to close, summed against the stay bar: the
+ * operating losses (months of revenue lost), the age pull, the cash runway
+ * left while losing money, and payroll the business could not meet. The
+ * share they add up to slides from nothing at the bar to a sure closing across
+ * the ramp (never quite 1), so nothing flips at a threshold.
+ */
+export function countedClosurePulls(
+  api: CoreAPI,
+  book: BusinessBooksState,
+  lossMonths: number,
+  agePull: number,
+  netCashMinor: number,
+): {
+  share: number;
+  bar: number;
+  pulls: { losses: number; age: number; runway: number; conditions: number };
+} {
+  const p = (key: string) => api.parameter(key);
+  const monthlyCosts =
+    (book.annualPayrollMinor + book.annualOtherCostsMinor) /
+    p("macroMonthsPerYear");
+  const runway = monthlyCosts > 0 ? netCashMinor / monthlyCosts : 0;
+  const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
+  const pulls = {
+    losses: p("businessCloseLossWeight") * lossMonths,
+    age: agePull,
+    // Little cash cover matters when the business is losing money.
+    runway:
+      p("businessCloseRunwayWeight") *
+      Math.max(0, 1 - runway / p("businessCloseRunwayMonths")) *
+      Math.min(1, lossMonths),
+    conditions:
+      monthlyPayroll > 0
+        ? p("businessCloseConditionsWeight") *
+          (Math.max(0, book.wagesUnpaidMinor) / monthlyPayroll)
+        : 0,
+  };
+  const bar = p("businessCloseStayBar");
+  const share = Math.min(
+    1 - 1e-9,
+    Math.max(
+      0,
+      (pulls.losses + pulls.age + pulls.runway + pulls.conditions - bar) /
+        p("businessCloseRampWidth"),
+    ),
+  );
+  return { share, bar, pulls };
+}
+
+/**
+ * Each owner weighs closing against carrying on: the business's operating
+ * losses over the recent months (in months of revenue lost, from its books)
+ * and the owner's years past the usual retirement age pull toward closing. A
+ * full owner decides through the shared chooser. A counted owner's pulls (the
+ * same losses and age, the cash runway left while losing money, and payroll the
+ * business could not meet) are summed against a stay bar and slide from nothing
+ * to a sure closing across a ramp, so no fixed rate decides how many close;
+ * the state's exit rate only checks totals in a test.
  */
 function reviewClosures(api: CoreAPI): void {
   const c = core(api),
@@ -575,11 +642,8 @@ function reviewClosures(api: CoreAPI): void {
     const outsideFirm = row.basis === OUTSIDE_FIRM;
     const found = outsideFirm ? undefined : ownerPerson(c, row.ownerId);
     if (!book || book.closedAt || (!outsideFirm && !found?.alive)) continue;
-    const monthlyCosts =
-      (book.annualPayrollMinor + book.annualOtherCostsMinor) /
-      p("macroMonthsPerYear");
-    const losses =
-      monthlyCosts > 0 ? Math.max(0, -row.retainedMinor) / monthlyCosts : 0;
+    // Operating losses from the books, not cash against opening cash.
+    const losses = row.lossMonths ?? 0;
     // A firm based elsewhere weighs a branch's losses; it doesn't age out.
     const age = found
       ? ageOnDate(makeIsoDate(found.person.birthDate), makeIsoDate(c.date))
@@ -592,7 +656,6 @@ function reviewClosures(api: CoreAPI): void {
           Math.max(0, age - p("jobsEarliestRetirementAge"))) /
         p("businessCloseAgeYears"),
     };
-    const score = reasons.baseline + reasons.losses + reasons.age;
     if (c.people.has(row.ownerId)) {
       const chosen = chooseAct(c, row.ownerId, [
         closeOffer(false, row.id, {}),
@@ -603,26 +666,44 @@ function reviewClosures(api: CoreAPI): void {
           api,
           row.id,
           row.ownerId,
-          losses > 0
+          reasons.losses > reasons.age
             ? businessData.reasons.losses
             : businessData.reasons.retiring,
           reasons,
         );
-    } else counted.push({ id: row.id, ownerId: row.ownerId, score, reasons });
+    } else {
+      // Counted owner: causes summed against the stay bar, sliding.
+      const { share, pulls, bar } = countedClosurePulls(
+        api,
+        book,
+        losses,
+        reasons.age,
+        netCash(c, row.id),
+      );
+      if (share > 0)
+        counted.push({
+          id: row.id,
+          ownerId: row.ownerId,
+          // strongestPulls reads a score as a logistic; this is the ramp's share.
+          score: Math.log(share / (1 - share)),
+          reasons: { stayBar: -bar, ...pulls },
+        });
+    }
   }
   if (!counted.length) return;
-  for (const row of strongestPulls(api, "business-close", counted)) {
-    const owner = store(api).table("owners").get(row.id) as unknown as OwnerRow;
+  for (const row of strongestPulls(api, "business-close", counted))
     closeByChoice(
       api,
       row.id,
       row.ownerId,
-      Math.max(0, -owner.retainedMinor) > 0
-        ? businessData.reasons.losses
-        : businessData.reasons.retiring,
+      (row.reasons.age ?? 0) >
+        (row.reasons.losses ?? 0) +
+          (row.reasons.runway ?? 0) +
+          (row.reasons.conditions ?? 0)
+        ? businessData.reasons.retiring
+        : businessData.reasons.losses,
       row.reasons,
     );
-  }
 }
 
 /** A branch of a firm based elsewhere sends its parent the cash above its cushion, out of the profit it has kept. */
@@ -659,12 +740,277 @@ function sweepToParent(api: CoreAPI, row: OwnerRow): void {
     .put({
       ...row,
       isOwner: true,
-      salesThrough: book.salesReceivedMinor,
-      wagesThrough: book.wagesPaidMinor,
-      operatingThrough: book.operatingPaidMinor,
+      ...bookedMonth(api, row, book),
       retainedMinor: retained - swept,
       netThrough: net - swept,
     });
+}
+
+/** A business's compliance payments this month, from the books of what it paid. */
+function complianceThisMonth(api: CoreAPI, organizationId: string): number {
+  let total = 0;
+  for (const row of store(api)
+    .table("compliance")
+    .query("byOrganization", [organizationId]) as unknown as {
+    date: string;
+    paidMinor: number;
+  }[])
+    if (row.date === core(api).date) total += row.paidMinor;
+  return total;
+}
+
+/**
+ * The counters to keep at the end of a month: the books' running totals, the
+ * outside-costs flow's paid so far, and the months of revenue lost (this
+ * month's operating result from the books, fading the older months over the
+ * memory window). Operating result is sales less wages, purchases from
+ * suppliers, costs bought outside the town and compliance costs.
+ */
+function bookedMonth(
+  api: CoreAPI,
+  row: OwnerRow,
+  book: BusinessBooksState,
+): Pick<
+  OwnerRow,
+  | "salesThrough"
+  | "wagesThrough"
+  | "operatingThrough"
+  | "outsideThrough"
+  | "lossMonths"
+> {
+  const outsidePaid =
+    residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
+      ?.outsidePaidMinor ?? 0;
+  const sales = book.salesReceivedMinor - row.salesThrough;
+  const costs =
+    book.wagesPaidMinor -
+    row.wagesThrough +
+    (book.operatingPaidMinor - row.operatingThrough) +
+    (outsidePaid - (row.outsideThrough ?? 0)) +
+    complianceThisMonth(api, row.id);
+  const base = Math.max(sales, costs);
+  const lost = base > 0 ? Math.max(-1, Math.min(1, (costs - sales) / base)) : 0;
+  return {
+    salesThrough: book.salesReceivedMinor,
+    wagesThrough: book.wagesPaidMinor,
+    operatingThrough: book.operatingPaidMinor,
+    outsideThrough: outsidePaid,
+    lossMonths: Math.max(
+      0,
+      (row.lossMonths ?? 0) *
+        (1 - 1 / api.parameter("businessLossMemoryMonths")) +
+        lost,
+    ),
+  };
+}
+
+/**
+ * A place out of attainment of an air quality standard (EPA Green Book) puts a
+ * clean air plan's compliance duty on its stationary emitters; the duty slides
+ * with how many standards the county misses and whether the designation covers
+ * the whole county or part. A county that attains them all lifts it.
+ */
+function routeCompliance(api: CoreAPI): void {
+  const c = core(api),
+    table = store(api).table("operating");
+  const county = c.placeMetadata?.housingCounty ?? "";
+  const year = Number(c.date.slice(0, 4));
+  const standards = county
+    ? countyNonattainment(county, year).filter((row) => !row.revoked)
+    : [];
+  const weight = standards.reduce(
+    (n, row) =>
+      n +
+      (row.extent === "whole"
+        ? 1
+        : api.parameter("businessComplianceInPartShare")),
+    0,
+  );
+  const share = api.parameter("businessComplianceShareOfCosts") * weight;
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt || !businessData.compliance.kinds.includes(book.kindId))
+      continue;
+    const ruleId = `cost:${id}:${businessData.compliance.cause}`;
+    const existing = table.get(ruleId) as { share: number } | undefined;
+    if (share <= 0) {
+      if (existing) endOperatingRule(api, table, ruleId);
+      continue;
+    }
+    if (existing && existing.share === share) continue;
+    stopgap("SG-WORLD-business-compliance-cost");
+    addRegulatoryCost(api, table, {
+      organizationId: id,
+      shareOfCosts: share,
+      cause: businessData.compliance.cause,
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: businessData.compliance.citation,
+        estimatedFrom: `${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
+      },
+    });
+  }
+}
+
+/**
+ * Each month every business with compliance rows pays them on the journal, to
+ * the payee a row names or else the place's outside account, as such; each
+ * payment is a record, and the books (operating results, so closures) read it.
+ */
+function payCompliance(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  for (const row of store(api)
+    .table("operating")
+    .query("all", [true]) as unknown as {
+    id: string;
+    organizationId: string;
+    kind: string;
+    share: number;
+    cause: string;
+    payeeId?: string;
+    source: Parameters<typeof transferCash>[5];
+  }[]) {
+    if (row.kind !== "cost") continue;
+    const book = c.finance.businesses.get(row.organizationId);
+    if (!book || book.closedAt) continue;
+    const placeId = c.organizations.get(row.organizationId)?.placeId;
+    const outside = [...c.organizations.values()].find(
+      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+    )?.id;
+    const to = row.payeeId ?? outside;
+    if (!to) continue;
+    const requested = Math.floor(
+      (book.annualOtherCostsMinor * row.share) / p("macroMonthsPerYear"),
+    );
+    const paid = transferCash(
+      api,
+      `compliance:${row.id}:${c.date}`,
+      row.organizationId,
+      to,
+      requested,
+      row.source,
+    );
+    store(api)
+      .table("compliance")
+      .put({
+        id: `compliance:${row.id}:${c.date}`,
+        organizationId: row.organizationId,
+        ruleId: row.id,
+        cause: row.cause,
+        date: c.date,
+        requestedMinor: requested,
+        paidMinor: paid,
+        payeeId: to,
+        outsideTheTown: to === outside,
+      });
+  }
+}
+
+/** The town's businesses that sell each kind of good, by place and classification. */
+function townSellers(c: CoreState): Map<string, string[]> {
+  const index = new Map<string, string[]>();
+  for (const [id, book] of c.finance.businesses) {
+    const org = c.organizations.get(id);
+    if (book.closedAt || !org || org.outsideFlow) continue;
+    const key = `${org.placeId}|${classificationOf(c, id)}`;
+    index.set(key, [...(index.get(key) ?? []), id]);
+  }
+  for (const ids of index.values())
+    ids.sort(
+      (a, b) =>
+        (c.finance.businesses.get(b)?.annualDemandMinor ?? 0) -
+          (c.finance.businesses.get(a)?.annualDemandMinor ?? 0) ||
+        a.localeCompare(b),
+    );
+  return index;
+}
+
+function classificationOf(c: CoreState, organizationId: string): string {
+  return (
+    c.organizations.get(organizationId)?.classification ??
+    DEFAULT_BUSINESS_BOOKS_DATA.classifications.find(
+      (row) => row.kindId === c.finance.businesses.get(organizationId)?.kindId,
+    )?.classification ??
+    ""
+  );
+}
+
+/**
+ * Costs a business pays outside the town are recorded as such: a row naming
+ * the good (the cost's finance kind) and the amount paid since the last
+ * record, and who got it. Where a town business sold the goods, its books
+ * take the sale.
+ */
+function recordOutsideCosts(api: CoreAPI): void {
+  const c = core(api),
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  for (const row of store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[]) {
+    const flow = rt.flows.get(`outside-costs:${row.id}`);
+    if (!flow) continue;
+    const amount = (flow.outsidePaidMinor ?? 0) - (row.outsideThrough ?? 0);
+    if (!(amount > 0)) continue;
+    const seller = c.finance.businesses.get(flow.payeeId);
+    const inTown =
+      seller !== undefined && !c.organizations.get(flow.payeeId)?.outsideFlow;
+    store(api)
+      .table("outsideCosts")
+      .put({
+        id: `outside-cost:${row.id}:${c.date}`,
+        organizationId: row.id,
+        date: c.date,
+        good: flow.financeKind,
+        amountMinor: amount,
+        payeeId: flow.payeeId,
+        paidInTown: inTown,
+      });
+    if (inTown) {
+      seller.receivedMinor += amount;
+      seller.salesReceivedMinor += amount;
+    }
+  }
+}
+
+/**
+ * A business's outside costs are paid to the town business that sells that
+ * classification of goods when one is open (the opening's supplier rules say
+ * which classification sells to which buyer), else to the outside account.
+ */
+function routeOutsideCosts(api: CoreAPI): void {
+  const c = core(api),
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  const sellers = townSellers(c);
+  for (const row of store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[]) {
+    const flow = rt.flows.get(`outside-costs:${row.id}`),
+      book = c.finance.businesses.get(row.id);
+    if (!flow || !book || book.closedAt) continue;
+    const placeId = c.organizations.get(row.id)?.placeId;
+    const rule = openingFinance.supplierRules.find((r) =>
+      r.buyerClassifications.includes(classificationOf(c, row.id)),
+    );
+    const seller = (rule?.supplierClassifications ?? [])
+      .flatMap(
+        (classification) => sellers.get(`${placeId}|${classification}`) ?? [],
+      )
+      .find((id) => id !== row.id);
+    const want = seller ?? flow.residentsId;
+    if (flow.payeeId !== want) flow.payeeId = want;
+    if (flow.endedReason === "payee-closed") {
+      // The supplier it was paying closed: the costs go on, to another seller or outside.
+      delete flow.endedAt;
+      delete flow.endedReason;
+      flow.nextAt = addDays(makeIsoDate(c.date), 1);
+      const due = rt.due.get(flow.nextAt) ?? new Set<string>();
+      due.add(flow.id);
+      rt.due.set(flow.nextAt, due);
+    }
+  }
 }
 
 function month(api: CoreAPI): void {
@@ -673,7 +1019,10 @@ function month(api: CoreAPI): void {
   succeed(api);
   reviewClosures(api);
   membershipPayouts(api);
-  payOperatingCosts(api, store(api).table("operating"));
+  routeCompliance(api);
+  payCompliance(api);
+  recordOutsideCosts(api);
+  routeOutsideCosts(api);
   for (const row of store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
@@ -692,9 +1041,10 @@ function month(api: CoreAPI): void {
     // Losses carry: an owner draws only from profit the business has kept, net of losses since.
     const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
-    const cushion =
+    const cushion = Math.round(
       (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-      p("businessCushionMonths");
+        p("businessCushionMonths"),
+    );
     const ownerDays =
       owner.livingCostDailyMinor > 0
         ? owner.liquidMinor / owner.livingCostDailyMinor
@@ -753,9 +1103,7 @@ function month(api: CoreAPI): void {
       .put({
         ...row,
         isOwner: true,
-        salesThrough: book.salesReceivedMinor,
-        wagesThrough: book.wagesPaidMinor,
-        operatingThrough: book.operatingPaidMinor,
+        ...bookedMonth(api, row, book),
         retainedMinor: retained - drawn,
         netThrough: net - drawn,
       });
@@ -1173,11 +1521,20 @@ function found(
   api.addOrganization({
     id,
     placeId: market.placeId,
+    // A location carries its business's name; a new business takes the first
+    // of its kind's name styles that no business in town already carries.
     name:
       parentName ??
-      businessData.namePattern
-        .replace("{founder}", founder.familyName)
-        .replace("{kind}", kindId),
+      businessName(
+        kindId,
+        businessNameContext(market.placeId, founder.familyName),
+        new Set(
+          [...c.organizations.values()]
+            .filter((row) => row.placeId === market.placeId)
+            .map((row) => row.name),
+        ),
+      ) ??
+      founder.familyName,
     kind: "employer",
     liquidMinor: 0,
     source,
@@ -1489,6 +1846,12 @@ export const BUSINESS_MODULE: PreStartModule = {
       closures: {},
       ages: {},
       operating: { indexes: { all: { fields: ["isRule"] } } },
+      compliance: {
+        indexes: { byOrganization: { fields: ["organizationId"] } },
+      },
+      outsideCosts: {
+        indexes: { byOrganization: { fields: ["organizationId"] } },
+      },
       choices: {},
     },
   },

@@ -18,6 +18,7 @@ import {
 } from "../regional-model";
 import type { EntityId } from "../../simulation/types";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
+import { countedStateGrowth } from "./counted-moves";
 
 export const REGIONAL_MODULE_ID = "regional";
 export const REGIONAL_PARAMETERS = regionalParameters as unknown as Readonly<
@@ -110,6 +111,10 @@ export function stepRegional(
       `${region.id}:${before.month}`,
     ) as unknown as RegionMonth;
     const row = stepRegionMonth(previous, region, before, now, p);
+    // Where counted people move from causes, a region's people follow its
+    // state's counts (one model, two tiers) instead of its own unemployment term.
+    const growth = countedStateGrowth(api.state as CoreState, region.stateUsps);
+    if (growth !== undefined) row.population = previous.population * growth;
     stepped.push(row);
     months.put({ ...row });
   }
@@ -173,18 +178,20 @@ export function regionalMonth(
     .get(`${place.regionId}:${month}`) as unknown as RegionMonth | undefined;
 }
 
-/** How a place's pay and demand moved relative to the nation since the opening. */
+/** How a place's pay, demand and price level moved relative to the nation since the opening. */
 export function regionalFactors(
   api: CoreAPI,
   placeId: string,
   opening: Readonly<MacroMonth>,
   now: Readonly<MacroMonth>,
-): { wage: number; demand: number } {
+): { wage: number; demand: number; price: number } {
   const one = api.parameter("one");
   const first = regionalMonth(api, placeId, opening.month),
     latest = regionalMonth(api, placeId, now.month);
-  if (!first || !latest) return { wage: one, demand: one };
+  if (!first || !latest) return { wage: one, demand: one, price: one };
   return {
+    // The region's price level against the nation's, since the opening.
+    price: latest.priceLevelPct / first.priceLevelPct,
     wage:
       latest.hourlyEarnings /
       first.hourlyEarnings /

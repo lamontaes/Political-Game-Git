@@ -44,6 +44,18 @@
     "public-pay-floor": {
       "levels": ["federal", "state", "local"],
       "source": "Each government sets its own employees' pay: 5 U.S.C. \u00a7 5303 (federal pay schedules), state civil service law, and city and county charters"
+    },
+    "federal-unemployment-tax": {
+      "levels": ["federal"],
+      "source": "26 U.S.C. \u00a7\u00a7 3301-3302"
+    },
+    "state-unemployment-tax": {
+      "levels": ["state"],
+      "source": "State unemployment insurance law under 26 U.S.C. \u00a7 3304"
+    },
+    "corporate-income-tax": {
+      "levels": ["federal", "state"],
+      "source": "26 U.S.C. \u00a7 11 (federal); state corporate income taxes under state law"
     }
   },
   "questions": {
