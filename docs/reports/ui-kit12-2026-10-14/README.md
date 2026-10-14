@@ -73,4 +73,4 @@ What each screen shows was measured in the shots and the page code. Who should s
 - World: seed `kit12-proof`; the game picked Geneva, Ohio at random; the opening date was January 20, 2025.
 - Shots: 1920 × 1080, Chromium through Playwright, driving the page the way a player would. Election night was reached by pressing Until needed and answering each stop until the November 4, 2025 results opened.
 - Checks run: eslint and prettier on the changed files, the typecheck, `release:check --mode pr` (OK). `zero-dice` reports 4 new list-picks in core files this change does not touch; it reports the same 4 on clean main.
-- No sub-agents ran.
+- No building sub-agents ran. One read-only report reviewer (civic-report-reviewer) read this report until it passed.
