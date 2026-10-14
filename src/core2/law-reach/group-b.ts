@@ -322,8 +322,6 @@ function runPolicy(
         graduated: def.mechanic === "income-tax-graduated",
       });
       terms.wroteLaw = act?.lawRowId && !act.undone ? 1 : 0;
-      // An act that wrote no tax (one already exists) reaches no one.
-      if (!terms.wroteLaw) inForce = false;
       break;
     }
     case "income-tax-rate": {
