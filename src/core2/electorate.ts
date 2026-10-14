@@ -207,6 +207,12 @@ export interface CountedFieldEntry {
   readonly recognition: number;
   readonly platform: readonly Stance[];
   /**
+   * A reported scandal as the town received it: the penalty in appeal units
+   * times the share of the town's named adults the story reached (0 where
+   * none was reported). A named voter reads their own knowledge instead.
+   */
+  readonly scandal?: number;
+  /**
    * What the candidate's place on each form of the printed ballot brings,
    * appeal units (the first-listed edge); one form unless the law rotates
    * names (`ballot-order.ts`).
@@ -227,6 +233,8 @@ export interface CountedAppeal {
   readonly incumbent: number;
   /** The candidate's place on the printed ballot. */
   readonly ballot: number;
+  /** A reported scandal, as far as the news reached the town and the voter trusts it. */
+  readonly scandal: number;
 }
 
 /**
@@ -243,6 +251,8 @@ export function countedAppeal(
     readonly inTown: boolean;
     readonly local: boolean;
     readonly incumbentLean: number;
+    /** How much the voter trusts the press against the average reader (1); news-weighted parts scale by it. */
+    readonly trust?: number;
     /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
     readonly ballotForm?: number;
   },
@@ -261,13 +271,18 @@ export function countedAppeal(
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!
       : 0;
+    // A local outlet's story reaches only the town's own people.
+    const scandal = where.inTown
+      ? -(entry.scandal ?? 0) * (where.trust ?? 1)
+      : 0;
     appeal[entry.id] = {
-      total: party + standing + recognition + incumbent + ballot,
+      total: party + standing + recognition + incumbent + ballot + scandal,
       party,
       standing,
       recognition,
       incumbent,
       ballot,
+      scandal,
     };
   }
   return appeal;

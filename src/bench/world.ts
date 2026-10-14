@@ -25,7 +25,7 @@ import { openOfficialPay } from "../core2/modules/official-pay";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
-import { openLawEffects } from "../core2/modules/law-effects";
+import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openLeadership } from "../core2/modules/leadership";
@@ -324,7 +324,7 @@ function* benchWorldStages(
   openExecutive(core, seed);
   // The president's cabinet and the line of succession (OPUS-GOV).
   openSuccession(core);
-  openLawEffects(core);
+  openLawReach(core);
   // Everything that works through the government above, in the order the
   // modules' own tests open them: officials' staff, interest groups (hooks
   // on every bill's vote), other governments' lawmaking, state and federal

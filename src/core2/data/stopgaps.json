@@ -3708,6 +3708,56 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-bribe-stakes-wage-only",
+    "kind": "partial-model",
+    "file": "src/core2/modules/interest-groups.ts",
+    "line": 1,
+    "whatItFakes": "Only the employers' group, formed against a wage bill, has a lobbyist who weighs a bribe; a bill that costs people money any other way draws no bribe, because its losses aren't measured per payer.",
+    "why": "The only per-payer loss the engines measure today is a wage bill's (employerCosts). The CTO's next item, employer groups forming from who loses money on any bill, builds that measure.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "One 'who loses money on this bill' reading over every provision kind, read by both employer groups and bribes.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-14",
+    "resolution": "Employer groups now form over any bill that binds employers (employerStakes), and their lobbyist weighs a bribe at the first meeting; the remaining estimate is SG-GOV-bound-employer-cost-estimate (OPUS-GOV)."
+  },
+  {
+    "id": "SG-GOV-case-referral-unread",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/constituent-cases.ts",
+    "line": 1,
+    "whatItFakes": "An official who helps a resident looking for work refers them to the workforce office, but the jobs engine doesn't read the referral when employers pick applicants, so the help changes nothing yet.",
+    "why": "The silent-engines audit (Oct 14) found constituent cases run but unread; the hiring read is the jobs engine's (OPUS-WORLD).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-bound-employer-cost-estimate",
+    "kind": "estimated-parameter",
+    "file": "src/core2/modules/interest-groups.ts",
+    "line": 1,
+    "whatItFakes": "What a policy costs each employer it binds is an estimated share of the employer's payroll (boundEmployerCostShare), not the law's own cost, because most law-reach policies record who is bound and move no money.",
+    "why": "The CTO's item (Oct 14): employers organize from who loses money on any bill (the owner's Sept 26 ruling). Law-reach measures a money effect per employer only for the wage floor.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Each law-reach policy that binds employers moves its own money (a price, a fee, a compliance cost), and the stake reads that.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-bars-national",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 1,
+    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.",
+    "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-business-profit-pass-through",
     "kind": "missing-engine",
     "file": "src/core2/modules/employer-taxes.ts",

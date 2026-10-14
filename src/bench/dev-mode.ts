@@ -8,7 +8,6 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
-import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
@@ -144,7 +143,6 @@ export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
     ...Object.keys(POLICY_QUESTIONS),
     ...Object.keys(REACH_A_POLICIES),
     ...GROUP_B_KEYS.filter((key) => !key.startsWith("budget-line:")),
-    ...Object.keys((effects as { effects: Record<string, unknown> }).effects),
   ]);
   for (const row of api
     .moduleState(LAWS_MODULE_ID)
@@ -345,7 +343,7 @@ export class DevMode {
   }
 
   /**
-   * Who a law reached: the law-effects, law-reach and raise records naming it.
+   * Who a law reached: the law-reach and raise records naming it.
    * stopgapId: SG-PLAY-dev-law-reach-full-only
    */
   reach(lawId: string) {
@@ -354,7 +352,6 @@ export class DevMode {
     let counted = 0;
     for (const moduleId of [
       LAWS_MODULE_ID,
-      "core2-law-effects-v1",
       "core2-law-reach-a-v1",
       "core2-law-reach-b-v1",
     ]) {
