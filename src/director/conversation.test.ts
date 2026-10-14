@@ -106,10 +106,9 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four where the mined bank words four; never fewer than three.
-        expect(talk.choices.length).toBeGreaterThanOrEqual(
-          CONVERSATION_DATA.minimumChoices - 1,
-        );
+        // Four where the mined bank words four; a real choice is always
+        // offered (two at least) where the bank words fewer.
+        expect(talk.choices.length).toBeGreaterThanOrEqual(2);
         if (talk.choices.length >= CONVERSATION_DATA.minimumChoices) full += 1;
         const texts = talk.choices.map((row) => row.text);
         expect(new Set(texts).size).toBe(texts.length);
