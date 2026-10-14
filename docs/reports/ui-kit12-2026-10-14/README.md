@@ -1,6 +1,6 @@
 # The whole play page now wears Kit 12
 
-Every screen of the game now uses the approved Kit 12 type, glass, frame and controls, and the old theme is deleted, not covered. The title, the play screen, every menu, the conversation box, the dossier, the filing office and election night all share the dark glass, the brass frame, Cinzel names and plain small-capital actions. The scales sit in the conversation box's upper right; switched on, they tip and glow red and the lying reply turns soft red. Nothing needs a decision. Four screens (news, budgets, what changed, and money) are styled but do not yet match their mocks, because the engines send them raw record fields; the last section names who supplies what.
+Every screen of the game now uses the approved Kit 12 type, glass, frame and controls, and the old theme is deleted, not covered. The title, the play screen, every menu, the conversation box, the dossier, the filing office and election night all share the dark glass, the brass frame, Cinzel names and plain small-capital actions. The scales sit in the conversation box's upper right; switched on, they tip and glow red and the lying reply turns soft red. Nothing needs a decision. Four screens (news, budgets, what changed, and money) are styled but do not yet match their mocks, because the data they receive is raw or incomplete; the last section names who supplies what.
 
 ## Before and after
 
@@ -37,7 +37,7 @@ Each pair is the same moment in the same world, old page then new page. The worl
 | Guide | [before](before/18-guide.jpg) | [after](after/18-guide.jpg) | Search on a brass hairline; terms in one column. |
 | Options | [before](before/19-options.jpg) | [after](after/19-options.jpg) | Same contents on Kit 12. Escape opens it from anywhere in play. |
 | Politics | [before](before/20-politics.jpg) | [after](after/20-politics.jpg) | Law here, What changed, Budgets, Map and Election night are tabs instead of five stacked buttons; "Play" beside officeholders moved to the developer view. |
-| Law here | [before](before/22-law.jpg) | [after](after/22-law.jpg) | Kit 12 lines; the "(est.)" tag is gone, as the brief's item 11 orders for "estimate" text in player copy. |
+| Law here | [before](before/22-law.jpg) | [after](after/22-law.jpg) | Kit 12 lines; the "(est.)" tag is gone, as item 11 of the UI and logo brief (`docs/codex/ui-logo-packet/00_READ_ME_FIRST_UI_AND_LOGO_BRIEF.md`) orders for "estimate" text in player copy. |
 | What changed | [before](before/23-changes.jpg) | [after](after/23-changes.jpg) | Kit 12 lines. |
 | Budgets | [before](before/24-budgets.jpg) | [after](after/24-budgets.jpg) | Kit 12 lines. |
 | Map | [before](before/25-map.jpg) | [after](after/25-map.jpg) | The map over the whole screen width, who represents you below it. |
@@ -57,14 +57,14 @@ The stylesheet was written again from the kit. No old color, token, component or
 
 ## Still not matched to a mock, and why
 
-Each item below was checked against the page code (measured) and needs data the screen does not receive yet. The session that owns each piece is named in brackets, for OPUS-PLAY to carry into its "Needs from other sessions" list.
+What each screen shows was measured in the shots and the page code. Who should supply the missing data is inferred from the team table in `AGENTS.md`, and is shown in parentheses for OPUS-PLAY to carry into its "Needs from other sessions" list.
 
-- **News** (`src/bench/play.mjs:1377`) lists each record's date, kind and raw fields, such as `post: city-clerk`. The newspaper mock needs a headline and story; those come from the English engine (OPUS-PEOPLE).
-- **What changed** (`src/bench/play.mjs:1454`) shows place codes such as `county:39007` where a place name belongs. The changes feed sends codes, not names (OPUS-GOV).
-- **Budgets** (`src/bench/play.mjs:1248`) shows line keys such as `individualIncomeTax`. Display names for budget lines belong with the budget engine (OPUS-GOV).
-- **Money and property** (`src/bench/play.mjs:1065`) shows cash, housing and withholding only. The mock's came-in, went-out and three-month table needs ledger rows the budget feed does not include (OPUS-CORE).
-- **Title**: there are no saved games yet, so there is no Continue, Saved games or hero figure, and no Patch notes.
-- **The radial row** has six rings: journal, calendar, money, politics, people and travel. News, Who you are, Jobs and study, Guide and Options are reached from the menu list once any ring is open.
+- **News** (`src/bench/play.mjs:1377`) lists each record's date, kind and raw fields, such as `post: city-clerk` (measured). The newspaper mock needs a headline and a story, which would come from the English engine (OPUS-PEOPLE, inferred).
+- **What changed** (`src/bench/play.mjs:1454`) shows place codes such as `county:39007` where a place name belongs (measured). The server's changes data carries the code only (measured); a name would come from the government engines (OPUS-GOV, inferred).
+- **Budgets** (`src/bench/play.mjs:1248`) shows line keys such as `individualIncomeTax` (measured). Readable line names would come with the budget engine (OPUS-GOV, inferred).
+- **Money and property** (`src/bench/play.mjs:1065`) shows cash, housing and withholding only (measured). The mock's came-in, went-out and three-month table needs the player's ledger rows, which the server's money data does not include (measured). Adding them changes the server's data shape, which this order excluded (OPUS-PLAY with OPUS-CORE, inferred).
+- **Title** (`src/bench/play.html`): the mock shows Continue, Saved games, Patch notes and a hero figure. The game has no saved games or patch notes yet (measured), so those items are left out rather than shown empty.
+- **The radial row**: the mock shows six rings without naming them. The page uses six rings for journal, calendar, money, politics, people and travel; the other screens are on the menu list (measured).
 - **Glossary underlines** (`src/bench/play.mjs:223`) appear only where a whole label is a Guide term, never inside prose. The Guide holds 38 legislative terms, and in this run only the calendar's "Filing deadline" matched a label (measured).
 
 ## Method
