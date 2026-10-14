@@ -11,10 +11,10 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 2,
-      "stayDays": 5.0,
+      "stayDays": 0,
       "statute": "AS 34.03.220(b); AS 09.45.090-.120",
       "confidence": "high",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "AL": {
       "noticeDays": 7,
@@ -24,27 +24,27 @@
       "stayDays": 7,
       "statute": "Ala. Code § 35-9A-421(b); § 6-6-310 et seq.",
       "confidence": "low",
-      "estimatedFields": ["hearingDays"]
+      "estimatedFields": []
     },
     "AR": {
       "noticeDays": 3,
       "cureAllowed": true,
       "gracePeriodDays": 0,
-      "hearingDays": 7,
-      "stayDays": 5.0,
+      "hearingDays": 5,
+      "stayDays": 5,
       "statute": "Ark. Code § 18-60-304; § 18-17-701; § 18-16-101",
       "confidence": "low",
-      "estimatedFields": ["hearingDays", "stayDays"]
+      "estimatedFields": []
     },
     "AS": {
       "noticeDays": 7,
       "cureAllowed": true,
       "gracePeriodDays": 0,
-      "hearingDays": 7,
-      "stayDays": 5.0,
+      "hearingDays": 3,
+      "stayDays": 10,
       "statute": "A.S.C.A. 43.1406-43.1407; High Court Summary Repossession Rule 2(b)(3)(B)",
       "confidence": "medium",
-      "estimatedFields": ["hearingDays", "stayDays", "cureAllowed"]
+      "estimatedFields": []
     },
     "AZ": {
       "noticeDays": 5,
@@ -134,10 +134,10 @@
       "stayDays": 5.0,
       "statute": "21 GCA 21103; 21 GCA 48401 (Rental Act)",
       "confidence": "low",
-      "estimatedFields": ["hearingDays", "stayDays", "cureAllowed"]
+      "estimatedFields": ["hearingDays", "stayDays"]
     },
     "HI": {
-      "noticeDays": 5,
+      "noticeDays": 10,
       "cureAllowed": true,
       "gracePeriodDays": 5,
       "hearingDays": 7,
@@ -170,7 +170,7 @@
       "noticeDays": 5,
       "cureAllowed": true,
       "gracePeriodDays": 0,
-      "hearingDays": 7,
+      "hearingDays": 3,
       "stayDays": 1,
       "statute": "735 ILCS 5/9-209, 9-210, 9-107.5, 9-117",
       "confidence": "low",
@@ -191,10 +191,10 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 3,
-      "stayDays": 5.0,
+      "stayDays": 0,
       "statute": "K.S.A. § 58-2564(b), § 61-3801 et seq.",
       "confidence": "high",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "KY": {
       "noticeDays": 7,
@@ -291,30 +291,30 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 7,
-      "stayDays": 5.0,
+      "stayDays": 7,
       "statute": "Miss. Code § 89-8-13, § 89-7-",
       "confidence": "low",
-      "estimatedFields": ["hearingDays", "stayDays"]
+      "estimatedFields": ["hearingDays"]
     },
     "MT": {
       "noticeDays": 3,
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 10,
-      "stayDays": 5.0,
+      "stayDays": 5,
       "statute": "MCA § 70-24-422",
       "confidence": "high",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "NC": {
-      "noticeDays": 7.0,
-      "cureAllowed": false,
+      "noticeDays": 10,
+      "cureAllowed": true,
       "gracePeriodDays": 5,
-      "hearingDays": 7,
+      "hearingDays": 2,
       "stayDays": 10,
       "statute": "N.C.G.S. 42-3, 42-26, 42-29, 42-30, 42-34, 42-46",
       "confidence": "medium",
-      "estimatedFields": ["noticeDays"]
+      "estimatedFields": []
     },
     "ND": {
       "noticeDays": 3,
@@ -331,10 +331,10 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 10,
-      "stayDays": 5.0,
+      "stayDays": 0,
       "statute": "Neb. Rev. Stat. § 76-1431(2), § 76-1445",
       "confidence": "high",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "NH": {
       "noticeDays": 7,
@@ -361,10 +361,10 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 7,
-      "stayDays": 5.0,
+      "stayDays": 3,
       "statute": "NMSA 47-8-33, 47-8-47 (UORRA); Rules of Magistrate Court",
       "confidence": "low",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "NV": {
       "noticeDays": 7,
@@ -440,11 +440,11 @@
       "noticeDays": 5,
       "cureAllowed": true,
       "gracePeriodDays": 15,
-      "hearingDays": 5,
+      "hearingDays": 7,
       "stayDays": 5,
       "statute": "R.I. Gen. Laws 34-18-35, 34-18-36, 34-18-39",
       "confidence": "high",
-      "estimatedFields": []
+      "estimatedFields": ["hearingDays"]
     },
     "SC": {
       "noticeDays": 5,
@@ -461,16 +461,16 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 5,
-      "stayDays": 5.0,
+      "stayDays": 0,
       "statute": "SDCL 21-16-1(4), 21-16-6, 21-16-7, 21-16-8",
       "confidence": "low",
-      "estimatedFields": ["stayDays", "cureAllowed"]
+      "estimatedFields": ["cureAllowed"]
     },
     "TN": {
       "noticeDays": 14,
       "cureAllowed": true,
       "gracePeriodDays": 5,
-      "hearingDays": 3,
+      "hearingDays": 6,
       "stayDays": 10,
       "statute": "T.C.A. 66-28-505 (URLTA counties), 29-18-115, 29-18-130",
       "confidence": "medium",
@@ -478,7 +478,7 @@
     },
     "TX": {
       "noticeDays": 3,
-      "cureAllowed": false,
+      "cureAllowed": true,
       "gracePeriodDays": 2,
       "hearingDays": 10,
       "stayDays": 6,
@@ -547,24 +547,24 @@
       "estimatedFields": []
     },
     "WV": {
-      "noticeDays": 7.0,
+      "noticeDays": 0,
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 5,
-      "stayDays": 10,
+      "stayDays": 5.0,
       "statute": "W.Va. Code 55-3A-1, 37-6-5",
       "confidence": "low",
-      "estimatedFields": ["noticeDays", "cureAllowed"]
+      "estimatedFields": ["stayDays", "cureAllowed"]
     },
     "WY": {
       "noticeDays": 3,
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 3,
-      "stayDays": 5.0,
+      "stayDays": 0,
       "statute": "Wyo. Stat. 1-21-1002 to 1-21-1008",
       "confidence": "low",
-      "estimatedFields": ["stayDays", "cureAllowed"]
+      "estimatedFields": ["cureAllowed"]
     }
   },
   "evictionDefaults": {
