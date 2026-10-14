@@ -196,7 +196,12 @@ describe("P10 drives and causes", () => {
     expect(carer.chosen.responseId).toBe("take-up-cause");
     expect(steady.chosen.responseId).toBe("carry-on");
     expect(carer.attention).toBeGreaterThan(steady.attention);
-    expect(carer.chosen.reasons.trait).toBeGreaterThan(p("zero"));
+    // Traits lean the carer toward the cause inside its urgency (scaled by agency), not as a second chooser term.
+    const takeUp = carer.considered.find(
+      (row) => row.responseId === "take-up-cause",
+    )!;
+    expect(takeUp.lean).toBeGreaterThan(p("zero"));
+    expect(carer.chosen.reasons.trait).toBe(p("zero"));
     expect(carer.runnerUp).toBeDefined();
     expect(carer.chosen.score).toBeGreaterThanOrEqual(carer.runnerUp!.score);
     const drive = core.people.get(carerId)!.drives.get(carer.driveId!)!;

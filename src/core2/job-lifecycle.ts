@@ -46,6 +46,34 @@ export function startRecordedJob(
   api.addWorkPayrollCalendar(calendar);
 }
 
+/**
+ * A post paid a salary rather than by the hour (an elected office): the job
+ * is recorded with no shift hours, so no work act is offered for it; its
+ * pay is the caller's to post (official-pay pays officials monthly).
+ */
+export function startSalariedPost(
+  core: CoreState,
+  api: CoreAPI,
+  job: JobInput,
+): void {
+  const actor = core.people.get(job.personId);
+  if (
+    !actor?.alive ||
+    !core.organizations.has(job.organizationId) ||
+    core.jobs.has(job.id) ||
+    job.endsAt !== undefined ||
+    job.hoursDaily !== 0
+  )
+    throw new Error(
+      "A salaried post needs a living person, a recorded employer and no shift hours.",
+    );
+  if (actor.jobId && core.jobs.get(actor.jobId)?.endsAt === undefined)
+    endRecordedJob(core, api, actor.jobId, `post:${job.id}`);
+  core.jobs.set(job.id, { ...job });
+  financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+  api.updatePerson(actor.id, { jobId: job.id });
+}
+
 export function endRecordedJob(
   core: CoreState,
   api: CoreAPI,

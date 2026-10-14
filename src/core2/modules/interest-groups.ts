@@ -36,6 +36,7 @@ import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
 import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
+import { CORRUPTION_MODULE_ID, considerBribe } from "./corruption";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -259,8 +260,35 @@ function organize(api: CoreAPI, billId: string): void {
           desiredChange: question.position > 0 ? "repeal" : "enact",
           citation: `Lobbying visit on ${b.number}`,
         });
+      if (first)
+        offerBribe(api, group.lobbyistId, member.personId, annual, b.id);
     }
   }
+}
+
+/**
+ * At the meeting, the lobbyist weighs offering the member a bribe, and the
+ * member weighs taking it, each for their own reasons (the corruption
+ * engine's chooser): the favor is worth what the bill costs the employers the
+ * group speaks for.
+ */
+function offerBribe(
+  api: CoreAPI,
+  lobbyistId: string,
+  memberId: string,
+  stakeMinor: number,
+  billId: string,
+): void {
+  if (lobbyistId === memberId || stakeMinor <= 0) return;
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return;
+  const owners = (api.state as CoreState).cashJournal.residualAccountByOwner;
+  if (!owners.has(lobbyistId) || !owners.has(memberId)) return;
+  considerBribe(api, {
+    offererId: lobbyistId,
+    officialId: memberId,
+    stakeMinor,
+    subjectId: billId,
+  });
 }
 
 function payDues(

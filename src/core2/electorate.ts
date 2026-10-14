@@ -17,6 +17,7 @@ import {
   type Stance,
 } from "./campaign-views";
 import { electorateParameter } from "./electorate-inputs";
+import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { residentsRuntime } from "./modules/residents";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
@@ -198,6 +199,12 @@ export interface CountedFieldEntry {
   /** The share of the town's named adults who have heard of the candidate. */
   readonly recognition: number;
   readonly platform: readonly Stance[];
+  /**
+   * What the candidate's place on each form of the printed ballot brings,
+   * appeal units (the first-listed edge); one form unless the law rotates
+   * names (`ballot-order.ts`).
+   */
+  readonly ballotCues?: readonly number[];
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -211,6 +218,8 @@ export interface CountedAppeal {
   readonly recognition: number;
   /** The incumbent side of the voter's traits. */
   readonly incumbent: number;
+  /** The candidate's place on the printed ballot. */
+  readonly ballot: number;
 }
 
 /**
@@ -227,6 +236,8 @@ export function countedAppeal(
     readonly inTown: boolean;
     readonly local: boolean;
     readonly incumbentLean: number;
+    /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
+    readonly ballotForm?: number;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -239,12 +250,17 @@ export function countedAppeal(
           platformAgreement(lean, entry.platform))
       : 0;
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
+    const cues = entry.ballotCues ?? [];
+    const ballot = cues.length
+      ? cues[(where.ballotForm ?? 0) % cues.length]!
+      : 0;
     appeal[entry.id] = {
-      total: party + standing + recognition + incumbent,
+      total: party + standing + recognition + incumbent + ballot,
       party,
       standing,
       recognition,
       incumbent,
+      ballot,
     };
   }
   return appeal;
@@ -324,10 +340,12 @@ function orderPlacement(
       all = 0;
     for (const voter of voters) {
       const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
-      if (voter.readiness + Math.abs(lean) <= 0) continue;
-      all += 1;
-      if (lean > 0) r += 1;
-      else if (lean === 0) r += 0.5;
+      // The one turnout rule (`turnout.ts`): with two typical candidates the
+      // gap between them in this voter's eyes is twice their lean.
+      const share = turnoutShare(voter.readiness, 2 * Math.abs(lean));
+      all += share;
+      if (lean > 0) r += share;
+      else if (lean === 0) r += share / 2;
     }
     return all ? r / all : right;
   };
@@ -394,7 +412,7 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const voter of voters) {
+      for (const [form, voter] of voters.entries()) {
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
@@ -408,15 +426,20 @@ export function countPlaces(
           inTown: place.inTown ?? false,
           local: place.local ?? false,
           incumbentLean: voter.incumbentLean,
+          // The place's voters hold each form of a rotated ballot in turn.
+          ballotForm: form,
         });
-        let interest = 0;
-        for (const a of Object.values(appeal))
-          interest = Math.max(interest, Math.abs(a.total));
-        if (voter.readiness + (place.readinessShift ?? 0) + interest <= 0)
-          continue;
-        placeCast += weight;
+        // The one turnout rule (`turnout.ts`): each sample voter stands for
+        // the place's people like them, who turn out at their propensity.
+        const share =
+          weight *
+          turnoutShare(
+            voter.readiness + (place.readinessShift ?? 0),
+            interestOf(appeal),
+          );
+        placeCast += share;
         const choice = countedChoice(appeal);
-        if (choice) votes[choice] = (votes[choice] ?? 0) + weight;
+        if (choice) votes[choice] = (votes[choice] ?? 0) + share;
       }
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);
