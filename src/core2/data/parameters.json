@@ -1611,42 +1611,48 @@
   },
   "businessCrowdingResponse": {
     "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances crowdingPriceResponse is explicitly PLACEHOLDER; no observed firm price adjustment coefficient is claimed.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "tag": "ESTIMATED",
+    "citation": "Nakamura and Steinsson (2008), 'Five Facts about Prices,' Quarterly Journal of Economics 123(4), Table I (https://business.columbia.edu/sites/default/files-efs/pubfiles/3556/fivefacts.pdf): median monthly frequency of regular price change 8.7-11.9%.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires matched capacity/utilization/price changes; no identified coefficient range is available."
+      "low": 0.03,
+      "high": 0.24,
+      "unit": "monthly log price change per unit of excess demand",
+      "citation": "f from 0.087 to 0.119 (Nakamura and Steinsson 2008) over e from 3 (rival sellers, Broda and Weinstein 2006) to 0.5 (market demand)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Derived: a firm closes about the monthly change frequency f of its price gap each month, and clearing excess demand x takes a price move of x over the demand elasticity e it faces, so the response is about f/e; f = 0.10 and e = 1 give 0.1."
   },
   "businessPriceStepMaximum": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Old town-finances priceStepMax is an authored per-review cap; this pure calculator does not establish a review cadence or measured cap.",
+    "citation": "A per-review cap on the price move from demand pressure. Nakamura and Steinsson (2008), 'Five Facts about Prices,' QJE 123(4): the median absolute size of a regular consumer price change is 8.5% (6.1% to 14.2% by major group), made about once every 8 to 11 months; a monthly cap of 5% keeps a monthly review's move below one typical change.",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No matched review-period price-step distribution identifies this cap; cadence and coefficient calibration remain open."
+      "low": 0.05,
+      "high": 0.142,
+      "unit": "largest monthly log price change",
+      "citation": "Nakamura and Steinsson (2008): per-change sizes 6.1%-14.2% by major group; the cap is checked from 0.05 up to that range."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "businessRivalPriceElasticity": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances rivalPriceElasticity is explicitly PLACEHOLDER; capacity times relative-price weight is an uncalibrated allocation model.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "value": 2.7,
+    "tag": "ESTIMATED",
+    "citation": "Broda and Weinstein (2006), 'Globalization and the Gains from Variety,' Quarterly Journal of Economics 121(2), Table 4 (FRBNY Staff Report 180, https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr180.html): median elasticity of substitution between varieties, 1990-2001, 2.7 at SITC-5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires actual within-market price, capacity and spending-share observations; no coefficient bounds measured."
+      "low": 1.6,
+      "high": 9.7,
+      "unit": "elasticity of substitution between rival sellers",
+      "citation": "Broda and Weinstein (2006), SITC-5 10th and 90th percentiles, 1990-2001."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
   },
   "businessRepaymentShare": {
     "value": 0.5,
