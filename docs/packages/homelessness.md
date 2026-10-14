@@ -26,3 +26,17 @@ A played year in a random town, seed not the builder's: name one person who stop
 ## Model and effort
 
 Opus, high, split between WORLD and CORE on their own branches; the chain is the acceptance.
+
+## Owning: default, foreclosure, estates and the laws over them (owner, Oct 14, 2026, late morning)
+
+"Not just rent: whatever happens if you don't pay your house. And inheritance: you should be able to pass inheritance laws and taxes, trust taxes. That system needs to be worked out."
+
+**What exists.** Money passes at death to family or the state (#4191), with no will, no probate order and no tax. No foreclosure exists in `housing.ts` or `credit.ts`: an owner who stops paying the mortgage keeps the house. No estate or inheritance tax series exists in the law catalog; property tax is the only tax on a home.
+
+**WORLD (credit, housing):** a missed mortgage payment runs the lender's path under the state's law from data, cited: delinquency, notice, the state's judicial or nonjudicial foreclosure timeline, sale, and the household's removal with the same housing status as an eviction. The bank's books carry the loss. Counted owners default at the same rule times their count.
+
+**CORE (estates):** a will where the person's traits and kin produce one (a share by kin and closeness), else the state's intestacy order from data, cited; probate as a timeline, not a scene; the estate pays its debts, then the taxes in force, then the heirs; a trust is the simplest real version (assets that pass outside probate) behind an `owner-decision` stopgap on how far trusts go in 1.0.
+
+**GOV (laws):** estate tax and inheritance tax as law series any legislature with the power can set: the federal estate tax with its exemption and rate from data (2025: $13.99 million, 40 percent, cited), the twelve states and D.C. with an estate tax and the five with an inheritance tax at their real thresholds and rates, cited; a bill in the real form that changes the threshold or rate; the treasury reads the law when an estate settles, so the chain is a death, the estate, the tax paid to the named treasury, the heir's smaller check, and the heir's view of the law that took it.
+
+**Proof:** one played year, seed not the builder's: one owner who defaulted (notice, timeline, sale, where they went), one death with an estate (will or intestacy, debts, tax to which treasury, heirs by record id), and the journal lines for both.
