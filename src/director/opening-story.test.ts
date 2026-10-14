@@ -117,7 +117,7 @@ describe("the opening story", () => {
     for (let i = 1; i < opening.frames.length; i += 1)
       expect(opening.frames[i]!.place).not.toBe(opening.frames[i - 1]!.place);
     for (const frame of opening.frames)
-      for (const line of frame.lines.filter((row) => row.stateKey))
+      if (frame.lines.some((row) => row.stateKey))
         expect(frame.place).toMatch(/^state-capitol-/);
     expect(opening.news.stories).toEqual(story.newscast);
   });
