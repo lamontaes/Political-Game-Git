@@ -792,8 +792,11 @@ export function collapseToTwoLevels(
     // Nobody in the counts has a past until they're filled in.
     // Their upbringing is kept; deep past is rebuilt at fill-in, in place
     // (facts written after deep past, e.g. retirement history, follow it).
+    // Nor where they learned each name they know: fill-in rebuilds that from
+    // their past (MEMORY-FLAT; modules/residents.ts, knownSources).
     people: home.memberIds.map((id) => {
-      const row = peopleById.get(id)!;
+      const { knownIdSources: _sources, ...row } = peopleById.get(id)!;
+      void _sources;
       const deep = `${row.id}:${DEFAULT_DEEP_PAST_DATA.version}:`;
       const facts = row.pastFacts ?? [];
       const first = facts.findIndex((fact) => fact.id.startsWith(deep));

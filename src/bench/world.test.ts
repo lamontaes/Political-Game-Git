@@ -33,4 +33,12 @@ describe("the bench player", () => {
     });
     expect(entrantOf(input, place)).toBe("turned-18-yesterday");
   });
+  it("is never a relative's husk-tier record, even one in this place", () => {
+    const input = opening({
+      "kin-turns-18-tomorrow": "2008-10-13",
+      "resident-turns-18-in-march": "2009-03-01",
+    });
+    (input.people[0] as { tier?: string }).tier = "husk";
+    expect(entrantOf(input, place)).toBe("resident-turns-18-in-march");
+  });
 });

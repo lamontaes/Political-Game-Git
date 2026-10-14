@@ -6,7 +6,7 @@
  * margin (positive = more Republican, PEOPLE's conservative-positive scale).
  * Views and elections refine lean and turnout from residents' own records.
  */
-import cps from "../../data/source/census-voting-registration/corpus.json" with { type: "json" };
+import { lazyValue, readJsonData } from "./reference/lazy-data";
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import { parameter } from "./parameters";
 import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { type: "json" };
@@ -32,8 +32,34 @@ interface CpsRow {
   metrics: Record<string, { value: { state: string; value?: number } }>;
 }
 
+// Read on first use; only the age rows this reads are kept, each with the
+// three measures it uses (the full corpus carries evidence for every cell).
+const CPS_AGE_ROWS = lazyValue(() =>
+  (
+    readJsonData(
+      new URL(
+        "../../data/source/census-voting-registration/corpus.json",
+        import.meta.url,
+      ),
+    ) as readonly CpsRow[]
+  )
+    .filter((row) => row.dimension === "age")
+    .map((row): CpsRow => ({
+      dimension: row.dimension,
+      geographyName: row.geographyName,
+      group: row.group,
+      recordId: row.recordId,
+      releaseDate: row.releaseDate,
+      metrics: Object.fromEntries(
+        ["votedCitizenPercent", "adultPopulation", "citizenAdultPopulation"]
+          .filter((key) => row.metrics[key] !== undefined)
+          .map((key) => [key, { value: { ...row.metrics[key]!.value } }]),
+      ),
+    })),
+);
+
 function turnoutFor(stateName: string, band: string) {
-  const rows = cps as unknown as readonly CpsRow[];
+  const rows = CPS_AGE_ROWS();
   const find = (geography: string) =>
     rows.find(
       (row) =>

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Our Civic Duty</title>
-    <link rel="stylesheet" href="/play.css" />
+    <link rel="stylesheet" href="play.css" />
   </head>
   <body>
     <main id="game">
@@ -21,7 +21,7 @@
       <section id="front" class="panel corners">
         <h1>Our Civic Duty</h1>
         <label>Seed <input id="seed" /></label>
-        <label>Opening date <input id="date" type="date" /></label>
+        <label>Opening date <input id="date" type="date" readonly /></label>
         <label
           >Place <input id="place" list="places" placeholder="Random"
         /></label>
@@ -92,6 +92,7 @@
         <button id="new-life" class="primary" type="button">New life</button>
         <div class="progress" hidden><span></span></div>
         <p id="front-status" role="status"></p>
+        <p id="version" class="version"></p>
       </section>
 
       <nav id="tabs" hidden>
@@ -167,6 +168,6 @@
         </div>
       </section>
     </main>
-    <script type="module" src="/play.mjs"></script>
+    <script type="module" src="play.mjs"></script>
   </body>
 </html>

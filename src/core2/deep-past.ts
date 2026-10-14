@@ -5,7 +5,7 @@ import {
   DEFAULT_OPENING_PEER_DATA,
   type OpeningPeerData,
 } from "./opening-peer-network";
-import schoolsJson from "./data/opening-schools.json" with { type: "json" };
+import { groupedJsonTable } from "./reference/lazy-data";
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
@@ -32,11 +32,16 @@ type SchoolRow = readonly [
   highestGrade: string,
   enrollment: number,
 ];
-const SCHOOLS = schoolsJson as unknown as {
+// Read on first use, only for the states a world asks about.
+const SCHOOL_TABLE = groupedJsonTable(
+  new URL("./data/opening-schools.json", import.meta.url),
+  ["byGeoid"],
+);
+const schoolsAt = SCHOOL_TABLE.section<readonly SchoolRow[]>("byGeoid");
+const SCHOOLS = SCHOOL_TABLE.rest.bind(SCHOOL_TABLE) as () => {
   stopgapId: string;
   asOf: string;
   citation: string;
-  byGeoid: Readonly<Record<string, readonly SchoolRow[]>>;
   placesByCounty: Readonly<Record<string, readonly string[]>>;
   bucketsByState: Readonly<Record<string, readonly string[]>>;
 };
@@ -140,9 +145,13 @@ function hasPrefix(kind: string, prefixes: readonly string[]): boolean {
 }
 
 /** One-time augmentation of a supplied life, never a historical clock run. */
-const FIRST_YEARS = firstYearsJson as unknown as {
+const FIRST_YEAR_TABLE = groupedJsonTable(
+  new URL("./data/school-first-years.json", import.meta.url),
+  ["firstYear"],
+);
+const firstYearOf = FIRST_YEAR_TABLE.section<number>("firstYear");
+const FIRST_YEARS = FIRST_YEAR_TABLE.rest.bind(FIRST_YEAR_TABLE) as () => {
   snapshots: readonly number[];
-  firstYear: Readonly<Record<string, number>>;
   source: { citation: string };
 };
 
@@ -152,9 +161,10 @@ const FIRST_YEARS = firstYearsJson as unknown as {
  * no snapshot opened after the last one.
  */
 export function schoolOpenBy(id: string, year: number): boolean {
-  const [earliest, next] = FIRST_YEARS.snapshots as [number, number];
-  const latest = Math.max(...FIRST_YEARS.snapshots);
-  const first = FIRST_YEARS.firstYear[id] ?? latest + (next - earliest);
+  const { snapshots } = FIRST_YEARS();
+  const [earliest, next] = snapshots as [number, number];
+  const latest = Math.max(...snapshots);
+  const first = firstYearOf(id) ?? latest + (next - earliest);
   return first <= Math.max(year, earliest);
 }
 
@@ -227,7 +237,7 @@ export function buildDeepPast(
       : null;
     const teaching = (geoids: readonly string[]) =>
       geoids.flatMap((geoid) =>
-        (SCHOOLS.byGeoid[geoid] ?? []).filter(([, , lowest, highest]) => {
+        (schoolsAt(geoid) ?? []).filter(([, , lowest, highest]) => {
           const low = grade(lowest);
           const high = grade(highest);
           return (
@@ -251,7 +261,7 @@ export function buildDeepPast(
       : teaching([
           ...countyGeoids,
           ...countyGeoids.flatMap(
-            (county) => SCHOOLS.placesByCounty[county] ?? [],
+            (county) => SCHOOLS().placesByCounty[county] ?? [],
           ),
         ]);
     // A place the county geography does not cover (territories, Puerto
@@ -263,7 +273,7 @@ export function buildDeepPast(
     const result =
       near.length || covered || !state
         ? near
-        : teaching(SCHOOLS.bucketsByState[state] ?? []);
+        : teaching(SCHOOLS().bucketsByState[state] ?? []);
     if (!own.length) broadLists.add(result);
     schoolCache.set(key, result);
     return result;
@@ -471,7 +481,7 @@ export function buildDeepPast(
           located?.facts?.countyId ??
           birthplace?.facts?.countyId ??
           (placeId === person.placeId ? person.countyId : undefined);
-        stopgap(SCHOOLS.stopgapId);
+        stopgap(SCHOOLS().stopgapId);
         const rng = new SeededRng(input.seed).fork(
           `${data.version}:${placeId}:${stage.id}:school-identity`,
         );
@@ -493,7 +503,7 @@ export function buildDeepPast(
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
-          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS.source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."}`,
+          citation: `${data.schools.source}${school ? ` ${SCHOOLS().citation} NCES-CCD:${campusId}, ${campusName}. ${FIRST_YEARS().source.citation}` : " No public school teaching this grade is recorded as open in that year for the place or its county; generated landscape name."}`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
         add({
@@ -514,7 +524,7 @@ export function buildDeepPast(
                   institutionSourceKey: "NCES-CCD",
                   institutionName: campusName!,
                   institutionKind: stage.id,
-                  directoryAsOf: SCHOOLS.asOf,
+                  directoryAsOf: SCHOOLS().asOf,
                 }
               : {}),
             campusIdentity: school ? "historical-name-proxy" : "generated",

@@ -23,18 +23,6 @@
     },
     "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
   },
-  "candidacyTemperamentWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2.",
-    "spread": {
-      "low": 0.5,
-      "high": 2,
-      "unit": "same unit as the value",
-      "citation": "Tuning range named in this row's citation."
-    },
-    "checkedAgainst": "Tuning dial with no real-world measure (owner, Oct 14, 2026). Tuned inside its spread until a played-world golden-path year (tests/golden-path/played-world.node-test.ts) stays in range."
-  },
   "candidacyTimeWeight": {
     "value": 1,
     "tag": "TUNABLE",

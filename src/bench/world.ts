@@ -86,12 +86,14 @@ const ENTRY_AGE = 18;
 /**
  * The golden path's first step is turning 18 in play: the 17-year-old whose
  * 18th birthday comes soonest after the opening, else the 18-year-old who
- * turned 18 most recently.
+ * turned 18 most recently. Only a resident counts: relatives who live in
+ * households of their own are husk-tier records (src/core2/opening-kin.ts),
+ * not people the town's day runs, even where they share the place.
  */
 export function entrantOf(input: CoreInput, placeId: string): string {
   const at = makeIsoDate(input.startedAt);
   const ages = input.people
-    .filter((person) => person.placeId === placeId)
+    .filter((person) => person.placeId === placeId && person.tier !== "husk")
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),

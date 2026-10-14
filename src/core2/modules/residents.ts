@@ -27,6 +27,8 @@ import type {
   PlaceId,
 } from "../types";
 import { registerSnapshotPart } from "../snapshot";
+import PEER_DATA from "../data/opening-peer-network.json" with { type: "json" };
+import COWORKER_DATA from "../data/opening-coworkers.json" with { type: "json" };
 
 const DAYS_PER_YEAR = 365;
 
@@ -55,8 +57,16 @@ interface FlowState extends ResidentFlowInput {
   endedReason?: string;
 }
 
+/**
+ * What the runtime keeps of the opening's residents input: its accounts,
+ * calendars, peer-group sizes and the seed fill-in rebuilds the past from.
+ * Not its households or flows (MEMORY-FLAT): the households live on as the
+ * records below, and the flows as their running state.
+ */
+export type ResidentsRecipe = Omit<ResidentsInput, "households" | "flows">;
+
 export interface ResidentsRuntime {
-  input: ResidentsInput;
+  input: ResidentsRecipe;
   flows: Map<string, FlowState>;
   due: Map<IsoDate, Set<string>>;
   households: Map<string, ResidentHouseholdRecord>;
@@ -64,8 +74,8 @@ export interface ResidentsRuntime {
   jobs: Map<string, JobInput>;
   /** Opening cash of everyone still counted, by place (fill-in takes its share). */
   openingCashByPlace: Map<PlaceId, number>;
-  /** Households filled in from the counts. */
-  filledIn: Map<string, ResidentHouseholdRecord>;
+  /** Households filled in from the counts (their people are full people now). */
+  filledIn: Set<string>;
   wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
   shortfalls: Map<string, ResidentWageShortfall>;
@@ -95,20 +105,26 @@ interface ResidentMonth {
 
 const FIXED_SPENDING = "household.outside-living-costs";
 
+/** The school and work acquaintance facts the opening's peer circles write. */
+const PEER_FACT_KINDS = new Set([PEER_DATA.factKind, COWORKER_DATA.factKind]);
+
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
-// The opening's input never changes in play, and a world rebuilt from the
-// same recipe recreates it, so a snapshot leaves it out.
+/**
+ * The records still as the opening built them. Held weakly: a record that
+ * changes is replaced, and the opening's version is let go.
+ */
+const openingRecords = new WeakSet<ResidentHouseholdRecord>();
+// The opening's records never change in play (a change replaces the record),
+// and a world rebuilt from the same recipe recreates them, so a snapshot
+// leaves them out.
 registerSnapshotPart("core2-residents", {
   save: (core) => {
     const rt = runtimes.get(core);
     if (!rt) return undefined;
     // A household still as it opened is marked, not copied.
-    const opened = new Map(
-      rt.input.households.map((row) => [row.household.id, row]),
-    );
     const households = new Map<string, ResidentHouseholdRecord | "opening">();
     for (const [id, record] of rt.households)
-      households.set(id, opened.get(id) === record ? "opening" : record);
+      households.set(id, openingRecords.has(record) ? "opening" : record);
     return { ...rt, input: undefined, households };
   },
   restore: (core, data) => {
@@ -149,14 +165,21 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       throw new Error(`Residents account is not recorded: ${row.accountId}`);
   }
   const rt: ResidentsRuntime = {
-    input,
+    input: {
+      version: input.version,
+      accounts: input.accounts,
+      ...(input.cohortSizes ? { cohortSizes: input.cohortSizes } : {}),
+      ...(input.calendars ? { calendars: input.calendars } : {}),
+      ...(input.pastBuild ? { pastBuild: input.pastBuild } : {}),
+      source: input.source,
+    },
     flows: new Map(),
     due: new Map(),
     households: new Map(),
     householdOfPerson: new Map(),
     shortfalls: new Map(),
     jobs: new Map(),
-    filledIn: new Map(),
+    filledIn: new Set(),
     openingCashByPlace: new Map(),
     wageFlowByJob: new Map(),
     monthly: new Map(),
@@ -169,6 +192,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     outsideByPlace: new Map(),
   };
   for (const record of input.households) {
+    openingRecords.add(record);
     rt.households.set(record.household.id, record);
     for (const person of record.people)
       rt.householdOfPerson.set(person.id, record.household.id);
@@ -814,8 +838,45 @@ export function takeResidentHousehold(
   const record = rt.households.get(id)!;
   rt.households.delete(id);
   for (const person of record.people) rt.householdOfPerson.delete(person.id);
-  rt.filledIn.set(id, record);
-  return record;
+  rt.filledIn.add(id);
+  return {
+    ...record,
+    people: record.people.map((row) =>
+      row.knownIds.length
+        ? { ...row, knownIdSources: knownSources(row, record) }
+        : row,
+    ),
+  };
+}
+
+/**
+ * Where a filled-in person learned each name they know, rebuilt from their
+ * own past (counted records don't carry it; MEMORY-FLAT). The opening gives a
+ * name its source from the first fact that names that person, when that fact
+ * is their kin record or a school or work acquaintance with someone outside
+ * their household (housemates already know each other); the same records
+ * give the same sources every time.
+ */
+function knownSources(
+  person: PersonInput,
+  record: ResidentHouseholdRecord,
+): NonNullable<PersonInput["knownIdSources"]> {
+  const known = new Set(person.knownIds);
+  const home = new Set(record.household.memberIds);
+  const seen = new Set<string>();
+  const sources: Record<string, { sourceFactId: string; learnedAt: IsoDate }> =
+    {};
+  for (const fact of person.pastFacts ?? []) {
+    const other = fact.facts?.otherPersonId;
+    if (!other || seen.has(other) || !known.has(other)) continue;
+    seen.add(other);
+    if (
+      fact.id === `${person.id}:family:${other}` ||
+      (PEER_FACT_KINDS.has(fact.kind) && !home.has(other))
+    )
+      sources[other] = { sourceFactId: fact.id, learnedAt: fact.date };
+  }
+  return sources;
 }
 
 /**
