@@ -1,4 +1,4 @@
-# Real disasters in games that open before October 9, 2026, and Social Security under the law in force; a played year is over budget again
+# Real disasters in games that open before October 9, 2026, Social Security under the law in force, and a played year under two minutes
 
 Before: no disaster touched a town, and Congress couldn't change Social Security ages.
 
@@ -8,14 +8,14 @@ After: in a game opening before October 9, 2026, FEMA's real disasters strike on
 
 **What you need to do:** in the evening build, type an opening date of January 1, 2021, pick a Louisiana or Florida town, and play the year.
 
-**Also read first:** after tonight's main merge, a Woodmere, New York year takes about 160 to 175 seconds, over budget (next section).
+**Also read first:** a Woodmere, New York year takes 92.6 seconds; its slowest day is still over budget (next section).
 
 ## Known problems
 
-- **A year is over budget again.** After this branch took tonight's main, a Woodmere year takes 159.5 to 174.8 seconds against a two-minute budget, against 96.6 for the commit just before that merge. Timing main at each pull request in the merge, one run each, put the jump on one of them: FIXER's lawmaking-volume change (#4118) took main's year from 87.1 to 209.9 seconds. Every other step stayed within run-to-run variation, including the change that made about 1,600 officials full people (#4120). I've asked the CTO to have that change looked at.
-- **The slowest day is over budget:** after the merge, the slowest day (December 15, 2026) takes 5.5 seconds against 3, in one run. Before the merge, Election Day was the slowest at 4.7, also over.
-- **Earlier today:** this morning's code ran a Woodmere year in 53.5 seconds when timed again tonight. Two earlier main merges with other teams' engines slowed it, and tonight's three core fixes took 112.2 seconds back to 96.6, before tonight's merge (details under "A faster year").
+- **A year went over budget overnight, and is back under.** Main's lawmaking-volume change (#4118) took main's Woodmere year from 87.1 to 209.9 seconds, timed at each pull request in that batch. After this branch's fixes and main's lighter bench town (#4123), a Woodmere year takes 92.6 seconds in one run, against a two-minute budget.
+- **The slowest day is over budget:** it takes 4.8 seconds against 3, in one run on October 14.
 - **The CI speed job stops on this pull request.** It now runs on core changes (fixed here) and stops on this one because it changes how a town opens; the job refuses any such comparison. I've proposed a rule change to the CTO; it needs his sign-off because it changes a guard's test.
+- **Three choice tests broke on main.** The owner's October 14 ruling raised the personality weight from 0.2 to 1 (#4152), and three core choice tests in `src/core2/life.test.ts` failed on main from that merge. They test how stress, wages and a trait's direction move one choice, sized at the old weight. This branch runs them at 0.2, the low end of the weight's checked range; play uses 1.
 
 ## What changed for the player
 
@@ -35,7 +35,7 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 **Retirement follows the law in force.** What the code does now (inferred from the code): where the laws engine runs, a claim during play is dated from the government team's Social Security ages, not the core's own table (`src/core2/modules/retirement-claims.ts:88`). Each person's claim age is set from their full retirement age, earlier with less saved or less patience, so it moves with the full age. Measured in the test in Teaticket, Massachusetts. The game opens on January 1, 2021, and one adult is set up so that their award would start two months later. With the full retirement age raised to 68 on the opening day, their full age moves from 66 years 10 months to 68, so their claim moves about 14 months later. They had no award by June 2021 and had claimed by the end of 2022. The same rule applies to every claimant; the test follows this one.
 
-**A faster year.** Three fixes. Measured back to back tonight, before the main merge, they take a Woodmere year from 112.2 seconds (the commit before them) to 96.6 (the commit with all three). Single runs vary too much to size each fix on its own:
+**A faster year.** Three fixes. Measured back to back on the evening of October 13, before the October 14 main merge, they take a Woodmere year from 112.2 seconds (the commit before them) to 96.6 (the commit with all three). Single runs vary too much to size each fix on its own:
 
 - **Filling a household in** (inferred from the code): each seller's sales to the counted population were kept as one list, with a part for each of about 24,500 counted households. That count includes the town's households and the households of residents' relatives who live elsewhere. Each time a household was filled in as full people, about 200 of those lists were copied whole, and that happened 33 times in the first 60 days. Now each list is copied once and then changed in place (`src/core2/modules/residents.ts:1193`).
 - **Dating Social Security claims** (inferred from the code): each new year, every counted person 60 or older had a claim dated through the law engine, including people long past 70. Now people past the last claim age are skipped, and the law's ages are reused for each birth year within a day (`src/core2/modules/retirement-claims.ts:145`). Measured: in a 60-day profile, claim dating fell from about 1 second to too little to list.
@@ -47,23 +47,24 @@ Measured over 2021 in Gonzales, Louisiana, where the game town has 1,500 people 
 
 ## Checks
 
-- The three blocking golden-path checks pass on this branch's head: the suite runs and fits its time (Silver Summit, Utah), the golden-path speed guard (Carmet, California), and a played world that runs a full year with every engine (Lamar, Mississippi). The speed guard tests only its arithmetic (see "What happens next").
+- The golden-path suite passes on this branch's head, including its three checks: the suite runs and fits its time (Silver Summit, Utah), the golden-path speed guard (Carmet, California), and a played world that runs a full year with every engine (Lamar, Mississippi). The speed guard tests only its comparison arithmetic, so it passes even with a slow day (see "What happens next").
 - Disasters: the test draws places from its seed until one has a disaster beginning in 2021, then checks one news event per disaster, no payment above FEMA's figure, and balanced money. It passed in Winchester, Idaho (1 disaster); Long Beach, New York (3, with one housing-aid payment and three repair payments); and Dyersburg, Tennessee (2), with seeds a1, c3 and e5.
-- Speed and memory in Woodmere (cloud machine, not a minimum-spec PC), after tonight's main merge, one run: a new game loads in 52.2 seconds and a year runs in 174.8, each against a two-minute budget, so the year fails. The slowest day takes 5.5 seconds against 3, and a year-old save is 13.3 MB compressed against 40 MB.
+- Speed and memory in Woodmere (cloud machine, not a minimum-spec PC), after the October 14 merge with main, one run: a new game loads in 44.4 seconds and a year runs in 92.6, each against a two-minute budget. The slowest day takes 4.8 seconds against 3, and a year-old save is 13.2 MB compressed against 40 MB.
 - The release check, the no-dice check, type checks and the changed files' tests pass.
 
 ## What happens next
 
-- Why no check caught the earlier slowdowns at the 11:20 a.m. and 1:23 p.m. merges: the CI speed job shows "skipped" on all ten pull requests in those two merges (#4079, #4095, #4096, #4097, #4102, #4105, #4106, #4107, #4108 and #4110). That job times a month of the played world before and after a change. The golden-path speed check (M0-11) tests only its comparison arithmetic on fixed numbers. The cause (from the job's log): the step that decides whether a pull request changes the core calls a search tool GitHub's machines don't have, so it always answered no. This pull request switches that step to the standard tool (`.github/workflows/m0-guard.yml:60`). The speed job then ran on this pull request; it stops for the reason under "Known problems".
+- Why no check caught the earlier slowdowns at the October 13 main merges (11:20 a.m. and 1:23 p.m.): the CI speed job shows "skipped" on all ten pull requests in those two merges (#4079, #4095, #4096, #4097, #4102, #4105, #4106, #4107, #4108 and #4110). That job times a month of the played world before and after a change. The golden-path speed check (M0-11) tests only its comparison arithmetic on fixed numbers. The cause (from the job's log): the step that decides whether a pull request changes the core calls a search tool GitHub's machines don't have, so it always answered no. This pull request switches that step to the standard tool (`.github/workflows/m0-guard.yml:60`). The speed job then ran on this pull request; it stops for the reason under "Known problems".
 - The research for each place's citizenship rule at birth is ready for the people and government teams; full people don't carry citizenship yet.
 - Three retired parameters are gone, and two more estimates are settled (the share of a career with covered work, and the mood baseline).
 - Eleven more core files read the core's own date, id and reference folders instead of the old engine's.
 
 ## Speed measurements
 
-- Single timings of a Woodmere year during the evening, each from one run: 58.5 seconds for this morning's code; 78.3 after the 11:20 a.m. main merge; 80.8 before and 110.3 after the 1:23 p.m. merge.
-- How far to trust single timings: this morning's code repeated closely (52.1, 53.5 and 58.5 seconds at different times). The commit before tonight's fixes measured 103.6, 112.2 and 122.3 seconds at different times, so a single timing of a slow commit can be about 10 seconds off. Load times vary too: this morning's code loaded in 55.7 seconds this morning and 93 seconds once tonight.
+- Woodmere years on October 13, each from one run: 52.1 to 58.5 seconds for the branch as it stood that morning (three runs); 78.3 after the 11:20 a.m. main merge; 80.8 before and 110.3 after the 1:23 p.m. merge.
+- How far to trust single timings: the October 13 morning code measured 52.1, 53.5 and 58.5 seconds at different times. The commit before the three fixes measured 103.6, 112.2 and 122.3 seconds, so a single timing of a slow commit can be about 10 seconds off. Load times vary too: the same code loaded in 55.7 seconds once and 93 seconds once.
+- Main's 87.1 seconds (before #4118) and this branch's 96.6 (with the fixes, before the October 14 merge) are single runs of different code; the gap is not explained.
 
 ## Method
 
-Measured on this branch on October 13, 2026, in the cloud, one run each (main's commits too), except the back-to-back runs under "Known problems" and "A faster year" and the repeats under "Speed measurements". Woodmere used seed m701-a, one process at a time, with bookkeeping off. Gonzales used seed ida, and Duncan Ranch Colony seed 58b6bb74f3a80de69433f1d29cdc1851. Details for every run are in `docs/coordination/core.md`.
+Measured in the cloud on October 13 and 14, 2026, one run each (main's commits too), except the back-to-back runs under "A faster year" and the repeats under "Speed measurements". The 92.6-second year, 44.4-second load, 4.8-second day and 13.2 MB save are from October 14, after the merge with main. Woodmere used seed m701-a, one process at a time, with bookkeeping off. Gonzales used seed ida, and Duncan Ranch Colony seed 58b6bb74f3a80de69433f1d29cdc1851. Details for every run are in `docs/coordination/core.md`.
