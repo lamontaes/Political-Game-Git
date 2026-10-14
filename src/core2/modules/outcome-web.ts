@@ -10,11 +10,6 @@
  * links' factors. A link reads its cause as it stood `lagMonths` ago; an
  * outcome a link moves feeds the links that start from it the next month.
  *
- * Each running link then lands on the people it reaches (the landing plan's
- * recipient rule over their own records), one row per person and link,
- * written when the effect on them first reaches them, even at zero, and
- * again whenever it changes. People need not know: nothing here tells them.
- *
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
@@ -29,27 +24,18 @@ import {
   KEPT_OUTCOMES,
   keptOutcome,
   LAW_PREFIX,
-  linkCoverage,
   linkEffect,
   moderatorScale,
   scaleOf,
-  selectorOf,
   sizeIn,
   WEB_LINKS,
   WEB_SETTINGS,
   WEB_VERSION,
   WIRED_INTO,
-  type Selector,
   type WebLink,
 } from "../outcome-web-model";
 import type { ModuleRow } from "../module-data";
-import type {
-  CoreAPI,
-  CoreEventInput,
-  CoreModule,
-  CoreState,
-  PersonState,
-} from "../types";
+import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 
 export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
@@ -68,20 +54,6 @@ export interface WebMonth {
   readonly bases: Readonly<Record<string, number>>;
   /** Each running link's effect: a proportional change, or for a level outcome, units added. */
   readonly effects: Readonly<Record<string, number>>;
-}
-
-/** A link's effect on one person, kept current: first written when it reaches them, even at zero. */
-export interface WebLanding {
-  readonly id: string;
-  readonly personId: string;
-  readonly placeId: string;
-  readonly linkKey: string;
-  readonly measure: string;
-  readonly effect: number;
-  readonly previousEffect: number | null;
-  readonly value: number;
-  readonly since: string;
-  readonly changedOn: string;
 }
 
 interface WebState {
@@ -382,137 +354,12 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   return row;
 }
 
-const ageOn = (person: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, "YYYY".length)) -
-  Number(person.birthDate.slice(0, "YYYY".length)) -
-  (date.slice("YYYY-".length) < person.birthDate.slice("YYYY-".length) ? 1 : 0);
-
-interface Resident {
-  readonly person: Readonly<PersonState>;
-  readonly age: number;
-  /** Ages of the others in the household; of their own family, for parents. */
-  readonly housemateAges: readonly number[];
-  readonly childAges: readonly number[];
-  readonly renter: boolean;
-  readonly borrower: boolean;
-}
-
-function residentsOf(api: CoreAPI, placeId: string): Resident[] {
-  const core = api.state as CoreState;
-  const date = core.date;
-  const loans = core.modules.has("credit")
-    ? (api
-        .moduleState("credit")
-        .table("loans")
-        .query("open", [true]) as unknown as readonly { householdId: string }[])
-    : [];
-  const borrowing = new Set(loans.map((loan) => loan.householdId));
-  const out: Resident[] = [];
-  for (const person of core.people.values()) {
-    if (!person.alive || person.placeId !== placeId) continue;
-    const others = (core.households.get(person.householdId)?.memberIds ?? [])
-      .filter((id) => id !== person.id)
-      .map((id) => core.people.get(id))
-      .filter((other): other is PersonState => !!other && other.alive);
-    const lease = core.finance.contracts.get(`lease:${person.householdId}`);
-    out.push({
-      person,
-      age: ageOn(person, date),
-      housemateAges: others.map((other) => ageOn(other, date)),
-      childAges: others
-        .filter((other) => person.familyIds.has(other.id))
-        .map((other) => ageOn(other, date)),
-      renter: !!lease && !lease.endedAt,
-      borrower: borrowing.has(person.householdId),
-    });
-  }
-  return out;
-}
-
-const ADULT_AGE = selectorOf("adult-school-completer-estimate") as Selector;
-
-function selects(selector: Selector, resident: Resident): boolean {
-  const age = resident.age;
-  if (selector.minimumAge !== undefined && age < selector.minimumAge)
-    return false;
-  if (selector.maximumAge !== undefined && age > selector.maximumAge)
-    return false;
-  if (
-    selector.noChildUnder !== undefined &&
-    resident.housemateAges.some((other) => other < selector.noChildUnder!)
-  )
-    return false;
-  if (selector.childAges) {
-    const [low, high] = selector.childAges;
-    if (age < (ADULT_AGE.minimumAge ?? 0)) return false;
-    if (!resident.childAges.some((child) => child >= low && child <= high))
-      return false;
-  }
-  if (selector.renter && !resident.renter) return false;
-  if (selector.borrower && !resident.borrower) return false;
-  return true;
-}
-
-const LANDING_LINKS = WEB_LINKS.flatMap((link) => {
-  const coverage = linkCoverage(link);
-  if (!coverage.wired || typeof coverage.lands !== "string") return [];
-  return [{ link, selector: selectorOf(coverage.lands) as Selector }];
-});
-
-/** Land each running link on the people it reaches, when the effect on them is new or changed. */
-function land(api: CoreAPI, row: WebMonth): void {
-  const table = store(api).table("landings");
-  const residents = residentsOf(api, row.placeId);
-  // Retention (MEMORY-FLAT): a landing lives while its effect reaches the
-  // person. Each row carries this month's effect and the previous one; when
-  // the link stops running, or the person dies or leaves, the row goes.
-  const current = new Set<string>();
-  for (const { link, selector } of LANDING_LINKS) {
-    const effect = row.effects[link.key];
-    if (effect !== undefined)
-      for (const resident of residents)
-        if (selects(selector, resident))
-          current.add(`landing:${link.key}:${resident.person.id}`);
-    for (const held of table.query("byLink", [link.key]))
-      if (
-        (held as unknown as WebLanding).placeId === row.placeId &&
-        !current.has(held.id)
-      )
-        table.remove(held.id);
-  }
-  for (const { link, selector } of LANDING_LINKS) {
-    const effect = row.effects[link.key];
-    if (effect === undefined) continue;
-    for (const resident of residents) {
-      if (!selects(selector, resident)) continue;
-      const id = `landing:${link.key}:${resident.person.id}`;
-      const held = table.get(id) as WebLanding | undefined;
-      if (held && held.effect === effect && held.placeId === row.placeId)
-        continue;
-      const landing: WebLanding = {
-        id,
-        personId: resident.person.id,
-        placeId: row.placeId,
-        linkKey: link.key,
-        measure: link.to,
-        effect,
-        previousEffect: held ? held.effect : null,
-        value: row.values[link.to]!,
-        since: held?.since ?? row.date,
-        changedOn: row.date,
-      };
-      table.put(landing as unknown as ModuleRow);
-    }
-  }
-}
-
 function run(api: CoreAPI): void {
   const state = webState(api);
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
-  for (const placeId of placesOf(api))
-    land(api, recordMonth(api, placeId, state));
+  for (const placeId of placesOf(api)) recordMonth(api, placeId, state);
 }
 
 function schedule(api: CoreAPI): void {
@@ -559,12 +406,6 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
       state: {},
       months: { indexes: { byPlace: { fields: ["placeId"] } } },
       laws: { indexes: { bySeries: { fields: ["series"] } } },
-      landings: {
-        indexes: {
-          byPerson: { fields: ["personId"] },
-          byLink: { fields: ["linkKey"] },
-        },
-      },
     },
   },
   eventKinds: [SETTINGS.lawsModule.eventKind],
@@ -623,14 +464,4 @@ export function outcomeWebFactor(
   const record = placeOutcome(api, placeId, measure);
   if (!record || !record.base) return 1;
   return scaleOf(measure) === "level" ? 1 : record.value / record.base;
-}
-
-/** Every outcome-web effect on one person's record. */
-export function outcomesOn(
-  api: CoreAPI,
-  personId: string,
-): readonly WebLanding[] {
-  return store(api)
-    .table("landings")
-    .query("byPerson", [personId]) as unknown as readonly WebLanding[];
 }

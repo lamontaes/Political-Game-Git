@@ -326,6 +326,12 @@
       "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
       "spread": [0.75, 1.5]
     },
+    "groupLeaveMargin": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "How far past neutral a member's view on their group's question must cross to the other side before they leave, doubled for someone who follows politics most of the time (they hold on to a commitment longer). Group members who change their minds tend to drift out rather than quit at the first doubt (Han 2014, How Organizations Develop Activists). No study sets the size; checked by members leaving only after hearing cases against their side.",
+      "spread": [0.05, 0.25]
+    },
     "groupFoundingMembers": {
       "value": 3,
       "tag": "TUNABLE",
