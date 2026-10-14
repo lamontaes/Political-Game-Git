@@ -112,14 +112,28 @@ console.log(
       },
       withholding: {
         outOfTownAidesWithheld: withheldOutside.length,
-        sample: withheldOutside[0],
+        sample:
+          withheldOutside[0] ?? withholdingOf(api, staff[0]?.personId ?? "")[0],
+        estimated: staff.filter((row) =>
+          withholdingOf(api, row.personId).some(
+            (w) => w.source.tag === "ESTIMATED",
+          ),
+        ).length,
       },
       wagesCreditLineStopgapHit: core.stopgapHits.has(
         "SG-WORLD-wages-skip-credit-line",
       ),
       vouchers: {
         rows: reach.length,
-        ended: reach.filter((row) => row.endedOn).map((row) => row.id),
+        ended: reach
+          .filter((row) => row.endedOn)
+          .map((row) => {
+            const organizationId = row.id.split("|")[1] ?? "";
+            const closed = core.eventIds.has(
+              `event:business.closed:${organizationId}`,
+            );
+            return { id: row.id, endedOn: row.endedOn, closed };
+          }),
       },
     },
     null,
