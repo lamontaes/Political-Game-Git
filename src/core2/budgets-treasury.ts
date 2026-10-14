@@ -24,6 +24,7 @@ import {
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
+import { newsKey, storiesHeard } from "./modules/news";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
@@ -501,12 +502,26 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     } satisfies TreasuryMonthRow as unknown as ModuleRow);
   }
   applySocialSecurityLevel(api);
+  attributeLanded(api);
+}
+
+interface LandedRow {
+  readonly id: string;
+  readonly personId: string;
+  readonly obligationId: string;
+  readonly date: string;
+  readonly measureId: string;
+  readonly lawId: string;
+  readonly series: string;
+  readonly share: number;
+  readonly learnedFrom?: string;
 }
 
 /**
- * A change to someone's award lands on them: an event naming the measure
- * that did it (the law's question where a law did it), the change they'd
- * want to it, and how hard it hits, by the share of the award it moved.
+ * A change to someone's award lands on them: their next payment is smaller
+ * or larger, and they feel it, by the share of the award it moved. Nothing
+ * here says why. Whether they tie it to the law that did it is what they
+ * learn (`attributeLanded`).
  */
 function landOn(
   api: CoreAPI,
@@ -518,38 +533,100 @@ function landOn(
 ): void {
   const person = api.state.people.get(personId);
   if (!person?.alive || from <= 0) return;
-  const lawId = measureId?.split("#")[0];
-  const law = lawId
-    ? (api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
-        { series?: string } | undefined)
-    : undefined;
   const share = (to - from) / from;
   const scale = treasuryParameter("benefitChangeImpulseScale");
+  const id = `event:law.effect-landed:${api.state.date}:${obligationId}`;
   api.emit({
-    id: `event:law.effect-landed:${api.state.date}:${obligationId}`,
+    id,
     date: api.state.date,
     kind: "law.effect-landed",
     personIds: [personId],
     placeId: person.placeId,
-    topic: law?.series ?? `budget-line:US:socialSecurity`,
-    desiredChange: share < 0 ? "repeal" : "enact",
     moodImpulse: scale * share,
     stressImpulse: scale * Math.max(0, -share),
     facts: {
-      measureId: measureId ?? "",
       obligationId,
       fromMinor: String(from),
       toMinor: String(to),
-      governmentId: "US",
-      line: "socialSecurity",
     },
     publicRecord: false,
     source: {
       tag: "SOURCED",
-      citation: `Social Security award changed by ${measureId ?? "the federal budget"}`,
+      citation: "Social Security award changed with the federal line",
       asOf: api.state.date,
     },
   });
+  const lawId = measureId?.split("#")[0] ?? "";
+  const law = lawId
+    ? (api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
+        { series?: string } | undefined)
+    : undefined;
+  const row: LandedRow = {
+    id,
+    personId,
+    obligationId,
+    date: api.state.date,
+    measureId: measureId ?? "",
+    lawId,
+    series: law?.series ?? "",
+    share,
+  };
+  table(api, "landed").put(row as unknown as ModuleRow);
+  attribute(api, row);
+}
+
+/**
+ * Someone ties a change to their award to the law that did it only when they
+ * learned of it: a story they heard about the law, or about the Social
+ * Security line it changed. Then they hold a view on that law, citing the
+ * story; until then they only felt the change.
+ */
+function attribute(api: CoreAPI, row: LandedRow): void {
+  if (row.learnedFrom || !row.series) return;
+  const story = storiesHeard(api, row.personId).find(
+    (s) =>
+      (row.lawId && s.facts.lawId === row.lawId) ||
+      (s.kind === "budget-line-changed" &&
+        s.facts.line === "socialSecurity" &&
+        s.facts.measureId === row.measureId),
+  );
+  if (!story) return;
+  const person = api.state.people.get(row.personId);
+  if (!person?.alive) return;
+  const scale = treasuryParameter("benefitChangeImpulseScale");
+  api.emit({
+    id: `event:law.effect-learned:${api.state.date}:${row.obligationId}`,
+    date: api.state.date,
+    kind: "law.effect-learned",
+    personIds: [row.personId],
+    placeId: person.placeId,
+    topic: row.series,
+    desiredChange: row.share < 0 ? "repeal" : "enact",
+    moodImpulse: scale * row.share,
+    stressImpulse: scale * Math.max(0, -row.share),
+    facts: {
+      lawId: row.lawId,
+      measureId: row.measureId,
+      learnedFrom: newsKey(story.id),
+      landedId: row.id,
+    },
+    publicRecord: false,
+    source: {
+      tag: "SOURCED",
+      citation: `Learned from ${story.id} that ${row.lawId} changed their Social Security`,
+      asOf: api.state.date,
+    },
+  });
+  table(api, "landed").put({
+    ...row,
+    learnedFrom: story.id,
+  } as unknown as ModuleRow);
+}
+
+/** Each close, recipients who since heard why their award changed tie it to the law. */
+export function attributeLanded(api: CoreAPI): void {
+  for (const row of table(api, "landed").rows() as unknown as LandedRow[])
+    if (!row.learnedFrom) attribute(api, row);
 }
 
 export function treasuryMonthsOf(

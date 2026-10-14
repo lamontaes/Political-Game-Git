@@ -176,6 +176,8 @@ export const BUDGETS_MODULE: CoreModule = {
       publicPay: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       /** What each treasury's lines fell short at its last close, owed at the next. */
       arrears: {},
+      /** Each change to an award that landed on a person, and what told them why. */
+      landed: {},
       /** Each Social Security award's amount at the base federal line. */
       awardBase: {},
     },
