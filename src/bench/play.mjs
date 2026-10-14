@@ -2013,7 +2013,23 @@ const sheets = {
   },
   async travel() {
     const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
-    return places.map((p) => {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    // Filing happens only at the office's counter, one race at a time, so the
+    // clerk, registrar or board of elections is a place to go.
+    const counters = (
+      v.filings.length
+        ? []
+        : [...new Set(v.contests.map((c) => c.filingOffice.filedWith))]
+    ).map((filedWith) => {
+      const go = el("button", { type: "button", textContent: filedWith });
+      go.addEventListener("click", () => openFiling(filedWith));
+      return go;
+    });
+    return [
+      ...counters.map((go) => el("div", { className: "row" }, go)),
+      ...places.map(placeRow),
+    ];
+    function placeRow(p) {
       const go = el("button", { type: "button", textContent: "Go" });
       go.addEventListener("click", () => visit(p.organizationId));
       return el(
@@ -2027,7 +2043,7 @@ const sheets = {
         ].join(" · ") + " ",
         go,
       );
-    });
+    }
   },
   // Politics is a compact hub: your office, your campaigns, the government
   // around you, its parties, and the issues and budget behind them.
@@ -2044,22 +2060,7 @@ const sheets = {
         f.filedWith,
       ),
     );
-    // Filing happens only at the office's counter, one race at a time.
-    const offices = (
-      v.filings.length
-        ? []
-        : [...new Set(v.contests.map((c) => c.filingOffice.filedWith))]
-    ).map((filedWith) => {
-      const b = el("button", { type: "button", textContent: filedWith });
-      b.addEventListener("click", () => openFiling(filedWith));
-      return b;
-    });
-    return [
-      ...(await campaignRows()),
-      ...offices,
-      ...filings,
-      ...(await sheets.results()),
-    ];
+    return [...(await campaignRows()), ...filings, ...(await sheets.results())];
   },
   // The map first, then who holds each seat, by level.
   async government() {
