@@ -8,7 +8,7 @@ The rest works. Every government treasury now pays its adopted budget each month
 
 Before: each month every state, county and town treasury received a twelfth of its yearly revenue from outside the town and paid almost nothing out. The U.S. treasury collected withholding and paid nothing. A federal budget cut changed no one's payment.
 
-After: each treasury pays every line of its budget each month, to people and businesses in town first and the rest outside the town, line by line. A federal cut to Social Security lowers the next check of a retiree the game tracks one by one who claimed during play.
+After: each treasury pays every line of its budget each month, to people and businesses in town first and the rest outside the town, line by line. A federal cut to Social Security lowers the next check of a retiree the game tracks one by one who claimed during play, and turns their view against the law that did it.
 
 ## What a treasury does each month
 
@@ -43,6 +43,20 @@ Three payments, by record:
 
 Every one of the 27,936 journal entries in Norway and the 24,197 in Lydia posted both sides and summed to zero (measured).
 
+## One dollar to a person: the federal cut in Lydia
+
+Measured in the Lydia run, in order:
+
+1. **The bill.** Congress passed bill 2025-002, a balanced operating budget, on December 15, 2025 (`vote-recorded:vote:2025-002:...`).
+2. **The law in force.** `law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002` took effect the same day.
+3. **The budget line.** It cut the federal Social Security line to 70.6% of its base (`budget-line-changed:budget:US:2025:socialSecurity:...#balance#2025-12-15`). Interest on the debt was not cut.
+4. **The smaller payment.** `person_6ee8931cace2b343`, a retiree in Lydia who claimed during play, was paid $1,796.49 on November 27 and $1,268.59 on December 27. `person_52106326559861a5` was paid $1,616.47 on December 2 and $1,141.47 on January 2.
+5. **Their money.** Each payment is a journal entry on their own cash account; the retiree held $22,298.57 at the end of the run.
+6. **Their view.** The cut landed on them as an event naming the law (`event:law.effect-landed:2025-12-15:retirement-claim:person_6ee8931cace2b343`). The views engine read it: their stance on the balanced-budget act now wants it repealed, strength 0.043, with that event as its cause (`person_6ee8931cace2b343:us-policy-positions:fiscal.balanced-operating-budget`). Their mood fell to -0.40 and their stress rose to 0.65 that day.
+7. **What did not read it.** No choice they made changed: the game records choices only for the player and the people around them, and this retiree recorded none in 400 days. No drive appears in their records. The story director counts only job wages as household money, so no scene or journal line followed (`src/director/ledger.ts:143`); that part is OPUS-PEOPLE's.
+
+Everyone else in town kept their Social Security amount: 5 retirees from the opening and 832 tracked as counts (see What happens next). The other 27 people who claimed during play and are tracked one by one live outside the town.
+
 ## Other fixes in this change
 
 Each is read in code; the runs did not single any of them out.
@@ -62,6 +76,7 @@ Each is read in code; the runs did not single any of them out.
   - Let the finance engine change an existing Social Security award's amount (`src/core2/finance-state.ts:744`). In Lydia 5 retirees the game tracks one by one kept their old amount (SG-GOV-opening-award-level).
   - Do the same for the townspeople tracked as counts. In Lydia 832 who claimed during play kept their old amount (SG-GOV-counted-social-security-level).
   - Pay the town's schools, police and fire from their treasury rather than from outside (SG-GOV-public-employers-outside).
+- **OPUS-PEOPLE:** the director counts only job wages as household money, so a cut benefit gets no scene or journal line (`src/director/ledger.ts:143`). The drives data still lists `law.effect-landed` as having no producer (`src/core2/data/drives.json:648`); it has one now.
 - **The other OPUS-GOV builder** (legislature): a county with no executive still passes a budget bill with no lines. `departmentRequests` (`src/core2/modules/budgets.ts:805`) now returns the lines such a bill can carry.
 - **This builder, next:** state surpluses build up where the Census shows more revenue than spending. A rainy-day reserve or a larger next budget should take them.
 
