@@ -1022,6 +1022,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-GOV-start-law-carried-back",
+    "kind": "data-gap",
+    "file": "src/core2/modules/laws.ts",
+    "line": 112,
+    "whatItFakes": "A law whose first recorded phase begins after the January 20, 2025 start (most income tax, sales tax, property tax, SNAP, unemployment and Medicaid rows begin October 2025 or January 2026) is in force from the start at that phase's terms, labeled as an estimate.",
+    "why": "The starting-law research was compiled for a 2026 start; the owner moved the start to January 20, 2025 on October 14, 2026, and a law in force must never be unknown.",
+    "addedBy": "start/inauguration-2025",
+    "addedAt": "2026-10-14",
+    "replacement": "Sourced phases in force on January 20, 2025 for each series and place in src/core2/data/laws/starting-law.json (2025 tax brackets and rates, FY2025 SNAP maximums and Medicaid match, 2025 unemployment maximums).",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-term-end-estimate",
     "kind": "estimated-calendar",
     "file": "src/core2/modules/offices.ts",
