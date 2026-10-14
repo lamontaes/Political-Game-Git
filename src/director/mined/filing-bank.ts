@@ -1,21 +1,20 @@
 /**
  * Turns the mined clerk bank (`data/english/parts/filing-visit.json`) into the
  * filing visit's words (`src/director/filing-visit.ts`). The clerk speaks only
- * sentences a public-domain election record says; what no record says (the
- * player's own picks) is left empty here, and
- * the screen shows it as the filing record's data.
+ * sentences a public-domain election record says; what no record says is left
+ * empty here, and the visit leaves the line out. The rules and the slot each
+ * rule's value fills are `data/filing-visit-rows.json`, which holds no
+ * sentences.
  *
  * Slots map onto the visit's facts: a rule's value is `{{required}}` (the age,
  * the place), the filing office is `{{filing-office}}` (GOV's `filedWith`).
- *
- * OPUS-WORDS owns this file until OPUS-PEOPLE folds it into the director.
  */
-import bankJson from "../../data/english/parts/filing-visit.json" with { type: "json" };
-import { heldByGrades } from "../../src/presentation/english-grades";
-import { FILING_VISIT_WORDS } from "../../src/director/filing-visit";
-import type { Variant } from "../../src/director/render";
+import bankJson from "../../../data/english/parts/filing-visit.json" with { type: "json" };
+import { heldByGrades } from "../../presentation/english-grades";
+import rowsJson from "../data/filing-visit-rows.json" with { type: "json" };
+import type { VisitWords } from "../filing-visit";
+import type { Variant } from "../render";
 
-type VisitWords = typeof FILING_VISIT_WORDS;
 interface Use {
   subject: string;
   role: string;
@@ -29,14 +28,12 @@ interface MinedPart {
 }
 export const FILING_BANK = bankJson as unknown as { parts: MinedPart[] };
 
-/** The visit's rule keys, and the slot each rule's value fills. */
-const RULES: Record<string, { choice: string; slot?: string }> = {
-  "filing-deadline": { choice: "late", slot: "deadline" },
-  "already-filed": { choice: "filed" },
-  "minimum-age": { choice: "age", slot: "age" },
-  residency: { choice: "live", slot: "place" },
-  "registered-voter": { choice: "register" },
-};
+/** Each rule the visit can state: the mined choice that words it, and the slot its value fills. */
+export interface FilingRows {
+  version: string;
+  rules: Readonly<Record<string, { choice: string; slot?: string }>>;
+}
+export const FILING_ROWS = rowsJson as unknown as FilingRows;
 
 function directorText(text: string, valueSlot?: string): string {
   return text.replace(/\{(\w+)\}/g, (_all, slot: string) =>
@@ -46,6 +43,7 @@ function directorText(text: string, valueSlot?: string): string {
 
 export function filingWordsFromBank(
   bank: { parts: MinedPart[] } = FILING_BANK,
+  rows: FilingRows = FILING_ROWS,
 ): VisitWords {
   const of = (subject: string, role: string, choice?: string, slot?: string) =>
     bank.parts
@@ -65,8 +63,7 @@ export function filingWordsFromBank(
         text: directorText(part.text, slot),
       }));
   return {
-    ...FILING_VISIT_WORDS,
-    version: "words-filing-visit-v1",
+    version: rows.version,
     greet: of("clerk", "greet"),
     pick: of("player", "pick"),
     // The deadline is said in every case.
@@ -75,7 +72,7 @@ export function filingWordsFromBank(
       stages: ["none"],
     })),
     rules: Object.fromEntries(
-      Object.entries(RULES).map(([rule, { choice, slot }]) => [
+      Object.entries(rows.rules).map(([rule, { choice, slot }]) => [
         rule,
         of("clerk", "rule", choice, slot),
       ]),

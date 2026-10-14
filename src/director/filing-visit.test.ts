@@ -42,15 +42,15 @@ const check = (
 describe("the filing visit", () => {
   it("states the terms from the record and offers to file", () => {
     const visit = openFilingVisit(core, player.id, [contest]);
-    expect(visit.lines[0]!.text).toBe("Which office are you filing for?");
+    expect(visit.lines[0]!.text).toMatch(/^(?:How|What|Can) .+\?$/);
     expect(visit.choices.map((row) => row.text)).toEqual([
-      "City Council, Seat 2.",
+      "I want to run for City Council, Seat 2.",
     ]);
     pickContest(core, visit, contest.id, terms, [
       check("minimum-age", true, "18", "40"),
     ]);
     const said = visit.lines.at(-1)!.text;
-    expect(said).toContain("March 5, 2021");
+    expect(said).toBe("The deadline is March 5, 2021.");
     expect(visit.choices.map((row) => row.action)).toEqual([
       { kind: "file", contestId: contest.id },
     ]);
@@ -67,12 +67,13 @@ describe("the filing visit", () => {
     const clerk = visit.lines
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text);
-    expect(clerk).toContain(
-      "You have to be at least 18 to run for City Council, Seat 2.",
-    );
-    expect(clerk).toContain(
-      "Filings for City Council, Seat 2 closed on March 5, 2021.",
-    );
+    expect(
+      clerk.some((text) =>
+        /^You have to be (?:at least )?18(?: by election day)?\.$/.test(text),
+      ),
+    ).toBe(true);
+    // No mined sentence says a missed deadline, so that rule is left out.
+    expect(clerk.some((text) => /closed/.test(text))).toBe(false);
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
   });
 });

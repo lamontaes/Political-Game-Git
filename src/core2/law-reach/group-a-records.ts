@@ -20,7 +20,7 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import { countedResidents } from "../electorate";
+import { reachOf } from "../counted-reach";
 import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
 import type { LawRowInput } from "../laws-starting";
@@ -354,10 +354,29 @@ export function townAdults(api: CoreAPI): number {
   const named = townPeople(api).filter(
     (p) => ageOn(p.birthDate, date) >= adult,
   ).length;
-  const counted = countedResidents(api.state as CoreState).filter(
-    (p) => ageOn(p.birthDate, date) >= adult,
-  ).length;
-  return named + counted;
+  const counted = reachOf(api.state as CoreState, lawChain(api).townPlaceId, {
+    ageFrom: adult,
+  }).counted.people;
+  return named + Math.round(counted);
+}
+
+/** The town's counted members a selector reaches (`reachOf`, counted tier), rounded. */
+function countedReach(
+  api: CoreAPI,
+  select: NonNullable<ReachSpec["select"]>,
+): number {
+  const p = (key: string | undefined) =>
+    key === undefined ? undefined : reachParameter(key);
+  const reach = reachOf(api.state as CoreState, lawChain(api).townPlaceId, {
+    ...(select.ageFrom ? { ageFrom: p(select.ageFrom)! } : {}),
+    ...(select.ageBelow ? { ageBelow: p(select.ageBelow)! } : {}),
+    ...(select.employed ? { employed: true } : {}),
+    ...(select.gender ? { gender: select.gender } : {}),
+    ...(select.withChildBelow
+      ? { withChildBelow: p(select.withChildBelow)! }
+      : {}),
+  });
+  return Math.round(reach.counted.people);
 }
 
 export interface Target {
@@ -368,12 +387,21 @@ export interface Target {
 
 function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
-  const date = api.state.date;
   switch (spec.target) {
-    case "people":
-      return townPeople(api)
+    case "people": {
+      // One rule, both tiers: each full person matched one by one, and the
+      // counted groups' members matched by the same rule, as one count.
+      const named = townPeople(api)
         .filter((p) => personMatches(api, p, select))
-        .map((p) => ({ id: p.id, personId: p.id, count: null }));
+        .map((p): Target => ({ id: p.id, personId: p.id, count: null }));
+      const counted = countedReach(api, select);
+      return counted
+        ? [
+            ...named,
+            { id: `counted:${spec.id}`, personId: null, count: counted },
+          ]
+        : named;
+    }
     case "organizations":
       return townOrganizations(api, select.group ?? "", select.employing).map(
         (o) => ({ id: o.id, personId: null, count: null }),
@@ -387,14 +415,7 @@ function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
       return out;
     }
     case "counted": {
-      const count = countedResidents(api.state as CoreState).filter((p) => {
-        const age = ageOn(p.birthDate, date);
-        if (select.ageFrom && age < reachParameter(select.ageFrom))
-          return false;
-        if (select.ageBelow && age >= reachParameter(select.ageBelow))
-          return false;
-        return true;
-      }).length;
+      const count = countedReach(api, select);
       return count ? [{ id: `counted:${spec.id}`, personId: null, count }] : [];
     }
     case "estimated": {

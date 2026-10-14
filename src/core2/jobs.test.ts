@@ -1,5 +1,7 @@
 /** M1-04 checks on a recorded fixture; the generated-world year is tooling's job. */
 import { describe, expect, it } from "vitest";
+// Load the core first: the past modules import each other and must start from it.
+import "./life";
 import { createHash } from "node:crypto";
 import { openLaws, lawInForce } from "./modules/laws";
 import { unemploymentTerms } from "./jobs-benefits";
@@ -9,7 +11,15 @@ import {
   lifePlaceStateIdentities,
 } from "../simulation/life-places";
 import { advanceCore, createLifeCore } from "./life";
-import { JOBS_MODULE } from "./modules/jobs";
+import {
+  JOBS_MODULE,
+  acceptScore,
+  moveLabel,
+  quitScore,
+  roleMix,
+  rolesByDeficit,
+} from "./modules/jobs";
+import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import { macroCoreData } from "./modules/macro";
 import { parameter } from "./parameters";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
@@ -495,5 +505,195 @@ describe("jobs", () => {
       ).toBeGreaterThan(0);
     }
     expect(rows.filter((r) => r.terms.hasProgram === true)).toHaveLength(53);
+  });
+});
+
+describe("jobs: causes, not rates", () => {
+  const calm = {
+    payGap: 0,
+    tenureYears: p("jobsTypicalTenureYears"),
+    unemploymentGapPts: 0,
+  };
+  const pull = (score: number) => 1 / (1 + Math.exp(-score));
+  it("a worker who moves to equal or lower pay is never labeled a better offer", () => {
+    // Equal pay, a small raise and a fat raise, with no trait pull.
+    expect(acceptScore(p, 1_500, 1_500, true)).toBeLessThan(0);
+    expect(acceptScore(p, 1_400, 1_500, true)).toBeLessThan(0);
+    expect(acceptScore(p, 1_530, 1_500, true)).toBeLessThan(0);
+    expect(acceptScore(p, 1_800, 1_500, true)).toBeGreaterThan(0);
+    // Sliding: each extra bit of pay adds to the score.
+    expect(acceptScore(p, 1_700, 1_500, true)).toBeGreaterThan(
+      acceptScore(p, 1_600, 1_500, true),
+    );
+    // A jobless seeker takes a job at any pay near their last.
+    expect(acceptScore(p, 1_500, 1_500, false)).toBeGreaterThan(0);
+    const reasons = jobsData.reasons;
+    expect(moveLabel(p, 1_500, 1_500, reasons.traitDrawn)).toBe("trait-drawn");
+    expect(moveLabel(p, 1_400, 1_500, reasons.otherOffer)).toBe("other-offer");
+    expect(moveLabel(p, 1_800, 1_500, reasons.traitDrawn)).toBe("better-offer");
+    // Traits can carry a move that pay alone would not: the label says so.
+    expect(acceptScore(p, 1_500, 1_500, true, 3)).toBeGreaterThan(0);
+  });
+  it("quit pulls slide with the pay gap, tenure and the place's unemployment", () => {
+    const base = quitScore(p, calm);
+    expect(quitScore(p, { ...calm, payGap: 0.1 })).toBeGreaterThan(base);
+    expect(quitScore(p, { ...calm, payGap: 0.3 })).toBeGreaterThan(
+      quitScore(p, { ...calm, payGap: 0.1 }),
+    );
+    expect(quitScore(p, { ...calm, tenureYears: 0.5 })).toBeGreaterThan(base);
+    expect(quitScore(p, { ...calm, tenureYears: 15 })).toBeLessThan(base);
+    expect(quitScore(p, { ...calm, unemploymentGapPts: 5 })).toBeLessThan(base);
+    expect(quitScore(p, { ...calm, unemploymentGapPts: -2 })).toBeGreaterThan(
+      base,
+    );
+  });
+  it("a neutral worker's pull sits in the JOLTS band, as a check on the total only", () => {
+    const quits = jobsData.turnover.industries.total.quits;
+    const share = p("jobsQuitToNonemploymentShare");
+    const monthly = pull(quitScore(p, calm)) * 100;
+    expect(monthly).toBeGreaterThan(quits.p05 * share * 0.8);
+    expect(monthly).toBeLessThan(quits.p95 * share * 1.2);
+  });
+  it("new positions follow the staff mix, counted roles included", () => {
+    const job = (id: string, title: string) => ({
+      id,
+      personId: id,
+      organizationId: employer,
+      title,
+      wageDailyMinor: 1,
+      hoursDaily: 8,
+      source: src(),
+    });
+    const staff = [
+      job("a", "Server"),
+      job("b", "Server"),
+      job("c", "Server"),
+      job("d", "Cook"),
+      job("e", "Dishwasher"),
+    ];
+    const mix = roleMix(staff, [staff[0]!]);
+    expect(mix.Server).toMatchObject({ count: 3, templateJobId: "a" });
+    expect(Object.keys(mix).sort()).toEqual(["Cook", "Dishwasher", "Server"]);
+    // With the cook gone, the cook role is the most under its share.
+    const order = rolesByDeficit(mix, { Server: 3, Dishwasher: 1 });
+    expect(order[0]).toBe("Cook");
+    // Deterministic.
+    expect(rolesByDeficit(mix, { Server: 3, Dishwasher: 1 })).toEqual(order);
+  });
+  it("opens positions for a counted worker's role and withdraws surplus postings gradually", () => {
+    const opening = input();
+    const residents = "organization:residents",
+      counted = { ...person("c1", 0, 0), householdId: "household:c1" };
+    const countedJob = {
+      id: "job:c1",
+      personId: "c1",
+      organizationId: employer,
+      title: "Cook",
+      occupationClassification: "trade:cook",
+      hourlyMinor: 1_500,
+      hoursDaily: 8,
+      wageDailyMinor: 12_000,
+      source: src(),
+    };
+    const commitment = {
+      ...opening.workCommitments![0]!,
+      id: "commitment:c1",
+      jobId: "job:c1",
+      personId: "c1",
+      organizationId: employer,
+      payrollCalendarId: "calendar:shop",
+    };
+    const core = createLifeCore(
+      {
+        ...opening,
+        organizations: [
+          ...opening.organizations,
+          {
+            id: residents,
+            placeId: place,
+            name: "Residents",
+            kind: "residents",
+            liquidMinor: 0,
+            source: src(),
+          },
+        ],
+        residents: {
+          version: "core2-residents-v1",
+          source: src(),
+          accounts: [{ placeId: place, accountId: residents }],
+          households: [
+            {
+              household: {
+                id: "household:c1",
+                placeId: place,
+                memberIds: ["c1"],
+                source: src(),
+              },
+              people: [counted],
+              jobs: [countedJob],
+              workCommitments: [commitment],
+              contracts: [],
+            },
+          ],
+          calendars: opening.workPayrollCalendars!,
+          flows: [
+            {
+              id: "residents:wages:shop",
+              kind: "wages",
+              financeKind: "work.count-payroll",
+              payerId: employer,
+              payeeId: residents,
+              residentsId: residents,
+              placeId: place,
+              amountMinor: 12_000 * 7,
+              periodFactor: 7,
+              firstAt: "2021-01-12",
+              cadence: { kind: "days", every: 7 },
+              salesReceipt: false,
+              marketAdjusted: false,
+              organizationId: employer,
+              jobIds: ["job:c1"],
+              perDayMinorByJob: { "job:c1": 12_000 },
+              source: src(),
+            },
+          ],
+        },
+      },
+      { data, modules: [JOBS_MODULE] },
+    );
+    const book = withBooks(core, 8);
+    advanceCore(core, "2021-05-31");
+    const positions = coreAPI(core).moduleState("jobs").table("positions");
+    const made = ["open", "filled", "withdrawn"].flatMap(
+      (status) =>
+        positions.query("byStatus", [status]) as unknown as {
+          occupation: string;
+          status: string;
+        }[],
+    );
+    // The staff is four clerks and one cook: some new position copies the cook's role.
+    expect(made.some((row) => row.occupation === "trade:cook")).toBe(true);
+    expect(made.some((row) => row.occupation === "trade:clerk")).toBe(true);
+    // Demand falls back to the staff: postings lapse over months, not at once.
+    const open = () =>
+      (positions.query("byStatus", ["open"]) as unknown as unknown[]).length;
+    const before = open();
+    book.annualDemandMinor = book.capacityMinor / 4;
+    const counts: number[] = [];
+    for (const date of [
+      "2021-06-02",
+      "2021-07-02",
+      "2021-08-02",
+      "2021-09-02",
+    ]) {
+      advanceCore(core, date);
+      counts.push(open());
+    }
+    // Not all at once: the first review after the fall leaves some open, and the count only falls.
+    expect(before).toBeGreaterThanOrEqual(4);
+    expect(counts[0]).toBeGreaterThan(0);
+    expect(counts[0]).toBeLessThan(before);
+    for (let i = 1; i < counts.length; i++)
+      expect(counts[i]).toBeLessThanOrEqual(counts[i - 1]!);
   });
 });

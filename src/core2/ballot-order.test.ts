@@ -1,0 +1,190 @@
+/**
+ * The order of names on the ballot follows the law of the place, in a random
+ * place: every one of the 56 places has its rule with a citation; a rotated
+ * ballot puts each candidate first on one form; a drawn order is the same
+ * draw every time it is read; and a primary between two candidates nothing
+ * else separates is split by the forms voters hold, not handed whole to one.
+ */
+import { createHash } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
+import ballotOrder from "../../data/research/elections/ballot-order-2026.json" with { type: "json" };
+import {
+  ballotForms,
+  ballotOrderRule,
+  type BallotCandidate,
+} from "./ballot-order";
+import { buildPopulation } from "./population";
+import { createLifeCore } from "./life";
+import { coreAPI } from "./state";
+import { openOffices } from "./modules/offices";
+import {
+  ballot,
+  fileCandidacy,
+  openContests,
+  openElections,
+} from "./modules/elections";
+import { openCampaigns } from "./modules/campaigns";
+import {
+  PARTIES_MODULE_ID,
+  openParties,
+  partiesHere,
+  type TieRow,
+} from "./modules/parties";
+import { holdPrimary, openVoting } from "./modules/voting";
+
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256").update(`ballot-order:${Date.now()}`).digest("hex");
+const drawn = drawPlace(seed, "ballot-order");
+const where = `${drawn.name}, ${drawn.state} (${drawn.key}), seed ${seed}`;
+const KINDS = [
+  "alphabetical",
+  "randomized-alphabet",
+  "rotation",
+  "lot",
+  "party",
+  "incumbent-first",
+  "filing-order",
+  "official-discretion",
+];
+
+const places = (
+  ballotOrder as unknown as {
+    places: Record<
+      string,
+      {
+        primary: { kind: string; within?: string };
+        general: { kind: string; within?: string };
+        citation: string;
+      }
+    >;
+  }
+).places;
+
+describe(`ballot order by the law of the place (${where})`, () => {
+  it("every one of the 56 places has its rule for primaries and general elections, with a citation", () => {
+    expect(Object.keys(places)).toHaveLength(56);
+    for (const [key, row] of Object.entries(places)) {
+      for (const stage of [row.primary, row.general]) {
+        expect(KINDS, key).toContain(stage.kind);
+        if (stage.within) expect(KINDS, key).toContain(stage.within);
+      }
+      expect(row.citation.length, key).toBeGreaterThan(0);
+    }
+  });
+
+  it("orders the drawn place's ballot as its law says, the same draw every time", () => {
+    const names = ["Ortiz", "Baker", "Nguyen", "Adams"];
+    const candidates: BallotCandidate[] = names.map((surname, i) => ({
+      id: `person_${createHash("sha256").update(`${seed}:${i}`).digest("hex").slice(0, 16)}`,
+      surname,
+      party: i % 2 ? "Party B" : "Party A",
+      isIncumbent: i === 2,
+      filedOn: `2026-0${i + 1}-01`,
+      filingId: `filing:${i}`,
+    }));
+    for (const stage of ["primary", "general"] as const) {
+      const rule = ballotOrderRule(drawn.state, stage)!;
+      const input = {
+        stateKey: drawn.state,
+        stage,
+        contestId: `contest:test:${seed.slice(0, 8)}`,
+        year: "2026",
+        candidates,
+        partyShare: (party: string) => (party === "Party B" ? 0.6 : 0.4),
+      };
+      const forms = ballotForms(input)!;
+      // The same draw every time it is read.
+      expect(ballotForms(input), `${where} ${stage}`).toEqual(forms);
+      for (const form of forms)
+        expect([...form].sort(), `${where} ${stage}`).toEqual(
+          candidates.map((c) => c.id).sort(),
+        );
+      const rotates = rule.kind === "rotation" || rule.within === "rotation";
+      if (rotates) {
+        // Each candidate is first on exactly one form.
+        expect(forms, `${where} ${stage}`).toHaveLength(candidates.length);
+        expect(new Set(forms.map((f) => f[0])).size).toBe(candidates.length);
+      } else expect(forms, `${where} ${stage}`).toHaveLength(1);
+      const surname = (id: string) =>
+        candidates.find((c) => c.id === id)!.surname;
+      if (rule.kind === "alphabetical")
+        expect(forms[0]!.map(surname)).toEqual([...names].sort());
+      if (rule.kind === "party")
+        expect(
+          candidates.find((c) => c.id === forms[0]![0])!.party,
+          `${where} ${stage}`,
+        ).toBe("Party B");
+      if (rule.kind === "incumbent-first")
+        expect(forms[0]![0]).toBe(candidates[2]!.id);
+    }
+  });
+
+  it("a primary between two candidates nothing else separates counts the party's voters across the race", () => {
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: drawn.key,
+        startedAt: "2026-01-05",
+        minimumPeople: 300,
+      }),
+    );
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openParties(core);
+    openVoting(core);
+    const api = coreAPI(core);
+    const party = partiesHere(api)
+      .filter((p) => p.side !== 0)
+      .sort((a, b) => b.share - a.share)[0];
+    if (!party || party.nominationMethod !== "party-primary") return;
+    const members = (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .rows() as unknown as TieRow[]
+    )
+      .filter((t) => t.partyId === party.id)
+      .map((t) => t.personId)
+      .filter(
+        (id) => 2026 - Number(core.people.get(id)!.birthDate.slice(0, 4)) >= 35,
+      )
+      .sort();
+    for (const contest of openContests(api).filter(
+      (c) => c.primaryDate && c.primaryDate > "2026-01-05",
+    )) {
+      const filed = members
+        .slice(0, 2)
+        .map((id) =>
+          fileCandidacy(api, {
+            personId: id,
+            contestId: contest.id,
+            platform: [],
+            party: party.name,
+          }),
+        )
+        .filter(
+          (r) => r.status !== "refused" && r.filing.status === "on-ballot",
+        );
+      if (filed.length < 2) continue;
+      const field = ballot(api, contest.id).filter(
+        (f) => f.party === party.name,
+      );
+      const rule = ballotOrderRule(drawn.state, "primary")!;
+      const { votes, namedVotes } = holdPrimary(api, contest.id);
+      const total = Object.values(votes).reduce((a, b) => a + b, 0);
+      expect(total, where).toBeGreaterThan(namedVotes);
+      // A rotated ballot puts each candidate first on their share of the
+      // forms, so each takes votes from those who know neither.
+      if (rule.kind === "rotation" || rule.within === "rotation")
+        for (const f of field)
+          expect(
+            votes[f.personId] ?? 0,
+            `${where} ${contest.id}`,
+          ).toBeGreaterThan(0);
+      return;
+    }
+  }, 900_000);
+});

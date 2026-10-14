@@ -1,23 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
-import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
-import { initialFocusPeople } from "../../src/core2/focus";
-import { advanceCore, createLifeCore } from "../../src/core2/life";
-import { buildPopulation } from "../../src/core2/population";
+import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { enrichCivicInputs } from "../../core2/civic-inputs";
+import { buildDeepPast } from "../../core2/deep-past";
+import { initialFocusPeople } from "../../core2/focus";
+import { advanceCore, createLifeCore } from "../../core2/life";
+import { buildPopulation } from "../../core2/population";
 import {
   beliefsModule,
   openConversation,
   say,
   type Conversation,
-} from "../../src/director/conversation";
-import { createDirector } from "../../src/director/ledger";
-import {
-  CONVERSATION_BANK,
-  conversationDataFromBank,
-  pickBy,
-  uncovered,
-} from "./conversation-bank";
+} from "../conversation";
+import { createDirector } from "../ledger";
+import { CONVERSATION_BANK, MINED_CONVERSATION } from "./conversation-bank";
 
 /**
  * The mined conversation bank, run through the story director's real
@@ -96,10 +91,7 @@ describe("the mined conversation bank in the director", () => {
     let choices = 0;
     const conversations: Conversation[] = [];
     for (const otherId of others) {
-      const data = conversationDataFromBank(
-        CONVERSATION_BANK,
-        pickBy(`${seed}:${otherId}`),
-      );
+      const data = MINED_CONVERSATION;
       const talk = openConversation(core, player.id, otherId, { data });
       for (let turn = 0; turn < 4 && talk.choices.length > 0; turn += 1) {
         for (const choice of talk.choices) {
@@ -107,8 +99,11 @@ describe("the mined conversation bank in the director", () => {
           expect(choice.sourceRecordIds.length, choice.text).toBeGreaterThan(0);
           choices += 1;
         }
-        if (talk.lie)
-          expect(minedLine(talk.lie.text), talk.lie.text).toBe(true);
+        // The scales' set: a mined lie, or a mined answer with a false fact.
+        for (const lie of talk.lies) {
+          expect(minedLine(lie.text), lie.text).toBe(true);
+          expect(lie.claim, lie.text).toBeDefined();
+        }
         say(core, talk, talk.choices[turn % talk.choices.length]!.key, data);
       }
       for (const line of talk.lines) {
@@ -123,8 +118,14 @@ describe("the mined conversation bank in the director", () => {
     expect(choices).toBeGreaterThan(0);
   }, 240_000);
 
-  it("lists the director's slots it cannot word yet", () => {
-    // Reported, not required: a gap is a subject the director leaves unasked.
-    expect(Array.isArray(uncovered())).toBe(true);
+  it("keeps no hand-written conversation bank", () => {
+    // Every wording names the mined part it came from.
+    for (const roles of Object.values(MINED_CONVERSATION.subjects))
+      for (const moves of Object.values(roles))
+        for (const move of moves ?? [])
+          expect(
+            CONVERSATION_BANK.parts.some((part) => part.key === move.part),
+            move.text,
+          ).toBe(true);
   });
 });

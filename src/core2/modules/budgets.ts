@@ -1241,7 +1241,9 @@ function withholdCounted(api: CoreAPI): void {
   const rt = residentsRuntime(core);
   const town = lawChain(api).townPlaceId;
   const pool = rt?.input.accounts.find((a) => a.placeId === town)?.accountId;
-  if (!rt || !pool) return;
+  // Where counted groups hold their own accounts, each payday withholds the
+  // law in force from each group's pay (counted-money.ts payGroups).
+  if (!rt || !pool || rt.funded) return;
   const prior = priorMonth(api.state.date);
   // The first close counts only the days since the treasuries opened.
   const opened =

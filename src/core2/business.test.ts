@@ -751,7 +751,7 @@ describe("closing by choice", () => {
     core.people.get("owner")!.birthDate = "1958-12-31";
     const owners = api.moduleState("business").table("owners");
     const row = owners.get(shop)!;
-    owners.put({ ...row, retainedMinor: -15_000_000 });
+    owners.put({ ...row, lossMonths: 8 });
     advanceCore(core, "2021-02-02");
     const choice = api
       .moduleState("business")
@@ -777,7 +777,7 @@ describe("closing by choice", () => {
     const owners = api.moduleState("business").table("owners");
     const row = owners.get(shop)!;
     // Losses kept: 15 months of the shop's payroll.
-    owners.put({ ...row, retainedMinor: -15_000_000 });
+    owners.put({ ...row, lossMonths: 8 });
     const before = core.people.get("owner")!.liquidMinor;
     advanceCore(core, "2021-02-02");
     const choice = api

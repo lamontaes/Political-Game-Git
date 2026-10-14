@@ -22,7 +22,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
-import { residentsRuntime } from "./modules/residents";
+import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard } from "./modules/news";
 
@@ -736,12 +736,8 @@ export function applySocialSecurityLevel(
   // stopgapId: SG-GOV-opening-award-level
   if (opening) api.stopgap("SG-GOV-opening-award-level");
   const accounts = api.accounts();
-  let counted = false;
   for (const [personId, claim] of retirementClaims(core)) {
-    if (claim.counted) {
-      counted = true;
-      continue;
-    }
+    if (claim.counted) continue;
     const obligation = accounts.obligation(claim.obligationId);
     if (!obligation || obligation.endedAt) continue;
     const want = target(claim.obligationId, claim.monthlyMinor);
@@ -754,15 +750,7 @@ export function applySocialSecurityLevel(
     });
     landOn(api, personId, claim.obligationId, from, want, measureId);
   }
-  if (level === 1) return;
-  // Counted recipients' awards are pooled in the residents' flows, which
-  // have no rerate yet (needs OPUS-CORE).
-  if (!counted)
-    for (const flow of residentsRuntime(core)?.flows.values() ?? [])
-      if (flow.kind === "retirement" && flow.endedAt === undefined) {
-        counted = true;
-        break;
-      }
-  // stopgapId: SG-GOV-counted-social-security-level
-  if (counted) api.stopgap("SG-GOV-counted-social-security-level");
+  // Counted recipients' awards, pooled in the residents' flows, follow the
+  // same line (OPUS-CORE, one model, two tiers).
+  rerateCountedRetirement(core, level);
 }
