@@ -3366,5 +3366,17 @@
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-decision-town-size",
+    "kind": "owner-decision",
+    "file": "src/core2/population.ts",
+    "line": 1,
+    "whatItFakes": "A town larger than the opening target (10,000 people, owner decision Oct 9) opens with 10,000 people, not its Census population, so its counts, a law's reach and its money cover only those 10,000. A town smaller than the target opens at its real Census size.",
+    "why": "The owner set the 10,000 target on Oct 9 before the counted tier was one record per group; whether a bigger town should count its full Census population (each counted household standing for several) is his call.",
+    "replacement": "The owner's ruling: either keep the cap, or let each counted group of a bigger town carry its Census count with the money and reach scaled to it.",
+    "addedBy": "OPUS-CORE (one model, two tiers)",
+    "addedAt": "2026-10-14",
+    "status": "open"
   }
 ]

@@ -25,6 +25,7 @@ const lawDay = Number(value("--law-day", 45));
 const rate = Number(value("--rate", 10));
 const fillDay = Number(value("--fill-day", 10));
 const out = value("--out", undefined);
+console.error(`seed ${seed}`);
 
 const { buildBenchWorld } = await at("src/bench/world.ts");
 const { gameStartDate } = await at("src/core2/game-start.ts");

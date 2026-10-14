@@ -281,6 +281,13 @@ export function demoteHousehold(
       });
       cash += amount;
     }
+  // The household goes back as its living members; those who died keep
+  // their own records.
+  if (home.memberIds.length !== members.size)
+    core.households.set(householdId, {
+      ...home,
+      memberIds: home.memberIds.filter((m) => members.has(m)),
+    });
   // Their records stay, on the inactive tier, at the place's counted tier.
   for (const person of people)
     api.updatePerson(person.id, { tier: INACTIVE_TIER });
