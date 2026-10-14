@@ -151,7 +151,6 @@ function schoolDay(api: CoreAPI): void {
     });
     const decision = decisionFromScores(api.state, person.id, scored);
     if (decision.selected?.definition.id !== action.id) continue;
-    api.stopgap(data.stopgapId);
     attended(api, person.id, school);
     api.recordAct(person.id, attend, date, decision);
   }
