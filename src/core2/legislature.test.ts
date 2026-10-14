@@ -46,7 +46,10 @@ import {
   offerDeal,
   openLegislature,
   votesOn,
+  authorityFor,
+  type Provision,
 } from "./modules/legislature";
+import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
 import {
@@ -576,18 +579,28 @@ describe(
       const player = council[0]!.holder!.personId!;
       (core as unknown as { playerId: string }).playerId = player;
       const floor = lawInForce(api, "minimum-wage").value!;
+      // A raise where the state lets towns set a wage; elsewhere a policy
+      // question the town may answer.
+      const wage: Provision = {
+        kind: "law-amount",
+        series: "minimum-wage",
+        value: floor + 100,
+        unit: "minor/hour",
+      };
+      const provision =
+        [
+          wage,
+          ...PLATFORM_QUESTIONS.map((question): Provision => ({
+            kind: "policy-question",
+            question,
+            value: 1,
+          })),
+        ].find((p) => authorityFor(api, p).allowed) ?? wage;
       const draft = () =>
         draftBill(api, {
           bodyOfficeId: council[0]!.office.id,
           sponsorId: council[1]!.holder!.personId!,
-          provisions: [
-            {
-              kind: "law-amount",
-              series: "minimum-wage",
-              value: floor + 100,
-              unit: "minor/hour",
-            },
-          ],
+          provisions: [provision],
         });
       // Not cast: the player is never voted for, so they abstain.
       const first = draft();
@@ -625,6 +638,34 @@ describe(
       expect(waiting.status).toBe("awaiting-signature");
       const decided = executiveDecision(api, third.id, true);
       expect(["signed", "enacted"]).toContain(decided.status);
+      // Left on the desk past the office's window, a bill becomes law
+      // unsigned, and the law records that it did.
+      const fourth = draft();
+      for (const seat of council)
+        castMemberVote(api, fourth.id, seat.holder!.personId!, "yes");
+      holdVote(api, fourth.id);
+      const left = billOf(api, fourth.id) as typeof fourth & {
+        signBy?: string;
+      };
+      expect(left.status).toBe("awaiting-signature");
+      expect(left.signBy).toBeDefined();
+      const after = new Date(
+        Date.parse(`${left.signBy}T00:00:00Z`) + 86_400_000,
+      )
+        .toISOString()
+        .slice(0, 10);
+      advanceCore(core, after);
+      const law = api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows()
+        .find(
+          (row) =>
+            (row as { terms?: { enactedBy?: string } }).terms?.enactedBy ===
+            fourth.number,
+        ) as { terms?: { decision?: string; decidedBy?: string } } | undefined;
+      expect(law?.terms?.decision).toBe("unsigned");
+      expect(law?.terms?.decidedBy).toBe(mayor.holder!.personId);
     });
   },
 );

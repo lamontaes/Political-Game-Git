@@ -72,6 +72,8 @@ import mayorVetoData from "../../../data/research/local-government/mayor-veto-20
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { stateActEffectiveDate } from "../state-effective-date";
+import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
+import type { Source } from "../types";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
@@ -184,9 +186,12 @@ const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
 export interface DeskAction {
   readonly bill: BillRow;
   readonly executiveId: string;
-  readonly status: "signed" | "vetoed" | "overridden";
+  readonly status:
+    "signed" | "vetoed" | "overridden" | "awaiting" | "unsigned" | "died";
   readonly position: number;
   readonly temperament: number;
+  /** For a bill waiting on the desk: the last day to act. */
+  readonly signBy?: string;
 }
 const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
 /**
@@ -1839,6 +1844,7 @@ function executiveAction(
     : undefined;
   const executive = seated ? holderOf(api, seated) : undefined;
   let status: BillRow["status"] = "enacted";
+  let decision: { executiveId: string; action: string } | undefined;
   // A mayor vetoes only where the state's law gives the office a veto (and
   // above any population line), overridden by the state's own share.
   const mayorRule = executiveOffice?.kind === "mayor" ? mayorVeto(api) : null;
@@ -1848,13 +1854,33 @@ function executiveAction(
     const decided = table(api, "choices").get(
       `${bill.id}|executive`,
     ) as unknown as { sign: boolean } | undefined;
-    // The player decides for themselves: the bill waits on their desk.
+    // The player decides for themselves: the bill waits on their desk until
+    // the deadline their office's law sets, when inaction decides it.
     if (!decided && key === (api.state as CoreState).playerId) {
       const waiting: BillRow = { ...bill, status: "awaiting-signature" };
+      const deadline = signingDeadline(api, executiveOffice!.kind, federal);
       table(api, "bills").put({
         ...waiting,
         tallies,
+        signBy: deadline.date,
+        inaction: deadline.inaction,
       } as unknown as ModuleRow);
+      api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+        key: `signing-deadline:${bill.id}`,
+        date: deadline.date,
+        kind: "signing-deadline",
+        source: deadline.source,
+        sourceRecordIds: [bill.id],
+      });
+      for (const hook of deskHooks)
+        hook(api, {
+          bill: waiting,
+          executiveId: key,
+          status: "awaiting",
+          position: position.total,
+          temperament: 0,
+          signBy: deadline.date,
+        });
       return waiting;
     }
     const signLean = tasteForChange(
@@ -1893,11 +1919,12 @@ function executiveAction(
         position: position.total,
         temperament: decided ? 0 : signLean,
       });
+    decision = { executiveId: key, action: status };
   }
   const next: BillRow = { ...bill, status };
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
-  return enact(api, next, tallies);
+  return enact(api, next, tallies, decision);
 }
 
 /**
@@ -2062,13 +2089,21 @@ function enact(
   api: CoreAPI,
   bill: BillRow,
   tallies: readonly { yes: number; no: number; members: number }[] = [],
+  /** What the executive did with it: signed, overridden, or let it become law unsigned. */
+  decision?: { executiveId: string; action: string },
 ): BillRow {
   // How widely it passed: the narrowest chamber's yes minus no, over its
   // members (a later move to undo it reads this).
   const margin = tallies.length
     ? Math.min(...tallies.map((t) => (t.yes - t.no) / Math.max(1, t.members)))
     : null;
-  const terms = margin === null ? undefined : { margin };
+  const recorded = {
+    ...(margin === null ? {} : { margin }),
+    ...(decision
+      ? { decidedBy: decision.executiveId, decision: decision.action }
+      : {}),
+  };
+  const terms = Object.keys(recorded).length ? recorded : undefined;
   const chain = lawChain(api);
   // A federal act takes effect when it becomes law unless it names a date
   // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
@@ -2152,6 +2187,105 @@ function legislatureCalendar(
   work: Readonly<ModuleCalendarWork>,
 ): void {
   if (work.kind === "council-meeting") holdVote(api, work.sourceRecordIds[0]!);
+  if (work.kind === "signing-deadline")
+    deadlinePassed(api, work.sourceRecordIds[0]!);
+}
+
+const vetoWindows = new Map(
+  (
+    vetoWindowData as unknown as {
+      rows: {
+        usps: string;
+        inSessionDays: number | null;
+      }[];
+    }
+  ).rows.map((row) => [row.usps, row]),
+);
+
+/**
+ * How long an executive has to act on a bill on their desk, and what doing
+ * nothing means: the President has ten days, Sundays excepted, and the bill
+ * becomes law (U.S. Const. art. I, sec. 7); a governor has their state's
+ * in-session window, after which it becomes law (Book of the States 2023,
+ * Table 3.16); a mayor or county executive has the modal charter window
+ * (`localSigningDays`).
+ */
+function signingDeadline(
+  api: CoreAPI,
+  officeKind: string,
+  federal: boolean,
+): {
+  date: string;
+  inaction: "becomes-law";
+  source: Source;
+} {
+  const start = Date.parse(`${api.state.date}T00:00:00Z`);
+  if (federal) {
+    let day = start;
+    for (let counted = 0; counted < 10;) {
+      day += 86_400_000;
+      if (new Date(day).getUTCDay() !== 0) counted += 1;
+    }
+    return {
+      date: new Date(day).toISOString().slice(0, 10),
+      inaction: "becomes-law",
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Const. art. I, sec. 7, cl. 2",
+        asOf: api.state.date,
+      },
+    };
+  }
+  const window =
+    officeKind === "governor"
+      ? vetoWindows.get(lawChain(api).stateKey.slice("US-".length))
+          ?.inSessionDays
+      : undefined;
+  const days = window ?? campaignParameter("localSigningDays");
+  return {
+    date: new Date(start + days * 86_400_000).toISOString().slice(0, 10),
+    inaction: "becomes-law",
+    source:
+      window !== undefined && window !== null
+        ? {
+            tag: "SOURCED",
+            citation:
+              "Book of the States 2023, Table 3.16 (data/research/laws/veto-windows-2023.json)",
+            asOf: api.state.date,
+          }
+        : {
+            tag: "ESTIMATED",
+            citation: "The executive's window to act on a passed bill",
+            asOf: api.state.date,
+            estimatedFrom: "localSigningDays",
+          },
+  };
+}
+
+/** The deadline passed with the bill still on the desk: it becomes law unsigned. */
+function deadlinePassed(api: CoreAPI, billId: string): void {
+  const bill = table(api, "bills").get(billId) as unknown as
+    | (BillRow & {
+        tallies?: { yes: number; no: number; members: number }[];
+      })
+    | undefined;
+  if (bill?.status !== "awaiting-signature") return;
+  const unsigned: BillRow = { ...bill, status: "enacted" };
+  table(api, "bills").put(unsigned as unknown as ModuleRow);
+  const executiveId = (api.state as CoreState).playerId;
+  if (executiveId)
+    for (const hook of deskHooks)
+      hook(api, {
+        bill: unsigned,
+        executiveId,
+        status: "unsigned",
+        position: memberPosition(api, billId, executiveId).total,
+        temperament: 0,
+      });
+  enact(api, unsigned, bill.tallies ?? [], {
+    executiveId: executiveId ?? "",
+    action: "unsigned",
+  });
 }
 
 /** Put a bill on the body's next meeting (stand-in: two weeks out until meeting calendars are read). */

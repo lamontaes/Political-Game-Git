@@ -8,6 +8,7 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
+import { addDays, makeIsoDate } from "../../simulation/dates";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -464,6 +465,19 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
   const town = lawChain(api).townPlaceId;
+  // What it replaced: the law in force on the series the day before. A
+  // policy question set to 0 ends that law (a repeal).
+  const before = lawInForce(
+    api,
+    row.series,
+    addDays(makeIsoDate(api.state.date), -1),
+  ).governing;
+  const ends =
+    before &&
+    before.id !== row.id &&
+    row.value === 0 &&
+    (before.value ?? 0) !== 0;
+  const decidedBy = row.terms?.decidedBy;
   api.emit({
     id: `law-took-effect:${row.id}`,
     date: api.state.date,
@@ -481,6 +495,21 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       tier: row.tier,
       value: String(row.value),
       unit: row.unit ?? "",
+      change: ends
+        ? "ended"
+        : before && (before.value ?? 0) !== 0
+          ? "replaced"
+          : "new",
+      ...(before && before.id !== row.id ? { replacesLawId: before.id } : {}),
+      ...(row.terms?.enactedBy
+        ? { enactedBy: String(row.terms.enactedBy) }
+        : {}),
+      ...(decidedBy
+        ? {
+            decidedBy: String(decidedBy),
+            decision: String(row.terms?.decision ?? ""),
+          }
+        : {}),
     },
   });
   if (row.series === "minimum-wage") raiseToFloor(api, work.source);
