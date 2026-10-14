@@ -1316,11 +1316,11 @@
     "kind": "business-closure",
     "file": "src/core2/finance-state.ts",
     "line": 1,
-    "whatItFakes": "A business closed by its owner's choice pays its workers what they've earned (counted workers at once, full workers on their next payday from cash held back) and its supplier bills already owed; an open credit line's balance is held back from the owner but not yet repaid to the lender, and no assets are sold.",
+    "whatItFakes": "A business closed by its owner's choice pays its workers what they've earned (counted workers at once, full workers on their next payday from cash held back), its supplier bills already owed, then settles each open credit line from the cash left (the rest is written off, as in any closure); no assets are sold, so a firm's equipment and property add nothing to what lenders and the owner receive.",
     "why": "WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "The closure repays open credit lines through the credit writer and sells the business's assets before the owner's distribution.",
+    "replacement": "The closure sells the business's assets (WORLD's business engine records them) before settling lenders and the owner's distribution.",
     "status": "open"
   },
   {
