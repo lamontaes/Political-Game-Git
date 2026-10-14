@@ -18,10 +18,9 @@ import {
   officeJobsOf,
   setStops,
   stopsOf,
-  STOP_KINDS,
+  stopKinds,
   takeUpItem,
   upcomingMeeting,
-  type StopKind,
 } from "../core2/modules/office-day";
 import { bodyScene, personName } from "./legislature";
 
@@ -119,7 +118,7 @@ export function officeView(core: CoreState, personId: string) {
       citation: j.citation,
       nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
     })),
-    stops: STOP_KINDS.map((kind) => ({
+    stops: stopKinds().map((kind) => ({
       kind,
       on: stopsOf(api, personId)[kind],
     })),
@@ -136,7 +135,6 @@ export function officeStops(
   kind: string,
   on: boolean,
 ) {
-  if (!(STOP_KINDS as readonly string[]).includes(kind))
-    throw new Error("Unknown stop.");
-  return setStops(coreAPI(core), personId, { [kind as StopKind]: on });
+  if (!stopKinds().includes(kind)) throw new Error("Unknown stop.");
+  return setStops(coreAPI(core), personId, { [kind]: on });
 }

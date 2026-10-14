@@ -21,6 +21,7 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
+import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { decisionLean } from "./trait-decisions";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { casesFor, handleCase } from "./modules/constituent-cases";
@@ -111,56 +112,74 @@ const HOURS = (
   spread: [number, number],
 ) => ({ value, tag: "ESTIMATED" as const, citation, estimatedFrom, spread });
 
-/** The core data with the acts of office and their hours. */
+/** The hours each local act takes, and the address's season. */
+const LOCAL_PARAMETERS = {
+  officeHoursActHours: HOURS(
+    2,
+    "A local official's office hours: a two-hour block once or twice a month is the common published schedule for council members' constituent hours.",
+    "Published council office-hour schedules; two hours is the modal block.",
+    [1, 4],
+  ),
+  townHallActHours: HOURS(
+    1.5,
+    "A local town hall runs about an hour to ninety minutes (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy'; local forums run the same length).",
+    "Typical town hall length.",
+    [1, 2.5],
+  ),
+  interviewActHours: HOURS(
+    0.75,
+    "A local newspaper or radio interview with an official: about thirty minutes to an hour with travel.",
+    "Typical local interview length.",
+    [0.5, 1.5],
+  ),
+  stateOfCityActHours: HOURS(
+    1,
+    "A mayor's or county executive's annual state of the city or county address runs about forty-five minutes to an hour (published addresses of mid-sized and large cities).",
+    "Typical annual address length.",
+    [0.5, 1.5],
+  ),
+  stateOfCityLastMonth: {
+    value: 4,
+    tag: "ESTIMATED",
+    citation:
+      "Mayors and county executives commonly deliver the annual state of the city or county address between January and April (published addresses of U.S. cities; National League of Cities' annual review of mayors' state of the city speeches covers addresses given in the first months of the year).",
+    estimatedFrom: "The season most annual addresses fall in.",
+    spread: [2, 6],
+  },
+  colleagueActHours: HOURS(
+    0.5,
+    "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
+    "Typical one-on-one conversation about a pending vote.",
+    [0.25, 1.5],
+  ),
+  meetHeadActHours: HOURS(
+    1,
+    "A standing meeting between an elected official and a department head: about an hour.",
+    "Typical one-on-one briefing length.",
+    [0.5, 2],
+  ),
+} as unknown as CoreData["parameters"];
+
+/** The local level's acts as one kit for the office-day registry. */
+export function localOfficeKit(host: OfficeActHost): OfficeActKit {
+  return {
+    id: "local",
+    acts: OFFICE_ACTS,
+    parameters: LOCAL_PARAMETERS,
+    providers: officeActProviders(host),
+    handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
+  };
+}
+
+/** The core data with every registered level's acts of office and their parameters. */
 export function officeDayData(base: CoreData): CoreData {
+  const kits = officeActKits();
   return extendData(base, {
-    actions: [...OFFICE_ACTS],
-    parameters: {
-      officeHoursActHours: HOURS(
-        2,
-        "A local official's office hours: a two-hour block once or twice a month is the common published schedule for council members' constituent hours.",
-        "Published council office-hour schedules; two hours is the modal block.",
-        [1, 4],
-      ),
-      townHallActHours: HOURS(
-        1.5,
-        "A local town hall runs about an hour to ninety minutes (Congressional Management Foundation 2017, 'Citizen-Centric Advocacy'; local forums run the same length).",
-        "Typical town hall length.",
-        [1, 2.5],
-      ),
-      interviewActHours: HOURS(
-        0.75,
-        "A local newspaper or radio interview with an official: about thirty minutes to an hour with travel.",
-        "Typical local interview length.",
-        [0.5, 1.5],
-      ),
-      stateOfCityActHours: HOURS(
-        1,
-        "A mayor's or county executive's annual state of the city or county address runs about forty-five minutes to an hour (published addresses of mid-sized and large cities).",
-        "Typical annual address length.",
-        [0.5, 1.5],
-      ),
-      stateOfCityLastMonth: {
-        value: 4,
-        tag: "ESTIMATED",
-        citation:
-          "Mayors and county executives commonly deliver the annual state of the city or county address between January and April (published addresses of U.S. cities; National League of Cities' annual review of mayors' state of the city speeches covers addresses given in the first months of the year).",
-        estimatedFrom: "The season most annual addresses fall in.",
-        spread: [2, 6],
-      },
-      colleagueActHours: HOURS(
-        0.5,
-        "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
-        "Typical one-on-one conversation about a pending vote.",
-        [0.25, 1.5],
-      ),
-      meetHeadActHours: HOURS(
-        1,
-        "A standing meeting between an elected official and a department head: about an hour.",
-        "Typical one-on-one briefing length.",
-        [0.5, 2],
-      ),
-    } as unknown as CoreData["parameters"],
+    actions: kits.flatMap((kit) => kit.acts),
+    parameters: Object.assign(
+      {},
+      ...kits.map((kit) => kit.parameters ?? {}),
+    ) as CoreData["parameters"],
   });
 }
 

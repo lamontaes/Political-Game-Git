@@ -502,7 +502,7 @@ async function act(path) {
     const office = officeStop(result.packet);
     if (office) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
-      else await atDesk();
+      else if (office.reasonKey === "office-day.desk") await atDesk();
       busy = false;
       return act(
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,

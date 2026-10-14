@@ -20,7 +20,7 @@
  *   (`acts`) as the character's own, with its reasons.
  */
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { parameter } from "../parameters";
@@ -32,10 +32,16 @@ import { notePublicPay } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 import { seatPay } from "../office-day-pay";
 import {
-  officeActHandlers,
-  officeActProviders,
+  localOfficeKit,
+  type OfficeActHost,
   type Prepared,
 } from "../office-day-acts";
+import {
+  officeActKits,
+  officeStopKinds,
+  registerOfficeActs,
+  registerStopKinds,
+} from "../office-day-registry";
 import {
   billOf,
   castMemberVote,
@@ -64,24 +70,30 @@ import { makeIsoDate } from "../../simulation/dates";
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
 /**
- * What can stop the player. Election day always stops them at the polls
- * (the polling-place scene): whether the character may cast the player's
- * ballot when they choose not to stop is the owner's call.
- * stopgapId: SG-OFFICE-owner-decision-ballot-stop
+ * What can stop the player: the local kinds here, and whatever kinds the
+ * other levels register (`office-day-registry.ts`). Election day always
+ * stops them at the polls (the polling-place scene): whether the character
+ * may cast the player's ballot when they choose not to stop is the owner's
+ * call. stopgapId: SG-OFFICE-owner-decision-ballot-stop
  * An emergency stop waits on the disasters engine's declarations.
  */
-export const STOP_KINDS = ["own-bill-vote", "every-meeting", "desk"] as const;
-export type StopKind = (typeof STOP_KINDS)[number];
-/** The important few stop by default (owner, Oct 14, 2026: play how you want). */
-const DEFAULT_STOPS: Readonly<Record<StopKind, boolean>> = {
-  "own-bill-vote": true,
-  "every-meeting": false,
-  desk: true,
-};
+registerStopKinds([
+  // The important few stop by default (owner, Oct 14, 2026: play how you want).
+  { kind: "own-bill-vote", byDefault: true },
+  { kind: "every-meeting", byDefault: false },
+  { kind: "desk", byDefault: true },
+]);
+export type StopKind = string;
+/** Every kind that may stop the player, in the order registered. */
+export function stopKinds(): readonly string[] {
+  return officeStopKinds().map((row) => row.kind);
+}
+const defaultStops = (): Record<string, boolean> =>
+  Object.fromEntries(officeStopKinds().map((row) => [row.kind, row.byDefault]));
 
 export interface StopSettingsRow {
   readonly id: string;
-  readonly stops: Readonly<Record<StopKind, boolean>>;
+  readonly stops: Readonly<Record<string, boolean>>;
   readonly since: string;
 }
 
@@ -130,24 +142,9 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     },
   },
   onCalendarWork: officeDayCalendar,
-  offerProviders: officeActProviders({
-    officesOf: (api, personId) =>
-      officeJobsOf(api, personId).map((j) => j.officeId),
-    keep: (api, row) => keepAct(api, row),
-    prepared: (api, personId, actId) => preparedFor(api, personId, actId),
-    clearPrepared: (api, personId, actId) =>
-      table(api, "prepared").remove(`${personId}|${actId}`),
-    given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  }) as unknown as CoreModule["offerProviders"],
-  effectHandlers: officeActHandlers({
-    officesOf: (api, personId) =>
-      officeJobsOf(api, personId).map((j) => j.officeId),
-    keep: (api, row) => keepAct(api, row),
-    prepared: (api, personId, actId) => preparedFor(api, personId, actId),
-    clearPrepared: (api, personId, actId) =>
-      table(api, "prepared").remove(`${personId}|${actId}`),
-    given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
-  }) as unknown as CoreModule["effectHandlers"],
+  // Filled from every registered level's kit when the engine opens.
+  offerProviders: {},
+  effectHandlers: {},
   onDay(api) {
     // New holders are seated the day the roster grows; ended terms and pay
     // are read on the 1st.
@@ -170,8 +167,37 @@ const playerOf = (api: CoreAPI) =>
   snapshotExplicitControlV1(api.state).personId ??
   (api.state as CoreState).playerId;
 
+/**
+ * What a level's kit may use from the engine: the offices a person holds,
+ * keeping an act on the record, what the player prepared, and whether an
+ * act was already taken this year.
+ */
+export const officeHost: OfficeActHost = {
+  officesOf: (api, personId) =>
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("byPerson", [personId]) as unknown as TermRow[]
+    )
+      .filter((term) => term.status === "serving")
+      .map((term) => term.officeId),
+  keep: (api, row) => keepAct(api, row),
+  prepared: (api, personId, actId) => preparedFor(api, personId, actId),
+  clearPrepared: (api, personId, actId) =>
+    table(api, "prepared").remove(`${personId}|${actId}`),
+  given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
+};
+registerOfficeActs(localOfficeKit(officeHost));
+
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
   registerLegislatureHooks({ beforeVote: ownVote, onDesk: deskArrived });
+  const providers = OFFICE_DAY_MODULE.offerProviders as Record<string, unknown>;
+  const handlers = OFFICE_DAY_MODULE.effectHandlers as Record<string, unknown>;
+  for (const kit of officeActKits()) {
+    Object.assign(providers, kit.providers ?? {});
+    Object.assign(handlers, kit.handlers ?? {});
+  }
   if (core.modules.has(OFFICE_DAY_MODULE_ID)) return;
   registerModule(core, OFFICE_DAY_MODULE);
   const api = coreAPI(core);
@@ -193,19 +219,21 @@ export function stopsOf(
 ): Readonly<Record<StopKind, boolean>> {
   const row = table(api, "stops").get(personId) as unknown as
     StopSettingsRow | undefined;
-  return row?.stops ?? DEFAULT_STOPS;
+  return { ...defaultStops(), ...(row?.stops ?? {}) };
 }
 
 /** The player changes what stops them; any day, any kind. */
 export function setStops(
   api: CoreAPI,
   personId: string,
-  change: Partial<Record<StopKind, boolean>>,
+  change: Readonly<Record<StopKind, boolean>>,
 ): Readonly<Record<StopKind, boolean>> {
   for (const key of Object.keys(change))
-    if (!(STOP_KINDS as readonly string[]).includes(key))
-      throw new Error(`Unknown stop: ${key}`);
-  const stops = { ...stopsOf(api, personId), ...change };
+    if (!stopKinds().includes(key)) throw new Error(`Unknown stop: ${key}`);
+  const stops: Record<string, boolean> = {
+    ...stopsOf(api, personId),
+    ...change,
+  };
   table(api, "stops").put({
     id: personId,
     stops,
@@ -335,12 +363,13 @@ function postAgenda(
   const player = playerOf(api);
   const seated =
     player !== undefined && members(api, officeId).some(sits(player));
-  const stops = player ? stopsOf(api, player) : DEFAULT_STOPS;
+  const stops = player ? stopsOf(api, player) : defaultStops();
   const ownBill = agenda.some((id) => billOf(api, id).sponsorId === player);
   const present =
     seated &&
     snapshotExplicitControlV1(api.state).personId === player &&
-    (stops["every-meeting"] || (ownBill && stops["own-bill-vote"]));
+    (stops["every-meeting"] === true ||
+      (ownBill && stops["own-bill-vote"] === true));
   const row: MeetingRow = {
     id: meetingId(officeId, date),
     officeId,
@@ -674,6 +703,43 @@ export function deskWaiting(api: CoreAPI): BillRow[] {
 }
 
 const deskStopId = (billId: string) => `desk:${billId}`;
+
+/**
+ * Hold the player's clock at a moment of a level's own (a session day's
+ * floor vote, a hearing): the stop holds until `releaseHold`. Only for the
+ * person the player controls; returns false when no one is controlled.
+ */
+export function holdPlayerAt(
+  api: CoreAPI,
+  input: {
+    readonly recordId: string;
+    readonly date: string;
+    readonly minuteOfDay: number;
+    readonly reasonKey: string;
+    readonly source: Source;
+  },
+): boolean {
+  const player = snapshotExplicitControlV1(api.state).personId;
+  if (!player) return false;
+  const token = api.moduleCalendar(OFFICE_DAY_MODULE_ID).registerStop({
+    recordId: input.recordId,
+    controlledPersonId: player,
+    at: { date: makeIsoDate(input.date), minuteOfDay: input.minuteOfDay },
+    kind: "interrupt",
+    reasonKey: input.reasonKey,
+    source: input.source,
+    hold: true,
+  });
+  const held = tokens.get(api.state) ?? new Map<string, ModuleStopTokenV1>();
+  held.set(input.recordId, token);
+  tokens.set(api.state, held);
+  return true;
+}
+
+/** Release a hold set by `holdPlayerAt`. */
+export function releaseHold(api: CoreAPI, recordId: string): void {
+  releaseHeld(api, recordId);
+}
 
 function releaseHeld(api: CoreAPI, recordId: string): void {
   const token = tokens.get(api.state)?.get(recordId);
