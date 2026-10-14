@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
@@ -179,6 +180,36 @@ export class DevMode {
     readonly placeId: string,
   ) {
     this.sequence = devModeMarks(core).length;
+    if (core.playerId) watchMoney(core, [core.playerId]);
+  }
+
+  /** Start adding up these people's money from today (the player's is watched from the start). */
+  watchMoney(personIds: readonly string[]) {
+    watchMoney(this.core, personIds);
+  }
+
+  /**
+   * A watched person's money since the watch opened, by kind: pay, taxes,
+   * rent or mortgage, purchases, benefits, each in and out, with the latest
+   * entry of each to trace; their cash then and now, their job, and what
+   * they did since by act kind.
+   */
+  money(personId: string) {
+    const person = this.core.people.get(personId);
+    const job = person?.jobId ? this.core.jobs.get(person.jobId) : undefined;
+    return {
+      ...moneySince(this.core, personId),
+      job: job
+        ? {
+            id: job.id,
+            title: job.title,
+            employerId: job.organizationId,
+            wageDailyMinor: job.wageDailyMinor,
+            hoursDaily: job.hoursDaily,
+            endsAt: job.endsAt,
+          }
+        : null,
+    };
   }
 
   private get api() {
