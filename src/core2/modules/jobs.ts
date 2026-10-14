@@ -895,18 +895,34 @@ function reviewEmployers(api: CoreAPI): void {
     for (const job of jobs) have[roleOf(job)] = (have[roleOf(job)] ?? 0) + 1;
     for (const position of positions)
       have[position.occupation] = (have[position.occupation] ?? 0) + 1;
-    const live = fullJobs(api, from);
+    // Each role's jobs to copy, sorted once: a full person's job gives a new position its schedule and payday; a counted job when there is none.
+    let pools: Map<string, JobInput[]> | undefined;
+    const poolOf = (role: string): JobInput[] => {
+      if (!pools) {
+        const live = new Set(fullJobs(api, from).map((job) => job.id));
+        const byRole = new Map<string, { full: JobInput[]; all: JobInput[] }>();
+        for (const job of fromJobs) {
+          const key = roleOf(job);
+          let row = byRole.get(key);
+          if (!row) byRole.set(key, (row = { full: [], all: [] }));
+          row.all.push(job);
+          if (live.has(job.id)) row.full.push(job);
+        }
+        pools = new Map();
+        for (const [key, row] of byRole)
+          pools.set(
+            key,
+            (row.full.length ? row.full : row.all).sort((a, b) =>
+              a.id.localeCompare(b.id),
+            ),
+          );
+      }
+      return pools.get(role) ?? [];
+    };
     const copyable = (role: string): JobInput | undefined => {
-      const ofRole = fromJobs.filter((job) => roleOf(job) === role);
-      // A full person's job gives a new position its schedule and payday; a counted job when there is none.
-      const full = ofRole.filter((job) =>
-        live.some((row) => row.id === job.id),
-      );
-      const pool = full.length ? full : ofRole;
+      const pool = poolOf(role);
       if (pool.length)
-        return [...pool].sort((a, b) => a.id.localeCompare(b.id))[
-          (positions.length + Math.floor(need)) % pool.length
-        ];
+        return pool[(positions.length + Math.floor(need)) % pool.length];
       // A role nobody holds now is copied from the job that held it.
       const id = mix[role]?.templateJobId;
       return id
@@ -1659,6 +1675,37 @@ function runWeek(api: CoreAPI): void {
     need: p("jobsUnemployedNeedWeight"),
     trait: p("traitWeight"),
   };
+  // Whether a counted seeker takes an offer at this pay, by the same reasons a
+  // full person weighs, every trait included.
+  const acceptsAt = (seeker: SeekerRow, hourlyMinor: number): boolean => {
+    let acceptLeansNow = acceptLeans.get(c);
+    if (!acceptLeansNow) acceptLeans.set(c, (acceptLeansNow = new Map()));
+    let lean = acceptLeansNow.get(seeker.personId);
+    if (lean === undefined) {
+      const person = actorOf(api, seeker.personId);
+      lean =
+        traitLean(c, person, jobsData.actions.accept.actKinds) -
+        traitLean(c, person, jobsData.actions.decline.actKinds);
+      acceptLeansNow.set(seeker.personId, lean);
+    }
+    const reference = seeker.referenceHourlyMinor;
+    return (
+      acceptTerms.rate *
+        (acceptTerms.baseline +
+          acceptTerms.pay * (reference > 0 ? hourlyMinor / reference - 1 : 0) +
+          (seeker.employed ? acceptTerms.switchCost : acceptTerms.need)) +
+        acceptTerms.trait * lean >
+      0
+    );
+  };
+  // The answer rises with pay, so whoever turns down a place's best-paid opening turns down all of them.
+  const risesWithPay = acceptTerms.rate > 0 && acceptTerms.pay >= 0;
+  const highAt = new Map<string, number>();
+  for (const [placeId, open] of inPlace)
+    highAt.set(
+      placeId,
+      open.reduce((n, row) => Math.max(n, row.hourlyMinor), 0),
+    );
   for (const position of positions) {
     // A full person can take only a role whose schedule is on record.
     const fullRole = roleTemplate(c, position) !== undefined;
@@ -1696,9 +1743,15 @@ function runWeek(api: CoreAPI): void {
     const key = `${position.placeId}|${position.occupation}`;
     let sorted = sortedReach.get(key);
     if (!sorted) {
-      sorted = [...(reaching.get(position.placeId) ?? [])].sort((a, b) =>
-        order(a.seeker, b.seeker),
-      );
+      const high = highAt.get(position.placeId) ?? 0;
+      sorted = (reaching.get(position.placeId) ?? [])
+        .filter(
+          (row) =>
+            !risesWithPay ||
+            !counts(row.seeker.personId) ||
+            acceptsAt(row.seeker, high),
+        )
+        .sort((a, b) => order(a.seeker, b.seeker));
       sortedReach.set(key, sorted);
     }
     const fullSorted = [...full].sort(order);
@@ -1741,27 +1794,7 @@ function runWeek(api: CoreAPI): void {
         settled = true;
         break;
       }
-      // A counted seeker answers the offer by the same reasons a full person
-      // weighs, every trait included.
-      let acceptLeansNow = acceptLeans.get(c);
-      if (!acceptLeansNow) acceptLeans.set(c, (acceptLeansNow = new Map()));
-      let lean = acceptLeansNow.get(best.personId);
-      if (lean === undefined) {
-        const person = actorOf(api, best.personId);
-        lean =
-          traitLean(c, person, jobsData.actions.accept.actKinds) -
-          traitLean(c, person, jobsData.actions.decline.actKinds);
-        acceptLeansNow.set(best.personId, lean);
-      }
-      const reference = best.referenceHourlyMinor;
-      const accepts =
-        acceptTerms.rate *
-          (acceptTerms.baseline +
-            acceptTerms.pay *
-              (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            (best.employed ? acceptTerms.switchCost : acceptTerms.need)) +
-          acceptTerms.trait * lean >
-        0;
+      const accepts = acceptsAt(best, position.hourlyMinor);
       if (accepts && hireCounted(api, position, best, fit(best))) {
         matchesLeft.set(
           position.placeId,
