@@ -76,6 +76,10 @@ const report = {
   /** Every moment the year recorded for the player, and what it became. */
   moments: [] as unknown[],
 };
+// Watched as the bench watches a chosen resident: the player and their
+// household (src/bench/player.ts, select).
+for (const id of household?.memberIds ?? [playerId])
+  if (core.people.get(id)?.alive) director.watch(core, id);
 const book = () => director.ledger.people.get(playerId);
 let seen = book()?.schedule.length ?? 0;
 for (let day = 0; day < days; day += 1) {

@@ -82,6 +82,14 @@ export class BenchPlayer {
     }
     this.personId = id;
     this.director.watch(this.core, id);
+    // Their household too: a talk at home opens on the biggest recorded
+    // event of either person, which the director reads from its ledger
+    // (owner, Oct 14, 2026, night).
+    const person = this.core.people.get(id)!;
+    for (const memberId of this.core.households.get(person.householdId)
+      ?.memberIds ?? [])
+      if (memberId !== id && this.core.people.get(memberId)?.alive)
+        this.director.watch(this.core, memberId);
   }
 
   /**
