@@ -125,9 +125,11 @@ function leavePremium(
   if (!program?.active || receipt.paidMinor <= 0) return;
   const person = api.state.people.get(receipt.personId);
   if (!person || person.placeId !== lawChain(api).townPlaceId) return;
+  // Capped by the cash the premium is taken from: what isn't set aside.
+  const accounts = api.accounts();
   const premium = Math.min(
     Math.round(receipt.paidMinor * Number(program.facts.share)),
-    Math.max(0, person.liquidMinor),
+    Math.max(0, accounts.balance(accounts.main(person.id))),
   );
   if (premium <= 0) return;
   const treasury = String(program.facts.treasuryId);

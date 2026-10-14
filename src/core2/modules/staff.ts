@@ -27,6 +27,7 @@ import { addDays, makeIsoDate } from "../../simulation/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { startPublicJob } from "../public-payroll";
+import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -149,8 +150,13 @@ export function hireStaff(
   );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
-  // On the payroll of the government the official serves, at the post's pay.
+  // On the payroll of the government the official serves, at the post's pay,
+  // if the line the post draws on has room for a year of it.
   const employer = employerOf(api, input.officialId);
+  if (employer && !lineHasRoom(api, employer, input.officialId))
+    throw new Error(
+      `No room on the budget line for staff to ${input.officialId}`,
+    );
   const jobId = employer
     ? startPublicJob(api, {
         personId: input.personId,
@@ -175,6 +181,15 @@ export function hireStaff(
   table(api, "staff").put(row as unknown as ModuleRow);
   api.relationship(input.officialId, input.personId, "contact", 0.1);
   return row;
+}
+
+/** A year of a staffer's pay fits in the room left on the line staff pay draws on. */
+function lineHasRoom(api: CoreAPI, employer: string, officialId: string) {
+  return (
+    publicPayRoom(api, employer, `staff:${officialId}`) >=
+    campaignParameter("staffHourlyMinor") *
+      treasuryParameter("fullTimeHoursPerYear")
+  );
 }
 
 /** The treasury of the government whose seat the official holds. */
@@ -460,6 +475,9 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       0
     )
       continue;
+    // The budget line staff pay draws on must have room for a year of it.
+    const employer = employerOf(api, officialId);
+    if (employer && !lineHasRoom(api, employer, officialId)) continue;
     // stopgapId: SG-GOV-staff-hire-out-of-work
     api.stopgap("SG-GOV-staff-hire-out-of-work");
     // Only people out of work: taking the post would end a job that other

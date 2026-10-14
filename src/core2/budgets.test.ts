@@ -22,6 +22,7 @@ import {
   openBudgets,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
+import { treasuryMonthsOf } from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import {
@@ -115,16 +116,27 @@ describe(
             p.accountId,
             (received.get(p.accountId) ?? 0) + p.deltaMinor,
           );
-      // Every withheld dollar, every sales-tax dollar and every dollar of
-      // revenue from outside the town is in a treasury (nothing else pays
-      // into them, and nothing in this world spends from them).
+      // Every withheld dollar, every sales-tax dollar, every dollar of
+      // revenue from outside the town, aid and borrowing is in a treasury,
+      // less what its monthly closes paid out on its budget lines.
       const salesTax = purchaseTaxes(core);
-      for (const gov of govs)
+      for (const gov of govs) {
+        let closes = 0;
+        for (const month of treasuryMonthsOf(api, gov.id)) {
+          closes +=
+            month.aidReceivedMinor + month.borrowedMinor - month.aidPaidMinor;
+          for (const line of Object.values(month.lines))
+            closes -= line.providersMinor + line.outsideMinor;
+        }
         expect(cash(gov.organizationId), gov.id).toBe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
-            outsideRevenueOf(api, gov.id),
+            outsideRevenueOf(api, gov.id) +
+            closes,
         );
+        // The treasury paid its lines: every month's close spent money.
+        expect(treasuryMonthsOf(api, gov.id).length, gov.id).toBeGreaterThan(0);
+      }
       // Aid, fees and the rest arrive each month for the local governments.
       for (const gov of govs.filter((g) => g.level !== "federal"))
         expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);

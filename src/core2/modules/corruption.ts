@@ -208,11 +208,10 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     reasons: { offer: offer.values, ...(take ? { take: take.values } : {}) },
   };
   if (!offer.yes) return record;
+  // A taken bribe is on the record once the money has moved.
+  if (record.taken) pay(api, record);
   table(api, "crimes").put(record as unknown as { id: string });
-  if (record.taken) {
-    pay(api, record);
-    partiesOf(api).add(record.offererId).add(record.officialId);
-  }
+  if (record.taken) partiesOf(api).add(record.offererId).add(record.officialId);
   // Both parties hold the act; no one else does.
   for (const personId of [ask.offererId, ask.officialId])
     api.observe(personId, {
