@@ -36,7 +36,7 @@ const rows = <T>(name: string) =>
   api.moduleState(JUSTICE_MODULE_ID).table(name).rows() as unknown as T[];
 
 // Whom the town's lobbying reaches (as the interest groups engine does): the
-// members of its own council or county board, else its own legislators.
+// members of its own council or county board and its own legislators.
 const offices = api.moduleState(OFFICES_MODULE_ID);
 const terms = offices.table("terms").rows() as unknown as TermRow[];
 const persons = (rows: readonly TermRow[]) =>
@@ -89,11 +89,12 @@ const nonFederal = new Set(
     .filter((o) => o.coversTown && o.level !== "federal")
     .map((o) => o.id),
 );
-const members = local.length
-  ? local
-  : legislators.length
-    ? legislators
-    : persons(terms.filter((t) => nonFederal.has(t.officeId)));
+// The player reaches both: a prosecutor may decline a single town member's
+// report (the town office weighs least), and a legislator's weighs more.
+const reached = [...new Set([...local, ...legislators])];
+const members = reached.length
+  ? reached
+  : persons(terms.filter((t) => nonFederal.has(t.officeId)));
 const accounts = core.cashJournal.residualAccountByOwner;
 const town = lawChain(api).townPlaceId;
 const candidates = [...core.people.values()]
@@ -205,6 +206,7 @@ afterAll(() => {
           scenes,
           coverage,
           pollingDates,
+          investigations: rows<InvestigationRow>("investigations"),
           chains: justiceChains(api),
         },
         null,
