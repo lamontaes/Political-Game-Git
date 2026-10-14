@@ -32,6 +32,11 @@ import { notePublicPay } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 import { seatPay } from "../office-day-pay";
 import {
+  officeActHandlers,
+  officeActProviders,
+  type Prepared,
+} from "../office-day-acts";
+import {
   billOf,
   castMemberVote,
   executiveDecision,
@@ -102,7 +107,8 @@ export interface MeetingRow {
 export interface OfficeActRow {
   readonly id: string;
   readonly personId: string;
-  readonly kind: "vote" | "sign" | "veto";
+  /** vote, sign, veto, case, town-hall, interview, meet-department-head. */
+  readonly kind: string;
   readonly how: "did" | "own-choice";
   readonly date: string;
   readonly recordId: string;
@@ -122,9 +128,26 @@ export const OFFICE_DAY_MODULE: CoreModule = {
       acts: { indexes: { byPerson: { fields: ["personId"] } } },
       officeJobs: { indexes: { byPerson: { fields: ["personId"] } } },
       world: {},
+      prepared: {},
     },
   },
   onCalendarWork: officeDayCalendar,
+  offerProviders: officeActProviders({
+    officesOf: (api, personId) =>
+      officeJobsOf(api, personId).map((j) => j.officeId),
+    keep: (api, row) => keepAct(api, row),
+    prepared: (api, personId, actId) => preparedFor(api, personId, actId),
+    clearPrepared: (api, personId, actId) =>
+      table(api, "prepared").remove(`${personId}|${actId}`),
+  }) as unknown as CoreModule["offerProviders"],
+  effectHandlers: officeActHandlers({
+    officesOf: (api, personId) =>
+      officeJobsOf(api, personId).map((j) => j.officeId),
+    keep: (api, row) => keepAct(api, row),
+    prepared: (api, personId, actId) => preparedFor(api, personId, actId),
+    clearPrepared: (api, personId, actId) =>
+      table(api, "prepared").remove(`${personId}|${actId}`),
+  }) as unknown as CoreModule["effectHandlers"],
   onDay(api) {
     // New holders are seated the day the roster grows; ended terms and pay
     // are read on the 1st.
@@ -770,4 +793,30 @@ export function officeJobsOf(api: CoreAPI, personId: string): OfficeJobRow[] {
   return table(api, "officeJobs").query("byPerson", [
     personId,
   ]) as unknown as OfficeJobRow[];
+}
+
+// ---- What the player prepares for an act -------------------------------
+
+/** The player sets what they will say or decide at an act; what they leave is the character's own. */
+export function prepareAct(
+  api: CoreAPI,
+  personId: string,
+  actId: "office-hours" | "town-hall" | "interview",
+  prepared: Prepared,
+): void {
+  table(api, "prepared").put({
+    id: `${personId}|${actId}`,
+    ...prepared,
+  } as unknown as ModuleRow);
+}
+
+function preparedFor(
+  api: CoreAPI,
+  personId: string,
+  actId: string,
+): Prepared | null {
+  return (
+    (table(api, "prepared").get(`${personId}|${actId}`) as unknown as
+      Prepared | undefined) ?? null
+  );
 }

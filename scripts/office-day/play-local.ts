@@ -113,6 +113,7 @@ if (skipTo > core.date) {
 
 const firstDay = core.date;
 let selfChosen = 0;
+let heldTownHall = false;
 for (let day = 0; day < 10; day++) {
   let result = player.advance("day");
   selfChosen += result.selfChosen.length;
@@ -120,7 +121,27 @@ for (let day = 0; day < 10; day++) {
     const packet = player.packet!;
     if (packet.kind === "complete") break;
     if (packet.kind === "choice") {
-      // Every choice of the day is left to the character.
+      const offered = packet.offers.map((o) => o.actionId);
+      if (day < 3)
+        console.log(
+          `${packet.at.date} ${packet.at.minuteOfDay}: offered ${[...new Set(offered)].join(", ")}; the character would pick ${packet.decision.selected?.definition.id}`,
+        );
+      // On the second day the player holds a town hall themselves.
+      const townHall = packet.offers.find((o) => o.actionId === "town-hall");
+      if (day === 1 && townHall && !heldTownHall) {
+        heldTownHall = true;
+        console.log(
+          `the player chooses to hold a town hall (${townHall.durationMinutes} minutes)`,
+        );
+        const r = player.resume({
+          kind: "choice",
+          pauseId: packet.pauseId,
+          offerId: townHall.offerId,
+        });
+        selfChosen += r.selfChosen.length;
+        continue;
+      }
+      // Every other choice of the day is left to the character.
       const r = player.resume({ kind: "own-choice", pauseId: packet.pauseId });
       selfChosen += 1 + r.selfChosen.length;
       continue;

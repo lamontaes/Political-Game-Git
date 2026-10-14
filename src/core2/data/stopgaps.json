@@ -3766,5 +3766,17 @@
     "addedAt": "2026-10-14",
     "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job.",
     "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-case-rule-copy",
+    "kind": "rule-copy",
+    "file": "src/core2/office-day-acts.ts",
+    "line": 200,
+    "whatItFakes": "When the player's office hours come and the player has not decided a case, office-day decides it by the character's sense of duty (the base share of officials who help, tilted by traits), a copy of the rule the constituent-cases engine uses for a case nobody decided.",
+    "why": "The constituent-cases engine keeps that rule inside its own response-window handler and does not export it.",
+    "addedBy": "OFFICE-LOCAL",
+    "addedAt": "2026-10-14",
+    "replacement": "The constituent-cases engine exports the office's own decision on a case, and office-day calls it.",
+    "status": "open"
   }
 ]

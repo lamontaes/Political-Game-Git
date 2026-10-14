@@ -38,6 +38,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { openOfficeDay } from "../core2/modules/office-day";
+import { officeDayData } from "../core2/office-day-acts";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openThePast } from "../core2/past";
@@ -288,7 +289,7 @@ function* benchWorldStages(
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
+    data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
     modules: [
       ...WORLD_MODULES,
       // One area of the world moving another (M3-04): reads the economy's
