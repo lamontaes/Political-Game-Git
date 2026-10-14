@@ -1227,4 +1227,6 @@ export interface CoreAPI {
   updateDrive(personId: PersonId, drive: Drive): void;
   markOrganized(personId: PersonId, topic: string): void;
   requestCallback(event: CoreEventInput): void;
+  /** Close an answered (or moot) callback; the approach gate reopens. */
+  resolveCallback(callbackId: string): void;
 }

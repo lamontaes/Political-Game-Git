@@ -19,6 +19,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { parameter } from "../parameters";
+import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -699,9 +700,7 @@ export function askToVolunteer(
   // candidate, how close they are, every trait's lean toward volunteering,
   // against the hours their work already takes.
   const core = api.state as CoreState;
-  const tie =
-    core.relationships.get([personId, campaign.candidateId].sort().join(":"))
-      ?.level ?? 0;
+  const tie = closenessBetween(core, personId, campaign.candidateId);
   const family = person.familyIds.has(campaign.candidateId) ? 1 : 0;
   const weeklyWork = [...(core.work.commitmentsByPerson.get(personId) ?? [])]
     .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
@@ -1038,29 +1037,29 @@ export function registerAdOutlet(fn: typeof adOutlet): void {
   adOutlet = fn;
 }
 
+/** Whether this world sells ad time: the campaigns engine is installed and open. */
+export function adTimeForSale(api: CoreAPI): boolean {
+  return (
+    (api.state as CoreState).modules.has(CAMPAIGNS_MODULE_ID) &&
+    table(api, "town").get("town") !== undefined
+  );
+}
+
 /**
- * Run an ad: spend from the campaign's account; the people it reaches are the
- * ones who see the most media (stand-in: adults with the fewest work hours,
- * SG-GOV-ad-reach-media-habits). An attack ad carries a rival's public record
- * and moves warmth toward the rival down for people who disagree with it.
+ * Buy ad time: the buyer pays the town's outlet (or the stand-in seller) on
+ * the journal, and gets the people the ad reaches. A campaign's ads and a
+ * cause group's ads are bought the same way.
  */
-export function runAd(
+export function buyAdTime(
   api: CoreAPI,
   input: {
-    readonly filingId: string;
+    readonly buyerId: string;
     readonly amountMinor: number;
-    readonly attackFilingId?: string;
+    readonly recordId: string;
+    readonly citation: string;
   },
-): readonly CauseRow[] {
-  const campaign = campaignFor(api, input.filingId);
-  const account = api.state.organizations.get(campaign.organizationId)!;
-  const available = (api.state as CoreState).cashJournal.accounts.get(
-    `cash:${campaign.organizationId}:residual`,
-  )
-    ? campaign.raisedMinor - campaign.spentMinor
-    : 0;
-  const amount = Math.min(input.amountMinor, available);
-  void account;
+): readonly PersonState[] {
+  const amount = input.amountMinor;
   if (amount <= 0) return [];
   // Ad time from the town's own outlets where the press is open: the buyer's
   // audience is the outlet's followers.
@@ -1084,17 +1083,13 @@ export function runAd(
   postMoney(
     api,
     AD_KIND,
-    `ad:${input.filingId}:${api.state.date}:${campaign.spentMinor}`,
-    campaign.organizationId,
+    input.recordId,
+    input.buyerId,
     media,
     amount,
-    "Ad buy",
+    input.citation,
     false,
   );
-  save(api, {
-    ...campaignFor(api, input.filingId),
-    spentMinor: campaign.spentMinor + amount,
-  });
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
   );
@@ -1130,6 +1125,43 @@ export function runAd(
       }))
       .sort((a, b) => a.work - b.work || a.p.id.localeCompare(b.p.id))
       .slice(0, contacts);
+  return viewers.map((row) => row.p);
+}
+
+/**
+ * Run an ad: spend from the campaign's account; the people it reaches are the
+ * ones who see the most media (stand-in: adults with the fewest work hours,
+ * SG-GOV-ad-reach-media-habits). An attack ad carries a rival's public record
+ * and moves warmth toward the rival down for people who disagree with it.
+ */
+export function runAd(
+  api: CoreAPI,
+  input: {
+    readonly filingId: string;
+    readonly amountMinor: number;
+    readonly attackFilingId?: string;
+  },
+): readonly CauseRow[] {
+  const campaign = campaignFor(api, input.filingId);
+  const account = api.state.organizations.get(campaign.organizationId)!;
+  const available = (api.state as CoreState).cashJournal.accounts.get(
+    `cash:${campaign.organizationId}:residual`,
+  )
+    ? campaign.raisedMinor - campaign.spentMinor
+    : 0;
+  const amount = Math.min(input.amountMinor, available);
+  void account;
+  if (amount <= 0) return [];
+  const viewers = buyAdTime(api, {
+    buyerId: campaign.organizationId,
+    amountMinor: amount,
+    recordId: `ad:${input.filingId}:${api.state.date}:${campaign.spentMinor}`,
+    citation: "Ad buy",
+  }).map((p) => ({ p }));
+  save(api, {
+    ...campaignFor(api, input.filingId),
+    spentMinor: campaign.spentMinor + amount,
+  });
   const target = input.attackFilingId
     ? campaignFor(api, input.attackFilingId)
     : campaign;
