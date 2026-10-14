@@ -68,15 +68,21 @@ Checklist:
 - [x] Paid-leave premium cap, bribe record timing, poll cost kind
 - [x] Budget notice names its adopter; `departmentRequests` for a bill with no executive
 - [x] One-year proof in the played world (Norway, Michigan; Lydia, South Carolina)
+- [x] A cut lands as money and mood; the law is blamed only once a heard story ties it (owner ruling, Oct 14)
+- [x] One base for budget-line measures; a repealed balanced budget restores its cut (CTO, Oct 14)
+- [x] CI fixes: D.C.'s state-level treasury passes on what it collects; property tax with no levying government goes to the collector's
+- [x] CI green on the PR head, October 14
 
 Next in this area:
 
-- State surpluses build up where Census revenue exceeds spending: a rainy-day reserve, or the next budget spends it.
+- State surpluses build up where Census revenue exceeds spending: officials decide from their principles to save or spend it (owner ruling, Sept 29).
+- The federal debt limit reaches the federal treasury's borrowing (owner ruling, Sept 29).
+- Counted workers' withholding shortfall kept as a balance owed (owner ruling, Sept 22: debt persists).
 - Appointee pay against its line (executive.ts, the other GOV builder's file).
 
 Needs from other sessions:
 
-- OPUS-CORE: `setStandingContractAmount` for recipient-income contracts (SG-GOV-opening-award-level); a rerate for the residents' retirement flows (SG-GOV-counted-social-security-level); public employers paid from their treasury (SG-GOV-public-employers-outside).
+- OPUS-CORE: rows in #4191's `outside-flows.json` for `treasury` and `federal-borrowing`, and `outside-revenue` matched instead of a plug, so the stricter M0-08 passes; `setStandingContractAmount` for recipient-income contracts (SG-GOV-opening-award-level); a rerate for the residents' retirement flows (SG-GOV-counted-social-security-level); public employers paid from their treasury (SG-GOV-public-employers-outside).
 - Other GOV builder: a budget bill with no executive carries `departmentRequests` lines (`legislature.ts:439`).
 
 Questions for the owner: none.
