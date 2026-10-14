@@ -53,6 +53,17 @@ import {
   type InterviewRow,
 } from "./modules/press";
 import { MEETINGS_MODULE_ID, holdTownHall } from "./modules/meetings";
+import { COMMITTEES, committeeRoster, leaderOf } from "./modules/leadership";
+import { candidateStance } from "./campaign-stances";
+import federalCommittees from "./data/office-day/federal-committees.json" with { type: "json" };
+import { partySide } from "./appointments";
+import {
+  CASES_MODULE_ID,
+  casesFor,
+  handleCase,
+} from "./modules/constituent-cases";
+import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
+import federalParameters from "./data/office-day/federal-parameters.json" with { type: "json" };
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import federalOffices from "./data/office-day/federal-offices.json" with { type: "json" };
 import {
@@ -64,6 +75,17 @@ import {
   weekOf,
   type FederalChamber,
 } from "./office-day-federal-calendar";
+
+const PARAMETERS = (
+  federalParameters as unknown as {
+    parameters: Record<string, { value: number }>;
+  }
+).parameters;
+export const federalParameter = (key: string): number => {
+  const row = PARAMETERS[key];
+  if (!row) throw new Error(`No federal-day parameter ${key}`);
+  return row.value;
+};
 
 const MINIMUM_AGE = (
   federalOffices as unknown as {
@@ -98,7 +120,12 @@ export type FederalStopKind =
   | "desk-bill"
   | "interview-invite"
   | "joint-address"
-  | "election-day";
+  | "election-day"
+  | "whip-ask"
+  | "casework"
+  | "nomination"
+  | "budget-request"
+  | "daily-brief";
 
 export const DEFAULT_STOPS: Readonly<Record<FederalStopKind, boolean>> = {
   "own-bill-vote": true,
@@ -107,9 +134,34 @@ export const DEFAULT_STOPS: Readonly<Record<FederalStopKind, boolean>> = {
   "interview-invite": false,
   "joint-address": true,
   "election-day": true,
+  "whip-ask": false,
+  casework: false,
+  nomination: true,
+  "budget-request": true,
+  "daily-brief": false,
 };
 
-export type Where = "washington" | "district";
+type ItemProvider = (
+  api: CoreAPI,
+  row: FederalHolderRow,
+  date: string,
+) => readonly { kind: FederalStopKind; id: string; ids: readonly string[] }[];
+type DayFinisher = (api: CoreAPI, row: FederalHolderRow) => void;
+const itemProviders: ItemProvider[] = [];
+const dayFinishers: DayFinisher[] = [];
+
+/** Another part of the federal day (the president's) adds its items and its end-of-day acts. */
+export function registerFederalDayPart(input: {
+  readonly items?: ItemProvider;
+  readonly finish?: DayFinisher;
+}): void {
+  if (input.items && !itemProviders.includes(input.items))
+    itemProviders.push(input.items);
+  if (input.finish && !dayFinishers.includes(input.finish))
+    dayFinishers.push(input.finish);
+}
+
+export type Where = "washington" | "district" | "travel";
 
 export interface FederalHolderRow {
   /** The person the player controls. */
@@ -162,6 +214,7 @@ export const OFFICE_DAY_FEDERAL_MODULE: CoreModule = {
       holders: {},
       days: {},
       acts: { indexes: { byPerson: { fields: ["personId"] } } },
+      cabinet: {},
     },
   },
   onAfterDay: (api) => finishDay(api),
@@ -412,6 +465,24 @@ export function federalDay(api: CoreAPI, personId: string): FederalDay {
         `floor:${billId}`,
         [billId],
       );
+  for (const item of [...items])
+    if (item.kind === "floor-vote" || item.kind === "own-bill-vote") {
+      const ask = whipAsk(api, row, item.sourceRecordIds[0]!);
+      if (ask) add("whip-ask", `whip:${ask.billId}`, [ask.billId, ask.whipId]);
+    }
+  if (api.state.modules.has(CASES_MODULE_ID))
+    for (const c of casesFor(api, personId))
+      if (c.status === "open") add("casework", c.id, [c.id, c.personId]);
+  if (api.state.modules.has(ELECTIONS_MODULE_ID))
+    for (const contest of api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[])
+      if (contest.seatId === row.seatId && contest.electionDate === date)
+        add("election-day", `election:${contest.id}`, [contest.id]);
+  for (const provide of itemProviders)
+    for (const item of provide(api, row, date))
+      add(item.kind, item.id, item.ids);
   for (const desk of deskOf(api, personId))
     if (desk.status === "awaiting") add("desk-bill", desk.id, [desk.billId]);
   for (const interview of interviewsFor(api, personId))
@@ -480,10 +551,10 @@ function chamberOfBill(api: CoreAPI, bodyOfficeId: string): string | null {
 /** The day the player acts on: the one ahead of the core's date, which is the day already lived. */
 export const dayAhead = (api: CoreAPI): string => addDays(api.state.date, 1);
 
-const actId = (personId: string, kind: string, key: string) =>
+export const actId = (personId: string, kind: string, key: string) =>
   `office-act:${personId}:${kind}:${key}`;
 
-function record(api: CoreAPI, act: FederalActRow): FederalActRow {
+export function record(api: CoreAPI, act: FederalActRow): FederalActRow {
   table(api, "acts").put(act as unknown as ModuleRow);
   return act;
 }
@@ -568,6 +639,11 @@ function memberVotesOnOwn(api: CoreAPI, billId: string): void {
         facts: { stopKind: kind },
       });
       continue;
+    }
+    // The whip works a member who stands against the party leader first.
+    if (whipAsk(api, row, billId)) {
+      const answered = answerWhip(api, row.id, billId, undefined, true);
+      if (answered?.facts.answer === "commit") continue;
     }
     const position = memberPosition(api, billId, row.id);
     const vote =
@@ -704,6 +780,208 @@ export function holdDistrictTownHall(
   });
 }
 
+interface CommitteeData {
+  readonly id: string;
+  readonly name: string;
+  readonly engineCommittee: (typeof COMMITTEES)[number];
+  readonly questions: readonly string[];
+  readonly subcommittees: readonly {
+    readonly id: string;
+    readonly questions?: readonly string[];
+  }[];
+}
+const COMMITTEE_DATA = (
+  federalCommittees as unknown as {
+    chambers: Record<FederalChamber, readonly CommitteeData[]>;
+  }
+).chambers;
+
+export interface CommitteeSeat {
+  /** The engine's subject committee the member sits on (the legislature refers bills to it). */
+  readonly engineCommittee: string;
+  readonly chair: boolean;
+  /** The real standing committee and subcommittee (data), where one fits. */
+  readonly committeeId: string | null;
+  readonly subcommitteeId: string | null;
+}
+
+/**
+ * A member's committee seats. The leadership engine seats them on the
+ * chamber's subject committees; among the real standing committees that
+ * committee stands for (data, cited), the member sits on the one whose
+ * questions they hold the strongest views on, as members ask their party's
+ * steering committee for the committees their interests run to, and on the
+ * subcommittee chosen the same way. Ties go to the official list's order.
+ */
+export function committeeSeats(
+  api: CoreAPI,
+  personId: string,
+): readonly CommitteeSeat[] {
+  const row = holderRow(api, personId);
+  const chamber = row ? chamberOf(row.kind) : null;
+  if (!row || !chamber) return [];
+  const party = federalSeatOf(api, personId)?.term.party ?? null;
+  const weight = (questions: readonly string[] = []) =>
+    questions.reduce(
+      (sum, q) => sum + Math.abs(candidateStance(api, personId, party, q) ?? 0),
+      0,
+    );
+  const best = <T extends { questions?: readonly string[] }>(
+    list: readonly T[],
+  ): T | null =>
+    list.reduce<T | null>(
+      (top, item) =>
+        top === null || weight(item.questions) > weight(top.questions)
+          ? item
+          : top,
+      null,
+    );
+  return COMMITTEES.flatMap((key) => {
+    const roster = committeeRoster(api, bodyOfficeOf(chamber), key);
+    if (!roster?.memberIds.includes(personId)) return [];
+    const committee = best(
+      COMMITTEE_DATA[chamber].filter((c) => c.engineCommittee === key),
+    );
+    const sub = committee ? best(committee.subcommittees) : null;
+    return [
+      {
+        engineCommittee: key,
+        chair: roster.chairId === personId,
+        committeeId: committee?.id ?? null,
+        subcommitteeId: sub?.id ?? null,
+      },
+    ];
+  });
+}
+
+/**
+ * The whip's ask (Evans 2018, "The Whips"): before a floor vote, the whip of
+ * the member's party works the members whose own position runs against
+ * their party leader's on the bill. The leader's side is the floor leader's
+ * own position (the legislature's reasons for that member); the whip is the
+ * party's whip post holder (the leadership engine). Null where the member
+ * already stands with the leader, or the chamber has no whip of their party.
+ */
+export function whipAsk(
+  api: CoreAPI,
+  row: FederalHolderRow,
+  billId: string,
+): {
+  billId: string;
+  whipId: string;
+  leaderId: string;
+  side: "yes" | "no";
+} | null {
+  const chamber = chamberOf(row.kind);
+  if (!chamber || row.kind === "us-house-delegate") return null;
+  const body = bodyOfficeOf(chamber);
+  const mine = partySide(federalSeatOf(api, row.id)?.term.party);
+  if (mine === 0) return null;
+  const sideOf = (id: string | null) =>
+    id
+      ? partySide(
+          (
+            api
+              .moduleState(OFFICIALS_MODULE_ID)
+              .table("officials")
+              .get(id) as unknown as OfficialRow | undefined
+          )?.party,
+        )
+      : 0;
+  const leaderId = ["majority-leader", "minority-leader"]
+    .map((post) => leaderOf(api, body, post))
+    .find((id) => id && id !== row.id && sideOf(id) === mine);
+  const whipId = ["majority-whip", "minority-whip"]
+    .map((post) => leaderOf(api, body, post))
+    .find((id) => id && id !== row.id && sideOf(id) === mine);
+  if (!leaderId || !whipId) return null;
+  const leader = memberPosition(api, billId, leaderId).total;
+  if (leader === 0) return null;
+  const own = memberPosition(api, billId, row.id).total;
+  if (Math.sign(own) === Math.sign(leader)) return null;
+  return { billId, whipId, leaderId, side: leader > 0 ? "yes" : "no" };
+}
+
+/**
+ * Answer the whip: commit to the party's side (the vote is cast that way) or
+ * refuse. Without an answer the character answers by their own position on
+ * the bill, the party's pull included (`memberPosition`), as any member does.
+ * The answer moves the closeness between member and whip both ways, which
+ * the legislature reads when one asks the other for something.
+ */
+export function answerWhip(
+  api: CoreAPI,
+  personId: string,
+  billId: string,
+  answer?: "commit" | "refuse",
+  background = false,
+): FederalActRow | null {
+  const row = holderRow(api, personId);
+  if (!row) throw new Error(`${personId} holds no federal day`);
+  const ask = whipAsk(api, row, billId);
+  if (!ask) return null;
+  const own = memberPosition(api, billId, personId).total;
+  const chosen =
+    answer ??
+    (Math.sign(own) === (ask.side === "yes" ? 1 : -1) ? "commit" : "refuse");
+  if (chosen === "commit") castMemberVote(api, billId, personId, ask.side);
+  const step =
+    federalParameter("whipAnswerCloseness") * (chosen === "commit" ? 1 : -1);
+  const reason = { cause: "whip-answer", sourceId: billId };
+  if (api.state.people.has(ask.whipId)) {
+    api.relationship(personId, ask.whipId, "contact", step, undefined, reason);
+    api.relationship(ask.whipId, personId, "contact", step, undefined, reason);
+  }
+  const when = background ? api.state.date : dayAhead(api);
+  return record(api, {
+    id: actId(personId, "whip-ask", billId),
+    personId,
+    date: when,
+    kind: "whip-ask",
+    mode: answer ? "did" : "simulated",
+    where: whereOn(row, when),
+    sourceRecordIds: [billId, ask.whipId, ask.leaderId],
+    facts: {
+      answer: chosen,
+      side: ask.side,
+      position: Math.round(own * 1000) / 1000,
+    },
+  });
+}
+
+/**
+ * Take a constituent's case at the district office: help or decline, through
+ * the cases engine (a referral to the agency that can fix it). A case the
+ * player leaves alone is handled by the office as the cases engine says (the
+ * staff, else the member's own sense of duty) by its respond-by day.
+ * Stopgap SG-OFFICE-FED-federal-casework: the cases engine brings problems
+ * only to the town's own officials, so a member of Congress has none until
+ * it routes problems to them.
+ */
+export function takeCase(
+  api: CoreAPI,
+  personId: string,
+  caseId: string,
+  decision: "help" | "decline",
+): FederalActRow {
+  const row = holderRow(api, personId);
+  if (!row) throw new Error(`${personId} holds no federal day`);
+  // stopgapId: SG-OFFICE-FED-federal-casework
+  api.stopgap("SG-OFFICE-FED-federal-casework");
+  const handled = handleCase(api, caseId, decision);
+  const when = dayAhead(api);
+  return record(api, {
+    id: actId(personId, "casework", caseId),
+    personId,
+    date: when,
+    kind: "casework",
+    mode: "did",
+    where: whereOn(row, when),
+    sourceRecordIds: [caseId, ...(handled ? [handled.personId] : [])],
+    facts: { decision, status: handled?.status ?? null },
+  });
+}
+
 /**
  * The end of each day: whatever the day held that the player left alone, the
  * character does now, by the owning engine's rule for anyone in the seat. A
@@ -752,6 +1030,7 @@ function finishDay(api: CoreAPI): void {
       townHallLean(api, row.id) > 0
     )
       holdDistrictTownHall(api, row.id, undefined, true);
+    for (const finish of dayFinishers) finish(api, row);
     table(api, "days").put({
       id: `${row.id}:${date}`,
       personId: row.id,

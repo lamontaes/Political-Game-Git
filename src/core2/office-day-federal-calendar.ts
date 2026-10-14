@@ -250,3 +250,33 @@ export function jointAddress(year: number): JointAddress {
     sourceUrl: row.sourceUrl,
   };
 }
+
+/**
+ * The day the president's budget request is due: on or after the first
+ * Monday in January and not later than the first Monday in February
+ * (31 U.S.C. sec. 1105(a)); the game takes the last day the law allows.
+ */
+export function budgetRequestDate(year: number): {
+  readonly date: string;
+  readonly citation: string;
+} {
+  const first = `${year}-02-01`;
+  const date = addDays(first, (1 - weekday(first) + 7) % 7);
+  return { date, citation: "31 U.S.C. sec. 1105(a)" };
+}
+
+/** The `n`th day after `from` on which a chamber sits (the first sitting after `from` is the first). */
+export function nthSitting(
+  chamber: FederalChamber,
+  from: string,
+  n: number,
+): string {
+  let date = from;
+  let seen = 0;
+  // A year holds over a hundred sittings; four years bound any wait.
+  for (let i = 0; i < 1461; i++) {
+    date = addDays(date, 1);
+    if (chamberSits(chamber, date).sits && ++seen >= n) return date;
+  }
+  return date;
+}

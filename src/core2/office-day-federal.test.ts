@@ -5,7 +5,13 @@
  * published calendar unless they choose otherwise; the official salary is
  * paid; their own bill's vote stops them on its day and their vote is the
  * one counted; an interview the character answers is printed like one the
- * player answers; a child cannot be seated.
+ * player answers; a child cannot be seated. Then a second town adult is
+ * seated as president: a nomination goes to the Senate and is voted on its
+ * sitting day by the senators' own sides; the budget request due on its
+ * statutory day is sent by the character when the player lets the day pass,
+ * and the budgets engine's proposed budget carries it; a trip to a town drawn
+ * at random meets people there; the daily brief leaves facts the president
+ * now knows.
  */
 import { randomBytes, createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -15,9 +21,18 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { townSeats } from "./modules/offices";
-import { draftBill, scheduleVote, votesOn } from "./modules/legislature";
+import {
+  billOf,
+  committeeRecords,
+  draftBill,
+  scheduleVote,
+  votesOn,
+} from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
-import { washingtonWeek } from "./office-day-federal-calendar";
+import {
+  budgetRequestDate,
+  washingtonWeek,
+} from "./office-day-federal-calendar";
 import {
   actsOf,
   askForInterview,
@@ -31,8 +46,20 @@ import {
   whereOn,
 } from "./office-day-federal";
 import { drawPlace } from "../../scripts/core2-year/place";
+import {
+  budgetPriorities,
+  governments,
+  proposedBudget,
+} from "./modules/budgets";
+import {
+  cabinetOf,
+  dailyBrief,
+  nominate,
+  nominationCandidates,
+  travelToTown,
+} from "./office-day-federal-president";
 
-const seed = process.env.OFFICE_FEDERAL_SEED ?? randomBytes(8).toString("hex");
+const seed = process.env.OFFICE_FEDERAL_SEED || randomBytes(8).toString("hex");
 const place = drawPlace(seed, "office-federal");
 console.log(`office-day-federal: ${place.name} (${place.key}), seed ${seed}`);
 const world = buildBenchWorld(seed, gameStartDate(), {
@@ -86,6 +113,22 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     chooseWeek(api, me.id, day.date, "washington");
   });
 
+  const president = adults.find(
+    (p) => p.id !== me.id && age(p.birthDate) >= minimumAge("president")!,
+  )!;
+  let stateVoteOn = "";
+  it("seats a president on Inauguration Day and sends a nominee to the Senate", () => {
+    startAsFederalOfficeholder(core, president.id, "seat:US:president");
+    const pool = nominationCandidates(api, president.id);
+    expect(pool.length).toBeGreaterThan(0);
+    const act = nominate(api, president.id, "state", pool[0]!.id);
+    stateVoteOn = String(act.facts.voteOn);
+    expect(stateVoteOn > core.date).toBe(true);
+    expect(cabinetOf(api).find((c) => c.postId === "state")!.status).toBe(
+      "nominated",
+    );
+  });
+
   it("stops the player for their own bill's vote and counts the vote they cast", () => {
     const snap = lawInForce(api, "snap-maximum").value ?? 0;
     const bill = draftBill(api, {
@@ -110,6 +153,14 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
       voteOnFloor(api, me.id, bill.id, "no");
     }
     step();
+    // A committee chair who opposes a bill does not hear it, and it dies
+    // there with no floor vote (the legislature's committee stage).
+    const committee = committeeRecords(api, bill.id)[0];
+    if (committee && !committee.reported) {
+      expect(votesOn(api, bill.id)).toHaveLength(0);
+      expect(billOf(api, bill.id).status).toBe("failed");
+      return;
+    }
     const mine = votesOn(api, bill.id).find((v) => v.memberId === me.id);
     if (house.office.kind === "us-house-delegate") expect(mine).toBeUndefined();
     else expect(mine?.vote).toBe("no");
@@ -136,5 +187,43 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     expect(act.mode).toBe("simulated");
     expect(act.facts.status).toBe("published");
     expect(actsOf(api, me.id).some((a) => a.id === act.id)).toBe(true);
+  });
+
+  it("puts the nominee to the Senate's vote on its sitting day", () => {
+    while (core.date < stateVoteOn) step();
+    const post = cabinetOf(api).find((c) => c.postId === "state")!;
+    expect(["confirmed", "rejected"]).toContain(post.status);
+    expect(post.yes + post.no).toBe(100);
+    expect(post.status === "confirmed").toBe(post.yes > post.no);
+  });
+
+  it("sends the budget request on its day, and the proposed budget carries it", () => {
+    // The first Monday in February (31 U.S.C. 1105(a)); it passes while the nomination waits.
+    const due = budgetRequestDate(2025).date;
+    expect(core.date >= due).toBe(true);
+    const set = budgetPriorities(api, "US");
+    expect(set?.setBy).toBe(president.id);
+    const gov = governments(api).find((g) => g.id === "US")!;
+    const [line, delta] = Object.entries(set!.changes)[0] ?? ["", 0];
+    if (line) {
+      const proposed = proposedBudget(
+        api,
+        gov,
+        Number(due.slice(0, 4)) + 1,
+        president.id,
+      );
+      expect(proposed.spendingMinor[line]).toBeGreaterThan(0);
+      expect(Math.abs(delta)).toBeGreaterThan(0);
+    }
+  });
+
+  it("meets people in a town drawn at random, and learns from the brief", () => {
+    const town = drawPlace(`${seed}:trip`, "office-federal-trip");
+    const act = travelToTown(api, president.id, town.key);
+    expect(act.facts.met).toBeGreaterThan(0);
+    for (const id of act.sourceRecordIds.slice(1))
+      expect(core.people.get(president.id)!.knownIds.has(id)).toBe(true);
+    dailyBrief(api, president.id);
+    expect(api.knows(president.id, "brief:cabinet-vacancies")).toBeDefined();
   });
 });
