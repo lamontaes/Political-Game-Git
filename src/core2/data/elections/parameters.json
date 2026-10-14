@@ -33,6 +33,12 @@
       "source": "Not read from a statute: the tie rows in data/research/elections/tie-rules-2026.json say 'new election for large races; lot for small' and name no line. The stand-in is the order of a small-town race (total votes cast).",
       "spread": [500, 5000],
       "stopgapId": "SG-GOV-tie-race-size"
+    },
+    "ballotFirstPositionShare": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "The vote share the first-listed candidate gains over a place further down the same ballot, read by every voter as a cue on the printed ballot; it decides only where nothing else separates the candidates. Koppell and Steen 2004, 'The Effects of Ballot Position on Election Outcomes', Journal of Politics 66(1):267-281: in New York City's 1998 Democratic primaries, with names rotated by precinct, first-listed candidates did better in 71 of 79 contests; Pasek, Schneider, Krosnick and others 2014, Public Opinion Quarterly 78(2):416-439, find smaller edges in California general elections. Two points is in the range both report.",
+      "spread": [0.005, 0.05]
     }
   }
 }
