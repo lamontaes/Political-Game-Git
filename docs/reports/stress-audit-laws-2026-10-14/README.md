@@ -36,7 +36,7 @@ At the macro level, the national, regional, jobs, housing and business engines n
 
 On December 15, 2025, Congress filed, heard in committee, passed through both chambers and signed 12 policy bills, all on one day. One was a "balanced operating budget." It cut every federal spending line by 25.3%, $1.77 trillion in total. Social Security fell from $1.58 trillion to $1.18 trillion, and interest on the debt fell from $970 billion to $725 billion.
 
-At the macro level, national output grew at the same pace through January and February 2026. Unemployment rose 0.03 points a month, as it had all year. A registered stopgap says public budgets add no push to the economy, so this is expected for now. At the micro level, no one's benefit or paycheck changed.
+At the macro level, national output grew at the same pace through January and February 2026. Unemployment rose 0.03 points a month, as it had all year. Registered stopgap SG-WORLD-macro-public-budget says public budgets add no push to the economy, so this is expected for now (read in the code, `src/core2/data/macro/parameters.json:309`). At the micro level, no one's benefit or paycheck changed.
 
 Congress also passed "adopt an income tax." It wrote nothing, because a federal income tax already exists, yet it recorded 1,426 people as reached. It passed "exempt groceries from sales tax," and the game applied that federal act to South Carolina's state and local sales tax.
 
