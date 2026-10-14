@@ -3260,6 +3260,18 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-counted-giving-stand-in",
+    "kind": "counted-giving",
+    "file": "src/core2/modules/drives.ts",
+    "line": 1,
+    "whatItFakes": "Counted adults who give to a cause group give the mean of what the group's full members' own gift rule gives, once a month, because a counted giver has no drive or cash of their own.",
+    "why": "CTO, Oct 14: groups raise from the counted population as well as from full people, by the same rule times the count.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Counted groups carry their own concern by topic and their cash above the buffer, so the same gift rule reads them directly, at the frequency full givers give.",
+    "status": "open"
+  },
+  {
     "id": "SG-CORE-closeness-gov-raw-reads",
     "kind": "closeness-read",
     "file": "src/core2/closeness.ts",
