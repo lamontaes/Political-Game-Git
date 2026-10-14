@@ -10,7 +10,8 @@
  */
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../bench/world";
-import { drawPlace } from "../../../tests/golden-path/place";
+import { createHash } from "node:crypto";
+import { placeLocalities, placeStateKeys } from "../places";
 import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { coreAPI } from "../state";
@@ -21,8 +22,19 @@ import type { StafferRow } from "../modules/staff";
 import { REACH_B_MODULE_ID } from "../law-reach/group-b-store";
 
 const seed = process.argv[2] ?? `${Date.now()}`;
-const drawn = drawPlace(seed, "world-wiring");
-const placeKey = process.argv[3] || drawn.key;
+/** A place drawn from all 56 by the seed, as the golden-path runner draws. */
+function drawPlace(from: string): string {
+  const hash = createHash("sha256")
+    .update(`${from}:world-wiring`)
+    .digest("hex");
+  const states = [...placeStateKeys()].sort((a, b) => a.localeCompare(b));
+  const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
+  const places = [...placeLocalities(state)].sort((a, b) =>
+    a.key.localeCompare(b.key),
+  );
+  return places[parseInt(hash.slice(8, 16), 16) % places.length]!.key;
+}
+const placeKey = process.argv[3] || drawPlace(seed);
 const days = Number(process.argv[4] ?? 365);
 const start = gameStartDate();
 
