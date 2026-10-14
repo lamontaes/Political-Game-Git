@@ -11,7 +11,7 @@ After: games opening before October 9, 2026, get FEMA's real disasters on their 
 
 **What you need to do:** in the evening build, open January 1, 2021, in a Louisiana or Florida town; play the year.
 
-**Also read first:** a played year's slowest day is over budget (next section).
+**Also read first:** 1 of 6 test games stopped on New Year's Day (next section).
 
 ## Known problems
 
@@ -19,6 +19,7 @@ After: games opening before October 9, 2026, get FEMA's real disasters on their 
 - **The slowest day is over budget:** it takes 4.8 seconds against 3, in one run on October 14.
 - **The CI speed job stops on this pull request.** It now runs on core changes (fixed here) and stops on this one because it changes how a town opens; the job refuses any such comparison. I've proposed a rule change to the CTO; it needs his sign-off because it changes a guard's test.
 - **Three choice tests broke on main; stress may no longer turn a worker's choice.** The owner's October 14 ruling raised the personality weight from 0.2 to 1 (#4152), and three core choice tests in `src/core2/life.test.ts` failed on main from that merge. Each gives a one-job worker the strongest effort trait and checks that stress, wages or the trait's direction turns the worker's choice. This branch runs those three at 0.2, where they pass; play uses 1. Measured at 1 with the same worker: high stress did not turn a choice from work to rest at any effort level I tried (from an eighth of the scale to half of it). With no effort trait, the worker rested even when calm. So the effort trait alone decided the choice. That is one test worker, not a played town. Your call, at the top; I've noted it for the people team too.
+- **A game can stop on New Year's Day when a county and its town both pass a budget.** Measured: it happened in 1 of 6 one-year runs of the played world on this branch, in Clinton, Arkansas (seed 0fdc3b824514743df867ce3a448ff517e5614555cbc329a2c36a29edd4b4c45d). On January 1, 2027, the county's budget and the town's both changed spending on government administration. Each change also staffs an office. The staffing step looks up the town's administration office for either government, so the county's budget staffs the town's office too (inferred from the code; whether it should is the government team's call). The second staffing of the same office on the same day stops the run with "Duplicate institutional calendar key" (`src/core2/law-reach/group-a-staffing.ts:108`). In the evening build, the game wouldn't move past that day (inferred from the code). Main ran Clinton's year without stopping. Inferred from the code: the price fixes don't cause the stop. Budgets are set from each government's revenue, and the price fixes change what businesses sell and so the taxes they pay, so in Clinton both budgets now changed that line. I haven't traced those revenues. The bug was already in the government team's code and can hit any town where both budgets change the same line on the same day. The fix is one line in that code, which I've sent to the government team. My recommendation: merge their fix first or together with this pull request; it doesn't need to wait otherwise.
 
 ## What changed for the player
 
