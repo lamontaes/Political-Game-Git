@@ -116,6 +116,8 @@ function townIncomeGrowth(
   places: readonly string[],
   month: string,
   p: MacroParameter,
+  /** The world's first month, which starts partway through: no window may include it. */
+  startMonth?: string,
 ): number | null {
   const paid = api.state.finance.paidIncomeByPlaceMonth;
   const sum = (at: string) =>
@@ -133,6 +135,13 @@ function townIncomeGrowth(
     }
     return total;
   };
+  // Both years whole: the window starts after the world's first, partial, month.
+  if (
+    startMonth &&
+    shiftMonth(month, -(2 * p("macroMonthsPerYear") - p("one")), p) <=
+      startMonth
+  )
+    return null;
   const now = year(month),
     before = year(shiftMonth(month, -p("macroMonthsPerYear"), p));
   if (now === null || before === null || before <= p("zero")) return null;
@@ -198,6 +207,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     state.placeIds,
     shiftMonth(month, -p("one"), p),
     p,
+    shiftMonth(state.openingMonth, p("one"), p),
   );
   // No recorded town year yet: the town grows with the nation and adds nothing.
   const neutral = p("macroTrendGrowthPct") + p("macroInflationAnchorPct");
@@ -210,8 +220,10 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     federalPurchasesPct(api),
   );
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
+  const { townIncomeGrowthPct: _neutral, ...stepped } = row;
+  void _neutral;
   months.put({
-    ...(row as unknown as { id: string }),
+    ...(stepped as unknown as { id: string }),
     ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
   });
   if (regionalRegistered(api)) stepRegional(api, previous, row);

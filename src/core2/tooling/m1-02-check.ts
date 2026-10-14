@@ -34,7 +34,9 @@ const input = withWorldEconomy(
 const core = createLifeCore(input, { data, modules: [...WORLD_MODULES] });
 const api = coreAPI(core);
 const end = new Date(`${input.startedAt}T00:00:00Z`);
+// Two years, and the two months more it takes for both compared years to be whole (the start month is partial).
 end.setUTCFullYear(end.getUTCFullYear() + 2);
+end.setUTCMonth(end.getUTCMonth() + 2);
 advanceCore(core, end.toISOString().slice(0, 10));
 
 const macro = api.moduleState("macro");
@@ -53,7 +55,7 @@ const heard = months
     (row) =>
       row.townIncomeGrowthPct !== undefined &&
       // Twelve months against the twelve before: both years simulated from the 24th month.
-      row.month >= shiftMonth(firstSimulated, 2 * p("macroMonthsPerYear"), p),
+      row.month > shiftMonth(firstSimulated, 2 * p("macroMonthsPerYear"), p),
   )
   .sort((a, b) => a.month.localeCompare(b.month));
 if (!heard.length) failures.push("the national step never heard the town");
