@@ -545,7 +545,9 @@ export function composeJournal(
     if (!event) continue;
     const parts = [event];
     // When they were young, the age frames it: "When I was 7, my father died."
-    if (young) {
+    // Only what happened around a young person (a death, a move, an
+    // illness), never their own child's birth.
+    if (young && !moment.causeKind.startsWith("family:child")) {
       const frame = render(
         "journal-memoir:when-age",
         memoir.whenAge,
@@ -584,7 +586,12 @@ export function composeJournal(
     }
     // Looking back: a moment whose weight grew with the people in it, when
     // life went on after it.
-    const later = stories.some((row) => row.date > moment.date);
+    // The consequence is on record: a later story involves the same person.
+    const later = stories.some(
+      (row) =>
+        row.date > moment.date &&
+        row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
+    );
     if (later && moment.hindsight >= interrupt) {
       const hook = render(
         "journal-memoir:hook",
