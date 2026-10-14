@@ -330,8 +330,11 @@ function resolve(
       asOf: api.state.date,
     });
     outcome = raised ? "referred-pay-raised" : "referred-no-finding";
-  } else if (decision === "help") outcome = "referred-to-workforce-office";
-  else outcome = "turned-away";
+  } else if (decision === "help") {
+    // stopgapId: SG-GOV-case-referral-unread (the jobs engine doesn't read a referral yet)
+    api.stopgap("SG-GOV-case-referral-unread");
+    outcome = "referred-to-workforce-office";
+  } else outcome = "turned-away";
   const done: CaseRow = {
     ...row,
     status: decision === "help" ? "helped" : "declined",
@@ -352,6 +355,23 @@ function resolve(
     rapport: 0,
   });
   return done;
+}
+
+/**
+ * The official's desk of cases: those still open, soonest deadline first. The
+ * player decides these (`handleCase`); one left past its deadline goes to the
+ * office's staff, or to the office's own habit where it has none.
+ */
+export function openCasesFor(
+  api: CoreAPI,
+  officialId: string,
+): readonly CaseRow[] {
+  return (table(api).query("byStatus", ["open"]) as unknown as CaseRow[])
+    .filter((c) => c.officialId === officialId)
+    .sort(
+      (a, b) =>
+        a.respondBy.localeCompare(b.respondBy) || a.id.localeCompare(b.id),
+    );
 }
 
 export function casesFor(api: CoreAPI, officialId: string): readonly CaseRow[] {

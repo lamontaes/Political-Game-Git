@@ -3598,5 +3598,17 @@
     "addedAt": "2026-10-14",
     "replacement": "One 'who loses money on this bill' reading over every provision kind, read by both employer groups and bribes.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-case-referral-unread",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/constituent-cases.ts",
+    "line": 1,
+    "whatItFakes": "An official who helps a resident looking for work refers them to the workforce office, but the jobs engine doesn't read the referral when employers pick applicants, so the help changes nothing yet.",
+    "why": "The silent-engines audit (Oct 14) found constituent cases run but unread; the hiring read is the jobs engine's (OPUS-WORLD).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD).",
+    "status": "open"
   }
 ]
