@@ -313,8 +313,9 @@ function hear(
 /**
  * Retention (MEMORY-FLAT), once a month: past its life a story is never
  * delivered or told again, so who heard it no longer decides anything, and
- * those rows go. What they learned stays in their knowledge; the player's own
- * rows stay too.
+ * those rows go, with the story's own two keys (its kind and outlet), which
+ * nothing reads once it can no longer be told. The facts it carried stay in
+ * their knowledge; the player's own rows and keys stay too.
  */
 function forgetOldNews(api: CoreAPI): void {
   const since = addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
@@ -328,6 +329,10 @@ function forgetOldNews(api: CoreAPI): void {
     if (story && story.date >= since) continue;
     heard(api).remove(row.id);
     counts.set(personId, (counts.get(personId) ?? 1) - api.parameter("one"));
+    const known = api.state.knowledgeByPerson.get(personId);
+    const key = newsKey(row.storyId as string);
+    known?.delete(key);
+    known?.delete(`${key}:outlet`);
   }
 }
 
