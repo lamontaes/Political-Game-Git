@@ -1,8 +1,9 @@
 /**
  * Elections in the two-level world: the town's counted residents vote from
  * their own records (they see party labels on the ballot, no campaign reached
- * them), the rest of the district or state votes as groups around its real
- * lean, and no candidate wins every vote for want of named supporters.
+ * them), the rest of the district or state votes on the same engine at a
+ * coarser level from its real 2024 vote, and no candidate wins every vote
+ * for want of named supporters.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -11,7 +12,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
@@ -22,10 +22,16 @@ import {
 } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
-import { breakElectionTie, openVoting, resultOf } from "./modules/voting";
+import {
+  breakElectionTie,
+  countedBallotsOf,
+  openVoting,
+  resultOf,
+} from "./modules/voting";
+import { campaignParameter } from "./campaign-views";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
-import { countedResidents } from "./electorate";
+import { countedChoice, countedResidents } from "./electorate";
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import {
   lifePlaceCoverage,
@@ -81,9 +87,7 @@ describe("elections in the two-level world", () => {
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
     const core = createLifeCore(
-      withCountedVoterGroups(
-        collapseToTwoLevels({ ...full, playerId: player.id }),
-      ),
+      collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
     openOffices(core, seed);
@@ -110,6 +114,20 @@ describe("elections in the two-level world", () => {
         expect(result.winnerId, contest.title).toBeNull();
       const filings = ballot(api, contest.id);
       expect(result.countedEligible).toBeGreaterThan(0);
+      // Every counted resident's ballot is kept with its reasons, and each
+      // choice is the one its own appeal ranks first.
+      const kept = countedBallotsOf(api, contest.id);
+      expect(kept.length, contest.title).toBeGreaterThan(0);
+      for (const b of kept) {
+        expect(b.choice, b.id).toBe(b.voted ? countedChoice(b.appeal) : null);
+        if (b.voted)
+          expect(
+            b.turnoutReasons.duty +
+              b.turnoutReasons.interest +
+              campaignParameter("turnoutBase"),
+            b.id,
+          ).toBeGreaterThan(b.turnoutReasons.cost);
+      }
       const sides = filings.map((f) => partySide(f.party ?? null));
       const contested =
         filings.length > 1 && sides.includes(1) && sides.includes(-1);

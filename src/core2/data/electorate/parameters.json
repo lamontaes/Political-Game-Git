@@ -1,62 +1,5 @@
 {
-  "about": "The simulated electorate: voters the world doesn't name, counted in blocks (each county's 2024 presidential voters, Alaska by state house district and D.C. by ward; one block per U.S. House district; one per state legislative district), split into the seven party-identification groups of the American National Election Studies. Each group turns out and chooses from its own inputs. Read by src/core2/electorate-blocks.ts. Every number is tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Vote effects are in shares of the two-party vote in an evenly split electorate; the engine converts them to the groups' own scale.",
-  "groups": {
-    "about": "The seven ANES party-identification groups among voters, from most Democratic to most Republican. shareOfVoters is each group's share of presidential voters nationally; loyalty is the share of the group's two-party vote that goes to its own party's presidential nominee (the pure independents' is the Republican share); turnout is the share of the group's eligible citizens who vote in a presidential year, which sets how far the group's turnout moves when the costs of voting change.",
-    "tag": "ESTIMATED",
-    "source": "American National Election Studies 2020 Time Series and Cumulative Data File: party identification of voters (strong, not very strong and leaning partisans, pure independents) and the presidential vote by group. Loyalty: strong partisans backed their party's nominee 95 to 99%, not very strong 75 to 88% and leaners 78 to 89% in 2008 to 2016 (ANES, as summarized by Old North State Politics, Feb. 2018), rising since with polarization; Pew Research Center's validated voters 2024 (June 26, 2025): independents and leaners split 48% to 48%. Turnout: ANES validated and self-reported turnout by strength of party identification; pure independents vote least.",
-    "spread": "shares within 3 points; loyalty within 5 points; turnout within 10 points",
-    "rows": [
-      {
-        "id": "strong-democrat",
-        "side": -1,
-        "shareOfVoters": 0.25,
-        "loyalty": 0.97,
-        "turnout": 0.85
-      },
-      {
-        "id": "weak-democrat",
-        "side": -1,
-        "shareOfVoters": 0.12,
-        "loyalty": 0.86,
-        "turnout": 0.68
-      },
-      {
-        "id": "leaning-democrat",
-        "side": -1,
-        "shareOfVoters": 0.12,
-        "loyalty": 0.88,
-        "turnout": 0.66
-      },
-      {
-        "id": "independent",
-        "side": 0,
-        "shareOfVoters": 0.08,
-        "loyalty": 0.5,
-        "turnout": 0.45
-      },
-      {
-        "id": "leaning-republican",
-        "side": 1,
-        "shareOfVoters": 0.11,
-        "loyalty": 0.88,
-        "turnout": 0.66
-      },
-      {
-        "id": "weak-republican",
-        "side": 1,
-        "shareOfVoters": 0.1,
-        "loyalty": 0.86,
-        "turnout": 0.68
-      },
-      {
-        "id": "strong-republican",
-        "side": 1,
-        "shareOfVoters": 0.22,
-        "loyalty": 0.97,
-        "turnout": 0.85
-      }
-    ]
-  },
+  "about": "The electorate the world does not name (owner, Oct 14, 2026): the town's counted residents, and every place outside the town counted on the same engine at a coarser level (each county's, House district's or state legislative district's eligible voters, voting as the town's counted residents would on the place's own 2024 lean). Read by src/core2/electorate.ts, src/core2/electorate-places.ts and src/core2/electorate-inputs.ts. Every number is tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it is checked against). Vote effects are in shares of the two-party vote in an evenly split electorate; the engine turns them into appeal on the lean scale.",
   "typicalSpendPerVoteMinor": {
     "about": "What one major-party candidate typically spends in a general election, per two-party vote cast in the race, by office family, in cents. A candidate the world records no campaign for spends this; a recorded campaign spends what its books show.",
     "tag": "ESTIMATED",
@@ -130,24 +73,6 @@
       "source": "The two-party share an officeholder's recorded votes move per unit of the record's appeal (the same appeal named voters weigh, src/core2/modules/record.ts), weighed at the race's own lean. Checked against roll-call ideology costing incumbents about 1 to 4 points when they vote against their district (Canes-Wrone, Brady and Cogan, American Political Science Review, 2002).",
       "spread": [0, 0.05]
     },
-    "lawTurnoutPerCost": {
-      "value": 1,
-      "tag": "TUNABLE",
-      "source": "How a change in the election laws' turnout cost (src/core2/data/laws/reach-group-a-parameters.json, whose rows are sized in turnout points from GAO-15-19, Grumbach and Hill 2022, Gerber, Huber and Hill 2013 and others) moves an average block's turnout share; lower-turnout groups move more.",
-      "spread": [0.5, 1.5]
-    },
-    "calibrationBound": {
-      "value": 6,
-      "tag": "TUNABLE",
-      "source": "How far, in standard units of party identification, a block's center may sit from the nation's while it is fit to its 2024 vote; past it the block's groups shift as a whole. Checked against every county's 2024 two-party share being reached within 0.001.",
-      "spread": [4, 8]
-    },
-    "calibrationSteps": {
-      "value": 50,
-      "tag": "TUNABLE",
-      "source": "Halvings of the search that fits each block to its 2024 vote; 50 reaches the vote within far less than one voter in every county.",
-      "spread": [30, 60]
-    },
     "typicalVoterAgeYears": {
       "value": 48,
       "tag": "ESTIMATED",
@@ -165,6 +90,30 @@
       "tag": "TUNABLE",
       "source": "The rise in the town's recorded crime above its base (a share) that localCrimeShare is stated per: a tenth.",
       "spread": [0.1, 0.1]
+    },
+    "appealPerShare": {
+      "value": 4,
+      "tag": "SOURCED",
+      "source": "How much appeal on the lean scale moves one share of the two-party vote. Each place's voters stand evenly along the lean order across a width of 2 (personLean: lean = 2 x (right share - rank)), and a voter backs the right-hand candidate when lean exceeds half the appeal gap; one unit of appeal therefore moves a quarter of the vote. Arithmetic of the engine's own lean order, not an estimate.",
+      "spread": [4, 4]
+    },
+    "coarseSampleVoters": {
+      "value": 400,
+      "tag": "TUNABLE",
+      "source": "How many of the town's counted adults, evenly spaced along the lean order, stand for a place outside the town when it is counted coarsely; each carries the place's eligible voters over this count. Checked against the full set giving the same state share within 0.002 on drawn states.",
+      "spread": [200, 2000]
+    },
+    "stateShareTolerance": {
+      "value": 0.02,
+      "tag": "TUNABLE",
+      "source": "How far a state's Republican two-party share, counted on the engine with the opening's inputs and no candidate standing, may sit from its 2024 presidential share (Clerk of the House) in the calibration test. Each place's people are placed on the lean order where the town's counted voters, turning out by their own readiness, would split as the place voted (src/core2/electorate.ts orderPlacement); the test checks that placement and the coarse sample together, and every change in play moves the vote from there.",
+      "spread": [0.01, 0.06]
+    },
+    "countedTurnoutTolerance": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How far the counted residents' turnout in a presidential-year count may sit from their state's November 2024 CPS citizen turnout (table 4c), in turnout share, in the calibration test. Wide while turnout comes from each resident's own duty, engagement and costs rather than any rate; the engine is never forced to the figure.",
+      "spread": [0.1, 0.35]
     }
   }
 }
