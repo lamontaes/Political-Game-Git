@@ -28,6 +28,7 @@ import { openLaws, enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { regionPanel } from "./modules/world-panels";
 import { outcomeIssueView } from "./modules/views";
 import { generatedOpening } from "./tooling/generated-world";
+import { gameStartDate } from "./game-start";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -110,6 +111,9 @@ describe("the outcome web's coverage", () => {
   });
 });
 
+/** The opening's year: the game starts on its start-date parameter. */
+const Y = gameStartDate().slice(0, 4);
+
 describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () => {
   const place = drawPlace(seed, "outcome-web-unemployment");
   it(`${place.name}, ${place.state}: layoffs raise unemployment and burglary follows by the researched 3% a point`, () => {
@@ -125,7 +129,7 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
         modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
       },
     );
-    advanceCore(core, "2021-02-05");
+    advanceCore(core, `${Y}-02-05`);
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
     // Twelve full workers lose their jobs over the next week (not ones a
@@ -144,15 +148,15 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
           // A job mid-shift ends another day.
         }
       }
-      advanceCore(core, `2021-02-${String(day).padStart(2, "0")}`);
+      advanceCore(core, `${Y}-02-${String(day).padStart(2, "0")}`);
     }
-    advanceCore(core, "2021-03-05");
-    const before = monthOf(api, town, "2021-02"),
-      after = monthOf(api, town, "2021-03");
+    advanceCore(core, `${Y}-03-05`);
+    const before = monthOf(api, town, `${Y}-02`),
+      after = monthOf(api, town, `${Y}-03`);
     const metrics = api
       .moduleState("world-metrics")
       .table("months")
-      .get(`metrics:${town}:2021-03-02`) as unknown as {
+      .get(`metrics:${town}:${Y}-03-02`) as unknown as {
       unemploymentRate: number;
     };
     // The web reads the economy's own record, as a percent.
@@ -226,21 +230,21 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
         },
       });
     };
-    lawEvent("2021-02-10", "1");
+    lawEvent(`${Y}-02-10`, "1");
     // Lag 3: the law reads as of three months back, so June 3 is the first month it acts.
-    advanceCore(core, "2021-07-05");
+    advanceCore(core, `${Y}-07-05`);
     const at = (month: string) => monthOf(api, town, month);
-    const snapBase = at("2021-01").bases["program.snap-receipt"]!;
-    const foodBase = at("2021-01").bases["household.food-insecurity"]!;
-    expect(at("2021-05").values["program.snap-receipt"]).toBeCloseTo(snapBase);
-    expect(at("2021-06").values["program.snap-receipt"]).toBeCloseTo(
+    const snapBase = at(`${Y}-01`).bases["program.snap-receipt"]!;
+    const foodBase = at(`${Y}-01`).bases["household.food-insecurity"]!;
+    expect(at(`${Y}-05`).values["program.snap-receipt"]).toBeCloseTo(snapBase);
+    expect(at(`${Y}-06`).values["program.snap-receipt"]).toBeCloseTo(
       snapBase * (1 + toParticipation.size!),
     );
     // Food insecurity reads SNAP receipt's moved part the month after it moves.
-    expect(at("2021-06").values["household.food-insecurity"]).toBeCloseTo(
+    expect(at(`${Y}-06`).values["household.food-insecurity"]).toBeCloseTo(
       foodBase,
     );
-    expect(at("2021-07").values["household.food-insecurity"]).toBeCloseTo(
+    expect(at(`${Y}-07`).values["household.food-insecurity"]).toBeCloseTo(
       foodBase * (1 + toFood.size! * snapBase * toParticipation.size!),
     );
 
@@ -253,7 +257,7 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
       outcomeWebFactor(api, town, "program.snap-receipt"),
     );
     expect(shown!.recordId).toBe(`web:${town}:${shown!.month}`);
-    expect(read.recordIds).toContain(at("2021-07").id);
+    expect(read.recordIds).toContain(at(`${Y}-07`).id);
     expect(read.salience).toBeGreaterThan(0);
     expect(read.position).toBeGreaterThan(0.5);
 
@@ -280,10 +284,10 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     expect(landing).toMatchObject({
       measure: "program.snap-receipt",
       previousEffect: 0,
-      changedOn: "2021-06-03",
+      changedOn: `${Y}-06-03`,
     });
     expect(landing.effect).toBeCloseTo(toParticipation.size!);
-    expect(landing.since < "2021-06-03").toBe(true);
+    expect(landing.since < `${Y}-06-03`).toBe(true);
     // A child is not in the group: no such landing on their record.
     const child = [...core.people.values()].find(
       (person) =>
@@ -300,13 +304,13 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
 
     // Repeal: the lagged effect ends the day the law does, and food
     // insecurity follows the next month.
-    lawEvent("2021-08-10", "0");
+    lawEvent(`${Y}-08-10`, "0");
     expect(
-      monthOf(api, town, "2021-08").values["program.snap-receipt"],
+      monthOf(api, town, `${Y}-08`).values["program.snap-receipt"],
     ).toBeCloseTo(snapBase);
-    advanceCore(core, "2021-09-05");
+    advanceCore(core, `${Y}-09-05`);
     expect(
-      monthOf(api, town, "2021-09").values["household.food-insecurity"],
+      monthOf(api, town, `${Y}-09`).values["household.food-insecurity"],
     ).toBeCloseTo(foodBase);
     expect((core as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)).toBe(true);
   }, 300_000);

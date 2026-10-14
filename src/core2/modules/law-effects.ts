@@ -68,7 +68,7 @@ export const LAW_EFFECTS_MODULE: CoreModule = {
       },
     },
   },
-  eventKinds: ["law-took-effect", "budget-line-changed"],
+  eventKinds: ["law-took-effect", "budget-line-changed", "budget-adopted"],
   onEvent: (api, event) => applyLaw(api, event),
 };
 
@@ -195,12 +195,14 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const key =
     event.kind === "budget-line-changed"
       ? `budget-line:${facts.line}`
-      : (facts.series ?? "");
+      : event.kind === "budget-adopted"
+        ? "budget-adopted"
+        : (facts.series ?? "");
   const list = handlers.get(key);
   if (!list) return;
   const value = facts.value === undefined ? null : Number(facts.value);
   const inForce =
-    event.kind === "budget-line-changed"
+    event.kind === "budget-line-changed" || event.kind === "budget-adopted"
       ? true
       : key.includes(":")
         ? inForceHere(api, key)

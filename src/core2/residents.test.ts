@@ -8,6 +8,8 @@ import { countedDrift } from "./modules/counted-drift";
 import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
+import { gameStartDate } from "./game-start";
+import { addDays } from "./kernel/dates";
 import { residentCounts, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import type { CoreInput } from "./types";
@@ -25,6 +27,17 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
   (input.finance?.contracts ?? [])
     .filter((row) => row.kind.startsWith("household."))
     .reduce((n, row) => n + row.amountMinor / row.periodMonths, 0);
+
+/**
+ * A day counted from the opening: these tests were written against a
+ * January 1 opening, so a date typed as 2021-MM-DD means that many days after
+ * the game's start date.
+ */
+function openingDay(typed: string) {
+  const days =
+    (Date.parse(typed) - Date.parse("2021-01-01")) / (24 * 60 * 60 * 1000);
+  return addDays(gameStartDate(), days);
+}
 
 describe("right-to-work pooled dues", () => {
   it("removes only the private compulsory fee from the actual dues payment", () => {
@@ -247,7 +260,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("runs a month with every dollar balanced and the counts read back", () => {
     const core = createLifeCore(two);
     const opening = cash(two);
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, openingDay("2021-02-01"));
     let closing = 0,
       outside = 0;
     for (const row of core.people.values()) closing += row.liquidMinor;
@@ -309,7 +322,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
-    advanceCore(core, "2021-01-15");
+    advanceCore(core, openingDay("2021-01-15"));
     const record = two.residents!.households.find((row) => row.jobs.length)!;
     const job = record.jobs[0]!;
     const before = residentCounts(core),
@@ -343,7 +356,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // Their working life is now their own: shifts, pay and cash.
     expect(residentsRuntime(core)!.wageFlowByJob.has(job.id)).toBe(false);
     const opening = cash(two);
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, openingDay("2021-02-01"));
     expect(core.work.lastAttendanceByJob.get(job.id)).toBeDefined();
     // Their shifts are scheduled; whether they go is their own choice.
     expect(core.work.totalsByJob.get(job.id)!.plannedMinutes).toBeGreaterThan(
@@ -360,7 +373,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("pays a filled-in retiree their own retirement income", () => {
     const core = createLifeCore(two);
-    advanceCore(core, "2021-01-05");
+    advanceCore(core, openingDay("2021-01-05"));
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
     );
@@ -391,7 +404,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // The pooled flows shrink by exactly what moved to the retiree.
     expect(pooled()).toBe(before);
     const cashBefore = core.people.get(retireeId)!.liquidMinor;
-    advanceCore(core, "2021-03-05");
+    advanceCore(core, openingDay("2021-03-05"));
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
@@ -451,7 +464,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("re-rates full and counted workers from today", () => {
     const core = createLifeCore(two),
       api = coreAPI(core);
-    advanceCore(core, "2021-01-10");
+    advanceCore(core, openingDay("2021-01-10"));
     const source = {
       tag: "SOURCED" as const,
       asOf: core.date,
@@ -485,7 +498,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
             flow.periodFactor!,
         ),
     );
-    advanceCore(core, "2021-01-31");
+    advanceCore(core, openingDay("2021-01-31"));
     const latest = core.work.lastAttendanceByJob.get(full.id);
     if (old && latest && latest.attendedMinutes > 0)
       expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
@@ -531,7 +544,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         ],
       },
     );
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, openingDay("2021-02-01"));
     expect(sales).toBeGreaterThan(0);
     expect(counted).toBeGreaterThan(0);
     expect(core.organizations.get(treasury.id)!.liquidMinor).toBe(remitted);

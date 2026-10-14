@@ -427,6 +427,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const before = new Map(
       teacherJobs().map((j) => [j.id, j.hourlyMinor ?? 0]),
     );
+    // The group counts every raise the floor made while law, including any the
+    // place's standing law made on the opening day, before this enactment.
+    const raisedBefore = group(key)?.terms.raised ?? 0;
     enact(key, 1, "state");
     const now = teacherJobs();
     for (const job of now) {
@@ -442,7 +445,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const raised = now.filter(
       (j) => (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0),
     );
-    expect(group(key)?.terms.raised ?? 0).toBe(raised.length);
+    expect(group(key)?.terms.raised ?? 0).toBe(raisedBefore + raised.length);
     expect(openOrgs(key).length).toBe(
       new Set(now.map((j) => j.organizationId)).size,
     );
@@ -751,13 +754,18 @@ describe("law reach, group B: every policy reaches people through its engine", (
     }
     const highways = line(state, "highways");
     const transit = line(state, "transit");
+    // The reach is counted as the effective day begins; anyone who dies or
+    // leaves later that day is counted at the next review.
+    const preAged = residentsAged(16);
     enact(key, 1, "state");
     const moved = Math.round(highways * reachParameter("highwayShareShifted"));
     expect(line(state, "highways")).toBe(highways - moved);
     expect(line(state, "transit")).toBe(transit + moved);
     const road = openPeople("budget-line:highways");
     for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
-    expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
+    expect([preAged, residentsAged(16)], where).toContain(
+      reached("budget-line:highways"),
+    );
     report.highwayShift = { movedMinor: moved };
     enact(key, 0, "state");
     expect(line(state, "highways")).toBe(highways);

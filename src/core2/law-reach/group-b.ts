@@ -570,6 +570,14 @@ export function registerGroupB(): void {
         value: change.value,
       });
     });
+  // A budget adopted (or carried forward) on a repeal's day or a fiscal
+  // year's first day replaces the line the handlers just read; the lines in
+  // force are read again against the budget now standing.
+  registerPolicyHandler("budget-adopted", (api) => {
+    for (const row of rowsOf<ActiveRow>(api, "active"))
+      if (row.id.startsWith("budget-line:"))
+        runBudgetLine(api, row.id.slice("budget-line:".length), row.lawId);
+  });
   for (const line of Object.keys(data.budgetLines))
     registerPolicyHandler(`budget-line:${line}`, (api, change) =>
       runBudgetLine(api, line, change.lawId),
