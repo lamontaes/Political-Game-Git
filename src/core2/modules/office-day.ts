@@ -832,7 +832,17 @@ function reviewOfficeJobs(api: CoreAPI): void {
     if (term?.status === "serving") continue;
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
-      const job = (api.state as CoreState).jobs.get(row.jobId);
+      const core = api.state as CoreState;
+      const job = core.jobs.get(row.jobId);
+      // A job ends before the day's work: one already worked today ends in tomorrow's review.
+      if (
+        job &&
+        job.endsAt === undefined &&
+        core.work.lastAttendanceByJob.get(row.jobId)?.date === core.date
+      ) {
+        seenTerms.set(api.state, -1);
+        continue;
+      }
       if (job && job.endsAt === undefined)
         api.endJob(row.jobId, `office-ended:${row.seatId}:${ended}`);
     }
