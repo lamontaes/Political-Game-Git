@@ -84,6 +84,12 @@ export interface ResidentsRuntime {
   /** Each seller's receipts from the residents this month (capacity). */
   sellerMonth: Map<string, { month: string; receivedMinor: number }>;
   outsideByPlace: Map<PlaceId, string>;
+  /**
+   * Spending due outside the town from accounts with income but no purchase
+   * flows (relatives' households elsewhere), by account, paid on the next
+   * settled day.
+   */
+  outsideOutlay: Map<string, number>;
 }
 
 interface ResidentMonth {
@@ -169,6 +175,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     openingMonth: core.date.slice(0, 7),
     sellerMonth: new Map(),
     outsideByPlace: new Map(),
+    outsideOutlay: new Map(),
   };
   for (const record of input.households) {
     rt.households.set(record.household.id, record);
@@ -672,11 +679,62 @@ function closeMonth(
     if (flow.financeKind === FIXED_SPENDING) fixed += monthly;
     else atOne += monthly;
   }
-  if (atOne <= 0 || income <= 0) return;
+  if (income <= 0) return;
+  // An account with nothing to buy locally (relatives' households in other
+  // places) spends its outlay share of income outside the town instead of
+  // keeping it all.
+  if (atOne <= 0) {
+    const outlay = Math.round(income * rt.outlayShare - fixed);
+    if (outlay > 0)
+      rt.outsideOutlay.set(
+        residentsId,
+        (rt.outsideOutlay.get(residentsId) ?? 0) + outlay,
+      );
+    return;
+  }
   rt.spendScale.set(
     residentsId,
     Math.max(0, (income * rt.outlayShare - fixed) / atOne),
   );
+}
+
+/** Each account's outlay with nothing to buy locally goes to buyers and sellers outside the town. */
+function payOutsideOutlay(api: CoreAPI, rt: ResidentsRuntime): void {
+  const core = api.state;
+  for (const [residentsId, amount] of rt.outsideOutlay) {
+    rt.outsideOutlay.delete(residentsId);
+    const row = rt.input.accounts.find((a) => a.accountId === residentsId);
+    const from = core.cashJournal.residualAccountByOwner.get(residentsId);
+    if (!row || !from) continue;
+    const market =
+      [...core.organizations.values()].find(
+        (org) =>
+          org.kind === OUTSIDE_MARKET_KIND && org.placeId === row.placeId,
+      )?.id ??
+      [...core.organizations.values()].find(
+        (org) => org.kind === OUTSIDE_MARKET_KIND,
+      )?.id;
+    const to = market
+      ? core.cashJournal.residualAccountByOwner.get(market)
+      : undefined;
+    if (!to) continue;
+    const receipt = transfer(core, api, {
+      id: `${residentsId}:outside-outlay@${core.date}`,
+      from,
+      to,
+      amountMinor: amount,
+      partial: true,
+      reasonKey: "household.outside-spending",
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation:
+          "Counted households in other places (residents' relatives) buy from sellers outside the town.",
+        estimatedFrom: `The parameter residentsOutlayShareOfIncome (${rt.outlayShare}) times the account's recent monthly income, less its fixed costs; it has no local purchase flows.`,
+      },
+    });
+    monthOf(rt, residentsId, core.date).scaledMinor += receipt.paidMinor;
+  }
 }
 
 function runResidentsDay(api: CoreAPI): void {
@@ -692,6 +750,7 @@ function runResidentsDay(api: CoreAPI): void {
   rt.incomeWindow = api.parameter("residentsIncomeWindowMonths");
   // A new month closes each account's last one first.
   for (const id of [...rt.monthly.keys()]) monthOf(rt, id, core.date);
+  payOutsideOutlay(api, rt);
   const flows = [...ids]
     .map((id) => rt.flows.get(id)!)
     .sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || a.id.localeCompare(b.id));

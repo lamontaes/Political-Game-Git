@@ -108,13 +108,39 @@ function indexKey(values: readonly unknown[]): string {
       throw new Error("Module index values must be finite scalars.");
   return JSON.stringify(values);
 }
-function rowKeys(table: Table, row: ModuleRow): Map<string, string> {
-  return new Map(
-    Object.entries(table.definition.indexes ?? {}).map(([name, def]) => [
-      name,
-      indexKey(def.fields.map((field) => row[field]!)),
-    ]),
-  );
+/** Each table definition's indexes as a list, built once (writes are frequent). */
+const indexLists = new WeakMap<
+  object,
+  readonly (readonly [
+    string,
+    { fields: readonly string[]; unique?: boolean },
+  ])[]
+>();
+function indexList(table: Table) {
+  const definition = table.definition;
+  let list = indexLists.get(definition);
+  if (!list)
+    indexLists.set(
+      definition,
+      (list = Object.entries(
+        definition.indexes ?? {},
+      ) as unknown as readonly (readonly [
+        string,
+        { fields: readonly string[]; unique?: boolean },
+      ])[]),
+    );
+  return list;
+}
+function rowKeys(table: Table, row: ModuleRow): [string, string][] {
+  const list = indexList(table);
+  const keys: [string, string][] = new Array(list.length);
+  for (let i = 0; i < list.length; i++) {
+    const [name, def] = list[i]!;
+    const values: unknown[] = new Array(def.fields.length);
+    for (let j = 0; j < def.fields.length; j++) values[j] = row[def.fields[j]!];
+    keys[i] = [name, indexKey(values)];
+  }
+  return keys;
 }
 function insert(table: Table, row: ModuleRow): void {
   moduleKey(row.id);
@@ -122,9 +148,12 @@ function insert(table: Table, row: ModuleRow): void {
   table.definition.validate?.(row);
   for (const [name, key] of keys) {
     const def = table.definition.indexes![name]!;
+    if (!def.unique) continue;
     const ids = table.indexes.get(name)!.get(key);
-    if (def.unique && ids && [...ids].some((id) => id !== row.id))
-      throw new Error(`Duplicate unique module index: ${name}`);
+    if (ids)
+      for (const id of ids)
+        if (id !== row.id)
+          throw new Error(`Duplicate unique module index: ${name}`);
   }
   const old = table.rows.get(row.id);
   if (old) erase(table, old);
@@ -203,11 +232,10 @@ export function moduleState(
               def = table.definition.indexes?.[moduleKey(index)];
             if (!def || values.length !== def.fields.length)
               throw new Error("Unregistered module index or wrong key arity.");
-            const ids = table.indexes
-              .get(index)!
-              .get(indexKey(moduleData(values)));
+            // indexKey checks the values are scalars; no copy is needed.
+            const ids = table.indexes.get(index)!.get(indexKey(values));
             return Object.freeze(
-              [...(ids ?? [])].map((id) => table.rows.get(id)!),
+              ids ? Array.from(ids, (id) => table.rows.get(id)!) : [],
             );
           });
         },

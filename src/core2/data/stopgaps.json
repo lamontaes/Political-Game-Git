@@ -2558,14 +2558,14 @@
   {
     "id": "SG-CORE-social-security-ages-data",
     "kind": "law-as-data",
-    "file": "src/core2/data/social-security-ages.json",
+    "file": "src/core2/social-security-statute.ts",
     "line": 1,
     "whatItFakes": "At the opening (before any law can change), Social Security's earliest claim age, full retirement age by birth year and the age-70 end of delayed credits are read from a core data table of the same statute GOV's law rows hold. During play, claims are dated from the law in force (GOV's socialSecurityAges) wherever the laws engine runs; a claim already dated keeps its date if Congress changes the ages later.",
     "why": "The retirement claim became a decision within the law's bounds before GOV's laws module carries Social Security ages.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date. Done in play Oct 13 (OPUS-CORE): retirement-claims reads socialSecurityAges. Left: the opening reads the law rows too, and an enacted change re-dates claims not yet made.",
-    "status": "open"
+    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date. Done in play Oct 13 (OPUS-CORE): retirement-claims reads socialSecurityAges. Left: the opening reads the law rows too, and an enacted change re-dates claims not yet made. Done Oct 14 (OPUS-CORE): the core's table is gone; the opening reads GOV's law rows file (data/laws/social-security-ages.json) through social-security-statute.ts, and play reads the law in force.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-retirement-claims-in-play",
@@ -2888,7 +2888,7 @@
     "why": "The Census Gazetteer corpus covers the states, D.C. and Puerto Rico only; the island areas need their own identities.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing.",
+    "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candidate list is built (src/core2/data/places/territory-places-census.json, 158 inhabited villages with Census GEOIDs and 2020 populations, every current key kept, by tooling/build-territory-places.ts); the swap waits until PEOPLE's population builder reads places through the core lookup.",
     "status": "open"
   },
   {
@@ -2936,8 +2936,8 @@
     "why": "A public supplier agreement's qualification must resolve its named job each month, and nothing yet lets an agreement replace a worker who left.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
-    "replacement": "When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules).",
-    "status": "open"
+    "replacement": "When a named worker leaves, the agreement names another qualified worker at the supplier or ends (the finance engine's public supplier rules). Done Oct 14 (OPUS-CORE): supplier agreements now follow whoever does the work and end when nobody does (5ea270be on main), so named counted workers die and move like anyone else.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-school-days",
