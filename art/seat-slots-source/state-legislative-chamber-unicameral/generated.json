@@ -1,0 +1,36 @@
+{
+  "people": [
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-045-slot-26",
+      "width": 230,
+      "head_top": 430,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-008",
+      "width": 69,
+      "head_top": 449,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-010",
+      "width": 78,
+      "head_top": 442,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-010",
+      "width": 78,
+      "head_top": 442,
+      "activity": "plain",
+      "tool": "native image_gen"
+    }
+  ]
+}

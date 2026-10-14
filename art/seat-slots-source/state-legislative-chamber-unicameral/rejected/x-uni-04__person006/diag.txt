@@ -1,0 +1,13 @@
+{
+  "source": "x-uni-04.jpg",
+  "instance": 6,
+  "chair": "chair-045-slot-26",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.054603174603174605,
+  "shift": [
+    0,
+    0
+  ]
+}

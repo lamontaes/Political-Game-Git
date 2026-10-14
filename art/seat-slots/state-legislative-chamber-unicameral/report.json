@@ -1,0 +1,14 @@
+{
+  "place": "state-legislative-chamber-unicameral",
+  "chairs": 8,
+  "kept": 64,
+  "rejected": 335,
+  "rejected_by_reason": {
+    "room_pixels": 241,
+    "too_wide": 139,
+    "disconnected": 43,
+    "no_chair": 14
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

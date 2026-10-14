@@ -1,0 +1,13 @@
+{
+  "source": "y-uni-04.jpg",
+  "instance": 4,
+  "chair": "chair-003",
+  "reasons": [
+    "too_wide"
+  ],
+  "room_pixel_share": 0.04377816609951255,
+  "shift": [
+    0,
+    -2
+  ]
+}

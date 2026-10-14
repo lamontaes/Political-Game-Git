@@ -1,0 +1,15 @@
+{
+  "source": "w-uni-08.jpg",
+  "instance": 13,
+  "chair": "chair-003",
+  "reasons": [
+    "disconnected",
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.12444444444444444,
+  "shift": [
+    0,
+    -1
+  ]
+}
