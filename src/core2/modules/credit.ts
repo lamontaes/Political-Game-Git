@@ -1257,6 +1257,8 @@ export function foundingLoanLimit(
   plan: Omit<FoundingPlan, "founderId">,
   termMonths: number,
 ): number {
+  // No town bank in this world: nothing to borrow.
+  if (!(api.state as CoreState).modules.has(CREDIT_MODULE_ID)) return 0;
   const bank = bankOf(api);
   const rate = startupRate(api);
   if (!bank || rate === undefined) return 0;
