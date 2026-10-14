@@ -1177,7 +1177,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
         score:
           p("jobsRetireBaseline") +
           p("jobsRetireAgeWeight") * past +
-          p("jobsCountedRestlessWeight") *
+          p("traitWeight") *
             traitLeanBetween(
               c,
               person,
@@ -1396,7 +1396,7 @@ function reviewCountedLooking(api: CoreAPI): void {
         score:
           p("jobsLookBaseline") +
           p("jobsPayGapWeight") * payGap +
-          p("jobsCountedRestlessWeight") * restless,
+          p("traitWeight") * restless,
       });
     }
   }
