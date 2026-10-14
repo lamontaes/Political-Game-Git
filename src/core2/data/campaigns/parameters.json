@@ -1060,6 +1060,24 @@
       "tag": "ESTIMATED",
       "source": "How much a person of 80 is in the working-age pool an official hires an aide from, read as the share of people that age in the labor force (BLS, Current Population Survey 2023 annual averages, Table 3 'Employment status of the civilian noninstitutional population by age, sex, and race', labor force participation rate; the age is the middle of its band: 16-19, 20-24, 25-34, 35-44, 45-54, 55-64, 65-74, 75 and over). Ages between are read along the line between the nearest two; there is no cutoff.",
       "spread": [0.077, 0.095]
+    },
+    "chairVoteRelationshipWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a party member's closeness to a colleague (the closeness scale, 0 to 1) counts in whom they back for chair. Set equal to agreement so a close friend and a like-minded stranger weigh alike; checked against the spread, which keeps either from deciding alone.",
+      "spread": [0.5, 2]
+    },
+    "chairVoteAgreementWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much nearness of views (1 minus half the lean gap, 0 to 1) counts in whom a party member backs for chair; the same scale as closeness so neither swamps the other.",
+      "spread": [0.5, 2]
+    },
+    "chairVotePullWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
+      "spread": [0.25, 1]
     }
   }
 }
