@@ -658,7 +658,13 @@ const server = createServer(async (request, response) => {
       const size = Number(url.searchParams.get("size") ?? "") || undefined;
       building = true;
       try {
-        const world = buildBenchWorld(seed, date, { minimumPeople: size });
+        // Two-level, as "New life" builds it (MEMORY-FLAT): a month of the
+        // full population ran the bench out of memory. Tests that need every
+        // resident as a full person ask for it with full=1.
+        const world = buildBenchWorld(seed, date, {
+          minimumPeople: size,
+          twoLevel: url.searchParams.get("full") !== "1",
+        });
         opening = undefined;
         const { place, residents } = world;
         const next = world.core,

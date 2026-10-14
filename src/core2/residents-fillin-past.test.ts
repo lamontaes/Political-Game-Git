@@ -32,5 +32,28 @@ describe(`fill-in past matches the opening (seed ${seed})`, () => {
       expect(past(core.people.get(row.id)!.pastFacts)).toBe(
         past(fullById.get(row.id)!.pastFacts),
       );
+    // MEMORY-FLAT: counted records don't carry where each name was learned;
+    // fill-in rebuilds it from their past, as the opening had it.
+    for (const row of record.people)
+      expect(core.people.get(row.id)!.knownIdSources ?? {}).toEqual(
+        fullById.get(row.id)!.knownIdSources ?? {},
+      );
+    // And the same person comes back on a second fill-in in another world
+    // built from the same opening.
+    const again = createLifeCore(two);
+    fillInPerson(again, record.people[0]!.id);
+    const person = (c: typeof core, id: string) => {
+      const p = c.people.get(id)!;
+      return JSON.stringify({
+        ...p,
+        familyIds: [...p.familyIds],
+        knownIds: [...p.knownIds],
+        goals: undefined,
+        drives: undefined,
+        actsByKind: undefined,
+      });
+    };
+    for (const row of record.people)
+      expect(person(again, row.id)).toBe(person(core, row.id));
   }, 600_000);
 });
