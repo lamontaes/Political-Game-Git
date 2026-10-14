@@ -675,8 +675,11 @@ function amortize(api: CoreAPI): void {
       .table("mortgages")
       .put({ ...row, balanceMinor: balance, monthsLeft });
     if (monthsLeft > 0) continue;
-    if (c.finance.contracts.has(row.id)) api.endStandingContract(row.id);
-    else {
+    // A household that left town ended its standing payment already.
+    if (c.finance.contracts.has(row.id)) {
+      if (!c.finance.contracts.get(row.id)!.endedAt)
+        api.endStandingContract(row.id);
+    } else {
       const placeId = c.households.get(row.householdId)?.placeId;
       const merged = [...(residentsRuntime(c)?.flows.values() ?? [])].find(
         (flow) =>
