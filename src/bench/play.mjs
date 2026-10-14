@@ -742,7 +742,7 @@ $("continue").addEventListener("click", () => {
 });
 
 // ---- Conversation (lower third: portraits top left, scales upper right) ----
-// The scales toggled on: the lie takes the place of the true answer it contradicts.
+// The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
 /** Who you are talking to: their bust, name and what you know of their work. */
 async function setWho(personId, name) {
@@ -824,20 +824,14 @@ function renderTalk(value) {
   $("talk-lines").replaceChildren(
     ...spokenLines(value.lines, (line) => line.text),
   );
-  // Lying, the false line stands where the true answer it contradicts was.
-  const choices = value.choices.slice(0, 6);
-  if (lying && value.lie) {
-    const at = Math.max(
-      choices.findIndex((choice) => choice.answers === value.lie.answers),
-      0,
-    );
-    choices.splice(at, 1, value.lie);
-  }
+  // Lying, the false set stands in place of the true choices.
+  const lies = value.lies ?? [];
+  const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
   $("talk-choices").replaceChildren(
     ...replies(choices, (choice) => sayLine(choice.key)),
   );
   // Dim when there is nothing false to say; tipped and red while lying.
-  setScales({ available: Boolean(value.lie), on: lying });
+  setScales({ available: lies.length > 0, on: lying });
 }
 async function sayLine(key) {
   lying = false;
@@ -851,7 +845,7 @@ async function talkTo(otherId) {
   );
 }
 $("talk-lie").addEventListener("click", () => {
-  if (!talk?.lie) return;
+  if (!talk?.lies?.length) return;
   lying = !lying;
   renderTalk(talk);
 });

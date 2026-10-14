@@ -31,7 +31,7 @@ import {
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import {
   currentStaff,
   openReach,
@@ -115,7 +115,7 @@ function openTown(): void {
     openRecord(c);
     openLegislature(c);
     openBudgets(c);
-    openLawEffects(c);
+    openLawReach(c);
     repealStartingAnswers(c);
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;

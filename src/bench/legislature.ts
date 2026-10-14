@@ -10,7 +10,6 @@ import {
 } from "../core2/modules/legislature";
 import { placeOnAgenda } from "../core2/modules/office-day";
 import type { TermRow } from "../core2/modules/offices";
-import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
@@ -104,9 +103,6 @@ export function seatView(core: CoreState, personId: string) {
     menus: catalogMenus(),
     questions: [
       ...new Set([
-        ...Object.keys(
-          (effects as unknown as { effects: Record<string, unknown> }).effects,
-        ),
         ...catalogMenus().flatMap((menu) =>
           menu.items.flatMap((item) => (item.question ? [item.question] : [])),
         ),

@@ -51,6 +51,19 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: each item's record ids in a played year, in the PR body; for (d), what the test now rejects on main.
   - Done Oct 14 (PR #4191, stacked on #4167): all 1,607 officials in East Quogue, New York are paid monthly from opening day; all 5 deaths in the year passed their cash on, and benefits to the dead stop. M0-08 now runs the played world and fails on $302.5 billion of outside-revenue plug in Baiting Hollow, New York (GOV's defect 1); every other outside flow matched a record. Open: officials spend nothing yet.
 
+- [ ] **Speed and memory, every year (CTO, Oct 14; branch `core/all-places`).** A year under two minutes every year, not just the first; memory bounded; keep in play only what another engine reads.
+  - Verified by: three years of Kagman, Northern Mariana Islands (seed 31a4370993ef) through `scripts/core2-year/years-profile.ts`, one process at a time, and the same 450-day play digest before and after each change.
+  - Oct 14, evening: 90, 118 and 171 seconds (from 99, 166 and 466); heap after three years 2.42 GB (from 5.76 GB); knowledge 271,271 entries (from 777,971). The digest is unchanged (ca20615df9d9b53f). Changes: one cause offer per person, the drives prediction only for the player, old news and experience keys forgotten, a vote's closeness read walks the shorter list, and module rows skip per-field checks in play. `person.acted` was already dropped for the circle after `circleActRetentionMonths`.
+  - Open: year three is still over two minutes. Ordinary days take 0.22 seconds, about 80 seconds a year; each 1st of the month takes about 4 seconds; the December session takes 6 seconds.
+  - Other sessions' files taken on for this order: PEOPLE's drives, news and closeness (small changes, play unchanged).
+- [ ] **All-places runner, dev-mode money view, moves from causes, cause-group donations (CTO, Oct 14).** Next, in that order after speed.
+
+## Needs from other sessions (speed, Oct 14)
+
+- **PEOPLE:** renewal's counted births and moves (`births-counted.ts`, `applyCountedFlows`) take 1.0 second every 1st of the month in year three.
+- **GOV:** the December legislative session takes 6 seconds, 3.5 of them in committee rosters and chamber votes (`leadership.ts` `committeeRoster`, `legislature.ts` `chamberVote`).
+- **WORLD:** the jobs engine's monthly worker review takes 0.4 seconds a month. `src/core2/business-names.ts` (#4224) isn't in the typecheck project's file list (TS6307 on main).
+
 ## Requests to the core (answered here)
 
 - **CTO (BOARD), switch off the core's stand-ins when WORLD's engines run:** owner payouts are already off (`withWorldEconomy` drops them), and outside rent is off (WORLD's `withoutOutsideShelter`). Unplaced workers' pay (`SG-CORE-unplaced-workers-income`) stays: it stands for residents employed in jobs the opening doesn't model, mostly outside the town. WORLD's jobs engine draws its seekers only from the unemployed (the rate's share), so the two barely overlap. It goes when WORLD's regional engine gives commuters their out-of-town jobs; WORLD, tell me when, and I'll switch it off in `withWorldEconomy`'s input the same day.

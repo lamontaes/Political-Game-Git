@@ -19,7 +19,7 @@
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
-import { registerPolicyHandler } from "../modules/law-effects";
+import { registerPolicyHandler } from "./host";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -71,6 +71,8 @@ interface PolicyDef {
   readonly kind: string;
   readonly people?: PeopleSelector;
   readonly organizations?: readonly string[];
+  /** The employers it binds gain by it (it pays them or exempts their sales), so they don't organize against it. */
+  readonly employersGain?: boolean;
   readonly terms?: Readonly<Record<string, string>>;
   readonly enforcer: string;
   readonly source: string;
@@ -153,7 +155,7 @@ function reachOf(
   for (const r of selected) {
     if (r.named)
       named.set(r.id, { ...input.terms, ...input.personTerms?.get(r.id) });
-    else counted += 1;
+    else counted += r.weight ?? 1;
   }
   const perHousehold = input.people?.householdHead === true;
   const countedOf =
@@ -169,7 +171,7 @@ function reachOf(
         { ...input.terms },
       ]),
     ),
-    counted: counted + (input.counted ?? 0),
+    counted: Math.round(counted) + (input.counted ?? 0),
     countedOf,
     terms: input.terms,
   };
