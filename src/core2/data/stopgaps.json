@@ -4334,6 +4334,30 @@
     "status": "open"
   },
   {
+    "id": "SG-PLAY-creator-direct-person-write",
+    "kind": "missing-core-api",
+    "file": "src/bench/creator.ts",
+    "line": 170,
+    "whatItFakes": "New game writes the chosen name, birth date, gender and appearance recipe straight onto the new world's player record from the play handler, instead of through a core API.",
+    "why": "The new core has no API for setting the player's identity after a world is built; the old creator lived on the retired engine.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-creator-age-keeps-past",
+    "kind": "partial-model",
+    "file": "src/bench/creator.ts",
+    "line": 172,
+    "whatItFakes": "Changing the age in the creator moves only the birth date; the life's generated past (schooling, work, household, family ages) stays as it was drawn for the original age.",
+    "why": "World building draws the player's past during New game, before the creator runs, and there is no step to redraw it for a chosen age.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "New game passes the chosen age and birthday into the world build (or a core redraw of the player's past) so the history matches the age.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-official-attendance",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",

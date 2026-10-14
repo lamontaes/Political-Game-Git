@@ -1292,6 +1292,27 @@
       "keyedBy": "the arriving household's own serial (its id), with its origin and age band",
       "reason": "Who a newcomer household is: its shape is drawn from the place's households of its head's age band, keyed to that household's own serial; how many arrive and from where follows from the pull.",
       "replacement": null
+    },
+    {
+      "file": "src/presentation/appearance-engine/assemble.ts",
+      "kind": "fixed-share",
+      "build": "Build 6",
+      "count": 1,
+      "code": "export const HEAD_FEATHER_SHARE = 0.02;"
+    },
+    {
+      "file": "src/presentation/appearance-engine/assemble.ts",
+      "kind": "fixed-share",
+      "build": "Build 6",
+      "count": 1,
+      "code": "export const COLLAR_BAND_SHARE = 0.03;"
+    },
+    {
+      "file": "src/presentation/appearance-engine/fabric.ts",
+      "kind": "fixed-share",
+      "build": "Build 6",
+      "count": 1,
+      "code": "export const INK_SHARE = 0.55;"
     }
   ]
 }
