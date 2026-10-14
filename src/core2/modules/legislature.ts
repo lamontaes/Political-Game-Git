@@ -1380,8 +1380,6 @@ export function askToCarry(
     readonly provisions: readonly Provision[];
   },
 ): CarryRequest {
-  // stopgapId: SG-GOV-carry-request (owner decision: confirmation pending)
-  api.stopgap("SG-GOV-carry-request");
   const asker = api.state.people.get(input.askerId);
   const executive = executiveOf(api, input.bodyOfficeId).term;
   // The sitting executive is known to every member; anyone else by the

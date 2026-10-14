@@ -3449,7 +3449,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on reconsideration, and each place's recorded rule as data where one exists.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling (docs/coordination/OWNER-DECISIONS.md): 'Repealing a fresh law: the body's own rules from data; where none, a sliding reluctance from how recently and by how much it passed. No fixed cooldown.' The reluctance is that rule (OPUS-GOV, Oct 14).",
+    "resolvedAt": "2026-10-14"
   },
   {
     "id": "SG-GOV-carry-request",
@@ -3461,7 +3463,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "The owner's confirmation of the carry request (or its replacement); then this row resolves.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling (docs/coordination/OWNER-DECISIONS.md, player-path audit, confirmed by the owner): a loser can 'ask a council member they know to carry a bill (the constituent path)'. The member decides by their own position and the asker's standing (OPUS-GOV, Oct 14).",
+    "resolvedAt": "2026-10-14"
   },
   {
     "id": "SG-GOV-local-executive-proposal",

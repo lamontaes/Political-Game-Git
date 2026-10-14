@@ -366,12 +366,12 @@ function filerOf(api: CoreAPI, term: TermRow): Filer {
   };
 }
 
-// stopgapId: SG-GOV-reconsideration-rule (owner decision: how soon a body may undo its own law)
 /**
  * How the law on a question stands, for anyone weighing a change to it: how
  * settled it is (-1 passed today, 1 long standing) and, for a change that
  * would reverse the latest law, the body's reluctance to undo it, larger the
- * fresher it is and the wider it passed.
+ * fresher it is and the wider it passed (owner, Oct 14: no body's rules are
+ * in data, so a sliding reluctance from recency and margin; no fixed cooldown).
  */
 function lawStanding(
   api: CoreAPI,
@@ -381,7 +381,6 @@ function lawStanding(
   const settled = settledness(api, question);
   const last = lastEnactment(api, question);
   const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
-  if (reverses) api.stopgap("SG-GOV-reconsideration-rule");
   return {
     settled,
     reluctance: reverses
