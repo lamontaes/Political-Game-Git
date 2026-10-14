@@ -5,4 +5,4 @@ section: Added
 title: The game opens with the President's address and the evening news
 ---
 
-A new life now opens with the President's address about the world the game made, that night's evening news about the inauguration and your town, and then your household on the morning of day two, all composed from the world's records while it loads.
+A new life now opens with the President's inaugural address, full screen and sentence by sentence, the picture cutting to what each sentence is about, then your home that evening with the night's news to pick up, all composed from the world's records while it loads.
