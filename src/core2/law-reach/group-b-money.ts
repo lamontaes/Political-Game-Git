@@ -573,6 +573,8 @@ interface TaxRow {
     terms: Record<string, unknown> | null;
   } | null;
   readonly undone: boolean;
+  /** A repeal of a graduated schedule the level's standing law held replaced it with the flat rate. */
+  readonly flattened?: boolean;
 }
 
 function levelRow(api: CoreAPI, level: string): LawRowInput | null {
@@ -621,14 +623,63 @@ export function incomeTaxAct(
       citation: `Act ${input.lawId}`,
       ...(terms ? { terms } : {}),
     });
+  const scopeOf = input.level === "state" ? "state" : "local";
+  const previous = (row: LawRowInput | null) =>
+    row
+      ? {
+          value: row.value,
+          unit: row.unit ?? null,
+          terms: (row.terms as Record<string, unknown> | undefined) ?? null,
+        }
+      : null;
   if (!input.enacting) {
-    if (!prior || prior.undone || !prior.lawRowId) return prior ?? null;
+    if (!prior || prior.undone || !prior.lawRowId) {
+      // Repealing a graduated tax the level's standing law holds (no act of
+      // ours adopted it): payroll withholds the flat rate instead.
+      if (input.graduated && current?.terms?.schedules) {
+        const flat = enact(
+          reachParameter(
+            scopeOf === "state"
+              ? "stateFlatIncomeTaxPercent"
+              : "localFlatIncomeTaxPercent",
+          ),
+          "percent-flat",
+          undefined,
+          "flatten",
+        );
+        const row: TaxRow = {
+          id,
+          key: input.key,
+          level: input.level,
+          lawRowId: flat.id,
+          prior: previous(current),
+          undone: false,
+          flattened: true,
+        };
+        putRow(api, "taken", row);
+        return row;
+      }
+      return prior ?? null;
+    }
     if (current?.id === prior.lawRowId)
       enact(
         prior.prior?.value ?? 0,
         prior.prior?.unit ?? "percent-flat",
         prior.prior?.terms ?? undefined,
         "repeal",
+      );
+    const row = { ...prior, undone: true };
+    putRow(api, "taken", row);
+    return row;
+  }
+  if (prior && !prior.undone && prior.flattened && input.graduated) {
+    // The graduated schedule is law again: the level's prior row returns.
+    if (current?.id === prior.lawRowId)
+      enact(
+        prior.prior?.value ?? 0,
+        prior.prior?.unit ?? "percent",
+        prior.prior?.terms ?? undefined,
+        "restore",
       );
     const row = { ...prior, undone: true };
     putRow(api, "taken", row);
