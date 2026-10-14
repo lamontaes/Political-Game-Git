@@ -767,6 +767,14 @@ export function weighContest(
         ageOnDate(makeIsoDate(p.birthDate), todayDate) >= rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         !committed.has(p.id) &&
+        // Someone who doesn't live where the seat is (a legislator of
+        // another district) can't file for it, so doesn't weigh it.
+        !(
+          wide &&
+          checkEligibility(api, p.id, contest.id, partyOf(api, p.id)).some(
+            (check) => !check.met && check.rule === "residency",
+          )
+        ) &&
         // A local incumbent's filing is already on record; a wide race's
         // incumbent weighs it too, so the reasons behind it are kept.
         !(incumbentFiled && !wide && p.id === incumbentId),
