@@ -425,6 +425,39 @@ function councilBudget(
     result = roll(kept);
   }
   for (const row of result.rows) table(api, "votes").put(row);
+  // Each chamber's roll call on the budget is public record the press reads,
+  // like any bill's.
+  for (const chamber of chambers.chambers) {
+    const rows = result.rows.filter(
+      (r) => (r as unknown as { chamber: string }).chamber === chamber,
+    ) as unknown as { memberId: string; vote: string }[];
+    api.emit({
+      id: `bill-vote:${bill.id}:${chamber}`,
+      date: api.state.date,
+      kind: "legislative-vote",
+      personIds: rows
+        .map((r) => r.memberId)
+        .filter((id) => api.state.people.has(id)),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `Vote on ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        form: bill.form.kind,
+        motion: "pass",
+        subjects: "budget",
+        chamber,
+        yes: String(rows.filter((r) => r.vote === "yes").length),
+        no: String(rows.filter((r) => r.vote === "no").length),
+      },
+    });
+  }
   const tallies = result.tallies;
   const adopted = result.adopted;
   // The changes that passed, after any the negotiation dropped.
