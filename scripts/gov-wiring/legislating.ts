@@ -19,6 +19,15 @@ const world = buildBenchWorld(value("--place-seed", ""), gameStartDate(), {
   placeKey: value("--place-key", ""),
 });
 const core = world.core;
+// Every law that takes effect, as its public record says it.
+const tookEffect: Record<string, string>[] = [];
+coreAPI(core).subscribeEvents(
+  "gov-wiring-proof",
+  ["law-took-effect"],
+  (_api, event) => {
+    tookEffect.push({ id: event.id, date: event.date, ...(event.facts ?? {}) });
+  },
+);
 let day = core.date;
 for (let i = 0; i < Number(value("--days", "400")); i++) {
   day = addDays(makeIsoDate(day), 1);
@@ -54,6 +63,8 @@ for (const b of local) {
   byQuestion.set(p.question!, list);
 }
 const out = {
+  tookEffect,
+  federalBills: [] as unknown[],
   place: value("--place-key", ""),
   through: day,
   localPolicyBills: local.length,
@@ -96,8 +107,18 @@ const reasons = local
         ...(v.position as object),
       })),
   }));
+const federal = bills
+  .filter((b) => String(b.bodyOfficeId).includes(":us-"))
+  .map((b) => ({
+    number: b.number,
+    status: b.status,
+    question:
+      (b.provisions as { question?: string; series?: string }[])[0]?.question ??
+      (b.provisions as { series?: string }[])[0]?.series,
+  }));
 const file = value("--out", "");
-if (file) writeFileSync(file, JSON.stringify(out, null, 2));
+out.federalBills = federal;
+if (file) writeFileSync(file, JSON.stringify({ ...out, reasons }, null, 2));
 console.log(
   JSON.stringify(
     { ...out, questions: out.questions.slice(0, 3), reasons },
