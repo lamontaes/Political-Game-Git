@@ -1740,6 +1740,11 @@ export function townFigures(
     .map((row) => row.valueMinor);
   const rents: number[] = [];
   let renters = 0;
+  const rt = residentsRuntime(c);
+  const countedPlace = (householdId: string) => {
+    const ix = rt?.store.householdOf.get(householdId);
+    return ix === undefined ? undefined : rt!.store.households[ix]!.placeId;
+  };
   for (const row of store(api).table("dwellings").rows() as unknown as {
     householdId: string;
     tenure: string;
@@ -1748,7 +1753,7 @@ export function townFigures(
     if (row.tenure !== "rent") continue;
     const at =
       c.households.get(row.householdId)?.placeId ??
-      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
+      countedPlace(row.householdId);
     if (at !== placeId) continue;
     renters += 1;
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
@@ -1758,16 +1763,27 @@ export function townFigures(
         : (row.rentMinor ?? 0),
     );
   }
+  // The pay of the jobs here, full and counted alike (one model, two tiers).
   const pay: number[] = [];
+  const monthly = (job: { wageDailyMinor: number }) =>
+    (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) /
+    api.parameter("macroMonthsPerYear");
   for (const job of c.jobs.values())
     if (
       job.endsAt === undefined &&
       c.organizations.get(job.organizationId)?.placeId === placeId
     )
-      pay.push(
-        (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) /
-          api.parameter("macroMonthsPerYear"),
-      );
+      pay.push(monthly(job));
+  for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
+    const job = rt!.jobs.get(jobId);
+    if (
+      job &&
+      job.endsAt === undefined &&
+      !flow.endedAt &&
+      c.organizations.get(job.organizationId)?.placeId === placeId
+    )
+      pay.push(monthly(job));
+  }
   return {
     homeValueMinor: median(values),
     rentMinor: median(rents),
@@ -1824,6 +1840,7 @@ function build(api: CoreAPI): void {
   }
 }
 
+// stopgapId: SG-WORLD-housing-counted-set-asides
 /** A finished project is a public record; an apartment building's set-aside units go to the lowest-paid eligible renters at 30% of their pay. */
 function finish(
   api: CoreAPI,

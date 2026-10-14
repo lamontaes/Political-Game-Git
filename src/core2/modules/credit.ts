@@ -636,6 +636,7 @@ interface HouseholdMonthRow {
   application?: { id: string; approved: boolean; limitMinor: number };
 }
 
+// stopgapId: SG-WORLD-credit-counted-hardship-rows
 /** Each month, every full household's money: what it holds, what its home and everyday living cost, and what it couldn't pay. */
 function householdMonths(api: CoreAPI): HouseholdMonthRow[] {
   const c = core(api);
@@ -843,6 +844,7 @@ export function setConsumerRateCap(
 }
 
 /** A household's monthly pay as a lender counts it: wages times the share of due pay actually paid. */
+// stopgapId: SG-WORLD-credit-income-test-tiers
 export function monthlyIncome(
   api: CoreAPI,
   memberIds: readonly string[],
@@ -885,6 +887,7 @@ function earnedDaily(
   return job.wageDailyMinor;
 }
 
+// stopgapId: SG-WORLD-credit-counted-hardship-rows
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
 function serviceLoans(api: CoreAPI, bankId: string): void {
   const c = core(api),
@@ -960,6 +963,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
 }
 
 /** Households short of money choose whether to borrow; the bank answers from their income and payments, on a sliding scale. */
+// stopgapId: SG-WORLD-credit-counted-personal-loans
 function householdApplications(
   api: CoreAPI,
   bankId: string,

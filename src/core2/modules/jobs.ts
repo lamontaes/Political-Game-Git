@@ -1289,6 +1289,7 @@ function reviewWorkers(api: CoreAPI): void {
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined || pinned(c).has(job.id)) continue;
     const person = c.people.get(job.personId);
+    // stopgapId: SG-WORLD-jobs-full-seekers-stay
     if (!person || !person.alive || store(api).table("seekers").get(person.id))
       continue;
     const pay = tenuredPay(api, job);

@@ -1573,6 +1573,7 @@ function foundings(api: CoreAPI): void {
     // One opening a month; the next month's room is measured afresh.
     return;
   }
+  // stopgapId: SG-WORLD-business-founding-tiers
   // The wider population weighs every market by the same reasons, as summed pulls (stopgap), until filled in: each market draws its own founders.
   if (!c.modules.has("jobs")) return;
   const countedSeekers = api.moduleState("jobs").table("countedSeekers");
