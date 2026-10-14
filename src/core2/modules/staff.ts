@@ -15,7 +15,15 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
-import { coreAPI, fillInPerson, registerModule } from "../state";
+import {
+  coreAPI,
+  fillInIdentity,
+  fillInPerson,
+  registerModule,
+  type RecordedIdentity,
+} from "../state";
+import { drawOfficialIdentity } from "../officials-identity";
+import { openingTemperaments } from "../opening-personality";
 import { countedResidents } from "../electorate";
 import {
   lifePlaceByJurisdictionId,
@@ -48,6 +56,8 @@ import {
 export const STAFF_MODULE_ID = "core2-staff-v1";
 /** Relatives living out of town, kept as a name and family ties only. */
 const HUSK_TIER = "husk";
+/** People outside the town act on the calendar, as officials there do. */
+const SEAT_APPLICANT_TIER = "calendar";
 
 export interface StafferRow {
   readonly id: string;
@@ -115,6 +125,8 @@ export interface StaffCandidate {
   readonly from: "known" | "applicant";
   /** From the town's counted population, filled in from its records at hire. */
   readonly counted?: boolean;
+  /** An applicant where an out-of-town office sits, recorded as a person at hire. */
+  readonly seat?: RecordedIdentity;
   /** How far they live within commuting reach of the office (1 in its county). */
   readonly reach: number;
   readonly reachBasis: "town" | "county" | "state" | "other-state";
@@ -335,7 +347,81 @@ export function staffCandidates(
       ...(link ? { familyLinkId: link } : {}),
     });
   }
+  const applicant = seatApplicant(api, officialId, site, hired);
+  if (applicant) out.push(applicant);
   return out;
+}
+
+/**
+ * An office that sits outside the town draws applicants from where it sits
+ * (owner, Oct 14). That place's people aren't modeled, so one applicant is
+ * drawn from the world's seed and the office, the way officials outside the
+ * town are: the same person every time, a record only once hired, at the
+ * calendar cadence of people outside the town (registered stopgap).
+ */
+function seatApplicant(
+  api: CoreAPI,
+  officialId: string,
+  site: OfficeSite,
+  hired: ReadonlySet<string>,
+): StaffCandidate | null {
+  const town = lawChain(api).townPlaceId;
+  if (site.placeId === town) return null;
+  // stopgapId: SG-WORLD-staff-seat-applicant
+  api.stopgap("SG-WORLD-staff-seat-applicant");
+  const round = staffOf(api, officialId).length;
+  const seatKey = `aide:${officialId}:${round}`;
+  const id = `person:${seatKey}`;
+  if (hired.has(id) || api.state.people.has(id)) return null;
+  const drawn = drawOfficialIdentity({
+    worldSeed: api.state.seed,
+    seatKey,
+    stateUsps: site.stateKey.slice("US-".length),
+    role: "business-worker",
+    referenceDate: api.state.date,
+  });
+  const traits =
+    openingTemperaments(
+      [
+        {
+          id,
+          birthDate: makeIsoDate(drawn.birthDate),
+          gender: drawn.gender,
+          parents: [],
+        },
+      ],
+      {
+        seed: api.state.seed,
+        startedAt: makeIsoDate(api.state.startedAt),
+      },
+    ).get(id) ?? {};
+  const identity: RecordedIdentity = {
+    id,
+    givenName: drawn.givenName,
+    familyName: drawn.familyName,
+    birthDate: makeIsoDate(drawn.birthDate),
+    placeId: site.placeId,
+    gender: drawn.gender,
+    traits,
+    tier: SEAT_APPLICANT_TIER,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `An applicant where the office of ${officialId} sits.`,
+      estimatedFrom: "SG-WORLD-staff-seat-applicant",
+    },
+  };
+  return {
+    personId: id,
+    from: "applicant",
+    seat: identity,
+    reach: 1,
+    reachBasis: "town",
+    workingAge: workingAgeWeight(
+      ageOn(identity as unknown as PersonState, api.state.date),
+    ),
+    traits,
+  };
 }
 
 const pools = new WeakMap<
@@ -449,6 +535,7 @@ export function hireStaff(
   // Someone from the counted population becomes a full person from their
   // records first: their household, past and the work their books show.
   if (candidate.counted) fillInPerson(api.state as CoreState, input.personId);
+  if (candidate.seat) fillInIdentity(api.state as CoreState, candidate.seat);
   const person = api.state.people.get(input.personId)!;
   // On the payroll of the government the official serves, at the post's pay.
   const employer = employerOf(api, input.officialId);
