@@ -1,0 +1,15 @@
+{
+  "place": "state-legislative-chamber-bicameral",
+  "chairs": 10,
+  "kept": 53,
+  "rejected": 228,
+  "rejected_by_reason": {
+    "room_pixels": 165,
+    "disconnected": 67,
+    "no_chair": 51,
+    "too_wide": 48,
+    "visual_occluded_or_wrong_seat": 13
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

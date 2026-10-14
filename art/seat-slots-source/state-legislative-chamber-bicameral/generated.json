@@ -1,0 +1,76 @@
+{
+  "people": [
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-017",
+      "width": 50,
+      "head_top": 405,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-019",
+      "width": 50,
+      "head_top": 405,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-019",
+      "width": 50,
+      "head_top": 405,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-3.png",
+      "chair": "chair-019",
+      "width": 50,
+      "head_top": 405,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-034",
+      "width": 130,
+      "head_top": 430,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-034",
+      "width": 130,
+      "head_top": 430,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-025",
+      "width": 130,
+      "head_top": 430,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-025",
+      "width": 130,
+      "head_top": 430,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-3.png",
+      "chair": "chair-025",
+      "width": 130,
+      "head_top": 430,
+      "activity": "plain",
+      "tool": "native image_gen"
+    }
+  ]
+}

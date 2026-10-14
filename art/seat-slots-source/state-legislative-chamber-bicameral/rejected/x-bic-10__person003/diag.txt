@@ -1,0 +1,13 @@
+{
+  "source": "x-bic-10.jpg",
+  "instance": 3,
+  "chair": "chair-034",
+  "reasons": [
+    "too_wide"
+  ],
+  "room_pixel_share": 0.04246448424953675,
+  "shift": [
+    0,
+    -1
+  ]
+}
