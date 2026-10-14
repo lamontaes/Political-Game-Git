@@ -1,0 +1,1297 @@
+{
+  "id": "batch-10",
+  "title": "Scene batch batch-10 (30 scenes)",
+  "at": "2026-10-14T19:39:10.190Z",
+  "head": "48af9e96638958f035775c49ca7ec11b95692533",
+  "shortHead": "48af9e966",
+  "seed": "batch-10",
+  "days": 365,
+  "status": "open",
+  "place": {
+    "name": "Plainfield, Vermont",
+    "key": "5055750",
+    "seed": "4c049093b212897d84033ff06e1936e958b2e6ea312f4199c59ae87e684b77f7",
+    "passed": [
+      "2026-1 (\"Paid family leave\")",
+      "2026-2 (\"Rent stabilization\")",
+      "2026-3 (\"Inclusionary requirement\")",
+      "2026-4 (\"Right to counsel in eviction\")",
+      "2026-5 (\"Civilian oversight of police\")",
+      "H.R. 1 (\"Balanced operating budget\")",
+      "S. 1 (\"Minimum reserve balance\")",
+      "S. 2 (\"Fund pensions to schedule\")",
+      "H.R. 3 (\"Restrict abortion\")",
+      "H.R. 4 (\"Ban lobbying after office\")",
+      "2027-1 (\"2027-1\")",
+      "2027-1 (\"2027-1\")",
+      "H.R. 21 (\"H.R. 21\")"
+    ],
+    "tried": []
+  },
+  "kinds": {
+    "journal": 3,
+    "conversation": 5,
+    "meeting": 5,
+    "hearing": 2,
+    "minutes": 2,
+    "legislation": 3,
+    "notices": 2,
+    "campaign": 2,
+    "emotion": 4,
+    "interview": 2
+  },
+  "screened": {
+    "rejected": 7,
+    "byGrades": {
+      "lines": 7,
+      "alternatives": 22,
+      "ungrammatical": 0
+    },
+    "rejections": [
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Madam Chair, may I inquire as to how much time is remaining."
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Madam Chair, I was unavoidably detained."
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      }
+    ]
+  },
+  "stoodIn": [
+    "Plainfield: 1 decided races, office levels federal/state/township/county;  bills and roll calls are the legislature module's own rows (54 local bills, 12421 recorded votes); interviews are the press module's"
+  ],
+  "gaps": [
+    "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
+    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet."
+  ],
+  "items": [
+    {
+      "i": 0,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Carson Harrison, chapter \"Plainfield, Vermont\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 3, 2026",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:176538:board:0:2026-11-03",
+        "kinship_4c5952c4a223855f:past:person_37e0fda70e53175f",
+        "election-result:contest:seat:gus2025:176538:board:2:2026-11-03",
+        "kinship_4c5951c4a22383ac:past:person_37e0fda70e53175f"
+      ],
+      "lines": [
+        {
+          "speaker": "Carson Harrison",
+          "text": "My mother lost. I never knew.",
+          "parts": ["journal.election-other-result.other-lost"]
+        },
+        {
+          "speaker": "Carson Harrison",
+          "text": "My father won. That was a turning point.",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 1,
+        "axis": "formality",
+        "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.ill-never-forget-that"],
+          "text": "My father won. I'll never forget that."
+        }
+      ],
+      "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+    },
+    {
+      "i": 1,
+      "kind": "conversation",
+      "scene": "Carson Harrison talks with Barbara Harrison, day 1, turn 1.",
+      "trace": [
+        "The replies are the four the engine offers this turn, ranked by Carson Harrison's traits (conversation.reply-reach: leans toward carrying the talk on, 0.15).",
+        "The lies are what the scales offer: the same moves made false about the player's own record.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": ["person_37e0fda70e53175f", "person_58546ce1d50beba3"],
+      "lines": [
+        {
+          "speaker": "Barbara Harrison",
+          "text": "Good to see you, Carson.",
+          "parts": ["conversation.greet-open-hello.good-to-see-you-name"]
+        },
+        {
+          "speaker": "Barbara Harrison",
+          "text": "Where do you come from?",
+          "parts": ["conversation.home-new-ask-where.where-do-you-come-from"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "I grew up here.",
+          "parts": ["conversation.home-answer-always.i-grew-up-here"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I'm from Plainfield.",
+          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "Right here.",
+          "parts": ["conversation.home-new-answer-brief.right-here"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        },
+        {
+          "n": 5,
+          "text": "Not here.",
+          "parts": ["conversation.home-new-lie-none.not-here"],
+          "lie": true
+        }
+      ],
+      "parts": ["conversation.home-new-ask-where.where-do-you-come-from"]
+    },
+    {
+      "i": 2,
+      "kind": "meeting",
+      "scene": "The Town of Plainfield selectboard takes up 2026-1 (\"Paid family leave\"); the recorded result is enacted.",
+      "trace": [
+        "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16",
+        "person_4778b34f8ca46a54"
+      ],
+      "lines": [
+        {
+          "speaker": "Selena Chan (chair)",
+          "text": "The meeting will come to order.",
+          "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+        },
+        {
+          "speaker": "Selena Chan (chair)",
+          "text": "All in favor?",
+          "parts": ["address.chair-run-meeting.all-in-favor"]
+        },
+        {
+          "speaker": "Selena Chan (chair)",
+          "text": "The motion carries.",
+          "parts": ["address.chair-run-meeting.the-motion-carries"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.chair-run-meeting.please-state-your-name-for-the-record"
+          ],
+          "text": "Please state your name for the record."
+        }
+      ],
+      "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+    },
+    {
+      "i": 3,
+      "kind": "hearing",
+      "scene": "A hearing on 2026-1 (\"Paid family leave\") before the Town of Plainfield selectboard; the witness is Grace Chan, a resident.",
+      "trace": ["composeFromBank over data/english/parts/hearing.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16"
+      ],
+      "lines": [
+        {
+          "speaker": "Grace Chan (witness)",
+          "text": "Thank you.",
+          "parts": ["hearing.thanks.thank-you"]
+        },
+        {
+          "speaker": "Grace Chan (witness)",
+          "text": "That is a great question.",
+          "parts": ["hearing.answer.that-is-a-great-question"]
+        },
+        {
+          "speaker": "Selena Chan (chair)",
+          "text": "All right.",
+          "parts": ["hearing.chair-procedure.all-right"]
+        },
+        {
+          "speaker": "Grace Chan (witness)",
+          "text": "Very good.",
+          "parts": ["hearing.agree.very-good"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["hearing.thanks.thank-you"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["hearing.thanks.thank-you-sir"],
+          "text": "Thank you, sir."
+        }
+      ],
+      "parts": ["hearing.thanks.thank-you"]
+    },
+    {
+      "i": 4,
+      "kind": "minutes",
+      "scene": "The roll call on 2026-1 (\"Paid family leave\") before the Town of Plainfield selectboard: 2 for, 1 against; the bill enacted. Each name is read from a member's recorded vote.",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16"
+      ],
+      "lines": [
+        {
+          "speaker": "Town of Plainfield selectboard (minutes)",
+          "text": "Voting for this action: Selena Chan and Daniel Chavez.",
+          "parts": ["minutes.vote.voting-for-this-action-members"]
+        },
+        {
+          "speaker": "Town of Plainfield selectboard (minutes)",
+          "text": "Voting against this action: Jeffrey Mendoza.",
+          "parts": ["minutes.vote.voting-against-this-action-members"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.vote.voting-against-this-action-members"]
+    },
+    {
+      "i": 5,
+      "kind": "legislation",
+      "scene": "Its short title. 2026-1 (enacted), introduced October 27, 2026 before the Town of Plainfield selectboard: it adopts \"Paid family leave\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16"
+      ],
+      "lines": [
+        {
+          "speaker": "Town of Plainfield selectboard (bill text)",
+          "text": "This title may be cited as the \"Paid family leave\".",
+          "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
+    },
+    {
+      "i": 6,
+      "kind": "notices",
+      "scene": "A hearing notice for 2026-1, posted by the Town of Plainfield selectboard.",
+      "trace": ["composeFromBank over data/english/parts/notices.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16"
+      ],
+      "lines": [
+        {
+          "speaker": "Town of Plainfield selectboard clerk",
+          "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: \"Paid family leave\"\nDATE OF MEETING: October 27, 2026",
+          "parts": ["notice.hearing.public-hearing"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["notice.hearing.public-hearing"]
+    },
+    {
+      "i": 7,
+      "kind": "campaign",
+      "scene": "Richard Pearson speaks at a rally in Plainfield as a candidate for U.S. Representative.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["official:term:seat:US-VT:us-house:00:2026-10-12"],
+      "lines": [
+        {
+          "speaker": "Richard Pearson",
+          "text": "Thank you all for coming.",
+          "parts": ["address.campaign-thanks.thank-you-all-for-coming"]
+        },
+        {
+          "speaker": "Richard Pearson",
+          "text": "I grew up in Plainfield.",
+          "parts": ["address.campaign-self.i-grew-up-in-place"]
+        },
+        {
+          "speaker": "Richard Pearson",
+          "text": "Get out and vote.",
+          "parts": ["address.campaign-ask.get-out-and-vote"]
+        },
+        {
+          "speaker": "Richard Pearson",
+          "text": "Thank you all.",
+          "parts": ["address.campaign-close.thank-you-all"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 3,
+        "axis": "word choice",
+        "parts": ["address.campaign-close.thank-you-all"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.state-floor-close.thank-you"],
+          "text": "Thank you."
+        }
+      ],
+      "parts": ["address.campaign-close.thank-you-all"]
+    },
+    {
+      "i": 8,
+      "kind": "emotion",
+      "scene": "Selena Chan won the race for Selectboard member against Heather Harrison (the voting module's recorded result) and speaks on election night.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register victory, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_4778b34f8ca46a54"],
+      "lines": [
+        {
+          "speaker": "Selena Chan",
+          "text": "I am humbled.",
+          "parts": ["address.victory-claim.i-am-humbled"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["address.victory-claim.i-am-humbled"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.victory-claim.im-grateful"],
+          "text": "I'm grateful."
+        }
+      ],
+      "parts": ["address.victory-claim.i-am-humbled"]
+    },
+    {
+      "i": 9,
+      "kind": "interview",
+      "scene": "A local reporter's interview of Ashley Moss (a candidate in Plainfield, 2026-10-19); asked about \"Stand your ground\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:0:national:filing:contest:seat:US-VT:governor:2026-11-03:official:term:seat:US-VT:governor:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-VT:governor:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Ashley Moss",
+          "text": "That's a promise.",
+          "parts": ["interview.official-commit.thats-a-promise"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["interview.official-commit.thats-a-promise"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.i-will"],
+          "text": "I will."
+        }
+      ],
+      "parts": ["interview.official-commit.thats-a-promise"]
+    },
+    {
+      "i": 10,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Stephen Harrison, chapter \"Plainfield, Vermont\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:176538:board:0:2026-11-03",
+        "partnership_4a80263d6012f849:past:person_37e0fea70e531912"
+      ],
+      "lines": [
+        {
+          "speaker": "Stephen Harrison",
+          "text": "Heather won. Little did I know.",
+          "parts": ["journal.memoir-hook.little-did-i-know"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["journal.memoir-hook.little-did-i-know"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-didnt-know-at-the-time"],
+          "text": "Heather won. I didn't know at the time."
+        }
+      ],
+      "parts": ["journal.memoir-hook.little-did-i-know"]
+    },
+    {
+      "i": 11,
+      "kind": "conversation",
+      "scene": "Carson Harrison talks with Barbara Harrison, day 1, turn 2.",
+      "trace": [
+        "The replies are the four the engine offers this turn, ranked by Carson Harrison's traits (conversation.reply-reach: leans toward carrying the talk on, 0.15).",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": ["person_37e0fda70e53175f", "person_58546ce1d50beba3"],
+      "lines": [
+        {
+          "speaker": "Carson Harrison",
+          "text": "Not here.",
+          "parts": ["conversation.home-new-lie-none.not-here"]
+        },
+        {
+          "speaker": "Barbara Harrison",
+          "text": "Yeah.",
+          "parts": ["conversation.shared-school-answer-brief.yeah"]
+        },
+        {
+          "speaker": "Barbara Harrison",
+          "text": "How is your mother?",
+          "parts": ["conversation.family-ask-how.how-is-relation"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Good.",
+          "parts": ["conversation.family-answer-well.good"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "Thanks for asking.",
+          "parts": ["conversation.family-answer-thanks.thanks-for-asking"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "Okay.",
+          "parts": ["conversation.greet-answer-fine.okay"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.family-ask-how.how-is-relation"]
+    },
+    {
+      "i": 12,
+      "kind": "meeting",
+      "scene": "A member of the Town of Plainfield selectboard speaks to the chair during 2026-1 (\"Paid family leave\").",
+      "trace": ["composeFromBank over data/english/parts/meeting.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16",
+        "person_4778b34f8ca46a54"
+      ],
+      "lines": [
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I thank the chair for the time.",
+          "parts": ["meeting.opener.i-thank-the-chair-for-the-time"]
+        },
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I have a motion to recommit at the desk.",
+          "parts": [
+            "meeting.procedural.i-have-a-motion-to-recommit-at-the-desk"
+          ]
+        },
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I hope my colleagues will join me in voting for the motion to recommit.",
+          "parts": [
+            "meeting.closer.i-hope-my-colleagues-will-join-me-in-voting-for-the-motion-to-recommit"
+          ]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["meeting.opener.i-thank-the-chair-for-the-time"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["meeting.opener.i-thank-the-chairman-for-yielding-me-time"],
+          "text": "Madam Chair, I thank the chairman for yielding me time."
+        }
+      ],
+      "parts": ["meeting.opener.i-thank-the-chair-for-the-time"]
+    },
+    {
+      "i": 13,
+      "kind": "hearing",
+      "scene": "A hearing on 2026-2 (\"Rent stabilization\") before the Town of Plainfield selectboard; the witness is Yasmin Mendoza, a resident.",
+      "trace": ["composeFromBank over data/english/parts/hearing.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:17"
+      ],
+      "lines": [
+        {
+          "speaker": "Yasmin Mendoza (witness)",
+          "text": "Thank you, Madam Chair.",
+          "parts": ["hearing.thanks.thank-you-madam-chair"]
+        },
+        {
+          "speaker": "Yasmin Mendoza (witness)",
+          "text": "Thank you for that question.",
+          "parts": ["hearing.answer.thank-you-for-that-question"]
+        },
+        {
+          "speaker": "Selena Chan (chair)",
+          "text": "Without objection, so ordered.",
+          "parts": ["hearing.chair-procedure.without-objection-so-ordered"]
+        },
+        {
+          "speaker": "Yasmin Mendoza (witness)",
+          "text": "I completely agree.",
+          "parts": ["hearing.agree.i-completely-agree"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["hearing.thanks.thank-you-madam-chair"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["hearing.thanks.thank-you-chair"],
+          "text": "Thank you, Chair."
+        }
+      ],
+      "parts": ["hearing.thanks.thank-you-madam-chair"]
+    },
+    {
+      "i": 14,
+      "kind": "minutes",
+      "scene": "The discussion of \"Paid family leave\" at the October 27, 2026 meeting (2026-1).",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16"
+      ],
+      "lines": [
+        {
+          "speaker": "Town of Plainfield selectboard (minutes)",
+          "text": "Participants discussed \"Paid family leave\".",
+          "parts": ["minutes.discussion.participants-discussed-topic"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.discussion.participants-discussed-topic"]
+    },
+    {
+      "i": 15,
+      "kind": "legislation",
+      "scene": "Its long title. 2026-1 (enacted), introduced October 27, 2026 before the Town of Plainfield selectboard: it adopts \"Paid family leave\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:16"
+      ],
+      "lines": [
+        {
+          "speaker": "Town of Plainfield selectboard (bill text)",
+          "text": "To provide for paid family leave, and for other purposes.",
+          "parts": [
+            "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+          ]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ]
+    },
+    {
+      "i": 16,
+      "kind": "notices",
+      "scene": "The notice of the November 7, 2028 election in Plainfield, from the contests the elections module holds.",
+      "trace": ["composeFromBank over data/english/parts/notices.json"],
+      "sourceRecordIds": [
+        "contest:seat:US:president:2028-11-07",
+        "contest:seat:US-VT:us-senate:0:2028-11-07",
+        "contest:seat:US-VT:governor:2028-11-07",
+        "contest:seat:US-VT:lieutenant-governor:2028-11-07",
+        "contest:seat:US-VT:attorney-general:2028-11-07",
+        "contest:seat:US-VT:secretary-of-state:2028-11-07",
+        "contest:seat:US-VT:treasurer:2028-11-07",
+        "contest:seat:US-VT:auditor:2028-11-07",
+        "contest:seat:US-VT:upper:WAS:0:2028-11-07",
+        "contest:seat:US-VT:upper:WAS:1:2028-11-07",
+        "contest:seat:US-VT:upper:WAS:2:2028-11-07",
+        "contest:seat:US-VT:lower:WA6:0:2028-11-07",
+        "contest:seat:US-VT:us-house:00:2028-11-07"
+      ],
+      "lines": [
+        {
+          "speaker": "Plainfield election office",
+          "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in Plainfield on November 7, 2028 for the following Officers: President, U.S. Senator, Governor, Lieutenant Governor, Attorney General, Secretary of State, Treasurer, Auditor of Accounts, State Senator, State Representative and U.S. Representative.",
+          "parts": ["notice.election.notice-of-election"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["notice.election.notice-of-election"]
+    },
+    {
+      "i": 17,
+      "kind": "campaign",
+      "scene": "Robert Saunders speaks at a rally in Plainfield as a candidate for Attorney General.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register campaign, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": [
+        "official:term:seat:US-VT:attorney-general:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Robert Saunders",
+          "text": "It's good to be back in Plainfield.",
+          "parts": ["address.campaign-thanks.its-good-to-be-back-in-place"]
+        },
+        {
+          "speaker": "Robert Saunders",
+          "text": "I was born and raised in Plainfield.",
+          "parts": ["address.campaign-self.i-was-born-and-raised-in-place"]
+        },
+        {
+          "speaker": "Robert Saunders",
+          "text": "Tell your friends.",
+          "parts": ["address.campaign-ask.tell-your-friends"]
+        },
+        {
+          "speaker": "Robert Saunders",
+          "text": "Thank you, and God bless.",
+          "parts": ["address.campaign-close.thank-you-and-god-bless"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 3,
+        "axis": "formality",
+        "parts": ["address.campaign-close.thank-you-and-god-bless"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": [
+            "address.campaign-close.god-bless-you-and-god-bless-america"
+          ],
+          "text": "God bless you, and God bless America."
+        }
+      ],
+      "parts": ["address.campaign-close.thank-you-and-god-bless"]
+    },
+    {
+      "i": 18,
+      "kind": "emotion",
+      "scene": "Heather Harrison lost the race for Selectboard member to Selena Chan (the voting module's recorded result) and concedes.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register concession, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_37e0ffa70e531ac5"],
+      "lines": [
+        {
+          "speaker": "Heather Harrison",
+          "text": "This is not the end.",
+          "parts": ["address.concession-concede.this-is-not-the-end"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["address.concession-concede.this-is-not-the-end"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.concession-concede.thank-you-for-everything"],
+          "text": "Thank you for everything."
+        }
+      ],
+      "parts": ["address.concession-concede.this-is-not-the-end"]
+    },
+    {
+      "i": 19,
+      "kind": "interview",
+      "scene": "A local reporter's interview of Richard Pearson (a candidate in Plainfield, 2026-10-19); asked about \"Graduated income tax\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:0:national:filing:contest:seat:US-VT:us-house:00:2026-11-03:official:term:seat:US-VT:us-house:00:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-VT:us-house:00:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Richard Pearson",
+          "text": "You have my word.",
+          "parts": ["interview.official-commit.you-have-my-word"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["interview.official-commit.you-have-my-word"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "text": "I'll do it."
+        }
+      ],
+      "parts": ["interview.official-commit.you-have-my-word"]
+    },
+    {
+      "i": 20,
+      "kind": "journal",
+      "scene": "The \"My life\" journal of Yasmin Mendoza, chapter \"Selectboard member\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated March 2, 2027"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:140639:board:1:2027-03-02",
+        "kinship_738def6bb19a4ad8:past:person_769af2e35a1e5663"
+      ],
+      "lines": [
+        {
+          "speaker": "Yasmin Mendoza",
+          "text": "My father got elected.",
+          "parts": ["journal.election-other-result.other-got-elected"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["journal.election-other-result.other-got-elected"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-was-elected"],
+          "text": "My father was elected."
+        }
+      ],
+      "parts": ["journal.election-other-result.other-got-elected"]
+    },
+    {
+      "i": 21,
+      "kind": "conversation",
+      "scene": "Carson Harrison talks with Karen Morales, day 4, turn 1.",
+      "trace": [
+        "The replies are the four the engine offers this turn, ranked by Carson Harrison's traits (conversation.reply-reach: leans toward carrying the talk on, 0.15).",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": ["person_37e0fda70e53175f", "person_c2c03d69b9090748"],
+      "lines": [
+        {
+          "speaker": "Karen Morales",
+          "text": "Hi.",
+          "parts": ["conversation.greet-open-hello.hi"]
+        },
+        {
+          "speaker": "Karen Morales",
+          "text": "How's Stephen doing?",
+          "parts": ["conversation.mutual-raise-seen.hows-first-doing"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "I talked to Stephen Harrison yesterday.",
+          "parts": [
+            "conversation.mutual-answer-mine-saw.i-talked-to-name-my-when"
+          ],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "No, I haven't.",
+          "parts": ["conversation.kin-reply-not.no-i-havent"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "Why?",
+          "parts": ["conversation.asked-mutual-answer-turn.why"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.mutual-raise-seen.hows-first-doing"]
+    },
+    {
+      "i": 22,
+      "kind": "meeting",
+      "scene": "A member of the Town of Plainfield selectboard speaks to the chair during 2026-3 (\"Inclusionary requirement\").",
+      "trace": ["composeFromBank over data/english/parts/meeting.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:18",
+        "person_4778b34f8ca46a54"
+      ],
+      "lines": [
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I rise today with a heavy heart.",
+          "parts": ["meeting.opener.i-rise-today-with-a-heavy-heart"]
+        },
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I have no further speakers.",
+          "parts": ["meeting.closer.i-have-no-further-speakers"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["meeting.opener.i-rise-today-with-a-heavy-heart"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "meeting.opener.i-rise-today-with-a-profound-sense-of-loss"
+          ],
+          "text": "Madam Chair, I rise today with a profound sense of loss."
+        }
+      ],
+      "parts": ["meeting.opener.i-rise-today-with-a-heavy-heart"]
+    },
+    {
+      "i": 23,
+      "kind": "legislation",
+      "scene": "Its short title. 2026-2 (enacted), introduced October 27, 2026 before the Town of Plainfield selectboard: it adopts \"Rent stabilization\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:17"
+      ],
+      "lines": [
+        {
+          "speaker": "Town of Plainfield selectboard (bill text)",
+          "text": "This Act may be cited as the \"Rent stabilization\".",
+          "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
+    },
+    {
+      "i": 24,
+      "kind": "emotion",
+      "scene": "Jeffrey Mendoza honors Selena Chan, a fellow sitting official, on the floor.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_4778b34f8ca46a54"],
+      "lines": [
+        {
+          "speaker": "Jeffrey Mendoza",
+          "text": "Madam Speaker, I rise today to celebrate Selena Chan.",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+          ]
+        },
+        {
+          "speaker": "Jeffrey Mendoza",
+          "text": "Please join me in congratulating Selena Chan.",
+          "parts": [
+            "address.house-floor-tribute-close.please-join-me-in-congratulating-name"
+          ]
+        },
+        {
+          "speaker": "Jeffrey Mendoza",
+          "text": "Madam Speaker, I yield back the balance of my time.",
+          "parts": [
+            "address.house-floor-yield.madam-speaker-i-yield-back-the-balance-of-my-tim"
+          ]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": [
+          "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+        ]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name"
+          ],
+          "text": "Madam Speaker, I rise to honor Selena Chan."
+        }
+      ],
+      "parts": [
+        "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name"
+      ]
+    },
+    {
+      "i": 25,
+      "kind": "conversation",
+      "scene": "Carson Harrison talks with Heather Harrison, day 5, turn 1.",
+      "trace": [
+        "The replies are the four the engine offers this turn, ranked by Carson Harrison's traits (conversation.reply-reach: leans toward carrying the talk on, 0.15).",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": ["person_37e0fda70e53175f", "person_37e0ffa70e531ac5"],
+      "lines": [
+        {
+          "speaker": "Heather Harrison",
+          "text": "Hi there.",
+          "parts": ["conversation.greet-open-hello.hi-there"]
+        },
+        {
+          "speaker": "Heather Harrison",
+          "text": "I'm working for County of Washington treasury.",
+          "parts": ["conversation.own-work-raise-tell.im-working-for-employer"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Oh, County of Washington treasury.",
+          "parts": ["conversation.other-work-answer-ack.oh-employer"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "Right.",
+          "parts": ["conversation.home-reply-answer-brief.right"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "How long have you been there?",
+          "parts": [
+            "conversation.other-work-answer-tenure.how-long-have-you-been-there"
+          ],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.own-work-raise-tell.im-working-for-employer"]
+    },
+    {
+      "i": 26,
+      "kind": "meeting",
+      "scene": "A member of the Town of Plainfield selectboard speaks to the chair during 2026-4 (\"Right to counsel in eviction\").",
+      "trace": ["composeFromBank over data/english/parts/meeting.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:140639:board:2026-10-27:person_4778b34f8ca46a54:19",
+        "person_4778b34f8ca46a54"
+      ],
+      "lines": [
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I rise today to honor the life of a true public servant.",
+          "parts": [
+            "meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant"
+          ]
+        },
+        {
+          "speaker": "Selena Chan (member)",
+          "text": "Madam Chair, I will be brief.",
+          "parts": ["meeting.closer.i-will-be-brief"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": [
+          "meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant"
+        ]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "meeting.opener.i-thank-the-vice-chair-of-the-committee-for-yielding"
+          ],
+          "text": "Madam Chair, I thank the vice chair of the committee for yielding."
+        }
+      ],
+      "parts": [
+        "meeting.opener.i-rise-today-to-honor-the-life-of-a-true-public-servant"
+      ]
+    },
+    {
+      "i": 27,
+      "kind": "emotion",
+      "scene": "Sasha Flynn honors Daniel Chavez, a fellow sitting official, on the floor.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register house-honor, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_cd744085882767a9"],
+      "lines": [
+        {
+          "speaker": "Sasha Flynn",
+          "text": "Mr. Speaker, I rise to recognize Daniel Chavez.",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-to-recognize-name"
+          ]
+        },
+        {
+          "speaker": "Sasha Flynn",
+          "text": "Daniel Chavez worked at Plainfield Market for 5 years.",
+          "parts": [
+            "address.house-floor-tribute-story.name-worked-at-employer-for-years-years"
+          ]
+        },
+        {
+          "speaker": "Sasha Flynn",
+          "text": "Congratulations, Daniel Chavez.",
+          "parts": ["address.house-floor-tribute-close.congratulations-name"]
+        },
+        {
+          "speaker": "Sasha Flynn",
+          "text": "I yield back the balance of my time.",
+          "parts": [
+            "address.house-floor-yield.i-yield-back-the-balance-of-my-time"
+          ]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": [
+          "address.house-floor-address-chair.mr-speaker-i-rise-to-recognize-name"
+        ]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.house-floor-address-chair.mr-speaker-i-rise-today-to-celebrate-name"
+          ],
+          "text": "Mr. Speaker, I rise today to celebrate Daniel Chavez."
+        }
+      ],
+      "parts": [
+        "address.house-floor-address-chair.mr-speaker-i-rise-to-recognize-name"
+      ]
+    },
+    {
+      "i": 28,
+      "kind": "conversation",
+      "scene": "Carson Harrison talks with Jack Walter, day 11, turn 1.",
+      "trace": [
+        "The replies are the four the engine offers this turn, ranked by Carson Harrison's traits (conversation.reply-reach: leans toward carrying the talk on, 0.15).",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": ["person_37e0fda70e53175f", "person_2a2c61eae84014a9"],
+      "lines": [
+        {
+          "speaker": "Jack Walter",
+          "text": "Hello, Carson.",
+          "parts": ["conversation.greet-open-hello.hello-name"]
+        },
+        {
+          "speaker": "Jack Walter",
+          "text": "You remember Twinfield Union School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.you-remember-school"
+          ]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Of course.",
+          "parts": ["conversation.shared-school-answer-plain.of-course"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "That was a while ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-while-ago"
+          ],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "Yes, I remember.",
+          "parts": ["conversation.shared-school-answer-plain.yes-i-remember"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "Yes, I do.",
+          "parts": ["conversation.shared-school-answer-turn.yes-i-do"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.shared-school-ask-remember.you-remember-school"]
+    },
+    {
+      "i": 29,
+      "kind": "meeting",
+      "scene": "Stephen Harrison speaks in the public comment period of a Plainfield council meeting.",
+      "trace": [
+        "composeAddress (src/presentation/english-composition.ts), register public-comment, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_37e0fea70e531912"],
+      "lines": [
+        {
+          "speaker": "Stephen Harrison",
+          "text": "Good evening.",
+          "parts": ["address.public-comment-greet.good-evening"]
+        },
+        {
+          "speaker": "Stephen Harrison",
+          "text": "My name is Stephen Harrison, and I live in Plainfield.",
+          "parts": [
+            "address.public-comment-name.my-name-is-name-and-i-live-in-place"
+          ]
+        },
+        {
+          "speaker": "Stephen Harrison",
+          "text": "That's all I have.",
+          "parts": ["address.public-comment-close.thats-all-i-have"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["address.public-comment-greet.good-evening"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.public-comment-greet.good-evening-everyone"],
+          "text": "Good evening, everyone."
+        }
+      ],
+      "parts": ["address.public-comment-greet.good-evening"]
+    }
+  ]
+}
