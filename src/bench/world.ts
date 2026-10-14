@@ -44,7 +44,6 @@ import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
 import { initialFocusPeople } from "../core2/focus";
-import { withCountedVoterGroups } from "../core2/opening-voter-groups";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -266,10 +265,8 @@ function* benchWorldStages(
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideDemand(
-      withCountedVoterGroups(
-        withWorldEconomy(
-          collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
-        ),
+      withWorldEconomy(
+        collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
       ),
       settings,
     );

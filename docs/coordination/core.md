@@ -9,6 +9,8 @@ Only OPUS-CORE writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 ## What the owner can play now
 
+New on `core/wiring-office-and-husks` (PR #4167, Oct 14): when someone in town goes to the town office about a cause, a staff member answers within a week, and the player reads it in that person's journal ("I heard back from County of Jefferson."). Relatives who live out of town no longer act in town. Cause groups spend their donations on ads, and the people the ads reach change their minds and hear about it in the news. People the player meets later have health, and a capable 22-year-old can now be appointed to a town post.
+
 In the evening build (PLAY's bench on the core): children go to school on school days, and a game year with every engine runs in about a minute (Woodmere, New York: 56 s this morning; Election Day no longer stalls). Businesses mostly stay open over a year, a sales tax collects on every purchase, and older people claim Social Security. The rest of the town is born, dies and moves. Counted voters start at their county's 2024 lean and their town's citizen share. Not visible until PLAY's opening uses the core's steps (Needs): the public school district and its teachers, private-school families, and the representative sample of the town. Saves in the base world load from a snapshot (a played year: about 11 s instead of 29). The full game loads by replay until each team marks its engines' state as saved.
 
 ## Checklist
@@ -39,6 +41,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Standing duty.** Review other pillars' core requests on its PR within the day.
   - Verified by: Requests answered in its status file.
   - Needs: All
+- [x] **Stress audit, Oct 14 (branch `core/wiring-office-and-husks`).** From `docs/reports/stress-audit-2026-10-14/README.md` (PR #4160): defects 1 (the town office answers), 17 (husks sit idle; offers read where a person lives), 2 (cause groups spend what they raise), 20 (people filled in later get health records), 21 (one faded closeness read) and 24 (appointment qualification from the parameter table, no age cutoff).
+  - Verified by: one year of the played world (`buildBenchWorld`, every module, a seed I did not choose) naming each read by record id, in the PR body; the golden-path runner with no new regression.
+  - Not editing this round (gov/wiring-votes-and-views owns them): `views.ts`, `legislature.ts`, `interest-groups.ts`, `candidacy.ts`, `outcome-web.ts`, `jobs-benefits.ts`.
+  - Done Oct 14 (PR #4167): a year in Lipscomb, Alabama (seed from the clock) shows each read by record id in the PR body. Sub-agents: two Sonnet, one for health fill-in (`giveHealthRecord`), one for appointments; both reviewed and merged. Open: three chooser tests in `life.test.ts` and one in `drives.test.ts` fail on main too; I'm fixing the chooser ones next.
+- [ ] **Money stress audit, Oct 14 (CTO; `docs/reports/stress-audit-money-2026-10-14/README.md`, PR #4162).** (a) Defect 9: officials outside the town hold their office as a paid job, paid from the matching treasury on the journal. (b) Defect 6: a person's cash at death passes to their household or nearest kin, or to the state by the escheat law row. (d) Defect 3: the dollar test (M0-08) runs the played world with every module and bounds what the outside may be owed. Item (c), defect 10, moved to core/one-model-two-tiers, which now owns `residents.ts`, the electorate, the counted side of moves and the fill-in path.
+  - Verified by: each item's record ids in a played year, in the PR body; for (d), what the test now rejects on main.
 
 ## Requests to the core (answered here)
 
@@ -129,7 +137,7 @@ Facade **core2-api-v20**. What changes behavior for engines built on the core:
 
 - **OPUS-WORLD: business names that match what the business is.** `src/simulation/living-world/town-employment.ts:283` builds each retail outlet as a general store (cashiers, sales associates, stockers) and sells it food and clothing, but draws its name from a pool that includes "<family> Hardware" and "<family>'s Grocery". The professional firm employs accountants, an attorney and an engineer, but can be named "<family> Law Office" or "<family> Accounting". In Wood Lake, Nebraska (seed `pr-body-oct12`), Pollard Hardware was the town's largest seller of food. The money is right for what the firms are; the names aren't. Either name the pools after the firm's actual roles (Market, Mercantile, General Store; "<family> and Associates", Professional Services), or build hardware, grocery, law and accounting as their own kinds with their own staff and purchase kinds. Then I'll add their purchase kinds to the opening crosswalk (`src/core2/data/opening-finance.json`, today classification-only under `SG-P8-opening-finance-bindings`).
 - **CTO: research rows I didn't apply (flags from my sub-agent's pass on `stand-in-figures-2026-10-12`).**
-  - `stressBaseline` 0.25 → 0.4 (PSS-10 15.8/40): it changes life choices (a life test flips from paid work to rest), and it's valid only if stress means PSS/40. I need your or the owner's call before re-tuning.
+  - `stressBaseline` 0.25 → 0.4 (PSS-10 score 15.8 of 40): it changes life choices (a life test flips from paid work to rest), and it's valid only if stress means PSS/40. I need your or the owner's call before re-tuning.
   - `moodBaseline` 0.29: low confidence; 0 is right if mood is a deviation from each person's own set point (it is).
   - `relationContactGain` 0.01: derived, and against the owner's Sept 22 ruling on universal rates.
   - Benefit factor minimum and maximum 0.33/1.88: different units (they clamp covered months ÷ 420, not benefit ratios).
