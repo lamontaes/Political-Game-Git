@@ -34,7 +34,7 @@ export interface SelfChosenAnswer {
   offerId: string;
   actionId: string;
   targetId: string;
-  why: "skipping" | "finishing-day-before-switch";
+  why: "advancing" | "finishing-day-before-switch";
 }
 
 /**
@@ -158,7 +158,7 @@ export class BenchPlayer {
     if (this.pollingPlace)
       throw new Error("Vote or leave the polling place first.");
     const pending = this.packet && this.packet.kind !== "complete";
-    if (pending && !(mode === "skip" && this.packet!.kind === "choice"))
+    if (pending && this.packet!.kind !== "choice")
       throw new Error("Answer the open choice or stop first.");
     const at = this.packet?.at ?? {
       date: addDays(makeIsoDate(this.core.date), 1),
@@ -237,11 +237,11 @@ export class BenchPlayer {
         this.clockBound = true;
         continue;
       }
-      // While skipping, the character answers its own choices with the
-      // core's selection; only a stop (a big moment, a fixed commitment or a
-      // deadline) ends the skip, at that stop's own time.
-      if (packet.kind === "choice" && skipping) {
-        packet = this.answerForSelf(packet, "skipping");
+      // Day never opens a choice list (owner, Oct 14, 2026): the character
+      // answers its own choices with the core's selection, and only a stop
+      // (a director scene, a fixed commitment or a deadline) ends the advance.
+      if (packet.kind === "choice") {
+        packet = this.answerForSelf(packet, "advancing");
         continue;
       }
       // A routine shift the character attends on its own never stops a
