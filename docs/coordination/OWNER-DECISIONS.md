@@ -5,8 +5,8 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 ## Open
 
 - **A player who loses an election (player-path audit, Oct 14).** CTO ruling pending the owner: a loser can speak at a public meeting from the podium (the September 29 meetings ruling) and ask a council member they know to carry a bill (the constituent path), both through the existing conversation; no new control. Confirm or change.
-- **The player's own hand in unrest (movements proposal, Oct 14).** May the player order a crackdown on a march, or urge a crowd past peaceful protest, told without graphic detail?
 - **Unions and strikes:** early access or 1.0?
+- **Police and the National Guard as deciding bodies, and the war design:** when (the register already says war decisions stay strategic; the proposal asks only timing).
 
 - **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
