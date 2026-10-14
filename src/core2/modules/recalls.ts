@@ -176,22 +176,14 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     .moduleState(LAWS_MODULE_ID)
     .table("laws")
     .get(facts.lawId ?? "") as unknown as LawRowInput | undefined;
-  const measure = row?.terms?.enactedBy;
-  if (!row || typeof measure !== "string") return;
+  const billId = row?.terms?.enactedByBill;
+  if (!row || typeof billId !== "string") return;
   const rule = recallRule(api);
   if (!rule) return;
-  const bill = (
-    api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("bills")
-      .rows() as unknown as BillRow[]
-  ).find(
-    (b) =>
-      b.number === measure &&
-      b.provisions.some(
-        (p) => p.question === row.series || p.series === row.series,
-      ),
-  );
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
   if (!bill) return;
   const enacted = row.value === 1 ? 1 : -1;
   // Where the state's law lets a place recall only for cause (misconduct, a
@@ -409,7 +401,7 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   // The member's own vote on the law, from the record.
   const side =
     (
-      votesOn(api, billIdFor(api, law)) as unknown as {
+      votesOn(api, billIdFor(law)) as unknown as {
         memberId: string;
         vote: string;
       }[]
@@ -443,20 +435,9 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (removed) vacateSeat(api, recall.seatId, "recalled");
 }
 
-function billIdFor(api: CoreAPI, law: LawRowInput | undefined): string {
-  const measure = law?.terms?.enactedBy;
-  return (
-    (
-      api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .rows() as unknown as BillRow[]
-    ).find(
-      (b) =>
-        b.number === measure &&
-        b.provisions.some((p) => p.question === law?.series),
-    )?.id ?? ""
-  );
+function billIdFor(law: LawRowInput | undefined): string {
+  const billId = law?.terms?.enactedByBill;
+  return typeof billId === "string" ? billId : "";
 }
 
 export function recallsOf(api: CoreAPI): readonly RecallRow[] {
