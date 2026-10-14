@@ -1642,7 +1642,7 @@ export const HOUSING_MODULE: CoreModule = {
       scheduleReview(api);
     } else if (work.kind === "housing-foreclosure-sale") {
       const caseId = work.sourceRecordIds[0]!;
-      const removalAt = foreclosureSale(api, caseId, steps(api).usps);
+      const removalAt = foreclosureSale(api, caseId);
       if (removalAt)
         schedule(
           api,

@@ -184,11 +184,7 @@ function salePrice(api: CoreAPI, householdId: string): number {
  * writes off the rest, and removal follows the redemption period. Returns
  * the removal date, or null when the case ended.
  */
-export function foreclosureSale(
-  api: CoreAPI,
-  caseId: string,
-  usps: string,
-): string | null {
+export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   const c = core(api);
   const row = table(api, "foreclosures").get(caseId) as unknown as {
     id: string;
