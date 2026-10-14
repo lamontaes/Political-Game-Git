@@ -13,6 +13,7 @@ import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
 import { lifePlaceByKey } from "../simulation/life-places";
+import { addDays } from "../simulation/dates";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -30,6 +31,8 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
   let collapsed: CoreInput;
+  // A day this many days after the opening, whatever date the game starts on.
+  const daysIn = (days: number) => addDays(two.startedAt, days);
   beforeAll(() => {
     full = generatedOpening(place);
     // The game's opening keeps a representative sample full too.
@@ -100,7 +103,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("runs a month with every dollar balanced and the counts read back", () => {
     const core = createLifeCore(two);
     const opening = cash(two);
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, daysIn(31));
     let closing = 0,
       outside = 0;
     for (const row of core.people.values()) closing += row.liquidMinor;
@@ -162,7 +165,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("fills in a counted worker who matches the employer's books", () => {
     const core = createLifeCore(two);
-    advanceCore(core, "2021-01-15");
+    advanceCore(core, daysIn(14));
     const record = two.residents!.households.find((row) => row.jobs.length)!;
     const job = record.jobs[0]!;
     const before = residentCounts(core),
@@ -196,7 +199,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // Their working life is now their own: shifts, pay and cash.
     expect(residentsRuntime(core)!.wageFlowByJob.has(job.id)).toBe(false);
     const opening = cash(two);
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, daysIn(31));
     expect(core.work.lastAttendanceByJob.get(job.id)).toBeDefined();
     // Their shifts are scheduled; whether they go is their own choice.
     expect(core.work.totalsByJob.get(job.id)!.plannedMinutes).toBeGreaterThan(
@@ -213,7 +216,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("pays a filled-in retiree their own retirement income", () => {
     const core = createLifeCore(two);
-    advanceCore(core, "2021-01-05");
+    advanceCore(core, daysIn(4));
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
     );
@@ -244,7 +247,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // The pooled flows shrink by exactly what moved to the retiree.
     expect(pooled()).toBe(before);
     const cashBefore = core.people.get(retireeId)!.liquidMinor;
-    advanceCore(core, "2021-03-05");
+    advanceCore(core, daysIn(63));
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
@@ -304,7 +307,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("re-rates full and counted workers from today", () => {
     const core = createLifeCore(two),
       api = coreAPI(core);
-    advanceCore(core, "2021-01-10");
+    advanceCore(core, daysIn(9));
     const source = {
       tag: "SOURCED" as const,
       asOf: core.date,
@@ -338,7 +341,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
             flow.periodFactor!,
         ),
     );
-    advanceCore(core, "2021-01-31");
+    advanceCore(core, daysIn(30));
     const latest = core.work.lastAttendanceByJob.get(full.id);
     if (old && latest && latest.attendedMinutes > 0)
       expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
@@ -384,7 +387,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         ],
       },
     );
-    advanceCore(core, "2021-02-01");
+    advanceCore(core, daysIn(31));
     expect(sales).toBeGreaterThan(0);
     expect(counted).toBeGreaterThan(0);
     expect(core.organizations.get(treasury.id)!.liquidMinor).toBe(remitted);
