@@ -4,9 +4,22 @@ The CTO's only writer. Open questions block the release build (stopgap kind `own
 
 ## Open
 
-- **Seeing a business's books (business audit, Oct 14).** No player screen shows a business's sales, wages, profit, loan or owner; only a developer panel does. Should the owner of a business see its books, and should a player who meets a business see what a visitor would plausibly know? CTO recommendation: yes to both, as record data on the dossier, with the visitor's view limited to public facts (what it sells, who works there, open or closed). Stopgap kind `owner-decision`, registered by the WORLD session.
+- **Why money exists for the player (owner, Oct 14, open).** The owner wants money never to be a scoreboard: a basic rent or mortgage, maybe college debt, the ability to put money into a campaign, and a reason for money to exist that makes corruption a real temptation. He has not settled that reason. Build the basics (rent or mortgage, debt, self-funding a campaign) and register the rest as `owner-decision`.
 
-## Ruled, October 14, 2026
+## Ruled, October 14, 2026 (evening)
+
+- **Ballot measures:** in early access. The player's main interaction is voting on them (and campaigning for or against through the existing campaign paths); writing one is not for early access.
+- **Recalls:** in. Rare, from causes; the player as an officeholder can be recalled.
+- **Interest groups and corruption:** in. The player is approached (support with strings, a bribe with a real risk), but never through hard-coded situations. The engine's causes must be able to produce what real corruption cases, books and films show; real cases are stress tests of capability, never scripted scenarios.
+- **Constituent cases:** exist, but 95 to 99 out of 100 happen in the background; the few that reach the player are the ones their record makes theirs.
+- **Faith (the beliefs engine):** has a place. For some people it shapes votes and relationships, for some it is a view, for some it is surface; the weight is per person from their record. A player may lie about it privately (say they are religious when they are not), through the existing lie.
+- **Congress is in early access.** Same engines as every other level.
+- **The player's money:** a basic rent or mortgage, maybe college debt, money into one's own campaign; never a scoreboard (see Open).
+- **No game over.** When the player dies or steps away, a summary in the manner of Crusader Kings 3; continue as anyone in the world, keep watching the world, or start a new game. Dynasty play is in: an heir can "ride the wave of my movement" (the owner's long-standing example is RFK's Indianapolis speech).
+- **Wealthy families on day one:** generated, realistic, with real power (old money, media owners, developers), from the wealth tables; they appear as donors, employers and rivals. Fortunes also grow in play.
+- **Starting or buying a business:** 1.0, not early access. An owner sees the books.
+- **The economy must answer "what if":** a player should be able to test a sweeping change (the owner's example: government raises every public salary to a $70,000 base) and see whether private employers follow, through causes, not a script.
+- **Business and roles database:** private businesses may be simulated from a large calibrated database of business kinds and roles with real starting pay (public occupation and county business tables), moving with inflation and the economy; public institutions are full records; chains and tycoons emerge, no scripted chains, no real brands.
 
 - **Business taxes:** the employer's payroll tax share, unemployment insurance, profit tax and property tax on premises exist as money flows read from the law in force, adjustable by legislation, with no step for the player.
 - **Costs that leave town:** recorded, and paid to a business in town where one sells the goods, else to the outside account as such.
