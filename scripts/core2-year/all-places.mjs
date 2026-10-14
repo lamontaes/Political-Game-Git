@@ -99,6 +99,13 @@ async function lane() {
     console.log(
       `${result.crash ? "CRASH" : "done "} ${result.place} (${result.state}, seed ${job.seed})`,
     );
+    if (result.crash)
+      console.log(
+        `  ${result.crash.date ?? "build"}: ${result.crash.stack ?? result.crash.message}`
+          .split("\n")
+          .slice(0, 8)
+          .join("\n  "),
+      );
   }
 }
 await Promise.all(Array.from({ length: Math.max(1, workers) }, lane));
