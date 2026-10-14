@@ -742,12 +742,37 @@ export function monthlyIncome(
   let daily = 0;
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && members.has(job.personId))
-      // A lender counts pay that arrives: the job's wage times the share of its due pay actually paid.
-      daily += job.wageDailyMinor * paidShare(c, job.personId, job.id);
+      // A lender counts pay that arrives: what the job actually earned from
+      // the hours worked, times the share of its due pay actually paid.
+      daily += earnedDaily(api, job) * paidShare(c, job.personId, job.id);
   return (
     (daily * api.parameter("jobsDaysPerYear")) /
     api.parameter("macroMonthsPerYear")
   );
+}
+
+/**
+ * What a job earns a day from the hours actually worked (business audit
+ * row 20): its work ledger's earnings over the days it has run in play. A
+ * job with less than creditIncomeRecordDays of record reads its wage rate.
+ */
+function earnedDaily(
+  api: CoreAPI,
+  job: { id: string; personId: string; wageDailyMinor: number },
+): number {
+  const c = core(api);
+  for (const id of c.work.commitmentsByPerson.get(job.personId) ?? []) {
+    const commitment = c.work.commitments.get(id);
+    if (!commitment || commitment.jobId !== job.id) continue;
+    const ledger = c.work.payrollLedgerByCommitment.get(id);
+    if (!ledger) break;
+    const since =
+      commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
+    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    if (days < api.parameter("creditIncomeRecordDays")) break;
+    return ledger.earnedMinor / days;
+  }
+  return job.wageDailyMinor;
 }
 
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
