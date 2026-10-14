@@ -719,8 +719,11 @@ function readWorld(place: Place): {
   const filings = (
     api.moduleState("core2-elections-v1").table("filings").rows() as any[]
   ).filter((f) => f.status === "on-ballot");
+  // Every contest, decided ones too: a past race's filing still names its office.
   const contestOf = new Map<string, any>(
-    contests.map((c) => [c.id as string, c]),
+    (
+      api.moduleState("core2-elections-v1").table("contests").rows() as any[]
+    ).map((c) => [c.id as string, c]),
   );
   const turns: {
     register: string;
@@ -798,10 +801,31 @@ function readWorld(place: Place): {
     );
 
   for (const turn of turns) {
+    // A race's words name its office; one with no office on record is not
+    // said ("a candidate for undefined", owner, batch 9).
+    if (
+      ["campaign", "victory", "concession"].includes(turn.register) &&
+      !turn.office
+    )
+      continue;
     const facts = factsOf(turn.personId, turn.opponentId);
     if (turn.office)
       facts.office = { text: turn.office, sourceRecordIds: [turn.personId] };
     if (turn.won) facts.won = { text: "yes", sourceRecordIds: [turn.personId] };
+    // A congratulation says what the person did, never where they were born
+    // (owner, batch 9): their years at their work, from its opening record.
+    if (turn.register === "house-honor") {
+      delete facts.place;
+      const opened = (personOf(turn.personId)?.pastFacts ?? []).find(
+        (fact: any) => fact.kind === "work:opening",
+      );
+      const years = opened
+        ? Number(core.date.slice(0, 4)) -
+          Number(String(opened.date).slice(0, 4))
+        : 0;
+      if (years > 1)
+        facts.years = { text: String(years), sourceRecordIds: [opened.id] };
+    }
     const row = personOf(turn.personId);
     const termOf = terms.find(
       (t) =>

@@ -48,6 +48,7 @@ export type Rule =
   | "institution-part"
   | "institution-event"
   | "bare-command-title"
+  | "policy-name-said"
   | "repeated-opener"
   | "repeated-closer"
   | "repeated-shape"
@@ -229,6 +230,16 @@ export function grammatical(text: string): boolean {
     .every((sentence) => !sentence || /^["“'(]?[\p{Lu}\d]/u.test(sentence));
 }
 
+/** The kinds that are spoken aloud, where a catalog name is never said. */
+const SPOKEN = new Set([
+  "interview",
+  "campaign",
+  "conversation",
+  "meeting",
+  "hearing",
+  "emotion",
+]);
+
 /** The reason a single line fails, or null. */
 export function lineProblem(line: GuardLine): Rule | null {
   if (line.parts.some((key) => SETTING_PART.test(key)))
@@ -261,6 +272,18 @@ export function lineProblem(line: GuardLine): Rule | null {
     )
   )
     return "institution-event";
+  // Nobody says a policy's catalog name aloud ("I'm committed to 'bottle
+  // deposit'"); people say their bill, what it does, or its moniker (owner,
+  // batch 9). Written forms (bill text, notices, minutes) carry the title.
+  if (
+    SPOKEN.has(line.kind) &&
+    (line.titles ?? []).some(
+      (title) =>
+        title.length > 2 &&
+        line.text.toLowerCase().includes(title.toLowerCase()),
+    )
+  )
+    return "policy-name-said";
   for (const title of line.titles ?? []) {
     if (!IMPERATIVE_LEAD(title)) continue;
     const at = line.text.toLowerCase().indexOf(title.toLowerCase());
