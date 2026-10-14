@@ -59,6 +59,9 @@ function countMonth(api: CoreAPI): void {
     publicRecord: true,
     news: true,
     facts: {
+      // The town's own count, for the press (its place may not be the
+      // town government's record place).
+      level: "town",
       homeless: `${homeless}`,
       previous: `${last.homeless}`,
       sheltered: `${counts.sheltered}`,
