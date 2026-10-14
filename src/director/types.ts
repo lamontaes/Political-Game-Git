@@ -2,6 +2,7 @@
  * The story ledger: what the director keeps for each watched person
  * (docs/design/director-on-core2.md). Structure only; no player text.
  */
+import type { OpeningStory } from "./opening-story";
 import type { Parameter } from "../core2/parameters";
 import type { IsoDate, PersonId } from "../core2/types";
 import type { ScheduleEntry } from "./scheduling";
@@ -224,4 +225,22 @@ export interface Ledger {
   /** Open lies indexed by the deceived person and the fact they deny. */
   liesByLearner: Map<string, Set<string>>;
   stopgapHits: Set<string>;
+  /** The opening, the first scene: the President's address, that night's news, then home that evening. */
+  opening?: OpeningStory;
+  /** Each player's scene filter: the kinds of scene they allow to interrupt them. */
+  sceneFilters: Map<PersonId, SceneFilter>;
+}
+
+/**
+ * The player's interrupt setting (owner, Oct 14, 2026): which kinds of scene
+ * may stop the day, by situation type. The director's scheduling reads it
+ * whenever it decides a moment's outcome.
+ */
+export interface SceneFilter {
+  readonly id: string;
+  readonly personId: PersonId;
+  /** The situation-type keys allowed; every other kind becomes a journal line. */
+  readonly allowedKinds: readonly string[];
+  /** When the player set it. */
+  readonly setOn: IsoDate;
 }

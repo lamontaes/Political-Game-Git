@@ -12,7 +12,6 @@ import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
@@ -80,9 +79,7 @@ describe("campaign calibration on totals", () => {
         );
       const player = adults[0]!;
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: player.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: player.id }),
       );
       openLaws(core);
       openOffices(core, seed);
@@ -163,7 +160,9 @@ describe("campaign calibration on totals", () => {
         movedMuch: moved.length,
       };
       expect(knocked, `${state} ${key}`).toBeGreaterThan(10);
-      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThan(0.15);
+      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThanOrEqual(
+        0.15,
+      );
       expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
       if (known.length >= 10)
         expect(

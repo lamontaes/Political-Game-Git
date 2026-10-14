@@ -13,22 +13,64 @@
         <div id="people"></div>
       </div>
 
-      <section id="caption" class="panel corners" hidden>
-        <p id="caption-title"></p>
-        <h2 id="caption-names"></h2>
+      <!-- The opening: the President's speech box, then the night's news at home. -->
+      <section id="opening-box" class="panel chat" hidden>
+        <div class="who">
+          <div id="opening-bust" class="bust"></div>
+          <div>
+            <div id="opening-name" class="name"></div>
+            <div id="opening-role" class="role"></div>
+          </div>
+        </div>
+        <p id="opening-speech" class="speech"></p>
+      </section>
+      <!-- Who the camera passes, pointed out by name and office. -->
+      <div id="opening-point" class="panel" hidden>
+        <div id="opening-point-name" class="name"></div>
+        <div id="opening-point-role" class="role"></div>
+      </div>
+      <button id="news-surface" class="panel" type="button" hidden>
+        <span id="news-surface-label" class="label"></span>
+        <span id="news-surface-headline" class="prose"></span>
+      </button>
+      <section id="news-reader" class="panel" hidden>
+        <div class="news-reader-main">
+          <h2 id="news-reader-headline" class="heading"></h2>
+          <div id="news-reader-body"></div>
+        </div>
+        <div>
+          <div class="acts">
+            <button id="news-reader-close" class="action primary" type="button">
+              Close
+            </button>
+          </div>
+          <div id="news-reader-more"></div>
+        </div>
       </section>
 
-      <section id="front" class="panel corners">
-        <h1>Our Civic Duty</h1>
-        <label>Seed <input id="seed" /></label>
-        <label>Opening date <input id="date" type="date" readonly /></label>
-        <label
-          >Place <input id="place" list="places" placeholder="Random"
+      <section id="front" class="panel menu">
+        <h1 class="title">Our Civic Duty</h1>
+        <p class="sub">A life in American government.</p>
+        <button id="new-life" class="item" type="button">
+          <b>New game</b><span>Begin a life in a real place.</span>
+        </button>
+        <label class="field"
+          ><span class="label">Place</span>
+          <input id="place" list="places" placeholder="Random"
         /></label>
         <datalist id="places"></datalist>
-        <details id="custom">
-          <summary>Customize the world</summary>
-          <label
+        <div class="progress" hidden><span></span></div>
+        <p id="front-status" class="when" role="status"></p>
+        <button id="front-options" class="item" type="button">
+          <b>Options</b>
+        </button>
+        <div id="custom" class="dev-only">
+          <p class="label">Customize the world</p>
+          <label class="field">Seed <input id="seed" /></label>
+          <label class="field"
+            >Opening date <input id="date" type="date" readonly
+          /></label>
+          <label class="field"
             >Town size
             <input
               id="set-population"
@@ -38,7 +80,7 @@
               step="100"
               placeholder="Real"
           /></label>
-          <label
+          <label class="field"
             >Wages ×
             <input
               id="set-wages"
@@ -48,7 +90,7 @@
               step="0.05"
               placeholder="1"
           /></label>
-          <label
+          <label class="field"
             >Household cash ×
             <input
               id="set-cash"
@@ -58,7 +100,7 @@
               step="0.05"
               placeholder="1"
           /></label>
-          <label
+          <label class="field"
             >Outside demand ×
             <input
               id="set-demand"
@@ -68,7 +110,7 @@
               step="0.05"
               placeholder="1"
           /></label>
-          <label
+          <label class="field"
             >Lean (−1 left, +1 right)
             <input
               id="set-lean"
@@ -78,7 +120,7 @@
               step="0.05"
               placeholder="0"
           /></label>
-          <label
+          <label class="field"
             >Turnout ×
             <input
               id="set-turnout"
@@ -88,85 +130,256 @@
               step="0.05"
               placeholder="1"
           /></label>
-        </details>
-        <button id="new-life" class="primary" type="button">New life</button>
-        <div class="progress" hidden><span></span></div>
-        <p id="front-status" role="status"></p>
-        <p id="version" class="version"></p>
+        </div>
+        <p id="version" class="when version"></p>
       </section>
 
-      <nav id="tabs" hidden>
-        <button type="button" data-tab="politics">Politics</button>
-        <button type="button" data-tab="news">News</button>
-        <button type="button" data-tab="calendar">Calendar</button>
-        <button type="button" data-tab="journal">Journal</button>
-        <button type="button" data-tab="travel">Travel</button>
-      </nav>
-
-      <nav id="stack" hidden>
-        <button type="button" data-tab="people">People</button>
-        <button type="button" data-tab="who">Who you are</button>
-        <button type="button" data-tab="money">Money and property</button>
-        <button type="button" data-tab="jobs">Jobs and study</button>
-        <button type="button" data-tab="guide">Guide</button>
-        <button type="button" data-tab="options">Options</button>
-      </nav>
-
-      <section id="sheet" class="panel corners" hidden>
-        <button id="sheet-close" class="close" type="button" aria-label="Close">
-          ×
+      <nav id="menu" class="panel" hidden>
+        <h2 class="menu-title">Menu</h2>
+        <button type="button" class="nav-item" data-tab="calendar">
+          <span class="nl">Calendar</span
+          ><span class="nd">Today, what is next, and your time</span>
         </button>
-        <h2 id="sheet-title"></h2>
+        <button type="button" class="nav-item" data-tab="people">
+          <span class="nl">People</span
+          ><span class="nd">Who you know, and how</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="politics">
+          <span class="nl">Politics</span
+          ><span class="nd">Who governs where you are, at every level</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="news">
+          <span class="nl">News</span
+          ><span class="nd">Published public records</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="journal">
+          <span class="nl">Journal</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="who">
+          <span class="nl">Who you are</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="money">
+          <span class="nl">Money and property</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="jobs">
+          <span class="nl">Jobs and study</span
+          ><span class="nd">Work, school and training</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="travel">
+          <span class="nl">Travel</span
+          ><span class="nd">Where you are, where you can go</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="guide">
+          <span class="nl">Guide</span
+          ><span class="nd">What the words on the other screens mean</span>
+        </button>
+        <button type="button" class="nav-item" data-tab="options">
+          <span class="nl">Options</span>
+        </button>
+        <button
+          id="dev-mode"
+          type="button"
+          class="nav-item dev-only"
+          onclick="window.open('/dev')"
+        >
+          <span class="nl">Dev mode</span>
+        </button>
+      </nav>
+
+      <nav id="rings" hidden>
+        <button
+          type="button"
+          class="ring"
+          data-tab="journal"
+          aria-label="Journal"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M4 5h16v11H9l-5 4z" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="ring"
+          data-tab="calendar"
+          aria-label="Calendar"
+        >
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="5.5" width="16" height="14" rx="1" />
+            <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="ring"
+          data-tab="money"
+          aria-label="Money and property"
+        >
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 3.5v17M16 7.5c-.8-1.3-2.2-2-4-2-2.3 0-4 1.2-4 3s1.7 2.6 4 3.1 4 1.3 4 3.2-1.7 3.2-4 3.2c-1.9 0-3.4-.8-4.2-2.2"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="ring"
+          data-tab="politics"
+          aria-label="Politics"
+        >
+          <svg viewBox="0 0 24 24">
+            <path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8" />
+            <path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="ring"
+          data-tab="people"
+          aria-label="People"
+        >
+          <svg viewBox="0 0 24 24">
+            <circle cx="8.5" cy="8.5" r="3" />
+            <circle cx="16" cy="9" r="2.5" />
+            <path
+              d="M3 19c.6-3.4 2.8-5.2 5.5-5.2s4.9 1.8 5.5 5.2M14.5 14c2.6-.4 5 1.1 6 4.5"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="ring"
+          data-tab="travel"
+          aria-label="Travel"
+        >
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M3.5 6.5l5-2 7 2 5-2v13l-5 2-7-2-5 2zM8.5 4.5v13M15.5 6.5v13"
+            />
+          </svg>
+        </button>
+      </nav>
+
+      <section id="sheet" class="panel" hidden>
+        <header class="sheet-head">
+          <h2 id="sheet-title" class="heading"></h2>
+          <div class="acts">
+            <button id="sheet-close" class="action primary" type="button">
+              Close
+            </button>
+          </div>
+        </header>
+        <nav id="sheet-tabs" class="tabs"></nav>
         <div id="sheet-body"></div>
       </section>
 
-      <section id="choices" class="panel corners" hidden>
-        <div id="choice-list"></div>
+      <section id="choices" class="panel chat" hidden>
+        <div id="choice-list" class="replies"></div>
       </section>
 
-      <section id="talk" class="panel corners" hidden>
-        <button id="talk-lie" class="scales" type="button">
-          <img src="/ui/kit12/scales-level.svg" alt="" />
+      <section id="talk" class="panel chat" hidden>
+        <button id="talk-lie" class="lie-scales" type="button">
+          <svg class="level" viewBox="0 0 24 24">
+            <path d="M12 4.2v14.8M8 19h8M4.6 6.8h14.8" />
+            <circle cx="12" cy="4.6" r=".9" />
+            <path d="M4.6 6.8l-2.3 5.1h4.6zM19.4 6.8l-2.3 5.1h4.6z" />
+            <path
+              d="M2.3 11.9c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8M17.1 11.9c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8"
+            />
+          </svg>
+          <svg class="tipped" viewBox="0 0 24 24">
+            <path d="M12 4.2v14.8M8 19h8M4.9 8.7l14.2-4.2" />
+            <circle cx="12" cy="4.6" r=".9" />
+            <path d="M4.9 8.7l-2.3 5.1h4.6zM19.1 4.5l-2.3 5.1h4.6z" />
+            <path
+              d="M2.6 13.8c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8M16.8 9.6c.6 1.2 1.3 1.8 2.3 1.8s1.7-.6 2.3-1.8"
+            />
+          </svg>
         </button>
+        <div id="talk-who" class="who">
+          <div id="talk-bust" class="bust"></div>
+          <div>
+            <div id="talk-name" class="name"></div>
+            <div id="talk-role" class="role"></div>
+          </div>
+        </div>
         <ol id="talk-lines"></ol>
-        <div id="talk-choices"></div>
-        <button id="talk-leave" type="button">Leave</button>
+        <div id="talk-choices" class="replies"></div>
+        <div class="acts">
+          <button id="talk-leave" class="action" type="button">Leave</button>
+        </div>
       </section>
 
-      <section id="filing-overlay" class="panel corners" hidden>
-        <h2 id="filing-title"></h2>
+      <section id="filing-overlay" class="panel" hidden>
+        <h2 id="filing-title" class="name"></h2>
         <div id="filing-checks"></div>
         <div id="filing-platform"></div>
-        <label
-          >Party
+        <label class="row"
+          ><b>Party</b>
           <select id="filing-party"></select
         ></label>
       </section>
 
-      <section id="person" class="panel corners" hidden>
+      <section id="person" class="panel dossier" hidden>
         <img id="person-figure" alt="" />
-        <div>
-          <h2 id="person-name"></h2>
+        <div class="dossier-main">
+          <h2 id="person-name" class="heading"></h2>
+          <p id="person-role" class="role"></p>
           <div id="person-facts"></div>
-          <button id="person-talk" type="button">Talk</button>
-          <button id="person-close" type="button">Close</button>
+          <div class="acts">
+            <button id="person-talk" class="action primary" type="button">
+              Talk
+            </button>
+            <button id="person-close" class="action" type="button">
+              Close
+            </button>
+          </div>
         </div>
       </section>
 
-      <section id="card" class="panel corners" hidden>
-        <h2 id="card-name"></h2>
-        <p id="card-place"></p>
-        <p id="card-clock"></p>
-        <p id="card-why"></p>
+      <section id="journal-note" class="panel journal" hidden>
+        <p class="label">Journal</p>
+        <p id="journal-line" class="prose"></p>
+      </section>
+
+      <section id="card" class="panel me" hidden>
+        <div id="card-bust" class="bust"></div>
+        <div>
+          <h2 id="card-name" class="name"></h2>
+          <p id="card-place" class="role"></p>
+          <p id="card-clock" class="when"></p>
+        </div>
         <div class="time">
-          <button id="day" type="button">Day</button>
-          <button id="week" type="button">Week</button>
-          <button id="skip" class="primary" type="button">Until needed</button>
-          <button id="continue" class="primary" type="button" hidden>
-            Continue
-          </button>
+          <p id="card-why" class="label"></p>
+          <div class="acts">
+            <button id="day" class="action primary" type="button">Day</button>
+            <button id="continue" class="action primary" type="button" hidden>
+              Continue
+            </button>
+          </div>
         </div>
       </section>
+
+      <aside id="tip" class="panel" hidden>
+        <p id="tip-term" class="label"></p>
+        <p id="tip-short" class="prose"></p>
+        <button id="tip-learned" class="action" type="button">
+          Mark as learned
+        </button>
+      </aside>
+
+      <button
+        id="dev-toggle"
+        class="ring dev-ring"
+        type="button"
+        aria-label="Customize the world"
+      >
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"
+          />
+        </svg>
+      </button>
     </main>
     <script type="module" src="play.mjs"></script>
   </body>

@@ -11,6 +11,7 @@ import { chooseAct } from "../choice";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
@@ -581,7 +582,7 @@ function reviewClosures(api: CoreAPI): void {
       monthlyCosts > 0 ? Math.max(0, -row.retainedMinor) / monthlyCosts : 0;
     // A firm based elsewhere weighs a branch's losses; it doesn't age out.
     const age = found
-      ? Number(c.date.slice(0, 4)) - Number(found.person.birthDate.slice(0, 4))
+      ? ageOnDate(makeIsoDate(found.person.birthDate), makeIsoDate(c.date))
       : p("jobsEarliestRetirementAge");
     const reasons = {
       baseline: p("businessCloseBaseline"),
@@ -605,6 +606,7 @@ function reviewClosures(api: CoreAPI): void {
           losses > 0
             ? businessData.reasons.losses
             : businessData.reasons.retiring,
+          reasons,
         );
     } else counted.push({ id: row.id, ownerId: row.ownerId, score, reasons });
   }
@@ -1512,14 +1514,8 @@ export const BUSINESS_MODULE: PreStartModule = {
         organizationId,
         ownerId: row.ownerId,
         date: c.date,
-        // A closure the owner chose carries its reason; any other is one the business couldn't pay its way out of.
-        cause:
-          (
-            store(api)
-              .table("choices")
-              .get(`choice:${organizationId}:${c.date}`) as
-              { reasonKey?: string } | undefined
-          )?.reasonKey ?? "could-not-pay",
+        // The closing choice's recorded reason (by choice, insolvent, owner retired, no successor).
+        ...(book?.closingReasonKey ? { cause: book.closingReasonKey } : {}),
         workersAffected: event.personIds.length,
         salesMinor: book?.salesReceivedMinor ?? 0,
         wagesMinor: book?.wagesPaidMinor ?? 0,
@@ -1535,8 +1531,17 @@ export const BUSINESS_MODULE: PreStartModule = {
         tag: "ESTIMATED",
         asOf: c.date,
         citation: businessData.source.citation,
-        estimatedFrom: `${organizationId} closed when it could not pay what it owed; its owner ${row.ownerId} answers for it.`,
+        estimatedFrom: `${organizationId} closed; its owner ${row.ownerId} answers for it.`,
       },
+      // The recorded reason rides on the event for the English engine to read.
+      ...(book?.closingReasonKey
+        ? {
+            facts: {
+              [`organization:${organizationId}:closing-reason`]:
+                book.closingReasonKey,
+            },
+          }
+        : {}),
       publicRecord: true,
       topic: organizationId,
     });
