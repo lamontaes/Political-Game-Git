@@ -11,12 +11,6 @@
     "citation": "A personal stake in an issue moves people to run (Lawless and Fox 2010, ch. 4; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Weight on the person's strongest recorded drive. Spread 1 to 3.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
-  "candidacyTemperamentWeight": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2.",
-    "stopgapId": "SG-P15-candidacy-weights"
-  },
   "candidacyTimeWeight": {
     "value": 1,
     "tag": "TUNABLE",

@@ -894,7 +894,7 @@ function foundings(api: CoreAPI): void {
         (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
       );
   const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
-  // Every trait's lean toward founding or opening over staying put.
+  // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
   const foundLean = (person: Pick<PersonState, "traits">) =>
     traitLeanBetween(
       c,
@@ -902,8 +902,6 @@ function foundings(api: CoreAPI): void {
       businessData.actions.found.actKinds,
       businessData.actions.notFound.actKinds,
     );
-  const traitPull = (personId: string) =>
-    foundLean(ownerPerson(c, personId)!.person);
   const ownerRows = store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[];
@@ -939,7 +937,6 @@ function foundings(api: CoreAPI): void {
         room:
           p("businessFoundRoomWeight") *
           (market.room * market.incumbents.length - 1),
-        traits: p("businessFoundTraitWeight") * traitPull(ownerId),
         books: p("businessExpandStrengthWeight") * grower.strength,
       }),
     ]);
@@ -976,7 +973,6 @@ function foundings(api: CoreAPI): void {
       foundOption(market.kindId, {
         baseline: p("businessFoundBaseline"),
         room: p("businessFoundRoomWeight") * gaps,
-        traits: p("businessFoundTraitWeight") * traitPull(person.id),
         lostWork: p("businessFoundUnemployedWeight") * unemployed,
         prospect:
           p("businessFoundProspectWeight") *
@@ -1015,7 +1011,7 @@ function foundings(api: CoreAPI): void {
         score:
           p("businessCountedFoundBaseline") +
           p("businessFoundRoomWeight") * gaps +
-          p("businessFoundTraitWeight") * foundLean(person) +
+          p("traitWeight") * foundLean(person) +
           p("businessFoundUnemployedWeight") *
             (seeker && !seeker.employed ? 1 : 0) +
           p("businessFoundProspectWeight") *
