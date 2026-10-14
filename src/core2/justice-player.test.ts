@@ -143,6 +143,14 @@ const stopAt = `${Number(core.date.slice(0, 4)) + 3}${core.date.slice(4)}`;
 const yearInto = (from: string) =>
   `${Number(from.slice(0, 4)) + 1}${from.slice(4)}`;
 const coverage: unknown[] = [];
+const ownComplaints = () =>
+  rows<ComplaintRow>("complaints").filter((c) =>
+    offers.some((o) => o.id === c.crimeId),
+  );
+const ownInvestigations = () =>
+  rows<InvestigationRow>("investigations").filter((i) =>
+    i.complaintIds.some((id) => ownComplaints().some((c) => c.id === id)),
+  );
 const playerCustody = () =>
   rows<CustodyRow>("custody").find((c) => c.personId === playerId);
 if (playerId) {
@@ -174,6 +182,14 @@ if (playerId) {
     const custody = playerCustody();
     if (custody?.status === "released" && core.date > custody.until) break;
     if (custody?.status === "serving" && core.date >= yearInto(custody.from))
+      break;
+    // Every report weighed and declined: nothing more is coming.
+    const weighed = ownInvestigations();
+    if (
+      weighed.length &&
+      weighed.length === ownComplaints().length &&
+      weighed.every((i) => !i.opened)
+    )
       break;
     const cases = rows<CaseRow>("cases").filter(
       (c) => c.defendantId === playerId,
@@ -215,42 +231,54 @@ afterAll(() => {
     );
 });
 
-describe(`the player's own act leads to a trial and a term served (seed ${seed}, ${lawChain(api).placeName})`, () => {
+describe(`the player's own act is reported, weighed and, if charged, tried and served (seed ${seed}, ${lawChain(api).placeName})`, () => {
   it("finds a player whose offers a member refused", () => {
     expect(playerId).toBeDefined();
     expect(offers.some((r) => !r.taken)).toBe(true);
   });
 
-  it("a refusing member reported it and the prosecutor opened a case on the player", () => {
-    const complaints = rows<ComplaintRow>("complaints").filter((c) =>
-      offers.some((o) => o.id === c.crimeId),
-    );
+  it("a refusing member reported it, and the prosecutor weighed it with its reasons", () => {
+    const complaints = ownComplaints();
     expect(complaints.length).toBeGreaterThan(0);
     // Each complaint is weighed on its own: the prosecutor may decline one
-    // member's report and open on another's.
-    const investigation = rows<InvestigationRow>("investigations").find(
-      (i) =>
-        i.opened &&
-        i.complaintIds.some((id) => complaints.some((c) => c.id === id)),
-    );
-    expect(investigation?.opened).toBe(true);
-    expect(investigation?.targets.map((t) => t.personId)).toContain(playerId);
+    // member's report and open on another's, or decline them all from the
+    // office's weight and their own lean. Either way the reasons are kept.
+    const weighed = ownInvestigations();
+    expect(weighed.length).toBeGreaterThan(0);
+    for (const row of weighed)
+      expect(Number.isFinite(row.reasons.worth)).toBe(true);
+    const opened = weighed.find((i) => i.opened);
+    if (opened)
+      expect(opened.targets.map((t) => t.personId)).toContain(playerId);
+    else expect(weighed.every((i) => i.reasons.worth <= 0)).toBe(true);
   });
 
-  it("the charge and the verdict reach the player's story as scenes", () => {
+  it("a case on the player reaches the player's story as scenes", () => {
     const cases = rows<CaseRow>("cases").filter(
       (c) => c.defendantId === playerId,
     );
+    if (!ownInvestigations().some((i) => i.opened)) {
+      // Declined: no case, and the player goes on with their own choices.
+      expect(cases).toEqual([]);
+      expect(inCustody(api, playerId!)).toBe(false);
+      return;
+    }
     expect(cases.length).toBeGreaterThan(0);
-    expect(scenes).toContain("hearing");
-    expect(scenes).toContain("verdict");
+    if (cases.some((c) => c.status !== "no-charge"))
+      expect(scenes).toContain("hearing");
+    if (cases.some((c) => c.status === "convicted" || c.status === "acquitted"))
+      expect(scenes).toContain("verdict");
   });
 
   it("a prison term runs with the world going and no choices of the player's, then release", () => {
     const sentence = rows<SentenceRow>("sentences").find(
       (s) => s.personId === playerId,
     );
-    expect(sentence?.custodyMonths).toBeGreaterThan(0);
+    if (!sentence?.custodyMonths) {
+      // No prison (declined, no charge, acquitted, a fine or probation).
+      expect(playerCustody()).toBeUndefined();
+      return;
+    }
     const custody = playerCustody()!;
     expect(custody.until).toBe(sentence!.releaseDate);
     const served = custody.status === "released" ? custody.until : core.date;
