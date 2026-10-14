@@ -597,7 +597,10 @@ export function setFlowPart(
   const amount = flow?.amountByContract?.[part];
   if (!flow || flow.endedAt || amount === undefined) return false;
   const next = Math.max(0, Math.round(amountMinor));
-  flow.amountByContract = { ...flow.amountByContract, [part]: next };
+  // The flow's own copy of its parts, made once and changed in place after (a rescale sets every part).
+  const parts = ownMap(flow.amountByContract!);
+  parts[part] = next;
+  flow.amountByContract = parts;
   flow.amountMinor = Math.max(0, flow.amountMinor - amount + next);
   return true;
 }

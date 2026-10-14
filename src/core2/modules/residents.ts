@@ -1337,7 +1337,6 @@ export function ownMap(
   return copy;
 }
 
-/** Remove counted jobs from their employers' wage flows (the worker is gone). */
 /** Every job these people hold: the opening's on their household's record and any they were hired into since (the jobs engine's hires live only in the runtime). */
 function jobsHeldBy(
   rt: ResidentsRuntime,
@@ -1354,6 +1353,7 @@ function jobsHeldBy(
   return ids;
 }
 
+/** Remove counted jobs from their employers' wage flows (the worker is gone). */
 function dropCountedJobs(rt: ResidentsRuntime, jobIds: ReadonlySet<string>) {
   if (!jobIds.size) return;
   for (const flow of rt.flows.values()) {
