@@ -303,6 +303,12 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
+    if (request.method === "GET" && url.pathname === "/api/version") {
+      // Source runs have no bundler define; the package's release number is the record.
+      const { version } = JSON.parse(await readFile("package.json", "utf8"));
+      send(200, { version });
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/api/places") {
       // Engineering list length for the place picker, not a model value.
       const rows = lifePlaceSearch(url.searchParams.get("q") ?? "", 8, {
