@@ -83,6 +83,6 @@ for (const death of deaths) {
     (k) => core.people.get(k)?.alive,
   ).length;
   console.log(
-    `  not yet settled: ${death.id}: cash now ${$(person?.liquidMinor ?? 0)}, ${kin} living kin, ${id.startsWith("official") ? "official" : "resident"}`,
+    `  not yet settled: ${death.id}: cash now ${$(person?.liquidMinor ?? 0)}, debts paid ${$(money.filter((m) => m.id.startsWith(`estate-debt:${id}:`)).reduce((n, m) => n + m.amountMinor, 0))}, ${kin} living kin, ${id.startsWith("official") ? "official" : "resident"}`,
   );
 }
