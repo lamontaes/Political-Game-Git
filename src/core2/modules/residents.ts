@@ -137,6 +137,8 @@ export interface ResidentsRuntime {
   outsideByPlace: Map<PlaceId, string>;
   /** Yearly pay of one counted worker without a recorded job, by place. */
   unplacedPerWorker: Map<PlaceId, number>;
+  /** The benefit level each retirement flow's amount reflects (1 = base). */
+  retirementLevel: Map<string, number>;
   /** Each counted group's account (a fund under its place's residents account). */
   funds: Map<number, string>;
   funded: boolean;
@@ -210,6 +212,7 @@ registerSnapshotPart("core2-residents", {
       ...saved,
       input: rebuilt.input,
       moneyCache: { serial: moneySerial ?? 0 },
+      retirementLevel: saved.retirementLevel ?? new Map(),
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
@@ -588,6 +591,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     sellerMonth: new Map(),
     outsideByPlace: new Map(),
     unplacedPerWorker: new Map(),
+    retirementLevel: new Map(),
     funds: new Map(),
     funded: false,
     arrears: new Map(),
@@ -1399,6 +1403,13 @@ export function releaseResidentHousehold(
         const amount = amounts[contract.id];
         if (amount === undefined || !contract.recipientIncome) continue;
         delete amounts[contract.id];
+        // The retiree's own award is at the level its pooled flow was paid.
+        const level = rt.retirementLevel.get(flow.id);
+        if (level !== undefined)
+          rt.retirementLevel.set(
+            `${flow.id}:${contract.recipientIncome.personId}`,
+            level,
+          );
         retirees.push({
           ...flow,
           id: `${flow.id}:${contract.recipientIncome.personId}`,
@@ -2277,4 +2288,39 @@ export function returnUnplacedPay(
   base.amountMinor += own.amountMinor;
   h.unplacedWorkers = share < 1 ? (share * others) / (1 - share) : 0;
   regroupHousehold(rt, h, core.date);
+}
+
+/**
+ * Retirement benefits paid to the counts follow the benefit line in force:
+ * every retirement flow (the counted groups' pooled awards and the awards of
+ * people filled in from them) is paid at `level` times its base amount from
+ * its next payment on, the same rule a full person's award follows. Returns
+ * each flow whose amount changed.
+ */
+export function rerateCountedRetirement(
+  core: CoreState,
+  level: number,
+): { flowId: string; fromMinor: number; toMinor: number }[] {
+  const rt = runtimes.get(core);
+  if (!rt || !(level > 0)) return [];
+  const changed: { flowId: string; fromMinor: number; toMinor: number }[] = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "retirement" || flow.endedAt) continue;
+    const ratio = level / (rt.retirementLevel.get(flow.id) ?? 1);
+    rt.retirementLevel.set(flow.id, level);
+    if (ratio === 1) continue;
+    const fromMinor = flow.amountMinor;
+    if (flow.amountByContract) {
+      const amounts: Record<string, number> = {};
+      let total = 0;
+      for (const [id, amount] of Object.entries(flow.amountByContract)) {
+        amounts[id] = Math.round(amount * ratio);
+        total += amounts[id];
+      }
+      flow.amountByContract = amounts;
+      flow.amountMinor = total;
+    } else flow.amountMinor = Math.round(flow.amountMinor * ratio);
+    changed.push({ flowId: flow.id, fromMinor, toMinor: flow.amountMinor });
+  }
+  return changed;
 }

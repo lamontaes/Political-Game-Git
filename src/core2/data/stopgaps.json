@@ -3044,18 +3044,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-counted-social-security-level",
-    "kind": "faked-mechanic",
-    "file": "src/core2/budgets-treasury.ts",
-    "line": 760,
-    "whatItFakes": "When the federal Social Security line is cut or raised, counted residents' awards (pooled in the residents' flows) keep their amount; only full people's awards follow the line.",
-    "why": "The residents' pooled flows have no way for another engine to change an award's amount (residents-economy.ts, OPUS-CORE).",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-14",
-    "replacement": "A residents-economy rerate for retirement flows, called with the same level full awards use.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-public-employers-outside",
     "kind": "faked-mechanic",
     "file": "src/core2/budgets-treasury.ts",

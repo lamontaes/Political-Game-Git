@@ -8,7 +8,11 @@ import { countedDrift } from "./modules/counted-drift";
 import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { residentCounts, residentsRuntime } from "./modules/residents";
+import {
+  rerateCountedRetirement,
+  residentCounts,
+  residentsRuntime,
+} from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
@@ -260,6 +264,46 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
+  }, 300_000);
+
+  it("pays counted and filled-in retirees at the benefit level in force", () => {
+    const core = createLifeCore(two);
+    advanceCore(core, daysIn(4));
+    const flows = () =>
+      [...residentsRuntime(core)!.flows.values()].filter(
+        (flow) => flow.kind === "retirement" && !flow.endedAt,
+      );
+    if (!flows().length) return; // No retiree in this place.
+    const record = [...residentsRuntime(core)!.households.values()].find(
+      (row) => row.contracts.some((contract) => contract.recipientIncome),
+    );
+    if (record)
+      fillInPerson(
+        core,
+        record.contracts.find((row) => row.recipientIncome)!.recipientIncome!
+          .personId,
+      );
+    const base = new Map(flows().map((flow) => [flow.id, flow.amountMinor]));
+    // A cut to nine-tenths reaches both tiers by one rule.
+    rerateCountedRetirement(core, 0.9);
+    // Each award rounds to the cent on its own.
+    const awards = (flow: { amountByContract?: Record<string, number> }) =>
+      Object.keys(flow.amountByContract ?? { own: 0 }).length;
+    for (const flow of flows()) {
+      expect(
+        Math.abs(flow.amountMinor - base.get(flow.id)! * 0.9),
+      ).toBeLessThanOrEqual(awards(flow));
+      if (flow.amountByContract)
+        expect(
+          Object.values(flow.amountByContract).reduce((n, v) => n + v, 0),
+        ).toBe(flow.amountMinor);
+    }
+    // Restoring the line restores the base, within a cent an award.
+    rerateCountedRetirement(core, 1);
+    for (const flow of flows())
+      expect(
+        Math.abs(flow.amountMinor - base.get(flow.id)!),
+      ).toBeLessThanOrEqual(awards(flow));
   }, 300_000);
 
   it("fills in a clicked counted person, and returns full people as they are", () => {
