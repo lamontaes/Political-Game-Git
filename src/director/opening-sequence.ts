@@ -122,7 +122,7 @@ const RELATION_WORDS = (
 /** A state's name from a jurisdiction or state key ("US-WV"), else null. */
 const stateName = (key: string | null | undefined) =>
   key && /^US-[A-Z]{2}$/.test(key)
-    ? (stateNameForUsps(key.slice(3)) ?? null)
+    ? (stateNameForUsps(key.replace(/^US-/, "")) ?? null)
     : null;
 
 /** The player's state, by its jurisdiction key. */
