@@ -14,7 +14,7 @@
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
 import { candidateIdentity } from "../candidate-identity";
-import { registerElectorate } from "../electorate";
+import { customPolitics, registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
@@ -248,7 +248,15 @@ export function openCampaigns(core: CoreState): void {
   table(api, "town").put({
     id: "town",
     ...town,
-    lean: districtLean(district?.geoid ?? null, town.stateKey),
+    // A custom world's politics setting shifts where the town stands.
+    lean: Math.max(
+      -1,
+      Math.min(
+        1,
+        districtLean(district?.geoid ?? null, town.stateKey) +
+          customPolitics(core).leanShift,
+      ),
+    ),
   });
 }
 

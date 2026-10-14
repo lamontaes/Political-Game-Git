@@ -42,8 +42,6 @@ import {
   departCountedHousehold,
   removeCountedPerson,
 } from "./modules/residents";
-import { voterGroups } from "./voter-groups";
-import { countedVoterGroupId } from "./opening-voter-groups";
 import type { ResidentHouseholdRecord } from "./residents";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
@@ -243,14 +241,8 @@ export function applyCountedFlows(
     month = date.slice(0, 7);
   const p = (key: string) => renewalParameter(api, key);
   const months = p("monthsPerYear");
-  const groups = voterGroups(core);
-  // The youngest age in the ACS departure bands, and the voting age.
+  // The youngest age in the ACS departure bands.
   const adultAge = moveParameter("movesMinimumAge");
-  const shiftVoters = (placeId: string, person: PersonInput, by: number) => {
-    const id = countedVoterGroupId(placeId, person.birthDate, date);
-    const group = id ? groups.get(id) : undefined;
-    if (group) groups.put({ ...group, size: Math.max(0, group.size + by) });
-  };
   const store = api.moduleState("core2-renewal-v1");
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
     const state = stateOf(api, placeId);
@@ -309,8 +301,6 @@ export function applyCountedFlows(
     for (const { person } of risks) {
       if (carry.deaths < 1) break;
       carry.deaths -= 1;
-      if (ageOf(person, date) >= YOUNGEST_AGE_AT_BIRTH)
-        shiftVoters(placeId, person, -1);
       removeCountedPerson(core, person.id);
       row.deaths.push(person.id);
     }
@@ -426,8 +416,6 @@ export function applyCountedFlows(
     for (const { record, adults } of leaving) {
       if (carry.departures < adults) break;
       carry.departures -= adults;
-      for (const person of record.people)
-        if (ageOf(person, date) >= adultAge) shiftVoters(placeId, person, -1);
       const gone = departCountedHousehold(core, record.household.id);
       if (gone?.accountId && gone.cashShare > 0) {
         const accounts = api.accounts(),
@@ -474,8 +462,6 @@ export function applyCountedFlows(
         date,
       );
       admitCountedHousehold(core, record);
-      for (const person of record.people)
-        if (ageOf(person, date) >= adultAge) shiftVoters(placeId, person, 1);
       row.arrivedHouseholds.push(record.household.id);
       row.arrivedPeople += record.people.length;
     }

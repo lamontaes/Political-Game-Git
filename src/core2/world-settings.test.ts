@@ -2,6 +2,8 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
+import { customPolitics } from "./electorate";
+import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-world-settings");
@@ -43,17 +45,13 @@ describe(`custom world settings in ${place.name} (seed ${seed})`, () => {
     for (const row of outside(custom))
       if (baseOutside.has(row.id))
         expect(row.amountMinor).toBeGreaterThan(baseOutside.get(row.id)!);
-    // The counted electorate starts from the custom lean.
-    const leanOf = (input: typeof base) =>
-      new Map(
-        (input.voterGroups ?? []).map((row) => [row.id, row.lean] as const),
-      );
-    const baseLean = leanOf(base);
-    for (const [id, lean] of leanOf(custom))
-      expect(lean).toBeCloseTo(
-        Math.max(-1, Math.min(1, baseLean.get(id)! + 0.2)),
-        10,
-      );
+    // The electorate reads the custom lean (the town's lean shifts by it).
+    const politics = (input: typeof base) =>
+      customPolitics({
+        placeMetadata: input.placeMetadata ?? {},
+      } as unknown as CoreState);
+    expect(politics(custom).leanShift).toBe(0.2);
+    expect(politics(base).leanShift).toBe(0);
   }, 600_000);
 
   it("refuses settings outside their range", () => {
