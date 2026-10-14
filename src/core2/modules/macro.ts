@@ -37,6 +37,12 @@ import {
 } from "../macro-model";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
+import {
+  BUDGETS_MODULE_ID,
+  baseBudget,
+  budgetsOf,
+  governments,
+} from "./budgets";
 import { scaleOutsideSales } from "../residents-economy";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
@@ -181,6 +187,38 @@ function publishConditions(
   }
 }
 
+/**
+ * The push the federal budget gives output, in gap points a year: the change
+ * in the budget in force from its base year's outlays, as a share of national
+ * output, times the fiscal multiplier. None where no federal budget is kept.
+ */
+function publicBudgetImpulse(
+  api: CoreAPI,
+): { impulse: number; recordIds: string[] } | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const gov = governments(api).find((row) => row.level === "federal");
+  if (!gov) return null;
+  const today = api.state.date;
+  const budget = [...budgetsOf(api, gov.id)]
+    .filter((row) => row.startsOn <= today)
+    .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+    .at(-1);
+  if (!budget) return null;
+  const total = (spending: Readonly<Record<string, number>>) =>
+    Object.values(spending).reduce((sum, value) => sum + value, 0);
+  const base = total(baseBudget(api, gov, budget.fiscalYear).spendingMinor);
+  const change = total(budget.spendingMinor) - base;
+  const output =
+    api.parameter("macroNominalOutputDollars") * api.parameter("macroHundred");
+  return {
+    impulse:
+      api.parameter("macroFiscalMultiplier") *
+      (change / output) *
+      api.parameter("macroHundred"),
+    recordIds: [budget.id],
+  };
+}
+
 function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const p = params(api);
   const months = store(api).table("months");
@@ -196,17 +234,26 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   );
   // No recorded town year yet: the town grows with the nation and adds nothing.
   const neutral = p("macroTrendGrowthPct") + p("macroInflationAnchorPct");
+  // The federal budget's change from its base, through the fiscal multiplier.
+  const fiscal = publicBudgetImpulse(api);
   const row = stepMacroMonth(
     previous,
     state.policyRatePct,
     growth ?? neutral,
     state.townResidents,
-    p,
+    (key) =>
+      key === "macroPublicBudgetImpulse" && fiscal ? fiscal.impulse : p(key),
   );
   // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
   months.put({
     ...(row as unknown as { id: string }),
     ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
+    ...(fiscal
+      ? {
+          publicBudgetImpulse: fiscal.impulse,
+          publicBudgetRecordIds: fiscal.recordIds,
+        }
+      : {}),
   });
   if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };
