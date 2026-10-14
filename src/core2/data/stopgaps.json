@@ -3862,5 +3862,41 @@
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-FED-engine-stand-in",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-federal.ts",
+    "line": 394,
+    "whatItFakes": "The federal officeholder's day keeps its own small tables (the player's stop settings, the week they chose, the day and act records) and finishes the day itself, because OFFICE-LOCAL's one office-day engine is not built yet.",
+    "why": "The package puts one engine under every level; FEDERAL may not write it and was told to build against the smallest stand-in until it lands.",
+    "replacement": "OFFICE-LOCAL's src/core2/modules/office-day.ts: the federal rows (stops, week, acts) register with it and this module's tables are deleted.",
+    "addedBy": "OFFICE-FEDERAL",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-FED-custom-start",
+    "kind": "faked-mechanic",
+    "file": "src/core2/office-day-federal.ts",
+    "line": 252,
+    "whatItFakes": "Dev mode's custom start as a sitting federal officeholder: the player continues as an eligible adult and takes the seat by writing the offices engine's term and the officials engine's record directly; the record's loyalty and ambition copy the predecessor's.",
+    "why": "Dev mode has no seating of its own and the officials engine builds a record only for drawn officials and its own candidates, not for a person the player controls.",
+    "replacement": "A dev-mode custom start owned by OFFICE-LOCAL or OPUS-PLAY that seats any person through the offices and officials engines, with a record built from the person's own traits.",
+    "addedBy": "OFFICE-FEDERAL",
+    "addedAt": "2026-10-14",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-FED-floor-agenda",
+    "kind": "missing-core-api",
+    "file": "src/core2/office-day-federal.ts",
+    "line": 443,
+    "whatItFakes": "A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character through the legislature's beforeVote hook.",
+    "why": "The legislature keeps no floor agenda a member can read ahead of the vote.",
+    "replacement": "OPUS-GOV exports the chamber's floor agenda by date (the floor weeks on gov/sessions), read here in place of the calendar keys.",
+    "addedBy": "OFFICE-FEDERAL",
+    "addedAt": "2026-10-14",
+    "status": "open"
   }
 ]
