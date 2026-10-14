@@ -188,7 +188,8 @@ function definition(kind: Kind): ActionDefinition {
   return {
     id: row.id,
     actKinds: row.actKinds,
-    goalKinds: [],
+    // A goal the act serves (securing a home again) adds its urgency.
+    goalKinds: (row as { goalKinds?: readonly string[] }).goalKinds ?? [],
     need: jobsData.need,
     effortParameter: jobsData.effortParameter,
     effectParameter: jobsData.effectParameter,
