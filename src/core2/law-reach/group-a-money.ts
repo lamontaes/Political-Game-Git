@@ -20,10 +20,9 @@ import type { PolicyHandler } from "../modules/law-effects";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  budgetPriorities,
+  adoptedLine,
   budgetsOf,
   governments,
-  proposedBudget,
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
@@ -83,17 +82,14 @@ export function budgetToday(
   );
 }
 
-/** A line's amount before any amendment this year: the base budget less the executive's priorities. */
+/** A line's amount before any amendment this year: the line as adopted. */
 export function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ): number {
-  const base = proposedBudget(api, gov, budget.fiscalYear, "base")
-    .spendingMinor[line];
-  const priority = budgetPriorities(api, gov.id)?.changes[line] ?? 0;
-  return Math.max(0, (base ?? 0) - priority);
+  return adoptedLine(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
@@ -127,9 +123,11 @@ function leavePremium(
   if (!government) return;
   const person = api.state.people.get(receipt.personId);
   if (!person || person.placeId !== lawChain(api).townPlaceId) return;
+  // Capped by the cash the premium is taken from: what isn't set aside.
+  const accounts = api.accounts();
   const premium = Math.min(
     Math.round(receipt.paidMinor * reachParameter("paidLeavePremiumShare")),
-    Math.max(0, person.liquidMinor),
+    Math.max(0, accounts.balance(accounts.main(person.id))),
   );
   if (premium <= 0) return;
   const treasury = government.organizationId;

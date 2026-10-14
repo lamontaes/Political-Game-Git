@@ -44,6 +44,13 @@ import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import budgetParameters from "../data/budgets/parameters.json" with { type: "json" };
 import { countedJobsOf } from "../residents-economy";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  applySocialSecurityLevel,
+  closeTreasuries,
+  noteLinePayment,
+  notePublicPay,
+} from "../budgets-treasury";
+import { residentsRuntime } from "./residents";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -114,6 +121,28 @@ interface WithholdingRecord {
 }
 
 const slots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
+function holdWithholdingSlot(api: CoreAPI, row: WithholdingRecord): void {
+  const map = slots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
+  slots.set(api.state, map);
+  map.set(row.id, slotOf(row));
+}
+function slotOf(row: WithholdingRecord): CashJournalSourceSlot {
+  const resolved = {
+    kind: WITHHOLDING_KIND,
+    id: row.id,
+    date: row.date,
+    source: row.source,
+    expectedPostings: row.postings.map((p) => ({ ...p })),
+    requiredRelatedRefs: [],
+    relatedRecords: [],
+  };
+  return {
+    resolved,
+    marker: resolved,
+    retainFull: false,
+    metadata: [],
+  } as unknown as CashJournalSourceSlot;
+}
 function withholdingSlot(
   api: CoreAPI,
   id: string,
@@ -124,21 +153,7 @@ function withholdingSlot(
   const row = table(api, "withholding").get(id) as unknown as
     WithholdingRecord | undefined;
   if (!row) return undefined;
-  const resolved = {
-    kind: WITHHOLDING_KIND,
-    id: row.id,
-    date: row.date,
-    source: row.source,
-    expectedPostings: row.postings.map((p) => ({ ...p })),
-    requiredRelatedRefs: [],
-    relatedRecords: [],
-  };
-  const slot = {
-    resolved,
-    marker: resolved,
-    retainFull: false,
-    metadata: [],
-  } as unknown as CashJournalSourceSlot;
+  const slot = slotOf(row);
   map.set(id, slot);
   return slot;
 }
@@ -158,6 +173,20 @@ export const BUDGETS_MODULE: CoreModule = {
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** Each treasury's monthly close: every line's money, where it went. */
+      treasuryMonths: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
+      /** Pay each treasury paid on paydays since its last close, by line. */
+      sinceClose: {},
+      /** Each payday a treasury paid, against the line it draws on. */
+      publicPay: { indexes: { byGovernment: { fields: ["governmentId"] } } },
+      /** What each treasury's lines fell short at its last close, owed at the next. */
+      arrears: {},
+      /** Each change to an award that landed on a person, and what told them why. */
+      landed: {},
+      /** Each Social Security award's amount at the base federal line. */
+      awardBase: {},
     },
   },
   journalSourceProviders: {
@@ -165,14 +194,23 @@ export const BUDGETS_MODULE: CoreModule = {
   },
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
-    receiveOutsideRevenue(api, work);
+    closeMonth(api, work);
   },
   onWorkPayroll: withhold,
-  eventKinds: ["law-took-effect"],
+  eventKinds: ["law-took-effect", "budget-line-changed"],
   onEvent: (api, event) => {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    // A change to the federal Social Security line reaches the next payment.
+    if (
+      event.kind === "budget-line-changed" &&
+      event.facts?.level === "federal" &&
+      event.facts?.line === "socialSecurity"
+    )
+      applySocialSecurityLevel(api, {
+        measureId: event.facts.measureId ?? event.id,
+      });
   },
 };
 
@@ -422,17 +460,12 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
   }
   syncSalesTax(api);
   scheduleOutsideRevenue(api, core.date);
+  table(api, "yearToDate").put({
+    id: "counted:opened",
+    date: core.date,
+  } as unknown as ModuleRow);
   return govs;
 }
-
-const MONTHS_PER_YEAR = 12;
-
-/** Revenue lines a flow in the town already pays (withholding, sales tax, property tax). */
-const TOWN_PAID_LINES = new Set([
-  "individualIncomeTax",
-  "generalSalesTax",
-  "propertyTax",
-]);
 
 function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
   const d = new Date(`${after.slice(0, 7)}-01T00:00:00Z`);
@@ -444,7 +477,8 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
     kind: "outside-revenue",
     source: {
       tag: "ESTIMATED",
-      citation: "Census per-resident revenue (public-budget-bases.json)",
+      citation:
+        "Census per-resident revenue and spending (public-budget-bases.json); Treasury fiscal 2025 statement (federal-budget-fy2025.json)",
       asOf: api.state.date,
       estimatedFrom: "SG-GOV-outside-revenue-monthly",
     },
@@ -453,64 +487,18 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
 }
 
 /**
- * Each month, the revenue that reaches a state, county or city treasury from
- * outside what the town's own flows pay: state and federal aid, charges and
- * fees, and the taxes no flow in the town models, in full; and the taxes
- * the town does pay (income, general sales, property) for the government's
- * residents outside the town. A twelfth of the year's budget each month.
+ * Each month: the tax collector passes property tax on, counted workers'
+ * taxes are withheld, then every treasury receives its revenue from outside
+ * the town's flows and pays a twelfth of each budget line
+ * (`budgets-treasury.ts`).
  */
-function receiveOutsideRevenue(
-  api: CoreAPI,
-  work: Readonly<ModuleCalendarWork>,
-): void {
+function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "outside-revenue") return;
   remitPropertyTax(api, work.source);
+  withholdCounted(api);
   // stopgapId: SG-GOV-outside-revenue-monthly
   api.stopgap("SG-GOV-outside-revenue-monthly");
-  const town = lawChain(api).townPlaceId;
-  // The town's outside account, else any (the money comes from outside).
-  const outside = [...api.state.organizations.values()]
-    .filter((o) => o.outsideFlow !== undefined)
-    .sort(
-      (a, b) =>
-        Number(b.placeId === town) - Number(a.placeId === town) ||
-        a.id.localeCompare(b.id),
-    )[0];
-  const townResidents =
-    Number(api.state.placeMetadata.referencePopulation) ||
-    api.state.people.size;
-  if (outside)
-    for (const gov of governments(api)) {
-      if (gov.level === "federal") continue;
-      const budget = budgetsOf(api, gov.id)
-        .filter((b) => b.startsOn <= api.state.date)
-        .at(-1);
-      if (!budget) continue;
-      const away =
-        gov.residents > 0
-          ? Math.max(0, Math.min(1, 1 - townResidents / gov.residents))
-          : 0;
-      let annual = 0;
-      for (const [line, amount] of Object.entries(budget.revenueMinor))
-        annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
-      const monthly = Math.round(annual / MONTHS_PER_YEAR);
-      if (monthly <= 0) continue;
-      const accounts = api.accounts();
-      const receipt = accounts.transfer({
-        id: `outside-revenue:${gov.id}:${api.state.date}`,
-        from: accounts.main(outside.id),
-        to: accounts.main(gov.organizationId),
-        amountMinor: monthly,
-        reasonKey: "outside-revenue",
-        source: work.source,
-      });
-      table(api, "outsideRevenue").put({
-        id: receipt.id,
-        governmentId: gov.id,
-        date: api.state.date,
-        amountMinor: receipt.paidMinor,
-      } as unknown as ModuleRow);
-    }
+  closeTreasuries(api, work.source);
   paySchoolEligibility(api);
   payPensionContribution(api);
   payPoliceTechnology(api);
@@ -664,6 +652,16 @@ function remitPropertyTax(api: CoreAPI, source: Source): void {
       };
     })
     .filter((l) => l.perResident > 0);
+  // Where no government in the game levies it (the place's local levels have
+  // no government of their own), the collector's own government keeps it.
+  if (!levies.length) {
+    const own = governments(api).find(
+      (g) =>
+        g.id ===
+        api.state.organizations.get(id)?.governmentFacts?.governmentKey,
+    );
+    if (own) levies.push({ gov: own, perResident: 1 });
+  }
   const total = levies.reduce((sum, l) => sum + l.perResident, 0);
   if (!(total > 0)) return;
   const accounts = api.accounts();
@@ -840,6 +838,34 @@ export function enactBudget(
   return budget;
 }
 
+/**
+ * What the departments ask for next year, line by line: each line as the
+ * body last enacted it. A budget bill with no executive to propose it
+ * carries these lines (the legislature engine writes the bill).
+ */
+export function departmentRequests(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+): Readonly<Record<string, number>> {
+  return legislatedBudget(api, gov, fy, "department requests", {})
+    .spendingMinor;
+}
+
+/**
+ * A line as the government adopted it for a fiscal year: its Census estimate
+ * with every budget bill the body enacted, before any act amends it during
+ * the year. Measures that change a line count their change from this.
+ */
+export function adoptedLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  line: string,
+): number {
+  return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+}
+
 /** A year's budget when its bill fails: the enacted lines carried forward. */
 export function carriedBudget(
   api: CoreAPI,
@@ -887,16 +913,27 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       "carried forward by the budget rule until the council or legislature votes it",
     );
   }
+  // The notice names who adopted it: the body's vote, or the carry-forward rule.
   api.emit({
     id: `budget-adopted:${budget.id}`,
     date: api.state.date,
     kind: "budget-adopted",
     personIds: [],
     placeId: lawChain(api).townPlaceId,
-    source: work.source,
+    source: voted
+      ? {
+          tag: "SOURCED",
+          citation: `Budget adopted (${budget.adoptedBy})`,
+          asOf: api.state.date,
+        }
+      : work.source,
     publicRecord: true,
     news: true,
-    facts: { governmentId: gov.id, fiscalYear: String(fy) },
+    facts: {
+      governmentId: gov.id,
+      fiscalYear: String(fy),
+      adoptedBy: budget.adoptedBy,
+    },
   });
   // The line changes the body enacted this year reach whatever each line
   // pays for, as an amendment's change does (law-effects handlers).
@@ -953,6 +990,24 @@ function withhold(
 ): void {
   const paid = receipt.paidMinor;
   if (paid <= 0) return;
+  // Pay from a treasury is spending on the line the post draws on.
+  if (receipt.group)
+    for (const part of receipt.components)
+      notePublicPay(api, {
+        id: part.id,
+        organizationId: receipt.organizationId,
+        jobId: part.jobId,
+        personId: receipt.personId,
+        paidMinor: part.paidMinor,
+      });
+  else
+    notePublicPay(api, {
+      id: receipt.id,
+      organizationId: receipt.organizationId,
+      jobId: receipt.jobId,
+      personId: receipt.personId,
+      paidMinor: paid,
+    });
   const person = api.state.people.get(receipt.personId);
   if (!person || person.placeId !== lawChain(api).townPlaceId) return;
   const year = api.state.date.slice(0, 4);
@@ -976,45 +1031,75 @@ function withhold(
     socialSecurity: lawInForce(api, "social-security-tax"),
     medicare: lawInForce(api, "medicare-tax"),
   });
-  table(api, "yearToDate").put({
-    id: ytdId,
-    minor: ytd + paid,
-  } as unknown as ModuleRow);
-  const postings: { id: string; accountId: string; deltaMinor: number }[] = [];
-  let total = 0;
-  for (const [index, line] of lines.entries()) {
-    const account = accountFor(api, line.jurisdiction);
-    if (!account) continue;
-    postings.push({
-      id: `${receipt.id}:tax:${index}`,
-      accountId: account,
-      deltaMinor: line.minor,
-    });
-    total += line.minor;
-  }
-  if (!total) return;
-  postings.unshift({
-    id: `${receipt.id}:tax:out`,
-    accountId: `cash:${receipt.personId}:residual`,
-    deltaMinor: -total,
-  });
-  const record: WithholdingRecord = {
+  const posted = postWithholding(api, {
     id: `withholding:${receipt.id}`,
-    date: api.state.date,
-    personId: receipt.personId,
+    payerId: receipt.personId,
     payrollReceiptId: receipt.id,
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
     lines,
+  });
+  // The year's pay counts once the paycheck is withheld, or had nothing to withhold.
+  if (posted || !lines.some((l) => l.minor > 0))
+    table(api, "yearToDate").put({
+      id: ytdId,
+      minor: ytd + paid,
+    } as unknown as ModuleRow);
+}
+
+/**
+ * Post one withholding: the payer's cash to each government with a treasury
+ * in the game, in one journal entry. Only lines that reach a treasury are
+ * kept on the record, and the record is kept only once the entry posts.
+ */
+function postWithholding(
+  api: CoreAPI,
+  input: Omit<
+    WithholdingRecord,
+    "date" | "personId" | "postings" | "source"
+  > & {
+    readonly payerId: string;
+  },
+): WithholdingRecord | null {
+  const postings: { id: string; accountId: string; deltaMinor: number }[] = [];
+  const kept: WithholdingLine[] = [];
+  let total = 0;
+  for (const [index, line] of input.lines.entries()) {
+    const account = accountFor(api, line.jurisdiction);
+    if (!account || line.minor <= 0) continue;
+    kept.push(line);
+    postings.push({
+      id: `${input.id}:tax:${index}`,
+      accountId: account,
+      deltaMinor: line.minor,
+    });
+    total += line.minor;
+  }
+  if (!total) return null;
+  postings.unshift({
+    id: `${input.id}:tax:out`,
+    accountId: `cash:${input.payerId}:residual`,
+    deltaMinor: -total,
+  });
+  const record: WithholdingRecord = {
+    id: input.id,
+    date: api.state.date,
+    personId: input.payerId,
+    payrollReceiptId: input.payrollReceiptId,
+    paidMinor: input.paidMinor,
+    periodDays: input.periodDays,
+    yearToDateMinor: input.yearToDateMinor,
+    lines: kept,
     postings,
     source: {
       tag: "SOURCED",
-      citation: lines.map((l) => l.lawId).join(" ; "),
+      citation: [...new Set(kept.map((l) => l.lawId))].join(" ; "),
       asOf: api.state.date,
     },
   };
-  table(api, "withholding").put(record as unknown as ModuleRow);
+  // The journal reads the record from its slot; the table keeps it once posted.
+  holdWithholdingSlot(api, record);
   const state = api.state as CoreState;
   api.postJournal({
     id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,
@@ -1022,6 +1107,119 @@ function withhold(
     expectedSequence: state.cashJournal.nextSequence,
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
+  });
+  table(api, "withholding").put(record as unknown as ModuleRow);
+  return record;
+}
+
+/** Days in the calendar month before the given date's month, and that month's first day. */
+function priorMonth(date: string): { first: string; days: number } {
+  const d = new Date(`${date.slice(0, 7)}-01T00:00:00Z`);
+  const end = new Date(d.getTime() - 86_400_000);
+  return {
+    first: `${end.toISOString().slice(0, 7)}-01`,
+    days: end.getUTCDate(),
+  };
+}
+
+/**
+ * Counted workers' taxes: each month, each counted job paid into the town's
+ * pooled account has the month's pay withheld as a full worker's paycheck
+ * is, by the law in force, from that account to each government in one entry.
+ * A wage flow in arrears was paid that much less, and is withheld that much less.
+ */
+function withholdCounted(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  const rt = residentsRuntime(core);
+  const town = lawChain(api).townPlaceId;
+  const pool = rt?.input.accounts.find((a) => a.placeId === town)?.accountId;
+  if (!rt || !pool) return;
+  const prior = priorMonth(api.state.date);
+  // The first close counts only the days since the treasuries opened.
+  const opened =
+    (
+      table(api, "yearToDate").get("counted:opened") as unknown as
+        { date: string } | undefined
+    )?.date ?? prior.first;
+  const from = opened > prior.first ? opened : prior.first;
+  const month = {
+    first: prior.first,
+    days: Math.max(
+      0,
+      Math.round(
+        (Date.parse(`${api.state.date}T00:00:00Z`) -
+          Date.parse(`${from}T00:00:00Z`)) /
+          86_400_000,
+      ),
+    ),
+  };
+  if (month.days <= 0) return;
+  const year = month.first.slice(0, 4);
+  const ytdId = `counted:${pool}:${year}`;
+  const ytd = {
+    ...((
+      table(api, "yearToDate").get(ytdId) as unknown as
+        { byJob: Record<string, number> } | undefined
+    )?.byJob ?? {}),
+  };
+  const laws = {
+    incomeTax: lawInForce(api, "income-tax"),
+    socialSecurity: lawInForce(api, "social-security-tax"),
+    medicare: lawInForce(api, "medicare-tax"),
+  };
+  const byLine = new Map<string, WithholdingLine>();
+  let paidTotal = 0;
+  for (const flow of new Set(rt.wageFlowByJob.values())) {
+    if (flow.payeeId !== pool || flow.endedAt !== undefined) continue;
+    const perDay = flow.perDayMinorByJob ?? {};
+    const daily = Object.values(perDay).reduce((a, b) => a + b, 0);
+    const owed = daily * month.days;
+    // A flow behind on its pay paid that much less.
+    const paidShare =
+      owed > 0 ? Math.max(0, 1 - (flow.arrearsMinor ?? 0) / owed) : 0;
+    for (const jobId of flow.jobIds ?? []) {
+      const paid = Math.round((perDay[jobId] ?? 0) * month.days * paidShare);
+      if (paid <= 0) continue;
+      const lines = withholdingFor({
+        paidMinor: paid,
+        periodDays: month.days,
+        yearToDateMinor: ytd[jobId] ?? 0,
+        ...laws,
+      });
+      ytd[jobId] = (ytd[jobId] ?? 0) + paid;
+      paidTotal += paid;
+      for (const line of lines) {
+        const key = `${line.lawId}|${line.tax}|${line.jurisdiction}`;
+        const prior = byLine.get(key);
+        byLine.set(
+          key,
+          prior ? { ...prior, minor: prior.minor + line.minor } : line,
+        );
+      }
+    }
+  }
+  table(api, "yearToDate").put({
+    id: ytdId,
+    byJob: ytd,
+  } as unknown as ModuleRow);
+  // The pool pays what it holds; the lines shrink alike when it's short.
+  const want = [...byLine.values()].reduce((s, l) => s + l.minor, 0);
+  const accounts = api.accounts();
+  const have = Math.max(0, accounts.balance(accounts.main(pool)));
+  const scale = want > have && want > 0 ? have / want : 1;
+  const lines = [...byLine.values()]
+    .sort(
+      (a, b) => a.lawId.localeCompare(b.lawId) || a.tax.localeCompare(b.tax),
+    )
+    .map((l) => ({ ...l, minor: Math.floor(l.minor * scale) }));
+  postWithholding(api, {
+    id: `withholding:counted:${pool}:${month.first}`,
+    payerId: pool,
+    payrollReceiptId: `counted-wages:${pool}:${month.first}`,
+    paidMinor: paidTotal,
+    periodDays: month.days,
+    yearToDateMinor: 0,
+    lines,
   });
 }
 
@@ -1146,8 +1344,8 @@ function paySchoolEligibility(api: CoreAPI): void {
         params.monthsPerYear.value /
         providers.length,
     );
-    for (const provider of providers)
-      transferCash(
+    for (const provider of providers) {
+      const paid = transferCash(
         api,
         `school-eligibility:${law.governing.id}:${provider.id}:${api.state.date}`,
         treasury.organizationId,
@@ -1161,6 +1359,8 @@ function paySchoolEligibility(api: CoreAPI): void {
             "Eligible children from town records, times data/laws/reach-group-b-parameters.json annual cost, in monthly installments.",
         },
       );
+      noteLinePayment(api, treasury.id, "schools", paid);
+    }
   };
   pay(
     "us-policy-positions:education.universal-preschool",
@@ -1214,7 +1414,7 @@ function payPensionContribution(api: CoreAPI): void {
       name: "pension contribution fund",
       source,
     });
-  accounts.transfer({
+  const contributed = accounts.transfer({
     id: `pension-contribution:${law.governing.id}:${api.state.date}`,
     from: accounts.main(gov.organizationId),
     to: fund,
@@ -1223,6 +1423,12 @@ function payPensionContribution(api: CoreAPI): void {
     source,
     partial: true,
   });
+  noteLinePayment(
+    api,
+    gov.id,
+    "retirementContributions",
+    contributed.paidMinor,
+  );
 }
 
 const FACIAL_RECOGNITION =
@@ -1289,7 +1495,7 @@ function payPoliceTechnology(api: CoreAPI): void {
       365,
   );
   if (amount <= 0) return;
-  transferCash(
+  const paidVendor = transferCash(
     api,
     `police-technology:${payer.id}:${first.slice(0, 7)}${cutBy ? `:${cutBy}` : ""}`,
     payer.organizationId,
@@ -1303,4 +1509,5 @@ function payPoliceTechnology(api: CoreAPI): void {
       estimatedFrom: `${officers} sworn officers times policeFacialRecognitionPerOfficerDollars, for ${billed} of ${days} days${cutBy ? `; the rest restricted by ${cutBy}` : ""}.`,
     },
   );
+  noteLinePayment(api, payer.id, "police", paidVendor);
 }

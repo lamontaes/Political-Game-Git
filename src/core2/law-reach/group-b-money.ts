@@ -9,9 +9,9 @@
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
+  adoptedLine,
   amendBudget,
   BUDGETS_MODULE_ID,
-  baseBudget,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -34,6 +34,7 @@ import {
   type TownFacts,
 } from "./group-b-people";
 import { getRow, putRow, rowsOf, scheduleBenefitReview } from "./group-b-store";
+import { registerLinePayments } from "../budgets-treasury";
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -93,16 +94,15 @@ export function modeledShare(api: CoreAPI, facts: TownFacts): number {
   return Math.min(1, facts.modeled / Math.max(1, townPopulation(api)));
 }
 
-/** A budget line's base this fiscal year: the Census amount before any act or priority. */
+/** A budget line's base this fiscal year: the line as adopted, before any act changed it. */
 function baseLine(
   api: CoreAPI,
   gov: GovernmentRow,
   budget: BudgetRow,
   line: string,
 ) {
-  // The line at its Census base, before any change a body enacted.
-  const fy = Number(budget.startsOn.slice(0, 4));
-  return baseBudget(api, gov, fy).spendingMinor[line] ?? 0;
+  // The line as adopted, before any act amended it this year.
+  return adoptedLine(api, gov, budget.fiscalYear, line);
 }
 
 export interface ServiceRow {
@@ -242,7 +242,26 @@ interface BenefitRow {
   readonly recipientId: string;
   readonly obligationId: string;
   readonly amountMinor: number;
+  /** The budget line the benefit is paid from. */
+  readonly line?: string;
 }
+
+/**
+ * Each month's close counts the benefits a treasury pays in town as that
+ * line's spending, so the line pays only the rest outside.
+ */
+registerLinePayments((api, gov) => {
+  const accounts = api.accounts();
+  const out: Record<string, number> = {};
+  for (const row of rowsOf<BenefitRow>(api, "taken")) {
+    if (!row.key.startsWith("benefit|") || row.governmentId !== gov.id)
+      continue;
+    if (accounts.obligation(row.obligationId)?.endedAt) continue;
+    const line = row.line ?? "welfareAndMedicaid";
+    out[line] = (out[line] ?? 0) + row.amountMinor;
+  }
+  return out;
+});
 
 /**
  * The assistance benefit a welfare line's increase pays: the town's share of
@@ -348,6 +367,7 @@ export function payBenefits(
       recipientId,
       obligationId,
       amountMinor,
+      line: input.service.line,
     } satisfies BenefitRow);
   }
   return out;
@@ -424,6 +444,9 @@ export function moveBudget(
   return row;
 }
 
+/** Debt interest lines: the state and local name, and the federal one. */
+const INTEREST_LINES = new Set(["interest", "netInterest"]);
+
 /** Cuts every line but debt interest in proportion until spending fits revenue. */
 export function balancePlan(budget: BudgetRow): Record<string, number> {
   const spending = Object.values(budget.spendingMinor).reduce(
@@ -432,13 +455,16 @@ export function balancePlan(budget: BudgetRow): Record<string, number> {
   );
   const revenue = Object.values(budget.revenueMinor).reduce((a, b) => a + b, 0);
   if (spending <= revenue) return {};
-  const interest = budget.spendingMinor.interest ?? 0;
+  const interest = Object.entries(budget.spendingMinor)
+    .filter(([line]) => INTEREST_LINES.has(line))
+    .reduce((a, [, minor]) => a + minor, 0);
   const cuttable = spending - interest;
   if (cuttable <= 0) return {};
   const ratio = Math.min(1, (spending - revenue) / cuttable);
   const out: Record<string, number> = {};
   for (const [line, minor] of Object.entries(budget.spendingMinor).sort())
-    if (line !== "interest" && minor > 0) out[line] = -Math.ceil(minor * ratio);
+    if (!INTEREST_LINES.has(line) && minor > 0)
+      out[line] = -Math.ceil(minor * ratio);
   return out;
 }
 

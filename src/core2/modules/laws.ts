@@ -14,6 +14,11 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
 import { POLICY_QUESTIONS } from "../policy-answers";
+import {
+  holdPublicPay,
+  PUBLIC_PAY_FLOOR,
+  PUBLIC_PAY_REVIEW,
+} from "../public-pay-floor";
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
 import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
 import {
@@ -56,7 +61,11 @@ export const LAWS_MODULE: CoreModule = {
       },
     },
   },
-  onCalendarWork: lawTookEffect,
+  onCalendarWork: (api, work) => {
+    lawTookEffect(api, work);
+    // A public pay floor in force holds later public hires to it, monthly.
+    if (work.kind === PUBLIC_PAY_REVIEW) recordPublicPay(api, work.source);
+  },
 };
 
 function sourceOf(row: LawRowInput, asOf: string): Source {
@@ -454,6 +463,25 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     },
   });
   if (row.series === "minimum-wage") raiseToFloor(api, work.source);
+  if (row.series === PUBLIC_PAY_FLOOR) recordPublicPay(api, work.source);
+}
+
+/**
+ * The public pay floor's raises, each on the worker's record like a minimum
+ * wage raise. stopgapId: SG-GOV-public-pay-floor-owner
+ */
+function recordPublicPay(api: CoreAPI, source: Source): void {
+  const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
+  for (const r of holdPublicPay(api, source))
+    raises.put({
+      id: `raise:${r.jobId}:${api.state.date}`,
+      personId: r.personId,
+      jobId: r.jobId,
+      date: api.state.date,
+      fromMinor: r.fromMinor,
+      toMinor: r.toMinor,
+      lawId: r.lawId,
+    });
 }
 
 /**

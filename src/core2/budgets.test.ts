@@ -26,6 +26,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { OUTCOME_WEB_MODULE } from "./modules/outcome-web";
 import { withholdingFor } from "./tax-withholding";
+import { treasuryMonthsOf } from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import {
@@ -87,11 +88,13 @@ describe(
         for (const budget of adopted)
           expect(budget.adoptedOn).toBe(budget.startsOn);
         if (gov.level !== "federal") {
-          const spend = Object.values(adopted[0]!.spendingMinor).reduce(
-            (a, b) => a + b,
-            0,
-          );
-          expect(spend).toBeGreaterThan(0);
+          const sum = (lines: Readonly<Record<string, number>>) =>
+            Object.values(lines).reduce((a, b) => a + b, 0);
+          const spend = sum(adopted[0]!.spendingMinor);
+          // A government the finances record as one with the level below it
+          // carries no lines; what it collects passes on (checked below).
+          if (sum(adopted[0]!.revenueMinor) > 0)
+            expect(spend, `${gov.id} in ${place}`).toBeGreaterThan(0);
         }
       }
       // Withholding: one named worker's paycheck, line by line, against the law.
@@ -119,25 +122,57 @@ describe(
             p.accountId,
             (received.get(p.accountId) ?? 0) + p.deltaMinor,
           );
-      // Every withheld dollar, every sales-tax dollar and every dollar of
-      // revenue from outside the town is in a treasury (nothing else pays
-      // into them), less what the treasury paid out: a standing school
-      // eligibility law's seats, a pension contribution, the police line's
-      // facial recognition bills (the only things this world spends).
+      // Every withheld dollar, every sales-tax dollar, every dollar of
+      // revenue from outside the town, aid and borrowing is in a treasury,
+      // less what its monthly closes paid out on its budget lines and what it
+      // paid directly in town on a line (a standing school eligibility law's
+      // seats, a pension contribution, the police line's facial recognition
+      // bills), which the close counts as that line's spending.
       const salesTax = purchaseTaxes(core);
       const spent = (orgId: string) =>
         core.cashJournal.totalsByAccount.get(`cash:${orgId}:residual`)
           ?.grossDebitMinor ?? 0;
-      for (const gov of govs)
+      for (const gov of govs) {
+        let closes = 0;
+        let closedOut = 0;
+        for (const month of treasuryMonthsOf(api, gov.id)) {
+          closes +=
+            month.aidReceivedMinor + month.borrowedMinor - month.aidPaidMinor;
+          closedOut += month.aidPaidMinor;
+          for (const line of Object.values(month.lines)) {
+            closes -= line.providersMinor + line.outsideMinor;
+            closedOut += line.providersMinor + line.outsideMinor;
+          }
+        }
+        const direct = spent(gov.organizationId) - closedOut;
+        expect(direct, gov.id).toBeGreaterThanOrEqual(0);
         expect(cash(gov.organizationId), gov.id).toBe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
-            outsideRevenueOf(api, gov.id) -
-            spent(gov.organizationId),
+            outsideRevenueOf(api, gov.id) +
+            closes -
+            direct,
         );
-      // Aid, fees and the rest arrive each month for the local governments.
-      for (const gov of govs.filter((g) => g.level !== "federal"))
-        expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);
+        // The treasury paid its lines: every month's close spent money.
+        expect(treasuryMonthsOf(api, gov.id).length, gov.id).toBeGreaterThan(0);
+      }
+      // Aid, fees and the rest arrive each month for the local governments;
+      // one with no budget of its own passes what it collects on.
+      for (const gov of govs.filter((g) => g.level !== "federal")) {
+        const own = budgetsOf(api, gov.id).some(
+          (b) => Object.values(b.revenueMinor).reduce((x, y) => x + y, 0) > 0,
+        );
+        if (own)
+          expect(outsideRevenueOf(api, gov.id), gov.id).toBeGreaterThan(0);
+        else
+          expect(
+            treasuryMonthsOf(api, gov.id).reduce(
+              (sum, m) => sum + m.aidPaidMinor,
+              0,
+            ),
+            gov.id,
+          ).toBeGreaterThan(0);
+      }
       // The sales tax in force is collected wherever purchases are taxed.
       const stateRate = lawInForce(api, "sales-tax").levels.find(
         (l) => l.level === "state",
