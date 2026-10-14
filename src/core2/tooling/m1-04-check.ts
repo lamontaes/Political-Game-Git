@@ -2,7 +2,9 @@
  * M1-04 golden-path check, on the whole economy. Uses GOLDEN_PATH_SEED and
  * GOLDEN_PATH_PLACE_KEY from the runner. A drawn town on the two-level world
  * with every economy engine runs a year from its start date. Passes when:
- * (1) the town's monthly hires and quits, as a share of its business jobs,
+ * (1) the town's monthly hires and quits, as a share of its business jobs
+ * (its own establishments, as JOLTS counts; residents' jobs elsewhere are
+ * reported apart),
  * sit inside the JOLTS 2001-2019 range (5th to 95th percentile) for its
  * industry mix; (2) its average unemployment sits from its region's as
  * counties sit from their state's (BLS LAUS 2010-2019, 5th to 95th
@@ -51,21 +53,21 @@ const industries = jobsData.turnover.industries as unknown as Record<
   { hires: Band; quits: Band }
 >;
 const kindSector = jobsData.kindSector as Record<string, string>;
+/** Employers outside the town (residents' jobs elsewhere): JOLTS counts establishments, and their moves between outside employers aren't modeled, so they're reported apart. */
+function elsewhereIds(): Set<string> {
+  return new Set(
+    (
+      api.moduleState("jobs").table("employers").rows() as unknown as {
+        id: string;
+        elsewhere?: boolean;
+      }[]
+    )
+      .filter((row) => row.elsewhere)
+      .map((row) => row.id),
+  );
+}
 function businessJobs(c: CoreState): Map<string, number> {
   const bySector = new Map<string, number>();
-  // Residents working outside the town count too, as the nation's mix.
-  for (const row of api
-    .moduleState("jobs")
-    .table("employers")
-    .rows() as unknown as {
-    id: string;
-    elsewhere?: boolean;
-  }[])
-    if (row.elsewhere)
-      bySector.set(
-        "total",
-        (bySector.get("total") ?? 0) + countedJobsOf(c, row.id).length,
-      );
   for (const [id, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     const sector = kindSector[book.kindId] ?? kindSector["*"] ?? "total";
@@ -138,8 +140,10 @@ const changes = [
 const months = staffByMonth.length;
 const averageStaff =
   (staffAtOpening + staffByMonth.reduce((n, v) => n + v, 0)) / (months + 1);
+const outside = elsewhereIds();
+const townChanges = changes.filter((row) => !outside.has(row.organizationId));
 const rate = (kind: string) =>
-  (changes.filter((row) => row.kind === kind).length /
+  (townChanges.filter((row) => row.kind === kind).length /
     Math.max(1, averageStaff) /
     months) *
   100;
@@ -184,7 +188,11 @@ const named = layoff
   : null;
 
 const byKind: Record<string, number> = {};
-for (const row of changes) byKind[row.kind] = (byKind[row.kind] ?? 0) + 1;
+for (const row of townChanges) byKind[row.kind] = (byKind[row.kind] ?? 0) + 1;
+const elsewhereByKind: Record<string, number> = {};
+for (const row of changes)
+  if (outside.has(row.organizationId))
+    elsewhereByKind[row.kind] = (elsewhereByKind[row.kind] ?? 0) + 1;
 console.log(
   JSON.stringify(
     {
@@ -209,6 +217,13 @@ console.log(
         region: +regionUnemployment.toFixed(2),
       },
       changes: byKind,
+      elsewhere: {
+        jobsAtEnd: [...outside].reduce(
+          (n, id) => n + countedJobsOf(core, id).length,
+          0,
+        ),
+        changes: elsewhereByKind,
+      },
       namedLayoff: named,
       seconds: Math.round((Date.now() - started) / 1000),
       yearSeconds: Math.round((Date.now() - opened) / 1000),
