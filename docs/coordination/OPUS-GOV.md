@@ -3,18 +3,27 @@
 Only OPUS-GOV writes this file. The earlier log is `docs/coordination/gov.md`.
 
 - **Owns:** `src/rules` and the government engines (laws, budgets, offices, elections, campaigns, legislatures, executive).
-- **Branch now:** `gov/wiring-votes-and-views`, draft PR #4165 to main.
+- **Branches now:** `gov/legislating-audit` (draft PR #4193 to main). #4165 merged.
 - **Source:** the stress audit of Oct 14 (`docs/reports/stress-audit-2026-10-14/README.md`, PR #4160), defects 3, 18, 19, 4 and 6.
 
 ## What the owner can play now
 
-Once PR #4165 merges:
+Since PR #4165 merged:
 
 - **Speeches change votes.** What a council member hears changes how they vote. Public comment, witnesses at a committee hearing, a lobbyist's visit, a resident bringing a problem to their office and a candidate's speeches each move the listener's view on that question. The move is larger when the listener trusts the speaker, is close to them, shares their party, or has seen them vote that way before. In the audit's own Hurlock, Maryland, a board member now votes yes on universal preschool after one resident speaks for it at public comment. His opening view would have voted no. The same argument repeated by the same person wears out: each repeat counts less.
 - **Speak at public comment yourself.** When you sign up to speak, the members hear you and can be moved. Before, a sign-up was recorded and heard by no one.
 - **Groups follow minds.** Residents join the group on their side of a question. Anyone who turns against their group leaves it on the day their view crosses over. Nobody belongs to both sides.
 - **Who runs.** Only a cause or standing in town pushes someone to file for office. A grudge or a family worry no longer does.
 - **Unemployment follows your state's law.** A laid-off worker's weekly benefit, its cap, the waiting week and the number of weeks come from their state's law. American Samoa, Guam and the Northern Marianas have no program.
+
+Once PR #4193 merges:
+
+- **Laws stand once passed.** A council no longer passes a law and repeals it two weeks later. Members who like change back changing old law, not undoing what the body just did, and members hold to their own recent votes. In the audit's Lydia, South Carolina, the county passed 8 of 39 bills in 400 days instead of 96 of 200.
+- **Sign or veto as mayor or governor.** A passed bill waits on your desk with your office's real deadline (a governor's from the state's own rule); leave it and it becomes law unsigned. Needs PLAY's desk screen (`decideOnDesk`).
+- **Each level passes only what it may.** A county can't impose a Medicaid work requirement; Congress can't touch state sales tax.
+- **Ask a member to carry your bill.** Without a seat (or after losing), ask a member you know; they decide from their own position, how close you are and your standing in town (owner decision open: SG-GOV-carry-request).
+- **The executive brings bills.** A mayor, county executive, governor or president brings a bill through the member most inclined to carry it; in a sitting the executive does this for changes no member files.
+- **Vacancies and incumbents.** A vacant local seat is filled from the town's own residents (an Ohio legislator was appointed an Alaska borough commissioner), and an appointee standing again runs as the incumbent.
 
 ## Checklist
 
@@ -35,14 +44,16 @@ Once PR #4165 merges:
 ## Needs from other sessions
 
 - OPUS-PEOPLE: views and speech are theirs, and this branch changed them. A case now moves a listener by the speaker's standing (trust, closeness, party, record), not lean nearness alone, and the same case from the same speaker wears out with each repeat. A person's own act for their cause no longer moves their own stance; the drives engine already strengthens the drive. A drive forming no longer re-counts the event behind it. A retelling never reaches the person who gave the speech, and a body's own members no longer speak at its public comment.
+- OPUS-PEOPLE / CTO: #4153 deleted `src/presentation/english-composition.ts`, `english-grades.ts` and `speech-registers.ts`, which the director's opening and the newscast still import; main's played world can't load. PR #4193 restores them unchanged.
 - OPUS-CORE: added `leave(personId, organizationId)` to the core API, the mirror of `join`, for group members who change sides. Done for them: candidacy and legislature now read faded closeness (`closenessBetween`); SG-CORE-closeness-gov-raw-reads resolved.
 
 ## Next (from the CTO, Oct 14)
 
-- Laws stress audit (PR #4161), defects 1–4, 7, 8, 16, 17, 20, 23, 25: a taste for change reads the bill's direction against the law in force; a passed law's reconsideration slides with how recent and how wide its margin was; the mayor's and governor's desk gets the bill as a choice; delegate seats and Alabama's effective-date rule from data; a repeal recorded as an ending; the authority check reads each level's powers. Not `budgets.ts` money flows or `law-reach/group-b-money.ts` (another session's this round).
+- [x] Laws stress audit (PR #4161), defects 1–4, 7, 8, 16, 17, 18, 20, 23, 25, on PR #4193. Reconsideration rule registered as owner decision SG-GOV-reconsideration-rule. Was: a taste for change reads the bill's direction against the law in force; a passed law's reconsideration slides with how recent and how wide its margin was; the mayor's and governor's desk gets the bill as a choice; delegate seats and Alabama's effective-date rule from data; a repeal recorded as an ending; the authority check reads each level's powers. Not `budgets.ts` money flows or `law-reach/group-b-money.ts` (another session's this round).
 - Owner ruling: taxes and benefits change only through bills that set a rate or amount from the laws data. Bill drafting follows the owner's bill-on-paper design (DECISION-REGISTER.md, "LEGISLATION DRAFTING WORKFLOW"): typed provisions and operations as data, the paper view is PLAY's.
 - Empty county races on East Franklin, New Jersey (PLAYED_WORLD_SEED 4d71705b…): incumbents decide to run from their record, everyone with standing is considered, and where nobody runs the place's law decides and is recorded.
 
+- [x] Executive proposes (by request, data `executive-proposal.json`; SG-GOV-local-executive-proposal) and signs or vetoes; [x] ask a member to carry a bill.
 - Player-path audit: the executive proposes where the charter or constitution allows it (data) and signs or vetoes everywhere; a player who lost can speak from the podium and ask a member they know to carry a bill, the member's decision reading the asker's standing and relationship (owner confirmation pending on the second; build it).
 - Capability research: voters read a scandal from the news they actually received, by outlet reach and trust; a bribe buys a real decision through the chooser and is a record the press and justice can surface; later, censure, expulsion, leadership votes and a party withdrawing support.
 - Owner rulings that bind this work (Oct 14, late): knowing is a read (a stance cites a law, vote or act only through a record of how the person learned of it); ask why (every proof names each member's vote reasons).

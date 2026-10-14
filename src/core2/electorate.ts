@@ -206,6 +206,8 @@ export interface CountedFieldEntry {
   /** The share of the town's named adults who have heard of the candidate. */
   readonly recognition: number;
   readonly platform: readonly Stance[];
+  /** What the candidate's place on the printed ballot brings, appeal units (the first-listed edge). */
+  readonly ballotCue?: number;
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -219,6 +221,8 @@ export interface CountedAppeal {
   readonly recognition: number;
   /** The incumbent side of the voter's traits. */
   readonly incumbent: number;
+  /** The candidate's place on the printed ballot. */
+  readonly ballot: number;
 }
 
 /**
@@ -247,12 +251,14 @@ export function countedAppeal(
           platformAgreement(lean, entry.platform))
       : 0;
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
+    const ballot = entry.ballotCue ?? 0;
     appeal[entry.id] = {
-      total: party + standing + recognition + incumbent,
+      total: party + standing + recognition + incumbent + ballot,
       party,
       standing,
       recognition,
       incumbent,
+      ballot,
     };
   }
   return appeal;

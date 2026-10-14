@@ -257,12 +257,19 @@ function suitedResidents(
   core: CoreState,
   date: string,
   taken: ReadonlySet<string>,
+  townPlaceId: string,
 ) {
   const year = Number(date.slice(0, 4));
   return [...core.people.values()]
     .filter((person) => {
-      // Someone who moved away (an inactive record) lives elsewhere now.
-      if (!person.alive || person.tier === "husk" || taken.has(person.id))
+      // Someone who moved away (an inactive record) lives elsewhere now; a
+      // state's or another place's official lives there, not here.
+      if (
+        !person.alive ||
+        person.tier === "husk" ||
+        person.placeId !== townPlaceId ||
+        taken.has(person.id)
+      )
         return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
@@ -454,24 +461,39 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     );
     putOffice(api, { office: { ...office, vacancyRule: rule }, seats });
     if (!office.elected) continue;
-    const residents = suitedResidents(core, date, taken);
+    const residents = suitedResidents(
+      core,
+      date,
+      taken,
+      place.context.jurisdiction.id,
+    );
     for (const [index, seat] of seats.entries()) {
       const holder = residents[index];
-      if (!holder) break;
-      taken.add(holder.person.id);
+      if (holder) taken.add(holder.person.id);
+      // A town with too few named residents for every seat has a named
+      // official in the rest, as a vacancy with no resident to fill it does.
       pastTerms(
         api,
         worldSeed,
         office,
         seat,
-        seatResident(
-          api,
-          office,
-          seat,
-          holder.person.id,
-          date,
-          "in office at the opening",
-        ),
+        holder
+          ? seatResident(
+              api,
+              office,
+              seat,
+              holder.person.id,
+              date,
+              "in office at the opening",
+            )
+          : seatNamedOfficial(
+              api,
+              `${worldSeed}:${date}`,
+              office,
+              seat,
+              date,
+              "in office at the opening",
+            ),
       );
     }
   }
@@ -853,6 +875,11 @@ function fillVacancy(
                 ]) as unknown as TermRow[]
               ).flatMap((t) => (t.personId ? [t.personId] : [])),
             ]),
+            (
+              table(api, "loaded").get("town") as unknown as {
+                townPlaceId: string;
+              }
+            ).townPlaceId,
           ).find(
             (suited) =>
               decisionLean(

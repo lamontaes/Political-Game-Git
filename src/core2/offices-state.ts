@@ -10,6 +10,7 @@
  * each seat from the public-domain rosters in
  * `data/research/offices/legislature-party-counts-2026.json`.
  */
+import representation from "./data/offices/federal-representation.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import federalExecutiveResearch from "../../data/research/offices/federal-executive-2026.json" with { type: "json" };
@@ -118,7 +119,21 @@ const federalExecutive = federalExecutiveResearch as unknown as Record<
   "president" | "vicePresident",
   { party: string }
 >;
-const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
+/** Places represented in Congress differently from a state (data, never a name in logic). */
+const REPRESENTATION = (
+  representation as unknown as {
+    places: Record<
+      string,
+      {
+        houseMember: string;
+        termYears: number;
+        senators: number;
+        presidentialElectors: boolean;
+        citation: string;
+      }
+    >;
+  }
+).places;
 
 const METHODS: Readonly<Record<string, VacancyRule["method"]>> = {
   "special-election": "special-election",
@@ -322,7 +337,7 @@ export function federalOffices(
       termStarts: "01-20",
       elected: true,
       districted: false,
-      coversTown: !TERRITORIES.has(stateKey),
+      coversTown: REPRESENTATION[stateKey]?.presidentialElectors ?? true,
       source: "U.S. Const. art. II, § 1; amend. XXII; amend. XXV",
       estimate: false,
       vacancyRule: {
@@ -341,7 +356,7 @@ export function federalOffices(
         officeId: `office:US:${kind}`,
         district: null,
         index: 0,
-        coversTown: !TERRITORIES.has(stateKey),
+        coversTown: REPRESENTATION[stateKey]?.presidentialElectors ?? true,
         party:
           federalExecutive[kind === "president" ? "president" : "vicePresident"]
             .party,
@@ -353,7 +368,7 @@ export function federalOffices(
     executive("vice-president", "Vice President"),
   );
   const congress = parties.congress[stateKey] ?? {};
-  if (!TERRITORIES.has(stateKey) && stateKey !== "US-DC") {
+  if ((REPRESENTATION[stateKey]?.senators ?? 2) > 0) {
     const id = `office:${stateKey}:us-senate`;
     offices.push({
       office: {
@@ -394,7 +409,9 @@ export function federalOffices(
   const house = districts(usps, "congressional");
   const mine = townDistrict(placeGeoid, usps, "congressional", date);
   const id = `office:${stateKey}:us-house`;
-  const delegate = TERRITORIES.has(stateKey) || stateKey === "US-DC";
+  const special = REPRESENTATION[stateKey];
+  const delegate = special !== undefined;
+  const houseTerm = special?.termYears ?? 2;
   offices.push({
     office: {
       id,
@@ -402,21 +419,13 @@ export function federalOffices(
       jurisdiction: stateKey,
       governmentName: "United States House of Representatives",
       kind: delegate ? "us-house-delegate" : "us-house",
-      title:
-        stateKey === "US-PR"
-          ? "Resident Commissioner"
-          : delegate
-            ? "Delegate"
-            : "U.S. Representative",
+      title: special?.houseMember ?? "U.S. Representative",
       seats: Math.max(house.length, 1),
-      termYears: stateKey === "US-PR" ? 4 : 2,
+      termYears: houseTerm,
       // Every seat is up together: terms end at noon on January 3 of an odd
-      // year (U.S. Const. amend. XX, § 1); Puerto Rico's commissioner is
-      // elected with the presidency.
-      nextElectionYear: congressionalElectionYear(
-        date,
-        stateKey === "US-PR" ? 4 : 2,
-      ),
+      // year (U.S. Const. amend. XX, § 1); a four-year member is elected with
+      // the presidency.
+      nextElectionYear: congressionalElectionYear(date, houseTerm),
       termStarts: "01-03",
       elected: true,
       districted: !delegate,

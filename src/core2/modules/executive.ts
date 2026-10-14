@@ -34,11 +34,13 @@ import {
 import { drawOfficialIdentity } from "../officials-identity";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
 import {
+  executiveDecision,
   leanOf,
   mayorVeto,
   memberKey,
   members,
   registerLegislatureHooks,
+  type BillRow,
   type DeskAction,
 } from "./legislature";
 import { answerIn } from "./world-legislating";
@@ -495,6 +497,8 @@ export interface DeskRow {
   /** The executive's own position on the bill, and their temperament's lean toward signing. */
   readonly position: number;
   readonly temperament: number;
+  /** For a bill still waiting: the last day to act before inaction decides it. */
+  readonly signBy?: string;
 }
 
 /** A passed bill on an executive's desk: what they did with it, and why. */
@@ -509,7 +513,26 @@ function recordDesk(api: CoreAPI, action: DeskAction): void {
     status: action.status,
     position: action.position,
     temperament: action.temperament,
+    ...(action.signBy ? { signBy: action.signBy } : {}),
   } satisfies DeskRow as unknown as ModuleRow);
+}
+
+/**
+ * The player, as mayor, county executive, governor or president, signs or
+ * vetoes a bill waiting on their desk. The decision goes on the record and
+ * the bill becomes law (or goes back for an override vote) from it.
+ */
+export function decideOnDesk(
+  api: CoreAPI,
+  billId: string,
+  sign: boolean,
+): BillRow {
+  const row = table(api, "desk").get(`desk:${billId}`) as unknown as
+    DeskRow | undefined;
+  const playerId = (api.state as CoreState).playerId;
+  if (!row || row.status !== "awaiting" || row.executiveId !== playerId)
+    throw new Error(`No bill ${billId} is waiting on your desk.`);
+  return executiveDecision(api, billId, sign);
 }
 
 export function deskOf(api: CoreAPI, executiveId: string): readonly DeskRow[] {
