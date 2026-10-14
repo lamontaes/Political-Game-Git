@@ -365,11 +365,11 @@
     "file": "src/core2/population.ts",
     "line": 519,
     "whatItFakes": "Later Census, CES, HUD and OEWS data used as labeled January 2021 estimates.",
-    "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
+    "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior. Resolved Oct 14, 2026 (start/inauguration-2025): the owner ruled every game starts on January 20, 2025 (gameStartDate) and that data calibrates the simulation without defining the game's date, so the ACS 2020–2024, CES, HUD and OEWS vintages now calibrate an opening they nearly coincide with, not a January 2021 one.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "January 2021 source vintages for population, employment, pay, household costs and conditions.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-fallbackAnnualWageMinor",
@@ -425,11 +425,11 @@
     "file": "src/core2/population.ts",
     "line": 520,
     "whatItFakes": "Opening laws and officeholder rosters are not reconstructed for January 2021. Later-vintage economic and institution inputs cannot establish that historical legal state.",
-    "why": "CTO October 9 2:08 review requires this unresolved prototype input to be exposed separately.",
+    "why": "CTO October 9 2:08 review requires this unresolved prototype input to be exposed separately. Resolved Oct 14, 2026 (start/inauguration-2025): games no longer open in January 2021. They open on January 20, 2025 (gameStartDate), where the starting law rows resolve by date for every place (law in force on the start date, tested across all 56) and the officials roster is the 119th Congress sworn January 3, 2025, with the president and vice president taking office on the opening day as a recorded public event.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Sourced January 2021 law and office baseline rows for the same real locality, county, state and country.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-opening-peer-network",
@@ -1020,6 +1020,18 @@
     "addedAt": "2026-10-12",
     "replacement": "CORE's two-level fill-in builds the full person from this identity (seeded from the world and the seat), with kin and a past from PEOPLE.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-start-law-carried-back",
+    "kind": "data-gap",
+    "file": "src/core2/modules/laws.ts",
+    "line": 112,
+    "whatItFakes": "A law whose first recorded phase begins after the January 20, 2025 start (most income tax, sales tax, property tax, SNAP, unemployment and Medicaid rows begin October 2025 or January 2026) is in force from the start at that phase's terms, labeled as an estimate.",
+    "why": "The starting-law research was compiled for a 2026 start; the owner moved the start to January 20, 2025 on October 14, 2026, and a law in force must never be unknown.",
+    "addedBy": "start/inauguration-2025",
+    "addedAt": "2026-10-14",
+    "replacement": "Sourced phases in force on January 20, 2025 for each series and place in src/core2/data/laws/starting-law.json (2025 tax brackets and rates, FY2025 SNAP maximums and Medicaid match, 2025 unemployment maximums).",
+    "status": "open"
   },
   {
     "id": "SG-GOV-term-end-estimate",
@@ -3053,6 +3065,30 @@
     "addedBy": "PEOPLE",
     "addedAt": "2026-10-13",
     "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-cause-group-ads-only",
+    "kind": "cause-group-spending",
+    "file": "src/core2/modules/drives.ts",
+    "line": 1,
+    "whatItFakes": "A cause group spends its money only on ad time, bought through the campaigns engine's ad purchase; it holds no events, sends no mailers and pays none of a cause's own costs.",
+    "why": "Stress audit defect 2 (Oct 14): groups took donations and never spent them. The ad purchase was the one existing way to buy reach.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "A group chooses among the reach it can buy (events, mailers, press) and a cause's costs (a lawyer, a petition drive where the golden path needs one), read from its members' plans.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-closeness-gov-raw-reads",
+    "kind": "closeness-read",
+    "file": "src/core2/closeness.ts",
+    "line": 1,
+    "whatItFakes": "candidacy.ts (incumbent tie) and legislature.ts (two member ties) still read a relationship's stored level, the closeness at the last contact, instead of today's faded closeness (closenessBetween).",
+    "why": "Stress audit defect 21 (Oct 14). Every other engine now reads closenessBetween; those two files belong to gov/wiring-votes-and-views this round and OPUS-CORE may not edit them.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-14",
+    "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "open"
   }
 ]
