@@ -1,0 +1,13 @@
+{
+  "source": "y-sen-04.jpg",
+  "instance": 9,
+  "chair": "chair-035",
+  "reasons": [
+    "visual_occluded_or_incomplete_head"
+  ],
+  "room_pixel_share": 0.03500897666068223,
+  "shift": [
+    0,
+    0
+  ]
+}

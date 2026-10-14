@@ -1,0 +1,1131 @@
+{
+  "place": "us-senate-floor",
+  "size": [1672, 941],
+  "plate_sha256": "429d9437a6df60588b189b9a43d747aae02c18e2eeda8566e23eaae5645b22d6",
+  "method": "Frozen Mask R-CNN COCO V1 chair and bench detections from the empty painting, matched to the existing occupied slot inventory. Broad benches retain their existing separate positions. Board chair points, desk outlines, and front rails were marked from the empty painting. Furniture masks preserve the detector pixels.",
+  "chairs": [
+    {
+      "id": "chair-024-slot-0",
+      "seat": [304.5, 557.5],
+      "box": [264.9, 302.5, 79.2, 275.0],
+      "depth": "row-11",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:0"],
+      "native_width": 50,
+      "head_top": 348
+    },
+    {
+      "id": "chair-006",
+      "seat": [42.3, 544.0],
+      "box": [0, 383.8, 86.2, 180.2],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": [
+        "us-senate-floor:seat:1",
+        "us-senate-floor:seat:20",
+        "us-senate-floor:seat:33"
+      ],
+      "native_width": 54,
+      "head_top": 361
+    },
+    {
+      "id": "chair-004",
+      "seat": [179.8, 563.8],
+      "box": [138.5, 357.9, 82.7, 225.9],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": [
+        "us-senate-floor:seat:2",
+        "us-senate-floor:seat:3",
+        "us-senate-floor:seat:16",
+        "us-senate-floor:seat:21",
+        "us-senate-floor:seat:22"
+      ],
+      "native_width": 52,
+      "head_top": 354
+    },
+    {
+      "id": "chair-032",
+      "seat": [390.6, 392.6],
+      "box": [367.7, 303.5, 45.9, 109.1],
+      "depth": "row-9",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:4", "us-senate-floor:seat:5"],
+      "native_width": 46,
+      "head_top": 340
+    },
+    {
+      "id": "chair-051",
+      "seat": [437.0, 395.1],
+      "box": [414.4, 313.7, 45.1, 101.3],
+      "depth": "row-10",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:6"],
+      "native_width": 44,
+      "head_top": 340
+    },
+    {
+      "id": "chair-019-slot-7",
+      "seat": [1228.8, 581.1],
+      "box": [1194.5, 316.3, 68.6, 284.8],
+      "depth": "row-11",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:7"],
+      "native_width": 43,
+      "head_top": 361
+    },
+    {
+      "id": "chair-049",
+      "seat": [1281.2, 394.2],
+      "box": [1257.1, 302.6, 48.1, 111.6],
+      "depth": "row-9",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:8"],
+      "native_width": 47,
+      "head_top": 340
+    },
+    {
+      "id": "chair-019-slot-9",
+      "seat": [1301.5, 581.1],
+      "box": [1264.5, 316.0, 73.9, 285.1],
+      "depth": "row-11",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:9"],
+      "native_width": 46,
+      "head_top": 361
+    },
+    {
+      "id": "chair-019-slot-10",
+      "seat": [1367.5, 581.1],
+      "box": [1320.0, 306.5, 95.0, 294.6],
+      "depth": "row-11",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:10"],
+      "native_width": 59,
+      "head_top": 352
+    },
+    {
+      "id": "chair-033-slot-11",
+      "seat": [1437.5, 634.5],
+      "box": [1387.3, 320.0, 100.3, 334.5],
+      "depth": "row-13",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:11"],
+      "native_width": 63,
+      "head_top": 365
+    },
+    {
+      "id": "chair-019-slot-12",
+      "seat": [1474.2, 581.1],
+      "box": [1432.0, 316.5, 84.5, 284.6],
+      "depth": "row-11",
+      "facing": "camera",
+      "legacy_seats": ["us-senate-floor:seat:12"],
+      "native_width": 53,
+      "head_top": 362
+    },
+    {
+      "id": "chair-019-slot-13",
+      "seat": [1564.2, 581.1],
+      "box": [1522.4, 309.0, 83.6, 292.1],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:13"],
+      "native_width": 52,
+      "head_top": 354
+    },
+    {
+      "id": "chair-033-slot-14",
+      "seat": [1641.0, 634.5],
+      "box": [1604.0, 319.0, 73.9, 335.5],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:14"],
+      "native_width": 46,
+      "head_top": 364
+    },
+    {
+      "id": "chair-013",
+      "seat": [154.4, 476.1],
+      "box": [112.3, 355.1, 84.2, 141.0],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:15"],
+      "native_width": 67,
+      "head_top": 371
+    },
+    {
+      "id": "chair-003",
+      "seat": [1490.3, 563.0],
+      "box": [1406.3, 357.3, 168.1, 225.7],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": [
+        "us-senate-floor:seat:17",
+        "us-senate-floor:seat:31",
+        "us-senate-floor:seat:46"
+      ],
+      "native_width": 105,
+      "head_top": 387
+    },
+    {
+      "id": "chair-014",
+      "seat": [1518.4, 475.4],
+      "box": [1475.9, 353.6, 84.8, 141.8],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:18", "us-senate-floor:seat:19"],
+      "native_width": 74,
+      "head_top": 385
+    },
+    {
+      "id": "chair-008",
+      "seat": [378.8, 507.2],
+      "box": [344.1, 367.8, 69.5, 159.4],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:23"],
+      "native_width": 43,
+      "head_top": 405
+    },
+    {
+      "id": "chair-046-slot-24",
+      "seat": [513.4, 579.0],
+      "box": [471.2, 354.2, 84.5, 244.8],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:24"],
+      "native_width": 53,
+      "head_top": 399
+    },
+    {
+      "id": "chair-041",
+      "seat": [664.7, 465.9],
+      "box": [620.6, 353.1, 88.2, 132.8],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:25", "us-senate-floor:seat:26"],
+      "native_width": 82,
+      "head_top": 394
+    },
+    {
+      "id": "chair-022",
+      "seat": [977.3, 444.2],
+      "box": [946.4, 348.3, 61.8, 115.9],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:27", "us-senate-floor:seat:28"],
+      "native_width": 82,
+      "head_top": 392
+    },
+    {
+      "id": "chair-045",
+      "seat": [1150.9, 456.2],
+      "box": [1126.0, 364.5, 49.8, 111.6],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:29"],
+      "native_width": 61,
+      "head_top": 398
+    },
+    {
+      "id": "chair-033-slot-30",
+      "seat": [1347.0, 634.5],
+      "box": [1297.7, 352.0, 98.6, 302.5],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:30"],
+      "native_width": 62,
+      "head_top": 397
+    },
+    {
+      "id": "chair-033-slot-32",
+      "seat": [1613.0, 634.5],
+      "box": [1496.4, 351.2, 233.2, 303.3],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:32"],
+      "native_width": 146,
+      "head_top": 396
+    },
+    {
+      "id": "chair-001",
+      "seat": [411.6, 579.9],
+      "box": [344.7, 384.8, 133.8, 215.0],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:34", "us-senate-floor:seat:42"],
+      "native_width": 84,
+      "head_top": 424
+    },
+    {
+      "id": "chair-021",
+      "seat": [534.2, 520.0],
+      "box": [465.9, 382.0, 136.7, 157.9],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:35", "us-senate-floor:seat:43"],
+      "native_width": 123,
+      "head_top": 414
+    },
+    {
+      "id": "chair-046-slot-36",
+      "seat": [626.1, 579.0],
+      "box": [560.1, 375.2, 132.0, 223.8],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:36"],
+      "native_width": 82,
+      "head_top": 420
+    },
+    {
+      "id": "chair-033-slot-37",
+      "seat": [1044.9, 634.5],
+      "box": [987.7, 376.8, 114.4, 277.7],
+      "depth": "row-13",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:37"],
+      "native_width": 72,
+      "head_top": 422
+    },
+    {
+      "id": "chair-035",
+      "seat": [1103.6, 520],
+      "box": [1040, 380, 150, 160],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:38"],
+      "native_width": 119,
+      "head_top": 423
+    },
+    {
+      "id": "chair-005",
+      "seat": [1261.5, 579.2],
+      "box": [1195.1, 385.1, 132.9, 214.1],
+      "depth": "row-14",
+      "facing": "away",
+      "legacy_seats": [
+        "us-senate-floor:seat:39",
+        "us-senate-floor:seat:44",
+        "us-senate-floor:seat:45"
+      ],
+      "native_width": 83,
+      "head_top": 424
+    },
+    {
+      "id": "chair-020",
+      "seat": [1632.5, 544.4],
+      "box": [1577.2, 388.3, 110.6, 176.1],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:40"],
+      "native_width": 115,
+      "head_top": 416
+    },
+    {
+      "id": "chair-010",
+      "seat": [260.2, 496.0],
+      "box": [214.3, 378.9, 91.6, 137.1],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:41"],
+      "native_width": 107,
+      "head_top": 431
+    },
+    {
+      "id": "chair-002-slot-47",
+      "seat": [315.0, 833.9],
+      "box": [99.8, 432.0, 430.5, 421.9],
+      "depth": "row-16",
+      "facing": "away",
+      "legacy_seats": ["us-senate-floor:seat:47"],
+      "native_width": 300,
+      "head_top": 477
+    }
+  ],
+  "furniture": [
+    {
+      "id": "empty-chair-000",
+      "mask": "furniture/empty-chair-000.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-004",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-003",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-001",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-005",
+        "chair-020",
+        "chair-010",
+        "chair-002-slot-47",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-001",
+      "mask": "furniture/empty-chair-001.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-004",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-003",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-001",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-005",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-002",
+      "mask": "furniture/empty-chair-002.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-004",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-003",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-001",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-005",
+        "chair-020",
+        "chair-010",
+        "chair-002-slot-47",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-003",
+      "mask": "furniture/empty-chair-003.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-004",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-003",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-004",
+      "mask": "furniture/empty-chair-004.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-004",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-003",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-005",
+      "mask": "furniture/empty-chair-005.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-004",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-003",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-001",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-005",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-006",
+      "mask": "furniture/empty-chair-006.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-046-slot-36",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-008",
+      "mask": "furniture/empty-chair-008.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-009",
+      "mask": "furniture/empty-chair-009.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-010",
+      "mask": "furniture/empty-chair-010.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-010"
+      ]
+    },
+    {
+      "id": "empty-chair-013",
+      "mask": "furniture/empty-chair-013.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-014",
+      "mask": "furniture/empty-chair-014.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-016",
+      "mask": "furniture/empty-chair-016.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-022"
+      ]
+    },
+    {
+      "id": "empty-chair-018",
+      "mask": "furniture/empty-chair-018.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-010"
+      ]
+    },
+    {
+      "id": "empty-chair-019",
+      "mask": "furniture/empty-chair-019.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-020",
+      "mask": "furniture/empty-chair-020.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-046-slot-36",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-021",
+      "mask": "furniture/empty-chair-021.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-022",
+      "mask": "furniture/empty-chair-022.png",
+      "in_front_of": ["chair-032", "chair-051", "chair-049", "chair-022"]
+    },
+    {
+      "id": "empty-chair-024",
+      "mask": "furniture/empty-chair-024.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-022"
+      ]
+    },
+    {
+      "id": "empty-chair-025",
+      "mask": "furniture/empty-chair-025.png",
+      "in_front_of": ["chair-032", "chair-051", "chair-049", "chair-022"]
+    },
+    {
+      "id": "empty-chair-027",
+      "mask": "furniture/empty-chair-027.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-032",
+      "mask": "furniture/empty-chair-032.png",
+      "in_front_of": []
+    },
+    {
+      "id": "empty-chair-033",
+      "mask": "furniture/empty-chair-033.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-035",
+      "mask": "furniture/empty-chair-035.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-037",
+      "mask": "furniture/empty-chair-037.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-006",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-033-slot-11",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-033-slot-14",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-033-slot-30",
+        "chair-033-slot-32",
+        "chair-021",
+        "chair-046-slot-36",
+        "chair-033-slot-37",
+        "chair-020",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-039",
+      "mask": "furniture/empty-chair-039.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-041",
+      "mask": "furniture/empty-chair-041.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-042",
+      "mask": "furniture/empty-chair-042.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-045",
+      "mask": "furniture/empty-chair-045.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-046",
+      "mask": "furniture/empty-chair-046.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-019-slot-7",
+        "chair-049",
+        "chair-019-slot-9",
+        "chair-019-slot-10",
+        "chair-019-slot-12",
+        "chair-019-slot-13",
+        "chair-013",
+        "chair-014",
+        "chair-008",
+        "chair-046-slot-24",
+        "chair-041",
+        "chair-022",
+        "chair-045",
+        "chair-046-slot-36",
+        "chair-010",
+        "chair-035"
+      ]
+    },
+    {
+      "id": "empty-chair-048",
+      "mask": "furniture/empty-chair-048.png",
+      "in_front_of": [
+        "chair-024-slot-0",
+        "chair-032",
+        "chair-051",
+        "chair-049",
+        "chair-013",
+        "chair-014",
+        "chair-022",
+        "chair-045"
+      ]
+    },
+    {
+      "id": "empty-chair-049",
+      "mask": "furniture/empty-chair-049.png",
+      "in_front_of": []
+    },
+    {
+      "id": "empty-chair-050",
+      "mask": "furniture/empty-chair-050.png",
+      "in_front_of": ["chair-032", "chair-051", "chair-049", "chair-022"]
+    },
+    {
+      "id": "empty-chair-051",
+      "mask": "furniture/empty-chair-051.png",
+      "in_front_of": []
+    },
+    {
+      "id": "back-desk-chair-024-slot-0",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-024-slot-0"]
+    },
+    {
+      "id": "back-desk-chair-032",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-032"]
+    },
+    {
+      "id": "back-desk-chair-051",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-051"]
+    },
+    {
+      "id": "back-desk-chair-019-slot-7",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-019-slot-7"]
+    },
+    {
+      "id": "back-desk-chair-049",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-049"]
+    },
+    {
+      "id": "back-desk-chair-019-slot-9",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-019-slot-9"]
+    },
+    {
+      "id": "back-desk-chair-019-slot-10",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-019-slot-10"]
+    },
+    {
+      "id": "back-desk-chair-033-slot-11",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-033-slot-11"]
+    },
+    {
+      "id": "back-desk-chair-019-slot-12",
+      "polygon": [
+        [0, 398],
+        [1672, 398],
+        [1672, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-019-slot-12"]
+    }
+  ],
+  "unmapped_legacy_seats": []
+}

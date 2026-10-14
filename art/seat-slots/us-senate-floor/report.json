@@ -1,0 +1,17 @@
+{
+  "place": "us-senate-floor",
+  "chairs": 32,
+  "kept": 148,
+  "rejected": 305,
+  "rejected_by_reason": {
+    "visual_occluded_or_incomplete_head": 19,
+    "too_wide": 93,
+    "room_pixels": 197,
+    "no_chair": 12,
+    "disconnected": 11,
+    "fully_occluded": 2,
+    "visual_pose_does_not_fit_desk": 39
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

@@ -1,0 +1,14 @@
+{
+  "source": "w-sen-02.jpg",
+  "instance": 0,
+  "chair": "chair-024-slot-0",
+  "reasons": [
+    "disconnected",
+    "too_wide"
+  ],
+  "room_pixel_share": 0.04241274358670303,
+  "shift": [
+    0,
+    -2
+  ]
+}
