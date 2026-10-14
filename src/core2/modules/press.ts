@@ -1314,8 +1314,9 @@ function reporterFor(
   outlet: OutletRow,
   candidateId: string,
 ): string | null {
+  // A reporter who is the candidate does not interview themselves.
   const reporters = (outlet.reporterIds ?? []).filter(
-    (id) => api.state.people.get(id)?.alive,
+    (id) => id !== candidateId && api.state.people.get(id)?.alive,
   );
   if (!reporters.length) return null;
   // stopgapId: SG-PEOPLE-press-favors-and-leaks
