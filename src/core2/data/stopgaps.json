@@ -2302,11 +2302,11 @@
     "file": "src/core2/jobs-benefits.ts",
     "line": 60,
     "whatItFakes": "Every state's unemployment insurance pays half the lost weekly pay up to $611 a week for 26 weeks after one waiting week, with a $2,775 base-period minimum (the states' medians).",
-    "why": "Each state's own terms are law in force on OPUS-GOV's branch (lawInForce(api, \"unemployment-insurance\")), not yet on this one.",
+    "why": "Resolved by OPUS-GOV (2026-10-14): jobs-benefits.ts reads lawInForce directly, no stand-in. Was: each state's own terms are law in force on OPUS-GOV's branch (lawInForce(api, \"unemployment-insurance\")), not yet on this one.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerUnemploymentTerms with the state's terms from lawInForce once the laws module is on the same branch.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-business-applies",
@@ -3065,6 +3065,6 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
-    "status": "open"
+    "status": "resolved"
   }
 ]
