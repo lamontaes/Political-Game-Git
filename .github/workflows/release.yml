@@ -611,7 +611,7 @@ jobs:
       - publish_candidate
     if: needs.publish_candidate.outputs.published == 'true'
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - os: macos-latest
@@ -620,8 +620,12 @@ jobs:
           - os: windows-latest
             command: "node scripts/package.mjs --win --x64"
             name: win-x64
+            optional: true
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    # stopgapId: SG-PLAY-windows-package-allowed-to-fail
+    # The owner plays on a Mac; Windows may stay red until early access.
+    continue-on-error: ${{ matrix.optional == true }}
     permissions:
       contents: read
     env:
@@ -713,7 +717,7 @@ jobs:
       - build_candidate
       - publish_candidate
       - desktop_package
-    if: needs.publish_candidate.outputs.published == 'true'
+    if: always() && needs.publish_candidate.outputs.published == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -738,7 +742,9 @@ jobs:
           set -euo pipefail
           cd "$RUNNER_TEMP/desktop-release"
           ls -la
-          [[ -f latest.yml && -f latest-mac.yml ]]
+          # Windows may be missing until early access (stopgap
+          # SG-PLAY-windows-package-allowed-to-fail); the Mac files may not.
+          [[ -f latest-mac.yml ]]
           tag="v${NEXT_VERSION}"
           # A draft first, so the updater never sees a half-uploaded release.
           gh release create "$tag" --repo "$GITHUB_REPOSITORY" \

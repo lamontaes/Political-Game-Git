@@ -4104,5 +4104,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Shell lines drawn from an English-engine bank shipped beside the client, read by main.mjs.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-windows-package-allowed-to-fail",
+    "kind": "owner-decision",
+    "file": ".github/workflows/desktop-package.yml",
+    "line": 46,
+    "whatItFakes": "The Windows package job (and the Windows build in each release) may fail without failing the checks or blocking the Mac release.",
+    "why": "Owner's call (Oct 14, 2026): the Mac build is what matters now; Windows can stay red until early access.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
+    "status": "open"
   }
 ]
