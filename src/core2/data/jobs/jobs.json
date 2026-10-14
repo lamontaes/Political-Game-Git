@@ -1849,6 +1849,9 @@
     "startedLooking": "started-looking",
     "leftJob": "left-job",
     "otherOffer": "other-offer",
-    "traitDrawn": "trait-drawn"
+    "traitDrawn": "trait-drawn",
+    "died": "died",
+    "movedAway": "moved-away",
+    "replacement": "replaces-leaver"
   }
 }

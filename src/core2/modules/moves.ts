@@ -669,9 +669,14 @@ function leave(
     }
     if (left > 0) departure.cashLeftMinor = left;
   }
+  // The jobs each mover leaves, named on the event so their employers replace them.
+  const jobsLeft: Record<string, string> = {};
   for (const id of going) {
     const mover = core.people.get(id)!;
-    if (mover.jobId) api.endJob(mover.jobId, departure.id);
+    if (mover.jobId) {
+      jobsLeft[`person:${id}:job`] = mover.jobId;
+      api.endJob(mover.jobId, departure.id);
+    }
     api.updatePerson(id, { tier: INACTIVE_TIER });
     store(api).table("pulls").remove(id);
   }
@@ -707,9 +712,12 @@ function leave(
     publicRecord: false,
     topic: where.destinationId,
     source,
-    facts: Object.fromEntries(
-      going.map((id) => [`person:${id}:residence`, where.destinationId]),
-    ),
+    facts: {
+      ...Object.fromEntries(
+        going.map((id) => [`person:${id}:residence`, where.destinationId]),
+      ),
+      ...jobsLeft,
+    },
   });
   return departure;
 }
