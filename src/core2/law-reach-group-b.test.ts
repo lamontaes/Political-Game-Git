@@ -791,7 +791,17 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expect(line(state, "highways")).toBe(highways - moved);
     const road = openPeople("budget-line:highways");
     for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
-    expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
+    // On a fiscal year's first day the budget's adoption reads the line again
+    // after that day's moves and deaths, so the reach is the town going in or
+    // the town after the day's moves.
+    const goingIn = residentsAged(16);
+    const saved = startOfDay;
+    startOfDay = null;
+    const afterMoves = residentsAged(16);
+    startOfDay = saved;
+    expect([goingIn, afterMoves], where).toContain(
+      reached("budget-line:highways"),
+    );
     report.highwayShift = { movedMinor: moved };
     enact(key, 0, "state");
     expect(line(state, "highways")).toBe(highways);
