@@ -22,6 +22,17 @@ describe("variants come from the mined bank, one axis each", () => {
     expect(fill("Near {nowhere}.", found!.values)).toBeNull();
   });
 
+  it("reads a slot only as the kind of fact it names", () => {
+    // "born" is not an age: the line is not the funeral part.
+    expect(
+      slotValues({ text: "{relation} was {age}." }, "My daughter was born."),
+    ).toBeNull();
+    expect(
+      slotValues({ text: "{relation} was {age}." }, "My father was 84.")
+        ?.values,
+    ).toEqual({ relation: "My father", age: "84" });
+  });
+
   it("assigns one axis by its proxy", () => {
     expect(
       axisOf("Hi.", "Hello there, my friend, good to see you today."),

@@ -192,6 +192,29 @@
     "citation": "The share of its money a cause group spends each month on its cause. BBB Wise Giving Alliance Standard 8 asks a charity to spend at least 65% of its total expenses on programs (https://give.org/donor-landing-page/bbb-standards-for-charity-accountability); Charity Navigator's program expense ratio for advocacy groups commonly runs 70% to 85%. A small volunteer group holds little reserve, so it spends most of what it has each month.",
     "estimatedFrom": "Program expense ratios (BBB Wise Giving Alliance; Charity Navigator); spread 0.5 to 1."
   },
+  "causeGroupAdMinimumMinor": {
+    "value": 10000,
+    "tag": "TUNABLE",
+    "citation": "The smallest ad buy a local outlet sells, in cents ($100): a group whose month's spending is below it buys nothing and saves toward it. Small-market radio spots and weekly-newspaper display ads are sold from tens to a few hundred dollars an insertion; the value is a starting point inside that.",
+    "spread": {
+      "low": 2500,
+      "high": 50000,
+      "unit": "cents",
+      "citation": "From one short radio spot to a quarter-page in a small daily."
+    }
+  },
+  "countedGivingShare": {
+    "value": 0.496,
+    "tag": "ESTIMATED",
+    "citation": "The share of U.S. households that give to charity in a year: 49.6% in 2018 (Lilly Family School of Philanthropy, Philanthropy Panel Study, 'The Giving Environment', 2021).",
+    "estimatedFrom": "Applied to the counted adults who share a cause group's concern, as the share of them who give at all.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.66,
+      "unit": "share of households",
+      "citation": "49.6% in 2018 against 66.2% in 2000 in the same study."
+    }
+  },
   "officeReplyDays": {
     "value": 7,
     "tag": "ESTIMATED",
@@ -4027,17 +4050,15 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "donationLivingCostDays": {
-    "value": 1,
+  "donationShareOfSpare": {
+    "value": 0.001,
     "tag": "TUNABLE",
-    "citation": "One donation equals this many days of the donor's own recorded living cost. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "The share of a person's cash above their buffer (moneyBufferDays of living cost) they give in one gift to a cause they hold at full strength; a weaker hold gives proportionally less. Checked against what U.S. households give to causes like these: Giving USA 2024 reports $374.40 billion of individual giving in 2023, about 16% of all giving going to public-society benefit and environment and animal groups, about $456 a year per household over the Census Bureau's 131.4 million households. Measured: Trenton, North Carolina (seed bdbb4f011961), two played years, the 18 people who gave gave a mean of $449.42 a year (scripts/core2-year/giving-proof.ts). Givers choose to give about 80 times a year, where real donors give a few times; the share is set for the yearly total.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Annual household giving surveys report yearly totals, not per-gift amounts in days of living cost."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 0.0003,
+      "high": 0.005,
+      "unit": "share of spare cash per gift",
+      "citation": "Within this range a played year's mean yearly giving per giver stays within about a third to five times the Giving USA per-household figure."
     }
   },
   "volunteerHours": {

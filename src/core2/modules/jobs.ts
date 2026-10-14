@@ -1231,6 +1231,11 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[];
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
   for (const seeker of counted) {
+    // A seeker who died or moved away with their household is no one to hire.
+    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+      store(api).table("countedSeekers").remove(seeker.personId);
+      continue;
+    }
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
     const person = { traits: traitsOf(api, seeker.personId) };

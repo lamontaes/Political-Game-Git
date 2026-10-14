@@ -41,6 +41,8 @@ export interface GuardLine {
 }
 
 export type Rule =
+  | "held-by-grades"
+  | "ungrammatical"
   | "institution-part"
   | "institution-event"
   | "bare-command-title"
@@ -199,6 +201,22 @@ const ATTENDING =
 const IMPERATIVE_LEAD = (title: string) =>
   VERBS.has(clean(title.split(/\s+/)[0] ?? "")) &&
   !/^(?:the|a|an)\s/i.test(title);
+
+/**
+ * Whether a composed sentence is whole English: no unfilled slot, no empty
+ * slot left as a gap ("was  years old"), no age without its number ("was born
+ * years old"), no doubled word,
+ * and a capital after every full stop.
+ */
+export function grammatical(text: string): boolean {
+  if (/[{}]|\s{2,}|\s[.,?!]|[.,?!]{2,}/.test(text)) return false;
+  if (/\b(\w+) \1\b/i.test(text)) return false;
+  if (/\byears old\b/i.test(text) && !/\b\d+(?: years old)/i.test(text))
+    return false;
+  return text
+    .split(/(?<=[.?!])\s+/)
+    .every((sentence) => !sentence || /^["“'(]?[\p{Lu}\d]/u.test(sentence));
+}
 
 /** The reason a single line fails, or null. */
 export function lineProblem(line: GuardLine): Rule | null {

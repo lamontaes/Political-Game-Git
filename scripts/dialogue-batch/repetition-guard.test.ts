@@ -14,6 +14,7 @@ import {
   shapeOf,
   verbOf,
   type GuardLine,
+  grammatical,
 } from "./repetition-guard";
 
 const KINDS = [
@@ -217,4 +218,18 @@ describe("the repetition guard's selection", () => {
       expect(rules).toContain("institution-part");
     },
   );
+});
+
+describe("an alternative must be whole English", () => {
+  it("refuses an empty slot, an age with no number and a doubled word", () => {
+    expect(grammatical("My daughter was born years old.")).toBe(false);
+    expect(grammatical("My father was  years old.")).toBe(false);
+    expect(grammatical("I went to to the store.")).toBe(false);
+    expect(grammatical("Hello {name}.")).toBe(false);
+    expect(grammatical("My father was 84 years old.")).toBe(true);
+    expect(grammatical("My mother got elected. I never knew.")).toBe(true);
+    expect(grammatical("Voting against this action: Daniel McKinney.")).toBe(
+      true,
+    );
+  });
 });

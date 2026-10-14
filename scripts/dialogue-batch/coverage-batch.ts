@@ -55,11 +55,14 @@ import lexicon from "./verb-lexicon.json" with { type: "json" };
 import { candidatesOf } from "./grading-batch";
 import {
   checkBatch,
+  grammatical,
+  lineProblem,
   loadThresholds,
   selectPassing,
   type GuardLine,
   type Rejection,
 } from "./repetition-guard";
+import { heldByGrades } from "../../src/presentation/english-grades";
 import {
   AXES,
   minedParts,
@@ -1167,15 +1170,37 @@ function main() {
     cached = JSON.parse(readFileSync(cachePath, "utf8"));
   if (!cached) {
     cached = { raws: [], gaps: [], stood: [] };
-    if (only !== "conversation")
-      for (const place of placeList) {
+    if (only !== "conversation") {
+      // A world that fails to run is named as a gap and the next place is
+      // drawn, so the batch still covers as many places as asked.
+      const read: Place[] = [];
+      for (let life = 0; read.length < places && life < places * 2; life += 1) {
+        const drawn = drawPlace(`${seed}:${life}`, "dialogue-report");
+        const place: Place = {
+          life,
+          key: drawn.key,
+          name: drawn.name,
+          state: drawn.state,
+          seed: drawn.seed,
+        };
         console.error(`reading ${place.name}`);
-        const read = readWorld(place);
-        cached.raws.push(...read.raws);
-        cached.gaps.push(...read.gaps.map((g) => `${place.name}: ${g}`));
-        cached.stood.push(...read.stood);
+        try {
+          const world = readWorld(place);
+          cached.raws.push(...world.raws);
+          cached.gaps.push(...world.gaps.map((g) => `${place.name}: ${g}`));
+          cached.stood.push(...world.stood);
+          read.push(place);
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : String(error);
+          cached.gaps.push(
+            `${place.name} (seed ${place.seed}): the played world stopped before its year ended (${message}); another place was drawn`,
+          );
+        }
         (globalThis as { gc?: () => void }).gc?.();
       }
+      placeList.splice(0, placeList.length, ...read);
+    }
     if (cachePath) writeFileSync(cachePath, JSON.stringify(cached));
   }
   const conversation = mix.conversation
@@ -1190,6 +1215,51 @@ function main() {
   const triedBy: Record<string, number> = {};
   const poolBy: Record<string, number> = {};
   const shortGaps: string[] = [];
+  // The owner's grades come first: a line or an alternative said by a part he
+  // held back never reaches the page, nor does one that is not whole English.
+  const held = (keys: readonly string[]) =>
+    keys.some((key) => heldByGrades(key) || heldByGrades(`bank:${key}`));
+  const graded = { lines: 0, alternatives: 0, ungrammatical: 0 };
+  const screen = (kind: string, items: Item[]): Item[] =>
+    items.flatMap((item) => {
+      if (held(item.parts)) {
+        graded.lines += 1;
+        rejections.push({ rule: "held-by-grades", kind, text: item.text });
+        return [];
+      }
+      if (!grammatical(item.text)) {
+        graded.ungrammatical += 1;
+        rejections.push({ rule: "ungrammatical", kind, text: item.text });
+        return [];
+      }
+      // The line before it is part of the same exchange: a tribute that made
+      // a school the event fails whichever of its sentences is shown.
+      if (
+        item.prior &&
+        lineProblem({ ...guardOf(item), text: item.prior }) ===
+          "institution-event"
+      ) {
+        rejections.push({ rule: "institution-event", kind, text: item.prior });
+        return [];
+      }
+      const variants = item.variants.filter((variant) => {
+        if (held(variant.parts)) {
+          graded.alternatives += 1;
+          return false;
+        }
+        if (!grammatical(variant.text)) {
+          graded.ungrammatical += 1;
+          return false;
+        }
+        return true;
+      });
+      return [
+        {
+          ...item,
+          variants: variants.map((variant, at) => ({ ...variant, n: at + 1 })),
+        },
+      ];
+    });
   const guardOf = (item: Item): GuardLine => ({
     kind: item.category,
     text: item.text,
@@ -1244,7 +1314,10 @@ function main() {
           if (lane[at] && !ordered.some((row) => row.text === lane[at]!.text))
             ordered.push(lane[at]!);
     } else ordered = choose(pool, CANDIDATES, kind);
-    const candidates = ordered.map((item) => ({ ...guardOf(item), item }));
+    const candidates = screen(kind, ordered).map((item) => ({
+      ...guardOf(item),
+      item,
+    }));
     const picked = selectPassing(kind, candidates, mix[kind]!, thresholds);
     poolBy[kind] = candidates.length;
     triedBy[kind] = picked.tried;
@@ -1311,6 +1384,7 @@ function main() {
       candidates: poolBy,
       tried: triedBy,
       rejected: rejections.length,
+      byGrades: graded,
       rejections,
     },
     variety: {
@@ -1411,6 +1485,7 @@ type PageBatch = {
     candidates: Record<string, number>;
     tried: Record<string, number>;
     rejected: number;
+    byGrades?: { lines: number; alternatives: number; ungrammatical: number };
     rejections: { rule: string; kind: string; text: string }[];
   };
   emotionCoverage: Record<string, number>;
@@ -1440,7 +1515,10 @@ function guardSection(batch: PageBatch): string {
       .slice(0, 3)
       .map((row) => `- ${rule} (${row.kind}): ${cell(row.text.slice(0, 120))}`),
   );
-  return `Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
+  const grades = g.byGrades
+    ? `Your grades were applied first: ${g.byGrades.lines} candidate lines and ${g.byGrades.alternatives} alternatives used a part you failed (a school or a job as an entry, "The bill passed.", "the manager turned to"), and ${g.byGrades.ungrammatical} lines or alternatives were not whole English (such as "My daughter was born years old."); none of them is on this page.\n\n`
+    : "";
+  return `${grades}Before this page was written, every kind was checked for repetition (owner, Oct 14: batch 7 was "still super repetitive"). Each kind is measured on the share of distinct openers (first two words), distinct sentence shapes (names, titles, numbers and dates masked) and distinct main verbs; a kind under its threshold, or any line whose event is a school, a workplace, an institution or a filing office, or a bill title worded as a bare command, fails. The thresholds are estimated from real samples of the same size (\`src/director/data/director.json\`, \`dialogueGuard*\` rows). The worlds were played ${batch.days} days each.
 
 | Kind | Lines | Openers (threshold) | Shapes (threshold) | Verbs (threshold) | Candidates | Looked at before it passed |
 | --- | --- | --- | --- | --- | --- | --- |

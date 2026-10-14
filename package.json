@@ -31,6 +31,8 @@
     "test:law-consequence-modules": "node --test scripts/law-consequence-modules/generate-manifest.test.mjs",
     "generate:trait-effects": "node scripts/trait-effects/generate-manifest.mjs",
     "test:trait-effects": "node --test scripts/trait-effects/generate-manifest.test.mjs",
+    "test:secrets-scan": "node --test scripts/secrets/scan-tracked-secrets.test.mjs",
+    "test:place-selection": "node --import tsx --test src/bench/place-selection.test.mjs",
     "check:trait-effects": "node scripts/trait-effects/generate-manifest.mjs --check",
     "check:law-consequence-modules": "node scripts/law-consequence-modules/generate-manifest.mjs --check",
     "format": "prettier --check .",

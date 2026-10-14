@@ -1138,6 +1138,12 @@
       "tag": "TUNABLE",
       "source": "How much more a floor leader's calendar weighs a change as the share of the town's adults whose own life it touches rises (work, children at home, age): a change touching every resident counts its backers twice. Set so a widely felt change outranks an equally backed one nobody lives with, without overriding a clear majority of backers; checked against the spread.",
       "spread": [0.5, 2]
+    },
+    "committeeInterestWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a member's own interest in a committee's subject (their signature issues, or for a town member whether it touches their own life) counts beside the assigning authority's rating of them (party, views, closeness, seniority; about -1 to 3). Members request the committees their interests and districts run to, and leaders grant most requests (Frisch and Kelly, 'Committee Assignment Politics in the U.S. House', 2006; Shepsle 1978). Checked against the spread so neither interest nor the leaders' favor alone decides.",
+      "spread": [0.5, 2]
     }
   }
 }
