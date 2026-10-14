@@ -19,7 +19,7 @@
  */
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
-import { registerPolicyHandler } from "../modules/law-effects";
+import { registerPolicyHandler } from "./host";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import type { LawRowInput } from "../laws-starting";
 import {
@@ -72,6 +72,8 @@ interface PolicyDef {
   readonly kind: string;
   readonly people?: PeopleSelector;
   readonly organizations?: readonly string[];
+  /** The employers it binds gain by it (it pays them or exempts their sales), so they don't organize against it. */
+  readonly employersGain?: boolean;
   readonly terms?: Readonly<Record<string, string>>;
   readonly enforcer: string;
   readonly source: string;

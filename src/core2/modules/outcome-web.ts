@@ -171,22 +171,23 @@ function readEngine(
 ): number | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
-  // Only unemployment is read from an engine today (world-metrics).
+  // Engine measures are read from the economy's monthly rows (world-metrics).
   if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
     return null;
   const recorded = api
     .moduleState(WORLD_METRICS_MODULE_ID)
     .table("months")
-    .query("byPlace", [placeId]) as unknown as readonly {
+    .query("byPlace", [placeId]) as unknown as readonly ({
     date: string;
-    unemploymentRate: number;
-  }[];
+  } & Record<string, unknown>)[];
   const latest = recorded
     .filter((row) => row.date <= api.state.date)
     .sort((a, b) => b.date.localeCompare(a.date))[0];
-  const row =
-    latest ?? townMetrics(api).find((metrics) => metrics.placeId === placeId);
-  return row ? row.unemploymentRate * definition.unitScale : null;
+  const row = (latest ??
+    townMetrics(api).find((metrics) => metrics.placeId === placeId)) as
+    Record<string, unknown> | undefined;
+  const value = row?.[definition.field];
+  return typeof value === "number" ? value * definition.unitScale : null;
 }
 
 const ENGINE_CAUSES = [

@@ -87,7 +87,15 @@ const BASELINES = web.baselines as Readonly<
   Record<string, { readonly value: number }>
 >;
 const ENGINE = local.engineMeasures as Readonly<
-  Record<string, { readonly owner: string; readonly unitScale: number }>
+  Record<
+    string,
+    {
+      readonly owner: string;
+      /** The field of a world-metrics month row the measure reads. */
+      readonly field: string;
+      readonly unitScale: number;
+    }
+  >
 >;
 export const LAW_PREFIX = "law:";
 /** An index outcome reads 100 where the place began. */

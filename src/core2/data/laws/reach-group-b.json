@@ -185,7 +185,8 @@
       },
       "organizations": ["enterprise:retail"],
       "enforcer": "department of revenue",
-      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)"
+      "source": "Model of grocery exemptions (Tax Foundation, Sales Tax Treatment of Groceries 2025)",
+      "employersGain": true
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "mechanic": "balanced-budget",

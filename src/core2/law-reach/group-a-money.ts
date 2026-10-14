@@ -16,7 +16,7 @@
 import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import type { PolicyHandler } from "../modules/law-effects";
+import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,

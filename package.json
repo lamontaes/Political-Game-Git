@@ -57,6 +57,7 @@
     "release:check": "node --import tsx scripts/release/index.ts check",
     "stopgaps:report": "node scripts/stopgaps-report.mjs",
     "zero-dice": "node scripts/zero-dice-guard.mjs",
+    "all-places": "node --import tsx scripts/core2-year/all-places.mjs",
     "audit:runtime-text:score": "node --import tsx scripts/runtime-text/score.ts",
     "audit:scan": "node --import tsx scripts/audit/autoscan.ts",
     "release:preview": "node --import tsx scripts/release/index.ts preview",
