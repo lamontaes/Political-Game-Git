@@ -6,7 +6,7 @@ import { initialFocusPeople } from "../focus";
 import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { parameter } from "../parameters";
 import { buildPopulation } from "../population";
-import measurement from "../data/measurement.json" with { type: "json" };
+import { gameStartDate } from "../game-start";
 
 export function prepareWorldAt(options: {
   seed: string;
@@ -16,7 +16,7 @@ export function prepareWorldAt(options: {
   const population = buildPopulation({
     seed: options.seed,
     placeKey: options.placeKey,
-    startedAt: options.startedAt ?? measurement.startedAt,
+    startedAt: options.startedAt ?? gameStartDate(),
     minimumPeople: parameter("targetPopulation"),
     openingEmployment: true,
     scheduledWork: true,

@@ -14,6 +14,7 @@ const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 if (typeof global.gc !== "function")
   throw new Error("Run with node --expose-gc for a measured heap.");
 const { buildBenchWorld } = await at("src/bench/world.ts");
+const { gameStartDate } = await at("src/core2/game-start.ts");
 const { advanceCore } = await at("src/core2/life.ts");
 const { moduleTableSizes } = await at("src/core2/module-state.ts");
 const seed = value(
@@ -22,7 +23,7 @@ const seed = value(
     (await import("node:crypto")).randomBytes(16).toString("hex"),
 );
 const months = Number(value("--months", "36"));
-const world = buildBenchWorld(seed, "2026-10-12", {
+const world = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   ...(process.env.GOLDEN_PATH_PLACE_KEY
     ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
