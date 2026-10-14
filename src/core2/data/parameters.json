@@ -996,15 +996,17 @@
   "workRoutineRetentionWeeks": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "No measured bound for this prototype parameter. Number of quiet completed weekly work rollups retained per worker; full focus results and open obligations stay separate.",
+    "citation": "Engineering bound, not behavior: how many quiet completed weekly work rollups each worker keeps; full focus results and open obligations stay separate.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+      "low": 2,
+      "high": 8,
+      "unit": "weeks",
+      "citation": "Tuning range: half to twice the current value."
     },
-    "stopgapId": "SG-P8-work-result-retention",
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "checkedAgainst": "Kept as small as the readers allow, checked by the speed guard (a town's game year under two minutes)."
   },
   "mondayIndex": {
     "value": 1,

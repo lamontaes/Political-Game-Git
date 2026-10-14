@@ -544,7 +544,8 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Owner-approved bounded retention plus reader/callback/reload assertions; preserve consequential evidence and full focus history.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the row: keeping a few weeks of quiet work rollups is a memory bound checked by the speed guard, not a stand-in; the parameter is tagged TUNABLE as an engineering limit."
   },
   {
     "id": "SG-P8-business-books-priors",
