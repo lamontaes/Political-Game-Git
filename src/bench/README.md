@@ -4,8 +4,8 @@ Run `npm run bench` and open forwarded port 3000.
 
 - **`/play`** is the game screen on the new core. Press **New life**.
 - **`/dev`** (also `/`) is Dev mode, the owner's test bench and an early-access
-  player feature. The play screen opens it from **Dev mode** in its lower-right
-  menu. It works on the world being played; **New world** builds another one
+  player feature. On the play screen, turn on the developer ring
+  (top right) and choose **Dev mode** in the menu. It works on the world being played; **New world** builds another one
   from any seed (empty for a random place among all 56).
 
 ## Dev mode
