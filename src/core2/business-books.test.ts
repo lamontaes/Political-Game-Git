@@ -172,6 +172,29 @@ describe("pure employer books candidate (no money writer)", () => {
     expect(missing.gap).toBe(data.reasons.missingIncomeAnchor);
   });
 
+  it("leaves what households buy unchanged when prices and incomes rise alike", () => {
+    const inflation = p("two");
+    // Income already at its target, so only the price level differs.
+    const steady = projectMarket(
+      market({
+        priorReachedIncomeMinor: cash(),
+        currentTownIncomeMinor: cash(),
+      }),
+    );
+    const inflated = projectMarket(
+      market({
+        priorReachedIncomeMinor: cash() * inflation,
+        currentTownIncomeMinor: cash() * inflation,
+        generalPriceFactor: inflation,
+      }),
+    );
+    // Spending in dollars doubles with prices; the amount bought is the same.
+    expect(inflated.annualDemandMinor! / inflation).toBeCloseTo(
+      steady.annualDemandMinor!,
+      digits(),
+    );
+  });
+
   it("retains market member order and responds to price/capacity while leaving unsupported demand unallocated", () => {
     const members = [
       {
