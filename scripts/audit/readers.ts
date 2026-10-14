@@ -161,6 +161,9 @@ export function researchReaders(
     dataFiles.map((file) => [file, []]),
   );
   const add = (data: string, reader: DataReader): void => {
+    // The bare research root is a prefix a checker tests paths against
+    // (`startsWith("data/research/")`), not a folder a script reads whole.
+    if (data === "data/research") return;
     if (readers.has(data)) {
       readers.get(data)!.push(reader);
       return;

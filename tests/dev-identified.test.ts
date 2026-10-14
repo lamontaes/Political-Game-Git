@@ -178,14 +178,14 @@ describe(
       expect(output).toContain("Host: 127.0.0.1");
       expect(output).toContain(`Requested Port: ${port}`);
       expect(output).toContain("Launcher PID:");
-      const play = `Play: http://127.0.0.1:${port}/\n`;
+      const play = `Play: http://127.0.0.1:${port}/src/bench/play.html\n`;
       const candidate = `Candidate-art Play (separate saves): http://127.0.0.1:${port}/?art-preview=candidate\n`;
-      const review = `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=review%20%2F%3F%26%20fixture\n`;
+      const seed = "Seed: review /?& fixture\n";
       expect(output).toContain(play);
       expect(output).toContain(candidate);
-      expect(output).toContain(review);
-      expect(output.indexOf(play)).toBeLessThan(output.indexOf(candidate));
-      expect(output.indexOf(candidate)).toBeLessThan(output.indexOf(review));
+      expect(output).toContain(seed);
+      expect(output.indexOf(play)).toBeLessThan(output.indexOf(seed));
+      expect(output.indexOf(seed)).toBeLessThan(output.indexOf(candidate));
       // Printed by Vite, not by the launcher, so it can arrive after the bind.
       expect(await waitForOutput(() => output, "test-proof-mode")).toBe(true);
 
@@ -225,9 +225,7 @@ describe(
 
       expect(output).toContain("Host: 127.0.0.1");
       expect(output).toContain(`Requested Port: ${port}`);
-      expect(output).toContain(
-        `Review tools (developer fixtures): http://127.0.0.1:${port}/review.html?seed=dev-lab2-review`,
-      );
+      expect(output).toContain("Seed: dev-lab2-review");
 
       child.kill("SIGTERM");
       const isClosed = await waitForPort(port, false, 5000);

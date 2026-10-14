@@ -394,11 +394,10 @@
       "entry_id": "pr80-modular-in-scene",
       "source_id": "pr-80",
       "label": "The modular person seam in the office compositor",
-      "disposition": "re-homed",
+      "disposition": "rejected",
       "basis": ["technical"],
       "verified_by": "measured-in-repository",
-      "reason": "This branch could compose a modular person and could place a person in a room, but not both: the office compositor only painted authored flattened rasters, so anyone without a hand-made recipe fell straight through to a placeholder. The donor's seam falls through authored, then modular, then placeholder, and OfficeScene mounts whichever the composition returns. Fail-closed behaviour is unchanged and now better tested: an incomplete plan still reports a placeholder, and the same test proves no layer of a composed person comes from the thirty-five banked candidates.",
-      "rehomed_modules": ["tests/e2e/character-proof-real.spec.ts"]
+      "reason": "Retired with the old presentation code and the Playwright suite (tests/e2e) that the October 14 retirement deleted: the office compositor seam and its proof no longer exist in the repository. What it was: this branch could compose a modular person and could place a person in a room, but not both: the office compositor only painted authored flattened rasters, so anyone without a hand-made recipe fell straight through to a placeholder. The donor's seam falls through authored, then modular, then placeholder, and OfficeScene mounts whichever the composition returns. Fail-closed behaviour is unchanged and now better tested: an incomplete plan still reports a placeholder, and the same test proves no layer of a composed person comes from the thirty-five banked candidates."
     },
     {
       "entry_id": "pr48-upstream-pack-manifests",

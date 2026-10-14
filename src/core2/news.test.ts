@@ -6,6 +6,7 @@ import { newsKey, newsModule, trustOf } from "./modules/news";
 import { viewOf, viewsModule } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
+import newsParameters from "./data/news/parameters.json" with { type: "json" };
 
 // M2-09: a public record reaches residents through outlets, at each person's
 // own habits, and through the people they talk to; people who never hear it
@@ -43,7 +44,12 @@ advanceCore(core, addDays(makeIsoDate(start), 2));
 const notYet = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && !coreAPI(core).knows(id, newsKey(storyId)),
 );
-advanceCore(core, addDays(makeIsoDate(start), 45));
+// Through the story's whole life: past it, the next month forgets it
+// (news.ts, forgetOldNews).
+advanceCore(
+  core,
+  addDays(makeIsoDate(start), newsParameters.newsMaxAgeDays.value),
+);
 const residents = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && core.people.get(id)?.alive,
 );

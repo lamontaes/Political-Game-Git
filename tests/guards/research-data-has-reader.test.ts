@@ -24,7 +24,7 @@ interface AllowEntry {
  * The waiting list may only shrink. When a file gains its reader and leaves
  * the list, lower this to the new length in the same change; never raise it.
  */
-const AWAITING_READER_CEILING = 11;
+const AWAITING_READER_CEILING = 7;
 
 const allowlist = JSON.parse(
   readFileSync(

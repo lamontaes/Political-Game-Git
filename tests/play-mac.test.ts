@@ -134,7 +134,7 @@ esac`,
 }
 
 describe("double-click Play guidance and preserved launch boundaries", () => {
-  it("opens production art Play with exact cached dependencies and labels review separately", () => {
+  it("opens production art Play with exact cached dependencies and labels candidate art separately", () => {
     const mode = "production";
     const { result, trace, sha } = launch(mode);
     expect(result.error).toBeUndefined();
@@ -144,7 +144,7 @@ describe("double-click Play guidance and preserved launch boundaries", () => {
     expect(result.stdout).toContain(play);
     expect(result.stdout).toContain("art Play (separate saves):");
     expect(result.stdout.indexOf(play)).toBeLessThan(
-      result.stdout.indexOf("Review tools (developer fixtures):"),
+      result.stdout.indexOf("art Play (separate saves):"),
     );
     expect(result.stdout).toContain(`Verified source: ${sha}`);
     expect(trace).toContain(`open ${url}\n`);
