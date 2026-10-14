@@ -1303,7 +1303,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Outside buyers spend each industry's sourced share of receipts, scaled each month by the macro and regional engines' prices, output and regional demand (macro.ts scaleOutsideSales); individual outside customers aren't needed (owner, Oct 14). Marker removed."
   },
   {
     "id": "SG-CORE-owner-distributions",
