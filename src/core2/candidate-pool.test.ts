@@ -102,6 +102,14 @@ describe(`the standing pool in the played world: ${world.place.key} (seed ${seed
         const decision = decisions.find(
           (d) => d.contestId === contest.id && d.personId === f.personId,
         );
+        // The opening ballot of a race whose filing closed before the
+        // opening is history: its stand-in party candidates weighed nothing.
+        if (
+          !decision &&
+          contest.filingDeadline < opening &&
+          ["challenger", "nominee for an open seat"].includes(f.how ?? "")
+        )
+          continue;
         expect(decision, `${contest.title}: ${f.personId}`).toBeDefined();
         // Whoever filed chose to, except a filing that stood on the opening
         // record for a race whose filing closed before it.
