@@ -50,3 +50,39 @@ Once PR #4165 merges:
 ## Questions for the owner
 
 - None. Read `DECISION-REGISTER.md` and `OWNER-DECISIONS.md` before asking.
+
+## Treasuries
+
+Builder: Claude (Opus, high), branch `gov/treasuries-spend`, PR #4169, started October 14, 2026. No sub-agents built code; one Sonnet reviewer read the report.
+
+What the owner can play now: every treasury pays its budget each month. The town's council budget becomes money that reaches the town's businesses, its staff and the world outside. A federal cut to Social Security lowers the next check of a retiree who claimed during play. Report: `docs/reports/treasuries-2026-10-14/README.md`.
+
+Checklist:
+
+- [x] Monthly treasury close for federal, state, county and city: revenue in, every line out
+- [x] Transfers down: federal aid to the state and local treasuries, state aid to the county and town
+- [x] In-town lines first: public pay drawn on its line, law-reach benefits, local contractors
+- [x] Social Security in town reads the federal line (awards claimed in play; the rest wait on OPUS-CORE)
+- [x] Counted workers' withholding; withholding records after the payment; no unmatched lines
+- [x] Staff pay checked against its line (defect 19)
+- [x] Paid-leave premium cap, bribe record timing, poll cost kind
+- [x] Budget notice names its adopter; `departmentRequests` for a bill with no executive
+- [x] One-year proof in the played world (Norway, Michigan; Lydia, South Carolina)
+- [x] A cut lands as money and mood; the law is blamed only once a heard story ties it (owner ruling, Oct 14)
+- [x] One base for budget-line measures; a repealed balanced budget restores its cut (CTO, Oct 14)
+- [x] CI fixes: D.C.'s state-level treasury passes on what it collects; property tax with no levying government goes to the collector's
+- [x] CI green on the PR head, October 14
+
+Next in this area:
+
+- State surpluses build up where Census revenue exceeds spending: officials decide from their principles to save or spend it (owner ruling, Sept 29).
+- The federal debt limit reaches the federal treasury's borrowing (owner ruling, Sept 29).
+- Counted workers' withholding shortfall kept as a balance owed (owner ruling, Sept 22: debt persists).
+- Appointee pay against its line (executive.ts, the other GOV builder's file).
+
+Needs from other sessions:
+
+- OPUS-CORE: rows in #4191's `outside-flows.json` for `treasury` and `federal-borrowing`, and `outside-revenue` matched instead of a plug, so the stricter M0-08 passes; `setStandingContractAmount` for recipient-income contracts (SG-GOV-opening-award-level); a rerate for the residents' retirement flows (SG-GOV-counted-social-security-level); public employers paid from their treasury (SG-GOV-public-employers-outside).
+- Other GOV builder: a budget bill with no executive carries `departmentRequests` lines (`legislature.ts:439`).
+
+Questions for the owner: none.
