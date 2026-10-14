@@ -12,7 +12,6 @@ import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
@@ -80,9 +79,7 @@ describe("campaign calibration on totals", () => {
         );
       const player = adults[0]!;
       const core = createLifeCore(
-        withCountedVoterGroups(
-          collapseToTwoLevels({ ...full, playerId: player.id }),
-        ),
+        collapseToTwoLevels({ ...full, playerId: player.id }),
       );
       openLaws(core);
       openOffices(core, seed);
@@ -106,7 +103,9 @@ describe("campaign calibration on totals", () => {
       const met = knockDoors(api, {
         filingId: filing.id,
         canvasserId: player.id,
-        hours: 3,
+        // About 180 doors: a few dozen leaves the contact rate within chance of
+        // the 15% floor in a town that answers at the field rate.
+        hours: 12,
       });
       const knocked = campaignFor(api, filing.id).doorsKnocked.length;
       const contact = met.length / Math.max(1, knocked);
@@ -163,7 +162,9 @@ describe("campaign calibration on totals", () => {
         movedMuch: moved.length,
       };
       expect(knocked, `${state} ${key}`).toBeGreaterThan(10);
-      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThan(0.15);
+      expect(contact, `${state} ${key} ${seed} contact`).toBeGreaterThanOrEqual(
+        0.15,
+      );
       expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
       if (known.length >= 10)
         expect(

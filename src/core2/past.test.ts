@@ -1,0 +1,127 @@
+import { randomBytes } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { promisesOf, votesOf } from "./modules/record";
+import { LAWS_MODULE_ID } from "./modules/laws";
+import { NEWS_MODULE_ID } from "./modules/news";
+import {
+  lawHistory,
+  PAST_MODULE_ID,
+  type PastElectionRow,
+  type PublicFigureRow,
+} from "./past-module";
+import { publicKnowledgeOf } from "./past-public";
+import { openThePast } from "./past";
+import { coreAPI } from "./state";
+
+// The world has a past (owner, Oct 14, 2026), in the world the owner plays:
+// the bench world on a seed nobody chose, every module installed. Every
+// check reads records other engines read.
+const seed = process.env.PAST_SEED ?? randomBytes(8).toString("hex");
+const opening = gameStartDate();
+const world = buildBenchWorld(seed, opening, { twoLevel: true });
+const api = coreAPI(world.core);
+const rows = <T>(table: string) =>
+  api.moduleState(PAST_MODULE_ID).table(table).rows() as unknown as T[];
+
+describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
+  it("gives every law in force a history passed before day one", () => {
+    const laws = api.moduleState(LAWS_MODULE_ID).table("laws").rows();
+    expect(laws.length).toBeGreaterThan(0);
+    for (const law of laws) {
+      const history = lawHistory(api, law.id as string);
+      if (!history) {
+        // Rows of one enactment share the history of its first row.
+        const shared = rows<{ lawIds: string[] }>("laws").some((h) =>
+          h.lawIds.includes(law.id as string),
+        );
+        expect(shared, law.id as string).toBe(true);
+        continue;
+      }
+      expect(history.enactedOn < opening).toBe(true);
+      expect(history.enactedOn <= history.effectiveDate).toBe(true);
+      for (const call of history.rollCalls)
+        expect(call.yes, `${history.id} ${call.body}`).toBeGreaterThan(call.no);
+    }
+  });
+
+  it("seats every elected officeholder by an election with votes that add up", () => {
+    const elections = rows<PastElectionRow>("elections");
+    expect(elections.length).toBeGreaterThan(0);
+    for (const election of elections) {
+      expect(election.date < opening).toBe(true);
+      const [winner, challenger] = election.candidates;
+      expect(winner!.votes).toBeGreaterThan(challenger!.votes);
+      expect(winner!.votes + challenger!.votes).toBe(election.totalVotes);
+    }
+  });
+
+  it("gives officeholders a prior-term voting record the record engine reads", () => {
+    const elections = rows<PastElectionRow>("elections");
+    // A territory's delegate casts no floor vote; a place with any chamber
+    // covering it has members with a record.
+    if (rows("bills").length) {
+      const withVotes = elections.filter(
+        (e) => votesOf(api, e.winnerId).length > 0,
+      );
+      expect(withVotes.length).toBeGreaterThan(0);
+      for (const election of withVotes)
+        for (const vote of votesOf(api, election.winnerId))
+          expect(vote.date < opening).toBe(true);
+    }
+    // The record engine reads every winner's campaign promises.
+    const promised = elections.filter((e) => e.promiseIds.length);
+    for (const election of promised)
+      expect(promisesOf(api, election.winnerId).length).toBeGreaterThan(0);
+  });
+
+  it("has a news archive from the year before day one", () => {
+    const stories = api
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows()
+      .filter((s) => (s.date as string) < opening);
+    expect(stories.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it("lets the player know the president without having met them", () => {
+    const president = rows<PublicFigureRow>("figures").find((f) =>
+      f.officeId.endsWith(":president"),
+    )!;
+    expect(president).toBeDefined();
+    const known = publicKnowledgeOf(api, world.playerId!, president.personId);
+    expect(known).not.toBeNull();
+    expect(known!.met).toBe(false);
+    expect(known!.positions.length).toBeGreaterThan(0);
+    expect(known!.reputation.length).toBeGreaterThan(0);
+  });
+
+  it("gives the player's household its own history", () => {
+    const player = world.core.people.get(world.playerId!)!;
+    const kinds = new Set((player.pastFacts ?? []).map((f) => f.kind));
+    expect(kinds.has("household:livelihood")).toBe(true);
+    const parents = (player.pastFacts ?? []).filter(
+      (f) => f.kind === "family:parent",
+    );
+    const home = world.core.households.get(player.householdId)!;
+    const parentsAtHome = parents.filter((f) =>
+      home.memberIds.includes(f.facts?.otherPersonId ?? ""),
+    );
+    const partners = parentsAtHome.some((f) =>
+      (world.core.people.get(f.facts!.otherPersonId!)?.pastFacts ?? []).some(
+        (g) =>
+          g.kind === "family:partner" &&
+          parentsAtHome.some(
+            (h) => h.facts?.otherPersonId === g.facts?.otherPersonId,
+          ),
+      ),
+    );
+    if (partners) expect(kinds.has("household:parents-met")).toBe(true);
+  });
+
+  it("opens once", () => {
+    const summary = openThePast(world.core, seed);
+    expect(summary.elections).toBe(rows("elections").length);
+  });
+});

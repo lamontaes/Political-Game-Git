@@ -11,6 +11,7 @@ import { coreAPI, fillInPerson } from "./state";
 import { decisionLean } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { daysAfterStart } from "./tooling/test-days";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-retirement-claims");
@@ -80,13 +81,7 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     });
     const api = coreAPI(core);
     const start = total(core);
-    // A year from the opening, then two months more (dates follow the game start).
-    const monthsOn = (months: number) => {
-      const at = new Date(`${input.startedAt}T00:00:00Z`);
-      at.setUTCMonth(at.getUTCMonth() + months);
-      return at.toISOString().slice(0, 10);
-    };
-    advanceCore(core, monthsOn(12));
+    advanceCore(core, daysAfterStart(365));
     const claims = retirementClaims(core);
     expect(claims.has(adult.id)).toBe(true);
     const flows = residentsRuntime(core)!.flows;
@@ -122,7 +117,7 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       ([id, row]) => row.counted && residentPerson(core, id),
     )!;
     fillInPerson(core, claimant);
-    advanceCore(core, monthsOn(14));
+    advanceCore(core, daysAfterStart(424));
     const moved = retirementClaims(core).get(claimant)!;
     expect(moved.counted).toBe(false);
     expect(api.accounts().obligation(moved.obligationId)!.paidMinor).toBe(

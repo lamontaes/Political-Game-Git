@@ -126,7 +126,7 @@ if (holder) {
     series: "minimum-wage",
     value: (wage?.current ?? 0) + 200,
   }) as { id: string; number: string; status: string };
-  // Where the state rules a local wage out, a catalogued policy instead.
+  // Where the state rules a local wage out, a cataloged policy instead.
   for (const question of seat.questions) {
     if (bill.status !== "blocked") break;
     bill = seatAct(w.core, holder, {

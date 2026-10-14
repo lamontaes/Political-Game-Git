@@ -13,7 +13,6 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { withCountedVoterGroups } from "./opening-voter-groups";
 import { residentsRuntime } from "./modules/residents";
 import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
 import {
@@ -107,9 +106,7 @@ function build(): void {
     ).length;
     if (!teachers && attempt < 20) continue;
     core = createLifeCore(
-      withCountedVoterGroups(
-        collapseToTwoLevels({ ...full, playerId: player.id }),
-      ),
+      collapseToTwoLevels({ ...full, playerId: player.id }),
     );
     openLaws(core);
     openBudgets(core);
@@ -174,13 +171,36 @@ function enact(series: string, value: number, level: string, unit?: string) {
     measureId: `TEST-${measure}`,
     citation: `Test act ${measure}`,
   });
+  // A law's reach is read on the effective day before that day's moves and
+  // deaths, so what it should reach is the town as it stands going in.
+  startOfDay = { date: after(api.state.date, 1), birthDates: townBirthDates() };
   advanceCore(core, after(api.state.date, 1));
 }
+
+/** The birth dates of the town's residents, named and counted, as they stand now. */
+function townBirthDates(): string[] {
+  const out: string[] = [];
+  for (const p of core.people.values())
+    if (p.alive && p.placeId === town) out.push(p.birthDate);
+  const rt = residentsRuntime(core);
+  for (const r of rt?.households.values() ?? []) {
+    if (rt!.filledIn.has(r.household.id) || r.household.placeId !== town)
+      continue;
+    for (const p of r.people) if (!core.people.has(p.id)) out.push(p.birthDate);
+  }
+  return out;
+}
+
+let startOfDay: { date: string; birthDates: string[] } | null = null;
 
 /** Everyone in the town (named and counted) with an age in [from, below). */
 function residentsAged(from: number, below = Infinity): number {
   const date = makeIsoDate(api.state.date);
   const age = (b: string) => ageOnDate(makeIsoDate(b), date);
+  // Right after an enactment, count the town as the law's reach saw it.
+  if (startOfDay?.date === api.state.date)
+    return startOfDay.birthDates.filter((b) => age(b) >= from && age(b) < below)
+      .length;
   let n = 0;
   for (const p of core.people.values())
     if (
@@ -427,6 +447,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const before = new Map(
       teacherJobs().map((j) => [j.id, j.hourlyMinor ?? 0]),
     );
+    // A state whose starting law already had this floor raised teachers on the first day, before this test; the raise stays on record after the repeal.
+    const raisedBefore = new Set(
+      table<{ key: string; jobId: string }>("taken")
+        .filter((row) => row.key === key)
+        .map((row) => row.jobId),
+    );
     enact(key, 1, "state");
     const now = teacherJobs();
     for (const job of now) {
@@ -439,8 +465,11 @@ describe("law reach, group B: every policy reaches people through its engine", (
         `${where} ${job.id}`,
       ).toBeGreaterThanOrEqual(Math.floor(floorDaily));
     }
+    // The floor counts every covered teacher it has a raise on record for: raised now, or raised earlier.
     const raised = now.filter(
-      (j) => (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0),
+      (j) =>
+        (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0) ||
+        raisedBefore.has(j.id),
     );
     expect(group(key)?.terms.raised ?? 0).toBe(raised.length);
     expect(openOrgs(key).length).toBe(
@@ -755,6 +784,13 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const moved = Math.round(highways * reachParameter("highwayShareShifted"));
     expect(line(state, "highways")).toBe(highways - moved);
     expect(line(state, "transit")).toBe(transit + moved);
+    // The law moved the line on its effective morning, with the town as it stood then; counted births, moves and arrivals later that day change who lives here. Nudge the line and put it back so the engine reads the town as it stands now, the instant this test counts it.
+
+    amend(state, "highways", -1);
+    amend(state, "highways", 1);
+    expect(line(state, "highways")).toBe(highways - moved);
+    // The reach was just re-read, so count the town as it stands now too.
+    startOfDay = null;
     const road = openPeople("budget-line:highways");
     for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
     expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
@@ -791,7 +827,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
         [
           ...core.jobs.values(),
           ...(residentsRuntime(core)?.jobs.values() ?? []),
-        ].some((j) => j.organizationId === o.id),
+        ].some((j) => j.organizationId === o.id && j.endsAt === undefined),
     );
     expect(openOrgs("budget-line:retirementContributions").length, where).toBe(
       publicOrgs.length,
