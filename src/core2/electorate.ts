@@ -199,14 +199,18 @@ export interface CountedFieldEntry {
   /** The share of the town's named adults who have heard of the candidate. */
   readonly recognition: number;
   readonly platform: readonly Stance[];
-  /** What the candidate's place on the printed ballot brings, appeal units (the first-listed edge). */
-  readonly ballotCue?: number;
   /**
    * A reported scandal as the town received it: the penalty in appeal units
    * times the share of the town's named adults the story reached (0 where
    * none was reported). A named voter reads their own knowledge instead.
    */
   readonly scandal?: number;
+  /**
+   * What the candidate's place on each form of the printed ballot brings,
+   * appeal units (the first-listed edge); one form unless the law rotates
+   * names (`ballot-order.ts`).
+   */
+  readonly ballotCues?: readonly number[];
 }
 
 /** One counted voter's appeal for a candidate, with its parts. */
@@ -242,6 +246,8 @@ export function countedAppeal(
     readonly incumbentLean: number;
     /** How much the voter trusts the press against the average reader (1); news-weighted parts scale by it. */
     readonly trust?: number;
+    /** Which form of the ballot the voter holds (their precinct's place in a rotation). */
+    readonly ballotForm?: number;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -254,7 +260,10 @@ export function countedAppeal(
           platformAgreement(lean, entry.platform))
       : 0;
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
-    const ballot = entry.ballotCue ?? 0;
+    const cues = entry.ballotCues ?? [];
+    const ballot = cues.length
+      ? cues[(where.ballotForm ?? 0) % cues.length]!
+      : 0;
     // A local outlet's story reaches only the town's own people.
     const scandal = where.inTown
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
@@ -418,7 +427,7 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const voter of voters) {
+      for (const [form, voter] of voters.entries()) {
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
@@ -432,6 +441,8 @@ export function countPlaces(
           inTown: place.inTown ?? false,
           local: place.local ?? false,
           incumbentLean: voter.incumbentLean,
+          // The place's voters hold each form of a rotated ballot in turn.
+          ballotForm: form,
         });
         // The one turnout rule (`turnout.ts`): each sample voter stands for
         // the place's people like them, who turn out at their propensity.

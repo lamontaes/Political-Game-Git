@@ -21,6 +21,7 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOfficialPay } from "../core2/modules/official-pay";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
@@ -312,6 +313,8 @@ function* benchWorldStages(
   openVoting(core);
   openRecord(core);
   openBudgets(core);
+  // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
+  openOfficialPay(core);
   openEmployerTaxes(core);
   openLegislature(core);
   // Chambers elect their leaders and seat committees; the executives
