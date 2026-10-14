@@ -118,6 +118,7 @@ export function createDirector(
     liesByLearner: new Map(),
     stopgapHits: new Set(),
     sceneFilters: new Map(),
+    pollingVisits: new Map(),
   };
   const snapshots = new Map<PersonId, Snapshot>();
   const pending = new Map<PersonId, Pending>();

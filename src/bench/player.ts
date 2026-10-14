@@ -10,6 +10,12 @@ import {
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
+import {
+  leavePollingPlace,
+  markBallot,
+  pollingVisitDue,
+  type PollingVisit,
+} from "../director/polling-place";
 
 // Spec interrupt line, shown on screen; the director owns the stop itself.
 export const INTERRUPT_LINE = 0.5;
@@ -53,6 +59,11 @@ export class BenchPlayer {
   private clockBound = false;
   private destination?: { through: PlayerMomentV1; mode: string };
   readonly selfChosen: SelfChosenAnswer[] = [];
+  /**
+   * The polls, when the next day is an election the character may vote in:
+   * the day stops here, before the count that opens election day.
+   */
+  pollingPlace?: PollingVisit;
   constructor(
     readonly core: CoreState,
     readonly director: Director,
@@ -144,6 +155,8 @@ export class BenchPlayer {
     if (!this.personId) throw new Error("Choose a resident first.");
     if (!["day", "week", "calendar", "skip"].includes(mode))
       throw new Error("Unknown time control.");
+    if (this.pollingPlace)
+      throw new Error("Vote or leave the polling place first.");
     const pending = this.packet && this.packet.kind !== "complete";
     if (pending && !(mode === "skip" && this.packet!.kind === "choice"))
       throw new Error("Answer the open choice or stop first.");
@@ -204,6 +217,19 @@ export class BenchPlayer {
           date: addDays(makeIsoDate(from.date), 1),
           minuteOfDay: from.minuteOfDay,
         };
+        // Election day is a scene (owner, Oct 14, 2026): the count opens the
+        // day, so the character's day stops at the polls before the core
+        // enters it. The clock's midnight is the start of the core's next day.
+        const polls = pollingVisitDue(
+          this.core,
+          this.director.ledger,
+          this.personId!,
+          addDays(makeIsoDate(this.core.date), 1),
+        );
+        if (polls) {
+          this.pollingPlace = polls;
+          break;
+        }
         packet = advancePlayerV1(this.core, {
           controlledPersonId: this.personId!,
           through: compareMoments(next, through) < 0 ? next : through,
@@ -247,6 +273,30 @@ export class BenchPlayer {
       packet: this.packet,
       selfChosen: this.selfChosen.slice(answeredBefore),
     };
+  }
+
+  /** The character marks one race at the polls: a candidate, or null to leave it blank. */
+  markBallot(contestId: string, candidateId: string | null) {
+    const visit = this.pollingPlace;
+    if (!visit) throw new Error("The polls aren't open for this character.");
+    const record = markBallot(
+      this.core,
+      this.director.ledger,
+      visit,
+      contestId,
+      candidateId,
+    );
+    this.pollingPlace =
+      record.status === "voted" ? undefined : { ...visit, record };
+    return record;
+  }
+
+  /** The character leaves the polls; the races left unmarked are their own to decide. */
+  leavePolls() {
+    const visit = this.pollingPlace;
+    if (!visit) throw new Error("The polls aren't open for this character.");
+    this.pollingPlace = undefined;
+    return leavePollingPlace(this.director.ledger, visit);
   }
 
   trace(id: string) {
