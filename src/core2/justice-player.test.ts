@@ -71,13 +71,29 @@ const townSeats = new Set(
     .map((seat) => seat.id),
 );
 const local = persons(terms.filter((t) => bodies.has(t.officeId)));
+const legislators = persons(
+  terms.filter(
+    (t) => townSeats.has(t.seatId) && /:legislature-/.test(t.officeId),
+  ),
+);
+// A place whose data holds neither (a territory's village) is served by its
+// territory-wide officials.
+const nonFederal = new Set(
+  (
+    offices.table("offices").rows() as unknown as {
+      id: string;
+      level: string;
+      coversTown?: boolean;
+    }[]
+  )
+    .filter((o) => o.coversTown && o.level !== "federal")
+    .map((o) => o.id),
+);
 const members = local.length
   ? local
-  : persons(
-      terms.filter(
-        (t) => townSeats.has(t.seatId) && /:legislature-/.test(t.officeId),
-      ),
-    );
+  : legislators.length
+    ? legislators
+    : persons(terms.filter((t) => nonFederal.has(t.officeId)));
 const accounts = core.cashJournal.residualAccountByOwner;
 const town = lawChain(api).townPlaceId;
 const candidates = [...core.people.values()]
