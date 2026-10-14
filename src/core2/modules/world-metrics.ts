@@ -315,6 +315,8 @@ export function townMetrics(api: CoreAPI) {
       medianHomeValueMinor: median(values.get(placeId) ?? []),
       // Households' money income a year, and the share of residents below the poverty line for their household's size (Census Bureau thresholds).
       medianHouseholdIncomeMinor: median(incomes.get(placeId) ?? []),
+      // The nation's consumer price index this month, for real changes.
+      ...(now !== undefined ? { consumerPriceIndex: now } : {}),
       povertyRate:
         (poor.get(placeId)?.people ?? 0) > 0
           ? poor.get(placeId)!.poor / poor.get(placeId)!.people
@@ -361,11 +363,32 @@ export const WORLD_METRICS_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind !== "world-metrics") return;
-    for (const row of townMetrics(api))
-      api
-        .moduleState(WORLD_METRICS_MODULE_ID)
-        .table("months")
-        .put({ id: `metrics:${row.placeId}:${row.date}`, ...row });
+    const months = api.moduleState(WORLD_METRICS_MODULE_ID).table("months");
+    for (const row of townMetrics(api)) {
+      // The median household's income a year on, in real terms (against consumer prices).
+      const yearAgo = months.get(
+        `metrics:${row.placeId}:${Number(row.date.slice(0, 4)) - 1}${row.date.slice(4)}`,
+      ) as
+        | { medianHouseholdIncomeMinor?: number; consumerPriceIndex?: number }
+        | undefined;
+      const real =
+        yearAgo?.medianHouseholdIncomeMinor &&
+        yearAgo.consumerPriceIndex &&
+        row.consumerPriceIndex
+          ? (row.medianHouseholdIncomeMinor /
+              yearAgo.medianHouseholdIncomeMinor /
+              (row.consumerPriceIndex / yearAgo.consumerPriceIndex) -
+              1) *
+            100
+          : undefined;
+      months.put({
+        id: `metrics:${row.placeId}:${row.date}`,
+        ...row,
+        ...(real !== undefined && Number.isFinite(real)
+          ? { realIncomeGrowthPct: real }
+          : {}),
+      });
+    }
     schedule(api);
   },
   onDay(api) {
