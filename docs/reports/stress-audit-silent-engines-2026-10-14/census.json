@@ -12,18 +12,12 @@
   "fullPeople": 1720,
   "declared": {
     "core2-ballot-measures-v1": {
-      "hooks": [
-        "onCalendarWork"
-      ],
+      "hooks": ["onCalendarWork"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "measures",
-        "votes",
-        "results"
-      ],
+      "tables": ["measures", "votes", "results"],
       "subscribedKinds": []
     },
     "core2-interest-groups-v1": {
@@ -32,176 +26,100 @@
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "groups",
-        "meetings",
-        "dues"
-      ],
+      "tables": ["groups", "meetings", "dues"],
       "subscribedKinds": []
     },
     "core2-recalls-v1": {
-      "hooks": [
-        "onCalendarWork",
-        "onEvent"
-      ],
+      "hooks": ["onCalendarWork", "onEvent"],
       "operations": {},
-      "eventKinds": [
-        "law-took-effect"
-      ],
+      "eventKinds": ["law-took-effect"],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "recalls"
-      ],
-      "subscribedKinds": [
-        "law-took-effect"
-      ]
+      "tables": ["recalls"],
+      "subscribedKinds": ["law-took-effect"]
     },
     "core2-constituent-cases-v1": {
-      "hooks": [
-        "onCalendarWork"
-      ],
+      "hooks": ["onCalendarWork"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "cases"
-      ],
+      "tables": ["cases"],
       "subscribedKinds": []
     },
     "corruption": {
-      "hooks": [
-        "onRelationshipChange"
-      ],
+      "hooks": ["onRelationshipChange"],
       "operations": {
-        "reasonProviders": [
-          "corruption-circumstances"
-        ]
+        "reasonProviders": ["corruption-circumstances"]
       },
       "eventKinds": [],
       "appraisalEventKinds": [],
-      "relationshipKinds": [
-        "*"
-      ],
-      "tables": [
-        "crimes",
-        "surfaced"
-      ],
+      "relationshipKinds": ["*"],
+      "tables": ["crimes", "surfaced"],
       "subscribedKinds": []
     },
     "beliefs": {
-      "hooks": [
-        "onRelationshipChange"
-      ],
+      "hooks": ["onRelationshipChange"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
-      "relationshipKinds": [
-        "*"
-      ],
-      "tables": [
-        "beliefs"
-      ],
+      "relationshipKinds": ["*"],
+      "tables": ["beliefs"],
       "subscribedKinds": []
     },
     "core2-law-effects-v1": {
-      "hooks": [
-        "onEvent"
-      ],
+      "hooks": ["onEvent"],
       "operations": {},
-      "eventKinds": [
-        "law-took-effect",
-        "budget-line-changed"
-      ],
+      "eventKinds": ["law-took-effect", "budget-line-changed"],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "applied"
-      ],
-      "subscribedKinds": [
-        "law-took-effect",
-        "budget-line-changed"
-      ]
+      "tables": ["applied"],
+      "subscribedKinds": ["law-took-effect", "budget-line-changed"]
     },
     "core2-world-races-v1": {
-      "hooks": [
-        "onCalendarWork"
-      ],
+      "hooks": ["onCalendarWork"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "races",
-        "seats",
-        "blocks"
-      ],
+      "tables": ["races", "seats", "blocks"],
       "subscribedKinds": []
     },
     "core2-voting-v1": {
-      "hooks": [
-        "onCalendarWork"
-      ],
+      "hooks": ["onCalendarWork"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "chosen",
-        "ballots",
-        "results",
-        "blocks"
-      ],
+      "tables": ["chosen", "ballots", "results", "blocks"],
       "subscribedKinds": []
     },
     "core2-press-v1": {
-      "hooks": [
-        "onCalendarWork"
-      ],
+      "hooks": ["onCalendarWork"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "outlets",
-        "interviews"
-      ],
+      "tables": ["outlets", "interviews"],
       "subscribedKinds": []
     },
     "core2-meetings-v1": {
-      "hooks": [
-        "onCalendarWork"
-      ],
+      "hooks": ["onCalendarWork"],
       "operations": {},
       "eventKinds": [],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "remarks",
-        "townHalls",
-        "debates"
-      ],
+      "tables": ["remarks", "townHalls", "debates"],
       "subscribedKinds": []
     },
     "core2-officials-v1": {
-      "hooks": [
-        "onEvent"
-      ],
+      "hooks": ["onEvent"],
       "operations": {},
-      "eventKinds": [
-        "took-office"
-      ],
+      "eventKinds": ["took-office"],
       "appraisalEventKinds": [],
       "relationshipKinds": [],
-      "tables": [
-        "officials",
-        "loaded",
-        "candidates"
-      ],
-      "subscribedKinds": [
-        "took-office"
-      ]
+      "tables": ["officials", "loaded", "candidates"],
+      "subscribedKinds": ["took-office"]
     }
   },
   "summary": [
@@ -222,10 +140,7 @@
       "id": "core2-interest-groups-v1",
       "installed": true,
       "ran": false,
-      "changedTables": [
-        "groups",
-        "meetings"
-      ],
+      "changedTables": ["groups", "meetings"],
       "verdict": "changed records without a counted call",
       "rowsStartEnd": {
         "groups": "0 -> 6",
@@ -238,9 +153,7 @@
       "id": "core2-recalls-v1",
       "installed": true,
       "ran": true,
-      "changedTables": [
-        "recalls"
-      ],
+      "changedTables": ["recalls"],
       "verdict": "ran and changed records",
       "rowsStartEnd": {
         "recalls": "0 -> 7"
@@ -254,9 +167,7 @@
       "id": "core2-constituent-cases-v1",
       "installed": true,
       "ran": true,
-      "changedTables": [
-        "cases"
-      ],
+      "changedTables": ["cases"],
       "verdict": "ran and changed records",
       "rowsStartEnd": {
         "cases": "0 -> 2"
@@ -353,9 +264,7 @@
       "id": "core2-meetings-v1",
       "installed": true,
       "ran": true,
-      "changedTables": [
-        "remarks"
-      ],
+      "changedTables": ["remarks"],
       "verdict": "ran and changed records",
       "rowsStartEnd": {
         "remarks": "0 -> 153",
@@ -370,10 +279,7 @@
       "id": "core2-officials-v1",
       "installed": true,
       "ran": false,
-      "changedTables": [
-        "officials",
-        "candidates"
-      ],
+      "changedTables": ["officials", "candidates"],
       "verdict": "changed records without a counted call",
       "rowsStartEnd": {
         "officials": "1572 -> 1575",
