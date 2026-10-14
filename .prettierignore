@@ -98,9 +98,6 @@ desktop/node_modules
 docs/systems/nationwide-rule-coverage.json
 docs/systems/nationwide-rule-coverage.md
 
-# Vendored third-party source kept byte-identical to its pinned upstream.
-desktop/private-controller/vendor/
-
 # External private-pack originals: checksum-verified inputs, not source owned by
 # this formatter. Reformatting them would invalidate their preserved lineage.
 # The implementation of their pipeline remains checked under scripts/.

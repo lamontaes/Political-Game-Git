@@ -1183,13 +1183,25 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
     [key: string]: unknown;
   };
   if (!row?.open) return;
-  const owed = row.counted
-    ? countedOwed(api, row.householdId, Number(row.owedAtNoticeMinor))
-    : c.finance.contracts.get(row.leaseId)!.arrearsMinor;
   const put = (changes: Record<string, unknown>) =>
     store(api)
       .table("cases")
       .put({ ...row, ...changes });
+  // A tenancy that ended another way (the household moved, bought a home or
+  // joined the counts) leaves the court nothing to take back: the case closes,
+  // and the rent still owed stays on the lease's record.
+  const lease = row.counted ? undefined : c.finance.contracts.get(row.leaseId);
+  if (!row.counted && (!lease || lease.endedAt))
+    return put({
+      open: false,
+      stage: "vacated",
+      closedAt: c.date,
+      reasonKey: housingData.reasons.vacated,
+      owedAtCloseMinor: lease?.arrearsMinor ?? 0,
+    });
+  const owed = row.counted
+    ? countedOwed(api, row.householdId, Number(row.owedAtNoticeMinor))
+    : lease!.arrearsMinor;
   if (kind === "housing-cure-deadline") {
     // The household pays what it can of what it owes before the deadline (after its payday), through the ledger.
     // A counted household pays through its group's account, which takes the arrears with each rent payment.
