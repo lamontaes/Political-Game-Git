@@ -1,0 +1,449 @@
+# Bartlett, New Hampshire seed ac0d6ae13d8f start 2025-01-20 built in 39s people 2083 orgs 118
+player person_387bd44a4e3c6b15 Alexander Wall born 2007-01-21
+
+## year 1: 2025-01-20 -> 2026-01-20  190s  heap 1532MB  people 2152 alive 2146 orgs 193
+records this year: 35150; kinds: person.acted=25711, cause.shared=3373, speech.retold=1861, cause.donated=624, news.read=557, drive.strengthened=401, case.made=329, cause.volunteered=323, office.approached=289, office.replied=266, vote-recorded=264, cause-group.joined=241, speech.heard=235, drive.formed=103, cause-group.ad-ran=97, campaign-message=80, legislative-vote=74, bill-held-in-committee=54, committee-hearing=46, law-took-effect=36, budget-line-changed=29, public-comment=28, initiative.organizing-started=22, interview-published=19, association.requested=14, cause-group.founded=12, seat-vacated=12, candidate-filed=11, organization.closed=10, business.closed=10, chamber-organized=4, budget-adopted=3, debate=3, election-result=3, took-office=3, person.moved-away=2, organization.owner-changed=1
+news items: 509 (federal 46: law-took-effect=10, legislative-vote=21, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties value=1 
+  FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1 
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=50 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-02-04 chamber-organized {"council-president":"person_7d5f0e3bee2cde10"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:130734:board:2025-02-04:person_7d5f0e3bee2cde10:0","number":"2025-001","chamber":"office:gus2025:130734:board","yes":"3","no":"0"}
+  2025-02-04 chamber-organized {"council-president":"person_4389ddda5515d9e0"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:193707:board:2025-02-19:person_4389ddda5515d9e0:13","for":"4","against":"2"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-03-06 law-took-effect {"lawId":"law:place:3303620:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001","series":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","level":"city
+  2025-03-06 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-06:2025-001","series":"us-policy-positions:housing-land-use.inclusionary-requirement","level":"county","jurisdiction":"county:33003","tier":"general
+  2025-03-06 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-03-06:2025-002","series":"us-policy-positions:business-commerce.legalize-cannabis-sales","level":"county","jurisdiction":"county:33003","tier":"general
+  2025-03-06 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-03-06:2025-003","series":"us-policy-positions:labor-workforce.raise-minimum-wage","level":"county","jurisdiction":"county:33003","tier":"general","value":"1",
+  2025-03-06 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:2025-004","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"county","jurisdiction":"county:3300
+  2025-03-06 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:labor-workforce.paid-family-leave:general:2025-03-06:2025-005","series":"us-policy-positions:labor-workforce.paid-family-leave","level":"county","jurisdiction":"county:33003","tier":"general","value":"1","u
+  2025-03-06 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-03-07 law-took-effect {"lawId":"law:county:33003:county:minimum-wage:general:2025-03-07:law:county:33003:county:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-03-06:2025-003","series":"minimum-wage","level":"county","jurisdiction":"county:33003","tier":"general
+  2025-04-05 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:education.universal-preschool:general:2025-04-05:2025-017","series":"us-policy-positions:education.universal-preschool","level":"county","jurisdiction":"county:33003","tier":"general","value":"1","unit":"",
+  2025-04-05 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-04-05:2025-018","series":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","level":"county","jurisdiction":"county:33003","tier":
+  2025-04-05 law-took-effect {"lawId":"law:county:33003:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-04-05:2025-019","series":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","level":"county","jurisdiction
+  2025-04-06 organization.closed {"organization:organization_18802db43f9487e7:status":"closed","organization:organization_18802db43f9487e7:closure-source":"residents:wages:opening-payroll-calendar:organization_18802db43f9487e7|residents:jurisdiction_ba49e9a515a002dc@2025-04-06"}
+  2025-04-06 business.closed {"organization:organization_18802db43f9487e7:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-04-25 organization.closed {"organization:organization_47678b9304b2b521:status":"closed","organization:organization_47678b9304b2b521:closure-source":"residents:wages:opening-payroll-calendar:organization_47678b9304b2b521|residents:jurisdiction_ba49e9a515a002dc@2025-04-25"}
+  2025-04-25 business.closed {"organization:organization_47678b9304b2b521:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-05-01 seat-vacated {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:411:0","cause":"moved away","rule":"special-election"}
+  2025-05-01 seat-vacated {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:510:1","cause":"moved away","rule":"special-election"}
+  2025-05-01 seat-vacated {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:718:1","cause":"moved away","rule":"special-election"}
+  2025-05-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_78abaa204264c7a2:cause:us-policy-positions:labor-workforce.paid-family-leave","spentMinor":"879","balanceBeforeMinor":"1172","reached":"8"}
+  2025-05-05 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-05-05 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-05-05 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-05-05 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-05-05 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-05-05 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-05-20 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-05-20 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-05-20 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-05-20 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-05-20 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-05-20 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-05-21 organization.closed {"organization:organization_f1553cb4ca692bae:status":"closed","organization:organization_f1553cb4ca692bae:closure-source":"residents:wages:opening-payroll-calendar:organization_f1553cb4ca692bae|residents:jurisdiction_ba49e9a515a002dc@2025-05-21"}
+  2025-05-21 business.closed {"organization:organization_f1553cb4ca692bae:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-06-01 seat-vacated {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:005:1","cause":"moved away","rule":"special-election"}
+  2025-06-01 seat-vacated {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:812:3","cause":"moved away","rule":"special-election"}
+  2025-06-01 cause-group.ad-ran {"organizationId":"organization:cause-group:person_78abaa204264c7a2:cause:us-policy-positions:labor-workforce.paid-family-leave","spentMinor":"219","balanceBeforeMinor":"293","reached":"2"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:0:2025-11-04:person_159e9a765e2e0826","contestId":"contest:seat:gus2025:130734:board:0:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:0:2025-11-04:person_159e9b765e2e09d9","contestId":"contest:seat:gus2025:130734:board:0:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:0:2025-11-04:person_2515b4741c377b0b","contestId":"contest:seat:gus2025:130734:board:0:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:0:2025-11-04:person_7d5f0f3bee2cdfc3","contestId":"contest:seat:gus2025:130734:board:0:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:1:2025-11-04:person_1c8ba399b77c11e2","contestId":"contest:seat:gus2025:130734:board:1:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:1:2025-11-04:person_fbbaee0ea6395de2","contestId":"contest:seat:gus2025:130734:board:1:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:2:2025-11-04:person_4389ddda5515d9e0","contestId":"contest:seat:gus2025:130734:board:2:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:130734:board:2:2025-11-04:person_7d5f0e3bee2cde10","contestId":"contest:seat:gus2025:130734:board:2:2025-11-04","office":"Selectman","electionDate":"2025-11-04","filedWith":"Town clerk (city clerk for cities)"}
+  2025-06-19 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-06-19 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-19 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-06-19 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-19 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-19 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-06-30 chamber-organized {"speaker":"official:term:seat:US-NH:lower:703:0:2025-01-20","majority-leader":"official:term:seat:US-NH:lower:501:2:2025-01-20","minority-leader":"official:term:seat:US-NH:lower:816:0:2025-01-20","majority-whip":"official:term:seat:US-NH:lower:528:0:2025-01-2
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:815:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:24","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:24","number":"2025-002","chamber":"office:US-NH:legislature-lower","yes":"203","no":"123"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:24","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.consumer-data-privacy-law","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:24","number":"2025-002","chamber":"office:US-NH:legislature-upper","yes":"16","no":"8"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:815:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:26","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:environment-energy.price-carbon","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:environment-energy.price-carbon","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:26","number":"2025-004","chamber":"office:US-NH:legislature-lower","yes":"220","no":"106"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:26","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:environment-energy.price-carbon","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:26","number":"2025-004","chamber":"office:US-NH:legislature-upper","yes":"18","no":"6"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:815:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:513:2:2025-01-20:28","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:513:2:2025-01-20:28","number":"2025-006","chamber":"office:US-NH:legislature-lower","yes":"235","no":"91"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:513:2:2025-01-20:28","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:513:2:2025-01-20:28","number":"2025-006","chamber":"office:US-NH:legislature-upper","yes":"18","no":"6"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:523:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:30","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:30","number":"2025-008","chamber":"office:US-NH:legislature-lower","yes":"189","no":"137"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:30","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:30","number":"2025-008","chamber":"office:US-NH:legislature-upper","yes":"16","no":"8"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:304:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:815:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:304:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:34","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:34","number":"2025-012","chamber":"office:US-NH:legislature-lower","yes":"178","no":"148"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:34","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:34","number":"2025-012","chamber":"office:US-NH:legislature-upper","yes":"16","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:35","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:35","number":"2025-013","chamber":"office:US-NH:legislature-lower","yes":"178","no":"148"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:35","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:35","number":"2025-013","chamber":"office:US-NH:legislature-upper","yes":"16","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:36","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:36","number":"2025-014","chamber":"office:US-NH:legislature-lower","yes":"179","no":"147"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:36","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:36","number":"2025-014","chamber":"office:US-NH:legislature-upper","yes":"16","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:37","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:labor-workforce.right-to-work","position":"-1"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:labor-workforce.right-to-work","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:37","number":"2025-015","chamber":"office:US-NH:legislature-lower","yes":"179","no":"147"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:37","committee":"general","chair":"official:term:seat:US-NH:upper:011:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:labor-workforce.right-to-work","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:37","number":"2025-015","chamber":"office:US-NH:legislature-upper","yes":"16","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:006:1:2025-01-20:38","committee":"general","chair":"official:term:seat:US-NH:lower:716:3:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:environment-energy.clean-electricity-standard","position":"1"}
+deaths: 0
+election-ish kinds: election-result=3
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:130734:board:0:2025-11-04","office":"Selectman","winnerId":"person_7d5f0f3bee2cdfc3","totals":"{\"person_159e9a765e2e0826\":1,\"person_159e9b765e2e09d9\":1,\"person_2515b4741c377b0b\":337,\"person_7d5f0f3b
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:130734:board:1:2025-11-04","office":"Selectman","winnerId":"person_fbbaee0ea6395de2","totals":"{\"person_1c8ba399b77c11e2\":4,\"person_387bd14a4e3c65fc\":109,\"person_387bd24a4e3c67af\":7,\"person_fbbaee0e
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:130734:board:2:2025-11-04","office":"Selectman","winnerId":"person_7d5f0e3bee2cde10","totals":"{\"person_4389ddda5515d9e0\":48,\"person_4389e0da5515def9\":189,\"person_7d5f0e3bee2cde10\":1766}","views:spea
+player: alive=true job=none cash=$0 home=household_15a56203109aae54
+
+### trace speech:party-meeting:party:US-NH:democratic:2026-01-15:retold:person_92474df880a8603f (speech.retold 2026-01-15)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+speech:party-meeting:party:US-NH:democratic:2026-01-15:retold:person_92474df880a8603f [core.log speech.retold]
+   facts views:speaker=person_92474df880a8603f
+  <- person_92474cf880a85e8c [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:retold:person_92474df880a8603f:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:retold:person_92474df880a8603f:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:retold:person_92474df880a8603f:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:retold:person_92474df880a8603f:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-NH:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+speech:party-meeting:party:US-NH:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_013c075987fae418
+  <- person_013c075987fae418 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.placeId | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-NH:democratic:2026
+
+### trace event:business.closed:organization_0c8c0aa7709e427f (business.closed 2026-01-11)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+event:business.closed:organization_0c8c0aa7709e427f [core.log business.closed]
+   facts organization:organization_0c8c0aa7709e427f:closing-reason=finance.unfunded-obligation-cash-and-credit-exhausted
+  <- organization_0c8c0aa7709e427f [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2026-01-11:organization_0c8c0aa7709e427f (organization.closed 2026-01-11)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+employer-closed:2026-01-11:organization_0c8c0aa7709e427f [core.log organization.closed]
+   facts organization:organization_0c8c0aa7709e427f:status=closed organization:organization_0c8c0aa7709e427f:closure-source=residents:wages:opening-payroll-calendar:organization_0c8c0aa7709e427f|residents:jurisdiction_ba49e9a515a002dc@2026-01-11
+  <- jurisdiction_ba49e9a515a002dc [regional.places places] via core.log.placeId
+    <- region:33:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace law-took-effect:law:county:33003:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+law-took-effect:law:county:33003:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:33003:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:33003 tier=general value=0.989 unit=percent-of-home-value change=replaced replacesLawId=law:county:33003:county:property-tax:general:2026-01-01:from-start
+  <- law:county:33003:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:33003 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:33003 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_ba49e9a515a002dc [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace bill-vote:bill:office:gus2025:193707:board:2025-12-31:person_4389ddda5515d9e0:116:office:gus2025:193707:board (legislative-vote 2025-12-31)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+bill-vote:bill:office:gus2025:193707:board:2025-12-31:person_4389ddda5515d9e0:116:office:gus2025:193707:board [core.log legislative-vote]
+   facts billId=bill:office:gus2025:193707:board:2025-12-31:person_4389ddda5515d9e0:116 number=2025-035 chamber=office:gus2025:193707:board yes=3 no=4
+  <- person_198e4537dd568d4f [core.people person] via core.observe.perceived
+     value {"key":"billId","learnedAt":"2025-12-31","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chamber | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2025-12-31","access":"perceived"}
+
+### trace vote-recorded:vote:2025-035:person_78abaa204264c7a2 (vote-recorded 2025-12-31)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+vote-recorded:vote:2025-035:person_78abaa204264c7a2 [core.log vote-recorded]
+   facts measureId=2025-035 question=us-policy-positions:education.universal-preschool position=1
+  <- person_78abaa204264c7a2 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-31","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | record:core.log.facts.question | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-31","access":"perceived"}
+
+### trace committee:bill:office:US-NH:us-house:2025-12-15:official:seat:US-NY:us-house:03:114:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+committee:bill:office:US-NH:us-house:2025-12-15:official:seat:US-NY:us-house:03:114:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-NH:us-house:2025-12-15:official:seat:US-NY:us-house:03:114 committee=general chair=official:seat:US-TX:us-house:19 yes=0 no=0
+  <- bill:office:US-NH:us-house:2025-12-15:official:seat:US-NY:us-house:03:114 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-NH:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084427153837 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_ba49e9a515a002dc [regional.places places] via core.log.placeId
+    <- region:33:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace person.moved-away:person_11dec5b6f5e5e53e:2025-12-01 (person.moved-away 2025-12-01)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+person.moved-away:person_11dec5b6f5e5e53e:2025-12-01 [core.log person.moved-away]
+   facts person:person_11dec5b6f5e5e53e:residence=jurisdiction_036e73481ecd6dc1
+  <- person_11dec3b6f5e5e1d8 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_11dec5b6f5e5e53e:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_11dec5b6f5e5e53e:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_11dec5b6f5e5e53e:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_11dec5b6f5e5e53e:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_11dec5b6f5e5e53e:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_11dec5b6f5e5e53e:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"}
+
+### trace campaign-message:filing:contest:seat:gus2025:130734:board:2:2025-11-04:person_7d5f0e3bee2cde10:2025-11-04 (campaign-message 2025-11-04)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:130734:board:2:2025-11-04:person_7d5f0e3bee2cde10:2025-11-04 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:130734:board:2:2025-11-04:person_7d5f0e3bee2cde10 candidateId=person_7d5f0e3bee2cde10 views:speaker=person_7d5f0e3bee2cde10
+  <- person_159e9b765e2e09d9 [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"}
+
+### trace election-result:contest:seat:gus2025:130734:board:2:2025-11-04 (election-result 2025-11-04)
+trace report · seed ac0d6ae13d8f · place 3303620 · date 2026-01-20
+election-result:contest:seat:gus2025:130734:board:2:2025-11-04 [core.log election-result]
+   facts contestId=contest:seat:gus2025:130734:board:2:2025-11-04 office=Selectman winnerId=person_7d5f0e3bee2cde10 totals={"person_4389ddda5515d9e0":48,"person_4389e0da5515def9":189,"person_7d5f0e3bee2cde10":1766} views:speaker=person_7d5f0e3bee2cde10
+  <- person_7d5f0e3bee2cde10 [core.people person] via core.observe.perceived
+     value {"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.placeId | record:core.log.facts.contestId | learned:core.observe.perceived={"key":"contestId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"contestId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"contestId","learnedAt":"2025-11-04","access":"perceived"}
+
+## core2-offices-v1.offices: 7 of 14
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-NH:us-senate","level":"federal","jurisdiction":"US-NH","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-NH:us-house","level":"federal","jurisdiction":"US-NH","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":2,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-NH:governor","level":"state","jurisdiction":"US-NH","governmentName":"US-NH","kind":"governor","title":"Governor","seats":1,"termYears":2,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"N.H. Const. pt. II art. 49 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"president of the senate","citation":"N.H. Const. pt. II art. 49","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-NH:legislature-upper","level":"state","jurisdiction":"US-NH","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":24,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"N.H. Const. pt. II arts. 20, 34; RSA 661:8","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+  {"id":"office:US-NH:legislature-lower","level":"state","jurisdiction":"US-NH","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":331,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"N.H. Const. pt. II arts. 20, 34; RSA 661:8","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+
+## core2-offices-v1.seats: 5 of 377
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-NH:us-senate:0","officeId":"office:US-NH:us-senate","index":0,"coversTown":true,"party":"Democrat","electionYear":2026}
+  {"id":"seat:US-NH:us-senate:1","officeId":"office:US-NH:us-senate","index":1,"coversTown":true,"party":"Democrat","electionYear":2028}
+  {"id":"seat:US-NH:governor","officeId":"office:US-NH:governor","index":0,"coversTown":true,"party":"Republican"}
+
+## core2-offices-v1.terms: 3 of 1271
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Kyle","familyName":"Rocha","gender":"male","birthDate":"1976-01-25","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Angela","familyName":"Gibbs","gender":"female","birthDate":"1967-03-14","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-NH:governor:2025-01-20","seatId":"seat:US-NH:governor","officeId":"office:US-NH:governor","personId":"official:term:seat:US-NH:governor:2025-01-20","identity":{"givenName":"Debra","familyName":"Poole","gender":"female","birthDate":"1979-07-13","homeState":"US-NH"},"party":"Republican","startDate":"2025-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+
+## core2-offices-v1.terms: 1187 of 1271
+  {"id":"term:seat:US-NH:upper:001:0:2025-01-20:past:6","seatId":"seat:US-NH:upper:001:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Cindy","familyName":"Hansen","gender":"female","birthDate":"1963-10-17","homeState":"US-NH"},"party":"Republican","startDate":"2013-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.635}}
+  {"id":"term:seat:US-NH:upper:001:0:2025-01-20:past:5","seatId":"seat:US-NH:upper:001:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Cindy","familyName":"Hansen","gender":"female","birthDate":"1963-10-17","homeState":"US-NH"},"party":"Republican","startDate":"2015-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-NH:upper:001:0:2025-01-20:past:4","seatId":"seat:US-NH:upper:001:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Cindy","familyName":"Hansen","gender":"female","birthDate":"1963-10-17","homeState":"US-NH"},"party":"Republican","startDate":"2017-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-NH:upper:001:0:2025-01-20:past:3","seatId":"seat:US-NH:upper:001:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Cindy","familyName":"Hansen","gender":"female","birthDate":"1963-10-17","homeState":"US-NH"},"party":"Republican","startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-NH:upper:001:0:2025-01-20:past:2","seatId":"seat:US-NH:upper:001:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Cindy","familyName":"Hansen","gender":"female","birthDate":"1963-10-17","homeState":"US-NH"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-NH:upper:001:0:2025-01-20:past:1","seatId":"seat:US-NH:upper:001:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Cindy","familyName":"Hansen","gender":"female","birthDate":"1963-10-17","homeState":"US-NH"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-NH:upper:002:0:2025-01-20:past:3","seatId":"seat:US-NH:upper:002:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Derrick","familyName":"Potter","gender":"male","birthDate":"1978-03-25","homeState":"US-NH"},"party":"Republican","startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-NH:upper:002:0:2025-01-20:past:2","seatId":"seat:US-NH:upper:002:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Derrick","familyName":"Potter","gender":"male","birthDate":"1978-03-25","homeState":"US-NH"},"party":"Republican","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-NH:upper:002:0:2025-01-20:past:1","seatId":"seat:US-NH:upper:002:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Derrick","familyName":"Potter","gender":"male","birthDate":"1978-03-25","homeState":"US-NH"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-NH:upper:006:0:2025-01-20:past:1","seatId":"seat:US-NH:upper:006:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Kimberly","familyName":"Graves","gender":"female","birthDate":"1966-08-13","homeState":"US-NH"},"party":"Republican","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-NH:upper:007:0:2025-01-20:past:4","seatId":"seat:US-NH:upper:007:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Nicole","familyName":"Mendoza","gender":"female","birthDate":"1986-04-16","homeState":"US-NH"},"party":"Republican","startDate":"2017-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-NH:upper:007:0:2025-01-20:past:3","seatId":"seat:US-NH:upper:007:0","officeId":"office:US-NH:legislature-upper","identity":{"givenName":"Nicole","familyName":"Mendoza","gender":"female","birthDate":"1986-04-16","homeState":"US-NH"},"party":"Republican","startDate":"2019-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 26
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (117 bills)
+  office:US-NH:legislature-lower 2025-06-30: 54
+  office:US-NH:legislature-lower 2025-07-01: 1
+  office:US-NH:us-house 2025-10-01: 1
+  office:US-NH:us-house 2025-12-15: 25
+  office:gus2025:130734:board 2025-02-04: 1
+  office:gus2025:193707:board 2025-02-04: 8
+  office:gus2025:193707:board 2025-02-19: 8
+  office:gus2025:193707:board 2025-03-06: 3
+  office:gus2025:193707:board 2025-05-05: 1
+  office:gus2025:193707:board 2025-05-20: 1
+  office:gus2025:193707:board 2025-06-19: 1
+  office:gus2025:193707:board 2025-07-01: 1
+  office:gus2025:193707:board 2025-07-04: 1
+  office:gus2025:193707:board 2025-07-19: 2
+  office:gus2025:193707:board 2025-09-02: 5
+  office:gus2025:193707:board 2025-11-16: 1
+  office:gus2025:193707:board 2025-12-01: 1
+  office:gus2025:193707:board 2025-12-16: 1
+  office:gus2025:193707:board 2025-12-31: 1
+## bills by body and status
+  office:US-NH:legislature-lower enacted: 9
+  office:US-NH:legislature-lower failed: 42
+  office:US-NH:legislature-lower vetoed: 4
+  office:US-NH:us-house enacted: 7
+  office:US-NH:us-house failed: 19
+  office:gus2025:130734:board enacted: 1
+  office:gus2025:193707:board enacted: 11
+  office:gus2025:193707:board failed: 24
+## sample federal bill
+  {"id":"bill:office:US-NH:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:87","number":"2025-001","bodyOfficeId":"office:US-NH:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":6263914106},{"kind":"budget-line","line":"transportation","value":18511328915},{"kind":"budget-line","line":"otherPrograms","value":-77492108642}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-NH:legislature-lower:2025-06-30:official:term:seat:US-NH:lower:815:0:2025-01-20:23","number":"2025-001","bodyOfficeId":"office:US-NH:legislature-lower","sponsorId":"official:term:seat:US-NH:lower:815:0:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:fiscal.adopt-income-tax","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"failed"}
+
+## federal and state log kinds: case.made=253, vote-recorded=68, bill-held-in-committee=54, committee-hearing=46, legislative-vote=45, law-took-effect=34, budget-line-changed=30, seat-vacated=12, chamber-organized=6, budget-adopted=2, inauguration=1, president.address=1
+
+## seat-vacated (12)
+  2025-05-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:411:0","cause":"moved away","rule":"special-election"}
+  2025-05-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:510:1","cause":"moved away","rule":"special-election"}
+  2025-05-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:718:1","cause":"moved away","rule":"special-election"}
+  2025-06-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:005:1","cause":"moved away","rule":"special-election"}
+  2025-06-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:812:3","cause":"moved away","rule":"special-election"}
+  2025-07-02 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:513:0","cause":"death","rule":"special-election"}
+  2025-10-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:515:0","cause":"moved away","rule":"special-election"}
+  2025-10-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:704:2","cause":"moved away","rule":"special-election"}
+  2025-10-23 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:105:0","cause":"death","rule":"special-election"}
+  2025-12-01 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:810:2","cause":"moved away","rule":"special-election"}
+  2025-12-01 {"officeId":"office:US-NH:legislature-upper","seatId":"seat:US-NH:upper:019:0","cause":"moved away","rule":"special-election"}
+  2025-12-29 {"officeId":"office:US-NH:legislature-lower","seatId":"seat:US-NH:lower:502:6","cause":"death","rule":"special-election"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-NH","fiscalYear":"2025","adoptedBy":"the legislature vote 178-148, 16-8, 2025-055"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 257-176, 72-28 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (6)
+  2025-01-20 {"speaker":"official:seat:US-OK:us-house:01","majority-leader":"official:seat:US-GA:us-house:03","minority-leader":"official:seat:US-WI:us-house:04","majority-whip":"official:seat:US-LA:us-house:01","minority-whip":"official:seat:US-FL:us-house:10"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-UT:us-senate:0","majority-leader":"official:seat:US-ID:us-senate:1","minority-leader":"official:seat:US-AZ:us-senate:1","majority-whip":"official:seat:US-OK:us-senate:1","minority-whip":"official:seat:US-NV:us-senate:1"}
+  2025-01-20 {"speaker":"official:term:seat:US-NH:lower:703:0:2025-01-20","majority-leader":"official:term:seat:US-NH:lower:501:2:2025-01-20","minority-leader":"official:term:seat:US-NH:lower:816:0:2025-01-20","majority-whip":"official:term:seat:US-NH:lower:528:0:2025-01-20","minority-whip":"official:term:seat:US-NH:lower:402:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-NH:upper:019:0:2025-01-20","majority-leader":"official:term:seat:US-NH:upper:001:0:2025-01-20","minority-leader":"official:term:seat:US-NH:upper:020:0:2025-01-20","majority-whip":"official:term:seat:US-NH:upper:009:0:2025-01-20","minority-whip":"official:term:seat:US-NH:upper:021:0:2025-01-20"}
+  2025-06-30 {"speaker":"official:term:seat:US-NH:lower:703:0:2025-01-20","majority-leader":"official:term:seat:US-NH:lower:501:2:2025-01-20","minority-leader":"official:term:seat:US-NH:lower:816:0:2025-01-20","majority-whip":"official:term:seat:US-NH:lower:528:0:2025-01-20","minority-whip":"official:term:seat:US-NH:lower:402:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-NH:us-house:02:2025-01-20"}
+
+done 3.9 min

@@ -1,0 +1,54 @@
+# Nebraska: Mullen, seed f84aaa128d73
+
+The simulated year in Mullen (place 3133250) ran from January 20, 2025 to January 20, 2026. Every level of government acted, and the town filled one office and recorded two appointments. But the file does not reconcile in several places: a man who died in early January was still sending campaign messages days later, the state shows more vetoes overridden than vetoes issued, and six candidate filings have no contests behind them. The list below has 26 items that need an explanation before the year can be trusted.
+
+## The year
+
+The engine ran Mullen, Nebraska from January 20, 2025 to January 20, 2026. The player, Gavin Vasquez, was 18 at the start. At year end he was alive, working as a recreation attendant, with $3,739 in cash.
+
+The town council recorded two bills. One was enacted and one was vetoed, both in October 2025. In October the council adopted the city budget 5-0. Its measure 2025-001, on partnering with federal immigration enforcement, took effect as a county law in March 2025. Two council recall petitions, for seats 2 and 3, were recorded the same day. The town board recorded five bills: two enacted and three failed. Public comment on two board bills was recorded as 0 for and 6 against.
+
+The county board adopted its budget 7-0 in July 2025. The file records no county budget lines. A county property tax of 1.044 percent of home value took effect on January 1, 2026 and replaced an earlier entry.
+
+The state legislature met on June 9, 2025, when 53 bills were introduced and acted on. For the year the state recorded 17 enacted, 32 failed, 2 vetoed and 3 overridden bills. 29 bills were held in committee. The state budget passed 26-23 on July 1, 2025 and cut 10 of its 13 lines. Seventeen state laws took effect on September 10, 2025. A pension contribution of about $14.0 billion was booked on July 20, 2025 and reversed on September 10. Seat 022 became vacant when Mary Knox moved away on December 1, 2025. The governor appointed Bobby Vargas the same day.
+
+Congress adopted a federal budget in October 2025, labeled fiscal year 2025, by 268-165 in the House and 66-34 in the Senate. The U.S. House body recorded 22 bills: 4 enacted and 18 failed. A House measure failed 215-218 in December 2025. Federal news showed a top income tax rate of 37 percent and a SNAP maximum of $298 a month.
+
+One death was recorded. The person with ID person_2d09f6e295cdb677 died in early January 2026 of diabetes. Days later that same person appears as a coroner candidate in a campaign message.
+
+No election was held in 2025. Six candidate filings were recorded, but the elections table lists zero contests. The town appointed a planning official in February 2025 and a finance director in January 2026. The file records no business closings.
+
+## Local / State / Federal at a glance
+
+- Local: works with gap: the council and board met, passed and vetoed measures, and adopted a budget. Gaps: the county budget has no line records, the six filings have no contest records, and a dead person appears as a candidate.
+- State: works with gap: the legislature met, voted, enacted 17 bills and adopted a budget. Gaps: 3 overrides against 2 vetoes, and a pension entry booked and then reversed.
+- Federal: works with gap: Congress adopted a budget and the House voted. Gaps: 21 House bills share one introduction date, and House bills carry sponsors and a body id that do not match Nebraska.
+
+## Needs a why
+
+1. A dead candidate sent a campaign message. Record: `campaign-message:filing:contest:seat:gus2025:130179:coroner:0:2026-11-03:person_2d09f6e295cdb677:2026-01-09`. The death record is `life.death:person_2d09f6e295cdb677:2026-01-06` (diabetes). Why did a person who died in early January send a campaign message days later, and why is the coroner filing still open?
+2. More overrides than vetoes. Lines: `office:US-NE:legislature-unicameral overridden: 3` and `office:US-NE:legislature-unicameral vetoed: 2`. Why were three state bills overridden when only two were vetoed, and which bills were they?
+3. A town bill was vetoed. Lines: `office:gus2025:108424:council vetoed: 1` and `enacted: 1`. Who vetoed the town council bill, and on what basis?
+4. Six filings, zero contests. Year summary: `candidate-filed=6`. Lines: `core2-elections-v1.contests: 0 of 30`, and `core2-voting-v1.filings: Unregistered module table: filings`. Why are there no contest records for six filings, and why can the viewer not read the filings or campaigns tables?
+5. Two recalls on the day a law took effect. Records: `recall:term:seat:gus2025:108424:council:2:2025-01-20:2025-03-06` and the same for council seat 3, both recorded March 6, 2025. The linked law, `county:31091:...partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001`, took effect that day. Why were recalls for two council seats recorded on the day the law took effect, and why is there no petition record between the council vote and that day?
+6. Identical vote pattern on two measures. Measure 2025-003 (February 4, 2025) and measure 2025-005 (August 18, 2025) each record positions -1, -1, 1, -1, -1, -1. Why do two different measures on two dates produce the same six recorded positions?
+7. Public comment always 0 for, 6 against. Records: `public-comment` on `bill:office:gus2025:130179:board:2025-02-04:...:3` and `...:2025-08-18:...:59`, both `"for":"0","against":"6"`. Why is the public comment identical on both board bills?
+8. Bills introduced on one day, and holds with no vote. 53 bills share the introduction date `office:US-NE:legislature-unicameral 2025-06-09`. 29 `bill-held-in-committee` records show `"yes":"0","no":"0"`, for example `...unicameral:042:0:2025-01-20:8`. Why did no committee vote on these bills, and why do all 53 bills share one introduction date?
+9. One committee and one chair for every hearing. Every state `committee-hearing` and `bill-held-in-committee` record uses committee `"general"` and chair `official:term:seat:US-NE:unicameral:006:0:2025-01-20`. Why do all 50 hearings run through one general committee with one chair?
+10. Seventeen laws on one day. The `law-took-effect` records for 17 state laws all carry September 10, 2025, and all were passed June 9, 2025. Why did all 17 take effect on the same day, 93 days after passage?
+11. Pension booked and reversed. Records: `budget-line-changed ... retirementContributions` with deltaMinor `14038255000` on July 20, 2025, and deltaMinor `-14038255000` on September 10, 2025 with measure `...#2025-09-10#undo`. The law's September 10, 2025 record has value `"0"` and change `"ended"`. Why was a $14.0 billion line booked and then undone 52 days later, and what caused the undo?
+12. The state budget cuts most lines. The July 1, 2025 `budget-line-changed` records show 10 of 13 lines negative, for example `welfareAndMedicaid` at -12804976939 and `localAid` at -7169223633. The net is about -25.2 billion minor units. Why does a budget adopted 26-23 cut local aid this much, and what does the net cut do to the state budget?
+13. Fiscal year 2025 adopted after it closed. Record: `budget-adopted {"governmentId":"US","fiscalYear":"2025"...}` dated October 1, 2025. Why adopt a fiscal year 2025 budget on October 1, 2025, the day after that fiscal year closed?
+14. Veterans cut by about $110.8 billion. Trace `budget-line-changed:budget:US:2025:veterans:...:2025-12-15:2025-002#balance#2025-12-15` with deltaMinor `-11082604987692`. Why does a balanced-operating-budget law dated December 15, 2025 cut the veterans line by this much in one step?
+15. Constant values on one date. Federal news items dated December 15, 2025 for `health-human-services.expand-medicaid-eligibility`, `civil-family-community.restrict-abortion` and `fiscal.balanced-operating-budget` all read value 1. Why do all three federal positions read 1 on the same date, and why do 21 House bills share that date?
+16. House bills with other states' sponsors and a presidential sponsor. Trace `bill:office:US-NE:us-house:2025-12-15:official:seat:US-FL:us-house:23:81` has a Florida sponsor and a New Jersey chair. The sample bill `bill:office:US-NE:us-house:2025-10-01:...` has sponsor `official:term:seat:US:president:2025-01-20`. Why does a House body carry a Nebraska id, why does it hold other states' seats, and why does the president sponsor a House bill?
+17. Enacted without a second body. The line `office:US-NE:us-house enacted: 4` appears, but the bill table lists no Senate body for these bills. Why were four House bills enacted without a second chamber's record?
+18. A House member labeled council president. Record: `{"council-president":"official:term:seat:US-NE:us-house:02:2025-01-20"}` dated December 15, 2025. Why does a federal House record carry a council-president label?
+19. Recorded position against an enacted bill. Record `vote-recorded ... measureId 2025-001 ... position -1` (dated June 9, 2025), against `legislative-vote ... number 2025-001 ... yes 44, no 5` on the same day and the enacted sample bill 2025-001. Whose position is -1, and why is it recorded against a bill that passed 44-5?
+20. Minimum wage start. Record `law-took-effect ... minimum-wage ... value 1500 minor/hour` dated January 21, 2025. Why $15.00 an hour, starting one day into the year? Check this value against the state's published 2025 wage schedule; the file gives no source for it.
+21. Seat-vacated count does not match. The year summary says `seat-vacated=2`, but the seat-vacated list has one entry, for seat 022 on December 1, 2025. Where is the second vacancy?
+22. Town and county budget lines. The county budget was adopted 7-0 on July 1, 2025 with no county line records. The town budget has `schools` at -1218982 and `higherEducation` at -141616. Why does a town of this size carry schools and higher-education lines, and why are the county's lines absent?
+23. One share for every race. Every statewide winner shows `"share":0.56` in 2010, 2014, 2018 and 2022. All 49 unicameral seats show `"share":0.635`. Why does every race return the same vote share?
+24. Property tax replaced with no record of what it replaced. Trace `law-took-effect:law:county:31091:county:property-tax:general:2026-01-01` with change `replaced` and replacesLawId `...:2026-01-01:from-start`. Why was the county property tax replaced on January 1, 2026, and what was the value before?
+25. Legislative vote counts do not reconcile. The year summary says `legislative-vote=48`, but the federal and state list says `legislative-vote=43`. The file does not show where the other five come from. Which records make up the difference?
+26. Trace children repeat. The trace for `speech:party-meeting:party:US-NE:democratic:2026-01-15:retold:person_560fe1574b74db67` lists the same `learned:core.observe.perceived` entry four times, and the life-death trace lists the same entry about eight times. Why are identical learned facts repeated in each trace?

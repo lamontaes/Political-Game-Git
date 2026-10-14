@@ -1,0 +1,13 @@
+Minnesota exit=0 151s
+Massachusetts exit=0 152s
+Michigan exit=0 226s
+Missouri exit=0 130s
+Mississippi exit=0 141s
+Montana exit=0 160s
+Nebraska exit=0 138s
+Nevada exit=0 135s
+American Samoa exit=0 114s
+New Jersey exit=0 159s
+New Hampshire exit=0 235s
+Northern Mariana Islands exit=0 106s
+ALLDONE

@@ -1,0 +1,475 @@
+# Ahmeek, Michigan seed 88d930106dc3 start 2025-01-20 built in 74s people 1836 orgs 110
+player person_0fcad5f614abd76a Kaylee Reynolds born 2007-01-23
+
+## year 1: 2025-01-20 -> 2026-01-20  132s  heap 2066MB  people 1912 alive 1911 orgs 170
+records this year: 40287; kinds: person.acted=30657, cause.shared=3546, cause.donated=1429, case.made=1026, speech.retold=743, cause.volunteered=428, drive.strengthened=357, news.read=343, office.approached=282, office.replied=268, vote-recorded=217, speech.heard=173, campaign-message=132, drive.formed=129, cause-group.joined=115, legislative-vote=73, committee-hearing=56, bill-held-in-committee=52, cause-group.ad-ran=51, budget-line-changed=31, initiative.organizing-started=29, public-comment=23, law-took-effect=20, cause-group.founded=16, association.requested=11, candidate-filed=10, person.moved-away=9, interview-published=8, recall-petition=7, seat-vacated=6, chamber-organized=5, election-result=5, took-office=5, housing.completed=5, budget-adopted=4, pay-raised-to-minimum-wage=3, organization.founded=3, debate=3, organization.closed=2, business.closed=2, organization.owner-changed=1, official-appointed=1, person-birth=1
+news items: 440 (federal 39: law-took-effect=7, legislative-vote=17, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=65.3 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-01-21 law-took-effect {"lawId":"law:US-MI:state:minimum-wage:general:2025-01-21:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting","series":"minimum-wage","level":"state","jurisdiction":"US-MI","tier":"general","value":"1500","unit":"minor/hour
+  2025-02-04 chamber-organized {"council-president":"person_5fa65bc3777f6d0e"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:166594:board:2025-02-04:person_b545097979f57222:2","for":"0","against":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"person_39976c71e5a6c6a3"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:166714:council:2025-02-04:person_47adc6dddfc7b796:8","number":"2025-001","chamber":"office:gus2025:166714:council","yes":"1","no":"4"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:166714:council:2025-02-04:person_47adc6dddfc7b796:9","for":"1","against":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:166714:council:2025-02-04:person_47adc6dddfc7b796:9","number":"2025-002","chamber":"office:gus2025:166714:council","yes":"1","no":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:166714:council:2025-02-04:person_47adc6dddfc7b796:10","number":"2025-003","chamber":"office:gus2025:166714:council","yes":"1","no":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:166714:council:2025-02-04:person_47adc6dddfc7b796:11","number":"2025-004","chamber":"office:gus2025:166714:council","yes":"1","no":"4"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:166714:council:2025-02-04:person_47adc6dddfc7b796:12","number":"2025-005","chamber":"office:gus2025:166714:council","yes":"1","no":"4"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:166594:board:2025-02-19:person_b545097979f57222:13","for":"1","against":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:166594:board:2025-02-19:person_720d5999640bfb95:14","for":"1","against":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:166594:board:2025-02-19:person_720d5999640bfb95:15","for":"1","against":"5"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:labor-workforce.paid-family-leave","position":"1"}
+  2025-03-01 organization.owner-changed {}
+  2025-03-01 organization.founded {}
+  2025-03-06 law-took-effect {"lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-03-06:2025-001","series":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","level":"cou
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:0:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:0:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:1:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:1:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:2:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:2:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:3:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:3:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:4:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:4:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:5:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:5:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:166594:board:6:2025-01-20:2025-03-06","termId":"term:seat:gus2025:166594:board:6:2025-01-20","lawId":"law:county:26083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2
+  2025-03-21 official-appointed {"post":"police-chief","appointedBy":"person_46657d39fb9765e8"}
+  2025-05-20 public-comment {"billId":"bill:office:gus2025:166714:council:2025-05-20:person_47adc6dddfc7b796:16","for":"0","against":"3"}
+  2025-05-20 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-05-20 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-05-20 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-01 seat-vacated {"officeId":"office:US-MI:us-senate","seatId":"seat:US-MI:us-senate:0","cause":"moved away","rule":"appointment-then-special"}
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:166714:council:0:2025-11-04:person_39976c71e5a6c6a3","contestId":"contest:seat:gus2025:166714:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"City clerk (township clerk for towns
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:166714:council:0:2025-11-04:person_720d5999640bfb95","contestId":"contest:seat:gus2025:166714:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"City clerk (township clerk for towns
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:166714:council:0:2025-11-04:person_ad3069123420a97f","contestId":"contest:seat:gus2025:166714:council:0:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"City clerk (township clerk for towns
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:166714:council:4:2025-11-04:person_39976b71e5a6c4f0","contestId":"contest:seat:gus2025:166714:council:4:2025-11-04","office":"Council member","electionDate":"2025-11-04","filedWith":"City clerk (township clerk for towns
+  2025-06-12 candidate-filed {"filingId":"filing:contest:seat:gus2025:166714:mayor:0:2025-11-04:person_46657d39fb9765e8","contestId":"contest:seat:gus2025:166714:mayor:0:2025-11-04","office":"Mayor","electionDate":"2025-11-04","filedWith":"City clerk (township clerk for townships)"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.restrict-abortion","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:17","number":"2025-001","chamber":"office:US-MI:legislature-lower","yes":"73","no":"37"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:civil-family-community.restrict-abortion","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:17","number":"2025-001","chamber":"office:US-MI:legislature-upper","yes":"22","no":"16"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:18","number":"2025-002","chamber":"office:US-MI:legislature-lower","yes":"66","no":"44"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:19","number":"2025-003","chamber":"office:US-MI:legislature-lower","yes":"65","no":"45"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:20","number":"2025-004","chamber":"office:US-MI:legislature-lower","yes":"105","no":"5"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:20","number":"2025-004","chamber":"office:US-MI:legislature-upper","yes":"34","no":"4"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:government-operations.independent-redistricting","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:21","number":"2025-005","chamber":"office:US-MI:legislature-lower","yes":"100","no":"10"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"9","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:21","number":"2025-005","chamber":"office:US-MI:legislature-upper","yes":"32","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:22","number":"2025-006","chamber":"office:US-MI:legislature-lower","yes":"64","no":"46"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:23","number":"2025-007","chamber":"office:US-MI:legislature-lower","yes":"102","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:23","number":"2025-007","chamber":"office:US-MI:legislature-upper","yes":"32","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:24","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:24","number":"2025-008","chamber":"office:US-MI:legislature-lower","yes":"59","no":"51"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:24","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:business-commerce.legalize-cannabis-sales","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:26","number":"2025-010","chamber":"office:US-MI:legislature-lower","yes":"59","no":"51"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:27","number":"2025-011","chamber":"office:US-MI:legislature-lower","yes":"59","no":"51"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:29","number":"2025-013","chamber":"office:US-MI:legislature-lower","yes":"58","no":"52"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:30","number":"2025-014","chamber":"office:US-MI:legislature-lower","yes":"59","no":"51"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:justice-public-safety.permit-to-carry-concealed","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:31","number":"2025-015","chamber":"office:US-MI:legislature-lower","yes":"58","no":"52"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-016","question":"us-policy-positions:labor-workforce.right-to-work","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:32","number":"2025-016","chamber":"office:US-MI:legislature-lower","yes":"59","no":"51"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:government-operations.automatic-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:33","number":"2025-017","chamber":"office:US-MI:legislature-lower","yes":"58","no":"52"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:labor-workforce.raise-minimum-wage","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:34","number":"2025-018","chamber":"office:US-MI:legislature-lower","yes":"58","no":"52"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-019","question":"us-policy-positions:agriculture-natural-resources.protect-farmland-from-development","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:35","number":"2025-019","chamber":"office:US-MI:legislature-lower","yes":"57","no":"53"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:environment-energy.clean-electricity-standard","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:36","number":"2025-020","chamber":"office:US-MI:legislature-lower","yes":"58","no":"52"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-021","question":"us-policy-positions:labor-workforce.public-sector-collective-bargaining","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:37","number":"2025-021","chamber":"office:US-MI:legislature-lower","yes":"59","no":"51"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-022","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:38","number":"2025-022","chamber":"office:US-MI:legislature-lower","yes":"79","no":"31"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:061:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-MI:upper:010:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-MI:lower:095:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-023","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:39","number":"2025-023","chamber":"office:US-MI:legislature-lower","yes":"75","no":"35"}
+deaths: 0
+election-ish kinds: official-appointed=1, election-result=5
+  E 2025-03-21 official-appointed {"post":"police-chief","appointedBy":"person_46657d39fb9765e8"}
+  E 2025-08-30 election-result {"contestId":"contest:seat:US-MI:us-senate:0:2025-08-30:special","office":"U.S. Senator","winnerId":"official:term:seat:US-MI:us-senate:0:2025-06-01","totals":"{\"official:term:seat:US-MI:us-senate:0:2025-06-01\":1229046,\"official:term:sea
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:166714:council:0:2025-11-04","office":"Council member","winnerId":"person_39976c71e5a6c6a3","totals":"{\"person_39976c71e5a6c6a3\":2826,\"person_720d5999640bfb95\":74,\"person_ad3069123420a97f\":2}","views
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:166714:council:2:2025-11-04","office":"Council member","winnerId":"person_47adc6dddfc7b796","totals":"{\"person_393de8aa8483948c\":22,\"person_47adc6dddfc7b796\":2879,\"person_b545097979f57222\":1}","views
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:166714:council:4:2025-11-04","office":"Council member","winnerId":"person_39976b71e5a6c4f0","totals":"{\"person_39976b71e5a6c4f0\":2899}","views:speaker":"person_39976b71e5a6c4f0"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:166714:mayor:0:2025-11-04","office":"Mayor","winnerId":"person_46657d39fb9765e8","totals":"{\"person_46657d39fb9765e8\":2902}","views:speaker":"person_46657d39fb9765e8"}
+player: alive=true job=none cash=$1191 home=household_c7d2899cd574f2cd
+
+### trace speech:party-meeting:party:US-MI:democratic:2026-01-15:retold:person_acb4dc5e03c25eed (speech.retold 2026-01-15)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+speech:party-meeting:party:US-MI:democratic:2026-01-15:retold:person_acb4dc5e03c25eed [core.log speech.retold]
+   facts views:speaker=person_acb4dc5e03c25eed
+  <- person_ad3068123420a7cc [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:retold:person_acb4dc5e03c25eed:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:retold:person_acb4dc5e03c25eed:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:retold:person_acb4dc5e03c25eed:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:retold:person_acb4dc5e03c25eed:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-MI:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+speech:party-meeting:party:US-MI:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_47adc6dddfc7b796
+  <- person_0fcad5f614abd76a [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-MI:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace person.moved-away:person_720d5899640bf9e2:2026-01-01 (person.moved-away 2026-01-01)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+person.moved-away:person_720d5899640bf9e2:2026-01-01 [core.log person.moved-away]
+   facts person:person_720d5899640bf9e2:residence=jurisdiction_3ccae4a364c269dd
+  <- person_720d5899640bf9e2 [core.people person] via core.observe.self
+     value {"key":"job:job:position:organization_f443ffe8590a6024:2025-06-01:9:person_720d5899640bf9e2:status","learnedAt":"2026-01-01","access":"self"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.self={"key":"job:job:position:organization_f443ffe8590a6024:2025-06-01:9:person_720d5899640bf9e2:status","learnedAt":"2026-01-01","access":"self"} | learned:core.observe.perceived={"key":"event:person.moved-away:person_720d5899640bf9e2:2026-01-01:experienced","learnedAt":"2026-01-01","access":"perceived"}
+
+### trace budget-adopted:budget:county:26083:2026 (budget-adopted 2026-01-01)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+budget-adopted:budget:county:26083:2026 [core.log budget-adopted]
+   facts governmentId=county:26083 fiscalYear=2026 adoptedBy=the county board vote 7-0, 2026-001
+  <- county:26083 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:county:26083 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_3f6e33c5b3a27675 [regional.places places] via core.organizations.placeId
+        <- region:26:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId
+
+### trace law-took-effect:law:county:26083:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+law-took-effect:law:county:26083:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:26083:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:26083 tier=general value=0.995 unit=percent-of-home-value change=replaced replacesLawId=law:county:26083:county:property-tax:general:2026-01-01:from-start
+  <- law:county:26083:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:26083 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:26083 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_3f6e33c5b3a27675 [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-senate:0:110:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+committee:bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-senate:0:110:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-senate:0:110 committee=general chair=official:term:seat:US-MI:us-house:02:2025-01-20 yes=0 no=0
+  <- bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-senate:0:110 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-MI:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace bill-vote:bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-house:02:108:federal:us-house (legislative-vote 2025-12-15)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+bill-vote:bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-house:02:108:federal:us-house [core.log legislative-vote]
+   facts billId=bill:office:US-MI:us-house:2025-12-15:official:seat:US-VA:us-house:02:108 number=2025-024 chamber=federal:us-house yes=206 no=227
+  <- official:seat:US-AK:us-house:00 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-house:00 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace vote-recorded:vote:2025-024:official:term:seat:US-MI:us-house:01:2025-01-20 (vote-recorded 2025-12-15)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+vote-recorded:vote:2025-024:official:term:seat:US-MI:us-house:01:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-024 question=us-policy-positions:technology-privacy.age-verification-for-social-media position=1
+  <- official:term:seat:US-MI:us-house:01:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11084724842905 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_3f6e33c5b3a27675 [regional.places places] via core.log.placeId
+    <- region:26:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace event:business.closed:organization_f3f5dd4e6e66e9c7 (business.closed 2025-11-05)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+event:business.closed:organization_f3f5dd4e6e66e9c7 [core.log business.closed]
+   facts organization:organization_f3f5dd4e6e66e9c7:closing-reason=finance.unfunded-obligation-cash-and-credit-exhausted
+  <- organization_f3f5dd4e6e66e9c7 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7 (organization.closed 2025-11-05)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7 [core.log organization.closed]
+   facts organization:organization_f3f5dd4e6e66e9c7:status=closed organization:organization_f3f5dd4e6e66e9c7:closure-source=residents:wages:opening-payroll-calendar:organization_f3f5dd4e6e66e9c7|residents:jurisdiction_3f6e33c5b3a27675:0@2025-11-05
+  <- person_b13a3d27e47a2d13 [core.people person] via core.observe.perceived
+     value {"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"}
+
+  children: record:core.log.placeId | record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-05:organization_f3f5dd4e6e66e9c7:experienced","learnedAt":"2025-11-05","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-
+
+### trace campaign-message:filing:contest:seat:gus2025:166714:mayor:0:2025-11-04:person_46657d39fb9765e8:2025-11-04 (campaign-message 2025-11-04)
+trace report · seed 88d930106dc3 · place 2600620 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:166714:mayor:0:2025-11-04:person_46657d39fb9765e8:2025-11-04 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:166714:mayor:0:2025-11-04:person_46657d39fb9765e8 candidateId=person_46657d39fb9765e8 views:speaker=person_46657d39fb9765e8
+  <- person_5ba7eba75229ef57 [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.witnessIds.15 | record:core.log.witnessIds.16 | record:core.log.witnessIds.17 | record:core.log.witnessIds.18 | record:core.log.witnessIds.19 | record:core.log.witnessIds.20 | record:core.log.witnessIds.21 | record:core.log.witnessIds.22 | record:core.log.witnessIds.23 | record:core.log.witnessIds.24 | record:core.log.witnessIds.25 | record:core.log.witnessIds.26 | record:core.log.witnessIds.27 | record:core.log.placeId | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.pe
+
+## core2-offices-v1.offices: 12 of 21
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-MI:us-senate","level":"federal","jurisdiction":"US-MI","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-MI:us-house","level":"federal","jurisdiction":"US-MI","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":13,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-MI:governor","level":"state","jurisdiction":"US-MI","governmentName":"US-MI","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"Mich. Const. art. V sec. 26 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"lieutenant governor","citation":"Mich. Const. art. V sec. 26","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-MI:lieutenant-governor","level":"state","jurisdiction":"US-MI","governmentName":"US-MI","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":{"method":"remains-vacant","citation":"State constitution executive article / election code (generic rule; not verified per office)","source":"https://ballotpedia.org/State_executive_offices","estimate":true}}
+  {"id":"office:US-MI:attorney-general","level":"state","jurisdiction":"US-MI","governmentName":"US-MI","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MI:secretary-of-state","level":"state","jurisdiction":"US-MI","governmentName":"US-MI","kind":"secretary-of-state","title":"Secretary of State","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-MI:state-board-of-education","level":"state","jurisdiction":"US-MI","governmentName":"US-MI","kind":"state-board-of-education","title":"State Board of Education (8 members, statewide, 8-year staggered terms)","seats":1,"termYears":8,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (until next general election)\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https…"}
+  {"id":"office:US-MI:university-boards","level":"state","jurisdiction":"US-MI","governmentName":"US-MI","kind":"university-boards","title":"University of Michigan Regents, Michigan State Trustees, Wayne State Governors (8 each, statewide, 8-year staggered)","seats":1,"termYears":8,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor (until next general election)\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\
+  {"id":"office:US-MI:legislature-upper","level":"state","jurisdiction":"US-MI","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":38,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Mich. Const. art. V sec. 13; MCL 168.178","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+  {"id":"office:US-MI:legislature-lower","level":"state","jurisdiction":"US-MI","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":110,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"Mich. Const. art. V sec. 13; MCL 168.178","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+
+## core2-offices-v1.seats: 10 of 190
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-MI:us-senate:0","officeId":"office:US-MI:us-senate","index":0,"coversTown":true,"party":"Democrat","electionYear":2030}
+  {"id":"seat:US-MI:us-senate:1","officeId":"office:US-MI:us-senate","index":1,"coversTown":true,"party":"Democrat","electionYear":2026}
+  {"id":"seat:US-MI:governor","officeId":"office:US-MI:governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MI:lieutenant-governor","officeId":"office:US-MI:lieutenant-governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MI:attorney-general","officeId":"office:US-MI:attorney-general","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MI:secretary-of-state","officeId":"office:US-MI:secretary-of-state","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MI:state-board-of-education","officeId":"office:US-MI:state-board-of-education","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-MI:university-boards","officeId":"office:US-MI:university-boards","index":0,"coversTown":true,"party":"Democratic"}
+
+## core2-offices-v1.terms: 12 of 378
+  {"id":"term:seat:US-MI:governor:2025-01-20:past:1","seatId":"seat:US-MI:governor","officeId":"office:US-MI:governor","identity":{"givenName":"Patrick","familyName":"Neal","gender":"male","birthDate":"1961-05-01","homeState":"US-MI"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MI:attorney-general:2025-01-20:past:1","seatId":"seat:US-MI:attorney-general","officeId":"office:US-MI:attorney-general","identity":{"givenName":"Marc","familyName":"Parrish","gender":"male","birthDate":"1972-02-01","homeState":"US-MI"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MI:secretary-of-state:2025-01-20:past:1","seatId":"seat:US-MI:secretary-of-state","officeId":"office:US-MI:secretary-of-state","identity":{"givenName":"Dennis","familyName":"Morrow","gender":"male","birthDate":"1976-06-02","homeState":"US-MI"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MI:state-board-of-education:2025-01-20:past:1","seatId":"seat:US-MI:state-board-of-education","officeId":"office:US-MI:state-board-of-education","identity":{"givenName":"Peter","familyName":"Robles","gender":"male","birthDate":"1966-09-23","homeState":"US-MI"},"party":"Democratic","startDate":"2011-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Timothy","familyName":"Middleton","gender":"male","birthDate":"1964-01-24","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Eric","familyName":"Vance","gender":"male","birthDate":"1962-07-01","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-MI:governor:2025-01-20","seatId":"seat:US-MI:governor","officeId":"office:US-MI:governor","personId":"official:term:seat:US-MI:governor:2025-01-20","identity":{"givenName":"Patrick","familyName":"Neal","gender":"male","birthDate":"1961-05-01","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MI:lieutenant-governor:2025-01-20","seatId":"seat:US-MI:lieutenant-governor","officeId":"office:US-MI:lieutenant-governor","personId":"official:term:seat:US-MI:lieutenant-governor:2025-01-20","identity":{"givenName":"Brandon","familyName":"Lane","gender":"male","birthDate":"1970-06-09","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MI:attorney-general:2025-01-20","seatId":"seat:US-MI:attorney-general","officeId":"office:US-MI:attorney-general","personId":"official:term:seat:US-MI:attorney-general:2025-01-20","identity":{"givenName":"Marc","familyName":"Parrish","gender":"male","birthDate":"1972-02-01","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MI:secretary-of-state:2025-01-20","seatId":"seat:US-MI:secretary-of-state","officeId":"office:US-MI:secretary-of-state","personId":"official:term:seat:US-MI:secretary-of-state:2025-01-20","identity":{"givenName":"Dennis","familyName":"Morrow","gender":"male","birthDate":"1976-06-02","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-MI:state-board-of-education:2025-01-20","seatId":"seat:US-MI:state-board-of-education","officeId":"office:US-MI:state-board-of-education","personId":"official:term:seat:US-MI:state-board-of-education:2025-01-20","identity":{"givenName":"Peter","familyName":"Robles","gender":"male","birthDate":"1966-09-23","homeState":"US-MI"},"party":"Democratic","startDate":"2019-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2011-01-01","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-MI:university-boards:2025-01-20","seatId":"seat:US-MI:university-boards","officeId":"office:US-MI:university-boards","personId":"official:term:seat:US-MI:university-boards:2025-01-20","identity":{"givenName":"Alicia","familyName":"Stout","gender":"female","birthDate":"1978-05-17","homeState":"US-MI"},"party":"Democratic","startDate":"2019-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2018-11-06","share":0.56}}
+
+## core2-offices-v1.terms: 278 of 378
+  {"id":"term:seat:US-MI:lower:001:0:2025-01-20:past:2","seatId":"seat:US-MI:lower:001:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Michael","familyName":"O'Brien","gender":"male","birthDate":"1996-11-26","homeState":"US-MI"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MI:lower:001:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:001:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Michael","familyName":"O'Brien","gender":"male","birthDate":"1996-11-26","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MI:lower:002:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:002:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Ryan","familyName":"Bolton","gender":"male","birthDate":"1974-03-09","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MI:lower:003:0:2025-01-20:past:2","seatId":"seat:US-MI:lower:003:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Jordan","familyName":"Rowe","gender":"male","birthDate":"1996-09-05","homeState":"US-MI"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MI:lower:003:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:003:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Jordan","familyName":"Rowe","gender":"male","birthDate":"1996-09-05","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MI:lower:004:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:004:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Anthony","familyName":"Snow","gender":"male","birthDate":"1955-11-19","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2023-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MI:lower:005:0:2025-01-20:past:2","seatId":"seat:US-MI:lower:005:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Michael","familyName":"Marshall","gender":"male","birthDate":"1959-01-20","homeState":"US-MI"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MI:lower:005:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:005:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Michael","familyName":"Marshall","gender":"male","birthDate":"1959-01-20","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MI:lower:006:0:2025-01-20:past:2","seatId":"seat:US-MI:lower:006:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Judith","familyName":"Harrell","gender":"female","birthDate":"1946-05-25","homeState":"US-MI"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MI:lower:006:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:006:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Judith","familyName":"Harrell","gender":"female","birthDate":"1946-05-25","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-MI:lower:007:0:2025-01-20:past:2","seatId":"seat:US-MI:lower:007:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Gregory","familyName":"Rich","gender":"male","birthDate":"1987-12-16","homeState":"US-MI"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-MI:lower:007:0:2025-01-20:past:1","seatId":"seat:US-MI:lower:007:0","officeId":"office:US-MI:legislature-lower","identity":{"givenName":"Gregory","familyName":"Rich","gender":"male","birthDate":"1987-12-16","homeState":"US-MI"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+
+## core2-elections-v1.contests: 1 of 36
+  {"id":"contest:seat:US-MI:us-senate:0:2025-08-30:special","officeId":"office:US-MI:us-senate","seatId":"seat:US-MI:us-senate:0","title":"U.S. Senator","level":"federal","family":"statewideExecutive","incumbentTermId":"term:seat:US-MI:us-senate:0:2025-08-30:elected","electionDate":"2025-08-30","filingOpens":"2025-06-01","filingDeadline":"2025-07-16","basis":"estimated","sources":["vacancy vacancy:seat:US-MI:us-senate:0:2025-06-01","ESTIMATED: days from a vacancy to the special election where the state's law is not read (data/elections/parameters.json specialElectionDaysEstimate)"],"special":{"vacancyId":"vacancy:seat:US-MI:us-senate:0:2025-06-01","termEnd":"2031-01-03"}}
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (112 bills)
+  office:US-MI:legislature-lower 2025-06-30: 53
+  office:US-MI:legislature-lower 2025-10-01: 1
+  office:US-MI:us-house 2025-10-01: 1
+  office:US-MI:us-house 2025-12-15: 25
+  office:gus2025:166594:board 2025-02-04: 8
+  office:gus2025:166594:board 2025-02-19: 3
+  office:gus2025:166594:board 2025-08-18: 4
+  office:gus2025:166594:board 2025-09-02: 3
+  office:gus2025:166594:board 2026-01-01: 1
+  office:gus2025:166714:council 2025-02-04: 5
+  office:gus2025:166714:council 2025-05-20: 1
+  office:gus2025:166714:council 2025-07-01: 1
+  office:gus2025:166714:council 2025-08-18: 5
+  office:gus2025:166714:council 2025-12-01: 1
+## bills by body and status
+  office:US-MI:legislature-lower enacted: 5
+  office:US-MI:legislature-lower failed: 49
+  office:US-MI:us-house enacted: 4
+  office:US-MI:us-house failed: 21
+  office:US-MI:us-house vetoed: 1
+  office:gus2025:166594:board enacted: 2
+  office:gus2025:166594:board failed: 17
+  office:gus2025:166714:council enacted: 1
+  office:gus2025:166714:council failed: 12
+## sample federal bill
+  {"id":"bill:office:US-MI:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:83","number":"2025-001","bodyOfficeId":"office:US-MI:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":5461801397},{"kind":"budget-line","line":"transportation","value":16140898553},{"kind":"budget-line","line":"otherPrograms","value":-67569015167}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-MI:legislature-lower:2025-06-30:official:term:seat:US-MI:lower:029:0:2025-01-20:17","number":"2025-001","bodyOfficeId":"office:US-MI:legislature-lower","sponsorId":"official:term:seat:US-MI:lower:029:0:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:civil-family-community.restrict-abortion","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted"}
+
+## federal and state log kinds: case.made=974, vote-recorded=59, committee-hearing=56, bill-held-in-committee=52, legislative-vote=46, drive.formed=23, drive.strengthened=23, budget-line-changed=21, law-took-effect=19, campaign-message=18, recall-petition=7, chamber-organized=6, seat-vacated=5, pay-raised-to-minimum-wage=3, office.approached=3, candidate-filed=2, initiative.organizing-started=2, budget-adopted=2, inauguration=1, president.address=1, debate=1, election-result=1, took-office=1, association.requested=1
+
+## election-result (1)
+  2025-08-30 {"contestId":"contest:seat:US-MI:us-senate:0:2025-08-30:special","office":"U.S. Senator","winnerId":"official:term:seat:US-MI:us-senate:0:2025-06-01","totals":"{\"official:term:seat:US-MI:us-senate:0:2025-06-01\":1229046,\"official:term:seat:US-MI:us-house:07:2025-01-20\":1077076}","views:speaker":"official:term:seat:US-MI:us-senate:0:2025-06-01"}
+
+## took-office (1)
+  2025-08-30 {"office":"U.S. Senator","seatId":"seat:US-MI:us-senate:0","winnerId":"official:term:seat:US-MI:us-senate:0:2025-06-01"}
+
+## seat-vacated (5)
+  2025-06-01 {"officeId":"office:US-MI:us-senate","seatId":"seat:US-MI:us-senate:0","cause":"moved away","rule":"appointment-then-special"}
+  2025-09-01 {"officeId":"office:US-MI:legislature-lower","seatId":"seat:US-MI:lower:060:0","cause":"moved away","rule":"special-election"}
+  2026-01-01 {"officeId":"office:US-MI:legislature-lower","seatId":"seat:US-MI:lower:006:0","cause":"moved away","rule":"special-election"}
+  2026-01-01 {"officeId":"office:US-MI:legislature-lower","seatId":"seat:US-MI:lower:049:0","cause":"moved away","rule":"special-election"}
+  2026-01-01 {"officeId":"office:US-MI:legislature-upper","seatId":"seat:US-MI:upper:003:0","cause":"moved away","rule":"special-election"}
+
+## budget-adopted (2)
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 274-159, 70-30 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+  2025-10-01 {"governmentId":"US-MI","fiscalYear":"2025","adoptedBy":"the legislature vote 61-48, 22-16 (amended: welfareAndMedicaid, naturalResources, police, localAid, housing, higherEducation, healthAndHospitals, schools, otherPrograms, administration dropped), 2025-054"}
+
+## chamber-organized (6)
+  2025-01-20 {"speaker":"official:seat:US-MO:us-house:04","majority-leader":"official:term:seat:US-MI:us-house:01:2025-01-20","minority-leader":"official:seat:US-FL:us-house:14","majority-whip":"official:seat:US-TN:us-house:01","minority-whip":"official:seat:US-FL:us-house:25"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-MS:us-senate:1","majority-leader":"official:seat:US-IA:us-senate:0","minority-leader":"official:seat:US-MN:us-senate:1","majority-whip":"official:seat:US-AR:us-senate:1","minority-whip":"official:seat:US-OR:us-senate:1"}
+  2025-01-20 {"speaker":"official:term:seat:US-MI:lower:042:0:2025-01-20","majority-leader":"official:term:seat:US-MI:lower:058:0:2025-01-20","minority-leader":"official:term:seat:US-MI:lower:020:0:2025-01-20","majority-whip":"official:term:seat:US-MI:lower:060:0:2025-01-20","minority-whip":"official:term:seat:US-MI:lower:083:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-MI:upper:006:0:2025-01-20","majority-leader":"official:term:seat:US-MI:upper:002:0:2025-01-20","minority-leader":"official:term:seat:US-MI:upper:033:0:2025-01-20","majority-whip":"official:term:seat:US-MI:upper:021:0:2025-01-20","minority-whip":"official:term:seat:US-MI:upper:034:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-MI:us-house:01:2025-01-20"}
+  2025-12-15 {"president-pro-tempore":"official:seat:US-MS:us-senate:1","majority-leader":"official:seat:US-IA:us-senate:0","minority-leader":"official:seat:US-MN:us-senate:1","majority-whip":"official:seat:US-AR:us-senate:1","minority-whip":"official:seat:US-OR:us-senate:1"}
+
+## candidate-filed (2)
+  2025-07-16 {"filingId":"filing:contest:seat:US-MI:us-senate:0:2025-08-30:special:official:term:seat:US-MI:us-senate:0:2025-06-01","contestId":"contest:seat:US-MI:us-senate:0:2025-08-30:special","office":"U.S. Senator","electionDate":"2025-08-30","filedWith":"Secretary of State"}
+  2025-07-16 {"filingId":"filing:contest:seat:US-MI:us-senate:0:2025-08-30:special:official:term:seat:US-MI:us-house:07:2025-01-20","contestId":"contest:seat:US-MI:us-senate:0:2025-08-30:special","office":"U.S. Senator","electionDate":"2025-08-30","filedWith":"Secretary of State"}
+
+## debate (1)
+  2025-08-18 {"debateId":"debate:contest:seat:US-MI:us-senate:0:2025-08-30:special","contestId":"contest:seat:US-MI:us-senate:0:2025-08-30:special","outletId":"outlet:television:0:jurisdiction_3f6e33c5b3a27675","candidates":"2"}
+
+done 3.4 min
