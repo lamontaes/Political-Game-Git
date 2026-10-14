@@ -1555,3 +1555,51 @@ body.dev .dev-ring {
 .character .name {
   font: 600 22px var(--name);
 }
+
+/* People: the relationship web. */
+.web-wrap {
+  column-span: all;
+}
+.web {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+}
+.web-edge {
+  stroke: var(--brass);
+  opacity: 0.55;
+}
+.web-node {
+  cursor: pointer;
+}
+.web-node circle {
+  fill: var(--iron);
+  stroke: var(--gold);
+  stroke-width: 2;
+}
+.web-node:hover circle,
+.web-node:focus circle {
+  fill: var(--brass-hi);
+}
+.web-node text {
+  fill: var(--text);
+  font: 500 12px var(--ui);
+}
+.web-node .web-relation {
+  fill: var(--text-3);
+  font-size: 11px;
+}
+.web-you {
+  fill: var(--gold);
+  stroke: var(--brass-hi);
+  stroke-width: 3;
+}
+.web-you-name {
+  fill: var(--text-strong);
+  font: 600 14px var(--name);
+}
+.people-search {
+  width: 100%;
+  margin-bottom: 10px;
+  column-span: all;
+}

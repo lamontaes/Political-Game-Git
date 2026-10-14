@@ -1347,33 +1347,125 @@ async function seatRows() {
 const kindName = (kind) =>
   `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
 
+/** The people you know, one line each (a person with two ties shows once, at the closer). */
+function knownPeople() {
+  const byPerson = new Map();
+  for (const tie of me.card.ties)
+    if (
+      !byPerson.has(tie.personId) ||
+      tie.level > byPerson.get(tie.personId).level
+    )
+      byPerson.set(tie.personId, tie);
+  return [...byPerson.values()].sort((a, b) => b.level - a.level);
+}
+
 // ---- Menus ----
 const sheets = {
-  async people() {
-    return [
-      ...(me.scene?.people ?? [])
-        .filter((p) => p.personId !== me.id)
-        .map((p) => {
-          const b = el("button", { type: "button", textContent: "Talk" });
-          b.addEventListener("click", () => talkTo(p.personId));
-          return el("div", { className: "row" }, termLabel(p.name), b);
-        }),
-      ...me.card.ties.map((t) => {
-        const line = row(
-          t.name,
-          `${t.relation ?? t.kind} · ${t.lastContactDate}`,
+  // The relationship web: you at the center, the people you know around you,
+  // nearer for closer, each line a recorded tie. Choosing one opens their card.
+  async web() {
+    const ns = "http://www.w3.org/2000/svg";
+    const ties = knownPeople();
+    const svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("viewBox", "0 0 800 520");
+    svg.setAttribute("class", "web");
+    const add = (tag, attrs, text) => {
+      const node = document.createElementNS(ns, tag);
+      for (const [key, value] of Object.entries(attrs))
+        node.setAttribute(key, value);
+      if (text !== undefined) node.textContent = text;
+      svg.append(node);
+      return node;
+    };
+    const cx = 400;
+    const cy = 260;
+    ties.forEach((tie, index) => {
+      const angle =
+        (index / Math.max(ties.length, 1)) * Math.PI * 2 - Math.PI / 2;
+      const reach = 95 + (1 - Math.min(Math.max(tie.level, 0), 1)) * 120;
+      const x = cx + Math.cos(angle) * reach * 1.55;
+      const y = cy + Math.sin(angle) * reach;
+      add("line", {
+        x1: cx,
+        y1: cy,
+        x2: x,
+        y2: y,
+        class: "web-edge",
+        "stroke-width": 1 + Math.min(Math.max(tie.level, 0), 1) * 4,
+      });
+      const node = add("g", { class: "web-node", tabindex: 0, role: "button" });
+      const dot = document.createElementNS(ns, "circle");
+      for (const [key, value] of Object.entries({ cx: x, cy: y, r: 9 }))
+        dot.setAttribute(key, value);
+      const label = document.createElementNS(ns, "text");
+      for (const [key, value] of Object.entries({
+        x,
+        y: y + 24,
+        "text-anchor": "middle",
+      }))
+        label.setAttribute(key, value);
+      label.textContent = tie.name;
+      const relation = document.createElementNS(ns, "text");
+      for (const [key, value] of Object.entries({
+        x,
+        y: y + 38,
+        "text-anchor": "middle",
+        class: "web-relation",
+      }))
+        relation.setAttribute(key, value);
+      relation.textContent = tie.relation ?? "";
+      node.append(dot, label, relation);
+      const open = () => {
+        closeSheet();
+        showPerson({ personId: tie.personId });
+      };
+      node.addEventListener("click", open);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") open();
+      });
+    });
+    add("circle", { cx, cy, r: 14, class: "web-you" });
+    add(
+      "text",
+      { x: cx, y: cy + 34, "text-anchor": "middle", class: "web-you-name" },
+      me.card.name,
+    );
+    return [el("div", { className: "web-wrap" }, svg)];
+  },
+  // The same people as a searchable list, with Talk for whoever is in the room.
+  async list() {
+    const here = new Set((me.scene?.people ?? []).map((p) => p.personId));
+    const search = el("input", {
+      type: "search",
+      className: "people-search",
+      placeholder: controls.search ?? "",
+    });
+    const lines = knownPeople().map((t) => {
+      const line = row(t.name, t.relation ?? "");
+      line.dataset.name = t.name.toLowerCase();
+      if (here.has(t.personId)) {
+        const b = el("button", {
+          type: "button",
+          textContent: controls.talk ?? "",
+        });
+        b.addEventListener("click", () => talkTo(t.personId));
+        line.append(b);
+      }
+      // How the tie last moved, in the engine's numbers: a developer view.
+      if (t.latestChange)
+        line.append(
+          el("span", {
+            className: "dev-only",
+            textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
+          }),
         );
-        // How the tie last moved, in the engine's numbers: a developer view.
-        if (t.latestChange)
-          line.append(
-            el("span", {
-              className: "dev-only",
-              textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
-            }),
-          );
-        return line;
-      }),
-    ];
+      return line;
+    });
+    search.addEventListener("input", () => {
+      const text = search.value.trim().toLowerCase();
+      for (const line of lines) line.hidden = !line.dataset.name.includes(text);
+    });
+    return [search, ...lines];
   },
   async who() {
     const c = me.card;
@@ -1993,6 +2085,8 @@ const sheets = {
 };
 const titles = {
   people: "People",
+  web: "Web",
+  list: "List",
   who: "Who you are",
   money: "Money and property",
   jobs: "Jobs and study",
@@ -2012,9 +2106,11 @@ const titles = {
   news: "News",
 };
 // Screens shown as tabs across the top of one menu screen.
+// The tab a menu opens on, when it is not the menu's own name.
+const homeTab = { people: "web" };
 const groups = {
   politics: ["politics", "results", "law", "changes", "budgets", "map"],
-  people: ["people", "family"],
+  people: ["web", "list", "family"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -2057,7 +2153,7 @@ for (const b of document.querySelectorAll("[data-tab]"))
   b.addEventListener("click", () =>
     groupOf(openTab) === b.dataset.tab && b.classList.contains("ring")
       ? closeSheet()
-      : openSheet(b.dataset.tab),
+      : openSheet(homeTab[b.dataset.tab] ?? b.dataset.tab),
   );
 function closeSheet() {
   openTab = undefined;
