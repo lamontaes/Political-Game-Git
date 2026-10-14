@@ -509,8 +509,7 @@ function land(api: CoreAPI, row: WebMonth): void {
 function run(api: CoreAPI): void {
   const state = webState(api);
   if (!state) return;
-  // Kept outcomes hold at their base apart from their causes; see the stopgap.
-  api.stopgap("SG-WEB-outcome-drift");
+  // Kept outcomes move only by researched links; otherwise they hold at their base.
   for (const placeId of placesOf(api))
     land(api, recordMonth(api, placeId, state));
 }

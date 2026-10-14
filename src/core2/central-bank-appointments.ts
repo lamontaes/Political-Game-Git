@@ -3,9 +3,11 @@
  * 14-year term ends every second January and the seat goes to a new
  * appointee (a full term can't be renewed, 12 U.S.C. 242); a reserve bank
  * president is reappointed every five years until the System's retirement
- * age. The appointer chooses among seeded candidates: the president with the
- * Senate's consent (OPUS-GOV's `nominateAndConfirm`, registered with
- * `registerBoardAppointer`), or a stand-in until that's on this branch.
+ * age. The president nominates among seeded candidates and the U.S. Senate
+ * confirms (`nominateAndConfirm`); `registerBoardAppointer` can replace that.
+ * A candidate's lean is their lived inflation against the sitting board's (a
+ * hawk sits to the right: Republican appointees vote more hawkishly,
+ * Chappell, Havrilesky and McGregor 1993).
  */
 import {
   boardCandidates,
@@ -18,7 +20,9 @@ import {
 import type { MacroParameter } from "./macro-model";
 import type { ModuleTable } from "./module-state";
 import { fillInIdentity } from "./state";
-import { stopgap } from "./stopgaps";
+import { nominateAndConfirm, senateSides } from "./appointments";
+import { campaignParameter } from "./campaign-views";
+import { presidentSide } from "./electorate-inputs";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Picks one of the candidates and gives its reasons; nothing when no one is confirmed. */
@@ -34,27 +38,40 @@ export function registerBoardAppointer(next: BoardAppointer): void {
   appointer = next;
 }
 
-/** Until the president and Senate appoint: the candidate whose lived inflation sits closest to the board's middle. */
-const standIn: BoardAppointer = (_api, _vacancy, candidates, sitting) => {
-  stopgap("SG-WORLD-board-appointments");
-  const sorted = sitting
-    .map((row) => row.experiencedInflationPct)
-    .sort((a, b) => a - b);
-  const middle = sorted[Math.floor(sorted.length / 2)] ?? 0;
-  let index = 0;
-  candidates.forEach((row, i) => {
-    if (
-      Math.abs(row.experiencedInflationPct - middle) <
-      Math.abs(candidates[index]!.experiencedInflationPct - middle)
-    )
-      index = i;
+/** The president nominates the candidate their reasons rank first; the Senate confirms or rejects. */
+const presidential: BoardAppointer = (api, vacancy, candidates, sitting) => {
+  const p = (key: string) => api.parameter(key);
+  const leans = withLeans(
+    [
+      ...sitting,
+      ...(candidates.map((row) => ({
+        experiencedInflationPct: row.experiencedInflationPct,
+      })) as unknown as readonly BoardMember[]),
+    ],
+    p,
+  ).slice(sitting.length);
+  const appointment = nominateAndConfirm({
+    seatKey: vacancy.seatId,
+    appointerSide: presidentSide(api),
+    candidates: candidates.map((row, i) => ({
+      id: String(i),
+      lean: leans[i]!.inflationLean,
+      qualification: p("one"),
+      known: false,
+    })),
+    confirmingBody: { name: "U.S. Senate", sides: senateSides() },
+    tolerance: campaignParameter("confirmationTolerance"),
   });
+  if (!appointment.nomineeId) return undefined;
+  const chosen = appointment.reasons.find(
+    (row) => row.candidateId === appointment.nomineeId,
+  )!;
   return {
-    index,
+    index: Number(appointment.nomineeId),
     reasons: {
-      distanceFromBoardMiddle: Math.abs(
-        candidates[index]!.experiencedInflationPct - middle,
-      ),
+      alignment: chosen.alignment,
+      senateYes: appointment.confirmation?.yes ?? p("zero"),
+      senateNo: appointment.confirmation?.no ?? p("zero"),
     },
   };
 };
@@ -99,7 +116,12 @@ export function reviewBoardTerms(
     } else {
       const candidates = boardCandidates(core.seed, vacancy, p);
       const others = sitting.filter((row) => row.id !== ended.id);
-      const pick = (appointer ?? standIn)(api, vacancy, candidates, others);
+      const pick = (appointer ?? presidential)(
+        api,
+        vacancy,
+        candidates,
+        others,
+      );
       // No one confirmed: the member stays on until a successor is (the Federal Reserve Act's holdover).
       if (!pick) {
         members.put({

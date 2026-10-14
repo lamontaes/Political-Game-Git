@@ -16,7 +16,8 @@ import {
   localWageAuthority,
   raiseMinimumWage,
 } from "./group-a-wages";
-import { housingAssistance, paidLeave, parksFunding } from "./group-a-money";
+import { paidLeave, parksFunding } from "./group-a-money";
+import { multifamilyZoning, rightToCounsel } from "./group-a-housing";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
 
@@ -26,12 +27,15 @@ const records: PolicyHandler = (api, change) =>
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   none: [records],
+  // The outcome web carries the law's effect on the town's measures.
+  "outcome-web": [],
+  "multifamily-zoning": [records, multifamilyZoning],
+  "right-to-counsel": [records, rightToCounsel],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
   "paid-leave-premium": [paidLeave],
   "parks-funding": [parksFunding],
-  "housing-assistance": [housingAssistance],
   staffing: [staffing],
   voting: [votingLaw],
   "office-limits": [votingLaw],

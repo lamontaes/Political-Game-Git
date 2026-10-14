@@ -11,9 +11,9 @@
  *   resident times its residents, and the Treasury's fiscal 2025 statement for
  *   the federal government. Local spending divides between county and city
  *   by each function's real shares in the state (Census 2022). Each new fiscal year's
- *   budget is adopted on its start date by the old rule (carry the year's
- *   amounts forward) until a council or legislature votes it (M3):
- *   SG-GOV-budget-adopted-by-rule. A budget bill the legislature passes adds
+ *   budget is voted on its start date by the government's council or
+ *   legislature (the legislature engine); where no body is seated to vote it,
+ *   the prior year's budget continues. A budget bill the legislature passes adds
  *   its line changes to the government's enacted lines, which every later
  *   year's budget starts from.
  * - Withholding: each paycheck's income, Social Security and Medicare taxes,
@@ -36,6 +36,7 @@ import {
 } from "../../simulation/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
+import { propertyTaxCapShare } from "../law-reach/property-tax-cap";
 import type { LawRowInput } from "../laws-starting";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 
@@ -178,6 +179,9 @@ interface PlaceBases {
   name: string;
   fiscalYearStart: string;
   population2024?: number;
+  /** Island areas: Puerto Rico's 2025 estimate, the others' 2020 Census counts. */
+  puertoRicoPopulation2025?: number;
+  islandAreaPopulation2020?: number;
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
   local?: { revenue: Record<string, number>; spending: Record<string, number> };
 }
@@ -341,7 +345,11 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
       level: "state",
       name: place?.name ?? chain.stateKey,
       fiscalYearStart: stateStart,
-      residents: place?.population2024 ?? 0,
+      residents:
+        place?.population2024 ??
+        place?.puertoRicoPopulation2025 ??
+        place?.islandAreaPopulation2020 ??
+        0,
     }),
   ];
   const county = chain.countyGeoids[0];
@@ -409,7 +417,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         citation:
           "Fiscal year start (data/research/money/public-budget-bases.json)",
         asOf: core.date,
-        estimatedFrom: "SG-GOV-budget-adopted-by-rule",
+        estimatedFrom: "the government's fiscal year start",
       },
       sourceRecordIds: [gov.id],
     });
@@ -583,9 +591,11 @@ function propertyTaxTerms(api: CoreAPI) {
   const citation = Array.isArray(row.source)
     ? row.source.join(" ; ")
     : (row.source as string);
+  const cap = propertyTaxCapShare(api);
   return {
     rate: answer.value / 100,
     payeeId: collector,
+    ...(cap === undefined ? {} : { assessmentCapShare: cap }),
     source: {
       tag: "ESTIMATED" as const,
       citation,
@@ -846,19 +856,18 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     work.sourceRecordIds[0]!,
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
-  // The town's council votes its own budget where the legislature engine runs.
+  // The government's council or legislature votes its budget.
   const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
   const voted = councilBudgetVote?.(api, gov, fy) ?? null;
   let budget: BudgetRow;
   if (voted) budget = voted;
   else {
-    // stopgapId: SG-GOV-budget-adopted-by-rule
-    api.stopgap("SG-GOV-budget-adopted-by-rule");
+    // No body seated to vote it: the prior year's budget continues.
     budget = carriedBudget(
       api,
       gov,
       fy,
-      "carried forward by the budget rule until the council or legislature votes it",
+      "the prior year's budget continued: no body was seated to vote it",
     );
   }
   api.emit({

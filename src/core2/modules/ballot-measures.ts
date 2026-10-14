@@ -8,14 +8,13 @@
  * turned out for a race that day votes on the measures too) and how (their
  * own view of the question, their lean plus how popular the policy is; someone
  * with no view leaves it blank). The rest
- * of the state votes as groups spread across the left-right scale around the
- * state's real 2024 lean, each group voting its own view. The measure passes
+ * of the state votes by its counties (the electorate's blocks, each sized and
+ * leaning as it voted in 2024), each county's voters voting their own view. The measure passes
  * by the state's own rule (a simple majority unless the data says
  * otherwise), and an approved measure becomes the state's law on its
  * effective date, reaching named residents through the law-effects module.
  */
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
-import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { decisionLean } from "../trait-decisions";
 import { parameter } from "../parameters";
@@ -31,6 +30,7 @@ import {
 import { enactLaw, lawChain } from "./laws";
 import { turnout, VOTING_MODULE_ID } from "./voting";
 import { stateActEffectiveDate } from "../state-effective-date";
+import { stateBlocks } from "../electorate-blocks";
 
 export const BALLOT_MEASURES_MODULE_ID = "core2-ballot-measures-v1";
 
@@ -137,18 +137,6 @@ const ageOn = (p: Readonly<PersonState>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 
-const stateRows = new Map(
-  (
-    calibration as unknown as {
-      presidentialByState: {
-        stateUsps: string;
-        totalVotes: number;
-        democraticTwoPartyShare: number | null;
-      }[];
-    }
-  ).presidentialByState.map((s) => [s.stateUsps, s]),
-);
-
 function townLean(api: CoreAPI): number {
   return (
     (
@@ -229,27 +217,23 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       },
     } as unknown as ModuleRow);
   }
-  // The rest of the state: lean bands around the state's 2024 lean, sized by
-  // its 2024 vote, each band voting its own view of the question.
-  // stopgapId: SG-GOV-measure-groups-stand-in
-  api.stopgap("SG-GOV-measure-groups-stand-in");
-  const row = stateRows.get(measure.stateKey.slice(3));
-  const groups = { yes: 0, no: 0 };
-  const unnamed = Math.max(0, (row?.totalVotes ?? voted) - voted);
-  const rightShare = row?.democraticTwoPartyShare
-    ? 1 - row.democraticTwoPartyShare
-    : (1 + townLean(api)) / 2;
-  // Leans spread evenly from 2·right − 2 to 2·right (as named people's do);
-  // the share voting yes is the part of that range whose view favors it.
-  const low = 2 * rightShare - 2;
+  // The rest of the state votes by its counties (the electorate's blocks,
+  // each its 2024 vote): a county's voters spread evenly across the scale
+  // around its own 2024 lean (as named people's do), and the share voting yes
+  // is the part of that range whose view favors it.
+  const blocks = stateBlocks(measure.stateKey.slice(3));
+  const total = blocks.reduce((sum, block) => sum + block.votes, 0);
+  const unnamed = Math.max(0, total - voted);
   const slope = personStance(1, measure.question) * direction;
-  const yesFraction = shareFavoring(
-    low,
-    low + 2,
-    slope,
-    publicOffset(measure.question) * direction,
-  );
-  groups.yes = Math.round(unnamed * yesFraction);
+  const offset = publicOffset(measure.question) * direction;
+  let yesVotes = 0;
+  for (const block of blocks) {
+    const low = 2 * block.target - 2;
+    yesVotes +=
+      ((unnamed * block.votes) / total) *
+      shareFavoring(low, low + 2, slope, offset);
+  }
+  const groups = { yes: Math.round(yesVotes), no: 0 };
   groups.no = unnamed - groups.yes;
   const yes = named.yes + groups.yes;
   const no = named.no + groups.no;

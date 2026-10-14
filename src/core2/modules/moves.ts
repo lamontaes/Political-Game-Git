@@ -65,9 +65,11 @@ const TOP_DESTINATION = destinations.topDestinationByCounty as Readonly<
   Record<string, string>
 >;
 
+/** Removal at the end of an eviction (housing.ts): the household leaves. */
+const EVICTION_EVENT = "housing.eviction";
+
 /** The causes an event adds to the pull, by event kind. */
 const EVENT_PULLS: Readonly<Record<string, string>> = {
-  "housing.eviction": "movesEvictedPull",
   "work.job-lost": "movesJobLostPull",
   [MOVED_AWAY_EVENT]: "movesKinMovedPull",
 };
@@ -589,7 +591,34 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     api.stopgap(OWNER_STOPGAP);
     return null;
   }
-  const pinned = pinnedJobs(api.state as CoreState);
+  if (blockedMove(api, person, going)) return null;
+  pending.set(api.state, { pull });
+  const offers: ActOffer[] = [STAY_PUT, MOVE_AWAY].map((definition) => ({
+    definition,
+    targetId: person.placeId,
+    availableHours: api.parameter("hoursPerDay"),
+  }));
+  const scored = scoreOffers(api.state, person.id, offers, {
+    needValues: { time: api.parameter("zero") },
+  });
+  const decision = decisionFromScores(api.state, person.id, scored);
+  pending.delete(api.state);
+  if (decision.selected?.definition.id !== MOVE_AWAY.id) return null;
+  return leave(api, person, pull, holds);
+}
+
+/**
+ * A job a saved agreement names, or an income award paid into a household
+ * the mover would leave behind, holds a move until it can follow its person
+ * (registered stopgaps).
+ */
+function blockedMove(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  going: readonly PersonId[],
+): boolean {
+  const core = api.state as CoreState;
+  const pinned = pinnedJobs(core);
   if (
     going.some((id) => {
       const job = api.state.people.get(id)?.jobId;
@@ -597,12 +626,11 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     })
   ) {
     api.stopgap(PINNED_STOPGAP);
-    return null;
+    return true;
   }
   // A recorded income award (a pension, Social Security) names the household
   // it is paid into; a mover who would leave that household behind keeps
   // it until an award can follow its person (registered stopgap).
-  const core = api.state as CoreState;
   const home = core.households.get(person.householdId);
   if (
     home?.memberIds.some((id) => !going.includes(id)) &&
@@ -619,21 +647,33 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     )
   ) {
     api.stopgap(INCOME_STOPGAP);
-    return null;
+    return true;
   }
-  pending.set(api.state, { pull });
-  const offers: ActOffer[] = [STAY_PUT, MOVE_AWAY].map((definition) => ({
-    definition,
-    targetId: person.placeId,
-    availableHours: api.parameter("hoursPerDay"),
-  }));
-  const scored = scoreOffers(api.state, person.id, offers, {
-    needValues: { time: api.parameter("zero") },
-  });
-  const decision = decisionFromScores(api.state, person.id, scored);
-  pending.delete(api.state);
-  if (decision.selected?.definition.id !== MOVE_AWAY.id) return null;
-  return leave(api, person, pull, holds);
+  return false;
+}
+
+/**
+ * An eviction takes the household out of its home: each adult it names
+ * leaves the way any leaver does, with the eviction as the cause. The
+ * player's moves stay the player's own choice.
+ */
+function leaveEvicted(api: CoreAPI, event: CoreEventInput): void {
+  const core = api.state as CoreState;
+  if (core.playerId && event.personIds.includes(core.playerId)) return;
+  for (const id of event.personIds) {
+    const person = core.people.get(id);
+    if (!person || !inTown(core, id)) continue;
+    if (ageOf(api, person) < m(api, "movesMinimumAge")) continue;
+    const going = goingWith(api, person);
+    if (blockedMove(api, person, going)) continue;
+    const pull = pullOf(api, person);
+    pull.causes = {
+      ...pull.causes,
+      [event.kind]:
+        (pull.causes[event.kind] ?? api.parameter("zero")) + pull.value,
+    };
+    leave(api, person, pull, holdsOf(api, person));
+  }
 }
 
 /** One adult's month: their pull builds, then they (or their couple) choose. */
@@ -721,6 +761,7 @@ function monthlyReview(api: CoreAPI): void {
 
 /** An event's push toward leaving, added to the people it names. */
 function addEventPull(api: CoreAPI, event: CoreEventInput): void {
+  if (event.kind === EVICTION_EVENT) return leaveEvicted(api, event);
   const key = EVENT_PULLS[event.kind];
   if (!key) return;
   const core = api.state as CoreState;
@@ -768,7 +809,7 @@ export const movesModule: CoreModule = {
     schemaVersion: 1,
     tables: { state: {}, pulls: {}, departures: {} },
   },
-  eventKinds: Object.keys(EVENT_PULLS),
+  eventKinds: [EVICTION_EVENT, ...Object.keys(EVENT_PULLS)],
   onEvent(api, event) {
     addEventPull(api, event);
   },

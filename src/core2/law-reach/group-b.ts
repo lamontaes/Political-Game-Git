@@ -8,9 +8,9 @@
  * (group-b-store.ts). Where an engine owns the effect it runs through it:
  * pay through rerateJob, money through the accounts journal, budgets through
  * amendBudget, taxes through a law row payroll withholding collects
- * (group-b-money.ts). Where the real effect needs another session's engine,
- * the record is the law side and the policy's registered stopgap names the
- * API that engine must provide.
+ * (group-b-money.ts), prices through the place-prices engine
+ * (group-b-prices.ts). A policy whose effect is on the town's measures alone
+ * ("outcome-web") runs nothing here: the outcome web reads the law in force.
  *
  * Budget lines ("budget-line:<line>"): a line's change against its base
  * reaches what it pays for: public staff pay (schools, health), a monthly
@@ -53,11 +53,13 @@ import {
   scalePayroll,
   serviceLevel,
 } from "./group-b-money";
+import { placePrice, type PriceMechanic } from "./group-b-prices";
 import { amendBudget } from "../modules/budgets";
 
 type Mechanic =
   | "records"
-  | "transit-fares"
+  | "outcome-web"
+  | PriceMechanic
   | "highway-shift"
   | "teacher-floor"
   | "income-tax-adopt"
@@ -86,7 +88,6 @@ interface LineDef {
   readonly publicWorkers?: boolean;
   readonly payroll?: {
     readonly classifications: readonly string[];
-    readonly standIn?: readonly string[];
     readonly compensationShare: string;
   };
   readonly benefit?: boolean;
@@ -100,7 +101,9 @@ const data = reach as unknown as {
 
 /** Every key group B registers a handler for: policies, then budget lines. */
 export const GROUP_B_KEYS: readonly string[] = [
-  ...Object.keys(data.policies),
+  ...Object.entries(data.policies)
+    .filter(([, def]) => def.mechanic !== "outcome-web")
+    .map(([key]) => key),
   ...Object.keys(data.budgetLines).map((line) => `budget-line:${line}`),
 ];
 
@@ -194,14 +197,9 @@ function questionInForce(api: CoreAPI, key: string): boolean {
   });
 }
 
-/** Teachers the salary floor covers: public school teachers (see the stand-in). */
+/** Teachers the salary floor covers: the town's public school teachers. */
 function coveredTeachers(api: CoreAPI): JobInput[] {
-  const teacher = "profession:teacher";
-  const jobs = jobsAt(api, ["service:school"], teacher);
-  if (jobs.length) return jobs;
-  // stopgapId: SG-GOV-REACH-B-public-school-staff
-  api.stopgap("SG-GOV-REACH-B-public-school-staff");
-  return jobsAt(api, ["service:private-school"], teacher);
+  return jobsAt(api, ["service:school"], "profession:teacher");
 }
 
 function workersOf(api: CoreAPI, jobs: readonly JobInput[]) {
@@ -234,7 +232,25 @@ function runPolicy(
   let inForce = input.inForce;
   let personTerms: Map<string, Record<string, number>> | undefined;
   switch (def.mechanic) {
+    case "electricity-price":
+    case "carbon-price":
+    case "mileage-fee":
+    case "public-broadband":
+    case "container-deposit":
+      placePrice(api, def.mechanic, {
+        level,
+        lawId: input.lawId,
+        enacting: input.enacting,
+        terms,
+      });
+      break;
     case "transit-fares":
+      placePrice(api, def.mechanic, {
+        level,
+        lawId: input.lawId,
+        enacting: input.enacting,
+        terms,
+      });
       moveBudget(api, {
         key,
         level,
@@ -383,6 +399,8 @@ function runPolicy(
       });
       return;
     }
+    case "outcome-web":
+      return;
     case "records":
       if (key === "sales-tax") {
         const answer = lawInForce(api, "sales-tax");
@@ -439,6 +457,9 @@ function finish(
   );
 }
 
+const WORK_REQUIREMENT_KEY =
+  "us-policy-positions:health-human-services.work-requirement-for-assistance";
+
 const PUBLIC_EMPLOYERS = [
   "sector:local-government-office",
   "sector:state-government-office",
@@ -467,12 +488,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   let selected: ResidentFacts[] | undefined;
   const orgs = new Set(employers(api, def.organizations ?? []));
   if (def.payroll) {
-    let jobs = jobsAt(api, def.payroll.classifications);
-    if (!jobs.length && def.payroll.standIn) {
-      // stopgapId: SG-GOV-REACH-B-public-school-staff
-      api.stopgap("SG-GOV-REACH-B-public-school-staff");
-      jobs = jobsAt(api, def.payroll.standIn);
-    }
+    const jobs = jobsAt(api, def.payroll.classifications);
     const rates = scalePayroll(api, {
       key,
       jobs,
@@ -491,6 +507,14 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   }
   if (def.benefit && def.people) {
     selected = selectResidents(facts, def.people, chain.stateKey);
+    // A work requirement in force ends the benefit for the adults it time-limits.
+    const limit = data.policies[WORK_REQUIREMENT_KEY];
+    if (limit?.people && questionInForce(api, WORK_REQUIREMENT_KEY)) {
+      const limited = new Set(
+        selectResidents(facts, limit.people, chain.stateKey).map((r) => r.id),
+      );
+      selected = selected.filter((r) => !limited.has(r.id));
+    }
     personTerms = payBenefits(api, {
       key,
       service,
@@ -552,7 +576,8 @@ export function registerGroupB(): void {
   if (registered) return;
   registered = true;
   setReachReview(review);
-  for (const key of Object.keys(data.policies))
+  for (const [key, def] of Object.entries(data.policies)) {
+    if (def.mechanic === "outcome-web") continue;
     registerPolicyHandler(key, (api, change) => {
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")
@@ -565,7 +590,18 @@ export function registerGroupB(): void {
         enacting,
         value: change.value,
       });
+      // The benefit lines read the work requirement: pay them again now.
+      if (key === WORK_REQUIREMENT_KEY)
+        for (const row of rowsOf<ActiveRow>(api, "active")) {
+          const line = row.id.slice("budget-line:".length);
+          if (
+            row.id.startsWith("budget-line:") &&
+            data.budgetLines[line]?.benefit
+          )
+            runBudgetLine(api, line, row.lawId);
+        }
     });
+  }
   for (const line of Object.keys(data.budgetLines))
     registerPolicyHandler(`budget-line:${line}`, (api, change) =>
       runBudgetLine(api, line, change.lawId),

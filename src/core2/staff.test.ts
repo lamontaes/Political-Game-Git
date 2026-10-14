@@ -96,6 +96,8 @@ describe("M3-06 staff", () => {
         personId: known.personId,
         role: "aide",
       });
+      // No government payroll to hire onto: no post (try another place).
+      if (!aide) continue;
       hireStaff(api, {
         officialId: official,
         personId: applicant.personId,

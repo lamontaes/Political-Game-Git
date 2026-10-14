@@ -143,13 +143,14 @@ export function hireStaff(
     readonly personId: string;
     readonly role: string;
   },
-): StafferRow {
+): StafferRow | null {
   const candidate = staffCandidates(api, input.officialId).find(
     (c) => c.personId === input.personId,
   );
   if (!candidate)
     throw new Error(`${input.personId} isn't a candidate for this office`);
-  // On the payroll of the government the official serves, at the post's pay.
+  // On the payroll of the government the official serves, at the post's
+  // pay; with no government payroll to put them on, there is no post.
   const employer = employerOf(api, input.officialId);
   const jobId = employer
     ? startPublicJob(api, {
@@ -161,8 +162,7 @@ export function hireStaff(
         citation: `Hired as ${input.role} to ${input.officialId}`,
       })
     : null;
-  // stopgapId: SG-GOV-staff-unpaid
-  if (!jobId) api.stopgap("SG-GOV-staff-unpaid");
+  if (!jobId) return null;
   const row: StafferRow = {
     id: `staffer:${input.officialId}:${input.personId}`,
     officialId: input.officialId,
@@ -460,15 +460,9 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       0
     )
       continue;
-    // stopgapId: SG-GOV-staff-hire-out-of-work
-    api.stopgap("SG-GOV-staff-hire-out-of-work");
-    // Only people out of work: taking the post would end a job that other
-    // records (a business's contracts) may still rely on.
+    // Anyone paid less than the post applies; taking it ends their job.
     const choice = staffCandidates(api, officialId)
       .filter((c) => {
-        const person = state.people.get(c.personId);
-        if (person?.jobId && state.jobs.get(person.jobId)?.endsAt === undefined)
-          return false;
         const pay = [...(state.work.commitmentsByPerson.get(c.personId) ?? [])]
           .map((id) => state.work.commitments.get(id))
           .filter((row) => row && row.endsAt === undefined)

@@ -13,6 +13,14 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
+import { withPublicSchoolDistrict } from "./opening-public-schools";
+import { worldCoreData } from "./modules/world";
+import {
+  PLACE_PRICES_MODULE,
+  PLACE_PRICES_MODULE_ID,
+} from "./modules/place-prices";
+import { lawInForce as lawAnswer } from "./modules/laws";
+import { propertyTaxCapShare } from "./law-reach/property-tax-cap";
 import { withCountedVoterGroups } from "./opening-voter-groups";
 import { residentsRuntime } from "./modules/residents";
 import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
@@ -41,7 +49,11 @@ import type {
   PersonReach,
 } from "./law-reach/group-b-store";
 import { GROUP_B_KEYS, groupBPolicy } from "./law-reach/group-b";
-import { reachParameter, townFacts } from "./law-reach/group-b-people";
+import {
+  reachParameter,
+  selectResidents,
+  townFacts,
+} from "./law-reach/group-b-people";
 import {
   budgetNow,
   modeledShare,
@@ -89,12 +101,15 @@ function build(): void {
     if (!places.length) continue;
     const key =
       process.env.GOLDEN_PATH_PLACE_KEY ?? pick(places, `place:${attempt}`).key;
-    const full = buildPopulation({
-      seed,
-      placeKey: key,
-      startedAt: START,
-      minimumPeople: 400,
-    });
+    // The town's public school district, as the core's opening adds it.
+    const full = withPublicSchoolDistrict(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 400,
+      }),
+    ).input;
     const year = Number(START.slice(0, 4));
     // An employed adult where the place has one (paychecks for the tax tests), else any adult.
     const adults = [...full.people]
@@ -110,6 +125,7 @@ function build(): void {
       withCountedVoterGroups(
         collapseToTwoLevels({ ...full, playerId: player.id }),
       ),
+      { data: worldCoreData(), modules: [PLACE_PRICES_MODULE] },
     );
     openLaws(core);
     openBudgets(core);
@@ -270,21 +286,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
   beforeAll(() => build());
 
   it("registers a handler for every group B policy and budget line", () => {
-    expect(GROUP_B_KEYS.length).toBe(35);
+    // Policies whose effect is the outcome web's (mechanic outcome-web) register none.
+    expect(GROUP_B_KEYS.length).toBe(23);
   });
 
   // ---- Records reaching named people, counted residents and employers ----
   const ageRecords: [string, string, string?][] = [
-    [
-      Q("education.universal-preschool"),
-      "preschoolAgeFrom",
-      "preschoolAgeBelow",
-    ],
-    [
-      Q("education.public-funds-for-private-schooling"),
-      "schoolAgeFrom",
-      "schoolAgeBelow",
-    ],
     [
       Q("transportation-infrastructure.mileage-fee-replaces-fuel-tax"),
       "drivingAge",
@@ -337,11 +344,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     });
 
   const employerRecords = [
-    Q("environment-energy.ban-new-gas-hookups"),
     Q("environment-energy.clean-air-plan-for-polluted-counties"),
     Q("environment-energy.bottle-deposit"),
-    Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
-    Q("agriculture-natural-resources.protect-farmland-from-development"),
   ];
   for (const key of employerRecords)
     it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
@@ -364,41 +368,63 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expectEnded(key);
     });
 
-  // ---- Eligibility from income, work hours and children ----
-  it("Medicaid expansion reaches low-income adults 19-64; the work requirement those under 80 hours without young children", () => {
-    const expand = Q("health-human-services.expand-medicaid-eligibility");
-    const work = Q("health-human-services.medicaid-work-requirement");
-    enact(expand, 1, "state");
-    expect(reached(expand), `${where} expansion`).toBeGreaterThan(0);
-    const date = makeIsoDate(api.state.date);
-    for (const row of openPeople(expand)) {
-      const p = core.people.get(row.personId)!;
-      const age = ageOnDate(makeIsoDate(p.birthDate), date);
-      expect(age).toBeGreaterThanOrEqual(19);
-      expect(age).toBeLessThan(65);
-    }
-    enact(work, 1, "state");
-    expect(reached(work)).toBeLessThanOrEqual(reached(expand));
-    const weekly = (80 * 12 * 60) / 52;
-    for (const row of openPeople(work)) {
-      const minutes = [
-        ...(core.work.commitmentsByPerson.get(row.personId) ?? []),
-      ]
-        .map((id) => core.work.commitments.get(id)!)
-        .filter((c) => c.endsAt === undefined)
-        .reduce((n, c) => n + c.expectedWeeklyMinutes, 0);
-      expect(minutes).toBeLessThan(weekly);
-    }
-    report.medicaid = {
-      eligible: reached(expand),
-      endedForHours: reached(work),
-    };
-    enact(work, 0, "state");
-    expectEnded(work);
-    enact(expand, 0, "state");
-    expectEnded(expand);
+  // ---- Prices the place-prices engine charges the town ----
+  const priceRules: [string, string, string][] = [
+    [
+      Q("environment-energy.clean-electricity-standard"),
+      "electricity",
+      "share",
+    ],
+    [Q("environment-energy.price-carbon"), "fuel", "share"],
+    [
+      Q("transportation-infrastructure.mileage-fee-replaces-fuel-tax"),
+      "vehicle-miles",
+      "per-unit",
+    ],
+    [Q("transportation-infrastructure.public-broadband"), "broadband", "offer"],
+    [Q("environment-energy.bottle-deposit"), "beverage-container", "per-unit"],
+  ];
+  const priceRule = (good: string, kind: string) =>
+    api
+      .moduleState(PLACE_PRICES_MODULE_ID)
+      .table("rules")
+      .get(`${town}:${good}:${kind}`) as
+      | { value: number; payeeId?: string; providerId?: string; cause: string }
+      | undefined;
+  for (const [key, good, kind] of priceRules)
+    it(`${key}: sets the town's ${good} price in the place-prices engine; repeal ends it`, () => {
+      enact(key, 1, "state");
+      const rule = priceRule(good, kind);
+      expect(rule, `${where} ${key}`).toBeDefined();
+      expect(rule!.cause.startsWith("law:")).toBe(true);
+      expect(rule!.value, `${where} ${key}`).toBeGreaterThan(0);
+      const treasury = governments(api).find(
+        (g) => g.level === "state",
+      )!.organizationId;
+      if (good === "vehicle-miles" || good === "fuel")
+        expect(rule!.payeeId).toBe(treasury);
+      if (good === "broadband") expect(rule!.providerId).toBe(treasury);
+      report[`${key}:price`] = { good, value: rule!.value };
+      enact(key, 0, "state");
+      expect(priceRule(good, kind), `${where} ${key} repeal`).toBeUndefined();
+    });
+
+  it("a property-tax growth cap is the assessment cap the property tax bills read; repeal lifts it", () => {
+    const key = Q("fiscal.cap-property-tax-growth");
+    expect(propertyTaxCapShare(api)).toBeUndefined();
+    enact(key, 1, "state");
+    expect(
+      lawAnswer(api, key).levels.some((l) => l.row?.value === 1),
+      where,
+    ).toBe(true);
+    expect(propertyTaxCapShare(api)).toBe(
+      reachParameter("propertyTaxGrowthCapShare"),
+    );
+    enact(key, 0, "state");
+    expect(propertyTaxCapShare(api)).toBeUndefined();
   });
 
+  // ---- Eligibility from income, work hours and children ----
   it("an assistance work requirement time-limits low-income adults working under 20 hours", () => {
     const key = Q("health-human-services.work-requirement-for-assistance");
     enact(key, 1, "state");
@@ -418,7 +444,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       return [...core.jobs.values(), ...(rt?.jobs.values() ?? [])].filter(
         (j) =>
           j.occupationClassification === "profession:teacher" &&
-          ["service:school", "service:private-school"].includes(
+          ["service:school"].includes(
             core.organizations.get(j.organizationId)?.classification ?? "",
           ) &&
           core.organizations.get(j.organizationId)?.placeId === town,
@@ -583,10 +609,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   // ---- Budget lines reach what they pay for ----
   const serviceLines: [string, number | null][] = [
-    ["highways", 16],
-    ["higherEducation", 18],
-    ["naturalResources", null],
-    ["parks", null],
     ["healthAndHospitals", null],
   ];
   for (const [name, from] of serviceLines)
@@ -598,10 +620,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       amend(gov, name, step);
       const g = group(key);
       expect(g?.endedOn, `${where} ${key}`).toBeNull();
-      if (from !== null)
-        expect(reached(key)).toBe(
-          residentsAged(from, name === "higherEducation" ? 25 : Infinity),
-        );
+      if (from !== null) expect(reached(key)).toBe(residentsAged(from));
       else expect(reached(key)).toBe(residentsAged(0));
       for (const row of openPeople(key))
         expect(row.terms.townDeltaMinor).toBeGreaterThan(0);
@@ -621,7 +640,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       const rt = residentsRuntime(core);
       return [...core.jobs.values(), ...(rt?.jobs.values() ?? [])].filter(
         (j) =>
-          ["service:school", "service:private-school"].includes(
+          ["service:school"].includes(
             core.organizations.get(j.organizationId)?.classification ?? "",
           ) &&
           core.organizations.get(j.organizationId)?.placeId === town &&
@@ -717,6 +736,38 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expect(accounts.obligation(b.obligationId)!.endedAt).toBeDefined();
   });
 
+  it("an assistance work requirement ends the welfare benefit of the adults it time-limits", () => {
+    const key = "budget-line:welfareAndMedicaid";
+    const work = Q("health-human-services.work-requirement-for-assistance");
+    const gov = govFor("welfareAndMedicaid");
+    const base = line(gov, "welfareAndMedicaid");
+    amend(gov, "welfareAndMedicaid", stepFor(gov, "welfareAndMedicaid"));
+    const paying = () =>
+      new Set(
+        table<{ key: string; recipientId: string }>("taken")
+          .filter((r) => r.key === `benefit|${key}`)
+          .map((r) => r.recipientId),
+      );
+    const before = paying();
+    enact(work, 1, "state");
+    const limited = selectResidents(
+      townFacts(api, town),
+      groupBPolicy(work)!.people!,
+      lawChain(api).stateKey,
+    ).filter((r) => r.named);
+    const after = paying();
+    for (const r of limited)
+      expect(after.has(r.id), `${where} ${r.id}`).toBe(false);
+    report.workRequirementBenefits = {
+      before: before.size,
+      after: after.size,
+      limited: limited.length,
+    };
+    enact(work, 0, "state");
+    amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
+    expectEnded(key);
+  });
+
   // ---- Acts that move budget money ----
   it("fare-free transit funds the fares from the budget and reaches riders; repeal takes the money back", () => {
     const key = Q("transportation-infrastructure.fare-free-transit");
@@ -735,12 +786,15 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expect(reached(key), where).toBe(
       residentsAged(reachParameter("transitRiderAgeFrom")),
     );
+    // Riders pay no fare: the place-prices engine refunds what fares cost them.
+    expect(priceRule("transit-fare", "price")?.value).toBe(0);
     enact(key, 0, level);
     expectEnded(key);
     expect(line(gov, "transit")).toBe(before);
+    expect(priceRule("transit-fare", "price")).toBeUndefined();
   });
 
-  it("shifting highway funds to transit moves the line; drivers' road service falls", () => {
+  it("shifting highway funds to transit moves the line, and a repeal moves it back", () => {
     const key = Q(
       "transportation-infrastructure.shift-highway-funds-to-transit",
     );
@@ -755,13 +809,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const moved = Math.round(highways * reachParameter("highwayShareShifted"));
     expect(line(state, "highways")).toBe(highways - moved);
     expect(line(state, "transit")).toBe(transit + moved);
-    const road = openPeople("budget-line:highways");
-    for (const row of road) expect(row.terms.townDeltaMinor).toBeLessThan(0);
-    expect(reached("budget-line:highways"), where).toBe(residentsAged(16));
     report.highwayShift = { movedMinor: moved };
     enact(key, 0, "state");
     expect(line(state, "highways")).toBe(highways);
-    expectEnded("budget-line:highways");
   });
 
   it("funding pensions to schedule adds the contribution and reaches public employers and workers", () => {

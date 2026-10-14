@@ -5,13 +5,14 @@
  * to the state's maximum) until they're hired or their weeks run out. A
  * worker who quits for a better job or leaves work has no claim.
  *
- * The program's terms come from the law in force (OPUS-GOV's
- * `lawInForce(api, "unemployment-insurance")`), registered with
- * `registerUnemploymentTerms`; until that's on this branch, a national
- * estimate from DOL's state provisions stands in.
+ * The program's terms come from the state's law in force
+ * (`lawInForce(api, "unemployment-insurance")` and its weekly maximum); a term
+ * the law row leaves blank, or a world without the laws module, uses the
+ * states' median from DOL's provisions as the estimate.
+ * `registerUnemploymentTerms` can still replace the source.
  */
 import type { ModuleTable } from "./module-state";
-import { stopgap } from "./stopgaps";
+import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
@@ -57,8 +58,8 @@ export function registerUnemploymentTerms(source: TermsSource): void {
   termsSource = source;
 }
 
-function standIn(api: CoreAPI): UnemploymentTerms {
-  stopgap("SG-WORLD-jobs-benefits-terms");
+/** The states' medians from DOL's provisions: the estimate for any term the law in force leaves blank. */
+function medianTerms(api: CoreAPI): UnemploymentTerms {
   const p = (key: string) => api.parameter(key);
   return {
     hasProgram: true,
@@ -78,11 +79,92 @@ function standIn(api: CoreAPI): UnemploymentTerms {
   };
 }
 
+const num = (value: unknown): number | undefined =>
+  typeof value === "number" && Number.isFinite(value) ? value : undefined;
+
+/**
+ * The law's weekly-benefit fraction as a share of weekly pay: a fraction of
+ * average weekly wage is that share already; a fraction of quarterly or
+ * annual wages is multiplied by the weeks those wages cover.
+ */
+function weeklyShareOf(
+  api: CoreAPI,
+  terms: Record<string, unknown>,
+): number | undefined {
+  const fraction = num(terms.weeklyBenefitFraction);
+  if (fraction === undefined) return undefined;
+  const basis = String(terms.weeklyBenefitAppliesTo ?? "");
+  if (/AWW|average weekly|\/13/i.test(basis)) return fraction;
+  const p = (key: string) => api.parameter(key);
+  const quartersPerYear = p("macroMonthsPerYear") / p("macroMonthsPerQuarter");
+  const quarters = /high.quarter/i.test(basis)
+    ? p("one")
+    : /\b2 (highest|consecutive)|last 2/i.test(basis)
+      ? p("two")
+      : quartersPerYear;
+  const weeksPerQuarter =
+    p("jobsDaysPerYear") / DAYS_PER_WEEK / quartersPerYear;
+  return fraction * quarters * weeksPerQuarter;
+}
+
+let lawCache:
+  { state: object; date: string; terms: UnemploymentTerms } | undefined;
+
+/** The state's unemployment insurance in force, with the medians filling any blank term. */
+function lawTerms(api: CoreAPI): UnemploymentTerms {
+  const median = medianTerms(api);
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return median;
+  if (lawCache?.state === api.state && lawCache.date === api.state.date)
+    return lawCache.terms;
+  const program = lawInForce(api, "unemployment-insurance").governing;
+  const terms = (program?.terms ?? {}) as Record<string, unknown>;
+  const toMinor = api.parameter("minorPerDollar");
+  const weeklyMaximum = num(
+    lawInForce(api, "unemployment-weekly-maximum").value,
+  );
+  const basePeriod = num(
+    (terms.baseEarnings as Record<string, unknown> | undefined)
+      ?.minimumBasePeriodWages,
+  );
+  const citation = program
+    ? [program.source].flat().join(" ; ")
+    : median.source.citation;
+  const result: UnemploymentTerms = program
+    ? {
+        hasProgram: terms.hasProgram !== false,
+        weeklyShare: weeklyShareOf(api, terms) ?? median.weeklyShare,
+        weeklyMaximumMinor:
+          weeklyMaximum !== undefined
+            ? weeklyMaximum * toMinor
+            : median.weeklyMaximumMinor,
+        maxWeeks: num(terms.maxWeeks) ?? median.maxWeeks,
+        waitingWeek:
+          typeof terms.waitingWeek === "boolean"
+            ? terms.waitingWeek
+            : median.waitingWeek,
+        minimumBasePeriodMinor:
+          basePeriod !== undefined
+            ? basePeriod * toMinor
+            : median.minimumBasePeriodMinor,
+        source: {
+          tag: program.estimate ? "ESTIMATED" : "SOURCED",
+          asOf: api.state.date,
+          citation,
+          ...(program.estimate
+            ? { estimatedFrom: "The state's unemployment insurance in force." }
+            : {}),
+        } as Source,
+      }
+    : { ...median, hasProgram: false };
+  lawCache = { state: api.state, date: api.state.date, terms: result };
+  return result;
+}
+
 export function unemploymentTerms(
   api: CoreAPI,
   placeId: string,
 ): UnemploymentTerms {
-  return termsSource?.(api, placeId) ?? standIn(api);
+  return termsSource?.(api, placeId) ?? lawTerms(api);
 }
 
 const DAYS_PER_WEEK = 7;

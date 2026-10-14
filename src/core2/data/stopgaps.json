@@ -9,7 +9,8 @@
     "addedBy": "FIXER-EVERY-MODULE-RUNS",
     "addedAt": "2026-10-13",
     "replacement": "A job ending that settles or reassigns every contract naming the job (OPUS-CORE), after which employed applicants are back in the pool.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the out-of-work-only filter in staff and executive hiring: anyone paid less than the post may be chosen, and startPublicJob ends their job; the core now lets an agreement's current staff carry it when a named job ends (finance-cash productJobRelations)."
   },
   {
     "id": "SG-P8-relationship-closeness-update",
@@ -1055,7 +1056,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each office's special-election timing from its law (many fill at the next general election).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the no-voting path: a special election is only ever the voting engine's real race; without it the seat waits."
   },
   {
     "id": "SG-GOV-voter-registration-assumed",
@@ -1067,7 +1069,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "A registration record per person (registered, where, party where a state records it), written when people register; filing and signing read it.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the registration rule: an adult resident is an eligible voter, checked by the filing's age and residency rules."
   },
   {
     "id": "SG-GOV-views-stand-in",
@@ -1079,7 +1082,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Per-question stances from PEOPLE's views engine, once it holds stances by question at the opening.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "In play each person's lean is their own view from the views engine; a stance is that lean along the question's measured axis, the game's depth; marker removed."
   },
   {
     "id": "SG-GOV-ad-reach-media-habits",
@@ -1091,7 +1095,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Ads are bought only from the town's best-followed news outlet (press engine) and reach its followers; the stand-in seller and the fewest-work-hours audience are deleted."
   },
   {
     "id": "SG-GOV-voter-groups-stand-in",
@@ -1103,7 +1108,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "CORE's populated voter groups (counts by place, age, job and household, with lean and turnout), each voting as a group.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the local lean bands: a local race's electorate is the town's named people and counted residents, each voting from their own record and kept by voter group."
   },
   {
     "id": "SG-GOV-who-runs-stand-in",
@@ -1115,7 +1121,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE's who-runs decisions file each candidate through fileCandidacy with recorded reasons; incumbents decide the same way.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Who runs is the candidacy engine's recorded decisions (it runs in play); an incumbent it never weighed decides from their own traits, and distant state or federal races get their parties' nominees."
   },
   {
     "id": "SG-GOV-local-fiscal-year",
@@ -1152,7 +1159,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Each fiscal year's budget is the council's or legislature's vote (legislature engine); only where no body is seated does the prior year's budget continue, as the law does."
   },
   {
     "id": "SG-GOV-veto-override-rule",
@@ -1177,7 +1185,8 @@
     "replacement": "Leadership appoints committee members (leadership races and chamber leadership research, #3788's chamber-leadership.json).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Committees are the ones the chamber's leadership seats (members and chair, leadership engine); the seniority-by-party-ratio stand-in is deleted, and an unseated committee sends the bill straight to the floor."
   },
   {
     "id": "SG-GOV-measure-groups-stand-in",
@@ -1189,7 +1198,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "CORE's populated voter groups across the state, each voting from PEOPLE's views of the question.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The rest of the state votes on a measure by its counties (the electorate's researched blocks, each its 2024 vote and lean), not even bands around the state lean."
   },
   {
     "id": "SG-GOV-recall-signature-groups",
@@ -1201,7 +1211,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Signatures and recall votes come from every adult in town, named and counted residents each from their own record; the scaled-up share of the estimated electorate is deleted."
   },
   {
     "id": "SG-GOV-group-lobbyist-stand-in",
@@ -1213,7 +1224,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The business owners decide to join, and the group hires a lobbyist (a person with a job, a record and memory of each member's votes).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the lobbyist rule: an employers' association meets members as itself, with no named lobbyist."
   },
   {
     "id": "SG-GOV-staff-unpaid",
@@ -1225,7 +1237,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the unpaid path: a staffer is hired only onto the payroll of the government their official serves; with no payroll there is no post."
   },
   {
     "id": "SG-GOV-world-race-lean",
@@ -1369,7 +1382,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE: a leave-taking choice on a birth or a relative's serious illness (health engine), and CORE: a benefit payment from a government treasury to a person through the journal (e.g. payBenefit(treasuryId, personId, amountMinor, source)); then GOV pays wage replacement from the premium fund.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept the payroll premium paid to the treasury (real money); the unpaid-claims stand-in note is removed, no leave event or claim is built."
   },
   {
     "id": "SG-GOV-REACH-A-bargaining",
@@ -1381,7 +1395,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a bargaining engine that negotiates the unit's contract with the public employer and applies it with CORE's rerateJob(jobId, hourlyMinor, source); WORLD: union membership on workers' records.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "No bargaining engine to wire, so the record-only reach on public workers, employers and unions is deleted; the policy is outcome-web (its law: link in the outcome web)."
   },
   {
     "id": "SG-GOV-REACH-A-union-dues",
@@ -1393,7 +1408,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD or CORE: union membership on jobs and dues as a payroll deduction through the journal (e.g. a standing dues contract per member), which right-to-work then ends for nonmembers.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Dues are pooled opening flows with no agency fees to end, so the record-only reach on workers and unions is deleted; the policy is outcome-web (its law: link in the outcome web)."
   },
   {
     "id": "SG-GOV-REACH-A-cannabis-market",
@@ -1405,7 +1421,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: a household purchase kind for cannabis (CES-based) and a licensed retailer entering through CORE's enterMarket({organizationId, financeKinds: [household.cannabis], ...}).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach (adults and retailers records); the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-consumer-credit",
@@ -1417,7 +1434,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "CORE: consumer credit for people (credit facilities with a person borrower); then GOV reprices loans above the cap with CORE's repriceCreditFacility(facilityId, cap, source).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach on borrowers; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-housing-supply",
@@ -1429,7 +1447,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: a housing engine with lots, units and construction decisions (e.g. addHousingCapacity(placeId, units) driven by builders' returns).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Allowing multifamily homes now sets the housing engine's zoning (setHousingZoning: apartments on all residential land) for the town's builders; a repeal restores the opening share."
   },
   {
     "id": "SG-GOV-REACH-A-rent-assistance",
@@ -1441,7 +1460,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: rent contracts on renting households; CORE: a benefit payment from a treasury toward a household's rent through the journal.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the rent-help records on the lowest-cash households; the housing line's change stays in the budget (mechanic outcome-web)."
   },
   {
     "id": "SG-GOV-REACH-A-affordable-units",
@@ -1453,7 +1473,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: the housing engine's new units, with the set-aside share priced below market for eligible households.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach on builders; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-rent-contracts",
@@ -1465,7 +1486,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD: household tenure and rent contracts; then GOV caps increases with CORE's setStandingContractAmount(contractId, amountMinor).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The rent cap would have to live in the housing engine's lease renewal, so the record-only reach on tenants and landlords is deleted; the policy is outcome-web (its law: link in the outcome web)."
   },
   {
     "id": "SG-GOV-REACH-A-eviction-cases",
@@ -1477,7 +1499,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "WORLD and GOV: eviction filings from unpaid rent contracts and a housing court; the city's legal services pay for counsel through the journal.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A right to counsel now sets the housing engine's counsel rule (setRightToCounsel), funded by the treasury of the government that passed it, so each eviction case pays a tenant's lawyer; a repeal ends it."
   },
   {
     "id": "SG-GOV-REACH-A-citizenship",
@@ -1501,7 +1524,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a justice engine with arrests, charges, pretrial detention and release decisions from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach (adults and the estimated pretrial count); the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-A-convictions",
@@ -1537,7 +1561,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a redistricting step after each census that draws districts, run by the commission when this law is in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the record-only reach on legislators; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-territory-residents",
@@ -1549,7 +1574,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The budgets module now reads island areas' populations from public-budget-bases.json; group B's own Census table and its fallback are removed."
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
@@ -1561,7 +1587,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Dropped the private-school stand-in: the teacher floor and the schools line reach only the town's public school district (service:school), which the core's opening now imports."
   },
   {
     "id": "SG-GOV-REACH-B-transit-fare-price",
@@ -1573,7 +1600,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: setPlacePrice({ placeId, good: \"transit-fare\", priceMinor, source }) read by household commuting costs, so riders' costs fall to zero and the line pays the transit operator.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Fare-free transit now sets the town's transit fare to zero in the place-prices engine (setPlacePrice), so riders stop paying fares, while the budget replaces the farebox; the transit line's rider records are deleted."
   },
   {
     "id": "SG-GOV-REACH-B-mileage-fee-price",
@@ -1585,7 +1613,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: setPlaceTax({ placeId, good: \"vehicle-miles\", centsPerUnit, payeeAccountId }) on household fuel and travel spending, with the fuel tax removed.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A mileage fee now charges the town's households per mile through the place-prices engine (setPlaceTax) to the enacting treasury, refunding the fuel tax it replaces."
   },
   {
     "id": "SG-GOV-REACH-B-broadband-bill",
@@ -1597,7 +1626,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD household bills API: offerHouseholdService({ placeId, service: \"broadband\", providerId, monthlyMinor }) so households can take the public offer and telecom revenue moves.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Public broadband is now an offer in the place-prices engine (offerHouseholdService) from the enacting government's treasury; subscribers' bills move to it."
   },
   {
     "id": "SG-GOV-REACH-B-medicaid-coverage",
@@ -1609,7 +1639,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE health engine: setCoverage(personId, { plan: \"medicaid\", from, to }) and counted-group coverage shares, read by medical costs (OPUS-CORE household spending).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the eligibility records of Medicaid expansion and its work requirement; both policies are outcome-web, their effect is their law: links in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-assistance-benefits",
@@ -1621,7 +1652,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE benefits API: addBenefit({ personId|householdId, program: \"snap\", monthlyMinor, from, payerAccountId }) and endBenefit(id), which this time limit ends after three months.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "An assistance work requirement in force now ends the welfare line's monthly benefit obligations for the adults it time-limits (payBenefits ends them through endObligation)."
   },
   {
     "id": "SG-GOV-REACH-B-preschool-enrollment",
@@ -1633,7 +1665,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: enroll(childId, schoolOrgId, { program: \"pre-k\" }) and OPUS-CORE household child-care cost, reduced when enrolled.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the preschool eligibility records; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
@@ -1645,7 +1678,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the voucher eligibility records on children and private schools; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-property-tax-bills",
@@ -1657,7 +1691,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD housing engine: property tax bills on owners (assessed value times the rate in force) with an assessment-growth cap read from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A property-tax growth cap in force now sets assessmentCapShare in the budgets module's property tax terms, so owners' bills rise no faster than the cap."
   },
   {
     "id": "SG-GOV-REACH-B-sales-tax-collection",
@@ -1682,7 +1717,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the compliance records on builders and utilities for a gas hookup ban; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-energy-price",
@@ -1694,7 +1730,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: adjustPrice({ placeId, good: \"electricity\"|\"fuel\", share, cause }) read by household and business costs.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A clean electricity standard and a carbon price now raise the town's electricity and fuel prices in the place-prices engine (adjustPrice); carbon revenue goes to the enacting treasury."
   },
   {
     "id": "SG-GOV-REACH-B-retail-price",
@@ -1706,7 +1743,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD prices API: addPerUnitCharge({ placeId, good: \"beverage-container\", centsPerUnit, refundable: true }).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A bottle deposit is now a refundable per-container charge in the place-prices engine (addPerUnitCharge)."
   },
   {
     "id": "SG-GOV-REACH-B-nonattainment-data",
@@ -1730,7 +1768,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD business engine: setOperatingLimit({ organizationId, input: \"groundwater\", share }) and regulatory cost read by business books.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the groundwater compliance records and the natural resources line's service records; the policy is outcome-web (law: link in the outcome web) and the line's change stays in the budget."
   },
   {
     "id": "SG-GOV-REACH-B-land-use",
@@ -1742,7 +1781,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the farmland protection rule records; the policy is outcome-web, its effect is its law: link in the outcome web."
   },
   {
     "id": "SG-GOV-REACH-B-road-condition",
@@ -1754,7 +1794,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD regional engine: setRoadCondition({ placeId, level }) read by commute time and vehicle costs.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the highways line's road service records on drivers and road builders; the line's change stays in the budget."
   },
   {
     "id": "SG-GOV-REACH-B-tuition",
@@ -1766,7 +1807,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE schools engine: college enrollment and tuition (setTuition({ institutionId, inStateMinor })) read by household spending.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the higher education line's support records on 18-to-24-year-olds; the line's change stays in the budget."
   },
   {
     "id": "SG-GOV-REACH-B-park-use",
@@ -1778,7 +1820,8 @@
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-PEOPLE time-use and needs: park service level read by leisure choices and well-being (placeService({ placeId, service: \"parks\", level })).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the parks line's service records on residents and recreation firms; the line's change stays in the budget and the outcome web reads it (budget.parks-added-pct)."
   },
   {
     "id": "SG-GOV-tie-by-lot",
@@ -1790,7 +1833,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
     "replacement": "The owner's ruling: either a lot drawn as the law requires (a visible procedure, recorded), or keep the second election.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruled Oct 14: where the state's law settles an exact tie by lot, the lot is drawn as the law says (seeded from the world and contest), recorded with who draws, the rule cited and the name drawn, and the result carries it; no second election there."
   },
   {
     "id": "SG-GOV-press-outlet-names",
@@ -2006,7 +2050,8 @@
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
     "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the pre-opening pregnancy rebuild in renewal.ts and its opening-only plan source; couples' plans start at the opening review."
   },
   {
     "id": "SG-P15-candidacy-weights",
@@ -2222,7 +2267,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Owner ruling Oct 14: the mortgage rate past the published series is the 10-year Treasury plus the FHFA 1990-2019 mean spread (1.768), tagged ESTIMATED with its 5th-95th spread; no outside feed."
   },
   {
     "id": "SG-WORLD-macro-public-budget",
@@ -2234,7 +2280,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the zero public-budget impulse term and its parameter; trend growth already carries average public spending, so output no longer has a budget stand-in."
   },
   {
     "id": "SG-WORLD-board-appointments",
@@ -2246,7 +2293,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A central bank seat now goes through nominateAndConfirm: the serving president's side nominates among the seeded candidates (lean from lived inflation) and the real U.S. Senate confirms; the closest-to-the-middle stand-in is deleted."
   },
   {
     "id": "SG-WORLD-credit-line-stand-in",
@@ -2258,7 +2306,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "M1-06 credit: banks that lend from their own books and the borrower's record, with lines indexed to prime.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted credit-stand-in.ts and its one caller in the macro proof tool; credit lines come only from the credit module's lenders."
   },
   {
     "id": "SG-WORLD-regional-territory-estimate",
@@ -2282,7 +2331,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The two-level population now holds the labor force as counts: opening seekers are the region's rate of the counted and full working-age jobless, picked by need at the opening (who exists, not an actor's choice). Markers removed."
   },
   {
     "id": "SG-WORLD-jobs-layoff-decider",
@@ -2294,7 +2344,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The business module's recorded owner decides a layoff; an organization with no owner (a public employer) decides as itself, which is what it is. Marker removed."
   },
   {
     "id": "SG-WORLD-jobs-benefits-terms",
@@ -2306,7 +2357,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerUnemploymentTerms with the state's terms from lawInForce once the laws module is on the same branch.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Unemployment insurance now reads the state's law in force (unemployment-insurance and its weekly maximum): program or none, share of weekly pay, maximum, weeks, waiting week, base-period minimum; the DOL state medians fill only a term the law row leaves blank."
   },
   {
     "id": "SG-WORLD-credit-business-applies",
@@ -2318,7 +2370,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A public employer (publicPayAuthority) runs on its budget and never borrows; a private business whose owner isn't recorded decides with counted owners by the same reasons (need, cost, baseline) through strongestPulls, not whenever cash runs short."
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
@@ -2330,7 +2383,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept the simple honest model (Political Process depth): the town bank lends against its own capital and people keep their cash as their own; no deposit book is built. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-landlord",
@@ -2342,7 +2396,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Rentals owned by the town's own landlords (owners of rental businesses and individual owners), each deciding from their traits, cash and the tenant's history.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept as the simple honest model: the town's rentals are one rental business whose owners mostly live elsewhere (rent above a month is paid out of town), and it serves notice by its reasons as a group (months owed and late, no dice). Markers removed."
   },
   {
     "id": "SG-WORLD-housing-eviction-steps",
@@ -2366,7 +2421,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Hearing, judgment and payment-plan steps deleted (courts come after early access). Owner ruling Oct 14: a filed case ends in removal once the statute's hearing and stay days from the place's eviction row have run; the lease ends, housing.eviction is a public record, and the moves engine takes the household out the way it moves any leaver (the player's own moves stay theirs). Right-to-counsel pay stays at filing."
   },
   {
     "id": "SG-WORLD-business-opening-owners",
@@ -2390,7 +2446,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE arrivals: households moving into the town fill vacancies, at a pace from the region's jobs and the town's rents.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept: vacancy moves rents at renewal; newcomers among the counts (counted drift and births-counted arrivals) move into homes leavers left, and unlet new units stay vacant, which lowers rents and builders' next starts. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-unmodeled-renters",
@@ -2414,7 +2471,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Fill-in at the moment a counted person meets an employer (OPUS-CORE's fillInPerson), or an aggregate chooser for counted groups agreed with OPUS-CORE.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (AGENTS.md two-level population): counted workers decide by the same reasons as a group through strongestPulls (no dice) and become full people only when the player meets them. Markers removed."
   },
   {
     "id": "SG-WORLD-housing-counted-rent",
@@ -2426,7 +2484,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (AGENTS.md two-level population): counted households pay rent from their place's pooled account until the player meets them. Marker removed."
   },
   {
     "id": "SG-WORLD-jobs-agreement-pinned",
@@ -2437,7 +2496,9 @@
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes."
+    "replacement": "OPUS-CORE lets a visitor agreement re-resolve its qualification to any current qualified worker at the provider; then this filter goes.",
+    "status": "resolved",
+    "resolution": "Deleted the filter that kept agreement-named jobs from ending; the core's agreement check already skips an ended named job and lets the business's current staff in that occupation carry it (finance-cash productJobRelations)."
   },
   {
     "id": "SG-WORLD-business-counted-owner-choice",
@@ -2448,7 +2509,9 @@
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day."
+    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day.",
+    "status": "resolved",
+    "resolution": "By design (two-level population): a counted owner takes the option its own reasons rank highest (no dice, no fill-in, no slower year) until the player meets them. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-mortgage-history",
@@ -2526,7 +2589,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerPropertyTax with the county's rate, cap and treasury from the law in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The budgets module registers the county's rate in force and tax collector (registerPropertyTax); only where the law records no rate does the state's sourced average effective rate stand as the estimate. Marker removed."
   },
   {
     "id": "SG-WORLD-property-tax-monthly",
@@ -2538,7 +2602,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Kept monthly payment as the design (escrow-style; budgets read the year's levy, and the law data carries no county due dates); marker removed."
   },
   {
     "id": "SG-WORLD-business-compliance-cost",
@@ -2562,7 +2627,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Each household's subscription and its own choice to switch, from its price and service.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Closed: a household's broadband bill is the town's subscribing share of the price (households as a group), and every subscriber takes a cheaper public offer; no per-household subscription is modeled. Marker removed."
   },
   {
     "id": "SG-WORLD-housing-new-home-buyers",
@@ -2574,7 +2640,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Counted renter households and arrivals buy new houses through the same choice and mortgage, once fill-in and arrivals land.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (two-level population): full renter households buy new houses; counted households are counts until met, and unsold inventory already slows builders' starts. Marker removed."
   },
   {
     "id": "SG-CORE-social-security-ages-data",
@@ -2622,7 +2689,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "By design (two-level population): a counted retiree draws their place's retirees' average income until the player meets them. Marker removed."
   },
   {
     "id": "SG-WEB-outcome-drift",
@@ -2634,7 +2702,8 @@
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-12",
     "replacement": "Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the drift marker: kept outcomes move only by researched links and otherwise hold at their base; no drift code runs."
   },
   {
     "id": "SG-P15-moves-weights",
@@ -2742,7 +2811,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Stale: unemployment insurance already runs (jobs-benefits.ts fileClaim/payClaims, paid from the state's fund through the ledger); no marker left."
   },
   {
     "id": "SG-PLAY-opening-without-speech",
@@ -2789,7 +2859,9 @@
     "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
+    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling.",
+    "status": "resolved",
+    "resolution": "Stale: a business with no successor is closed by its owner (or heir) through the core's closeBusinessByChoice in business.ts succeed(); no marker left."
   },
   {
     "id": "SG-PLAY-act-control-names",
@@ -2837,7 +2909,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
     "replacement": "The appointee's post becomes a public job paid from the government's treasury through CORE's public payroll.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the no-treasury path: budgets always run, so a town department head goes on the city or county payroll."
   },
   {
     "id": "SG-GOV-executive-powers-research",
@@ -2921,7 +2994,8 @@
     "addedBy": "PW-3",
     "addedAt": "2026-10-13",
     "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "views.ts exports engagementOf (viewOf uses it); candidacy calls it for counted residents and the copied formula is deleted."
   },
   {
     "id": "SG-CORE-territory-places",
@@ -3005,7 +3079,8 @@
     "addedBy": "SIM-ELECTORATE",
     "addedAt": "2026-10-13",
     "replacement": "Presidential approval read from the president's own record and the public's views (the executive engine and the views engine), moving the president's party's candidates by its measured effect on the vote.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The national mood is read from its measured fundamentals (the economy since the opening and the midterm penalty); no separate approval engine is built."
   },
   {
     "id": "SG-GOV-township-law-level",
@@ -3017,7 +3092,8 @@
     "addedBy": "FIXER-LAWMAKING-VOLUME-CAPS",
     "addedAt": "2026-10-13",
     "replacement": "A township level in the law chain (laws-starting.ts) with its own starting law and enactments, so a township board and a village council inside it each legislate for their own jurisdiction.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Townships fold into the place level: a township board is the town's local body where no council sits; the separate township marker is gone."
   },
   {
     "id": "SG-OFFICIALS-unrecorded-party",

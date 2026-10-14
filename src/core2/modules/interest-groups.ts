@@ -7,7 +7,7 @@
  * itself whether to join the employers' group against it: it joins when the
  * bill would cost it more in a year than the group's dues, and it has the
  * cash. Dues move through the cash journal into the group's own account. The
- * group's lobbyist, a named person, meets the members who will vote (every
+ * group meets the members who will vote (every
  * member of a town body, and the town's own legislators in a state house or
  * Congress); a member they met weighs the group's case among their reasons,
  * in proportion to how many of the bill's losers the group speaks for.
@@ -219,7 +219,8 @@ function organize(api: CoreAPI, billId: string): void {
     formedOn: existing?.formedOn ?? api.state.date,
     formedOver: existing?.formedOver ?? b.number,
     memberOrganizationIds: memberOrgs,
-    lobbyistId: existing?.lobbyistId ?? lobbyistFor(api, memberOrgs, costs),
+    // The association meets members as itself; no named lobbyist.
+    lobbyistId: null,
   };
   table(api, "groups").put(group as unknown as ModuleRow);
   // The group's case: what the bill costs the employers it speaks for.
@@ -283,51 +284,6 @@ function payDues(
     sourceRef: { kind: DUES_KIND, id: record.id },
     postings: record.postings,
   });
-}
-
-/**
- * The group's lobbyist: the best-paid town resident working for the member
- * employer the bill costs most (until businesses have owners and hire
- * lobbyists: SG-GOV-group-lobbyist-stand-in).
- */
-function lobbyistFor(
-  api: CoreAPI,
-  memberOrgs: readonly string[],
-  costs: ReadonlyMap<string, { annualMinor: number }>,
-): string | null {
-  // stopgapId: SG-GOV-group-lobbyist-stand-in
-  api.stopgap("SG-GOV-group-lobbyist-stand-in");
-  const state = api.state as CoreState;
-  const town = lawChain(api).townPlaceId;
-  for (const orgId of [...memberOrgs].sort(
-    (a, b) =>
-      (costs.get(b)?.annualMinor ?? 0) - (costs.get(a)?.annualMinor ?? 0) ||
-      a.localeCompare(b),
-  )) {
-    const best = [...state.work.commitments.values()]
-      .filter((c) => {
-        const person = api.state.people.get(c.personId);
-        return (
-          c.organizationId === orgId &&
-          c.endsAt === undefined &&
-          lobbyingBarredUntil(api, c.personId) === null &&
-          person?.placeId === town &&
-          decisionLean(
-            api.state,
-            person,
-            "interest-groups.lobbyist",
-            "serve",
-            "decline",
-          ) >= 0
-        );
-      })
-      .sort(
-        (a, b) =>
-          b.hourlyMinor - a.hourlyMinor || a.personId.localeCompare(b.personId),
-      )[0];
-    if (best) return best.personId;
-  }
-  return null;
 }
 
 /** Whom the group meets: a town body's members, or the town's own legislators in a larger body. */

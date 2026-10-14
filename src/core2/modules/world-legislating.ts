@@ -124,8 +124,8 @@ function townBodies(api: CoreAPI): readonly string[] {
       o.kind === "county-board" ||
       o.kind === "township-board",
   );
-  // A township board legislates for the town where no council does: its
-  // ordinances are the town's own local law (SG-GOV-township-law-level).
+  // A township is the place level: its board is the town's local body where
+  // no council does, and its ordinances are the town's own local law.
   const council = offices.some((o) => o.kind === "council");
   return offices
     .filter((o) => !(council && o.kind === "township-board"))
@@ -590,9 +590,6 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .table("offices")
     .get(officeId) as unknown as { kind: string } | undefined;
   const chain = lawChain(api);
-  // stopgapId: SG-GOV-township-law-level
-  if (office?.kind === "township-board")
-    api.stopgap("SG-GOV-township-law-level");
   const own =
     office?.kind === "county-board"
       ? chain.levels.find((l) => l.level === "county")?.jurisdiction

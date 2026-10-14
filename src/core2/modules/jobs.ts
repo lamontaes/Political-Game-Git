@@ -15,7 +15,6 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
-import { stopgap } from "../stopgaps";
 import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
@@ -103,46 +102,6 @@ function fullJobs(api: CoreAPI, organizationId: string) {
   return [...(c.finance.jobsByOrganization.get(organizationId) ?? [])]
     .map((id) => c.jobs.get(id)!)
     .filter((job) => job.endsAt === undefined && c.people.get(job.personId));
-}
-
-const pinnedByCore = new WeakMap<CoreState, Set<string>>();
-
-/** Every job id a saved record names under `jobIds`, through nested JSON text. */
-function collectJobIds(value: unknown, ids: Set<string>): void {
-  if (typeof value === "string") {
-    if (!value.includes("jobIds")) return;
-    try {
-      collectJobIds(JSON.parse(value), ids);
-    } catch {
-      return;
-    }
-  } else if (Array.isArray(value)) {
-    for (const item of value) collectJobIds(item, ids);
-  } else if (value && typeof value === "object") {
-    for (const [key, item] of Object.entries(value)) {
-      if (key === "jobIds" && Array.isArray(item)) {
-        for (const id of item) if (typeof id === "string") ids.add(id);
-      } else collectJobIds(item, ids);
-    }
-  }
-}
-
-/**
- * Jobs that a saved agreement (a visitor's lodging, a public supplier
- * contract) names as its provider's qualification. The core rejects the
- * agreement's next payment once such a job ends, so jobs leaves them alone
- * until agreements re-resolve their qualifying worker.
- */
-function pinned(c: CoreState): Set<string> {
-  let ids = pinnedByCore.get(c);
-  if (ids) return ids;
-  stopgap("SG-WORLD-jobs-agreement-pinned");
-  ids = new Set();
-  collectJobIds(Object.values(c.placeMetadata ?? {}), ids);
-  for (const organization of c.organizations.values())
-    collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
-  pinnedByCore.set(c, ids);
-  return ids;
 }
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
@@ -278,8 +237,6 @@ function endSpell(api: CoreAPI, personId: string): void {
 
 /** The opening's seekers: jobless working-age adults with the most pressing need to work, as many as the region's rate implies. */
 function openSeekers(api: CoreAPI, unemploymentPct: number): void {
-  // Until the two-level population, only part of the town's work is generated; see the stopgap.
-  stopgap("SG-WORLD-jobs-opening-seekers");
   const c = core(api),
     [young, old] = jobsData.workingAge as [number, number];
   const employed = [...c.jobs.values()].filter(
@@ -319,7 +276,6 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
   const c = core(api),
     rt = residentsRuntime(c);
   if (!rt) return;
-  stopgap("SG-WORLD-jobs-opening-seekers");
   const [young, old] = jobsData.workingAge as [number, number];
   const working = new Set(
     [...rt.wageFlowByJob.keys()].map((id) => rt.jobs.get(id)?.personId),
@@ -588,9 +544,9 @@ function layOff(
     api.parameter("jobsKeepTenureWeight") * tenureYears(api, job) +
     api.parameter("jobsFitReliabilityWeight") *
       (traitsOf(api, job.personId)[reliability] ?? 0);
-  const job = [...staff]
-    .filter((row) => !pinned(c).has(row.id))
-    .sort((a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id))[0];
+  const job = [...staff].sort(
+    (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
+  )[0];
   if (!job) return;
   const keepScore = keep(job);
   const counted = isCounted(api, job.personId);
@@ -598,9 +554,8 @@ function layOff(
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
   if (counted) endCountedJob(c, job.id);
   else api.endJob(job.id, `jobs:layoff:${api.state.date}`);
-  // The owner decides; a business without a recorded owner decides as itself.
+  // The owner decides; an organization without an owner (a public employer) decides as itself.
   const decidedBy = ownerOf(api, organizationId);
-  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
   record(api, {
     personId: job.personId,
     organizationId,
@@ -666,7 +621,7 @@ function reviewWorkers(api: CoreAPI): void {
       Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
     );
   for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined || pinned(c).has(job.id)) continue;
+    if (job.endsAt !== undefined) continue;
     const person = c.people.get(job.personId);
     if (!person || !person.alive || store(api).table("seekers").get(person.id))
       continue;
@@ -822,7 +777,7 @@ function reviewJobless(api: CoreAPI): void {
       continue;
     if (!c.households.has(person.householdId) || inactive.has(person.tier))
       continue;
-    // Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
+    // Without the two-level population, only people who have worked in this world are in its labor market.
     // With it, the counts hold the wider population, so every full person of working age is in it, a first job included.
     if (!twoLevel && !worked.has(person.id)) continue;
     const age =
@@ -921,11 +876,10 @@ function runWeek(api: CoreAPI): void {
       )
         apply(row.offer.targetId, seeker);
   }
-  // Counted seekers apply to every opening in their place; they decide nothing through the chooser until filled in (stopgap).
+  // Counted seekers (the wider population) apply by the same reasons, as a group: they become full people when the player meets them.
   const counted = store(api)
     .table("countedSeekers")
     .query("all", [true]) as unknown as SeekerRow[];
-  if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
   for (const seeker of counted) {
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
@@ -1139,7 +1093,6 @@ export function strongestPulls<T extends { id: string; score: number }>(
   key: string,
   rows: readonly T[],
 ): T[] {
-  stopgap("SG-WORLD-jobs-counted-choices");
   const state = store(api).table("state");
   const row = (state.get(`pulls:${key}`) as { carry: number } | undefined) ?? {
     carry: 0,
@@ -1153,14 +1106,13 @@ export function strongestPulls<T extends { id: string; score: number }>(
     .slice(0, count);
 }
 
-/** Counted workers 62 and over weigh retiring by the same reasons as full people, without the chooser (stopgap). */
+/** Counted workers 62 and over weigh retiring by the same reasons as full people, as a group (counted until the player meets them). */
 function reviewCountedRetirements(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const rows: { id: string; job: JobInput; age: number; score: number }[] = [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id)) continue;
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -1189,8 +1141,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
   }
   for (const { job, age, score } of strongestPulls(api, "retire", rows)) {
     endCountedJob(c, job.id);
-    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
-    stopgap("SG-WORLD-jobs-counted-retiree-income");
+    // A counted retiree draws their place's retirees' average income (two-level population: counts until met).
     const placeId = residentPerson(c, job.personId)?.placeId;
     if (placeId) addCountedRetiree(c, placeId, job.personId);
     record(api, {
@@ -1205,7 +1156,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
   }
 }
 
-/** Counted workers weigh looking around by their pay against the going rate and their traits (stopgap). */
+/** Counted workers weigh looking around by their pay against the going rate and their traits, as a group. */
 /**
  * Counted adults out of work and not looking start looking: young people as
  * they leave school (the pull rises from 18 to 25), and a few others coming
@@ -1306,7 +1257,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     const share = (quits / hundred) * p("jobsQuitToNonemploymentShare");
     const base = Math.log(share / (p("one") - share));
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (seekers.get(job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
@@ -1372,7 +1323,7 @@ function reviewCountedLooking(api: CoreAPI): void {
     [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (seekers.get(job.personId)) continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -1521,7 +1472,6 @@ function hire(
   const role = roleTemplate(c, position);
   if (!role) return;
   const { template, commitment: templateCommitment, calendar } = role;
-  if (person.jobId && pinned(c).has(person.jobId)) return;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
     api.endJob(old.id, `jobs:quit:${api.state.date}`);
@@ -1736,8 +1686,6 @@ export const JOBS_MODULE: CoreModule = {
   },
   onCalendarWork(api, work) {
     if (work.kind === "jobs-review") {
-      // Agreements made since last month may name jobs too.
-      pinnedByCore.delete(core(api));
       reviewEmployers(api);
       reviewWorkers(api);
       scheduleReview(api);

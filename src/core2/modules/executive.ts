@@ -44,7 +44,7 @@ import {
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../../simulation/dates";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { governments } from "./budgets";
 import { startPublicJob } from "../public-payroll";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
@@ -188,7 +188,6 @@ function fillTownPost(
   api: CoreAPI,
   spec: PostSpec,
   chosenId?: string,
-  outOfWork = false,
 ): AppointmentRow | null {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
@@ -211,10 +210,7 @@ function fillTownPost(
         ageOn(p, date) >= 25 &&
         p.id !== appointer?.personId &&
         !holding.has(p.id) &&
-        (!chosenId || p.id === chosenId) &&
-        (!outOfWork ||
-          !p.jobId ||
-          (api.state as CoreState).jobs.get(p.jobId)?.endsAt !== undefined),
+        (!chosenId || p.id === chosenId),
     );
   if (!pool.length) return null;
   const relationships = (api.state as CoreState).relationships;
@@ -260,23 +256,20 @@ function fillTownPost(
     facts: { post: spec.key, appointedBy: row.appointedBy },
   });
   // On the town government's payroll at a department head's pay.
-  const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  const govs = governments(api);
   const employer = (
     govs.find((g) => g.level === "city") ??
     govs.find((g) => g.level === "county")
   )?.organizationId;
-  const paid = employer
-    ? startPublicJob(api, {
-        personId: row.holderId,
-        employerId: employer,
-        post: `town:${spec.key}`,
-        title: spec.title,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-        citation: `Appointment ${row.id}`,
-      })
-    : null;
-  // stopgapId: SG-GOV-appointee-pay
-  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+  if (employer)
+    startPublicJob(api, {
+      personId: row.holderId,
+      employerId: employer,
+      post: `town:${spec.key}`,
+      title: spec.title,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      citation: `Appointment ${row.id}`,
+    });
   return row;
 }
 
@@ -535,9 +528,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (!spec) continue;
     // The player's own posts wait for their choice (`appoint`).
     if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
-    // stopgapId: SG-GOV-staff-hire-out-of-work
-    api.stopgap("SG-GOV-staff-hire-out-of-work");
-    fillTownPost(api, spec, undefined, true);
+    fillTownPost(api, spec);
   }
   const governor = townSeats(api).find(
     (s) => s.office.kind === "governor" && s.holder,

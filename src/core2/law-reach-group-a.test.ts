@@ -477,38 +477,17 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       recordRoundTrip(key);
     });
 
-  it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
-    const key = "budget-line:housing";
-    const gov = cityGov();
-    const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: delta,
-      measureId: "test:housing:up",
-    });
-    const assisted = openReach(api, key).filter((r) => r.spec === "assisted");
-    report[key] = { assisted: assisted.length };
-    expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
-    for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)?.value).toBe(
-        "service",
-      );
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: -delta,
-      measureId: "test:housing:down",
-    });
-    expect(
-      openReach(api, key).filter((r) => r.spec === "assisted"),
-      where,
-    ).toHaveLength(0);
-  });
-
   for (const key of Object.keys(STAFFING))
     it(`${key} hires or lays off at the public employer it funds`, () => {
       const line = key.slice("budget-line:".length);
+      // A new fiscal year's budget replaces amended lines: run inside one year.
+      const soon = after(api.state.date, 3);
+      const year = Number(api.state.date.slice(0, 4));
+      for (const g of governments(api))
+        for (const y of [year, year + 1]) {
+          const start = `${y}-${g.fiscalYearStart}`;
+          if (start > api.state.date && start <= soon) advanceCore(core, start);
+        }
       // The town's own government that carries the line (a county runs the jail).
       const gov = STAFFING[key]!.levels.map((level) =>
         governments(api).find(
