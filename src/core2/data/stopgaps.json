@@ -3084,7 +3084,7 @@
     "kind": "missing-core-api",
     "file": "src/bench/dev-mode.ts",
     "line": 349,
-    "whatItFakes": "Dev mode's count of who a law reached reads only the law-effects, law-reach and minimum-wage raise records that name the law: full people by id, and counted people only where a record carries a count.",
+    "whatItFakes": "Dev mode's count of who a law reached reads only the law-effects, law-reach and law raise records that name the law: full people by id, counted people where a record names one or carries a count. A law's effect that leaves no record naming it is not counted.",
     "why": "The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",

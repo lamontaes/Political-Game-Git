@@ -366,7 +366,10 @@ export class DevMode {
         >[]) {
           if (row.lawId !== lawId) continue;
           records += 1;
-          if (typeof row.personId === "string") people.add(row.personId);
+          // A record naming someone still in the counts reaches a counted person.
+          if (typeof row.personId === "string")
+            if (this.core.people.has(row.personId)) people.add(row.personId);
+            else counted += 1;
           if (typeof row.counted === "number") counted += row.counted;
         }
     }
