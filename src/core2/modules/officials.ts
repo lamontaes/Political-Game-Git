@@ -19,6 +19,7 @@
  * independent. Nothing is rolled: who each person is was drawn once when the
  * world was made, and every vote follows from it.
  */
+import { stateStake } from "../budget-stakes";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
@@ -1048,7 +1049,24 @@ export function officialParts(
     (sum, s) => sum + supportAt(row.stateLean, s.question) * s.position,
     0,
   );
-  const constituents = weight("district") * district;
+  // A member of Congress also weighs what a budget line sends their state
+  // against the national average: more for a line their state lives on,
+  // less for one it barely sees (a sliding scale, no threshold).
+  const stake =
+    row.bodyKind === "us-house" || row.bodyKind === "us-senate"
+      ? stances.reduce(
+          (sum, s) =>
+            sum +
+            Math.max(
+              -1,
+              Math.min(1, stateStake(row.stateKey, s.question) - 1),
+            ) *
+              s.position,
+          0,
+        )
+      : 0;
+  const constituents =
+    weight("district") * district + weight("stateStake") * stake;
   let party = 0;
   let wing = 0;
   if (row.bodyKind !== "executive") {
