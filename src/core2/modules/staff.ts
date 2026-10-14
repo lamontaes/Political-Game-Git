@@ -17,7 +17,11 @@
  */
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { countedResidents } from "../electorate";
-import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
+import {
+  lifePlaceByJurisdictionId,
+  seatOfGovernmentPlace,
+} from "../../simulation/life-places";
+import { countyPopulationSharesForPlace } from "../../simulation/government-units";
 import type { EntityId } from "../../simulation/types";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -146,29 +150,71 @@ export function workingAgeWeight(age: number): number {
   return (at(low) + ((age - low) / (high - low)) * (at(high) - at(low))) / top;
 }
 
-/** How far a place is within commuting reach of the town's office, from the place records. */
-function reachOf(
-  api: CoreAPI,
-  placeId: string,
-  countyId: string | undefined,
-): Pick<StaffCandidate, "reach" | "reachBasis"> {
+/** Where an office sits: its place, the counties that place lies in, and its state. */
+interface OfficeSite {
+  readonly placeId: string;
+  readonly countyGeoids: readonly string[];
+  readonly stateKey: string;
+}
+
+/**
+ * Where the official's office sits, from the records: a state (or federal)
+ * office at its government's seat (the capital's place, owner, Oct 14); a
+ * town or county office in the town.
+ */
+function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   const chain = lawChain(api);
-  if (placeId === chain.townPlaceId) return { reach: 1, reachBasis: "town" };
-  const county = countyId
-    ? lifePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
-    : undefined;
-  if (county && chain.countyGeoids.includes(county))
+  const town: OfficeSite = {
+    placeId: chain.townPlaceId,
+    countyGeoids: chain.countyGeoids,
+    stateKey: chain.stateKey,
+  };
+  const office = townSeats(api).find(
+    (row) => row.holder?.personId === officialId,
+  )?.office;
+  if (!office || (office.level !== "state" && office.level !== "federal"))
+    return town;
+  const seat = seatOfGovernmentPlace(
+    office.level === "federal" ? "US-FEDERAL" : office.jurisdiction,
+  );
+  if (!seat) return town;
+  const geoid = seat.place.sourceGeoid ?? "";
+  return {
+    placeId: seat.place.context.jurisdiction.id,
+    countyGeoids: countyPopulationSharesForPlace(geoid).map(
+      ([county]) => county,
+    ),
+    stateKey: seat.place.stateJurisdictionKey ?? chain.stateKey,
+  };
+}
+
+/** How far a home is within commuting reach of the office's site, from the place records. */
+function reachOf(
+  site: OfficeSite,
+  placeId: string,
+  countyGeoids: readonly string[],
+): Pick<StaffCandidate, "reach" | "reachBasis"> {
+  if (placeId === site.placeId) return { reach: 1, reachBasis: "town" };
+  if (countyGeoids.some((county) => site.countyGeoids.includes(county)))
     return { reach: 1, reachBasis: "county" };
   const place = lifePlaceByJurisdictionId(placeId as EntityId);
   const state =
     place?.scope === "state" ? place.key : place?.stateJurisdictionKey;
   // A place the records can't put in the state reads as out of it.
-  return state && state === chain.stateKey
+  return state && state === site.stateKey
     ? { reach: campaignParameter("staffReachOtherCounty"), reachBasis: "state" }
     : {
         reach: campaignParameter("staffReachOtherState"),
         reachBasis: "other-state",
       };
+}
+
+/** The counties a person's home lies in, from their recorded county. */
+function homeCounties(countyId: string | undefined): readonly string[] {
+  const geoid = countyId
+    ? lifePlaceByJurisdictionId(countyId as EntityId)?.sourceGeoid
+    : undefined;
+  return geoid ? [geoid] : [];
 }
 
 /** The family link between two people, if the records hold one. */
@@ -195,6 +241,7 @@ export function staffCandidates(
   if (!official) return [];
   const state = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
+  const site = officeSiteOf(api, officialId);
   const date = api.state.date;
   const minimum = campaignParameter("staffMinimumAge");
   const hired = new Set(
@@ -220,7 +267,7 @@ export function staffCandidates(
       continue;
     }
     const placed = {
-      ...reachOf(api, person.placeId, person.countyId),
+      ...reachOf(site, person.placeId, homeCounties(person.countyId)),
       workingAge: workingAgeWeight(ageOn(person, date)),
       traits: person.traits,
     };
@@ -262,8 +309,7 @@ export function staffCandidates(
       personId: voter.id,
       from: known ? "known" : "applicant",
       counted: true,
-      reach: 1,
-      reachBasis: "town",
+      ...reachOf(site, voter.placeId, lawChain(api).countyGeoids),
       workingAge: workingAgeWeight(ageOnDay(voter.birthDate, date)),
       traits: voter.traits,
       ...(link ? { familyLinkId: link } : {}),
@@ -349,6 +395,8 @@ export function hireStaff(
     tasksDone: 0,
     reasons: hireReasons(candidate).reasons,
     reasonRecordIds: [
+      // Where the office sits, and where the hire lives.
+      officeSiteOf(api, input.officialId).placeId,
       person.placeId,
       ...(person.countyId ? [person.countyId] : []),
       ...(candidate.familyLinkId ? [candidate.familyLinkId] : []),
