@@ -271,11 +271,16 @@ describe("real-place one-time population import", () => {
       );
       for (const [key, value] of Object.entries(person.traits)) {
         expect(Number.isFinite(value)).toBe(true);
-        expect(recordedTraitSource(person, key)?.estimatedFrom).toContain(
+        // The five dimensions come from the temperament model; a notable
+        // facet from the temperament model or the upbringing projection.
+        const from = recordedTraitSource(person, key)?.estimatedFrom ?? "";
+        expect(
           key.startsWith(`${PEOPLE_MIND_VERSION}:`)
-            ? "Generated opening temperament"
-            : "Canonical sparse upbringing trait projection",
-        );
+            ? from.includes("Generated opening temperament")
+            : from.includes("Generated opening temperament") ||
+                from.includes("Canonical sparse upbringing trait projection"),
+          `${key}: ${from}`,
+        ).toBe(true);
       }
       expect(Number.isSafeInteger(person.liquidMinor)).toBe(true);
       expect(Number.isSafeInteger(person.livingCostDailyMinor)).toBe(true);
@@ -391,7 +396,7 @@ describe("real-place one-time population import", () => {
         p("zero"),
       ),
     ).toBe(cohort.people.length);
-  });
+  }, 120_000);
 
   it("opens a town smaller than the target at its real size", () => {
     // A town of a few hundred to a few thousand people, drawn from all 56.

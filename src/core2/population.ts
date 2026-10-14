@@ -1522,23 +1522,34 @@ function openingFamilies(input: OpeningFamilyInput): {
           ),
         ]),
     );
-    // Every generated trait shares one temperament source; recorded facets
-    // keep the source they already had.
+    // Facets are notable-only (the trait registry): a facet at the middle
+    // level is not recorded, so no record reads as unknown, never as average.
+    const all: Record<string, number> = {};
+    for (const row of [traits, core, recorded])
+      for (const key in row) {
+        const value = row[key]!;
+        if (value === p("zero") && !key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+          delete all[key];
+        else all[key] = value;
+      }
+    const sources: Record<string, Source> = {
+      ...(sharedTraitSource
+        ? Object.fromEntries(
+            Object.keys(recorded).map((key) => [key, sharedTraitSource]),
+          )
+        : {}),
+      ...(traitSources ?? {}),
+      ...Object.fromEntries(
+        Object.keys(core)
+          .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+          .map((key) => [key, temperamentSource]),
+      ),
+    };
+    for (const key of Object.keys(sources))
+      if (!(key in all)) delete sources[key];
     return {
-      traits: { ...traits, ...core, ...recorded },
-      traitSources: {
-        ...(sharedTraitSource
-          ? Object.fromEntries(
-              Object.keys(recorded).map((key) => [key, sharedTraitSource]),
-            )
-          : {}),
-        ...(traitSources ?? {}),
-        ...Object.fromEntries(
-          Object.keys(core)
-            .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
-            .map((key) => [key, temperamentSource]),
-        ),
-      },
+      traits: all,
+      traitSources: sources,
       sharedTraitSource: temperamentSource,
     };
   };
