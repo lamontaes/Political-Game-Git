@@ -5,15 +5,14 @@ name: Desktop packaging (read only)
 # uploads the files with checksums. Read only: no signing secrets and no
 # publication. The release workflow publishes; this one only proves.
 
+# Pull requests that change the desktop shell only (owner, Oct 14, 2026): the
+# game's screens change many times a day, and the release's own package step
+# is the Mac build of the game.
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - "desktop/**"
-      - "src/bench/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/desktop-package.yml"
 
 permissions:
   contents: read
