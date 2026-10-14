@@ -2088,20 +2088,28 @@ function closeSheet() {
 $("sheet-close").addEventListener("click", closeSheet);
 
 // ---- New life ----
-// The title screen: the Capitol at night (M6: a national landmark at night).
-$("backdrop").src = "/art/backdrops/us-capitol-exterior__night.jpg";
+// The title screen: a national convention hall at night, full window (owner,
+// Oct 8: a recognizable national civic scene, never a state capitol).
+const TITLE_BACKDROP = "/art/backdrops/convention-hall__night.jpg";
+$("backdrop").src = TITLE_BACKDROP;
 api("/api/seed").then((value) => {
   $("seed").value = value.seed;
   $("date").value = value.date;
 });
 let placeRows = [];
+const typedPlace = () => placeRows.find((row) => row.name === $("place").value);
 $("place").addEventListener("input", async () => {
-  placeRows = await api(
-    `/api/places?q=${encodeURIComponent($("place").value)}`,
-  );
+  const typed = $("place").value;
+  const rows = await api(`/api/places?q=${encodeURIComponent(typed)}`);
+  if ($("place").value !== typed) return;
+  placeRows = rows;
   $("places").replaceChildren(
     ...placeRows.map((row) => el("option", { value: row.name })),
   );
+  $("place-begin").disabled = !typedPlace();
+});
+$("place").addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && typedPlace()) void startLife(typedPlace());
 });
 /** What the player changed from real data; nothing means a real world. */
 function worldSettings() {
@@ -2131,20 +2139,27 @@ function worldSettings() {
   };
   return Object.keys(settings).length ? settings : undefined;
 }
-displayVersion().then((text) => {
-  $("version").textContent = text;
-});
 $("front-options").addEventListener("click", () => openSheet("options"));
 // The bench's developer controls sit behind one faint ring, off by default.
 $("dev-toggle").addEventListener("click", () =>
   document.body.classList.toggle("dev"),
 );
-$("new-life").addEventListener("click", async () => {
-  $("new-life").disabled = true;
+// New game opens its second step: where the life begins.
+function frontStep(place) {
+  show("front-main", !place);
+  show("front-place", place);
+  if (place) $("place-random").focus();
+}
+$("new-life").addEventListener("click", () => frontStep(true));
+$("place-back").addEventListener("click", () => frontStep(false));
+$("place-random").addEventListener("click", () => startLife(undefined));
+$("place-begin").addEventListener("click", () => startLife(typedPlace()));
+const placeControls = ["place-random", "place", "place-back", "place-begin"];
+async function startLife(chosen) {
+  for (const id of placeControls) $(id).disabled = true;
   show("front-status", true);
   document.querySelector("#front .progress").hidden = false;
   try {
-    const chosen = placeRows.find((row) => row.name === $("place").value);
     const settings = worldSettings();
     // Real progress through every step, from the server's build.
     const bar = document.querySelector("#front .progress span");
@@ -2226,8 +2241,9 @@ $("new-life").addEventListener("click", async () => {
     coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;
-    $("new-life").disabled = false;
+    for (const id of placeControls) $(id).disabled = false;
+    $("place-begin").disabled = !typedPlace();
   } finally {
     document.querySelector("#front .progress").hidden = true;
   }
-});
+}
