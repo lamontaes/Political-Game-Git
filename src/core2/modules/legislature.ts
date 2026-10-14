@@ -2552,27 +2552,38 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
   });
 }
 
-/** Put a bill on the body's next meeting (stand-in: two weeks out until meeting calendars are read). */
+/** The body's next sitting day after today, with where its date comes from. */
+export interface Sitting {
+  readonly date: string;
+  readonly source: Source;
+}
+let sittingReader:
+  ((api: CoreAPI, bodyOfficeId: string) => Sitting | null) | null = null;
+/** The engine that keeps the bodies' calendars says when each sits next. */
+export function registerSittingReader(
+  reader: (api: CoreAPI, bodyOfficeId: string) => Sitting | null,
+): void {
+  sittingReader = reader;
+}
+
+/**
+ * Put a bill on the body's next sitting: a town body's next regular meeting,
+ * a legislature's next floor week in session (or its next session's first),
+ * Congress's likewise, from the calendars the world keeps.
+ */
 export function scheduleVote(api: CoreAPI, billId: string): string {
-  const date = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 14 * 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  const sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  if (!sitting)
+    throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
   api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
     key: `meeting:${billId}`,
-    date,
+    date: sitting.date,
     kind: "council-meeting",
-    source: {
-      tag: "ESTIMATED",
-      citation: "Two weeks to the next regular meeting",
-      asOf: api.state.date,
-      estimatedFrom:
-        "Most councils meet twice a month (ICMA municipal form of government survey)",
-    },
+    source: sitting.source,
     sourceRecordIds: [billId],
   });
-  return date;
+  return sitting.date;
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {
