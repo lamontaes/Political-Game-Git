@@ -20,6 +20,8 @@ import { parameter as p } from "./parameters";
 import { OPENING_KIN } from "./opening-kin";
 import { buildPopulation, POPULATION_VERSION } from "./population";
 import { realLocalities } from "./places";
+import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
+import { stableHash } from "./kernel/ids";
 import { recordedTraitSource } from "./trait-source";
 import type { CoreInput } from "./types";
 
@@ -389,6 +391,32 @@ describe("real-place one-time population import", () => {
         p("zero"),
       ),
     ).toBe(cohort.people.length);
+  });
+
+  it("opens a town smaller than the target at its real size", () => {
+    // A town of a few hundred to a few thousand people, drawn from all 56.
+    const small = realLocalities()
+      .filter((place) => {
+        const real = place.sourceGeoid
+          ? placeReferencePopulation(place.sourceGeoid)?.value
+          : undefined;
+        return real !== undefined && real >= 300 && real < 3000;
+      })
+      .sort((a, b) =>
+        stableHash(`${seed}:small:${a.key}`).localeCompare(
+          stableHash(`${seed}:small:${b.key}`),
+        ),
+      )[0]!;
+    const real = placeReferencePopulation(small.sourceGeoid!)!.value;
+    const cohort = buildPopulation({
+      seed: `${seed}:small`,
+      startedAt,
+      placeKey: small.key,
+    });
+    const people = residentsOf(cohort).length;
+    // Whole households: the last one drawn may carry it a few past.
+    expect(people, small.key).toBeGreaterThanOrEqual(real);
+    expect(people - real, small.key).toBeLessThan(10);
   });
 
   it("rejects invalid cohort sizes and nonlocality inputs before generation", () => {

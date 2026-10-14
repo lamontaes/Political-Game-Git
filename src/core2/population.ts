@@ -505,11 +505,22 @@ function openingTraits(
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
 export function buildPopulation(options: PopulationOptions): CoreInput {
-  const minimumPeople = options.minimumPeople ?? p("targetPopulation");
-  if (!Number.isSafeInteger(minimumPeople) || minimumPeople < p("one"))
+  const target = options.minimumPeople ?? p("targetPopulation");
+  if (!Number.isSafeInteger(target) || target < p("one"))
     throw new Error("Opening population must be a positive whole count.");
   const startedAt = makeIsoDate(options.startedAt);
-  const place = selectedPlace(options, minimumPeople);
+  const place = selectedPlace(options, target);
+  // A town smaller than the target opens at its real size (its Census
+  // reference population); a size asked for by name is kept as asked.
+  const real = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  const minimumPeople =
+    options.minimumPeople === undefined &&
+    real !== undefined &&
+    real >= p("one")
+      ? Math.min(target, real)
+      : target;
   const town = place.context.jurisdiction.id;
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
