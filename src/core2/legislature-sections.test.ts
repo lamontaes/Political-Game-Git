@@ -167,7 +167,12 @@ describe("a bill's sections", () => {
         o.jurisdiction !== "US" &&
         /council|board|commission/.test(o.kind),
     );
-    expect(local, where).toBeDefined();
+    // D.C. and the territories with no town or county body legislate only
+    // through their own legislature, whose measures are acts.
+    if (!local) {
+      expect(chamber, where).toBeDefined();
+      return;
+    }
     const ordinance = billForm(
       api,
       draftBill(api, {
