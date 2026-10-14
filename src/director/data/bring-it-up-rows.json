@@ -1,0 +1,17 @@
+{
+  "version": "words-bring-it-up-v1",
+  "about": "The structure of bringing up a change: the events a person learns of and the ways they hold someone to blame. It holds no sentences; they come from the mined bank (data/english/parts/bring-it-up.json) through src/director/mined/scene-bank.ts.",
+  "toldEvent": "conversation.told",
+  "heardKey": "heard",
+  "blameKey": "blame",
+  "changes": [
+    {
+      "eventKind": "organization.closed",
+      "institutionFact": {
+        "prefix": "organization:",
+        "suffix": ":status"
+      }
+    }
+  ],
+  "blame": ["record", "told", "assumed", "unknown"]
+}

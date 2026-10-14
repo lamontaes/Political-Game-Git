@@ -6,6 +6,7 @@ import {
   considerBribe,
   corruptionModule,
   crimesKnownTo,
+  scandalsOf,
   type CrimeRecord,
 } from "./modules/corruption";
 import { buildPopulation } from "./population";
@@ -134,5 +135,17 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
     );
     expect(learned.length).toBeGreaterThan(0);
     expect(learned.length).toBeLessThanOrEqual(2);
+    // Whoever learned it decided whether to take it to the press; a report
+    // is a public record the official and the reporter both hold, and the
+    // scandal reaches voters only through it.
+    for (const id of scandalsOf(api, crime!.officialId, core.date)) {
+      expect(
+        api.knows(crime!.officialId, `event:${id}:experienced`),
+      ).toBeTruthy();
+      expect(
+        learned.some((row) => api.knows(row.id, `event:${id}:experienced`)),
+      ).toBe(true);
+    }
+    expect(scandalsOf(api, crime!.officialId, "2000-01-01")).toEqual([]);
   });
 });

@@ -505,11 +505,30 @@ function openingTraits(
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
 export function buildPopulation(options: PopulationOptions): CoreInput {
-  const minimumPeople = options.minimumPeople ?? p("targetPopulation");
-  if (!Number.isSafeInteger(minimumPeople) || minimumPeople < p("one"))
+  const target = options.minimumPeople ?? p("targetPopulation");
+  if (!Number.isSafeInteger(target) || target < p("one"))
     throw new Error("Opening population must be a positive whole count.");
   const startedAt = makeIsoDate(options.startedAt);
-  const place = selectedPlace(options, minimumPeople);
+  const place = selectedPlace(options, target);
+  // A town smaller than the target opens at its real size (its Census
+  // reference population); a size asked for by name is kept as asked.
+  const real = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  const minimumPeople =
+    options.minimumPeople === undefined &&
+    real !== undefined &&
+    real >= p("one")
+      ? Math.min(target, real)
+      : target;
+  // stopgapId: SG-CORE-owner-decision-town-size
+  // A town larger than the target opens at the target, not its Census size.
+  if (
+    options.minimumPeople === undefined &&
+    real !== undefined &&
+    real > target
+  )
+    stopgap("SG-CORE-owner-decision-town-size");
   const town = place.context.jurisdiction.id;
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
@@ -1503,23 +1522,34 @@ function openingFamilies(input: OpeningFamilyInput): {
           ),
         ]),
     );
-    // Every generated trait shares one temperament source; recorded facets
-    // keep the source they already had.
+    // Facets are notable-only (the trait registry): a facet at the middle
+    // level is not recorded, so no record reads as unknown, never as average.
+    const all: Record<string, number> = {};
+    for (const row of [traits, core, recorded])
+      for (const key in row) {
+        const value = row[key]!;
+        if (value === p("zero") && !key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+          delete all[key];
+        else all[key] = value;
+      }
+    const sources: Record<string, Source> = {
+      ...(sharedTraitSource
+        ? Object.fromEntries(
+            Object.keys(recorded).map((key) => [key, sharedTraitSource]),
+          )
+        : {}),
+      ...(traitSources ?? {}),
+      ...Object.fromEntries(
+        Object.keys(core)
+          .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+          .map((key) => [key, temperamentSource]),
+      ),
+    };
+    for (const key of Object.keys(sources))
+      if (!(key in all)) delete sources[key];
     return {
-      traits: { ...traits, ...core, ...recorded },
-      traitSources: {
-        ...(sharedTraitSource
-          ? Object.fromEntries(
-              Object.keys(recorded).map((key) => [key, sharedTraitSource]),
-            )
-          : {}),
-        ...(traitSources ?? {}),
-        ...Object.fromEntries(
-          Object.keys(core)
-            .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
-            .map((key) => [key, temperamentSource]),
-        ),
-      },
+      traits: all,
+      traitSources: sources,
       sharedTraitSource: temperamentSource,
     };
   };

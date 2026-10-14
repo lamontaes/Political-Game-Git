@@ -20,11 +20,9 @@
  * hearings and votes are counted together on its floor day.
  */
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
-import {
-  sessionWindows,
-  sessionYear,
-  type SessionWindow,
-} from "../state-session-calendar";
+import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
+import { townConcernShare } from "./meetings";
+import { sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -56,90 +54,37 @@ import {
   proposeAsExecutive,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
+  registerSittingReader,
   settledness,
   tasteForChange,
   type BillRow,
+  type Sitting,
 } from "./legislature";
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
 export const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
-  state: { schemaVersion: 1, tables: { sessions: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: { sessions: {}, legislativeSessions: {}, nextMeetings: {} },
+  },
   onCalendarWork: (api, work) => onWork(api, work),
 };
 
 /** Register the module and put the state's session ends on the calendar. */
 export function openWorldLegislating(core: CoreState): void {
+  registerSittingReader(nextSitting);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
-  const stateKey = lawChain(api).stateKey;
-  const year = Number(core.date.slice(0, 4));
-  const congress = [year, year + 1]
-    .map(congressAgendaDate)
-    .find((d) => d > core.date)!;
-  scheduleSession(api, "US", congress, {
-    tag: "ESTIMATED",
-    citation: "U.S. House calendar's final weeks (the year's last votes)",
-    asOf: core.date,
-    estimatedFrom: "congressAgendaDayOfYear",
-  });
   // The town's council and its county board meet on their own.
   for (const office of townBodies(api))
     scheduleMeeting(api, office, "localRegularMeetingsPerYear");
-  // Each recorded session's floor day still ahead, from the table's row for
-  // the year of the game's date (and the years after it); a session already
-  // over comes back on the table's next row for the same slot.
-  for (const [date, tag, url] of upcomingSessionDates(stateKey, core.date))
-    scheduleSession(api, stateKey, date, {
-      tag,
-      citation: url ?? "state legislative session calendar table",
-      asOf: core.date,
-      ...(tag === "ESTIMATED"
-        ? { estimatedFrom: url ?? "session calendar" }
-        : {}),
-    });
-}
-
-type Upcoming = [string, "SOURCED" | "ESTIMATED", string | undefined];
-
-/** The floor days of every slot (a place's first session of a year, its second, ...) after `after`, earliest per slot. */
-function upcomingSessionDates(stateKey: string, after: string): Upcoming[] {
-  const year = Number(after.slice(0, 4));
-  const taken = new Map<number, Upcoming>();
-  for (let y = year - 1; y <= year + 2; y += 1) {
-    const row = sessionYear(stateKey, y);
-    if (!row?.meets) continue;
-    agendaDatesOf(stateKey, y).forEach((date, slot) => {
-      if (date > after && !taken.has(slot))
-        taken.set(slot, [date, row.tag, row.sourceUrl]);
-    });
-  }
-  return [...taken.values()];
-}
-
-/** A year's floor days, earliest first (slot order). */
-function agendaDatesOf(stateKey: string, year: number): string[] {
-  return sessionWindows(stateKey, year)
-    .map((w) => agendaDate(w, year))
-    .sort();
-}
-
-/** The slot a floor day fills: its table year and its order among that year's floor days. */
-function slotOf(
-  stateKey: string,
-  date: string,
-): { year: number; slot: number; window: SessionWindow } | null {
-  const y0 = Number(date.slice(0, 4));
-  for (const year of [y0, y0 - 1]) {
-    const windows = [...sessionWindows(stateKey, year)].sort((a, b) =>
-      agendaDate(a, year).localeCompare(agendaDate(b, year)),
-    );
-    const slot = windows.findIndex((w) => agendaDate(w, year) === date);
-    if (slot >= 0) return { year, slot, window: windows[slot]! };
-  }
-  return null;
+  // Congress and the state's legislature open their next session (or the one
+  // already sitting, today).
+  for (const jurisdiction of ["US", lawChain(api).stateKey])
+    scheduleOpening(api, jurisdiction, core.date, true);
 }
 
 function townBodies(api: CoreAPI): readonly string[] {
@@ -161,50 +106,6 @@ function townBodies(api: CoreAPI): readonly string[] {
     .filter((o) => !(council && o.kind === "township-board"))
     .map((o) => o.id)
     .sort();
-}
-
-/** Congress's floor day in a year: the tunable day of the year it brings the majority's agenda. */
-export function congressAgendaDate(year: number): string {
-  return new Date(
-    Date.UTC(year, 0, campaignParameter("congressAgendaDayOfYear")),
-  )
-    .toISOString()
-    .slice(0, 10);
-}
-
-/** The days a state's sessions of one year bring their agenda to the floor (the year defaults to the table's 2026). */
-export function sessionAgendaDates(
-  stateKey: string,
-  year = 2026,
-): readonly string[] {
-  return agendaDatesOf(stateKey, year);
-}
-
-/** A session's floor day: its adjournment, or for a legislature that sits all year, the end of the tunable agenda month. */
-function agendaDate(window: SessionWindow, year: number): string {
-  if (/^\d{4}-\d{2}-\d{2}$/.test(window.adjournAt)) return window.adjournAt;
-  const month = campaignParameter("fullYearSessionAgendaMonth");
-  return new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10);
-}
-
-function scheduleSession(
-  api: CoreAPI,
-  stateKey: string,
-  date: string,
-  source: {
-    tag: "SOURCED" | "ESTIMATED";
-    citation: string;
-    asOf: string;
-    estimatedFrom?: string;
-  },
-): void {
-  api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
-    key: `session-end:${stateKey}:${date}`,
-    date,
-    kind: "session-end",
-    source,
-    sourceRecordIds: [stateKey],
-  });
 }
 
 /** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
@@ -419,18 +320,25 @@ function townLean(api: CoreAPI): number {
   );
 }
 
+/** A change a member files, with who backs it and where the floor leader puts it. */
+interface Filed {
+  readonly question: string;
+  readonly direction: number;
+  readonly sponsor: Filer;
+  readonly cosponsors: number;
+  readonly leaderReason: number;
+  /** The bill a member filed at the executive's request. */
+  readonly drafted?: BillRow;
+}
+
 /**
- * A sitting of the body: every member files the changes their own reasons
- * favor where the law in force differs (members wanting the same change join
- * one bill, the most moved member sponsoring it); the floor leader schedules
- * them by how many members back each, then by their own reasons; and the
- * floor takes up as many as its time allows (the sitting's floor days at the
- * floor's pace). Each bill reached goes through committee, every chamber
- * and the executive; a bill time runs out on dies at adjournment. Nothing
- * else limits how many bills there are: the count follows the members'
- * reasons, the law in force and the time.
+ * The changes the body's members file where the law in force differs from
+ * what their own reasons favor (members wanting the same change join one
+ * bill, the most moved member sponsoring it; the executive brings what no
+ * member files, through a member), in the floor leader's order: the most
+ * backed first, then their own reasons.
  */
-function holdSession(
+function fileChanges(
   api: CoreAPI,
   input: {
     readonly key: string;
@@ -448,19 +356,10 @@ function holdSession(
     /** A change the body turned down recently enough that its rules bar it again. */
     readonly barred: (question: string, direction: number) => boolean;
   },
-): void {
-  const leaderKey = input.leader ? memberKey(input.leader) : null;
+): Filed[] {
   const filers = input.filers.map((t) => filerOf(api, t));
   const leader = input.leader ? filerOf(api, input.leader) : null;
-  const filed: {
-    question: string;
-    direction: number;
-    sponsor: Filer;
-    cosponsors: number;
-    leaderReason: number;
-    /** The bill a member filed at the executive's request. */
-    drafted?: BillRow;
-  }[] = [];
+  const filed: Filed[] = [];
   // The executive over the body brings what no member files, through the
   // member they ask (the player decides their own requests).
   const head = input.body ? executiveOf(api, input.body.id).term : undefined;
@@ -534,13 +433,57 @@ function holdSession(
       });
     }
   }
-  // The floor leader's calendar: the most backed first, then their own.
+  // The floor leader's calendar: the most backed first, a change weighing
+  // more as more of the town's residents live with what it touches; then the
+  // leader's own reasons.
+  const weight = campaignParameter("floorConcernWeight");
+  const backing = new Map(
+    filed.map((f) => [
+      f,
+      f.cosponsors * (1 + weight * townConcernShare(api, f.question)),
+    ]),
+  );
   filed.sort(
     (a, b) =>
-      b.cosponsors - a.cosponsors ||
+      backing.get(b)! - backing.get(a)! ||
       b.leaderReason - a.leaderReason ||
       a.question.localeCompare(b.question),
   );
+  return filed;
+}
+
+/**
+ * A sitting of the body: every member files the changes their own reasons
+ * favor where the law in force differs (members wanting the same change join
+ * one bill, the most moved member sponsoring it); the floor leader schedules
+ * them by how many members back each, then by their own reasons; and the
+ * floor takes up as many as its time allows (the sitting's floor days at the
+ * floor's pace). Each bill reached goes through committee, every chamber
+ * and the executive; a bill time runs out on dies at adjournment. Nothing
+ * else limits how many bills there are: the count follows the members'
+ * reasons, the law in force and the time.
+ */
+function holdSession(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly jurisdiction: string;
+    readonly body: Body | null;
+    /** Everyone who may file: every member of every chamber. */
+    readonly filers: readonly TermRow[];
+    readonly leader: TermRow | undefined;
+    /** The floor days the sitting has. */
+    readonly floorDays: number;
+    /** How many bills a floor day takes up. */
+    readonly billsPerFloorDay: number;
+    readonly needsChange: (question: string, direction: number) => boolean;
+    readonly allowed: (question: string, value: number) => boolean;
+    /** A change the body turned down recently enough that its rules bar it again. */
+    readonly barred: (question: string, direction: number) => boolean;
+  },
+): void {
+  const leaderKey = input.leader ? memberKey(input.leader) : null;
+  const filed = fileChanges(api, input);
   const floorTime = Math.round(input.floorDays * input.billsPerFloorDay);
   const bills: SessionBill[] = [];
   filed.forEach((item, index) => {
@@ -606,40 +549,243 @@ const senior = (members: readonly TermRow[]) =>
   )[0];
 
 function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
-  if (work.kind === "session-end") endOfSession(api, work);
+  if (work.kind === "session-open") openSession(api, work);
+  if (work.kind === "bill-filing") introduceBill(api, work);
+  if (work.kind === "floor-week") floorWeek(api, work);
+  if (work.kind === "session-close") closeSession(api, work);
   if (work.kind === "local-meeting") localMeeting(api, work);
 }
 
-function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
-  const jurisdiction = work.sourceRecordIds[0]!;
-  // The next floor day for this slot is the table's row for the next year
-  // the body meets; "US" and a date outside the table repeat a year later.
-  const slot =
-    jurisdiction === "US" ? null : slotOf(jurisdiction, api.state.date);
-  let next = `${Number(api.state.date.slice(0, 4)) + 1}${api.state.date.slice(4)}`;
-  let tag: "SOURCED" | "ESTIMATED" = "ESTIMATED";
-  let cite = "this year's session end, carried forward a year";
-  if (slot)
-    for (let y = slot.year + 1; y <= slot.year + 2; y += 1) {
-      const date = agendaDatesOf(jurisdiction, y)[slot.slot];
-      if (!date) continue;
-      const row = sessionYear(jurisdiction, y)!;
-      next = date;
-      tag = row.tag;
-      cite = row.sourceUrl ?? "state legislative session calendar table";
-      break;
-    }
-  scheduleSession(api, jurisdiction, next, {
-    tag,
-    citation: cite,
-    asOf: api.state.date,
-    estimatedFrom: work.key,
+// ---------------------------------------------------------------------------
+// State legislatures and Congress sit through their sessions.
+
+/**
+ * When a body sits next, for a bill the player puts on its calendar: a town
+ * body's next regular meeting; a legislature's or Congress's next floor week
+ * in the session now sitting, or the first of its next session.
+ */
+function nextSitting(api: CoreAPI, bodyOfficeId: string): Sitting | null {
+  const today = api.state.date;
+  const meeting = api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("nextMeetings")
+    .get(bodyOfficeId) as unknown as { date: string } | undefined;
+  if (meeting)
+    return {
+      date: meeting.date,
+      source: {
+        tag: "ESTIMATED",
+        citation: "the body's next regular meeting",
+        asOf: today,
+        estimatedFrom: "localRegularMeetingsPerYear",
+      },
+    };
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bodyOfficeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  if (!office) return null;
+  const jurisdiction =
+    office.kind.startsWith("us-house") || office.kind === "us-senate"
+      ? "US"
+      : office.jurisdiction;
+  const committee = campaignParameter("sessionCommitteeDays");
+  const sitting = legislativeSessionsOf(api).find(
+    (r) =>
+      r.jurisdiction === jurisdiction &&
+      r.conveneAt <= today &&
+      r.adjournAt > today,
+  );
+  if (sitting) {
+    // The weekly floor days, from the end of committee time after it opened.
+    const first = plusDays(sitting.conveneAt, committee);
+    const weeks = Math.max(0, Math.ceil((daysBetween(first, today) + 1) / 7));
+    const date = plusDays(first, weeks * 7);
+    if (date < sitting.adjournAt)
+      return {
+        date,
+        source: {
+          tag: "ESTIMATED",
+          citation: "the session's next floor week",
+          asOf: today,
+          estimatedFrom: sitting.id,
+        },
+      };
+  }
+  const w = nextWindow(jurisdiction, today, false);
+  return w
+    ? {
+        date: plusDays(w.conveneAt, committee),
+        source: {
+          tag: w.tag,
+          citation: w.source,
+          asOf: today,
+          ...(w.tag === "ESTIMATED" ? { estimatedFrom: w.source } : {}),
+        },
+      }
+    : null;
+}
+
+/** One window a body sits, with where its dates come from. */
+interface Window {
+  readonly conveneAt: string;
+  readonly adjournAt: string;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  readonly source: string;
+}
+
+const CONGRESS = (
+  congressSessions as unknown as {
+    years: Record<
+      string,
+      {
+        conveneAt: string;
+        adjournAt: string;
+        tag: "SOURCED" | "ESTIMATED";
+        source: string;
+      }
+    >;
+  }
+).years;
+const CONGRESS_YEARS = Object.keys(CONGRESS).map(Number).sort();
+
+/** A body's session windows in a year: Congress from its table, a state from the session calendar. */
+export function windowsIn(
+  jurisdiction: string,
+  year: number,
+): readonly Window[] {
+  if (jurisdiction === "US") {
+    const row = CONGRESS[String(year)];
+    if (row) return [row];
+    // Past the table: the latest year's month and day, an estimate.
+    const last = CONGRESS[String(CONGRESS_YEARS[CONGRESS_YEARS.length - 1])]!;
+    return [
+      {
+        conveneAt: `${year}${last.conveneAt.slice(4)}`,
+        adjournAt: `${year}${last.adjournAt.slice(4)}`,
+        tag: "ESTIMATED",
+        source: last.source,
+      },
+    ];
+  }
+  const row = sessionYear(jurisdiction, year);
+  if (!row?.meets) return [];
+  return row.windows.map((w) => ({
+    conveneAt: w.conveneAt,
+    // A legislature that sits the whole year adjourns at its end.
+    adjournAt: /^\d{4}-\d{2}-\d{2}$/.test(w.adjournAt)
+      ? w.adjournAt
+      : `${year}-12-31`,
+    tag: row.tag,
+    source: row.sourceUrl ?? "state legislative session calendar table",
+  }));
+}
+
+/** The body's first session window still to sit after a day (or, at the opening, one already sitting). */
+function nextWindow(
+  jurisdiction: string,
+  after: string,
+  includeSitting: boolean,
+): Window | null {
+  const year = Number(after.slice(0, 4));
+  for (let y = year - 1; y <= year + 3; y += 1)
+    for (const w of [...windowsIn(jurisdiction, y)].sort((a, b) =>
+      a.conveneAt.localeCompare(b.conveneAt),
+    ))
+      if (
+        w.adjournAt > after &&
+        (w.conveneAt > after || (includeSitting && w.conveneAt <= after))
+      )
+        return w;
+  return null;
+}
+
+function scheduleOpening(
+  api: CoreAPI,
+  jurisdiction: string,
+  after: string,
+  includeSitting: boolean,
+): void {
+  const w = nextWindow(jurisdiction, after, includeSitting);
+  if (!w) return;
+  // A session already sitting when the world opens takes up its work the next day.
+  const date =
+    w.conveneAt > api.state.date ? w.conveneAt : plusDays(api.state.date, 1);
+  api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
+    key: `session-open:${jurisdiction}:${w.conveneAt}`,
+    date,
+    kind: "session-open",
+    source: {
+      tag: w.tag,
+      citation: w.source,
+      asOf: api.state.date,
+      ...(w.tag === "ESTIMATED" ? { estimatedFrom: w.source } : {}),
+    },
+    sourceRecordIds: [jurisdiction, w.conveneAt, w.adjournAt],
   });
-  const lower =
-    jurisdiction === "US"
-      ? houseOffice(api)
-      : (chamber(api, jurisdiction, "legislature-lower") ??
-        chamber(api, jurisdiction, "legislature-unicameral"));
+}
+
+const DAY = 86_400_000;
+const plusDays = (date: string, days: number) =>
+  new Date(Date.parse(`${date}T00:00:00Z`) + Math.round(days) * DAY)
+    .toISOString()
+    .slice(0, 10);
+const daysBetween = (from: string, to: string) =>
+  (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / DAY;
+
+/** A change filed for the session, the day it is introduced, and its bill once it is. */
+interface Filing {
+  readonly question: string;
+  readonly direction: number;
+  readonly sponsor: string;
+  readonly cosponsors: number;
+  readonly introduceOn: string;
+  readonly billId: string | null;
+}
+
+/** A legislature's session: its dates, its floor leader's calendar and every bill it took up. */
+export interface LegislativeSession {
+  readonly id: string;
+  readonly jurisdiction: string;
+  readonly bodyOfficeId: string | null;
+  readonly conveneAt: string;
+  readonly adjournAt: string;
+  readonly leader: string | null;
+  /** Bills the floor takes up in a week of sitting. */
+  readonly perWeek: number;
+  readonly filings: readonly Filing[];
+  readonly bills: readonly (SessionBill & { readonly decidedOn: string })[];
+}
+
+const sessionTable = (api: CoreAPI) =>
+  api.moduleState(WORLD_LEGISLATING_MODULE_ID).table("legislativeSessions");
+
+export function legislativeSessionsOf(
+  api: CoreAPI,
+): readonly LegislativeSession[] {
+  return sessionTable(api).rows() as unknown as LegislativeSession[];
+}
+
+/**
+ * The session convenes: every member files the changes their own reasons
+ * favor where the law in force differs (the executive brings what no member
+ * files), and the floor leader orders them. Each bill is introduced in its
+ * sponsor's own chamber over the session's filing period, the leader's first
+ * choices first; the floor sits each week from the end of committee time to
+ * adjournment.
+ */
+function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const [jurisdiction, conveneAt, adjournAt] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+  ];
+  const federal = jurisdiction === "US";
+  const lower = federal
+    ? houseOffice(api)
+    : (chamber(api, jurisdiction, "legislature-lower") ??
+      chamber(api, jurisdiction, "legislature-unicameral"));
   const sides = (lower?.members ?? []).map((m) => partySide(m.party));
   const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
   // The floor leader: the majority leader the chamber elected (leadership
@@ -655,61 +801,246 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         (m) => majority === 0 || partySide(m.party) === majority,
       ),
     );
-  const filers =
-    jurisdiction === "US"
-      ? [...members(api, FEDERAL_HOUSE), ...members(api, FEDERAL_SENATE)]
-      : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
-          .map((kind) => chamber(api, jurisdiction, kind))
-          .flatMap((c) => c?.members ?? []);
-  holdSession(api, {
-    key: work.key,
+  const filers = federal
+    ? [...members(api, FEDERAL_HOUSE), ...members(api, FEDERAL_SENATE)]
+    : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
+        .map((kind) => chamber(api, jurisdiction, kind))
+        .flatMap((c) => c?.members ?? []);
+  const filed = lower
+    ? fileChanges(api, {
+        key: work.key,
+        jurisdiction,
+        body: lower,
+        filers,
+        leader,
+        floorDays: 0,
+        billsPerFloorDay: 0,
+        needsChange: (question, direction) =>
+          needsChange(direction, answerIn(api, jurisdiction, question, true)),
+        // A legislature answers only the questions its level may (data).
+        allowed: (question, value) =>
+          !beyondPower(
+            { kind: "policy-question", question, value },
+            federal ? "federal" : "state",
+          ),
+        // A new session takes every bill up afresh.
+        barred: () => false,
+      })
+    : [];
+  const today = api.state.date;
+  const length = Math.max(1, daysBetween(today, adjournAt));
+  const period = campaignParameter("sessionFilingShare") * length;
+  const filings: Filing[] = filed.map((item, i) => ({
+    question: item.question,
+    direction: item.direction,
+    sponsor: item.sponsor.key,
+    cosponsors: item.cosponsors,
+    introduceOn: item.drafted
+      ? today
+      : plusDays(today, (i * period) / Math.max(1, filed.length)),
+    billId: item.drafted?.id ?? null,
+  }));
+  const weeks = Math.max(1, length / 7);
+  const perWeek = Math.max(
+    1,
+    Math.round(
+      (federal
+        ? campaignParameter("congressFloorDaysPerYear") / weeks
+        : campaignParameter("legislativeDaysPerWeek")) *
+        campaignParameter("floorBillsPerLegislativeDay"),
+    ),
+  );
+  const id = `session:${jurisdiction}:${conveneAt}`;
+  const row: LegislativeSession = {
+    id,
     jurisdiction,
-    body: lower,
-    filers,
-    leader,
-    floorDays:
-      jurisdiction === "US"
-        ? campaignParameter("congressFloorDaysPerYear")
-        : sessionFloorDays(jurisdiction, api.state.date),
-    billsPerFloorDay: campaignParameter("floorBillsPerLegislativeDay"),
-    needsChange: (question, direction) =>
-      needsChange(direction, answerIn(api, jurisdiction, question, true)),
-    // A legislature answers only the questions its level may (data).
-    allowed: (question, value) =>
-      !beyondPower(
-        { kind: "policy-question", question, value },
-        jurisdiction === "US" ? "federal" : "state",
-      ),
-    // A new session takes every bill up afresh.
-    barred: () => false,
+    bodyOfficeId: lower?.id ?? null,
+    conveneAt,
+    adjournAt,
+    leader: leader ? memberKey(leader) : null,
+    perWeek,
+    filings,
+    bills: [],
+  };
+  sessionTable(api).put(row as unknown as ModuleRow);
+  const calendar = api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
+  const source = {
+    tag: "ESTIMATED" as const,
+    citation: "the session's own calendar",
+    asOf: today,
+    estimatedFrom: work.key,
+  };
+  filings.forEach((f, i) => {
+    if (f.billId) return;
+    if (f.introduceOn <= today) introduce(api, id, i);
+    else
+      calendar.schedule({
+        key: `bill-filing:${id}:${i}`,
+        date: f.introduceOn,
+        kind: "bill-filing",
+        source,
+        sourceRecordIds: [id, String(i)],
+      });
+  });
+  const firstFloor = plusDays(today, campaignParameter("sessionCommitteeDays"));
+  if (firstFloor < adjournAt)
+    calendar.schedule({
+      key: `floor-week:${id}:${firstFloor}`,
+      date: firstFloor,
+      kind: "floor-week",
+      source,
+      sourceRecordIds: [id],
+    });
+  calendar.schedule({
+    key: `session-close:${id}`,
+    date: adjournAt,
+    kind: "session-close",
+    source: { ...work.source, asOf: today },
+    sourceRecordIds: [id],
   });
 }
 
-/**
- * The floor days of the session ending today: its recorded length (convening
- * to the floor day, the year before where the convening date falls after it)
- * at the legislature's floor days a week. A session carried forward keeps
- * its recorded dates' length.
- */
-export function sessionFloorDays(stateKey: string, date: string): number {
-  const found = slotOf(stateKey, date);
-  const year = Number(date.slice(0, 4));
-  let convene = found?.window.conveneAt ?? `${year}-01-01`;
-  if (!found) {
-    // A day carried past the table keeps its recorded dates' length.
-    const monthDay = date.slice(4);
-    const window = sessionWindows(stateKey, year).find(
-      (w) => agendaDate(w, year).slice(4) === monthDay,
+function introduceBill(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  introduce(api, work.sourceRecordIds[0]!, Number(work.sourceRecordIds[1]));
+}
+
+/** A filed change becomes a bill in its sponsor's own chamber. */
+function introduce(api: CoreAPI, sessionId: string, index: number): void {
+  const row = sessionTable(api).get(sessionId) as unknown as
+    LegislativeSession | undefined;
+  const filing = row?.filings[index];
+  if (!row || !filing || filing.billId) return;
+  const bodyOfficeId = originChamber(api, row, filing.sponsor);
+  if (!bodyOfficeId) return;
+  const bill = draftBill(api, {
+    bodyOfficeId,
+    sponsorId: filing.sponsor,
+    provisions: [
+      {
+        kind: "policy-question",
+        question: filing.question,
+        value: filing.direction,
+      },
+    ],
+  });
+  sessionTable(api).put({
+    ...row,
+    filings: row.filings.map((f, i) =>
+      i === index ? { ...f, billId: bill.id } : f,
+    ),
+  } as unknown as ModuleRow);
+}
+
+/** The chamber a member sits in: a state member's own office, a member of Congress's House or Senate. */
+function originChamber(
+  api: CoreAPI,
+  row: LegislativeSession,
+  sponsor: string,
+): string | null {
+  if (row.jurisdiction === "US") {
+    const senator = members(api, FEDERAL_SENATE).some(
+      (t) => memberKey(t) === sponsor,
     );
-    convene = `${year}${(window?.conveneAt ?? `${year}-01-01`).slice(4)}`;
-    if (convene > date) convene = `${year - 1}${convene.slice(4)}`;
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as { id: string; kind: string }[];
+    return (
+      (senator ? offices.find((o) => o.kind === "us-senate")?.id : undefined) ??
+      row.bodyOfficeId
+    );
   }
-  const days = Math.max(
-    1,
-    (Date.parse(`${date}T00:00:00Z`) - Date.parse(`${convene}T00:00:00Z`)) /
-      86_400_000,
-  );
-  return Math.round((days / 7) * campaignParameter("legislativeDaysPerWeek"));
+  for (const kind of [
+    "legislature-lower",
+    "legislature-upper",
+    "legislature-unicameral",
+  ]) {
+    const c = chamber(api, row.jurisdiction, kind);
+    if (c?.members.some((t) => memberKey(t) === sponsor)) return c.id;
+  }
+  return row.bodyOfficeId;
+}
+
+/**
+ * A week the floor sits: it takes up, in the leader's order, the bills
+ * introduced long enough ago for committee to have had them, as many as its
+ * days allow; each goes through committee, every chamber and the executive.
+ */
+function floorWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const id = work.sourceRecordIds[0]!;
+  const row = sessionTable(api).get(id) as unknown as
+    LegislativeSession | undefined;
+  if (!row) return;
+  const today = api.state.date;
+  const ready = plusDays(today, -campaignParameter("sessionCommitteeDays"));
+  const decided = new Set(row.bills.map((b) => b.number));
+  const bills = [...row.bills];
+  let taken = 0;
+  for (const f of row.filings) {
+    if (taken >= row.perWeek) break;
+    if (!f.billId) continue;
+    const drafted = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(f.billId) as unknown as BillRow | undefined;
+    if (!drafted || decided.has(drafted.number)) continue;
+    if (drafted.status !== "drafted" || drafted.introduced > ready) continue;
+    const bill = holdVote(api, drafted.id);
+    bills.push({
+      number: bill.number,
+      question: f.question,
+      change: f.direction > 0 ? "enact" : "repeal",
+      sponsor: f.sponsor,
+      cosponsors: f.cosponsors,
+      status: bill.status,
+      fate: "voted",
+      decidedOn: today,
+    });
+    taken += 1;
+  }
+  sessionTable(api).put({ ...row, bills } as unknown as ModuleRow);
+  const next = plusDays(today, 7);
+  if (next < row.adjournAt)
+    api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
+      key: `floor-week:${id}:${next}`,
+      date: next,
+      kind: "floor-week",
+      source: { ...work.source, asOf: today },
+      sourceRecordIds: [id],
+    });
+}
+
+/** Adjournment: a bill the floor never reached dies; the body's next session goes on the calendar. */
+function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const id = work.sourceRecordIds[0]!;
+  const row = sessionTable(api).get(id) as unknown as
+    LegislativeSession | undefined;
+  if (!row) return;
+  const decided = new Set(row.bills.map((b) => b.number));
+  const bills = [...row.bills];
+  for (const f of row.filings) {
+    if (!f.billId) continue;
+    const drafted = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(f.billId) as unknown as BillRow | undefined;
+    if (!drafted || decided.has(drafted.number)) continue;
+    // Never reached, or held for want of the power to pass it: it dies.
+    if (drafted.status !== "drafted" && drafted.status !== "blocked") continue;
+    const dead = dieOnCalendar(api, drafted);
+    bills.push({
+      number: dead.number,
+      question: f.question,
+      change: f.direction > 0 ? "enact" : "repeal",
+      sponsor: f.sponsor,
+      cosponsors: f.cosponsors,
+      status: dead.status,
+      fate: "not-reached",
+      decidedOn: api.state.date,
+    });
+  }
+  sessionTable(api).put({ ...row, bills } as unknown as ModuleRow);
+  scheduleOpening(api, row.jurisdiction, row.adjournAt, false);
 }
 
 /**
@@ -817,6 +1148,10 @@ function scheduleMeeting(api: CoreAPI, officeId: string, from: string): void {
   )
     .toISOString()
     .slice(0, 10);
+  api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("nextMeetings")
+    .put({ id: officeId, date } as unknown as ModuleRow);
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
     key: `local-meeting:${officeId}:${date}`,
     date,

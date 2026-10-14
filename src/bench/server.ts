@@ -18,7 +18,17 @@ import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
 import { economyView } from "./economy";
 import { electionResults, resultsScene } from "./results";
-import { bodyScene, seatAct, seatView } from "./legislature";
+import { seatAct, seatView } from "./legislature";
+import {
+  deskDecide,
+  deskView,
+  meetingAdjourn,
+  meetingItem,
+  meetingSpeak,
+  meetingSceneView,
+  officeStops,
+  officeView,
+} from "./office";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
@@ -69,13 +79,15 @@ let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
+    // The greeting comes before whatever they bring up.
     lines: [
+      ...value.lines.filter((line) => line.kind === "greet"),
       ...broughtUp.map((line) => ({
         ...line,
         speakerId: value.otherId,
         act: "tell",
       })),
-      ...value.lines,
+      ...value.lines.filter((line) => line.kind !== "greet"),
     ].map((line) => ({
       ...line,
       speaker: (() => {
@@ -84,7 +96,8 @@ const talkView = (value: Conversation | undefined) =>
       })(),
     })),
     choices: value.choices,
-    lie: value.lie,
+    // The scales' set: the same choices made false (empty dims the scales).
+    lies: value.lies,
   };
 const assets = new Map([
   // The old developer page is folded into Dev mode (owner, Oct 14, 2026).
@@ -466,16 +479,87 @@ const server = createServer(async (request, response) => {
       send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     }
-    if (request.method === "GET" && url.pathname === "/api/seat/scene") {
+    // The officeholder's day (OFFICE-LOCAL): the meeting scene, the desk and the stops.
+    if (request.method === "GET" && url.pathname === "/api/meeting") {
       send(
         200,
-        bodyScene(
+        player?.personId
+          ? meetingSceneView(
+              requireCore(),
+              player.personId,
+              player.packet?.at.minuteOfDay ?? 18 * 60,
+            )
+          : null,
+      );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/meeting/item") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      meetingItem(
+        requireCore(),
+        url.searchParams.get("meetingId") ?? "",
+        url.searchParams.get("billId") ?? "",
+        url.searchParams.get("vote") ?? "",
+      );
+      send(
+        200,
+        meetingSceneView(
           requireCore(),
-          url.searchParams.get("id") ?? "",
-          url.searchParams.get("officeId") ?? "",
-          player?.packet?.at.minuteOfDay ?? 12 * 60,
+          player.personId,
+          player.packet?.at.minuteOfDay ?? 18 * 60,
         ),
       );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/meeting/speak") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      meetingSpeak(
+        requireCore(),
+        url.searchParams.get("meetingId") ?? "",
+        url.searchParams.get("billId") ?? "",
+        url.searchParams.get("position") ?? "",
+      );
+      send(
+        200,
+        meetingSceneView(
+          requireCore(),
+          player.personId,
+          player.packet?.at.minuteOfDay ?? 18 * 60,
+        ),
+      );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/meeting/adjourn") {
+      meetingAdjourn(requireCore(), url.searchParams.get("meetingId") ?? "");
+      send(200, null);
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/desk") {
+      send(200, player?.personId ? deskView(requireCore()) : []);
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/desk") {
+      deskDecide(
+        requireCore(),
+        url.searchParams.get("billId") ?? "",
+        url.searchParams.get("how") ?? "",
+      );
+      send(200, deskView(requireCore()));
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/office") {
+      send(200, officeView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/office/stops") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      officeStops(
+        requireCore(),
+        player.personId,
+        url.searchParams.get("kind") ?? "",
+        url.searchParams.get("on") === "true",
+      );
+      send(200, officeView(requireCore(), player.personId));
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/seat/act") {
@@ -486,13 +570,10 @@ const server = createServer(async (request, response) => {
         seatAct(requireCore(), player.personId, {
           kind: q("kind") ?? "",
           officeId: q("officeId"),
-          billId: q("billId"),
-          memberId: q("memberId"),
           series: q("series"),
           question: q("question"),
           line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
-          deal: q("deal"),
         }),
       );
       return;

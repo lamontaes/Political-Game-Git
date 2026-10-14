@@ -38,8 +38,13 @@ describe(`full people leave work: ${world.place.key} (seed ${seed})`, () => {
       decidedBy: string;
       values: Record<string, number>;
     }[];
+    // Leaving work by the person's own choice; a death or a move is recorded too, but not decided this way.
     const left = changes.filter(
-      (row) => row.kind === "left-work" && world.core.people.has(row.personId),
+      (row) =>
+        row.kind === "left-work" &&
+        world.core.people.has(row.personId) &&
+        row.reasonKey !== JOBS_DATA.reasons.died &&
+        row.reasonKey !== JOBS_DATA.reasons.movedAway,
     );
     expect(left.length, `seed ${seed}`).toBeGreaterThan(0);
     for (const row of left) {

@@ -43,6 +43,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { closenessBetween } from "../closeness";
+import { bribePull } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -76,9 +77,22 @@ import representation from "../data/offices/federal-representation.json" with { 
 import proposalData from "../data/legislature/executive-proposal.json" with { type: "json" };
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
+import { COMMITTEES, committeeForSection } from "../legislature-committees";
+import {
+  bodyNumbering,
+  designation,
+  type BillFormKind,
+} from "../legislature-bill-form";
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
+
+/** A trial bill, read for members' positions and never put on the record, has no form. */
+const TRIAL_FORM = {
+  kind: "act",
+  enactingClause: "",
+  enactingSource: "",
+} as const;
 
 export interface Provision {
   /** A law-in-force series the bill changes, or a policy question it answers. */
@@ -90,6 +104,8 @@ export interface Provision {
   readonly value: number;
   readonly unit?: string;
   readonly effectiveDate?: string;
+  /** For a budget line: the line's amount the change is made to, so a stance weighs its size. */
+  readonly of?: number;
   /** The catalog policy the section was drafted from, and what it does to it. */
   readonly policyId?: string;
   readonly operation?: string;
@@ -119,7 +135,17 @@ export type AuthorityReason =
 
 export interface BillRow {
   readonly id: string;
+  /** The body's own designation: "LB 12", "H.R. 25", "S. 3", "2025-12". */
   readonly number: string;
+  /**
+   * What the bill is in its body (a bill for an act, or an ordinance) and the
+   * enacting clause the law prescribes for it, with that law's citation.
+   */
+  readonly form: {
+    readonly kind: BillFormKind;
+    readonly enactingClause: string;
+    readonly enactingSource: string;
+  };
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
@@ -172,10 +198,14 @@ export interface MemberPosition {
   readonly wing?: number;
   readonly ambition?: number;
   readonly press?: number;
+  /** A member of Congress's state's stake in the bill's budget lines, within `constituents`. */
+  readonly stateStake?: number;
   /** What the member's traits add: every trait's lean toward yes over no. */
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
   readonly consistency: number;
+  /** What a bribe they took on this bill pulls them toward (the payer's side). */
+  readonly bribe: number;
   readonly total: number;
 }
 
@@ -295,11 +325,15 @@ function councilBudget(
     return null;
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
+  const carried = budgetCarry(api, gov, fy);
   const provisions: Provision[] = Object.entries(priorities?.changes ?? {}).map(
     ([line, delta]) => ({
       kind: "budget-line",
       line,
       value: delta,
+      ...(carried?.spendingMinor[line]
+        ? { of: carried.spendingMinor[line] }
+        : {}),
     }),
   );
   const sponsor =
@@ -353,12 +387,16 @@ function councilBudget(
     }
     return { adopted: true, tallies, rows, against: [] as string[] };
   };
-  // A rejected budget is negotiated, not abandoned: the leaders drop the
-  // change its opponents in the failing chamber object to most and vote
-  // again, until it passes or no change is left (then last year's carries).
+  // A rejected budget is negotiated, not abandoned: the leaders meet its
+  // opponents in the failing chamber halfway on the change they object to
+  // most, halving it, and vote again; a change halved as far as the
+  // negotiation goes is dropped. It ends when the budget passes or no change
+  // is left (then last year's carries).
   let kept: readonly Provision[] = provisions;
   let result = roll(kept);
+  const halved = new Map<string, number>();
   const dropped: string[] = [];
+  const lineOf = (p: Provision) => String((p as { line?: string }).line);
   while (!result.adopted && kept.length) {
     const objection = (p: Provision) =>
       result.against.reduce((sum, key) => {
@@ -371,15 +409,19 @@ function councilBudget(
       }, 0);
     const worst = [...kept]
       .map((p) => ({ p, o: objection(p) }))
-      .sort(
-        (a, b) =>
-          a.o - b.o ||
-          String((a.p as { line?: string }).line).localeCompare(
-            String((b.p as { line?: string }).line),
-          ),
-      )[0]!.p;
-    dropped.push(String((worst as { line?: string }).line));
-    kept = kept.filter((p) => p !== worst);
+      .sort((a, b) => a.o - b.o || lineOf(a.p).localeCompare(lineOf(b.p)))[0]!
+      .p;
+    const line = lineOf(worst);
+    const times = halved.get(line) ?? 0;
+    if (times >= campaignParameter("budgetCompromiseRounds")) {
+      dropped.push(line);
+      kept = kept.filter((p) => p !== worst);
+    } else {
+      halved.set(line, times + 1);
+      kept = kept.map((p) =>
+        p === worst ? { ...p, value: Math.round(p.value / 2) } : p,
+      );
+    }
     result = roll(kept);
   }
   for (const row of result.rows) table(api, "votes").put(row);
@@ -400,7 +442,16 @@ function councilBudget(
         api,
         gov,
         fy,
-        `${chambers.body} vote ${votes}${dropped.length ? ` (amended: ${dropped.join(", ")} dropped)` : ""}, ${bill.number}`,
+        `${chambers.body} vote ${votes}${
+          halved.size || dropped.length
+            ? ` (amended: ${[
+                ...[...halved.entries()]
+                  .filter(([line]) => !dropped.includes(line))
+                  .map(([line, n]) => `${line} cut to 1/${2 ** n}`),
+                ...dropped.map((line) => `${line} dropped`),
+              ].join(", ")})`
+            : ""
+        }, ${bill.number}`,
         passed,
       )
     : carriedBudget(
@@ -440,6 +491,7 @@ export function budgetLineStakes(
   const trial = {
     id: `trial:${governmentId}:${line}`,
     number: "",
+    form: TRIAL_FORM,
     bodyOfficeId: chambers.introducedIn,
     sponsorId: "",
     introduced: api.state.date,
@@ -609,12 +661,23 @@ export function provisionStance(
       position: provision.value > 0 ? 1 : -1,
     };
   // Spending more or less on a line: read by who wants more spent on it.
+  // A change's size counts: against the line it's made to, a change of a
+  // tunable share is a full stance, a smaller one less (a sliding scale).
   if (provision.kind === "budget-line" && provision.line)
     return provision.value === 0
       ? null
       : {
           question: `budget-line:${provision.line}`,
-          position: Math.sign(provision.value),
+          position: provision.of
+            ? Math.max(
+                -1,
+                Math.min(
+                  1,
+                  provision.value /
+                    (provision.of * campaignParameter("budgetFullStanceShare")),
+                ),
+              )
+            : Math.sign(provision.value),
         };
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
@@ -747,14 +810,43 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
   };
 }
 
-function nextNumber(api: CoreAPI, officeId: string): string {
-  const year = api.state.date.slice(0, 4);
-  const key = `${officeId}:${year}`;
-  const n =
-    ((table(api, "counters").get(key) as unknown as { n: number } | undefined)
-      ?.n ?? 0) + 1;
-  table(api, "counters").put({ id: key, n } as unknown as ModuleRow);
-  return `${year}-${String(n).padStart(3, "0")}`;
+/** The body's numbering for a bill drafted today, and the bill's form in it. */
+function numberAndForm(
+  api: CoreAPI,
+  officeId: string,
+): Pick<BillRow, "number" | "form"> {
+  const body = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as {
+    id: string;
+    kind: string;
+    jurisdiction: string;
+    governmentName: string;
+  };
+  const numbering = bodyNumbering(body, api.state.date);
+  if (numbering.kind === "ordinance") {
+    // stopgapId: SG-GOV-local-bill-numbering (one national ordinance numbering for every town)
+    api.stopgap("SG-GOV-local-bill-numbering");
+  }
+  const counter = table(api, "counters").get(numbering.runKey) as unknown as
+    { n: number } | undefined;
+  const n = counter ? counter.n + 1 : numbering.firstNumber;
+  table(api, "counters").put({
+    id: numbering.runKey,
+    n,
+  } as unknown as ModuleRow);
+  return {
+    number: designation(numbering, n),
+    form: {
+      kind: numbering.kind,
+      enactingClause: numbering.enactingClause.replace(
+        "{body}",
+        body.governmentName,
+      ),
+      enactingSource: numbering.enactingSource,
+    },
+  };
 }
 
 /** Workers in town paid under a proposed minimum wage, and what raising them costs a year. */
@@ -806,6 +898,47 @@ export function beyondPower(
   };
 }
 
+/**
+ * What a bill's title says, as record parts the English engine words: its
+ * form ("A bill for an act" or "An ordinance"), its designation, and what each
+ * section does, by the catalog policy, question, series or budget line it was
+ * drafted from ("To shift highway funds to transit, and for other purposes").
+ */
+export interface BillTitle {
+  readonly kind: BillFormKind;
+  readonly designation: string;
+  readonly subjects: readonly {
+    readonly key: string;
+    readonly operation: string | null;
+  }[];
+}
+export function billTitle(bill: BillRow): BillTitle {
+  return {
+    kind: bill.form.kind,
+    designation: bill.number,
+    subjects: bill.provisions.map((p) => ({
+      key: subjectKey(p),
+      operation: p.operation ?? null,
+    })),
+  };
+}
+function subjectKey(p: Provision): string {
+  return (
+    p.policyId ??
+    p.question ??
+    p.series ??
+    (p.line ? `budget-line:${p.line}` : p.kind)
+  );
+}
+
+/**
+ * The motion a body votes a bill on: a council adopts an ordinance, a chamber
+ * passes a bill for an act.
+ */
+export function motionOn(bill: BillRow): "adopt" | "pass" {
+  return bill.form.kind === "ordinance" ? "adopt" : "pass";
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -817,7 +950,7 @@ export function draftBill(
 ): BillRow {
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
-    number: nextNumber(api, input.bodyOfficeId),
+    ...numberAndForm(api, input.bodyOfficeId),
     bodyOfficeId: input.bodyOfficeId,
     sponsorId: input.sponsorId,
     introduced: api.state.date,
@@ -1289,6 +1422,7 @@ function positionOn(
         wing: parts.wing,
         ambition: parts.ambition,
         press: parts.press,
+        stateStake: parts.stateStake,
       }
     : null;
   // A taste for change backs changing a settled law and resists reversing
@@ -1300,6 +1434,8 @@ function positionOn(
   // A member's own record: undoing what they just voted for, or redoing what
   // they just voted against, weighs against them while the law is fresh.
   const consistency = recordConsistency(api, memberId, bill);
+  // A bribe they took on this bill, as far as it moves them.
+  const bribe = bribePull(api, memberId, bill.id);
   return {
     memberId,
     views,
@@ -1311,6 +1447,7 @@ function positionOn(
     ...(further ?? {}),
     trait,
     consistency,
+    bribe,
     total:
       views +
       answersHome +
@@ -1319,6 +1456,7 @@ function positionOn(
       lobby +
       trait +
       consistency +
+      bribe +
       (further
         ? further.party + further.wing + further.ambition + further.press
         : 0),
@@ -1401,6 +1539,7 @@ export function askToCarry(
   const asked = {
     id: `ask:${input.bodyOfficeId}:${api.state.date}:${input.askerId}`,
     number: "",
+    form: TRIAL_FORM,
     bodyOfficeId: input.bodyOfficeId,
     sponsorId: input.askerId,
     introduced: api.state.date,
@@ -1485,6 +1624,7 @@ export function proposeAsExecutive(
   const trial = {
     id: `propose:${input.bodyOfficeId}:${api.state.date}:${executiveId}`,
     number: "",
+    form: TRIAL_FORM,
     bodyOfficeId: input.bodyOfficeId,
     sponsorId: executiveId,
     introduced: api.state.date,
@@ -1739,6 +1879,11 @@ function chamberVote(
     facts: {
       billId: bill.id,
       number: bill.number,
+      form: bill.form.kind,
+      motion: motionOn(bill),
+      subjects: billTitle(bill)
+        .subjects.map((t) => t.key)
+        .join(","),
       chamber: officeId,
       yes: String(yes),
       no: String(no),
@@ -1764,17 +1909,10 @@ export interface CommitteeRecord {
   readonly reported: boolean;
 }
 
-/** The subject committee a bill goes to, by what its first provision touches. */
+/** The subject committee a bill goes to, by what its first section touches (data). */
 function committeeFor(bill: BillRow): string {
   const p = bill.provisions[0];
-  if (
-    p?.kind === "budget-line" ||
-    p?.series === "income-tax" ||
-    p?.series === "sales-tax"
-  )
-    return "finance";
-  if (p?.series === "minimum-wage") return "labor";
-  return "general";
+  return p ? committeeForSection(p) : COMMITTEES[COMMITTEES.length - 1]!;
 }
 
 /**
@@ -2394,7 +2532,7 @@ function enact(
   const citation = federal
     ? `Public Law (bill ${bill.number})`
     : state
-      ? `Act ${bill.number}${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
+      ? `${bill.number}, enacted${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
       : `Ordinance ${bill.number}`;
   for (const provision of bill.provisions) {
     const effectiveDate = provision.effectiveDate ?? defaultDate;
@@ -2545,27 +2683,38 @@ function deadlinePassed(api: CoreAPI, billId: string): void {
   });
 }
 
-/** Put a bill on the body's next meeting (stand-in: two weeks out until meeting calendars are read). */
+/** The body's next sitting day after today, with where its date comes from. */
+export interface Sitting {
+  readonly date: string;
+  readonly source: Source;
+}
+let sittingReader:
+  ((api: CoreAPI, bodyOfficeId: string) => Sitting | null) | null = null;
+/** The engine that keeps the bodies' calendars says when each sits next. */
+export function registerSittingReader(
+  reader: (api: CoreAPI, bodyOfficeId: string) => Sitting | null,
+): void {
+  sittingReader = reader;
+}
+
+/**
+ * Put a bill on the body's next sitting: a town body's next regular meeting,
+ * a legislature's next floor week in session (or its next session's first),
+ * Congress's likewise, from the calendars the world keeps.
+ */
 export function scheduleVote(api: CoreAPI, billId: string): string {
-  const date = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + 14 * 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  const sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  if (!sitting)
+    throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
   api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
     key: `meeting:${billId}`,
-    date,
+    date: sitting.date,
     kind: "council-meeting",
-    source: {
-      tag: "ESTIMATED",
-      citation: "Two weeks to the next regular meeting",
-      asOf: api.state.date,
-      estimatedFrom:
-        "Most councils meet twice a month (ICMA municipal form of government survey)",
-    },
+    source: sitting.source,
     sourceRecordIds: [billId],
   });
-  return date;
+  return sitting.date;
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {

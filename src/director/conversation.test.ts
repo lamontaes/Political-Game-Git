@@ -15,6 +15,7 @@ import {
   doubtsClaim,
   openConversation,
   say,
+  type Conversation,
 } from "./conversation";
 import { createDirector } from "./ledger";
 import { REGISTER_CARDS } from "../presentation/speech-registers";
@@ -95,28 +96,35 @@ for (const row of [strangers[0]!, ...believing])
     hours: 1,
   });
 
+/** The other person's first question, after any greeting. */
+const opening = (talk: Conversation) =>
+  talk.lines.find((row) => row.kind !== "greet")!;
+
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("offers at least four distinct choices every turn, each answering the last line", () => {
+  it("offers distinct choices every turn, each answering the last line and only following on from it", () => {
     let turns = 0;
     for (const otherId of others.slice(0, 15)) {
       const talk = openConversation(core, player.id, otherId);
-      expect(talk.lines.length).toBe(1);
+      // A greeting at most, then one question.
+      expect(talk.lines.filter((row) => row.kind !== "greet").length).toBe(1);
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1) {
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        expect(talk.choices.length).toBeGreaterThanOrEqual(
-          CONVERSATION_DATA.minimumChoices,
-        );
         const texts = talk.choices.map((row) => row.text);
         expect(new Set(texts).size).toBe(texts.length);
-        // Not one answer with different topics tacked on.
-        const openings = new Set(texts.map((text) => text.split(/[.?]/)[0]));
-        expect(openings.size).toBeGreaterThan(1);
+        const moves = talk.choices.map((row) => row.move);
+        expect(new Set(moves).size).toBe(moves.length);
+        // A second move only follows from the first (owner, batch 6): the
+        // same question turned back, or their work after yours.
+        const follows =
+          CONVERSATION_DATA.follows[last.kind.replace(/-new$/, "")] ?? [];
         for (const choice of talk.choices) {
           expect(choice.answers).toBe(last.subjectId);
           expect(choice.sourceRecordIds.length).toBeGreaterThan(0);
           expect(choice.text).not.toMatch(/\b(goodbye|leave|bye)\b/i);
+          if (choice.raises)
+            expect(follows).toContain(choice.raises.split(":")[0]);
         }
         say(core, talk, talk.choices[turn % talk.choices.length]!.key);
         turns += 1;
@@ -149,13 +157,34 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
 
   it("strangers ask what they don't know, and the scales dim for what they already know", () => {
     const talk = openConversation(core, player.id, strangers[0]!.id);
-    expect(talk.lines[0]!.text).toMatch(/^(Where|Working)/);
-    expect(talk.lie).not.toBeNull();
+    expect(opening(talk).text).toMatch(/\?$/);
+    expect(talk.lies.length).toBeGreaterThan(0);
     const coworker = [...core.jobs.values()].find(
       (job) => job.personId !== player.id && job.organizationId === myOrg(),
     )!.personId;
     const known = openConversation(core, player.id, coworker);
-    if (known.lines[0]?.kind === "own-work") expect(known.lie).toBeNull();
+    if (opening(known).kind === "own-work") expect(known.lies).toEqual([]);
+  });
+
+  it("turns every choice false with the scales: different moves, each contradicting the player's record", () => {
+    const talk = openConversation(core, player.id, strangers[0]!.id);
+    expect(talk.lies.length).toBeGreaterThan(1);
+    const moves = talk.lies.map((row) => row.move);
+    expect(new Set(moves).size).toBe(moves.length);
+    const texts = talk.lies.map((row) => row.text);
+    expect(new Set(texts).size).toBe(texts.length);
+    // Both kinds of lie: a denial and a believable false alternative.
+    expect(new Set(talk.lies.map((row) => row.key.split(":")[2])).size).toBe(2);
+    const own = opening(talk).kind.startsWith("own-work")
+      ? { key: `person:${player.id}:employer`, value: myOrg() }
+      : { key: `person:${player.id}:place`, value: me.placeId };
+    for (const lie of talk.lies) {
+      expect(lie.lie).toBe(true);
+      expect(lie.claim?.key).toBe(own.key);
+      expect(lie.claim?.value).not.toBe(own.value);
+      expect(lie.wording?.parts.length).toBeGreaterThan(0);
+      expect(talk.choices.map((row) => row.text)).not.toContain(lie.text);
+    }
   });
 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
@@ -164,11 +193,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const talk = openConversation(core, player.id, hearerId, {
       presentIds: [bystanderId],
     });
-    expect(talk.lie).not.toBeNull();
-    const key = talk.lines[0]!.kind.startsWith("own-work")
+    expect(talk.lies.length).toBeGreaterThan(0);
+    const key = opening(talk).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
       : `person:${player.id}:place`;
-    say(core, talk, talk.lie!.key);
+    say(core, talk, talk.lies[0]!.key);
     for (const id of [hearerId, bystanderId]) {
       expect(beliefsOf(api, id).map((row) => row.key)).toContain(key);
       expect(api.knows(id, key)?.access).toBe("told");
@@ -225,11 +254,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       hours: 1,
     });
     const talk = openConversation(core, player.id, doubter!.id);
-    expect(talk.lie).not.toBeNull();
-    const key = talk.lines[0]!.kind.startsWith("own-work")
+    expect(talk.lies.length).toBeGreaterThan(0);
+    const key = opening(talk).kind.startsWith("own-work")
       ? `person:${player.id}:employer`
       : `person:${player.id}:place`;
-    say(core, talk, talk.lie!.key);
+    say(core, talk, talk.lies[0]!.key);
     expect(beliefsOf(api, doubter!.id).map((row) => row.key)).not.toContain(
       key,
     );
