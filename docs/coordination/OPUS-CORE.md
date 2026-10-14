@@ -4,22 +4,33 @@ The pillar's own status file is `core.md`; this file holds the builder sessions 
 
 ## The world has a past
 
-Branch `core/the-world-has-a-past`, draft PR to `main`. Owner, Oct 14: "When you generate into a world, the entire history starts on the day you generate." Ruled the same evening in `OWNER-DECISIONS.md` ("The world has a past", "Public figures are known", "The player's own context").
+Branch `core/the-world-has-a-past`, draft PR #4190 to `main`. Owner, Oct 14: "When you generate into a world, the entire history starts on the day you generate." Ruled the same evening in `OWNER-DECISIONS.md` ("The world has a past", "Public figures are known", "The player's own context").
+
+### What the owner can play now
+
+A new world opens with a year behind it. The news has stories from the year before day one, and the player has already heard most of them. Every law carries who passed it, when, by what vote, who sponsored and who signed it. Every officeholder won an election against a named challenger, made campaign promises, and has a voting record that voters weigh at the next election. Everyone knows the president, vice president, governor, senators, member of Congress and mayor without having met them. The player's family has a story: where the parents met and when, how they get along, where the family came from, who works where, and a few moments the player remembers. The words for all of it come from the English engine once the words session adds them; until then the records exist and the dossier lists them raw.
 
 ### Checklist
 
-- [ ] Laws have histories: enactment date, body, session, vote by chamber, sponsor, amendments, per law row.
-- [ ] Elections happened: the prior election for every elected seat, with candidates, votes, the town's voter groups' split and the winner's campaign promises.
-- [ ] Prior-term voting records for every legislative officeholder, on the record module's votes, from their own lean and the body's bills of that term.
-- [ ] News archive: the year before day one as press stories (elections, laws, budgets, deaths), heard by the people who would have heard them.
-- [ ] Public figures known: president, vice president, governor, member of Congress, mayor; public tier on the knowledge records, distinct from met.
-- [ ] The player's own context: how the parents met, their relationship now, where the family came from, the family's work and money, remembered moments; known to the household.
-- [ ] Drift across seeds; build time and heap measured; golden path unchanged.
+- [x] Laws have histories: enactment date, body, session, vote by chamber, sponsor, signer, amendments, per enactment (`past-laws.ts`).
+- [x] Elections happened: the prior election for every elected seat covering the town, with both candidates, votes, the town's voter groups and the winner's promises (`past-elections.ts`).
+- [x] Prior-term voting records in the record engine's votes; the voting engine weighs them (measured through the November 2026 election).
+- [x] News archive: the year before day one as news stories, heard by the news engine's own delivery rule (`past-news.ts`).
+- [x] Public figures known: public tier on the knowledge records plus the campaigns engine's heard-of impression (`past-public.ts`).
+- [x] The player's own context: household histories in the deep past, rebuilt the same at fill-in (`past-family.ts`).
+- [x] Drift across seeds; build time and heap measured; golden path with no accepted regression.
 
 ### Needs from other sessions
 
-Filled in on the PR body as they come up.
+- **Press session:** a news-archive story kind (stopgap `SG-CORE-past-archive-kind`).
+- **OPUS-GOV:** a pointer from each law row to `law-history:<row id>`, and dropping the opening-day `effectiveDate` on carried and policy-answer rows now that the history holds the enactment (`laws.ts`).
+- **OPUS-PEOPLE (words):** renderings for `household:*` past facts, `public:*` knowledge and the `archive:*` story kinds.
+- **OPUS-PLAY:** the dossier reading `publicKnowledgeOf` for a public figure the viewer has not met.
+
+### Open stopgaps
+
+`SG-CORE-past-undated-law-age`, `SG-CORE-past-named-only`, `SG-CORE-past-archive-kind`, `SG-CORE-past-no-deaths-closures`, `SG-CORE-past-territory-ballots`.
 
 ### Sub-agents
 
-None yet.
+One Sonnet Explore agent (read-only) mapped the dossier, news and knowledge readers at the start.

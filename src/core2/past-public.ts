@@ -177,8 +177,12 @@ export function buildPublicFigures(
       };
       putPast(api, "figures", row);
       figures.push(row);
-      const known =
-        row.serviceStart < town.opening ? row.serviceStart : town.opening;
+      // The public knew them from their campaign, else from taking office.
+      const campaign = election
+        ? shiftDays(election.date, -pastParameter(api, "pastCampaignLeadDays"))
+        : row.serviceStart;
+      const first = campaign < row.serviceStart ? campaign : row.serviceStart;
+      const known = first < town.opening ? first : town.opening;
       for (const viewer of people) {
         if (viewer.id === term.personId || !inPublicOf(viewer, row.scope))
           continue;
