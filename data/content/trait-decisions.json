@@ -1240,6 +1240,22 @@
       ]
     },
     {
+      "id": "estates.will",
+      "site": "src/core2/estates.ts",
+      "owner": "OPUS-CORE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "make-will",
+          "actKinds": ["follow-rules", "commit", "help-others", "play-safe"]
+        },
+        {
+          "id": "leave-it",
+          "actKinds": ["keep-same", "withdraw", "take-risk"]
+        }
+      ]
+    },
+    {
       "id": "legislature.attend-sitting",
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
