@@ -311,15 +311,16 @@ async function drawBodies() {
           },
           name,
         );
-      box.append(
-        el(
-          "div",
-          { className: "row" },
-          act("Hold vote", "/api/dev/hold-vote", { billId: bill.id }),
-          act("Sign", "/api/dev/sign", { billId: bill.id, sign: true }),
-          act("Veto", "/api/dev/sign", { billId: bill.id, sign: false }),
-        ),
-      );
+      if (bill.open)
+        box.append(
+          el(
+            "div",
+            { className: "row" },
+            act("Hold vote", "/api/dev/hold-vote", { billId: bill.id }),
+            act("Sign", "/api/dev/sign", { billId: bill.id, sign: true }),
+            act("Veto", "/api/dev/sign", { billId: bill.id, sign: false }),
+          ),
+        );
       for (const member of bill.members)
         box.append(
           el(
@@ -327,7 +328,7 @@ async function drawBodies() {
             { className: "row" },
             el("span", {}, `${member.givenName} ${member.familyName}`),
             el("span", { className: "role" }, member.vote ?? ""),
-            ...["yes", "no", "abstain"].map((vote) =>
+            ...(bill.open ? ["yes", "no", "abstain"] : []).map((vote) =>
               act(vote, "/api/dev/vote", {
                 billId: bill.id,
                 memberId: member.key,

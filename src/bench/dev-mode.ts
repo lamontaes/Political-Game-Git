@@ -112,6 +112,8 @@ const median = (values: number[]) => {
 };
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
+// A screen length, not a model value.
+const BODIES_SHOWN = 30;
 
 /** A person's health case, if the health engine has one for them. */
 function healthCase(core: CoreState, personId: string) {
@@ -419,39 +421,52 @@ export class DevMode {
     const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
     const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
     return (
-      api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .rows() as unknown as {
-        id: string;
-        number: string;
-        bodyOfficeId: string;
-        status: string;
-        introduced: string;
-        provisions: unknown[];
-      }[]
-    )
-      .filter((bill) =>
-        ["drafted", "passed", "awaiting-signature"].includes(bill.status),
+      (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as {
+          id: string;
+          number: string;
+          bodyOfficeId: string;
+          status: string;
+          introduced: string;
+          provisions: unknown[];
+        }[]
       )
-      .map((bill) => ({
-        ...bill,
-        office: offices.get(bill.bodyOfficeId) ?? null,
-        members: members(api, bill.bodyOfficeId).map((term) => {
-          const key = memberKey(term);
-          return {
-            key,
-            personId: term.personId,
-            givenName: term.identity.givenName,
-            familyName: term.identity.familyName,
-            vote:
-              (
-                choices.get(`${bill.id}|${key}`) as
-                  { vote?: string } | undefined
-              )?.vote ?? null,
-          };
-        }),
-      }));
+        // Open bills first, then the latest decided ones (their votes trace).
+        .map((bill) => ({
+          bill,
+          open: ["drafted", "passed", "awaiting-signature"].includes(
+            bill.status,
+          ),
+        }))
+        .sort(
+          (a, b) =>
+            Number(b.open) - Number(a.open) ||
+            b.bill.introduced.localeCompare(a.bill.introduced),
+        )
+        .slice(0, BODIES_SHOWN)
+        .map(({ bill, open }) => ({
+          open,
+          ...bill,
+          office: offices.get(bill.bodyOfficeId) ?? null,
+          members: members(api, bill.bodyOfficeId).map((term) => {
+            const key = memberKey(term);
+            return {
+              key,
+              personId: term.personId,
+              givenName: term.identity.givenName,
+              familyName: term.identity.familyName,
+              vote:
+                (
+                  choices.get(`${bill.id}|${key}`) as
+                    { vote?: string } | undefined
+                )?.vote ?? null,
+            };
+          }),
+        }))
+    );
   }
 
   /** Cast a member's vote on a bill before the vote is held. */

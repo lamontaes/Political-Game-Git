@@ -50,11 +50,14 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 ## Dev mode (owner, Oct 14, 2026)
 
-Branch `play/dev-mode`, a draft PR to main. One page, `/dev`, reached from one control on the play page: change any law at any level, make any full person take a choice the core offers them, cast any vote or sign or veto a bill, jump time, trace any record, watch the town month by month, and run a saved "what if" (the first is the $70,000 public-salary base). It folds in and deletes the old developer page at `/`.
+Branch `play/dev-mode`, draft PR #4181 to main. **What the owner can do now:** open `/dev` (or **Dev mode** in the play screen's menu). Change any law at any level now or on a date; pick any person and make them take one of the choices the game offers them today; cast any council or board member's vote, hold a vote, sign or veto; move time by a day, week, month, year or to a date; open any record as a tree of what caused it, click down through votes, views, the speeches that moved them and who heard them, and press **Report** for a plain-text chain; watch public and private pay, the town's measures, the nation, budgets, prices and news by month; and run the $70,000 public-salary experiment on any seed.
 
-- **Status:** in progress.
-- **Sub-agents:** none yet.
-- **Needs from other sessions:** OPUS-CORE's law-reach count (dev mode counts full people until it lands); OPUS-GOV's public-salary law, if the owner wants one; OPUS-CORE's save to refuse a release save that carries dev-mode marks.
+- **Status:** built and checked. The old developer page at `/` is folded in and deleted (999 lines removed).
+- **Found:** on Greenbrier, Tennessee (a seed I did not choose), the $70,000 base raised 16 of 17 public jobs, and private pay, hiring and quitting were identical to the same seed without it for a whole year. Private pay does not follow because no engine reads public pay when setting private pay, and public employers opened no positions all year.
+- **Speed:** same seed, alone: plain clock 242 s a year, dev mode 251 s (+3.9%). The two-minute line is already missed here on main.
+- **Sub-agents:** none.
+- **Needs from other sessions:** OPUS-CORE's law-reach count (`SG-PLAY-dev-law-reach-full-only`); OPUS-CORE's save to refuse a release save carrying `devModeMarks`; OPUS-GOV's public-salary law if the owner wants one (`SG-PLAY-dev-public-salary-floor`); a "why" recomputed from seeded history where none is saved (the trace shows only saved links today).
+- **Owner questions:** is a public-salary base a law or a budget line; the mode's name.
 
 ## Audit fixes (owner, Oct 12, 9:15 a.m.: before new features)
 
