@@ -21,7 +21,7 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "./modules/budgets";
-import { lawChain } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
 
@@ -503,6 +503,55 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   applySocialSecurityLevel(api);
 }
 
+/**
+ * A change to someone's award lands on them: an event naming the measure
+ * that did it (the law's question where a law did it), the change they'd
+ * want to it, and how hard it hits, by the share of the award it moved.
+ */
+function landOn(
+  api: CoreAPI,
+  personId: string,
+  obligationId: string,
+  from: number,
+  to: number,
+  measureId: string | undefined,
+): void {
+  const person = api.state.people.get(personId);
+  if (!person?.alive || from <= 0) return;
+  const lawId = measureId?.split("#")[0];
+  const law = lawId
+    ? (api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
+        { series?: string } | undefined)
+    : undefined;
+  const share = (to - from) / from;
+  const scale = treasuryParameter("benefitChangeImpulseScale");
+  api.emit({
+    id: `event:law.effect-landed:${api.state.date}:${obligationId}`,
+    date: api.state.date,
+    kind: "law.effect-landed",
+    personIds: [personId],
+    placeId: person.placeId,
+    topic: law?.series ?? `budget-line:US:socialSecurity`,
+    desiredChange: share < 0 ? "repeal" : "enact",
+    moodImpulse: scale * share,
+    stressImpulse: scale * Math.max(0, -share),
+    facts: {
+      measureId: measureId ?? "",
+      obligationId,
+      fromMinor: String(from),
+      toMinor: String(to),
+      governmentId: "US",
+      line: "socialSecurity",
+    },
+    publicRecord: false,
+    source: {
+      tag: "SOURCED",
+      citation: `Social Security award changed by ${measureId ?? "the federal budget"}`,
+      asOf: api.state.date,
+    },
+  });
+}
+
 export function treasuryMonthsOf(
   api: CoreAPI,
   governmentId: string,
@@ -523,15 +572,27 @@ export function socialSecurityLevel(api: CoreAPI): number {
   return base && now !== undefined ? now / base : 1;
 }
 
+const CAUSE_ROW = "cause:socialSecurity";
+
 /**
  * Social Security paid in town reads the federal line: each award claimed in
  * play is its base amount times the line against its base, from the next
- * payment on.
+ * payment on. Each recipient whose award a measure changed hears of it: the
+ * change lands on them as an event their drives and views read, about the
+ * law that did it.
  */
-export function applySocialSecurityLevel(api: CoreAPI): void {
+export function applySocialSecurityLevel(
+  api: CoreAPI,
+  cause?: { readonly measureId: string },
+): void {
   const core = api.state as CoreState;
   const level = socialSecurityLevel(api);
   const bases = table(api, "awardBase");
+  if (cause)
+    bases.put({ id: CAUSE_ROW, measureId: cause.measureId } as ModuleRow);
+  const measureId = (
+    bases.get(CAUSE_ROW) as unknown as { measureId: string } | undefined
+  )?.measureId;
   const baseOf = (id: string, amount: number) => {
     const row = bases.get(id) as unknown as { baseMinor: number } | undefined;
     if (row) return row.baseMinor;
@@ -553,7 +614,7 @@ export function applySocialSecurityLevel(api: CoreAPI): void {
   if (opening) api.stopgap("SG-GOV-opening-award-level");
   const accounts = api.accounts();
   let counted = false;
-  for (const claim of retirementClaims(core).values()) {
+  for (const [personId, claim] of retirementClaims(core)) {
     if (claim.counted) {
       counted = true;
       continue;
@@ -561,12 +622,14 @@ export function applySocialSecurityLevel(api: CoreAPI): void {
     const obligation = accounts.obligation(claim.obligationId);
     if (!obligation || obligation.endedAt) continue;
     const want = target(claim.obligationId, claim.monthlyMinor);
-    if (want !== obligation.amountMinor)
-      accounts.setObligationAmount(claim.obligationId, want, {
-        tag: "SOURCED",
-        citation: "Federal Social Security line in force against its base",
-        asOf: api.state.date,
-      });
+    if (want === obligation.amountMinor) continue;
+    const from = obligation.amountMinor;
+    accounts.setObligationAmount(claim.obligationId, want, {
+      tag: "SOURCED",
+      citation: "Federal Social Security line in force against its base",
+      asOf: api.state.date,
+    });
+    landOn(api, personId, claim.obligationId, from, want, measureId);
   }
   if (level === 1) return;
   // Counted recipients' awards are pooled in the residents' flows, which

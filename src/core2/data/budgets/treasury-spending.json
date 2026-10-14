@@ -20,6 +20,12 @@
       "value": 2080,
       "tag": "SOURCED",
       "source": "U.S. Office of Personnel Management: 2,087 hours is the federal base, 2,080 (40 hours times 52 weeks) the standard full-time work year (5 U.S.C. 5504)."
+    },
+    "benefitChangeImpulseScale": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How hard a change to someone's benefit lands on their mood and stress, per share of the benefit it moved (a 29% cut lands as a mood impulse of -0.29 and a stress impulse of 0.29). Checked against the life-event impulses the drives engine reads (lifeEventMoodScale, lifeEventStressScale).",
+      "spread": [0.5, 2]
     }
   },
   "postLines": {

@@ -199,7 +199,9 @@ export const BUDGETS_MODULE: CoreModule = {
       event.facts?.level === "federal" &&
       event.facts?.line === "socialSecurity"
     )
-      applySocialSecurityLevel(api);
+      applySocialSecurityLevel(api, {
+        measureId: event.facts.measureId ?? event.id,
+      });
   },
 };
 
