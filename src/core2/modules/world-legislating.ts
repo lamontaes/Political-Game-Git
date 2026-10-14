@@ -3,7 +3,7 @@
  * Congress, the town council and the county board pass laws on their own, on
  * the same engine the player uses.
  *
- * At a state session's end (NCSL 2026 session calendar; a legislature that
+ * At a state session's end (the state session calendar table; a legislature that
  * sits all year at the end of a tunable month), at Congress's year-end votes
  * (a tunable day) and at each regular council or board meeting, every member
  * files the changes their own reasons favor where the law in force differs;
@@ -20,7 +20,11 @@
  * hearings and votes are counted together on its floor day.
  */
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
-import sessions from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import {
+  sessionWindows,
+  sessionYear,
+  type SessionWindow,
+} from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -59,15 +63,6 @@ import {
 
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
-const sessionRows = (
-  sessions as unknown as {
-    regularSessions: Record<
-      string,
-      { conveneAt: string; adjournAt: string; sourceUrl?: string }[]
-    >;
-  }
-).regularSessions;
-
 export const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
   state: { schemaVersion: 1, tables: { sessions: {} } },
@@ -93,29 +88,58 @@ export function openWorldLegislating(core: CoreState): void {
   // The town's council and its county board meet on their own.
   for (const office of townBodies(api))
     scheduleMeeting(api, office, "localRegularMeetingsPerYear");
-  for (const session of sessionRows[stateKey] ?? []) {
-    const date = agendaDate(session.adjournAt, session.conveneAt);
-    if (date <= core.date) {
-      // A session already over when the world opens comes back on the same
-      // day the next year it can, as a held session carries itself forward.
-      let next = date;
-      while (next <= core.date)
-        next = `${Number(next.slice(0, 4)) + 1}${next.slice(4)}`;
-      scheduleSession(api, stateKey, next, {
-        tag: "ESTIMATED",
-        citation: "the recorded session's end, carried forward a year",
-        asOf: core.date,
-        estimatedFrom: session.sourceUrl ?? "NCSL 2026 session calendar",
-      });
-      continue;
-    }
+  // Each recorded session's floor day still ahead, from the table's row for
+  // the year of the game's date (and the years after it); a session already
+  // over comes back on the table's next row for the same slot.
+  for (const [date, tag, url] of upcomingSessionDates(stateKey, core.date))
     scheduleSession(api, stateKey, date, {
-      tag: "SOURCED",
-      citation:
-        session.sourceUrl ?? "NCSL 2026 State Legislative Session Calendar",
+      tag,
+      citation: url ?? "state legislative session calendar table",
       asOf: core.date,
+      ...(tag === "ESTIMATED"
+        ? { estimatedFrom: url ?? "session calendar" }
+        : {}),
+    });
+}
+
+type Upcoming = [string, "SOURCED" | "ESTIMATED", string | undefined];
+
+/** The floor days of every slot (a place's first session of a year, its second, ...) after `after`, earliest per slot. */
+function upcomingSessionDates(stateKey: string, after: string): Upcoming[] {
+  const year = Number(after.slice(0, 4));
+  const taken = new Map<number, Upcoming>();
+  for (let y = year - 1; y <= year + 2; y += 1) {
+    const row = sessionYear(stateKey, y);
+    if (!row?.meets) continue;
+    agendaDatesOf(stateKey, y).forEach((date, slot) => {
+      if (date > after && !taken.has(slot))
+        taken.set(slot, [date, row.tag, row.sourceUrl]);
     });
   }
+  return [...taken.values()];
+}
+
+/** A year's floor days, earliest first (slot order). */
+function agendaDatesOf(stateKey: string, year: number): string[] {
+  return sessionWindows(stateKey, year)
+    .map((w) => agendaDate(w, year))
+    .sort();
+}
+
+/** The slot a floor day fills: its table year and its order among that year's floor days. */
+function slotOf(
+  stateKey: string,
+  date: string,
+): { year: number; slot: number; window: SessionWindow } | null {
+  const y0 = Number(date.slice(0, 4));
+  for (const year of [y0, y0 - 1]) {
+    const windows = [...sessionWindows(stateKey, year)].sort((a, b) =>
+      agendaDate(a, year).localeCompare(agendaDate(b, year)),
+    );
+    const slot = windows.findIndex((w) => agendaDate(w, year) === date);
+    if (slot >= 0) return { year, slot, window: windows[slot]! };
+  }
+  return null;
 }
 
 function townBodies(api: CoreAPI): readonly string[] {
@@ -148,17 +172,17 @@ export function congressAgendaDate(year: number): string {
     .slice(0, 10);
 }
 
-/** The days a state's recorded sessions bring their agenda to the floor. */
-export function sessionAgendaDates(stateKey: string): readonly string[] {
-  return (sessionRows[stateKey] ?? [])
-    .map((s) => agendaDate(s.adjournAt, s.conveneAt))
-    .sort();
+/** The days a state's sessions of one year bring their agenda to the floor (the year defaults to the table's 2026). */
+export function sessionAgendaDates(
+  stateKey: string,
+  year = 2026,
+): readonly string[] {
+  return agendaDatesOf(stateKey, year);
 }
 
 /** A session's floor day: its adjournment, or for a legislature that sits all year, the end of the tunable agenda month. */
-function agendaDate(adjournAt: string, conveneAt: string): string {
-  if (/^\d{4}-\d{2}-\d{2}$/.test(adjournAt)) return adjournAt;
-  const year = Math.max(2026, Number(conveneAt.slice(0, 4)));
+function agendaDate(window: SessionWindow, year: number): string {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(window.adjournAt)) return window.adjournAt;
   const month = campaignParameter("fullYearSessionAgendaMonth");
   return new Date(Date.UTC(year, month, 0)).toISOString().slice(0, 10);
 }
@@ -589,11 +613,26 @@ function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 
 function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const jurisdiction = work.sourceRecordIds[0]!;
-  // Next year's session ends on the same day until a later calendar is recorded.
-  const next = `${Number(api.state.date.slice(0, 4)) + 1}${api.state.date.slice(4)}`;
+  // The next floor day for this slot is the table's row for the next year
+  // the body meets; "US" and a date outside the table repeat a year later.
+  const slot =
+    jurisdiction === "US" ? null : slotOf(jurisdiction, api.state.date);
+  let next = `${Number(api.state.date.slice(0, 4)) + 1}${api.state.date.slice(4)}`;
+  let tag: "SOURCED" | "ESTIMATED" = "ESTIMATED";
+  let cite = "this year's session end, carried forward a year";
+  if (slot)
+    for (let y = slot.year + 1; y <= slot.year + 2; y += 1) {
+      const date = agendaDatesOf(jurisdiction, y)[slot.slot];
+      if (!date) continue;
+      const row = sessionYear(jurisdiction, y)!;
+      next = date;
+      tag = row.tag;
+      cite = row.sourceUrl ?? "state legislative session calendar table";
+      break;
+    }
   scheduleSession(api, jurisdiction, next, {
-    tag: "ESTIMATED",
-    citation: "this year's session end, carried forward a year",
+    tag,
+    citation: cite,
     asOf: api.state.date,
     estimatedFrom: work.key,
   });
@@ -654,13 +693,18 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * its recorded dates' length.
  */
 export function sessionFloorDays(stateKey: string, date: string): number {
-  const monthDay = date.slice(4);
-  const session = (sessionRows[stateKey] ?? []).find(
-    (s) => agendaDate(s.adjournAt, s.conveneAt).slice(4) === monthDay,
-  );
+  const found = slotOf(stateKey, date);
   const year = Number(date.slice(0, 4));
-  let convene = `${year}${(session?.conveneAt ?? `${year}-01-01`).slice(4)}`;
-  if (convene > date) convene = `${year - 1}${convene.slice(4)}`;
+  let convene = found?.window.conveneAt ?? `${year}-01-01`;
+  if (!found) {
+    // A day carried past the table keeps its recorded dates' length.
+    const monthDay = date.slice(4);
+    const window = sessionWindows(stateKey, year).find(
+      (w) => agendaDate(w, year).slice(4) === monthDay,
+    );
+    convene = `${year}${(window?.conveneAt ?? `${year}-01-01`).slice(4)}`;
+    if (convene > date) convene = `${year - 1}${convene.slice(4)}`;
+  }
   const days = Math.max(
     1,
     (Date.parse(`${date}T00:00:00Z`) - Date.parse(`${convene}T00:00:00Z`)) /

@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import stateSessionCalendar from "../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
+import stateSessionCalendar from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
@@ -231,11 +231,18 @@ describe("one legislative session timetable", () => {
     );
     const firstSession = (
       stateSessionCalendar as unknown as {
-        readonly regularSessions: Readonly<
-          Record<string, readonly { readonly conveneAt: string }[]>
+        readonly places: Readonly<
+          Record<
+            string,
+            {
+              readonly years: Readonly<
+                Record<string, { readonly sessions: { conveneAt: string }[] }>
+              >;
+            }
+          >
         >;
       }
-    ).regularSessions[`US-${placeKey}`]?.[0];
+    ).places[`US-${placeKey}`]?.years["2026"]?.sessions[0];
     expect(due.map((row) => row.dueAt)).toEqual([
       "2026-12-01",
       firstSession?.conveneAt ?? "2026-02-15",
