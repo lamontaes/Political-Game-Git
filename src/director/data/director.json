@@ -471,20 +471,7 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": ["conversation.lie"],
-      "stopgapId": "SG-P13-kept-fact-producers"
-    },
-    {
-      "id": "favor",
-      "endsOn": "world-event",
-      "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
-    },
-    {
-      "id": "promise",
-      "endsOn": "world-event",
-      "producedBy": [],
-      "stopgapId": "SG-P13-kept-fact-producers"
+      "producedBy": ["conversation.lie"]
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],

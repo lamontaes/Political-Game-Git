@@ -1,49 +1,34 @@
 {
   "version": "p15-scene-v1",
-  "stopgapId": "SG-P15-scene-banks",
-  "about": "Second-person scene narration on the new core: where you are (from the setting's record), who is there (from the binding), and what led here (from the moment's cause). Templates copy only recorded facts.",
+  "about": "The structure of scene narration on the new core: where you are (from the setting's record), who is there (from the binding), and what led here (from the moment's cause). Every sentence is composed from the mined bank (data/english/parts/scene-words.json, src/director/mined-words.ts); a setting or cause no mined sentence words is left unsaid.",
   "and": "and",
   "settings": {
-    "home": [{ "key": "home", "text": "You're at home in {{place}}." }],
-    "other-home": [
-      { "key": "their-home", "text": "You're at {{host}}'s home." }
-    ],
-    "workplace": [{ "key": "work", "text": "You're at {{employer}}." }],
-    "school": [{ "key": "school", "text": "You're at {{school}}." }],
-    "public": [{ "key": "out", "text": "You're out in {{place}}." }],
-    "venue": [{ "key": "venue", "text": "You're in {{place}}." }],
-    "phone": [{ "key": "phone", "text": "Your phone rings." }],
-    "letter": [{ "key": "letter", "text": "A letter has come." }]
+    "home": [],
+    "other-home": [],
+    "workplace": [],
+    "school": [],
+    "public": [],
+    "venue": [],
+    "phone": [],
+    "letter": []
   },
-  "present": [
-    { "key": "one", "text": "{{who}} is here.", "stages": ["one"] },
-    { "key": "many", "text": "{{who}} are here.", "stages": ["many"] }
-  ],
+  "present": [],
   "causes": [
     {
       "labelPrefix": "tie:contact",
-      "variants": [
-        {
-          "key": "seeing",
-          "text": "You and {{other}} have been seeing each other lately."
-        }
-      ]
+      "variants": []
     },
     {
       "labelPrefix": "money:job-ended",
-      "variants": [
-        { "key": "lost", "text": "You lost your job at {{employer}}." }
-      ]
+      "variants": []
     },
     {
       "labelPrefix": "money:job-started",
-      "variants": [
-        { "key": "started", "text": "You've started at {{employer}}." }
-      ]
+      "variants": []
     },
     {
       "labelPrefix": "home:moved",
-      "variants": [{ "key": "moved", "text": "You've moved to {{place}}." }]
+      "variants": []
     }
   ]
 }

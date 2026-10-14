@@ -18,7 +18,7 @@ import {
 import journalJson from "./data/journal.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { properName } from "./words";
-import { directorStopgap } from "./stopgaps";
+import { minedJournal } from "./mined-words";
 import type { Moment } from "./types";
 
 const zero = P.zero;
@@ -44,11 +44,12 @@ interface LineRow {
   sameDay?: string;
   /** A fact told once: a later moment with the same text for it is skipped. */
   oncePer?: string;
+  /** The row whose mined sentences word this one, when they say the same. */
+  wordsFrom?: string;
 }
 
 export interface JournalData {
   version: string;
-  stopgapId: string;
   relationWords: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The possessive each surface names relatives with ("my", "your"). */
   possessive: Readonly<Record<string, string>>;
@@ -63,11 +64,14 @@ export interface JournalData {
   backdropLines?: readonly {
     kind: string;
     stageFact: string;
+    /** The stages every mined line for this kind is said under. */
+    stages?: readonly string[];
     line: readonly { key: string; text: string; stages?: readonly string[] }[];
   }[];
 }
 
-export const JOURNAL_DATA = journalJson as JournalData;
+/** The journal's structure, worded from the mined first-person bank. */
+export const JOURNAL_DATA = minedJournal(journalJson as JournalData);
 
 export interface JournalLine {
   id: string;
@@ -130,7 +134,6 @@ export function composeJournal(
   const person = core.people.get(personId);
   const book = director.ledger.people.get(personId);
   if (!person || !book) return [];
-  directorStopgap(data.stopgapId, director.ledger.stopgapHits);
   const kin = relatives(person);
   const named = new Set<PersonId>();
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));

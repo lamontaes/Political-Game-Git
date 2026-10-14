@@ -29,7 +29,7 @@ import type {
 import conversationJson from "./data/conversation.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
 import { renderLine, type Fact } from "./render";
-import { markWordsStopgap } from "./stopgaps";
+import { minedConversation } from "./mined-words";
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 
 const zero = P.zero;
@@ -51,7 +51,6 @@ interface SubjectBank {
 }
 export interface ConversationData {
   version: string;
-  stopgapId: string;
   minimumChoices: number;
   toldEvent: string;
   lieEvent: string;
@@ -62,8 +61,10 @@ export interface ConversationData {
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
 }
-export const CONVERSATION_DATA =
-  conversationJson as unknown as ConversationData;
+/** The conversation structure, worded from the mined speech bank. */
+export const CONVERSATION_DATA = minedConversation(
+  conversationJson as unknown as Omit<ConversationData, "subjects">,
+);
 
 type Facts = Record<string, Fact>;
 
@@ -475,7 +476,6 @@ function words(
   momentKey: string,
   stage = "default",
 ) {
-  markWordsStopgap(data.stopgapId);
   return renderLine({
     seed: core.seed,
     surface: "dialogue",

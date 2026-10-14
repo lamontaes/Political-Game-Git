@@ -10,8 +10,8 @@
  * draws by chance.
  */
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
-import { appraiseEvent } from "../core2/emotion";
-import { P, parameterValues } from "../core2/parameters";
+import type { EventAppraisal } from "../core2/emotion";
+import { P } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import {
   playerClockFrontierV1,
@@ -24,6 +24,7 @@ import type {
   IsoDate,
   PersonId,
   PersonState,
+  RelationshipChangeNotice,
   WorkResult,
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
@@ -54,7 +55,6 @@ interface Snapshot {
   alive: boolean;
   householdPay: number;
   memberJobs: Map<PersonId, string | undefined>;
-  ties: Map<string, { otherId: PersonId; level: number; lastContact: IsoDate }>;
   drives: Map<string, number>;
 }
 
@@ -66,6 +66,8 @@ interface Pending {
     stress: number;
   }[];
   work: WorkResult[];
+  /** The core's relationship change notices, in the order it recorded them. */
+  ties: Readonly<RelationshipChangeNotice>[];
 }
 
 interface Change {
@@ -111,6 +113,8 @@ export function createDirector(
   const pending = new Map<PersonId, Pending>();
   /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
   const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
+  /** Appraisals the core published before the director saw their event. */
+  const appraised = new Map<string, Readonly<EventAppraisal>>();
   const initial = [...options.watch];
   let started = false;
   let mode: "live" | "skipping" = "live";
@@ -136,7 +140,7 @@ export function createDirector(
   };
   const pendingFor = (id: PersonId): Pending => {
     let row = pending.get(id);
-    if (!row) pending.set(id, (row = { events: [], work: [] }));
+    if (!row) pending.set(id, (row = { events: [], work: [], ties: [] }));
     return row;
   };
 
@@ -157,18 +161,6 @@ export function createDirector(
 
   function snapshot(core: Readonly<CoreState>, actor: PersonState): Snapshot {
     const pay = householdPay(core, actor.householdId);
-    const ties = new Map<
-      string,
-      { otherId: PersonId; level: number; lastContact: IsoDate }
-    >();
-    for (const id of core.relationshipsByPerson.get(actor.id) ?? []) {
-      const row = core.relationships.get(id)!;
-      ties.set(id, {
-        otherId: row.actorId === actor.id ? row.otherId : row.actorId,
-        level: row.level,
-        lastContact: row.lastContactDate,
-      });
-    }
     return {
       cash: actor.liquidMinor,
       householdId: actor.householdId,
@@ -176,7 +168,6 @@ export function createDirector(
       alive: actor.alive,
       householdPay: pay.total,
       memberJobs: pay.jobs,
-      ties,
       drives: new Map(
         [...actor.drives.values()].map((drive) => [drive.id, drive.strength]),
       ),
@@ -746,7 +737,11 @@ export function createDirector(
     const before = snapshots.get(book.personId);
     if (!actor || !before) return;
     const date = core.date;
-    const today = pending.get(book.personId) ?? { events: [], work: [] };
+    const today = pending.get(book.personId) ?? {
+      events: [],
+      work: [],
+      ties: [],
+    };
     pending.delete(book.personId);
     const changes = new Map<string, Change>();
     const change = (
@@ -836,17 +831,22 @@ export function createDirector(
         made.selfNamed = true;
     }
 
-    // Ties: every change in closeness, read once at the end of the day.
-    directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
+    // Ties: every change in closeness, in the order the core recorded it.
     const fadedBefore = new Map<PersonId, number>();
-    for (const id of core.relationshipsByPerson.get(book.personId) ?? []) {
-      const row = core.relationships.get(id)!;
-      const otherId = row.actorId === book.personId ? row.otherId : row.actorId;
-      const prior = before.ties.get(id);
-      const delta = row.level - (prior?.level ?? zero);
-      const contacted =
-        row.lastContactDate === date && prior?.lastContact !== date;
+    for (const notice of today.ties) {
+      const id = notice.relationshipId;
+      const otherId =
+        notice.actorId === book.personId ? notice.otherId : notice.actorId;
+      let delta = zero;
+      let level: number | undefined;
+      let contacted = false;
+      for (const row of notice.changes)
+        if (row.measure === "level") {
+          delta = row.after - row.before;
+          level = row.after;
+        } else if (row.after === date && row.before !== date) contacted = true;
       if (delta === zero && !contacted) continue;
+      const existed = book.threads.has(otherId);
       const thread = ensureThread(book, otherId);
       const knew = book.keptFacts.get(
         `knew-each-other:${[book.personId, otherId].sort().join(":")}`,
@@ -855,25 +855,27 @@ export function createDirector(
         thread.lastContact !== undefined ||
         (knew !== undefined && knew.since < date);
       const fadingBefore = hadHistory ? fadingOf(thread, book, date) : zero;
-      fadedBefore.set(otherId, fadingBefore);
+      if (!fadedBefore.has(otherId)) fadedBefore.set(otherId, fadingBefore);
       // Cites the relationship record; the moment id carries the date.
       const causeId = id;
-      change(causeId, `contact:${row.kind}`, "tie", Math.abs(delta), [otherId]);
+      change(causeId, `contact:${notice.kind}`, "tie", Math.abs(delta), [
+        otherId,
+      ]);
+      const closeness =
+        level ??
+        (existed
+          ? thread.closeness
+          : (core.relationships.get(id)?.level ?? thread.closeness));
       if (
         thread.lastContact === undefined &&
-        !prior &&
+        notice.created &&
         fadingBefore < param("directorRenewedFading")
       )
-        thread.turns.push({
-          date,
-          turn: "started",
-          causeId,
-          closeness: row.level,
-        });
+        thread.turns.push({ date, turn: "started", causeId, closeness });
       thread.tone =
         delta > zero ? "rising" : delta < zero ? "souring" : thread.tone;
-      thread.closeness = row.level;
-      thread.lastContact = row.lastContactDate;
+      thread.closeness = closeness;
+      if (contacted) thread.lastContact = date;
       knewFact(book, otherId, date, "recorded", causeId);
     }
 
@@ -1284,30 +1286,13 @@ export function createDirector(
       let mood = zero;
       let stress = zero;
       // A person who has died feels nothing; their death is the health moment.
-      if (
-        learned.has(id) &&
-        actor.alive &&
-        (event.moodImpulse !== undefined || event.stressImpulse !== undefined)
-      ) {
-        directorStopgap("SG-P13-appraisal-recompute", ledger.stopgapHits);
-        const relation = event.personIds.reduce(
-          (level, subject) =>
-            Math.max(
-              level,
-              core.relationships.get([id, subject].sort().join(":"))?.level ??
-                zero,
-            ),
-          zero,
-        );
-        const appraisal = appraiseEvent(
-          actor,
-          event,
-          relation,
-          parameterValues(core.data.parameters),
-          core.data.appraisalTraits,
-        );
-        mood = appraisal.moodImpulse;
-        stress = appraisal.stressImpulse;
+      // The appraisal the core applied to this learner, when it came first.
+      const key = `${event.id}|${id}`;
+      const applied = appraised.get(key);
+      appraised.delete(key);
+      if (applied && learned.has(id) && actor.alive) {
+        mood = applied.moodImpulse;
+        stress = applied.stressImpulse;
       }
       pendingFor(id).events.push({ event, reach, mood, stress });
       reached.push(id);
@@ -1403,9 +1388,29 @@ export function createDirector(
       if (!started) return;
       rateNow(api.state, onEvent(api.state, event, learnedBy));
     },
+    appraisalEventKinds: data.eventKinds,
+    onEventAppraisal(api, event, appraisal) {
+      if (!started) return;
+      const id = appraisal.actorId;
+      if (!ledger.people.has(id)) return;
+      // The feeling the core applied, read as it was applied, never recomputed.
+      const row = pending
+        .get(id)
+        ?.events.find((entry) => entry.event.id === event.id);
+      if (!row) {
+        appraised.set(`${event.id}|${id}`, appraisal);
+        return;
+      }
+      if (!api.state.people.get(id)?.alive) return;
+      row.mood = appraisal.moodImpulse;
+      row.stress = appraisal.stressImpulse;
+      rateNow(api.state, [id]);
+    },
     relationshipKinds: data.relationshipKinds,
     onRelationshipChange(api, notice) {
       if (!started) return;
+      for (const id of [notice.actorId, notice.otherId])
+        if (ledger.people.has(id)) pendingFor(id).ties.push(notice);
       rateNow(api.state, [notice.actorId, notice.otherId]);
     },
     onWorkResult(api, receipt) {
@@ -1417,6 +1422,7 @@ export function createDirector(
       if (!started)
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
+      appraised.clear();
       registerInterrupts(api.state);
       // Once a month, each watched person forgets what no longer matters.
       if (api.state.date.endsWith("-01"))

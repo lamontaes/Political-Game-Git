@@ -18,12 +18,3 @@ export function openDirectorStopgapCount(
 ): number {
   return rows.filter((row) => row.status === "open").length;
 }
-
-/**
- * The word banks' stopgaps, fired when a hand-written bank writes a line in
- * play, so a release can see they are still in use (audit 1, Oct 12).
- */
-export const WORDS_STOPGAP_HITS = new Set<string>();
-export function markWordsStopgap(id: string): void {
-  directorStopgap(id, WORDS_STOPGAP_HITS);
-}

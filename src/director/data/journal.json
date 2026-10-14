@@ -1,7 +1,6 @@
 {
   "version": "p15-journal-v1",
-  "stopgapId": "SG-P15-journal-banks",
-  "about": "The words of the 'My life' journal on the new core: which moments it writes, the reviewed templates the English engine fills from records, and the relation words for naming family. Templates copy only recorded facts and carry no feeling words; a moment no line covers is left out.",
+  "about": "The structure of the 'My life' journal on the new core: which moments it writes, the relation words for naming family, and the record names chapters carry. Every sentence is composed from the English engine's mined first-person bank (data/english/parts/journal.json, src/director/mined-words.ts); a moment no mined sentence covers is left out.",
   "relationWords": {
     "parent": {
       "female": "mother",
@@ -67,12 +66,7 @@
     {
       "kindPrefix": "school:",
       "turn": true,
-      "line": [
-        {
-          "key": "started-school",
-          "text": "I started at {{school}}."
-        }
-      ],
+      "line": [],
       "title": [
         {
           "key": "school",
@@ -84,12 +78,7 @@
     {
       "kindPrefix": "work:opening",
       "turn": true,
-      "line": [
-        {
-          "key": "started-work",
-          "text": "I started working at {{employer}}."
-        }
-      ],
+      "line": [],
       "title": [
         {
           "key": "employer",
@@ -100,18 +89,8 @@
     {
       "kindPrefix": "job-started",
       "turn": true,
-      "line": [
-        {
-          "key": "started-work",
-          "text": "I started working at {{employer}}."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-started",
-          "text": "{{other}} started a new job."
-        }
-      ],
+      "line": [],
+      "otherLine": [],
       "title": [
         {
           "key": "employer",
@@ -122,34 +101,13 @@
     {
       "kindPrefix": "job-ended",
       "turn": true,
-      "line": [
-        {
-          "key": "lost-job",
-          "text": "I lost my job at {{employer}}."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-lost",
-          "text": "{{other}} lost {{their}} job."
-        }
-      ],
-      "title": [
-        {
-          "key": "after",
-          "text": "After {{employer}}"
-        }
-      ]
+      "line": [],
+      "otherLine": []
     },
     {
       "kindPrefix": "family:child",
       "turn": true,
-      "line": [
-        {
-          "key": "born",
-          "text": "{{other}} was born."
-        }
-      ],
+      "line": [],
       "title": [
         {
           "key": "born",
@@ -160,12 +118,7 @@
     {
       "kindPrefix": "moved",
       "turn": true,
-      "line": [
-        {
-          "key": "moved",
-          "text": "I moved to {{place}}."
-        }
-      ],
+      "line": [],
       "title": [
         {
           "key": "place",
@@ -173,38 +126,18 @@
         }
       ],
       "sameDay": "event:person.moved-away",
-      "groupLine": [
-        {
-          "key": "we-moved",
-          "text": "We moved to {{place}}."
-        }
-      ]
+      "groupLine": []
     },
     {
       "kindPrefix": "unpaid-wages",
       "turn": false,
-      "line": [
-        {
-          "key": "short",
-          "text": "My pay came up short."
-        }
-      ]
+      "line": []
     },
     {
       "kindPrefix": "contact:",
       "turn": false,
-      "line": [
-        {
-          "key": "saw",
-          "text": "I saw {{other}}."
-        }
-      ],
-      "repeatLine": [
-        {
-          "key": "saw-often",
-          "text": "I saw {{other}} {{times}}."
-        }
-      ]
+      "line": [],
+      "repeatLine": []
     },
     {
       "kindPrefix": "event:pay-raised-to-minimum-wage",
@@ -215,60 +148,30 @@
           "format": "money"
         }
       },
-      "line": [
-        {
-          "key": "raise",
-          "text": "My pay went up to {{wage}} an hour."
-        }
-      ]
+      "line": []
     },
     {
       "kindPrefix": "event:life.death",
       "turn": true,
-      "line": [
-        {
-          "key": "died",
-          "text": "{{other}} died."
-        }
-      ],
+      "line": [],
       "title": [
         {
           "key": "after",
-          "text": "After {{name}}"
+          "text": "{{name}}"
         }
       ]
     },
     {
       "kindPrefix": "event:housing.eviction",
       "turn": false,
-      "line": [
-        {
-          "key": "evicted",
-          "text": "We were evicted."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-evicted",
-          "text": "{{other}} was evicted."
-        }
-      ]
+      "line": [],
+      "otherLine": []
     },
     {
       "kindPrefix": "event:housing.purchase",
       "turn": false,
-      "line": [
-        {
-          "key": "bought-home",
-          "text": "We bought a house."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-bought-home",
-          "text": "{{other}} bought a house."
-        }
-      ]
+      "line": [],
+      "otherLine": []
     },
     {
       "kindPrefix": "event:organization.founded",
@@ -279,73 +182,34 @@
           "format": "organization"
         }
       },
-      "line": [
-        {
-          "key": "started-business",
-          "text": "I started {{business}}."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-started-business",
-          "text": "{{other}} started {{business}}."
-        }
-      ]
+      "line": [],
+      "otherLine": []
     },
     {
       "kindPrefix": "event:person-birth",
       "turn": true,
-      "line": [
-        {
-          "key": "born",
-          "text": "{{other}} was born."
-        }
-      ],
+      "line": [],
       "title": [
         {
           "key": "born",
           "text": "{{other}}"
         }
-      ]
+      ],
+      "wordsFrom": "family:child"
     },
     {
       "kindPrefix": "event:person.moved-away",
       "turn": false,
-      "line": [
-        {
-          "key": "moved-away",
-          "text": "I moved away."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-moved-away",
-          "text": "{{other}} moved away."
-        }
-      ],
+      "line": [],
+      "otherLine": [],
       "selfWhenNamed": true,
-      "groupLine": [
-        {
-          "key": "we-moved-away",
-          "text": "We moved away."
-        }
-      ]
+      "groupLine": []
     },
     {
       "kindPrefix": "event:health.serious-illness",
       "turn": false,
-      "line": [
-        {
-          "key": "ill",
-          "text": "I fell seriously ill."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-ill",
-          "text": "{{other}} fell seriously ill."
-        }
-      ]
+      "line": [],
+      "otherLine": []
     },
     {
       "kindPrefix": "event:candidate-filed",
@@ -356,22 +220,12 @@
           "format": "text"
         }
       },
-      "line": [
-        {
-          "key": "filed",
-          "text": "I filed to run for {{office}}."
-        }
-      ],
-      "otherLine": [
-        {
-          "key": "other-filed",
-          "text": "{{other}} filed to run for {{office}}."
-        }
-      ],
+      "line": [],
+      "otherLine": [],
       "title": [
         {
           "key": "running",
-          "text": "Running for {{office}}"
+          "text": "{{office}}"
         }
       ]
     }
@@ -387,24 +241,14 @@
     "scene": "your"
   },
   "lookBack": {
-    "died": [
-      {
-        "key": "died",
-        "text": "I died in {{place}}, at {{age}}."
-      }
-    ]
+    "died": []
   },
   "backdropLines": [
     {
       "kind": "law-took-effect",
       "stageFact": "series",
-      "line": [
-        {
-          "key": "minimum-wage",
-          "text": "A new minimum wage took effect.",
-          "stages": ["minimum-wage"]
-        }
-      ]
+      "line": [],
+      "stages": ["minimum-wage"]
     }
   ],
   "possessivePronoun": {
