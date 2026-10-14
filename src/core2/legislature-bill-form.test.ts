@@ -50,7 +50,7 @@ describe("a bill's form in its body", () => {
     ).clauses;
     expect(states.length).toBe(56);
     for (const key of states) {
-      expect(rows[key]?.text, key).toMatch(/enacted|ordained|Be it/i);
+      expect(rows[key]?.text, key).toMatch(/enact|ordain/i);
       expect(rows[key]?.citation, key).toBeTruthy();
       const numbering = bodyNumbering(
         { id: `x:${key}`, kind: "legislature-lower", jurisdiction: key },
@@ -148,7 +148,7 @@ describe("a bill's form in its body", () => {
       expect(first.number, where).toBe(designation(numbering, n));
       expect(second.number, where).toBe(designation(numbering, n + 1));
       expect(first.form.enactingClause, where).not.toContain("{body}");
-      expect(first.form.enactingClause, where).toMatch(/enacted|ordained/i);
+      expect(first.form.enactingClause, where).toMatch(/enact|ordain/i);
       const title = billTitle(first);
       expect(title.subjects.map((s) => s.key)).toEqual([
         "local-policy:paid-family-leave",
