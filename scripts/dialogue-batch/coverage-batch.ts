@@ -516,7 +516,7 @@ function readWorld(place: Place): {
   // Minutes and hearing exchanges and the chair, from a real roll call.
   const minutesBank = minutesJson as unknown as EnglishBank;
   const LOCAL_FLOOR_ONLY =
-    /\b(Senator|Senate|Congress\w*|House|Speaker|recommit|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question|heavy heart|honor the life|sense of loss|in memory|condolences?|passed away)\b/i;
+    /\b(Senator|Senate|Congress\w*|House|Speaker|recommit|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question|ranking member|chairman|heavy heart|honor the life|sense of loss|in memory|condolences?|passed away)\b/i;
   const chairOf = (officeId: string) => {
     const head = holders(officeId)[0];
     const row = head ? personOf(head) : undefined;
@@ -654,6 +654,8 @@ function readWorld(place: Place): {
             prior: "",
             text: made.text,
             parts: [made.partKey],
+            // Its alternatives pass the same floor test as the line.
+            forbid: LOCAL_FLOOR_ONLY.source,
             composer: "composeFromBank over data/english/parts/meeting.json",
             sourceRecordIds: [bill.id, speakerId],
           });
@@ -734,8 +736,15 @@ function readWorld(place: Place): {
   // Honors: a member honored by a colleague in the same state or federal
   // chamber, whose floor addresses the Speaker; a town body's floor never
   // does (batch 10: "Madam Speaker" on a selectboard).
-  const chambers = [...offices.values()].filter((office) =>
-    ["state", "federal"].includes(office.level),
+  // The house-floor bank addresses a Speaker, so only a chamber its title
+  // marks as a house is honored this way (batch 10: "Mr. Speaker" in the
+  // U.S. Senate, whose chair is its President).
+  const chambers = [...offices.values()].filter(
+    (office) =>
+      ["state", "federal"].includes(office.level) &&
+      /\b(House|Assembly|Representatives|Delegates)\b/i.test(
+        String(office.title),
+      ),
   );
   let honors = 0;
   for (const office of chambers) {
@@ -753,7 +762,7 @@ function readWorld(place: Place): {
   }
   if (!honors)
     gaps.push(
-      "no state or federal chamber with two members on record in this world, so no floor honor is said; a town body's own way of honoring a member is not mined yet",
+      "no state or federal house (a chamber with a Speaker) with two members on record in this world, so no floor honor is said; a senate's and a town body's own way of honoring a member are not mined yet",
     );
   const deceased = [...core.people.values()].filter((p) => !p.alive);
   if (!deceased.length)
@@ -1018,7 +1027,7 @@ interface Item extends Raw {
 }
 
 function withVariants(raw: Raw): Item | null {
-  const forbid = raw.forbid ? new RegExp(raw.forbid) : undefined;
+  const forbid = raw.forbid ? new RegExp(raw.forbid, "i") : undefined;
   const made = variantsFor(
     raw.text,
     raw.parts,

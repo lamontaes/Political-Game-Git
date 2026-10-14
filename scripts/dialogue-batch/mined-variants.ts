@@ -272,6 +272,9 @@ const STOP = new Set([
   "chair",
   "madam",
   "speaker",
+  "rise",
+  "today",
+  "briefly",
 ]);
 
 /**
@@ -285,7 +288,17 @@ export function saysTheSame(part: BankPart, other: BankPart): boolean {
   const broad = (part.uses ?? []).every(
     (use) => !use.choice || use.choice === use.role,
   );
-  if (!broad) return true;
+  if (!broad) {
+    // Same record, same choice: "I got married." never retells a birth.
+    const choices = new Set(
+      (part.uses ?? []).flatMap((use) =>
+        use.choice && use.choice !== use.role ? [use.choice] : [],
+      ),
+    );
+    return (other.uses ?? []).some(
+      (use) => !!use.choice && choices.has(use.choice),
+    );
+  }
   const mine = contentWords(part.text);
   if (!mine.size) return true;
   return [...contentWords(other.text)].some((word) => mine.has(word));
@@ -327,6 +340,16 @@ export function variantsFor(
     for (const other of sameMoment(part, all, minedMoment(moment))) {
       if (accept && !accept(other, part)) continue;
       if (!saysTheSame(part, other)) continue;
+      // The person addressed stays who they are: "Mr. Speaker" is never
+      // varied into "Madam Speaker" (batch 10).
+      const honorific = (text: string) =>
+        /^(Mr\.|Madam|Ms\.|Mrs\.)/.exec(text)?.[1];
+      if (
+        honorific(part.text) &&
+        honorific(other.text) &&
+        honorific(part.text) !== honorific(other.text)
+      )
+        continue;
       const partText = fill(other.text, found.values);
       if (partText === null) continue;
       const axis = axisOf(said, partText, sociability);

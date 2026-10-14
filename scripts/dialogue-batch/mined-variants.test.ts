@@ -44,6 +44,10 @@ describe("variants come from the mined bank, one axis each", () => {
         find("Please state your name for the record."),
       ),
     ).toBe(false);
+    // A record's choice is its event: a marriage never retells a birth.
+    expect(
+      saysTheSame(find("{relation} was born."), find("I got married.")),
+    ).toBe(false);
   });
 
   it("assigns one axis by its proxy", () => {
