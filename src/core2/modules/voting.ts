@@ -56,6 +56,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
 import { townDistrict } from "../offices-state";
+import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   announce,
   contestsOnDate,
@@ -114,6 +115,16 @@ import {
   rememberOpeningElectorate,
   type CandidateReasons,
 } from "../electorate-inputs";
+
+function electionsParameter(key: string): number {
+  const row = (
+    electionParameters as unknown as {
+      parameters: Record<string, { value: number }>;
+    }
+  ).parameters[key];
+  if (!row) throw new Error(`Unknown elections parameter: ${key}`);
+  return row.value;
+}
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-");
 
@@ -256,6 +267,8 @@ export const VOTING_MODULE: CoreModule = {
       countedBallots: {},
       /** Each named voter's record of election days: habit and carry. */
       turnout: {},
+      /** The town's polling places, one per precinct, and who works each. */
+      pollingPlaces: {},
       results: { indexes: { byContest: { fields: ["contestId"] } } },
       /** Each place's votes in a contest, counted coarsely. */
       places: { indexes: { byContest: { fields: ["contestId"] } } },
@@ -277,6 +290,7 @@ export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
   rememberOpeningElectorate(api);
+  pollingPlaces(api);
   // A vacancy's special election runs as a real race.
   registerSpecialElections((a, race) => {
     if (!a.state.modules.has(VOTING_MODULE_ID)) return false;
@@ -1532,6 +1546,140 @@ function secondElection(
     },
     sourceRecordIds: [next.id],
   });
+}
+
+/** Where a precinct's voters cast their ballots on election day, and who works it. */
+export interface PollingPlaceRow {
+  readonly id: string;
+  readonly placeId: string;
+  /** The precinct, numbered from 1 in the order of the town's households. */
+  readonly precinct: number;
+  readonly precincts: number;
+  /** The building: the town government's own, where the records hold one. */
+  readonly buildingId: string | null;
+  readonly kind: "government-building" | "unread";
+  /** Who works the polls on the day asked (read, never stored). */
+  readonly pollWorkers: {
+    readonly date: string;
+    readonly ids: readonly string[];
+  } | null;
+  readonly source: string;
+}
+
+const PLACES_SOURCE =
+  "EAC 2022 EAVS Data Brief (United States): 203,660,564 active registered voters, 94,793 voting locations and 645,219 poll workers";
+
+/**
+ * The town's polling places, one per precinct: as many as its registered
+ * voters need at the national count of voters per voting location, each in
+ * the town government's building where the records hold one.
+ */
+export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
+  const rows = table(api, "pollingPlaces");
+  if (rows.size)
+    return (rows.rows() as unknown as PollingPlaceRow[])
+      .slice()
+      .sort((a, b) => a.precinct - b.precinct);
+  const { townPlaceId } = town(api);
+  const voters =
+    (townAdults(api).length + countedAdultsToday(api)) * countedScale(api);
+  const precincts = Math.max(
+    1,
+    Math.ceil(voters / electionsParameter("votersPerVotingLocation")),
+  );
+  const core = api.state as CoreState;
+  const building =
+    [...core.organizations.values()]
+      .filter(
+        (o) =>
+          o.placeId === townPlaceId &&
+          ((o as { classification?: string }).classification?.startsWith(
+            "government:",
+          ) ||
+            o.kind === "government" ||
+            o.kind === "local-government"),
+      )
+      .map((o) => o.id)
+      .sort()[0] ?? null;
+  if (!building) {
+    // stopgapId: SG-GOV-polling-place-kind
+    api.stopgap("SG-GOV-polling-place-kind");
+  }
+  const out: PollingPlaceRow[] = [];
+  for (let precinct = 1; precinct <= precincts; precinct += 1) {
+    const row: PollingPlaceRow = {
+      id: `polling-place:${townPlaceId}:${precinct}`,
+      placeId: townPlaceId,
+      precinct,
+      precincts,
+      buildingId: building,
+      kind: building ? "government-building" : "unread",
+      pollWorkers: null,
+      source: PLACES_SOURCE,
+    };
+    rows.put(row as unknown as ModuleRow);
+    out.push(row);
+  }
+  return out;
+}
+
+/** The precinct a household votes in: its place in the order of the town's households. */
+function precinctOfHousehold(
+  api: CoreAPI,
+  householdId: string,
+  precincts: number,
+): number {
+  const homes = [
+    ...new Set(
+      townAdults(api).map(
+        (p) => (p as { householdId?: string }).householdId ?? p.id,
+      ),
+    ),
+  ].sort();
+  const index = Math.max(0, homes.indexOf(householdId));
+  return (
+    Math.min(precincts - 1, Math.floor((index * precincts) / homes.length)) + 1
+  );
+}
+
+/**
+ * A voter's polling place on an election day, with who works it that day
+ * (a reading of the records; nothing is written):
+ * the precinct's named adults who rank first by their own sense of duty, how
+ * closely they follow politics and the hours their work leaves free that
+ * day, as many as the national count of poll workers per voting location.
+ * Null for someone who doesn't live in town.
+ */
+export function pollingPlaceOf(
+  api: CoreAPI,
+  personId: string,
+  date: string,
+): PollingPlaceRow | null {
+  const person = api.state.people.get(personId);
+  const { townPlaceId } = town(api);
+  if (!person || person.placeId !== townPlaceId) return null;
+  const places = pollingPlaces(api);
+  if (!places.length) return null;
+  const home = (person as { householdId?: string }).householdId ?? person.id;
+  const place = places[precinctOfHousehold(api, home, places.length) - 1]!;
+  const precinctOf = new Map<string, number>();
+  const ranked = townAdults(api)
+    .filter((p) => {
+      const h = (p as { householdId?: string }).householdId ?? p.id;
+      if (!precinctOf.has(h))
+        precinctOf.set(h, precinctOfHousehold(api, h, places.length));
+      return (
+        precinctOf.get(h) === place.precinct && !barredFromVoting(api, p.id)
+      );
+    })
+    .map((p) => {
+      const { duty, cost } = turnoutReasons(api, p, undefined, 0);
+      return { id: p.id, score: duty - cost };
+    })
+    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+    .slice(0, Math.round(electionsParameter("pollWorkersPerVotingLocation")));
+  // Read only: who works it is the reading of the records on the day asked.
+  return { ...place, pollWorkers: { date, ids: ranked.map((r) => r.id) } };
 }
 
 /**

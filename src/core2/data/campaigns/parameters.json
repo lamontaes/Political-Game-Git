@@ -713,6 +713,42 @@
       "source": "How many people a campaign asks for money in one turn, by call or in person: call time runs a few hours a session at roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides).",
       "spread": [10, 100]
     },
+    "playerCanvassHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Hours the player's campaign day spends on one canvassing shift: volunteer shifts run two to three hours (Green and Gerber, Get Out the Vote, 2019).",
+      "spread": [2, 4]
+    },
+    "playerEventHours": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Hours an evening event takes the candidate, setup and the room together. Checked against the evening venue rental in campaign-unit-prices (an evening).",
+      "spread": [2, 5]
+    },
+    "playerInterviewHours": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Hours one press interview takes the candidate, the travel and the talk. Checked against the press desk's one interview per reporter slot.",
+      "spread": [0.5, 2]
+    },
+    "playerCallTimeHours": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "Hours of one fundraising call-time session: a few hours a session (campaign fundraising manuals; Wellstone Action's training guides), the same session donorAsksPerTurn counts.",
+      "spread": [2, 4]
+    },
+    "playerAsksPerCallHour": {
+      "value": 10,
+      "tag": "TUNABLE",
+      "source": "People the player asks for money in one hour of call time, by call or in person: roughly ten calls an hour (campaign fundraising manuals; Wellstone Action's training guides), so a three-hour session matches donorAsksPerTurn.",
+      "spread": [5, 20]
+    },
+    "playerRestHours": {
+      "value": 8,
+      "tag": "TUNABLE",
+      "source": "Hours a rest choice sets aside from the campaign day. Nothing is recorded as activity time for it: the day's other time belongs to the player's own routine.",
+      "spread": [4, 12]
+    },
     "donorPartyWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
@@ -904,6 +940,30 @@
       "tag": "TUNABLE",
       "source": "How far a named voter's ballot may run against their own recorded view (the views engine's lean over its maximum, 0 to 1) before it must carry a recorded reason that outweighs the view: 0.5 is the views engine's 'liberal' or 'conservative' label (lean ±1 of ±2). Read by the ballot checks (PW-3); the ballot itself weighs the view, never this number.",
       "spread": [0.25, 0.75]
+    },
+    "speechOpeningParts": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A stump speech opens with one move (greeting, thanks or why they are running), the exordium of classical oratory (Cicero, De Inventione I.20) and the opening of a modern campaign speech.",
+      "spread": [1, 2]
+    },
+    "speechBodyParts": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "A stump speech makes a few points rather than many (the rule of three in political speechwriting; Atkinson 1984, 'Our Masters' Voices', on three-part lists as the applause-eliciting unit).",
+      "spread": [2, 5]
+    },
+    "speechClosingParts": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "A stump speech ends with one closing move (an ask for the vote, a thank you or a pledge), the peroration of classical oratory (Cicero, De Inventione I.52).",
+      "spread": [1, 2]
+    },
+    "speechOffersPerStep": {
+      "value": 4,
+      "tag": "SOURCED",
+      "source": "Owner ruling, Oct 14, 2026: a speech is composed one part at a time from four offered parts, as in Suzerain.",
+      "spread": [4, 4]
     }
   }
 }

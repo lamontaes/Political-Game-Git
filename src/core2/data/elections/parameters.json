@@ -1,6 +1,18 @@
 {
   "about": "Numbers the elections calendar and law code use, each tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Read by src/core2/elections-calendar.ts and src/core2/election-ties.ts.",
   "parameters": {
+    "votersPerVotingLocation": {
+      "value": 2148,
+      "tag": "SOURCED",
+      "source": "Active registered voters per voting location in the November 2022 general election: 203,660,564 active registered voters over 94,793 voting locations (U.S. Election Assistance Commission, 2022 Election Administration and Voting Survey Data Brief, United States). Sizes how many precincts' polling places a town has.",
+      "spread": [1500, 3000]
+    },
+    "pollWorkersPerVotingLocation": {
+      "value": 6.8,
+      "tag": "SOURCED",
+      "source": "Poll workers per voting location in the November 2022 general election: 645,219 poll workers over 94,793 voting locations (U.S. Election Assistance Commission, 2022 Election Administration and Voting Survey Data Brief, United States).",
+      "spread": [4, 10]
+    },
     "specialElectionDaysEstimate": {
       "value": 90,
       "tag": "ESTIMATED",

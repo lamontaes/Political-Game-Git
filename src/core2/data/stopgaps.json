@@ -1781,6 +1781,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-polling-place-kind",
+    "kind": "missing-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 1604,
+    "whatItFakes": "Where the town's records hold no government building, its polling places have no building and a kind of \"unread\"; where they hold one, every precinct votes in it.",
+    "why": "Polling place facility types (schools, churches, community centers, government buildings) by state are not read yet; the EAVS national brief reports the count of voting locations, not their kinds.",
+    "addedBy": "OPUS-GOV-ELECTIONS",
+    "addedAt": "2026-10-14",
+    "replacement": "Each state's polling place facility types from the EAC's full EAVS dataset and the town's own buildings of those kinds (its schools, churches and halls) as recorded places, one per precinct.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-B-road-condition",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
