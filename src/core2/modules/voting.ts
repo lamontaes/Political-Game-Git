@@ -361,13 +361,18 @@ function candidateFacts(api: CoreAPI, filing: FilingRow, contest: ContestRow) {
   const platform: readonly Stance[] = campaign
     ? (campaign as unknown as { platform: Stance[] }).platform
     : parsePlatform(filing.platform);
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
-  const isIncumbent = incumbent?.personId === filing.personId;
+  // Whoever holds the seat on election day, an appointee included.
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const incumbent =
+    (terms.query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
+      TermRow | undefined) ??
+    (contest.incumbentTermId
+      ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      : undefined);
+  const isIncumbent =
+    !!incumbent &&
+    (incumbent.personId ?? officialCandidateId(incumbent.id)) ===
+      filing.personId;
   return { platform, party: filing.party ?? null, isIncumbent };
 }
 
