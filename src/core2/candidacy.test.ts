@@ -93,7 +93,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     });
     api.updateDrive(near.personId, {
       id: "fixture-drive",
-      kind: "civic",
+      kind: "cause",
       sourceEventId: "fixture-road-closed",
       topic: "fixture:roads",
       desiredChange: "repair",
@@ -102,6 +102,42 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
     const again = decideToRun(api, near.personId, contest("b"))!;
     expect(again.reasons.cause).toBeGreaterThan(near.reasons.cause!);
     expect(again.run).toBe(true);
+  });
+
+  it("gives a grudge or family drive no push to file, and a cause drive one", () => {
+    const person = adults.find((row) => row.drives.size === 0)!;
+    applyCoreEvent(core, {
+      id: "fixture-kinds-event",
+      date: core.date,
+      kind: "fixture.kinds",
+      personIds: [person.id],
+      placeId: person.placeId,
+      topic: "fixture:kinds",
+      desiredChange: "repair",
+      source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+    });
+    const base = candidacyReasons(api, person, contest("kinds")).cause!;
+    for (const kind of ["grudge", "protect-family", "status-ambition"])
+      api.updateDrive(person.id, {
+        id: `fixture-${kind}`,
+        kind,
+        sourceEventId: "fixture-kinds-event",
+        topic: "fixture:kinds",
+        desiredChange: "repair",
+        strength: 1,
+      });
+    expect(candidacyReasons(api, person, contest("kinds")).cause).toBe(base);
+    api.updateDrive(person.id, {
+      id: "fixture-cause-kind",
+      kind: "cause",
+      sourceEventId: "fixture-kinds-event",
+      topic: "fixture:kinds",
+      desiredChange: "repair",
+      strength: 1,
+    });
+    expect(
+      candidacyReasons(api, person, contest("kinds")).cause,
+    ).toBeGreaterThan(base);
   });
 
   it("has most incumbents run again, as about 81% really do", () => {

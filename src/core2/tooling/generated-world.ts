@@ -17,7 +17,6 @@ import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
 import { collapseToTwoLevels, fullPeople } from "../residents";
-import { withCountedVoterGroups } from "../opening-voter-groups";
 import { addOutsideMarket } from "../opening-outside-market";
 import { parameter } from "../parameters";
 import { gameStartDate } from "../game-start";
@@ -220,10 +219,9 @@ function buildOpening(
   releaseRecentHistory();
   forgetLastValidatedWorld();
   if (!keep) return input;
-  const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }), {
-    leanShift: settings.politics?.leanShift ?? 0,
-    turnout: settings.politics?.turnout ?? 1,
-  });
+  // The politics settings stay in worldSettings: the town's lean and the
+  // cost of voting read them (electorate-inputs.ts customPolitics).
+  const two = collapseToTwoLevels(input, { keep });
   return { ...two, residents: { ...two.residents!, cohortSizes } };
 }
 

@@ -25,11 +25,9 @@ import data from "../data/counted-drift.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { drawCohortGivenName } from "../gov-rules/given-name-cohorts";
-import { countedVoterGroupId } from "../opening-voter-groups";
 import { stateOfPlaceKey } from "../places";
 import type { ResidentHouseholdRecord } from "../residents";
 import { endCountedJob, endFlowPart } from "../residents-economy";
-import { voterGroups } from "../voter-groups";
 import { RENEWAL_MODULE_ID } from "./renewal";
 import { ownMap, residentsRuntime } from "./residents";
 import type {
@@ -131,19 +129,7 @@ function liveJobsByPerson(core: CoreState): Map<PersonId, string[]> {
   return out;
 }
 
-const shiftVoterGroup = (
-  core: CoreState,
-  placeId: PlaceId,
-  person: PersonInput,
-  by: number,
-) => {
-  const group = countedVoterGroupId(placeId, person.birthDate, core.date);
-  const groups = voterGroups(core);
-  const row = group ? groups.get(group) : undefined;
-  if (row && row.size + by >= 0) groups.put({ ...row, size: row.size + by });
-};
-
-/** A counted person's work, retirement income and voter-group place end. */
+/** A counted person's work and retirement income end. */
 function endPersonsTies(
   month: Month,
   placeId: PlaceId,
@@ -160,7 +146,6 @@ function endPersonsTies(
       ending.add(contract.id);
   const claim = `retirement-claim:${person.id}`;
   if (rt.flows.has(claim)) endFlowPart(core, claim, claim);
-  shiftVoterGroup(core, placeId, person, -1);
   rt.householdOfPerson.delete(person.id);
 }
 
@@ -466,10 +451,8 @@ function moveHousehold(
       pastFacts: [],
     };
   });
-  for (const person of newcomers) {
+  for (const person of newcomers)
     rt.householdOfPerson.set(person.id, householdId);
-    shiftVoterGroup(core, place, person, 1);
-  }
   rt.households.set(householdId, {
     ...record,
     household: {

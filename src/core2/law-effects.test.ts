@@ -152,7 +152,7 @@ describe("M3-04 laws change specific people's records", () => {
     }
     expect(
       passed,
-      "no council passed any catalogued policy in twenty towns",
+      "no council passed any cataloged policy in twenty towns",
     ).not.toBeNull();
     govReport("law-effects", JSON.stringify(report));
   });
