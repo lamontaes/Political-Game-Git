@@ -122,9 +122,13 @@ for (;;) {
   };
   let broughtUp: string | null = null;
   let filed: string | null = null;
-  // On day 90, between races, each seated resident asks each town outlet for
-  // an interview; the outlet decides by its reads.
-  const asksOn = addDays(makeIsoDate(start), 90);
+  let filingId: string | null = null;
+  // From day 90, between races, the seated people who live in town ask each
+  // town outlet for an interview, one a week; the outlet decides by its
+  // reads. The player, once filed, asks on day 60 with the filing.
+  const asksFrom = addDays(makeIsoDate(start), 90);
+  const playerAsks = addDays(makeIsoDate(start), 60);
+  let asked = 0;
   const asks: string[] = [];
   const t1 = Date.now();
   for (let day = core.date; day < end;) {
@@ -141,31 +145,59 @@ for (;;) {
         });
         if (result.status !== "refused") {
           filed = `${core.date}: the player filed for ${contest.id} (${result.filing.id})`;
+          filingId = result.filing.id;
           break;
         }
       }
-    if (core.date === asksOn)
-      for (const { holder } of townSeats(api)) {
-        const id = holder?.personId;
-        if (!id || !core.people.get(id)?.alive) continue;
-        const speaker = officeholderSpeaker(api, id);
-        if (!speaker) continue;
-        for (const o of outletsHere(api).filter((x) => x.tier !== "national")) {
-          let row = requestInterview(api, { outletId: o.id, personId: id });
-          const why = row.interest
-            ? `worth ${row.interest.worth.toFixed(2)}, editor ${row.interest.head.toFixed(2)}, owner ${row.interest.owner.toFixed(2)}, readers ${row.interest.readers.toFixed(2)}`
-            : "";
-          if (row.status === "invited")
-            row = answerInterview(
-              api,
-              row.id,
-              candidateAnswers(api, row.questions, speaker),
-            );
-          asks.push(
-            `${row.id}: ${name(core, id)} (${id}) asked ${core.organizations.get(o.organizationId)?.name}: ${row.status}${row.reason ? ` (${row.reason})` : ""}; ${why}; questions ${row.questions.join(", ")}; story ${row.storyId ?? "none"}, reached ${row.audience}`,
+    const local = () => outletsHere(api).filter((x) => x.tier !== "national");
+    const ask = (
+      id: string,
+      input: { filingId?: string; personId?: string },
+      speaker: Parameters<typeof candidateAnswers>[2],
+    ) => {
+      for (const o of local()) {
+        let row = requestInterview(api, { outletId: o.id, ...input });
+        const why = row.interest
+          ? `worth ${row.interest.worth.toFixed(2)}, editor ${row.interest.head.toFixed(2)}, owner ${row.interest.owner.toFixed(2)}, readers ${row.interest.readers.toFixed(2)}`
+          : "";
+        if (row.status === "invited" && id !== playerId)
+          row = answerInterview(
+            api,
+            row.id,
+            candidateAnswers(api, row.questions, speaker),
           );
-        }
+        asks.push(
+          `${core.date} ${row.id}: ${name(core, id)} (${id}) asked ${core.organizations.get(o.organizationId)?.name}: ${row.status}${row.reason ? ` (${row.reason})` : ""}; ${why}; questions ${row.questions.join(", ")}; story ${row.storyId ?? "none"}, reached ${row.audience}`,
+        );
       }
+    };
+    if (core.date === playerAsks && filingId) {
+      const filing = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(filingId) as unknown as Parameters<typeof candidateAnswers>[2];
+      ask(playerId, { filingId }, filing);
+    }
+    if (
+      core.date >= asksFrom &&
+      (Date.parse(core.date) - Date.parse(asksFrom)) % (7 * 86_400_000) === 0
+    ) {
+      const holders = townSeats(api)
+        .map((s) => s.holder?.personId)
+        .filter(
+          (id): id is string =>
+            !!id &&
+            id !== playerId &&
+            core.people.get(id)?.alive === true &&
+            core.people.get(id)?.placeId === world.placeId,
+        );
+      const id = holders[asked];
+      const speaker = id ? officeholderSpeaker(api, id) : null;
+      if (id && speaker && asked < 6) {
+        asked += 1;
+        ask(id, { personId: id }, speaker);
+      }
+    }
     if (broughtUp) continue;
     for (const id of circle()) {
       const change = changesKnownTo(core, id, data as never)[0];
@@ -290,7 +322,7 @@ for (;;) {
   );
   for (const e of examples) console.log(`- ${e}`);
   // Owners: a story whose framing the owner's regard turned most.
-  console.log(`\n## Officeholders who asked (${asksOn})`);
+  console.log(`\n## Asked for an interview`);
   for (const line of asks) console.log(`- ${line}`);
   console.log(`\n## Owners`);
   console.log(filed ?? "The player filed for no race.");
