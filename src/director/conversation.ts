@@ -645,7 +645,7 @@ function fitAbout(
   return moves.filter((move) => {
     if (move.pronoun && (!about || move.pronoun !== pronoun)) return false;
     const named = [...move.text.matchAll(RELATION_IN_TEXT)]
-      .map((match) => match[1]!.toLowerCase())
+      .map((match) => match[one]!.toLowerCase())
       .filter(
         (word) => RELATION_WORDS.has(word) || /^(?:wife|husband)$/.test(word),
       );

@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
-import { enrichCivicInputs } from "../../src/core2/civic-inputs";
-import { buildDeepPast } from "../../src/core2/deep-past";
-import { initialFocusPeople } from "../../src/core2/focus";
-import { advanceCore, createLifeCore } from "../../src/core2/life";
-import { buildPopulation } from "../../src/core2/population";
-import { applyCoreEvent } from "../../src/core2/state";
-import { bringItUp } from "../../src/director/bring-it-up";
-import { createDirector } from "../../src/director/ledger";
-import { composeScene } from "../../src/director/scene";
+import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { enrichCivicInputs } from "../../core2/civic-inputs";
+import { buildDeepPast } from "../../core2/deep-past";
+import { initialFocusPeople } from "../../core2/focus";
+import { advanceCore, createLifeCore } from "../../core2/life";
+import { buildPopulation } from "../../core2/population";
+import { applyCoreEvent } from "../../core2/state";
+import { bringItUp } from "../bring-it-up";
+import { createDirector } from "../ledger";
+import { composeScene } from "../scene";
 import {
   BRING_BANK,
   bringDataFromBank,

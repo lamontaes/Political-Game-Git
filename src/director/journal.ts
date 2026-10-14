@@ -15,10 +15,9 @@ import {
   type GroundedEnglishPacket,
   type GroundedEnglishKnowledge,
 } from "../presentation/grounded-english";
-import journalJson from "./data/journal.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { properName } from "./words";
-import { directorStopgap } from "./stopgaps";
+import { journalDataFromBank } from "./mined/journal-bank";
 import type { Moment } from "./types";
 
 const zero = P.zero;
@@ -46,9 +45,44 @@ interface LineRow {
   oncePer?: string;
 }
 
+/** A journal row's structure before the mined bank words it. */
+export interface RowShape {
+  kindPrefix: string;
+  turn: boolean;
+  eventFacts?: LineRow["eventFacts"];
+  title?: LineRow["title"];
+  selfWhenNamed?: boolean;
+  sameDay?: string;
+  oncePer?: string;
+  /** The mined target whose sentences word this row, when it is not the row's own kind. */
+  wordsFrom?: string;
+  /** The row also has a line for someone else's moment. */
+  hasOtherLine?: boolean;
+  /** The row folds repeats into one line. */
+  hasRepeatLine?: boolean;
+  /** The row has a line for a group the person was part of ("we"). */
+  hasGroupLine?: boolean;
+}
+
+/** `data/journal-rows.json`: the journal's structure, holding no sentences. */
+export interface JournalRows {
+  version: string;
+  relationWords: JournalData["relationWords"];
+  possessive: JournalData["possessive"];
+  possessivePronoun: JournalData["possessivePronoun"];
+  countWords: JournalData["countWords"];
+  manyTimes: string;
+  lines: readonly RowShape[];
+  firstTitle: JournalData["firstTitle"];
+  backdropLines?: readonly {
+    kind: string;
+    stageFact: string;
+    stages: readonly string[];
+  }[];
+}
+
 export interface JournalData {
   version: string;
-  stopgapId: string;
   relationWords: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The possessive each surface names relatives with ("my", "your"). */
   possessive: Readonly<Record<string, string>>;
@@ -58,7 +92,6 @@ export interface JournalData {
   manyTimes: string;
   lines: readonly LineRow[];
   firstTitle: readonly { key: string; text: string }[];
-  lookBack: { died: readonly { key: string; text: string }[] };
   /** Broad events that reached the person, written as lines in their story. */
   backdropLines?: readonly {
     kind: string;
@@ -67,7 +100,8 @@ export interface JournalData {
   }[];
 }
 
-export const JOURNAL_DATA = journalJson as JournalData;
+/** The journal's default data: its structure with the mined bank's sentences. */
+export const JOURNAL_DATA: JournalData = journalDataFromBank();
 
 export interface JournalLine {
   id: string;
@@ -130,7 +164,6 @@ export function composeJournal(
   const person = core.people.get(personId);
   const book = director.ledger.people.get(personId);
   if (!person || !book) return [];
-  directorStopgap(data.stopgapId, director.ledger.stopgapHits);
   const kin = relatives(person);
   const named = new Set<PersonId>();
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
@@ -475,7 +508,8 @@ export function composeJournal(
 
 /**
  * The look-back when a life ends (owner, Sept 28): each chapter's opening
- * line, in order, then the death itself, all from the same records.
+ * line, in order, from the same records. The death itself is not worded: no
+ * mined sentence says it from these records, so it is left out.
  */
 export function composeLookBack(
   core: Readonly<CoreState>,
@@ -488,46 +522,5 @@ export function composeLookBack(
   const lines = composeJournal(core, director, personId, { data }).map(
     (chapter) => chapter.lines[zero]!,
   );
-  const place = lifePlaceByJurisdictionId(person.placeId as never);
-  const years = String(
-    Number(core.date.slice(zero, core.date.indexOf("-"))) -
-      Number(person.birthDate.slice(zero, person.birthDate.indexOf("-"))) -
-      (core.date.slice(core.date.indexOf("-")) <
-      person.birthDate.slice(person.birthDate.indexOf("-"))
-        ? one
-        : zero),
-  );
-  if (place) {
-    const facts = {
-      place: { text: place.displayName, sourceRecordIds: [person.placeId] },
-      age: { text: years, sourceRecordIds: [person.id] },
-    };
-    const result = renderGroundedEnglish(
-      {
-        surface: "journal",
-        momentKey: `${personId}:look-back`,
-        worldSeed: core.seed,
-        bankVersion: data.version,
-        stage: "journal",
-        sourceRecordIds: [person.id],
-        facts,
-        viewer: { personId, traits: {} },
-        knowledge: Object.entries(facts).map(([factKey, fact]) => ({
-          personId,
-          factKey,
-          sourceRecordIds: fact.sourceRecordIds,
-        })),
-      } as unknown as GroundedEnglishPacket,
-      bank("journal-look-back", data.lookBack.died, data.version),
-    );
-    if (result.kind === "rendered")
-      lines.push({
-        id: `${personId}:look-back`,
-        date: core.date,
-        text: result.text,
-        momentIds: [],
-        sourceRecordIds: result.sourceRecordIds as unknown as string[],
-      });
-  }
   return lines;
 }
