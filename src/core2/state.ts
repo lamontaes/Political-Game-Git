@@ -562,6 +562,18 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   return actor;
 }
 
+const linkRemovals = new WeakMap<object, number>();
+const zeroCount = 0;
+const oneCount = 1;
+/**
+ * How many family links have been removed in this world (a partnership
+ * ended): with the number of links, it tells a cache of the links when it
+ * is stale, since a removal and an addition leave the count the same.
+ */
+export function familyLinkRemovals(core: object): number {
+  return linkRemovals.get(core) ?? zeroCount;
+}
+
 export function registerModule(core: CoreState, module: CoreModule): void {
   if (!module.id.trim()) throw new Error("Module identity is empty.");
   const preparedState = prepareModuleState(module);
@@ -832,6 +844,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!link || people.some((person) => !person?.alive) || !sourceId.trim())
         throw new Error("Only two living partners can part.");
       core.familyLinks.delete(link.id);
+      linkRemovals.set(core, (linkRemovals.get(core) ?? zeroCount) + oneCount);
       for (const [self, other] of [
         [people[0]!, people[1]!],
         [people[1]!, people[0]!],

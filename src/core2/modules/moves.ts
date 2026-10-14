@@ -18,6 +18,7 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
+import { familyLinkRemovals } from "../state";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { stableHash } from "../../simulation/ids";
 import {
@@ -169,18 +170,23 @@ interface Kin {
   children: Map<PersonId, PersonId[]>;
   partner: Map<PersonId, PersonId>;
   size: number;
+  removals: number;
 }
 const kinCache = new WeakMap<CoreState, Kin>();
 
 /** Parents, children and partners from the family links, rebuilt when links change. */
 function kinOf(core: CoreState): Kin {
   const held = kinCache.get(core);
-  if (held && held.size === core.familyLinks.size) return held;
+  const removals = familyLinkRemovals(core);
+  // A parting and a new couple in between leave the count the same.
+  if (held && held.size === core.familyLinks.size && held.removals === removals)
+    return held;
   const kin: Kin = {
     parents: new Map(),
     children: new Map(),
     partner: new Map(),
     size: core.familyLinks.size,
+    removals,
   };
   for (const link of core.familyLinks.values()) {
     const [a, b] = link.personIds;
