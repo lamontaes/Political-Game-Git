@@ -20,7 +20,7 @@
       {
         "id": "house:agriculture",
         "name": "Committee on Agriculture",
-        "engineCommittee": "general",
+        "engineCommittee": "environment",
         "questions": [
           "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
           "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal"
@@ -195,7 +195,7 @@
       {
         "id": "house:armed-services",
         "name": "Committee on Armed Services",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": [
@@ -251,7 +251,7 @@
       {
         "id": "house:education-and-workforce",
         "name": "Committee on Education and Workforce",
-        "engineCommittee": "labor",
+        "engineCommittee": "education",
         "questions": [
           "us-policy-positions:education.universal-preschool",
           "us-policy-positions:education.public-funds-for-private-schooling",
@@ -312,7 +312,7 @@
       {
         "id": "house:energy-and-commerce",
         "name": "Committee on Energy and Commerce",
-        "engineCommittee": "general",
+        "engineCommittee": "environment",
         "questions": [
           "us-policy-positions:environment-energy.ban-new-gas-hookups",
           "us-policy-positions:environment-energy.bottle-deposit",
@@ -389,7 +389,7 @@
       {
         "id": "house:ethics",
         "name": "Committee on Ethics",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": []
@@ -397,7 +397,7 @@
       {
         "id": "house:financial-services",
         "name": "Committee on Financial Services",
-        "engineCommittee": "finance",
+        "engineCommittee": "labor-commerce",
         "questions": [
           "us-policy-positions:business-commerce.cap-consumer-loan-rates",
           "us-policy-positions:housing-land-use.rent-stabilization",
@@ -451,7 +451,7 @@
       {
         "id": "house:foreign-affairs",
         "name": "Committee on Foreign Affairs",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": [
@@ -495,7 +495,7 @@
       {
         "id": "house:homeland-security",
         "name": "Committee on Homeland Security",
-        "engineCommittee": "general",
+        "engineCommittee": "judiciary",
         "questions": [
           "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
         ],
@@ -538,7 +538,7 @@
       {
         "id": "house:house-administration",
         "name": "Committee on House Administration",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [
           "us-policy-positions:government-operations.require-photo-id-to-vote",
           "us-policy-positions:government-operations.automatic-voter-registration",
@@ -571,7 +571,7 @@
       {
         "id": "house:judiciary",
         "name": "Committee on the Judiciary",
-        "engineCommittee": "general",
+        "engineCommittee": "judiciary",
         "questions": [
           "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
           "us-policy-positions:justice-public-safety.end-cash-bail",
@@ -644,7 +644,7 @@
       {
         "id": "house:natural-resources",
         "name": "Committee on Natural Resources",
-        "engineCommittee": "general",
+        "engineCommittee": "judiciary",
         "questions": [
           "us-policy-positions:civil-family-community.dedicated-parks-funding",
           "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal"
@@ -683,7 +683,7 @@
       {
         "id": "house:oversight-and-government-reform",
         "name": "Committee on Oversight and Government Reform",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [
           "us-policy-positions:government-operations.broaden-local-authority",
           "us-policy-positions:government-operations.ban-lobbying-after-office"
@@ -733,7 +733,7 @@
       {
         "id": "house:rules",
         "name": "Committee on the Rules",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": [
@@ -752,7 +752,7 @@
       {
         "id": "house:science-space-and-technology",
         "name": "Committee on Science, Space, and Technology",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": [
@@ -786,7 +786,7 @@
       {
         "id": "house:small-business",
         "name": "Committee on Small Business",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": [
@@ -820,7 +820,7 @@
       {
         "id": "house:transportation-and-infrastructure",
         "name": "Committee on Transportation and Infrastructure",
-        "engineCommittee": "general",
+        "engineCommittee": "transportation",
         "questions": [
           "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
           "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
@@ -880,7 +880,7 @@
       {
         "id": "house:veterans-affairs",
         "name": "Committee on Veterans' Affairs",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "clerk",
         "subcommittees": [
@@ -1096,7 +1096,7 @@
       {
         "id": "senate:agriculture-nutrition-and-forestry",
         "name": "Committee on Agriculture, Nutrition, and Forestry",
-        "engineCommittee": "general",
+        "engineCommittee": "environment",
         "questions": [
           "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
           "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal"
@@ -1142,7 +1142,7 @@
       {
         "id": "senate:special-committee-on-aging",
         "name": "Special Committee on Aging",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": []
@@ -1150,7 +1150,7 @@
       {
         "id": "senate:armed-services",
         "name": "Committee on Armed Services",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": [
@@ -1194,7 +1194,7 @@
       {
         "id": "senate:banking-housing-and-urban-affairs",
         "name": "Committee on Banking, Housing, and Urban Affairs",
-        "engineCommittee": "finance",
+        "engineCommittee": "labor-commerce",
         "questions": [
           "us-policy-positions:business-commerce.cap-consumer-loan-rates",
           "us-policy-positions:housing-land-use.rent-stabilization",
@@ -1258,7 +1258,7 @@
       {
         "id": "senate:commerce-science-and-transportation",
         "name": "Committee on Commerce, Science, and Transportation",
-        "engineCommittee": "general",
+        "engineCommittee": "labor-commerce",
         "questions": [
           "us-policy-positions:technology-privacy.consumer-data-privacy-law",
           "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
@@ -1324,7 +1324,7 @@
       {
         "id": "senate:energy-and-natural-resources",
         "name": "Committee on Energy and Natural Resources",
-        "engineCommittee": "general",
+        "engineCommittee": "judiciary",
         "questions": [
           "us-policy-positions:civil-family-community.dedicated-parks-funding",
           "us-policy-positions:environment-energy.clean-electricity-standard",
@@ -1369,7 +1369,7 @@
       {
         "id": "senate:environment-and-public-works",
         "name": "Committee on Environment and Public Works",
-        "engineCommittee": "general",
+        "engineCommittee": "environment",
         "questions": [
           "us-policy-positions:environment-energy.ban-new-gas-hookups",
           "us-policy-positions:environment-energy.bottle-deposit",
@@ -1486,7 +1486,7 @@
       {
         "id": "senate:foreign-relations",
         "name": "Committee on Foreign Relations",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": [
@@ -1530,7 +1530,7 @@
       {
         "id": "senate:homeland-security-and-governmental-affairs",
         "name": "Committee on Homeland Security and Governmental Affairs",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [
           "us-policy-positions:government-operations.broaden-local-authority",
           "us-policy-positions:government-operations.ban-lobbying-after-office",
@@ -1560,7 +1560,7 @@
       {
         "id": "senate:health-education-labor-and-pensions",
         "name": "Committee on Health, Education, Labor, and Pensions",
-        "engineCommittee": "labor",
+        "engineCommittee": "education",
         "questions": [
           "us-policy-positions:education.universal-preschool",
           "us-policy-positions:education.public-funds-for-private-schooling",
@@ -1613,7 +1613,7 @@
       {
         "id": "senate:judiciary",
         "name": "Committee on Judiciary",
-        "engineCommittee": "general",
+        "engineCommittee": "judiciary",
         "questions": [
           "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
           "us-policy-positions:justice-public-safety.end-cash-bail",
@@ -1701,7 +1701,7 @@
       {
         "id": "senate:rules-and-administration",
         "name": "Committee on Rules and Administration",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [
           "us-policy-positions:government-operations.require-photo-id-to-vote",
           "us-policy-positions:government-operations.automatic-voter-registration",
@@ -1716,7 +1716,7 @@
       {
         "id": "senate:small-business-and-entrepreneurship",
         "name": "Committee on Small Business and Entrepreneurship",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": []
@@ -1724,7 +1724,7 @@
       {
         "id": "senate:veterans-affairs",
         "name": "Committee on Veterans' Affairs",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": []
@@ -1732,7 +1732,7 @@
       {
         "id": "senate:select-committee-on-intelligence",
         "name": "Select Committee on Intelligence",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": []
@@ -1740,7 +1740,7 @@
       {
         "id": "senate:indian-affairs",
         "name": "Committee on Indian Affairs",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": []
@@ -1748,7 +1748,7 @@
       {
         "id": "senate:select-committee-on-ethics",
         "name": "Select Committee on Ethics",
-        "engineCommittee": "general",
+        "engineCommittee": "government",
         "questions": [],
         "sourceId": "senate",
         "subcommittees": []
