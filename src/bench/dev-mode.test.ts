@@ -11,6 +11,7 @@ import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { lawInForce } from "../core2/modules/laws";
 import { BenchPlayer } from "./player";
+import { residentsRuntime } from "../core2/modules/residents";
 import { DevMode, devModeMarks } from "./dev-mode";
 
 const seed = process.env.DEV_MODE_SEED ?? randomBytes(8).toString("hex");
@@ -42,7 +43,8 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
     const floor = lawInForce(api, "minimum-wage").value ?? 0;
     const value = floor + 1000;
     const { law, reach } = dev.setLaw({
-      level: "city",
+      // The state level always counts; a place's floor needs the state's leave.
+      level: "state",
       series: "minimum-wage",
       value,
     });
@@ -83,9 +85,16 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
       raised: { jobId: string; toMinor: number }[];
     };
     expect(floor.covered).toBe(before.publicJobs);
+    // A full job records the change; a counted job's wage flow pays it.
+    const rt = residentsRuntime(core);
     for (const { jobId, toMinor } of floor.raised) {
-      const changes = core.work.payChanges.get(jobId) ?? [];
-      expect(changes.at(-1)?.hourlyMinor).toBe(toMinor);
+      const job = core.jobs.get(jobId) ?? rt?.jobs.get(jobId);
+      expect(job?.hourlyMinor).toBe(toMinor);
+      if (core.jobs.has(jobId))
+        expect(core.work.payChanges.get(jobId)?.at(-1)?.hourlyMinor).toBe(
+          toMinor,
+        );
+      else expect(rt?.wageFlowByJob.get(jobId)?.endedAt).toBeUndefined();
     }
     const end = new Date(`${core.date}T00:00:00Z`);
     end.setUTCMonth(end.getUTCMonth() + 1);

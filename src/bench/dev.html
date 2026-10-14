@@ -159,6 +159,29 @@
       .kv > span:first-child {
         color: var(--text-3);
       }
+      .node {
+        margin: 4px 0 4px 14px;
+        border-left: 1px solid rgba(156, 131, 80, 0.35);
+        padding-left: 10px;
+      }
+      .node .via {
+        color: var(--text-3);
+        margin-right: 8px;
+      }
+      .node .kind {
+        font: 600 10.5px var(--ui);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-right: 8px;
+      }
+      .node.learned > .head .kind {
+        color: #b9c2c9;
+      }
+      .node.on > .head .id {
+        color: #fff;
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+      }
       .error {
         color: #ffc9bd;
       }
@@ -276,7 +299,9 @@
             Trace
           </button>
           <button id="person-go" class="action" type="button">Person</button>
+          <button id="trace-report" class="action" type="button">Report</button>
         </div>
+        <div id="trace-chain" class="when"></div>
         <div id="trace-result"></div>
       </section>
 

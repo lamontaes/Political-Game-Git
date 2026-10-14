@@ -247,39 +247,46 @@ export class DevMode {
     return {
       date,
       levels: chain.levels,
-      series: lawSeriesCatalog(api).map((series) => ({
-        series,
-        doctrine: LAW_SERIES[series] ?? null,
-        combined: LAW_SERIES[series]
-          ? lawInForce(api, series, date).value
-          : null,
-        levels: chain.levels.map(({ level, jurisdiction }) => {
-          const rows = table.query("bySeries", [
-            jurisdiction,
-            series,
-          ]) as unknown as LawRowInput[];
-          const row = levelRow(rows, date);
-          return {
-            level,
-            jurisdiction,
-            row: row && {
-              id: row.id,
-              value: row.value,
-              unit: row.unit ?? null,
-              effectiveDate: row.effectiveDate,
-              estimate: row.estimate,
-              devMode: row.terms?.provenance === DEV_MODE,
-            },
-            pending: rows
-              .filter((r) => r.effectiveDate > date)
-              .map((r) => ({
-                id: r.id,
-                value: r.value,
-                effectiveDate: r.effectiveDate,
-              })),
-          };
-        }),
-      })),
+      series: lawSeriesCatalog(api).map((series) => {
+        const answer = LAW_SERIES[series]
+          ? lawInForce(api, series, date)
+          : undefined;
+        return {
+          series,
+          doctrine: LAW_SERIES[series] ?? null,
+          combined: answer?.value ?? null,
+          levels: chain.levels.map(({ level, jurisdiction }) => {
+            const rows = table.query("bySeries", [
+              jurisdiction,
+              series,
+            ]) as unknown as LawRowInput[];
+            const row = levelRow(rows, date);
+            return {
+              level,
+              jurisdiction,
+              row: row && {
+                id: row.id,
+                value: row.value,
+                unit: row.unit ?? null,
+                effectiveDate: row.effectiveDate,
+                estimate: row.estimate,
+                devMode: row.terms?.provenance === DEV_MODE,
+              },
+              pending: rows
+                .filter((r) => r.effectiveDate > date)
+                .map((r) => ({
+                  id: r.id,
+                  value: r.value,
+                  effectiveDate: r.effectiveDate,
+                })),
+              // Why the law engine sets this level's law aside, when it does.
+              setAside:
+                answer?.levels.find((l) => l.jurisdiction === jurisdiction)
+                  ?.setAside ?? null,
+            };
+          }),
+        };
+      }),
     };
   }
 

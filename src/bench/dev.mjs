@@ -179,7 +179,10 @@ function drawLaws() {
       { name: "Series", value: (s) => s.series.split(":").pop() },
       ...laws.levels.map((l, i) => ({
         name: l.level,
-        value: (s) => cell(s.levels[i].row),
+        value: (s) =>
+          s.levels[i].setAside
+            ? el("s", { title: s.levels[i].setAside }, cell(s.levels[i].row))
+            : cell(s.levels[i].row),
       })),
       { name: "In force", value: (s) => s.combined },
     ],
@@ -339,15 +342,71 @@ async function drawBodies() {
 }
 
 // 3. Trace -------------------------------------------------------------------
+// The clicked chain, root first: what Report writes out.
+let chain = [];
+function traceChild(child, path, depth) {
+  const box = el("div", { className: `node ${child.kind}` });
+  const head = el(
+    "div",
+    { className: "head" },
+    el("span", { className: "kind" }, child.kind),
+    el("span", { className: "via" }, child.via ?? ""),
+  );
+  box.append(head);
+  const here = [...path, { id: child.id, via: child.via, value: child.value }];
+  if (child.value !== undefined) box.append(tree(child.value, "", 1));
+  // A reason has no record of its own; anything else opens on click.
+  if (child.kind === "reason") return box;
+  const link = el("span", { className: "id" }, child.id);
+  head.append(link);
+  let open;
+  link.onclick = () =>
+    run(async () => {
+      for (const other of document.querySelectorAll(".node.on"))
+        other.classList.remove("on");
+      box.classList.add("on");
+      chain = here;
+      $("trace-chain").textContent = chain.map((s) => s.id).join(" ← ");
+      if (open) {
+        open.remove();
+        open = undefined;
+        return;
+      }
+      const node = await api(
+        `/api/dev/trace/node?id=${encodeURIComponent(child.id)}`,
+      );
+      open = el(
+        "div",
+        {},
+        el(
+          "div",
+          { className: "row" },
+          el("span", { className: "kind" }, node.kind),
+          el("span", { className: "via" }, node.engine),
+        ),
+        tree(node.record, "record", 2),
+        tree(node.resolver, "saved trace", 2),
+        ...node.children.map((c) => traceChild(c, here, depth + 1)),
+      );
+      box.append(open);
+    });
+  return box;
+}
 async function traceId(id) {
   $("trace-id").value = id;
   await show("trace");
-  await run(async () =>
-    $("trace-result").replaceChildren(
-      tree(await api(`/api/dev/trace?id=${encodeURIComponent(id)}`), id),
-    ),
-  );
+  chain = [];
+  const root = traceChild({ id, kind: "record", via: "" }, [], 0);
+  $("trace-result").replaceChildren(root);
+  root.querySelector(".id").click();
 }
+$("trace-report").onclick = () =>
+  run(async () => {
+    if (!chain.length) return;
+    const report = await api("/api/dev/trace/report", { chain });
+    $("trace-chain").textContent = report.file;
+    $("trace-result").prepend(el("pre", { className: "prose" }, report.text));
+  });
 async function personView(id) {
   $("trace-id").value = id;
   await show("trace");

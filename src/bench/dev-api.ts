@@ -12,6 +12,7 @@ import {
   type Experiment,
   type LawLevel,
 } from "./dev-mode";
+import { traceNode, traceReport } from "./dev-trace";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import type { BenchPlayer } from "./player";
@@ -32,10 +33,8 @@ const KIT12 = new URL(
   import.meta.url,
 );
 // Saved experiments the owner adds, kept beside the checkout, out of git.
-const SAVED = new URL(
-  "../../.bench-local/dev-experiments.json",
-  import.meta.url,
-);
+const LOCAL = new URL("../../.bench-local/", import.meta.url);
+const SAVED = new URL("dev-experiments.json", LOCAL);
 
 let dev: DevMode | undefined;
 function devFor(world: DevWorld): DevMode {
@@ -204,6 +203,25 @@ export async function handleDev(
     case "GET trace":
       send(200, mode.trace(q("id")));
       return true;
+    case "GET trace/node":
+      send(200, traceNode(core, mode.director, q("id")));
+      return true;
+    case "POST trace/report": {
+      const input = await body(request);
+      const text = traceReport(
+        core,
+        mode.director,
+        input.chain as { id: string; via?: string; value?: unknown }[],
+      );
+      const file = new URL(
+        `trace-reports/${core.seed}-${core.date}-${Date.now()}.txt`,
+        LOCAL,
+      );
+      await mkdir(new URL(".", file), { recursive: true });
+      await writeFile(file, text);
+      send(200, { file: file.pathname, text });
+      return true;
+    }
     case "GET person":
       send(200, mode.person(q("id")));
       return true;
