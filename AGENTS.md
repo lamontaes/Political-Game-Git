@@ -23,7 +23,7 @@ This section overrides anything heavier elsewhere in this file, in `docs/package
 
 ## The team (owner, Oct 11, 2026)
 
-Long-lived Opus cloud sessions ("pillars") each own one area. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's out of usage (see "No stopping" below). A checklist is an order of work, not a ceiling.
+Long-lived Opus cloud sessions ("pillars") each own one area. **The pillars run on the owner's current account only (owner, Oct 14, 2026):** the CTO opens each pillar as a cloud session on this account and assigns work to it there; the old account's sessions are cut off and get nothing. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's out of usage (see "No stopping" below). A checklist is an order of work, not a ceiling.
 
 | Session     | Owns                                                                                                                       | Model        |
 | ----------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ |
