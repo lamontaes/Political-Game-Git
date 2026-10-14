@@ -1,6 +1,6 @@
 # Movements and protests come from people who share a loss
 
-The recommendation: build movements from what happens to people, and bring marches, petitions, primary challenges, boycotts and the player's part into early access. Your October 10, 2026 roadmap put movements after early access, so that needs your yes. A person's left-right lean never moves today, so no realignment can happen until you rule that it may. Eight questions for you are at the end. A movement here is people who share a loss, people they trust who speak for it, and news and speeches that spread it. About half the pieces exist; the crowd, strikes, police and war do not.
+The recommendation: build movements from what happens to people, and bring marches, petitions, primary challenges, boycotts and the player's part into early access. Your October 10, 2026 roadmap put movements after early access, so that needs your yes. Your decision register already settles most of the rest, and the proposal quotes it rather than asking again. Five questions remain at the end. A movement here is people who share a loss, people they trust who speak for it, and news and speeches that spread it. About half the pieces exist; the crowd, strikes, police and war do not.
 
 ## What you have asked for
 
@@ -12,7 +12,21 @@ Your own words, from your Drive and the design record:
 - **Breakdown comes from conditions.** The idea inbox: "Civil war or systemic breakdown must follow economic, political, social and institutional conditions, actors and escalation history, not an unexplained fixed-probability event." On September 22, 2026 you answered "yes" when asked whether revolutions should be possible at all.
 - **Your ruling of October 14, 2026:** organizing a protest, producing a demagogue, a rare overthrow, a 1933-to-1945 realignment and a drift toward war are capability tests in dev mode. Real politicians' lives test capability; they are never scripts.
 
-The September 22, 2026 note on big events said crossing a line "gives a chance of unrest, not a certainty." Your later rules (no dice, nothing flips at a threshold) overrule that note, and this proposal follows the later rules.
+An earlier note on big events, from September 22, 2026, said crossing a line "gives a chance of unrest, not a certainty." Your later rules (no dice, nothing flips at a threshold) overrule that note, and this proposal follows the later rules.
+
+## What you have already decided
+
+These come from your decision register (the Drive register, copied into the repository on October 14, 2026) and your October 14, 2026 rulings. The proposal follows each one and asks none of them again.
+
+- **What a movement is.** Register: "A movement can be all of these: a party someone founded, a cause organization, a body of followers and ideas that spread. A successor who is similar to the founder can inherit leadership of the movement."
+- **Heirs.** Register, September 22, 2026: a successor does "not inherit the previous character's friendships, trust, spouse, job or knowledge." Amended later: "the heir starts with the family stories a child would know, as weaker secondhand knowledge. People who knew the parent treat the heir by the parent's favors and grudges."
+- **Views move, and party follows views.** Register: "Personality sets what a person notices, how hard they react, whom they blame or credit, whose opinion moves them, whether they act, and how fixed they are. Which side they take comes from their life, values, family and experience." And: "a person's party follows from their views." This settles that lean may move, so realignment is a repair to build, not a question.
+- **Crises come from conditions.** Register: "A depression, civil conflict or recovery happens when real conditions stack up and persist, in stages that each re-check the world." And the approved rule, "crises come from conditions, not dice," with your note that designs which carry out the emergent-not-authored rule "are built without coming back to him."
+- **Peaceful organizing is not a crisis.** Register: "Routine disagreement and peaceful organizing are not automatically crises or violence. Escalation is conditional; compliance, compromise, review, resignations, relief or supported reform can resolve an episode." The same ruling includes "party pressure," "defiance and emergency-powers conflicts" and asks the game to "record a modeled refusal or overreach as such."
+- **No plot armor.** Register: "Wars, recessions, disasters, scandals, assassinations, terminal illness, deaths, migrations, elections and political shifts may occur when canonical conditions support them. The game grants no plot armor to preserve a preferred officeholder."
+- **The player's own hand.** Register, September 22, 2026: the controlled character may "initiate/order political violence as fictional gameplay," with "the physical violence offscreen," and "an order does not guarantee another character's compliance, an attempt or a result." A crackdown ordered by an official, or a speech urging a crowd past peaceful protest, falls under this ruling.
+- **Historical cases test the game.** Register: "Historical scenarios and anecdotes are starting-condition/validation evidence, not scripted outcomes." Your October 14, 2026 ruling puts the capability tests in dev mode.
+- **War.** Register: "Future war decisions remain strategic, not theater-level operational control."
 
 ## What other games do
 
@@ -120,7 +134,7 @@ The story director reads all of it. Each action is a cause for moments in the li
 - **Inheriting one.** When the player's character dies or steps away, the members choose who leads next from their own reasons, as the written spec for life after office and passing on a movement already lays out (bank spec b20). If the player continues as that person, they inherit the members and their goodwill, not the parent's friendships.
 - **Riding the wave as an heir.** This is the Indianapolis test. A grieving crowd gathers after a killing. The heir has standing because people knew the parent, and the crowd's own records decide what the heir's words do. Their grief, their trust in the heir, whether local pastors and organizers are present, how the police posture reads to them: the same speech can calm one city and do nothing in another.
 
-**The scenes.** The scenes come from the director's existing types where they fit: a request for a favor, advice, a warning, news arriving. The march, the rally and the crowd need new public kinds of scene. That is a question below.
+**The scenes.** The scenes come from the director's existing types where they fit: a request for a favor, advice, a warning, news arriving. The march, the rally and the crowd need new public kinds of scene, which package 6 builds; your register ruling lets designs that carry out the emergent-not-authored rule be built without coming back to you.
 
 ## How it ends
 
@@ -139,7 +153,7 @@ The story director reads all of it. Each action is a cause for moments in the li
   - a party taking up their cause;
   - people's left-right lean moving over years.
 
-  The first three come from this proposal. The fourth is blocked: lean never moves today. That is your first question below.
+  The first three come from this proposal. The fourth is already your ruling (quoted below): a person's views come from their life, and their party follows their views. The engine breaks that ruling today, because lean never moves. Fixing it is a package in the build order, not a question.
 
 - **An overthrow.** An overthrow is a movement plus a security force that stops obeying, each officer reading their own records: pay, orders, the law, who they trust, what they saw. No security force exists as people who decide, so overthrow is a 1.0 question. Until then the game cannot produce one, and dev mode will say so.
 - **Drift toward war.** No war engine and no foreign governments exist. Your October 8, 2026 ruling says war waits on its own design with you. A movement can hold a cause about a foreign dispute, and that is all until that design exists.
@@ -158,7 +172,7 @@ The capability study written on October 14, 2026 (`docs/research/capability-case
 **Cases that change the design.**
 
 - **The Scott Walker recall, 2012 (case 12).** Huge protests and over 900,000 signatures did not remove the governor; the voters who turned out matched the ones who elected him. A march must therefore be a cause that voters and officials read, never a score that decides the election. The proposal already says this. The case makes it a test: in a played year, a large march must be able to fail at the ballot box.
-- **Britain's Winter of Discontent, 1979 (case 30).** Public-sector strikes against a pay limit helped bring down a government. Strikes need the study's labor-disputes gap (U11) and a kept measure of how voters rate each official (U4). This raises the weight of question 3 below on strikes.
+- **Britain's Winter of Discontent, 1979 (case 30).** Public-sector strikes against a pay limit helped bring down a government. Strikes need the study's labor-disputes gap (U11) and a kept measure of how voters rate each official (U4). This raises the weight of question 2 below on strikes.
 - **The Poll Tax revolt, 1989 to 1990 (case 31).** Non-payment spread, a demonstration ended in riots, and the prime minister's own party removed her. Two pieces the proposal did not name are needed: a party or body removing its own leader (the study's U5), and the voters' rating of each official (U4). Mass refusal to pay a tax is a form of boycott aimed at a government, not a business; the proposal adds it to the boycott package as a 1.0 case.
 - **Movements need the vote to listen.** The study's gap U3 (voters weigh what they heard about an official, not an on-off scandal flag) and U4 (a rating for each official) are owned by OPUS-GOV and OPUS-CORE. Without them a movement can march, but no election reads what voters thought of it. Package 5 below depends on them.
 
@@ -181,7 +195,7 @@ Your October 10, 2026 scope call put movements after early access. On October 14
 
 - strikes and unions;
 - new parties;
-- lean that moves, and with it realignment;
+- realignment across many places (the lean fix itself comes earlier, as a repair);
 - inheriting a movement as an heir (already scheduled after early access);
 - unrest and the security forces that answer it;
 - overthrow;
@@ -189,14 +203,13 @@ Your October 10, 2026 scope call put movements after early access. On October 14
 
 ## Questions for you
 
+Five questions remain; your register and rulings already settle the rest (see "What you have already decided").
+
 1. **Early access.** Should marches, petitions, primary challenges, boycotts, and the player speaking, joining and founding come into early access, ahead of the October 10, 2026 call?
-2. **Lean that moves.** May a person's left-right lean move over years, from what happens to them and what they hear? Without it, no realignment can happen, and party ties never re-sort.
-3. **Strikes.** Do you want unions and strikes in the game? If yes, early access or 1.0?
-4. **Police and the Guard.** Should police, the National Guard and the military be people and bodies who make decisions, with legal limits? Repression, unrest and any overthrow depend on this. Early access or 1.0?
-5. **Crowd scenes.** The director has only private, person-to-person scenes. May it gain public scenes: a rally, a march, a crowd, a speech to strangers?
-6. **The player's own hand.** Your register lets the player order political violence offscreen. Should the player also be able to order a crackdown on a march, or urge a crowd past peaceful protest? Each would be told without graphic detail.
-7. **War.** When do you want to sit down on the war design? Drift toward war is untestable until then.
-8. **A retired leader.** The spec for life after office (bank spec b20) asks this: when you retire a character who is still alive, do they keep leading their movement on their own until they die or step down, or does leadership pass at once?
+2. **Strikes.** Do you want unions and strikes in the game? If yes, early access or 1.0? Your register already allows employers to change pay and hours from their own books; it does not mention unions or strikes.
+3. **Police and the Guard: when.** Your register puts defiance, emergency powers and a modeled refusal or overreach inside the crisis scope. That needs police, the National Guard and the military as people and bodies who decide within the law. Should they come in early access or 1.0?
+4. **War: when.** Your register says wars may happen when conditions support them, and war decisions stay strategic, not battlefield control. The story director's design says war waits on its own design with you. When do you want to sit down on it?
+5. **A retired leader.** The spec for life after office (bank spec b20) asks this: when you retire a character who is still alive, do they keep leading their movement on their own until they die or step down, or does leadership pass at once?
 
 ## Build order
 
@@ -209,7 +222,8 @@ Each package ends with its proof: one year of the played world, every engine ins
 5. **Movements in elections** (OPUS-GOV, with OPUS-PEOPLE for candidacy; depends on the capability study's U3 and U4). Candidacy reads a movement as a cause and as name recognition, and recalls read a movement's organizer. Proof: a challenger's filing reasons name the movement's record.
 6. **The player's part** (OPUS-PEOPLE for scenes; OPUS-PLAY for screens). Asked to speak, asked to join, targeted, founding. Proof: in a played year, a movement's ask reaches the player, and the player's answer moves listeners' records.
 7. **Boycotts** (OPUS-WORLD; mass refusal to pay a tax, as in case 31, is a 1.0 extension). Proof: a business's lost sales cite the boycott record, and the owner's decision cites the books.
-8. **1.0, each its own package once you rule:** strikes and unions (OPUS-WORLD), new parties (OPUS-GOV), lean that moves and realignment (OPUS-PEOPLE with OPUS-GOV), inheriting a movement (OPUS-PLAY with OPUS-PEOPLE), and the security forces with unrest (a new engine; owner unassigned until you rule). War waits on its own design.
+8. **Lean that moves, as your register already rules** (OPUS-PEOPLE for views, OPUS-GOV for the vote and party ties). A person's lean moves from what happens to them and what they hear, at a pace their traits set, and party ties re-sort when it does. Proof: in a played year, a voter's lean change names the records behind it, and their party tie or vote follows.
+9. **1.0, each its own package once you rule:** strikes and unions (OPUS-WORLD), new parties (OPUS-GOV), realignment tests in dev mode (OPUS-PEOPLE with OPUS-GOV), inheriting a movement (OPUS-PLAY with OPUS-PEOPLE), and the security forces with unrest (a new engine; owner unassigned until you rule). War waits on its own design.
 
 **Research the packages need.** Most questions are already filed in the research list: what builds to urban unrest and what calms it, Indianapolis included; preconditions of civil war and revolution; how rights movements grow and end; and real protest turnout and strike rates. Packages 3 and 4 need the turnout figures before their bars can be checked.
 
@@ -221,4 +235,4 @@ This proposal was written on October 14, 2026, on the main branch as of the even
 - public pages on the seven games;
 - a read of the new core's drives, views, interest-group, speech, press, news, campaign, party, candidacy, recall, ballot-measure and electorate engines, and of the director's scene types.
 
-No world was run, and no number in this proposal was measured in a world. "Exists" and "missing" come from reading the code. The capability study of the same day was read afterward, and its cases are cited above. Two Sonnet helpers did the research split, one on Drive and the games and one on the engines.
+No world was run, and no number in this proposal was measured in a world. "Exists" and "missing" come from reading the code. The decision register and the owner-decisions file were searched for movement, protest, unrest, bloc, strike, march, demagogue, party, faction, wave, union, police, war and related words, and every relevant ruling is quoted above. The capability study of the same day was read afterward, and its cases are cited above. Two Sonnet helpers did the research split, one on Drive and the games and one on the engines.

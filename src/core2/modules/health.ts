@@ -1,4 +1,5 @@
 import healthJson from "../data/health.json" with { type: "json" };
+import { settleEstate } from "../estates";
 import {
   addDays,
   ageOnDate,
@@ -437,6 +438,8 @@ export function createHealthModule(
         api.updatePerson(id, { alive: false });
         row.deaths += api.parameter("one");
         api.emit(event);
+        // Their cash passes to their heirs, or escheats (money audit defect 6).
+        settleEstate(api, id, event.id);
       }
     },
   };
