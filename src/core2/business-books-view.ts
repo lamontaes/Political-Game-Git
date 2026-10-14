@@ -64,6 +64,10 @@ export function businessBooksView(
       .query("byEmployer", [organizationId]) as unknown as EmployerTaxRecord[])
       taxesPaid += row.paidMinor;
     for (const row of state
+      .table("countedShares")
+      .query("byEmployer", [organizationId]) as unknown as EmployerTaxRecord[])
+      taxesPaid += row.paidMinor;
+    for (const row of state
       .table("profits")
       .query("byBusiness", [organizationId]) as unknown as ProfitTaxRecord[]) {
       taxesPaid += row.paidMinor;

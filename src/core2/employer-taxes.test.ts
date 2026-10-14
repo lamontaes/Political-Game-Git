@@ -82,10 +82,12 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
           minor: wageBase - 1000,
         } as never);
     advanceCore(core, "2026-04-05");
-    const rows = api
-      .moduleState(EMPLOYER_TAXES_MODULE_ID)
-      .table("shares")
-      .rows() as unknown as EmployerTaxRecord[];
+    const rows = [
+      ...(api
+        .moduleState(EMPLOYER_TAXES_MODULE_ID)
+        .table("shares")
+        .rows() as unknown as EmployerTaxRecord[]),
+    ];
     expect(rows.length, where).toBeGreaterThan(0);
     const ss = lawInForce(api, "social-security-tax").governing!;
     const medicare = lawInForce(api, "medicare-tax").governing!;
@@ -145,7 +147,13 @@ describe("employer payroll tax share", { timeout: 600_000 }, () => {
         where,
       ).toBe(Math.round((1000 * ssRow.value!) / 100));
     }
-    // Nothing dropped: what was owed is paid or in arrears.
+    // Nothing dropped: what was owed is paid or in arrears (counted workers' shares included).
+    rows.push(
+      ...(api
+        .moduleState(EMPLOYER_TAXES_MODULE_ID)
+        .table("countedShares")
+        .rows() as unknown as EmployerTaxRecord[]),
+    );
     const employers = new Set(rows.map((r) => r.employerId));
     for (const id of employers) arrears += employerArrears(api, id);
     const owed = rows.reduce(
