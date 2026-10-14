@@ -4109,11 +4109,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
     "line": 1292,
-    "whatItFakes": "A full person looking for work never stops looking unless hired, and a full person looking while employed neither quits nor retires while looking; counted seekers stop looking each month by their reasons.",
+    "whatItFakes": "A full person looking for work while employed neither quits nor retires while looking (the monthly job review skips every seeker); counted lookers quit and retire by their reasons.",
     "why": "The full seekers' review predates the counted stop-looking pulls.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Full seekers weigh stopping by the same reasons through the chooser, and lookers' quits and retirements are reviewed as other workers'.",
+    "replacement": "The job review weighs a looking worker's quit and retirement like any other worker's.",
     "status": "open"
   },
   {

@@ -1511,6 +1511,41 @@ function reviewJobless(api: CoreAPI): void {
         lastPay(api, person.id),
       );
   }
+  // Out of work and looking, a full person weighs each month whether to keep
+  // looking by the same reasons that started the search: the household's
+  // money pushes toward looking on, scarce jobs toward stopping.
+  const seekers = store(api).table("seekers");
+  for (const row of seekers.query("all", [true]) as unknown as SeekerRow[]) {
+    if (row.employed) continue;
+    const person = c.people.get(row.personId);
+    if (!person?.alive || person.jobId) continue;
+    const household = c.households.get(person.householdId);
+    if (!household) continue;
+    let liquid = 0,
+      cost = 0;
+    for (const memberId of household.memberIds) {
+      const member = c.people.get(memberId);
+      if (!member?.alive) continue;
+      liquid += member.liquidMinor;
+      cost += member.livingCostDailyMinor;
+    }
+    const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
+    const result = chooseAct(c, person.id, [
+      offer("wait", person.id, {}),
+      offer("look", person.id, {
+        baseline: p("jobsEnterBaseline"),
+        needWork:
+          p("jobsUnemployedNeedWeight") /
+          (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear"))),
+        unemployment:
+          -p("jobsUnemploymentEntryWeight") *
+          unemploymentGap(api, person.placeId),
+      }),
+    ]);
+    if (result.selected!.definition.id !== jobsData.actions.wait.id) continue;
+    seekers.remove(row.id);
+    endClaim(api, store(api).table("claims"), person.id);
+  }
 }
 
 function lastPay(api: CoreAPI, personId: string): number {
