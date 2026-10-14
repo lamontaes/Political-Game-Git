@@ -29,6 +29,7 @@ import { performance } from "node:perf_hooks";
 import { after, before, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { buildBenchWorld } from "../../src/bench/world";
+import { gameStartDate } from "../../src/core2/game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -58,7 +59,7 @@ import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { CoreModule, CoreState } from "../../src/core2/types";
 
 /** The bench's opening day (src/bench/m0-check.ts). */
-const OPENING_DATE = "2026-10-12";
+const OPENING_DATE = gameStartDate();
 const nightly = process.env.GOLDEN_PATH_MODE === "nightly";
 /** The runner's own draw for its first world, so its receipt names the place that ran. */
 const runnerPlace =

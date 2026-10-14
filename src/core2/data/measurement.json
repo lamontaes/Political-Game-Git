@@ -1,11 +1,9 @@
 {
-  "version": "p8-measurement-v1",
-  "startedAt": "2021-01-01",
-  "preRunThrough": "2026-01-01",
+  "version": "p8-measurement-v2",
   "seed": "p8-real-life-cost-2026-10-09",
   "source": {
     "tag": "SOURCED",
-    "asOf": "2026-10-09",
-    "citation": "Owner P8 acceptance: January 2021 opening, one real locality and county, one normal year, and January 2021 through 2026 pre-run."
+    "asOf": "2026-10-14",
+    "citation": "Owner P8 acceptance: one real locality and county, one normal year. The opening date is the game's one start date (gameStartDate in the parameter table; owner ruling Oct 14, 2026), and the January 2021 opening with its pre-run to 2026 is retired."
   }
 }

@@ -20,7 +20,7 @@ import { collapseToTwoLevels, fullPeople } from "../residents";
 import { withCountedVoterGroups } from "../opening-voter-groups";
 import { addOutsideMarket } from "../opening-outside-market";
 import { parameter } from "../parameters";
-import measurement from "../data/measurement.json" with { type: "json" };
+import { gameStartDate } from "../game-start";
 import type { CoreInput } from "../types";
 
 /** Population, past, civic records, the player's peers and circle, then the economy. */
@@ -84,7 +84,7 @@ export function generatedOpening(
     economy?: boolean;
     twoLevel?: boolean;
     settings?: WorldSettings;
-    /** The opening date; January 2021 by default (M1-14 moves games to 2026). */
+    /** The opening date; the game's one start date by default (src/core2/game-start.ts). */
     startedAt?: string;
     /** Opt-in: staff each business to what its customers buy (src/core2/opening-staffing.ts). */
     staffToCustomers?: boolean;
@@ -111,7 +111,7 @@ function buildOpening(
   const population = buildPopulation({
     seed: place.seed,
     placeKey: place.key,
-    startedAt: options.startedAt ?? measurement.startedAt,
+    startedAt: options.startedAt ?? gameStartDate(),
     minimumPeople: settings.population ?? parameter("targetPopulation"),
     openingEmployment: true,
     scheduledWork: true,
