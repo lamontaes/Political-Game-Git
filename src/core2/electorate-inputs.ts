@@ -17,6 +17,7 @@ import {
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
 import { CORRUPTION_MODULE_ID } from "./modules/corruption";
+import { convictionsOf } from "./modules/justice";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
@@ -326,8 +327,9 @@ function heldOffice(api: CoreAPI, personId: string): boolean {
   );
 }
 
-/** Whether a taken bribe of the person's has surfaced by the date: a public scandal. */
+/** Whether a taken bribe of the person's has surfaced, or they were convicted, by the date: a public scandal. */
 function scandalOf(api: CoreAPI, personId: string, date: string): boolean {
+  if (convictionsOf(api, personId, date).length) return true;
   if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return false;
   const store = api.moduleState(CORRUPTION_MODULE_ID);
   for (const crime of store
@@ -400,14 +402,10 @@ export function candidateInputs(
     incumbent: input.incumbent,
     experienced: input.incumbent || (named && heldOffice(api, input.id)),
     scandal: scandalOf(api, input.id, api.state.date),
-    // A named candidate's campaign books (none kept: nothing spent); an
-    // official the world doesn't name runs the typical campaign unless their
-    // books show spending.
-    spentMinor: named
-      ? (campaign?.spentMinor ?? 0)
-      : campaign?.spentMinor
-        ? campaign.spentMinor
-        : null,
+    // The campaign's books, by one rule for every candidate, named or not:
+    // a campaign the world runs is read as it spent; a candidate with no
+    // campaign in the world runs the typical race's.
+    spentMinor: campaign ? campaign.spentMinor : null,
     record,
     presidentsParty: side !== 0 && side === president,
     seatPartyHolder:
