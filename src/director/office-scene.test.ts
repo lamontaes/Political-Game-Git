@@ -193,9 +193,12 @@ describe("the office scene", () => {
     expect(
       (sum(caseResult.after) - sum(caseResult.before)) * want,
     ).toBeGreaterThan(0);
-    // The vote the body held read the moved position.
+    // The vote the body held read the moved stance: its views part is no
+    // longer where it stood before the case (other cases made at the same
+    // meeting may move it further, either way), and the stance it read still
+    // lists the player's case among its causes (checked above).
     expect(vote, "the target's recorded vote").toBeTruthy();
-    expect(vote!.position.views).toBeCloseTo(caseResult.after.views, 10);
+    expect(vote!.position.views).not.toBeCloseTo(caseResult.before.views, 10);
     if (vote!.vote === "yes" || vote!.vote === "no")
       expect(vote!.vote).toBe(vote!.position.total > 0 ? "yes" : "no");
   });
