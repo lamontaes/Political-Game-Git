@@ -2745,18 +2745,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-opening-without-speech",
-    "kind": "player-text-gap",
-    "file": "src/bench/opening.ts",
-    "line": 10,
-    "whatItFakes": "The opening cuts from the President to each level of government and then home with only each holder’s title and name; the President’s speech that should carry it is missing.",
-    "why": "The speech’s words must come from the English engine, built from real inaugural and State of the Union addresses, which is not on the new core yet.",
-    "addedBy": "OPUS-PLAY",
-    "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE’s speech writer reading the world’s real numbers; the opening plays its lines over these shots.",
-    "status": "open"
-  },
-  {
     "id": "SG-PLAY-doors-fill-in",
     "kind": "faked-mechanic",
     "file": "src/bench/campaign.ts",
@@ -3114,5 +3102,41 @@
     "addedAt": "2026-10-14",
     "replacement": "Those three reads call closenessBetween(api.state, a, b) from src/core2/closeness.ts; then this row resolves.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-PLAY-dev-law-reach-full-only",
+    "kind": "missing-core-api",
+    "file": "src/bench/dev-mode.ts",
+    "line": 349,
+    "whatItFakes": "Dev mode's count of who a law reached reads only the law-effects, law-reach and law raise records that name the law: full people by id, counted people where a record names one or carries a count. A law's effect that leaves no record naming it is not counted.",
+    "why": "The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-dev-public-salary-floor",
+    "kind": "owner-decision",
+    "file": "src/bench/dev-mode.ts",
+    "line": 707,
+    "whatItFakes": "Dev mode's public-salary base raises every public job paid under it once, through rerateJob and the law-reach teacher floor's daily-pay arithmetic; it is not a standing law, so a public job filled later is not held to it except where the employer's pay for a new hire follows its raised staff.",
+    "why": "No law series in the catalog sets every public worker's pay; whether a public-salary base is a law at each level or a budget line is the owner's call. Resolved by OPUS-PLAY (2026-10-14): the CTO ruled a public-salary base is a standing law; the public pay floor law series (src/core2/public-pay-floor.ts) replaces the one-time raise, and dev mode's experiment passes that law.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: a public-salary-floor law series read by the law-reach engine (OPUS-GOV), generalizing the teacher floor to read the law's value and every public employer, after which the experiment becomes a law step.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-GOV-public-pay-floor-owner",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/laws.ts",
+    "line": 471,
+    "whatItFakes": "The public pay floor law was added by OPUS-PLAY in the GOV-owned law engine: its employer-to-level map is a first cut (public schools count as town employers), a later public hire is held to the floor at the next monthly review rather than on the day it is hired, and no bill catalog entry yet lets a legislature draft it.",
+    "why": "The CTO ruled (October 14, 2026) that a public-salary base is a standing law at each level and asked dev mode's PR to add the data row and the smallest read hook, for the GOV wiring session to own after merge.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "OPUS-GOV owns the series: a bill catalog provision so councils and legislatures can pass it, school districts as their own level, and the hiring engines reading the floor when they set a new public hire's pay.",
+    "status": "open"
   }
 ]
