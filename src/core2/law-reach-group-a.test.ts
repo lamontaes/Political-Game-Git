@@ -31,7 +31,7 @@ import {
   openBudgets,
   type GovernmentRow,
 } from "./modules/budgets";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import {
   currentStaff,
   openReach,
@@ -111,7 +111,7 @@ function openTown(): void {
     openRecord(c);
     openLegislature(c);
     openBudgets(c);
-    openLawEffects(c);
+    openLawReach(c);
     repealStartingAnswers(c);
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
@@ -435,7 +435,10 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const before = felonyDisenfranchisedShare(api);
     recordRoundTrip(
       RESTORE_VOTE,
-      () => expect(felonyDisenfranchisedShare(api), where).toBeLessThan(before),
+      () =>
+        before > 0
+          ? expect(felonyDisenfranchisedShare(api), where).toBeLessThan(before)
+          : expect(felonyDisenfranchisedShare(api), where).toBe(before),
       undefined,
       true,
     );

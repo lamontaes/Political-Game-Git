@@ -196,7 +196,12 @@ describe("P10 drives and causes", () => {
     expect(carer.chosen.responseId).toBe("take-up-cause");
     expect(steady.chosen.responseId).toBe("carry-on");
     expect(carer.attention).toBeGreaterThan(steady.attention);
-    expect(carer.chosen.reasons.trait).toBeGreaterThan(p("zero"));
+    // Traits lean the carer toward the cause inside its urgency (scaled by agency), not as a second chooser term.
+    const takeUp = carer.considered.find(
+      (row) => row.responseId === "take-up-cause",
+    )!;
+    expect(takeUp.lean).toBeGreaterThan(p("zero"));
+    expect(carer.chosen.reasons.trait).toBe(p("zero"));
     expect(carer.runnerUp).toBeDefined();
     expect(carer.chosen.score).toBeGreaterThanOrEqual(carer.runnerUp!.score);
     const drive = core.people.get(carerId)!.drives.get(carer.driveId!)!;
@@ -415,9 +420,10 @@ describe("P10 drives and causes", () => {
     const donorBefore = donor.liquidMinor,
       groupBefore = group.liquidMinor,
       sequenceBefore = core.cashJournal.nextSequence;
-    const amount = Math.round(
-      donor.livingCostDailyMinor * p(definition.effectParameter!),
-    );
+    // The gift is a share of the cash above the donor's buffer, scaled by how
+    // strongly they hold the cause (at most the full share).
+    const spare =
+      donor.liquidMinor - donor.livingCostDailyMinor * p("moneyBufferDays");
     // The carer's own decision formed this drive from the death; the gift serves it.
     const drive = drivesReport(core).drives.find(
       (row) => row.personId === carerId,
@@ -436,8 +442,11 @@ describe("P10 drives and causes", () => {
       p("one"),
       undefined as never,
     );
+    const amount = donorBefore - donor.liquidMinor;
     expect(amount).toBeGreaterThan(p("zero"));
-    expect(donor.liquidMinor).toBe(donorBefore - amount);
+    expect(amount).toBeLessThanOrEqual(
+      Math.floor(spare * p(definition.effectParameter!)),
+    );
     expect(group.liquidMinor).toBe(groupBefore + amount);
     expect(core.cashJournal.nextSequence).toBe(sequenceBefore + p("one"));
   });

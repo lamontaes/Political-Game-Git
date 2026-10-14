@@ -10,6 +10,7 @@
  * fixture until councils on core2 (golden path step 6) cast votes themselves.
  */
 import { createHash } from "node:crypto";
+import { countedChoice } from "./electorate";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -192,14 +193,16 @@ describe("M4-06 the record follows you", () => {
     const broken = weighed.filter((b) =>
       b!.recordReasons![incumbent.id]!.some((r) => r.kind === "broken-promise"),
     );
+    // Whom each voter would back with the record and without it (whether
+    // they turn out that day is a separate decision).
     const changed = weighed.filter((b) => {
-      if (!b!.voted) return false;
-      const without = Object.entries(b!.appeal)
-        .map(([id, a]) => [id, a.total - a.record] as const)
-        .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]));
-      const separated = without.length < 2 || without[0]![1] > without[1]![1];
-      const before = separated ? without[0]![0] : null;
-      return before !== b!.choice;
+      const without = Object.fromEntries(
+        Object.entries(b!.appeal).map(([id, a]) => [
+          id,
+          { total: a.total - a.record },
+        ]),
+      );
+      return countedChoice(without) !== countedChoice(b!.appeal);
     });
     expect(
       changed.length,

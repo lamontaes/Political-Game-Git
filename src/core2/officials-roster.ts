@@ -49,6 +49,7 @@ export const OFFICIALS_DATA = officialsData as unknown as {
   weights: Record<
     | "views"
     | "district"
+    | "stateStake"
     | "party"
     | "caucus"
     | "wing"

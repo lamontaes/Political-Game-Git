@@ -24,6 +24,7 @@ import {
   openStaff,
   staffCandidates,
   workOf,
+  workingAgeWeight,
 } from "./modules/staff";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -84,6 +85,15 @@ describe("M3-06 staff", () => {
       if (!seat) continue;
       const official = seat.holder!.personId!;
       const candidates = staffCandidates(api, official);
+      // Everyone offered is someone the records can place: never a relative
+      // whose own work isn't modeled, always within some commuting reach, and
+      // weighed by their age's place in the working-age pool.
+      for (const c of candidates) {
+        expect(core.people.get(c.personId)?.tier).not.toBe("husk");
+        expect(c.reach).toBeGreaterThan(0);
+        expect(c.workingAge).toBeGreaterThan(0);
+        expect(c.workingAge).toBeLessThanOrEqual(1);
+      }
       const known = candidates.find((c) => c.from === "known");
       const applicant = candidates.find((c) => c.from === "applicant");
       if (!known || !applicant) continue;
@@ -197,5 +207,17 @@ describe("M3-06 staff", () => {
       `no office could hire in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("staff", JSON.stringify(report));
+  });
+
+  it("weighs age by the working-age pool, sliding, with no cutoff", () => {
+    const at = (age: number) => workingAgeWeight(age);
+    expect(at(30)).toBeCloseTo(1, 5);
+    expect(at(40)).toBeGreaterThan(0.95);
+    expect(at(92)).toBeGreaterThan(0);
+    expect(at(92)).toBeLessThan(at(70));
+    expect(at(70)).toBeLessThan(at(60));
+    expect(at(65)).toBeLessThan(at(60));
+    expect(at(65)).toBeGreaterThan(at(70));
+    expect(at(20)).toBeLessThan(at(30));
   });
 });

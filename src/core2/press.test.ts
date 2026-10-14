@@ -100,7 +100,9 @@ describe("campaign interviews", () => {
       const outlets = openPress(core);
       const api = coreAPI(core);
       // A town with no local newspaper or news radio is a news desert; draw again.
-      const print = outlets.find((o) => o.kind !== "television");
+      const print = outlets.find(
+        (o) => o.tier !== "national" && o.kind !== "television",
+      );
       if (!print) continue;
       // Followers are the town's adults, by their age band's real habits.
       const town = [
@@ -240,6 +242,74 @@ describe("campaign interviews", () => {
     }
     throw new Error(
       `no town with a local outlet and a race: ${tried.join("; ")}`,
+    );
+  }, 300_000);
+});
+
+describe("a reporter who runs", () => {
+  // Scotland Neck, North Carolina (seed d48dca5fc9c0): a local reporter filed
+  // for council, their own paper asked them for an interview, and the paper
+  // sent the candidate as their own reporter; the core refused the meeting.
+  it("is never the reporter who covers their own interview", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 12; attempt += 1) {
+      const state = pick(states, `rstate:${attempt}`);
+      const places = [
+        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key = pick(places, `rplace:${attempt}`).key;
+      const where = `seed ${seed}, ${state} place ${key}`;
+      tried.push(where);
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
+      );
+      openLaws(core);
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openRecord(core);
+      const outlets = openPress(core);
+      const api = coreAPI(core);
+      const paper = outlets.find(
+        (o) => o.tier !== "national" && (o.reporterIds ?? []).length > 0,
+      );
+      if (!paper) continue;
+      const reporter = paper.reporterIds![0]!;
+      let filing: FilingRow | null = null;
+      for (const contest of openContests(api)) {
+        filing = fileAndQualify(api, reporter, contest.id, [
+          `${pick(PLATFORM_QUESTIONS, "r1")}=1`,
+        ]);
+        if (filing) break;
+      }
+      if (!filing) continue;
+      const asked = requestInterview(api, {
+        filingId: filing.id,
+        outletId: paper.id,
+      });
+      expect(asked.reporterId, where).not.toBe(reporter);
+      if (asked.status === "invited")
+        expect(
+          () =>
+            answerInterview(
+              api,
+              asked.id,
+              asked.questions.map((question) => ({ question, position: 1 })),
+            ),
+          where,
+        ).not.toThrow();
+      return;
+    }
+    throw new Error(
+      `no town with a local paper whose reporter could file: ${tried.join("; ")}`,
     );
   }, 300_000);
 });

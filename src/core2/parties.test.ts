@@ -152,7 +152,7 @@ describe("M2-08 parties", () => {
         canvasserId: first.personId,
         hours: 6,
       });
-      const votes = holdPrimary(api, primaryContest);
+      const { votes, namedVotes } = holdPrimary(api, primaryContest);
       const left = ballot(api, primaryContest).filter(
         (f) => f.party === party.name,
       );
@@ -161,6 +161,10 @@ describe("M2-08 parties", () => {
       // town's named voters (audit 2, item 1).
       const total = Object.values(votes).reduce((a, b) => a + b, 0);
       expect(total).toBeGreaterThan(members.length);
+      // Same-party candidates no platform tells apart are still told apart
+      // by standing, reach and the ballot itself, so the party's voters
+      // beyond the town vote in it too (CTO, Oct 14).
+      expect(total).toBeGreaterThan(namedVotes);
       govReport(
         "parties",
         JSON.stringify({

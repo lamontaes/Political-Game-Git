@@ -8,7 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
-import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
+import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
@@ -144,7 +144,6 @@ export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
     ...Object.keys(POLICY_QUESTIONS),
     ...Object.keys(REACH_A_POLICIES),
     ...GROUP_B_KEYS.filter((key) => !key.startsWith("budget-line:")),
-    ...Object.keys((effects as { effects: Record<string, unknown> }).effects),
   ]);
   for (const row of api
     .moduleState(LAWS_MODULE_ID)
@@ -181,6 +180,36 @@ export class DevMode {
     readonly placeId: string,
   ) {
     this.sequence = devModeMarks(core).length;
+    if (core.playerId) watchMoney(core, [core.playerId]);
+  }
+
+  /** Start adding up these people's money from today (the player's is watched from the start). */
+  watchMoney(personIds: readonly string[]) {
+    watchMoney(this.core, personIds);
+  }
+
+  /**
+   * A watched person's money since the watch opened, by kind: pay, taxes,
+   * rent or mortgage, purchases, benefits, each in and out, with the latest
+   * entry of each to trace; their cash then and now, their job, and what
+   * they did since by act kind.
+   */
+  money(personId: string) {
+    const person = this.core.people.get(personId);
+    const job = person?.jobId ? this.core.jobs.get(person.jobId) : undefined;
+    return {
+      ...moneySince(this.core, personId),
+      job: job
+        ? {
+            id: job.id,
+            title: job.title,
+            employerId: job.organizationId,
+            wageDailyMinor: job.wageDailyMinor,
+            hoursDaily: job.hoursDaily,
+            endsAt: job.endsAt,
+          }
+        : null,
+    };
   }
 
   private get api() {
@@ -345,7 +374,7 @@ export class DevMode {
   }
 
   /**
-   * Who a law reached: the law-effects, law-reach and raise records naming it.
+   * Who a law reached: the law-reach and raise records naming it.
    * stopgapId: SG-PLAY-dev-law-reach-full-only
    */
   reach(lawId: string) {
@@ -354,7 +383,6 @@ export class DevMode {
     let counted = 0;
     for (const moduleId of [
       LAWS_MODULE_ID,
-      "core2-law-effects-v1",
       "core2-law-reach-a-v1",
       "core2-law-reach-b-v1",
     ]) {

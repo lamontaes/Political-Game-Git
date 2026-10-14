@@ -30,7 +30,7 @@ import {
   giveSpeech,
   knockDoors,
   openCampaigns,
-  rivalCampaignDay,
+  campaignTurn,
   runAd,
   type ImpressionRow,
 } from "./modules/campaigns";
@@ -182,7 +182,12 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     const endorser = doors[0]!.voterId;
     askForEndorsement(api, you!.id, endorser);
     // The rival campaigns with the same tools.
-    const rivalReached = rivalCampaignDay(api, you!.contestId, candidate.id);
+    const contestRow = api
+      .moduleState("core2-elections-v1")
+      .table("contests")
+      .get(rival!.contestId) as unknown as { electionDate: string };
+    const rivalTurn = campaignTurn(api, rival!.id, contestRow.electionDate);
+    const rivalReached = rivalTurn.doors;
     expect(rivalReached).toBeGreaterThan(0);
     // Nobody's view moved without a cause.
     const impressions = api

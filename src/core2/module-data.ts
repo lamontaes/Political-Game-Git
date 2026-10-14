@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 import { makeIsoDate } from "./kernel/dates";
 import type { Source } from "./types";
 
@@ -16,8 +17,26 @@ export function moduleKey(value: string): string {
   return value;
 }
 
-/** Serializable data only. Never retain caller objects, accessors, or mutable containers. */
+/**
+ * The same frozen copy, for play: rows stay immutable records (engines check
+ * that), only the per-field checks are skipped.
+ */
+function plainCopy(value: unknown): unknown {
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) return Object.freeze(value.map(plainCopy));
+  const result = Object.create(null) as Record<string, unknown>;
+  for (const key of Object.keys(value))
+    result[key] = plainCopy((value as Record<string, unknown>)[key]);
+  return Object.freeze(result);
+}
+
+/**
+ * Serializable data only. Never retain caller objects, accessors, or mutable
+ * containers. With bookkeeping on every value is checked as it is copied; in
+ * play the copy is the same without the checks (they only ever throw).
+ */
 export function moduleData<T>(input: T): T {
+  if (!bookkeeping()) return plainCopy(input) as T;
   const active = new Set<object>();
   function copy(value: unknown): unknown {
     if (

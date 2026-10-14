@@ -36,6 +36,10 @@ import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
 import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
+import { groupBPolicy } from "../law-reach/group-b";
+import { jobsAt } from "../law-reach/group-b-money";
+import { reachParameter } from "../law-reach/group-b-people";
+import { CORRUPTION_MODULE_ID, considerBribe } from "./corruption";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -171,11 +175,70 @@ function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
   const b = bill(api, billId);
   organizeResidents(api, b);
-  const costs = employerCosts(api, b);
-  if (!costs.size) return;
+  for (const stake of employerStakes(api, b)) organizeEmployers(api, b, stake);
+}
+
+/** What one interest of the bill costs each employer in town, and the question it argues. */
+interface EmployerStake {
+  readonly interest: string;
+  readonly costs: ReadonlyMap<string, { annualMinor: number }>;
+  readonly question: { question: string; position: number } | null;
+}
+
+/**
+ * Who loses money on the bill, interest by interest: employers paying under
+ * a raised minimum wage (what the raise costs them), and employers a policy
+ * the bill enacts binds by their classification (law-reach's selector),
+ * at an estimated share of their own payroll, full and counted workers alike.
+ */
+function employerStakes(api: CoreAPI, b: BillRow): readonly EmployerStake[] {
+  const out: EmployerStake[] = [];
+  const wage = employerCosts(api, b);
+  if (wage.size)
+    out.push({
+      interest: "employers-minimum-wage",
+      costs: wage,
+      question: billQuestionOf(api, b),
+    });
+  for (const p of b.provisions) {
+    if (p.kind !== "policy-question" || !p.question || p.value <= 0) continue;
+    const policy = groupBPolicy(p.question);
+    const bound = policy?.organizations;
+    // A policy that pays the employers it binds (vouchers, a tax exemption) costs them nothing.
+    if (!bound?.length || policy?.employersGain) continue;
+    // stopgapId: SG-GOV-bound-employer-cost-estimate (a share of payroll stands for what the law costs)
+    api.stopgap("SG-GOV-bound-employer-cost-estimate");
+    const costs = new Map<string, { annualMinor: number }>();
+    for (const job of jobsAt(api, bound)) {
+      const row = costs.get(job.organizationId) ?? { annualMinor: 0 };
+      costs.set(job.organizationId, {
+        annualMinor: Math.round(
+          row.annualMinor +
+            job.wageDailyMinor *
+              reachParameter("daysPerYear") *
+              campaignParameter("boundEmployerCostShare"),
+        ),
+      });
+    }
+    if (costs.size)
+      out.push({
+        interest: `employers:${p.question}`,
+        costs,
+        question: { question: p.question, position: 1 },
+      });
+  }
+  return out;
+}
+
+function organizeEmployers(
+  api: CoreAPI,
+  b: BillRow,
+  stake: EmployerStake,
+): void {
+  const costs = stake.costs;
   const state = api.state as CoreState;
   const dues = campaignParameter("groupDuesMinor");
-  const interest = "employers-minimum-wage";
+  const interest = stake.interest;
   const groupId = `group:${lawChain(api).townPlaceId}:${interest}`;
   const existing = table(api, "groups").get(groupId) as unknown as
     GroupRow | undefined;
@@ -231,7 +294,7 @@ function organize(api: CoreAPI, billId: string): void {
   );
   const share =
     memberOrgs.filter((id) => costs.has(id)).length / Math.max(1, costs.size);
-  const question = billQuestionOf(api, b);
+  const question = stake.question;
   for (const member of lobbied(api, b)) {
     const memberId = member.personId ?? `official:${member.id}`;
     const meeting: LobbyMeeting = {
@@ -246,7 +309,14 @@ function organize(api: CoreAPI, billId: string): void {
     };
     const first = !table(api, "meetings").get(meeting.id);
     table(api, "meetings").put(meeting as unknown as ModuleRow);
-    if (group.lobbyistId && member.personId) {
+    // A lobbyist who sits on the body themselves doesn't lobby their own seat.
+    if (
+      group.lobbyistId &&
+      member.personId &&
+      member.personId !== group.lobbyistId &&
+      api.state.people.has(group.lobbyistId) &&
+      api.state.people.has(member.personId)
+    ) {
       api.relationship(group.lobbyistId, member.personId, "contact", 0.1);
       // The lobbyist makes the employers' case against the bill.
       if (first && question)
@@ -259,8 +329,36 @@ function organize(api: CoreAPI, billId: string): void {
           desiredChange: question.position > 0 ? "repeal" : "enact",
           citation: `Lobbying visit on ${b.number}`,
         });
+      if (first)
+        offerBribe(api, group.lobbyistId, member.personId, annual, b.id);
     }
   }
+}
+
+/**
+ * At the meeting, the lobbyist weighs offering the member a bribe, and the
+ * member weighs taking it, each for their own reasons (the corruption
+ * engine's chooser): the favor is worth what the bill costs the employers the
+ * group speaks for. A bribe taken is part of the member's position on the
+ * bill (legislature.ts, bribePull).
+ */
+function offerBribe(
+  api: CoreAPI,
+  lobbyistId: string,
+  memberId: string,
+  stakeMinor: number,
+  billId: string,
+): void {
+  if (lobbyistId === memberId || stakeMinor <= 0) return;
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return;
+  const owners = (api.state as CoreState).cashJournal.residualAccountByOwner;
+  if (!owners.has(lobbyistId) || !owners.has(memberId)) return;
+  considerBribe(api, {
+    offererId: lobbyistId,
+    officialId: memberId,
+    stakeMinor,
+    subjectId: billId,
+  });
 }
 
 function payDues(

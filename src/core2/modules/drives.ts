@@ -7,7 +7,9 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { bookkeeping } from "../bookkeeping";
 import { adTimeForSale, buyAdTime } from "./campaigns";
+import { residentCounts, residentsAccountFor } from "./residents";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
 import type {
@@ -520,6 +522,26 @@ function chooserDefinition(
   return definition;
 }
 
+/**
+ * The same response for the final choice among responses. Its trait lean is
+ * already inside each response's urgency, and for a lasting drive it is
+ * scaled by the person's agency (age and standing), so the chooser does not
+ * add it again: otherwise a young child with an activist's traits takes up a
+ * cause as readily as an adult (CTO ruling, Oct 14).
+ */
+const decisionDefinitions = new WeakMap<ResponseRow, ActionDefinition>();
+function decisionDefinition(
+  data: DrivesData,
+  row: ResponseRow,
+): ActionDefinition {
+  let definition = decisionDefinitions.get(row);
+  if (!definition) {
+    definition = { ...chooserDefinition(data, row), actKinds: [] };
+    decisionDefinitions.set(row, definition);
+  }
+  return definition;
+}
+
 const NO_URGENCY_OVERRIDES: Readonly<Record<string, number>> = Object.freeze(
   {},
 );
@@ -641,14 +663,18 @@ export function respond(
         };
       }),
     );
-    const decision = chooseAct(core(api), actor.id, offers, context);
+    const decided = offers.map((offer, position) => ({
+      ...offer,
+      definition: decisionDefinition(data, rows[position]!),
+    }));
+    const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
     const runnerUp = scored(
       chooseAct(
         core(api),
         actor.id,
-        offers.filter((offer) => offer !== decision.selected),
+        decided.filter((offer) => offer !== decision.selected),
         context,
       ),
     );
@@ -1002,15 +1028,24 @@ function payDonation(
   donorId: PersonId,
   groupId: string,
   amount: number,
+  /** Where the gift comes from, by account (the counted population's funds); the donor's own cash otherwise. */
+  fromAccounts?: readonly { accountId: string; amountMinor: number }[],
 ): number {
   const state = core(api),
     journal = state.cashJournal;
-  const from = journal.residualAccountByOwner.get(donorId),
+  const own = journal.residualAccountByOwner.get(donorId);
+  const from =
+      fromAccounts ?? (own ? [{ accountId: own, amountMinor: amount }] : []),
     to = journal.residualAccountByOwner.get(groupId);
-  if (!from || !to) throw new Error("Donation requires both cash accounts.");
+  if (!from.length || !to)
+    throw new Error("Donation requires both cash accounts.");
   const id = `donation:${donorId}:${groupId}:${state.date}`;
   const postings: CashJournalPosting[] = [
-    { id: `${id}:from`, accountId: from, deltaMinor: -amount },
+    ...from.map((row, index) => ({
+      id: `${id}:from${index ? `:${index}` : ""}`,
+      accountId: row.accountId,
+      deltaMinor: -row.amountMinor,
+    })),
     { id: `${id}:to`, accountId: to, deltaMinor: amount },
   ];
   runtimeFor(api.state).donations.set(id, {
@@ -1041,6 +1076,105 @@ function payDonation(
 }
 
 /**
+ * A gift sized by its giver: their cash above their buffer, times how
+ * strongly they hold the cause, times donationShareOfSpare (calibrated to
+ * what U.S. households give to advocacy and environmental causes). Someone
+ * with nothing to spare gives nothing; nothing flips at a line.
+ */
+function giftOf(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  strength: number,
+): number {
+  const zero = api.parameter("zero");
+  const spare =
+    actor.liquidMinor -
+    actor.livingCostDailyMinor * api.parameter("moneyBufferDays");
+  if (spare <= zero) return zero;
+  return Math.floor(
+    spare *
+      api.parameter("donationShareOfSpare") *
+      Math.min(api.parameter("one"), Math.max(zero, strength)),
+  );
+}
+
+/**
+ * Once a month a group also raises from the wider population of its place:
+ * as many of its counted adults as the group's share of the place's full
+ * adults, times the share of households that give at all, each giving the
+ * mean of what the group's own full members' gift rule gives, from the
+ * counted residents' account. Stopgap SG-CORE-counted-giving-stand-in: a
+ * counted giver has no drive or cash of their own, so the members' mean gift
+ * stands in for theirs, given monthly.
+ */
+function raiseFromCounted(
+  api: CoreAPI,
+  data: DrivesData,
+  runtime: DrivesRuntime,
+): void {
+  const c = core(api);
+  const counts = residentCounts(c);
+  if (!counts.length) return;
+  const zero = api.parameter("zero");
+  const accounts = api.accounts();
+  for (const groupId of [...runtime.groupFounder.keys()].sort()) {
+    const group = api.state.organizations.get(groupId);
+    const row = counts.find((place) => place.placeId === group?.placeId);
+    if (!group?.topic || !row?.adults) continue;
+    let adults = zero,
+      members = zero,
+      gifts = zero;
+    for (const id of c.peopleByPlace.get(group.placeId) ?? []) {
+      const person = c.people.get(id);
+      // Adults, as the counted population's adults are counted.
+      if (
+        !person?.alive ||
+        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+          api.parameter("daysPerMeanYear") <
+          api.parameter("benchmarkAdultMinimumAge")
+      )
+        continue;
+      adults += api.parameter("one");
+      if (!c.memberships.has(`${id}:${groupId}`)) continue;
+      members += api.parameter("one");
+      const drive = [...(heldFor(api, id)?.values() ?? [])].find(
+        (held) => held.topic === group.topic,
+      );
+      if (drive) gifts += giftOf(api, person, currentStrength(api, drive));
+    }
+    if (!members || !adults || !gifts) continue;
+    const givers = Math.floor(
+      row.adults * (members / adults) * api.parameter("countedGivingShare"),
+    );
+    const pool = residentsAccountFor(c, group.placeId);
+    const owner = pool ? c.cashJournal.accounts.get(pool)?.ownerId : undefined;
+    if (!givers || !owner) continue;
+    // The counted households' cash sits in one fund per kind of household;
+    // the richer funds give more, in proportion to what each holds.
+    const funds = [...(c.cashJournal.accountsByOwner.get(owner) ?? [])]
+      .sort()
+      .map((accountId) => ({ accountId, balance: accounts.balance(accountId) }))
+      .filter((row) => row.balance > zero);
+    const held = funds.reduce((n, row) => n + row.balance, zero);
+    api.stopgap("SG-CORE-counted-giving-stand-in");
+    const amount = Math.min(Math.floor((gifts / members) * givers), held);
+    if (amount <= zero) continue;
+    let left = amount;
+    const from = funds
+      .map((row, index) => {
+        const share =
+          index === funds.length - api.parameter("one")
+            ? left
+            : Math.min(left, Math.floor((amount * row.balance) / held));
+        left -= share;
+        return { accountId: row.accountId, amountMinor: share };
+      })
+      .filter((row) => row.amountMinor > zero);
+    payDonation(api, data, `counted:${group.placeId}`, groupId, amount, from);
+  }
+}
+
+/**
  * A cause group spends what it raised (stress audit defect 2): on the first
  * of each month it spends a share of its balance on ad time through the
  * campaigns engine's purchase, every dollar on the journal. The ad is a
@@ -1059,7 +1193,9 @@ function spendGroupFunds(api: CoreAPI, runtime: DrivesRuntime): void {
     const amount = Math.floor(
       balance * api.parameter("causeGroupMonthlySpendShare"),
     );
-    if (amount <= api.parameter("zero")) continue;
+    // An outlet sells no ad time below its smallest buy: the group saves
+    // toward it.
+    if (amount < api.parameter("causeGroupAdMinimumMinor")) continue;
     api.stopgap("SG-CORE-cause-group-ads-only");
     const id = `cause-group.ad:${groupId}:${api.state.date}`;
     const reached = buyAdTime(api, {
@@ -1129,7 +1265,10 @@ export function createDrivesModule(
     ],
     onDay(api, _decide, refresh) {
       const runtime = runtimeFor(api.state);
-      if (api.state.date.endsWith("-01")) spendGroupFunds(api, runtime);
+      if (api.state.date.endsWith("-01")) {
+        raiseFromCounted(api, data, runtime);
+        spendGroupFunds(api, runtime);
+      }
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
           runtime.byPerson.delete(personId);
@@ -1149,7 +1288,17 @@ export function createDrivesModule(
         if (!mine.size) {
           runtime.byPerson.delete(personId);
           runtime.predicted.delete(personId);
-        } else runtime.predicted.set(personId, predict(api, actor, refresh));
+        } else if (bookkeeping() || personId === api.state.playerId)
+          // The scored "why" behind a drive act is kept for the player, and
+          // for everyone only when bookkeeping is on (Keep it simple): a full
+          // choice scored daily for every drive holder grew with the number
+          // of holders, each year slower than the last.
+          runtime.predicted.set(personId, predict(api, actor, refresh));
+        else {
+          // Their needs are still brought up to today, as the scoring did.
+          refresh(actor as PersonState);
+          runtime.predicted.delete(personId);
+        }
       }
     },
     onEvent(api, event, learnedBy) {
@@ -1207,16 +1356,25 @@ export function createDrivesModule(
     },
     offerProviders: {
       "drive-confidant": (api, actor, action) => {
+        // Every confidant of one drive scores the same and ties go to the
+        // lowest id, so only that one is offered: the choice is unchanged
+        // and a person with many acquaintances scores one offer, not dozens.
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action)) {
-          if (!drive.shareable) continue;
-          for (const id of [
-            ...new Set([...actor.familyIds, ...actor.knownIds]),
-          ].sort()) {
-            if (drive.told.has(id) || id === actor.id) continue;
-            if (!api.state.people.get(id)?.alive) continue;
-            out.push(driveOffer(api, action, id, drive));
-          }
+        const serving = servingDrives(api, actor, action).filter(
+          (drive) => drive.shareable,
+        );
+        if (!serving.length) return out;
+        const ids = [
+          ...new Set([...actor.familyIds, ...actor.knownIds]),
+        ].sort();
+        for (const drive of serving) {
+          const id = ids.find(
+            (id) =>
+              !drive.told.has(id) &&
+              id !== actor.id &&
+              api.state.people.get(id)?.alive,
+          );
+          if (id) out.push(driveOffer(api, action, id, drive));
         }
         return out;
       },
@@ -1299,14 +1457,13 @@ export function createDrivesModule(
         ].some((id) => groupKnown(api, actor.id, id));
       },
       "can-afford-donation": (api, actor, offer) => {
-        const amount = Math.round(
-          actor.livingCostDailyMinor *
-            api.parameter(offer.definition.effectParameter),
-        );
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
         return (
-          amount > api.parameter("zero") &&
-          actor.liquidMinor - amount >=
-            actor.livingCostDailyMinor * api.parameter("moneyBufferDays")
+          !!drive &&
+          giftOf(api, actor, currentStrength(api, drive)) >
+            api.parameter("zero")
         );
       },
     },
@@ -1420,10 +1577,7 @@ export function createDrivesModule(
         const drive = drivesOf(api, actorId, offer);
         const actor = api.state.people.get(actorId)!;
         traceAct(api, actorId, offer, drive);
-        const amount = Math.round(
-          actor.livingCostDailyMinor *
-            api.parameter(offer.definition.effectParameter),
-        );
+        const amount = giftOf(api, actor, currentStrength(api, drive));
         const paid = payDonation(api, data, actorId, offer.targetId, amount);
         api.emit(
           actEvent(

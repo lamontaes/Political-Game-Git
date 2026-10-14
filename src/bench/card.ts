@@ -1,6 +1,6 @@
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { drivesReport } from "../core2/modules/drives";
-import { effectsOn } from "../core2/modules/law-effects";
+import { reachOn } from "../core2/law-reach/host";
 import { coreAPI } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
@@ -107,18 +107,15 @@ export function personCard(core: CoreState, personId: string) {
     drives,
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
-    lawEffects: core.modules.has("core2-law-effects-v1")
-      ? effectsOn(coreAPI(core), personId).map((row) => ({
-          id: row.id,
-          lawId: row.lawId,
-          question: row.question,
-          kind: row.kind,
-          what: row.what,
-          enforcer: row.enforcer,
-          since: row.since,
-          endedOn: row.endedOn,
-        }))
-      : [],
+    lawEffects: reachOn(coreAPI(core), personId).map((row) => ({
+      id: row.id,
+      lawId: row.lawId,
+      question: row.key,
+      kind: row.kind,
+      what: row.what,
+      since: row.since,
+      endedOn: row.endedOn,
+    })),
     // The life so far: each dated fact from the person's records.
     past: [...(person.pastFacts ?? [])]
       .sort((a, b) => a.date.localeCompare(b.date))

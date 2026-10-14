@@ -304,15 +304,15 @@
   "macroPublicBudgetImpulse": {
     "value": 0,
     "tag": "ESTIMATED",
-    "citation": "Until M1-07 budgets land, public money adds no impulse beyond its real average, which the trend already carries.",
+    "citation": "The impulse from public budgets where no federal budget is kept in the world (the budgets engine absent): none beyond the real average the trend already carries. Where the budgets engine runs, the impulse is read each month from the federal budget in force (macroFiscalMultiplier).",
     "estimatedFrom": "Trend growth 1990-2019 includes average public spending.",
-    "stopgapId": "SG-WORLD-macro-public-budget",
     "spread": {
       "low": -0.5,
       "high": 0.5,
       "unit": "gap points per year",
       "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."
-    }
+    },
+    "stopgapId": "SG-WORLD-macro-public-budget"
   },
   "macroTaylorInflationResponse": {
     "value": 0.5,
@@ -469,5 +469,32 @@
     "value": 65,
     "tag": "SOURCED",
     "citation": "Federal Reserve System policy: a Reserve Bank president retires at 65 (a president first appointed after 55 may serve up to ten years)."
+  },
+  "macroFiscalMultiplier": {
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "Output's response, in gap points, to a change in federal outlays worth one point of national output, within a year: about 1.2 for government purchases (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5)), lower for transfers, which are much of federal outlays (CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015: 0.4 to 2.5 by type).",
+    "estimatedFrom": "Monacelli, Perotti and Trigari 2010; CBO 2015 ranges by outlay type",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "gap points per point of output"
+    }
+  },
+  "macroNominalOutputDollars": {
+    "value": 29184900000000,
+    "tag": "SOURCED",
+    "citation": "U.S. gross domestic product, 2024, current dollars: $29,184.9 billion (BEA, National Income and Product Accounts, Table 1.1.5, annual 2024). The scale a change in federal outlays is measured against."
+  },
+  "macroTownGrowthMinMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The fewest months of the town's paid income compared with the same months a year earlier before the national step hears the town's growth; a quarter averages out the count of paydays in a month.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "One month reads paydays as growth; six leaves the town out of the national step for most of its first year and a half."
+    }
   }
 }

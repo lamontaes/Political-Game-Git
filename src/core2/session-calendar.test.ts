@@ -16,14 +16,14 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { openLegislature } from "./modules/legislature";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import {
+  legislativeSessionsOf,
   openWorldLegislating,
-  sessionAgendaDates,
-  sessionsOf,
+  windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
-import { sessionWindows, sessionYear } from "./state-session-calendar";
+import { sessionYear } from "./state-session-calendar";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const seed =
@@ -86,17 +86,25 @@ describe("state session calendar table", () => {
     }
   });
 
-  it("a legislature adjourns on the table's date in a drawn place and year", () => {
+  it("a legislature convenes and adjourns on the table's dates in a drawn place and year", () => {
     const tried: string[] = [];
     let ran = false;
     for (let attempt = 0; attempt < 8 && !ran; attempt += 1) {
       const state = pick(places, `state:${attempt}`);
       const year = pick(YEARS, `year:${attempt}`);
-      const windows = sessionWindows(state, year);
+      const windows = windowsIn(state, year);
       tried.push(`${state} ${year}`);
       if (!windows.length) continue;
-      const dates = sessionAgendaDates(state, year);
-      expect(dates, `${state} ${year}`).toHaveLength(windows.length);
+      const first = [...windows].sort((a, b) =>
+        a.conveneAt.localeCompare(b.conveneAt),
+      )[0]!;
+      // Open the world the day before it convenes (the game opens January 20, 2025).
+      const start = new Date(
+        Date.parse(`${first.conveneAt}T00:00:00Z`) - 86_400_000,
+      )
+        .toISOString()
+        .slice(0, 10);
+      if (start < "2025-01-20") continue;
       const localities = [
         ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
@@ -105,16 +113,6 @@ describe("state session calendar table", () => {
       ].sort((a, b) => a.key.localeCompare(b.key));
       if (!localities.length) continue;
       const placeKey = pick(localities, `place:${attempt}`).key;
-      // Open the world the day before the year's first floor day (or on the
-      // game's opening day, January 20, 2025, if that is later).
-      const first = [...windows].sort((a, b) =>
-        a.conveneAt.localeCompare(b.conveneAt),
-      )[0]!;
-      const day = new Date(Date.parse(`${dates[0]}T00:00:00Z`) - 86_400_000)
-        .toISOString()
-        .slice(0, 10);
-      const start = day < "2025-01-20" ? "2025-01-20" : day;
-      if (dates[0]! <= start) continue;
       const core = createLifeCore(
         buildPopulation({
           seed,
@@ -129,31 +127,26 @@ describe("state session calendar table", () => {
       openCampaigns(core);
       openRecord(core);
       openLegislature(core);
-      openLawEffects(core);
+      openLawReach(core);
       openWorldLegislating(core);
       const calendar = coreAPI(core).moduleCalendar(
         WORLD_LEGISLATING_MODULE_ID,
       );
-      // The legislature convenes on the table's date (the window opens) and
-      // its adjournment is on the calendar for the table's date.
-      expect(first.conveneAt).toBe(
-        sessionWindows(state, year).find(
-          (w) => w.conveneAt === first.conveneAt,
-        )!.conveneAt,
-      );
-      const end = dates.find((d) => d > start)!;
+      // It convenes on the table's date, and its adjournment goes on the
+      // calendar for the table's date.
       expect(
-        calendar.get(`session-end:${state}:${end}`)?.date,
+        calendar.get(`session-open:${state}:${first.conveneAt}`)?.date,
         `seed ${seed}, ${state} ${year} place ${placeKey}`,
-      ).toBe(end);
-      advanceCore(core, end);
-      const held = sessionsOf(coreAPI(core)).filter(
-        (s) => s.stateKey === state,
+      ).toBe(first.conveneAt);
+      advanceCore(core, first.conveneAt);
+      const session = legislativeSessionsOf(coreAPI(core)).find(
+        (s) => s.jurisdiction === state,
       );
+      expect(session?.adjournAt).toBe(first.adjournAt);
       expect(
-        held.some((s) => s.date === end),
-        `seed ${seed}, ${state} ${year}: no session held on ${end}`,
-      ).toBe(true);
+        calendar.get(`session-close:${session!.id}`)?.date,
+        `seed ${seed}, ${state} ${year}: no adjournment on ${first.adjournAt}`,
+      ).toBe(first.adjournAt);
       ran = true;
     }
     expect(ran, `no meeting legislature drawn in ${tried.join(", ")}`).toBe(
@@ -168,8 +161,8 @@ describe("state session calendar table", () => {
       ),
       "odd",
     );
-    expect(sessionAgendaDates(place, 2025)).toHaveLength(1);
-    expect(sessionAgendaDates(place, 2026)).toEqual([]);
-    expect(sessionAgendaDates(place, 2027)).toHaveLength(1);
+    expect(windowsIn(place, 2025)).toHaveLength(1);
+    expect(windowsIn(place, 2026)).toEqual([]);
+    expect(windowsIn(place, 2027)).toHaveLength(1);
   });
 });

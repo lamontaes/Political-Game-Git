@@ -100,6 +100,15 @@
         "usa-gov": 260
       },
       "note": "Moves added on the second run (a day, a law taking effect, a funeral, voting, results, filing, campaigning, taking office) were mined against the rebuilt corpus and merged into the first run's parts."
+    },
+    "memoir": {
+      "shapes": "scripts/english-corpus/shapes/journal.json (groups memoir-*)",
+      "read": {
+        "NASA oral histories": 981,
+        "U.S. House oral histories": 107,
+        "U.S. Senate oral histories": 7
+      },
+      "notAttested": 444
     }
   },
   "parts": [
@@ -657,7 +666,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001\u20132007",
+        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
         "date": "2019-09-30",
         "granule": "house-oh-hart",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
@@ -1016,7 +1025,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community\u2019s Vision and Support for Proposed National Park System Additions in Alabama",
+        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community’s Vision and Support for Proposed National Park System Additions in Alabama",
         "date": "2016-10-28",
         "granule": "doi-2016-10-28-secretary-jewell-national-park-service-director-jarvis-hear-98df7a13",
         "url": "https://www.doi.gov/pressreleases/secretary-jewell-national-park-service-director-jarvis-hear-communitys-vision-and",
@@ -3528,6 +3537,1999 @@
         "date": "2026-07-23",
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-when-age.when-i-was-age",
+      "move": "memoir-when-age",
+      "kind": "spoken",
+      "text": "When I was {age}.",
+      "uses": [
+        {
+          "move": "memoir-when-age",
+          "subject": "memoir",
+          "role": "whenAge",
+          "choice": "when-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "whenAge"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "NASA oral histories": 5,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history hurstkj-9-19-22",
+        "date": "2022-09-19",
+        "granule": "nasa-hurstkj-9-19-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/07/hurstkj-9-19-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-when-age.when-i-was-age-years-old",
+      "move": "memoir-when-age",
+      "kind": "spoken",
+      "text": "When I was {age} years old.",
+      "uses": [
+        {
+          "move": "memoir-when-age",
+          "subject": "memoir",
+          "role": "whenAge",
+          "choice": "when-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "whenAge"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 2,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Donna F. Edwards",
+        "date": "2018-06-29",
+        "granule": "house-edwardsd-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/edwardsd-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-age-years-old",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was {age} years old.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 24,
+      "bySource": {
+        "NASA oral histories": 20,
+        "U.S. House oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lewiscr-6-7-22",
+        "date": "2022-06-07",
+        "granule": "nasa-lewiscr-6-7-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-7-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-age",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was {age}.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 32,
+      "bySource": {
+        "NASA oral histories": 22,
+        "U.S. House oral histories": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
+        "date": "2022-06-14",
+        "granule": "house-doyle-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-about-age-years-old",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was about {age} years old.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Donna F. Edwards",
+        "date": "2018-06-29",
+        "granule": "house-edwardsd-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/edwardsd-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-only-age",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was only {age}.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history weilerej-4-4-17",
+        "date": "2017-04-04",
+        "granule": "nasa-weilerej-4-4-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/weilerej-4-4-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-age-line.i-was-about-age",
+      "move": "memoir-age-line",
+      "kind": "spoken",
+      "text": "I was about {age}.",
+      "uses": [
+        {
+          "move": "memoir-age-line",
+          "subject": "memoir",
+          "role": "ageLine",
+          "choice": "age-line",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "ageLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 2,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history griffink-11-13-19",
+        "date": "2019-11-13",
+        "granule": "nasa-griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-young",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was young.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history bartelsa-6-30-23",
+        "date": "2023-06-30",
+        "granule": "nasa-bartelsa-6-30-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-30-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-kid",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a kid.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "NASA oral histories": 10,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lawrencedj-1-12-24",
+        "date": "2024-01-12",
+        "granule": "nasa-lawrencedj-1-12-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/07/lawrencedj-1-12-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-child",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a child.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Jennice Fuentes",
+        "date": "2018-12-20",
+        "granule": "house-fuentes-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/fuentes-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-growing-up",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was growing up.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "NASA oral histories": 4,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Patricia Scott Schroeder",
+        "date": "2015-06-03",
+        "granule": "house-schroeder-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schroeder-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.as-a-child",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "As a child.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history koosrh-8-22-23",
+        "date": "2023-08-22",
+        "granule": "nasa-koosrh-8-22-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-younger",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was younger.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history koosrh-8-24-23",
+        "date": "2023-08-24",
+        "granule": "nasa-koosrh-8-24-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-24-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-in-high-school",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was in high school.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "NASA oral histories": 4,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Barbara Bailey Kennelly",
+        "date": "2015-09-09",
+        "granule": "house-kennelly-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kennelly-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-little-kid",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a little kid.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history saltzmanej-2-17-15",
+        "date": "2015-02-17",
+        "granule": "nasa-saltzmanej-2-17-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/saltzmanej-2-17-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-senior-in-high-school",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a senior in high school.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lousmagk-7-10-19",
+        "date": "2019-07-10",
+        "granule": "nasa-lousmagk-7-10-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-a-junior-in-high-school",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was a junior in high school.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history weisskopfga-10-24-19",
+        "date": "2019-10-24",
+        "granule": "nasa-weisskopfga-10-24-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/weisskopfga-10-24-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-young.when-i-was-in-college",
+      "move": "memoir-young",
+      "kind": "spoken",
+      "text": "When I was in college.",
+      "uses": [
+        {
+          "move": "memoir-young",
+          "subject": "memoir",
+          "role": "young",
+          "choice": "young",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "young"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "NASA oral histories": 7,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history boruckiwj-3-20-24",
+        "date": "2024-03-20",
+        "granule": "nasa-boruckiwj-3-20-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/boruckiwj-3-20-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-had-no-idea",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I had no idea.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 28,
+      "bySource": {
+        "NASA oral histories": 21,
+        "U.S. House oral histories": 6,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Lois Capps",
+        "date": "2019-07-16",
+        "granule": "house-capps-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/capps-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-it-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know it at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "NASA oral histories": 4,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Tony Coelho",
+        "date": "2024-07-22",
+        "granule": "house-coelho-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.that-was-the-beginning",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "That was the beginning.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "NASA oral histories": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history koosrh-8-22-23",
+        "date": "2023-08-22",
+        "granule": "nasa-koosrh-8-22-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.that-was-a-turning-point",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "That was a turning point.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Mary Rose Oakar",
+        "date": "2017-03-02",
+        "granule": "house-oakar-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/oakar-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.ill-never-forget-it",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I'll never forget it.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "NASA oral histories": 6,
+        "U.S. House oral histories": 3,
+        "U.S. Senate oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Brenda Countz",
+        "date": "2024-03-29",
+        "granule": "house-countz-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.ill-never-forget-that",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I'll never forget that.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "NASA oral histories": 8,
+        "U.S. House oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
+        "date": "2022-06-14",
+        "granule": "house-doyle-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-realize-it-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't realize it at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history curleyh-n-2-17-15",
+        "date": "2015-02-17",
+        "granule": "nasa-curleyh-n-2-17-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/curleyh-n-2-17-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-what-that-meant",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know what that meant.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history peddiecl-4-27-23",
+        "date": "2023-04-27",
+        "granule": "nasa-peddiecl-4-27-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-never-knew",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I never knew.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Brenda Countz",
+        "date": "2024-03-29",
+        "granule": "house-countz-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-had-no-clue",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I had no clue.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Sue W. Kelly",
+        "date": "2016-06-23",
+        "granule": "house-kellys-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.little-did-i-know",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "Little did I know.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lousmagk-7-10-19",
+        "date": "2019-07-10",
+        "granule": "nasa-lousmagk-7-10-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.thats-how-it-started",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "That's how it started.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history haweswm-8-1-18",
+        "date": "2018-08-01",
+        "granule": "nasa-haweswm-8-1-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/haweswm-8-1-18.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.thats-where-it-began",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "That's where it began.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history reedlm-5-15-15",
+        "date": "2015-05-15",
+        "granule": "nasa-reedlm-5-15-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/reedlm-5-15-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.we-had-no-idea",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "We had no idea.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "NASA oral histories": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history jenkinsj-6-18-24",
+        "date": "2024-06-18",
+        "granule": "nasa-jenkinsj-6-18-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-that-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know that at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Michael F. Doyle",
+        "date": "2022-06-14",
+        "granule": "house-doyle-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-didnt-know-at-the-time",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I didn't know at the time.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history hillps-3-24-15",
+        "date": "2015-03-24",
+        "granule": "nasa-hillps-3-24-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hillps-3-24-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.name-was-a-good-friend",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} was a good friend.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history staffordtp-4-23-15",
+        "date": "2015-04-23",
+        "granule": "nasa-staffordtp-4-23-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/staffordtp-4-23-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.name-was-a-friend-of-mine",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} was a friend of mine.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history griffink-11-13-19",
+        "date": "2019-11-13",
+        "granule": "nasa-griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.i-worked-with-name",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "I worked with {name}.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 34,
+      "bySource": {
+        "NASA oral histories": 29,
+        "U.S. House oral histories": 4,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history jenkinsj-6-18-24",
+        "date": "2024-06-18",
+        "granule": "nasa-jenkinsj-6-18-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.name-and-i-were-good-friends",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "{name} and I were good friends.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Helen Delich Bentley",
+        "date": "2016-03-21",
+        "granule": "house-bentley-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/bentley-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.i-knew-name-from-school",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "I knew {name} from {school}.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lewiscr-7-6-22",
+        "date": "2022-07-06",
+        "granule": "nasa-lewiscr-7-6-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-7-6-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.we-worked-together",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "We worked together.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "NASA oral histories": 9,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history tersignij-7-12-18",
+        "date": "2018-07-12",
+        "granule": "nasa-tersignij-7-12-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/tersignij-7-12-18.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.we-were-friends",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "We were friends.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "NASA oral histories": 5,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history hirasakip-8-2-23",
+        "date": "2023-08-02",
+        "granule": "nasa-hirasakip-8-2-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hirasakip-8-2-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-remember.we-became-friends",
+      "move": "memoir-remember",
+      "kind": "spoken",
+      "text": "We became friends.",
+      "uses": [
+        {
+          "move": "memoir-remember",
+          "subject": "memoir",
+          "role": "remember",
+          "choice": "remember",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "remember"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history newmh-2-23-22",
+        "date": "2022-02-23",
+        "granule": "nasa-newmh-2-23-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/newmh-2-23-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-decided.i-ran-for-office",
+      "move": "memoir-decided",
+      "kind": "spoken",
+      "text": "I ran for {office}.",
+      "uses": [
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Linda Melconian",
+        "date": "2018-06-07",
+        "granule": "house-melconian-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/melconian-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-decided.so-i-ran",
+      "move": "memoir-decided",
+      "kind": "spoken",
+      "text": "So I ran.",
+      "uses": [
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Sue W. Kelly",
+        "date": "2016-06-23",
+        "granule": "house-kellys-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-hard",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was hard.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 28,
+      "bySource": {
+        "NASA oral histories": 18,
+        "U.S. House oral histories": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lawrencedj-3-22-24",
+        "date": "2024-03-22",
+        "granule": "nasa-lawrencedj-3-22-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lawrencedj-3-22-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-tough-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a tough time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Sue Myrick",
+        "date": "2016-03-14",
+        "granule": "house-myrick-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/myrick-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-difficult-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a difficult time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history diazav-6-6-17",
+        "date": "2017-06-06",
+        "granule": "nasa-diazav-6-6-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-tough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was tough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 26,
+      "bySource": {
+        "NASA oral histories": 23,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lounsburyja-9-13-23",
+        "date": "2023-09-13",
+        "granule": "nasa-lounsburyja-9-13-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lounsburyja-9-13-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-difficult",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was difficult.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 16,
+      "bySource": {
+        "NASA oral histories": 10,
+        "U.S. House oral histories": 5,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history lewiscr-6-28-22",
+        "date": "2022-06-28",
+        "granule": "nasa-lewiscr-6-28-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.we-got-through-it",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "We got through it.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history geyerms-12-3-20",
+        "date": "2020-12-03",
+        "granule": "nasa-geyerms-12-3-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.that-was-hard",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "That was hard.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "NASA oral histories": 13,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history sunshinej-2-25-25",
+        "date": "2025-02-25",
+        "granule": "nasa-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.that-was-tough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "That was tough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "NASA oral histories": 11
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history brekkem-8-17-17",
+        "date": "2017-08-17",
+        "granule": "nasa-brekkem-8-17-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/brekkem-8-17-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.that-was-difficult",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "That was difficult.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history saundersmp-5-11-22",
+        "date": "2022-05-11",
+        "granule": "nasa-saundersmp-5-11-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/saundersmp-5-11-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-very-difficult",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was very difficult.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "NASA oral histories": 10,
+        "U.S. House oral histories": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history sunshinej-2-25-25",
+        "date": "2025-02-25",
+        "granule": "nasa-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-very-difficult-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a very difficult time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history diazav-6-6-17",
+        "date": "2017-06-06",
+        "granule": "nasa-diazav-6-6-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-a-terrible-time",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was a terrible time.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Cokie Roberts",
+        "date": "2017-05-25",
+        "granule": "house-roberts-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/roberts-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-rough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was rough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. House oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history laurettads-8-12-24",
+        "date": "2024-08-12",
+        "granule": "nasa-laurettads-8-12-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-12-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-hard.it-was-really-tough",
+      "move": "memoir-hard",
+      "kind": "spoken",
+      "text": "It was really tough.",
+      "uses": [
+        {
+          "move": "memoir-hard",
+          "subject": "memoir",
+          "role": "hard",
+          "choice": "hard",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hard"
+            }
+          ],
+          "requiresFacts": ["hard-time"]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "NASA oral histories": 3,
+        "U.S. Senate oral histories": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history peddiecl-4-27-23",
+        "date": "2023-04-27",
+        "granule": "nasa-peddiecl-4-27-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-became.name-became-office",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "{name} became {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: The Honorable Shelley Berkley",
+        "date": "2019-07-22",
+        "granule": "house-berkley-transcript",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.memoir-became.he-later-became-office",
+      "move": "memoir-became",
+      "kind": "spoken",
+      "text": "He later became {office}.",
+      "uses": [
+        {
+          "move": "memoir-became",
+          "subject": "memoir",
+          "role": "became",
+          "choice": "became",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "became"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "NASA oral histories": 1,
+        "U.S. House oral histories": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House oral history: Gary Hymel",
+        "date": "2022-10-31",
+        "granule": "house-hymel-transcript",
+        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

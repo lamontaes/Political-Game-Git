@@ -467,7 +467,14 @@ describe("story director on the new core", () => {
         expect(row.stopgapId && row.checkRange).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
-    expect(openDirectorStopgapCount()).toBe(DIRECTOR_STOPGAPS.length);
+    // A resolved row says how it was resolved; the rest stay open.
+    const resolved = DIRECTOR_STOPGAPS.filter(
+      (row) => row.status === "resolved",
+    );
+    for (const row of resolved) expect(row.why).toMatch(/Resolved/);
+    expect(openDirectorStopgapCount()).toBe(
+      DIRECTOR_STOPGAPS.length - resolved.length,
+    );
     const folder = join(process.cwd(), "src", "director");
     const literals: string[] = [];
     for (const name of readdirSync(folder)) {
@@ -498,7 +505,8 @@ describe("story director on the new core", () => {
 
   it("keeps situation types to human moments, with no election-night type", () => {
     const types = SITUATION_LIBRARY.types;
-    expect(types).toHaveLength(32);
+    // 32, plus the justice engine's hearing and verdict (OPUS-GOV, October 14, 2026).
+    expect(types).toHaveLength(34);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));

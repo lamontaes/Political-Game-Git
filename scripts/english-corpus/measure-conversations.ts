@@ -19,11 +19,7 @@ import {
   say,
 } from "../../src/director/conversation";
 import { createDirector } from "../../src/director/ledger";
-import {
-  CONVERSATION_BANK,
-  conversationDataFromBank,
-  pickBy,
-} from "./conversation-bank";
+import { MINED_CONVERSATION } from "../../src/director/mined/conversation-bank";
 
 const real = JSON.parse(
   readFileSync("data/english/counts/everyday.json", "utf8"),
@@ -55,10 +51,7 @@ for (const seed of process.argv.slice(2)) {
   const me = core.people.get(player.id)!;
   for (const [index, otherId] of [...me.knownIds].slice(0, 15).entries()) {
     if (!core.people.get(otherId)?.alive) continue;
-    const data = conversationDataFromBank(
-      CONVERSATION_BANK,
-      pickBy(`${seed}:${otherId}`),
-    );
+    const data = MINED_CONVERSATION;
     const talk = openConversation(core, player.id, otherId, { data });
     for (let turn = 0; turn < 5 && talk.choices.length > 0; turn += 1)
       say(

@@ -1,7 +1,7 @@
 /** M1-08 first cut: owners and owner draws from profit, on a recorded fixture. */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
-import { BUSINESS_MODULE, ownerOf } from "./modules/business";
+import { BUSINESS_MODULE, estateHeir, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
@@ -502,7 +502,7 @@ describe("closing by choice", () => {
     core.people.get("owner")!.birthDate = "1958-12-31";
     const owners = api.moduleState("business").table("owners");
     const row = owners.get(shop)!;
-    owners.put({ ...row, retainedMinor: -15_000_000 });
+    owners.put({ ...row, lossMonths: 8 });
     advanceCore(core, "2021-02-02");
     const choice = api
       .moduleState("business")
@@ -528,7 +528,7 @@ describe("closing by choice", () => {
     const owners = api.moduleState("business").table("owners");
     const row = owners.get(shop)!;
     // Losses kept: 15 months of the shop's payroll.
-    owners.put({ ...row, retainedMinor: -15_000_000 });
+    owners.put({ ...row, lossMonths: 8 });
     const before = core.people.get("owner")!.liquidMinor;
     advanceCore(core, "2021-02-02");
     const choice = api
@@ -550,5 +550,51 @@ describe("closing by choice", () => {
       [`organization:${shop}:closing-reason`]: "losses-kept",
     });
     expect(money(core)).toBe(total);
+  });
+});
+
+describe("a dead owner's closing proceeds", () => {
+  const stub = (alive: Record<string, boolean>, links: [string, string][]) => {
+    const people = new Map(
+      Object.entries(alive).map(([id, a]) => [
+        id,
+        { id, alive: a, householdId: `hh:${id}`, familyIds: [] as string[] },
+      ]),
+    );
+    const households = new Map(
+      [...people.keys()].map((id) => [`hh:${id}`, { memberIds: [id] }]),
+    );
+    const familyLinks = new Map(
+      links.map(([a, b], i) => [
+        `l${i}`,
+        { id: `l${i}`, kind: "parent-child", personIds: [a, b] },
+      ]),
+    );
+    const organizations = new Map([
+      ["biz", { id: "biz", placeId: "p" }],
+      ["out", { id: "out", placeId: "p", outsideFlow: {} }],
+    ]);
+    return {
+      state: { people, households, familyLinks, organizations },
+    } as never;
+  };
+  it("go to a living relative, not the dead owner; else to the outside account", () => {
+    expect(
+      estateHeir(
+        stub({ owner: false, kid: true, parent: false }, [
+          ["owner", "kid"],
+          ["parent", "owner"],
+        ]),
+        "biz",
+        "owner",
+      ),
+    ).toBe("kid");
+    expect(
+      estateHeir(
+        stub({ owner: false, parent: false }, [["parent", "owner"]]),
+        "biz",
+        "owner",
+      ),
+    ).toBe("out");
   });
 });

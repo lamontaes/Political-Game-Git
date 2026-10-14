@@ -131,7 +131,7 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
       ),
     );
     const economy = lines.filter(({ line }) =>
-      /lost (my|his|her|their) job|started .+\.$|were evicted|bought a house|moved away/.test(
+      /lost (my|his|her|their) job|started .+\.$|were evicted|bought a house|moved away|(moved|came)( back)? to .+\.$/.test(
         line.text,
       ),
     );

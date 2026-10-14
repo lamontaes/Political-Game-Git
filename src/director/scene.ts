@@ -7,11 +7,10 @@ import {
   type GroundedEnglishKnowledge,
   type GroundedEnglishPacket,
 } from "../english/grounded-english";
-import sceneJson from "./data/scene-words.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
 import type { Director } from "./ledger";
 import type { SceneBinding, ScheduleEntry } from "./scheduling";
-import { directorStopgap } from "./stopgaps";
+import { sceneWordsFromBank } from "./mined/scene-bank";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
@@ -24,13 +23,20 @@ interface Variant {
 }
 export interface SceneWords {
   version: string;
-  stopgapId: string;
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
   present: Variant[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
 }
-export const SCENE_WORDS = sceneJson as SceneWords;
+/** `data/scene-rows.json`: the scene's structure, holding no sentences. */
+export interface SceneRows {
+  version: string;
+  and: string;
+  settings: readonly string[];
+  causes: readonly string[];
+}
+/** The default words are the mined bank's. */
+export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
 
 interface Fact {
   text: string;
@@ -75,7 +81,6 @@ export function composeScene(
     timing: "now",
     openUntil: moment.date,
   };
-  directorStopgap(words.stopgapId, director.ledger.stopgapHits);
 
   const relation = new Map<string, { relation: string; factId: string }>();
   for (const fact of person.pastFacts ?? [])

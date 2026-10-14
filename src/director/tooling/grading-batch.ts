@@ -100,8 +100,8 @@ for (const drawn of seeds) {
     if (n > 12) break;
     const talk = openConversation(core, player.id, otherId);
     for (let turn = 0; turn < 3 && talk.choices.length; turn += 1) {
-      if (talk.lie && !lied) {
-        say(core, talk, talk.lie.key);
+      if (talk.lies.length && !lied) {
+        say(core, talk, talk.lies[0]!.key);
         lied = true;
         break;
       }

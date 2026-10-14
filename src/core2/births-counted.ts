@@ -40,6 +40,7 @@ import {
   removeCountedPerson,
 } from "./modules/residents";
 import type { ResidentHouseholdRecord } from "./residents";
+import { COUNTED_MOVES_MODULE_ID } from "./modules/counted-moves";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
 
@@ -380,7 +381,12 @@ export function applyCountedFlows(
     // summed; whole households leave, those least held in place first.
     const job = moveParameter("movesJobHold"),
       kids = moveParameter("movesChildrenHold");
-    const leaving = (countedHouseholdsByPlace(core).get(placeId) ?? [])
+    // Where counted moves run (one model, two tiers), people move from
+    // causes there; this keeps births and deaths only.
+    const movesFromCauses = core.modules.has(COUNTED_MOVES_MODULE_ID);
+    const leaving = (
+      movesFromCauses ? [] : (countedHouseholdsByPlace(core).get(placeId) ?? [])
+    )
       .map((record) => {
         const adults = record.people.filter(
           (row) => ageOf(row, date) >= adultAge,
@@ -441,8 +447,9 @@ export function applyCountedFlows(
     // same ranking); who they are is generated from the world's seed.
     const now = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const count = now.reduce((n, record) => n + record.people.length, 0);
-    row.expected.arrivals =
-      monthlyShare(movers.arrivalsPerResidentPerYear, months) * count;
+    row.expected.arrivals = movesFromCauses
+      ? 0
+      : monthlyShare(movers.arrivalsPerResidentPerYear, months) * count;
     carry.arrivals += row.expected.arrivals;
     const shapes = leaving.length ? leaving.map((entry) => entry.record) : now;
     for (let index = 0; shapes.length && carry.arrivals >= 1; index++) {

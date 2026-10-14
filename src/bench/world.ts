@@ -21,12 +21,15 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOfficialPay } from "../core2/modules/official-pay";
+import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
-import { openLawEffects } from "../core2/modules/law-effects";
+import { openLawReach } from "../core2/law-reach/host";
 import { OUTCOME_WEB_MODULE } from "../core2/modules/outcome-web";
 import { openStaff } from "../core2/modules/staff";
 import { openLeadership } from "../core2/modules/leadership";
+import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
@@ -35,7 +38,9 @@ import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
+import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openCases } from "../core2/modules/constituent-cases";
+import { openJustice } from "../core2/modules/justice";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
@@ -284,7 +289,7 @@ function* benchWorldStages(
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
+    data: officeDayData(renewalData(worldCoreData(peopleData(DEFAULT_DATA)))),
     modules: [
       ...WORLD_MODULES,
       // One area of the world moving another (M3-04): reads the economy's
@@ -310,12 +315,17 @@ function* benchWorldStages(
   openVoting(core);
   openRecord(core);
   openBudgets(core);
+  // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
+  openOfficialPay(core);
+  openEmployerTaxes(core);
   openLegislature(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
   openExecutive(core, seed);
-  openLawEffects(core);
+  // The president's cabinet and the line of succession (OPUS-GOV).
+  openSuccession(core);
+  openLawReach(core);
   // Everything that works through the government above, in the order the
   // modules' own tests open them: officials' staff, interest groups (hooks
   // on every bill's vote), other governments' lawmaking, state and federal
@@ -330,6 +340,12 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
+  // calendar, the meeting as a scene, the player's chosen stops and the
+  // character's own votes and desk decisions when the player does not stop.
+  openOfficeDay(core, seed);
+  // Prosecutors, trials and prisons: reads the corruption engine's records.
+  openJustice(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);

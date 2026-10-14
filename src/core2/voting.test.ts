@@ -187,6 +187,11 @@ describe("M2-07 elections", () => {
     const cast = ballots.filter((b) => b.voted);
     expect(cast.length).toBe(result.namedTurnout);
     for (const b of cast.filter((x) => x.choice !== null)) {
+      // A candidate in the race backs themselves.
+      if (candidates.includes(b.voterId)) {
+        expect(b.choice).toBe(b.voterId);
+        continue;
+      }
       const best = Object.entries(b.appeal).sort(
         (x, y) => y[1].total - x[1].total || x[0].localeCompare(y[0]),
       )[0]![0];

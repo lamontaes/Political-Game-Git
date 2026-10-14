@@ -10,6 +10,7 @@ import {
   peerCohortSize,
   residentsRuntime,
   enterResidentMarket,
+  countedSinceOpening,
   releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
@@ -17,6 +18,8 @@ import {
 } from "./modules/residents";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
+import { giveHealthRecord } from "./modules/health";
+import { isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
   installModuleState,
@@ -37,7 +40,11 @@ import {
   recordWorkAttendance,
 } from "./work-attendance";
 import { settleWorkPayrollAndNotify } from "./work-payroll-dispatch";
-import { endRecordedJob, startRecordedJob } from "./job-lifecycle";
+import {
+  endRecordedJob,
+  startRecordedJob,
+  startSalariedPost,
+} from "./job-lifecycle";
 import {
   emptyFinanceRuntime,
   financeIndex,
@@ -963,6 +970,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     endJob(id, sourceId) {
       endRecordedJob(core, api, id, sourceId);
     },
+    startSalariedPost(job) {
+      startSalariedPost(core, api, job);
+    },
     repriceCreditFacility(id, rate, source) {
       repriceCreditFacility(core, api, id, rate, source);
     },
@@ -1625,6 +1635,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         `${row.placeId}:${row.kind}`,
         row.id,
       );
+      recordEntry(core, {
+        id: row.id,
+        kind: "organization",
+        reason: row.kind,
+        placeId: row.placeId,
+      });
     },
     lookupPublicOrganization(personId, organizationId) {
       const row = core.publicOrganizations.get(organizationId);
@@ -1729,6 +1745,40 @@ export function coreAPI(core: CoreState): CoreAPI {
   return api;
 }
 
+/**
+ * Everyone and everything that enters the world after its opening day leaves a
+ * record (trace audit item 2): who or what came in, why, and where. In the
+ * town's own places it is a public record; elsewhere a plain one.
+ */
+function recordEntry(
+  core: CoreState,
+  entry: {
+    readonly id: string;
+    readonly kind: "person" | "organization";
+    readonly reason: string;
+    readonly placeId: string;
+  },
+): void {
+  // The opening's own people and organizations are the world as it began.
+  if (core.date <= core.startedAt) return;
+  const id = `${entry.kind}.recorded:${entry.id}:${core.date}`;
+  if (core.eventIds.has(id)) return;
+  coreAPI(core).emit({
+    id,
+    date: core.date,
+    kind: `${entry.kind}.recorded`,
+    personIds: entry.kind === "person" ? [entry.id] : [],
+    placeId: entry.placeId,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: `Entered the world: ${entry.reason}`,
+    },
+    publicRecord: core.visiblePlaceIds.has(entry.placeId),
+    facts: { recordId: entry.id, reason: entry.reason },
+  });
+}
+
 export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
   if (makeIsoDate(event.date) !== core.date)
     throw new Error(
@@ -1821,21 +1871,26 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
-  if (full) return full;
-  if (!residentPerson(core, personId)) return undefined;
+  // Someone returned to the counts comes back as the same person.
+  if (full && !isDemoted(full)) return full;
+  if (!residentPerson(core, personId)) return full;
   return fillInPerson(core, personId);
 }
 
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
-  if (existing) return existing;
+  if (existing && !isDemoted(existing)) return existing;
+  // A household returned to the counts comes back with its own records.
+  const returning = existing !== undefined;
   const taken = takeResidentHousehold(core, personId);
   if (!taken) throw new Error(`Not in the wider population: ${personId}`);
   // Their past exists only from now: rebuilt from the world's seed, as the
   // opening would have built it.
-  const build = residentsRuntime(core)?.input.pastBuild;
+  // Counted people carry no past at all (one model, two tiers): everyone in
+  // the household gets theirs now.
+  const build = returning ? undefined : residentsRuntime(core)?.input.pastBuild;
   const rebuild = build
-    ? taken.people.filter((row) => build.deepPastAt[row.id] !== undefined)
+    ? taken.people.filter((row) => countedSinceOpening(core, row.id))
     : [];
   let record = taken;
   if (build && rebuild.length) {
@@ -1843,8 +1898,8 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       rebuild.map((row) => [
         row.id,
         {
-          head: (row.pastFacts ?? []).slice(0, build.deepPastAt[row.id]),
-          tail: (row.pastFacts ?? []).slice(build.deepPastAt[row.id]),
+          head: row.pastFacts ?? [],
+          tail: [],
         },
       ]),
     );
@@ -1886,9 +1941,23 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   }
   const api = coreAPI(core);
   const home = record.household;
-  if (core.households.has(home.id))
-    throw new Error(`Household already present: ${home.id}`);
-  core.households.set(home.id, { ...home, memberIds: [...home.memberIds] });
+  if (returning) {
+    for (const row of record.people)
+      api.updatePerson(row.id, { tier: row.tier });
+    api.relocatePeopleV1({
+      personIds: record.people.map((row) => row.id),
+      placeId: home.placeId,
+      ...(record.people[0]?.countyId
+        ? { countyId: record.people[0].countyId }
+        : {}),
+      householdId: home.id,
+      source: home.source,
+    });
+  } else {
+    if (core.households.has(home.id))
+      throw new Error(`Household already present: ${home.id}`);
+    core.households.set(home.id, { ...home, memberIds: [...home.memberIds] });
+  }
   const jobs = new Map(record.jobs.map((row) => [row.id, row]));
   // Ties to people still counted become husks, met and filled in later.
   const husk = (id: PersonId) => {
@@ -1912,6 +1981,23 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
+    if (returning) {
+      // Their counted job, if any, is theirs again.
+      const job = record.jobs.find(
+        (j) => j.personId === row.id && countedJob(core, j.id) !== undefined,
+      );
+      if (job) {
+        core.jobs.set(job.id, { ...(countedJob(core, job.id) ?? job) });
+        financeIndex(
+          core.finance.jobsByOrganization,
+          job.organizationId,
+          job.id,
+        );
+        api.updatePerson(row.id, { jobId: job.id });
+      }
+      admitted.push(core.people.get(row.id)!);
+      continue;
+    }
     const recorded = row.jobId ? jobs.get(row.jobId) : undefined;
     // The counted job as it stands today (pay may have changed since the opening).
     const job = recorded
@@ -1948,7 +2034,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           : 0;
       if (amount > 0)
         accounts.transfer({
-          id: `fill-in:${row.id}:cash`,
+          id: `fill-in:${row.id}:${released.sequence}:cash`,
           from,
           to: accounts.main(row.id),
           amountMinor: amount,
@@ -2014,6 +2100,13 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             );
         }
   for (const actor of admitted) {
+    // Counted all along; now followed in full, with a record of it.
+    recordEntry(core, {
+      id: actor.id,
+      kind: "person",
+      reason: returning ? "returned" : "filled-in",
+      placeId: actor.placeId,
+    });
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)
       if (core.people.has(id)) {
@@ -2054,6 +2147,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       });
     }
   }
+  // Their health comes from the health engine's model, seeded by the world
+  // and the person, as the opening's people's did.
+  for (const actor of admitted) giveHealthRecord(api, actor.id);
   return core.people.get(personId)!;
 }
 
@@ -2141,7 +2237,7 @@ export function fillInIdentity(
         ]
       : []),
   ];
-  return admitPerson(core, {
+  const person = admitPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
     familyName: identity.familyName,
@@ -2159,6 +2255,13 @@ export function fillInIdentity(
     ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
     pastFacts: facts,
   });
+  recordEntry(core, {
+    id: person.id,
+    kind: "person",
+    reason: identity.seatKey ? "seated-official" : "named-person",
+    placeId: person.placeId,
+  });
+  return person;
 }
 
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
@@ -2195,6 +2298,12 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
     ...input,
     said: husk.said,
     looks: husk.looks,
+  });
+  recordEntry(core, {
+    id: actor.id,
+    kind: "person",
+    reason: "promoted",
+    placeId: actor.placeId,
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds)

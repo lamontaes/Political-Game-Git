@@ -37,6 +37,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
+  residentPerson,
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresOf } from "../../src/core2/modules/moves";
@@ -725,6 +726,41 @@ function playWorld(seed: string) {
           `${oversized.length} of ${foundings.length} new businesses borrowed more than ${LOAN_TO_FOUNDER_CASH} times the founder's cash (largest loan $${(Math.max(...oversized.map((f) => f.loanMinor)) / 100).toFixed(0)}). Business (src/core2/modules/business.ts) must size a founding to the founder's means.`,
         );
 
+  // Break 16: a pay change (a wage floor) never reaches an ended job, and the
+  // counted books keep no open row for a job that is a full record now.
+  const staleRows = [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(
+    (job) => job.endsAt === undefined && core.jobs.has(job.id),
+  );
+  const raisedAfterEnd = [...core.jobs.values()].filter((job) =>
+    job.endsAt === undefined
+      ? false
+      : (core.work.payChanges.get(job.id) ?? []).some(
+          (change) => change.date > job.endsAt!,
+        ),
+  );
+  verdicts["a wage floor never reaches an ended job"] =
+    !staleRows.length && !raisedAfterEnd.length
+      ? pass(
+          "no counted row stands for a full job, and no pay change followed an ending",
+        )
+      : fail(
+          `${staleRows.length} jobs are open in the counted books and also full records (first ${staleRows[0]?.id}), and ${raisedAfterEnd.length} jobs were re-rated after they ended (first ${raisedAfterEnd[0]?.id}). A job that ends must end in both tables (src/core2/modules/residents.ts releaseResidentHousehold).`,
+        );
+
+  // Break 17: no open job, and no seeker, names a person who is gone (died or
+  // moved away with their household), so a layoff never reads a missing person.
+  const goneJobs = [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(
+    (job) =>
+      job.endsAt === undefined &&
+      !core.people.has(job.personId) &&
+      !residentPerson(core, job.personId),
+  );
+  verdicts["no open job names a person who is gone"] = !goneJobs.length
+    ? pass("every open counted job has a person in the town")
+    : fail(
+        `${goneJobs.length} open counted jobs name a person who is gone (first ${goneJobs[0]?.id} at ${goneJobs[0]?.organizationId}, ${goneJobs[0]?.personId}). Removing a counted person or household must end every job row they hold, including jobs they were hired into (src/core2/modules/residents.ts countedJobIdsOf).`,
+      );
+
   return {
     summary: {
       seed,
@@ -799,6 +835,8 @@ for (const [index, seed] of seeds.entries()) {
     alive("homes have values and rents");
     alive("pay reaches a spendable account");
     alive("a new business's loan fits its founder");
+    alive("a wage floor never reaches an ended job");
+    alive("no open job names a person who is gone");
     alive("the engine loads under its memory ceiling");
     alive("the opened town is under its memory ceiling");
     alive("the town's memory grows under its ceiling");

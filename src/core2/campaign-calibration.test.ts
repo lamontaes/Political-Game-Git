@@ -103,7 +103,7 @@ describe("campaign calibration on totals", () => {
         // the 15% floor in a town that answers at the field rate.
         hours: 12,
       });
-      const knocked = campaignFor(api, filing.id).doorsKnocked.length;
+      const knocked = campaignFor(api, filing.id).doorsKnockedCount ?? 0;
       const contact = met.length / Math.max(1, knocked);
       const filled = core.people.size - namedBefore;
       const known = [...(core.people.get(player.id)?.knownIds ?? [])].filter(
@@ -162,11 +162,16 @@ describe("campaign calibration on totals", () => {
         0.15,
       );
       expect(contact, `${state} ${key} ${seed} contact`).toBeLessThan(0.45);
-      if (known.length >= 10)
+      // The top of the measured range across places (31% of acquaintances,
+      // volunteerThreshold) plus two standard errors of a sample this size:
+      // a dozen acquaintances can't tell 31% from 45% apart by chance.
+      if (known.length >= 10) {
+        const top = 0.31;
         expect(
           volunteers / known.length,
-          `${state} ${key} volunteers`,
-        ).toBeLessThan(0.4);
+          `${state} ${key} ${seed} volunteers (${volunteers} of ${known.length})`,
+        ).toBeLessThan(top + 2 * Math.sqrt((top * (1 - top)) / known.length));
+      }
       if (heard.length >= 10)
         expect(
           moved.length / heard.length,

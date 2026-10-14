@@ -56,8 +56,15 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -113,8 +120,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "people-mind-v1:conflict": {
@@ -151,7 +164,14 @@
         "staff.follow-through",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -183,8 +203,14 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "people-mind-v1:deliberation": {
@@ -241,8 +267,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -288,7 +320,13 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "people-mind-v1:reliability": {
@@ -334,7 +372,11 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -375,8 +417,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "people-mind-v1:risk": {
@@ -427,8 +475,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ],
       "low": [
         "life.daily-act",
@@ -482,8 +535,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "people-mind-v1:sociability": {
@@ -526,8 +586,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -579,8 +646,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:action-despite-fear": {
@@ -635,8 +709,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -690,8 +771,15 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -748,7 +836,13 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -794,8 +888,12 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -840,8 +938,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -885,7 +987,11 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-acquisitive": {
@@ -924,8 +1030,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ],
       "low": [
         "life.daily-act",
@@ -950,7 +1060,9 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-affectionate": {
@@ -994,8 +1106,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1044,8 +1161,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-ambitious": {
@@ -1094,8 +1216,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1147,8 +1275,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -1191,7 +1324,12 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "press.dig",
+        "press.tip",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1239,8 +1377,11 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -1284,7 +1425,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1312,7 +1458,10 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "school.attend",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-arbitrary": {
@@ -1351,7 +1500,9 @@
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute"
       ],
       "low": [
         "life.daily-act",
@@ -1392,7 +1543,9 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -1425,7 +1578,13 @@
         "staff.follow-through",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -1446,7 +1605,14 @@
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-assertive": {
@@ -1473,7 +1639,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -1499,7 +1671,11 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-blunt": {
@@ -1526,7 +1702,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -1551,7 +1733,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-brazen": {
@@ -1598,8 +1786,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -1631,7 +1825,10 @@
         "constituent-cases.handle-case",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-brooding": {
@@ -1686,8 +1883,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1737,7 +1939,10 @@
         "press.follow-news",
         "press.accept-interview",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-calm": {
@@ -1796,8 +2001,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1839,7 +2051,14 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-charming": {
@@ -1883,8 +2102,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -1923,8 +2149,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-closeness-seeking": {
@@ -1978,7 +2209,11 @@
         "press.follow-news",
         "press.accept-interview",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2024,8 +2259,12 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -2074,8 +2313,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -2115,7 +2360,13 @@
         "constituent-cases.bring-case",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -2159,8 +2410,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2194,7 +2449,10 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-competitive": {
@@ -2245,7 +2503,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2266,7 +2531,14 @@
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-contented": {
@@ -2322,8 +2594,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2367,7 +2646,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-cruel": {
@@ -2395,7 +2679,13 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -2414,7 +2704,13 @@
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "staff.follow-through"
+        "staff.follow-through",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-curious": {
@@ -2467,7 +2763,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2516,8 +2816,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -2543,6 +2848,7 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
+        "press.dig",
         "school.attend"
       ],
       "low": [
@@ -2564,7 +2870,10 @@
         "interest-groups.employer-join",
         "legislature.member-position",
         "legislature.hold-hearing",
-        "legislature.sign-or-veto"
+        "legislature.sign-or-veto",
+        "press.dig",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-daydreaming": {
@@ -2609,8 +2918,12 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2648,7 +2961,12 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-defensive": {
@@ -2675,7 +2993,13 @@
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "staff.follow-through"
+        "staff.follow-through",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -2698,7 +3022,10 @@
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "staff.follow-through"
+        "staff.follow-through",
+        "press.dig",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-deferential": {
@@ -2729,8 +3056,13 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2745,7 +3077,13 @@
         "recalls.vote",
         "interest-groups.employer-join",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-devoted": {
@@ -2796,7 +3134,12 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2840,8 +3183,10 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report"
       ]
     },
     "personality-v1:facet-dramatic": {
@@ -2881,7 +3226,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2929,7 +3281,10 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-duty-bound": {
@@ -2970,8 +3325,12 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "news.pass-on",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -2986,7 +3345,9 @@
         "campaigns.donate",
         "constituent-cases.handle-case",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-enterprising": {
@@ -3040,8 +3401,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3090,8 +3458,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -3130,8 +3503,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -3162,7 +3541,11 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-envious": {
@@ -3206,8 +3589,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3254,7 +3644,13 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-excitable": {
@@ -3305,7 +3701,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3357,7 +3759,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-fair-minded": {
@@ -3389,8 +3797,11 @@
         "world-legislating.bring-agenda",
         "staff.follow-through",
         "press.follow-news",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3405,7 +3816,9 @@
         "campaigns.donate",
         "constituent-cases.handle-case",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-fickle": {
@@ -3454,7 +3867,11 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3499,7 +3916,11 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-forgiving": {
@@ -3525,7 +3946,14 @@
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3542,7 +3970,13 @@
         "campaigns.answer-poll",
         "interest-groups.employer-join",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-friendly": {
@@ -3586,7 +4020,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3630,7 +4068,11 @@
         "press.follow-news",
         "press.accept-interview",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-generous": {
@@ -3664,7 +4106,10 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "school.attend",
+        "justice.plea",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3707,8 +4152,10 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report"
       ]
     },
     "personality-v1:facet-gentle": {
@@ -3740,7 +4187,14 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3763,7 +4217,13 @@
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "staff.follow-through"
+        "staff.follow-through",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-guarded": {
@@ -3809,8 +4269,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3846,7 +4312,10 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-hostile": {
@@ -3876,7 +4345,14 @@
         "legislature.sign-or-veto",
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
-        "staff.follow-through"
+        "staff.follow-through",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3900,7 +4376,14 @@
         "legislature.member-position",
         "legislature.hold-hearing",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-hot-headed": {
@@ -3942,7 +4425,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -3972,7 +4462,14 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-humble": {
@@ -4007,8 +4504,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -4042,8 +4545,12 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-imaginative": {
@@ -4081,7 +4588,9 @@
         "world-legislating.bring-agenda",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report"
       ],
       "low": [
         "life.daily-act",
@@ -4130,8 +4639,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-independent": {
@@ -4178,7 +4692,10 @@
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "school.attend",
+        "justice.plea",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -4203,7 +4720,12 @@
         "legislature.sign-or-veto",
         "constituent-cases.handle-case",
         "press.follow-news",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-informal": {
@@ -4232,7 +4754,10 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -4273,7 +4798,9 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -4334,8 +4861,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -4383,8 +4917,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-inventive": {
@@ -4430,7 +4968,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ],
       "low": [
         "life.daily-act",
@@ -4472,7 +5015,9 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -4522,8 +5067,14 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -4568,7 +5119,12 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-manipulative": {
@@ -4603,8 +5159,12 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -4623,8 +5183,11 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-mediating": {
@@ -4665,7 +5228,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -4704,8 +5273,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-meticulous": {
@@ -4745,8 +5319,12 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -4773,8 +5351,12 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-mischievous": {
@@ -4817,8 +5399,12 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -4859,7 +5445,9 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "news.pass-on",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -4905,7 +5493,11 @@
         "world-legislating.bring-agenda",
         "constituent-cases.bring-case",
         "jobs-benefits.file-claim",
-        "press.accept-interview"
+        "press.accept-interview",
+        "press.tip",
+        "justice.report",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "drives.respond",
@@ -4941,7 +5533,9 @@
         "world-legislating.bring-agenda",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report"
       ]
     },
     "personality-v1:facet-nurturing": {
@@ -4985,8 +5579,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5020,7 +5618,10 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-observant": {
@@ -5060,7 +5661,12 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -5104,8 +5710,13 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -5160,7 +5771,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5206,7 +5821,10 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-opportunistic": {
@@ -5257,8 +5875,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5307,8 +5932,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -5358,8 +5988,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5402,8 +6038,12 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-philanthropic": {
@@ -5444,7 +6084,9 @@
         "press.follow-news",
         "press.accept-interview",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5487,8 +6129,10 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.follow-news",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report"
       ]
     },
     "personality-v1:facet-polite": {
@@ -5519,8 +6163,13 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5540,8 +6189,12 @@
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
         "press.follow-news",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-practical": {
@@ -5587,7 +6240,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5629,7 +6288,12 @@
         "world-legislating.bring-agenda",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-proud": {
@@ -5662,7 +6326,11 @@
         "staff.follow-through",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -5693,7 +6361,11 @@
         "staff.follow-through",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-restless": {
@@ -5742,7 +6414,12 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5787,7 +6464,11 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-sassy": {
@@ -5814,7 +6495,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -5839,7 +6526,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-self-conscious": {
@@ -5891,8 +6584,15 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -5940,7 +6640,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-self-serving": {
@@ -5978,7 +6685,9 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "press.follow-news",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute"
       ]
     },
     "personality-v1:facet-sensitive": {
@@ -6028,8 +6737,15 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6067,8 +6783,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-shy": {
@@ -6118,8 +6841,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6159,8 +6888,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-sincere": {
@@ -6193,8 +6927,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "drives.respond",
@@ -6220,7 +6959,11 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-skeptical": {
@@ -6250,7 +6993,10 @@
         "world-legislating.bring-agenda",
         "constituent-cases.handle-case",
         "staff.follow-through",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "press.dig",
+        "justice.prosecute",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6292,8 +7038,10 @@
         "legislature.member-position",
         "constituent-cases.handle-case",
         "staff.follow-through",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -6344,8 +7092,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6385,8 +7138,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-smug": {
@@ -6432,7 +7189,8 @@
         "world-legislating.bring-agenda",
         "constituent-cases.bring-case",
         "press.follow-news",
-        "press.accept-interview"
+        "press.accept-interview",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "drives.respond",
@@ -6473,7 +7231,11 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-studious": {
@@ -6523,8 +7285,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6579,8 +7345,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-supportive": {
@@ -6624,8 +7396,12 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6659,7 +7435,10 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "meetings.take-part",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-tactful": {
@@ -6706,8 +7485,14 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -6732,7 +7517,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-teasing": {
@@ -6780,7 +7571,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -6829,7 +7626,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-tender-hearted": {
@@ -6861,7 +7664,14 @@
         "legislature.sign-or-veto",
         "world-legislating.bring-agenda",
         "constituent-cases.bring-case",
-        "jobs-benefits.file-claim"
+        "jobs-benefits.file-claim",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6884,7 +7694,13 @@
         "constituent-cases.bring-case",
         "constituent-cases.handle-case",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-thrill-seeking": {
@@ -6941,8 +7757,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -6991,8 +7814,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -7026,7 +7854,13 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
-        "school.attend"
+        "press.dig",
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -7044,7 +7878,13 @@
         "campaigns.answer-poll",
         "interest-groups.employer-join",
         "legislature.sign-or-veto",
-        "constituent-cases.bring-case"
+        "constituent-cases.bring-case",
+        "press.dig",
+        "press.tip",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:facet-work-centered": {
@@ -7090,8 +7930,14 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7146,8 +7992,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:facet-zealous": {
@@ -7206,8 +8058,15 @@
         "jobs-benefits.file-claim",
         "news.pass-on",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7255,8 +8114,13 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "jobs-benefits.file-claim",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:initial-trust": {
@@ -7296,7 +8160,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7342,7 +8210,12 @@
         "staff.follow-through",
         "jobs-benefits.file-claim",
         "press.accept-interview",
-        "school.attend"
+        "press.tip",
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:method-revision": {
@@ -7390,7 +8263,13 @@
         "constituent-cases.bring-case",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.dig",
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7437,7 +8316,11 @@
         "staff.follow-through",
         "news.pass-on",
         "press.follow-news",
-        "meetings.take-part"
+        "press.dig",
+        "meetings.take-part",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:outward-emotional-display": {
@@ -7475,7 +8358,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7527,8 +8414,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:patience": {
@@ -7585,8 +8477,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7633,8 +8531,13 @@
         "constituent-cases.handle-case",
         "staff.follow-through",
         "press.follow-news",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:playful-manner": {
@@ -7689,7 +8592,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7731,8 +8638,11 @@
         "staff.follow-through",
         "press.follow-news",
         "press.accept-interview",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.plea",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:self-confidence": {
@@ -7789,8 +8699,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -7847,8 +8764,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:truthfulness": {
@@ -7881,8 +8805,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall"
       ],
       "low": [
         "life.daily-act",
@@ -7910,7 +8839,11 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
-        "meetings.take-part"
+        "press.tip",
+        "meetings.take-part",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall"
       ]
     },
     "personality-v1:uncertain-outlook": {
@@ -7965,8 +8898,15 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -8016,8 +8956,15 @@
         "jobs-benefits.file-claim",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "justice.plea",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -8069,8 +9016,13 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ],
       "low": [
         "life.daily-act",
@@ -8127,8 +9079,14 @@
         "news.pass-on",
         "press.follow-news",
         "press.accept-interview",
+        "press.dig",
+        "press.tip",
         "meetings.take-part",
-        "school.attend"
+        "school.attend",
+        "justice.report",
+        "justice.prosecute",
+        "meetings.hold-town-hall",
+        "campaigns.party-firmness"
       ]
     }
   }

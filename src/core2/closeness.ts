@@ -80,7 +80,7 @@ export function closenessBetween(
   a: PersonId,
   b: PersonId,
 ): number {
-  const row = core.relationships.get([a, b].sort().join(":"));
+  const row = core.relationships.get(a < b ? `${a}:${b}` : `${b}:${a}`);
   return row
     ? currentCloseness(core, row)
     : parameter("zero", core.data.parameters);

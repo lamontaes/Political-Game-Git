@@ -36,7 +36,14 @@ import {
 } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
-import type { LawRowInput } from "../laws-starting";
+import {
+  lawChainForPlace,
+  startingLawRows,
+  type LawChain,
+  type LawRowInput,
+} from "../laws-starting";
+import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
+import { corePlaceByJurisdictionId } from "../place-lookup";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import {
   applySocialSecurityLevel,
@@ -799,12 +806,22 @@ export function enactBudget(
   adoptedBy: string,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
-  const enacted = { ...enactedBudgetChanges(api, gov.id) };
-  for (const [line, delta] of Object.entries(changes))
+  const prior = table(api, "enacted").get(gov.id) as unknown as
+    | {
+        changes: Record<string, number>;
+        byYear?: Record<string, Record<string, number>>;
+      }
+    | undefined;
+  const enacted = { ...(prior?.changes ?? {}) };
+  const year = { ...(prior?.byYear?.[String(fy)] ?? {}) };
+  for (const [line, delta] of Object.entries(changes)) {
     enacted[line] = (enacted[line] ?? 0) + delta;
+    year[line] = (year[line] ?? 0) + delta;
+  }
   table(api, "enacted").put({
     id: gov.id,
     changes: enacted,
+    byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
   } as unknown as ModuleRow);
   const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
   putBudget(api, budget);
@@ -837,6 +854,26 @@ export function adoptedLine(
   line: string,
 ): number {
   return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+}
+
+/**
+ * A line as it stood before the year's own budget bill: the adopted line less
+ * what that bill changed in it. What a service is measured against, so a
+ * change the body adopts this year reaches the people the line serves, and
+ * becomes the base the next year.
+ */
+export function lineBeforeBill(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fy: number,
+  line: string,
+): number {
+  const year =
+    (
+      table(api, "enacted").get(gov.id) as unknown as
+        { byYear?: Record<string, Record<string, number>> } | undefined
+    )?.byYear?.[String(fy)]?.[line] ?? 0;
+  return Math.max(0, adoptedLine(api, gov, fy, line) - year);
 }
 
 /** A year's budget when its bill fails: the enacted lines carried forward. */
@@ -956,6 +993,79 @@ function accountFor(api: CoreAPI, jurisdiction: string): string | null {
   return gov ? `cash:${gov.organizationId}:residual` : null;
 }
 
+/** Residence law chains and their starting rows, by the residence's place id (static data). */
+const residenceLaw = new Map<
+  string,
+  { chain: LawChain; rows: readonly LawRowInput[] } | null
+>();
+function residenceLawFor(placeId: string) {
+  if (residenceLaw.has(placeId)) return residenceLaw.get(placeId)!;
+  let found: { chain: LawChain; rows: readonly LawRowInput[] } | null = null;
+  try {
+    const place = corePlaceByJurisdictionId(placeId as never);
+    if (place) {
+      const chain = lawChainForPlace(place.key);
+      found = { chain, rows: startingLawRows(chain) };
+    }
+  } catch {
+    found = null;
+  }
+  residenceLaw.set(placeId, found);
+  return found;
+}
+
+/**
+ * The income and payroll tax law in force where a worker lives (audit 12). The
+ * town's own residents read the town's law. Anyone else reads their own
+ * residence's chain (federal, their state, county and place): the town's
+ * recorded rows where the jurisdiction is shared with the town (so enacted
+ * acts count), the starting rows for the rest.
+ */
+function residentLaw(
+  api: CoreAPI,
+  placeId: string,
+): (series: string) => LawInForceAnswer {
+  if (placeId === lawChain(api).townPlaceId)
+    return (series) => lawInForce(api, series);
+  const own = residenceLawFor(placeId);
+  const town = lawChain(api);
+  const shared = new Set(town.levels.map((l) => l.jurisdiction));
+  return (series) => {
+    if (!own) {
+      // stopgapId: SG-WORLD-withholding-residence-law
+      api.stopgap("SG-WORLD-withholding-residence-law");
+      const answer = lawInForce(api, series);
+      return {
+        ...answer,
+        levels: answer.levels.map((l) =>
+          l.level === "federal" ? l : { ...l, row: null },
+        ),
+      };
+    }
+    // stopgapId: SG-WORLD-withholding-residence-law
+    api.stopgap("SG-WORLD-withholding-residence-law");
+    const recorded = api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
+    const seen = new Set(recorded.map((r) => r.id));
+    return resolveLawInForce({
+      series,
+      chain: own.chain,
+      date: api.state.date,
+      rows: [
+        ...recorded,
+        ...own.rows.filter(
+          (r) =>
+            r.series === series &&
+            !shared.has(r.jurisdiction) &&
+            !seen.has(r.id),
+        ),
+      ],
+    });
+  };
+}
+
 /** On payday: the taxes the law in force says come out of this paycheck go to each government. */
 function withhold(
   api: CoreAPI,
@@ -982,7 +1092,8 @@ function withhold(
       paidMinor: paid,
     });
   const person = api.state.people.get(receipt.personId);
-  if (!person || person.placeId !== lawChain(api).townPlaceId) return;
+  if (!person) return;
+  const law = residentLaw(api, person.placeId);
   const year = api.state.date.slice(0, 4);
   const ytdId = `${receipt.personId}:${year}`;
   const ytd =
@@ -1000,10 +1111,18 @@ function withhold(
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
-    incomeTax: lawInForce(api, "income-tax"),
-    socialSecurity: lawInForce(api, "social-security-tax"),
-    medicare: lawInForce(api, "medicare-tax"),
+    incomeTax: law("income-tax"),
+    socialSecurity: law("social-security-tax"),
+    medicare: law("medicare-tax"),
   });
+  if (lines.some((l) => l.level === "county" || l.level === "city")) {
+    // stopgapId: SG-WORLD-withholding-local-base
+    api.stopgap("SG-WORLD-withholding-local-base");
+  }
+  if (person.placeId !== lawChain(api).townPlaceId) {
+    // stopgapId: SG-WORLD-withholding-nonresident-local
+    api.stopgap("SG-WORLD-withholding-nonresident-local");
+  }
   const posted = postWithholding(api, {
     id: `withholding:${receipt.id}`,
     payerId: receipt.personId,
@@ -1040,7 +1159,15 @@ function postWithholding(
   let total = 0;
   for (const [index, line] of input.lines.entries()) {
     const account = accountFor(api, line.jurisdiction);
-    if (!account || line.minor <= 0) continue;
+    if (line.minor <= 0) continue;
+    if (!account) {
+      // A government with no treasury here (another state's, a county or city
+      // the world doesn't model) can't be paid: an outside account takes money
+      // only against a due obligation record, which doesn't exist yet.
+      // stopgapId: SG-WORLD-withholding-outside-governments
+      api.stopgap("SG-WORLD-withholding-outside-governments");
+      continue;
+    }
     kept.push(line);
     postings.push({
       id: `${input.id}:tax:${index}`,
@@ -1066,9 +1193,19 @@ function postWithholding(
     lines: kept,
     postings,
     source: {
-      tag: "SOURCED",
+      // SOURCED only when every law row read is; a carried-back estimate makes
+      // the record an estimate (audit 13).
+      tag: kept.some((l) => l.estimate) ? "ESTIMATED" : "SOURCED",
       citation: [...new Set(kept.map((l) => l.lawId))].join(" ; "),
       asOf: api.state.date,
+      ...(kept.some((l) => l.estimate)
+        ? {
+            estimatedFrom: `Law rows read that are estimates: ${kept
+              .filter((l) => l.estimate)
+              .map((l) => l.lawId)
+              .join(" ; ")}`,
+          }
+        : {}),
     },
   };
   // The journal reads the record from its slot; the table keeps it once posted.
@@ -1106,7 +1243,9 @@ function withholdCounted(api: CoreAPI): void {
   const rt = residentsRuntime(core);
   const town = lawChain(api).townPlaceId;
   const pool = rt?.input.accounts.find((a) => a.placeId === town)?.accountId;
-  if (!rt || !pool) return;
+  // Where counted groups hold their own accounts, each payday withholds the
+  // law in force from each group's pay (counted-money.ts payGroups).
+  if (!rt || !pool || rt.funded) return;
   const prior = priorMonth(api.state.date);
   // The first close counts only the days since the treasuries opened.
   const opened =

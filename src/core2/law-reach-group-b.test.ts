@@ -23,7 +23,7 @@ import {
   withholdingOf,
   type GovernmentRow,
 } from "./modules/budgets";
-import { effectsOn, openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import { withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
@@ -106,7 +106,7 @@ function build(): void {
     );
     openLaws(core);
     openBudgets(core);
-    openLawEffects(core);
+    openLawReach(core);
     repealStartingAnswers(core);
     api = coreAPI(core);
     place = key;
@@ -366,15 +366,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       const expected = employersOf(def.organizations!);
       expect(openOrgs(key).length, `${where} ${key}`).toBe(expected);
       for (const row of openOrgs(key)) expect(row.kind).toBe(def.kind);
-      if (key.endsWith("bottle-deposit"))
-        // The deposit itself is on adults (law-effects); the sellers collect it.
-        expect(
-          [...core.people.keys()].some((id) =>
-            effectsOn(api, id).some(
-              (e) => e.question === key && e.endedOn === null,
-            ),
-          ),
-        ).toBe(true);
       report[key] = { employers: expected };
       enact(key, 0, "state");
       expectEnded(key);
@@ -910,6 +901,33 @@ describe("law reach, group B: every policy reaches people through its engine", (
     };
     enact(key, 0, LOCAL);
     expectEnded(key);
+  });
+
+  it("a closed school's eligibility rows end the day it closes", () => {
+    const key = Q("education.public-funds-for-private-schooling");
+    enact(key, 1, "state");
+    const openBefore = openOrgs(key).length,
+      school = openOrgs(key)[0];
+    if (!school) return; // a town with no private school has nothing to end
+    api.emit({
+      id: `event:business.closed:${school.organizationId}`,
+      date: api.state.date,
+      kind: "business.closed",
+      personIds: [],
+      placeId: town,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: "test closure",
+        estimatedFrom: "test closure",
+      },
+      publicRecord: true,
+      topic: school.organizationId,
+    });
+    const row = orgs(key).find((r) => r.id === school.id)!;
+    expect(row.endedOn, where).toBe(api.state.date);
+    expect(openOrgs(key).length, where).toBe(openBefore - 1);
+    enact(key, 0, "state");
   });
 
   it("reports", () => {

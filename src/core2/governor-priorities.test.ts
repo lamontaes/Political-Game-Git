@@ -18,7 +18,7 @@ import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { openLegislature } from "./modules/legislature";
-import { openLawEffects } from "./modules/law-effects";
+import { openLawReach } from "./law-reach/host";
 import {
   budgetsOf,
   governments,
@@ -73,7 +73,7 @@ describe("M5-02 the governor's budget priorities", () => {
     openRecord(core);
     openLegislature(core);
     openBudgets(core);
-    openLawEffects(core);
+    openLawReach(core);
     const api = coreAPI(core);
     const gov = governments(api).find((g) => g.level === "state")!;
     const current = budgetsOf(api, gov.id).at(-1)!;

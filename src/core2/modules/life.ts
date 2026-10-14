@@ -113,6 +113,34 @@ function relationAt(api: CoreAPI, a: string, b: string): number {
   return closenessBetween(api.state, a, b);
 }
 
+/**
+ * The closest the person is to anyone the event names. A vote names a whole
+ * chamber, so whichever list is shorter is walked: the person's own ties or
+ * the names. Strangers count zero either way.
+ */
+function closestTo(
+  api: CoreAPI,
+  personId: string,
+  subjects: readonly string[],
+): number {
+  let level = zero(api);
+  const ties = api.state.relationshipsByPerson.get(personId);
+  if (!ties || ties.size >= subjects.length) {
+    for (const subject of subjects)
+      level = Math.max(level, relationAt(api, personId, subject));
+    return level;
+  }
+  const named = new Set(subjects);
+  for (const id of ties) {
+    const row = api.state.relationships.get(id);
+    if (!row) continue;
+    const other = row.actorId === personId ? row.otherId : row.actorId;
+    if (named.has(other))
+      level = Math.max(level, relationAt(api, personId, other));
+  }
+  return level;
+}
+
 /** What a resident knows the office answered about one cause. */
 const replyKey = (officeId: string, topic: string) =>
   `office-reply:${officeId}:${topic}`;
@@ -447,10 +475,7 @@ export const LIFE_MODULE: CoreModule = {
     api.stopgap("SG-P8-emotion-model");
     for (const id of learnedBy) {
       const actor = api.state.people.get(id)!;
-      const relation = event.personIds.reduce(
-        (level, subject) => Math.max(level, relationAt(api, id, subject)),
-        zero(api),
-      );
+      const relation = closestTo(api, id, event.personIds);
       const appraisal = appraiseEvent(
         actor,
         event,

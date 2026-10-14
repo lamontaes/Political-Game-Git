@@ -1226,6 +1226,72 @@
       "keyedBy": "the opening household's own key",
       "reason": "Whether the family that brings the player's cohort into a town with none is a couple or a single parent with children: who exists at the opening, in the place's split of family households, keyed to that household.",
       "replacement": "the place's own family households by shape from a fuller survey sample"
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": "OPUS-PEOPLE",
+      "count": 1,
+      "code": "name = `${town} ${draw.pick(MASTHEADS.newspaperWords.rows)}`.trim();",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + attempt",
+      "reason": "A newspaper's masthead word from the commonest U.S. masthead words; the outlet's name, who it is.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": "OPUS-PEOPLE",
+      "count": 1,
+      "code": "letters += LETTERS[draw.integer(0, LETTERS.length)];",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + attempt",
+      "reason": "A station's call-sign letters after its state's FCC prefix; the outlet's name, who it is.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": "OPUS-PEOPLE",
+      "count": 1,
+      "code": "names.pick( givenNamePoolForCorpus( corpus, gender === \"female\" || gender === \"male\" ? gender : \"nonbinary\", ), );",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + role + index",
+      "reason": "A fictional reporter's or editor's given name from the place's name corpus for their birth cohort; who they are.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": "OPUS-PEOPLE",
+      "count": 1,
+      "code": "familyName = names.pick(corpus.familyNames);",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + role + index",
+      "reason": "A fictional reporter's or editor's family name from the place's corpus; who they are.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/press-staff.ts",
+      "kind": "list-pick",
+      "build": "OPUS-PEOPLE",
+      "count": 1,
+      "code": "const name = `${input.prefix}${rng.fork(String(attempt)).pick(input.words)}${input.suffix}`;",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + outlet id + attempt",
+      "reason": "A national outlet's generated name from its kind's words; who the outlet is, never a real brand.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/modules/counted-moves.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "stableHash(`${core.seed}:arrival:${key}:${date}:${rt.serial}`).slice( 0, 8, ), 16, ); const template = shapes[pick % shapes.length]!;",
+      "class": "GENERATION",
+      "keyedBy": "the arriving household's own serial (its id), with its origin and age band",
+      "reason": "Who a newcomer household is: its shape is drawn from the place's households of its head's age band, keyed to that household's own serial; how many arrive and from where follows from the pull.",
+      "replacement": null
     }
   ]
 }

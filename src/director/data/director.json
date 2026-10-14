@@ -312,6 +312,401 @@
       "tag": "ESTIMATED",
       "citation": "A child born into the family, sized as the Social Readjustment Rating Scale's 'Gain of new family member', 39 life-change units divided by 100 (Holmes and Rahe 1967), reaching the parents fully and others tied to them by how much they matter.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.45"
+    },
+    "directorChargedImpact": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Being charged with a felony, sized between the Social Readjustment Rating Scale's 'Minor violations of the law' (11) and 'Jail term' (63) life-change units, divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.63"
+    },
+    "directorConvictedImpact": {
+      "value": 0.63,
+      "tag": "ESTIMATED",
+      "citation": "A guilty verdict, sized as the Social Readjustment Rating Scale's 'Jail term', 63 life-change units divided by 100 (Holmes and Rahe 1967); a verdict to probation alone weighs less in life but is read the same until the scale is split.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.45 to 0.63"
+    },
+    "directorAcquittedImpact": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Acquittal at trial, sized like the Social Readjustment Rating Scale's nearest relief item, 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
+    },
+    "directorJailTermImpact": {
+      "value": 0.63,
+      "tag": "SOURCED",
+      "citation": "A jail term, the Social Readjustment Rating Scale's 'Jail term', 63 life-change units divided by 100 (Holmes and Rahe 1967), reaching those tied to the person by how much they matter."
+    },
+    "directorReleasedImpact": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Release from prison, sized like the Social Readjustment Rating Scale's 'Marital reconciliation', 45 life-change units divided by 100 (Holmes and Rahe 1967): a return to the household after a separation.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.3 to 0.5"
+    },
+    "directorElectionResultImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "Winning or losing one's own race, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same item filing to run uses; the owner rules that running, winning and losing are journal entries (Oct 14).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "dialogueGuardJournalOpeners": {
+      "value": 0.48,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 20 journal lines. Mean 0.58 minus one standard deviation (0.09) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (158 parts)",
+      "spread": {
+        "low": 0.45,
+        "high": 0.7,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardJournalShapes": {
+      "value": 0.59,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 20 journal lines. Mean 0.70 minus one standard deviation (0.10) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (158 parts)",
+      "spread": {
+        "low": 0.55,
+        "high": 0.8,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardJournalVerbs": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 20 journal lines. Mean 0.47 minus one standard deviation (0.09) over 400 draws of 20 real sentences from the mined journal bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/journal.json real-use counts (158 parts)",
+      "spread": {
+        "low": 0.35,
+        "high": 0.55,
+        "unit": "share of 20 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind journal"
+      }
+    },
+    "dialogueGuardLegislationOpeners": {
+      "value": 0.33,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 12 legislation lines. Mean 0.43 minus one standard deviation (0.10) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.33,
+        "high": 0.58,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardLegislationShapes": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 12 legislation lines. Mean 0.48 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.33,
+        "high": 0.58,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardLegislationVerbs": {
+      "value": 0.31,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 12 legislation lines. Mean 0.41 minus one standard deviation (0.09) over 400 draws of 12 real sentences from the mined legislation bank (moves short-title, long-title, enacting-clause), each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/legislation.json real-use counts (21 parts)",
+      "spread": {
+        "low": 0.33,
+        "high": 0.5,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind legislation"
+      }
+    },
+    "dialogueGuardNoticesOpeners": {
+      "value": 0.49,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 2 notices lines. Mean 0.74 minus one standard deviation (0.25) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardNoticesShapes": {
+      "value": 0.59,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 2 notices lines. Mean 0.83 minus one standard deviation (0.24) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardNoticesVerbs": {
+      "value": 0.49,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 2 notices lines. Mean 0.74 minus one standard deviation (0.25) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 2 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind notices"
+      }
+    },
+    "dialogueGuardMinutesOpeners": {
+      "value": 0.8,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 4 minutes lines. Mean 0.93 minus one standard deviation (0.12) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardMinutesShapes": {
+      "value": 0.82,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 4 minutes lines. Mean 0.94 minus one standard deviation (0.11) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardMinutesVerbs": {
+      "value": 0.64,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 4 minutes lines. Mean 0.81 minus one standard deviation (0.17) over 400 draws of 4 real sentences from the mined minutes bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/minutes.json real-use counts (37 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind minutes"
+      }
+    },
+    "dialogueGuardHearingOpeners": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 4 hearing lines. Mean 0.80 minus one standard deviation (0.20) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardHearingShapes": {
+      "value": 0.86,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 4 hearing lines. Mean 0.96 minus one standard deviation (0.10) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardHearingVerbs": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 4 hearing lines. Mean 0.65 minus one standard deviation (0.17) over 400 draws of 4 real sentences from the mined hearing bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/hearing.json real-use counts (76 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 0.75,
+        "unit": "share of 4 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind hearing"
+      }
+    },
+    "dialogueGuardMeetingOpeners": {
+      "value": 0.09,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 12 meeting lines. Mean 0.15 minus one standard deviation (0.06) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.08,
+        "high": 0.25,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardMeetingShapes": {
+      "value": 0.91,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 12 meeting lines. Mean 0.96 minus one standard deviation (0.05) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.92,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardMeetingVerbs": {
+      "value": 0.52,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 12 meeting lines. Mean 0.63 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined meeting bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/meeting.json real-use counts (131 parts)",
+      "spread": {
+        "low": 0.5,
+        "high": 0.75,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind meeting"
+      }
+    },
+    "dialogueGuardCampaignOpeners": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 8 campaign lines. Mean 0.62 minus one standard deviation (0.16) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.75,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardCampaignShapes": {
+      "value": 0.73,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 8 campaign lines. Mean 0.85 minus one standard deviation (0.12) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.75,
+        "high": 1,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardCampaignVerbs": {
+      "value": 0.35,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 8 campaign lines. Mean 0.49 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.63,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind campaign"
+      }
+    },
+    "dialogueGuardInterviewOpeners": {
+      "value": 0.37,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 8 interview lines. Mean 0.51 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.63,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardInterviewShapes": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 8 interview lines. Mean 0.52 minus one standard deviation (0.13) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.75,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardInterviewVerbs": {
+      "value": 0.34,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 8 interview lines. Mean 0.46 minus one standard deviation (0.11) over 400 draws of 8 real sentences from the mined interview bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/interview.json real-use counts (85 parts)",
+      "spread": {
+        "low": 0.38,
+        "high": 0.63,
+        "unit": "share of 8 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind interview"
+      }
+    },
+    "dialogueGuardEmotionOpeners": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 18 emotion lines. Mean 0.47 minus one standard deviation (0.09) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.33,
+        "high": 0.61,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardEmotionShapes": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 18 emotion lines. Mean 0.70 minus one standard deviation (0.09) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.61,
+        "high": 0.83,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardEmotionVerbs": {
+      "value": 0.24,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 18 emotion lines. Mean 0.31 minus one standard deviation (0.07) over 400 draws of 18 real sentences from the mined address bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/address.json real-use counts (266 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.22,
+        "high": 0.39,
+        "unit": "share of 18 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind emotion"
+      }
+    },
+    "dialogueGuardConversationOpeners": {
+      "value": 0.71,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct two-word openers among 12 conversation lines. Mean 0.83 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.67,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "dialogueGuardConversationShapes": {
+      "value": 0.71,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 12 conversation lines. Mean 0.83 minus one standard deviation (0.11) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.67,
+        "high": 1,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "dialogueGuardConversationVerbs": {
+      "value": 0.21,
+      "tag": "ESTIMATED",
+      "citation": "Share of distinct main verbs among 12 conversation lines. Mean 0.31 minus one standard deviation (0.10) over 400 draws of 12 real sentences from the mined conversation bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
+      "estimatedFrom": "data/english/parts/conversation.json real-use counts (361 parts); opener cross-check from data/english/counts/everyday.json",
+      "spread": {
+        "low": 0.17,
+        "high": 0.42,
+        "unit": "share of 12 lines (10th to 90th percentile of the draws)",
+        "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
     }
   },
   "channels": [
@@ -479,6 +874,11 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "election-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "office.replied",
       "channel": "cause",
       "impactParameter": "directorOfficeReplyImpact"
@@ -508,6 +908,31 @@
       "channel": "feeling",
       "impactParameter": "directorBirthImpact",
       "counterpartFact": "childId"
+    },
+    {
+      "eventKind": "justice.charged",
+      "channel": "feeling",
+      "impactParameter": "directorChargedImpact"
+    },
+    {
+      "eventKind": "justice.convicted",
+      "channel": "feeling",
+      "impactParameter": "directorConvictedImpact"
+    },
+    {
+      "eventKind": "justice.acquitted",
+      "channel": "feeling",
+      "impactParameter": "directorAcquittedImpact"
+    },
+    {
+      "eventKind": "justice.imprisoned",
+      "channel": "feeling",
+      "impactParameter": "directorJailTermImpact"
+    },
+    {
+      "eventKind": "justice.released",
+      "channel": "feeling",
+      "impactParameter": "directorReleasedImpact"
     }
   ]
 }

@@ -37,6 +37,7 @@ import { governmentUnit } from "../reference/government-units";
 import type { EntityId } from "../kernel/brands";
 import {
   electionInYear,
+  specialElectionDate,
   staggeredSeatElection,
   termStartAfter,
 } from "../elections-calendar";
@@ -213,7 +214,9 @@ function termEnd(
   const year = seat.electionYear ?? office.nextElectionYear;
   const election =
     year !== undefined
-      ? electionInYear({ ...where, year, onDate: `${year}-01-01` })
+      ? // Asked from the year before: a spring election's filing can close
+        // in the winter before its year.
+        electionInYear({ ...where, year, onDate: `${year - 1}-07-01` })
       : staggeredSeatElection({ ...where, onDate: date, index: seat.index });
   if (election) return termStartAfter(office, election.electionDate);
   const starts = office.termStarts ?? "01-01";
@@ -251,12 +254,19 @@ function suitedResidents(
   core: CoreState,
   date: string,
   taken: ReadonlySet<string>,
+  townPlaceId: string,
 ) {
   const year = Number(date.slice(0, 4));
   return [...core.people.values()]
     .filter((person) => {
-      // Someone who moved away (an inactive record) lives elsewhere now.
-      if (!person.alive || person.tier === "husk" || taken.has(person.id))
+      // Someone who moved away (an inactive record) lives elsewhere now; a
+      // state's or another place's official lives there, not here.
+      if (
+        !person.alive ||
+        person.tier === "husk" ||
+        person.placeId !== townPlaceId ||
+        taken.has(person.id)
+      )
         return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
@@ -448,24 +458,39 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     );
     putOffice(api, { office: { ...office, vacancyRule: rule }, seats });
     if (!office.elected) continue;
-    const residents = suitedResidents(core, date, taken);
+    const residents = suitedResidents(
+      core,
+      date,
+      taken,
+      place.context.jurisdiction.id,
+    );
     for (const [index, seat] of seats.entries()) {
       const holder = residents[index];
-      if (!holder) break;
-      taken.add(holder.person.id);
+      if (holder) taken.add(holder.person.id);
+      // A town with too few named residents for every seat has a named
+      // official in the rest, as a vacancy with no resident to fill it does.
       pastTerms(
         api,
         worldSeed,
         office,
         seat,
-        seatResident(
-          api,
-          office,
-          seat,
-          holder.person.id,
-          date,
-          "in office at the opening",
-        ),
+        holder
+          ? seatResident(
+              api,
+              office,
+              seat,
+              holder.person.id,
+              date,
+              "in office at the opening",
+            )
+          : seatNamedOfficial(
+              api,
+              `${worldSeed}:${date}`,
+              office,
+              seat,
+              date,
+              "in office at the opening",
+            ),
       );
     }
   }
@@ -818,6 +843,31 @@ export function vacateSeat(
   return filled;
 }
 
+/**
+ * Who takes a vacated seat where the law names the person (the line of
+ * succession to the presidency, a vice president nominated and confirmed),
+ * by office kind. The provider names a full person, why they took it, and
+ * what follows once they hold it (a successor's own seat vacated in turn).
+ */
+export type SuccessorProvider = (
+  api: CoreAPI,
+  input: { readonly seatId: string; readonly previous: TermRow },
+) => {
+  readonly personId: string;
+  readonly party: string | null;
+  readonly reached: string;
+  readonly then?: () => void;
+} | null;
+const successorProviders = new Map<string, SuccessorProvider>();
+
+/** The engine that names a successor for an office kind registers here. */
+export function registerSuccessorProvider(
+  officeKind: string,
+  provider: SuccessorProvider,
+): void {
+  successorProviders.set(officeKind, provider);
+}
+
 function fillVacancy(
   api: CoreAPI,
   office: OfficeInput & { vacancyRule: VacancyRule },
@@ -847,6 +897,11 @@ function fillVacancy(
                 ]) as unknown as TermRow[]
               ).flatMap((t) => (t.personId ? [t.personId] : [])),
             ]),
+            (
+              table(api, "loaded").get("town") as unknown as {
+                townPlaceId: string;
+              }
+            ).townPlaceId,
           ).find(
             (suited) =>
               decisionLean(
@@ -877,6 +932,30 @@ function fillVacancy(
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
   if (rule.method === "remains-vacant") return vacancy;
+  // The person the law names, where an engine reads the line.
+  const named = successorProviders.get(office.kind)?.(api, {
+    seatId: seat.id,
+    previous,
+  });
+  if (named) {
+    const term = seatResident(
+      api,
+      office,
+      { ...seat, party: named.party },
+      named.personId,
+      date,
+      named.reached,
+    );
+    table(api, "terms").put({
+      ...term,
+      endDate: previous.endDate,
+      endEstimated: previous.endEstimated,
+    } as unknown as ModuleRow);
+    const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
+    table(api, "vacancies").put(filled as unknown as ModuleRow);
+    named.then?.();
+    return filled;
+  }
   if (rule.method === "successor")
     return appoint(`succeeded as ${rule.successor ?? "next in line"}`);
   if (rule.method === "appointment")
@@ -887,7 +966,14 @@ function fillVacancy(
   const scheduled: VacancyRow = {
     ...vacancy,
     status: "awaiting-election",
-    electionDate: addMonths(date, 3),
+    electionDate: specialElectionDate({
+      office,
+      stateKey: office.jurisdiction.startsWith("US-")
+        ? office.jurisdiction
+        : (table(api, "loaded").get("town") as unknown as { stateKey: string })
+            .stateKey,
+      vacancyDate: date,
+    }).electionDate,
   };
   // An interim appointee serves until the special election, where the law
   // makes one; they stand in it as the incumbent.
@@ -955,12 +1041,6 @@ export function vacancyFilled(
       status: "filled",
       filledBy: termId,
     } as unknown as ModuleRow);
-}
-
-function addMonths(date: string, months: number): string {
-  const d = new Date(`${date}T00:00:00Z`);
-  d.setUTCMonth(d.getUTCMonth() + months);
-  return d.toISOString().slice(0, 10);
 }
 
 function officesCalendarWork(
