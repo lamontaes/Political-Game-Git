@@ -1078,6 +1078,36 @@
       "tag": "TUNABLE",
       "source": "How much a colleague's pull to lead (sociability plus dutifulness, about -2 to 2, the rule an opening chair is read by) counts in whom a member backs: smaller than closeness or agreement, so the choice is the members', but enough to separate colleagues no one knows.",
       "spread": [0.25, 1]
+    },
+    "countedGroupSpread": {
+      "value": 0.34,
+      "tag": "ESTIMATED",
+      "source": "The spread of tastes, in appeal units, among people alike in everything the records hold: a counted voter's group splits across a race's candidates by the logistic of their appeal gaps over this spread. Set so a party identifier at lean 0.5 (a one-unit appeal gap between the two parties' nominees) backs their own party's nominee about 95% of the time, the loyalty of party identifiers in presidential voting (American National Election Studies, Guide to Public Opinion, party identification by presidential vote, 2000 to 2020: about 90% for weak and 97% for strong identifiers). Solving logistic(1 / spread) = 0.95 gives 0.34.",
+      "spread": [0.25, 0.5]
+    },
+    "raceBlankCost": {
+      "value": 0.66,
+      "tag": "TUNABLE",
+      "source": "How far below zero a voter's appeal for every candidate on a race must fall before they leave that race blank, appeal units: the undervote is a choice like a candidate, weighed by the same spread of tastes. Set so a contested race with a one-unit gap loses about 3% of its ballots to the blank, and an unopposed candidate loses more where voters have little reason to back them, against down-ballot roll-off of a few percent in contested races and far more in uncontested ones (Wattenberg, McAllister and Salvanto 2000, 'How Voting Is Like Taking an SAT Test: An Analysis of American Voter Rolloff', American Politics Quarterly 28(2)). Checked in played worlds.",
+      "spread": [0.4, 1]
+    },
+    "outsideRecognitionIncumbent": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "source": "The share of a race's voters beyond the town who know the seat's holder and what they stand for: most voters can name and place their governor or senator; checked so an incumbent's own positions move a statewide race more than a challenger's.",
+      "spread": [0.6, 0.95]
+    },
+    "outsideRecognitionOfficeholder": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "The share of a race's voters beyond the town who know a candidate who holds or held another office (a state legislator running statewide, a mayor running for Congress): fewer than know the incumbent, more than know a newcomer.",
+      "spread": [0.2, 0.6]
+    },
+    "outsideRecognitionNewcomer": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "source": "The share of a race's voters beyond the town who know a candidate who never held office: few, until a campaign reaches them.",
+      "spread": [0.05, 0.25]
     }
   }
 }

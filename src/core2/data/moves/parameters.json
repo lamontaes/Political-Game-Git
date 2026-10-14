@@ -162,5 +162,10 @@
     "citation": "How much each point of the region's unemployment above the nation's, beyond the gap it opened with, speeds everyone's pull to leave (and each point below slows it), as a share of the rate on the log scale. Net out-migration of about 0.25% of the population a year per point of relative unemployment (Blanchard and Katz 1992, BPEA; the regional engine's regionalMigrationPerUnemploymentPoint) over adults' county departure rate of about 5.8% a year (ACS 2024, data/research/migration/mover-rates-acs-2024.json): 0.25 / 5.8 = 0.043.",
     "estimatedFrom": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock; spread 0.02 to 0.09",
     "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesOfficeHold": {
+    "value": 1.1,
+    "tag": "ESTIMATED",
+    "citation": "How much holding office holds a person in place, on the same log-rate scale as a job (movesJobHold): leaving the district ends the office. Adults of working age leave their county at about 6% a year (Census, CPS ASEC 2023, Table 2); state legislators leave their seats mid-term for any reason at about 2% a year (Ballotpedia counts roughly 150 vacancies a year among the 7,386 state legislative seats, 2011 to 2024). ln(6 / 2) = 1.1, an upper bound on moving away, since most mid-term vacancies are deaths, resignations for other office and appointments."
   }
 }

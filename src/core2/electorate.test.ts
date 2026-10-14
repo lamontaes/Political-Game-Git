@@ -179,6 +179,9 @@ describe(`the one electorate (seed ${seed})`, () => {
     // The choice rule leaves a race blank when nothing separates the leaders.
     expect(countedChoice({ a: { total: 0.2 }, b: { total: 0.2 } })).toBeNull();
     expect(countedChoice({ a: { total: 0.3 }, b: { total: 0.2 } })).toBe("a");
-    expect(countedChoice({ a: { total: -0.1 } })).toBeNull();
+    // A race is left blank only when no one on it is worth more than
+    // skipping it (raceBlankCost below zero).
+    expect(countedChoice({ a: { total: -0.1 } })).toBe("a");
+    expect(countedChoice({ a: { total: -1 } })).toBeNull();
   });
 });

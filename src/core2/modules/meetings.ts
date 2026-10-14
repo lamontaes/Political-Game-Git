@@ -12,8 +12,10 @@
  *   town's most civic-minded adults come, each asks about the question they
  *   feel most strongly about, and the host answers. Those in the room decide
  *   for themselves; a candidate's answers are promises on the record.
- * - **Debates.** Two weeks before a general election, the town's widest-reaching
- *   outlet hosts each race with two or more candidates. Every candidate
+ * - **Debates.** Two weeks before a general election, the largest outlet
+ *   covering the race (the town's own for a town race, the market's
+ *   television station for a county, state or federal race, the national
+ *   outlets for the presidency) hosts each race with two or more candidates. Every candidate
  *   answers the moderator's questions, and the outlet's audience hears them
  *   all. A race the player runs in waits for the player's answers
  *   (`answerDebate`).
@@ -536,17 +538,42 @@ function debateQuestions(
   return out.slice(0, meetingParameter("questionsPerDebate"));
 }
 
-/** Where the debate airs: the outlet with the widest audience in town. */
+/**
+ * The outlet a race's debate is held on: the largest covering the race's
+ * whole jurisdiction. A town race goes to the town's widest-reaching outlet;
+ * a county, state or federal race to the market's television station, which
+ * covers the race beyond the town, then its newspaper, then radio; the
+ * presidential race to the national outlets the town follows.
+ */
 function debateOutlet(
   api: CoreAPI,
+  contest: Pick<ContestRow, "level" | "officeId">,
 ): { id: string; audience: readonly string[] } | null {
-  const best = outletsHere(api)
-    .map((o) => ({ id: o.id, audience: followersOf(api, o.id) }))
+  const outlets = outletsHere(api);
+  const national = contest.officeId === "office:US:president";
+  const local =
+    contest.level !== "state" &&
+    contest.level !== "federal" &&
+    contest.level !== "county";
+  const reach: Readonly<Record<string, number>> = national
+    ? { cable: 3, "national-paper": 2, online: 1 }
+    : local
+      ? { newspaper: 1, television: 1, radio: 1 }
+      : { television: 3, newspaper: 2, radio: 1 };
+  const best = outlets
+    .filter((o) => (national ? o.tier === "national" : o.tier !== "national"))
+    .map((o) => ({
+      id: o.id,
+      rank: reach[o.kind] ?? 0,
+      audience: followersOf(api, o.id),
+    }))
     .sort(
       (a, b) =>
-        b.audience.length - a.audience.length || a.id.localeCompare(b.id),
+        b.rank - a.rank ||
+        b.audience.length - a.audience.length ||
+        a.id.localeCompare(b.id),
     )[0];
-  return best ?? null;
+  return best ? { id: best.id, audience: best.audience } : null;
 }
 
 /**
@@ -658,8 +685,8 @@ export function debatesIn(
 
 /**
  * Each week, races with a general election about two weeks out and two or
- * more candidates on the ballot get their debate on the town's
- * widest-reaching outlet; a race the player runs in waits for their answers.
+ * more candidates on the ballot get their debate on the largest
+ * outlet covering the race; a race the player runs in waits for their answers.
  */
 function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "debate-week") return;
@@ -674,7 +701,6 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     meetingParameter("debateDaysBefore"),
   );
   const playerId = (api.state as CoreState).playerId;
-  const outlet = debateOutlet(api);
   for (const contest of (
     api
       .moduleState(ELECTIONS_MODULE_ID)
@@ -688,6 +714,7 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       (f) => f.status === "on-ballot",
     );
     if (filings.length < 2) continue;
+    const outlet = debateOutlet(api, contest);
     const row: DebateRow = {
       id: `debate:${contest.id}`,
       contestId: contest.id,

@@ -21,6 +21,7 @@ import {
   countPlaces,
   countedAppeal,
   countedChoice,
+  countedShares,
   countedResidents,
   customPolitics,
   engagementOf,
@@ -81,7 +82,11 @@ import {
   vacancyFilled,
   type TermRow,
 } from "./offices";
-import { officialCandidate } from "./officials";
+import {
+  OFFICIALS_MODULE_ID,
+  officialCandidate,
+  officialOf,
+} from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -691,6 +696,7 @@ function contestView(
       // heard of them and the counted adults the campaign's doors and mail
       // reached, over all the town's adults.
       recognition: townShareKnowing(api, named.length, heard, f.id),
+      outsideRecognition: knownBeyondTown(api, f.personId, facts.isIncumbent),
       platform: facts.platform,
       ballotCues: cues.get(f.personId) ?? [],
     };
@@ -706,6 +712,28 @@ function countedField(
   field: readonly FilingRow[],
 ): readonly CountedFieldEntry[] {
   return contestView(api, contest, field).field;
+}
+
+/**
+ * The share of a race's voters beyond the town who know a candidate and what
+ * they stand for: the seat's holder most, someone who holds or held another
+ * office more than a newcomer.
+ */
+function knownBeyondTown(
+  api: CoreAPI,
+  personId: string,
+  incumbent: boolean,
+): number {
+  if (incumbent) return campaignParameter("outsideRecognitionIncumbent");
+  const held =
+    (api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [personId]).length ?? 0) > 0 ||
+    (api.state.modules.has(OFFICIALS_MODULE_ID) && !!officialOf(api, personId));
+  return campaignParameter(
+    held ? "outsideRecognitionOfficeholder" : "outsideRecognitionNewcomer",
+  );
 }
 
 /** A candidate's recognition in town: the share of the named adults who heard of them, or of all adults counting those the campaign reached, whichever is wider. */
@@ -1266,8 +1294,9 @@ export function holdPrimary(
         contacts: reached,
         recordedWeeklyMinutes: voter.weeklyMinutes,
       });
-      const choice = countedChoice(appeal);
-      if (choice) votes[choice] = (votes[choice] ?? 0) + t.propensity;
+      // Their group splits by the share each candidate's appeal wins.
+      for (const [id, part] of Object.entries(countedShares(appeal)))
+        votes[id] = (votes[id] ?? 0) + t.propensity * part;
     }
   };
   // The primary's wider electorate (the rest of the town, county, district
@@ -1314,7 +1343,8 @@ export function holdPrimary(
     for (const f of filings)
       if (f.party) byParty.set(f.party, [...(byParty.get(f.party) ?? []), f]);
     for (const [party, field] of byParty) {
-      if (field.length < 2) continue;
+      // An unopposed nominee's primary is still voted (the nominee's votes
+      // are the record), though no one is eliminated.
       const open = /open|unaffiliated|independ/i.test(access);
       const side = partySide(party);
       countNamed(
@@ -1339,6 +1369,7 @@ export function holdPrimary(
         }),
       );
       addWider(field, side);
+      if (field.length < 2) continue;
       const ranked = field
         .slice()
         .sort(
@@ -1925,8 +1956,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.interest.push(t.interest);
     kept.cost.push(t.cost);
     countedVoted += t.propensity;
-    if (choice)
-      countedVotes[choice] = (countedVotes[choice] ?? 0) + t.propensity;
+    // Their group splits by the share each candidate's appeal wins; the
+    // record keeps the choice most of them made.
+    for (const [id, part] of Object.entries(countedShares(appeal)))
+      countedVotes[id] = (countedVotes[id] ?? 0) + t.propensity * part;
   }
   table(api, "countedBallots").put({
     id: `counted:${contestId}`,

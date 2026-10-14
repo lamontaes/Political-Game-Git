@@ -198,6 +198,13 @@ export interface CountedFieldEntry {
   readonly localStanding: number;
   /** The share of the town's named adults who have heard of the candidate. */
   readonly recognition: number;
+  /**
+   * The share of the race's voters beyond the town who know the candidate
+   * and what they stand for (an incumbent most, an officeholder more than a
+   * newcomer, more for a campaign that spends); 0 where the race is the
+   * town's own.
+   */
+  readonly outsideRecognition?: number;
   readonly platform: readonly Stance[];
   /**
    * What the candidate's place on each form of the printed ballot brings,
@@ -244,11 +251,12 @@ export function countedAppeal(
   for (const entry of field) {
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
-    const recognition = where.inTown
-      ? entry.recognition *
-        (campaignParameter("countedRecognitionWeight") +
-          platformAgreement(lean, entry.platform))
-      : 0;
+    // Being known, and for what: in town by the town's share who know the
+    // candidate; beyond it by the race's share who do.
+    const recognition =
+      (where.inTown ? entry.recognition : (entry.outsideRecognition ?? 0)) *
+      (campaignParameter("countedRecognitionWeight") +
+        platformAgreement(lean, entry.platform));
     const incumbent = entry.isIncumbent ? where.incumbentLean : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
@@ -277,11 +285,38 @@ export function countedChoice(
   const ranked = Object.entries(appeal).sort(
     (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
   );
-  if (ranked.length === 1)
-    return ranked[0]![1].total > 0 ? ranked[0]![0] : null;
-  return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
+  // A voter leaves a race blank when no one on it is worth more to them than
+  // skipping it (the undervote), and where the top two are level.
+  if (!ranked.length || ranked[0]![1].total <= -blankCost()) return null;
+  return ranked.length === 1 || ranked[0]![1].total > ranked[1]![1].total
     ? ranked[0]![0]
     : null;
+}
+
+const blankCost = () => campaignParameter("raceBlankCost");
+
+/**
+ * How a counted voter's group of like people splits on a race: each candidate
+ * takes the share their appeal wins against the others and against leaving
+ * the race blank, sliding with the gap between them (the spread of tastes
+ * among people alike in everything the records hold). A full person casts
+ * one ballot by the same appeals (`countedChoice`). Shares sum to at most 1;
+ * the rest leave the race blank.
+ */
+export function countedShares(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+): Record<string, number> {
+  const spread = campaignParameter("countedGroupSpread");
+  const ids = Object.keys(appeal);
+  if (!ids.length) return {};
+  // Weigh against the strongest option for numerical safety.
+  const top = Math.max(-blankCost(), ...ids.map((id) => appeal[id]!.total));
+  const weight = (total: number) => Math.exp((total - top) / spread);
+  const blank = weight(-blankCost());
+  const sum = ids.reduce((n, id) => n + weight(appeal[id]!.total), blank);
+  return Object.fromEntries(
+    ids.map((id) => [id, weight(appeal[id]!.total) / sum]),
+  );
 }
 
 /**
@@ -438,8 +473,8 @@ export function countPlaces(
             interestOf(appeal),
           );
         placeCast += share;
-        const choice = countedChoice(appeal);
-        if (choice) votes[choice] = (votes[choice] ?? 0) + share;
+        for (const [id, part] of Object.entries(countedShares(appeal)))
+          votes[id] = (votes[id] ?? 0) + share * part;
       }
     for (const id of Object.keys(votes)) {
       votes[id] = Math.round(votes[id]!);

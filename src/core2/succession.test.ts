@@ -52,6 +52,18 @@ describe(`presidential succession in the played world: ${where}`, () => {
     }
   });
 
+  it("a secretary who dies is replaced the same day by a confirmed nominee", () => {
+    const before = cabinet(api).find((p) => p.id === "treasury")!;
+    dies([before.holderId]);
+    const after = cabinet(api).find((p) => p.id === "treasury")!;
+    expect(after.holderId, where).not.toBe(before.holderId);
+    expect(world.core.people.get(after.holderId)?.alive).toBe(true);
+    expect(after.since).toBe(world.core.date);
+    expect(
+      successions(api).some((r) => r.seatId === "cabinet:US:treasury"),
+    ).toBe(true);
+  });
+
   it("the vice president succeeds the same day, and the vice presidency is filled", () => {
     const president = holder("seat:US:president")!;
     const vice = holder("seat:US:vice-president")!;
@@ -68,10 +80,12 @@ describe(`presidential succession in the played world: ${where}`, () => {
     expect(world.core.people.get(nextVice.personId!)?.alive).toBe(true);
     expect(nextVice.reached).toContain("both houses");
     const records = successions(api);
-    expect(records.map((r) => r.position).sort()).toEqual([
-      "nominated and confirmed",
-      "vice-president",
-    ]);
+    expect(
+      records
+        .filter((r) => r.seatId.startsWith("seat:US:"))
+        .map((r) => r.position)
+        .sort(),
+    ).toEqual(["nominated and confirmed", "vice-president"]);
   });
 
   it("with no vice president able, the line passes to the next in line", () => {
@@ -97,7 +111,13 @@ describe(`presidential succession in the played world: ${where}`, () => {
     expect(nextVice.personId).not.toBe(vice.personId);
     expect(world.core.people.get(nextVice.personId!)?.alive).toBe(true);
     // Every succession is its own record, and the town's press carries it.
-    expect(new Set(successions(api).map((r) => r.id)).size).toBe(4);
+    expect(
+      new Set(
+        successions(api)
+          .filter((r) => r.seatId.startsWith("seat:US:"))
+          .map((r) => r.id),
+      ).size,
+    ).toBe(4);
     expect(
       api.moduleState(PRESS_MODULE_ID).table("wire").get(record.id),
       where,

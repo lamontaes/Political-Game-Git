@@ -94,6 +94,16 @@ export const SUCCESSION_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: { cabinet: {}, successions: {} },
   },
+  // A secretary who dies is replaced the same day.
+  eventKinds: ["life.death"],
+  onEvent: (api, event) => {
+    const gone = cabinet(api).filter((row) =>
+      event.personIds.includes(row.holderId),
+    );
+    if (!gone.length) return;
+    for (const row of gone) table(api, "cabinet").remove(row.id);
+    appointCabinet(api, true);
+  },
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -216,13 +226,16 @@ function nominate(
 }
 
 /** The president names a cabinet and the Senate confirms it. */
-function appointCabinet(api: CoreAPI): void {
+function appointCabinet(api: CoreAPI, refill = false): void {
   if (!api.state.modules.has(OFFICIALS_MODULE_ID)) return;
   const posts = LAW.line.filter((e) => e.kind === "cabinet");
   for (const [order, post] of posts.entries()) {
     if (table(api, "cabinet").get(post.key)) continue;
+    // A post refilled after the opening draws a fresh field of nominees.
     const chosen = nominate(api, {
-      key: `cabinet:US:${post.key}`,
+      key: refill
+        ? `cabinet:US:${post.key}:${api.state.date}`
+        : `cabinet:US:${post.key}`,
       officeKind: "cabinet-secretary",
       chambers: [FEDERAL_SENATE],
     });
@@ -236,6 +249,22 @@ function appointCabinet(api: CoreAPI): void {
       confirmation: chosen.confirmation,
       since: api.state.date,
     } satisfies CabinetRow as unknown as ModuleRow);
+    if (refill)
+      record(
+        api,
+        {
+          id: `succession:cabinet:${post.key}:${api.state.date}`,
+          date: api.state.date,
+          seatId: `cabinet:US:${post.key}`,
+          previousId: null,
+          successorId: chosen.row.id,
+          position: "nominated and confirmed",
+          passedOver: [],
+          acting: false,
+          citation: LAW.cabinetConfirmation.citation,
+        },
+        post.title,
+      );
   }
 }
 
@@ -361,8 +390,10 @@ function presidentialSuccessor(
                 .table("officials")
                 .put({ ...row, ended: date } as unknown as ModuleRow);
           }
-        } else if (entry.kind === "cabinet")
+        } else if (entry.kind === "cabinet") {
           table(api, "cabinet").remove(entry.key);
+          appointCabinet(api, true);
+        }
       },
     };
   }

@@ -315,10 +315,36 @@ export function holdsOf(
     kin:
       m(api, "movesKinHold") * Math.min(relatives, m(api, "movesKinHoldCap")),
     job: person.jobId ? m(api, "movesJobHold") : zero,
+    // An elected office: leaving the district ends it.
+    office: holdsOffice(api, person.id) ? m(api, "movesOfficeHold") : zero,
     // A lean toward change and risk loosens the hold; one toward keeping
     // things the same tightens it.
     temperament: -m(api, "movesRiskWeight") * temperament,
   };
+}
+
+/**
+ * Whether a person holds an elected or appointed office, read from the
+ * offices and officials engines' records by their module ids (the offices
+ * engine reads this module's move event, so it isn't imported here).
+ */
+function holdsOffice(api: CoreAPI, personId: PersonId): boolean {
+  const core = api.state as CoreState;
+  if (
+    core.modules.has("core2-offices-v1") &&
+    api
+      .moduleState("core2-offices-v1")
+      .table("terms")
+      .query("byPerson", [personId])
+      .some((t) => (t as unknown as { status: string }).status === "serving")
+  )
+    return true;
+  if (!core.modules.has("core2-officials-v1")) return false;
+  const row = api
+    .moduleState("core2-officials-v1")
+    .table("officials")
+    .get(personId) as unknown as { ended: string | null } | undefined;
+  return !!row && row.ended === null;
 }
 
 interface Conditions {
