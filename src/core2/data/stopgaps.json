@@ -4332,5 +4332,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Early-access preparation: the Windows job made green and required again, and every release carrying latest.yml.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-official-attendance",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 1908,
+    "whatItFakes": "A state legislator or member of Congress who is not a full person (an official from elsewhere) is present at every vote; only full-person members miss a sitting, from their own day.",
+    "why": "The audit found nobody ever absent. Officials from elsewhere have no day, health or family record to miss a vote from.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "replacement": "An official's own calendar (campaign stops, district work, illness from the health engine once they are filled in) read the same way as a full person's day.",
+    "status": "open"
   }
 ]
