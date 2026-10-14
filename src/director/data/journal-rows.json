@@ -81,7 +81,8 @@
           "text": "{{school}}"
         }
       ],
-      "oncePer": "school"
+      "oncePer": "school",
+      "entry": "setting"
     },
     {
       "kindPrefix": "work:opening",
@@ -91,7 +92,8 @@
           "key": "employer",
           "text": "{{employer}}"
         }
-      ]
+      ],
+      "entry": "setting"
     },
     {
       "kindPrefix": "job-started",
@@ -102,7 +104,8 @@
           "key": "employer",
           "text": "{{employer}}"
         }
-      ]
+      ],
+      "entry": "setting"
     },
     {
       "kindPrefix": "job-ended",
@@ -113,7 +116,8 @@
           "key": "after",
           "text": "{{employer}}"
         }
-      ]
+      ],
+      "entry": "story"
     },
     {
       "kindPrefix": "family:child",
@@ -123,7 +127,8 @@
           "key": "born",
           "text": "{{other}}"
         }
-      ]
+      ],
+      "entry": "story"
     },
     {
       "kindPrefix": "moved",
@@ -135,16 +140,19 @@
           "text": "{{place}}"
         }
       ],
-      "sameDay": "event:person.moved-away"
+      "sameDay": "event:person.moved-away",
+      "entry": "story"
     },
     {
       "kindPrefix": "unpaid-wages",
-      "turn": false
+      "turn": false,
+      "entry": "setting"
     },
     {
       "kindPrefix": "contact:",
       "turn": false,
-      "hasRepeatLine": true
+      "hasRepeatLine": true,
+      "entry": "setting"
     },
     {
       "kindPrefix": "event:pay-raised-to-minimum-wage",
@@ -154,7 +162,8 @@
           "fact": "toMinor",
           "format": "money"
         }
-      }
+      },
+      "entry": "setting"
     },
     {
       "kindPrefix": "event:life.death",
@@ -164,17 +173,20 @@
           "key": "after",
           "text": "{{name}}"
         }
-      ]
+      ],
+      "entry": "story"
     },
     {
       "kindPrefix": "event:housing.eviction",
       "turn": false,
-      "hasOtherLine": true
+      "hasOtherLine": true,
+      "entry": "story"
     },
     {
       "kindPrefix": "event:housing.purchase",
       "turn": false,
-      "hasOtherLine": true
+      "hasOtherLine": true,
+      "entry": "story"
     },
     {
       "kindPrefix": "event:organization.founded",
@@ -185,7 +197,8 @@
           "format": "organization"
         }
       },
-      "hasOtherLine": true
+      "hasOtherLine": true,
+      "entry": "story"
     },
     {
       "kindPrefix": "event:person-birth",
@@ -196,19 +209,22 @@
           "text": "{{other}}"
         }
       ],
-      "wordsFrom": "family:child"
+      "wordsFrom": "family:child",
+      "entry": "story"
     },
     {
       "kindPrefix": "event:person.moved-away",
       "turn": false,
       "hasOtherLine": true,
       "hasGroupLine": true,
-      "selfWhenNamed": true
+      "selfWhenNamed": true,
+      "entry": "story"
     },
     {
       "kindPrefix": "event:health.serious-illness",
       "turn": false,
-      "hasOtherLine": true
+      "hasOtherLine": true,
+      "entry": "story"
     },
     {
       "kindPrefix": "event:office.replied",
@@ -219,7 +235,8 @@
           "format": "text"
         }
       },
-      "hasOtherLine": true
+      "hasOtherLine": true,
+      "entry": "story"
     },
     {
       "kindPrefix": "event:candidate-filed",
@@ -236,7 +253,26 @@
           "key": "running",
           "text": "{{office}}"
         }
-      ]
+      ],
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "event:election-result",
+      "turn": false,
+      "entry": "story",
+      "wordsFrom": "event:election",
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        },
+        "winner": {
+          "fact": "winnerId",
+          "format": "text"
+        }
+      },
+      "hasOtherLine": true,
+      "hasOwnLine": true
     }
   ],
   "firstTitle": [

@@ -39,6 +39,19 @@ export function journalSlots(text: string): string {
   );
 }
 
+/** The memoir fields the bank words (owner, Oct 14: the journal reads like a memoir). */
+const MEMOIR = "memoir:";
+
+/**
+ * Whether one's own race was won or lost, read from the sentence's own verb:
+ * "I won.", "We lost." A sentence that says neither ("It was close.") fits both.
+ */
+function resultStages(text: string): string[] | undefined {
+  if (/\b(?:lost|didn't win)\b/i.test(text)) return ["lost"];
+  if (/\b(?:won|win|elected)\b/i.test(text)) return ["won"];
+  return undefined;
+}
+
 /** A mined sentence in the first person plural, told when the event names a group. */
 const plural = (text: string) => /^We\b/.test(text);
 
@@ -82,12 +95,32 @@ export function journalDataFromBank(
       const line = row.hasGroupLine ? all?.filter((v) => !plural(v.text)) : all;
       // A row that only counts who an event names (a household move) stays,
       // with no line of its own, so the moves it shares a day with read "we".
-      if (!line?.length && !row.selfWhenNamed) return [];
+      // A setting (a school, a job) stays with no line: it opens a chapter.
+      if (
+        !line?.length &&
+        !row.selfWhenNamed &&
+        row.entry !== "setting" &&
+        !row.hasOwnLine
+      )
+        return [];
       const other = mined(from, "otherLine");
+      const ownLine = row.hasOwnLine
+        ? (fields.get(`${from}|ownLine`) ?? []).map((variant) => {
+            const stages = resultStages(variant.text);
+            return stages ? { ...variant, stages } : variant;
+          })
+        : undefined;
       const repeat = mined(from, "repeatLine");
       const group = all?.filter((v) => plural(v.text));
-      const { hasOtherLine, hasRepeatLine, hasGroupLine, wordsFrom, ...kept } =
-        row;
+      const {
+        hasOtherLine,
+        hasRepeatLine,
+        hasGroupLine,
+        hasOwnLine,
+        wordsFrom,
+        ...kept
+      } = row;
+      void hasOwnLine;
       void wordsFrom;
       return [
         {
@@ -96,9 +129,16 @@ export function journalDataFromBank(
           ...(hasOtherLine ? { otherLine: other ?? [] } : {}),
           ...(hasRepeatLine ? { repeatLine: repeat ?? [] } : {}),
           ...(hasGroupLine && group?.length ? { groupLine: group } : {}),
+          ...(ownLine?.length ? { ownLine } : {}),
         },
       ];
     }),
+    // The memoir's framing and look-back sentences, by field.
+    memoir: Object.fromEntries(
+      [...fields]
+        .filter(([id]) => id.startsWith(`${MEMOIR}|`))
+        .map(([id, list]) => [id.slice(MEMOIR.length + 1), list]),
+    ),
     backdropLines: (rows.backdropLines ?? []).flatMap((row) => {
       // A backdrop line is said whole: the event holds no record to name.
       const line = fields.get(`${BACKDROP}${row.kind}|line`);
