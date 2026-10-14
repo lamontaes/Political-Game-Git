@@ -606,32 +606,20 @@ async function applyExperiment(experiment, months) {
 }
 $("save").onclick = () =>
   run(async () => {
-    // This session's law and salary-floor changes, as steps.
-    const steps = state.marks.flatMap((m) =>
-      m.control === "law"
-        ? [
-            {
-              control: "law",
-              level: m.facts.level === "city" ? "city" : m.facts.level,
-              series: m.facts.series,
-              value: Number(m.facts.value),
-              effectiveInDays: Math.max(
-                0,
-                (Date.parse(m.facts.effectiveDate) - Date.parse(m.date)) /
-                  86_400_000,
-              ),
-            },
-          ]
-        : m.control === "salary-floor"
-          ? [
-              {
-                control: "salary-floor",
-                classifications: m.facts.classifications.split(" "),
-                floorDollars: Number(m.facts.floorDollars),
-              },
-            ]
-          : [],
-    );
+    // This session's law changes, as steps.
+    const steps = state.marks
+      .filter((m) => m.control === "law")
+      .map((m) => ({
+        control: "law",
+        level: m.facts.level,
+        series: m.facts.series,
+        value: Number(m.facts.value),
+        ...(m.facts.unit ? { unit: m.facts.unit } : {}),
+        effectiveInDays: Math.max(
+          0,
+          (Date.parse(m.facts.effectiveDate) - Date.parse(m.date)) / 86_400_000,
+        ),
+      }));
     const result = await api("/api/dev/experiment/save", {
       id: $("save-id").value.trim(),
       steps,

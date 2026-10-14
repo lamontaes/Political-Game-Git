@@ -1,28 +1,15 @@
 {
-  "about": "Dev mode's saved experiments: each is a change set (the same controls the Dev mode page offers) applied on the day it runs, then the months it runs for. publicClassifications are the employer classes dev mode counts as public employers (government offices, schools, police, fire, corrections, public health), read from the core's organization classifications.",
-  "stopgapId": "SG-PLAY-dev-public-salary-floor",
-  "publicClassifications": [
-    "service:municipal-government",
-    "service:county-government",
-    "sector:local-government-office",
-    "sector:state-government-office",
-    "sector:federal-government-office",
-    "service:school",
-    "service:public-school",
-    "service:police",
-    "service:fire",
-    "service:corrections",
-    "service:jail",
-    "service:public-health"
-  ],
+  "about": "Dev mode's saved experiments: each is a change set (the same law controls the Dev mode page offers) applied on the day it runs, then the months it runs for.",
   "experiments": [
     {
       "id": "public-salary-base-70000",
       "steps": [
         {
-          "control": "salary-floor",
-          "classifications": "public",
-          "floorDollars": 70000
+          "control": "law",
+          "level": "federal",
+          "series": "public-pay-floor",
+          "value": 70000,
+          "unit": "dollars/year"
         }
       ],
       "runMonths": 12

@@ -24,7 +24,11 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
-import { reachParameter } from "../core2/law-reach/group-b-people";
+import {
+  PUBLIC_EMPLOYER_CLASSES,
+  PUBLIC_PAY_FLOOR,
+  PUBLIC_PAY_FLOOR_UNIT,
+} from "../core2/public-pay-floor";
 import {
   castMemberVote,
   executiveDecision,
@@ -54,23 +58,16 @@ export const DEV_MODE_RECORD = "dev-mode-change";
 export type LawLevel = "federal" | "state" | "county" | "city";
 
 /** One step of a change set: the same controls the page offers. */
-export type DevStep =
-  | {
-      readonly control: "law";
-      readonly level: LawLevel;
-      readonly series: string;
-      readonly value?: number;
-      readonly unit?: string;
-      readonly repeal?: boolean;
-      /** Days after the step is applied; 0 or absent is now. */
-      readonly effectiveInDays?: number;
-    }
-  | {
-      readonly control: "salary-floor";
-      /** "public" reads the public employer classes from the data file. */
-      readonly classifications: "public" | readonly string[];
-      readonly floorDollars: number;
-    };
+export type DevStep = {
+  readonly control: "law";
+  readonly level: LawLevel;
+  readonly series: string;
+  readonly value?: number;
+  readonly unit?: string;
+  readonly repeal?: boolean;
+  /** Days after the step is applied; 0 or absent is now. */
+  readonly effectiveInDays?: number;
+};
 
 export interface Experiment {
   readonly id: string;
@@ -101,7 +98,6 @@ interface PaySplit {
 }
 
 const DATA = experiments as unknown as {
-  publicClassifications: readonly string[];
   experiments: readonly Experiment[];
 };
 
@@ -144,6 +140,7 @@ export function devModeMarks(core: CoreState): readonly string[] {
 export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
   const out = new Set<string>([
     ...Object.keys(LAW_SERIES),
+    PUBLIC_PAY_FLOOR,
     ...Object.keys(POLICY_QUESTIONS),
     ...Object.keys(REACH_A_POLICIES),
     ...GROUP_B_KEYS.filter((key) => !key.startsWith("budget-line:")),
@@ -319,7 +316,8 @@ export class DevMode {
           .moduleState(LAWS_MODULE_ID)
           .table("laws")
           .query("bySeriesOnly", [input.series]) as unknown as LawRowInput[]
-      ).find((row) => row.unit)?.unit;
+      ).find((row) => row.unit)?.unit ??
+      (input.series === PUBLIC_PAY_FLOOR ? PUBLIC_PAY_FLOOR_UNIT : undefined);
     const measureId = `${DEV_MODE}-${this.sequence + 1}`;
     const row = enactLaw(api, {
       jurisdiction: level.jurisdiction,
@@ -340,6 +338,7 @@ export class DevMode {
       level: row.level,
       jurisdiction: row.jurisdiction,
       value: String(row.value),
+      unit: row.unit ?? "",
       effectiveDate,
     });
     return { mark, law: row, reach: this.reach(row.id) };
@@ -600,7 +599,7 @@ export class DevMode {
     const api = this.api;
     const town = this.townId();
     const publicIds = new Set(
-      jobsAt(api, DATA.publicClassifications).map((job) => job.id),
+      jobsAt(api, PUBLIC_EMPLOYER_CLASSES).map((job) => job.id),
     );
     const pub: number[] = [];
     const priv: number[] = [];
@@ -678,71 +677,24 @@ export class DevMode {
   applySteps(experimentId: string, steps: readonly DevStep[]) {
     const out: unknown[] = [];
     for (const step of steps) {
-      if (step.control === "law")
-        out.push(
-          this.setLaw({
-            level: step.level,
-            series: step.series,
-            ...(step.value !== undefined ? { value: step.value } : {}),
-            ...(step.unit ? { unit: step.unit } : {}),
-            ...(step.repeal ? { repeal: true } : {}),
-            effectiveDate: addDays(
-              makeIsoDate(this.core.date),
-              step.effectiveInDays ?? 0,
-            ),
-          }),
-        );
-      else out.push(this.salaryFloor(step.classifications, step.floorDollars));
+      out.push(
+        this.setLaw({
+          level: step.level,
+          series: step.series,
+          ...(step.value !== undefined ? { value: step.value } : {}),
+          ...(step.unit ? { unit: step.unit } : {}),
+          ...(step.repeal ? { repeal: true } : {}),
+          effectiveDate: addDays(
+            makeIsoDate(this.core.date),
+            step.effectiveInDays ?? 0,
+          ),
+        }),
+      );
     }
     const mark = this.mark("experiment", [experimentId], {
       experimentId,
       steps: JSON.stringify(steps),
     });
     return { mark, results: out };
-  }
-
-  /**
-   * Raise every covered job paid under a yearly floor, the way the law-reach
-   * engine's teacher floor does, through the core's `rerateJob`.
-   * stopgapId: SG-PLAY-dev-public-salary-floor
-   */
-  salaryFloor(
-    classifications: "public" | readonly string[],
-    floorDollars: number,
-  ) {
-    const api = this.api;
-    const classes =
-      classifications === "public"
-        ? DATA.publicClassifications
-        : classifications;
-    const floorDaily =
-      (floorDollars * reachParameter("centsPerDollar")) /
-      reachParameter("daysPerYear");
-    const id = `${DEV_MODE}-${this.sequence + 1}`;
-    const source = {
-      tag: "SOURCED" as const,
-      citation: `${DEV_MODE} (${id})`,
-      asOf: this.core.date,
-    };
-    const jobs = jobsAt(api, classes);
-    const raised: { jobId: string; fromMinor: number; toMinor: number }[] = [];
-    for (const job of jobs) {
-      const hourly = job.hourlyMinor ?? 0;
-      if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
-      const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
-      api.rerateJob(job.id, to, source);
-      raised.push({ jobId: job.id, fromMinor: hourly, toMinor: to });
-    }
-    const mark = this.mark(
-      "salary-floor",
-      raised.map((r) => r.jobId),
-      {
-        floorDollars: String(floorDollars),
-        classifications: classes.join(" "),
-        covered: String(jobs.length),
-        raised: String(raised.length),
-      },
-    );
-    return { mark, covered: jobs.length, raised };
   }
 }

@@ -76,30 +76,31 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
     expect(dev.pending.has(person.id)).toBe(false);
   });
 
-  it("runs the $70,000 public-salary experiment through the core's pay records", () => {
+  it("passes the $70,000 public pay floor as a law the law engine reads", () => {
     const before = dev.paySplit();
     const experiment = DevMode.experiments()[0]!;
     const { results } = dev.applySteps(experiment.id, experiment.steps);
-    const floor = results[0] as {
-      covered: number;
-      raised: { jobId: string; toMinor: number }[];
-    };
-    expect(floor.covered).toBe(before.publicJobs);
-    // A full job records the change; a counted job's wage flow pays it.
+    const { law } = results[0] as { law: { id: string; series: string } };
+    expect(law.series).toBe("public-pay-floor");
+    // The law engine's raises name the law; a counted job's wage flow pays it.
+    const api = coreAPI(core);
+    const raises = (
+      api.moduleState("core2-laws-v1").table("raises").rows() as unknown as {
+        jobId: string;
+        toMinor: number;
+        lawId: string;
+      }[]
+    ).filter((row) => row.lawId === law.id);
     const rt = residentsRuntime(core);
-    for (const { jobId, toMinor } of floor.raised) {
+    for (const { jobId, toMinor } of raises) {
       const job = core.jobs.get(jobId) ?? rt?.jobs.get(jobId);
       expect(job?.hourlyMinor).toBe(toMinor);
-      if (core.jobs.has(jobId))
-        expect(core.work.payChanges.get(jobId)?.at(-1)?.hourlyMinor).toBe(
-          toMinor,
-        );
-      else expect(rt?.wageFlowByJob.get(jobId)?.endedAt).toBeUndefined();
     }
+    expect(dev.reach(law.id).records).toBe(raises.length);
     const end = new Date(`${core.date}T00:00:00Z`);
     end.setUTCMonth(end.getUTCMonth() + 1);
     dev.advance(end.toISOString().slice(0, 10));
-    if (floor.raised.length)
+    if (raises.length)
       expect(dev.paySplit().publicMedianHourlyMinor).toBeGreaterThan(
         before.publicMedianHourlyMinor,
       );
