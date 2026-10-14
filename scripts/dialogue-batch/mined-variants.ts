@@ -275,6 +275,8 @@ const STOP = new Set([
   "rise",
   "today",
   "briefly",
+  "vote",
+  "time",
 ]);
 
 /**

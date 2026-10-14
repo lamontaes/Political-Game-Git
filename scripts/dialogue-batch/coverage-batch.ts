@@ -514,9 +514,12 @@ function readWorld(place: Place): {
   }
 
   // Minutes and hearing exchanges and the chair, from a real roll call.
+  // LOCAL_FLOOR_ONLY also refuses what the record contradicts or doesn't
+  // hold: an absence from a vote the member cast (owner, batch 9: "I could
+  // not make today's vote"), a closed session no meeting record shows.
   const minutesBank = minutesJson as unknown as EnglishBank;
   const LOCAL_FLOOR_ONLY =
-    /\b(Senator|Senate|Congress\w*|House|Speaker|recommit|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question|ranking member|chairman|heavy heart|honor the life|sense of loss|in memory|condolences?|passed away)\b/i;
+    /\b(Senator|Senate|Congress\w*|House|Speaker|recommit|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution|engross\w*|third time|yeas and nays|previous question|ranking member|chairman|heavy heart|honor the life|sense of loss|in memory|condolences?|passed away|unable to be present|not present|absent|could not make|missed|executive session)\b/i;
   const chairOf = (officeId: string) => {
     const head = holders(officeId)[0];
     const row = head ? personOf(head) : undefined;
