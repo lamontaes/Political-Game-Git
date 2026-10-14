@@ -3,7 +3,7 @@ import {
   HOUSEHOLD_MIX_META,
   HOUSEHOLD_MIX_ROWS,
 } from "./household-mix.generated";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 export { HOUSEHOLD_MIX_META };
 

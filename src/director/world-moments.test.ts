@@ -9,10 +9,9 @@ import { generatedOpening } from "../core2/tooling/generated-world";
 import type { CoreEventInput, CoreModule } from "../core2/types";
 import { createHash } from "node:crypto";
 import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+  searchCorePlaces,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
 import { composeJournal } from "./journal";
 import { createDirector } from "./ledger";
 import { peopleData, peopleModules } from "./play-modules";
@@ -24,12 +23,12 @@ import { peopleData, peopleModules } from "./play-modules";
 // Without the runner, a place drawn from all 56 the way the runner draws.
 function drawPlace(label: string) {
   const hash = createHash("sha256").update(label).digest("hex");
-  const states = [...lifePlaceStateIdentities()].sort((a, b) =>
+  const states = [...corePlaceStateIdentities()].sort((a, b) =>
     a.jurisdictionKey.localeCompare(b.jurisdictionKey),
   );
   const state = states[parseInt(hash.slice(0, 8), 16) % states.length]!;
   const places = [
-    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+    ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state.jurisdictionKey,
       scope: "locality",
     }),

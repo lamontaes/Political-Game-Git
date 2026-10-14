@@ -9,7 +9,7 @@
  * its best-placed applicant, and the applicant accepts or declines. Every
  * job change is a record with its reason and, for a layoff, who decided it.
  */
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
@@ -188,7 +188,8 @@ function definition(kind: Kind): ActionDefinition {
   return {
     id: row.id,
     actKinds: row.actKinds,
-    goalKinds: [],
+    // A goal the act serves (securing a home again) adds its urgency.
+    goalKinds: (row as { goalKinds?: readonly string[] }).goalKinds ?? [],
     need: jobsData.need,
     effortParameter: jobsData.effortParameter,
     effectParameter: jobsData.effectParameter,

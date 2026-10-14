@@ -18,7 +18,7 @@ import salaries from "../../../data/research/offices/official-salaries-2026.json
 import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
-import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { daysBetween, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { outsideGovernment } from "../outside-governments";

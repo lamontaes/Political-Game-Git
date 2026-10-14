@@ -30,18 +30,14 @@ import {
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`world-legislating:${Date.now()}`).digest("hex");
 // Places whose legislature sits in 2026 after the start.
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .filter((k) => windowsIn(k, 2026).some((w) => w.adjournAt > START))
   .sort();
@@ -57,7 +53,7 @@ describe("M3-10 other governments legislate", () => {
     for (let attempt = 0; attempt < 6 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -216,7 +212,7 @@ describe("M3-10 other governments legislate", () => {
     const start = "2026-01-02";
     const state = pick(states, "congress:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -278,7 +274,7 @@ describe("M3-10 other governments legislate", () => {
   it("the town's council and county board bring their own ordinances on their schedule", () => {
     const state = pick(states, "local:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -364,7 +360,7 @@ describe("M3-10 other governments legislate", () => {
   it("Congress votes the federal budget on the fiscal year's first day, the Senate by cloture", () => {
     const state = pick(states, "budget:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -407,7 +403,7 @@ describe("M3-10 other governments legislate", () => {
   it("a federal act with no date of its own takes effect the day it's signed and reaches the town", () => {
     const state = pick(states, "federal-now:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),
@@ -450,7 +446,7 @@ describe("a session already over when the world opens", () => {
   // legislature passed nothing all year.
   it("opens its next session on the calendar's convening day", () => {
     const opened = "2026-10-12";
-    const over = [...lifePlaceStateIdentities()]
+    const over = [...corePlaceStateIdentities()]
       .map((s) => s.jurisdictionKey)
       .filter(
         (k) =>
@@ -460,7 +456,7 @@ describe("a session already over when the world opens", () => {
       .sort();
     const state = pick(over, "over:state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

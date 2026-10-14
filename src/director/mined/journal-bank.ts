@@ -12,7 +12,7 @@
  * bank has no sentence for is left out.
  */
 import bankJson from "../../../data/english/parts/journal.json" with { type: "json" };
-import { heldByGrades } from "../../presentation/english-grades";
+import { heldByGrades } from "../../english/english-grades";
 import rowsJson from "../data/journal-rows.json" with { type: "json" };
 import type { JournalData, JournalRows } from "../journal";
 

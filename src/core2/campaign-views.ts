@@ -17,7 +17,7 @@ import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "js
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import type { PersonState } from "./types";
 
 /** One stated position: support (+1) or oppose (-1) a policy question. */

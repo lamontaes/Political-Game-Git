@@ -1,5 +1,9 @@
 import conditionPack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
-import { addDays, isoDateFromParts, makeIsoDate } from "../dates";
+import {
+  addDays,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import {
   scheduleFutureDueItem,
   scheduledFutureDueItemsThrough,
@@ -14,18 +18,18 @@ import type {
 } from "../types";
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity } from "../world";
-import { FIXED_LN2 } from "./fixed-point";
+import { FIXED_LN2 } from "../../core2/kernel/fixed-point";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
   type HazardMultiplierChange,
   type HazardProfile,
-} from "./hazard";
+} from "../../core2/health-hazard";
 import {
   SSA_2023_TABLE_ID,
   type MortalityCalibrationCategory,
-} from "./mortality-table";
+} from "../../core2/health-mortality-table";
 import {
   CONDITION_ONSET_KEY,
   recordStartingConditions,

@@ -1,7 +1,7 @@
 import { createWorkItem } from "../time-work";
 import type { LawEffectContext } from "../law-effect-stamp";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate, makeSimulationMoment } from "../dates";
+import { makeIsoDate, makeSimulationMoment } from "../../core2/kernel/dates";
 import { lawInForce } from "../governing/law-in-force";
 import { createHousehold, createOrganization } from "../life";
 import { stateJurisdictionForKey } from "../life-places";

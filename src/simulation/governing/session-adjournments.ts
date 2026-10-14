@@ -1,6 +1,6 @@
-import { isoDateFromParts } from "../dates";
+import { isoDateFromParts } from "../../core2/kernel/dates";
 import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION } from "../local-ordinance-game-profile";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type { LegislativeRulePack } from "../legislature-rules";
 import type {
   EntityId,

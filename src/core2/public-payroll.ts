@@ -5,7 +5,7 @@
  * job's. The schedule and pay calendar follow a full-time job already in the
  * town (a public employer's where there is one), as the jobs engine hires.
  */
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Puts a person on a government's payroll today; returns the job id, or null without a schedule to follow. */

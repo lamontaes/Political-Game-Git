@@ -9,7 +9,7 @@
  * world's generator). Every voter reads the first-listed edge from the form
  * of the ballot they hold (`ballotCuesOf`).
  */
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import ballotOrderData from "../../data/research/elections/ballot-order-2026.json" with { type: "json" };
 
 export type BallotOrderKind =

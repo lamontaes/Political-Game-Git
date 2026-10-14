@@ -12,7 +12,7 @@ import { coreAPI } from "../../src/core2/state";
 import { DevMode } from "../../src/bench/dev-mode";
 import { BenchPlayer } from "../../src/bench/player";
 import { departuresOf } from "../../src/core2/modules/moves";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 
 setBookkeeping(false);
 const seed = process.argv[2] ?? randomBytes(6).toString("hex");

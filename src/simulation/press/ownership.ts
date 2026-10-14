@@ -1,5 +1,5 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganization, recordWorkStatus } from "../life";
 import { workStatusAt } from "../life-queries";
@@ -11,7 +11,7 @@ import {
 } from "../resource-queries";
 import { makeCurrencyCode } from "../resources";
 import { recordMediaPurchasePayment } from "./media-purchase-payment";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,

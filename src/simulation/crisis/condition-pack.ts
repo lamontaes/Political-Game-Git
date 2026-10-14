@@ -1,6 +1,6 @@
 import pack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
-import { addDays, daysBetween } from "../dates";
-import { stableHash } from "../ids";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
+import { stableHash } from "../../core2/kernel/ids";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,
@@ -9,19 +9,19 @@ import {
   peopleInHouseholdAt,
 } from "../life-queries";
 import type { EntityId, IsoDate, World } from "../types";
-import { FIXED_LN2 } from "./fixed-point";
+import { FIXED_LN2 } from "../../core2/kernel/fixed-point";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
   thresholdUnits,
   type HazardMultiplierChange,
-} from "./hazard";
+} from "../../core2/health-hazard";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,
 } from "../household-pay";
 import { residenceStateKey } from "../statutory-tax";
-import type { MortalityCalibrationCategory } from "./mortality-table";
+import type { MortalityCalibrationCategory } from "../../core2/health-mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
 import { activeHealthEpisodes } from "./health-queries";
 import type {

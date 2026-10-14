@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { principledLeaning } from "../governing/officeholder-principles";
 import { formPrinciplesFromLife } from "../principles-from-life";

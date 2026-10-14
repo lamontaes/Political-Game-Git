@@ -248,7 +248,7 @@
     "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "A President's-address register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "replacement": "A President's-address register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
     "status": "open"
   },
   {
@@ -260,7 +260,7 @@
     "why": "The engine has no register card for a newscast yet (docs/coordination/words.md); the opening's evening news composes now.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "A newscast register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
+    "replacement": "A newscast register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
     "status": "open"
   },
   {

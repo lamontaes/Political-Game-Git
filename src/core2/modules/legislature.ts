@@ -36,7 +36,7 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
-import { governmentUnitsForPlace } from "../../simulation/government-units";
+import { governmentUnitsForPlace } from "../reference/government-units";
 import {
   enactLaw,
   lastEnactment,

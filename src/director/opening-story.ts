@@ -27,26 +27,26 @@ import { PRESIDENT_FACT } from "../core2/officials-president";
 import { regionalMonth, regionOfPlace } from "../core2/modules/regional";
 import { openingRegionMonths } from "../core2/regional-model";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
-import type { EntityId } from "../simulation/types";
+import type { EntityId } from "../core2/kernel/brands";
 import type {
   GroundedEnglishFact,
   GroundedEnglishPacket,
-} from "../presentation/grounded-english";
-import { composeAddress } from "../presentation/english-composition";
+} from "../english/grounded-english";
+import { composeAddress } from "../english/english-composition";
 import {
   openingMoves,
   openingSpeechKind,
   OPENING_SECTIONS,
   type OpeningLevel,
   type OpeningSpeechKind,
-} from "../presentation/english-opening-speech";
+} from "../english/english-opening-speech";
 import {
   composeNewsStory,
   NEWSCAST_BANK,
   type StoryKind,
-} from "../presentation/english-newscast";
+} from "../english/english-newscast";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { ADDRESS_FACT } from "./opening-facts";
@@ -57,7 +57,7 @@ import {
 } from "./opening-sequence";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { properName, spoken } from "./words";
 
@@ -552,7 +552,7 @@ export function composeOpeningStory(
   const official = officialsIn(api, "US:president")[P.zero];
   const president = official ? core.people.get(official.id) : undefined;
   if (!player || !official || !president) return null;
-  const town = lifePlaceByJurisdictionId(player.placeId as never);
+  const town = corePlaceByJurisdictionId(player.placeId as never);
   const townState = town?.stateJurisdictionKey ?? null;
   const townName = town ? spoken(town) : null;
   const kind = openingSpeechKind(

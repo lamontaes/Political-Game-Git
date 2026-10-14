@@ -1,7 +1,7 @@
 import { eventById } from "../event-index";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { addAvailability, type AvailabilityEntry } from "../history-index";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type { EntityId, IsoDate, World } from "../types";
 import {
   EVIDENCE_BEARINGS,

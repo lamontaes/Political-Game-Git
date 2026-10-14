@@ -1,7 +1,7 @@
 /** A closed business's credit line closes with it and is never repriced or billed again (audit defects 8 and 9). */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { addDays } from "../simulation/dates";
+import { addDays } from "./kernel/dates";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
 import { residentsRuntime } from "./modules/residents";

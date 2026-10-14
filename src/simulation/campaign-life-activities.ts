@@ -51,7 +51,7 @@ import {
   makeIsoDate,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { evaluateDecision } from "./decisions";
 import { evaluateCampaignHelpDecision } from "./campaign-help-decision";
 import { registeredTraitConsiderations } from "./trait-readings";
@@ -61,7 +61,7 @@ import {
   requireElectionContest,
 } from "./election-contests";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import type { RuleValue } from "./legislature-rules";
 import { organizationParticipationStateAt } from "./life-queries";
 import { workStatusAt } from "./life-queries";
@@ -75,7 +75,7 @@ import {
 import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   cancelScheduledActivity,
   createScheduledActivity,

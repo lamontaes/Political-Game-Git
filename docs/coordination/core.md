@@ -15,6 +15,18 @@ New on `core/wiring-office-and-husks` (PR #4167, Oct 14): when someone in town g
 
 In the evening build (PLAY's bench on the core): children go to school on school days, and a game year with every engine runs in about a minute (Woodmere, New York: 56 s this morning; Election Day no longer stalls). Businesses mostly stay open over a year, a sales tax collects on every purchase, and older people claim Social Security. The rest of the town is born, dies and moves. Counted voters start at their county's 2024 lean and their town's citizen share. Not visible until PLAY's opening uses the core's steps (Needs): the public school district and its teachers, private-school families, and the representative sample of the town. Saves in the base world load from a snapshot (a played year: about 11 s instead of 29). The full game loads by replay until each team marks its engines' state as saved.
 
+## Retire the old core
+
+Cleanup builder, PR #4196 (branch `cleanup/retire-old-core`, on top of the dead-files cleanup #4153). Opus, high; no sub-agents. Nothing a player sees changes: on one random seed the world state hashes the same as main at the opening and after 60 days; the golden path, the played world and the dollar check come out the same; the speed guard reads 0.963 of main.
+
+- Oct 14, late evening: main merged on head `277ebca`; local gate and golden path clean. The CI reds left (`opening-story`, `budgets` sales tax on some seeds, `permission-records`, `validate-workflow`) fail on main with the same seed.
+- [x] Map: `docs/design/old-core-retirement-map.md` (369 sites in 186 files; each old file's job, its replacement, its owner).
+- [x] Rewire: 5 shipped files still read the old engine, all for two remaining ports.
+- [x] Delete: old screen files, 148 tests of old features play never runs (measured by coverage), the old browser suite, old-engine scripts, 1,086 old proof screenshots; 275 hand-offs moved to `docs/archive/` with an index.
+- [x] Layout proposed in the map; no rename yet (every pillar writes `src/core2`).
+- [ ] Remaining port, the opening town builder (`population.ts`, `opening-employment.ts`, `opening-work.ts`): OPUS-CORE leads, with OPUS-PEOPLE (traits, upbringing, names) and OPUS-WORLD (town pay, jobs, schedules). It frees 886 old files.
+- [ ] Remaining port, the health condition pack: OPUS-PEOPLE.
+
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
@@ -66,7 +78,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [x] **Cause-group donations (CTO, Oct 14).** Sized from the giver's cash, drive strength and FEC and Giving USA calibrations; groups raise from the counted population; an ad below the outlet's minimum doesn't run. PEOPLE's drives engine, taken on for this order.
   - Done Oct 14 (PR #4247): a gift is the cash above the giver's buffer times their hold on the cause times `donationShareOfSpare` (0.001, TUNABLE, set to Giving USA 2024's about $456 a household a year for such causes; replaces `donationLivingCostDays`). Monthly, a group raises from its place's counted adults in proportion to its full members there, times `countedGivingShare` (0.496, Philanthropy Panel Study), from the counted households' funds (stopgap SG-CORE-counted-giving-stand-in). An ad below `causeGroupAdMinimumMinor` ($100) doesn't run. Trenton, North Carolina (seed bdbb4f011961), two years: 18 givers averaged $449.42 a year; $3,637.66 from counted residents in 135 raises; 81 ads, the smallest $100.52. I didn't find an FEC figure to cite, so the calibration is Giving USA's alone.
   - For PEOPLE: givers choose to give about 80 times a year, nearly daily, where real donors give a few times; the share is set for the yearly total, not each gift.
-- [ ] **Then:** homelessness items 4 to 6 (`docs/packages/homelessness.md`); estates (wills, probate, debts and taxes before heirs, trusts behind an owner-decision stopgap); the trace audit's three items (deaths outside the circle as public records, people and organizations that appear without a record, a post filled from the player without their choice).
+- [x] **Trace audit items 2, 3 and 6 (CTO, Oct 14).** Done (PR #4250): every death is a public record and news (Fairmount, New York, seed 1d8ffaa7ae3d: all 5 dead in the record, 19 printed stories); every person and organization entering after the opening day writes an entry record (Kamas, Utah, seed 5650d4140a0a: 90 of 90 people, 87 of 87 organizations); no appointer names the player (owner-decision stopgap SG-CORE-owner-decision-player-offered-post on whether an appointer may offer the player a post).
+- [ ] **Homelessness items 4 to 6 (`docs/packages/homelessness.md`).** PR #4261. Item 4 (losing a home forms the resolve to secure one, which raises the pull to look and apply for work) and item 5 (strain builds faster sheltered, unsheltered, doubled up and for two years after an eviction) are built. Item 6: the town's count is a monthly public record on the press wire, and the director keeps the moment. Each is shown in dev mode, because no eviction opened in a played year in four towns (WORLD). Open: benefits and constituent cases reading housing status; a homelessness policy question (GOV) so the press prints the count and voters hold a view; mined journal sentences for home loss and eviction (PEOPLE); an eviction's lower earnings through the jobs engine (WORLD).
+- [ ] **Then:** estates (wills, probate, debts and taxes before heirs, trusts behind an owner-decision stopgap).
 
 ## Needs from other sessions (every place and speed, Oct 14)
 

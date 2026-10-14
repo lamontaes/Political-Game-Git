@@ -32,11 +32,7 @@ import { corruptionModule, CORRUPTION_MODULE_ID } from "./modules/corruption";
 import { createDrivesModule, DEFAULT_DRIVES_DATA } from "./modules/drives";
 import { peopleData } from "../director/play-modules";
 import { DEFAULT_DATA } from "./data";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
 const seed =
@@ -53,11 +49,11 @@ const pick = <T>(list: readonly T[], salt: string): T =>
 function world() {
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const state = pick(
-      [...lifePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
+      [...corePlaceStateIdentities()].map((s) => s.jurisdictionKey).sort(),
       `state:${attempt}`,
     );
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

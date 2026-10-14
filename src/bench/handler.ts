@@ -1,10 +1,7 @@
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
-import {
-  relatedGuideTerms,
-  searchGuideTerms,
-} from "../presentation/guide-terms";
+import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
@@ -38,7 +35,7 @@ import {
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
 import { titleScene } from "./title";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   ageAtStart,
   applyChosenPerson,

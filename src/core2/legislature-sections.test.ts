@@ -24,7 +24,7 @@ import {
   shapedRate,
 } from "./modules/legislature";
 import type { LawRowInput } from "./laws-starting";
-import { lifePlaceCoverage, lifePlaceSearch } from "../simulation/life-places";
+import { searchCorePlaces } from "./place-lookup";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -98,7 +98,7 @@ describe("a bill's sections", () => {
   it("a generated world's bill reads its sections from the law in force", () => {
     const state = pick(graduatedStates, "world-state");
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

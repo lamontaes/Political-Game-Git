@@ -6,8 +6,8 @@ import {
   isoDateFromParts,
   makeIsoDate,
   yearOf,
-} from "../dates";
-import type { IsoDate } from "../types";
+} from "../../core2/kernel/dates";
+import type { IsoDate } from "../../core2/kernel/brands";
 
 /**
  * When a state statute takes effect if the act names no date of its own, by
