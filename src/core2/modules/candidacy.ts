@@ -39,6 +39,7 @@ import { decisionKinds } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { PLATFORM_QUESTIONS, questionAxis } from "../campaign-views";
 import { partySide } from "../appointments";
+import { pressConflict } from "../press-conflict";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import {
   ELECTIONS_MODULE_ID,
@@ -428,6 +429,25 @@ export function decideToRun(
   if (!person?.alive) return null;
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
+  // A working reporter, head or owner of an outlet does not run (owner
+  // ruling, Oct 14, 2026), even if they chose to before taking the job: the
+  // reason kept is the outlet.
+  const conflict = pressConflict(api, personId);
+  if (conflict) {
+    if (held && !held.run) return held;
+    const passed: CandidacyDecision = {
+      id,
+      personId,
+      contestId: contest.contestId,
+      date: api.state.date,
+      run: false,
+      reasons: { press: -api.parameter("one") },
+      scores: [],
+      sourceIds: [...contest.sourceIds, person.id, conflict.outletId],
+    };
+    table(api).put(passed as unknown as { id: string });
+    return passed;
+  }
   if (held && (held.run || !reconsider)) return held;
   pending.set(api.state, contest);
   const offers: ActOffer[] = [STAY_OUT, RUN].map((definition) => ({
@@ -735,6 +755,7 @@ export function weighContest(
       (p) =>
         p.alive &&
         !appointedNow.has(p.id) &&
+        !pressConflict(api, p.id) &&
         (p.placeId === town.townPlaceId || members.has(p.id)) &&
         ageOnDate(makeIsoDate(p.birthDate), todayDate) >= rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
@@ -1063,6 +1084,7 @@ function recruitParties(
         (p) =>
           p.alive &&
           !appointedHolders(api).has(p.id) &&
+          !pressConflict(api, p.id) &&
           (p.placeId === town.townPlaceId || members.has(p.id)) &&
           !running.has(p.id) &&
           !committed.has(p.id) &&

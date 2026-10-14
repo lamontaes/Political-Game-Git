@@ -286,7 +286,8 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "seatElectionYears": [2026, 2026, 2028]
         }
       ],
       "districtElectedStateBodies": {
@@ -770,7 +771,8 @@
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
           "estimate": true,
-          "sourceRetrieved": false
+          "sourceRetrieved": false,
+          "seatElectionYears": [2026, 2026, 2028, 2028, 2028]
         }
       ],
       "usSenateVacancy": {
@@ -12845,7 +12847,9 @@
             "termLimitSource": "https://en.wikipedia.org/wiki/Term_limits_in_the_United_States",
             "retrievedDate": "2026-10-12",
             "estimate": false,
-            "sourceRetrieved": true
+            "sourceRetrieved": true,
+            "notes": "13 members: the Chairman and 4 at-large members elected citywide plus 8 ward members (D.C. Code sec. 1-204.01(a)); the Chairman is a seat of this chamber, not a separate office. Chair vacancy: the Council selects an interim chair from its at-large members.",
+            "citation": "D.C. Code sec. 1-204.01(a), (d)"
           }
         ],
         "notes": "8 ward members + 4 at-large members + at-large chair; at-large seats staggered; no more than 2 of the at-large non-chair seats may be held by the majority party (Home Rule Act sec. 401).",
@@ -12891,31 +12895,6 @@
             "appointedBy": null,
             "successor": null,
             "notes": "Interim appointment then special election.",
-            "citation": "State constitution executive article / election code (generic rule; not verified per office)",
-            "source": "https://ballotpedia.org/State_executive_offices",
-            "retrievedDate": "2026-10-12",
-            "estimate": true,
-            "sourceRetrieved": false
-          },
-          "citation": "State constitution executive article and election code",
-          "source": "https://ballotpedia.org/State_executive_offices",
-          "retrievedDate": "2026-10-12",
-          "estimate": true,
-          "sourceRetrieved": false
-        },
-        {
-          "key": "council-chair",
-          "title": "Chairman of the Council (elected citywide)",
-          "termYears": 4,
-          "termLimit": {
-            "kind": "none"
-          },
-          "nextRegularElectionYear": 2026,
-          "vacancyRule": {
-            "method": "appointment",
-            "appointedBy": "Council (interim) until special election",
-            "successor": null,
-            "notes": "Generic rule for elected commissions/boards; verify statute.",
             "citation": "State constitution executive article / election code (generic rule; not verified per office)",
             "source": "https://ballotpedia.org/State_executive_offices",
             "retrievedDate": "2026-10-12",
@@ -13004,7 +12983,7 @@
           {
             "chamber": "upper",
             "name": "Senate",
-            "seats": 27,
+            "seats": 28,
             "termYears": 4,
             "termLimit": {
               "kind": "none"
@@ -13024,12 +13003,15 @@
             "termLimitSource": "https://en.wikipedia.org/wiki/Term_limits_in_the_United_States",
             "retrievedDate": "2026-10-12",
             "estimate": false,
-            "sourceRetrieved": true
+            "sourceRetrieved": true,
+            "baseSeats": 27,
+            "seatsNote": "Base size 27 (P.R. Const. art. III, sec. 3); minority-representation seats added under art. III, sec. 7 raise the sitting chamber to 28 (Open States roster, 2026).",
+            "citation": "P.R. Const. art. III, secs. 3 and 7"
           },
           {
             "chamber": "lower",
             "name": "House of Representatives",
-            "seats": 51,
+            "seats": 53,
             "termYears": 4,
             "termLimit": {
               "kind": "none"
@@ -13049,7 +13031,10 @@
             "termLimitSource": "https://en.wikipedia.org/wiki/Term_limits_in_the_United_States",
             "retrievedDate": "2026-10-12",
             "estimate": false,
-            "sourceRetrieved": true
+            "sourceRetrieved": true,
+            "baseSeats": 51,
+            "seatsNote": "Base size 51 (P.R. Const. art. III, sec. 3); minority-representation seats added under art. III, sec. 7 raise the sitting chamber to 53 (Open States roster, 2026).",
+            "citation": "P.R. Const. art. III, secs. 3 and 7"
           }
         ],
         "notes": "Minimum 27 senators / 51 representatives; minority-party seats may be added (Const. art. III sec. 7). 11 at-large seats in each house. Next general election 2028-11-07.",

@@ -22,6 +22,7 @@
  * cycle.
  */
 import { closenessBetween } from "./closeness";
+import { pressConflict } from "./press-conflict";
 import { decisionLean } from "./trait-decisions";
 import { partySide } from "./appointments";
 import { officeFamily } from "./elections-calendar";
@@ -329,6 +330,8 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
     roleStanding = 0,
   ) => {
     if (!personId || !api.state.people.has(personId)) return;
+    // A working reporter, head or owner of an outlet does not stand for office.
+    if (pressConflict(api, personId)) return;
     const draft = drafts.get(personId) ?? {
       roles: new Set<PoolRole>(),
       sourceIds: new Set<string>(),
@@ -680,6 +683,7 @@ export function appointeeFor(
       !person ||
       personId === input.previousPersonId ||
       serving.has(personId) ||
+      pressConflict(api, personId) ||
       personId === appointer?.id
     )
       continue;

@@ -5,6 +5,7 @@
  */
 import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import stateSchedule from "../../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
+import territorySchedule from "../data/elections/territory-county-schedule.json" with { type: "json" };
 import { makeIsoDate } from "../../simulation/dates";
 import type { GovernmentUnitIdentity } from "../../simulation/government-units";
 import type { IsoDate } from "./types";
@@ -213,9 +214,12 @@ export function nextCountyElection(
       },
     };
   }
-  const stateRow = (stateSchedule.states as readonly StateRow[]).find(
-    (entry) => entry.stateUsps === unit.stateUsps,
-  );
+  const stateRow = (
+    [
+      ...stateSchedule.states,
+      ...territorySchedule.states,
+    ] as readonly StateRow[]
+  ).find((entry) => entry.stateUsps === unit.stateUsps);
   if (stateRow) return stateRowRead(stateRow, onDate);
   return {
     status: "unknown",

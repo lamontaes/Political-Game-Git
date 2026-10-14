@@ -17,10 +17,12 @@ import federalExecutiveResearch from "../../data/research/offices/federal-execut
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import filingResearch from "../../data/research/elections/filing-requirements.json" with { type: "json" };
 import statewideParties from "../../data/research/offices/statewide-executive-parties-2026.json" with { type: "json" };
+import seatCycleData from "./data/offices/seat-cycles.json" with { type: "json" };
 import senateClasses from "../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeDistrictJoin } from "../districts/place-membership";
+import { membersInDistrict } from "../districts/members-per-district";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
 import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { OfficeInput } from "./offices-local";
@@ -80,6 +82,11 @@ interface ResearchExecutive {
   readonly title: string;
   readonly termYears?: number;
   readonly nextRegularElectionYear?: number;
+  /** Members of a multi-member statewide body (a commission or board); absent means one. */
+  readonly seats?: number;
+  readonly staggered?: boolean;
+  /** Each seat's next election year where the research states it. */
+  readonly seatElectionYears?: readonly number[];
   readonly vacancyRule?: ResearchVacancy;
   readonly source?: string;
   readonly citation?: string;
@@ -202,20 +209,20 @@ export function townDistrict(
 }
 
 /** A district's name or code reduced to comparable words. */
-function districtKey(text: string): string {
-  return text
+function districtKey(text: string, ordered = false): string {
+  const words = text
     .toLowerCase()
     .replace(/(\d+)(st|nd|rd|th)\b/g, "$1")
     .replace(
-      /\b(state|house|senate|senatorial|assembly|legislative|district|of|the)\b/g,
+      /\b(state|house|senate|senatorial|assembly|legislative|district|of|the|and)\b/g,
       " ",
     )
     .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\b0+(?=\d)/g, "")
     .split(/\s+/)
     .filter(Boolean)
-    .map((word) => (/^\d+$/.test(word) ? String(Number(word)) : word))
-    .sort()
-    .join(" ");
+    .map((word) => (/^\d+$/.test(word) ? String(Number(word)) : word));
+  return (ordered ? words : words.sort()).join(" ");
 }
 
 type Roster = Readonly<Record<string, readonly string[]>>;
@@ -227,15 +234,72 @@ function roster(
   return parties.places[stateKey]?.[chamber]?.seatParties ?? {};
 }
 
-/** The roster district a Census district is, by code or by name. */
-function rosterDistrict(rows: Roster, d: DistrictIdentity): string | null {
-  const keys = new Set([
-    districtKey(d.districtCode),
-    districtKey(d.sourceName ?? ""),
-  ]);
-  for (const name of Object.keys(rows))
-    if (keys.has(districtKey(name))) return name;
-  return null;
+/** A name's numbers as written plus its words' letters in order, so spacing and word order don't matter ("South East" is "Southeast"). */
+function districtSignature(text: string): string {
+  const words = districtKey(text).split(" ");
+  return [
+    ...words.filter((w) => /\d/.test(w)),
+    words
+      .filter((w) => !/\d/.test(w))
+      .join("")
+      .split("")
+      .sort()
+      .join(""),
+  ].join(" ");
+}
+
+type MatchPass = "ordered" | "sorted" | "loose" | "overlap";
+
+/**
+ * The unclaimed roster districts a Census district is, by code or by name:
+ * its own, and every lettered subdistrict of it (the roster's 10A and 10B are
+ * Census district 10, which elects both). The passes run from the exact name
+ * (with the words in the same order), to the same words in any order, to the
+ * same letters ignoring spacing ("South East" is "Southeast"), to the one
+ * roster district sharing the most words. A roster district belongs to one
+ * Census district.
+ */
+function rosterDistricts(
+  rows: Roster,
+  d: DistrictIdentity,
+  pass: MatchPass,
+  claimed: Set<string>,
+): string[] {
+  const texts = [d.districtCode, d.sourceName ?? ""];
+  const ordered = new Set(texts.map((t) => districtKey(t, true)));
+  const keys = new Set(texts.map((t) => districtKey(t)));
+  const signatures = new Set(texts.map(districtSignature));
+  const words = new Set([...keys].flatMap((k) => k.split(" ")));
+  const found: string[] = [];
+  let best: { name: string; shared: number } | null = null;
+  for (const name of Object.keys(rows).sort()) {
+    if (claimed.has(name)) continue;
+    const lettered = /^(\d+)[a-z]$/i.exec(name.trim());
+    if (pass === "overlap") {
+      const shared = districtKey(name)
+        .split(" ")
+        .filter((w) => words.has(w) && !/^\d+$/.test(w)).length;
+      if (shared > 0 && (!best || shared > best.shared))
+        best = { name, shared };
+      continue;
+    }
+    if (
+      pass === "ordered"
+        ? ordered.has(districtKey(name, true))
+        : pass === "sorted"
+          ? keys.has(districtKey(name)) ||
+            (lettered && keys.has(String(Number(lettered[1]))))
+          : signatures.has(districtSignature(name))
+    ) {
+      found.push(name);
+      claimed.add(name);
+    }
+  }
+  if (best) {
+    found.push(best.name);
+    claimed.add(best.name);
+  }
+  return found;
 }
 
 /** Whether the place holds this family's regular election in the start year, and if not, when next. */
@@ -314,6 +378,36 @@ function seatElectionYear(
   return offered(stateKey, "statewideExecutive", year, 4) === year
     ? year
     : year + 2;
+}
+
+const SEAT_CYCLES = (
+  seatCycleData as unknown as {
+    places: Record<
+      string,
+      Record<
+        string,
+        { termYears: number; seats: Record<string, readonly number[]> }
+      >
+    >;
+  }
+).places;
+
+/** A researched seat's next election year in its published cycle, else null. */
+function publishedSeatYear(
+  stateKey: string,
+  chamber: string,
+  name: string,
+  member: number,
+  year: number,
+): number | null {
+  const body = SEAT_CYCLES[stateKey]?.[chamber];
+  const years = body?.seats[name];
+  if (!body || !years?.length) return null;
+  return firstCycleYear(
+    years[Math.min(member, years.length - 1)]!,
+    body.termYears,
+    year,
+  );
 }
 
 /** Federal offices covering the town. */
@@ -466,11 +560,42 @@ const STATEWIDE = statewideParties as unknown as {
  * election carries party labels (null for a nonpartisan office). The research
  * was compiled without live sources: SG-GOV-statewide-parties-unverified.
  */
-function statewidePartyOf(stateKey: string, key: string): string | null {
+function statewidePartyOf(
+  stateKey: string,
+  key: string,
+  body = false,
+): string | null {
   const row = STATEWIDE.places[stateKey]?.[key];
   if (!row?.partisanElection) return null;
   stopgap("SG-GOV-statewide-parties-unverified");
+  // stopgapId: SG-GOV-multiseat-statewide-party
+  if (body) stopgap("SG-GOV-multiseat-statewide-party");
   return row.party;
+}
+
+/**
+ * One seat's next election year in a multi-member statewide body: the year the
+ * research states for that seat, else the seats take turns across the years of
+ * one term (a six-year board of three has one seat up every even year),
+ * SG-GOV-term-end-estimate.
+ */
+function bodySeatYear(
+  executive: ResearchExecutive,
+  members: number,
+  index: number,
+  year: number,
+): number {
+  const term = executive.termYears ?? 4;
+  const stated = executive.seatElectionYears?.[index];
+  if (stated !== undefined) return firstCycleYear(stated, term, year);
+  const turns = executive.staggered
+    ? Math.max(1, Math.min(members, Math.floor(term / 2)))
+    : 1;
+  return firstCycleYear(
+    executive.nextRegularElectionYear! + 2 * (index % turns),
+    term,
+    year,
+  );
 }
 
 /** Whether the state elects its legislature without party labels (Nebraska's unicameral). */
@@ -494,6 +619,8 @@ export function stateOffices(
   const offices: OfficeWithSeats[] = [];
   for (const executive of place.executives ?? []) {
     const id = `office:${stateKey}:${executive.key}`;
+    const members = Math.max(1, executive.seats ?? 1);
+    const executiveYear = Number(date.slice(0, 4));
     offices.push({
       office: {
         id,
@@ -502,11 +629,12 @@ export function stateOffices(
         governmentName: stateKey,
         kind: executive.key,
         title: executive.title,
-        seats: 1,
+        seats: members,
         termYears: executive.termYears ?? null,
         // The research's next election, as of its own date, moved to the
-        // first one of the same cycle not before the start.
-        ...(executive.nextRegularElectionYear
+        // first one of the same cycle not before the start. A body of several
+        // members holds each seat's own election year on the seat.
+        ...(executive.nextRegularElectionYear && members === 1
           ? {
               nextElectionYear: firstCycleYear(
                 executive.nextRegularElectionYear,
@@ -534,19 +662,30 @@ export function stateOffices(
           estimate: true,
         }),
       },
-      seats: [
-        {
-          id: `seat:${stateKey}:${executive.key}`,
-          officeId: id,
-          district: null,
-          index: 0,
-          coversTown: true,
-          party:
-            executive.key === "governor"
-              ? (governorParty.get(stateKey) ?? null)
-              : statewidePartyOf(stateKey, executive.key),
-        },
-      ],
+      seats: Array.from({ length: members }, (_, index) => ({
+        id:
+          members === 1
+            ? `seat:${stateKey}:${executive.key}`
+            : `seat:${stateKey}:${executive.key}:${index}`,
+        officeId: id,
+        district: null,
+        index,
+        coversTown: true,
+        ...(members > 1 && executive.nextRegularElectionYear
+          ? {
+              electionYear: bodySeatYear(
+                executive,
+                members,
+                index,
+                executiveYear,
+              ),
+            }
+          : {}),
+        party:
+          executive.key === "governor"
+            ? (governorParty.get(stateKey) ?? null)
+            : statewidePartyOf(stateKey, executive.key, members > 1),
+      })),
     });
   }
   const read = (chamber: string) =>
@@ -571,16 +710,20 @@ export function stateOffices(
     const mine = chamber ? townDistrict(placeGeoid, usps, chamber, date) : null;
     const id = `office:${stateKey}:legislature-${key}`;
     // One seat per member each district elects: the members the real roster
-    // seats there (a multi-member district holds several), at least one.
-    // Roster seats with no district geography (Puerto Rico's at-large
-    // members) are elected by the whole state, the town included.
+    // seats there (a lettered subdistrict's members belong to its Census
+    // district), at least as many as the district elects by law. Roster seats
+    // with no Census district are the chamber's too: an at-large or chair seat
+    // is elected by the whole place, the town included; a floterial district
+    // overlays others and is left to the districts that cover the town.
     const rows = roster(stateKey, rosterChamber);
     const matched = new Set<string>();
     const seats: SeatInput[] = [];
+    const year = Number(date.slice(0, 4));
     const add = (
       district: string,
       members: readonly (string | null)[],
       covers: boolean,
+      cycleName: string,
     ) =>
       members.forEach((party, member) =>
         seats.push({
@@ -589,27 +732,44 @@ export function stateOffices(
           district,
           index: seats.length,
           coversTown: covers,
-          electionYear: seatElectionYear(
-            stateKey,
-            chamberRead,
-            district,
-            Number(date.slice(0, 4)),
-          ),
+          electionYear:
+            publishedSeatYear(stateKey, key, cycleName, member, year) ??
+            seatElectionYear(stateKey, chamberRead, district, year),
           party,
         }),
       );
+    const claimed = new Set<string>();
+    const named = new Map<string, string[]>();
+    for (const pass of ["ordered", "sorted", "loose", "overlap"] as const)
+      for (const d of geography)
+        if (!named.get(d.geoid)?.length)
+          named.set(d.geoid, rosterDistricts(rows, d, pass, claimed));
     for (const d of geography) {
-      const name = rosterDistrict(rows, d);
-      if (name !== null) matched.add(name);
-      const members = name !== null ? rows[name]! : [];
+      const names = named.get(d.geoid) ?? [];
+      for (const name of names) matched.add(name);
+      const members: (string | null)[] = names.flatMap((name) => [
+        ...rows[name]!,
+      ]);
+      const elects = chamber
+        ? membersInDistrict(usps, chamber, d.districtCode)
+        : 1;
+      while (members.length < elects) members.push(null);
       add(
         d.districtCode,
         members.length ? members : [null],
         d.geoid === mine?.geoid,
+        names[0] ?? d.districtCode,
       );
     }
-    for (const [name, members] of Object.entries(rows))
-      if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+    // Roster members past the chamber's researched size (Maine's nonvoting
+    // tribal representatives) are not seats of it.
+    const room = () => (chamberRead?.seats ?? Infinity) - seats.length;
+    for (const [name, members] of Object.entries(rows).sort(
+      ([a], [b]) =>
+        Number(/large|chair/i.test(b)) - Number(/large|chair/i.test(a)),
+    ))
+      if (!matched.has(name) && members.length <= room())
+        add(name, members, /large|chair/i.test(name), name);
     // A chamber with a researched size but neither district geography nor a
     // roster (the territories' legislatures) seats its researched number of
     // members, each elected by the whole territory the town lies in.
@@ -627,10 +787,24 @@ export function stateOffices(
             stateKey,
             chamberRead,
             String(member + 1),
-            Number(date.slice(0, 4)),
+            year,
           ),
           party: null,
         });
+    }
+    // A roster short of the chamber's researched size (members the roster
+    // lists no district for) leaves the difference as vacant seats that no
+    // district the town lies in elects.
+    const missing = (chamberRead?.seats ?? 0) - seats.length;
+    if (missing > 0) {
+      // stopgapId: SG-GOV-roster-gap-seats
+      stopgap("SG-GOV-roster-gap-seats");
+      add(
+        "roster-gap",
+        Array.from({ length: missing }, () => null),
+        false,
+        "roster-gap",
+      );
     }
     offices.push({
       office: {

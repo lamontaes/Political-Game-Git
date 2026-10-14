@@ -47,6 +47,7 @@ import {
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { appointeeFor } from "../candidate-pool";
+import { pressConflict } from "../press-conflict";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
@@ -290,6 +291,9 @@ function suitedResidents(
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
         return false;
+      // A working reporter or an outlet's owner holds no office (owner
+      // ruling, Oct 14, 2026).
+      if (pressConflict(coreAPI(core), person.id)) return false;
       const age = year - Number(person.birthDate.slice(0, 4));
       return age >= 25 && age < 81;
     })
@@ -984,6 +988,7 @@ function announceFill(
     readonly appointedBy: string | null;
     readonly reasons: Readonly<Record<string, number>> | null;
     readonly citation: string;
+    readonly estimate: boolean;
   },
 ): void {
   const date = api.state.date;
@@ -995,7 +1000,7 @@ function announceFill(
     placeId: (
       table(api, "loaded").get("town") as unknown as { townPlaceId: string }
     ).townPlaceId,
-    source: source(how.citation, date, office.vacancyRule?.estimate ?? true),
+    source: source(how.citation, date, how.estimate),
     publicRecord: true,
     news: true,
     facts: {
@@ -1101,6 +1106,7 @@ function fillVacancy(
       appointedBy: chosen?.appointerId ?? rule.appointedBy ?? null,
       reasons: chosen?.reasons ?? null,
       citation: rule.citation ?? rule.source ?? office.source,
+      estimate: rule.estimate,
     });
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
@@ -1132,6 +1138,7 @@ function fillVacancy(
       appointedBy: null,
       reasons: null,
       citation: rule.citation ?? rule.source ?? office.source,
+      estimate: rule.estimate,
     });
     return filled;
   }
@@ -1162,6 +1169,7 @@ function fillVacancy(
       appointedBy: null,
       reasons: null,
       citation: rule.citation ?? rule.source ?? office.source,
+      estimate: rule.estimate,
     });
     return filled;
   }

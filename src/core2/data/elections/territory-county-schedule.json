@@ -1,0 +1,26 @@
+{
+  "about": "County-level election schedules the national county research (data/research/government/county-election-schedule-by-state.json, 50 states) does not carry: the places whose county-equivalent governments (Puerto Rico's municipios) vote on their own statute. Same row shape as that file; read by src/core2/gov-rules/county-election-calendar.ts and src/core2/offices-local.ts.",
+  "states": [
+    {
+      "stateUsps": "PR",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "all-at-once",
+        "cycleYears": 4,
+        "electionYearResidues": [0],
+        "election": { "month": 11, "weekday": 2, "afterFirstMonday": true },
+        "termStart": { "month": 1, "day": 2 },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Puerto Rico Electoral Code (Act 58-2020): the general election, which elects the mayors and municipal legislatures (asambleas municipales) along with the governor and legislature, is held every four years on the first Tuesday after the first Monday of November in the years 2024, 2028 and so on; Municipal Code (Act 107-2020): four-year terms, taking office on January 2",
+      "termStartEstimated": true,
+      "sourceUrls": [
+        "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/58-2020.pdf",
+        "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf"
+      ],
+      "note": "Puerto Rico's municipios have a mayor and a municipal assembly, elected with the island's general election; there is no separate municipal election year."
+    }
+  ]
+}

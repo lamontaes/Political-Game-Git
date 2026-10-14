@@ -41,6 +41,7 @@ import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
+import { pressConflict } from "../press-conflict";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -89,7 +90,8 @@ export interface RequirementCheck {
     | "residency"
     | "registered-voter"
     | "party-member"
-    | "term-limit";
+    | "term-limit"
+    | "press-employment";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -682,6 +684,16 @@ export function checkEligibility(
       actual: "limit reached",
       source: "legislative term limit in force",
     });
+  // A working reporter or an outlet's owner may not run while they work for
+  // or own it (owner ruling, Oct 14, 2026).
+  const press = pressConflict(api, personId);
+  checks.push({
+    rule: "press-employment",
+    met: press === null,
+    required: "not employed by or owning a news outlet",
+    actual: press ? `${press.role} of ${press.outletId}` : "none",
+    source: "Owner ruling, Oct 14, 2026 (docs/coordination/OWNER-DECISIONS.md)",
+  });
   return checks;
 }
 

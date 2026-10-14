@@ -1435,12 +1435,6 @@
         "sourceId": "ballotpedia-state-executives",
         "estimated": "not verified against a live source"
       },
-      "council-chair": {
-        "party": "Democratic",
-        "partisanElection": true,
-        "sourceId": "ballotpedia-state-executives",
-        "estimated": "not verified against a live source"
-      },
       "state-board-of-education-president": {
         "party": null,
         "partisanElection": false,

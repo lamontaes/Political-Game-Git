@@ -47,6 +47,7 @@ import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { pressConflict } from "../press-conflict";
 import { startPublicJob } from "../public-payroll";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
@@ -235,6 +236,8 @@ function fillTownPost(
         ageOn(p, date) >= campaignParameter("appointmentAdulthoodAge") &&
         p.id !== appointer?.personId &&
         !holding.has(p.id) &&
+        // A working reporter, head or owner of an outlet takes no post (owner ruling, Oct 14, 2026).
+        !pressConflict(api, p.id) &&
         (!chosenId || p.id === chosenId) &&
         (!outOfWork ||
           !p.jobId ||

@@ -10,6 +10,7 @@
  */
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
+import territorySchedule from "./data/elections/territory-county-schedule.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules";
@@ -55,10 +56,10 @@ interface CountyScheduleRow {
 }
 
 const scheduleByState = new Map(
-  (countySchedule as { states: CountyScheduleRow[] }).states.map((row) => [
-    row.stateUsps,
-    row,
-  ]),
+  [
+    ...(countySchedule as { states: CountyScheduleRow[] }).states,
+    ...(territorySchedule.states as unknown as CountyScheduleRow[]),
+  ].map((row) => [row.stateUsps, row]),
 );
 
 /**

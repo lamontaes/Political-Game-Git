@@ -3735,7 +3735,7 @@
     "id": "SG-GOV-territory-legislature-seats",
     "kind": "assumed-data",
     "file": "src/core2/offices-state.ts",
-    "line": 618,
+    "line": 738,
     "whatItFakes": "A territory's legislature (American Samoa, Guam, the Northern Mariana Islands, the Virgin Islands) has its researched number of seats, each elected by the whole territory and covering the town, with no party: the Census has no legislative districts for the territories and the town's island or district is not in the place data.",
     "why": "The territory place records are placeholders (no island or precinct), so the town's own legislative district cannot be read.",
     "addedBy": "OPUS-GOV",
@@ -3910,5 +3910,29 @@
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-multiseat-statewide-party",
+    "kind": "assumed-data",
+    "file": "src/core2/offices-state.ts",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "status": "open",
+    "line": 544,
+    "whatItFakes": "Every seat of a statewide commission or board of several members (a corporation commission, a public service commission, a board of education) is held by the party the research lists for the body, which is the party of its majority.",
+    "why": "The party roster for statewide bodies has one party per body, not one per member.",
+    "replacement": "Each member's own party from a statewide-body roster (Ballotpedia state executive offices, member pages)."
+  },
+  {
+    "id": "SG-GOV-roster-gap-seats",
+    "kind": "assumed-data",
+    "file": "src/core2/offices-state.ts",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-14",
+    "status": "open",
+    "line": 761,
+    "whatItFakes": "A legislative chamber whose party roster lists fewer sitting members than the chamber has by law (New Hampshire's House lists 382 of 400) seats the difference as vacant seats of no district, covering no town.",
+    "why": "The roster has no district for the missing members, and the Census file has no floterial or multi-member New Hampshire districts to say where they sit.",
+    "replacement": "Each district's seat count from the state's apportionment (New Hampshire Secretary of State district list) so every missing member lands in a real district."
   }
 ]
