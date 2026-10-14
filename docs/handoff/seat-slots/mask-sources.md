@@ -1,4 +1,16 @@
-# Mask source per crowd version
+# Person-mask provenance
+
+All 286 original Firefly JPEG versions now have independent masks from torchvision Mask R-CNN ResNet-50 FPN V2, COCO V1 weights: person confidence at least 0.8, mask probability at least 0.5. Each `<version>.persons/provenance.json` identifies the input, SHA-256, source dimensions, model, and per-person masks. Neither the old masks nor backdrop differences define these masks.
+
+Native image-generation replacements are saved in the school board, county commission, rural county commission, and large council source folders, with their prompts and alpha-mask provenance. Other rooms reuse those sources through `generated.json`. Original generated sheets and rejected attempts are retained. Individual figures were separated at transparent gutters; their pixels were not repaired.
+
+Empty-room chair masks come from chair/bench detections. Chair anchors and foreground desk polygons include one-time manual annotations, described in each `chairs.json`. Rejected source candidates and diagnostic reasons are saved under each room's `rejected/` folder. No rejected candidate is repaired or reattached as fragments.
+
+## Historical masks retained for reference
+
+The notes below describe the previous pipeline, not the masks used by the rebuilt atlases.
+
+### Previous mask source per crowd version
 
 Old crowd-v* and sparse-v* versions: Adobe image_select_by_prompt ("all the seated people").
 
