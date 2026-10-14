@@ -1,4 +1,4 @@
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { moneyText } from "./money-text";
 import {
   activeAuthoritiesHeldByPersonAt,

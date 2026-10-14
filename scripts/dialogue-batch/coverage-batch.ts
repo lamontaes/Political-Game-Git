@@ -38,10 +38,10 @@ import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
 import type { EnglishBank } from "./bank-compose";
-import { composeAddress } from "../../src/presentation/english-composition";
-import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";
-import { REGISTER_CARDS } from "../../src/presentation/speech-registers";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { composeAddress } from "../../src/english/english-composition";
+import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
+import { REGISTER_CARDS } from "../../src/english/speech-registers";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
 import {
   addressMoves,
@@ -49,7 +49,7 @@ import {
 } from "../english-corpus/address-bank";
 import lexicon from "./verb-lexicon.json" with { type: "json" };
 import { grammatical, lineProblem, type Rejection } from "./repetition-guard";
-import { heldByGrades } from "../../src/presentation/english-grades";
+import { heldByGrades } from "../../src/english/english-grades";
 import {
   minedParts,
   slotValues,
@@ -823,7 +823,7 @@ function readWorld(place: Place): {
         text: move.text,
         parts: move.parts.map((part) => part.variantKey),
         moment: `address|${subject}/${role}`,
-        composer: `composeAddress (src/presentation/english-composition.ts), register ${turn.register}, words from data/english/parts/address.json`,
+        composer: `composeAddress (src/english/english-composition.ts), register ${turn.register}, words from data/english/parts/address.json`,
         sourceRecordIds: [turn.personId],
       });
     });

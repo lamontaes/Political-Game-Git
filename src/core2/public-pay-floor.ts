@@ -7,7 +7,7 @@
  * way the teacher minimum salary raises teachers (through `rerateJob`).
  */
 import data from "./data/laws/public-pay-floor.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
 import { lawInForce } from "./modules/laws";

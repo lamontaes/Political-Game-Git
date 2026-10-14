@@ -10,22 +10,19 @@
  * world's seed, as all generation does. One row per place per month records
  * what moved; nothing is kept per counted person per day.
  */
-import { makeIsoDate } from "../simulation/dates";
-import { createStableId } from "../simulation/ids";
-import { SeededRng } from "../simulation/rng";
-import { drawCanonicalNamedIdentity } from "../simulation/people";
-import { generatePersonIdentity } from "../simulation/person-identity";
+import { makeIsoDate } from "./kernel/dates";
+import { createStableId } from "./kernel/ids";
+import { SeededRng } from "./kernel/rng";
+import { drawCanonicalNamedIdentity } from "./person-names";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
 import {
-  lifePlaceByJurisdictionId,
-  lifePlaceByKey,
-} from "../simulation/life-places";
-import { STATES } from "../simulation/state-reference";
-import { YOUNGEST_AGE_AT_BIRTH } from "../simulation/birth-rates";
-import {
-  bedroomsForHousehold,
-  hudRentRowFor,
-} from "../simulation/living-world/town-rent";
-import type { EntityId } from "../simulation/types";
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateName,
+} from "./place-lookup";
+import { parameter } from "./parameters";
+import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import type { EntityId } from "./kernel/brands";
 import natality2023 from "../../data/research/renewal/natality-2023.json" with { type: "json" };
 import natality2024 from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
@@ -52,6 +49,8 @@ export const COUNTED_FLOWS_STOPGAP = "SG-PW8-counted-arrivals";
 const PER_THOUSAND = 1000,
   CENTS_PER_DOLLAR = 100,
   MS_PER_DAY = 86_400_000;
+/** The youngest age at which anybody becomes a parent. */
+const YOUNGEST_PARENT_AGE = parameter("minimumParentAgeAtBirth");
 
 type AgeRates = Readonly<Record<string, number | null>>;
 interface NatalityArea {
@@ -76,11 +75,11 @@ function stateOf(
 ): { key: string; name: string } {
   const worldKey = api.state.placeMetadata?.placeKey;
   const key =
-    lifePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    (worldKey ? lifePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
+    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
+    (worldKey ? corePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
   if (!key) throw new Error(`No state recorded for ${placeId}`);
   const aliases = areaNames.aliases as Record<string, string>;
-  return { key, name: aliases[key] ?? STATES[key.slice(3)]!.name };
+  return { key, name: aliases[key] ?? coreStateName(key.slice(3))! };
 }
 
 /** Births per woman a year by age band: the state's 2024 rate, else 2023, else national. */
@@ -94,7 +93,7 @@ function birthRates(stateName: string): Map<[number, number], number> {
   const rates = new Map<[number, number], number>();
   for (const band of Object.keys(national)) {
     const [low, high] = band.split("-").map(Number) as [number, number];
-    if (low < YOUNGEST_AGE_AT_BIRTH) continue;
+    if (low < YOUNGEST_PARENT_AGE) continue;
     const per1000 =
       areas.map((area) => area?.ageRates[band]).find((rate) => rate != null) ??
       national[band] ??
@@ -182,8 +181,8 @@ function partnerOf(
     (row) =>
       row.id !== woman.id &&
       woman.familyIds.includes(row.id) &&
-      ageOf(row, date) >= YOUNGEST_AGE_AT_BIRTH &&
-      Math.abs(ageOf(row, date) - age) < YOUNGEST_AGE_AT_BIRTH,
+      ageOf(row, date) >= YOUNGEST_PARENT_AGE &&
+      Math.abs(ageOf(row, date) - age) < YOUNGEST_PARENT_AGE,
   );
 }
 
@@ -206,7 +205,7 @@ function birthStanding(
   const children = record.people.filter(
     (row) =>
       woman.familyIds.includes(row.id) &&
-      age - ageOf(row, date) >= YOUNGEST_AGE_AT_BIRTH,
+      age - ageOf(row, date) >= YOUNGEST_PARENT_AGE,
   ).length;
   const wages = record.jobs.reduce((n, job) => n + job.wageDailyMinor, 0);
   const ratio = (wages * p("daysPerMeanYear")) / median;

@@ -1,5 +1,5 @@
 import { monthKeyOf, monthStart, nextMonthKey } from "./macro-economy/store";
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import {
   futureDueItemStateAt,
   scheduleFutureDueItem,

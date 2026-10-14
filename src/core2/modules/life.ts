@@ -1,5 +1,5 @@
 import { daysBetween, makeIsoDate } from "../kernel/dates";
-import { addDays } from "../../simulation/dates";
+import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
 import { closenessBetween } from "../closeness";

@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { ensureClemencyPetitionSchedule } from "./clemency-transitions";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { eventById } from "../event-index";

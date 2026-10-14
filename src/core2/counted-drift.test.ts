@@ -6,7 +6,7 @@ import { countedMoves } from "./modules/counted-moves";
 import { coreAPI } from "./state";
 import { countedDrift } from "./modules/counted-drift";
 import { residentsRuntime } from "./modules/residents";
-import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 import { daysAfterStart } from "./tooling/test-days";
@@ -41,7 +41,7 @@ describe(`the wider population changes in ${place.name}, ${place.state} (seed ${
     const weighed = [...rt.households.values()]
       .filter(
         (row) =>
-          lifePlaceByJurisdictionId(row.household.placeId)
+          corePlaceByJurisdictionId(row.household.placeId)
             ?.stateJurisdictionKey !== undefined,
       )
       .reduce((n, row) => n + row.people.length, 0);

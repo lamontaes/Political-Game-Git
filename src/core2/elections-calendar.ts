@@ -15,8 +15,8 @@
  * new year, or January 20 for the presidency).
  */
 import nomination from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
-import { governmentUnit } from "../simulation/government-units";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { governmentUnit } from "./reference/government-units";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
 import type { MunicipalElectionTiming } from "./gov-rules/municipal-election-rules";
 import { nextCountyElection } from "./gov-rules/county-election-calendar";

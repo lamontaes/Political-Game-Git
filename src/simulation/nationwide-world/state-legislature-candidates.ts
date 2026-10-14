@@ -2,7 +2,12 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { addDays, ageOnDate, isoDateFromParts, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
   electionProspectInput,
@@ -50,7 +55,7 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { publishPublicEvent } from "../public-information";
 import { stateResidenceSince } from "./residence-duration";
 import {

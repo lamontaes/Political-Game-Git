@@ -4,7 +4,7 @@
  *
  *   node --import tsx scripts/english-corpus/show-journal.ts <seed>
  */
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { enrichCivicInputs } from "../../src/core2/civic-inputs";
 import { buildDeepPast } from "../../src/core2/deep-past";
 import { initialFocusPeople } from "../../src/core2/focus";

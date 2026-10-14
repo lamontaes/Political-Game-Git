@@ -19,7 +19,7 @@ import succession from "../../../data/research/offices/presidential-succession.j
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { nominateAndConfirm, partySide } from "../appointments";
 import { campaignParameter } from "../campaign-views";
 import {

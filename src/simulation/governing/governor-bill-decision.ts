@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { measureActions } from "../legislation";
 import { vetoWindowDayBasisFor } from "../legislature-game-profile";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";

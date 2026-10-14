@@ -27,12 +27,8 @@ import { openLawReach } from "./law-reach/host";
 import { withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import {
-  lifePlaceCoverage,
-  lifePlaceSearch,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
@@ -72,7 +68,7 @@ let LOCAL = "city";
 let measure = 0;
 const report: Record<string, unknown> = {};
 
-const states = [...lifePlaceStateIdentities()]
+const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
@@ -80,7 +76,7 @@ function build(): void {
   for (let attempt = 0; attempt < 40; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
-      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
         stateJurisdictionKey: state,
         scope: "locality",
       }),

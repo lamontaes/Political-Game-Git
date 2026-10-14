@@ -18,7 +18,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 import { justiceChains } from "./justice-chain";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 
 // The player's own act, in the world the owner plays (a seed nobody chose):

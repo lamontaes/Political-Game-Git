@@ -10,7 +10,7 @@ import {
   type ClaimStance,
 } from "./claim-stances";
 import { CONTRADICTION_ROUTES } from "./claim-contradiction-routes";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { personName } from "./people";

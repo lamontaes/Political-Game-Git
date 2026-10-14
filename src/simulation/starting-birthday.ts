@@ -1,5 +1,5 @@
-import { ageOnDate, isoDateFromParts, yearOf } from "./dates";
-import type { IsoDate } from "./types";
+import { ageOnDate, isoDateFromParts, yearOf } from "../core2/kernel/dates";
+import type { IsoDate } from "../core2/kernel/brands";
 
 /**
  * Canonical date of birth for a new life.

@@ -15,7 +15,11 @@ import {
   campaignStateJurisdictionKey,
 } from "./campaign-compliance-rules";
 import { activeCampaignForCandidate } from "./campaign-queries";
-import { ageOnDate, completedMonthsBetween, makeIsoDate } from "./dates";
+import {
+  ageOnDate,
+  completedMonthsBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { enactedRuleChangeAt } from "./enacted-rule-changes";
 import {
   lifePlaceByJurisdictionId,

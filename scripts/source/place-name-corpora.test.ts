@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import COMMITTED from "../../src/simulation/place-name-corpora.json" with { type: "json" };
+import COMMITTED from "../../src/core2/data/names/place-name-corpora.json" with { type: "json" };
 import {
   honoreeFromSchoolName,
   measurePlaceNameCorpora,

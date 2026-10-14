@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { electedExecutiveTermForRelationship } from "../executive-work-context";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { workStatusAt } from "../life-queries";

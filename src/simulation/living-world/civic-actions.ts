@@ -1,7 +1,7 @@
 import { futureDueItemStateAt } from "../future-transitions";
 import { recordByStableKey } from "../history-index";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
-import { addDays, ageOnDate, daysBetween } from "../dates";
+import { addDays, ageOnDate, daysBetween } from "../../core2/kernel/dates";
 import { currentGovernorOf } from "../crisis/offices";
 import { OFFICE_EMPLOYMENT_KINDS } from "../governing/office-consequence";
 import { lifePlaceByJurisdictionId } from "../life-places";

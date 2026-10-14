@@ -2,8 +2,8 @@ import {
   countyEquivalentTerm,
   governmentUnitDisplayName,
   governmentUnitRecordedName,
-} from "./government-unit-names";
-import type { CountyEquivalentTerm } from "./government-unit-names";
+} from "../../core2/gov-rules/government-unit-names";
+import type { CountyEquivalentTerm } from "../../core2/gov-rules/government-unit-names";
 
 import {
   GOVERNMENT_UNITS_META,
@@ -11,8 +11,8 @@ import {
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
   governmentUnitsForPlace,
-} from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+} from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { createOrganization } from "../life";
 import {
   lifePlaceByJurisdictionId,

@@ -1,4 +1,4 @@
-import { addDays } from "../simulation/dates";
+import { addDays } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
 import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
 import { DEFAULT_DATA, extendData } from "./data";

@@ -8,7 +8,7 @@ import {
   type ContestRow,
 } from "../core2/modules/elections";
 import { ballotOf, holdElection } from "../core2/modules/voting";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { SITUATION_LIBRARY } from "./scheduling";
 import {
   leavePollingPlace,

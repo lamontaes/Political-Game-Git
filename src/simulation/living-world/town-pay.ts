@@ -15,7 +15,7 @@ import type {
   ResolvedHourlyLawPayConsequence,
   ResolvedSavedHourlyPayConsequence,
 } from "../law-consequence-types";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 /**
  * Payday: everyone with a town job is paid, on their employer's own payday.
  *
@@ -60,7 +60,7 @@ import {
   daysBetween,
   makeIsoDate,
   simulationMinutesBetween,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   scheduleFutureDueItem,
@@ -70,7 +70,7 @@ import {
   enactedRuleChangeAt,
   laborLawOfficeKey,
 } from "../enacted-rule-changes";
-import { countyGeoidsForPlace } from "../government-units";
+import { countyGeoidsForPlace } from "../../core2/reference/government-units";
 import {
   growingIndex,
   withHistoryAppendTransaction,
@@ -106,7 +106,7 @@ import {
 import { createDatedCashPaymentReader } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
 import { hasLifePathCredential } from "../life-paths2";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import {
   createResourceFlows,
   money,
