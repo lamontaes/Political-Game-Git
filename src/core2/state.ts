@@ -1271,6 +1271,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       });
       index(core.membershipsByPerson, personId, id);
     },
+    leave(personId, organizationId) {
+      const id = `${personId}:${organizationId}`;
+      if (!core.memberships.delete(id)) return;
+      core.membershipsByPerson.get(personId)?.delete(id);
+    },
     emit(event) {
       applyCoreEvent(core, event);
     },
