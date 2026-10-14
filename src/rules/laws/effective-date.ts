@@ -44,6 +44,11 @@ export type StatuteEffectiveRule =
       readonly kind: "january-after-days";
       readonly days: number;
       readonly oddYearsNextJanuary: boolean;
+    }
+  | {
+      /** The first day of the Nth month after enactment (Alabama's drafting formula). */
+      readonly kind: "first-of-month-after";
+      readonly monthsAfter: number;
     };
 
 export interface StatuteDateContext {
@@ -132,6 +137,14 @@ export function stateStatuteOperativeAt(
       return rule.oddYearsNextJanuary && year % 2 === 1
         ? nextYearlyDate(enactedAt, 1, 1)
         : nextYearlyDate(addDays(enactedAt, rule.days), 1, 1);
+    case "first-of-month-after": {
+      const month = Number(enactedAt.slice(5, 7)) + rule.monthsAfter;
+      return dateFromParts(
+        year + Math.floor((month - 1) / 12),
+        ((month - 1) % 12) + 1,
+        1,
+      );
+    }
   }
 }
 
