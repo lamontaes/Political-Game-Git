@@ -497,43 +497,109 @@ function month(api: CoreAPI): void {
     summary.total += due;
     groupPulls.set(row.group, summary);
   }
-  // A whole household leaves each group as its movers come due, toward the
-  // place that drew most; within a group, households go in a fixed order.
   for (const [g, summary] of groupPulls) {
-    const group = store.groups[g]!;
-    const order = [...group.households]
-      .map((i) => store.households[i]!)
-      .filter((h) => !h.gone && store.countedMembers(h).length)
-      .map((h) => [stableHash(`${core.seed}:moves:${h.id}`), h] as const)
-      .sort((a, b) => (a[0] < b[0] ? -1 : 1))
-      .map(([, h]) => h);
+    const cause = summary.total > 0 ? summary.byCause : {};
+    api
+      .moduleState(COUNTED_MOVES_MODULE_ID)
+      .table(PULLS_TABLE)
+      .put({
+        id: store.groups[g]!.id,
+        date,
+        people: summary.people,
+        moversPerMonth: summary.total,
+        byCause: Object.fromEntries(
+          Object.entries(cause).map(([k, v]) => [
+            k,
+            summary.total ? v / summary.total : 0,
+          ]),
+        ),
+      } as unknown as ModuleRow);
+  }
+  // A whole household leaves as its place's movers come due, rounded to the
+  // nearest household (the balance carries): from the group whose movers
+  // are most due, toward the place that drew most; within a group,
+  // households go in a fixed order.
+  const dueOf = (g: number) => {
+    const id = store.groups[g]!.id;
+    const rows: (readonly [string, number])[] = [];
+    let total = 0;
+    for (const s of stateList) {
+      const v = rt.leave.get(`${id}|${s.usps}`) ?? 0;
+      if (v === 0) continue;
+      rows.push([s.usps, v]);
+      total += v;
+    }
+    return { rows, total };
+  };
+  const byPlace = new Map<PlaceId, number[]>();
+  for (const g of groupPulls.keys()) {
+    const first = store.households[[...store.groups[g]!.households][0]!];
+    if (!first) continue;
+    const list = byPlace.get(first.placeId) ?? [];
+    list.push(g);
+    byPlace.set(first.placeId, list);
+  }
+  const orders = new Map<number, CountedHousehold[]>();
+  const orderOf = (g: number) => {
+    let order = orders.get(g);
+    if (!order) {
+      order = [...store.groups[g]!.households]
+        .map((i) => store.households[i]!)
+        .filter((h) => !h.gone && store.countedMembers(h).length)
+        .map((h) => [stableHash(`${core.seed}:moves:${h.id}`), h] as const)
+        .sort((a, b) => (a[0] < b[0] ? -1 : 1))
+        .map(([, h]) => h);
+      orders.set(g, order);
+    }
+    return order;
+  };
+  for (const groupsHere of byPlace.values()) {
+    const dues = new Map(groupsHere.map((g) => [g, dueOf(g)]));
     for (;;) {
-      const dests = stateList
-        .map(
-          (s) => [s.usps, rt.leave.get(`${group.id}|${s.usps}`) ?? 0] as const,
+      let placeDue = 0;
+      let g: number | undefined;
+      for (const [k, d] of dues) {
+        placeDue += d.total;
+        if (
+          orderOf(k).length &&
+          (g === undefined ||
+            d.total > dues.get(g)!.total ||
+            (d.total === dues.get(g)!.total &&
+              store.groups[k]!.id < store.groups[g]!.id))
         )
-        .filter(([, v]) => v > 0);
-      const due = dests.reduce((n, [, v]) => n + v, 0);
-      const next = order.shift();
-      if (!next) break;
+          g = k;
+      }
+      if (g === undefined) break;
+      const next = orderOf(g)[0]!;
       const size = store.countedMembers(next).length;
-      if (due < size) break;
-      const [to] = [...dests].sort(
-        (a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1),
-      )[0]!;
-      // Take its people from the accrued movers, toward that place first.
+      if (placeDue < size / 2) break;
+      orderOf(g).shift();
+      const group = store.groups[g]!;
+      const dests = dues.get(g)!.rows;
+      const home = stateOfPlace(next.placeId)!;
+      const to =
+        [...dests]
+          .filter(([, v]) => v > 0)
+          .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0]?.[0] ??
+        home;
+      // Take its people from the group's due movers, toward that place
+      // first; what it lacks is owed by the group from then on.
       let take = size;
       for (const [usps] of [...dests].sort((a, b) =>
         a[0] === to ? -1 : b[0] === to ? 1 : b[1] - a[1],
       )) {
         const k = `${group.id}|${usps}`;
         const have = rt.leave.get(k) ?? 0;
-        const used = Math.min(have, take);
+        const used = Math.max(0, Math.min(have, take));
         rt.leave.set(k, have - used);
         take -= used;
         if (take <= 0) break;
       }
-      const home = stateOfPlace(next.placeId)!;
+      if (take > 0) {
+        const k = `${group.id}|${to}`;
+        rt.leave.set(k, (rt.leave.get(k) ?? 0) - take);
+      }
+      dues.set(g, dueOf(g));
       const bands = store
         .countedMembers(next)
         .map((m) => coarseIndex(ageOn(store.born[m]!, date)));
@@ -553,22 +619,6 @@ function month(api: CoreAPI): void {
         reasons: to === home ? {} : reasons,
       });
     }
-    const cause = summary.total > 0 ? summary.byCause : {};
-    api
-      .moduleState(COUNTED_MOVES_MODULE_ID)
-      .table(PULLS_TABLE)
-      .put({
-        id: group.id,
-        date,
-        people: summary.people,
-        moversPerMonth: summary.total,
-        byCause: Object.fromEntries(
-          Object.entries(cause).map(([k, v]) => [
-            k,
-            summary.total ? v / summary.total : 0,
-          ]),
-        ),
-      } as unknown as ModuleRow);
   }
 
   // 2. Every state and territory weighs every other at the coarse grain.
