@@ -27,11 +27,14 @@ const total = (core: CoreState) =>
 
 describe(`disasters from the record (seed ${seed})`, () => {
   it("happens on FEMA's dates, pays the obligated assistance, and balances", () => {
-    // Draw places from the seed until one has a disaster beginning in 2021
-    // (any of the 56 places can be drawn; most years most counties have none).
+    // Draw places from the seed until one has a disaster beginning in the
+    // world's first year (any of the 56 places can be drawn; most years most
+    // counties have none).
     let core: CoreState | undefined,
       due: ReturnType<typeof townDisasters> = [];
-    let where = "";
+    let where = "",
+      opened = "",
+      yearEnd = "";
     for (let draw = 0; draw < 12 && !due.length; draw++) {
       const place = drawPlace(`${seed}:${draw}`, "core2-disasters");
       where = `${place.name}, ${place.state} (draw ${draw})`;
@@ -41,27 +44,32 @@ describe(`disasters from the record (seed ${seed})`, () => {
           settings: { population: 1500 },
         }),
       );
+      opened = core.date;
+      const end = new Date(`${opened}T00:00:00Z`);
+      end.setUTCFullYear(end.getUTCFullYear() + 1);
+      end.setUTCDate(end.getUTCDate() - 1);
+      yearEnd = end.toISOString().slice(0, 10);
       due = townDisasters(coreAPI(core)).filter(
-        (row) => row.begins > core!.date && row.begins <= "2021-12-31",
+        (row) => row.begins > opened && row.begins <= yearEnd,
       );
     }
     expect(
       due.length,
-      `no 2021 disaster in 12 draws; last ${where}`,
+      `no first-year disaster in 12 draws; last ${where}`,
     ).toBeGreaterThan(0);
     const api = coreAPI(core!);
     const start = total(core!);
-    advanceCore(core!, "2021-12-31");
+    advanceCore(core!, yearEnd);
     const events = [...core!.durableLog.values()].filter(
       (row) => row.kind === "hazard.disaster",
     );
     console.log(
-      `disasters in ${where}: ${events.length} events in 2021, ${disasterAssistancePaid(api).length} payments, ${disasterRepairsPaid(api).length} repairs`,
+      `disasters in ${where}: ${events.length} events in the first year, ${disasterAssistancePaid(api).length} payments, ${disasterRepairsPaid(api).length} repairs`,
     );
     // One public, newsworthy event per declared disaster begun in the year.
     expect(events.length).toBe(due.length);
     for (const row of events) {
-      expect(row.date >= "2021-01-01" && row.date <= "2021-12-31").toBe(true);
+      expect(row.date > opened && row.date <= yearEnd).toBe(true);
       expect(row.facts?.disasterNumber).toBeDefined();
     }
     // Assistance declared in the year is paid in full, never more than FEMA
