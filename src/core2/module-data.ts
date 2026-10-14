@@ -18,15 +18,29 @@ export function moduleKey(value: string): string {
 }
 
 /**
+ * Containers this module made: module data no one may change (with bookkeeping
+ * on they are frozen, so tests fail on any change). A later copy reuses them
+ * instead of copying again, so writing `{ ...row, change }` copies only what
+ * is new, not every nested list the row already held.
+ */
+const madeHere = new WeakSet<object>();
+
+/**
  * A plain copy, without checks or freezing (bookkeeping off): the stored row
  * still never shares a container with the caller. Tests run the checked copy.
  */
 function plainData(value: unknown): unknown {
   if (value === null || typeof value !== "object") return value;
-  if (Array.isArray(value)) return value.map(plainData);
-  const result: Record<string, unknown> = Object.create(null);
-  for (const key in value as Record<string, unknown>)
-    result[key] = plainData((value as Record<string, unknown>)[key]);
+  if (madeHere.has(value)) return value;
+  let result: unknown;
+  if (Array.isArray(value)) result = value.map(plainData);
+  else {
+    const row: Record<string, unknown> = Object.create(null);
+    for (const key in value as Record<string, unknown>)
+      row[key] = plainData((value as Record<string, unknown>)[key]);
+    result = row;
+  }
+  madeHere.add(result as object);
   return result;
 }
 
