@@ -98,6 +98,7 @@ import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { WEB_LINKS, WEB_SETTINGS } from "../../src/core2/outcome-web-model";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import type { CoreAPI, CoreModule, CoreState } from "../../src/core2/types";
+import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 
 /** The bench's opening day (src/bench/m0-check.ts). */
 const OPENING_DATE = "2026-10-12";
@@ -127,6 +128,18 @@ const seeds = nightly
  * the nightly's three, about 1.6 times the largest measured.
  */
 const HEAP_BOUND_MB = 1_500 + 500 * years;
+/** Retained heap after a forced collection, in MiB (MEMORY-FLAT's ceilings are in MiB). */
+function heapMiB(): number {
+  const gc = (globalThis as { gc?: () => void }).gc;
+  if (!gc)
+    throw new Error(
+      "Run with --expose-gc so memory is measured after collection.",
+    );
+  gc();
+  return process.memoryUsage().heapUsed / 2 ** 20;
+}
+/** The engine loaded, before any town (MEMORY-FLAT ceiling heapAfterImportMiB). */
+const importHeapMiB = heapMiB();
 /**
  * A new business's loan is within the founder's means when the founder puts
  * in at least a tenth of it (SBA 7(a) start-up equity injection, 10%,
@@ -160,6 +173,16 @@ const FAILING_TODAY: Record<string, { owner: string; byTown?: true }> = {
   "pay reaches a spendable account": { owner: "FIXER-ECONOMY", byTown: true },
   "a new business's loan fits its founder": {
     owner: "FIXER-ECONOMY",
+    byTown: true,
+  },
+  // MEMORY-FLAT's ceilings (docs/packages/MEMORY-FLAT.md): the engine's
+  // data tables load at import and the counted people keep their past; the
+  // PR says what is left and whose it is.
+  "the engine loads under its memory ceiling": { owner: "MEMORY-FLAT" },
+  "the opened town is under its memory ceiling": { owner: "MEMORY-FLAT" },
+  // Near the ceiling: under it in some towns, over it in others.
+  "the town's memory grows under its ceiling": {
+    owner: "MEMORY-FLAT",
     byTown: true,
   },
 };
@@ -546,6 +569,7 @@ function playWorld(seed: string) {
     placeKey: place.key,
   });
   const buildSeconds = (performance.now() - buildStarted) / 1000;
+  const openingHeapMiB = heapMiB();
   const core = world.core;
   const start = core.date;
   let end = addDays(makeIsoDate(start), Math.round(365.25 * years));
@@ -585,6 +609,10 @@ function playWorld(seed: string) {
   const schoolAgeIds = new Set<string>();
   let foundingsSeen = foundingTable.size;
   const runStarted = performance.now();
+  // Growth is read from the end of the first month, whose one-time tables
+  // (the first payrolls, contests and stories) are not growth.
+  const firstMonthEnd = addDays(makeIsoDate(start), 30);
+  let firstMonthHeapMiB: number | undefined;
   for (let day = start; day < end;) {
     for (const p of core.people.values()) {
       cashYesterday.set(p.id, p.liquidMinor);
@@ -595,6 +623,8 @@ function playWorld(seed: string) {
     }
     const next = addDays(makeIsoDate(day), 1);
     advanceCore(core, next);
+    if (firstMonthHeapMiB === undefined && next >= firstMonthEnd)
+      firstMonthHeapMiB = heapMiB();
     if (foundingTable.size !== foundingsSeen) {
       foundingsSeen = foundingTable.size;
       for (const row of foundingTable.rows() as unknown as Row[]) {
@@ -614,13 +644,7 @@ function playWorld(seed: string) {
     }
     day = next;
   }
-  const gc = (globalThis as { gc?: () => void }).gc;
-  if (!gc)
-    throw new Error(
-      "Run with --expose-gc so memory is measured after collection.",
-    );
-  gc();
-  const annualHeapMB = process.memoryUsage().heapUsed / 1e6;
+  const annualHeapMB = (heapMiB() * 2 ** 20) / 1e6;
   // Changed voting rules need an election. Continue to the next recorded
   // contest when the annual window ended before it.
   const votingChanges = rowsOf(core, LAWS_MODULE_ID, "laws")
@@ -664,8 +688,10 @@ function playWorld(seed: string) {
     }
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
-  gc();
-  const heapMB = process.memoryUsage().heapUsed / 1e6;
+  const endHeapMiB = heapMiB();
+  const heapMB = (endHeapMiB * 2 ** 20) / 1e6;
+  const growthMiBPerMonth =
+    (endHeapMiB - firstMonthHeapMiB!) / (years * 12 - 1);
   const elapsedYears = Math.max(
     years,
     (Date.parse(core.date) - Date.parse(start)) /
@@ -679,6 +705,38 @@ function playWorld(seed: string) {
   ];
   const api = coreAPI(core);
   const verdicts: Record<string, Verdict> = {};
+
+  // MEMORY-FLAT: a played town costs tens of megabytes. The ceilings are in
+  // scripts/core2-guard/policies.json.
+  const ceiling = (
+    measured: number,
+    limit: number,
+    what: string,
+    where: string,
+  ): Verdict =>
+    measured < limit
+      ? pass(`${what}: ${measured.toFixed(1)} MiB, under ${limit} MiB`)
+      : fail(
+          `${what}: ${measured.toFixed(1)} MiB, over the ${limit} MiB ceiling (${where}).`,
+        );
+  verdicts["the engine loads under its memory ceiling"] = ceiling(
+    importHeapMiB,
+    policies.heapAfterImportMiB,
+    "heap after importing the engine",
+    "every data table loads at import, as module source and parsed rows; see docs/packages/MEMORY-FLAT.md, step 3",
+  );
+  verdicts["the opened town is under its memory ceiling"] = ceiling(
+    openingHeapMiB,
+    policies.heapAfterOpeningMiB,
+    "heap after the opening",
+    "the engine's import, the counted people's records (src/core2/modules/residents.ts) and the tables built for the opening",
+  );
+  verdicts["the town's memory grows under its ceiling"] = ceiling(
+    growthMiBPerMonth,
+    policies.heapGrowthMiBPerMonth,
+    `heap growth a month after the first (${years * 12 - 1} months)`,
+    "something keeps history it should let go: the durable log (OPUS-CORE) grows most",
+  );
 
   // Break 17 and the module audit: every installed module did something.
   const recordsAtEnd = moduleRecords(core);
@@ -1656,6 +1714,9 @@ function playWorld(seed: string) {
       buildSeconds: Math.round(buildSeconds),
       runSeconds: Math.round(runSeconds),
       heapMB: Math.round(heapMB),
+      importHeapMiB: Math.round(importHeapMiB),
+      openingHeapMiB: Math.round(openingHeapMiB),
+      growthMiBPerMonth: Number(growthMiBPerMonth.toFixed(1)),
       modules: core.modules.size,
     },
     heapMB,
@@ -1720,6 +1781,9 @@ for (const [index, seed] of seeds.entries()) {
     alive("homes have values and rents");
     alive("pay reaches a spendable account");
     alive("a new business's loan fits its founder");
+    alive("the engine loads under its memory ceiling");
+    alive("the opened town is under its memory ceiling");
+    alive("the town's memory grows under its ceiling");
     it(`memory after ${years} year(s) stays under ${HEAP_BOUND_MB} MB and extensions keep the same yearly allowance`, () => {
       assert.ok(
         result!.annualHeapMB < HEAP_BOUND_MB,

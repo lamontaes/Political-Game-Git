@@ -16,7 +16,7 @@ import type { TermRow } from "../core2/modules/offices";
 import effects from "../core2/data/laws/policy-effects.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
-import { backdropFile, stagePeople } from "./scene";
+import { backdropFile, hasBackdrop, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const OFFICES = "core2-offices-v1";
@@ -188,7 +188,7 @@ export function bodyScene(
 ) {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
   if (!body) throw new Error("You don't sit on that body.");
-  const places = scenePlaces.bodyPlaces as Record<string, string>;
+  const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
   // A legislature with no upper chamber on record meets in a one-house chamber.
   const kind =
@@ -198,7 +198,23 @@ export function bodyScene(
     )
       ? "legislature-unicameral"
       : body.kind;
-  const place = places[kind] ?? places.default!;
+  // A council's room by its seats, a county board's by the town's size.
+  const sized = (
+    scenePlaces.bodyPlacesBySize as unknown as Record<
+      string,
+      { underSeats?: number; underPopulation?: number; places: string[] }[]
+    >
+  )[kind]?.find((row) =>
+    row.underSeats !== undefined
+      ? ((offices.get(officeId) as { seats?: number } | undefined)?.seats ??
+          body.members.length) < row.underSeats
+      : Number(core.placeMetadata?.referencePopulation ?? 0) <
+        (row.underPopulation ?? 0),
+  )?.places;
+  const place =
+    [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
+      hasBackdrop,
+    ) ?? places.default![0]!;
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),

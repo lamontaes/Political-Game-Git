@@ -626,17 +626,15 @@ select {
   transition: width 0.4s ease-out;
 }
 
-/* A soft contact shadow under a whole figure's feet. */
-#people .figure .shadow {
+/* A soft contact shadow on the floor at a person's feet (placed by the scene). */
+#people .shadow {
   position: absolute;
-  left: 15%;
-  right: 15%;
-  bottom: -1.2%;
-  height: 3%;
+  border-radius: 50%;
   background: radial-gradient(
-    ellipse at center,
-    rgb(0 0 0 / 38%),
-    transparent 70%
+    closest-side,
+    rgb(0 0 0 / 34%),
+    rgb(0 0 0 / 20%) 55%,
+    transparent
   );
   pointer-events: none;
 }

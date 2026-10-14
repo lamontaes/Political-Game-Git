@@ -15,5 +15,9 @@
   "profileParseBytes": 33554432,
   "goldenJobMinutes": 35,
   "performanceJobMinutes": 50,
-  "measuredDays": 365
+  "measuredDays": 365,
+  "heapAfterImportMiB": 150,
+  "heapAfterOpeningMiB": 250,
+  "heapGrowthMiBPerMonth": 5,
+  "memoryCeilingsReason": "MEMORY-FLAT (docs/packages/MEMORY-FLAT.md): a two-level played world should cost tens of megabytes, as The Political Process keeps statistics per place and compact records per official. Heap after a forced collection, bookkeeping off: after importing the engine (before any town), after the opening, and growth a month from the end of the first month (whose one-time tables are excluded) to the end of the run. Starting numbers set by the package; TUNABLE against the played-world test's measured towns."
 }
