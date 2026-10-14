@@ -6,6 +6,7 @@ import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
 import { ACCOUNTS_MODULE } from "./accounts";
 import { LIFE_MODULE } from "./modules/life";
+import { openingTemperaments } from "./opening-personality";
 import { PEOPLE_MODULE_ID } from "./modules/people";
 import { SCHOOL_MODULE_ID } from "./modules/school";
 import { DISASTERS_MODULE_ID } from "./modules/disasters";
@@ -383,6 +384,46 @@ describe("shared actor chooser and committed effects", () => {
     );
     expect(money(high)).toBe(openingHigh);
     expect(money(low)).toBe(openingLow);
+  });
+
+  it("lets stress turn generated personalities from work to rest at the played trait weight", () => {
+    // Real people carry every trait (PEOPLE's temperament model), not the
+    // single strongest effort trait the chooser tests above use, and play
+    // runs at the tuned traitWeight (DEFAULT_DATA).
+    const subjects = Array.from({ length: 40 }, (_, index) => ({
+      id: `person:generated-${index}`,
+      birthDate: "1980-01-01",
+      parents: [],
+    }));
+    const temperaments = openingTemperaments(subjects, {
+      seed: "life-test-played-weight",
+      startedAt,
+    });
+    const stressed =
+      p("stressBaseline") +
+      eventInputs.events.affectStimulus.stressImpulse * p("two");
+    let turned = p("zero");
+    for (const subject of subjects) {
+      const decide = (stress: number) => {
+        const core = createLifeCore({
+          ...workers([actorId], { traits: temperaments.get(subject.id)! }),
+          playerId: actorId,
+        });
+        const actor = core.people.get(actorId)!;
+        coreAPI(core).updatePerson(actorId, {
+          affect: { ...actor.affect, stress },
+        });
+        return chooseAct(core, actorId, availableActs(core, actorId)).selected!
+          .definition.effect;
+      };
+      const calm = decide(p("stressBaseline"));
+      const strained = decide(stressed);
+      // Stress never pushes anyone from rest into work.
+      expect(calm === "recover" && strained === "paid-work").toBe(false);
+      if (calm === "paid-work" && strained === "recover") turned += p("one");
+    }
+    // Some generated workers who would work when calm rest when stressed.
+    expect(turned).toBeGreaterThan(p("zero"));
   });
 
   it("lets mood and stress change the chosen act through action-specific recorded emotion contributions", () => {
