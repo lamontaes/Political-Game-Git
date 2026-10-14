@@ -215,7 +215,7 @@
     "stateStake": {
       "value": 1,
       "tag": "TUNABLE",
-      "source": "How much a member of Congress weighs what a federal budget line sends their state against the national average: a state getting twice the average per resident pulls a full point toward more for that line, one getting none a full point toward less. The same scale as their district's lean (district weight 0.5 times a lean of up to 1), so pork and principle can pull against each other. Checked against studies of distributive voting (Lee 2003 on Senate transportation votes; Berry, Burden and Howell 2010 on federal outlays to members' districts).",
+      "source": "How much a member of Congress weighs what a federal budget line sends their state against the national average, read on a doubling scale: twice the average per resident pulls a full point toward more for that line, half the average a full point toward less, capped there. The same scale as their district's lean (district weight 0.5 times a lean of up to 1), so pork and principle can pull against each other. Checked against studies of distributive voting (Lee 2003 on Senate transportation votes; Berry, Burden and Howell 2010 on federal outlays to members' districts).",
       "spread": [0.5, 2]
     }
   },

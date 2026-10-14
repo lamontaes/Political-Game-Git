@@ -946,6 +946,8 @@ export interface OfficialParts {
   readonly wing: number;
   readonly ambition: number;
   readonly press: number;
+  /** For a member of Congress, what the bill's budget lines send their state (part of `constituents`). */
+  readonly stateStake: number;
 }
 
 interface BodyRead {
@@ -1050,8 +1052,10 @@ export function officialParts(
     0,
   );
   // A member of Congress also weighs what a budget line sends their state
-  // against the national average: more for a line their state lives on,
-  // less for one it barely sees (a sliding scale, no threshold).
+  // against the national average, on a doubling scale: twice the average
+  // pulls a full point toward more, half a full point toward less (a sliding
+  // scale, no threshold; an outlier like a capital's headquarters spending
+  // counts no more than twice).
   const stake =
     row.bodyKind === "us-house" || row.bodyKind === "us-senate"
       ? stances.reduce(
@@ -1059,14 +1063,14 @@ export function officialParts(
             sum +
             Math.max(
               -1,
-              Math.min(1, stateStake(row.stateKey, s.question) - 1),
+              Math.min(1, Math.log2(stateStake(row.stateKey, s.question))),
             ) *
               s.position,
           0,
         )
       : 0;
-  const constituents =
-    weight("district") * district + weight("stateStake") * stake;
+  const stakePart = weight("stateStake") * stake;
+  const constituents = weight("district") * district + stakePart;
   let party = 0;
   let wing = 0;
   if (row.bodyKind !== "executive") {
@@ -1112,7 +1116,15 @@ export function officialParts(
     weight("press") *
     visibility *
     stances.reduce((sum, s) => sum + publicOffset(s.question) * s.position, 0);
-  return { views, constituents, party, wing, ambition, press };
+  return {
+    views,
+    constituents,
+    party,
+    wing,
+    ambition,
+    press,
+    stateStake: stakePart,
+  };
 }
 
 /** A would-be candidate's reasons for running, as recorded. */

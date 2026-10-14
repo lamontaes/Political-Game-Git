@@ -197,6 +197,8 @@ export interface MemberPosition {
   readonly wing?: number;
   readonly ambition?: number;
   readonly press?: number;
+  /** A member of Congress's state's stake in the bill's budget lines, within `constituents`. */
+  readonly stateStake?: number;
   /** What the member's traits add: every trait's lean toward yes over no. */
   readonly trait: number;
   /** Their own last vote on the question, while the law is fresh: for a bill that keeps it, against one that undoes it. */
@@ -1419,6 +1421,7 @@ function positionOn(
         wing: parts.wing,
         ambition: parts.ambition,
         press: parts.press,
+        stateStake: parts.stateStake,
       }
     : null;
   // A taste for change backs changing a settled law and resists reversing
