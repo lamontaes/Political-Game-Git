@@ -3,7 +3,7 @@ import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
 import react from "@vitejs/plugin-react";
-import { configDefaults, defineConfig } from "vitest/config";
+import { configDefaults, defineConfig, type Plugin } from "vitest/config";
 import {
   buildIdentityDefines,
   resolveBuildIdentity,
@@ -21,11 +21,28 @@ import { artDeskBridge } from "./scripts/dev-lab/art-desk-bridge";
 import { artbenchBridge } from "./scripts/dev-lab/artbench-bridge";
 import { RoundRobinSequencer } from "./scripts/dev-lab/round-robin-sequencer";
 
+// The play page is the game's only page, so it ships as the client's root
+// document: the desktop shell loads `/index.html` and the staging check
+// requires `client/index.html`.
+function playIsIndex(): Plugin {
+  return {
+    name: "our-civic-duty-play-is-index",
+    apply: "build",
+    generateBundle(_options, bundle) {
+      for (const file of Object.values(bundle)) {
+        if (file.fileName === "src/bench/play.html")
+          file.fileName = "index.html";
+      }
+    },
+  };
+}
+
 export default defineConfig({
   cacheDir:
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
   plugins: [
+    playIsIndex(),
     runtimeArtBuild(),
     runtimeContentOrigin(),
     react(),
