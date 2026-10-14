@@ -7,11 +7,11 @@
 - The same question has 26 county bills, all enacted, alternating value 1 and 0, 13 sponsored by each of person_df7360cd247fc890 and person_0692d7c8305dc27d. All 26 law rows have endDate null (A-county-bill.json lawRows).
 - Position terms, identical on both bills unless noted:
 
-| member | enactment: views / cons / sponsor / trait / total | repeal: views / cons / sponsor / trait / total | trait (both bills) |
-|---|---|---|---|
-| df7360 (sponsor 2025-001) | .121 / .018 / 1 / .248 / 1.388 (yes) | -.121 / -.018 / .00055 / .248 / .110 (yes) | .248 |
-| 74b741 | -.037 / .018 / 0 / .080 / .061 (yes) | .037 / -.018 / 0 / .080 / .099 (yes) | .080 |
-| e21f85 | -.062 / .018 / 0 / .122 / .078 (yes) | .062 / -.018 / 0 / .122 / .166 (yes) | .122 |
+| member                    | enactment: views / cons / sponsor / trait / total | repeal: views / cons / sponsor / trait / total | trait (both bills) |
+| ------------------------- | ------------------------------------------------- | ---------------------------------------------- | ------------------ |
+| df7360 (sponsor 2025-001) | .121 / .018 / 1 / .248 / 1.388 (yes)              | -.121 / -.018 / .00055 / .248 / .110 (yes)     | .248               |
+| 74b741                    | -.037 / .018 / 0 / .080 / .061 (yes)              | .037 / -.018 / 0 / .080 / .099 (yes)           | .080               |
+| e21f85                    | -.062 / .018 / 0 / .122 / .078 (yes)              | .062 / -.018 / 0 / .122 / .166 (yes)           | .122               |
 
 Trait values for all seven county members match across both bills. Cons is the same for all members in a vote (district lean times the stance).
 

@@ -3,6 +3,7 @@
 Run: Lydia, SC (4543135), seed 1791948706110-ab2db744ab80, head fd3574c9, 2025-01-20 to 2026-02-24.
 
 ## Record at the end
+
 - Session end scheduled for US-SC: 2026-05-07 (SOURCED, NCSL). Not reached: the run ends 2026-02-24. No SC session end falls in the window; the only session end in the window is US-NM 2026-02-19.
 - Law in force, law-in-force-by-date.json, every snapshot 2025-01-20 to 2026-02-24: income-tax 43 (federal 37 + state 6), sales-tax 7.49 (state 6 + local avg 1.49), unemployment-weekly-maximum 350, unemployment-insurance 1. No change at 2026-01-01.
 - Enactments and raises: none (D-laws-all `enactments` and `raises` are empty).
@@ -11,6 +12,7 @@ Run: Lydia, SC (4543135), seed 1791948706110-ab2db744ab80, head fd3574c9, 2025-0
 - highways FY2024 187,658,295,271; FY2025 187,994,898,652.
 
 ## Decision points
+
 1. world-legislating.ts:openWorldLegislating (72–113): reads sessionRows[stateKey] (regularSessions) and core.date. Only dates after 2025-01-20 are scheduled as SOURCED (line 106). Past dates are carried forward a year as ESTIMATED (lines 90–102). No 2025 session end exists for any state. Congress day 349 (TUNABLE, campaigns/parameters.json).
 2. world-legislating.ts:agendaDate (153–158): adjournAt, or the full-year month fullYearSessionAgendaMonth = 6 (TUNABLE).
 3. laws.ts:openLaws (~70–100): writes starting rows; schedules effect only for rows after today (SOURCED/ESTIMATED from starting-law data).
@@ -28,6 +30,7 @@ Run: Lydia, SC (4543135), seed 1791948706110-ab2db744ab80, head fd3574c9, 2025-0
 15. budgets.ts:amendBudget (1006–1045): writes spendingMinor; adoptedBy text appended at 1032 once per line.
 
 ## Verdicts
+
 1. Seeded roll or fixed % decided an actor's outcome? **No** roll (no random in the traced files). Fixed shares 0.1 (group-b.ts:260) and 0.05 (legislature.ts:465) set sizes, not one actor's outcome. Answer: no.
 2. Flip at a threshold? **Yes, by law date only.** law-effects.ts:251 (`value !== 1`) and :145–160 switch on effectiveDate. No world-event threshold found.
 3. Record no engine reads? **Yes.** The six 2026-01-01 law-took-effect rows (D-laws-all allLawTookEffect) are public, news:true, personIds []. E-news has 0 mentions. The unemployment and local-income rows have no reader (jobs-benefits.ts:56 never registered; no catalog key).
@@ -37,6 +40,7 @@ Run: Lydia, SC (4543135), seed 1791948706110-ab2db744ab80, head fd3574c9, 2025-0
 7. Mechanic not in golden path, baseline or owner-asked? **Yes** for pension-funding and highway-shift. They are catalog policy positions. docs/roadmap/political-process-baseline.md has 0 mentions of pension, highway, voucher or unemployment. Budgets by vote are covered (baseline line 21).
 
 ## Defects
+
 - Session calendar | world-legislating.ts:openWorldLegislating:90–106 | state-session-calendars-2026.json regularSessions.US-SC | No 2025 session for any of 52 states with sessions; SC's first is 2026-05-07, after run end. Zero SC bills in 400 days is structural.
 - No session rows | world-legislating.ts:90 | regularSessions US-MT, US-NV, US-ND, US-TX = [] | These four states never legislate.
 - Dead records (read-only) | jobs-benefits.ts:56,81 | law:US-SC:state:unemployment-weekly-maximum/unemployment-insurance:general:2026-01-01 | Written, never read; benefits use parameter standIn.
