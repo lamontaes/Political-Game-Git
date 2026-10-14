@@ -50,10 +50,17 @@ import {
   type Stance,
 } from "../campaign-views";
 import { POLICY_QUESTIONS } from "../policy-answers";
-import { hireStaffMember, outletName, STAFF_ROLES } from "../press-staff";
+import {
+  hireStaffMember,
+  outletName,
+  STAFF_ROLES,
+  type StaffRow,
+} from "../press-staff";
 import { viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts } from "./residents";
 import { startOutletRevenue } from "../press-money";
+import { wireItem, type WireItem } from "../press-topics";
+import { runDesk, type DeskContext, type PrintedStory } from "../press-desk";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 
@@ -152,6 +159,14 @@ export const PRESS_MODULE: CoreModule = {
     tables: {
       outlets: {},
       staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
+      wire: { indexes: { byDate: { fields: ["date"] } } },
+      stories: {
+        indexes: {
+          byWire: { fields: ["wireId"] },
+          byOutlet: { fields: ["outletId"] },
+          byReporter: { fields: ["reporterId"] },
+        },
+      },
       interviews: {
         indexes: {
           byOutlet: { fields: ["outletId"] },
@@ -161,6 +176,17 @@ export const PRESS_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => pressWeek(api, work),
+  eventKinds: ["*"],
+  onEvent(api, event) {
+    // Every public record in the town's coverage goes on the wire.
+    if (!event.publicRecord) return;
+    const chain = lawChain(api);
+    const item = wireItem(api, event, {
+      placeId: chain.townPlaceId,
+      stateKey: chain.stateKey,
+    });
+    if (item) table(api, "wire").put(item as unknown as ModuleRow);
+  },
 };
 
 /** A person's lean on the views scale; level where the world keeps no views. */
@@ -302,12 +328,9 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   for (const outlet of opened) {
     const audience = audienceOfKind(api, outlet.kind);
     const audienceLean = audience.length
-      ? audience.reduce((s, id) => s + leanOf(api, id), 0) /
-        audience.length
+      ? audience.reduce((s, id) => s + leanOf(api, id), 0) / audience.length
       : 0;
-    const headLean = outlet.headId
-      ? leanOf(api, outlet.headId)
-      : 0;
+    const headLean = outlet.headId ? leanOf(api, outlet.headId) : 0;
     table(api, "outlets").put({
       ...outlet,
       lean: headWeight * headLean + (1 - headWeight) * audienceLean,
@@ -851,9 +874,111 @@ export function candidateAnswers(
  * another candidate accepts unless shy and averse to conflict and risk, and
  * answers from their own positions.
  */
+/** What the reporter's desk reads from the press. */
+export function deskContext(api: CoreAPI): DeskContext {
+  return {
+    parameter: pressParameter,
+    followers: (outletId) => followersOf(api, outletId),
+    townPlaceId: lawChain(api).townPlaceId,
+    adMoney: (outlet, personId) => adMoneyAt(api, outlet, personId),
+    printed: (wireId, outletId) =>
+      (
+        table(api, "stories").query("byWire", [
+          wireId,
+        ]) as unknown as PrintedStory[]
+      ).some((s) => s.outletId === outletId),
+    save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
+  };
+}
+
+/**
+ * The ad money a person's campaigns spent at an outlet: campaigns buy their
+ * ads at the outlet with the widest audience, so it is what their open
+ * campaigns spent where this outlet is that one.
+ */
+function adMoneyAt(
+  api: CoreAPI,
+  outlet: Pick<OutletRow, "organizationId">,
+  personId: string,
+): number {
+  if (
+    !api.state.modules.has(CAMPAIGNS_MODULE_ID) ||
+    adOutlet(api)?.organizationId !== outlet.organizationId
+  )
+    return 0;
+  let spent = 0;
+  for (const filing of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [personId]) as unknown as FilingRow[]) {
+    const contest = contestOf(api, filing.contestId);
+    if (!contest || contest.electionDate < api.state.date) continue;
+    spent +=
+      (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("campaigns")
+          .get(filing.id) as unknown as CampaignRow | undefined
+      )?.spentMinor ?? 0;
+  }
+  return spent;
+}
+
+/** Wire items past their freshness go: no reporter can pick them again. */
+function forgetOldWire(api: CoreAPI): void {
+  const fresh = pressParameter("storyFreshDays");
+  // The week that just aged out (the desk runs weekly).
+  for (let back = fresh + 1; back <= fresh + 7; back += 1) {
+    const date = addDays(makeIsoDate(api.state.date), -back);
+    for (const row of table(api, "wire").query("byDate", [date]))
+      table(api, "wire").remove(row.id);
+  }
+}
+
+/** Fresh items on the wire, oldest first. */
+function freshWire(api: CoreAPI): WireItem[] {
+  const out: WireItem[] = [];
+  const days = pressParameter("storyFreshDays");
+  for (let back = days; back >= 0; back -= 1) {
+    const date = addDays(makeIsoDate(api.state.date), -back);
+    out.push(
+      ...(table(api, "wire").query("byDate", [date]) as unknown as WireItem[]),
+    );
+  }
+  return out;
+}
+
+/** The stories an outlet printed, newest first. */
+export function storiesPrinted(
+  api: CoreAPI,
+  outletId: string,
+): readonly PrintedStory[] {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+  return (
+    table(api, "stories").query("byOutlet", [
+      outletId,
+    ]) as unknown as PrintedStory[]
+  )
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
+}
+
+/** A town outlet's people: its head and reporters, with their roles. */
+export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+  return table(api, "staff").query("byOutlet", [
+    outletId,
+  ]) as unknown as StaffRow[];
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
+  // The week's stories: each reporter files from the fresh wire.
+  const wire = freshWire(api);
+  const ctx = deskContext(api);
+  for (const outlet of outletsHere(api)) runDesk(api, ctx, outlet, wire);
+  forgetOldWire(api);
   if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
   const horizon = addDays(
     makeIsoDate(api.state.date),

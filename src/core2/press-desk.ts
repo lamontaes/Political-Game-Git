@@ -1,0 +1,362 @@
+/**
+ * The reporter's desk (OPUS-PEOPLE press). Each week every reporter at a town
+ * outlet picks the stories they will file from the public records still
+ * fresh on the wire, by what the outlet's followers hold views on, how near
+ * home it is, how many people in town it names, and the reporter's own
+ * causes and grudges. Nothing is picked by chance; each story keeps the
+ * reasons it was picked.
+ *
+ * How a story reads is its slant, for or against the change it reports and
+ * the people it names: the outlet's lean, the reporter's and the publisher's
+ * ties to those people (closeness softens, a grudge sharpens), and the money
+ * a named candidate spent on the outlet's ads. The printed story argues the
+ * change it favors, and its readers near the outlet's lean are moved most.
+ */
+import { addDays, makeIsoDate } from "../simulation/dates";
+import { questionAxis } from "./campaign-views";
+import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
+import type { CoreAPI, CoreState, PersonId } from "./types";
+import { printStory } from "./modules/news";
+import {
+  stancesOf,
+  viewOf,
+  VIEWS_MODULE_ID,
+  VIEWS_SPEECH_LEAN_KEY,
+} from "./modules/views";
+
+export interface DeskOutlet {
+  readonly id: string;
+  readonly organizationId: string;
+  readonly placeId: string;
+  readonly headId: string | null;
+  readonly reporterIds: readonly string[];
+  readonly lean: number;
+  readonly audienceRevenueMinor: number;
+}
+
+/** Why a reporter picked a story, by term. */
+export interface PickReasons {
+  readonly proximity: number;
+  /** How strongly the outlet's followers hold views on its topic, 0 to 1. */
+  readonly readerCare: number;
+  /** People in town it names (log scale). */
+  readonly people: number;
+  /** The reporter's own causes on its topic and grudges against those it names. */
+  readonly drive: number;
+  readonly score: number;
+  /** Its place among the items the reporter weighed (1 is first). */
+  readonly rank: number;
+  readonly weighed: number;
+}
+
+/** How a story came to read as it does, by term (each -1 to 1 before weighting). */
+export interface SlantReasons {
+  readonly lean: number;
+  readonly tie: number;
+  readonly publisher: number;
+  readonly advertiser: number;
+}
+
+export interface PrintedStory {
+  readonly id: string;
+  readonly outletId: string;
+  readonly organizationId: string;
+  readonly reporterId: string;
+  /** The public record (or interview) it reports. */
+  readonly wireId: string;
+  readonly kind: string;
+  readonly date: string;
+  readonly topic: string;
+  /** The change the story argues for, after its slant. */
+  readonly desiredChange: string;
+  /** The change the record itself made. */
+  readonly recordedChange: string;
+  readonly ending: boolean;
+  readonly subjectIds: readonly string[];
+  /** For (+) or against (-) the recorded change and the people named, -1 to 1. */
+  readonly slant: number;
+  readonly pick: PickReasons | null;
+  readonly slantReasons: SlantReasons;
+  readonly readers: number;
+  readonly interviewId: string | null;
+}
+
+/** What the desk needs from the press module. */
+export interface DeskContext {
+  readonly parameter: (key: string) => number;
+  readonly followers: (outletId: string) => readonly string[];
+  readonly townPlaceId: string;
+  /** Yearly ad money a person's campaign spent at this outlet. */
+  readonly adMoney: (outlet: DeskOutlet, personId: string) => number;
+  readonly printed: (wireId: string, outletId: string) => boolean;
+  readonly save: (story: PrintedStory) => void;
+}
+
+const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
+
+const PROXIMITY: Readonly<Record<WireLevel, string>> = {
+  town: "storyProximityTown",
+  county: "storyProximityCounty",
+  state: "storyProximityState",
+  nation: "storyProximityNation",
+};
+
+/** How close two people are (0 to 1), from the core's relationship record. */
+export function closeness(api: CoreAPI, a: string, b: string): number {
+  if (a === b) return 1;
+  return (
+    (api.state as CoreState).relationships.get([a, b].sort().join(":"))
+      ?.level ?? 0
+  );
+}
+
+/** How strong a person's grudge against another is (0 to 1), from their drives. */
+export function grudge(
+  api: CoreAPI,
+  holderId: string,
+  targetId: string,
+): number {
+  const person = api.state.people.get(holderId);
+  if (!person) return 0;
+  let out = 0;
+  for (const drive of person.drives.values())
+    if (drive.kind === "grudge" && drive.topic === `grudge:${targetId}`)
+      out = Math.max(out, drive.strength);
+  return clamp(out, 0, 1);
+}
+
+/** A person's lean, -2 to 2; level where the world keeps no views. */
+function leanOf(api: CoreAPI, id: string): number {
+  return api.state.modules.has(VIEWS_MODULE_ID)
+    ? (viewOf(api, id)?.lean ?? 0)
+    : 0;
+}
+
+/**
+ * How strongly an outlet's followers hold views on each topic: the mean of
+ * their stances' strength and, for a policy topic, how far their lean puts
+ * them on one side of it.
+ */
+function readerCare(
+  api: CoreAPI,
+  followerIds: readonly string[],
+  topics: ReadonlySet<string>,
+): Map<string, number> {
+  const out = new Map<string, number>();
+  if (!followerIds.length) return out;
+  const views = api.state.modules.has(VIEWS_MODULE_ID);
+  for (const id of followerIds) {
+    if (views)
+      for (const stance of stancesOf(api, id))
+        if (topics.has(stance.topic))
+          out.set(stance.topic, (out.get(stance.topic) ?? 0) + stance.strength);
+    const lean = leanOf(api, id) / 2;
+    for (const topic of topics)
+      if (isPolicyTopic(topic))
+        out.set(
+          topic,
+          (out.get(topic) ?? 0) + Math.abs(lean * questionAxis(topic)),
+        );
+  }
+  for (const [topic, sum] of out)
+    out.set(topic, clamp(sum / followerIds.length, 0, 1));
+  return out;
+}
+
+/** The weight of a reporter's own causes and grudges on an item. */
+function driveTerm(api: CoreAPI, reporterId: string, item: WireItem): number {
+  const person = api.state.people.get(reporterId);
+  if (!person) return 0;
+  let out = 0;
+  for (const drive of person.drives.values())
+    if (drive.topic === item.topic) out += drive.strength;
+  for (const id of item.subjectIds) out += grudge(api, reporterId, id);
+  return clamp(out, 0, 1);
+}
+
+/** The slant of a story at an outlet by a reporter. */
+export function slantOf(
+  api: CoreAPI,
+  ctx: Pick<DeskContext, "parameter" | "adMoney">,
+  outlet: DeskOutlet,
+  reporterId: string,
+  item: Pick<WireItem, "topic" | "desiredChange" | "subjectIds">,
+): { slant: number; reasons: SlantReasons } {
+  const p = ctx.parameter;
+  // The outlet's line on the change: its lean times the question's side.
+  const sign =
+    item.desiredChange === "repeal"
+      ? -1
+      : item.desiredChange === "enact"
+        ? 1
+        : 0;
+  const lean = isPolicyTopic(item.topic)
+    ? clamp((outlet.lean / 2) * questionAxis(item.topic) * sign)
+    : 0;
+  const named = item.subjectIds.filter((id) => api.state.people.has(id));
+  const mean = (f: (id: string) => number) =>
+    named.length ? named.reduce((s, id) => s + f(id), 0) / named.length : 0;
+  const tie = clamp(
+    mean((id) => closeness(api, reporterId, id) - grudge(api, reporterId, id)),
+  );
+  const head = outlet.headId;
+  const publisher = head
+    ? clamp(mean((id) => closeness(api, head, id) - grudge(api, head, id)))
+    : 0;
+  const advertiser = clamp(
+    mean((id) =>
+      outlet.audienceRevenueMinor > 0
+        ? ctx.adMoney(outlet, id) / outlet.audienceRevenueMinor
+        : 0,
+    ),
+    0,
+    1,
+  );
+  const reasons = { lean, tie, publisher, advertiser };
+  return {
+    slant: clamp(
+      p("slantLeanWeight") * lean +
+        p("slantTieWeight") * tie +
+        p("slantPublisherWeight") * publisher +
+        p("slantAdvertiserWeight") * advertiser,
+    ),
+    reasons,
+  };
+}
+
+const FLIP: Readonly<Record<string, string>> = {
+  enact: "repeal",
+  repeal: "enact",
+};
+
+/** Print a story: record it and send it to the outlet's followers. */
+export function printItem(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  reporterId: string,
+  item: WireItem,
+  pick: PickReasons | null,
+  options: {
+    readonly interviewId?: string;
+    readonly slant?: { slant: number; reasons: SlantReasons };
+    readonly facts?: Readonly<Record<string, string>>;
+  } = {},
+): PrintedStory {
+  const { slant, reasons } =
+    options.slant ?? slantOf(api, ctx, outlet, reporterId, item);
+  const argued =
+    slant < 0
+      ? (FLIP[item.desiredChange] ?? item.desiredChange)
+      : item.desiredChange;
+  const readers = ctx.followers(outlet.id);
+  const story: PrintedStory = {
+    id: `printed:${outlet.id}:${item.id}`,
+    outletId: outlet.id,
+    organizationId: outlet.organizationId,
+    reporterId,
+    wireId: item.id,
+    kind: item.kind,
+    date: api.state.date,
+    topic: item.topic,
+    desiredChange: argued,
+    recordedChange: item.desiredChange,
+    ending: item.ending,
+    subjectIds: item.subjectIds,
+    slant,
+    pick,
+    slantReasons: reasons,
+    readers: readers.length,
+    interviewId: options.interviewId ?? null,
+  };
+  ctx.save(story);
+  printStory(
+    api,
+    {
+      id: story.id,
+      kind: "press.printed",
+      outletId: outlet.organizationId,
+      date: api.state.date,
+      placeId: ctx.townPlaceId,
+      topic: story.topic,
+      desiredChange: argued,
+      moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
+      facts: {
+        // What a reader can bring up: which outlet printed what, and the
+        // outlet's lean, which moves readers near it most.
+        [`printed:${outlet.organizationId}:story`]: story.id,
+        [VIEWS_SPEECH_LEAN_KEY]: String(outlet.lean),
+        ...(options.facts ?? {}),
+      },
+    },
+    readers as PersonId[],
+  );
+  return story;
+}
+
+/**
+ * One week at an outlet: each reporter, in turn, weighs the fresh items its
+ * outlet has not printed and files their best, up to their week's count.
+ */
+export function runDesk(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  wire: readonly WireItem[],
+): PrintedStory[] {
+  const p = ctx.parameter;
+  const since = addDays(makeIsoDate(api.state.date), -p("storyFreshDays"));
+  const open = wire.filter(
+    (item) => item.date >= since && !ctx.printed(item.id, outlet.id),
+  );
+  if (!open.length || !outlet.reporterIds.length) return [];
+  const followers = ctx.followers(outlet.id);
+  const care = readerCare(api, followers, new Set(open.map((i) => i.topic)));
+  const core = api.state as CoreState;
+  const inTown = (id: string) =>
+    core.people.get(id)?.placeId === ctx.townPlaceId;
+  const base = open.map((item) => ({
+    item,
+    proximity: p(PROXIMITY[item.level]),
+    readerCare: care.get(item.topic) ?? 0,
+    people: Math.log1p(item.subjectIds.filter(inTown).length),
+  }));
+  const taken = new Set<string>();
+  const out: PrintedStory[] = [];
+  for (const reporterId of outlet.reporterIds) {
+    if (!api.state.people.get(reporterId)?.alive) continue;
+    const scored = base
+      .filter((row) => !taken.has(row.item.id))
+      .map((row) => {
+        const drive = driveTerm(api, reporterId, row.item);
+        return {
+          ...row,
+          drive,
+          score:
+            row.proximity *
+            (1 +
+              p("storyReaderCareWeight") * row.readerCare +
+              p("storyPeopleWeight") * row.people +
+              p("storyDriveWeight") * drive),
+        };
+      })
+      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+    const count = Math.min(p("storiesPerReporterWeek"), scored.length);
+    for (let rank = 0; rank < count; rank += 1) {
+      const row = scored[rank]!;
+      taken.add(row.item.id);
+      out.push(
+        printItem(api, ctx, outlet, reporterId, row.item, {
+          proximity: row.proximity,
+          readerCare: row.readerCare,
+          people: row.people,
+          drive: row.drive,
+          score: row.score,
+          rank: rank + 1,
+          weighed: scored.length,
+        }),
+      );
+    }
+  }
+  return out;
+}
