@@ -20,7 +20,7 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 
 | Place                                  | Seats | People |
 | -------------------------------------- | ----: | -----: |
-| `council-chamber`                      |    26 |    117 |
+| `council-chamber`                      |    26 |    110 |
 | `council-chamber-large`                |    25 |    106 |
 | `council-chamber-small`                |    20 |     65 |
 | `county-commission`                    |    17 |     68 |
@@ -46,3 +46,5 @@ To draw a room: draw the place painting, then for each occupied seat draw one of
 `council-chamber-small`: 20 fixed occupied chair/bench positions, 65 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.
 
 `state-legislative-chamber-unicameral`: 8 fixed occupied chair/bench positions, 64 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.
+
+`council-chamber`: 26 fixed occupied chair/bench positions, 110 reviewed variants. Each slot has at least three variants. Its sheets and full, third, and available night renders were inspected.

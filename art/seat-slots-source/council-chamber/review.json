@@ -1,0 +1,20 @@
+{
+  "method": "Complete-sheet visual review",
+  "rejected": {
+    "x-cc-04__person004": "occluded_head",
+    "x-cc-08__person003": "occluded_head",
+    "crowd-v2__person012": "occluded_head",
+    "crowd-v2__person009": "occluded_head",
+    "crowd-v4__person006": "occluded_head",
+    "x-cc-02__person002": "occluded_head",
+    "x-cc-06__person002": "occluded_head",
+    "crowd-v2__person019": "occluded_head",
+    "crowd-v3__person005": "occluded_head",
+    "crowd-v4__person005": "occluded_head",
+    "x-cc-06__person010": "occluded_head",
+    "x-cc-07__person003": "occluded_head",
+    "crowd-v2__person015": "occluded_head",
+    "crowd-v2__person013": "occluded_head",
+    "x-cc-07__person009": "occluded_head"
+  }
+}

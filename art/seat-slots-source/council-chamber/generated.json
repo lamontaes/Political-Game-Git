@@ -1,0 +1,396 @@
+{
+  "people": [
+    {
+      "file": "../school-board-room/generated-official-01.png",
+      "chair": "board-01",
+      "width": 90,
+      "head_top": 229,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../school-board-room/generated-official-02.png",
+      "chair": "board-01",
+      "width": 90,
+      "head_top": 229,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../school-board-room/generated-official-01.png",
+      "chair": "board-02",
+      "width": 90,
+      "head_top": 226,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../school-board-room/generated-official-01.png",
+      "chair": "board-04",
+      "width": 90,
+      "head_top": 225,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../school-board-room/generated-official-02.png",
+      "chair": "board-04",
+      "width": 90,
+      "head_top": 225,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../school-board-room/generated-official-01.png",
+      "chair": "board-06",
+      "width": 90,
+      "head_top": 221,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-010",
+      "width": 118,
+      "head_top": 314,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-044",
+      "width": 121,
+      "head_top": 369,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-044",
+      "width": 121,
+      "head_top": 369,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-040",
+      "width": 94,
+      "head_top": 367,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-040",
+      "width": 94,
+      "head_top": 367,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-3.png",
+      "chair": "chair-040",
+      "width": 94,
+      "head_top": 367,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-028",
+      "width": 91,
+      "head_top": 380,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-028",
+      "width": 91,
+      "head_top": 380,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-029",
+      "width": 124,
+      "head_top": 410,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-029",
+      "width": 124,
+      "head_top": 410,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-019",
+      "width": 138,
+      "head_top": 409,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-003",
+      "width": 182,
+      "head_top": 482,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-003",
+      "width": 182,
+      "head_top": 482,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-3.png",
+      "chair": "chair-003",
+      "width": 182,
+      "head_top": 482,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-002",
+      "width": 198,
+      "head_top": 478,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-002",
+      "width": 198,
+      "head_top": 478,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-3.png",
+      "chair": "chair-002",
+      "width": 198,
+      "head_top": 478,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-006",
+      "width": 145,
+      "head_top": 479,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-006",
+      "width": 145,
+      "head_top": 479,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-3.png",
+      "chair": "chair-006",
+      "width": 145,
+      "head_top": 479,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-001",
+      "width": 200,
+      "head_top": 493,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-1.png",
+      "chair": "chair-000",
+      "width": 172,
+      "head_top": 499,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-2.png",
+      "chair": "chair-000",
+      "width": 172,
+      "head_top": 499,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../county-commission-rural/generated-full-back-3.png",
+      "chair": "chair-000",
+      "width": 172,
+      "head_top": 499,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-010",
+      "width": 118,
+      "head_top": 314,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-044",
+      "width": 121,
+      "head_top": 369,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-040",
+      "width": 94,
+      "head_top": 367,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-040",
+      "width": 94,
+      "head_top": 367,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-028",
+      "width": 91,
+      "head_top": 380,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-029",
+      "width": 124,
+      "head_top": 410,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-019",
+      "width": 138,
+      "head_top": 409,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-003",
+      "width": 182,
+      "head_top": 482,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-003",
+      "width": 182,
+      "head_top": 482,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-002",
+      "width": 198,
+      "head_top": 478,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-002",
+      "width": 198,
+      "head_top": 478,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-006",
+      "width": 145,
+      "head_top": 479,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-006",
+      "width": 145,
+      "head_top": 479,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-001",
+      "width": 200,
+      "head_top": 493,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-1.png",
+      "chair": "chair-000",
+      "width": 172,
+      "head_top": 499,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-000",
+      "width": 172,
+      "head_top": 499,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-010",
+      "width": 118,
+      "head_top": 314,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-3.png",
+      "chair": "chair-010",
+      "width": 118,
+      "head_top": 314,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../council-chamber-large/generated-light-back-2.png",
+      "chair": "chair-044",
+      "width": 121,
+      "head_top": 369,
+      "activity": "plain",
+      "tool": "native image_gen"
+    }
+  ]
+}
