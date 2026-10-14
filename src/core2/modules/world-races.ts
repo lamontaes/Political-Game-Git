@@ -112,9 +112,43 @@ export function openWorldRaces(core: CoreState): void {
   const api = coreAPI(core);
   rememberOpeningElectorate(api);
   let year = Number(core.date.slice(0, 4));
-  if (year % 2) year += 1;
-  if (novemberGeneralElectionDay(year) <= core.date) year += 2;
-  scheduleElection(api, year);
+  if (novemberGeneralElectionDay(year) <= core.date) year += 1;
+  scheduleElection(api, nextRaceYear(api, year));
+}
+
+/**
+ * The first general election from `from`: every even year, and an odd year
+ * when a legislative seat in the town's state outside the town is up then
+ * (New Jersey and Virginia elect their legislatures in odd years).
+ */
+function nextRaceYear(api: CoreAPI, from: number): number {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const legislative = new Set(
+    (
+      offices.table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+        elected: boolean;
+      }[]
+    )
+      .filter((o) => o.elected && o.kind.startsWith("legislature-"))
+      .map((o) => o.id),
+  );
+  const oddYears = new Set(
+    (
+      offices.table("seats").rows() as unknown as {
+        officeId: string;
+        coversTown: boolean;
+        electionYear?: number;
+      }[]
+    )
+      .filter((s) => !s.coversTown && legislative.has(s.officeId))
+      .map((s) => s.electionYear)
+      .filter((y): y is number => y !== undefined && y % 2 === 1),
+  );
+  let year = from;
+  while (year % 2 === 1 && !oddYears.has(year)) year += 1;
+  return year;
 }
 
 function scheduleElection(api: CoreAPI, year: number): void {
@@ -170,7 +204,7 @@ interface Race {
 function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "general-election") {
     const year = Number(work.sourceRecordIds[0]);
-    scheduleElection(api, year + 2);
+    scheduleElection(api, nextRaceYear(api, year + 1));
     for (const race of racesIn(api, year)) decide(api, race, year);
     if (year % 4 === 0)
       api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
@@ -506,6 +540,8 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     const house = office.kind === "us-house";
     const legislature = office.kind.startsWith("legislature-");
     if (!house && !legislature) continue;
+    // Congress is elected in even years only.
+    if (house && year % 2) continue;
     if (legislature && seat.electionYear !== year) continue;
     const holder = (
       offices
@@ -532,7 +568,8 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       },
     });
   }
-  // Congress outside the town's state.
+  // Congress outside the town's state, in even years.
+  if (year % 2) return races.sort((a, b) => a.seatId.localeCompare(b.seatId));
   for (const [state, seats] of Object.entries(congress)) {
     if (state === stateKey) continue;
     const usps = state.slice(3);

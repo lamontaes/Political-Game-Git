@@ -14,6 +14,7 @@ import { performance } from "node:perf_hooks";
 import { runCommand } from "./process.mjs";
 import { compare } from "./compare.mjs";
 import { drawPlace } from "../../tests/golden-path/place.ts";
+import { gameStartDate } from "../../src/core2/game-start.ts";
 import policies from "./policies.json" with { type: "json" };
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
 if (git("status", "--porcelain")) throw Error("Proof requires clean checkout");
@@ -51,6 +52,8 @@ const monthCommand = (receiptPath, extra = []) => [
   place.seed,
   "--place-key",
   place.key,
+  "--start-date",
+  gameStartDate(),
   "--output",
   receiptPath,
 ];
