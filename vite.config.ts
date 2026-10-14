@@ -52,7 +52,7 @@ export default defineConfig({
   },
   build: {
     outDir: "dist/client",
-    rolldownOptions: { input: { app: "index.html", review: "review.html" } },
+    rolldownOptions: { input: { play: "src/bench/play.html" } },
   },
   test: {
     // Hosted shards deal the path-sorted suite out one file per shard so
