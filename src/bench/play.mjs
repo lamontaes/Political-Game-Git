@@ -436,14 +436,32 @@ function termLabel(text) {
 }
 
 let controls = {};
+/** A slug or camelCase key as words: "snap-maximum" and "snapMaximum" read "Snap maximum". */
+const words = (key) => {
+  const text = String(key ?? "")
+    .split(":")
+    .pop()
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/[-_]/g, " ")
+    .toLowerCase();
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+};
+/** A title that is a bare slug reads as words; a name or a sentence stays as it is. */
+const slugWords = (text) =>
+  /^[a-z][a-z0-9-]*$/.test(text) ? words(text) : text;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
-const amount = (value, unit) =>
-  unit?.startsWith("minor")
-    ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-    : `${value ?? ""}${unit ? ` ${unit}` : ""}`;
-/** A policy question by its name on the bill catalog, else its key's last part. */
+// A percent reads with its sign, any other unit in words.
+const amount = (value, unit) => {
+  if (unit?.startsWith("minor"))
+    return `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+  if (unit?.startsWith("percent"))
+    return `${value}%${unit.length > 7 ? ` ${unit.slice(8).replace(/-/g, " ")}` : ""}`;
+  if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
+  return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
+};
+/** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
-  controls.policyNames?.[question] ?? question.split(":").pop();
+  controls.policyNames?.[question] ?? words(question);
 api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
@@ -497,10 +515,9 @@ async function refresh() {
     return;
   }
   // A law that took effect: what changed in town.
-  if (newChanges(await changeCount())) {
-    await openSheet("changes");
-    return;
-  }
+  // A short notice on the card, not a screen taken over mid-play.
+  if (newChanges(await changeCount()))
+    $("card-why").textContent = controls.endedBy?.law ?? "";
   if (openTab) await openSheet(openTab);
 }
 
@@ -1605,7 +1622,7 @@ const sheets = {
         "div",
         { className: "row race" },
         el("b", {
-          textContent: `${gov.name} · ${gov.level}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
+          textContent: `${gov.name} · ${controls.levels?.[gov.level] ?? words(gov.level)}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
         }),
       );
       if (!gov.latest) return box;
@@ -1616,11 +1633,13 @@ const sheets = {
       );
       for (const r of gov.latest.revenue.slice(0, 3))
         box.append(
-          el("div", { textContent: `+ ${r.line} · ${dollars(r.minor)}` }),
+          el("div", {
+            textContent: `+ ${words(r.line)} · ${dollars(r.minor)}`,
+          }),
         );
       for (const r of gov.latest.spending.slice(0, 6)) {
         const line = el("div", {
-          textContent: `− ${r.line} · ${dollars(r.minor)} `,
+          textContent: `− ${words(r.line)} · ${dollars(r.minor)} `,
         });
         if (gov.youAreExecutive)
           for (const [label, sign] of [
@@ -1688,7 +1707,10 @@ const sheets = {
         }
         const kinds = new Map();
         for (const item of byDate.get(iso) ?? [])
-          kinds.set(item.kind, [...(kinds.get(item.kind) ?? []), item.title]);
+          kinds.set(item.kind, [
+            ...(kinds.get(item.kind) ?? []),
+            slugWords(item.title),
+          ]);
         for (const [kind, names] of kinds)
           cell.append(
             el("span", {
@@ -1720,7 +1742,12 @@ const sheets = {
             "div",
             { className: "row" },
             el("b", { textContent: i.date }),
-            el("span", {}, termLabel(kindName(i.kind)), ` · ${i.title}`),
+            el(
+              "span",
+              {},
+              termLabel(kindName(i.kind)),
+              ` · ${slugWords(i.title)}`,
+            ),
           ),
         ),
     ];
@@ -1790,7 +1817,7 @@ const sheets = {
             .filter((level) => level.row)
             .map((level) =>
               el("div", {
-                textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+                textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
               }),
             ),
           ...law.pending.map((row) =>
@@ -1934,7 +1961,7 @@ const sheets = {
         { className: "row" },
         el("b", { textContent: p.name }),
         [
-          String(p.staff),
+          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
           ...p.known.map((k) => k.name),
           ...p.actions.map((a) => controls.actions?.[a] ?? a),
         ].join(" · ") + " ",
