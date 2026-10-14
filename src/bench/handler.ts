@@ -31,13 +31,31 @@ import {
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
-import { lifePlaceSearch } from "../simulation/life-places";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
+import { titleScene } from "./title";
+import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import {
+  ageAtStart,
+  applyChosenPerson,
+  birthYears,
+  creatorStates,
+  creatorTowns,
+  drawBirthday,
+  drawName,
+  readChosenPerson,
+} from "./creator";
+import {
+  appearanceRows,
+  drawnAppearance,
+  moveAppearance,
+  portraitPng,
+  readRecipe,
+} from "./appearance";
 import { pollingScene } from "./polling";
 import {
   openConversation,
@@ -61,6 +79,9 @@ let director: Director | undefined;
 let player: BenchPlayer | undefined;
 let placeId = "";
 let building = false;
+let placeName = "";
+/** Visits to the title since the server started; each moves the scene on. */
+let titleVisits = 0;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
 // Where the build is, for the loading screen's polls.
@@ -226,7 +247,15 @@ export async function benchRequest(
           player = new BenchPlayer(world.core, world.director);
           conversation = undefined;
           placeId = world.placeId;
+          placeName = world.place.displayName;
           const entrant = { personId: world.playerId! };
+          // The person chosen in the creator becomes the player.
+          if (url.searchParams.get("person"))
+            applyChosenPerson(
+              world.core,
+              entrant.personId,
+              readChosenPerson(url.searchParams.get("person")!),
+            );
           player.select(entrant.personId);
           // The opening is prepared during loading; its whole figures are files.
           opening = world.director.ledger.opening
@@ -353,6 +382,84 @@ export async function benchRequest(
         );
         return;
       }
+      if (url.pathname.startsWith("/api/creator/")) {
+        // The New game creator (creator.ts, appearance.ts): draws and lists
+        // that read no world, so they answer before one is built.
+        const q = url.searchParams;
+        const draw = Number(q.get("draw") ?? 0);
+        const seed = q.get("seed") ?? "";
+        const gender = q.get("gender") ?? "";
+        const route = url.pathname.slice("/api/creator/".length);
+        if (route === "name") send(200, drawName(seed, draw, gender));
+        else if (route === "birthday") {
+          const b = drawBirthday(seed, draw);
+          send(200, { ...b, age: ageAtStart(b.year, b.month, b.day) });
+        } else if (route === "years")
+          send(200, {
+            start: gameStartDate(),
+            years: birthYears(Number(q.get("month")), Number(q.get("day"))),
+          });
+        else if (route === "states") send(200, creatorStates());
+        else if (route === "towns")
+          send(200, creatorTowns(q.get("state") ?? "", q.get("q") ?? ""));
+        else if (route === "appearance") {
+          const recipe = q.get("recipe")
+            ? request.method === "POST"
+              ? moveAppearance(
+                  readRecipe(q.get("recipe")!),
+                  gender,
+                  q.get("row") ?? "",
+                  Number(q.get("by") ?? 1),
+                )
+              : readRecipe(q.get("recipe")!)
+            : drawnAppearance(gender, seed, draw);
+          send(200, { recipe, rows: appearanceRows(recipe, gender) });
+        } else send(404, { error: "Unknown bench route." });
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/portrait") {
+        // The engine's portrait: a recipe from the creator, or a person's own.
+        const id = url.searchParams.get("id");
+        const kept = id
+          ? requireCore().people.get(id)?.looks?.recipe
+          : url.searchParams.get("recipe");
+        if (!kept) throw new Error("No portrait.");
+        response.writeHead(200, {
+          "Content-Type": "image/png",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(portraitPng(readRecipe(kept)));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/title") {
+        // One visit to the title: its scene, and the life in progress to
+        // continue (the server's current life), or none.
+        const personId = core ? player?.personId : undefined;
+        const scene = titleScene(
+          new Date().toISOString().slice(0, 10),
+          titleVisits++,
+        );
+        send(200, {
+          ...scene,
+          life: personId
+            ? {
+                personId,
+                name: `${core!.people.get(personId)?.givenName ?? ""} ${core!.people.get(personId)?.familyName ?? ""}`,
+                age: ageOnDate(
+                  makeIsoDate(
+                    core!.people.get(personId)?.birthDate ?? core!.date,
+                  ),
+                  makeIsoDate(core!.date),
+                ),
+                portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
+                placeName,
+                date: core!.date,
+                packet: player!.packet,
+              }
+            : null,
+        });
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/version") {
         // Source runs have no bundler define; the package's release number is the record.
         const { version } = JSON.parse(
@@ -362,17 +469,6 @@ export async function benchRequest(
           ),
         );
         send(200, { version });
-        return;
-      }
-      if (request.method === "GET" && url.pathname === "/api/places") {
-        // Engineering list length for the place picker, not a model value.
-        const rows = lifePlaceSearch(url.searchParams.get("q") ?? "", 8, {
-          scope: "locality",
-        });
-        send(
-          200,
-          rows.map((row) => ({ key: row.key, name: row.displayName })),
-        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/map") {
@@ -869,6 +965,7 @@ export async function benchRequest(
           player = new BenchPlayer(next, nextDirector);
           conversation = undefined;
           placeId = place.context.jurisdiction.id;
+          placeName = place.displayName;
           send(200, {
             seed: core.seed,
             date: core.date,
