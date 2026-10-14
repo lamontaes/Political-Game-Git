@@ -89,6 +89,7 @@ function drawPeople(people, onClick) {
       // A whole figure turns to face the room.
       if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
+      box.dataset.person = person.personId ?? "";
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
@@ -114,6 +115,57 @@ let skipOpening;
 let openingReady;
 /** How long a spoken line stays up: a beat plus reading time. */
 const lineMs = (text) => 1800 + text.length * 45;
+/** How long the camera stays on each person it points out. */
+const POINT_MS = 2400;
+/** Wait, cut short by a click; resolves true when Skip ends the address. */
+function holdOpening(ms) {
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(false), ms);
+    skipOpening = () => {
+      clearTimeout(timer);
+      resolve(true);
+    };
+    $("opening-box").onclick = () => {
+      clearTimeout(timer);
+      resolve(false);
+    };
+  });
+}
+/** The camera passes the people on a stage, pointing each out by name and office. */
+function pointOut(figures) {
+  let timer;
+  const step = (index) => {
+    for (const node of document.querySelectorAll("#people .figure.pointed"))
+      node.classList.remove("pointed");
+    const figure = figures[index];
+    show("opening-point", Boolean(figure));
+    if (!figure) return;
+    $("opening-point-name").textContent = figure.name;
+    $("opening-point-role").textContent = [
+      figure.post,
+      figure.office,
+      figure.state,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    const box = $("opening-point");
+    box.style.animation = "none";
+    void box.offsetWidth;
+    box.style.animation = "";
+    for (const node of document.querySelectorAll("#people .figure"))
+      if (node.dataset.person === figure.id) node.classList.add("pointed");
+    timer = setTimeout(() => step(index + 1), POINT_MS);
+  };
+  step(0);
+  const endsAt = Date.now() + figures.length * POINT_MS;
+  return {
+    left: () => Math.max(0, endsAt - Date.now()),
+    stop: () => {
+      clearTimeout(timer);
+      step(figures.length);
+    },
+  };
+}
 async function playOpening() {
   const opening =
     openingReady ?? (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
@@ -135,22 +187,22 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
+    const camera = pointOut(frame.pointOut ?? []);
+    // A stage the President says nothing over shows without the speech box.
+    show("opening-box", frame.lines.length > 0);
+    // A click moves on to the next sentence; Skip ends the address. The
+    // picture holds until the camera has passed everyone on it.
     for (const line of frame.lines) {
       $("opening-speech").textContent = line.text;
-      // A click moves on to the next sentence; Skip ends the address.
-      const skipped = await new Promise((resolve) => {
-        const timer = setTimeout(() => resolve(false), lineMs(line.text));
-        skipOpening = () => {
-          clearTimeout(timer);
-          resolve(true);
-        };
-        $("opening-box").onclick = () => {
-          clearTimeout(timer);
-          resolve(false);
-        };
-      });
-      if (skipped) break frames;
+      if (await holdOpening(lineMs(line.text))) {
+        camera.stop();
+        break frames;
+      }
     }
+    const left = camera.left();
+    const skipped = left > 0 && (await holdOpening(left));
+    camera.stop();
+    if (skipped) break;
   }
   skipOpening = undefined;
   $("opening-box").onclick = null;

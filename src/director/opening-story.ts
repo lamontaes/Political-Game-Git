@@ -50,6 +50,12 @@ import {
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { ADDRESS_FACT } from "./opening-facts";
+import {
+  openingChambers,
+  openingSequence,
+  type OpeningStage,
+} from "./opening-sequence";
+import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { P } from "../core2/parameters";
@@ -104,6 +110,11 @@ export interface OpeningStory {
   };
   /** That evening's news: the address, then the town's own lead story. */
   readonly newscast: readonly OpeningNewsStory[];
+  /**
+   * The sequence the address plays over (owner, Oct 14, 2026, late): the
+   * President's stage, Congress, the state, the family; who each points out.
+   */
+  readonly sequence: readonly OpeningStage[];
   /** The handoff: the player's household at home on the evening of day one. */
   readonly home: {
     readonly date: string;
@@ -623,6 +634,7 @@ export function composeOpeningStory(
       sourceRecordIds: allIds,
     },
     newscast: program,
+    sequence: openingSequence(core, playerId, president.id),
     home: {
       date: core.date,
       householdId: player.householdId,
@@ -643,6 +655,12 @@ export function recordOpeningStory(
   core: CoreState,
   playerId: PersonId,
 ): OpeningStory | null {
+  // The chambers the sequence points out leaders of organize now, the first
+  // time anything needs their leaders, so composing reads them as they stand.
+  const api = coreAPI(core);
+  if (api.state.modules.has(LEADERSHIP_MODULE_ID))
+    for (const chamber of openingChambers(core, playerId))
+      organize(api, chamber);
   const story = composeOpeningStory(core, playerId);
   if (!story) return null;
   applyCoreEvent(core, {

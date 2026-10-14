@@ -1100,6 +1100,22 @@ body.dev .dev-ring {
 #opening-box .speech {
   margin: 8px 0 0;
 }
+#opening-point {
+  top: calc(9vh + 18px);
+  left: var(--gutter);
+  z-index: 6;
+  padding: 10px 16px;
+  animation: opening-point-in 0.4s ease-out;
+}
+#people .figure.pointed img {
+  filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 14px var(--gold));
+}
+@keyframes opening-point-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
 #news-surface {
   top: var(--gutter);
   right: var(--gutter);

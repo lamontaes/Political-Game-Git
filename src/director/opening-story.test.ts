@@ -121,4 +121,46 @@ describe("the opening story", () => {
         expect(frame.place).toMatch(/^state-capitol-/);
     expect(opening.news.stories).toEqual(story.newscast);
   });
+
+  it("plays over the sequence: the President's stage, Congress, the state, the family, then home", () => {
+    const order = story.sequence.map((row) => row.stage);
+    expect(order).toEqual(["president", "congress", "state", "family"]);
+    const opening = openingFrames(core, playerId, story);
+    // The stages come in order; a cutaway never goes back to an earlier one.
+    const reached = opening.frames.map((frame) => order.indexOf(frame.stage));
+    expect(reached).toEqual([...reached].sort((a, b) => a - b));
+    expect(reached[0]).toBe(0);
+    // The Vice President is pointed out on the President's stage, by name
+    // and office, and stands in its picture.
+    const vp = story.sequence[0]!.people[0]!;
+    expect(vp.office).toBeTruthy();
+    expect(opening.frames[0]!.pointOut.map((row) => row.id)).toContain(vp.id);
+    expect(opening.frames[0]!.cast.map((row) => row.id)).toContain(vp.id);
+    // Everyone a stage points out is named from a record, once.
+    const pointed = opening.frames.flatMap((frame) => frame.pointOut);
+    expect(new Set(pointed.map((row) => row.id)).size).toBe(pointed.length);
+    for (const row of pointed) {
+      expect(row.name.trim()).not.toBe("");
+      expect(row.sourceRecordIds.length).toBeGreaterThan(0);
+    }
+    // The family stage shows only when the player has family.
+    const family = story.sequence.find((row) => row.stage === "family")!;
+    expect(opening.frames.some((frame) => frame.stage === "family")).toBe(
+      family.people.length > 0,
+    );
+    console.log(
+      opening.frames
+        .map(
+          (frame) =>
+            `${frame.stage} ${frame.place}: ${frame.pointOut
+              .map((row) =>
+                [row.name, row.post, row.office, row.state]
+                  .filter(Boolean)
+                  .join(", "),
+              )
+              .join("; ")}`,
+        )
+        .join("\n"),
+    );
+  });
 });

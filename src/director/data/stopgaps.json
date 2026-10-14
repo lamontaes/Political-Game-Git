@@ -262,5 +262,17 @@
     "addedAt": "2026-10-14",
     "replacement": "A newscast register card in src/presentation/speech-registers.ts (OPUS-PEOPLE).",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-opening-key-people",
+    "kind": "owner-decision",
+    "file": "src/director/opening-sequence.ts",
+    "line": 1,
+    "whatItFakes": "Who the opening points out as its key people: picked from the offices and leadership records by rank (Vice President, Speaker, Senate majority leader with the President; Congress's other leaders and your state's members; your governor and your state legislature's leaders), with no cabinet picks because no cabinet is seated yet.",
+    "why": "Owner ruling, Oct 14, 2026 (late): the owner clarifies who the key people are tomorrow; until then the CTO's rank list stands.",
+    "addedBy": "director/opening-story",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's list of key people, as rows in src/director/data/opening-story.json (sequence.stages), with cabinet picks once an engine seats a cabinet.",
+    "status": "open"
   }
 ]
