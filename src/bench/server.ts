@@ -15,7 +15,7 @@ import { openingShots } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
-import { economyView, worldPanels } from "./economy";
+import { economyView } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { bodyScene, seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
@@ -35,7 +35,6 @@ import {
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
 import { fileForOffice, governmentView } from "./government";
-import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -43,7 +42,7 @@ import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
 import { choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
-import { playerApiReadiness } from "./api-readiness";
+import { handleDev } from "./dev-api";
 
 // This is a reference to engine-owned state, not a parallel state or writer.
 let core: CoreState | undefined;
@@ -85,11 +84,8 @@ const talkView = (value: Conversation | undefined) =>
     lie: value.lie,
   };
 const assets = new Map([
-  ["/", { file: "index.html", type: "text/html; charset=utf-8" }],
-  [
-    "/client.mjs",
-    { file: "client.mjs", type: "text/javascript; charset=utf-8" },
-  ],
+  // The old developer page is folded into Dev mode (owner, Oct 14, 2026).
+  ["/", { file: "dev.html", type: "text/html; charset=utf-8" }],
   ["/play", { file: "play.html", type: "text/html; charset=utf-8" }],
   ["/play.mjs", { file: "play.mjs", type: "text/javascript; charset=utf-8" }],
   ["/play.css", { file: "play.css", type: "text/css; charset=utf-8" }],
@@ -163,6 +159,20 @@ const server = createServer(async (request, response) => {
       response.end(content);
       return;
     }
+    // Dev mode's page and routes (dev-api.ts).
+    if (
+      await handleDev(
+        request,
+        url,
+        send,
+        (status, type, content) => {
+          response.writeHead(status, { "Content-Type": type });
+          response.end(content);
+        },
+        () => ({ core, director, player, placeId }),
+      )
+    )
+      return;
     const shared = publicFile.exec(url.pathname);
     if (request.method === "GET" && shared) {
       const content = await readFile(new URL(shared[1]!, PUBLIC));
@@ -466,10 +476,6 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
-    if (request.method === "GET" && url.pathname === "/api/world") {
-      send(200, worldPanels(requireCore(), placeId));
-      return;
-    }
     if (request.method === "GET" && url.pathname === "/api/story") {
       if (!player?.personId || !director)
         throw new Error("Choose a resident first.");
@@ -603,10 +609,6 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
-    if (request.method === "GET" && url.pathname === "/api/capabilities") {
-      send(200, playerApiReadiness());
-      return;
-    }
     if (request.method === "POST" && url.pathname === "/api/advance") {
       if (!player) throw new Error("Generate a town first.");
       const result = player.advance(
@@ -650,11 +652,6 @@ const server = createServer(async (request, response) => {
         packet: player.packet,
         selfChosen: player.selfChosen.slice(-50),
       });
-      return;
-    }
-    if (request.method === "GET" && url.pathname === "/api/trace") {
-      if (!player) throw new Error("Generate a town first.");
-      send(200, player.trace(url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/build") {
@@ -705,32 +702,6 @@ const server = createServer(async (request, response) => {
       } finally {
         building = false;
       }
-      return;
-    }
-    if (request.method === "GET" && url.pathname === "/api/resident") {
-      const current = requireCore();
-      const id = url.searchParams.get("id") ?? "";
-      const person = personOrFillIn(current, id);
-      if (!person) throw new Error("Resident does not exist in core records.");
-      send(200, {
-        playing: player?.personId === id,
-        date: current.date,
-        packet: player?.packet,
-        person,
-        household: current.households.get(person.householdId),
-        job: person.jobId ? current.jobs.get(person.jobId) : undefined,
-        offers: availableActs(current, id),
-        director: director?.ledger.people.get(id),
-        relationships: [...(current.relationshipsByPerson.get(id) ?? [])]
-          .map((recordId) => current.relationships.get(recordId))
-          .filter((record) => record !== undefined),
-        payments: [...(current.cashJournal.detailedByOwner.get(id) ?? [])]
-          .map((recordId) => current.cashJournal.detailedReceipts.get(recordId))
-          .filter((record) => record !== undefined),
-        records: [...(current.logByPerson.get(id) ?? [])]
-          .map((recordId) => current.durableLog.get(recordId))
-          .filter((record) => record !== undefined),
-      });
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/seed") {

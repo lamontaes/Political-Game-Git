@@ -3054,5 +3054,29 @@
     "addedAt": "2026-10-13",
     "replacement": "The CTO's art in docs/coordination/people-art-requests.md: activity variants of every look, 12 teen and 12 child looks per sex, and the adult version of each teen look with a shared family id.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-dev-law-reach-full-only",
+    "kind": "missing-core-api",
+    "file": "src/bench/dev-mode.ts",
+    "line": 341,
+    "whatItFakes": "Dev mode's count of who a law reached reads only the law-effects, law-reach and minimum-wage raise records that name the law: full people by id, and counted people only where a record carries a count.",
+    "why": "The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-dev-public-salary-floor",
+    "kind": "owner-decision",
+    "file": "src/bench/dev-mode.ts",
+    "line": 685,
+    "whatItFakes": "Dev mode's public-salary base raises every public job paid under it once, through rerateJob and the law-reach teacher floor's daily-pay arithmetic; it is not a standing law, so a public job filled later is not held to it except where the employer's pay for a new hire follows its raised staff.",
+    "why": "No law series in the catalog sets every public worker's pay; whether a public-salary base is a law at each level or a budget line is the owner's call.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-14",
+    "replacement": "The owner's ruling: a public-salary-floor law series read by the law-reach engine (OPUS-GOV), generalizing the teacher floor to read the law's value and every public employer, after which the experiment becomes a law step.",
+    "status": "open"
   }
 ]
