@@ -7,6 +7,7 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { bookkeeping } from "../bookkeeping";
 import { adTimeForSale, buyAdTime } from "./campaigns";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
@@ -1173,7 +1174,17 @@ export function createDrivesModule(
         if (!mine.size) {
           runtime.byPerson.delete(personId);
           runtime.predicted.delete(personId);
-        } else runtime.predicted.set(personId, predict(api, actor, refresh));
+        } else if (bookkeeping() || personId === api.state.playerId)
+          // The scored "why" behind a drive act is kept for the player, and
+          // for everyone only when bookkeeping is on (Keep it simple): a full
+          // choice scored daily for every drive holder grew with the number
+          // of holders, each year slower than the last.
+          runtime.predicted.set(personId, predict(api, actor, refresh));
+        else {
+          // Their needs are still brought up to today, as the scoring did.
+          refresh(actor as PersonState);
+          runtime.predicted.delete(personId);
+        }
       }
     },
     onEvent(api, event, learnedBy) {
