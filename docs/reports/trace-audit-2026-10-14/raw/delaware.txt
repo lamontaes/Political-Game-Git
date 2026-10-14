@@ -1,0 +1,445 @@
+# Highland Acres, Delaware seed 98cea258e221 start 2025-01-20 built in 55s people 1739 orgs 120
+player person_e9348466b13095fe Alexis Gibson born 2007-02-01
+
+## year 1: 2025-01-20 -> 2026-01-20  84s  heap 2250MB  people 1803 alive 1800 orgs 159
+records this year: 17942; kinds: person.acted=16162, cause.shared=365, news.read=361, cause.volunteered=244, speech.retold=116, vote-recorded=101, cause.donated=94, case.made=82, committee-hearing=65, legislative-vote=57, speech.heard=47, cause-group.ad-ran=46, bill-held-in-committee=34, law-took-effect=31, budget-line-changed=31, cause-group.joined=22, office.approached=17, office.replied=16, person.moved-away=11, public-comment=6, drive.formed=6, housing.completed=5, drive.strengthened=4, organization.closed=3, business.closed=3, budget-adopted=3, chamber-organized=2, organization.owner-changed=2, association.requested=1, person-birth=1, initiative.organizing-started=1, cause-group.founded=1, seat-vacated=1, life.death=1
+news items: 342 (federal 46: law-took-effect=10, legislative-vote=21, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties value=1 
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.fund-pensions-to-schedule value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.minimum-reserve-balance value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=59.41 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-02-04 chamber-organized {"council-president":"person_f141fa779ab309fd"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:124143:board:2025-02-04:person_280ec92aebb84f69:0","for":"6","against":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:124143:board:2025-02-04:person_280ec92aebb84f69:1","for":"6","against":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:124143:board:2025-02-04:person_280ec92aebb84f69:2","for":"6","against":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.rent-stabilization","position":"-1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:124143:board:2025-02-04:person_280ec92aebb84f69:3","for":"3","against":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-02-04 public-comment {"billId":"bill:office:gus2025:124143:board:2025-02-04:person_280ec92aebb84f69:4","for":"1","against":"0"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-19 person-birth {"childId":"person_58f731757043ab46","motherId":"person_bc76f3b5882517a8","otherParentId":"person_bc76f4b58825195b","householdId":"household_e4795c55963b8318","pregnancyId":"partnership_9a168715994c4b25:plan:2024-05-29:pregnancy","planId":"partnership_9a168715
+  2025-02-19 public-comment {"billId":"bill:office:gus2025:124143:board:2025-02-19:person_280ec92aebb84f69:6","for":"2","against":"0"}
+  2025-02-19 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.universal-preschool","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-03-01 organization.owner-changed {}
+  2025-03-06 law-took-effect {"lawId":"law:county:10001:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:2025-001","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"county","jurisdiction":"county:1000
+  2025-03-06 law-took-effect {"lawId":"law:county:10001:county:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-06:2025-002","series":"us-policy-positions:housing-land-use.inclusionary-requirement","level":"county","jurisdiction":"county:10001","tier":"general
+  2025-03-06 law-took-effect {"lawId":"law:county:10001:county:us-policy-positions:housing-land-use.rent-stabilization:general:2025-03-06:2025-003","series":"us-policy-positions:housing-land-use.rent-stabilization","level":"county","jurisdiction":"county:10001","tier":"general","value":"1
+  2025-03-06 law-took-effect {"lawId":"law:county:10001:county:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-03-06:2025-004","series":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","level":"county","jurisdiction
+  2025-03-06 law-took-effect {"lawId":"law:county:10001:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-03-06:2025-005","series":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","level":"county","jurisdiction
+  2025-03-21 law-took-effect {"lawId":"law:county:10001:county:us-policy-positions:education.universal-preschool:general:2025-03-21:2025-007","series":"us-policy-positions:education.universal-preschool","level":"county","jurisdiction":"county:10001","tier":"general","value":"1","unit":"",
+  2025-05-05 organization.closed {"organization:organization_d9a7f65f06eb2e6e:status":"closed","organization:organization_d9a7f65f06eb2e6e:closure-source":"residents:wages:opening-payroll-calendar:organization_d9a7f65f06eb2e6e|residents:jurisdiction_2cd8e9ebfc1303aa:0@2025-05-05"}
+  2025-05-05 business.closed {"organization:organization_d9a7f65f06eb2e6e:closing-reason":"finance.unfunded-obligation-cash-and-credit-exhausted"}
+  2025-06-01 organization.closed {"organization:organization_619bb941b13da6c0:status":"closed","organization:organization_619bb941b13da6c0:closure-source":"owner-closed:2025-06-01:organization_619bb941b13da6c0"}
+  2025-06-01 business.closed {"organization:organization_619bb941b13da6c0:closing-reason":"losses-kept"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:7","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"11","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:7","number":"2025-001","chamber":"office:US-DE:legislature-lower","yes":"40","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:7","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"10","no":"0"}
+  2025-06-30 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:7","number":"2025-001","chamber":"office:US-DE:legislature-upper","yes":"21","no":"0"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-06-30:2025-001","series":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","level":"state","jurisdiction":"US-DE","tier":"gen
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:8","number":"2025-002","chamber":"office:US-DE:legislature-lower","yes":"35","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"9","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:8","number":"2025-002","chamber":"office:US-DE:legislature-upper","yes":"20","no":"1"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:9","number":"2025-003","chamber":"office:US-DE:legislature-lower","yes":"27","no":"14"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:education.raise-teacher-minimum-salary","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:9","number":"2025-003","chamber":"office:US-DE:legislature-upper","yes":"15","no":"6"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-06-30:2025-003","series":"us-policy-positions:education.raise-teacher-minimum-salary","level":"state","jurisdiction":"US-DE","tier":"general","value":"0","unit":"
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:009:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:12","number":"2025-006","chamber":"office:US-DE:legislature-lower","yes":"37","no":"4"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"8","no":"2"}
+  2025-06-30 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:12","number":"2025-006","chamber":"office:US-DE:legislature-upper","yes":"17","no":"4"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:13","number":"2025-007","chamber":"office:US-DE:legislature-lower","yes":"27","no":"14"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:government-operations.same-day-voter-registration","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:13","number":"2025-007","chamber":"office:US-DE:legislature-upper","yes":"15","no":"6"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-06-30:2025-007","series":"us-policy-positions:government-operations.same-day-voter-registration","level":"state","jurisdiction":"US-DE","tier":"general
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:14","number":"2025-008","chamber":"office:US-DE:legislature-lower","yes":"38","no":"3"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"9","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-008","question":"us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:14","number":"2025-008","chamber":"office:US-DE:legislature-upper","yes":"18","no":"3"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"8","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:15","number":"2025-009","chamber":"office:US-DE:legislature-lower","yes":"25","no":"16"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:15","number":"2025-009","chamber":"office:US-DE:legislature-upper","yes":"13","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:005:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:005:0:2025-01-20:16","number":"2025-010","chamber":"office:US-DE:legislature-lower","yes":"27","no":"14"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:005:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"6","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-010","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:005:0:2025-01-20:16","number":"2025-010","chamber":"office:US-DE:legislature-upper","yes":"14","no":"7"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-06-30:2025-010","series":"us-policy-positions:fiscal.cap-property-tax-growth","level":"state","jurisdiction":"US-DE","tier":"general","value":"1","unit":"","change":"new"
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"10","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:17","number":"2025-011","chamber":"office:US-DE:legislature-lower","yes":"34","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"9","no":"1"}
+  2025-06-30 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:government-operations.independent-redistricting","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:17","number":"2025-011","chamber":"office:US-DE:legislature-upper","yes":"18","no":"3"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:009:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:007:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:007:0:2025-01-20:19","number":"2025-013","chamber":"office:US-DE:legislature-lower","yes":"27","no":"14"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:007:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:business-commerce.cap-consumer-loan-rates","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:007:0:2025-01-20:19","number":"2025-013","chamber":"office:US-DE:legislature-upper","yes":"15","no":"6"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-06-30:2025-013","series":"us-policy-positions:business-commerce.cap-consumer-loan-rates","level":"state","jurisdiction":"US-DE","tier":"general","value":"1","u
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"4","no":"7"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:23","number":"2025-017","chamber":"office:US-DE:legislature-lower","yes":"26","no":"15"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-017","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:23","number":"2025-017","chamber":"office:US-DE:legislature-upper","yes":"15","no":"6"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-06-30:2025-017","series":"us-policy-positions:environment-energy.bottle-deposit","level":"state","jurisdiction":"US-DE","tier":"general","value":"1","unit":"","change"
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:24","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:012:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:012:0:2025-01-20:26","number":"2025-020","chamber":"office:US-DE:legislature-lower","yes":"22","no":"19"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:012:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-020","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:upper:012:0:2025-01-20:26","number":"2025-020","chamber":"office:US-DE:legislature-upper","yes":"15","no":"6"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-06-30:2025-020","series":"us-policy-positions:labor-workforce.local-minimum-wage-authority","level":"state","jurisdiction":"US-DE","tier":"general","value":
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"5","no":"6"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:001:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"3","no":"8"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:016:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:016:0:2025-01-20:30","number":"2025-024","chamber":"office:US-DE:legislature-lower","yes":"25","no":"16"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:016:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-024","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:016:0:2025-01-20:30","number":"2025-024","chamber":"office:US-DE:legislature-upper","yes":"14","no":"7"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-06-30:2025-024","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"state","jurisdiction":"US-DE","tier":"gener
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:026:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-026","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:026:0:2025-01-20:32","number":"2025-026","chamber":"office:US-DE:legislature-lower","yes":"22","no":"19"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:026:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-DE:upper:008:0:2025-01-20","yes":"7","no":"3"}
+  2025-06-30 vote-recorded {"measureId":"2025-026","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:026:0:2025-01-20:32","number":"2025-026","chamber":"office:US-DE:legislature-upper","yes":"15","no":"6"}
+  2025-06-30 law-took-effect {"lawId":"law:US-DE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-06-30:2025-026","series":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","level":"state","jurisdiction":"US-DE"
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:008:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:009:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:038:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:004:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:021:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:43","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:44","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"1","no":"10"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:009:0:2025-01-20:45","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:023:0:2025-01-20:46","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:47","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:48","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:49","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:002:0:2025-01-20:50","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-044","question":"us-policy-positions:civil-family-community.restrict-abortion","position":"1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:002:0:2025-01-20:50","number":"2025-044","chamber":"office:US-DE:legislature-lower","yes":"20","no":"21"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:51","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"2","no":"9"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:52","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:53","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:039:0:2025-01-20:54","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-06-30 committee-hearing {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:020:0:2025-01-20:55","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"6","no":"5"}
+  2025-06-30 vote-recorded {"measureId":"2025-049","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-06-30 legislative-vote {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:020:0:2025-01-20:55","number":"2025-049","chamber":"office:US-DE:legislature-lower","yes":"19","no":"22"}
+  2025-06-30 bill-held-in-committee {"billId":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:009:0:2025-01-20:56","committee":"general","chair":"official:term:seat:US-DE:lower:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-07-01 budget-adopted {"governmentId":"US-DE","fiscalYear":"2025","adoptedBy":"the legislature vote 27-14, 15-6, 2025-051"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"administration","deltaMinor":"374720717","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"corrections","deltaMinor":"-177657446","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"healthAndHospitals","deltaMinor":"565349428","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"higherEducation","deltaMinor":"1390685389","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"highways","deltaMinor":"-62313800","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"housing","deltaMinor":"203122751","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"localAid","deltaMinor":"3117247446","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"naturalResources","deltaMinor":"155199366","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"otherPrograms","deltaMinor":"442255314","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"parks","deltaMinor":"23954553","measureId":"budget:US-DE:2025"}
+  2025-07-01 budget-line-changed {"governmentId":"US-DE","level":"state","line":"police","deltaMinor":"-278770704","measureId":"budget:US-DE:2025"}
+deaths: 1
+election-ish kinds: 
+player: alive=true job=none cash=$0 home=household_a8d6435574bcbff4
+
+### trace life.death:person_a611b5f7e5748759:2026-01-17 (life.death 2026-01-17)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+life.death:person_a611b5f7e5748759:2026-01-17 [core.log life.death]
+   facts event:life.death:person_a611b5f7e5748759:2026-01-17:condition=cancer
+  <- person_5d9fc7c4d4f32959 [core.people person] via core.observe.perceived
+     value {"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.placeId | record:core.log.source.estimatedFrom | learned:core.observe.perceived={"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"} | learned:core.observe.perceived={"key":"event:life.death:person_a611b5f7e5748759:2026-01-17:experienced","learnedAt":"2026-01-17","access":"perceived"} | learned:core.obse
+
+### trace speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b (speech.retold 2026-01-15)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b [core.log speech.retold]
+   facts views:speaker=person_e9348366b130944b
+  <- person_e9348366b130944b [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:retold:person_e9348366b130944b:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-DE:republican:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+speech:party-meeting:party:US-DE:republican:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_a56fa19a0fd5ef76
+  <- person_a56fa19a0fd5ef76 [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-DE:republican:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace law-took-effect:law:county:10001:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+law-took-effect:law:county:10001:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:10001:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:10001 tier=general value=0.431 unit=percent-of-home-value change=replaced replacesLawId=law:county:10001:county:property-tax:general:2026-01-01:from-start
+  <- law:county:10001:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:10001 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:10001 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_2cd8e9ebfc1303aa [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace bill-vote:bill:office:US-DE:us-house:2025-12-15:official:seat:US-SC:us-house:03:84:federal:us-house (legislative-vote 2025-12-15)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+bill-vote:bill:office:US-DE:us-house:2025-12-15:official:seat:US-SC:us-house:03:84:federal:us-house [core.log legislative-vote]
+   facts billId=bill:office:US-DE:us-house:2025-12-15:official:seat:US-SC:us-house:03:84 number=2025-026 chamber=federal:us-house yes=214 no=219
+  <- official:seat:US-AK:us-house:00 [core.people person] via core.log.personIds.0
+    <- job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00 [core.jobs job] via saved-trace.job
+      <- official:seat:US-AK:us-house:00 [core.people person] via core.jobs.personId
+        <- job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00 [core.jobs job] via saved-trace.job
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | record:core.log.personIds.7 | record:core.log.personIds.8 | record:core.log.personIds.9 | record:core.log.personIds.10 | record:core.log.personIds.11 | record:core.log.personIds.12 | record:core.log.personIds.13 | record:core.log.personIds.14 | record:core.log.personIds.15 | record:core.log.personIds.16 | record:core.log.personIds.17 | record:core.log.personIds.18 | record:core.log.personIds.19 | record:core.log.personIds.20 | record:core.log.personIds.21 | record:core.log.personIds.22 | record:core.log.personIds.23 | record:core.log.personIds.24 | record:core.log.personIds.25 | record:core.log.personIds.26 | record:core.log.personIds.27 | record:core.log.personIds.28 | record:core.log.personIds.29 | record:core.log.personIds.30 | record:core.log.personIds.31 | record:core.log.personIds.32 | record:core.log.personIds.33 | record:core.log.personIds.34 | record:core.log.personIds.35 | record:core.log.personIds.36 | record:core.log.personIds.37 | record:core.log.personIds.38 | record:core.log.personIds.39 | record:core.log.personIds.40 | record:core.log.personIds.41 | record:core.log.personIds.42 | record:core.log.personIds.43 | record:core.log.personIds.44 | record:core.log.personIds.45 | record:core.log.personIds.46 | record:core.log.personIds.47 | record:core.log.person
+
+### trace vote-recorded:vote:2025-026:official:term:seat:US-DE:us-house:00:2025-01-20 (vote-recorded 2025-12-15)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+vote-recorded:vote:2025-026:official:term:seat:US-DE:us-house:00:2025-01-20 [core.log vote-recorded]
+   facts measureId=2025-026 question=us-policy-positions:technology-privacy.age-verification-for-social-media position=-1
+  <- official:term:seat:US-DE:us-house:00:2025-01-20 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2025-12-15","access":"perceived"}
+
+### trace committee:bill:office:US-DE:us-house:2025-12-15:official:seat:US-CA:us-house:18:81:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+committee:bill:office:US-DE:us-house:2025-12-15:official:seat:US-CA:us-house:18:81:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-DE:us-house:2025-12-15:official:seat:US-CA:us-house:18:81 committee=general chair=official:seat:US-PA:us-house:10 yes=0 no=0
+  <- bill:office:US-DE:us-house:2025-12-15:official:seat:US-CA:us-house:18:81 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-DE:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 (budget-line-changed 2025-12-15)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+budget-line-changed:budget:US:2025:veterans:law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15 [core.log budget-line-changed]
+   facts governmentId=US level=federal line=veterans deltaMinor=-11083705669802 measureId=law:US:federal:us-policy-positions:fiscal.balanced-operating-budget:general:2025-12-15:2025-002#balance#2025-12-15
+  <- jurisdiction_2cd8e9ebfc1303aa [regional.places places] via core.log.placeId
+    <- region:10:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+### trace person.moved-away:person_c45b86c6e2dc3bac:2025-12-01 (person.moved-away 2025-12-01)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+person.moved-away:person_c45b86c6e2dc3bac:2025-12-01 [core.log person.moved-away]
+   facts person:person_c45b86c6e2dc3bac:residence=jurisdiction_307a945f4b66bd34
+  <- person_609533d03be8c078 [core.people person] via core.observe.perceived
+     value {"key":"event:person.moved-away:person_c45b86c6e2dc3bac:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:person.moved-away:person_c45b86c6e2dc3bac:2025-12-01:experienced","learnedAt":"2025-12-01","access":"perceived"} | learned:core.observe.self={"key":"job:job:position:organization_cefba6c8c56883f4:2025-03-01:12:person_c45b86c6e2dc3bac:status","learnedAt":"2025-12-01","access":"self"}
+
+### trace event:business.closed:organization_cefba7c8c56885a7 (business.closed 2025-11-01)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+event:business.closed:organization_cefba7c8c56885a7 [core.log business.closed]
+   facts organization:organization_cefba7c8c56885a7:closing-reason=losses-kept
+  <- organization_cefba7c8c56885a7 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-11-01:organization_cefba7c8c56885a7 (organization.closed 2025-11-01)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+employer-closed:2025-11-01:organization_cefba7c8c56885a7 [core.log organization.closed]
+   facts organization:organization_cefba7c8c56885a7:status=closed organization:organization_cefba7c8c56885a7:closure-source=owner-closed:2025-11-01:organization_cefba7c8c56885a7
+  <- person_280ec92aebb84f69 [core.people person] via core.observe.perceived
+     value {"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"}
+
+  children: record:core.log.placeId | record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.personIds.5 | record:core.log.personIds.6 | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"} | learned:core.observe.perceived={"key":"event:employer-closed:2025-11-01:organization_cefba7c8c56885a7:experienced","learnedAt":"2025-11-01","access":"perceived"}
+
+### trace budget-adopted:budget:US:2025 (budget-adopted 2025-10-01)
+trace report · seed 98cea258e221 · place 1034810 · date 2026-01-20
+budget-adopted:budget:US:2025 [core.log budget-adopted]
+   facts governmentId=US fiscalYear=2025 adoptedBy=Congress vote 251-182, 73-27 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001
+  <- jurisdiction_2cd8e9ebfc1303aa [regional.places places] via core.log.placeId
+    <- region:10:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+## core2-offices-v1.offices: 12 of 17
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-DE:us-senate","level":"federal","jurisdiction":"US-DE","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-DE:us-house","level":"federal","jurisdiction":"US-DE","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":1,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-DE:governor","level":"state","jurisdiction":"US-DE","governmentName":"US-DE","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"Del. Const. art. III sec. 20 https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"lieutenant governor","citation":"Del. Const. art. III sec. 20","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-DE:lieutenant-governor","level":"state","jurisdiction":"US-DE","governmentName":"US-DE","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":{"method":"remains-vacant","citation":"State constitution executive article / election code (generic rule; not verified per office)","source":"https://ballotpedia.org/State_executive_offices","estimate":true}}
+  {"id":"office:US-DE:attorney-general","level":"state","jurisdiction":"US-DE","governmentName":"US-DE","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-DE:treasurer","level":"state","jurisdiction":"US-DE","governmentName":"US-DE","kind":"treasurer","title":"Treasurer","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-DE:auditor","level":"state","jurisdiction":"US-DE","governmentName":"US-DE","kind":"auditor","title":"Auditor of Accounts","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-DE:insurance-commissioner","level":"state","jurisdiction":"US-DE","governmentName":"US-DE","kind":"insurance-commissioner","title":"Insurance Commissioner","seats":1,"termYears":4,"nextElectionYear":2028,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-DE:legislature-upper","level":"state","jurisdiction":"US-DE","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":21,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"15 Del. C. sec. 7101 et seq.","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+  {"id":"office:US-DE:legislature-lower","level":"state","jurisdiction":"US-DE","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":41,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":{"method":"special-election","citation":"15 Del. C. sec. 7101 et seq.","source":"https://ballotpedia.org/How_vacancies_are_filled_in_state_legislatures","estimate":true}}
+
+## core2-offices-v1.seats: 10 of 84
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-DE:us-senate:0","officeId":"office:US-DE:us-senate","index":0,"coversTown":true,"party":"Democrat","electionYear":2030}
+  {"id":"seat:US-DE:us-senate:1","officeId":"office:US-DE:us-senate","index":1,"coversTown":true,"party":"Democrat","electionYear":2026}
+  {"id":"seat:US-DE:governor","officeId":"office:US-DE:governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DE:lieutenant-governor","officeId":"office:US-DE:lieutenant-governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DE:attorney-general","officeId":"office:US-DE:attorney-general","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DE:treasurer","officeId":"office:US-DE:treasurer","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DE:auditor","officeId":"office:US-DE:auditor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-DE:insurance-commissioner","officeId":"office:US-DE:insurance-commissioner","index":0,"coversTown":true,"party":"Democratic"}
+
+## core2-offices-v1.terms: 15 of 213
+  {"id":"term:seat:US-DE:governor:2025-01-20:past:3","seatId":"seat:US-DE:governor","officeId":"office:US-DE:governor","identity":{"givenName":"Eric","familyName":"Fernandez","gender":"male","birthDate":"1968-06-25","homeState":"US-DE"},"party":"Democratic","startDate":"2013-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.56}}
+  {"id":"term:seat:US-DE:governor:2025-01-20:past:2","seatId":"seat:US-DE:governor","officeId":"office:US-DE:governor","identity":{"givenName":"Eric","familyName":"Fernandez","gender":"male","birthDate":"1968-06-25","homeState":"US-DE"},"party":"Democratic","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.56}}
+  {"id":"term:seat:US-DE:governor:2025-01-20:past:1","seatId":"seat:US-DE:governor","officeId":"office:US-DE:governor","identity":{"givenName":"Eric","familyName":"Fernandez","gender":"male","birthDate":"1968-06-25","homeState":"US-DE"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US-DE:treasurer:2025-01-20:past:1","seatId":"seat:US-DE:treasurer","officeId":"office:US-DE:treasurer","identity":{"givenName":"Catherine","familyName":"Roberson","gender":"female","birthDate":"1969-01-09","homeState":"US-DE"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-DE:insurance-commissioner:2025-01-20:past:3","seatId":"seat:US-DE:insurance-commissioner","officeId":"office:US-DE:insurance-commissioner","identity":{"givenName":"Sean","familyName":"West","gender":"male","birthDate":"1977-03-25","homeState":"US-DE"},"party":"Democratic","startDate":"2013-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.56}}
+  {"id":"term:seat:US-DE:insurance-commissioner:2025-01-20:past:2","seatId":"seat:US-DE:insurance-commissioner","officeId":"office:US-DE:insurance-commissioner","identity":{"givenName":"Sean","familyName":"West","gender":"male","birthDate":"1977-03-25","homeState":"US-DE"},"party":"Democratic","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.56}}
+  {"id":"term:seat:US-DE:insurance-commissioner:2025-01-20:past:1","seatId":"seat:US-DE:insurance-commissioner","officeId":"office:US-DE:insurance-commissioner","identity":{"givenName":"Sean","familyName":"West","gender":"male","birthDate":"1977-03-25","homeState":"US-DE"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Janet","familyName":"Payne","gender":"female","birthDate":"1968-03-08","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Catherine","familyName":"Wood","gender":"female","birthDate":"1973-01-02","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-DE:governor:2025-01-20","seatId":"seat:US-DE:governor","officeId":"office:US-DE:governor","personId":"official:term:seat:US-DE:governor:2025-01-20","identity":{"givenName":"Eric","familyName":"Fernandez","gender":"male","birthDate":"1968-06-25","homeState":"US-DE"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2013-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-DE:lieutenant-governor:2025-01-20","seatId":"seat:US-DE:lieutenant-governor","officeId":"office:US-DE:lieutenant-governor","personId":"official:term:seat:US-DE:lieutenant-governor:2025-01-20","identity":{"givenName":"Joseph","familyName":"Kennedy","gender":"male","birthDate":"1968-03-02","homeState":"US-DE"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-01","elected":{"date":"2024-11-05","share":0.56}}
+  {"id":"term:seat:US-DE:attorney-general:2025-01-20","seatId":"seat:US-DE:attorney-general","officeId":"office:US-DE:attorney-general","personId":"official:term:seat:US-DE:attorney-general:2025-01-20","identity":{"givenName":"Sheila","familyName":"Li","gender":"female","birthDate":"1965-06-04","homeState":"US-DE"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DE:treasurer:2025-01-20","seatId":"seat:US-DE:treasurer","officeId":"office:US-DE:treasurer","personId":"official:term:seat:US-DE:treasurer:2025-01-20","identity":{"givenName":"Catherine","familyName":"Roberson","gender":"female","birthDate":"1969-01-09","homeState":"US-DE"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DE:auditor:2025-01-20","seatId":"seat:US-DE:auditor","officeId":"office:US-DE:auditor","personId":"official:term:seat:US-DE:auditor:2025-01-20","identity":{"givenName":"Susan","familyName":"Powers","gender":"female","birthDate":"1962-12-27","homeState":"US-DE"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-DE:insurance-commissioner:2025-01-20","seatId":"seat:US-DE:insurance-commissioner","officeId":"office:US-DE:insurance-commissioner","personId":"official:term:seat:US-DE:insurance-commissioner:2025-01-20","identity":{"givenName":"Sean","familyName":"West","gender":"male","birthDate":"1977-03-25","homeState":"US-DE"},"party":"Democratic","startDate":"2025-01-01","endDate":"2029-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2013-01-01","elected":{"date":"2024-11-05","share":0.56}}
+
+## core2-offices-v1.terms: 167 of 213
+  {"id":"term:seat:US-DE:upper:001:0:2025-01-20:past:3","seatId":"seat:US-DE:upper:001:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Christopher","familyName":"Williams","gender":"male","birthDate":"1989-07-24","homeState":"US-DE"},"party":"Democratic","startDate":"2013-01-01","endDate":"2017-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2012-11-06","share":0.635}}
+  {"id":"term:seat:US-DE:upper:001:0:2025-01-20:past:2","seatId":"seat:US-DE:upper:001:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Christopher","familyName":"Williams","gender":"male","birthDate":"1989-07-24","homeState":"US-DE"},"party":"Democratic","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-DE:upper:001:0:2025-01-20:past:1","seatId":"seat:US-DE:upper:001:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Christopher","familyName":"Williams","gender":"male","birthDate":"1989-07-24","homeState":"US-DE"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2013-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-DE:upper:002:0:2025-01-20:past:5","seatId":"seat:US-DE:upper:002:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Tony","familyName":"Tanner","gender":"male","birthDate":"1965-08-13","homeState":"US-DE"},"party":"Democratic","startDate":"2003-01-01","endDate":"2007-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2002-11-05","share":0.635}}
+  {"id":"term:seat:US-DE:upper:002:0:2025-01-20:past:4","seatId":"seat:US-DE:upper:002:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Tony","familyName":"Tanner","gender":"male","birthDate":"1965-08-13","homeState":"US-DE"},"party":"Democratic","startDate":"2007-01-01","endDate":"2011-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2006-11-07","share":0.635}}
+  {"id":"term:seat:US-DE:upper:002:0:2025-01-20:past:3","seatId":"seat:US-DE:upper:002:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Tony","familyName":"Tanner","gender":"male","birthDate":"1965-08-13","homeState":"US-DE"},"party":"Democratic","startDate":"2011-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.635}}
+  {"id":"term:seat:US-DE:upper:002:0:2025-01-20:past:2","seatId":"seat:US-DE:upper:002:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Tony","familyName":"Tanner","gender":"male","birthDate":"1965-08-13","homeState":"US-DE"},"party":"Democratic","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.635}}
+  {"id":"term:seat:US-DE:upper:002:0:2025-01-20:past:1","seatId":"seat:US-DE:upper:002:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Tony","familyName":"Tanner","gender":"male","birthDate":"1965-08-13","homeState":"US-DE"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2003-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-DE:upper:003:0:2025-01-20:past:1","seatId":"seat:US-DE:upper:003:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Melissa","familyName":"Francis","gender":"female","birthDate":"1986-07-11","homeState":"US-DE"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-DE:upper:004:0:2025-01-20:past:1","seatId":"seat:US-DE:upper:004:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Samantha","familyName":"Wright","gender":"female","birthDate":"1993-02-08","homeState":"US-DE"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.635}}
+  {"id":"term:seat:US-DE:upper:005:0:2025-01-20:past:2","seatId":"seat:US-DE:upper:005:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Linda","familyName":"Le","gender":"female","birthDate":"1955-05-09","homeState":"US-DE"},"party":"Democratic","startDate":"2017-01-01","endDate":"2021-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2016-11-08","share":0.635}}
+  {"id":"term:seat:US-DE:upper:005:0:2025-01-20:past:1","seatId":"seat:US-DE:upper:005:0","officeId":"office:US-DE:legislature-upper","identity":{"givenName":"Linda","familyName":"Le","gender":"female","birthDate":"1955-05-09","homeState":"US-DE"},"party":"Democratic","startDate":"2021-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2017-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 23
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (85 bills)
+  office:US-DE:legislature-lower 2025-06-30: 50
+  office:US-DE:legislature-lower 2025-07-01: 1
+  office:US-DE:us-house 2025-10-01: 1
+  office:US-DE:us-house 2025-12-15: 25
+  office:gus2025:124143:board 2025-02-04: 6
+  office:gus2025:124143:board 2025-02-19: 1
+  office:gus2025:124143:board 2025-07-01: 1
+## bills by body and status
+  office:US-DE:legislature-lower enacted: 10
+  office:US-DE:legislature-lower failed: 36
+  office:US-DE:legislature-lower vetoed: 5
+  office:US-DE:us-house enacted: 7
+  office:US-DE:us-house failed: 19
+  office:gus2025:124143:board enacted: 7
+  office:gus2025:124143:board failed: 1
+## sample federal bill
+  {"id":"bill:office:US-DE:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:59","number":"2025-001","bodyOfficeId":"office:US-DE:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":8207853033},{"kind":"budget-line","line":"transportation","value":24256122391},{"kind":"budget-line","line":"otherPrograms","value":-101540957978}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-DE:legislature-lower:2025-06-30:official:term:seat:US-DE:lower:006:0:2025-01-20:7","number":"2025-001","bodyOfficeId":"office:US-DE:legislature-lower","sponsorId":"official:term:seat:US-DE:lower:006:0:2025-01-20","introduced":"2025-06-30","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:justice-public-safety.restore-voting-after-sentence","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted"}
+
+## federal and state log kinds: case.made=82, committee-hearing=65, vote-recorded=59, legislative-vote=51, budget-line-changed=34, bill-held-in-committee=34, law-took-effect=30, chamber-organized=5, budget-adopted=2, inauguration=1, president.address=1, seat-vacated=1, drive.formed=1
+
+## seat-vacated (1)
+  2025-11-01 {"officeId":"office:US-DE:legislature-lower","seatId":"seat:US-DE:lower:012:0","cause":"moved away","rule":"special-election"}
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-DE","fiscalYear":"2025","adoptedBy":"the legislature vote 27-14, 15-6, 2025-051"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 251-182, 73-27 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (5)
+  2025-01-20 {"speaker":"official:seat:US-MD:us-house:01","majority-leader":"official:seat:US-FL:us-house:11","minority-leader":"official:seat:US-CA:us-house:10","majority-whip":"official:seat:US-AL:us-house:01","minority-whip":"official:seat:US-CA:us-house:29"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-MO:us-senate:0","majority-leader":"official:seat:US-SC:us-senate:0","minority-leader":"official:seat:US-CT:us-senate:0","majority-whip":"official:seat:US-AK:us-senate:0","minority-whip":"official:seat:US-MD:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-DE:lower:023:0:2025-01-20","majority-leader":"official:term:seat:US-DE:lower:015:0:2025-01-20","minority-leader":"official:term:seat:US-DE:lower:040:0:2025-01-20","majority-whip":"official:term:seat:US-DE:lower:016:0:2025-01-20","minority-whip":"official:term:seat:US-DE:lower:039:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-DE:upper:002:0:2025-01-20","majority-leader":"official:term:seat:US-DE:upper:001:0:2025-01-20","minority-leader":"official:term:seat:US-DE:upper:019:0:2025-01-20","majority-whip":"official:term:seat:US-DE:upper:013:0:2025-01-20","minority-whip":"official:term:seat:US-DE:upper:020:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-DE:us-house:00:2025-01-20"}
+
+done 2.3 min

@@ -1,0 +1,469 @@
+# Moffat, Colorado seed 49072b6a4ffa start 2025-01-20 built in 57s people 1735 orgs 117
+player person_fa3c61e1dd54f501 Michelle Haynes born 2007-01-25
+
+## year 1: 2025-01-20 -> 2026-01-20  71s  heap 1182MB  people 1805 alive 1802 orgs 135
+records this year: 9180; kinds: person.acted=8112, news.read=246, vote-recorded=122, speech.retold=95, cause.shared=68, speech.heard=60, legislative-vote=58, committee-hearing=55, case.made=45, budget-line-changed=43, campaign-message=43, bill-held-in-committee=40, cause.donated=40, law-took-effect=33, person.moved-away=15, seat-vacated=14, official-appointed=11, public-comment=10, chamber-organized=8, cause-group.ad-ran=8, candidate-filed=7, recall-petition=5, housing.completed=5, office.approached=5, budget-adopted=4, election-result=4, office.replied=4, cause-group.joined=4, took-office=3, drive.formed=2, organization.closed=2, business.closed=2, housing.eviction=2, drive.strengthened=1, initiative.organizing-started=1, cause-group.founded=1, association.requested=1, cause.volunteered=1
+news items: 409 (federal 38: law-took-effect=8, legislative-vote=15, budget-line-changed=15; federal dates: 2026-01-01 2025-12-15 2025-10-01)
+  FED 2026-01-01 income-tax value=37 percent-top-rate
+  FED 2026-01-01 social-security-tax value=6.2 percent-of-wages
+  FED 2025-12-15 us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties value=1 
+  FED 2025-12-15 us-policy-positions:government-operations.ban-lobbying-after-office value=1 
+  FED 2025-12-15 us-policy-positions:civil-family-community.restrict-abortion value=1 
+  FED 2025-12-15 us-policy-positions:fiscal.balanced-operating-budget value=1 
+  FED 2025-10-01 medicaid-match value=50 percent
+  FED 2025-10-01 snap-maximum value=298 USD/month
+  2025-01-21 law-took-effect {"lawId":"law:US-CO:state:minimum-wage:general:2025-01-21:law:US-CO:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting","series":"minimum-wage","level":"state","jurisdiction":"US-CO","tier":"general","value":"1500","unit":"minor/hour
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:161412:council","seatId":"seat:gus2025:161412:council:2","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:212872:coroner","seatId":"seat:gus2025:212872:coroner:0","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:161412:council","seatId":"seat:gus2025:161412:council:3","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:212872:prosecutor","seatId":"seat:gus2025:212872:prosecutor:0","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:212872:board","seatId":"seat:gus2025:212872:board:5","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:161412:council","seatId":"seat:gus2025:161412:council:4","cause":"moved away","rule":"appointment"}
+  2025-02-01 seat-vacated {"officeId":"office:gus2025:212872:sheriff","seatId":"seat:gus2025:212872:sheriff:0","cause":"moved away","rule":"appointment"}
+  2025-02-04 chamber-organized {"mayor-pro-tem":"official:term:seat:gus2025:161412:council:4:2025-02-01"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-02-04:person_605c72b3da2b74b9:0","number":"2025-001","chamber":"office:gus2025:161412:council","yes":"4","no":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-02-04:person_605c72b3da2b74b9:1","number":"2025-002","chamber":"office:gus2025:161412:council","yes":"3","no":"2"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-02-04:person_605c72b3da2b74b9:2","number":"2025-003","chamber":"office:gus2025:161412:council","yes":"4","no":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","position":"1"}
+  2025-02-04 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-02-04:person_605c72b3da2b74b9:3","number":"2025-004","chamber":"office:gus2025:161412:council","yes":"4","no":"1"}
+  2025-02-04 chamber-organized {"council-president":"person_8236a0ff1a29b6bd"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-04 vote-recorded {"measureId":"2025-001","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-02-19 official-appointed {"post":"planning","appointedBy":"person_10b3bd852e534b4b"}
+  2025-02-19 official-appointed {"post":"public-works","appointedBy":"person_10b3bd852e534b4b"}
+  2025-02-19 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"1"}
+  2025-02-19 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:housing-land-use.inclusionary-requirement","position":"-1"}
+  2025-02-19 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-02-19:person_4173bc290517d604:5","number":"2025-005","chamber":"office:gus2025:161412:council","yes":"2","no":"3"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:161412:council","seatId":"seat:gus2025:161412:council:3","cause":"moved away","rule":"appointment"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:212872:board","seatId":"seat:gus2025:212872:board:4","cause":"moved away","rule":"appointment"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:212872:board","seatId":"seat:gus2025:212872:board:2","cause":"moved away","rule":"appointment"}
+  2025-03-01 seat-vacated {"officeId":"office:gus2025:212872:board","seatId":"seat:gus2025:212872:board:3","cause":"moved away","rule":"appointment"}
+  2025-03-06 law-took-effect {"lawId":"law:place:0851250:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:2025-001","series":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","level":"city","jurisdiction":"place:0851250"
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:161412:council:0:2025-01-20:2025-03-06","termId":"term:seat:gus2025:161412:council:0:2025-01-20","lawId":"law:place:0851250:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:202
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:161412:council:2:2025-02-01:2025-03-06","termId":"term:seat:gus2025:161412:council:2:2025-02-01","lawId":"law:place:0851250:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:202
+  2025-03-06 recall-petition {"recallId":"recall:term:seat:gus2025:161412:council:4:2025-02-01:2025-03-06","termId":"term:seat:gus2025:161412:council:4:2025-02-01","lawId":"law:place:0851250:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-03-06:202
+  2025-03-06 law-took-effect {"lawId":"law:place:0851250:city:us-policy-positions:housing-land-use.inclusionary-requirement:general:2025-03-06:2025-002","series":"us-policy-positions:housing-land-use.inclusionary-requirement","level":"city","jurisdiction":"place:0851250","tier":"general",
+  2025-03-06 law-took-effect {"lawId":"law:place:0851250:city:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:2025-03-06:2025-003","series":"us-policy-positions:housing-land-use.right-to-counsel-in-eviction","level":"city","jurisdiction":"place:0851250","tier":"g
+  2025-03-06 law-took-effect {"lawId":"law:place:0851250:city:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-03-06:2025-004","series":"us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones","level":"city","jurisdiction":"
+  2025-03-06 chamber-organized {"mayor-pro-tem":"person_381a3dacc069bced"}
+  2025-03-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","position":"-1"}
+  2025-03-06 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-03-06:person_381a3dacc069bced:6","number":"2025-006","chamber":"office:gus2025:161412:council","yes":"3","no":"2"}
+  2025-03-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"-1"}
+  2025-03-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-03-06 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:justice-public-safety.civilian-oversight-of-police","position":"1"}
+  2025-03-06 legislative-vote {"billId":"bill:office:gus2025:161412:council:2025-03-06:person_4173bc290517d604:7","number":"2025-007","chamber":"office:gus2025:161412:council","yes":"1","no":"4"}
+  2025-03-06 chamber-organized {"council-president":"person_b3218ff7359a6d3c"}
+  2025-03-21 official-appointed {"post":"city-administrator","appointedBy":"person_10b3bd852e534b4b"}
+  2025-03-21 official-appointed {"post":"city-attorney","appointedBy":"person_10b3bd852e534b4b"}
+  2025-03-21 official-appointed {"post":"finance-director","appointedBy":"person_10b3bd852e534b4b"}
+  2025-03-21 official-appointed {"post":"fire-chief","appointedBy":"person_10b3bd852e534b4b"}
+  2025-03-21 official-appointed {"post":"planning","appointedBy":"person_10b3bd852e534b4b"}
+  2025-03-21 official-appointed {"post":"public-works","appointedBy":"person_10b3bd852e534b4b"}
+  2025-04-05 law-took-effect {"lawId":"law:place:0851250:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-04-05:2025-006","series":"us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement","level":"city
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:8","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"5","no":"6"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"9","no":"2"}
+  2025-05-07 vote-recorded {"measureId":"2025-002","question":"us-policy-positions:education.universal-preschool","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:9","number":"2025-002","chamber":"office:US-CO:legislature-lower","yes":"51","no":"14"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:9","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:government-operations.all-mail-voting","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:10","number":"2025-003","chamber":"office:US-CO:legislature-lower","yes":"51","no":"14"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:10","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-003","question":"us-policy-positions:government-operations.all-mail-voting","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:10","number":"2025-003","chamber":"office:US-CO:legislature-upper","yes":"27","no":"8"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"10","no":"1"}
+  2025-05-07 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.independent-redistricting","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:11","number":"2025-004","chamber":"office:US-CO:legislature-lower","yes":"58","no":"7"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:11","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"10","no":"1"}
+  2025-05-07 vote-recorded {"measureId":"2025-004","question":"us-policy-positions:government-operations.independent-redistricting","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:11","number":"2025-004","chamber":"office:US-CO:legislature-upper","yes":"31","no":"4"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:government-operations.independent-redistricting:general:2025-05-07:2025-004","series":"us-policy-positions:government-operations.independent-redistricting","level":"state","jurisdiction":"US-CO","tier":"general","v
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:12","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"6","no":"5"}
+  2025-05-07 vote-recorded {"measureId":"2025-005","question":"us-policy-positions:labor-workforce.local-minimum-wage-authority","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:12","number":"2025-005","chamber":"office:US-CO:legislature-lower","yes":"32","no":"33"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"6","no":"5"}
+  2025-05-07 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:government-operations.legislative-term-limits","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:13","number":"2025-006","chamber":"office:US-CO:legislature-lower","yes":"42","no":"23"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:13","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-006","question":"us-policy-positions:government-operations.legislative-term-limits","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:13","number":"2025-006","chamber":"office:US-CO:legislature-upper","yes":"24","no":"11"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-05-07:2025-006","series":"us-policy-positions:government-operations.legislative-term-limits","level":"state","jurisdiction":"US-CO","tier":"general","value
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-007","question":"us-policy-positions:technology-privacy.restrict-government-facial-recognition","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:14","number":"2025-007","chamber":"office:US-CO:legislature-lower","yes":"34","no":"31"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:14","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:15","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"4","no":"7"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"10","no":"1"}
+  2025-05-07 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:16","number":"2025-009","chamber":"office:US-CO:legislature-lower","yes":"57","no":"8"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:16","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"10","no":"1"}
+  2025-05-07 vote-recorded {"measureId":"2025-009","question":"us-policy-positions:fiscal.fund-pensions-to-schedule","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:16","number":"2025-009","chamber":"office:US-CO:legislature-upper","yes":"31","no":"4"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-05-07:2025-009","series":"us-policy-positions:fiscal.fund-pensions-to-schedule","level":"state","jurisdiction":"US-CO","tier":"general","value":"1","unit":"","change":"
+  2025-05-07 budget-line-changed {"governmentId":"US-CO","level":"state","line":"retirementContributions","deltaMinor":"41702451000","measureId":"law:US-CO:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-05-07:2025-009#2025-05-07"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:17","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-07 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:fiscal.graduated-income-tax","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:18","number":"2025-011","chamber":"office:US-CO:legislature-lower","yes":"44","no":"21"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:18","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-011","question":"us-policy-positions:fiscal.graduated-income-tax","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:18","number":"2025-011","chamber":"office:US-CO:legislature-upper","yes":"23","no":"12"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:fiscal.graduated-income-tax:general:2025-05-07:2025-011","series":"us-policy-positions:fiscal.graduated-income-tax","level":"state","jurisdiction":"US-CO","tier":"general","value":"1","unit":"","change":"new","repl
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:19","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"6","no":"5"}
+  2025-05-07 vote-recorded {"measureId":"2025-012","question":"us-policy-positions:education.public-funds-for-private-schooling","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:19","number":"2025-012","chamber":"office:US-CO:legislature-lower","yes":"29","no":"36"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-07 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:20","number":"2025-013","chamber":"office:US-CO:legislature-lower","yes":"44","no":"21"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:20","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-07 vote-recorded {"measureId":"2025-013","question":"us-policy-positions:fiscal.minimum-reserve-balance","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:20","number":"2025-013","chamber":"office:US-CO:legislature-upper","yes":"24","no":"11"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-05-07:2025-013","series":"us-policy-positions:fiscal.minimum-reserve-balance","level":"state","jurisdiction":"US-CO","tier":"general","value":"0","unit":"","change":"ende
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-07 vote-recorded {"measureId":"2025-014","question":"us-policy-positions:government-operations.ban-lobbying-after-office","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:21","number":"2025-014","chamber":"office:US-CO:legislature-lower","yes":"44","no":"21"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:21","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"8","no":"3"}
+  2025-05-07 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:22","number":"2025-015","chamber":"office:US-CO:legislature-lower","yes":"43","no":"22"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:22","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"6","no":"5"}
+  2025-05-07 vote-recorded {"measureId":"2025-015","question":"us-policy-positions:government-operations.broaden-local-authority","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:22","number":"2025-015","chamber":"office:US-CO:legislature-upper","yes":"21","no":"14"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-05-07:2025-015","series":"us-policy-positions:government-operations.broaden-local-authority","level":"state","jurisdiction":"US-CO","tier":"general","value
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:23","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:24","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:032:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:032:0:2025-01-20:25","number":"2025-018","chamber":"office:US-CO:legislature-lower","yes":"40","no":"25"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:032:0:2025-01-20:25","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-018","question":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:032:0:2025-01-20:25","number":"2025-018","chamber":"office:US-CO:legislature-upper","yes":"22","no":"13"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-05-07:2025-018","series":"us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit","level":"state","jurisdiction":"
+  2025-05-07 budget-line-changed {"governmentId":"US-CO","level":"state","line":"highways","deltaMinor":"-18295171469","measureId":"law:US-CO:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-05-07:2025-018#2025-05-07"}
+  2025-05-07 budget-line-changed {"governmentId":"US-CO","level":"state","line":"transit","deltaMinor":"18295171469","measureId":"law:US-CO:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-05-07:2025-018#2025-05-07"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:26","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:27","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"4","no":"7"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:upper:035:0:2025-01-20:28","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:29","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:30","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:31","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:32","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:33","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:34","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:35","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:36","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:37","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:38","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:39","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:061:0:2025-01-20:40","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-034","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:41","number":"2025-034","chamber":"office:US-CO:legislature-lower","yes":"43","no":"22"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:41","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-034","question":"us-policy-positions:fiscal.cap-property-tax-growth","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:41","number":"2025-034","chamber":"office:US-CO:legislature-upper","yes":"23","no":"12"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-05-07:2025-034","series":"us-policy-positions:fiscal.cap-property-tax-growth","level":"state","jurisdiction":"US-CO","tier":"general","value":"1","unit":"","change":"new"
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:062:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-035","question":"us-policy-positions:environment-energy.price-carbon","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:062:0:2025-01-20:42","number":"2025-035","chamber":"office:US-CO:legislature-lower","yes":"37","no":"28"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:062:0:2025-01-20:42","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-035","question":"us-policy-positions:environment-energy.price-carbon","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:062:0:2025-01-20:42","number":"2025-035","chamber":"office:US-CO:legislature-upper","yes":"22","no":"13"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:environment-energy.price-carbon:general:2025-05-07:2025-035","series":"us-policy-positions:environment-energy.price-carbon","level":"state","jurisdiction":"US-CO","tier":"general","value":"1","unit":"","change":"ne
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:43","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:44","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"5","no":"6"}
+  2025-05-07 bill-held-in-committee {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:45","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"0","no":"0"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:46","committee":"general","chair":"official:term:seat:US-CO:lower:024:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-039","question":"us-policy-positions:environment-energy.bottle-deposit","position":"1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:46","number":"2025-039","chamber":"office:US-CO:legislature-lower","yes":"42","no":"23"}
+  2025-05-07 committee-hearing {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:46","committee":"general","chair":"official:term:seat:US-CO:upper:020:0:2025-01-20","yes":"7","no":"4"}
+  2025-05-07 vote-recorded {"measureId":"2025-039","question":"us-policy-positions:environment-energy.bottle-deposit","position":"-1"}
+  2025-05-07 legislative-vote {"billId":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:053:0:2025-01-20:46","number":"2025-039","chamber":"office:US-CO:legislature-upper","yes":"23","no":"12"}
+  2025-05-07 law-took-effect {"lawId":"law:US-CO:state:us-policy-positions:environment-energy.bottle-deposit:general:2025-05-07:2025-039","series":"us-policy-positions:environment-energy.bottle-deposit","level":"state","jurisdiction":"US-CO","tier":"general","value":"1","unit":"","change"
+deaths: 0
+election-ish kinds: official-appointed=11, election-result=4
+  E 2025-02-19 official-appointed {"post":"city-administrator","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-02-19 official-appointed {"post":"finance-director","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-02-19 official-appointed {"post":"fire-chief","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-02-19 official-appointed {"post":"planning","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-02-19 official-appointed {"post":"public-works","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-03-21 official-appointed {"post":"city-administrator","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-03-21 official-appointed {"post":"city-attorney","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-03-21 official-appointed {"post":"finance-director","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-03-21 official-appointed {"post":"fire-chief","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-03-21 official-appointed {"post":"planning","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-03-21 official-appointed {"post":"public-works","appointedBy":"person_10b3bd852e534b4b"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:161412:council:0:2025-11-04","office":"Council member","winnerId":"person_19947b0a4f4a4099","totals":"{\"person_19947b0a4f4a4099\":2643}","views:speaker":"person_19947b0a4f4a4099"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:161412:council:2:2025-11-04","office":"Council member","winnerId":"person_2b83bff918764962","totals":"{\"person_2b83bff918764962\":2543}","views:speaker":"person_2b83bff918764962"}
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:161412:council:4:2025-11-04","office":"Council member","winnerId":"official:term:seat:gus2025:161412:council:4:2025-02-01","totals":"{\"official:term:seat:gus2025:161412:council:4:2025-02-01\":2652}","view
+  E 2025-11-04 election-result {"contestId":"contest:seat:gus2025:161412:mayor:0:2025-11-04","office":"Mayor","winnerId":"","totals":"{}"}
+player: alive=true job=none cash=$0 home=household_f6a0672e14ea06d3
+
+### trace bill-vote:bill:office:gus2025:161412:council:2026-01-15:official:term:seat:gus2025:161412:council:4:2025-02-01:91:office:gus2025:161412:council (legislative-vote 2026-01-15)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+bill-vote:bill:office:gus2025:161412:council:2026-01-15:official:term:seat:gus2025:161412:council:4:2025-02-01:91:office:gus2025:161412:council [core.log legislative-vote]
+   facts billId=bill:office:gus2025:161412:council:2026-01-15:official:term:seat:gus2025:161412:council:4:2025-02-01:91 number=2026-002 chamber=office:gus2025:161412:council yes=2 no=3
+  <- person_19947b0a4f4a4099 [core.people person] via core.observe.perceived
+     value {"key":"billId","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.personIds.1 | record:core.log.personIds.2 | record:core.log.personIds.3 | record:core.log.personIds.4 | record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chamber | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"billId","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace vote-recorded:vote:2026-002:official:term:seat:gus2025:161412:council:4:2025-02-01 (vote-recorded 2026-01-15)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+vote-recorded:vote:2026-002:official:term:seat:gus2025:161412:council:4:2025-02-01 [core.log vote-recorded]
+   facts measureId=2026-002 question=us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement position=-1
+  <- official:term:seat:gus2025:161412:council:4:2025-02-01 [core.people person] via core.observe.perceived
+     value {"key":"measureId","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.placeId | learned:core.observe.perceived={"key":"measureId","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e (speech.retold 2026-01-15)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e [core.log speech.retold]
+   facts views:speaker=person_fa3c60e1dd54f34e
+  <- person_fa3c60e1dd54f34e [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:retold:person_fa3c60e1dd54f34e:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace speech:party-meeting:party:US-CO:democratic:2026-01-15 (speech.heard 2026-01-15)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+speech:party-meeting:party:US-CO:democratic:2026-01-15 [core.log speech.heard]
+   facts views:speaker=person_19947b0a4f4a4099
+  <- person_fa3c60e1dd54f34e [core.people person] via core.observe.perceived
+     value {"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.placeId | record:core.log.topic | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"views:speaker","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"} | learned:core.observe.perceived={"key":"event:speech:party-meeting:party:US-CO:democratic:2026-01-15:experienced","learnedAt":"2026-01-15","access":"perceived"}
+
+### trace budget-line-changed:budget:place:0851250:2026:schools:adopted (budget-line-changed 2026-01-01)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+budget-line-changed:budget:place:0851250:2026:schools:adopted [core.log budget-line-changed]
+   facts governmentId=place:0851250 level=city line=schools deltaMinor=-171115 measureId=budget:place:0851250:2026
+  <- place:0851250 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:0851250 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_f6e6b740fcb69150 [regional.places places] via core.organizations.placeId
+        <- region:08:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId | record:core.log.facts.line | record:core.log.facts.measureId
+
+### trace budget-adopted:budget:place:0851250:2026 (budget-adopted 2026-01-01)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+budget-adopted:budget:place:0851250:2026 [core.log budget-adopted]
+   facts governmentId=place:0851250 fiscalYear=2026 adoptedBy=the council vote 3-2 (amended: welfareAndMedicaid, naturalResources, police, localAid dropped), 2026-001
+  <- place:0851250 [core2-budgets-v1.governments governments] via core.log.facts.governmentId
+    <- organization:treasury:place:0851250 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+      <- jurisdiction_f6e6b740fcb69150 [regional.places places] via core.organizations.placeId
+        <- region:08:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId | record:core.log.facts.governmentId
+
+### trace law-took-effect:law:county:08109:county:property-tax:general:2026-01-01 (law-took-effect 2026-01-01)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+law-took-effect:law:county:08109:county:property-tax:general:2026-01-01 [core.log law-took-effect]
+   facts lawId=law:county:08109:county:property-tax:general:2026-01-01 series=property-tax level=county jurisdiction=county:08109 tier=general value=0.325 unit=percent-of-home-value change=replaced replacesLawId=law:county:08109:county:property-tax:general:2026-01-01:from-start
+  <- law:county:08109:county:property-tax:general:2026-01-01 [core2-outcome-web-v1.laws laws] via core.log.facts.lawId
+    <- county:08109 [core2-budgets-v1.governments governments] via core2-outcome-web-v1.laws.jurisdiction
+      <- organization:treasury:county:08109 [core.organizations government-treasury] via core2-budgets-v1.governments.organizationId
+        <- jurisdiction_f6e6b740fcb69150 [regional.places places] via core.organizations.placeId
+
+  children: record:core.log.placeId | record:core.log.facts.lawId | record:core.log.facts.jurisdiction | record:core.log.facts.replacesLawId
+
+### trace committee:bill:office:US-CO:us-house:2025-12-15:official:seat:US-NC:us-house:01:84:federal:us-house (bill-held-in-committee 2025-12-15)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+committee:bill:office:US-CO:us-house:2025-12-15:official:seat:US-NC:us-house:01:84:federal:us-house [core.log bill-held-in-committee]
+   facts billId=bill:office:US-CO:us-house:2025-12-15:official:seat:US-NC:us-house:01:84 committee=general chair=official:seat:US-SC:us-house:01 yes=0 no=0
+  <- bill:office:US-CO:us-house:2025-12-15:official:seat:US-NC:us-house:01:84 [core2-legislature-v1.bills bills] via core.log.facts.billId
+    <- office:US-CO:us-house [core2-offices-v1.offices offices] via core2-legislature-v1.bills.bodyOfficeId
+
+  children: record:core.log.placeId | record:core.log.facts.billId | record:core.log.facts.chair
+
+### trace campaign-message:filing:contest:seat:gus2025:161412:council:4:2025-11-04:official:term:seat:gus2025:161412:council:4:2025-02-01:2025-11-04 (campaign-message 2025-11-04)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+campaign-message:filing:contest:seat:gus2025:161412:council:4:2025-11-04:official:term:seat:gus2025:161412:council:4:2025-02-01:2025-11-04 [core.log campaign-message]
+   facts campaignId=filing:contest:seat:gus2025:161412:council:4:2025-11-04:official:term:seat:gus2025:161412:council:4:2025-02-01 candidateId=official:term:seat:gus2025:161412:council:4:2025-02-01 views:speaker=official:term:seat:gus2025:161412:council:4:2025-02-01
+  <- person_dbefe8419a54ac4a [core.people person] via core.observe.perceived
+     value {"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"}
+
+  children: record:core.log.personIds.0 | record:core.log.witnessIds.0 | record:core.log.witnessIds.1 | record:core.log.witnessIds.2 | record:core.log.witnessIds.3 | record:core.log.witnessIds.4 | record:core.log.witnessIds.5 | record:core.log.witnessIds.6 | record:core.log.witnessIds.7 | record:core.log.witnessIds.8 | record:core.log.witnessIds.9 | record:core.log.witnessIds.10 | record:core.log.witnessIds.11 | record:core.log.witnessIds.12 | record:core.log.witnessIds.13 | record:core.log.witnessIds.14 | record:core.log.witnessIds.15 | record:core.log.witnessIds.16 | record:core.log.witnessIds.17 | record:core.log.placeId | record:core.log.topic | record:core.log.facts.campaignId | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observe.perceived={"key":"campaignId","learnedAt":"2025-11-04","access":"perceived"} | learned:core.observ
+
+### trace election-result:contest:seat:gus2025:161412:mayor:0:2025-11-04 (election-result 2025-11-04)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+election-result:contest:seat:gus2025:161412:mayor:0:2025-11-04 [core.log election-result]
+   facts contestId=contest:seat:gus2025:161412:mayor:0:2025-11-04 office=Mayor winnerId= totals={}
+  <- contest:seat:gus2025:161412:mayor:0:2025-11-04 [candidacy.weighed weighed] via core.log.facts.contestId
+    <- person_069dd78a7e0d291f [core.people person] via candidacy.weighed.askedIds.0
+      <- work-relationship_24bc64da64e9d02b [core.jobs job] via saved-trace.job
+        <- person_069dd78a7e0d291f [core.people person] via core.observe.self
+           value {"key":"job:work-relationship_24bc64da64e9d02b:pay","learnedAt":"2026-01-01","access":"self"}
+
+  children: record:core.log.placeId | record:core.log.facts.contestId
+
+### trace event:business.closed:organization_a0d3fa2bd70ba536 (business.closed 2025-11-01)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+event:business.closed:organization_a0d3fa2bd70ba536 [core.log business.closed]
+   facts organization:organization_a0d3fa2bd70ba536:closing-reason=losses-kept
+  <- organization_a0d3fa2bd70ba536 [core.organizations employer] via core.log.source.estimatedFrom
+    <- opening [core2-officials-v1.loaded loaded] via core.organizations.source.estimatedFrom
+
+  children: record:core.log.placeId | record:core.log.source.estimatedFrom
+
+### trace employer-closed:2025-11-01:organization_a0d3fa2bd70ba536 (organization.closed 2025-11-01)
+trace report · seed 49072b6a4ffa · place 0851250 · date 2026-01-20
+employer-closed:2025-11-01:organization_a0d3fa2bd70ba536 [core.log organization.closed]
+   facts organization:organization_a0d3fa2bd70ba536:status=closed organization:organization_a0d3fa2bd70ba536:closure-source=owner-closed:2025-11-01:organization_a0d3fa2bd70ba536
+  <- jurisdiction_f6e6b740fcb69150 [regional.places places] via core.log.placeId
+    <- region:08:rest [regional.regions regions] via regional.places.regionId
+
+  children: record:core.log.placeId
+
+## core2-offices-v1.offices: 11 of 20
+  {"id":"office:US:president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"president","title":"President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"vice-president","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US:vice-president","level":"federal","jurisdiction":"US","governmentName":"United States","kind":"vice-president","title":"Vice President","seats":1,"termYears":4,"nextElectionYear":2028,"termStarts":"01-20","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. II, § 1; amend. XXII; amend. XXV","estimate":false,"vacancyRule":{"method":"successor","successor":"nominated by the president, confirmed by both houses","citation":"U.S. Const. amend. XXV","estimate":false}}
+  {"id":"office:US-CO:us-senate","level":"federal","jurisdiction":"US-CO","governmentName":"United States Senate","kind":"us-senate","title":"U.S. Senator","seats":2,"termYears":6,"termStarts":"01-03","elected":true,"districted":false,"coversTown":true,"source":"U.S. Const. art. I, § 3; amend. XVII","estimate":false,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor (no party restriction)\",\"citation\":\"U.S. Const. amend. XVII; state election code (per Pew Research Center 2024 survey of state codes)\",\"sou…"}
+  {"id":"office:US-CO:us-house","level":"federal","jurisdiction":"US-CO","governmentName":"United States House of Representatives","kind":"us-house","title":"U.S. Representative","seats":8,"termYears":2,"nextElectionYear":2026,"termStarts":"01-03","elected":true,"districted":true,"coversTown":true,"source":"U.S. Const. art. I, § 2; 48 U.S.C. §§ 1711, 1751, 1731; 2 U.S.C. § 25a; 48 U.S.C. § 891","estimate":false,"vacancyRule":{"method":"special-election","citation":"U.S. Const. art. I, § 2, cl. 4","estimate":false}}
+  {"id":"office:US-CO:governor","level":"state","jurisdiction":"US-CO","governmentName":"US-CO","kind":"governor","title":"Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"Colo. Const. art. IV sec. 13(7) https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false,"vacancyRule":{"method":"successor","successor":"lieutenant governor","citation":"Colo. Const. art. IV sec. 13(7)","source":"https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States","estimate":false}}
+  {"id":"office:US-CO:lieutenant-governor","level":"state","jurisdiction":"US-CO","governmentName":"US-CO","kind":"lieutenant-governor","title":"Lieutenant Governor","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"governor, confirmed by majority of each house\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\"…"}
+  {"id":"office:US-CO:attorney-general","level":"state","jurisdiction":"US-CO","governmentName":"US-CO","kind":"attorney-general","title":"Attorney General","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-CO:secretary-of-state","level":"state","jurisdiction":"US-CO","governmentName":"US-CO","kind":"secretary-of-state","title":"Secretary of State","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-CO:treasurer","level":"state","jurisdiction":"US-CO","governmentName":"US-CO","kind":"treasurer","title":"Treasurer","seats":1,"termYears":4,"nextElectionYear":2026,"elected":true,"districted":false,"coversTown":true,"source":"State constitution executive article and election code https://ballotpedia.org/State_executive_offices","estimate":true,"vacancyRule":"{\"method\":\"appointment-then-special\",\"appointedBy\":\"governor\",\"citation\":\"State constitution executive article / election code (generic rule; not verified per office)\",\"source\":\"https://ballotpedia.or…"}
+  {"id":"office:US-CO:legislature-upper","level":"state","jurisdiction":"US-CO","governmentName":"Senate","kind":"legislature-upper","title":"State Senator","seats":35,"termYears":4,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"vacancy committee of the predecessor's political party\",\"citation\":\"Colo. Const. art. V sec. 3; C.R.S. sec. 1-12-203\",\"source\":\"https://ballotpedia.org/How_vacan…"}
+  {"id":"office:US-CO:legislature-lower","level":"state","jurisdiction":"US-CO","governmentName":"House of Representatives","kind":"legislature-lower","title":"State Representative","seats":65,"termYears":2,"elected":true,"districted":true,"coversTown":true,"source":"https://en.wikipedia.org/wiki/List_of_U.S._state_legislatures Census Gazetteer 2025 legislative districts","estimate":false,"vacancyRule":"{\"method\":\"appointment\",\"appointedBy\":\"vacancy committee of the predecessor's political party\",\"citation\":\"Colo. Const. art. V sec. 3; C.R.S. sec. 1-12-203\",\"source\":\"https://ballotpedia.org/How_vacan…"}
+
+## core2-offices-v1.seats: 9 of 136
+  {"id":"seat:US:president","officeId":"office:US:president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US:vice-president","officeId":"office:US:vice-president","index":0,"coversTown":true,"party":"Republican"}
+  {"id":"seat:US-CO:us-senate:0","officeId":"office:US-CO:us-senate","index":0,"coversTown":true,"party":"Democrat","electionYear":2026}
+  {"id":"seat:US-CO:us-senate:1","officeId":"office:US-CO:us-senate","index":1,"coversTown":true,"party":"Democrat","electionYear":2028}
+  {"id":"seat:US-CO:governor","officeId":"office:US-CO:governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-CO:lieutenant-governor","officeId":"office:US-CO:lieutenant-governor","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-CO:attorney-general","officeId":"office:US-CO:attorney-general","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-CO:secretary-of-state","officeId":"office:US-CO:secretary-of-state","index":0,"coversTown":true,"party":"Democratic"}
+  {"id":"seat:US-CO:treasurer","officeId":"office:US-CO:treasurer","index":0,"coversTown":true,"party":"Democratic"}
+
+## core2-offices-v1.terms: 15 of 265
+  {"id":"term:seat:US-CO:governor:2025-01-20:past:1","seatId":"seat:US-CO:governor","officeId":"office:US-CO:governor","identity":{"givenName":"Dawn","familyName":"Goodman","gender":"female","birthDate":"1957-12-15","homeState":"US-CO"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2019-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-CO:lieutenant-governor:2025-01-20:past:4","seatId":"seat:US-CO:lieutenant-governor","officeId":"office:US-CO:lieutenant-governor","identity":{"givenName":"Jennifer","familyName":"Mendoza","gender":"female","birthDate":"1978-07-09","homeState":"US-CO"},"party":"Democratic","startDate":"2007-01-01","endDate":"2011-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2007-01-01","endedBy":"re-elected","elected":{"date":"2006-11-07","share":0.56}}
+  {"id":"term:seat:US-CO:lieutenant-governor:2025-01-20:past:3","seatId":"seat:US-CO:lieutenant-governor","officeId":"office:US-CO:lieutenant-governor","identity":{"givenName":"Jennifer","familyName":"Mendoza","gender":"female","birthDate":"1978-07-09","homeState":"US-CO"},"party":"Democratic","startDate":"2011-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2007-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.56}}
+  {"id":"term:seat:US-CO:lieutenant-governor:2025-01-20:past:2","seatId":"seat:US-CO:lieutenant-governor","officeId":"office:US-CO:lieutenant-governor","identity":{"givenName":"Jennifer","familyName":"Mendoza","gender":"female","birthDate":"1978-07-09","homeState":"US-CO"},"party":"Democratic","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2007-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.56}}
+  {"id":"term:seat:US-CO:lieutenant-governor:2025-01-20:past:1","seatId":"seat:US-CO:lieutenant-governor","officeId":"office:US-CO:lieutenant-governor","identity":{"givenName":"Jennifer","familyName":"Mendoza","gender":"female","birthDate":"1978-07-09","homeState":"US-CO"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2007-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US-CO:treasurer:2025-01-20:past:3","seatId":"seat:US-CO:treasurer","officeId":"office:US-CO:treasurer","identity":{"givenName":"Paula","familyName":"Tucker","gender":"female","birthDate":"1963-01-13","homeState":"US-CO"},"party":"Democratic","startDate":"2011-01-01","endDate":"2015-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2010-11-02","share":0.56}}
+  {"id":"term:seat:US-CO:treasurer:2025-01-20:past:2","seatId":"seat:US-CO:treasurer","officeId":"office:US-CO:treasurer","identity":{"givenName":"Paula","familyName":"Tucker","gender":"female","birthDate":"1963-01-13","homeState":"US-CO"},"party":"Democratic","startDate":"2015-01-01","endDate":"2019-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2014-11-04","share":0.56}}
+  {"id":"term:seat:US-CO:treasurer:2025-01-20:past:1","seatId":"seat:US-CO:treasurer","officeId":"office:US-CO:treasurer","identity":{"givenName":"Paula","familyName":"Tucker","gender":"female","birthDate":"1963-01-13","homeState":"US-CO"},"party":"Democratic","startDate":"2019-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2011-01-01","endedBy":"re-elected","elected":{"date":"2018-11-06","share":0.56}}
+  {"id":"term:seat:US:president:2025-01-20","seatId":"seat:US:president","officeId":"office:US:president","personId":"official:term:seat:US:president:2025-01-20","identity":{"givenName":"Gary","familyName":"Choi","gender":"male","birthDate":"1963-09-18","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US:vice-president:2025-01-20","seatId":"seat:US:vice-president","officeId":"office:US:vice-president","personId":"official:term:seat:US:vice-president:2025-01-20","identity":{"givenName":"Denise","familyName":"Harper","gender":"female","birthDate":"1967-01-19","homeState":"US"},"party":"Republican","startDate":"2025-01-20","endDate":"2029-01-20","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2025-01-20"}
+  {"id":"term:seat:US-CO:governor:2025-01-20","seatId":"seat:US-CO:governor","officeId":"office:US-CO:governor","personId":"official:term:seat:US-CO:governor:2025-01-20","identity":{"givenName":"Dawn","familyName":"Goodman","gender":"female","birthDate":"1957-12-15","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2019-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-CO:lieutenant-governor:2025-01-20","seatId":"seat:US-CO:lieutenant-governor","officeId":"office:US-CO:lieutenant-governor","personId":"official:term:seat:US-CO:lieutenant-governor:2025-01-20","identity":{"givenName":"Jennifer","familyName":"Mendoza","gender":"female","birthDate":"1978-07-09","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2007-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-CO:attorney-general:2025-01-20","seatId":"seat:US-CO:attorney-general","officeId":"office:US-CO:attorney-general","personId":"official:term:seat:US-CO:attorney-general:2025-01-20","identity":{"givenName":"Robert","familyName":"Rhodes","gender":"male","birthDate":"1958-04-21","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-CO:secretary-of-state:2025-01-20","seatId":"seat:US-CO:secretary-of-state","officeId":"office:US-CO:secretary-of-state","personId":"official:term:seat:US-CO:secretary-of-state:2025-01-20","identity":{"givenName":"Melissa","familyName":"Gordon","gender":"female","birthDate":"1963-06-07","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2023-01-01","elected":{"date":"2022-11-08","share":0.56}}
+  {"id":"term:seat:US-CO:treasurer:2025-01-20","seatId":"seat:US-CO:treasurer","officeId":"office:US-CO:treasurer","personId":"official:term:seat:US-CO:treasurer:2025-01-20","identity":{"givenName":"Paula","familyName":"Tucker","gender":"female","birthDate":"1963-01-13","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2027-01-01","endEstimated":true,"reached":"in office at the opening","status":"serving","serviceStart":"2011-01-01","elected":{"date":"2022-11-08","share":0.56}}
+
+## core2-offices-v1.terms: 171 of 265
+  {"id":"term:seat:US-CO:lower:003:0:2025-01-20:past:2","seatId":"seat:US-CO:lower:003:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Allison","familyName":"Tyler","gender":"female","birthDate":"1995-05-07","homeState":"US-CO"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-CO:lower:003:0:2025-01-20:past:1","seatId":"seat:US-CO:lower:003:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Allison","familyName":"Tyler","gender":"female","birthDate":"1995-05-07","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-CO:lower:004:0:2025-01-20:past:2","seatId":"seat:US-CO:lower:004:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Frank","familyName":"Thompson","gender":"male","birthDate":"1948-06-27","homeState":"US-CO"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-CO:lower:004:0:2025-01-20:past:1","seatId":"seat:US-CO:lower:004:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Frank","familyName":"Thompson","gender":"male","birthDate":"1948-06-27","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-CO:lower:005:0:2025-01-20:past:2","seatId":"seat:US-CO:lower:005:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Suzanne","familyName":"Sellers","gender":"female","birthDate":"1954-04-27","homeState":"US-CO"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-CO:lower:005:0:2025-01-20:past:1","seatId":"seat:US-CO:lower:005:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Suzanne","familyName":"Sellers","gender":"female","birthDate":"1954-04-27","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-CO:lower:006:0:2025-01-20:past:2","seatId":"seat:US-CO:lower:006:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Terry","familyName":"Schneider","gender":"female","birthDate":"1956-01-28","homeState":"US-CO"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-CO:lower:006:0:2025-01-20:past:1","seatId":"seat:US-CO:lower:006:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Terry","familyName":"Schneider","gender":"female","birthDate":"1956-01-28","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-CO:lower:007:0:2025-01-20:past:2","seatId":"seat:US-CO:lower:007:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Ann","familyName":"Garza","gender":"female","birthDate":"1963-10-02","homeState":"US-CO"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-CO:lower:007:0:2025-01-20:past:1","seatId":"seat:US-CO:lower:007:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Ann","familyName":"Garza","gender":"female","birthDate":"1963-10-02","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+  {"id":"term:seat:US-CO:lower:010:0:2025-01-20:past:2","seatId":"seat:US-CO:lower:010:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Brandon","familyName":"Parks","gender":"male","birthDate":"1987-04-09","homeState":"US-CO"},"party":"Democratic","startDate":"2021-01-01","endDate":"2023-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2020-11-03","share":0.635}}
+  {"id":"term:seat:US-CO:lower:010:0:2025-01-20:past:1","seatId":"seat:US-CO:lower:010:0","officeId":"office:US-CO:legislature-lower","identity":{"givenName":"Brandon","familyName":"Parks","gender":"male","birthDate":"1987-04-09","homeState":"US-CO"},"party":"Democratic","startDate":"2023-01-01","endDate":"2025-01-01","endEstimated":true,"reached":"elected","status":"ended","serviceStart":"2021-01-01","endedBy":"re-elected","elected":{"date":"2022-11-08","share":0.635}}
+
+## core2-elections-v1.contests: 0 of 34
+
+## core2-elections-v1.vacancies: Unregistered module table: vacancies
+
+## core2-voting-v1.contests: Unregistered module table: contests
+
+## core2-voting-v1.filings: Unregistered module table: filings
+
+## core2-voting-v1.campaigns: Unregistered module table: campaigns
+
+## core2-executive-v1.offices: Unregistered module table: offices
+
+## core2-executive-v1.terms: Unregistered module table: terms
+
+## core2-legislature-v1.governments: Unregistered module table: governments
+
+## core2-legislature-v1.budgets: Unregistered module table: budgets
+
+## bills by body and introduction date (92 bills)
+  office:US-CO:legislature-lower 2025-05-07: 50
+  office:US-CO:legislature-lower 2025-07-01: 1
+  office:US-CO:us-house 2025-10-01: 1
+  office:US-CO:us-house 2025-12-15: 24
+  office:gus2025:161412:council 2025-02-04: 4
+  office:gus2025:161412:council 2025-02-19: 1
+  office:gus2025:161412:council 2025-03-06: 2
+  office:gus2025:161412:council 2025-07-04: 1
+  office:gus2025:161412:council 2025-09-02: 1
+  office:gus2025:161412:council 2025-09-17: 1
+  office:gus2025:161412:council 2025-11-16: 1
+  office:gus2025:161412:council 2025-12-31: 1
+  office:gus2025:161412:council 2026-01-01: 1
+  office:gus2025:161412:council 2026-01-15: 1
+  office:gus2025:212872:board 2025-02-04: 1
+  office:gus2025:212872:board 2026-01-01: 1
+## bills by body and status
+  office:US-CO:legislature-lower enacted: 12
+  office:US-CO:legislature-lower failed: 38
+  office:US-CO:legislature-lower vetoed: 1
+  office:US-CO:us-house enacted: 5
+  office:US-CO:us-house failed: 20
+  office:gus2025:161412:council enacted: 6
+  office:gus2025:161412:council failed: 8
+  office:gus2025:212872:board enacted: 1
+  office:gus2025:212872:board failed: 1
+## sample federal bill
+  {"id":"bill:office:US-CO:us-house:2025-10-01:official:term:seat:US:president:2025-01-20:62","number":"2025-001","bodyOfficeId":"office:US-CO:us-house","sponsorId":"official:term:seat:US:president:2025-01-20","introduced":"2025-10-01","deals":[],"provisions":[{"kind":"budget-line","line":"agriculture","value":4019766937},{"kind":"budget-line","line":"transportation","value":11879349984},{"kind":"budget-line","line":"otherPrograms","value":-49729324339}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""},{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"enacted","kind":"budget"}
+## sample state bill
+  {"id":"bill:office:US-CO:legislature-lower:2025-05-07:official:term:seat:US-CO:lower:063:0:2025-01-20:8","number":"2025-001","bodyOfficeId":"office:US-CO:legislature-lower","sponsorId":"official:term:seat:US-CO:lower:063:0:2025-01-20","introduced":"2025-05-07","deals":[],"provisions":[{"kind":"policy-question","question":"us-policy-positions:civil-family-community.restrict-abortion","value":1}],"costEstimate":{"workersRaised":0,"annualPayMinor":0,"note":"no pay effect"},"authority":[{"allowed":true,"warning":"none","reason":"within-own-power","source":""}],"status":"failed"}
+
+## federal and state log kinds: vote-recorded=72, committee-hearing=55, case.made=45, legislative-vote=44, bill-held-in-committee=40, budget-line-changed=35, law-took-effect=32, chamber-organized=5, budget-adopted=2, inauguration=1, president.address=1, recall-petition=1, drive.formed=1
+
+## budget-adopted (2)
+  2025-07-01 {"governmentId":"US-CO","fiscalYear":"2025","adoptedBy":"the legislature vote 43-22, 23-12, 2025-051"}
+  2025-10-01 {"governmentId":"US","fiscalYear":"2025","adoptedBy":"Congress vote 259-174, 74-26 (amended: nationalDefense, communityAndRegionalDevelopment, incomeSecurity, internationalAffairs, medicare, education, health dropped), 2025-001"}
+
+## chamber-organized (5)
+  2025-01-20 {"speaker":"official:seat:US-TX:us-house:04","majority-leader":"official:seat:US-IN:us-house:08","minority-leader":"official:seat:US-MA:us-house:08","majority-whip":"official:seat:US-KY:us-house:04","minority-whip":"official:seat:US-MS:us-house:02"}
+  2025-01-20 {"president-pro-tempore":"official:seat:US-MS:us-senate:1","majority-leader":"official:seat:US-MO:us-senate:0","minority-leader":"official:seat:US-WA:us-senate:1","majority-whip":"official:seat:US-WV:us-senate:1","minority-whip":"official:seat:US-DE:us-senate:0"}
+  2025-01-20 {"speaker":"official:term:seat:US-CO:lower:004:0:2025-01-20","majority-leader":"official:term:seat:US-CO:lower:006:0:2025-01-20","minority-leader":"official:term:seat:US-CO:lower:016:0:2025-01-20","majority-whip":"official:term:seat:US-CO:lower:005:0:2025-01-20","minority-whip":"official:term:seat:US-CO:lower:022:0:2025-01-20"}
+  2025-01-20 {"president-pro-tempore":"official:term:seat:US-CO:upper:014:0:2025-01-20","majority-leader":"official:term:seat:US-CO:upper:022:0:2025-01-20","minority-leader":"official:term:seat:US-CO:upper:006:0:2025-01-20","majority-whip":"official:term:seat:US-CO:upper:034:0:2025-01-20","minority-whip":"official:term:seat:US-CO:upper:030:0:2025-01-20"}
+  2025-12-15 {"council-president":"official:term:seat:US-CO:us-house:08:2025-01-20"}
+
+done 2.1 min
