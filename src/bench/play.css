@@ -1537,3 +1537,21 @@ body.dev .dev-ring {
   display: grid;
   gap: 6px;
 }
+
+/* Who you are: the character screen's portrait and name. */
+.character {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  column-span: all;
+}
+.character .portrait {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border: 1px solid var(--gold);
+}
+.character .name {
+  font: 600 22px var(--name);
+}

@@ -88,5 +88,14 @@
     "watch": "Watching the world without a player is not on the new core yet.",
     "saves": "Saved games come with the save format at early-access preparation.",
     "patchNotes": "Patch notes have no page on the new core yet."
+  },
+  "who": {
+    "age": "Age",
+    "born": "Born",
+    "home": "Home",
+    "householdHome": "Your household's home",
+    "work": "Work",
+    "school": "School",
+    "money": "Money"
   }
 }

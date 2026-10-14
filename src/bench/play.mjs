@@ -1381,38 +1381,65 @@ const sheets = {
     const step = progress.steps.find(
       (row) => row.step === progress.furthestReachedStep,
     );
+    const words = controls.who ?? {};
     // The engine's raw measures, for the bench only.
     const dev = (line) => {
       line.classList.add("dev-only");
       return line;
     };
+    const born = new Date(`${c.birthDate}T12:00:00Z`).toLocaleDateString(
+      "en-US",
+      { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
+    );
+    // Work if there is a job, else the latest school on the record.
+    const school = c.schools?.at(-1);
+    const occupation = c.job
+      ? `${c.job.title}${c.job.employer ? `, ${c.job.employer}` : ""}`
+      : school?.name;
     return [
-      dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
-      row("Born", c.birthDate),
-      row(
-        "Home",
-        c.home?.members
-          .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
-          .join(", "),
+      el(
+        "div",
+        { className: "character" },
+        me.portrait
+          ? el("img", {
+              className: "portrait",
+              src: `/api/portrait?id=${encodeURIComponent(me.id)}`,
+              alt: c.name,
+            })
+          : "",
+        el("b", { className: "name", textContent: c.name }),
       ),
+      row(words.age ?? "", c.age),
+      row(words.born ?? "", born),
+      row(
+        words.home ?? "",
+        [
+          me.placeName,
+          ...(c.home?.members ?? []).map(
+            (m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`,
+          ),
+        ].join(", "),
+      ),
+      ...(occupation
+        ? [row(c.job ? (words.work ?? "") : (words.school ?? ""), occupation)]
+        : []),
+      row(words.money ?? "", dollars(c.liquidMinor)),
+      dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
       dev(row("Mood", c.affect?.mood?.toFixed(2))),
       dev(row("Stress", c.affect?.stress?.toFixed(2))),
-      ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
-      ...c.lawEffects
-        .filter((e) => !e.endedOn)
-        .map((e) =>
-          row(
-            policyLabel(e.question),
-            `${e.what} · ${e.enforcer} · ${e.since}`,
-          ),
-        ),
+      ...c.drives.map((d) =>
+        dev(row(d.kind, `${d.topic} · ${d.desiredChange}`)),
+      ),
     ];
   },
   async money() {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
-      ...(me.card.dwelling
+      ...(me.card.dwelling && me.card.age < 18
+        ? [row(controls.who?.householdHome ?? "", me.placeName)]
+        : []),
+      ...(me.card.dwelling && me.card.age >= 18
         ? [
             row(
               me.card.dwelling.tenure === "own" ? "Own" : "Rent",
@@ -1772,30 +1799,37 @@ const sheets = {
   },
   async law() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    return v.law.map((law) =>
-      el(
-        "div",
-        { className: "row narrative" },
-        termLabel(policyLabel(law.series)),
-        ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+    // What the law in force puts on your own record.
+    const yours = me.card.lawEffects
+      .filter((e) => !e.endedOn)
+      .map((e) => row(policyLabel(e.question), `${e.what} · ${e.since}`));
+    return [
+      ...yours,
+      ...v.law.map((law) =>
         el(
           "div",
-          {},
-          ...law.levels
-            .filter((level) => level.row)
-            .map((level) =>
+          { className: "row narrative" },
+          termLabel(policyLabel(law.series)),
+          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+          el(
+            "div",
+            {},
+            ...law.levels
+              .filter((level) => level.row)
+              .map((level) =>
+                el("div", {
+                  textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+                }),
+              ),
+            ...law.pending.map((row) =>
               el("div", {
-                textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
-          ...law.pending.map((row) =>
-            el("div", {
-              textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
-            }),
           ),
         ),
       ),
-    );
+    ];
   },
   async changes() {
     const { ahead, took } = await api(
