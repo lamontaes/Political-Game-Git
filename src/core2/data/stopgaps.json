@@ -3862,5 +3862,65 @@
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"
+  },
+  {
+    "id": "SG-STATE-office-day-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-state.ts",
+    "line": 26,
+    "whatItFakes": "The state officeholder's day runs on this file's own small module: tomorrow's entries are scheduled the evening before, and any the player has not done by the morning, a stop included, the character does on its own (a stop that lapses is marked so).",
+    "why": "OFFICE-LOCAL's office-day engine (src/core2/modules/office-day.ts), which pauses the clock on a stop, is not on main yet; the package says build against the smallest stand-in meanwhile.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "The office-day engine's calendar, stop and simulate-or-do loop, with the state's entries and acts from this file as its rows.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STATE-district-casework-routing",
+    "kind": "missing-mechanic",
+    "file": "src/core2/office-day-state.ts",
+    "line": 620,
+    "whatItFakes": "District office hours decide only the cases already open for the state legislator, and the constituent-cases engine routes residents' problems to council members and the mayor only, so a state legislator's office receives none.",
+    "why": "Routing is the constituent-cases engine's (OPUS-GOV); forking it here would make a second engine.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "The constituent-cases engine routes a resident's problem to the state legislator whose district covers them as well as to local officials, by the same choice of whom they know best.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STATE-line-item-veto-engine",
+    "kind": "missing-mechanic",
+    "file": "src/core2/office-day-state.ts",
+    "line": 690,
+    "whatItFakes": "Where the place's governor has a line-item veto (data/office-day/state-line-item-veto.json, cited), a budget bill on the desk is still signed or vetoed whole; the item veto is read and recorded as a reason only.",
+    "why": "The legislature engine's desk takes a whole-bill decision; striking or reducing items, and the override vote on an item, are OPUS-GOV's to build.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "An item veto in the legislature engine: the executive strikes (or reduces, where the data allows) budget lines, each item goes back for its override vote at the data's share, and the budgets engine adopts what stands.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STATE-desk-own-choice",
+    "kind": "estimated-behavior",
+    "file": "src/core2/office-day-state.ts",
+    "line": 871,
+    "whatItFakes": "A bill on the player's desk that the character decides on its own is signed when the character's position plus their traits' lean toward signing is not negative; the legislature engine's own rule for any other executive also weighs how settled the law is.",
+    "why": "That rule is internal to the legislature engine (OPUS-GOV); this file reads only what it exports.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "The legislature engine exports the executive's own choice on a bill, used for the player's character as for any executive.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STATE-dev-seat-player",
+    "kind": "missing-core-api",
+    "file": "src/core2/office-day-state.ts",
+    "line": 1074,
+    "whatItFakes": "Dev mode's custom start as a sitting state officeholder ends the seat's serving term and writes the player's term into the offices engine's table directly, keeping the previous holder's party; it is not reached in ordinary play.",
+    "why": "The offices engine has no exported way to seat a chosen person (its own seatResident is internal); the package's proof and the owner's play need a custom start today.",
+    "addedBy": "OFFICE-STATE",
+    "addedAt": "2026-10-14",
+    "replacement": "An offices-engine function to seat a chosen person for the rest of a term (OPUS-GOV), with the player's own party from the parties engine, called by dev mode.",
+    "status": "open"
   }
 ]

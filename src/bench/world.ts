@@ -52,6 +52,7 @@ import { initialFocusPeople } from "../core2/focus";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { openOfficeDayState } from "../core2/office-day-state";
 import { recordOpeningStory } from "../director/opening-story";
 import {
   applyWorldSettings,
@@ -339,6 +340,9 @@ function* benchWorldStages(
   openPress(core);
   openMeetings(core);
   openCases(core);
+  // A state officeholder's day: the session calendar, per diem and the
+  // acts of office (OFFICE-STATE), through the engines above.
+  openOfficeDayState(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
