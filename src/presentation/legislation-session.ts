@@ -36,7 +36,7 @@ import { legislativeRulePackForWorld } from "../simulation/legislative-procedure
 import { futureDueItemStateAt } from "../simulation/future-transitions";
 import { passOrdinaryDays } from "./ordinary-life";
 import { COMMITTEE_HEARING_TRANSITION_KEY } from "../simulation/legislation";
-import { daysBetween, spokenDate } from "../simulation/dates";
+import { daysBetween, spokenDate } from "../core2/kernel/dates";
 import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
 import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";

@@ -1,7 +1,7 @@
 /** Aggregate evidence only: never imported by actor rules. */
 import { readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
 import policies from "../../scripts/core2-guard/policies.json" with { type: "json" };
 import rates2023 from "../../data/research/renewal/natality-2023.json" with { type: "json" };

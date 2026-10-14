@@ -1,7 +1,7 @@
 import { lifeReplyLine, type LifeReplyKey } from "./life-reply-english";
 import type { ComposedPart } from "./english-composition";
 import { recordDurableDecisionTrace } from "../simulation/decisions";
-import { ageOnDate, daysBetween } from "../simulation/dates";
+import { ageOnDate, daysBetween } from "../core2/kernel/dates";
 import { personTrait } from "../simulation/people-traits";
 import { latestGoalStatesForPerson } from "../simulation/queries";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";

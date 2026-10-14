@@ -9,7 +9,7 @@ import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { ensurePeopleTraitCatalog } from "../../people-traits";
 import { personName } from "../../people";
-import { SeededRng } from "../../rng";
+import { SeededRng } from "../../../core2/kernel/rng";
 import { registeredTraitConsiderations } from "../../trait-readings";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";

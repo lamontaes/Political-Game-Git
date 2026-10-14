@@ -5,9 +5,9 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { lifePlaceByKey } from "../../simulation/life-places";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";

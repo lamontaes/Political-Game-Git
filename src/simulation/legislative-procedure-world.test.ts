@@ -11,7 +11,7 @@ import { rulePackById } from "./legislature-rule-packs";
 import { legislatureForState } from "./legislature-game-profile";
 import { stateJurisdictionForKey } from "./life-places";
 import { createWorld } from "./world";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 
 describe("saved active legislative procedure", () => {
   it("keeps every state's institutional structure and identifies game rules", () => {

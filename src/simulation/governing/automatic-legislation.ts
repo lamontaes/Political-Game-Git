@@ -15,7 +15,7 @@ import {
   draftScope,
   type CompiledBillDraft,
 } from "../legislation-drafting";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   introduceMeasure,
   measureActions,

@@ -1,5 +1,5 @@
 import { assertCatalogShape } from "./shape";
-import { makeIsoDate } from "../../simulation/dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { canonicalJson } from "../../simulation/canonical-json";
 import { assertDottedContentKey } from "../../simulation/taxonomy";
 import type { ReferenceCatalog, DateRange } from "./types";

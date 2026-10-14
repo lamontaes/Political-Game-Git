@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   SCHOOL_NAMES_V1,
   generateSchoolName,

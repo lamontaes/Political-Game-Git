@@ -13,7 +13,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import {
   initiatorFavour,
   hostDecidesToAsk,

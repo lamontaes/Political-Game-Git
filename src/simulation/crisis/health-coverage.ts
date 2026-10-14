@@ -34,7 +34,7 @@
  *   its own (Georgia Pathways).
  */
 import programs from "../../../data/research/money/public-programs-2026.json" with { type: "json" };
-import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
+import { ageOnDate, isoDateFromParts, yearOf } from "../../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   scheduleFutureDueItem,

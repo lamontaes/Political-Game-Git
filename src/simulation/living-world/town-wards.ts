@@ -4,8 +4,8 @@ import precinctPopulation from "../../districts/place-precinct-population.genera
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { recordsWithFieldValue } from "../history-index";
-import { governmentUnitsForState } from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { governmentUnitsForState } from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { householdMembershipsAt } from "../life-queries";
 import { primaryDwellingOf } from "../resource-queries";
 import { TOWN_HOMES_VERSION } from "./town-homes";

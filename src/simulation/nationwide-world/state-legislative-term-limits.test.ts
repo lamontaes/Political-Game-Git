@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { stateCandidacyPack } from "../candidacy-packs";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
 import {

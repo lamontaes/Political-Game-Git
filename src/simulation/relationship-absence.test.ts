@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { changeHealthState, beginHealthEpisode } from "./crisis/health";
 import { crisisRecords } from "./crisis/records";
-import { addDays, simulationMomentAtLocalTime } from "./dates";
+import { addDays, simulationMomentAtLocalTime } from "../core2/kernel/dates";
 import { createDemoWorld } from "./demo";
 import { createWorld, recordWorldEvent } from "./world";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   PROSECUTION_SENTENCED_EVENT,
   SENTENCE_KIND_TAG,

@@ -120,7 +120,7 @@ const contracts: readonly SkillContract[] = [
       "src/simulation/executive-authority-rule-packs.ts",
       "src/simulation/civil-personnel-contract.ts",
       "src/simulation/municipal-government.ts",
-      "src/simulation/government-units.ts",
+      "src/core2/reference/government-units.ts",
     ],
   },
   {

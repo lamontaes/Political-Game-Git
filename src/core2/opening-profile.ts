@@ -6,8 +6,8 @@
  * Each draw is keyed to the person and their home, never to who else was
  * built, so a person filled in later gets the same profile.
  */
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import profileJson from "./data/profile/parameters.json" with { type: "json" };
 import keysJson from "./data/views/ces-2024-views.json" with { type: "json" };

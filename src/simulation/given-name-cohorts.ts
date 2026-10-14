@@ -1,5 +1,5 @@
 import SSA_DECADES from "./given-names-by-decade.json" with { type: "json" };
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type { GenderIdentityKey, IsoDate } from "./types";
 
 /**

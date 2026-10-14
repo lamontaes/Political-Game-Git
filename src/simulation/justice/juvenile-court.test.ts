@@ -3,7 +3,7 @@ import { drawRandomPlace } from "../../../tests/support/random-place";
 import { assertWorldIntegrity } from "../world";
 
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { eligibleOffenders } from "../crime/offenders";
 import { recordHouseholdLocation } from "../life";

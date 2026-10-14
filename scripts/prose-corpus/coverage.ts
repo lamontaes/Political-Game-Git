@@ -127,7 +127,7 @@ const NON_PLAYER_FACING_FILES: readonly { match: string; reason: string }[] = [
     reason: "Serialization machinery.",
   },
   {
-    match: "src/simulation/ids",
+    match: "src/core2/kernel/ids",
     reason: "Identifier construction.",
   },
   {

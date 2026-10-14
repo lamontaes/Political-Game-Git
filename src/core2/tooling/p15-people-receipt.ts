@@ -7,7 +7,7 @@
  *     [--place <placeKey>] [--minimum <people>] [--out <file>]
  */
 import { writeFileSync } from "node:fs";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import {
   HOUSEHOLD_SHAPE_ORDER,
   householdMixForJurisdiction,

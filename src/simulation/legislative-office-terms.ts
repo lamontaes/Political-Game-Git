@@ -7,7 +7,7 @@ import {
 import { recordWorldEvent } from "./world";
 import { recordsWithFieldValue } from "./history-index";
 import { candidacyPackById, candidacyPacks } from "./candidacy-packs";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   electionContestById,
   electionContestResult,

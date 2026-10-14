@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { ageOnDate } from "./dates";
-import { createStableId } from "./ids";
+import { ageOnDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { createStartingPerson } from "./people";
 import { resolveStartingBirthday } from "./starting-birthday";
 import type { IsoDate } from "./types";

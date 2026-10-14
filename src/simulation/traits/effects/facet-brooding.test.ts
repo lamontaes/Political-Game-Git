@@ -4,7 +4,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../../presentation/new-game";
-import { addDays } from "../../dates";
+import { addDays } from "../../../core2/kernel/dates";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { ensureTraitDefinition } from "../../people-traits";
 import { personName } from "../../people";

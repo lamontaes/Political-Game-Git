@@ -1,7 +1,11 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate, simulationMomentOnLocalDate } from "../dates";
-import { createStableId } from "../ids";
+import {
+  addDays,
+  makeIsoDate,
+  simulationMomentOnLocalDate,
+} from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { createOrganization } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
 import { createLightweightPerson, personName } from "../people";

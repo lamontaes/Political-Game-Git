@@ -1,5 +1,5 @@
 import corpusJson from "../../data/research/places/local-institutions.json" with { type: "json" };
-import { countyGeoidsForPlace } from "./government-units";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   EMPTY_LOCAL_INSTITUTIONS,

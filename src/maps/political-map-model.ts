@@ -15,7 +15,7 @@ import {
 } from "../districts/place-membership";
 import { districtRecordId } from "../districts/query";
 import type { DistrictChamber } from "../districts/types";
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { electionContestResult } from "../simulation/election-contests";
 import { activeLegislativeTermEvidence } from "../simulation/legislative-office-terms";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";

@@ -3,7 +3,7 @@ import { personName } from "./people";
 import { STUDY_COLLABORATION_EVENT, STUDY_TAG } from "./people-study";
 import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
 

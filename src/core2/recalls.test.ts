@@ -18,7 +18,7 @@ import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { openRecalls, recallRule, recallsOf } from "./modules/recalls";
 import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "./reference/government-units";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

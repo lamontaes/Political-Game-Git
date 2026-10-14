@@ -18,7 +18,7 @@ import { loadedTraitRegistry } from "./trait-registry";
 import { traitDefinitionFromPack } from "./trait-packs";
 import { BARGAINING_ANSWER_REQUEST_DECISION } from "./legislative-bargaining-decisions";
 import { latestPersonalityTendency } from "./queries";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 
 function personId(world: World, index = 0): EntityId {
   const id = world.personOrder[index];

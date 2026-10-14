@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import table from "../../../data/research/justice/time-to-disposition-2026.json" with { type: "json" };
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { resolveFutureDueItemsThrough } from "../future-transitions";
 import { composeWorldTimeHandlers } from "../campaigns";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng, pickDistinct } from "../../core2/kernel/rng";
 import type { World } from "../types";
 import {
   PROSECUTION_CHARGED_EVENT,

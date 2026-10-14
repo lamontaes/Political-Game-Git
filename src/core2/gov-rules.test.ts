@@ -20,9 +20,9 @@ import {
   allGovernmentUnits,
   municipioUnit,
   type GovernmentUnitIdentity,
-} from "../simulation/government-units";
-import { makeIsoDate } from "../simulation/dates";
-import { SeededRng } from "../simulation/rng";
+} from "./reference/government-units";
+import { makeIsoDate } from "./kernel/dates";
+import { SeededRng } from "./kernel/rng";
 import * as oldBallot from "../simulation/municipal-ballot-rules";
 import * as oldElectionRules from "../simulation/municipal-election-rules";
 import * as oldTownCalendar from "../simulation/nationwide-world/town-election-calendar";

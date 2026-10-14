@@ -4,7 +4,7 @@ import {
   transitTerminationFixture,
 } from "../../tests/fixtures/transit-service-fixture";
 import { advanceWorld, assertWorldIntegrity } from "./world";
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { operativeDateInWorld } from "./governing/law-in-force";

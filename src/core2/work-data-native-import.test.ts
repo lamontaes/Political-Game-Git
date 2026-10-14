@@ -10,7 +10,7 @@ it("loads the production parallel entry points without cycling through work defa
     await Promise.all([
       "src/core2/population.ts", "src/core2/deep-past.ts",
       "src/core2/civic-inputs.ts", "src/core2/life.ts",
-      "src/simulation/dates.ts", "src/core2/state.ts",
+      "src/core2/kernel/dates.ts", "src/core2/state.ts",
     ].map(path => import(base + path)));
     const [leaf, work, data] = await Promise.all([
       import(base + "src/core2/work-data.ts"),

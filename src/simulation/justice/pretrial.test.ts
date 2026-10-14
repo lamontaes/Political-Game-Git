@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   LegislativeEnactmentRecord,

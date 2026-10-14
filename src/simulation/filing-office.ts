@@ -1,6 +1,6 @@
 import filingOffice from "../../data/research/elections/filing-office.json" with { type: "json" };
-import { countyGovernmentUnit } from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+import { countyGovernmentUnit } from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 import type { ElectionAdministrationModel } from "./municipal-election-rules";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";

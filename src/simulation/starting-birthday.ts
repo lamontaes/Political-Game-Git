@@ -1,4 +1,4 @@
-import { ageOnDate, isoDateFromParts, yearOf } from "./dates";
+import { ageOnDate, isoDateFromParts, yearOf } from "../core2/kernel/dates";
 import type { IsoDate } from "./types";
 
 /**

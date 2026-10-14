@@ -1,11 +1,11 @@
 /** Judicial office consumer. All durable facts use existing World stores. */
-import { addSimulationMinutes } from "./dates";
+import { addSimulationMinutes } from "../core2/kernel/dates";
 import {
   hasPersonDiscoveredEvidence,
   recordEvidenceArtifact,
   recordEvidenceDiscovery,
 } from "./evidence";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,

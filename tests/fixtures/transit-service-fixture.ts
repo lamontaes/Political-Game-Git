@@ -15,7 +15,7 @@ import {
 import { applyEnactedLawEffects } from "../../src/simulation/enacted-law-effects";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
-import { addDays } from "../../src/simulation/dates";
+import { addDays } from "../../src/core2/kernel/dates";
 import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_PROGRAM_KEY,

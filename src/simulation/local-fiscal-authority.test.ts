@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld } from "./demo";
-import { governmentUnit, governmentUnitsForPlace } from "./government-units";
+import {
+  governmentUnit,
+  governmentUnitsForPlace,
+} from "../core2/reference/government-units";
 import { requireLifePlace } from "./life-places";
 import {
   LOCAL_FISCAL_GAME_AUTHORITY_VERSION,

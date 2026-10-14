@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import stateSessionCalendar from "../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   nextSessionCalendarDate,

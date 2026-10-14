@@ -22,8 +22,11 @@ import {
   nationalEntityAvailableAt,
 } from "./national-elections";
 import { taxEntityAvailableAt, taxEntityExists } from "./tax-policy";
-import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
-import { createStableId } from "./ids";
+import {
+  makeIsoDate,
+  simulationMomentAtLocalTime,
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   incidentEntityAvailableAt,
   incidentEntityExists,

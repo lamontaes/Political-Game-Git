@@ -3,7 +3,7 @@ import { smallWorld } from "./fixtures/small-world";
 import {
   makeIsoDate,
   simulationMomentOnLocalDate,
-} from "../src/simulation/dates";
+} from "../src/core2/kernel/dates";
 import {
   createHousehold,
   startHouseholdMembership,
@@ -29,7 +29,7 @@ import {
   startTownLeases,
   townLeases,
 } from "../src/simulation/living-world/town-rent";
-import { SeededRng, pickDistinct } from "../src/simulation/rng";
+import { SeededRng, pickDistinct } from "../src/core2/kernel/rng";
 import {
   initializeLivingCostsFlow,
   livingCostsFlowFor,

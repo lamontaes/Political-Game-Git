@@ -4,7 +4,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import {
   ensurePeopleTraits,

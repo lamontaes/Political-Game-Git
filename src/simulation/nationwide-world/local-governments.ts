@@ -11,8 +11,8 @@ import {
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
   governmentUnitsForPlace,
-} from "../government-units";
-import type { GovernmentUnitIdentity } from "../government-units";
+} from "../../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { createOrganization } from "../life";
 import {
   lifePlaceByJurisdictionId,

@@ -5,7 +5,7 @@ import {
   type FutureTransitionHandlerRegistry,
   type World,
 } from "../simulation";
-import { addDays, daysBetween } from "../simulation/dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import { scheduledFutureDueItemsThrough } from "../simulation/future-transitions";
 import { PRESS_DESK_SWEEP_TRANSITION_KEY } from "../simulation/press";
 import type { InterruptionPreferences } from "./shell-navigation";

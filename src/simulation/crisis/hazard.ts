@@ -1,4 +1,9 @@
-import { addDays, dateAtAge, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  dateAtAge,
+  daysBetween,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import type { IsoDate } from "../types";
 import {
   doubledAgeYearHazard,

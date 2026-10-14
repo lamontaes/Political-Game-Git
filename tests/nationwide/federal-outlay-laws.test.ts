@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import outlayTerms from "../../data/research/federal/federal-outlay-terms-fy2025.json" with { type: "json" };
 import { FEDERAL_OUTLAYS } from "../../src/simulation/public-budgets/federal-budget-categories";
 
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   DEBT_LIMIT_CUTS_QUESTION,
   federalDeficitChangePctOfGdp,
@@ -12,7 +12,7 @@ import {
   federalAidFactor,
   INCREASE_FOREIGN_AID_QUESTION,
 } from "../../src/simulation/federal-outlay-laws";
-import { stableHash } from "../../src/simulation/ids";
+import { stableHash } from "../../src/core2/kernel/ids";
 import { createHistoryStore } from "../../src/simulation/history";
 import {
   lifePlaceStateIdentities,

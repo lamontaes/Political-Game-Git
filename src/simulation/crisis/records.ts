@@ -1,11 +1,11 @@
 import { MULTIPLIER_ONE } from "./hazard";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   appendedList,
   growingIndex,
   type GrowingIndexKind,
 } from "../history-index";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type { EntityId, IsoDate, World } from "../types";
 import { MORTALITY_CALIBRATION_CATEGORIES } from "./mortality-table";
 import {

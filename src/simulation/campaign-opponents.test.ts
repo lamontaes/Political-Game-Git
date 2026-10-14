@@ -45,7 +45,7 @@ import {
   requestedCampaignFieldGainBasisPoints,
 } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import { cancelFutureDueItem } from "./future-transitions";
 import * as decisions from "./decisions";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";

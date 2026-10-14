@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "../presentation/new-game";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { advanceWorld } from "./world";
 import {
   money,

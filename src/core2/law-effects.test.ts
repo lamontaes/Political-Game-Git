@@ -19,7 +19,7 @@ import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { effectsOn, openLawEffects } from "./modules/law-effects";
 import effects from "./data/laws/policy-effects.json" with { type: "json" };
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "./reference/government-units";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

@@ -4,7 +4,7 @@ import {
   addSimulationMinutes,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { filingOfficeForSeat, type FilingOffice } from "./filing-office";
 import {
   ensureLocalClerkForUnit,

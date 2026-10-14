@@ -1,7 +1,7 @@
 import { expect } from "vitest";
 import { smallWorld } from "./small-world";
 
-import { ageOnDate } from "../../src/simulation/dates";
+import { ageOnDate } from "../../src/core2/kernel/dates";
 
 import { recordKinship } from "../../src/simulation/life";
 import { recordTraitChange } from "../../src/simulation/people-traits";

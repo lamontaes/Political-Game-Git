@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import {
   buildDeepPast,
   DEFAULT_DEEP_PAST_DATA,

@@ -33,7 +33,7 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
   governmentUnitsForPlace,
-} from "../../simulation/government-units";
+} from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { registerPropertyTax } from "../housing-property-tax";
 import type { LawRowInput } from "../laws-starting";

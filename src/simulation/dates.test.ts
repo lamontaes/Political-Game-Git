@@ -5,7 +5,7 @@ import {
   completedMonthsBetween,
   makeIsoDate,
   spokenDate,
-} from "./dates";
+} from "../core2/kernel/dates";
 import type { IsoDate } from "./types";
 
 describe("simulation dates", () => {

@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { lifePlaceStateIdentities } from "../life-places";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
-import { pickDistinct, SeededRng } from "../rng";
+import { pickDistinct, SeededRng } from "../../core2/kernel/rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { seatedChamberForPack } from "./chamber-votes";
 

@@ -1,6 +1,6 @@
 import { US_CONGRESS_PACK_ID } from "../../src/simulation/congress-rule-pack";
-import { makeIsoDate } from "../../src/simulation/dates";
-import { createStableId } from "../../src/simulation/ids";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
+import { createStableId } from "../../src/core2/kernel/ids";
 import {
   compileBillDraft,
   type CompiledBillDraft,

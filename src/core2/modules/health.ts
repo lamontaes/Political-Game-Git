@@ -5,7 +5,7 @@ import {
   dateAtAge,
   daysBetween,
   makeIsoDate,
-} from "../../simulation/dates";
+} from "../kernel/dates";
 import {
   conditionHazard,
   startingConditionAssignments,
@@ -18,7 +18,7 @@ import {
 } from "../../simulation/crisis/hazard";
 import { SSA_2023_MAX_AGE } from "../../simulation/crisis/mortality-table";
 import { survivalThresholdFromDraws } from "../../simulation/crisis/fixed-point";
-import { stableHash } from "../../simulation/ids";
+import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import type { EntityId } from "../../simulation/types";
 import type {

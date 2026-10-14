@@ -5,8 +5,8 @@ import {
   dateAtAge,
   isoDateFromParts,
   yearOf,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   birthDateAtAge,
   inventedPersonAge,
@@ -20,7 +20,7 @@ import {
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
 import { requireStartingBirthday } from "./starting-birthday";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { generatePersonIdentity } from "./person-identity";
 import type {
   EducationFact,

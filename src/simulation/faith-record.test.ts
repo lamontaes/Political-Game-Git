@@ -14,7 +14,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { appendChildhoodEntry } from "./childhood-record";
 import { recordFamilyAddition } from "./people-family";
 import { currentFaithForPerson, faithRecordForPerson } from "./faith-record";

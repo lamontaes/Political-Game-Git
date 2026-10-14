@@ -36,7 +36,7 @@ import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
 } from "../../simulation/life-places";
-import { governmentUnit } from "../../simulation/government-units";
+import { governmentUnit } from "../reference/government-units";
 import type { EntityId } from "../../simulation/types";
 import {
   electionInYear,

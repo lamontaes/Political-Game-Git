@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createStableId, stableHash } from "./ids";
+import { createStableId, stableHash } from "../core2/kernel/ids";
 
 describe("stable entity IDs", () => {
   it("pins the version-one ID contract", () => {

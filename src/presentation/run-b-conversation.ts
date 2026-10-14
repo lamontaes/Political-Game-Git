@@ -16,7 +16,7 @@ import {
 } from "./subject-reply-english";
 import { linePartsTag } from "./english-composition";
 import type { ChoiceTruthDeclaration } from "./lie-marker";
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "../core2/kernel/ids";
 import { isContextualSceneProgress } from "./contextual-scenes";
 import {
   assertNpcAutonomousApplication,

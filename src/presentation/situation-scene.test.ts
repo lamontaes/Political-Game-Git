@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   activeWorkRelationshipsAt,
   workStatusHistory,

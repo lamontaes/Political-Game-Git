@@ -1,5 +1,9 @@
 import conditionPack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
-import { addDays, isoDateFromParts, makeIsoDate } from "../dates";
+import {
+  addDays,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import {
   scheduleFutureDueItem,
   scheduledFutureDueItemsThrough,

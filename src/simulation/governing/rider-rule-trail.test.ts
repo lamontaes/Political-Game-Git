@@ -3,7 +3,7 @@ import { bodyForChamber } from "../legislation-scenarios";
 import { offerFloorAmendment } from "../legislation";
 import { lifePlaceStateIdentities } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import type {
   EntityId,
   LegislativeMeasureRecord,

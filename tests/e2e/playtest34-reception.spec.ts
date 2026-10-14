@@ -12,7 +12,7 @@ import {
   answerCharacterBasics,
 } from "./support/creator";
 import { readReplaySetup } from "../../src/presentation/new-game-identity";
-import { simulationMinutesBetween } from "../../src/simulation/dates";
+import { simulationMinutesBetween } from "../../src/core2/kernel/dates";
 import type { World } from "../../src/simulation/types";
 
 async function payloads(page: Page) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate, addDays, ageOnDate } from "../dates";
+import { makeIsoDate, addDays, ageOnDate } from "../../core2/kernel/dates";
 import { lawInForce } from "../governing/law-in-force";
 import {
   createHousehold,

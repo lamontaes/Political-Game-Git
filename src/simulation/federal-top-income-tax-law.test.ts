@@ -27,7 +27,7 @@ import { isTerritory } from "./statutory-tax-rules";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { describe, expect, it } from "vitest";
 import { createHistoryStore } from "./history";
-import { daysBetween, makeIsoDate } from "./dates";
+import { daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
   federalIncomeTaxUnderLaw,
   withTopRate,

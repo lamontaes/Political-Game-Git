@@ -33,7 +33,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
   residentsRuntime,

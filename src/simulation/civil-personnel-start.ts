@@ -5,7 +5,7 @@ import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
 } from "./character-history";
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   createOrganization,
   createOrganizationParticipation,
@@ -14,7 +14,7 @@ import {
 } from "./life";
 import { workStatusAt } from "./life-queries";
 import { drawCanonicalNameForGender } from "./people";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
 import {

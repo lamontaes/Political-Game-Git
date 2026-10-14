@@ -4,7 +4,7 @@ import {
   enact,
   procedure,
 } from "../../../tests/fixtures/funded-service-fixture";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   lawExposuresOf,
   recordLawExposure,

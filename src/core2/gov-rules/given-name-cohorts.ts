@@ -2,7 +2,7 @@
  * Ported from the old engine's `given-name-cohorts.ts`.
  */
 import SSA_DECADES from "../../simulation/given-names-by-decade.json" with { type: "json" };
-import type { SeededRng } from "../../simulation/rng";
+import type { SeededRng } from "../kernel/rng";
 
 /**
  * Given names by the year a person was born.

@@ -11,7 +11,7 @@ import {
 } from "./campaigns";
 import { electionNightWitnesses } from "./speech-reception";
 import { workStatusAt } from "./life-queries";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { makeCurrencyCode } from "./resources";
 import { advanceWorld } from "./world";
 import { recordWorkStatus } from "./life";

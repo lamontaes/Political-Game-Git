@@ -18,7 +18,7 @@ import { enrichCivicInputs } from "../../src/core2/civic-inputs";
 import { buildDeepPast } from "../../src/core2/deep-past";
 import { buildPopulation } from "../../src/core2/population";
 import { lifePlaceByJurisdictionId } from "../../src/simulation/life-places";
-import { ageOnDate, makeIsoDate } from "../../src/simulation/dates";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { properName, spoken } from "../../src/director/words";
 import { composeGroundedLine } from "../../src/presentation/english-composition";
 import type { GroundedEnglishPacket } from "../../src/presentation/grounded-english";

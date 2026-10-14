@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../../simulation/dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { assertDottedContentKey } from "../../simulation/taxonomy";
 import { assertReferenceCatalog, compareIds, supportedOn } from "./catalog";
 import type {

@@ -1,4 +1,4 @@
-import { countyGeoidsForPlace } from "./government-units";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   COUNTY_HOME_VALUE_META,

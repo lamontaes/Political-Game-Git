@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addSimulationMinutes } from "../../../dates";
+import { addSimulationMinutes } from "../../../../core2/kernel/dates";
 import { lawExposuresFrom } from "../../../law-exposure";
 import { lifePlaceStateIdentities } from "../../../life-places";
 import { performScheduledActivity } from "../../../time-work";
@@ -15,8 +15,8 @@ import {
   LW08_LIBRARY_MATERIALS_ROW,
   resolveLw08LibraryMaterialsConsequences,
 } from "./index";
-import { addDays } from "../../../dates";
-import { stableHash } from "../../../ids";
+import { addDays } from "../../../../core2/kernel/dates";
+import { stableHash } from "../../../../core2/kernel/ids";
 import type { EntityId, Person, World } from "../../../types";
 
 const LIBRARY_FUNDING_QUESTION =

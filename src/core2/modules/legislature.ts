@@ -29,7 +29,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
-import { governmentUnitsForPlace } from "../../simulation/government-units";
+import { governmentUnitsForPlace } from "../reference/government-units";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";

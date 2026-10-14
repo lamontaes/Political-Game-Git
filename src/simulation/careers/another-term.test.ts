@@ -7,7 +7,7 @@ import {
 import { requireLocalityInState } from "../../presentation/new-game-geography";
 import { beginHealthEpisode, changeHealthState } from "../crisis/health";
 import { crisisRecords } from "../crisis/records";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import type { MatterResponseRecord } from "../press/records";
 import { recordWorldEvent } from "../world";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "../types";

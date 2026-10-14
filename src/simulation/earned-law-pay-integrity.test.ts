@@ -30,10 +30,10 @@ import { money, recordWorkCompensationTerms } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { workRoleAt } from "./life-queries";
 import { lawEffectStamp } from "./law-effect-stamp";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { assertWorldIntegrity } from "./world";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
-import { simulationMinutesBetween } from "./dates";
+import { simulationMinutesBetween } from "../core2/kernel/dates";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   validateEarnedLawPayAssessment,

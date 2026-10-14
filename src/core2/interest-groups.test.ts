@@ -28,7 +28,7 @@ import {
   openInterestGroups,
 } from "./modules/interest-groups";
 import { campaignParameter } from "./campaign-views";
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "./reference/government-units";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

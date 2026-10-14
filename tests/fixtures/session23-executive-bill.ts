@@ -21,7 +21,7 @@ import {
 } from "../../src/simulation/legislation";
 import { nextMeasureNumbering } from "../../src/simulation/measure-numbering";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
-import { daysBetween } from "../../src/simulation/dates";
+import { daysBetween } from "../../src/core2/kernel/dates";
 import { mayAnswerQuestion } from "../../src/simulation/governing/question-authority";
 import { advanceWorld, recordWorldEvent } from "../../src/simulation/world";
 import {

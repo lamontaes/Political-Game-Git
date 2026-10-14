@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { contactBases } from "./relationship-contact";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import {
   ensurePeopleTraits,
   notableQualityRoom,
@@ -18,7 +18,7 @@ import {
 } from "./people-upbringing";
 import { annualPovertyLineMinor } from "./household-pay";
 import { homeStateKey } from "./state-jurisdiction-id";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import {
   activeChildAuthoritiesAt,

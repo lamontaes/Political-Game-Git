@@ -1,5 +1,9 @@
-import { ageOnDate, isoDateFromParts, makeIsoDate } from "./dates";
-import type { SeededRng } from "./rng";
+import {
+  ageOnDate,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../core2/kernel/dates";
+import type { SeededRng } from "../core2/kernel/rng";
 import type { IsoDate } from "./types";
 
 /**

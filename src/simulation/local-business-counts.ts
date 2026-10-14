@@ -5,7 +5,7 @@ import {
   SALES_PER_EMPLOYEE_ROWS,
   STATE_BUSINESS_ROWS,
 } from "./local-business-counts.generated";
-import { countyLandSharesForPlace } from "./government-units";
+import { countyLandSharesForPlace } from "../core2/reference/government-units";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { placeReferencePopulation } from "./nationwide-world/place-population";
 import { NATIONAL_PLACES_ROWS } from "./national-places.generated";

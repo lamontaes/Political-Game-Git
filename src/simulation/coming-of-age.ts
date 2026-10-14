@@ -1,4 +1,4 @@
-import { dateAtAge } from "./dates";
+import { dateAtAge } from "../core2/kernel/dates";
 import { recordChildAuthorityState } from "./life";
 import { childAuthorityStateAt } from "./life-queries";
 import {

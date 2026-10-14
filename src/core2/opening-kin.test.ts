@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
-import { stableHash } from "../simulation/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";

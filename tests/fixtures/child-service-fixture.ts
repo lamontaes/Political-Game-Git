@@ -1,7 +1,7 @@
 import { smallWorld } from "./small-world";
 import { enactThroughDesk } from "./enact-through-desk";
 import { drawRandomPlace } from "../support/random-place";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   createHousehold,
   createOrganization,

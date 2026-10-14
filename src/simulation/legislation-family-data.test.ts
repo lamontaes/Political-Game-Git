@@ -15,7 +15,7 @@ import {
   TRANSIT_SERVICE_VARIANT,
   STATE_TRANSIT_SERVICE_QUESTION,
 } from "./legislation-transit-families";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { ResolvedParameters } from "./legislation-content-contracts";
 

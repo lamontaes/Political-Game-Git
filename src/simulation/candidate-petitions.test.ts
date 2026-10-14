@@ -4,7 +4,7 @@ import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { campaigns } from "./campaign-queries";
 import { electionContestById } from "./election-contests";
 import { establishDistrictResidence } from "./district-residence";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import {
   askToSign,

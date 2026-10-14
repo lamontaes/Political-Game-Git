@@ -1,9 +1,4 @@
-import {
-  addDays,
-  ageOnDate,
-  daysBetween,
-  makeIsoDate,
-} from "../simulation/dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import {
   bedroomsForHousehold,
   hudRentRowFor,

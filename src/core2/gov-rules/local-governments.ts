@@ -9,8 +9,8 @@ import {
   countyGovernmentUnit,
   countyGovernmentUnitsForPlace,
   governmentUnitsForPlace,
-} from "../../simulation/government-units";
-import type { GovernmentUnitIdentity } from "../../simulation/government-units";
+} from "../reference/government-units";
+import type { GovernmentUnitIdentity } from "../reference/government-units";
 import type { LifePlace } from "../../simulation/life-places";
 import {
   countyEquivalentTerm,

@@ -15,7 +15,7 @@ import {
 import { PARTY_AFFILIATION_KIND } from "./living-world/opening";
 import { describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { currentFederalTenure } from "./federal-tenures";
 import { lifePlaceStateIdentities } from "./life-places";
 import * as nationalOffice from "./national-election-consumer";
@@ -26,7 +26,7 @@ import {
 } from "./national-mood";
 import { officialOpinionSubject } from "./political-opinion-subjects";
 import { createFormationContext, recordPrivateBelief } from "./politics";
-import { pickDistinct, SeededRng } from "./rng";
+import { pickDistinct, SeededRng } from "../core2/kernel/rng";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { majorPartyOf } from "./statewide-electorate";
 import type { EntityId, World } from "./types";

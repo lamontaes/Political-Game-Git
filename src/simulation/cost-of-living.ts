@@ -3,7 +3,7 @@ import {
   LIVING_COSTS_CATEGORY_DATA,
   LIVING_COSTS_CATEGORY_SOURCES,
 } from "./living-costs-category-data";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   householdMembershipsAt,
   householdLocationAt,

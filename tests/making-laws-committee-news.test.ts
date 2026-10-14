@@ -21,7 +21,7 @@ import {
 } from "../src/simulation/legislation";
 import { nextMeasureNumbering } from "../src/simulation/measure-numbering";
 import { advanceWorld } from "../src/simulation/world";
-import { addDays } from "../src/simulation/dates";
+import { addDays } from "../src/core2/kernel/dates";
 import {
   serializeWorld,
   deserializeWorld,

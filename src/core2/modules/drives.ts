@@ -1,5 +1,5 @@
 import drivesJson from "../data/drives.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { availableActs } from "../life";
 import { extendData } from "../data";

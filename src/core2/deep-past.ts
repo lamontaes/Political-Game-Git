@@ -8,12 +8,12 @@ import {
   type OpeningPeerData,
 } from "./opening-peer-network";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
-import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
-import { countyGeoidsForPlace } from "../simulation/government-units";
+import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { countyGeoidsForPlace } from "./reference/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
-import { stableHash } from "../simulation/ids";
-import { SeededRng } from "../simulation/rng";
+import { stableHash } from "./kernel/ids";
+import { SeededRng } from "./kernel/rng";
 import { kindergartenYear, onCalendar } from "../simulation/school-calendar";
 import { SCHOOL_NAMES_V3 } from "../simulation/school-names";
 import type { EntityId } from "../simulation/types";

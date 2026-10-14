@@ -3,7 +3,7 @@ import filingOfficeData from "../../data/research/elections/filing-office.json" 
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { localGoverningBodiesForJurisdiction } from "./candidacy";
 import { filingOfficeForSeat } from "./filing-office";
-import { countyGovernmentUnit } from "./government-units";
+import { countyGovernmentUnit } from "../core2/reference/government-units";
 import { searchLifePlaces } from "./life-places";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 import { STATES } from "./state-reference";

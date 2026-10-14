@@ -31,7 +31,7 @@ import { generatePoliticalStartingConditions } from "../../src/simulation/world-
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../../src/simulation/world-setup/types";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import { createWorld } from "../../src/simulation/world";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   createHousehold,
   startHouseholdMembership,

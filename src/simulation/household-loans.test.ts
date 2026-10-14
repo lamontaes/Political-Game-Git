@@ -5,7 +5,7 @@ import {
 } from "../presentation/new-game";
 import type { NewGameSetup } from "../presentation/new-game";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import {
   debtStandingAt,
   householdLoanTotals,

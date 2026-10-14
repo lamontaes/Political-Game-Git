@@ -6,7 +6,7 @@
  *     [--place <placeKey>] [--minimum <people>] [--days <n>] [--out <file>]
  */
 import { writeFileSync } from "node:fs";
-import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { CLOSENESS, currentCloseness } from "../closeness";
 import { buildDeepPast } from "../deep-past";

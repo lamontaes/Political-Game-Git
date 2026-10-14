@@ -8,7 +8,7 @@ import {
   cancelFutureDueItem,
   futureDueItemStateAt,
 } from "./future-transitions";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   CONSUMER_LOAN_CAP_QUESTION,
   consumerLoanCapAt,

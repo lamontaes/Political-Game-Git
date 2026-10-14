@@ -1,5 +1,5 @@
 import { money } from "./resources";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { describe, expect, it } from "vitest";
 import { bindTaxLawTerms } from "./tax-law-term-binding";
 import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";

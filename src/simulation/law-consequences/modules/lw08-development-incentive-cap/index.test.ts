@@ -7,7 +7,7 @@ import {
   DEVELOPMENT_INCENTIVE_REGISTRATION,
   recordDevelopmentIncentiveAward,
 } from ".";
-import { stableHash } from "../../../ids";
+import { stableHash } from "../../../../core2/kernel/ids";
 import { lifePlaceStateIdentities } from "../../../life-places";
 import { createLawConsequenceRegistry } from "../../../law-consequence-registry";
 import { validateLawConsequences } from "../../../law-consequence-validation";

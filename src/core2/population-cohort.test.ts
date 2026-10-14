@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { householdMixForJurisdiction } from "../simulation/household-mix";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { parameter as p } from "./parameters";

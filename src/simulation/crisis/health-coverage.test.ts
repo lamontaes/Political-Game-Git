@@ -4,10 +4,15 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import data from "../../../data/research/laws/starting-law-2026/index";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduledFutureDueItemsThrough } from "../future-transitions";
 import { createCharacterHistoryContextPerson } from "../character-history";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,

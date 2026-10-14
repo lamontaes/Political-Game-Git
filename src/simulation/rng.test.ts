@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { SeededRng, normalizeSeed } from "./rng";
+import { SeededRng, normalizeSeed } from "../core2/kernel/rng";
 
 function take(rng: SeededRng, count: number): number[] {
   return Array.from({ length: count }, () => rng.nextUint32());

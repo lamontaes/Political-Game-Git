@@ -5,7 +5,7 @@ import {
 } from "../governing/final-law-term-query";
 import { eventById } from "../event-index";
 import { recordsByStringField } from "../history-index";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { spreadOf } from "../sample-spread";
 import {
   comparableAmountApplicabilityKey,

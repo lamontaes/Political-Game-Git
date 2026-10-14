@@ -4,8 +4,8 @@ import schoolAges from "../../../data/research/education/compulsory-school-ages-
 import agePlaceholderLedger from "../../../data/research/education/placeholder-ledger.json" with { type: "json" };
 import sourceLinks from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   CLEMENCY_GRANTED_EVENT,
   CLEMENCY_KIND_TAG,

@@ -24,7 +24,7 @@ import {
   type TraitResistance,
 } from "./trait-resistance";
 import { latestPersonalityTendency } from "./queries";
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
 

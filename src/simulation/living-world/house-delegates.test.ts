@@ -9,7 +9,7 @@ import {
   createNewGameWorld,
 } from "../../presentation/new-game";
 import { establishOpeningOfficeholders } from "../../presentation/opening-officeholders";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { advanceWorld } from "../world";
 import { nonvotingHouseMemberTitle } from "../state-reference";

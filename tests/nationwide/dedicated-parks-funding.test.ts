@@ -18,8 +18,8 @@ import {
   deserializeWorld,
   serializeWorld,
 } from "../../src/simulation/serialization";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
-import { stableHash } from "../../src/simulation/ids";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
+import { stableHash } from "../../src/core2/kernel/ids";
 import {
   lifePlaceByKey,
   searchLifePlaces,

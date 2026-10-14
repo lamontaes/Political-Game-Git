@@ -2,7 +2,7 @@ import { performance } from "node:perf_hooks";
 import { beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   currentFederalTenure,
   FEDERAL_TENURE_EVENT,

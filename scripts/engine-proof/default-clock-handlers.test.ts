@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { advanceWorld, createWorldId } from "../../src/simulation/world";
 import { advanceWorldMinutes } from "../../src/simulation/time-work";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import { createLightweightPerson } from "../../src/simulation/people";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { openCanonicalFixture, canonicalHash } from "./parity";

@@ -28,7 +28,7 @@ import { effectsOn, openLawEffects } from "./modules/law-effects";
 import { withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

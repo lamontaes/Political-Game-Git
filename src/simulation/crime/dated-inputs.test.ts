@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { recordHouseholdLocation } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { recordRelationshipInteraction } from "../records";
 import { recordPersonDeath } from "../vitality";
 import { recordWorldEvent } from "../world";

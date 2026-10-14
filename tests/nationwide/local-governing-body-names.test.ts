@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { governmentUnit } from "../../src/simulation/government-units";
+import { governmentUnit } from "../../src/core2/reference/government-units";
 import { localGoverningBodyName } from "../../src/simulation/nationwide-world/local-governing-body-names";
 import {
   localGoverningBodyCandidacyPack,

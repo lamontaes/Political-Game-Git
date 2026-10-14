@@ -1,7 +1,7 @@
-import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId, lifePlaceSearch } from "../life-places";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,

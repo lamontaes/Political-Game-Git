@@ -6,11 +6,11 @@ import {
   withBirthCohortGivenNamesForPeople,
 } from "./character-history";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "./government-units";
+} from "../core2/reference/government-units";
 import {
   LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
   localFiscalGameAuthorityForRulePackId,
@@ -31,7 +31,7 @@ import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
 } from "./people";
 import { generatePersonIdentity } from "./person-identity";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type { EntityId, World } from "./types";
 import { recordWorldEvent } from "./world";
 

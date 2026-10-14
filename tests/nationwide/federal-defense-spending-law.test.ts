@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   defenseBuildUpShare,
   defenseBoostPct,
   GROW_DEFENSE_SPENDING_QUESTION,
 } from "../../src/simulation/federal-defense-spending";
 import { createHistoryStore } from "../../src/simulation/history";
-import { stableHash } from "../../src/simulation/ids";
+import { stableHash } from "../../src/core2/kernel/ids";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import {

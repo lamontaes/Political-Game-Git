@@ -1,7 +1,7 @@
 import { afterAll, describe, expect, it } from "vitest";
 import { writeFileSync } from "node:fs";
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
-import { makeIsoDate, addDays, ageOnDate } from "../dates";
+import { makeIsoDate, addDays, ageOnDate } from "../../core2/kernel/dates";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   buildOpeningCourtCatalog,
@@ -10,7 +10,7 @@ import {
 } from "../judiciary/courts";
 import { courtFor } from "../judiciary/court-for";
 import { lifePlaceStateIdentities } from "../life-places";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng, pickDistinct } from "../../core2/kernel/rng";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
 import {

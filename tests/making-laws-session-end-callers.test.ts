@@ -11,7 +11,7 @@ import {
   measurePosition,
   introduceMeasure,
 } from "../src/simulation/legislation";
-import { addDays } from "../src/simulation/dates";
+import { addDays } from "../src/core2/kernel/dates";
 import {
   deserializeWorld,
   serializeWorld,

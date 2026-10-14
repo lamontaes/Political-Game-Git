@@ -20,18 +20,18 @@ import {
   daysBetween,
   isoDateFromParts,
   makeIsoDate,
-} from "../simulation/dates";
+} from "./kernel/dates";
 import {
   countyLandSharesForPlace,
   countyPopulationSharesForPlace,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
   type HouseholdMix,
   type HouseholdShape,
 } from "../simulation/household-mix";
-import { createStableId, stableHash } from "../simulation/ids";
+import { createStableId, stableHash } from "./kernel/ids";
 import {
   lifePlaceByKey,
   lifePlaceByJurisdictionId,
@@ -109,7 +109,7 @@ import {
 } from "../simulation/person-identity";
 import { birthCohortGivenName } from "../simulation/given-name-cohorts";
 import { inventedPersonBirthDate } from "../simulation/invented-person-age";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";

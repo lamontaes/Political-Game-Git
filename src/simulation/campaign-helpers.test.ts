@@ -26,7 +26,7 @@ import {
   helperAskConsiderations,
 } from "./campaign-helpers";
 import { recordRelationshipInteraction } from "./records";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import type { EntityId, World } from "./types";

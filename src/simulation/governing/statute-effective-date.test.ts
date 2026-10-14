@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
-import { isoDateFromParts, makeIsoDate } from "../dates";
+import { isoDateFromParts, makeIsoDate } from "../../core2/kernel/dates";
 import { rulePackById } from "../legislature-rule-packs";
 import { STATES } from "../state-reference";
 import {

@@ -1,5 +1,5 @@
 import type { EntityId, World } from "../simulation";
-import { addDays } from "../simulation/dates";
+import { addDays } from "../core2/kernel/dates";
 import { projectWorldRecap, type RecapEntry } from "./world-recap";
 
 /**

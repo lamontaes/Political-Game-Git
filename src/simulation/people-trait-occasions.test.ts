@@ -18,7 +18,7 @@ import {
   passOrdinaryDays,
 } from "../presentation/ordinary-life";
 import { assertWorldIntegrity, deserializeWorld, serializeWorld } from ".";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import type { EntityId, World } from "./types";
 
 /**

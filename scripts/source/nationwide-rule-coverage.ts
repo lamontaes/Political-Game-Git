@@ -24,7 +24,7 @@ import { dirname, resolve } from "node:path";
 
 import { toCanonicalJson } from "../../src/source/core/index";
 import { candidacyPacks } from "../../src/simulation/candidacy-packs";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import { draftingSupportsScenario } from "../../src/simulation/legislation-drafting";
 import { legislatureForState } from "../../src/simulation/legislature-game-profile";
 import { legislativePackForWorkKey } from "../../src/simulation/legislative-institutions";
@@ -32,7 +32,7 @@ import { legislativeWorkKey } from "../../src/simulation/legislative-work-key";
 import {
   GOVERNMENT_UNITS_META,
   allGovernmentUnits,
-} from "../../src/simulation/government-units";
+} from "../../src/core2/reference/government-units";
 import { municipalGovernments } from "../../src/simulation/municipal-government";
 import {
   STATES as STATE_REFERENCE,

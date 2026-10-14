@@ -9,7 +9,7 @@ import {
 import {
   addSimulationMinutes,
   compareSimulationMoments,
-} from "../simulation/dates";
+} from "../core2/kernel/dates";
 import { personName } from "../simulation/people";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { CHOSEN_TAG } from "../simulation/scheduled-activity-answer";

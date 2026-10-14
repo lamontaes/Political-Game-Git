@@ -1,4 +1,4 @@
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import { personalityTendencyHistory } from "./queries";
 import type { RegisteredTrait } from "./trait-packs";
 import type {

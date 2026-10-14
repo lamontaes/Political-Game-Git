@@ -4,11 +4,11 @@ import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
 } from "./character-history";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { createOrganization, createWorkRelationship } from "./life";
 import { drawCanonicalNameForGender } from "./people";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import {
   judicialOccupation,

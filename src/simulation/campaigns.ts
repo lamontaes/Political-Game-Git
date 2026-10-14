@@ -128,7 +128,7 @@ import {
   addDays,
   compareSimulationMoments,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   electionContestResult,
@@ -143,7 +143,7 @@ import {
   createFutureTransitionHandlerRegistry,
   scheduleFutureDueItem,
 } from "./future-transitions";
-import { createStableId, stableHash } from "./ids";
+import { createStableId, stableHash } from "../core2/kernel/ids";
 import {
   createOrganization,
   createOrganizationParticipation,
@@ -207,7 +207,7 @@ import {
   campaignRoutineSlots,
   routineIdOfActivity,
 } from "./campaign-routine";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   cancelScheduledActivity,
   controlledCommitmentsBlockingActivityPerformance,

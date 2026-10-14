@@ -1,5 +1,5 @@
 import kindsData from "../../../data/content/story-moment-kinds.json" with { type: "json" };
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
 import {
   appendedList,
   recordById,
@@ -9,7 +9,7 @@ import {
   annualizedRecordedPayMinor,
   recordedMonthlyPayByPerson,
 } from "../household-pay";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   activePartnershipsAt,
   householdMembershipsAt,

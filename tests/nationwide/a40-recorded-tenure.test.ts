@@ -5,7 +5,7 @@ import {
   createOrganization,
   createWorkRelationship,
 } from "../../src/simulation/life";
-import { addDays, daysBetween } from "../../src/simulation/dates";
+import { addDays, daysBetween } from "../../src/core2/kernel/dates";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import {
   startTownJobPay,
@@ -19,7 +19,7 @@ import {
   serializeWorld,
   deserializeWorld,
 } from "../../src/simulation/serialization";
-import { pickDistinct, SeededRng } from "../../src/simulation/rng";
+import { pickDistinct, SeededRng } from "../../src/core2/kernel/rng";
 import type { EntityId, World } from "../../src/simulation/types";
 import { personName } from "../../src/simulation/people";
 

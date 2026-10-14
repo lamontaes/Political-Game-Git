@@ -1,6 +1,6 @@
 import { ORDINANCE_MEASURE_TITLE } from "./measure-title";
-import { governmentUnit } from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+import { governmentUnit } from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import {
   knownRule,
   majorityOf,

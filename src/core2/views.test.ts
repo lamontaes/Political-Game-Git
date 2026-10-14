@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { stableHash } from "../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { stableHash } from "./kernel/ids";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";

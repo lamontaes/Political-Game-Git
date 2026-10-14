@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { applyLawConsequences } from "../enacted-law-effects";
-import { addSimulationMinutes } from "../dates";
+import { addSimulationMinutes } from "../../core2/kernel/dates";
 import { createOrganizationParticipation } from "../life";
 import { lifePlaceStateIdentities } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";

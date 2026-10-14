@@ -13,7 +13,7 @@ import {
 } from "../../src/simulation/crisis/hazard";
 import { STRAIN_THRESHOLD } from "../../src/simulation/crisis/mortality";
 import { ssa2023AnnualProbability } from "../../src/simulation/crisis/mortality-table";
-import { addDays, daysBetween } from "../../src/simulation/dates";
+import { addDays, daysBetween } from "../../src/core2/kernel/dates";
 import type { EntityId, IsoDate } from "../../src/simulation/types";
 
 /*

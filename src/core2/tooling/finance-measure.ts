@@ -12,7 +12,7 @@ import {
 import { dirname, relative, resolve, sep } from "node:path";
 import { performance } from "node:perf_hooks";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION } from "../data";
 import { createLifeCore } from "../life";
 import { createOpeningFinance } from "../opening-finance";
@@ -126,7 +126,7 @@ function economyRuntimeDependencies() {
   // County owner validation reads these runtime identity/geography dependencies.
   const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../../");
   return [
-    "src/simulation/government-units.ts",
+    "src/core2/reference/government-units.ts",
     "src/simulation/government-units.generated.ts",
     "src/simulation/place-county-relations.generated.ts",
     "src/simulation/national-counties.generated.ts",

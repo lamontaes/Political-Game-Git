@@ -2,7 +2,7 @@ import { expect, test } from "./fixtures";
 import { goTo, openNewsContext, saveLife } from "./support/creator";
 import { readSavedLegislativeWorld } from "./support/legislative-entry";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
-import { pickDistinct, SeededRng } from "../../src/simulation/rng";
+import { pickDistinct, SeededRng } from "../../src/core2/kernel/rng";
 
 const SEED = "news-player-read-20261001";
 const places = lifePlaceStateIdentities();

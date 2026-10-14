@@ -2,7 +2,7 @@
 import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "../simulation/names-data";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,

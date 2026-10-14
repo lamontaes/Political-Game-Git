@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "../presentation/new-game";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { createOrganization, createWorkRelationship } from "./life";
 import { resourcePositionAt } from "./resource-queries";
 import {

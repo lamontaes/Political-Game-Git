@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   lawInForce,
   lawInForceAtStart,
 } from "../../src/simulation/governing/law-in-force";
-import { stableHash } from "../../src/simulation/ids";
+import { stableHash } from "../../src/core2/kernel/ids";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,

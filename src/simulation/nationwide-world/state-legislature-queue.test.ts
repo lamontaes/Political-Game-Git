@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import { stateCandidacyPack } from "../candidacy-packs";
-import { addDays, simulationMomentOnLocalDate } from "../dates";
+import { addDays, simulationMomentOnLocalDate } from "../../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   resolveFutureDueItemsThrough,

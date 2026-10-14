@@ -1,6 +1,6 @@
 import market from "../../../data/research/money/cannabis-retail-market.json";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { createWorld } from "../world";
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { lawInForceAtStart } from "../governing/law-in-force";
@@ -8,7 +8,7 @@ import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "../life-places";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, World } from "../types";
 import { cannabisSalesRevenueChange } from "./cannabis-sales-revenue";
 import { CANNABIS_TAX_EFFECT } from "./rules";

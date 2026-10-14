@@ -45,7 +45,7 @@ import {
   DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
 } from "../simulation/education-study-terms";
 import type { AcceptedEducationTerms } from "../simulation/education-study-terms";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   finishedHighSchool,
   highSchoolEndsAt,

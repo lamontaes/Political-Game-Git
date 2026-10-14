@@ -21,7 +21,7 @@ import {
   openCases,
   problemOf,
 } from "./modules/constituent-cases";
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "./reference/government-units";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

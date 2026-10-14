@@ -47,7 +47,9 @@ async function seedSuppliedAlaskaSeat(page: Page) {
       "/src/presentation/browser-world-repository.ts",
     );
     const { advanceWorld } = await load("/src/simulation/world.ts");
-    const { daysBetween, makeIsoDate } = await load("/src/simulation/dates.ts");
+    const { daysBetween, makeIsoDate } = await load(
+      "/src/core2/kernel/dates.ts",
+    );
     const { createTaxTransitionHandlerRegistry } = await load(
       "/src/simulation/tax-policy.ts",
     );

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   allGovernmentUnits,
   governmentUnitsForPlace,
-} from "../../src/simulation/government-units";
+} from "../../src/core2/reference/government-units";
 import {
   TYPICAL_COUNCIL_SOURCE,
   localGoverningBodyReadSpread,

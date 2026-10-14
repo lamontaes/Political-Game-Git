@@ -6,7 +6,7 @@ import {
 import { MULTIPLIER_ONE } from "../simulation/crisis/hazard";
 import { doubledAgeYearHazard } from "../simulation/crisis/mortality-table";
 import { FIXED_SCALE } from "../simulation/crisis/fixed-point";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import type { EntityId } from "../simulation/types";
 import { advanceCore, createLifeCore } from "./life";
 import { createHealthModule, healthReport } from "./modules/health";

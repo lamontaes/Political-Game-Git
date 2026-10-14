@@ -1,6 +1,6 @@
 import pack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
-import { addDays, daysBetween } from "../dates";
-import { stableHash } from "../ids";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
+import { stableHash } from "../../core2/kernel/ids";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,

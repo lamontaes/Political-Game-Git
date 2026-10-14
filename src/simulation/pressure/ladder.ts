@@ -37,7 +37,7 @@ import { recordViolenceAttempt } from "../crisis/international";
 import { crisisRecords } from "../crisis/records";
 import type { PoliticalAttackIntentRecord } from "../crisis/types";
 import { currentGovernorOf } from "../crisis/offices";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateKeyForJurisdiction } from "../life-places";
 import {
   createIncidentCatalog,

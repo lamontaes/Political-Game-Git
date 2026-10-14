@@ -4,7 +4,7 @@ import { recordMediaPurchasePayment } from "./media-purchase-payment";
 import { recordWorldEvent } from "../world";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { requireLifePlace } from "../life-places";
 import { createLightweightPerson } from "../people";
 import { resourcePositionAt } from "../resource-queries";

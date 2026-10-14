@@ -1,4 +1,4 @@
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { realLocalities } from "../core2/places";
 import { buildPopulation } from "../core2/population";

@@ -1,5 +1,5 @@
 import { ensureCountyServiceAppropriations } from "../county-services";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { postFederalStateProgramPayments } from "../federal-state-program-payments";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type {

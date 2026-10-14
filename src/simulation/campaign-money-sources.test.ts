@@ -5,7 +5,7 @@ import {
   recordCampaignFundraiserReceipts,
 } from "./campaign-money-sources";
 import { createOrganization } from "./life";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { STATES } from "./state-reference";
 import { makeCurrencyCode } from "./resources";
 import {

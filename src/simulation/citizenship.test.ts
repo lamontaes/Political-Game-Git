@@ -11,7 +11,7 @@ import {
   citizenshipStatusOf,
   recordCitizenshipTransition,
 } from "./citizenship";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { searchLifePlaces } from "./life-places";
 import { createLightweightPerson, createStartingPerson } from "./people";
 import { deserializeWorld, serializeWorld } from "./serialization";

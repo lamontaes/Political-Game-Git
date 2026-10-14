@@ -24,7 +24,7 @@ import {
   reviseLoanTerms,
 } from "./household-loans";
 import { personName } from "./people";
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceWorld } from "./world";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import {

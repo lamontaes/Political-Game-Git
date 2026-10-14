@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { canonicalJson } from "./canonical-json";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   STATE_FUNDED_SERVICE_GAME_PROFILE_VERSION,
   stateFundedServiceGameProfileByRef,

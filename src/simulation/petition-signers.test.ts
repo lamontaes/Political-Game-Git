@@ -3,7 +3,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import stateRules from "../../data/research/elections/state-initiative-rules.json" with { type: "json" };
 import { generalElectionDay } from "./nominations/nomination-rules";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { lifePlaceStateIdentities } from "./life-places";
 import {
   petitionSignerEligibility,

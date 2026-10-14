@@ -6,14 +6,14 @@ import {
   type CharacterHistoryTransition,
   type ChildhoodGenerationVersion,
 } from "./character-history";
-import { dateAtAge } from "./dates";
+import { dateAtAge } from "../core2/kernel/dates";
 import { familyNameFromParent } from "./names-data";
 import {
   drawCanonicalNameForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   type GivenNameGenerationVersion,
 } from "./people";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type { EntityId, World } from "./types";
 
 export type EarlierLifeGenerationVersion = "context-v2";

@@ -12,7 +12,7 @@ const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 const { generatedOpening } = await at("src/core2/tooling/generated-world.ts");
 const { drawPlace } = await at("scripts/core2-year/place.ts");
 const { createLifeCore, advanceCore } = await at("src/core2/life.ts");
-const { addDays, makeIsoDate } = await at("src/simulation/dates.ts");
+const { addDays, makeIsoDate } = await at("src/core2/kernel/dates.ts");
 const seed = value(
   "--seed",
   process.env.GOLDEN_PATH_SEED ??

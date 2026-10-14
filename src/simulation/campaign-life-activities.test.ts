@@ -41,7 +41,7 @@ import {
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { latestSupportState } from "./campaign-support";
 import { searchLifePlaces, lifePlaceStateIdentities } from "./life-places";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { canonicalJson } from "./canonical-json";
 import { favorRecords } from "./favors";
 import { campaignCompliancePackFor } from "./campaign-compliance";
@@ -62,7 +62,7 @@ import {
   ageOnDate,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { publicPartyAffiliation } from "./living-world/congress";
 import {
   CHAPTER_MEMBERSHIP_KIND,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { allGovernmentUnits } from "../government-units";
+import { allGovernmentUnits } from "../../core2/reference/government-units";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";

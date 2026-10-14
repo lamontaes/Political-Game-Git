@@ -2,7 +2,7 @@ import {
   addDays,
   addSimulationMinutes,
   simulationMomentOnLocalDate,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import { createHash } from "node:crypto";
 import { writeCanonicalJson } from "../../src/simulation/canonical-json";
 import { createWorld, type CreateWorldInput } from "../../src/simulation/world";

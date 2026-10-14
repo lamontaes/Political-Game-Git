@@ -7,10 +7,10 @@ import {
   startHouseholdMembership,
 } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
-import { pickDistinct, SeededRng } from "./rng";
+import { pickDistinct, SeededRng } from "../core2/kernel/rng";
 import type { EntityId, World } from "./types";
 import { recordPersonDeath } from "./vitality";
 

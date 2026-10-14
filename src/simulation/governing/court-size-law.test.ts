@@ -7,7 +7,7 @@ import {
   dispositionsFromCounts,
   type LegislativeScenario,
 } from "../legislation-scenarios";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,

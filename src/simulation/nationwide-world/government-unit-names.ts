@@ -1,4 +1,4 @@
-import type { GovernmentUnitIdentity } from "../government-units";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 
 const LOWERCASE_WORDS = new Set(["of", "the", "and", "de", "la", "du"]);
 

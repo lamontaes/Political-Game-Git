@@ -21,7 +21,7 @@ import { STATES } from "./state-reference";
 import type { EntityId } from "./types";
 import { legislativeWorkKey } from "./legislative-work-key";
 import { townCouncilProfilePackById } from "./town-council-profile";
-import { governmentUnit } from "./government-units";
+import { governmentUnit } from "../core2/reference/government-units";
 import { localGovernmentJurisdiction } from "./nationwide-world/local-governments";
 export { legislativeWorkKey } from "./legislative-work-key";
 

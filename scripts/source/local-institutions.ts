@@ -15,7 +15,7 @@ import { NATIONAL_PLACES_ROWS } from "../../src/simulation/national-places.gener
 import {
   countyGeoidsForPlace,
   knownCountyGeoids,
-} from "../../src/simulation/government-units";
+} from "../../src/core2/reference/government-units";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import { readShapefileArchive } from "../maps/shapefile";
 import {

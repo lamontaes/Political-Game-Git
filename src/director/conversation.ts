@@ -12,7 +12,7 @@
  * its exact claim as a belief in everyone present, the director keeps it, and
  * anyone who knows the truth sets a believer straight when they next talk.
  */
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "../core2/kernel/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";

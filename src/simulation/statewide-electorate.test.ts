@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { stateJurisdictionForKey } from "./life-places";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executive-candidacy-packs";

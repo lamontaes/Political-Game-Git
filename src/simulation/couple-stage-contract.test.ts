@@ -4,10 +4,10 @@ import {
   coupleStageOptions,
   coupleYearsTogether,
 } from "./couple-stage-contract";
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { evaluateDecision } from "./decisions";
 import { createDemoWorld } from "./demo";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import type { DecisionEvaluation } from "./types";
 
 function actorPacket(

@@ -6,7 +6,7 @@ import {
   validatePreparedAppearance,
 } from "./engine-people29-data";
 import type { PersonAppearance, World } from "../simulation/types";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   componentsAtGeneration,
   projectCharacterLayers,

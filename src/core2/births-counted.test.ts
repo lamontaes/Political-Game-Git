@@ -7,7 +7,7 @@ import { createRenewalCore } from "./births-setup";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { residentCounts, residentPerson } from "./modules/residents";
 import { coreAPI, personOrFillIn } from "./state";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreInput, CoreState } from "./types";
 
 // One random place from all 56, named with its seed in the test title.

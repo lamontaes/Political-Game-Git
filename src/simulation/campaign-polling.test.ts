@@ -3,7 +3,7 @@ import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import { campaignPollingQuality, surveyWorkDays } from "./campaign-polling";
 import { candidacyPackForJurisdiction } from "./candidacy";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { createWorkRelationship } from "./life";
 import { createExplicitGeographyLife } from "../presentation/new-game-geography";
 import { fileForOffice } from "../presentation/campaign-projection";

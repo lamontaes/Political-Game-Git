@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { canonicalJson, writeCanonicalJson, writeJson } from "./canonical-json";
-import { createStableId, createStableIdFromParts } from "./ids";
+import { createStableId, createStableIdFromParts } from "../core2/kernel/ids";
 import {
   collectJsonChunks,
   jsonChunksLength,

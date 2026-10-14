@@ -10,9 +10,9 @@ import {
   stateJurisdictionForKey,
 } from "../simulation/life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "../core2/reference/government-units";
 import { localGoverningBodyName } from "../simulation/nationwide-world/local-governing-body-names";
-import type { GovernmentUnitIdentity } from "../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import { organizationParticipationStateAt } from "../simulation/life-queries";
 import {
   homeLocalGovernmentUnits,

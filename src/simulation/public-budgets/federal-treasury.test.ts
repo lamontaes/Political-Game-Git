@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { stdout } from "node:process";
 import federalBudget from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { RAISE_TOP_FEDERAL_RATE_QUESTION } from "../federal-top-income-tax-law";
 import { GROW_DEFENSE_SPENDING_QUESTION } from "../federal-defense-spending";
 import { CUT_FARM_SUBSIDIES_QUESTION } from "../federal-farm-subsidy-law";
@@ -31,7 +31,7 @@ import {
 
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { lifePlaceStateIdentities } from "../life-places";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import { isTerritory } from "../statutory-tax-rules";
 import { createOrganization, createWorkRelationship } from "../life";
 import {

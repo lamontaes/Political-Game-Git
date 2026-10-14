@@ -1,4 +1,4 @@
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "../core2/kernel/rng";
 import {
   assertAppearanceMaterial,
   type AppearanceMaterial,

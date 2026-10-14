@@ -1,5 +1,5 @@
 import { tagEngineText } from "./runtime-text-origin";
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "../core2/kernel/ids";
 import type { EntityId } from "../simulation/types";
 
 /**

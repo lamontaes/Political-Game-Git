@@ -6,7 +6,7 @@ import {
   isoDateFromParts,
   makeIsoDate,
   yearOf,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import type { IsoDate } from "../types";
 
 /**

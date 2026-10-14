@@ -6,7 +6,7 @@ import { createHash } from "node:crypto";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { realLocalities } from "../core2/places";
 import { earliestPlayerStopV1 } from "../core2/player-v1";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";

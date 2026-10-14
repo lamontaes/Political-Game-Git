@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { jumpToDate } from "../../../tests/fixtures/due-item-clock";
 import { enactmentStatuteDateContext } from "../enacted-rule-changes";
 import { bodyForChamber } from "../legislation-scenarios";

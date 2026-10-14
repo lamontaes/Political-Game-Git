@@ -4,7 +4,7 @@ import { corePlaceByKey, corePlaceStateIdentities } from "./place-lookup";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import { createStableId } from "./kernel/ids";
 import { governmentUnitRecordedName } from "../simulation/nationwide-world/government-unit-names";
 import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";

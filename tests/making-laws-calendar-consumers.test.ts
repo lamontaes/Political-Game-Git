@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "./fixtures/small-world";
-import { addDays, makeIsoDate } from "../src/simulation/dates";
-import { governmentUnitsForState } from "../src/simulation/government-units";
+import { addDays, makeIsoDate } from "../src/core2/kernel/dates";
+import { governmentUnitsForState } from "../src/core2/reference/government-units";
 import { lifePlaceByKey } from "../src/simulation/life-places";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../src/simulation/nationwide-world/state-executive-candidacy-packs";
 import { drawLegislativeStartingProcedures } from "../src/simulation/legislative-starting-procedures";

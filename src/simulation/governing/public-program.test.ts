@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { money } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { advanceWorld } from "../world";

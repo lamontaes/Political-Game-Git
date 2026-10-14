@@ -15,7 +15,7 @@ import type { EntityId, World } from "../simulation";
 import { personName, spokenDate } from "../simulation";
 import { postedMeetingVoteSentence } from "../simulation/living-world/local-council-meetings";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
-import { governmentUnitJurisdictionId } from "../simulation/government-units";
+import { governmentUnitJurisdictionId } from "../core2/reference/government-units";
 import {
   organizationIdFor,
   sittingLocalOfficers,

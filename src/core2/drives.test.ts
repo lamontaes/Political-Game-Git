@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import {

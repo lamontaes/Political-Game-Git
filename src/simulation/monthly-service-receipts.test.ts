@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addSimulationMinutes } from "./dates";
+import { addSimulationMinutes } from "../core2/kernel/dates";
 import { childServiceFixture } from "../../tests/fixtures/child-service-fixture";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import {

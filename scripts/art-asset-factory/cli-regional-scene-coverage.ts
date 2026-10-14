@@ -20,7 +20,7 @@ import {
   validateRegionalSceneCoverage,
   type RegionalSceneCoverageDocument,
 } from "../../src/authoring/regional-scene-coverage";
-import { knownCountyGeoids } from "../../src/simulation/government-units";
+import { knownCountyGeoids } from "../../src/core2/reference/government-units";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 
 const repositoryRoot = process.cwd();

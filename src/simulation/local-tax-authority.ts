@@ -2,7 +2,7 @@ import matrix from "../../data/research/money/local-tax-authority-matrix.json" w
 import incomeScope from "../../data/research/money/local-income-tax-scope.json" with { type: "json" };
 import type { TaxPowerEvidence } from "./tax-types";
 import type { IsoDate } from "./types";
-import { governmentUnit } from "./government-units";
+import { governmentUnit } from "../core2/reference/government-units";
 import { municipalGovernmentByKey } from "./municipal-government";
 
 /**

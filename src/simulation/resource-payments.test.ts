@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
-import { makeIsoDate, simulationMomentOnLocalDate } from "./dates";
+import {
+  makeIsoDate,
+  simulationMomentOnLocalDate,
+} from "../core2/kernel/dates";
 import { createOrganization } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
-import { SeededRng, pickDistinct } from "./rng";
+import { SeededRng, pickDistinct } from "../core2/kernel/rng";
 import {
   createDatedCashPaymentReader,
   paymentFromDatedCash,

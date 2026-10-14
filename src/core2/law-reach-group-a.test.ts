@@ -54,7 +54,7 @@ import {
   SAME_DAY,
   termLimitReached,
 } from "./law-reach/group-a-voting";
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "./reference/government-units";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

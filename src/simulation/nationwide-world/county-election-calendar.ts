@@ -1,7 +1,7 @@
 import calendarProfiles from "../../../data/research/government/county-election-calendar-profiles.json" with { type: "json" };
 import stateSchedule from "../../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
-import { makeIsoDate } from "../dates";
-import type { GovernmentUnitIdentity } from "../government-units";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import type { IsoDate } from "../types";
 
 /** Calendar facts only. Neither a filing admission nor a district assignment. */

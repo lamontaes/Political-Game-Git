@@ -1,4 +1,4 @@
-import { addDays, ageOnDate } from "../dates";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
 import { recordDurableDecisionTrace, evaluateDecision } from "../decisions";
 import { crisisRecords } from "../crisis/records";
 import { recordByStableKey } from "../history-index";

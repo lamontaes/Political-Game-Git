@@ -5,7 +5,7 @@ import {
   campaignTreasuryPosition,
   campaigns,
 } from "../campaign-queries";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   evaluateDecision,
   isSelectedDecision,

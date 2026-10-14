@@ -4,7 +4,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "./life-places";
 import {
   GENERATED_GENDER_BASIS,
@@ -13,7 +13,7 @@ import {
   generatePersonIdentity,
   personGender,
 } from "./person-identity";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 
 /** ACS 2024 1-year, B01001, United States. */
 const ACS_FEMALE = 171_816_640;

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { lifePlaceStateIdentities } from "./life-places";
-import { SeededRng, pickDistinct } from "./rng";
+import { SeededRng, pickDistinct } from "../core2/kernel/rng";
 import { createOrganization } from "./life";
 import {
   createDwelling,
@@ -12,7 +12,7 @@ import {
   recordResourceTransferOutcome,
   money,
 } from "./resources";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
 import { serializeWorld, deserializeWorld } from "./serialization";
 

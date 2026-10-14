@@ -9,7 +9,7 @@ import {
   appendCrisisRecord,
   crisisRecordId,
 } from "../src/simulation/crisis/records";
-import { addDays, ageOnDate } from "../src/simulation/dates";
+import { addDays, ageOnDate } from "../src/core2/kernel/dates";
 import {
   createHousehold,
   createOrganization,
@@ -41,7 +41,7 @@ import {
   createHousingTenure,
   startDwellingOccupancy,
 } from "../src/simulation/resources";
-import { SeededRng, pickDistinct } from "../src/simulation/rng";
+import { SeededRng, pickDistinct } from "../src/core2/kernel/rng";
 import type { EntityId, World } from "../src/simulation/types";
 import { recordPersonDeath } from "../src/simulation/vitality";
 import { assertWorldIntegrity } from "../src/simulation/world";

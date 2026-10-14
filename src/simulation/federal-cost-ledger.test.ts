@@ -22,7 +22,7 @@ import { applyLegislativeStep } from "../presentation/legislation-session";
 import { federalProgramCostsForMonth } from "./federal-cost-ledger";
 import { EXPAND_PASSENGER_RAIL_QUESTION } from "./federal-passenger-rail";
 import { isLawEffectStamp } from "./law-effect-stamp";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   FEDERAL_OUTLAYS,
   openFederalTreasury,
@@ -34,7 +34,7 @@ import { drawRandomPlace } from "../../tests/support/random-place";
 import { createProductionWorldMetricCatalog } from "./production-catalog";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { decideAtDesk } from "../../tests/fixtures/enact-through-desk";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { currentPresidentOf } from "./crisis/offices";
 import {
   ensureNationalElectionJurisdiction,

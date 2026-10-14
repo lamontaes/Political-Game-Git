@@ -1,5 +1,5 @@
 import inputs from "../../data/research/money/historical-world-inputs.json" with { type: "json" };
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type { IsoDate } from "./types";
 
 export const HISTORICAL_WORLD_START_DATE = makeIsoDate(inputs.startDate);

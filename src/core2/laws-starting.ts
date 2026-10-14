@@ -11,7 +11,7 @@ import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import {
   countyGeoidsForPlace,
   governmentUnitsForPlace,
-} from "../simulation/government-units";
+} from "./reference/government-units";
 import { corePlaceByKey } from "./place-lookup";
 
 export type LawLevelName = "federal" | "state" | "county" | "city";

@@ -8,9 +8,12 @@
  * second calendar, relationship model, evidence store, or history.
  */
 
-import { compareSimulationMoments, sameSimulationMoment } from "./dates";
+import {
+  compareSimulationMoments,
+  sameSimulationMoment,
+} from "../core2/kernel/dates";
 import { recordEvidenceArtifact } from "./evidence";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   activeWorkRelationshipsAt,
   householdMembershipsAt,

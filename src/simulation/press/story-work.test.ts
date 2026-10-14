@@ -8,7 +8,7 @@ import {
 } from "../life";
 import { answerPressRequest, negotiateGroundRules } from "./sources";
 import { pressAnswerStance, projectPressDesk } from "./views";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {

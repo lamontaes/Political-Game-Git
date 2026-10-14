@@ -39,9 +39,9 @@ import {
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { ageOnDate, makeIsoDate } from "../dates";
+import { ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import { birthCohortGivenName } from "../given-name-cohorts";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import {
   createEducationEnrollment,
   createHousehold,
@@ -74,7 +74,7 @@ import {
   defaultPronounsForGender,
   generatePersonIdentity,
 } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EducationProgramKind,
   EntityId,

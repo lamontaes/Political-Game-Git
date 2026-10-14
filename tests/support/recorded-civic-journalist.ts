@@ -14,7 +14,7 @@ import {
   personName,
 } from "../../src/simulation/people";
 import { generatePersonIdentity } from "../../src/simulation/person-identity";
-import { SeededRng } from "../../src/simulation/rng";
+import { SeededRng } from "../../src/core2/kernel/rng";
 import type { EntityId, World } from "../../src/simulation/types";
 import {
   assertWorldIntegrity,

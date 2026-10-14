@@ -22,7 +22,7 @@ import {
   addDays,
   daysBetween,
   simulationMomentAtLocalTime,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import * as demo from "../../src/simulation/demo";
 import { advanceWorld } from "../../src/simulation/world";
 import type { IsoDate, World } from "../../src/simulation/types";

@@ -10,7 +10,7 @@ import {
 } from "../../justice/court-reasoning";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
-import { stableHash } from "../../ids";
+import { stableHash } from "../../../core2/kernel/ids";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import type { EntityId } from "../../types";

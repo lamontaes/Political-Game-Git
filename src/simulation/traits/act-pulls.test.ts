@@ -19,7 +19,7 @@ import { PERSONALITY_TRAIT_REGISTRY } from "../personality-trait-registry";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { latestPersonalityTendenciesForPerson } from "../queries";
 import { STORY_MOVES } from "../story/situations";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng, pickDistinct } from "../../core2/kernel/rng";
 import { traitDefinitionFromPack } from "../trait-packs";
 import { registeredTraitConsiderations } from "../trait-readings";
 import { loadedTraitRegistry } from "../trait-registry";

@@ -29,7 +29,7 @@ import {
   studyPeriodTuitionOutstanding,
   totalStudyPeriods,
 } from "./education-study-progression";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import { recordLifeCommitment } from "./life";
 import {
   lifePlaceStateIdentities,

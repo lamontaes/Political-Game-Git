@@ -9,7 +9,7 @@ import {
   expectedStart,
   latestApplicationStep,
 } from "../simulation/job-market";
-import { addDays, daysBetween } from "../simulation/dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import {
   holdsLease,
   nextRentDay,

@@ -30,7 +30,7 @@ import {
   NATIONAL_ELECTION_JURISDICTION,
 } from "../../src/simulation/national-election-geography";
 import { currentPresidentOf } from "../../src/simulation/crisis/offices";
-import { addDays, makeIsoDate } from "../../src/simulation/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   ensurePublicGovernmentAccount,
   publicTaxAccountForJurisdiction,

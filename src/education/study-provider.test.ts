@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { LEXINGTON_DEMO_CONTEXT } from "../simulation/demo-jurisdiction-context";
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";

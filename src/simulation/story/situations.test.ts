@@ -7,7 +7,7 @@ import {
 } from "../../presentation/new-game";
 import { SPEECH_ACTS } from "../../presentation/english-composition";
 import { passOrdinaryDays } from "../../presentation/ordinary-life";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   openOrdinaryLifeRecords,
   refreshLifeOpportunities,

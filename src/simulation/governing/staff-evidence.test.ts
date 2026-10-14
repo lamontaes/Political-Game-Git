@@ -7,10 +7,10 @@ import {
   requireLifePlace,
   searchLifePlaces,
 } from "../life-places";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
 import { personName } from "../people";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { createCandidates, currentGoverningOffices } from "./state-governing";
 import {

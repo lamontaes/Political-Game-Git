@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { stdout } from "node:process";
 import { personName } from "./people";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { annualTax } from "./income-tax-withholding";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
@@ -19,7 +19,7 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";
 import { lifePlaceStateIdentities } from "./life-places";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import { introduceMeasure } from "./legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import { legislativePackForJurisdiction } from "./legislative-institutions";

@@ -9,7 +9,7 @@ import {
   legislativeProcedureForJurisdiction,
   regularSessionYearForWorld,
 } from "../legislative-procedure-world";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
 import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };

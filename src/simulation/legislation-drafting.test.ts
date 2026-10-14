@@ -24,8 +24,8 @@ import {
 } from "./legislation-program-families";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { chamberDesignationPrefix } from "./legislature-rules";
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { legislativePackForWorkKey } from "./legislative-institutions";
 import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 

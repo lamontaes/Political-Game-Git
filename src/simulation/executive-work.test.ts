@@ -21,7 +21,7 @@ import {
   committeeHearingTransitionHandler,
 } from "./legislation";
 import { chamberByKey } from "./legislature-rules";
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 const AUTHORED = {
   method: "authored-fixture" as const,
@@ -63,7 +63,7 @@ import {
   createPartnership,
 } from "./life";
 import { EXECUTIVE_GOVERNING_KERNELS } from "./executive-governing-kernel-bank";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import type { World } from "./types";
 
 function officeWorld(jurisdictionKey = "US-KY", seed = "exec-work2") {

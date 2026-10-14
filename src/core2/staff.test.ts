@@ -25,7 +25,7 @@ import {
   staffCandidates,
   workOf,
 } from "./modules/staff";
-import { governmentUnitsForPlace } from "../simulation/government-units";
+import { governmentUnitsForPlace } from "./reference/government-units";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

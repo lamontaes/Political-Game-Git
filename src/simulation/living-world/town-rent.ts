@@ -78,10 +78,10 @@ import { recordedMonthlyPayByPerson } from "../household-pay";
  * left, since the town's vacant homes do not remember who left them.
  */
 
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { addDays, ageOnDate, makeIsoDate } from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { countyGeoidsForPlace } from "../government-units";
-import { createStableId } from "../ids";
+import { countyGeoidsForPlace } from "../../core2/reference/government-units";
+import { createStableId } from "../../core2/kernel/ids";
 import { createOrganization } from "../life";
 import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -121,7 +121,7 @@ import {
   recordResourceTransferOutcomes,
   type RecordResourceTransferOutcomeInput,
 } from "../resources";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,

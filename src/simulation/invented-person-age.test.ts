@@ -1,11 +1,11 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { electionProspectInput } from "./election-candidate-prospect";
 import { newMemberInput } from "./governing/office-continuity";
 import { createCandidates } from "./governing/state-governing";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   INVENTED_PERSON_AGE_WINDOWS,
   inventedPersonAge,
@@ -19,7 +19,7 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { drawNominee } from "./nationwide-world/presidential-turnover";
-import { SeededRng, pickDistinct } from "./rng";
+import { SeededRng, pickDistinct } from "../core2/kernel/rng";
 import {
   materializeTownHousehold,
   townHouseholdSkeleton,

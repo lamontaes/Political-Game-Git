@@ -4,8 +4,8 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { ensureOpeningJudiciary } from "../judiciary/opening";
 import { lifePlaceStateIdentities } from "../life-places";
-import { SeededRng, pickDistinct } from "../rng";
-import { addDays } from "../dates";
+import { SeededRng, pickDistinct } from "../../core2/kernel/rng";
+import { addDays } from "../../core2/kernel/dates";
 import {
   ensureTaxPublicAccount,
   publicTaxAccountForJurisdiction,

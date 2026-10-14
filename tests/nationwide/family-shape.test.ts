@@ -7,7 +7,7 @@ import {
   buildPreStartBackgroundWorld,
   finalizePreStartPlayer,
 } from "../../src/presentation/production-world";
-import { addDays, ageOnDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate } from "../../src/core2/kernel/dates";
 import { advanceWorld } from "../../src/simulation/world";
 import {
   drawFamilyShape,

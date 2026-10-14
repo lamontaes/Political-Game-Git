@@ -3,7 +3,7 @@ import {
   ageOnDate,
   compareSimulationMoments,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import {
   PUBLIC_MEETING_AGENDA,
   PUBLIC_MEETING_KEY,

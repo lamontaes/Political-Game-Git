@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import type { ArtifactLock } from "../../src/source/core/index";
 import { sourceDomain } from "../../src/source/domains/state-office-qualifications/index";
-import { makeIsoDate } from "../../src/simulation/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import { officeQualifications } from "../../src/simulation/office-qualification-rules";
 
 const root = resolve(import.meta.dirname, "../..");

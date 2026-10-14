@@ -13,9 +13,9 @@
  */
 import traitTable from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { OPENING_KIN } from "./opening-kin";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { PEOPLE_MIND_VERSION } from "../simulation/people-trait-definitions";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";

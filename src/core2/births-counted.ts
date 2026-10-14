@@ -10,9 +10,9 @@
  * world's seed, as all generation does. One row per place per month records
  * what moved; nothing is kept per counted person per day.
  */
-import { makeIsoDate } from "../simulation/dates";
-import { createStableId } from "../simulation/ids";
-import { SeededRng } from "../simulation/rng";
+import { makeIsoDate } from "./kernel/dates";
+import { createStableId } from "./kernel/ids";
+import { SeededRng } from "./kernel/rng";
 import { drawCanonicalNamedIdentity } from "../simulation/people";
 import { generatePersonIdentity } from "../simulation/person-identity";
 import {

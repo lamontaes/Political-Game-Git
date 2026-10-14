@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { addDays, makeIsoDate } from "../dates";
-import { SeededRng } from "../rng";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import { SeededRng } from "../../core2/kernel/rng";
 import {
   FIXED_LN2,
   FIXED_SCALE,

@@ -10,8 +10,8 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
   governmentUnitsForPlace,
-} from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+} from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import { countyGoverningBodyRules } from "./nationwide-world/county-governing-body-rules";
 import { typicalCouncilSeats } from "./nationwide-world/typical-council-size";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";

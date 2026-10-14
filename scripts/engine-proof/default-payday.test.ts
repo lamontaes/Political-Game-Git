@@ -14,7 +14,7 @@ import {
   addSimulationMinutes,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "../../src/simulation/dates";
+} from "../../src/core2/kernel/dates";
 import {
   enterLifePath,
   scheduleLifePathSession,

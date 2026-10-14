@@ -32,7 +32,7 @@ import {
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { decisionLean } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 

@@ -19,7 +19,7 @@
  */
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import { researchRuleTable } from "./research-rule-tables";
 import { activePartnershipsAt, householdMembershipsAt } from "./life-queries";
 import { childrenOf } from "./people-family";

@@ -2,7 +2,7 @@ import { writeFileSync } from "node:fs";
 import { afterAll, describe, expect, it } from "vitest";
 import { renderPlaceCountyModule } from "../../../scripts/source/export-place-county-relations";
 import { drawRandomPlace } from "../../../tests/support/random-place";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
@@ -30,7 +30,7 @@ import {
   countyGeoidsForPlace,
   countyPopulationSharesForPlace,
   PLACE_COUNTY_RELATIONS_META,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { PLACE_COUNTY_RELATIONS_ROWS } from "../place-county-relations.generated";
 import { outcomeFactor } from ".";
 

@@ -9,7 +9,7 @@ import {
 import { campaigns } from "./campaign-queries";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { requestedCampaignFieldGainBasisPoints } from "./campaigns";
-import { addDays, ageOnDate, makeIsoDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   createHousehold,
   recordHouseholdLocation,
@@ -17,7 +17,7 @@ import {
 } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import { recordRelationshipInteraction } from "./records";
-import { pickDistinct, SeededRng } from "./rng";
+import { pickDistinct, SeededRng } from "../core2/kernel/rng";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type {
   CampaignActionResultRecord,

@@ -3,7 +3,7 @@
  * state's one or two largest metros and the rest of the state, stepped after
  * each national month. A town's conditions combine the nation with its region.
  */
-import { countyPopulationSharesForPlace } from "../../simulation/government-units";
+import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
 import type { MacroMonth } from "../macro-model";

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { assertWorldIntegrity } from "./world";
 import { applyLawConsequences } from "./enacted-law-effects";
-import { addSimulationMinutes } from "./dates";
-import { stableHash } from "./ids";
+import { addSimulationMinutes } from "../core2/kernel/dates";
+import { stableHash } from "../core2/kernel/ids";
 import { lifePlaceStateIdentities } from "./life-places";
 import { activeOrganizationParticipationsAt } from "./life-queries";
 import { deserializeWorld, serializeWorld } from "./serialization";

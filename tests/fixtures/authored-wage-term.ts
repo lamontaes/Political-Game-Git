@@ -1,4 +1,4 @@
-import { createStableId } from "../../src/simulation/ids";
+import { createStableId } from "../../src/core2/kernel/ids";
 import { NATIONAL_ELECTION_JURISDICTION } from "../../src/simulation/national-election-geography";
 import {
   recordWorldEvent,

@@ -12,8 +12,8 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
-import { stableHash } from "../../simulation/ids";
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { stableHash } from "../kernel/ids";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };

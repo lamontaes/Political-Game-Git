@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { noticeLawPayChanges } from "./law-effects-noticed";
 import { money } from "./resources";
 import type { EntityId, World } from "./types";

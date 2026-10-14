@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween } from "../core2/kernel/dates";
 import { PUBLIC_PROGRAM_INSTALLMENT } from "./governing/public-program";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   createOrganization,
   createWorkRelationship,

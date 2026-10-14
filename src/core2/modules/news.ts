@@ -11,7 +11,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
-import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";

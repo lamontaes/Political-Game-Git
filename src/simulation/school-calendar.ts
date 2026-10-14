@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { EducationEnrollment, EntityId, IsoDate, World } from "./types";
 
 /**

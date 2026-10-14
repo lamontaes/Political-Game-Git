@@ -1,5 +1,5 @@
-import { ageOnDate, daysBetween } from "./dates";
-import { countyGeoidsForPlace } from "./government-units";
+import { ageOnDate, daysBetween } from "../core2/kernel/dates";
+import { countyGeoidsForPlace } from "../core2/reference/government-units";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,

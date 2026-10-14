@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { composeWorldTimeHandlers } from "../campaigns";
-import { daysBetween } from "../dates";
+import { daysBetween } from "../../core2/kernel/dates";
 import { memberBallotOn } from "../governing/member-ballots";
 import { councilFloorQuestion } from "../governing/council-lawmaking";
 import {
@@ -19,7 +19,7 @@ import {
   recordOfficeVoteInstruction,
   recordOfficeWorkflowPreference,
 } from "../office-workflow";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { townCouncilProfilePackId } from "../town-council-profile";

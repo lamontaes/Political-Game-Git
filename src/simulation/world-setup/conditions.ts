@@ -1,7 +1,7 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { researchedPublicCashOpeningProfile } from "../public-budgets/opening-cash-profile";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import {
   drawLegislativeStartingProcedures,
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,

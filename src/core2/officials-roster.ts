@@ -12,7 +12,7 @@
  */
 import officialsData from "./data/officials/officials.json" with { type: "json" };
 import axesJson from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import { partySide } from "./appointments";
 import {
   PLATFORM_QUESTIONS,

@@ -1,7 +1,7 @@
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { nationalMoodDemocraticShift } from "../national-mood";
 import { candidacyPackById } from "../candidacy-packs";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { decideAnotherTerm } from "../careers/another-term";
 import { legislativeTermDates } from "../legislative-office-terms";
 import {
@@ -22,7 +22,7 @@ import {
 } from "../living-world/opening";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { bindingFromIdentity } from "../../districts/query";
 import {
   legislativeTermLimitBar,

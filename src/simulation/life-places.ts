@@ -11,8 +11,8 @@ import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   NATIONAL_PLACES_META,
   NATIONAL_PLACES_ROWS,

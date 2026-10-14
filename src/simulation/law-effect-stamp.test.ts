@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type { LawInForce } from "./governing/law-in-force";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
 import type { LawEffectContext } from "./law-effect-stamp";

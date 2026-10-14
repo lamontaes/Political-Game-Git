@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { characterHistoryContextPersonId } from "../simulation/character-history";
-import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
   lifePlaceByKey,
   lifePlaces,

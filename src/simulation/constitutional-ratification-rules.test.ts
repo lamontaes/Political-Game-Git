@@ -11,7 +11,7 @@ import {
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
 } from "./constitutional-process";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { lifePlaceStateIdentities } from "./life-places";
 import { recordArticleVStateMemberVote } from "./living-world/federal-reform";
 import {
@@ -19,7 +19,7 @@ import {
   ensureNationalElectionJurisdiction,
 } from "./national-election-geography";
 import { ensureStateLegislatureOpening } from "./nationwide-world/state-legislature-opening";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, World } from "./types";
 import { seatedCongressChamber } from "./governing/congress-chambers";

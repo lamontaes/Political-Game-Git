@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { buildDeepPast, schoolOpenBy } from "./deep-past";
 import { buildPopulation } from "./population";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
-import { stableHash } from "../simulation/ids";
+import { stableHash } from "./kernel/ids";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,

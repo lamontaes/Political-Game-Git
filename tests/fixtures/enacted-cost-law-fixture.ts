@@ -1,4 +1,4 @@
-import { makeIsoDate, daysBetween } from "../../src/simulation/dates";
+import { makeIsoDate, daysBetween } from "../../src/core2/kernel/dates";
 import {
   availableMeasureSteps,
   introduceMeasure,

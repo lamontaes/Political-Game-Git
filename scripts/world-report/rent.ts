@@ -14,7 +14,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 import type { EntityId, IsoDate, World } from "../../src/simulation";
-import { addDays } from "../../src/simulation/dates";
+import { addDays } from "../../src/core2/kernel/dates";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { TOWN_HOME_EVENTS } from "../../src/simulation/living-world/town-homes";
 import {

@@ -22,7 +22,7 @@
 import data from "./data/opening-partnership.json" with { type: "json" };
 import { OPENING_KIN } from "./opening-kin";
 import { ssa2023AnnualProbability } from "../simulation/crisis/mortality-table";
-import { SeededRng } from "../simulation/rng";
+import { SeededRng } from "./kernel/rng";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 

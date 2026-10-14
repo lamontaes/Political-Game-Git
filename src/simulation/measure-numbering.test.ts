@@ -15,7 +15,7 @@ import {
   type BillSampleRow,
 } from "./bill-numbering-derivation";
 import { STATE_BILL_NUMBERING_STYLES } from "./bill-numbering-styles.generated";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { US_CONGRESS_PACK_ID, federalRulePackById } from "./congress-rule-pack";
 import { introduceMeasure } from "./legislation";
 import { legislatureForState } from "./legislature-game-profile";
@@ -28,7 +28,7 @@ import {
 } from "./measure-numbering";
 import { STATES } from "./state-reference";
 import type { IsoDate, Jurisdiction, World } from "./types";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { createWorld } from "./world";
 
 /**

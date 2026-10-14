@@ -5,7 +5,7 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
 import { passOrdinaryDays } from "../../presentation/ordinary-life";
-import { stableHash } from "../ids";
+import { stableHash } from "../../core2/kernel/ids";
 import {
   openOrdinaryLifeRecords,
   refreshLifeOpportunities,

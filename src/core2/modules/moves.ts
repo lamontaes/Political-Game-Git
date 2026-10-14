@@ -18,8 +18,8 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
-import { ageOnDate, makeIsoDate } from "../../simulation/dates";
-import { stableHash } from "../../simulation/ids";
+import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { stableHash } from "../kernel/ids";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,

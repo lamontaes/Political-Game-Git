@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,

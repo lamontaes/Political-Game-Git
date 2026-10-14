@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { candidacyEligibility } from "../candidacy";
-import { daysBetween, makeIsoDate } from "../dates";
+import { daysBetween, makeIsoDate } from "../../core2/kernel/dates";
 import { fileRuleChangeProvision } from "../enacted-rule-changes";
 import type {
   RuleChangeApplicability,

@@ -5,8 +5,8 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
 import { passOrdinaryDays } from "../../presentation/ordinary-life";
-import { addDays, simulationMomentAtLocalTime } from "../dates";
-import { stableHash } from "../ids";
+import { addDays, simulationMomentAtLocalTime } from "../../core2/kernel/dates";
+import { stableHash } from "../../core2/kernel/ids";
 import { activeWorkRelationshipsAt, workStatusHistory } from "../life-queries";
 import {
   openOrdinaryLifeRecords,
