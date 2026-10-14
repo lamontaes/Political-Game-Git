@@ -5,10 +5,11 @@
 import { existsSync, statSync } from "node:fs";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
+import { gameStartDate } from "../core2/game-start";
 import { backdropPath, benchScene } from "./scene";
 
 const seed = process.argv[2] ?? process.env.GOLDEN_PATH_SEED ?? "scene-check";
-const w = buildBenchWorld(seed, "2026-10-12", {
+const w = buildBenchWorld(seed, gameStartDate(), {
   ...(process.env.GOLDEN_PATH_PLACE_KEY
     ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
     : {}),

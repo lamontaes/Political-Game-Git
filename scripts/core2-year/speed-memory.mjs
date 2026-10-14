@@ -13,6 +13,7 @@ const value = (name, fallback) =>
   args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
 const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 const { buildBenchWorld } = await at("src/bench/world.ts");
+const { gameStartDate } = await at("src/core2/game-start.ts");
 const { advanceCore } = await at("src/core2/life.ts");
 const { parameter } = await at("src/core2/parameters.ts");
 const { newGame, runCommand, saveGame } = await at("src/core2/saves.ts");
@@ -24,7 +25,7 @@ const seed = value(
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const seconds = (t) => Number(((performance.now() - t) / 1000).toFixed(1));
 let t = performance.now();
-const world = buildBenchWorld(seed, "2026-10-12", {
+const world = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   ...(placeKey ? { placeKey } : {}),
 });

@@ -223,7 +223,21 @@ function rosterDistrict(rows: Roster, d: DistrictIdentity): string | null {
 }
 
 /** Whether the place holds this family's regular election in the start year, and if not, when next. */
-function offered(stateKey: string, family: string, year: number): number {
+/** The year the filing research describes (its `offeredIn2026` flags). */
+const FILING_RESEARCH_YEAR = 2026;
+
+/**
+ * The first year at or after `year` that a state holds an election for an
+ * office family, read from the filing research's own year: offered that
+ * year, or its next regular election, stepped by the family's cycle
+ * (`period`) to the earliest one not before `year`.
+ */
+function offered(
+  stateKey: string,
+  family: string,
+  year: number,
+  period = 2,
+): number {
   const row = (
     filingResearch as unknown as {
       places: Record<
@@ -235,9 +249,22 @@ function offered(stateKey: string, family: string, year: number): number {
       >;
     }
   ).places[stateKey]?.[family];
-  if (row?.offeredIn2026 === false && row.nextRegularElection)
-    return Number(row.nextRegularElection);
-  return year;
+  if (!row) return year;
+  return firstCycleYear(
+    row.offeredIn2026 === false && row.nextRegularElection
+      ? Number(row.nextRegularElection)
+      : FILING_RESEARCH_YEAR,
+    period,
+    year,
+  );
+}
+
+/** The earliest year of a recurring cycle through `anchor` not before `year`. */
+function firstCycleYear(anchor: number, period: number, year: number): number {
+  let first = anchor;
+  while (first - period >= year) first -= period;
+  while (first < year) first += period;
+  return first;
 }
 
 /**
@@ -253,15 +280,22 @@ function seatElectionYear(
   district: string,
   year: number,
 ): number {
-  const first = offered(stateKey, "stateLegislative", year);
   const termYears = chamber?.termYears ?? 2;
+  // A chamber elected all at once holds its election once a term; otherwise
+  // the state's legislative elections come every two years.
+  const first = offered(
+    stateKey,
+    "stateLegislative",
+    year,
+    termYears > 2 && !chamber?.staggered ? termYears : 2,
+  );
   if (termYears <= 2) return first;
   if (chamber?.staggered)
     return (
       first + ((Number(district.replace(/\D/g, "")) || 0) % 2 === 0 ? 0 : 2)
     );
   if (first !== year) return first;
-  return offered(stateKey, "statewideExecutive", year) === year
+  return offered(stateKey, "statewideExecutive", year, 4) === year
     ? year
     : year + 2;
 }
@@ -450,8 +484,16 @@ export function stateOffices(
         title: executive.title,
         seats: 1,
         termYears: executive.termYears ?? null,
+        // The research's next election, as of its own date, moved to the
+        // first one of the same cycle not before the start.
         ...(executive.nextRegularElectionYear
-          ? { nextElectionYear: executive.nextRegularElectionYear }
+          ? {
+              nextElectionYear: firstCycleYear(
+                executive.nextRegularElectionYear,
+                executive.termYears ?? 4,
+                Number(date.slice(0, 4)),
+              ),
+            }
           : {}),
         elected: true,
         districted: false,

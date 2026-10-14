@@ -9,20 +9,32 @@ import { cpus, hostname } from "node:os";
 import policies from "./policies.json" with { type: "json" };
 const moduleAt = (path) =>
   import(pathToFileURL(resolve(process.cwd(), path)).href);
-/** The bench's opening day (src/bench/m0-check.ts). */
-const PLAYED_OPENING_DATE = "2026-10-12";
+/**
+ * The game's one start date (src/core2/game-start.ts). The paired guard passes
+ * the head's date with --start-date, so base and head open on the same day
+ * even when the base predates the parameter.
+ */
+async function openingDate(startDate) {
+  if (startDate) return startDate;
+  const start = await moduleAt("src/core2/game-start.ts").catch(() => {
+    throw new Error(
+      "This revision has no gameStartDate parameter; pass --start-date.",
+    );
+  });
+  return start.gameStartDate();
+}
 /**
  * The world the player gets: the bench's two-level town with the economy and
  * every module it installs (src/bench/world.ts), the same path as
  * tests/golden-path/played-world.node-test.ts. Revisions whose bench can't
  * hand over its opening input measure the generated opening below instead.
  */
-async function preparePlayedWorld({ seed, placeKey }) {
+async function preparePlayedWorld({ seed, placeKey, startDate }) {
   const bench = await moduleAt("src/bench/world.ts").catch(() => undefined);
   if (!bench?.buildBenchWorld) return undefined;
   const started = performance.now();
   let input, opened;
-  const world = bench.buildBenchWorld(seed, PLAYED_OPENING_DATE, {
+  const world = bench.buildBenchWorld(seed, startDate, {
     twoLevel: true,
     placeKey,
     onOpening: (opening) => {
@@ -48,8 +60,9 @@ async function preparePlayedWorld({ seed, placeKey }) {
     peers: undefined,
   };
 }
-export async function prepareWorld({ seed, placeKey }) {
-  const played = await preparePlayedWorld({ seed, placeKey });
+export async function prepareWorld({ seed, placeKey, startDate }) {
+  startDate = await openingDate(startDate);
+  const played = await preparePlayedWorld({ seed, placeKey, startDate });
   if (played) return played;
   // The game's path: the two-level opening with the economy (OPUS-CORE's
   // generated world). Older revisions without it time the full-population
@@ -61,7 +74,7 @@ export async function prepareWorld({ seed, placeKey }) {
     const started = performance.now();
     const input = generated.generatedOpening(
       { seed, key: placeKey },
-      { twoLevel: true },
+      { twoLevel: true, startedAt: startDate },
     );
     return {
       input,
@@ -92,9 +105,6 @@ export async function prepareWorld({ seed, placeKey }) {
     moduleAt("src/core2/parameters.ts"),
     moduleAt("src/simulation/dates.ts"),
   ]);
-  const measurement = JSON.parse(
-    readFileSync("src/core2/data/measurement.json", "utf8"),
-  );
   const phases = {},
     timed = (name, fn) => {
       const t = performance.now();
@@ -106,7 +116,7 @@ export async function prepareWorld({ seed, placeKey }) {
     buildPopulation({
       seed,
       placeKey,
-      startedAt: measurement.startedAt,
+      startedAt: startDate,
       minimumPeople: parameter("targetPopulation"),
       openingEmployment: true,
       scheduledWork: true,
@@ -146,7 +156,7 @@ export async function prepareWorld({ seed, placeKey }) {
     peers,
   };
 }
-export async function runMonth({ seed, placeKey, output }) {
+export async function runMonth({ seed, placeKey, output, startDate }) {
   if (typeof output !== "string" || !output.trim() || output.startsWith("--"))
     throw new Error("Missing value for --output: supply a receipt path");
   const {
@@ -155,7 +165,7 @@ export async function runMonth({ seed, placeKey, output }) {
     place,
     core: played,
     playedWorld,
-  } = await prepareWorld({ seed, placeKey });
+  } = await prepareWorld({ seed, placeKey, startDate });
   const [
     { censusOpeningInput, openingInputBudget },
     { hashMeasuredJson },
@@ -254,6 +264,9 @@ if (
         seed: value("--seed"),
         placeKey: value("--place-key"),
         output: value("--output"),
+        ...(args.includes("--start-date")
+          ? { startDate: value("--start-date") }
+          : {}),
       }),
     )
     .then((result) => console.log(JSON.stringify(result)))
