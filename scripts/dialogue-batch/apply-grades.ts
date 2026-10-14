@@ -17,6 +17,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import {
+  type AxisGradeCounts,
   heldByGrades,
   type OwnerGrade,
   type PartGradeCounts,
@@ -27,9 +28,18 @@ export const BATCH_DIR = "data/english/batches";
 export const GRADE_DIR = "data/english/grades";
 export const LEDGER_FILE = "data/english/part-grades.json";
 
+/** A variant a multi-axis batch shows beside a line, differing on one axis. */
+export interface BatchFileVariant {
+  /** Its number on the page, from 1. */
+  readonly n: number;
+  readonly axis: string;
+  readonly parts: readonly string[];
+}
+
 export interface BatchFileItem {
   readonly i: number;
   readonly parts: readonly string[];
+  readonly variants?: readonly BatchFileVariant[];
 }
 
 export interface BatchFile {
@@ -43,6 +53,10 @@ export interface GradeFileRow {
   readonly grade?: string;
   readonly verdict?: string;
   readonly note?: string;
+  /** Multi-axis batches: a grade per axis, e.g. { "formality": "GOOD" }. */
+  readonly axes?: Readonly<Record<string, string>>;
+  /** Multi-axis batches: the variant number that is better, per axis. */
+  readonly prefer?: Readonly<Record<string, number>>;
   /** The part keys of the graded line, when the grade file carries them. */
   readonly parts?: readonly string[];
 }
@@ -83,6 +97,8 @@ const EMPTY: PartGradeCounts = {
   sharedFix: 0,
 };
 
+const EMPTY_AXIS: AxisGradeCounts = { good: 0, bad: 0, fix: 0 };
+
 const SHARED = {
   good: "sharedGood",
   bad: "sharedBad",
@@ -93,6 +109,48 @@ export interface GradedBatch {
   /** The batch file, or null when the grade file carries each line's parts. */
   readonly batch: BatchFile | null;
   readonly grades: GradeFile;
+}
+
+function addAxisGrade(
+  parts: Record<string, PartGradeCounts>,
+  key: string,
+  axis: string,
+  grade: OwnerGrade,
+): void {
+  const counts = parts[key] ?? EMPTY;
+  const onAxis = counts.axes?.[axis] ?? EMPTY_AXIS;
+  parts[key] = {
+    ...counts,
+    axes: { ...counts.axes, [axis]: { ...onAxis, [grade]: onAxis[grade] + 1 } },
+  };
+}
+
+/**
+ * A multi-axis row. Each axis grade counts against the line's parts on that
+ * axis; the variant the owner preferred counts GOOD for its own parts there.
+ */
+function foldAxes(
+  parts: Record<string, PartGradeCounts>,
+  row: GradeFileRow,
+  lineKeys: readonly string[],
+  item: BatchFileItem | undefined,
+  where: string,
+): void {
+  for (const [axis, word] of Object.entries(row.axes ?? {})) {
+    const grade = ownerGrade({ grade: word }, `${where} axis ${axis}`);
+    for (const key of new Set(lineKeys)) addAxisGrade(parts, key, axis, grade);
+    const preferred = row.prefer?.[axis];
+    if (preferred === undefined) continue;
+    const variant = item?.variants?.find(
+      (row) => row.n === preferred && row.axis === axis,
+    );
+    if (!variant)
+      throw new Error(
+        `${where}: prefer ${axis} ${preferred} names no ${axis} variant`,
+      );
+    for (const key of new Set(variant.parts))
+      addAxisGrade(parts, key, axis, "good");
+  }
 }
 
 export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
@@ -110,6 +168,11 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
         (number === undefined ? undefined : byNumber.get(number)?.parts);
       if (!keys || keys.length === 0)
         throw new Error(`${where}: no such item in the batch`);
+      if (row.axes) {
+        foldAxes(parts, row, keys, byNumber.get(number!), where);
+        // A row may carry an overall grade too; it counts as in one-axis batches.
+        if (row.grade === undefined && row.verdict === undefined) continue;
+      }
       const grade = ownerGrade(row, where);
       const field = keys.length === 1 ? grade : SHARED[grade];
       for (const key of new Set(keys)) {
@@ -150,6 +213,16 @@ export function gradedCoverage(graded: readonly GradedBatch[]): GradedCoverage {
     );
     for (const row of grades.grades ?? grades.items ?? []) {
       const item = items.get(row.i ?? row.n ?? -1);
+      if (row.axes) {
+        for (const axis of Object.keys(row.axes)) {
+          const kind = item?.kind ?? "unknown";
+          table[axis] = {
+            ...table[axis],
+            [kind]: (table[axis]?.[kind] ?? 0) + 1,
+          };
+        }
+        continue;
+      }
       const fromRow = row as GradeFileRow & {
         readonly axis?: string;
         readonly kind?: string;

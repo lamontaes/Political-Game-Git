@@ -119,6 +119,8 @@
     "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "prose:eval": "node --import tsx scripts/prose-eval/cli.ts",
     "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
+    "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
+    "dialogue:batch": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/grading-batch.ts",
     "report:check": "node scripts/report-check/cli.mjs",
     "corpus:prose": "node --import tsx scripts/prose-corpus/cli.ts",
     "fixture:municipal-governance": "node --import tsx scripts/source/municipal-governance-fixture.ts",

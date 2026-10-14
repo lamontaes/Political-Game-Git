@@ -253,3 +253,58 @@ describe("the line composer reads the grades", () => {
     );
   });
 });
+
+describe("per-axis grades from a multi-axis batch", () => {
+  const axisBatch: BatchFile = {
+    id: "batch-axes",
+    items: [
+      {
+        i: 0,
+        parts: ["bank:talk.line"],
+        variants: [
+          { n: 1, axis: "length", parts: ["bank:talk.short"] },
+          { n: 2, axis: "formality", parts: ["bank:talk.formal"] },
+        ],
+      },
+      { i: 1, parts: ["bank:talk.other"] },
+    ],
+  };
+  const fold = (grades: object[]) =>
+    foldGrades([{ batch: axisBatch, grades: { batch: axisBatch.id, grades } }]);
+
+  it("holds a part on the axis it failed, and only there", () => {
+    const ledger = fold([
+      {
+        i: 0,
+        axes: { formality: "GOOD", length: "BAD" },
+        prefer: { length: 1 },
+      },
+    ]);
+    expect(heldByGrades("bank:talk.line", ledger, "length")).toBe(true);
+    expect(heldByGrades("bank:talk.line", ledger, "formality")).toBe(false);
+    expect(heldByGrades("bank:talk.line", ledger, "word choice")).toBe(false);
+    // The variant the owner preferred is good on that axis.
+    expect(ledger.parts["bank:talk.short"]?.axes?.length).toEqual({
+      good: 1,
+      bad: 0,
+      fix: 0,
+    });
+    expect(heldByGrades("bank:talk.short", ledger, "length")).toBe(false);
+  });
+
+  it("holds without an axis only when every graded axis failed", () => {
+    const mixed = fold([{ i: 0, axes: { formality: "GOOD", length: "BAD" } }]);
+    expect(heldByGrades("bank:talk.line", mixed)).toBe(false);
+    const allBad = fold([{ i: 0, axes: { formality: "FIX", length: "BAD" } }]);
+    expect(heldByGrades("bank:talk.line", allBad)).toBe(true);
+  });
+
+  it("keeps one-axis behavior and refuses a preference for no variant", () => {
+    const ledger = fold([{ i: 1, grade: "BAD" }]);
+    expect(heldByGrades("bank:talk.other", ledger)).toBe(true);
+    expect(heldByGrades("bank:talk.other", ledger, "length")).toBe(false);
+    expect(() =>
+      fold([{ i: 0, axes: { length: "BAD" }, prefer: { length: 2 } }]),
+    ).toThrow(/prefer length 2 names no length variant/);
+  });
+});
