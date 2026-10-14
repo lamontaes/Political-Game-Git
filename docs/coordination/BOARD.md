@@ -1,6 +1,6 @@
 # Board (CTO; rewritten Oct 14, 2026, evening)
 
-Only the CTO writes this file. Each session keeps its own `docs/coordination/<session>.md`. Rulings live in `OWNER-DECISIONS.md` and `DECISION-REGISTER.md`; look there before asking. Sessions never send messages or set triggers: the top of the PR body is the channel.
+The board says who is building what today and how work moves. Only the CTO writes it. Each session keeps its own status file in this folder, rulings live in the owner-decisions file and the decision register (look there before asking), and sessions never send messages or set triggers: the top of the PR body is the channel.
 
 ## Who is building what (live sessions, this account)
 
