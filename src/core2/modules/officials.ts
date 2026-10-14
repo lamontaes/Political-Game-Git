@@ -41,6 +41,7 @@ import {
   type IndependentRecord,
   type SignatureIssue,
 } from "../officials-roster";
+import { recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -512,6 +513,16 @@ export function openOfficials(core: CoreState): void {
     .get("town") as unknown as { worldSeed: string; stateKey: string };
   const all = specs(api, loaded.worldSeed, loaded.stateKey);
   seatAll(api, loaded.worldSeed, all, true);
+  // The sitting President's own record: home state, office before, the 2024
+  // election and the states the campaign reached.
+  for (const row of officialsIn(api, "US:president"))
+    recordPresident(core, {
+      seed: loaded.worldSeed,
+      personId: row.id,
+      party: row.party,
+      townState: loaded.stateKey,
+      date: api.state.date,
+    });
   table(api, "loaded").put({ id: "opening", officials: all.length });
 }
 

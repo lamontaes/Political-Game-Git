@@ -34,4 +34,4 @@ Only OPUS-TRAITS writes this file. See "The team" in `AGENTS.md` and `docs/coord
 
 ## Questions for the owner
 
-- One-sided facets such as "Shy" or "Cruel" were researched as "present or not", so the old catalogue says a low score "does not establish the opposite". Your order is that both ends matter, so a person low in "Shy" now leans toward speaking up. Each low side is grounded in the matching Big Five or HEXACO facet's opposite pole and cited in the data.
+- One-sided facets such as "Shy" or "Cruel" were researched as "present or not", so the old catalog says a low score "does not establish the opposite". Your order is that both ends matter, so a person low in "Shy" now leans toward speaking up. Each low side is grounded in the matching Big Five or HEXACO facet's opposite pole and cited in the data.

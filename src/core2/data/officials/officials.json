@@ -295,5 +295,36 @@
       "source": "What a newcomer lacks against an officeholder: a record, a donor list and name recognition (Jacobson 1989, 'Strategic Politicians and the Dynamics of U.S. House Elections', APSR 83(3): experienced challengers win several times as often).",
       "spread": [0.1, 0.5]
     }
+  },
+  "president": {
+    "about": "The small record a sitting President carries into the opening: the home state, the office held before, the 2024 election won, and the states the campaign reached. Who the President is (the home state, the office before, the day of each visit) is drawn once from the world's seed; which states were contested comes from the real 2024 map. Nothing here is a campaign: these are past facts the opening's address and screens read.",
+    "electionDay": {
+      "value": "2024-11-05",
+      "tag": "SOURCED",
+      "source": "Clerk of the U.S. House, Statistics of the Presidential and Congressional Election of November 5, 2024."
+    },
+    "campaignFrom": {
+      "value": "2024-09-02",
+      "tag": "SOURCED",
+      "source": "Labor Day 2024, the customary start of the general-election campaign (Holbrook 1996, Do Campaigns Matter?)."
+    },
+    "contestedMargin": {
+      "value": 0.029,
+      "tag": "TUNABLE",
+      "source": "How close to even a state's 2024 two-party presidential vote was for the campaigns to contest it. Checked against the seven states both 2024 campaigns treated as battlegrounds (Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, Wisconsin; Cook Political Report, 2024 Electoral College ratings): 0.029 keeps all seven and adds New Hampshire and Minnesota, which both campaigns also visited (AP campaign travel tracker, 2024).",
+      "spread": [0.02, 0.05]
+    },
+    "priorOffice": {
+      "about": "The last office the President held before the presidency, in the shares the Presidents from 1901 to 2021 held them: 8 Vice Presidents (T. Roosevelt, Coolidge, Truman, Johnson, Nixon, Ford, G. H. W. Bush, Biden), 6 governors (Wilson, F. Roosevelt, Carter, Reagan, Clinton, G. W. Bush), 3 senators (Harding, Kennedy, Obama), 2 cabinet secretaries (Taft, Hoover) and 2 with no prior elected or appointed civil office (Eisenhower, Trump). The governor and senator served the President's home state.",
+      "tag": "ESTIMATED",
+      "source": "Miller Center, University of Virginia, presidential biographies (millercenter.org/president), counted 2026-10-14.",
+      "shares": {
+        "vice-president": { "value": 8, "title": "Vice President" },
+        "governor": { "value": 6, "title": "Governor" },
+        "us-senate": { "value": 3, "title": "U.S. Senator" },
+        "cabinet": { "value": 2, "title": "Cabinet Secretary" },
+        "none": { "value": 2, "title": null }
+      }
+    }
   }
 }

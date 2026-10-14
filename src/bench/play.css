@@ -613,7 +613,7 @@ body.dev .dev-ring {
   opacity: 0.85;
 }
 
-/* ---- The opening: a film, with letterbox bars and a caption ---- */
+/* ---- The opening: a film, with letterbox bars ---- */
 #game.letterbox::before,
 #game.letterbox::after {
   content: "";
@@ -629,20 +629,6 @@ body.dev .dev-ring {
 }
 #game.letterbox::after {
   bottom: 0;
-}
-#caption {
-  left: 50%;
-  bottom: calc(9vh + 24px);
-  transform: translateX(-50%);
-  text-align: center;
-  min-width: 360px;
-  max-width: 80vw;
-  padding: 12px 26px 14px;
-  z-index: 6;
-}
-#caption .name {
-  margin-top: 4px;
-  font-size: 24px;
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
@@ -1093,4 +1079,111 @@ body.dev .dev-ring {
 }
 #tip .prose {
   margin: 5px 0 8px;
+}
+
+/* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
+   The President's address in the kit12 speech box (.panel.chat), full
+   screen; then the night's news on the table at home and its reader; then
+   the first choices glowing one at a time. Positions only: the look is
+   kit12's own components. */
+#game.cinema #rings,
+#game.cinema #card,
+#game.cinema #journal-note,
+#game.cinema #menu {
+  display: none;
+}
+#opening-box {
+  bottom: calc(9vh + 18px);
+  z-index: 6;
+  cursor: pointer;
+}
+#opening-box .speech {
+  margin: 8px 0 0;
+}
+#opening-point {
+  top: calc(9vh + 18px);
+  left: var(--gutter);
+  z-index: 6;
+  padding: 10px 16px;
+  animation: opening-point-in 0.4s ease-out;
+}
+#people .figure.pointed img {
+  filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 14px var(--gold));
+}
+@keyframes opening-point-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+#news-surface {
+  top: var(--gutter);
+  right: var(--gutter);
+  z-index: 4;
+  display: grid;
+  gap: 4px;
+  max-width: 300px;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+}
+#news-reader {
+  inset: var(--gutter) var(--gutter) var(--gutter) calc(var(--gutter) + 300px);
+  z-index: 7;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 28px;
+  padding: 26px 30px;
+  overflow: auto;
+}
+#news-reader .heading {
+  margin: 0 0 12px;
+}
+#news-reader .quote {
+  font-style: italic;
+  margin: 6px 0 0;
+}
+#news-reader .acts {
+  text-align: right;
+  margin-bottom: 12px;
+}
+#news-reader-more .prose {
+  margin: 0;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(242, 237, 228, 0.12);
+}
+/* The scenes the player lets stop the day (Options). */
+.scene-filter {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 4px 16px;
+  margin: 6px 0 16px;
+}
+.scene-filter label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font: 400 13.5px var(--ui);
+  color: var(--text-2);
+}
+.coach {
+  box-shadow:
+    0 0 0 1px var(--iron),
+    0 0 12px rgba(255, 255, 255, 0.55),
+    0 0 24px rgba(214, 189, 132, 0.45) !important;
+  animation: coach 1.6s ease-in-out infinite;
+}
+@keyframes coach {
+  50% {
+    box-shadow:
+      0 0 0 1px var(--iron),
+      0 0 4px rgba(255, 255, 255, 0.3),
+      0 0 10px rgba(214, 189, 132, 0.2);
+  }
+}
+@media (max-width: 900px) {
+  #news-reader {
+    inset: var(--gutter);
+    grid-template-columns: 1fr;
+  }
 }
