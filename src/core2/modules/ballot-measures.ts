@@ -25,7 +25,7 @@ import type { ModuleRow } from "../module-data";
 import { personLean, personStance, publicOffset } from "../campaign-views";
 import { viewOn } from "./views";
 import { enactLaw, lawChain } from "./laws";
-import { turnout, VOTING_MODULE_ID } from "./voting";
+import { turnoutOn, VOTING_MODULE_ID } from "./voting";
 import { stateActEffectiveDate } from "../state-effective-date";
 
 export const BALLOT_MEASURES_MODULE_ID = "core2-ballot-measures-v1";
@@ -196,7 +196,7 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         direction +
       parameter("traitDecisionWeight") *
         decisionLean(api.state, voter, "ballot-measures.vote", "yes", "no");
-    const t = turnout(api, voter, {
+    const t = turnoutOn(api, voter, {
       yes: { total: support },
       no: { total: -support },
     });

@@ -96,6 +96,9 @@ const DRIVE_MOMENTS = new Set<string>(
     .filter(([key]) => key === "formed" || key === "strengthened")
     .map(([, kind]) => kind),
 );
+/** Facts by which an event cites a law, a vote or a bill. */
+const CITED_RECORDS = ["lawId", "voteId", "billId"] as const;
+
 /** The drives engine's acts (sharing a cause, donating, volunteering, going to an office, ...). */
 const DRIVE_ACTS = new Set<string>([
   ...Object.values(
@@ -137,6 +140,8 @@ export interface Stance {
     change: number;
     /** Who made the case, when someone did. */
     speakerId?: string;
+    /** The record (a story heard, a notice) by which they learned of the law, vote or bill the event cites. */
+    learnedFrom?: string;
   }[];
 }
 
@@ -469,6 +474,21 @@ export const viewsModule: CoreModule = {
         event.facts?.[VIEWS_SPEAKER_KEY] ??
         (event.personIds.includes(personId) ? undefined : event.personIds[0]);
       if (speakerId === personId) continue;
+      // Knowing is a read (owner, Oct 14, 2026): an event citing a law, a
+      // vote or a bill moves a stance only for someone who learned of it,
+      // from the case made to them or from a record they hold (a story they
+      // heard, a notice), and the stance cites how they learned.
+      const learnedFrom = speakerId
+        ? undefined
+        : typeof event.facts?.learnedFrom === "string"
+          ? event.facts.learnedFrom
+          : undefined;
+      if (
+        CITED_RECORDS.some((key) => event.facts?.[key] !== undefined) &&
+        !speakerId &&
+        !(learnedFrom && api.knows(personId, learnedFrom))
+      )
+        continue;
       const nearness = speakerId
         ? standingWith(api, view, speakerId, event.topic, event.desiredChange)
         : v("one");
@@ -510,6 +530,7 @@ export const viewsModule: CoreModule = {
             date: event.date,
             change,
             ...(speakerId ? { speakerId } : {}),
+            ...(learnedFrom ? { learnedFrom } : {}),
           },
         ],
       };

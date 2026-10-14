@@ -409,6 +409,8 @@ export function supplierBillsOwed(
   );
 }
 
+const WAGES_CREDIT_STOPGAP = "SG-WORLD-wages-skip-credit-line";
+
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   if (flow.kind === "owner-distribution") return distribute(api, rt, flow);
   const core = api.state,
@@ -650,6 +652,11 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     payerBook.wagesUnpaidMinor += owed - flow.arrearsMinor;
     flow.arrearsMinor = owed;
     if (owed > 0) {
+      // stopgapId: SG-WORLD-wages-skip-credit-line
+      // Wages short of cash are recorded as a shortfall; an approved credit
+      // line on the employer is not drawn, because the credit engine draws
+      // only against a standing finance contract (drawCredit), not a flow.
+      if (payerBook.creditFacilityId) api.stopgap(WAGES_CREDIT_STOPGAP);
       const id = `${flow.id}@${date}`;
       rt.shortfalls.set(id, {
         kind: "residents.wages",

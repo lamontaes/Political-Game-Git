@@ -1013,6 +1013,15 @@
           "supported": true,
           "policies": [
             {
+              "id": "law:public-pay-floor",
+              "name": "Public pay floor",
+              "kind": "law-amount",
+              "series": "public-pay-floor",
+              "unit": "dollars/year",
+              "operations": ["raise", "lower"],
+              "levels": ["federal", "state", "city"]
+            },
+            {
               "id": "budget:administration",
               "name": "Spending: administration",
               "kind": "budget-line",

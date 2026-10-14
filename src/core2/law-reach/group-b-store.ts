@@ -78,7 +78,12 @@ const MODULE: CoreModule = {
           byPerson: { fields: ["personId"] },
         },
       },
-      organizations: { indexes: { byKey: { fields: ["key", "endedOn"] } } },
+      organizations: {
+        indexes: {
+          byKey: { fields: ["key", "endedOn"] },
+          byOrganization: { fields: ["organizationId", "endedOn"] },
+        },
+      },
       groups: { indexes: { byKey: { fields: ["key"] } } },
       /** Policies in force for the town, re-run on each review. */
       active: {},
@@ -89,7 +94,29 @@ const MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => runReview(api, work),
+  // A closed organization is no longer bound or eligible: its open rows end
+  // the day it closes, not at the next monthly review.
+  eventKinds: ["business.closed"],
+  onEvent: (api, event) => {
+    if (event.kind !== "business.closed" || !event.topic) return;
+    endOrganizationRows(api, event.topic, event.date);
+  },
 };
+
+/** End every open reach row naming an organization, dated the day it closed. */
+export function endOrganizationRows(
+  api: CoreAPI,
+  organizationId: string,
+  date: string,
+): void {
+  const orgs = reachTable(api, "organizations");
+  const open = orgs.query("byOrganization", [
+    organizationId,
+    null,
+  ]) as unknown as OrganizationReach[];
+  for (const row of open)
+    orgs.put({ ...row, endedOn: date } as unknown as ModuleRow);
+}
 
 /** Register the records module the first time a group B policy acts. */
 export function reachTable(api: CoreAPI, name: string) {
