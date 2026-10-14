@@ -2,6 +2,14 @@
   "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink (the guard holds it at or under its ceiling), so an entry must leave in the same change that gives its file a reader. Each names its engine and the squad that owns its reader, from docs/codex/audit-by-engine-2026-10-01.md. A new data file with no reader and no entry fails the guard.",
   "rawSource": [
     {
+      "file": "data/research/apportionment/apportionment-2020.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/assumption-markers.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
       "file": "data/research/bill-samples/city/alexandria-virginia.json",
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
@@ -82,16 +90,1484 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
-      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
-      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
+      "file": "data/research/budgets/local-fiscal-end-sample-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/budgets/roadmap-r5-federal-withholding-percentage-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/budgets/roadmap-r5-local-fiscal-end-sample-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/budgets/roadmap-r5-tax-scope-and-procurement.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/bds-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/bls-union-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/multi-unit-ownership-2022.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-PR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-firm-age.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-firm-size.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-owners-and-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-sector.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-state-age.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-state-sector.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/business/roadmap-r8-state.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/campaigns/roadmap-r14-finance.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/campaigns/roadmap-r16-effects-and-observed-margins.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/campaigns/roadmap-r17-polls.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/congress/statehood-funds.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/constituent-cases/roadmap-r28-casework-scope.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/constitutions/roadmap-r39-amendment-boundaries.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/ce-national-source.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/ce-region-categories-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/ce-region-source.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/ce-size-categories-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/ce-size-source.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-1/public-spending-sample-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-10/life-event-perception.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-11/incumbency-evidence-and-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/death-causes-by-age-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AK.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AZ.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CO.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-DC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-DE.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-FL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-GA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-GU.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-HI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ID.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-KS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-KY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-LA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MD.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ME.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MO.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MP.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ND.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NE.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NH.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NJ.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NM.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NV.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OH.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OK.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-PA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-PR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-RI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-SC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-SD.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-TN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-TX.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-UT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WV.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/health-and-damage-findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AK.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AZ.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-CA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-CO.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-CT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-DC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-DE.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-FL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-GA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-HI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-IA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-ID.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-IL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-IN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-KS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-KY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-LA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MD.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-ME.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MO.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-ND.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NE.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NH.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NJ.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NM.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NV.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-OH.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-OK.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-OR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-PA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-RI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-SC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-SD.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-TN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-TX.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-UT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-VA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-VT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WV.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-13/school-name-shapes-2024-25.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-13/ssastate-cohort-patterns.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-13/ssaterr-cohort-patterns.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-13/surname-patterns-2020.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-2/findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-2/sole-proprietor-industry-cost-ratios-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-3/findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-3/payfreq-derived.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-3/paylaws-derived.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-3/schedule-derived.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-4/absence-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-4/atus1-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-4/atus3-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-4/findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-4/medical-insurance-firm-size-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-5/affect-inertia-and-recovery.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-6/findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-6/state-contact-help-and-membership-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-7/coverage-and-legal-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-7/family-benchmarks.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-8/bereavement-trajectories.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-9/claim-ages-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-9/pension-access-march2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-9/retired-worker-award-distributions-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/P0-9/rules-and-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/roadmap-priorities-0-1-column-contracts.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/core-figures/roadmap-priorities-0-1-validation.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/corruption/roadmap-r29-aggregate-enforcement.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/credit/roadmap-r2-consumer-credit-aug2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/credit/roadmap-r2-debt-delinquency-2026q2.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/credit/roadmap-r2-underwriting-and-savings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/crime/roadmap-r38-victimization-reporting.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/direct-democracy/roadmap-r30-recall-examples.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/drives/bereavement-civic-response.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/drives/economic-losses.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/drives/roadmap-r10-crisis-table4.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/drives/roadmap-r10-crisis-table5.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/drives/roadmap-r10-crisis-tables-verified.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/drives/roadmap-r10-effects-and-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/economic-context-reviewed-bindings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/education/placeholder-ledger.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/education/roadmap-r40-cost-loans-directory.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/executive/roadmap-r25-powers-source-filter.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/executive/roadmap-r26-staff-boundaries.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/federal/defense-contracts-by-state-fy2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/federal/farm-payments-and-land-values-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/federal/passenger-rail-fy2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/geography/state-reference.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-california-adopted-actual-2021-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-census-components-2021.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-census-components-2022.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-census-components-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-census-components-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-census-summary-2021-2022.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-federal-actuals-2021-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-handoff.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/acs-2024-owner-moved-in.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/acs-2024-units-in-structure.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/construction-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/eviction-filings-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/eviction-steps-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/fhfa-hpi-state-2026q2.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/foreclosure-steps-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/hic-2025-shelter-beds-by-state.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-eviction-verification-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-fhfa-city-2026q2.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-fhfa-coverage-verified.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-fhfa-state-2026q2.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-housing-purchase-and-vacancy.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/housing/tenure-acs-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/implementation/roadmap-r24-delivery-incidence.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/interest-groups/roadmap-r27-disclosure-measurement.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/ces-seasonal-factors-2010-2019.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-calibration-findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/jobs/series/turnover.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/lawmaking-throughput/throughput-evidence.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
     },
     {
       "file": "data/research/laws/coordinator-crime-population-sizing.json",
       "reason": "A sizing receipt (source head, coefficient source, runtime proof) for a decision already applied in links.json."
     },
     {
+      "file": "data/research/laws/local-starting-law/local-income-tax.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/local-minimum-wage.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/medicaid-match.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/minimum-wage-regions.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/property-tax-effective.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/sales-tax.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/snap-maximums.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/state-income-tax-married-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/territory-income-tax-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/unemployment-insurance.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/unemployment-weekly-bounds.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/lw05-effect-readiness.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/lw06-effect-readiness.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/lw08-effect-readiness.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/laws/lw09-effect-readiness.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/legislative-procedure/inquiry-subpoena-rules.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/legislatures/roadmap-r21-procedure.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/legislatures/roadmap-r22-throughput.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-source-rights-register.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-unit-inventory.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-01.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-02.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-03.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-04.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/licenses/roadmap-r37-url-register-05.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/bands.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/monthly.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/output-band.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/passthrough-1990-2018.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/pmms-monthly.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/quarterly.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/series/receipts.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/macro/sources.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/money/business-taxes-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/money/historical-world-inputs.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/money/opening-customer-cex-2024.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/money/poll-interview-prices.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/money/spending-preferences-by-party.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/money/tax-base-units.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/nationwide1/chief-executive-baseline-51.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/new-game-geography-defaults.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/news/roadmap-r20-local-news.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/offices/roadmap-r34-pay-and-transition.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/offices/roadmap-r7-federal-dc.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/offices/roadmap-r7-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/offices/roadmap-r7-locked-state-structure.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/offices/roadmap-r7-territory-partial.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/outcome-web/cloud-f-new-measure-bases-2024.draft.json",
+      "reason": "Research record behind CLOUD F's place outcomes; the values the game uses live in place-outcome-bases-2024.json."
+    },
+    {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
       "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    },
+    {
+      "file": "data/research/outcome-web/unsized-links-source-checks-2026-10-05.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/p2-law-estimate-ledger.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/p2-personnel-estimate-ledger.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/parties/roadmap-r19-organization-and-electors.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/people/contact-frequency-by-tie.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-handoff.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-island-baselines-verified.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-island-baselines.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-population-v2025-manifest.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-pr-municipio-geoid-join.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-territory-identities-AS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-territory-identities-GU.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-territory-identities-MP.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-territory-identities-PR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-territory-identities-VI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/prices/household-prices-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-fmap-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-handoff.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-highway-stages-verified.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-highways-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-medicaid-magi-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-medicare-ssa-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-snap-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-ui-partial-2026.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/public-costs/roadmap-r23-labor-transit-and-fiscal-notes.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/roadmap-r1-findings.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/roadmap-r1-gap-persistence.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/series/metro-unemployment.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/series/state-monthly.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/regional/series/stats.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/births-year-20261011.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/calibration.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/first-birth-20261011.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-AK.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-AL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-AR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-AZ.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-CA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-CO.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-CT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-DC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-DE.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-FL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-GA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-HI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-IA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-ID.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-IL.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-IN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-KS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-KY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-LA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MD.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-ME.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MO.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MS.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-MT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-ND.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NE.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NH.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NJ.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NM.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NV.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-NY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-OH.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-OK.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-OR.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-PA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-RI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-SC.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-SD.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-TN.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-TX.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-UT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-VA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-VT.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-WA.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-WI.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-WV.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-components-WY.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-manifest-and-gaps.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-reasons-table13-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/moves/roadmap-r9-reasons-table14-2023.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/renewal/sources.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/speech-sources/roadmap-r31-record-catalog.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/speech-sources/roadmap-r31-state-local-catalog.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/stand-in-figures-2026-10-12.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/succession/roadmap-r35-intestacy-examples.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/talk/roadmap-r32-conversation-and-rights.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/talk/roadmap-r32-lying-study-supplement.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
+    },
+    {
+      "file": "data/research/transit/ntd-2023-rural-demand-response-costs.json",
+      "reason": "Research source no code reads: found Oct 14, 2026, when the reader scan stopped counting a bare data/research/ prefix as a read of every file. Kept as the evidence an engine's numbers came from or a port will read; wiring it or deleting it is the owning pillar's call."
     }
   ],
   "awaitingReader": [
